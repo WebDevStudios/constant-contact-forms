@@ -110,7 +110,23 @@ class Constant_Contact {
 	 * @var string
 	 * @since  1.0.0
 	 */
-	protected $plugin_name = 'Constant Contact';
+	public $plugin_name = 'Constant Contact';
+
+	/**
+	 * Text domain
+	 *
+	 * @var string
+	 * @since  1.0.0
+	 */
+	public $text_domain = 'constantcontact';
+
+	/**
+	 * Menu Icon
+	 *
+	 * @var string
+	 * @since  1.0.0
+	 */
+	public $menu_icon = 'dashicons-megaphone';
 
 	/**
 	 * Singleton instance of plugin
@@ -167,7 +183,7 @@ class Constant_Contact {
 	public function hooks() {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'load_libs' ) );
-
+		$this->includes();
 		add_filter( 'plugin_action_links_'. $this->basename, array( $this, 'add_social_links' ) );
 	}
 
@@ -204,7 +220,7 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Load libraries
+	 * Load Vendor libraries
 	 *
 	 * @since  1.0.0
 	 * @return void
@@ -218,6 +234,23 @@ class Constant_Contact {
 			require_once  __DIR__ . '/lib/CMB2/init.php';
 		}
 
+		// Load dashboard widget.
+		if ( file_exists( __DIR__ . '/vendor/pluginize/dashboard-widget.php' ) ) {
+			require_once  __DIR__ . '/vendor/pluginize/dashboard-widget.php';
+		}
+
+	}
+
+	/**
+	 * Load includes.
+	 *
+	 * @since 1.0.0
+	 */
+	public function includes() {
+
+		if ( file_exists( __DIR__ . '/classes/class-admin.php' ) ) {
+			require_once  __DIR__ . '/classes/class-admin.php';
+		}
 	}
 
 	/**
