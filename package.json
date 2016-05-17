@@ -1,0 +1,22 @@
+{
+  "name": "constantcontact",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://modemlooper@github.com/WebDevStudios/constantcontact.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WebDevStudios/constantcontact/issues"
+  },
+  "homepage": "https://github.com/WebDevStudios/constantcontact#readme",
+  "dependencies": {
+    "wdsppf": "git+https://github.com/WebDevStudios/WDS-Product-Plugin-Framework.git"
+  }
+}
