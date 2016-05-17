@@ -5,7 +5,7 @@
  * @package ConstantContactLoader
  * @subpackage Loader
  * @author Pluginize
- * @since 0.1.0
+ * @since 1.0.0
  */
 
 /**
@@ -42,7 +42,7 @@
 /**
  * Autoloads files with classes when needed
  *
- * @since  0.1.0
+ * @since  1.0.0
  * @param  string $class_name Name of the class being requested.
  * @return void
  */
@@ -63,7 +63,7 @@ spl_autoload_register( 'constant_contact_autoload_classes' );
 /**
  * Main initiation class
  *
- * @since  0.1.0
+ * @since  1.0.0
  * @var  string $version  Plugin version
  * @var  string $basename Plugin basename
  * @var  string $url	  Plugin URL
@@ -76,7 +76,7 @@ class Constant_Contact {
 	 * Current version
 	 *
 	 * @var  string
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	const VERSION = '1.0.0';
 
@@ -84,7 +84,7 @@ class Constant_Contact {
 	 * URL of plugin directory
 	 *
 	 * @var string
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	protected $url = '';
 
@@ -92,7 +92,7 @@ class Constant_Contact {
 	 * Path of plugin directory
 	 *
 	 * @var string
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	protected $path = '';
 
@@ -100,7 +100,7 @@ class Constant_Contact {
 	 * Plugin basename
 	 *
 	 * @var string
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	protected $basename = '';
 
@@ -116,14 +116,14 @@ class Constant_Contact {
 	 * Singleton instance of plugin
 	 *
 	 * @var WDS_Product_Plugin_Framework
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	protected static $single_instance = null;
 
 	/**
 	 * Creates or returns an instance of this class.
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @return WDS_Product_Plugin_Framework A single instance of this class.
 	 */
 	public static function get_instance() {
@@ -137,7 +137,7 @@ class Constant_Contact {
 	/**
 	 * Sets up our plugin
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	protected function __construct() {
 		$this->basename = plugin_basename( __FILE__ );
@@ -150,7 +150,7 @@ class Constant_Contact {
 	/**
 	 * Attach other plugin classes to the base plugin class.
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function plugin_classes() {
@@ -161,7 +161,7 @@ class Constant_Contact {
 	/**
 	 * Add hooks and filters
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function hooks() {
@@ -174,7 +174,7 @@ class Constant_Contact {
 	/**
 	 * Activate the plugin
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @return void
 	 */
 	function _activate() {
@@ -186,7 +186,7 @@ class Constant_Contact {
 	 * Deactivate the plugin
 	 * Uninstall routines should be in uninstall.php
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @return void
 	 */
 	function _deactivate() {}
@@ -194,7 +194,7 @@ class Constant_Contact {
 	/**
 	 * Init hooks
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function init() {
@@ -206,7 +206,7 @@ class Constant_Contact {
 	/**
 	 * Load libraries
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function load_libs() {
@@ -224,7 +224,7 @@ class Constant_Contact {
 	 * Check if the plugin meets requirements and
 	 * disable it if they are not present.
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @return boolean result of meets_requirements
 	 */
 	public function check_requirements() {
@@ -245,7 +245,7 @@ class Constant_Contact {
 	/**
 	 * Deactivates this plugin, hook this function on admin_init.
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function deactivate_me() {
@@ -259,7 +259,7 @@ class Constant_Contact {
 	/**
 	 * Check that all plugin requirements are met
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @return boolean True if requirements are met.
 	 */
 	public static function meets_requirements() {
@@ -272,7 +272,7 @@ class Constant_Contact {
 	/**
 	 * Adds a notice to the dashboard if the plugin requirements are not met
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function requirements_not_met_notice() {
@@ -287,7 +287,7 @@ class Constant_Contact {
 	/**
 	 * Magic getter for our object.
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @param string $field Field to get.
 	 * @throws Exception Throws an exception if the field is invalid.
 	 * @return mixed
@@ -306,9 +306,9 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Include a file from the includes directory
+	 * Include a file from the classes directory
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @param  string $filename Name of the file to be included.
 	 * @return bool   Result of include call.
 	 */
@@ -323,7 +323,7 @@ class Constant_Contact {
 	/**
 	 * This plugin's directory
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @param  string $path (optional) appended path.
 	 * @return string	   Directory and path
 	 */
@@ -336,7 +336,7 @@ class Constant_Contact {
 	/**
 	 * This plugin's url
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @param  string $path (optional) appended path.
 	 * @return string	   URL and path
 	 */
@@ -369,7 +369,7 @@ class Constant_Contact {
  * Grab the Constant_Contact object and return it.
  * Wrapper for Constant_Contact::get_instance()
  *
- * @since  0.1.0
+ * @since  1.0.0
  * @return Constant_Contact Singleton instance of plugin class.
  */
 function constant_contact() {
