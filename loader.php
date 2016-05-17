@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact
  * Plugin URI:  http://constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:	 1.0.0
+ * Version:	 999.0.0
  * Author:	  Pluginize
  * Author URI:  http://pluginize.com
  * License:	 GPLv2
@@ -110,7 +110,7 @@ class Constant_Contact {
 	 * @var string
 	 * @since  1.0.0
 	 */
-	protected $plugin_name = Constant Contact;
+	protected $plugin_name = 'Constant Contact';
 
 	/**
 	 * Singleton instance of plugin
