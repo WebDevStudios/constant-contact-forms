@@ -387,7 +387,7 @@ class Constant_Contact {
 	public function add_social_links( $links ) {
 
 		$siteLink = 'http://constantcontact.com/';
-		$twitterStatus = sprintf( __( 'Check out %s from @constantcontact', 'constantcontact' ), $this->plugin_name );
+		$twitterStatus = sprintf( __( 'Check out the official WordPress plugin from @constantcontact', 'constantcontact' ), $this->plugin_name );
 
 		array_push( $links, '<a title="'. __( 'Be a better marketer. All it takes is Constant Contact email marketing.', 'constantcontact' ). '" href="'. $siteLink. '" target="_blank">constantcontact.com</a>' );
 		array_push( $links, '<a title="'. __( 'Spread the word!', 'constantcontact' ). '" href="https://www.facebook.com/sharer/sharer.php?u='. urlencode( $siteLink ). '" target="_blank" class="dashicons-before dashicons-facebook-alt"></a>' );
