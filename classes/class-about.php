@@ -106,47 +106,16 @@ class ConstantContact_Admin {
 	 */
 	public function add_options_page() {
 
-		global $submenu;
-
-		$icon = constant_contact()->menu_icon;
+        $icon = constant_contact()->menu_icon;
 
 		$this->options_page = add_menu_page(
-			$this->title . 'sssss',
+			$this->title,
 			$this->title,
 			'manage_options',
 			$this->key,
 			array( $this, 'admin_page_display' ),
-			$icon
+            $icon
 		);
-
-		add_submenu_page(
-			'ctct_options',
-			'Form Builder',
-			'Form Builder',
-			'manage_options',
-			$this->key . '_builder',
-			array( $this, 'admin_page_display' )
-		);
-
-		add_submenu_page(
-			'ctct_options',
-			'Help',
-			'Help',
-			'manage_options',
-			$this->key . '_help',
-			array( $this, 'admin_page_display' )
-		);
-
-		add_submenu_page(
-			'ctct_options',
-			'About',
-			'About',
-			'manage_options',
-			$this->key . '_about',
-			array( $this, 'admin_page_display' )
-		);
-
-		$submenu[$this->key][0][0] = 'Connect';
 
 		// Include CMB CSS in the head to avoid FOUC.
 		add_action( "admin_print_styles-{$this->options_page}", array( 'CMB2_hookup', 'enqueue_cmb_css' ) );
@@ -163,9 +132,9 @@ class ConstantContact_Admin {
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
 			<h2><?php esc_attr_e( constant_contact()->plugin_name, constant_contact()->text_domain ); ?></h2>
 			<div id="options-wrap">
-				<?php $this->page_tabs(); ?>
 				<?php //bpextender_products_sidebar(); ?>
 				<?php cmb2_metabox_form( $this->metabox_id, $this->key ); ?>
+
 			</div>
 		</div>
 		<?php
@@ -178,35 +147,21 @@ class ConstantContact_Admin {
 	 */
 	function add_options_page_metabox() {
 
-		$prefix = '_ctct_';
-
 		// Hook in our save notices.
 		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", array( $this, 'settings_notices' ), 10, 2 );
 
 		$cmb = new_cmb2_box( array(
-			'id'		 => $this->metabox_id,
-			'hookup'	 => false,
+			'id'         => $this->metabox_id,
+			'hookup'     => false,
 			'cmb_styles' => false,
-			'show_on'	=> array(
+			'show_on'    => array(
 			// These are important don't remove.
-			'key'   => 'options-page',
-			'value' => array( $this->key ),
+				'key'   => 'options-page',
+				'value' => array( $this->key ),
 			),
 		) );
 
-		$cmb->add_field( array(
-		    'name' => 'Test Title',
-		    'desc' => 'This is a title description',
-		    'type' => 'title',
-		    'id'   => $prefix . 'test_title'
-		) );
 
-		$cmb->add_field( array(
-			'name' => 'Test Text',
-			'desc' => '',
-			'type' => 'text',
-			'id'   => $prefix . 'test_text'
-		) );
 	}
 
 	/**
@@ -221,7 +176,8 @@ class ConstantContact_Admin {
 		if ( $object_id !== $this->key || empty( $updated ) ) {
 			return;
 		}
-		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', constant_contact()->text_domain ), 'updated' );
+
+		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', 'bpextended' ), 'updated' );
 		settings_errors( $this->key . '-notices' );
 	}
 
@@ -240,44 +196,8 @@ class ConstantContact_Admin {
 		if ( in_array( $field, array( 'key', 'metabox_id', 'title', 'options_page' ), true ) ) {
 			return $this->{$field};
 		}
+
 		throw new Exception( 'Invalid property: ' . $field );
-	}
-
-	/**
-	 * Admin Page Tabs
-	 *
-	 * @return void
-	 */
-	public function page_tabs() {
-
-		$tabs = array(
-			array(
-				'title' => __( 'Tab 1', constant_contact()->text_domain ),
-				'url' => '',
-				'key' => '_about',
-				'callback' => 'admin_page_display',
-			),
-			array(
-				'title' => __( 'Tab 2', constant_contact()->text_domain ),
-				'url' => '',
-				'key' => '_about',
-				'callback' => 'admin_page_display',
-			),
-			array(
-				'title' => __( 'Tab 3', constant_contact()->text_domain ),
-				'url' => '',
-				'key' => '_about',
-				'callback' => 'admin_page_display',
-			),
-		);
-
-		echo '<h2 class="nav-tab-wrapper">';
-			foreach ( $tabs as $tab => $value ) {
-
-				$active = 0 === $tab ? 'nav-tab-active' : '';
-				echo '<a class="nav-tab '. esc_attr( $active ) .'">'. esc_attr( $value['title'] ) .'</a>';
-			}
-		echo '</h2>';
 	}
 }
 
@@ -303,6 +223,7 @@ function constantcontact_admin() {
 function constantcontact_get_option( $key = '' ) {
 	return cmb2_get_option( constantcontact_admin()->key, $key );
 }
+
 
 // Get it started.
 constantcontact_admin();
