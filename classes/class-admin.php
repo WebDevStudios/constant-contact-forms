@@ -157,15 +157,14 @@ class ConstantContact_Admin {
 		wp_enqueue_style( 'ad-sidebar' );
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php esc_attr_e( constant_contact()->plugin_name, constant_contact()->text_domain ); ?></h2>
-			<div id="options-wrap">
-				<?php $this->page_tabs(); ?>
-				<?php //bpextender_products_sidebar(); ?>
 
+			<div id="options-wrap">
 				<?php
 				$page = isset( $_GET['page'] ) ? explode(  $this->key . '_', $_GET['page'] ) : '';
 
-				if ( in_array( $page[1], array( 'about', 'help', 'builder' ) ) ) {
+				//bpextender_products_sidebar();
+
+				if ( in_array( $page[1], array( 'about', 'help', 'builder', 'settings' ) ) ) {
 					if ( file_exists( constant_contact()->path . 'inc/admin/'. $page[1] .'.php' )  ) {
 						include_once( constant_contact()->path . 'inc/admin/'. $page[1] .'.php' );
 					}
