@@ -106,21 +106,10 @@ class ConstantContact_Admin {
 	 */
 	public function add_options_page() {
 
-		global $submenu;
-
 		$icon = constant_contact()->menu_icon;
 
-		$this->options_page = add_menu_page(
-			$this->title . 'sssss',
-			$this->title,
-			'manage_options',
-			$this->key,
-			array( $this, 'admin_page_display' ),
-			$icon
-		);
-
 		add_submenu_page(
-			'ctct_options',
+			'edit.php?post_type=ctct_forms',
 			'Form Builder',
 			'Form Builder',
 			'manage_options',
@@ -129,7 +118,16 @@ class ConstantContact_Admin {
 		);
 
 		add_submenu_page(
-			'ctct_options',
+			'edit.php?post_type=ctct_forms',
+			'Settings',
+			'Settings',
+			'manage_options',
+			$this->key . '_settings',
+			array( $this, 'admin_page_display' )
+		);
+
+		add_submenu_page(
+			'edit.php?post_type=ctct_forms',
 			'Help',
 			'Help',
 			'manage_options',
@@ -138,15 +136,13 @@ class ConstantContact_Admin {
 		);
 
 		add_submenu_page(
-			'ctct_options',
+			'edit.php?post_type=ctct_forms',
 			'About',
 			'About',
 			'manage_options',
 			$this->key . '_about',
 			array( $this, 'admin_page_display' )
 		);
-
-		$submenu[$this->key][0][0] = 'Connect';
 
 		// Include CMB CSS in the head to avoid FOUC.
 		add_action( "admin_print_styles-{$this->options_page}", array( 'CMB2_hookup', 'enqueue_cmb_css' ) );
@@ -165,7 +161,19 @@ class ConstantContact_Admin {
 			<div id="options-wrap">
 				<?php $this->page_tabs(); ?>
 				<?php //bpextender_products_sidebar(); ?>
-				<?php cmb2_metabox_form( $this->metabox_id, $this->key ); ?>
+
+				<?php
+				$page = isset( $_GET['page'] ) ? explode(  $this->key . '_', $_GET['page'] ) : '';
+
+				if ( in_array( $page[1], array( 'about', 'help', 'builder' ) ) ) {
+					if ( file_exists( constant_contact()->path . 'inc/admin/'. $page[1] .'.php' )  ) {
+						include_once( constant_contact()->path . 'inc/admin/'. $page[1] .'.php' );
+					}
+				} else {
+					cmb2_metabox_form( $this->metabox_id, $this->key );
+				}
+
+				?>
 			</div>
 		</div>
 		<?php
@@ -195,10 +203,10 @@ class ConstantContact_Admin {
 		) );
 
 		$cmb->add_field( array(
-		    'name' => 'Test Title',
-		    'desc' => 'This is a title description',
-		    'type' => 'title',
-		    'id'   => $prefix . 'test_title'
+			'name' => 'Test Title',
+			'desc' => 'This is a title description',
+			'type' => 'title',
+			'id'   => $prefix . 'test_title'
 		) );
 
 		$cmb->add_field( array(
@@ -254,19 +262,19 @@ class ConstantContact_Admin {
 			array(
 				'title' => __( 'Tab 1', constant_contact()->text_domain ),
 				'url' => '',
-				'key' => '_about',
+				'key' => 'builder',
 				'callback' => 'admin_page_display',
 			),
 			array(
 				'title' => __( 'Tab 2', constant_contact()->text_domain ),
 				'url' => '',
-				'key' => '_about',
+				'key' => 'help',
 				'callback' => 'admin_page_display',
 			),
 			array(
 				'title' => __( 'Tab 3', constant_contact()->text_domain ),
 				'url' => '',
-				'key' => '_about',
+				'key' => 'about',
 				'callback' => 'admin_page_display',
 			),
 		);
