@@ -252,6 +252,19 @@ class Constant_Contact {
 		if ( file_exists( __DIR__ . '/classes/class-admin.php' ) ) {
 			require_once  __DIR__ . '/classes/class-admin.php';
 		}
+
+		if ( file_exists( __DIR__ . '/classes/class-builder.php' ) ) {
+			require_once  __DIR__ . '/classes/class-builder.php';
+		}
+
+		if ( file_exists( __DIR__ . '/classes/class-connect.php' ) ) {
+			require_once  __DIR__ . '/classes/class-connect.php';
+		}
+
+		if ( file_exists( __DIR__ . '/classes/class-settings.php' ) ) {
+			require_once  __DIR__ . '/classes/class-settings.php';
+		}
+
 	}
 
 	/**

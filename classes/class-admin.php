@@ -85,7 +85,7 @@ class ConstantContact_Admin {
 	 */
 	public function hooks() {
 		add_action( 'admin_init', array( $this, 'init' ) );
-		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
+		add_action( 'admin_menu', array( $this, 'add_options_page' ), 999 );
 		add_action( 'cmb2_admin_init', array( $this, 'add_options_page_metabox' ) );
 	}
 
@@ -107,24 +107,6 @@ class ConstantContact_Admin {
 	public function add_options_page() {
 
 		$icon = constant_contact()->menu_icon;
-
-		add_submenu_page(
-			'edit.php?post_type=ctct_forms',
-			'Form Builder',
-			'Form Builder',
-			'manage_options',
-			$this->key . '_builder',
-			array( $this, 'admin_page_display' )
-		);
-
-		add_submenu_page(
-			'edit.php?post_type=ctct_forms',
-			'Settings',
-			'Settings',
-			'manage_options',
-			$this->key . '_settings',
-			array( $this, 'admin_page_display' )
-		);
 
 		add_submenu_page(
 			'edit.php?post_type=ctct_forms',
@@ -164,7 +146,7 @@ class ConstantContact_Admin {
 
 				//bpextender_products_sidebar();
 
-				if ( in_array( $page[1], array( 'about', 'help', 'builder', 'settings' ) ) ) {
+				if ( in_array( $page[1], array( 'about', 'help' ) ) ) {
 					if ( file_exists( constant_contact()->path . 'inc/admin/'. $page[1] .'.php' )  ) {
 						include_once( constant_contact()->path . 'inc/admin/'. $page[1] .'.php' );
 					}
