@@ -47,11 +47,9 @@ function ctct_set_custom_columns( $columns ) {
  */
 function ctct_custom_columns( $column, $post_id ) {
 
-	error_log($column);
-
 	switch ( $column ) {
 		case 'shortcodes':
-			echo '[ctct='.$post_id.']';
+			echo esc_attr( '[ctct='. $post_id .']' );
 		break;
 	}
 }
