@@ -8,7 +8,7 @@
 
 <!--
 README: Get an access token
-This example flow illustrates how to get an access token for a Constant Contact account owner using the OAuth2 server flow. 
+This example flow illustrates how to get an access token for a Constant Contact account owner using the OAuth2 server flow.
 You must have a valid Constant Contact API Key, consumer sercret, and associated redirect_uri. All of these can be obtained from
 http://constantcontact.mashery.com.
 -->

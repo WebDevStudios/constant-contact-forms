@@ -229,15 +229,19 @@ class Constant_Contact {
 	public function load_libs() {
 
 		// Load cmb2.
-		if ( file_exists( __DIR__ . '/lib/cmb2/init.php' ) ) {
-			require_once  __DIR__ . '/lib/cmb2/init.php';
-		} elseif ( file_exists( __DIR__ . '/lib/CMB2/init.php' ) ) {
-			require_once  __DIR__ . '/lib/CMB2/init.php';
+		if ( file_exists( __DIR__ . '/vendor/cmb2/init.php' ) ) {
+			require_once  __DIR__ . '/vendor/cmb2/init.php';
+		} elseif ( file_exists( __DIR__ . '/vendor/CMB2/init.php' ) ) {
+			require_once  __DIR__ . '/vendor/CMB2/init.php';
 		}
 
 		// Load dashboard widget.
 		if ( file_exists( __DIR__ . '/vendor/pluginize/dashboard-widget.php' ) ) {
 			require_once  __DIR__ . '/vendor/pluginize/dashboard-widget.php';
+		}
+
+		if ( file_exists( __DIR__ . '/vendor/constantcontact/autoload.php' ) ) {
+			require_once  __DIR__ . '/vendor/constantcontact/autoload.php';
 		}
 
 	}
@@ -251,6 +255,10 @@ class Constant_Contact {
 
 		if ( file_exists( __DIR__ . '/classes/class-admin.php' ) ) {
 			require_once  __DIR__ . '/classes/class-admin.php';
+		}
+
+		if ( file_exists( __DIR__ . '/inc/auth-redirect.php' ) ) {
+			require_once  __DIR__ . '/inc/auth-redirect.php';
 		}
 
 		if ( file_exists( __DIR__ . '/classes/class-builder.php' ) ) {
