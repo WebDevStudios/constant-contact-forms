@@ -87,7 +87,7 @@ class ConstantContact_Connect {
 		register_setting( $this->key, $this->key );
 
 		// instantiate the CtctOAuth2 class
-		$this->oauth = new CtctOAuth2( '595r3d4q432c3mdv2jtd3nj9', 'XJ9H8n5m8fqt2WBpSk6E6dJm', 'http://wdsplugins.dev/constantcontact');
+		$this->oauth = new CtctOAuth2( '595r3d4q432c3mdv2jtd3nj9', 'XJ9H8n5m8fqt2WBpSk6E6dJm', get_site_url() . '?auth=ctct');
 
 		//error_log( print_r($this->oauth, true) );
 	}
@@ -117,13 +117,19 @@ class ConstantContact_Connect {
 	 * @since  0.1.0
 	 */
 	public function admin_page_display() {
+
 		?>
 		<style>
 		.wp-core-ui .button-primary {
 			display: block;
 			margin: 20px 0;
 		}
-
+		.ctct-logo {
+			max-width: 400px;
+		}
+		.ctct-description {
+			max-width: 400px;
+		}
 		</style>
 		<script>
 			jQuery.noConflict();
@@ -131,13 +137,12 @@ class ConstantContact_Connect {
 				$(document).ready(function() {
 					$( '#ctct_option_metabox_connect' ).submit( function(e) {
 						e.preventDefault();
-						window.location.href = '<?php echo $this->oauth->getAuthorizationUrl(); ?>';
+						window.location.href = '<?php echo $this->oauth->getAuthorizationUrl() . '&oauthSignup=true'; ?>';
 					});
 				});
 			})(jQuery);
 		</script>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php esc_attr_e( constant_contact()->plugin_name . ' Connect', constant_contact()->text_domain ); ?></h2>
 
             <?php if ( constantcontact_get_api_token() ) : ?>
                 <div class="message notice">
@@ -146,13 +151,13 @@ class ConstantContact_Connect {
                 <input type="button" class="button-primary" value="Disconnect">
 
             <?php else : ?>
-                <?php cmb2_metabox_form( $this->metabox_id, $this->key, array(
-					'save_button' => __( 'Get Access Token', constant_contact()->text_domain ),
-				) ); ?>
-				<p>
-					* Getting an access token requires a Constant Contact account. When you click Get Access Token, you are taken to a Constant Contact account sign up page. Create a new account, or if you have an existing Constant Contact account (NOT your Mashery developer account), sign in.
-					Click Grant Access to generate an access token. Copy it and keep it handy.
+				<img class="ctct-logo" src="<?php echo constant_contact()->url . '/assets/images/constant-contact-logo.png'?>">
+				<p class="ctct-description">
+					Click the connect button and login or sign up to Constant Contact. By connecting, you authorize this plugin to access your account on Constant Contact.
 				</p>
+                <?php cmb2_metabox_form( $this->metabox_id, $this->key, array(
+					'save_button' => __( 'Connect to Constant Contact', constant_contact()->text_domain ),
+				) ); ?>
             <?php endif; ?>
 		</div>
 		<?php
@@ -178,63 +183,6 @@ class ConstantContact_Connect {
 				'key'   => 'options-page',
 				'value' => array( $this->key, )
 			),
-		) );
-
-		// API fields.
-		$cmb->add_field( array(
-			'name' => __( '1. Sign Up to Constant Contact', constant_contact()->text_domain ),
-			'desc' => __( 'Create an account at <a target="_blank" href="https://constantcontact.com/"> Constant Contact.</a>', constant_contact()->text_domain ),
-			'id'   => $prefix . 'ctct_signup',
-			'type' => 'title',
-		) );
-
-		$cmb->add_field( array(
-			'name' => __( '2. Sign Up to Mashery', constant_contact()->text_domain ),
-			'desc' => __( 'Create an account or login at <a target="_blank" href="https://constantcontact.mashery.com/member/register/"> Mashery.</a> Check your inbox after registering to confirm.', constant_contact()->text_domain ),
-			'id'   => $prefix . 'mashery_signup',
-			'type' => 'title',
-		) );
-
-		$cmb->add_field( array(
-			'name' => __( '3. Register Application', constant_contact()->text_domain ),
-			'desc' => __( 'An API Key will be assigned to your application. <a target="_blank" href="https://constantcontact.mashery.com/apps/register/"> Register Application.</a> Get redirect url below. This must match exactly.', constant_contact()->text_domain ),
-			'id'   => $prefix . 'app_register',
-			'type' => 'title',
-		) );
-
-		$cmb->add_field( array(
-			'name' => __( '4. Get API Keys', constant_contact()->text_domain ),
-			'desc' => __( 'Get your API Keys from <a target="_blank" href="https://constantcontact.mashery.com/apps/mykeys"> Get API Keys.</a>', constant_contact()->text_domain ),
-			'id'   => $prefix . 'app_token',
-			'type' => 'title',
-		) );
-
-		$cmb->add_field( array(
-			'name' => __( '5. Connect to Constant Contact', constant_contact()->text_domain ),
-			'desc' => __( 'Fill your API Key and Secret Key and click Get Access Token button. You will be sent to Constant Contact to login and authorize this plugin to access your account.', constant_contact()->text_domain ),
-			'id'   => $prefix . 'connect',
-			'type' => 'title',
-		) );
-
-		$cmb->add_field( array(
-			'name' => __( 'API KEY', constant_contact()->text_domain ),
-			'desc' => __( 'Enter Constant Contact API Key', constant_contact()->text_domain ),
-			'id'   => $prefix . 'api_key',
-			'type' => 'text',
-		) );
-
-		$cmb->add_field( array(
-			'name' => __( 'SECRET KEY', constant_contact()->text_domain ),
-			'desc' => __( 'Enter Constant Contact Secret Key', constant_contact()->text_domain ),
-			'id'   => $prefix . 'secret_key',
-			'type' => 'text',
-		) );
-
-		$cmb->add_field( array(
-			'name' => __( 'Redirect URL', constant_contact()->text_domain ),
-			'desc' => __( get_site_url() . '/constantcontact/', constant_contact()->text_domain ),
-			'id'   => $prefix . 'redirect_url',
-			'type' => 'title',
 		) );
 
 	}
