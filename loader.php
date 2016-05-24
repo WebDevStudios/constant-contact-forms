@@ -261,6 +261,10 @@ class Constant_Contact {
 			require_once  __DIR__ . '/inc/auth-redirect.php';
 		}
 
+		if ( file_exists( __DIR__ . '/inc/admin/post-list-columns.php' ) ) {
+			require_once  __DIR__ . '/inc/admin/post-list-columns.php';
+		}
+
 		if ( file_exists( __DIR__ . '/classes/class-builder.php' ) ) {
 			require_once  __DIR__ . '/classes/class-builder.php';
 		}
