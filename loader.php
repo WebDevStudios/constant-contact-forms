@@ -172,7 +172,7 @@ class Constant_Contact {
 	public function plugin_classes() {
 		// Attach other plugin classes to the base plugin class.
 		// $this->plugin_class = new WDS_Plugin_Class( $this );
-		$this->ctct_forms = new ConstantContact_Forms_CPT( $this );
+		$this->ctct_forms = new ConstantContact_CPTS( $this );
 	} // END OF PLUGIN CLASSES FUNCTION
 
 	/**

@@ -1,0 +1,195 @@
+<?php
+/**
+ * ConstantContact_Forms_CPT Class File.
+ *
+ * @package ConstantContactFormsCPT
+ * @subpackage ConstantContact
+ * @author Pluginize
+ * @since 1.0.0
+ */
+
+/**
+ * Main initiation class.
+ *
+ * @internal
+ *
+ * @since 1.0.0
+ */
+class ConstantContact_CPTS {
+
+	/**
+	 * Parent plugin class.
+	 *
+	 * @var object
+	 * @since 1.0.0
+	 */
+	protected $plugin = null;
+
+	/**
+	 * Holds an instance of the object.
+	 *
+	 * @var object buddypages_Pages_CPT
+	 * @since 1.0.0
+	 */
+	private static $instance = null;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param object $plugin this class.
+	 */
+	public function __construct( $plugin ) {
+		$this->plugin = $plugin;
+		$this->hooks();
+	}
+
+	/**
+	 * Initiate our hooks.
+	 *
+	 * @since 1.0.0
+	 */
+	public function hooks() {
+		add_action( 'init', array( $this, 'constant_contact_forms_post_type' ) );
+		add_action( 'init', array( $this, 'constant_contact_lists_post_type' ) );
+		add_action( 'admin_menu', array( $this, 'menu_items' ) );
+	}
+
+	/**
+	 * Register Custom Post Type.
+	 *
+	 * @since 1.0.0
+	 */
+	public function constant_contact_forms_post_type() {
+
+		$labels = array(
+			'name'                  => _x( 'Constant Contact', 'Post Type General Name', constant_contact()->text_domain ),
+			'singular_name'         => _x( 'Constant Contact', 'Post Type Singular Name', constant_contact()->text_domain ),
+			'menu_name'             => __( 'Constant Contact', constant_contact()->text_domain ),
+			'name_admin_bar'        => __( 'Constant Contact', constant_contact()->text_domain ),
+			'archives'              => __( 'Form Archives', constant_contact()->text_domain ),
+			'parent_item_colon'     => __( 'Parent Form:', constant_contact()->text_domain ),
+			'all_items'             => __( 'All Forms', constant_contact()->text_domain ),
+			'add_new_item'          => __( 'Add New Form', constant_contact()->text_domain ),
+			'add_new'               => __( 'Add New Form', constant_contact()->text_domain ),
+			'new_item'              => __( 'New Form', constant_contact()->text_domain ),
+			'edit_item'             => __( 'Edit Form', constant_contact()->text_domain ),
+			'update_item'           => __( 'Update Form', constant_contact()->text_domain ),
+			'view_item'             => __( 'View Form', constant_contact()->text_domain ),
+			'search_items'          => __( 'Search Form', constant_contact()->text_domain ),
+			'not_found'             => __( 'Not found', constant_contact()->text_domain ),
+			'not_found_in_trash'    => __( 'Not found in Trash', constant_contact()->text_domain ),
+			'featured_image'        => __( 'Featured Image', constant_contact()->text_domain ),
+			'set_featured_image'    => __( 'Set featured image', constant_contact()->text_domain ),
+			'remove_featured_image' => __( 'Remove featured image', constant_contact()->text_domain ),
+			'use_featured_image'    => __( 'Use as featured image', constant_contact()->text_domain ),
+			'insert_into_item'      => __( 'Insert into Form', constant_contact()->text_domain ),
+			'uploaded_to_this_item' => __( 'Uploaded to this Form', constant_contact()->text_domain ),
+			'items_list'            => __( 'Forms list', constant_contact()->text_domain ),
+			'items_list_navigation' => __( 'Forms list navigation', constant_contact()->text_domain ),
+			'filter_items_list'     => __( 'Filter forms list', constant_contact()->text_domain ),
+		);
+		$args = array(
+			'label'               => __( 'Constant Contact', constant_contact()->text_domain ),
+			'description'         => __( 'Constant Contact forms.', constant_contact()->text_domain ),
+			'labels'              => $labels,
+			'supports'            => array( 'title' ),
+			'taxonomies'          => array(),
+			'hierarchical'        => true,
+			'public'              => false,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'menu_position'       => 20,
+			'menu_icon'           => 'dashicons-megaphone',
+			'show_in_admin_bar'   => false,
+			'show_in_nav_menus'   => false,
+			'can_export'          => true,
+			'has_archive'         => false,
+			'exclude_from_search' => false,
+			'publicly_queryable'  => true,
+			'capability_type'     => 'page',
+		);
+		register_post_type( 'ctct_forms', $args );
+
+	}
+
+	/**
+	 * Register Custom Post Type.
+	 *
+	 * @since 1.0.0
+	 */
+	public function constant_contact_lists_post_type() {
+
+		$labels = array(
+			'name'                  => _x( 'Lists', 'Post Type General Name', constant_contact()->text_domain ),
+			'singular_name'         => _x( 'List', 'Post Type Singular Name', constant_contact()->text_domain ),
+			'menu_name'             => __( 'Lists', constant_contact()->text_domain ),
+			'name_admin_bar'        => __( 'Lists', constant_contact()->text_domain ),
+			'archives'              => __( 'List Archives', constant_contact()->text_domain ),
+			'parent_item_colon'     => __( 'Parent List:', constant_contact()->text_domain ),
+			'all_items'             => __( 'All Lists', constant_contact()->text_domain ),
+			'add_new_item'          => __( 'Add New List', constant_contact()->text_domain ),
+			'add_new'               => __( 'Add New List', constant_contact()->text_domain ),
+			'new_item'              => __( 'New List', constant_contact()->text_domain ),
+			'edit_item'             => __( 'Edit List', constant_contact()->text_domain ),
+			'update_item'           => __( 'Update List', constant_contact()->text_domain ),
+			'view_item'             => __( 'View List', constant_contact()->text_domain ),
+			'search_items'          => __( 'Search List', constant_contact()->text_domain ),
+			'not_found'             => __( 'Not found', constant_contact()->text_domain ),
+			'not_found_in_trash'    => __( 'Not found in Trash', constant_contact()->text_domain ),
+			'featured_image'        => __( 'Featured Image', constant_contact()->text_domain ),
+			'set_featured_image'    => __( 'Set featured image', constant_contact()->text_domain ),
+			'remove_featured_image' => __( 'Remove featured image', constant_contact()->text_domain ),
+			'use_featured_image'    => __( 'Use as featured image', constant_contact()->text_domain ),
+			'insert_into_item'      => __( 'Insert into List', constant_contact()->text_domain ),
+			'uploaded_to_this_item' => __( 'Uploaded to this List', constant_contact()->text_domain ),
+			'items_list'            => __( 'Lists list', constant_contact()->text_domain ),
+			'items_list_navigation' => __( 'Lists list navigation', constant_contact()->text_domain ),
+			'filter_items_list'     => __( 'Filter lists list', constant_contact()->text_domain ),
+		);
+		$args = array(
+			'label'               => __( 'Constant Contact', constant_contact()->text_domain ),
+			'description'         => __( 'Constant Contact lists.', constant_contact()->text_domain ),
+			'labels'              => $labels,
+			'supports'            => array( 'title' ),
+			'taxonomies'          => array(),
+			'hierarchical'        => true,
+			'public'              => false,
+			'show_ui'             => true,
+			'show_in_menu'        => true,
+			'menu_position'       => 20,
+			'menu_icon'           => 'dashicons-megaphone',
+			'show_in_admin_bar'   => false,
+			'show_in_nav_menus'   => false,
+			'can_export'          => true,
+			'has_archive'         => false,
+			'exclude_from_search' => false,
+			'publicly_queryable'  => true,
+			'capability_type'     => 'page',
+		);
+		register_post_type( 'ctct_lists', $args );
+
+	}
+
+	/**
+	 * Customize admin menu items
+	 *
+	 * @return void
+	 */
+	public function menu_items() {
+
+			// Remove top level CPT menu.
+	        remove_menu_page( 'edit.php?post_type=ctct_lists' );
+
+			// Add List submenu item for CPT.
+			add_submenu_page(
+				'edit.php?post_type=ctct_forms',
+				__( 'Lists', constant_contact()->text_domain ),
+				__( 'Lists', constant_contact()->text_domain ),
+				'manage_options',
+				'edit.php?post_type=ctct_lists',
+				''
+			);
+	}
+}

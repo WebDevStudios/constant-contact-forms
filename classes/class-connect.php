@@ -5,47 +5,59 @@ use Ctct\Auth\CtctOAuth2;
 use Ctct\Exceptions\OAuth2Exception;
 
 /**
- * CMB2 Network Settings
- * @version 0.1.0
+ * ConstantContact_Connect
+ *
+ * @package ConstantContactConnect
+ * @author Pluginize
+ * @since 1.0.0
  */
 class ConstantContact_Connect {
 
 	/**
- 	 * Option key, and option page slug
- 	 * @var string
- 	 */
+	 * Option key, and option page slug
+ 	 *
+	 * @var string
+	 */
 	private $key = 'ctct_options_connect';
 
 	/**
- 	 * Settings page metabox id
- 	 * @var string
- 	 */
+	 * Settings page metabox id
+	 *
+	 * @var string
+	 */
 	private $metabox_id = 'ctct_option_metabox_connect';
 
 	/**
 	 * Settings Page title
+	 *
 	 * @var string
 	 */
 	protected $title = '';
 
 	/**
 	 * Settings Page hook
+	 *
 	 * @var string
 	 */
 	protected $options_page = '';
 
+	/**
+	 * CtctOAuth2 object
+	 *
+	 * @var object
+	 */
 	private $oauth = '';
 
 	/**
 	 * Holds an instance of the project
 	 *
-	 * @Myprefix_Network_Admin
+	 * @ConstantContact_Connect
 	 **/
 	private static $instance = null;
 
 	/**
 	 * Constructor
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	private function __construct() {
 	}
@@ -53,7 +65,7 @@ class ConstantContact_Connect {
 	/**
 	 * Get the running object
 	 *
-	 * @return Myprefix_Network_Admin
+	 * @return ConstantContact_Connect
 	 **/
 	public static function get_instance() {
 		if( is_null( self::$instance ) ) {
@@ -65,7 +77,7 @@ class ConstantContact_Connect {
 
 	/**
 	 * Initiate our hooks
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	public function hooks() {
 
@@ -81,20 +93,19 @@ class ConstantContact_Connect {
 
 	/**
 	 * Register our setting to WP
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	public function init() {
 		register_setting( $this->key, $this->key );
 
-		// instantiate the CtctOAuth2 class
-		$this->oauth = new CtctOAuth2( '595r3d4q432c3mdv2jtd3nj9', 'XJ9H8n5m8fqt2WBpSk6E6dJm', get_site_url() . '?auth=ctct');
-
-		//error_log( print_r($this->oauth, true) );
+		// Instantiate the CtctOAuth2 class.
+		$this->oauth = new CtctOAuth2( '595r3d4q432c3mdv2jtd3nj9', 'XJ9H8n5m8fqt2WBpSk6E6dJm', get_site_url() . '/constantcontact/?auth=ctct' );
 	}
 
 	/**
 	 * Add menu options page
-	 * @since 0.1.0
+	 *
+	 * @since 1.0.0
 	 */
 	public function add_options_page() {
 
@@ -114,7 +125,7 @@ class ConstantContact_Connect {
 
 	/**
 	 * Admin page markup. Mostly handled by CMB2
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	public function admin_page_display() {
 
@@ -137,39 +148,39 @@ class ConstantContact_Connect {
 				$(document).ready(function() {
 					$( '#ctct_option_metabox_connect' ).submit( function(e) {
 						e.preventDefault();
-						window.location.href = '<?php echo $this->oauth->getAuthorizationUrl() . '&oauthSignup=true'; ?>';
+						window.location.href = '<?php echo esc_url_raw( $this->oauth->getAuthorizationUrl() . '&oauthSignup=true' ); ?>';
 					});
 				});
 			})(jQuery);
 		</script>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
 
-            <?php if ( constantcontact_get_api_token() ) : ?>
-                <div class="message notice">
-        			<p><?php esc_attr_e( 'Account connected to Constant Contact', constant_contact()->text_domain ); ?></p>
-                </div>
-                <input type="button" class="button-primary" value="Disconnect">
+			<?php if ( constantcontact_get_api_token() ) : ?>
+				<div class="message notice">
+					<p><?php esc_attr_e( 'Account connected to Constant Contact', constant_contact()->text_domain ); ?></p>
+				</div>
+				<input type="button" class="button-primary" value="Disconnect">
 
-            <?php else : ?>
+			<?php else : ?>
 				<img class="ctct-logo" src="<?php echo constant_contact()->url . '/assets/images/constant-contact-logo.png'?>">
 				<p class="ctct-description">
 					Click the connect button and login or sign up to Constant Contact. By connecting, you authorize this plugin to access your account on Constant Contact.
 				</p>
-                <?php cmb2_metabox_form( $this->metabox_id, $this->key, array(
+				<?php cmb2_metabox_form( $this->metabox_id, $this->key, array(
 					'save_button' => __( 'Connect to Constant Contact', constant_contact()->text_domain ),
 				) ); ?>
-            <?php endif; ?>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
 
 	/**
 	 * Add the options metabox to the array of metaboxes
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	function add_options_page_metabox() {
 
-        $prefix = 'ctct_connect';
+		$prefix = 'ctct_connect';
 
 		// hook in our save notices
 		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", array( $this, 'settings_notices' ), 10, 2 );
@@ -190,7 +201,7 @@ class ConstantContact_Connect {
 	/**
 	 * Register settings notices for display
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @param  int   $object_id Option key.
 	 * @param  array $updated   Array of updated fields.
 	 * @return void
@@ -207,7 +218,7 @@ class ConstantContact_Connect {
 	/**
 	 * Replaces get_option with get_site_option
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	public function get_override( $test, $default = false ) {
 		return get_site_option( $this->key, $default );
@@ -216,7 +227,7 @@ class ConstantContact_Connect {
 	/**
 	 * Replaces update_option with update_site_option
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	public function update_override( $test, $option_value ) {
 		return update_site_option( $this->key, $option_value );
@@ -225,7 +236,7 @@ class ConstantContact_Connect {
 	/**
 	 * Public getter method for retrieving protected/private variables
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @param  string $field Field to retrieve.
 	 * @return mixed Field value or exception is thrown
 	 */
@@ -243,7 +254,7 @@ class ConstantContact_Connect {
 /**
  * Helper function to get/return the Myprefix_Network_Admin object
  *
- * @since  0.1.0
+ * @since  1.0.0
  * @return ConstantContact_Connect object
  */
 function ctct_connect_admin() {
@@ -253,7 +264,7 @@ function ctct_connect_admin() {
 /**
  * Wrapper function around cmb2_get_option
  *
- * @since  0.1.0
+ * @since  1.0.0
  * @param  string $key Options array key.
  * @return mixed Option value
  */
@@ -270,5 +281,5 @@ ctct_connect_admin();
  * @return string api token
  */
 function constantcontact_get_api_token() {
-    return false;
+	return false;
 }
