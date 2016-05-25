@@ -1,5 +1,5 @@
 === Constant Contact ===
-Contributors:      webdevstudios, constantcontact
+Contributors:      constantcontact, pluginize, webdevstudios
 Tags:
 Requires at least: 3.9
 Tested up to:      4.5.2
