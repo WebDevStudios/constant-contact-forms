@@ -49,7 +49,7 @@ function ctct_custom_columns( $column, $post_id ) {
 
 	switch ( $column ) {
 		case 'shortcodes':
-			echo esc_attr( '[ctct='. $post_id .']' );
+			echo esc_attr( '[ctct form='. $post_id .']' );
 		break;
 	}
 }

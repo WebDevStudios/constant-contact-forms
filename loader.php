@@ -170,10 +170,8 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function plugin_classes() {
-		// Attach other plugin classes to the base plugin class.
-		// $this->plugin_class = new WDS_Plugin_Class( $this );
 		$this->ctct_forms = new ConstantContact_CPTS( $this );
-	} // END OF PLUGIN CLASSES FUNCTION
+	}
 
 	/**
 	 * Add hooks and filters
@@ -275,6 +273,10 @@ class Constant_Contact {
 
 		if ( file_exists( __DIR__ . '/classes/class-settings.php' ) ) {
 			require_once  __DIR__ . '/classes/class-settings.php';
+		}
+
+		if ( file_exists( __DIR__ . '/classes/class-shortcodes.php' ) ) {
+			require_once  __DIR__ . '/classes/class-shortcodes.php';
 		}
 
 	}

@@ -3,7 +3,7 @@
  * ConstantContact_Admin class
  *
  * @package ConstantContactAdmin
- * @subpackage Constant_Contact
+ * @subpackage ConstantContact
  * @author Pluginize
  * @since 1.0.0
  */
