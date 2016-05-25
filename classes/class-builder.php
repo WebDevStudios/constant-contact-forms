@@ -1,8 +1,10 @@
 <?php
 /**
- * CTCT form Builder Settings
+ * ConstantContact_Builder form Builder Settings
  *
- * @version 1.0.0
+ * @package ConstantContactBuilder
+ * @author Pluginize
+ * @since 1.0.0
  */
 
 /**
@@ -31,7 +33,7 @@ class ConstantContact_Builder {
 	 * @return ConstantContact_Builder
 	 **/
 	public static function get_instance() {
-		if( is_null( self::$instance ) ) {
+		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
 			self::$instance->hooks();
 		}
@@ -40,6 +42,7 @@ class ConstantContact_Builder {
 
 	/**
 	 * Initiate our hooks
+	 *
 	 * @since 1.0.0
 	 */
 	public function hooks() {
@@ -48,34 +51,38 @@ class ConstantContact_Builder {
 
 	}
 
-
+	/**
+	 * [form_metaboxes description]
+	 *
+	 * @param  array $meta_boxes cmb2 metabox appended data.
+	 * @return array  cmb2 metabox appended data
+	 */
 	public function form_metaboxes( array $meta_boxes ) {
 
-		// Start with an underscore to hide fields from custom fields list
 		$prefix = '_ctct_';
 
 		$meta_boxes['form_description_metabox'] = array(
 			'id'			=> 'description_metabox',
-			'title'		 => __( 'Description', constant_contact()->text_domain ),
-			'object_types'  => array( 'ctct_forms', ), // Post type
-			'context'	   => 'normal',
-			'priority'	  => 'high',
-			'show_names'	=> false, // Show field names on the left
+			'title'		 	=> __( 'Description', constant_contact()->text_domain ),
+			'object_types'  => array( 'ctct_forms' ),
+			'context'	   	=> 'normal',
+			'priority'	  	=> 'high',
+			'show_names'	=> false,
 			'fields'		=> array(
 				array(
 					'name' => __( 'description_metabox', constant_contact()->text_domain ),
 					'id'   => $prefix . 'description',
 					'type' => 'textarea_small',
-				)
-			)
+				),
+			),
 		);
 
 		$meta_boxes['form_fields_metabox'] = array(
 			'id'			=> 'fields_metabox',
-			'title'		 => __( 'Form Fields', constant_contact()->text_domain ),
-			'object_types'  => array( 'ctct_forms', ),
-			'context'	   => 'normal',
-			'priority'	  => 'high',
+			'title'		 	=> __( 'Form Fields', constant_contact()->text_domain ),
+			'object_types'  => array( 'ctct_forms' ),
+			'context'	   	=> 'normal',
+			'priority'	  	=> 'high',
 			'show_names'	=> true,
 			'fields'		=> array(
 				array(
@@ -145,12 +152,20 @@ class ConstantContact_Builder {
 						'add_row_text' => 'Add Field',
 					),
 				),
-			)
+			),
 		);
+
+		$meta_boxes = apply_filters( 'ctct_form_metaboxes', $meta_boxes );
+
 		return $meta_boxes;
 	}
 
-
+	/**
+	 * Custom meta box css
+	 *
+	 * @param integer $post_id current post id.
+	 * @param object  $cmb cmb2 metabox object.
+	 */
 	public function add_custom_css_for_metabox( $post_id, $cmb ) {
 		?>
 		<style type="text/css" media="screen">
@@ -188,5 +203,5 @@ function ctct_builder_admin() {
 	return ConstantContact_Builder::get_instance();
 }
 
-// Get it started
+// Get it started.
 ctct_builder_admin();
