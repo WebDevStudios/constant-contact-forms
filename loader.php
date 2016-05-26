@@ -279,6 +279,10 @@ class Constant_Contact {
 			require_once  __DIR__ . '/classes/class-shortcodes.php';
 		}
 
+		if ( file_exists( __DIR__ . '/classes/class-process-form.php' ) ) {
+			require_once  __DIR__ . '/classes/class-process-form.php';
+		}
+
 	}
 
 	/**
