@@ -182,7 +182,7 @@ class Constant_Contact {
 	public function hooks() {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'load_libs' ) );
-		//$this->includes();
+		$this->includes();
 		add_filter( 'plugin_action_links_'. $this->basename, array( $this, 'add_social_links' ) );
 	}
 
