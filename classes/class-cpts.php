@@ -28,7 +28,7 @@ class ConstantContact_CPTS {
 	/**
 	 * Holds an instance of the object.
 	 *
-	 * @var object buddypages_Pages_CPT
+	 * @var object ConstantContact_CPTS
 	 * @since 1.0.0
 	 */
 	private static $instance = null;

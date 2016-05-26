@@ -17,7 +17,7 @@ class ConstantContact_Shortcodes {
 	 * Holds an instance of the object.
 	 *
 	 * @since 1.0.0
-	 * @var BuddyExtender_Admin
+	 * @var ConstantContact_Shortcodes
 	 */
 	private static $instance = null;
 
@@ -34,7 +34,7 @@ class ConstantContact_Shortcodes {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return BuddyExtender_Admin
+	 * @return ConstantContact_Shortcodes
 	 */
 	public static function get_instance() {
 		if ( is_null( self::$instance ) ) {
@@ -75,28 +75,26 @@ class ConstantContact_Shortcodes {
 		);
 
 		$meta = get_post_meta( $atts['form'] );
-		$meta = $this->get_field_meta( $meta );
+		$form_data = $this->get_field_meta( $meta );
 
-		//var_dump($meta);
-
-		echo '<form id="myForm" action="#" method="post">';
-
-		foreach ( $meta as $key => $value ) {
-				echo '<div><label>' . $meta[$key]['name'] . '</label>';
-				echo '<input type="text" name="'. $key .'" value="" tabindex="1"></div>';
-
-		}
-
-		echo '</form>';
-
-
+		ob_start();
+		$shortcode = require( constant_contact()->dir() . 'templates/form.php' );
+		$shortcode = ob_get_contents();
+		ob_end_clean();
+		echo $shortcode;
 	}
 
+	/**
+	 * Proccess cmb2 options into form data array
+	 *
+	 * @param  array $form_meta raw form data.
+	 * @return array  form field data
+	 */
 	public function get_field_meta( $form_meta ) {
 
 		foreach ( $form_meta as $meta => $value ) {
-			if( '_ctct_' !== substr( $meta, 0, 6 ) ) {
-				unset( $form_meta[$meta] );
+			if ( '_ctct_' !== substr( $meta, 0, 6 ) ) {
+				unset( $form_meta[ $meta ] );
 			}
 		}
 		unset( $form_meta['_ctct_description'] );
@@ -110,7 +108,6 @@ class ConstantContact_Shortcodes {
 		$values = array();
 
 		$form = cmb2_get_metabox( 'fields_metabox' );
-
 		$fields = $form->meta_box['fields'];
 
 		foreach ( $form_meta as $field => $value ) {
@@ -123,7 +120,6 @@ class ConstantContact_Shortcodes {
 			} else {
 				$values[ $field ]['name'] = $fields[ $field ]['name'];
 			}
-
 		}
 		return $values;
 	}
@@ -139,7 +135,6 @@ class ConstantContact_Shortcodes {
 function constantcontact_shortcodes() {
 	return ConstantContact_Shortcodes::get_instance();
 }
-
 
 // Get it started.
 constantcontact_shortcodes();
