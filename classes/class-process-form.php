@@ -78,7 +78,6 @@ class ConstantContact_Process_Form {
 
 	        // get the blog administrator's email address
 	        $to = get_option( 'admin_email' );
-
 	        $headers = "From: $name <$email>" . "\r\n";
 
 	        // If email has been process for sending, display a success message

@@ -152,6 +152,12 @@ class ConstantContact_Builder {
 						'add_row_text' => 'Add Field',
 					),
 				),
+				array(
+					'name' => __( 'Opt In', constant_contact()->text_domain ),
+					'id'   => $prefix . 'opt_in',
+					'description' => __( 'Add Opt In checkbox to form.', constant_contact()->text_domain ),
+					'type' => 'checkbox',
+				),
 			),
 		);
 
@@ -187,6 +193,11 @@ class ConstantContact_Builder {
 			}
 			.postbox-container .cmb2-metabox > .cmb-row.table-layout .cmb-repeat-table .cmb-tbody .cmb-row:not(:first-of-type) .cmb-td {
 				padding-top: 0.3em;
+			}
+			.postbox-container .cmb2-wrap > .cmb-field-list > .cmb-row.cmb2-id--ctct-opt-in {
+				border-top: 1px solid #e9e9e9;
+				margin-top: 1.8em;
+				padding: 1.8em 0;
 			}
 		</style>
 		<?php
