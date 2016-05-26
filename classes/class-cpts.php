@@ -64,8 +64,8 @@ class ConstantContact_CPTS {
 	public function constant_contact_forms_post_type() {
 
 		$labels = array(
-			'name'                  => _x( 'Constant Contact', 'Post Type General Name', constant_contact()->text_domain ),
-			'singular_name'         => _x( 'Constant Contact', 'Post Type Singular Name', constant_contact()->text_domain ),
+			'name'                  => _x( 'Forms', 'Post Type General Name', constant_contact()->text_domain ),
+			'singular_name'         => _x( 'Form', 'Post Type Singular Name', constant_contact()->text_domain ),
 			'menu_name'             => __( 'Constant Contact', constant_contact()->text_domain ),
 			'name_admin_bar'        => __( 'Constant Contact', constant_contact()->text_domain ),
 			'archives'              => __( 'Form Archives', constant_contact()->text_domain ),

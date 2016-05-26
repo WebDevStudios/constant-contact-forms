@@ -99,6 +99,10 @@ class ConstantContact_Admin_About {
 		.about-wrap .about-text {
 			margin: 1em 0.5em 1em 0;
 		}
+		.feature-section.two-col > div {
+			width: 49%;
+			float: left;
+		}
 		</style>
 
 		<?php $welcome_text = $this->plugin['welcome_text']; ?>
@@ -145,7 +149,7 @@ class ConstantContact_Admin_About {
 
 			<div class="features-section">
 
-				<div class="feature-section two-col">
+				<div class="feature-section <?php if ( count( $this->plugin['features'] ) >= 2 ) { echo 'two-col'; } ?>">
 					<?php foreach ( $this->plugin['features'] as $feature ) : ?>
 					<div>
 						<h3 class="feature-title" style="text-align:center;"><?php esc_html_e( $feature['title'] ); ?></h3>
@@ -225,9 +229,14 @@ constantcontact_about(
 		),
 		'features' => array(
 			array(
-				'title' => '',
+				'title' => 'Create Custom Forms',
 				'image' => '',
-				'description' => '',
+				'description' => 'Create custom forms to get info about people.',
+			),
+			array(
+				'title' => 'Create Custom Lists',
+				'image' => '',
+				'description' => 'Create custom lists to group people.',
 			),
 		),
 	)
