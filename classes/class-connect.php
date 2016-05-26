@@ -1,4 +1,3 @@
-
 <?php
 
 use Ctct\Auth\CtctOAuth2;

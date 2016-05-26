@@ -182,7 +182,7 @@ class Constant_Contact {
 	public function hooks() {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'load_libs' ) );
-		$this->includes();
+		//$this->includes();
 		add_filter( 'plugin_action_links_'. $this->basename, array( $this, 'add_social_links' ) );
 	}
 
@@ -250,7 +250,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 */
 	public function includes() {
-		
+
 		if ( file_exists( __DIR__ . '/classes/class-shortcodes.php' ) ) {
 			require_once  __DIR__ . '/classes/class-shortcodes.php';
 		}
@@ -260,7 +260,7 @@ class Constant_Contact {
 		}
 
 		// Only load in admin.
-		if ( is_admin() && is_user_logged_in() ) {
+		if ( is_admin() ) {
 
 			if ( file_exists( __DIR__ . '/classes/class-admin.php' ) ) {
 				require_once  __DIR__ . '/classes/class-admin.php';
