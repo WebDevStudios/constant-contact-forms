@@ -49,6 +49,7 @@ class ConstantContact_Admin_About {
 			'plugin' => 'Pluginize',
 			'version' => '1.0.0',
 			'domain' => 'pluginize',
+			'icon' => '',
 			'welcome_text' => __( 'Way to level up with the latest version of Pluginize which makes it simple for developers and non-developers alike to create an unlimited amount of custom post types.', 'pluginize' ),
 			'featured' => array(
 				'headline' => 'New Amazing Feature',
@@ -89,16 +90,22 @@ class ConstantContact_Admin_About {
 
 		?>
 		<style>
+		h1.about-header {
+			font-size: 22px;
+		}
 		.about-wrap h3 {
 			padding: 20px 0;
+		}
+		.about-wrap .about-text {
+			margin: 1em 0.5em 1em 0;
 		}
 		</style>
 
 		<?php $welcome_text = $this->plugin['welcome_text']; ?>
-		
+
 		<div style="overflow:hidden;">
-			<div style="float:left; width:85%;">
-				<h1><?php printf( esc_html__( 'Welcome to ' . $this->plugin['plugin'] . ' %s', $this->plugin['domain'] ), $this->plugin['version'] ); ?></h1>
+			<div style="float:left; width:80%;">
+				<h1 class="about-header"><?php printf( esc_html__( 'Welcome to ' . $this->plugin['plugin'] . ' %s', $this->plugin['domain'] ), $this->plugin['version'] ); ?></h1>
 
 				<div class="about-text">
 					<?php printf( $welcome_text, $this->plugin['version'] ); ?>
@@ -205,25 +212,25 @@ function constantcontact_about( $args = array() ) {
 
 
 constantcontact_about(
-	// array(
-	// 	'plugin' => constant_contact()->plugin_name,
-	// 	'version' => constant_contact()->version,
-	// 	'domain' => constant_contact()->text_domain,
-	// 	'icon' => cptui_extended()->url . 'assets/images/icon.png',
-	// 	'welcome_text' => __( 'Way to level up with the latest version of ' . constant_contact()->plugin_name . ' which makes it simple for developers and non-developers alike to create an unlimited amount of custom post types.', constant_contact()->text_domain ),
-	// 	'featured' => array(
-	// 		'headline' => '',
-	// 		'image' => cptui_extended()->url . 'assets/images/shortcode.png',
-	// 		//'description' => '',
-	// 	),
-	// 	'features' => array(
-	// 		array(
-	// 			'title' => '',
-	// 			'image' => '',
-	// 			'description' => '',
-	// 		),
-	// 	),
-	// )
+	array(
+		'plugin' => constant_contact()->plugin_name,
+		'version' => constant_contact()->version,
+		'domain' => constant_contact()->text_domain,
+		'icon' => constant_contact()->url . 'assets/images/icon.jpg',
+		'welcome_text' => __( 'Way to level up with the latest version of ' . constant_contact()->plugin_name . ' which makes it simple for developers and non-developers alike to create an unlimited amount of custom post types.', constant_contact()->text_domain ),
+		'featured' => array(
+			'headline' => '',
+			'image' => cptui_extended()->url . 'assets/images/shortcode.png',
+			//'description' => '',
+		),
+		'features' => array(
+			array(
+				'title' => '',
+				'image' => '',
+				'description' => '',
+			),
+		),
+	)
 );
 
 
