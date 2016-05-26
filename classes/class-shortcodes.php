@@ -75,16 +75,15 @@ class ConstantContact_Shortcodes {
 		);
 
 		$meta = get_post_meta( $atts['form'] );
+		$meta = $this->get_field_meta( $meta );
+
+		//var_dump($meta);
 
 		echo '<form id="myForm" action="#" method="post">';
 
 		foreach ( $meta as $key => $value ) {
-
-			if ( '_ctct_' === substr( $key, 0, 6 ) ) {
-				$meta = $this->get_field_meta( $key );
-				echo '<div><label>' . $meta . '</label>';
+				echo '<div><label>' . $meta[$key]['name'] . '</label>';
 				echo '<input type="text" name="'. $key .'" value="" tabindex="1"></div>';
-			}
 
 		}
 
@@ -93,43 +92,45 @@ class ConstantContact_Shortcodes {
 
 	}
 
-	public function get_field_meta( $field_id ) {
+	public function get_field_meta( $form_meta ) {
+
+		foreach ( $form_meta as $meta => $value ) {
+			if( '_ctct_' !== substr( $meta, 0, 6 ) ) {
+				unset( $form_meta[$meta] );
+			}
+		}
+		unset( $form_meta['_ctct_description'] );
+
+		// Move custom fields to end of array.
+		$custom_v = $form_meta['_ctct_custom'];
+		unset( $form_meta['_ctct_custom'] );
+		$form_meta['_ctct_custom'] = $custom_v ;
 
 		$fields = array();
+		$values = array();
 
 		$form = cmb2_get_metabox( 'fields_metabox' );
 
-		//var_dump($form);
+		$fields = $form->meta_box['fields'];
 
-		foreach ( $form->meta_box['fields'] as $field => $value ) {
+		foreach ( $form_meta as $field => $value ) {
 
-			//var_dump($field);
-
-			if ( is_array( $value )  ) {
-				foreach ( $value as $values ) {
-					$fields[$field] = $form->meta_box['fields'][$field];
+			if ( '_ctct_custom' === $field ) {
+				$custom = maybe_unserialize( $form_meta['_ctct_custom'][0] );
+				foreach ( $custom as $field => $value ) {
+					$values[ '_ctct_custom' . '_' . $field ]['name'] = $custom[$field];
 				}
 			} else {
-				$fields[$field] = $form->meta_box['fields'][$field];
+				$values[ $field ]['name'] = $fields[ $field ]['name'];
 			}
+
 		}
-
-		var_dump($fields);
-
-		foreach ( $fields as $field => $value ) {
-
-
-
-			if ( $field_id === $field  ) {
-				return $value['name'];
-			}
-		}
-		return false;
+		return $values;
 	}
 }
 
 /**
- * Helper function to get/return the BPExtender_Admin object.
+ * Helper function to get/return the ConstantContact_Shortcodes object.
  *
  * @since 1.0.0
  *
