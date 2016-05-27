@@ -157,9 +157,17 @@ class ConstantContact_Builder {
 					'id'   => $prefix . 'list',
 					'description' => __( 'Choose a list.', constant_contact()->text_domain ),
 					'type' => 'select',
+					'show_option_none' => true,
+					'default' => 'none',
 					'options' => array(
-						'my_list' => 'My List'
+						'new' => 'New List'
 					),
+				),
+				array(
+					'name' => __( 'New List', constant_contact()->text_domain ),
+					'id'   => $prefix . 'new_list',
+					'description' => __( 'Enter title of new list.', constant_contact()->text_domain ),
+					'type' => 'text',
 				),
 				array(
 					'name' => __( 'Opt In', constant_contact()->text_domain ),

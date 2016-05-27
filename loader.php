@@ -184,6 +184,8 @@ class Constant_Contact {
 		add_action( 'init', array( $this, 'load_libs' ) );
 		$this->includes();
 		add_filter( 'plugin_action_links_'. $this->basename, array( $this, 'add_social_links' ) );
+
+		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 	}
 
 	/**
@@ -215,6 +217,24 @@ class Constant_Contact {
 	public function init() {
 		if ( $this->check_requirements() ) {
 			load_plugin_textdomain( 'constantcontact', false, dirname( $this->basename ) . '/languages/' );
+		}
+	}
+
+	/**
+	 * Scripts
+	 *
+	 * @since  1.0.0
+	 * @return void
+	 */
+	public function scripts() {
+		global $pagenow;
+
+		if ( isset( $pagenow ) && 'post.php' === $pagenow ||  'post-new.php' === $pagenow ) {
+			// Register out javascript file.
+			wp_register_script( 'ctct_form', $this->url() . 'assets/js/plugin.js' );
+
+			// Enqueued script with localized data.
+			wp_enqueue_script( 'ctct_form' );
 		}
 	}
 
