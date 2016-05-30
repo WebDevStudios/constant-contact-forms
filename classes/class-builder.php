@@ -213,8 +213,7 @@ class ConstantContact_Builder {
 				border-bottom: none;
 			}
 			#default_group_repeat .cmb-row {
-				padding-top: 0;
-				padding-bottom: 0;
+				padding-bottom: 1px;
 			}
 			.postbox-container .cmb-th, .cmb-repeat-group-wrap .cmb-th {
 				width: 22%;
