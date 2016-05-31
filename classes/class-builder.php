@@ -55,20 +55,19 @@ class ConstantContact_Builder {
 	}
 
 	/**
-	 * [form_metaboxes description]
+	 * Form description CMB2 metabox
 	 *
-	 * @param  array $meta_boxes cmb2 metabox appended data.
-	 * @return array  cmb2 metabox appended data
+	 * @return void
 	 */
 	public function description_metabox() {
 
 		$prefix = '_ctct_';
 
 		/**
-		 * Initiate the $fields_metabox
+		 * Initiate the $description_metabox
 		 */
 		$description_metabox = new_cmb2_box( array(
-			'id'			=> $prefix . 'description_metabox',
+			'id'			=> 'ctct_description_metabox',
 			'title'		 	=> __( 'Form Description', constant_contact()->text_domain ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
@@ -85,10 +84,9 @@ class ConstantContact_Builder {
 
 
 	/**
-	 * [form_metaboxes description]
+	 * Fields builder CMB2 metabox
 	 *
-	 * @param  array $meta_boxes cmb2 metabox appended data.
-	 * @return array  cmb2 metabox appended data
+	 * @return void
 	 */
 	public function fields_metabox() {
 
@@ -98,7 +96,7 @@ class ConstantContact_Builder {
 		 * Initiate the $fields_metabox
 		 */
 		$fields_metabox = new_cmb2_box( array(
-			'id'			=> $prefix . 'fields_metabox',
+			'id'			=> 'ctct_fields_metabox',
 			'title'		 	=> __( 'Form Fields', constant_contact()->text_domain ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
@@ -140,27 +138,25 @@ class ConstantContact_Builder {
 	}
 
 	/**
-	 * [form_metaboxes description]
+	 * Form options CMB2 metabox
 	 *
-	 * @param  array $meta_boxes cmb2 metabox appended data.
-	 * @return array  cmb2 metabox appended data
+	 * @return void
 	 */
 	public function options_metabox() {
 
 		$prefix = '_ctct_';
 
 		/**
-		 * Initiate the $fields_metabox
+		 * Initiate the $options_metabox
 		 */
 		$options_metabox = new_cmb2_box( array(
-			'id'			=> $prefix . 'options_metabox',
+			'id'			=> 'ctct_options_metabox',
 			'title'		 	=> __( 'Form Options', constant_contact()->text_domain ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
 			'priority'	  	=> 'high',
 			'show_names'	=> true,
 		) );
-
 
 		$options_metabox->add_field( array(
 			'description' => __( 'Choose form options.', constant_contact()->text_domain ),
@@ -198,7 +194,7 @@ class ConstantContact_Builder {
 
 
 	/**
-	 * Custom meta box css
+	 * Custom CMB2 meta box css
 	 *
 	 * @param integer $post_id current post id.
 	 * @param object  $cmb cmb2 metabox object.
@@ -206,42 +202,29 @@ class ConstantContact_Builder {
 	public function add_custom_css_for_metabox( $post_id, $cmb ) {
 		?>
 		<style type="text/css" media="screen">
-			/*.postbox-container .cmb2-wrap > .cmb-field-list > .cmb-row {
-				padding: 0;
-			}*/
 			#default_group_repeat .cmb-row:not(:last-of-type) {
 				border-bottom: none;
 			}
 			#default_group_repeat .cmb-row {
 				padding-bottom: 1px;
 			}
-			.postbox-container .cmb-th, .cmb-repeat-group-wrap .cmb-th {
-				width: 22%;
-			}
-			.postbox-container .cmb-th + .cmb-td, .cmb-repeat-group-wrap .cmb-th + .cmb-td {
-				width: 75%;
-			}
 
-			div.cmb-row.cmb-type-select.cmb2-id--ctct-form-options-0--ctct-list.cmb-repeat-group-field {
+			#ctct_options_metabox .cmb-row {
 				border-bottom: none;
-				padding-bottom: 0;
 			}
-
+			#ctct_options_metabox .cmb2-id--ctct-opt-in,
+			#ctct_options_metabox .cmb2-id--ctct-list {
+				border-top: 1px solid #e9e9e9;
+			}
+			#ctct_options_metabox .cmb2-id--ctct-list {
+				padding-bottom: 0.5em;
+			}
+			#ctct_options_metabox .cmb2-id--ctct-new-list {
+				padding: 0 0;
+			}
 		</style>
 		<?php
 	}
-
-	/**
-	 * Add required check
-	 * @param  object $field_args Current field args
-	 * @param  object $field	  Current field object
-	 */
-	public function required_field( $field_args, $field ) {
-		//var_dump( $field->args['_id'] );
-		echo '	 required <input type="checkbox" class="cmb2-option cmb2-list" name="default_group[0][_ctct_required]['. $field->args['_id'] .']" id="default_group_0_' . $field->args['_id'] . '" value="on">';
-	}
-
-
 }
 
 /**
