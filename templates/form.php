@@ -13,7 +13,8 @@
 <form id="myForm" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>" method="post">
 <?php
 	foreach ( $form_data as $key => $value ) {
-		echo '<div><p><label>' . esc_attr( $form_data[ $key ]['name'] ) . '</label></br>';
+		$required = isset( $form_data[ $key ]['required'] ) ? ' * required' : '';
+		echo '<div><p><label>' . esc_attr( $form_data[ $key ]['name'] ) .  $required . '</label></br>';
 		echo '<input type="text" pattern="[a-zA-Z0-9 ]+" name="' . esc_attr( $key ) . '" value="' . ( isset( $_POST[ $key ] ) ? esc_attr( $_POST[ $key ] ) : '' ) .'" tabindex="1" size="40"></p></div>';
 	}
 ?>

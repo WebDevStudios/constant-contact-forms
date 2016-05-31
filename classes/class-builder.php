@@ -50,7 +50,7 @@ class ConstantContact_Builder {
 		add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'options_metabox' ) );
-		add_action( 'cmb2_after_post_form__ctct_fields_metabox', array( $this, 'add_custom_css_for_metabox' ), 10, 2 );
+		add_action( 'cmb2_after_post_form_ctct_description_metabox', array( $this, 'add_custom_css_for_metabox' ), 10, 2 );
 
 	}
 
@@ -112,7 +112,7 @@ class ConstantContact_Builder {
 
 		// Default fields.
 		$default_group_field_id = $fields_metabox->add_field( array(
-			'id'		  => 'default_group',
+			'id'		  => 'fields_group',
 			'type'		=> 'group',
 			'repeatable'  => true,
 			'options'	 => array(
@@ -202,18 +202,18 @@ class ConstantContact_Builder {
 	public function add_custom_css_for_metabox( $post_id, $cmb ) {
 		?>
 		<style type="text/css" media="screen">
-			#default_group_repeat .cmb-row:not(:last-of-type) {
+
+			#ctct_fields_metabox .cmb-row {
 				border-bottom: none;
-			}
-			#default_group_repeat .cmb-row {
-				padding-bottom: 1px;
+				padding-bottom: 0.5em;
 			}
 
 			#ctct_options_metabox .cmb-row {
 				border-bottom: none;
 			}
 			#ctct_options_metabox .cmb2-id--ctct-opt-in,
-			#ctct_options_metabox .cmb2-id--ctct-list {
+			#ctct_options_metabox .cmb2-id--ctct-list,
+			#ctct_fields_metabox .cmb-remove-field-row {
 				border-top: 1px solid #e9e9e9;
 			}
 			#ctct_options_metabox .cmb2-id--ctct-list {

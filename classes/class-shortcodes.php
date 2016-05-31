@@ -87,41 +87,27 @@ class ConstantContact_Shortcodes {
 	/**
 	 * Proccess cmb2 options into form data array
 	 *
-	 * @param  array $form_meta raw form data.
+	 * @param  array $form_meta post meta.
 	 * @return array  form field data
 	 */
 	public function get_field_meta( $form_meta ) {
 
-		foreach ( $form_meta as $meta => $value ) {
-			if ( '_ctct_' !== substr( $meta, 0, 6 ) ) {
-				unset( $form_meta[ $meta ] );
-			}
+		if ( empty( $form_meta ) ) {
+			return false;
 		}
-		unset( $form_meta['_ctct_description'] );
 
-		// Move custom fields to end of array.
-		$custom_v = $form_meta['_ctct_custom'];
-		unset( $form_meta['_ctct_custom'] );
-		$form_meta['_ctct_custom'] = $custom_v ;
-
+		$form_data = maybe_unserialize( $form_meta['fields_group'][0] );
 		$fields = array();
-		$values = array();
 
-		$form = cmb2_get_metabox( 'fields_metabox' );
-		$fields = $form->meta_box['fields'];
+		foreach ( $form_data as $key => $value ) {
 
-		foreach ( $form_meta as $field => $value ) {
+			$fields[ $key ]['name'] = $form_data[ $key ]['_ctct_field_name'];
 
-			if ( '_ctct_custom' === $field ) {
-				$custom = maybe_unserialize( $form_meta['_ctct_custom'][0] );
-				foreach ( $custom as $field => $value ) {
-					$values[ '_ctct_custom' . '_' . $field ]['name'] = $custom[$field];
-				}
-			} else {
-				$values[ $field ]['name'] = $fields[ $field ]['name'];
+			if ( 'on' === $form_data[ $key ]['_ctct_required_field'] ) {
+				$fields[ $key ]['required'] = $form_data[ $key ]['_ctct_required_field'];
 			}
 		}
-		return $values;
+		return $fields;
 	}
 }
 
