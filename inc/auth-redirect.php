@@ -33,9 +33,6 @@ function constantcontact_rewrite_catch() {
 
 	if ( isset( $wp_query->query_vars['code'] ) && 'ctct' === $wp_query->query_vars['auth'] && ! is_admin() ) {
 
-		// Add auth token to options.
-		update_option( '_ctct_token', $wp_query->query_vars['code'] );
-
 		// Create a redirect back to connect page.
 		$path = add_query_arg( array(
 			'post_type' => 'ctct_forms',

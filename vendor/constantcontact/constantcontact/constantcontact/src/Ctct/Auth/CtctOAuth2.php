@@ -27,6 +27,9 @@ class CtctOAuth2
         $this->clientSecret = $clientSecret;
         $this->redirectUri = $redirectUri;
         $this->client = new Client();
+        if ( ! defined( 'ISSSL' ) ) {
+            $this->client->setDefaultOption( 'verify', false );
+        }
     }
 
     /**

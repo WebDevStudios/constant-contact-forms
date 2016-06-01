@@ -5,9 +5,9 @@ require_once  constant_contact()->dir() . 'vendor/constantcontact/constantcontac
 use Ctct\Auth\CtctOAuth2;
 use Ctct\Exceptions\OAuth2Exception;
 
-use Ctct\ConstantContact;
-use Ctct\Components\Contacts\Contact;
-use Ctct\Exceptions\CtctException;
+// use Ctct\ConstantContact;
+// use Ctct\Components\Contacts\Contact;
+// use Ctct\Exceptions\CtctException;
 
 // Enter your Constant Contact APIKEY and ACCESS_TOKEN
 define( 'APIKEY', '595r3d4q432c3mdv2jtd3nj9' );
@@ -63,6 +63,13 @@ class ConstantContact_Connect {
 	 * @var string
 	 */
 	public $error_message = '';
+
+	/**
+	 * Api access token
+	 *
+	 * @var string
+	 */
+	public $access_token = '';
 
 	/**
 	 * Holds an instance of the project
@@ -145,18 +152,40 @@ class ConstantContact_Connect {
 	 */
 	public function admin_page_display() {
 
-		$cc = new ConstantContact( APIKEY );
-
-		try {
-			$lists = $cc->accountService->getAccountInfo( $token );
-		} catch (CtctException $ex) {
-			foreach ($ex->getErrors() as $error) {
-				$this->error_message = $this->api_error_message( $error );
-			}
-			if ( ! isset( $lists ) ) {
-				$lists = null;
+		// If the 'code' query parameter is present in the uri, the code can exchanged for an access token
+		if ( isset($_GET['code'] ) ) {
+			try {
+				$response = $this->oauth->getAccessToken( $_GET['code'] );
+				$this->access_token = $response['access_token'];
+			} catch ( OAuth2Exception $ex ) {
+				echo '<span class="label label-important">OAuth2 Error!</span>';
+				echo '<div class="container alert-error"><pre class="failure-pre">';
+				echo 'Error: ' . htmlspecialchars( $ex->getMessage() ) . "\n";
+				echo "Error Details: \n";
+				echo htmlspecialchars( print_r( $ex->getErrors() ) );
+				echo '</pre></div>';
+				die();
 			}
 		}
+
+		// Add auth token to options.
+		if( $this->access_token ) {
+			update_option( '_ctct_token', $this->access_token );
+		}
+
+		// $cc = new ConstantContact( APIKEY );
+		//
+		// try {
+		// 	$lists = $cc->accountService->getAccountInfo( $this->access_token );
+		//
+		// } catch (CtctException $ex) {
+		// 	foreach ($ex->getErrors() as $error) {
+		// 		$this->error_message = $this->api_error_message( $error );
+		// 	}
+		// 	if ( ! isset( $lists ) ) {
+		// 		$lists = null;
+		// 	}
+		// }
 
 		?>
 		<style>
@@ -168,7 +197,7 @@ class ConstantContact_Connect {
 			max-width: 400px;
 		}
 		.ctct-description {
-			max-width: 400px;
+			max-width: 800px;
 		}
 		</style>
 		<script>
@@ -184,9 +213,9 @@ class ConstantContact_Connect {
 		</script>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
 
-			<?php constantcontact_api_error_message(); ?>
+			<?php constantcontact_api_error_message();?>
 
-			<?php if ( $token = constantcontact_get_api_token() ) : ?>
+			<?php if ( $this->access_token ) : ?>
 				<div class="message notice">
 					<p><?php esc_attr_e( 'Account connected to Constant Contact', constant_contact()->text_domain ); ?></p>
 					<?php echo $token; ?>
@@ -294,7 +323,8 @@ class ConstantContact_Connect {
 
 		switch( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
-				return __( 'Your API access token is invalid.', constant_contact()->text_domain );
+				$this->access_token = false;
+				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', constant_contact()->text_domain );
 			break;
 
 		}
@@ -340,7 +370,7 @@ function constantcontact_get_api_token() {
 
 function constantcontact_api_error_message( ) {
 
-	echo '<div class="message notice"><p>';
+	echo '<div class="message error notice"><p>';
 	echo ctct_connect_admin()->error_message;
 	echo '</p></div>';
 
