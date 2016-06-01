@@ -275,8 +275,16 @@ class Constant_Contact {
 			require_once  __DIR__ . '/classes/class-shortcodes.php';
 		}
 
+		if ( file_exists( __DIR__ . '/classes/class-lists.php' ) ) {
+			require_once  __DIR__ . '/classes/class-lists.php';
+		}
+
 		if ( file_exists( __DIR__ . '/classes/class-process-form.php' ) ) {
 			require_once  __DIR__ . '/classes/class-process-form.php';
+		}
+
+		if ( file_exists( __DIR__ . '/inc/auth-redirect.php' ) ) {
+			require_once  __DIR__ . '/inc/auth-redirect.php';
 		}
 
 		// Only load in admin.
@@ -284,10 +292,6 @@ class Constant_Contact {
 
 			if ( file_exists( __DIR__ . '/classes/class-admin.php' ) ) {
 				require_once  __DIR__ . '/classes/class-admin.php';
-			}
-
-			if ( file_exists( __DIR__ . '/inc/auth-redirect.php' ) ) {
-				require_once  __DIR__ . '/inc/auth-redirect.php';
 			}
 
 			if ( file_exists( __DIR__ . '/inc/admin/post-list-columns.php' ) ) {

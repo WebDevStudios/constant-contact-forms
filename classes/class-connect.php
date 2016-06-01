@@ -98,7 +98,7 @@ class ConstantContact_Connect {
 		register_setting( $this->key, $this->key );
 
 		// Instantiate the CtctOAuth2 class.
-		$this->oauth = new CtctOAuth2( '595r3d4q432c3mdv2jtd3nj9', 'XJ9H8n5m8fqt2WBpSk6E6dJm', get_site_url() . '/constantcontact/?auth=ctct' );
+		$this->oauth = new CtctOAuth2( '595r3d4q432c3mdv2jtd3nj9', 'XJ9H8n5m8fqt2WBpSk6E6dJm', get_site_url() . '/?auth=ctct' );
 	}
 
 	/**
@@ -154,14 +154,15 @@ class ConstantContact_Connect {
 		</script>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
 
-			<?php if ( constantcontact_get_api_token() ) : ?>
+			<?php if ( $token = constantcontact_get_api_token() ) : ?>
 				<div class="message notice">
 					<p><?php esc_attr_e( 'Account connected to Constant Contact', constant_contact()->text_domain ); ?></p>
+					<?php echo $token; ?>
 				</div>
 				<input type="button" class="button-primary" value="Disconnect">
 
 			<?php else : ?>
-				<img class="ctct-logo" src="<?php echo constant_contact()->url . '/assets/images/constant-contact-logo.png'?>">
+				<img class="ctct-logo" src="<?php echo constant_contact()->url . 'assets/images/constant-contact-logo.png'?>">
 				<p class="ctct-description">
 					Click the connect button and login or sign up to Constant Contact. By connecting, you authorize this plugin to access your account on Constant Contact.
 				</p>
@@ -169,6 +170,12 @@ class ConstantContact_Connect {
 					'save_button' => __( 'Connect to Constant Contact', constant_contact()->text_domain ),
 				) ); ?>
 			<?php endif; ?>
+
+			<?php
+				echo $_GET['auth'];
+				echo '</br>';
+				echo $_GET['code'];
+			 ?>
 		</div>
 		<?php
 	}
@@ -280,5 +287,6 @@ ctct_connect_admin();
  * @return string api token
  */
 function constantcontact_get_api_token() {
-	return false;
+	$token = get_option( '_ctct_token', false );
+	return $token;
 }
