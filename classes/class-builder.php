@@ -190,6 +190,13 @@ class ConstantContact_Builder {
 			'type' => 'checkbox',
 		) );
 
+		$options_metabox->add_field( array(
+			'name' => __( 'Opt In Instructions', constant_contact()->text_domain ),
+			'id'   => $prefix . 'opt_in_instructions',
+			'description' => __( 'Add Opt In instructions.', constant_contact()->text_domain ),
+			'type' => 'textarea_small',
+		) );
+
 	}
 
 

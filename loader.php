@@ -445,7 +445,7 @@ class Constant_Contact {
 		$twitterStatus = sprintf( __( 'Check out the official WordPress plugin from @constantcontact', 'constantcontact' ), $this->plugin_name );
 
 		array_push( $links, '<a title="'. __( 'Be a better marketer. All it takes is Constant Contact email marketing.', 'constantcontact' ). '" href="'. $siteLink. '" target="_blank">constantcontact.com</a>' );
-		array_push( $links, '<a title="'. __( 'Spread the word!', 'constantcontact' ). '" href="https://www.facebook.com/sharer/sharer.php?u='. urlencode( $siteLink ). '" target="_blank" class="dashicons-before dashicons-facebook-alt"></a>' );
+		array_push( $links, '<a title="'. __( 'Spread the word!', 'constantcontact' ). '" href="https://www.facebook.com/sharer/sharer.php?u='. urlencode( $siteLink ). '" target="_blank" class="dashicons-before dashicons-facebook"></a>' );
 		array_push( $links, '<a title="'. __( 'Spread the word!', 'constantcontact' ). '" href="https://twitter.com/home?status='. urlencode( $twitterStatus ). '" target="_blank" class="dashicons-before dashicons-twitter"></a>' );
 		array_push( $links, '<a title="'. __( 'Spread the word!', 'constantcontact' ). '" href="https://plus.google.com/share?url='. urlencode( $siteLink ). '" target="_blank" class="dashicons-before dashicons-googleplus"></a>' );
 
