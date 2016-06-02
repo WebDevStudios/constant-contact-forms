@@ -2,16 +2,13 @@
 
 require_once  constant_contact()->dir() . 'vendor/constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php';
 
+use Ctct\ConstantContact;
 use Ctct\Auth\CtctOAuth2;
 use Ctct\Exceptions\OAuth2Exception;
 
-// use Ctct\ConstantContact;
-// use Ctct\Components\Contacts\Contact;
-// use Ctct\Exceptions\CtctException;
-
 // Enter your Constant Contact APIKEY and ACCESS_TOKEN
 define( 'APIKEY', '595r3d4q432c3mdv2jtd3nj9' );
-define( 'ACCESS_TOKEN', 'XJ9H8n5m8fqt2WBpSk6E6dJm' );
+define( 'SECRETKEY', 'XJ9H8n5m8fqt2WBpSk6E6dJm' );
 
 /**
  * ConstantContact_Connect
@@ -122,7 +119,7 @@ class ConstantContact_Connect {
 		register_setting( $this->key, $this->key );
 
 		// Instantiate the CtctOAuth2 class.
-		$this->oauth = new CtctOAuth2( APIKEY, ACCESS_TOKEN, get_site_url() . '/?auth=ctct' );
+		$this->oauth = new CtctOAuth2( APIKEY, SECRETKEY, get_site_url() . '/?auth=ctct' );
 	}
 
 	/**
@@ -173,20 +170,6 @@ class ConstantContact_Connect {
 			update_option( '_ctct_token', $this->access_token );
 		}
 
-		// $cc = new ConstantContact( APIKEY );
-		//
-		// try {
-		// 	$lists = $cc->accountService->getAccountInfo( $this->access_token );
-		//
-		// } catch (CtctException $ex) {
-		// 	foreach ($ex->getErrors() as $error) {
-		// 		$this->error_message = $this->api_error_message( $error );
-		// 	}
-		// 	if ( ! isset( $lists ) ) {
-		// 		$lists = null;
-		// 	}
-		// }
-
 		?>
 		<style>
 		.wp-core-ui .button-primary {
@@ -213,17 +196,22 @@ class ConstantContact_Connect {
 		</script>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
 
-			<?php constantcontact_api_error_message();?>
+			<img class="ctct-logo" src="<?php echo constant_contact()->url . 'assets/images/constant-contact-logo.png'?>">
 
-			<?php if ( $this->access_token ) : ?>
+			<?php constantcontact_api_error_message(); ?>
+
+			<?php if ( $token = constantcontact_get_api_token() ) : ?>
 				<div class="message notice">
-					<p><?php esc_attr_e( 'Account connected to Constant Contact', constant_contact()->text_domain ); ?></p>
-					<?php echo $token; ?>
+					<p>
+						<?php esc_attr_e( 'Account connected to Constant Contact. ', constant_contact()->text_domain ); ?>
+					</br></br>Access Token: <?php echo $token ?>
+						<?php constant_contact_account_info( $token ); ?>
+					</p>
+
 				</div>
 				<input type="button" class="button-primary ctct-disconnect" value="Disconnect">
 
 			<?php else : ?>
-				<img class="ctct-logo" src="<?php echo constant_contact()->url . 'assets/images/constant-contact-logo.png'?>">
 				<p class="ctct-description">
 					Click the connect button and login or sign up to Constant Contact. By connecting, you authorize this plugin to access your account on Constant Contact.
 				</p>
@@ -273,8 +261,7 @@ class ConstantContact_Connect {
 		if ( $object_id !== $this->key || empty( $updated ) ) {
 			return;
 		}
-
-		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', 'myprefix' ), 'updated' );
+		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', constant_contact()->text_domain ), 'updated' );
 		settings_errors( $this->key . '-notices' );
 	}
 
@@ -308,7 +295,6 @@ class ConstantContact_Connect {
 		if ( in_array( $field, array( 'key', 'metabox_id', 'title', 'options_page' ), true ) ) {
 			return $this->{$field};
 		}
-
 		throw new Exception( 'Invalid property: ' . $field );
 	}
 
@@ -369,9 +355,31 @@ function constantcontact_get_api_token() {
 }
 
 function constantcontact_api_error_message( ) {
+	if ( $message = ctct_connect_admin()->error_message ) {
+		echo '<div class="message error notice"><p>';
+		echo ctct_connect_admin()->error_message;
+		echo '</p></div>';
+	}
+}
 
-	echo '<div class="message error notice"><p>';
-	echo ctct_connect_admin()->error_message;
-	echo '</p></div>';
 
+function constant_contact_account_info( $token ) {
+
+	$cc = new ConstantContact(APIKEY);
+
+	//$contacts = $cc->contactService->getContacts( $token );
+
+	try {
+		$lists = $cc->accountService->getAccountInfo( $token );
+
+	} catch (CtctException $ex) {
+		foreach ($ex->getErrors() as $error) {
+			var_dump( $error );
+		}
+		if ( ! isset( $lists ) ) {
+			$lists = null;
+		}
+	}
+
+	var_dump( $lists );
 }
