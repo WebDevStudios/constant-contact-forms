@@ -59,6 +59,10 @@ function constant_contact_autoload_classes( $class_name ) {
 }
 spl_autoload_register( 'constant_contact_autoload_classes' );
 
+// Enter your Constant Contact APIKEY and ACCESS_TOKEN
+define( 'APIKEY', '595r3d4q432c3mdv2jtd3nj9' );
+define( 'SECRETKEY', 'XJ9H8n5m8fqt2WBpSk6E6dJm' );
+
 /**
  * Main initiation class
  *
@@ -289,6 +293,10 @@ class Constant_Contact {
 
 		if ( file_exists( __DIR__ . '/inc/auth-redirect.php' ) ) {
 			require_once  __DIR__ . '/inc/auth-redirect.php';
+		}
+
+		if ( file_exists( __DIR__ . '/classes/class-api.php' ) ) {
+			require_once  __DIR__ . '/classes/class-api.php';
 		}
 
 		// Only load in admin.

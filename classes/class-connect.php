@@ -6,10 +6,6 @@ use Ctct\ConstantContact;
 use Ctct\Auth\CtctOAuth2;
 use Ctct\Exceptions\OAuth2Exception;
 
-// Enter your Constant Contact APIKEY and ACCESS_TOKEN
-define( 'APIKEY', '595r3d4q432c3mdv2jtd3nj9' );
-define( 'SECRETKEY', 'XJ9H8n5m8fqt2WBpSk6E6dJm' );
-
 /**
  * ConstantContact_Connect
  *
@@ -198,14 +194,14 @@ class ConstantContact_Connect {
 
 			<img class="ctct-logo" src="<?php echo constant_contact()->url . 'assets/images/constant-contact-logo.png'?>">
 
-			<?php constantcontact_api_error_message(); ?>
+			<?php constantcontact_connect_error_message(); ?>
 
-			<?php if ( $token = constantcontact_get_api_token() ) : ?>
+			<?php if ( $token = constantcontact_api()->get_api_token() ) : ?>
 				<div class="message notice">
 					<p>
 						<?php esc_attr_e( 'Account connected to Constant Contact. ', constant_contact()->text_domain ); ?>
 					</br></br>Access Token: <?php echo $token ?>
-						<?php constant_contact_account_info( $token ); ?>
+					<?php constantcontact_api_data(); ?>
 					</p>
 
 				</div>
@@ -343,43 +339,11 @@ function ctct_get_connect_option( $key = '' ) {
 // Get it started.
 ctct_connect_admin();
 
-/**
- * Returns api token string to access api
- *
- * @since  1.0.0
- * @return string api token
- */
-function constantcontact_get_api_token() {
-	$token = get_option( '_ctct_token', false );
-	return $token;
-}
 
-function constantcontact_api_error_message( ) {
+function constantcontact_connect_error_message( ) {
 	if ( $message = ctct_connect_admin()->error_message ) {
 		echo '<div class="message error notice"><p>';
 		echo ctct_connect_admin()->error_message;
 		echo '</p></div>';
 	}
-}
-
-
-function constant_contact_account_info( $token ) {
-
-	$cc = new ConstantContact(APIKEY);
-
-	//$contacts = $cc->contactService->getContacts( $token );
-
-	try {
-		$lists = $cc->accountService->getAccountInfo( $token );
-
-	} catch (CtctException $ex) {
-		foreach ($ex->getErrors() as $error) {
-			var_dump( $error );
-		}
-		if ( ! isset( $lists ) ) {
-			$lists = null;
-		}
-	}
-
-	var_dump( $lists );
 }
