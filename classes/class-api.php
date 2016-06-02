@@ -1,9 +1,4 @@
 <?php
-require_once  constant_contact()->dir() . 'vendor/constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php';
-
-use Ctct\ConstantContact;
-use Ctct\Exceptions\CtctException;
-
 /**
  * ConstantContact_API class
  *
@@ -12,6 +7,11 @@ use Ctct\Exceptions\CtctException;
  * @author Pluginize
  * @since 1.0.0
  */
+
+require_once  constant_contact()->dir() . 'vendor/constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php';
+
+use Ctct\ConstantContact;
+use Ctct\Exceptions\CtctException;
 
 /**
  * Class ConstantContact_API
@@ -81,7 +81,7 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		$this->cc = new ConstantContact( APIKEY );
+		$this->cc = new ConstantContact( CTCT_APIKEY );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class ConstantContact_API {
 	 * Contacts of the connected CTCT account
 	 *
 	 * @since  1.0.0
-	 * @return array current connect ctct account contacts list
+	 * @return array current connect ctct account contacts
 	 */
 	public function get_contacts() {
 
@@ -138,6 +138,29 @@ class ConstantContact_API {
 		}
 
 		return $contacts;
+	}
+
+	/**
+	 * Lists of the connected CTCT account
+	 *
+	 * @since  1.0.0
+	 * @return array current connect ctct lists
+	 */
+	public function get_lists() {
+
+		try {
+			$lists = $this->cc->listService->getLists( $this->token );
+
+		} catch ( CtctException $ex ) {
+			foreach ( $ex->getErrors() as $error ) {
+				return $error;
+			}
+			if ( ! isset( $lists ) ) {
+				$lists = null;
+			}
+		}
+
+		return $lists;
 	}
 
 }
@@ -161,4 +184,5 @@ constantcontact_api();
 function constantcontact_api_data() {
 	var_dump( constantcontact_api()->get_account_info() );
 	var_dump( constantcontact_api()->get_contacts() );
+	var_dump( constantcontact_api()->get_lists() );
 }

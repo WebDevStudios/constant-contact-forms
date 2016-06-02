@@ -59,9 +59,9 @@ function constant_contact_autoload_classes( $class_name ) {
 }
 spl_autoload_register( 'constant_contact_autoload_classes' );
 
-// Enter your Constant Contact APIKEY and ACCESS_TOKEN
-define( 'APIKEY', '595r3d4q432c3mdv2jtd3nj9' );
-define( 'SECRETKEY', 'XJ9H8n5m8fqt2WBpSk6E6dJm' );
+// Constant Contact APIKEY and ACCESS_TOKEN
+define( 'CTCT_APIKEY', '595r3d4q432c3mdv2jtd3nj9' );
+define( 'CTCT_SECRETKEY', 'XJ9H8n5m8fqt2WBpSk6E6dJm' );
 
 /**
  * Main initiation class

@@ -1,4 +1,11 @@
 <?php
+/**
+ * ConstantContact_Connect
+ *
+ * @package ConstantContactConnect
+ * @author Pluginize
+ * @since 1.0.0
+ */
 
 require_once  constant_contact()->dir() . 'vendor/constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php';
 
@@ -7,17 +14,13 @@ use Ctct\Auth\CtctOAuth2;
 use Ctct\Exceptions\OAuth2Exception;
 
 /**
- * ConstantContact_Connect
- *
- * @package ConstantContactConnect
- * @author Pluginize
- * @since 1.0.0
+ * Class ConstantContact_Connect
  */
 class ConstantContact_Connect {
 
 	/**
 	 * Option key, and option page slug
- 	 *
+	 *
 	 * @var string
 	 */
 	private $key = 'ctct_options_connect';
@@ -100,11 +103,6 @@ class ConstantContact_Connect {
 		add_action( 'admin_init', array( $this, 'init' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'add_options_page_metabox' ) );
-
-		// Override CMB's getter
-		add_filter( 'cmb2_override_option_get_'. $this->key, array( $this, 'get_override' ), 10, 2 );
-		// Override CMB's setter
-		add_filter( 'cmb2_override_option_save_'. $this->key, array( $this, 'update_override' ), 10, 2 );
 	}
 
 	/**
@@ -115,7 +113,7 @@ class ConstantContact_Connect {
 		register_setting( $this->key, $this->key );
 
 		// Instantiate the CtctOAuth2 class.
-		$this->oauth = new CtctOAuth2( APIKEY, SECRETKEY, get_site_url() . '/?auth=ctct' );
+		$this->oauth = new CtctOAuth2( CTCT_APIKEY, CTCT_SECRETKEY, get_site_url() . '/?auth=ctct' );
 	}
 
 	/**
@@ -197,6 +195,7 @@ class ConstantContact_Connect {
 			<?php constantcontact_connect_error_message(); ?>
 
 			<?php if ( $token = constantcontact_api()->get_api_token() ) : ?>
+
 				<div class="message notice">
 					<p>
 						<?php esc_attr_e( 'Account connected to Constant Contact. ', constant_contact()->text_domain ); ?>
@@ -223,13 +222,14 @@ class ConstantContact_Connect {
 
 	/**
 	 * Add the options metabox to the array of metaboxes
+	 *
 	 * @since  1.0.0
 	 */
 	function add_options_page_metabox() {
 
 		$prefix = 'ctct_connect';
 
-		// hook in our save notices
+		// Hook in our save notices.
 		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", array( $this, 'settings_notices' ), 10, 2 );
 
 		$cmb = new_cmb2_box( array(
@@ -237,9 +237,9 @@ class ConstantContact_Connect {
 			'hookup'	 => false,
 			'cmb_styles' => false,
 			'show_on'	=> array(
-				// These are important, don't remove
+			// These are important, don't remove.
 				'key'   => 'options-page',
-				'value' => array( $this->key, )
+			'value' => array( $this->key ),
 			),
 		) );
 
@@ -259,24 +259,6 @@ class ConstantContact_Connect {
 		}
 		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', constant_contact()->text_domain ), 'updated' );
 		settings_errors( $this->key . '-notices' );
-	}
-
-	/**
-	 * Replaces get_option with get_site_option
-	 *
-	 * @since  1.0.0
-	 */
-	public function get_override( $test, $default = false ) {
-		return get_site_option( $this->key, $default );
-	}
-
-	/**
-	 * Replaces update_option with update_site_option
-	 *
-	 * @since  1.0.0
-	 */
-	public function update_override( $test, $option_value ) {
-		return update_site_option( $this->key, $option_value );
 	}
 
 	/**
