@@ -8,9 +8,11 @@
  * @since 1.0.0
  */
 
-require_once  constant_contact()->dir() . 'vendor/constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php';
+require_once constant_contact()->dir() . 'vendor/constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php';
 
 use Ctct\ConstantContact;
+use Ctct\Components\Contacts\Contact;
+use Ctct\Components\Contacts\ContactList;
 use Ctct\Exceptions\CtctException;
 
 /**
@@ -163,6 +165,114 @@ class ConstantContact_API {
 		return $lists;
 	}
 
+
+	/**
+	 * Add List to the connected CTCT account
+	 *
+	 * @since  1.0.0
+	 * @return array current connect ctct lists
+	 */
+	public function add_list( $new_list = array() ) {
+
+		if ( empty( $new_list ) ) { return null; }
+
+		try {
+			$list = $this->cc->listService->getList( $this->token, $new_list['id'] );
+			return $List;
+		} catch ( CtctException $ex ) {
+			foreach ( $ex->getErrors() as $error ) {
+				//return $error;
+			}
+		}
+
+		if ( ! isset( $list ) ) {
+
+			try {
+				$list = new ContactList();
+				$list->id = '234567';
+				$list->name = $new_list['name'];
+				$list->status = 'HIDDEN';
+				$returnList = $this->cc->listService->addList( $this->token, $list );
+			} catch ( CtctException $ex ) {
+				foreach ( $ex->getErrors() as $error ) {
+					return $error;
+				}
+			}
+		}
+		return $returnList;
+
+
+	}
+
+	/**
+	 * Add constact to the connected CTCT account
+	 *
+	 * @since  1.0.0
+	 * @param array $new_contact New contact data.
+	 * @return array current connect ctct lists
+	 */
+	public function add_contact( $new_contact = array() ) {
+
+		if ( empty( $new_contact ) ) { return null; }
+
+		try {
+	        // check to see if a contact with the email address already exists in the account
+	        $response = $this->cc->contactService->getContacts( $this->token, array("email" => $new_contact['email'] ) );
+
+	        // create a new contact if one does not exist
+	        if ( empty( $response->results ) ) {
+	            $action = "Creating Contact";
+
+	            $contact = new Contact();
+	            $contact->addEmail($new_contact['email']);
+	            $contact->addList($new_contact['list']);
+	            $contact->first_name = $new_contact['first_name'];
+	            $contact->last_name = $new_contact['last_name'];
+
+	            /*
+	             * The third parameter of addContact defaults to false, but if this were set to true it would tell Constant
+	             * Contact that this action is being performed by the contact themselves, and gives the ability to
+	             * opt contacts back in and trigger Welcome/Change-of-interest emails.
+	             *
+	             * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
+	             */
+	            $returnContact = $this->cc->contactService->addContact( $this->token, $contact );
+
+	            // update the existing contact if address already existed
+	        } else {
+	            $action = "Updating Contact";
+	            $contact = $response->results[0];
+	            if ( $contact instanceof Contact ) {
+	                //$contact->addList($new_contact['list']);
+	                $contact->first_name = $new_contact['first_name'];
+	                $contact->last_name = $new_contact['last_name'];
+
+	                /*
+	                 * The third parameter of updateContact defaults to false, but if this were set to true it would tell
+	                 * Constant Contact that this action is being performed by the contact themselves, and gives the ability to
+	                 * opt contacts back in and trigger Welcome/Change-of-interest emails.
+	                 *
+	                 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
+	                 */
+	                $returnContact = $this->cc->contactService->updateContact( $this->token, $contact );
+	            } else {
+	                $e = new CtctException();
+	                $e->setErrors(array("type", "Contact type not returned"));
+	                throw $e;
+	            }
+	        }
+
+		} catch ( CtctException $ex ) {
+			foreach ( $ex->getErrors() as $error ) {
+				return $error;
+			}
+			if ( ! isset( $returnContact ) ) {
+				$returnContact = null;
+			}
+		}
+		return $returnContact;
+	}
+
 }
 
 /**
@@ -182,7 +292,23 @@ constantcontact_api();
 
 // testing api data
 function constantcontact_api_data() {
-	var_dump( constantcontact_api()->get_account_info() );
-	var_dump( constantcontact_api()->get_contacts() );
-	var_dump( constantcontact_api()->get_lists() );
+	// var_dump( constantcontact_api()->get_account_info() );
+	// var_dump( constantcontact_api()->get_contacts() );
+	//var_dump( constantcontact_api()->get_lists() );
+
+	var_dump( constantcontact_api()->add_list(
+		array(
+			'id' => '234567',
+			'name' => 'Test List',
+		)
+	) );
+
+	//  var_dump( constantcontact_api()->add_contact(
+	// 	 array(
+	// 		 'email' => 'cgriswald@wallyworld.com',
+	// 		 'list' => '',
+	// 		 'first_name' => 'Clark W.',
+	// 		 'last_name' => 'Griswald',
+	// 	 )
+	//  ) );
 }

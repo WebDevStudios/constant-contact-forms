@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 
-require_once  constant_contact()->dir() . 'vendor/constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php';
+require_once constant_contact()->dir() . 'vendor/constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php';
 
 use Ctct\ConstantContact;
 use Ctct\Auth\CtctOAuth2;
