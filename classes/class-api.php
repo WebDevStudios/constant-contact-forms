@@ -95,6 +95,7 @@ class ConstantContact_API {
 	public function get_api_token() {
 		$this->token = get_option( '_ctct_token', false );
 		return $this->token;
+
 	}
 
 	/**
@@ -108,6 +109,7 @@ class ConstantContact_API {
 		try {
 			$account = $this->cc->accountService->getAccountInfo( $this->token );
 		} catch ( CtctException $ex ) {
+
 			foreach ( $ex->getErrors() as $error ) {
 				return $error;
 			}
@@ -273,6 +275,28 @@ class ConstantContact_API {
 		return $returnContact;
 	}
 
+	/**
+	 * Process api error response
+	 *
+	 * @since  1.0.0
+	 * @param  array $error api error repsonse
+	 * @return void
+	 */
+	private function api_error_message( $error ) {
+
+		switch( $error->error_key ) {
+			case 'http.status.authentication.invalid_token':
+				$this->access_token = false;
+				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', constant_contact()->text_domain );
+			break;
+			default:
+			 return false;
+			break;
+
+		}
+
+	}
+
 }
 
 /**
@@ -292,16 +316,16 @@ constantcontact_api();
 
 // testing api data
 function constantcontact_api_data() {
-	// var_dump( constantcontact_api()->get_account_info() );
+	//var_dump( constantcontact_api()->get_account_info() );
 	// var_dump( constantcontact_api()->get_contacts() );
 	//var_dump( constantcontact_api()->get_lists() );
 
-	var_dump( constantcontact_api()->add_list(
-		array(
-			'id' => '234567',
-			'name' => 'Test List',
-		)
-	) );
+	// var_dump( constantcontact_api()->add_list(
+	// 	array(
+	// 		'id' => '234567',
+	// 		'name' => 'Test List',
+	// 	)
+	// ) );
 
 	//  var_dump( constantcontact_api()->add_contact(
 	// 	 array(
