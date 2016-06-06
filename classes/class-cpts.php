@@ -182,6 +182,8 @@ class ConstantContact_CPTS {
 	 */
 	public function post_updated_messages( $messages ) {
 
+		global $post;
+
 		$messages['ctct_lists'] = array(
 			0 => '', // Unused. Messages start at index 1.
 			1 => __( 'List updated.' ),
