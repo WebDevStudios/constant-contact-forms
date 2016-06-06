@@ -41,13 +41,6 @@ class ConstantContact_Connect {
 	public $error_message = '';
 
 	/**
-	 * Api access token
-	 *
-	 * @var string
-	 */
-	private $access_token = '';
-
-	/**
 	 * Page Url
 	 *
 	 * @var string
@@ -99,8 +92,8 @@ class ConstantContact_Connect {
 		$path = add_query_arg( array(
 			'post_type' => 'ctct_forms',
 			'page' => 'ctct_options_connect',
-		) );
-		$this->redirect_url = admin_url( 'edit.php' . $path );
+		), admin_url( 'edit.php' ) );
+		$this->redirect_url = $path;
 
 		// Instantiate the CtctOAuth2 class.
 		$this->oauth = new CtctOAuth2( CTCT_APIKEY, CTCT_SECRETKEY, get_site_url() . '/?auth=ctct' );
@@ -131,24 +124,26 @@ class ConstantContact_Connect {
 	 */
 	public function admin_page_display() {
 
+		$access_token = false;
+
 		// If the 'code' query parameter is present in the uri, the code can exchanged for an access token
-		if ( isset($_GET['code'] ) ) {
+		if ( isset( $_GET['code'] ) ) {
 			try {
 				$response = $this->oauth->getAccessToken( $_GET['code'] );
-				$this->access_token = $response['access_token'];
+				$access_token = $response['access_token'];
 			} catch ( OAuth2Exception $ex ) {
 				foreach ( $ex->getErrors() as $error ) {
 					return $this->api_error_message( $error );
 				}
-				if ( ! isset( $this->access_token ) ) {
-					$this->access_token = null;
+				if ( ! isset( $access_token ) ) {
+					$access_token = null;
 				}
 			}
 		}
 
 		// Add auth token to options.
-		if( $this->access_token ) {
-			update_option( '_ctct_token', $this->secure_token( $this->access_token ) );
+		if( $access_token ) {
+			$this->secure_token( $access_token );
 		}
 
 		?>
@@ -175,7 +170,7 @@ class ConstantContact_Connect {
 					$( '.ctct-disconnect' ).on( 'click', function(e) {
 						var disconnect = confirm('<? _e( 'Are you sure you want to disconnect?', constant_contact()->text_domain ); ?>');
 						if (disconnect) {
-						    window.location.href = '<?php echo esc_url_raw( $this->redirect_url . '&ctct-disconnect=true' ); ?>';
+						    window.location.href = '<?php echo $this->redirect_url . '&ctct-disconnect=true'; ?>';
 						}
 					});
 				});
@@ -203,9 +198,7 @@ class ConstantContact_Connect {
 				</p>
 				<input type="button" class="button-primary ctct-connect" value="<?php esc_attr_e( 'Connect to Constant Contact', constant_contact()->text_domain ); ?>" >
 			<?php endif; ?>
-
-			<?php echo $this->secure_token( '' ); ?>
-
+			<?php echo get_option( '_ctct_token' ); ?>
 		</div>
 		<?php
 
@@ -226,6 +219,7 @@ class ConstantContact_Connect {
 
 			// Delete access token.
 			delete_option( '_ctct_token' );
+			delete_option( '_ctct_access_salt' );
 
 			// Create a redirect back to connect page.
 			wp_safe_redirect( remove_query_arg( array( 'ctct-disconnect', 'code', 'auth', 'username' ), $this->redirect_url ) );
@@ -243,11 +237,23 @@ class ConstantContact_Connect {
 	 */
 	private function secure_token( $access_token ) {
 
+		print( $access_token );
+
 		$admin_email = get_option( 'admin_email' );
 		$rand = substr( md5( rand() ), 0, 37 );
-		$hashed = wp_hash_password( $admin_email . time() . $rand );
+		$salt = substr( wp_hash_password( $admin_email . time() . $rand ), 0, 15 );
 
-		return $hashed;
+		update_option( '_ctct_access_salt', $salt );
+
+		$encrypt = new Encryption( $salt );
+		$hashed = $encrypt->encrypt( $access_token );
+
+		var_dump( $encrypt );
+		print( utf8_decode( $hashed ) );
+
+		update_option( '_ctct_token', $hashed );
+
+
 
 	}
 
@@ -263,7 +269,6 @@ class ConstantContact_Connect {
 
 		switch( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
-				$this->access_token = false;
 				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', constant_contact()->text_domain );
 			break;
 			default:

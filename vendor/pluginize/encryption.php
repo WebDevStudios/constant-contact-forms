@@ -70,7 +70,7 @@ class Encryption {
 	* @return string - Encrypted value
 	**/
 	function encrypt($s) {
-		$s = serialize($s);
+		//$s = serialize($s);
 		$value = NULL;
 		// Check key. If key is NULL alert user and die
 		if($this->key !== NULL) {
