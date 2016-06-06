@@ -1,7 +1,7 @@
 <?php
 /**
  * CMB2 Network Settings
- * @version 0.1.0
+ * @version 1.0.0
  */
 class ConstantContact_Settings {
 
@@ -38,7 +38,7 @@ class ConstantContact_Settings {
 
 	/**
 	 * Constructor
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	private function __construct() {
 	}
@@ -58,7 +58,7 @@ class ConstantContact_Settings {
 
 	/**
 	 * Initiate our hooks
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	public function hooks() {
 		add_action( 'admin_init', array( $this, 'init' ) );
@@ -73,7 +73,7 @@ class ConstantContact_Settings {
 
 	/**
 	 * Register our setting to WP
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	public function init() {
 		register_setting( $this->key, $this->key );
@@ -81,18 +81,18 @@ class ConstantContact_Settings {
 
 	/**
 	 * Add menu options page
-	 * @since 0.1.0
+	 * @since 1.0.0
 	 */
 	public function add_options_page() {
 
-        $this->options_page = add_submenu_page(
-            'edit.php?post_type=ctct_forms',
-            __( 'Settings', constant_contact()->text_domain ),
-            __( 'Settings', constant_contact()->text_domain ),
-            'manage_options',
-            $this->key,
-            array( $this, 'admin_page_display' )
-        );
+		$this->options_page = add_submenu_page(
+			'edit.php?post_type=ctct_forms',
+			__( 'Settings', constant_contact()->text_domain ),
+			__( 'Settings', constant_contact()->text_domain ),
+			'manage_options',
+			$this->key,
+			array( $this, 'admin_page_display' )
+		);
 
 		// add_action( "admin_head-{$this->options_page}", array( $this, 'enqueue_js' ) );
 		// Include CMB CSS in the head to avoid FOUC
@@ -101,12 +101,12 @@ class ConstantContact_Settings {
 
 	/**
 	 * Admin page markup. Mostly handled by CMB2
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	public function admin_page_display() {
 		?>
 		<div class="wrap cmb2-options-page <?php echo $this->key; ?>">
-			<h2><?php esc_attr_e( constant_contact()->plugin_name . ' Settings', constant_contact()->text_domain ); ?></h2>
+			<h2><?php esc_attr_e( ' Settings', constant_contact()->text_domain ); ?></h2>
 			<?php cmb2_metabox_form( $this->metabox_id, $this->key ); ?>
 		</div>
 		<?php
@@ -114,7 +114,7 @@ class ConstantContact_Settings {
 
 	/**
 	 * Add the options metabox to the array of metaboxes
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	function add_options_page_metabox() {
 
@@ -122,32 +122,46 @@ class ConstantContact_Settings {
 		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", array( $this, 'settings_notices' ), 10, 2 );
 
 		$cmb = new_cmb2_box( array(
-			'id'         => $this->metabox_id,
-			'hookup'     => false,
+			'id'		 => $this->metabox_id,
+			'hookup'	 => false,
 			'cmb_styles' => false,
-			'show_on'    => array(
+			'show_on'	=> array(
 				// These are important, don't remove
 				'key'   => 'options-page',
 				'value' => array( $this->key, )
 			),
 		) );
 
-		// Set our CMB2 fields
+		$option_options = array(
+			'comment_form' => __( 'Comment Form', constant_contact()->text_domain ),
+			'login_form' => __( 'Login Form', constant_contact()->text_domain ),
+		);
 
+		if ( get_option( 'users_can_register' ) ) {
+			$option_options['reg_form'] = __( 'Registration Form', constant_contact()->text_domain );
+		}
+
+		// Set our CMB2 fields
 		$cmb->add_field( array(
-			'name' => __( 'Test Text', 'myprefix' ),
-			'desc' => __( 'field description (optional)', 'myprefix' ),
-			'id'   => 'test_text',
-			'type' => 'text',
-			'default' => 'Default Text',
+			'name' 	=> __( 'Opt In', 'myprefix' ),
+			'desc' 	=> __( 'Add opt in checkbox to selected forms.', constant_contact()->text_domain ),
+			'id'   	=> '_ctct_optin_forms',
+			'type'	=> 'multicheck',
+			'options' => $option_options,
 		) );
 
 		$cmb->add_field( array(
-			'name'    => __( 'Test Color Picker', 'myprefix' ),
-			'desc'    => __( 'field description (optional)', 'myprefix' ),
-			'id'      => 'test_colorpicker',
-			'type'    => 'colorpicker',
-			'default' => '#bada55',
+			'name' 	=> __( 'Opt In List', 'myprefix' ),
+			'desc' 	=> __( 'Choose list to add opt in subsciptions.', constant_contact()->text_domain ),
+			'id'   	=> '_ctct_optin_list',
+			'type'	=> 'select',
+			'show_option_none' => true,
+			'default'		  => 'none',
+			'options'		  => array(
+				'standard' 	=> __( 'Option One', constant_contact()->text_domain ),
+				'custom'   	=> __( 'Option Two', constant_contact()->text_domain ),
+				'three'	 	=> __( 'Option Three', constant_contact()->text_domain ),
+			),
 		) );
 
 	}
@@ -155,7 +169,7 @@ class ConstantContact_Settings {
 	/**
 	 * Register settings notices for display
 	 *
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @param  int   $object_id Option key
 	 * @param  array $updated   Array of updated fields
 	 * @return void
@@ -165,13 +179,13 @@ class ConstantContact_Settings {
 			return;
 		}
 
-		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', 'myprefix' ), 'updated' );
+		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', constant_contact()->text_domain ), 'updated' );
 		settings_errors( $this->key . '-notices' );
 	}
 
 	/**
 	 * Replaces get_option with get_site_option
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	public function get_override( $test, $default = false ) {
 		return get_site_option( $this->key, $default );
@@ -179,7 +193,7 @@ class ConstantContact_Settings {
 
 	/**
 	 * Replaces update_option with update_site_option
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 */
 	public function update_override( $test, $option_value ) {
 		return update_site_option( $this->key, $option_value );
@@ -187,9 +201,9 @@ class ConstantContact_Settings {
 
 	/**
 	 * Public getter method for retrieving protected/private variables
-	 * @since  0.1.0
+	 * @since  1.0.0
 	 * @param  string  $field Field to retrieve
-	 * @return mixed          Field value or exception is thrown
+	 * @return mixed		  Field value or exception is thrown
 	 */
 	public function __get( $field ) {
 		// Allowed fields to retrieve
@@ -204,7 +218,7 @@ class ConstantContact_Settings {
 
 /**
  * Helper function to get/return the Myprefix_Network_Admin object
- * @since  0.1.0
+ * @since  1.0.0
  * @return Myprefix_Network_Admin object
  */
 function ctct_settings_admin() {
@@ -213,9 +227,9 @@ function ctct_settings_admin() {
 
 /**
  * Wrapper function around cmb2_get_option
- * @since  0.1.0
+ * @since  1.0.0
  * @param  string  $key Options array key
- * @return mixed        Option value
+ * @return mixed		Option value
  */
 function ctct_get_settings_option( $key = '' ) {
 	return cmb2_get_option( myprefix_admin()->key, $key );
