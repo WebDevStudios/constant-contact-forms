@@ -8,7 +8,6 @@
  */
 
 require_once constant_contact()->dir() . 'vendor/constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php';
-require_once constant_contact()->dir() . 'vendor/pluginize/encryption.php';
 
 use Ctct\ConstantContact;
 use Ctct\Auth\CtctOAuth2;
@@ -141,7 +140,7 @@ class ConstantContact_Connect {
 			}
 		}
 
-		// Add auth token to options.
+		// Save auth token to options.
 		if( $access_token ) {
 			$this->secure_token( $access_token );
 		}
@@ -237,23 +236,7 @@ class ConstantContact_Connect {
 	 */
 	private function secure_token( $access_token ) {
 
-		print( $access_token );
-
-		$admin_email = get_option( 'admin_email' );
-		$rand = substr( md5( rand() ), 0, 37 );
-		$salt = substr( wp_hash_password( $admin_email . time() . $rand ), 0, 15 );
-
-		update_option( '_ctct_access_salt', $salt );
-
-		$encrypt = new Encryption( $salt );
-		$hashed = $encrypt->encrypt( $access_token );
-
-		var_dump( $encrypt );
-		print( utf8_decode( $hashed ) );
-
-		update_option( '_ctct_token', $hashed );
-
-
+		update_option( '_ctct_token', $access_token );
 
 	}
 
@@ -295,7 +278,7 @@ function ctct_connect_admin() {
 ctct_connect_admin();
 
 
-function constantcontact_connect_error_message( ) {
+function constantcontact_connect_error_message() {
 	if ( $message = ctct_connect_admin()->error_message ) {
 		echo '<div class="message error notice"><p>';
 		echo ctct_connect_admin()->error_message;

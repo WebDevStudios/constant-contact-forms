@@ -94,19 +94,9 @@ class ConstantContact_API {
 	 */
 	public function get_api_token() {
 
-		if ( ! $token = get_option( '_ctct_token' ) ) {
-			return false;
-		}
+		$token = get_option( '_ctct_token', false );
 
-		$salt = get_option( '_ctct_access_salt' );
-		$decrypt = new Encryption( $salt );
-		$decrypted_token = $decrypt->decrypt( $token );
-
-		if ( false === $decrypted_token ) {
-			return $token;
-		}
-
-		return $decrypted_token;
+		return $token;
 	}
 
 	/**
