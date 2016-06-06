@@ -105,7 +105,45 @@ class ConstantContact_Builder {
 		) );
 
 		$fields_metabox->add_field( array(
-			'description' => __( 'Add fields to this form. Fields are sortable. A required email field will be added to each form.', constant_contact()->text_domain ),
+			'name' => __( 'Default Fields', constant_contact()->text_domain ),
+			'description' => __( 'Add default fields to this form. A required email field will be added to each form.', constant_contact()->text_domain ),
+			'id'   => $prefix . 'default_title',
+			'type' => 'title',
+		) );
+
+		$default_fields = array(
+			'first_name' => __( 'First Name', constant_contact()->text_domain ),
+			'last_name' => __( 'Last Name', constant_contact()->text_domain ),
+			'phone_number' => __( 'Phone Number', constant_contact()->text_domain ),
+			'address' => __( 'Address', constant_contact()->text_domain ),
+			'job_title' => __( 'Job Title', constant_contact()->text_domain ),
+			'company' => __( 'Company', constant_contact()->text_domain ),
+			'website' => __( 'Website', constant_contact()->text_domain ),
+			'birthday' => __( 'Birthday', constant_contact()->text_domain ),
+			'anniversary' => __( 'Anniversary', constant_contact()->text_domain ),
+		);
+
+		foreach ( $default_fields as $key => $value ) {
+
+			$fields_metabox->add_field( array(
+				'name' => $value,
+				'id'   => $prefix . $key,
+				'type' => 'checkbox',
+				'row_classes' => 'default-field',
+			) );
+
+			$fields_metabox->add_field( array(
+				'name' => __( 'Required', constant_contact()->text_domain ),
+				'id'   => $prefix .  $key . '_required',
+				'type' => 'checkbox',
+				'row_classes' => 'default-field required',
+			) );
+		}
+
+		// Custom CMB2 fields.
+		$fields_metabox->add_field( array(
+			'name' => __( 'Custom Fields', constant_contact()->text_domain ),
+			'description' => __( 'Custom Fields are sortable.', constant_contact()->text_domain ),
 			'id'   => $prefix . 'title',
 			'type' => 'title',
 		) );
@@ -199,7 +237,6 @@ class ConstantContact_Builder {
 
 	}
 
-
 	/**
 	 * Custom CMB2 meta box css
 	 *
@@ -228,6 +265,15 @@ class ConstantContact_Builder {
 			}
 			#ctct_options_metabox .cmb2-id--ctct-new-list {
 				padding: 0 0;
+			}
+			.postbox-container .cmb2-wrap > .cmb-field-list > .default-field {
+				padding: 0.9em 0 0 0 !important;
+				padding-bottom: 0 !important;
+				margin: 0;
+			}
+			.postbox-container .cmb2-wrap > .cmb-field-list > .required {
+				padding: 0 0 0.9em 0 !important;
+				border-bottom: 1px solid #e9e9e9 !important;
 			}
 		</style>
 		<?php

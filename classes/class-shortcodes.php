@@ -96,14 +96,17 @@ class ConstantContact_Shortcodes {
 			return false;
 		}
 
+		$default_form_data = maybe_unserialize( $form_meta['default_group'][0] );
 		$form_data = maybe_unserialize( $form_meta['fields_group'][0] );
+		$form_data = array_merge( $default_form_data, $form_data );
+
 		$fields = array();
 
 		foreach ( $form_data as $key => $value ) {
 
 			$fields['fields'][ $key ]['name'] = $form_data[ $key ]['_ctct_field_name'];
 
-			if ( 'on' === $form_data[ $key ]['_ctct_required_field'] ) {
+			if ( isset( $form_data[ $key ]['_ctct_required_field'] ) && 'on' === $form_data[ $key ]['_ctct_required_field'] ) {
 				$fields['fields'][ $key ]['required'] = $form_data[ $key ]['_ctct_required_field'];
 			}
 		}
