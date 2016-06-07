@@ -20,6 +20,13 @@ class ConstantContact_Builder {
 	private static $instance = null;
 
 	/**
+	 * Varibale to hold if email field exists
+	 *
+	 * @ConstantContact_Builder
+	 **/
+	public $is_email = false;
+
+	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
@@ -51,6 +58,9 @@ class ConstantContact_Builder {
 		add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'options_metabox' ) );
 		add_action( 'cmb2_after_post_form_ctct_description_metabox', array( $this, 'add_custom_css_for_metabox' ), 10, 2 );
+
+		add_action( 'cmb2_save_field', array( $this, 'override_save' ), 10, 4 );
+		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
 
 	}
 
@@ -133,6 +143,7 @@ class ConstantContact_Builder {
 
 		$default_fields = array(
 			'custom' => __( 'Custom', constant_contact()->text_domain ),
+			'email' => __( 'Email', constant_contact()->text_domain ),
 			'first_name' => __( 'First Name', constant_contact()->text_domain ),
 			'last_name' => __( 'Last Name', constant_contact()->text_domain ),
 			'phone_number' => __( 'Phone Number', constant_contact()->text_domain ),
@@ -270,6 +281,44 @@ class ConstantContact_Builder {
 			}
 		</style>
 		<?php
+	}
+
+	/**
+	 * Hook into CMB2 save meta to check if email field has been added
+	 *
+	 * @param  string $field_id CMB2 Field id.
+	 * @param  [type] $updated  [description]
+	 * @param  [type] $action   [description]
+	 * @param  object $cmbobj   CMB2 field object
+	 * @return void
+	 */
+	public function override_save( $field_id, $updated, $action, $cmbobj ) {
+		global $post;
+
+		foreach ( $cmbobj->data_to_save['custom_fields_group'] as $key => $value ) {
+			if ( 'email' === $value['_ctct_map_select'] ) {
+				update_post_meta( $post->ID, '_ctct_has_email_field', 'true' );
+			} else {
+				update_post_meta( $post->ID, '_ctct_has_email_field', 'false' );
+			}
+		}
+
+	}
+
+	/**
+	 * Set admin notice if no email field
+	 *
+	 * @return void
+	 */
+	public function admin_notice() {
+	    global $post;
+
+	    if ( 'false' === get_post_meta( $post->ID, '_ctct_has_email_field', true ) ) {
+			$class = 'notice notice-error';
+			$message = __( 'Oop, looks like you havent added an email field to your form. Forms will not send unless a field is mapped to email.', constant_contact()->text_domain );
+			printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+	    }
+
 	}
 }
 
