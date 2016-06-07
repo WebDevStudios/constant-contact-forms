@@ -81,7 +81,7 @@ class ConstantContact_Shortcodes {
 		$shortcode = require( constant_contact()->dir() . 'templates/form.php' );
 		$shortcode = ob_get_contents();
 		ob_end_clean();
-		echo $shortcode;
+		return $shortcode;
 	}
 
 	/**
@@ -92,25 +92,39 @@ class ConstantContact_Shortcodes {
 	 */
 	public function get_field_meta( $form_meta ) {
 
+		//var_dump( $form_meta );
+
 		if ( empty( $form_meta ) ) {
 			return false;
 		}
 
-		$default_fields = isset( $form_meta['default_group'] ) ?  maybe_unserialize( $form_meta['default_group'][0] ) : array();
-		$custom_fields = isset( $form_meta['fields_group'] ) ?  maybe_unserialize( $form_meta['fields_group'][0] ) : array();
+		$default_fields = isset( $form_meta['default_fields_group'] ) ?  maybe_unserialize( $form_meta['default_fields_group'][0] ) : array();
+		$custom_fields = isset( $form_meta['custom_fields_group'] ) ?  maybe_unserialize( $form_meta['custom_fields_group'][0] ) : array();
 
-		$form_data = array_merge( $default_fields, $custom_fields );
+		$d_fields = array();
+		$c_fields = array();
 
-		$fields = array();
+		foreach ( $default_fields[0] as $key => $value ) {
+			$d_fields['fields'][$key]['name'] = $value[0];
 
-		foreach ( $form_data as $key => $value ) {
-
-			$fields['fields'][ $key ]['name'] = $form_data[ $key ]['_ctct_field_name'];
-
-			if ( isset( $form_data[ $key ]['_ctct_required_field'] ) && 'on' === $form_data[ $key ]['_ctct_required_field'] ) {
-				$fields['fields'][ $key ]['required'] = $form_data[ $key ]['_ctct_required_field'];
+			if ( 'on' === $default_fields[0][ $key ][1] ) {
+				$d_fields['fields'][$key]['required'] = 'on';
 			}
 		}
+
+		$d_fields['fields'] = array_values( $d_fields['fields'] );
+
+		foreach ( $custom_fields as $key => $value ) {
+
+			$c_fields['fields'][ $key ]['name'] = $custom_fields[ $key ]['_ctct_field_name'];
+
+			if ( isset( $custom_fields[ $key ]['_ctct_required_field'] ) && 'on' === $custom_fields[ $key ]['_ctct_required_field'] ) {
+				$c_fields['fields'][ $key ]['required'] = $custom_fields[ $key ]['_ctct_required_field'];
+			}
+		}
+
+		$fields = array_merge_recursive( $d_fields, $c_fields );
+
 
 		if ( isset( $form_meta['_ctct_description'] ) ) {
 			$fields['options']['description'] = $form_meta['_ctct_description'][0];
@@ -123,8 +137,6 @@ class ConstantContact_Shortcodes {
 		if ( 'on' === $form_meta['_ctct_opt_in'][0] ) {
 			$fields['options']['opt_in'] = $form_meta['_ctct_opt_in_instructions'][0];
 		}
-
-		//var_dump($fields);
 
 		return $fields;
 	}

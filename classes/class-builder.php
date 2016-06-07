@@ -111,6 +111,12 @@ class ConstantContact_Builder {
 			'type' => 'title',
 		) );
 
+		$default_group_field_id = $fields_metabox->add_field( array(
+			'id'		  => 'default_fields_group',
+			'type'		=> 'group',
+			'repeatable'  => false,
+		) );
+
 		$default_fields = array(
 			'first_name' => __( 'First Name', constant_contact()->text_domain ),
 			'last_name' => __( 'Last Name', constant_contact()->text_domain ),
@@ -125,18 +131,15 @@ class ConstantContact_Builder {
 
 		foreach ( $default_fields as $key => $value ) {
 
-			$fields_metabox->add_field( array(
-				'name' => $value,
-				'id'   => $prefix . $key,
-				'type' => 'checkbox',
-				'row_classes' => 'default-field',
-			) );
-
-			$fields_metabox->add_field( array(
-				'name' => __( 'Required', constant_contact()->text_domain ),
-				'id'   => $prefix .  $key . '_required',
-				'type' => 'checkbox',
-				'row_classes' => 'default-field required',
+			$fields_metabox->add_group_field( $default_group_field_id, array(
+				'name' => '',
+				'id'   => $prefix . 'default_' . $key,
+				'type'    => 'multicheck',
+				'select_all_button' => false,
+			    'options' => array(
+			        $value => $value,
+			        'on' => 'Required',
+			    ),
 			) );
 		}
 
@@ -149,8 +152,8 @@ class ConstantContact_Builder {
 		) );
 
 		// Default fields.
-		$default_group_field_id = $fields_metabox->add_field( array(
-			'id'		  => 'fields_group',
+		$custom_group_field_id = $fields_metabox->add_field( array(
+			'id'		  => 'custom_fields_group',
 			'type'		=> 'group',
 			'repeatable'  => true,
 			'options'	 => array(
@@ -161,16 +164,17 @@ class ConstantContact_Builder {
 			),
 		) );
 
-		$fields_metabox->add_group_field( $default_group_field_id, array(
+		$fields_metabox->add_group_field( $custom_group_field_id, array(
 			'name' => __( 'Field Name', constant_contact()->text_domain ),
 			'id'   => $prefix . 'field_name',
 			'type' => 'text',
 		) );
 
-		$fields_metabox->add_group_field( $default_group_field_id, array(
+		$fields_metabox->add_group_field( $custom_group_field_id, array(
 			'name' => __( 'Required', constant_contact()->text_domain ),
 			'id'   => $prefix . 'required_field',
 			'type' => 'checkbox',
+			'row_classes' => 'required',
 		) );
 
 	}
@@ -247,11 +251,13 @@ class ConstantContact_Builder {
 		?>
 		<style type="text/css" media="screen">
 
-			#ctct_fields_metabox .cmb-row {
+			#custom_fields_group_repeat .cmb-field-list .cmb-row {
 				border-bottom: none;
 				padding-bottom: 0.5em;
 			}
-
+			#custom_fields_group_repeat .required {
+				padding-top: 0.5em;
+			}
 			#ctct_options_metabox .cmb-row {
 				border-bottom: none;
 			}
@@ -266,14 +272,18 @@ class ConstantContact_Builder {
 			#ctct_options_metabox .cmb2-id--ctct-new-list {
 				padding: 0 0;
 			}
-			.postbox-container .cmb2-wrap > .cmb-field-list > .default-field {
-				padding: 0.9em 0 0 0 !important;
-				padding-bottom: 0 !important;
-				margin: 0;
+			#default_fields_group_repeat .cmb-field-list > .cmb-row {
+				padding-top: 0.2em;
 			}
-			.postbox-container .cmb2-wrap > .cmb-field-list > .required {
-				padding: 0 0 0.9em 0 !important;
+			#default_fields_group_repeat .cmb-field-list > .cmb-row:not(:last-of-type)  {
+				padding-bottom: 0.5em;
 				border-bottom: 1px solid #e9e9e9 !important;
+			}
+			.cmb-repeat-group-wrap {
+				padding: 0 !important;
+			}
+			div.postbox.cmb-row.cmb-repeatable-grouping {
+				border-bottom: none;
 			}
 		</style>
 		<?php
