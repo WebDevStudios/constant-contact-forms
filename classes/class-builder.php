@@ -20,13 +20,6 @@ class ConstantContact_Builder {
 	private static $instance = null;
 
 	/**
-	 * Varibale to hold if email field exists
-	 *
-	 * @ConstantContact_Builder
-	 **/
-	public $is_email = false;
-
-	/**
 	 * Constructor
 	 *
 	 * @since 1.0.0
