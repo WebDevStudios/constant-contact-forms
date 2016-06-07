@@ -224,7 +224,7 @@ constantcontact_about(
 		'welcome_text' => __( 'Way to level up with the latest version of ' . constant_contact()->plugin_name . ' which makes it simple for developers and non-developers alike to create an unlimited amount of custom post types.', constant_contact()->text_domain ),
 		'featured' => array(
 			'headline' => '',
-			'image' => cptui_extended()->url . 'assets/images/shortcode.png',
+			'image' => constant_contact()->url . 'assets/images/builder.png',
 			//'description' => '',
 		),
 		'features' => array(

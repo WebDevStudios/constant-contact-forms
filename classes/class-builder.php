@@ -104,49 +104,10 @@ class ConstantContact_Builder {
 			'show_names'	=> true,
 		) );
 
-		$fields_metabox->add_field( array(
-			'name' => __( 'Default Fields', constant_contact()->text_domain ),
-			'description' => __( 'Add default fields to this form. A required email field will be added to each form.', constant_contact()->text_domain ),
-			'id'   => $prefix . 'default_title',
-			'type' => 'title',
-		) );
-
-		$default_group_field_id = $fields_metabox->add_field( array(
-			'id'		  => 'default_fields_group',
-			'type'		=> 'group',
-			'repeatable'  => false,
-		) );
-
-		$default_fields = array(
-			'first_name' => __( 'First Name', constant_contact()->text_domain ),
-			'last_name' => __( 'Last Name', constant_contact()->text_domain ),
-			'phone_number' => __( 'Phone Number', constant_contact()->text_domain ),
-			'address' => __( 'Address', constant_contact()->text_domain ),
-			'job_title' => __( 'Job Title', constant_contact()->text_domain ),
-			'company' => __( 'Company', constant_contact()->text_domain ),
-			'website' => __( 'Website', constant_contact()->text_domain ),
-			'birthday' => __( 'Birthday', constant_contact()->text_domain ),
-			'anniversary' => __( 'Anniversary', constant_contact()->text_domain ),
-		);
-
-		foreach ( $default_fields as $key => $value ) {
-
-			$fields_metabox->add_group_field( $default_group_field_id, array(
-				'name' => '',
-				'id'   => $prefix . 'default_' . $key,
-				'type'    => 'multicheck',
-				'select_all_button' => false,
-			    'options' => array(
-			        $value => $value,
-			        'on' => 'Required',
-			    ),
-			) );
-		}
-
 		// Custom CMB2 fields.
 		$fields_metabox->add_field( array(
-			'name' => __( 'Custom Fields', constant_contact()->text_domain ),
-			'description' => __( 'Custom Fields are sortable.', constant_contact()->text_domain ),
+			'name' => __( 'Add Fields', constant_contact()->text_domain ),
+			'description' => __( 'Fields are sortable and can be mapped to Constant Contact default fields.', constant_contact()->text_domain ),
 			'id'   => $prefix . 'title',
 			'type' => 'title',
 		) );
@@ -168,6 +129,28 @@ class ConstantContact_Builder {
 			'name' => __( 'Field Name', constant_contact()->text_domain ),
 			'id'   => $prefix . 'field_name',
 			'type' => 'text',
+		) );
+
+		$default_fields = array(
+			'custom' => __( 'Custom', constant_contact()->text_domain ),
+			'first_name' => __( 'First Name', constant_contact()->text_domain ),
+			'last_name' => __( 'Last Name', constant_contact()->text_domain ),
+			'phone_number' => __( 'Phone Number', constant_contact()->text_domain ),
+			'address' => __( 'Address', constant_contact()->text_domain ),
+			'job_title' => __( 'Job Title', constant_contact()->text_domain ),
+			'company' => __( 'Company', constant_contact()->text_domain ),
+			'website' => __( 'Website', constant_contact()->text_domain ),
+			'birthday' => __( 'Birthday', constant_contact()->text_domain ),
+			'anniversary' => __( 'Anniversary', constant_contact()->text_domain ),
+		);
+
+		$fields_metabox->add_group_field( $custom_group_field_id, array(
+			'name' => __( 'Map to field', constant_contact()->text_domain ),
+			'id'   => $prefix . 'map_select',
+			'type' => 'select',
+			'show_option_none' => false,
+			'default' => 'custom',
+			'options' => $default_fields,
 		) );
 
 		$fields_metabox->add_group_field( $custom_group_field_id, array(

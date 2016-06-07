@@ -98,21 +98,8 @@ class ConstantContact_Shortcodes {
 			return false;
 		}
 
-		$default_fields = isset( $form_meta['default_fields_group'] ) ?  maybe_unserialize( $form_meta['default_fields_group'][0] ) : array();
 		$custom_fields = isset( $form_meta['custom_fields_group'] ) ?  maybe_unserialize( $form_meta['custom_fields_group'][0] ) : array();
-
-		$d_fields = array();
 		$c_fields = array();
-
-		foreach ( $default_fields[0] as $key => $value ) {
-			$d_fields['fields'][$key]['name'] = $value[0];
-
-			if ( 'on' === $default_fields[0][ $key ][1] ) {
-				$d_fields['fields'][$key]['required'] = 'on';
-			}
-		}
-
-		$d_fields['fields'] = array_values( $d_fields['fields'] );
 
 		foreach ( $custom_fields as $key => $value ) {
 
@@ -123,8 +110,7 @@ class ConstantContact_Shortcodes {
 			}
 		}
 
-		$fields = array_merge_recursive( $d_fields, $c_fields );
-
+		$fields = $c_fields;
 
 		if ( isset( $form_meta['_ctct_description'] ) ) {
 			$fields['options']['description'] = $form_meta['_ctct_description'][0];
