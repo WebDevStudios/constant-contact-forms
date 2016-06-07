@@ -96,9 +96,10 @@ class ConstantContact_Shortcodes {
 			return false;
 		}
 
-		$default_form_data = maybe_unserialize( $form_meta['default_group'][0] );
-		$form_data = maybe_unserialize( $form_meta['fields_group'][0] );
-		$form_data = array_merge( $default_form_data, $form_data );
+		$default_fields = isset( $form_meta['default_group'] ) ?  maybe_unserialize( $form_meta['default_group'][0] ) : array();
+		$custom_fields = isset( $form_meta['fields_group'] ) ?  maybe_unserialize( $form_meta['fields_group'][0] ) : array();
+
+		$form_data = array_merge( $default_fields, $custom_fields );
 
 		$fields = array();
 
