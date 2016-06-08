@@ -35,7 +35,7 @@ class ConstantContact_Builder {
 	public static function get_instance() {
 		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
-			self::$instance->hooks();
+			self::$instance->init();
 		}
 		return self::$instance;
 	}
@@ -45,15 +45,28 @@ class ConstantContact_Builder {
 	 *
 	 * @since 1.0.0
 	 */
+	public function init() {
+		add_action( 'init', array( $this, 'hooks' ) );
+	}
+
+	/**
+	 * Initiate our hooks
+	 *
+	 * @since 1.0.0
+	 */
 	public function hooks() {
+		global $pagenow;
 
-		add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
-		add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
-		add_action( 'cmb2_admin_init', array( $this, 'options_metabox' ) );
-		add_action( 'cmb2_after_post_form_ctct_description_metabox', array( $this, 'add_custom_css_for_metabox' ), 10, 2 );
+		if ( in_array( $pagenow, array( 'post-new.php', 'post.php' ) ) ) {
 
-		add_action( 'cmb2_save_field', array( $this, 'override_save' ), 10, 4 );
-		add_action( 'admin_notices', array( $this, 'admin_notice' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'options_metabox' ) );
+			add_action( 'cmb2_after_post_form_ctct_description_metabox', array( $this, 'add_custom_css_for_metabox' ), 10, 2 );
+
+			add_action( 'cmb2_save_field', array( $this, 'override_save' ), 10, 4 );
+			add_action( 'admin_notices', array( $this, 'admin_notice' ) );
+		}
 
 	}
 
@@ -288,14 +301,15 @@ class ConstantContact_Builder {
 	public function override_save( $field_id, $updated, $action, $cmbobj ) {
 		global $post;
 
-		foreach ( $cmbobj->data_to_save['custom_fields_group'] as $key => $value ) {
-			if ( 'email' === $value['_ctct_map_select'] ) {
-				update_post_meta( $post->ID, '_ctct_has_email_field', 'true' );
-			} else {
-				update_post_meta( $post->ID, '_ctct_has_email_field', 'false' );
+		if ( isset( $cmbobj->data_to_save['custom_fields_group'] ) ) {
+			foreach ( $cmbobj->data_to_save['custom_fields_group'] as $key => $value ) {
+				if ( 'email' === $value['_ctct_map_select'] ) {
+					update_post_meta( $post->ID, '_ctct_has_email_field', 'true' );
+				} else {
+					update_post_meta( $post->ID, '_ctct_has_email_field', 'false' );
+				}
 			}
 		}
-
 	}
 
 	/**
@@ -306,12 +320,11 @@ class ConstantContact_Builder {
 	public function admin_notice() {
 	    global $post;
 
-	    if ( 'false' === get_post_meta( $post->ID, '_ctct_has_email_field', true ) ) {
+	    if ( isset( $post ) && 'false' === get_post_meta( $post->ID, '_ctct_has_email_field', true ) ) {
 			$class = 'notice notice-error';
 			$message = __( 'Oop, looks like you havent added an email field to your form. Forms will not send unless a field is mapped to email.', constant_contact()->text_domain );
 			printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
 	    }
-
 	}
 }
 
@@ -322,7 +335,7 @@ class ConstantContact_Builder {
  * @return ConstantContact_Builder object
  */
 function ctct_builder_admin() {
-	return ConstantContact_Builder::get_instance();
+		return ConstantContact_Builder::get_instance();
 }
 
 // Get it started.
