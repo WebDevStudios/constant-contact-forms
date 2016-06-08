@@ -98,7 +98,7 @@ class ConstantContact_CPTS {
 			'labels'			  => $labels,
 			'supports'			=> array( 'title' ),
 			'taxonomies'		  => array(),
-			'hierarchical'		=> true,
+			'hierarchical'		=> false,
 			'public'			  => false,
 			'show_ui'			 => true,
 			'show_in_menu'		=> true,
@@ -109,7 +109,7 @@ class ConstantContact_CPTS {
 			'can_export'		  => true,
 			'has_archive'		 => false,
 			'exclude_from_search' => false,
-			'publicly_queryable'  => true,
+			'publicly_queryable'  => false,
 			'capability_type'	 => 'page',
 		);
 		register_post_type( 'ctct_forms', $args );
