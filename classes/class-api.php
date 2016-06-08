@@ -21,22 +21,6 @@ use Ctct\Exceptions\CtctException;
 class ConstantContact_API {
 
 	/**
-	 * Holds an instance of the CTCT object.
-	 *
-	 * @since 1.0.0
-	 * @var $cc
-	 */
-	private $cc = null;
-
-	/**
-	 * CTCT api access token
-	 *
-	 * @since 1.0.0
-	 * @var $cc
-	 */
-	private $token = null;
-
-	/**
 	 * Holds an instance of the object.
 	 *
 	 * @since 1.0.0
@@ -83,7 +67,16 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		$this->cc = new ConstantContact( CTCT_APIKEY );
+	}
+
+	/**
+	 * Hooked to WP init.
+	 *
+	 * @since 1.0.0
+	 */
+	public function cc() {
+		$cc = new ConstantContact( CTCT_APIKEY );
+		return $cc;
 	}
 
 	/**
@@ -108,7 +101,7 @@ class ConstantContact_API {
 	public function get_account_info() {
 
 		try {
-			$account = $this->cc->accountService->getAccountInfo( $this->token );
+			$account = $this->cc()->accountService->getAccountInfo( $this->get_api_token() );
 		} catch ( CtctException $ex ) {
 
 			foreach ( $ex->getErrors() as $error ) {
@@ -131,7 +124,7 @@ class ConstantContact_API {
 	public function get_contacts() {
 
 		try {
-			$contacts = $this->cc->contactService->getContacts( $this->token );
+			$contacts = $this->cc()->contactService->getContacts( $this->get_api_token() );
 
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
@@ -153,8 +146,12 @@ class ConstantContact_API {
 	 */
 	public function get_lists() {
 
+		//error_log( print_r( new ConstantContact( CTCT_APIKEY ), true ) );
+
+		//$ccc = new ConstantContact( CTCT_APIKEY )
+
 		try {
-			$lists = $this->cc->listService->getLists( $this->token );
+			$lists = $this->cc()->listService->getLists( $this->get_api_token() );
 
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
@@ -180,7 +177,7 @@ class ConstantContact_API {
 		if ( empty( $new_list ) ) { return null; }
 
 		try {
-			$list = $this->cc->listService->getList( $this->token, $new_list['id'] );
+			$list = $this->cc()->listService->getList( $this->get_api_token(), $new_list['id'] );
 			return $List;
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
@@ -195,7 +192,7 @@ class ConstantContact_API {
 				$list->id = '234567';
 				$list->name = $new_list['name'];
 				$list->status = 'HIDDEN';
-				$returnList = $this->cc->listService->addList( $this->token, $list );
+				$returnList = $this->cc()->listService->addList( $this->get_api_token(), $list );
 			} catch ( CtctException $ex ) {
 				foreach ( $ex->getErrors() as $error ) {
 					return $error;
@@ -220,7 +217,7 @@ class ConstantContact_API {
 
 		try {
 	        // check to see if a contact with the email address already exists in the account
-	        $response = $this->cc->contactService->getContacts( $this->token, array("email" => $new_contact['email'] ) );
+	        $response = $this->cc()->contactService->getContacts( $this->get_api_token(), array("email" => $new_contact['email'] ) );
 
 	        // create a new contact if one does not exist
 	        if ( empty( $response->results ) ) {
@@ -239,7 +236,7 @@ class ConstantContact_API {
 	             *
 	             * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
 	             */
-	            $returnContact = $this->cc->contactService->addContact( $this->token, $contact );
+	            $returnContact = $this->cc()->contactService->addContact( $this->get_api_token(), $contact );
 
 	            // update the existing contact if address already existed
 	        } else {
@@ -257,7 +254,7 @@ class ConstantContact_API {
 	                 *
 	                 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
 	                 */
-	                $returnContact = $this->cc->contactService->updateContact( $this->token, $contact );
+	                $returnContact = $this->cc()->contactService->updateContact( $this->get_api_token(), $contact );
 	            } else {
 	                $e = new CtctException();
 	                $e->setErrors(array("type", "Contact type not returned"));

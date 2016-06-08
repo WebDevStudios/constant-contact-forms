@@ -200,7 +200,6 @@ class ConstantContact_Connect {
 			<?php echo get_option( '_ctct_token' ); ?>
 		</div>
 		<?php
-
 	}
 
 	/**
