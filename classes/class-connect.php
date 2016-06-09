@@ -197,7 +197,7 @@ class ConstantContact_Connect {
 				</p>
 				<input type="button" class="button-primary ctct-connect" value="<?php esc_attr_e( 'Connect to Constant Contact', constant_contact()->text_domain ); ?>" >
 			<?php endif; ?>
-			<?php echo get_option( '_ctct_token' ); ?>
+			<?php constantcontact_api_data(); ?>
 		</div>
 		<?php
 	}

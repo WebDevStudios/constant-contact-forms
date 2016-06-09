@@ -70,13 +70,12 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Hooked to WP init.
+	 * Get instance of .ConstantContact.
 	 *
 	 * @since 1.0.0
 	 */
 	public function cc() {
-		$cc = new ConstantContact( CTCT_APIKEY );
-		return $cc;
+		return new ConstantContact( CTCT_APIKEY );
 	}
 
 	/**
@@ -204,6 +203,30 @@ class ConstantContact_API {
 
 	}
 
+	public function update_list( $updated_list = array() ) {
+		try {
+			$list = new ContactList();
+			$list->id = $updated_list['id'];
+			$list->name = $updated_list['name'];
+			$list->status = 'HIDDEN';
+			$returnList = $this->cc()->listService->updateList( $this->get_api_token(), $list );
+		} catch ( CtctException $ex ) {
+			foreach ( $ex->getErrors() as $error ) {
+				return $error;
+			}
+		}
+	}
+
+	public function delete_list( $updated_list = array() ) {
+		try {
+			$returnList = $this->cc()->listService->deleteList( $this->get_api_token(), $updated_list['id'] );
+		} catch ( CtctException $ex ) {
+			foreach ( $ex->getErrors() as $error ) {
+				return $error;
+			}
+		}
+	}
+
 	/**
 	 * Add constact to the connected CTCT account
 	 *
@@ -315,8 +338,8 @@ constantcontact_api();
 // testing api data
 function constantcontact_api_data() {
 	//var_dump( constantcontact_api()->get_account_info() );
-	// var_dump( constantcontact_api()->get_contacts() );
-	//var_dump( constantcontact_api()->get_lists() );
+	//var_dump( constantcontact_api()->get_contacts() );
+	var_dump( constantcontact_api()->get_lists() );
 
 	// var_dump( constantcontact_api()->add_list(
 	// 	array(
@@ -329,7 +352,7 @@ function constantcontact_api_data() {
 	// 	 array(
 	// 		 'email' => 'cgriswald@wallyworld.com',
 	// 		 'list' => '',
-	// 		 'first_name' => 'Clark W.',
+	// 		 'first_name' => 'Clark W. dddd',
 	// 		 'last_name' => 'Griswald',
 	// 	 )
 	//  ) );

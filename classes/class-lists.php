@@ -57,6 +57,13 @@ class ConstantContact_Lists {
 	public function hooks() {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'sync_lists' ) );
+
+		add_action( 'cmb2_admin_init', array( $this, 'add_lists_metabox' ) );
+
+		add_action( 'init', array( $this, 'save_list' ) );
+		add_action( 'save_post_ctct_lists', array( $this, 'update_list' ) );
+		add_action( 'wp_trash_post', array( $this, 'delete_list' ) );
+
 	}
 
 
@@ -68,6 +75,28 @@ class ConstantContact_Lists {
 	public function init() {
 	}
 
+	public function add_lists_metabox() {
+
+		$cmb = new_cmb2_box( array(
+	         'id'            => 'ctct_list_metabox',
+	         'title'         => __( 'List Meta', constant_contact()->text_domain ),
+	         'object_types'  => array( 'ctct_lists', ),
+	         'context'       => 'normal',
+	         'priority'      => 'high',
+	         'show_names'    => true,
+	     ) );
+
+		$post_meta = get_post_meta( $cmb->object_id() );
+
+		$cmb->add_field( array(
+			'name' 	=> __( 'ID', constant_contact()->text_domain ),
+			'desc' 	=> $post_meta['_ctct_list_id'][0],
+			'id'   	=> '_ctct_list_meta',
+			'type'	=> 'title',
+		) );
+
+	}
+
 	/**
 	 * Hooked to WP init.
 	 *
@@ -76,25 +105,24 @@ class ConstantContact_Lists {
 	public function sync_lists() {
 		global $pagenow;
 
+
 		if ( ! $token = constantcontact_api()->get_api_token() ) { return; }
 
 		if ( in_array( $pagenow, array( 'edit.php' ), true ) && isset( $_GET['post_type'] ) && 'ctct_lists' === $_GET['post_type'] ) {
 
+			$args = array(
+				'post_type'	=>	'ctct_lists',
+			);
+			$my_query = new WP_Query( $args );
+
+			foreach ( $my_query->posts as $post ) {
+				wp_delete_post( $post->ID, true );
+			}
+
+
 			if ( $lists = constantcontact_api()->get_lists() ) {
 
 				foreach ( $lists as $list ) {
-
-					$value = array(
-						'value' => $list->id,
-						'compare' => '=',
-					);
-					$args = array(
-						'post_type'	=>	'ctct_lists',
-						'meta_query'=>	array( $value ),
-					);
-					$my_query = new WP_Query( $args );
-
-					if ( empty( $my_query->posts ) ) {
 
 						$new_post = array(
 							  'post_title'    => wp_strip_all_tags( $list->name ),
@@ -104,19 +132,72 @@ class ConstantContact_Lists {
 						$post = wp_insert_post( $new_post );
 						update_post_meta( $post, '_ctct_list_id', $list->id );
 
-					} else {
-
-						$update_post = array(
-							'ID' => $my_query->posts[0]->ID,
-							'post_title'    => wp_strip_all_tags( $list->name ),
-							'post_type' => 'ctct_lists',
-						);
-						$post = wp_update_post( $update_post );
-
-					}
 				}
 			}
 		}
+	}
+
+	public function save_list( $post_id ) {
+		global $pagenow;
+
+		if ( 'post-new.php' === $pagenow ) {
+
+			$myPost = get_post( $post_id );
+
+		     if( $myPost->post_modified_gmt === $myPost->post_date_gmt ) {
+				//error_log( 'new post' );
+
+				$list = constantcontact_api()->add_list(
+					array(
+						'id' => $myPost->ID,
+						'name' => $myPost->post_title,
+					)
+				);
+
+				add_post_meta( $post_id, '_ctct_list_id', $list->id );
+
+		     }
+		}
+	}
+
+	public function update_list( $post_id ) {
+
+		global $pagenow;
+
+		if ( 'post.php' === $pagenow ) {
+
+			$myPost = get_post( $post_id );
+
+			$list_id = get_post_meta( $myPost->ID, '_ctct_list_id', true );
+
+			$list = constantcontact_api()->update_list(
+				array(
+					'id' => $list_id,
+					'name' => $myPost->post_title,
+				)
+			);
+
+		}
+
+
+	}
+
+	public function delete_list( $post_id ) {
+
+		$list_id = get_post_meta( $post_id, '_ctct_list_id', true );
+
+		$list = constantcontact_api()->delete_list(
+			array(
+				'id' => $list_id,
+			)
+		);
+
+		wp_delete_post( $post_id, true );
+
+		return false;
+
+		//error_log( print_r( $list, true ) );
+
 	}
 
 }

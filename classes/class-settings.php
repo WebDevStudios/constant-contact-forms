@@ -143,7 +143,7 @@ class ConstantContact_Settings {
 
 		// Set our CMB2 fields
 		$cmb->add_field( array(
-			'name' 	=> __( 'Opt In', 'myprefix' ),
+			'name' 	=> __( 'Opt In', constant_contact()->text_domain ),
 			'desc' 	=> __( 'Add opt in checkbox to selected forms.', constant_contact()->text_domain ),
 			'id'   	=> '_ctct_optin_forms',
 			'type'	=> 'multicheck',
@@ -151,7 +151,7 @@ class ConstantContact_Settings {
 		) );
 
 		$cmb->add_field( array(
-			'name' 	=> __( 'Opt In List', 'myprefix' ),
+			'name' 	=> __( 'Opt In List', constant_contact()->text_domain ),
 			'desc' 	=> __( 'Choose list to add opt in subsciptions.', constant_contact()->text_domain ),
 			'id'   	=> '_ctct_optin_list',
 			'type'	=> 'select',
