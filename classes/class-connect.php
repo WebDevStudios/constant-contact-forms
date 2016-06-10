@@ -95,7 +95,7 @@ class ConstantContact_Connect {
 		$this->redirect_url = $path;
 
 		// Instantiate the CtctOAuth2 class.
-		$this->oauth = new CtctOAuth2( CTCT_APIKEY, CTCT_SECRETKEY, get_site_url() . '/?auth=ctct' );
+		$this->oauth = new CtctOAuth2( constantcontact_api()->get_api_token( 'CTCT_APIKEY' ) , constantcontact_api()->get_api_token( 'CTCT_SECRETKEY' ), get_site_url() . '/?auth=ctct' );
 		$this->disconnect();
 	}
 
