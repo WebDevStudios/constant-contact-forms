@@ -189,7 +189,8 @@ class Constant_Contact {
 	public function hooks() {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'load_libs' ) );
-		$this->includes();
+		add_action( 'init', array( $this, 'includes' ) );
+
 		add_filter( 'plugin_action_links_'. $this->basename, array( $this, 'add_social_links' ) );
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
@@ -310,6 +311,10 @@ class Constant_Contact {
 				require_once  __DIR__ . '/classes/class-admin.php';
 			}
 
+			if ( file_exists( __DIR__ . '/classes/class-settings.php' ) ) {
+				require_once  __DIR__ . '/classes/class-settings.php';
+			}
+
 			if ( file_exists( __DIR__ . '/inc/admin/post-list-columns.php' ) ) {
 				require_once  __DIR__ . '/inc/admin/post-list-columns.php';
 			}
@@ -322,9 +327,7 @@ class Constant_Contact {
 				require_once  __DIR__ . '/classes/class-connect.php';
 			}
 
-			if ( file_exists( __DIR__ . '/classes/class-settings.php' ) ) {
-				require_once  __DIR__ . '/classes/class-settings.php';
-			}
+
 		}
 	}
 
