@@ -251,12 +251,13 @@ class ConstantContact_Builder {
 		?>
 		<style type="text/css" media="screen">
 
-			#custom_fields_group_repeat .cmb-field-list .cmb-row {
+			#custom_fields_group_repeat .cmb-field-list .cmb-row:not(:last-of-type) {
 				border-bottom: none;
-				padding-bottom: 0.5em;
+				padding-bottom: 0.1em;
 			}
 			#custom_fields_group_repeat .required {
-				padding-top: 0.5em;
+				padding-bottom: 0.1em;
+				padding-top: 0.1em;
 			}
 			#ctct_options_metabox .cmb-row {
 				border-bottom: none;
@@ -273,10 +274,10 @@ class ConstantContact_Builder {
 				padding: 0 0;
 			}
 			#default_fields_group_repeat .cmb-field-list > .cmb-row {
-				padding-top: 0.2em;
+				padding-top: 0.5em;
 			}
 			#default_fields_group_repeat .cmb-field-list > .cmb-row:not(:last-of-type)  {
-				padding-bottom: 0.5em;
+				padding-bottom: 0.1em;
 				border-bottom: 1px solid #e9e9e9 !important;
 			}
 			.cmb-repeat-group-wrap {
@@ -284,6 +285,9 @@ class ConstantContact_Builder {
 			}
 			div.postbox.cmb-row.cmb-repeatable-grouping {
 				border-bottom: none;
+			}
+			.cmb-repeat-group-wrap .cmb-repeat-group-field {
+				padding-top: 0.1em;
 			}
 		</style>
 		<?php
