@@ -32,6 +32,7 @@ add_action( 'admin_init', 'ctct_add_post_columns_filter' );
  */
 function ctct_set_custom_columns( $columns ) {
 
+	$columns['description'] = __( 'Description', 'cptuiext' );
 	$columns['shortcodes'] = __( 'Shortcode', 'cptuiext' );
 
 	return $columns;
@@ -50,6 +51,12 @@ function ctct_custom_columns( $column, $post_id ) {
 	switch ( $column ) {
 		case 'shortcodes':
 			echo esc_attr( '[ctct form='. $post_id .']' );
+		break;
+		case 'description':
+			if ( $meta = get_post_meta( $post_id, '_ctct_description', false ) ) {
+				echo esc_attr( $meta[0] );
+			}
+
 		break;
 	}
 }
