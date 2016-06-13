@@ -164,6 +164,17 @@ class ConstantContact_Settings {
 			),
 		) );
 
+		$cmb->add_field( array(
+			'name' 	=> __( 'API key', constant_contact()->text_domain ),
+			'id'   	=> '_ctct_api_key',
+			'type'	=> 'text',
+		) );
+		$cmb->add_field( array(
+			'name' 	=> __( 'API Secret', constant_contact()->text_domain ),
+			'id'   	=> '_ctct_api_secret',
+			'type'	=> 'text',
+		) );
+
 	}
 
 	/**
