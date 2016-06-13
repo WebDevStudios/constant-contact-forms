@@ -164,17 +164,6 @@ class ConstantContact_Settings {
 			),
 		) );
 
-		$cmb->add_field( array(
-			'name' 	=> __( 'API key', constant_contact()->text_domain ),
-			'id'   	=> '_ctct_api_key',
-			'type'	=> 'text',
-		) );
-		$cmb->add_field( array(
-			'name' 	=> __( 'API Secret', constant_contact()->text_domain ),
-			'id'   	=> '_ctct_api_secret',
-			'type'	=> 'text',
-		) );
-
 	}
 
 	/**
@@ -243,7 +232,7 @@ function ctct_settings_admin() {
  * @return mixed		Option value
  */
 function ctct_get_settings_option( $key = '' ) {
-	return cmb2_get_option( ctct_settings_admin()->key, $key );
+	return cmb2_get_option( myprefix_admin()->key, $key );
 }
 
 // Get it started

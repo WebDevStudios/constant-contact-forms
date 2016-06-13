@@ -251,11 +251,6 @@ class ConstantContact_Builder {
 		?>
 		<style type="text/css" media="screen">
 
-			.postbox-container .cmb2-wrap > .cmb-field-list > .cmb-row:not(:last-of-type),
-			.postbox-container .cmb2-wrap > .cmb-field-list > .cmb-row:not(:first-of-type) {
-				padding: 0.9em 0;
-				margin: 0 0 0.3em;
-			}
 			#custom_fields_group_repeat .cmb-field-list .cmb-row:not(:last-of-type) {
 				border-bottom: none;
 				padding-bottom: 0.1em;

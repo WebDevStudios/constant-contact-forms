@@ -75,7 +75,7 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 */
 	public function cc() {
-		return new ConstantContact( $this->get_api_token( 'CTCT_APIKEY' ) );
+		return new ConstantContact( CTCT_APIKEY );
 	}
 
 	/**
@@ -84,19 +84,9 @@ class ConstantContact_API {
 	 * @since  1.0.0
 	 * @return string api token
 	 */
-	public function get_api_token( $type = '' ) {
+	public function get_api_token() {
 
-		switch ( $type ) {
-			case 'CTCT_APIKEY':
-				$token = defined( 'CTCT_APIKEY' ) ? CTCT_APIKEY : ctct_get_settings_option( '_ctct_api_key' );
-			break;
-			case 'CTCT_SECRETKEY':
-				$token = defined( 'CTCT_SECRETKEY' ) ? CTCT_SECRETKEY : ctct_get_settings_option( '_ctct_api_secret' );
-			break;
-			default;
-				$token = get_option( '_ctct_token', false );
-			break;
-		}
+		$token = get_option( '_ctct_token', false );
 
 		return $token;
 	}
@@ -347,18 +337,18 @@ constantcontact_api();
 
 // testing api data
 function constantcontact_api_data() {
-	d( constantcontact_api()->get_account_info() );
-	d( constantcontact_api()->get_contacts() );
-	d( constantcontact_api()->get_lists() );
+	//var_dump( constantcontact_api()->get_account_info() );
+	//var_dump( constantcontact_api()->get_contacts() );
+	var_dump( constantcontact_api()->get_lists() );
 
-	// d( constantcontact_api()->add_list(
+	// var_dump( constantcontact_api()->add_list(
 	// 	array(
 	// 		'id' => '234567',
 	// 		'name' => 'Test List',
 	// 	)
 	// ) );
 
-	//  d( constantcontact_api()->add_contact(
+	//  var_dump( constantcontact_api()->add_contact(
 	// 	 array(
 	// 		 'email' => 'cgriswald@wallyworld.com',
 	// 		 'list' => '',
