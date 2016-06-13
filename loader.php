@@ -59,11 +59,11 @@ function constant_contact_autoload_classes( $class_name ) {
 }
 spl_autoload_register( 'constant_contact_autoload_classes' );
 
-// Ryan's test APP Keys
+// Ryan's test APP Keys.
 // define( 'CTCT_APIKEY', '595r3d4q432c3mdv2jtd3nj9' );
 // define( 'CTCT_SECRETKEY', 'XJ9H8n5m8fqt2WBpSk6E6dJm' );
 
-// CTCT APP keys
+// CTCT APP keys.
 // define( 'CTCT_APIKEY', '6g9ecnn4d5epme94wpq26m77' );
 // define( 'CTCT_SECRETKEY', 'FxAkakNMj5HjwQUncQ2hMYj6' );
 
@@ -166,7 +166,7 @@ class Constant_Contact {
 		$this->basename = plugin_basename( __FILE__ );
 		$this->url	  = plugin_dir_url( __FILE__ );
 		$this->path	 = plugin_dir_path( __FILE__ );
-		//$this->includes();
+
 		$this->plugin_classes();
 	}
 
@@ -196,7 +196,7 @@ class Constant_Contact {
 		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 
 		if ( is_ssl() ) {
-		  define( 'ISSSL', true );
+			define( 'ISSSL', true );
 		}
 	}
 
@@ -242,7 +242,7 @@ class Constant_Contact {
 	public function scripts() {
 		global $pagenow;
 
-		if ( isset( $pagenow ) && 'post.php' === $pagenow ||  'post-new.php' === $pagenow ) {
+		if ( isset( $pagenow ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) {
 			// Register out javascript file.
 			wp_register_script( 'ctct_form', $this->url() . 'assets/js/plugin.js' );
 
@@ -304,15 +304,15 @@ class Constant_Contact {
 			require_once  __DIR__ . '/classes/class-api.php';
 		}
 
+		if ( file_exists( __DIR__ . '/classes/class-settings.php' ) ) {
+			require_once  __DIR__ . '/classes/class-settings.php';
+		}
+
 		// Only load in admin.
 		if ( is_admin() ) {
 
 			if ( file_exists( __DIR__ . '/classes/class-admin.php' ) ) {
 				require_once  __DIR__ . '/classes/class-admin.php';
-			}
-
-			if ( file_exists( __DIR__ . '/classes/class-settings.php' ) ) {
-				require_once  __DIR__ . '/classes/class-settings.php';
 			}
 
 			if ( file_exists( __DIR__ . '/classes/class-builder.php' ) ) {
@@ -326,8 +326,6 @@ class Constant_Contact {
 			if ( file_exists( __DIR__ . '/classes/class-connect.php' ) ) {
 				require_once  __DIR__ . '/classes/class-connect.php';
 			}
-
-
 		}
 	}
 
