@@ -228,9 +228,9 @@ class ConstantContact_Settings {
 }
 
 /**
- * Helper function to get/return the Myprefix_Network_Admin object
+ * Helper function to get/return the ConstantContact_Settings object
  * @since  1.0.0
- * @return Myprefix_Network_Admin object
+ * @return ConstantContact_Settings object
  */
 function ctct_settings_admin() {
 	return ConstantContact_Settings::get_instance();

@@ -188,8 +188,8 @@ class Constant_Contact {
 	 */
 	public function hooks() {
 		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'init', array( $this, 'load_libs' ) );
-		add_action( 'init', array( $this, 'includes' ), 0 );
+		add_action( 'init', array( $this, 'load_libs' ), 0 );
+		add_action( 'init', array( $this, 'includes' ), 5 );
 
 		add_filter( 'plugin_action_links_'. $this->basename, array( $this, 'add_social_links' ) );
 
@@ -311,12 +311,12 @@ class Constant_Contact {
 				require_once  __DIR__ . '/classes/class-admin.php';
 			}
 
-			if ( file_exists( __DIR__ . '/classes/class-builder.php' ) ) {
-				require_once  __DIR__ . '/classes/class-builder.php';
-			}
-
 			if ( file_exists( __DIR__ . '/classes/class-settings.php' ) ) {
 				require_once  __DIR__ . '/classes/class-settings.php';
+			}
+
+			if ( file_exists( __DIR__ . '/classes/class-builder.php' ) ) {
+				require_once  __DIR__ . '/classes/class-builder.php';
 			}
 
 			if ( file_exists( __DIR__ . '/inc/admin/post-list-columns.php' ) ) {
