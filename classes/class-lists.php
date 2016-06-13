@@ -56,7 +56,7 @@ class ConstantContact_Lists {
 	 */
 	public function hooks() {
 		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'init', array( $this, 'sync_lists' ) );
+		add_action( 'init', array( $this, 'sync_lists' ), 4 );
 
 		add_action( 'cmb2_admin_init', array( $this, 'add_lists_metabox' ) );
 
