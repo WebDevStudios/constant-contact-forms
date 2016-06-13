@@ -57,7 +57,7 @@ class ConstantContact_Builder {
 	public function hooks() {
 		global $pagenow;
 
-		if ( in_array( $pagenow, array( 'post-new.php', 'post.php' ) ) ) {
+		if ( in_array( $pagenow, array( 'post-new.php', 'post.php' ), true ) ) {
 
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );

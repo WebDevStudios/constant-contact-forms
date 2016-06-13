@@ -86,11 +86,11 @@ class ConstantContact_Lists {
 	         'show_names'    => true,
 	     ) );
 
-		$post_meta = get_post_meta( $cmb->object_id() );
+		$post_meta = get_post_meta( $cmb->object_id(), '_ctct_list_id', true );
 
 		$cmb->add_field( array(
 			'name' 	=> __( 'ID', constant_contact()->text_domain ),
-			'desc' 	=> $post_meta['_ctct_list_id'][0],
+			'desc' 	=> $post_meta,
 			'id'   	=> '_ctct_list_meta',
 			'type'	=> 'title',
 		) );

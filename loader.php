@@ -166,7 +166,7 @@ class Constant_Contact {
 		$this->basename = plugin_basename( __FILE__ );
 		$this->url	  = plugin_dir_url( __FILE__ );
 		$this->path	 = plugin_dir_path( __FILE__ );
-
+		//$this->includes();
 		$this->plugin_classes();
 	}
 
@@ -189,7 +189,7 @@ class Constant_Contact {
 	public function hooks() {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'load_libs' ) );
-		add_action( 'init', array( $this, 'includes' ) );
+		add_action( 'init', array( $this, 'includes' ), 0 );
 
 		add_filter( 'plugin_action_links_'. $this->basename, array( $this, 'add_social_links' ) );
 
@@ -311,16 +311,16 @@ class Constant_Contact {
 				require_once  __DIR__ . '/classes/class-admin.php';
 			}
 
+			if ( file_exists( __DIR__ . '/classes/class-builder.php' ) ) {
+				require_once  __DIR__ . '/classes/class-builder.php';
+			}
+
 			if ( file_exists( __DIR__ . '/classes/class-settings.php' ) ) {
 				require_once  __DIR__ . '/classes/class-settings.php';
 			}
 
 			if ( file_exists( __DIR__ . '/inc/admin/post-list-columns.php' ) ) {
 				require_once  __DIR__ . '/inc/admin/post-list-columns.php';
-			}
-
-			if ( file_exists( __DIR__ . '/classes/class-builder.php' ) ) {
-				require_once  __DIR__ . '/classes/class-builder.php';
 			}
 
 			if ( file_exists( __DIR__ . '/classes/class-connect.php' ) ) {
