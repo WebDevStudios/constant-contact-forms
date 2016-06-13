@@ -242,10 +242,10 @@ class Constant_Contact {
 	public function scripts() {
 		global $pagenow;
 
-		if ( isset( $pagenow ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) {
-			// Register out javascript file.
-			wp_register_script( 'ctct_form', $this->url() . 'assets/js/plugin.js' );
+		// Register out javascript file.
+		wp_register_script( 'ctct_form', $this->url() . 'assets/js/plugin.js' );
 
+		if ( isset( $pagenow ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) {
 			// Enqueued script with localized data.
 			wp_enqueue_script( 'ctct_form' );
 		}
