@@ -53,6 +53,7 @@ class ConstantContact_CPTS {
 	public function hooks() {
 		add_action( 'init', array( $this, 'constant_contact_forms_post_type' ) );
 		add_action( 'init', array( $this, 'constant_contact_lists_post_type' ) );
+
 		add_action( 'admin_menu', array( $this, 'menu_items' ) );
 
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ) );
@@ -171,7 +172,6 @@ class ConstantContact_CPTS {
 			'capability_type'	 => 'page',
 		);
 		register_post_type( 'ctct_lists', $args );
-
 	}
 
 	/**
@@ -223,9 +223,10 @@ class ConstantContact_CPTS {
 	 */
 	public function menu_items() {
 
-			// Remove top level CPT menu.
-			remove_menu_page( 'edit.php?post_type=ctct_lists' );
+		// Remove top level CPT menu.
+		remove_menu_page( 'edit.php?post_type=ctct_lists' );
 
+		if ( constantcontact_api()->get_account_info() ) {
 			// Add List submenu item for CPT.
 			add_submenu_page(
 				'edit.php?post_type=ctct_forms',
@@ -235,5 +236,6 @@ class ConstantContact_CPTS {
 				'edit.php?post_type=ctct_lists',
 				''
 			);
+		}
 	}
 }

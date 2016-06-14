@@ -114,7 +114,7 @@ class ConstantContact_API {
 		} catch ( CtctException $ex ) {
 
 			foreach ( $ex->getErrors() as $error ) {
-				return $error;
+				$this->api_error_message( $error );
 			}
 			if ( ! isset( $account ) ) {
 				$account = null;
@@ -137,7 +137,7 @@ class ConstantContact_API {
 
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
-				return $error;
+				$this->api_error_message( $error );
 			}
 			if ( ! isset( $contacts ) ) {
 				$contacts = null;
@@ -155,16 +155,12 @@ class ConstantContact_API {
 	 */
 	public function get_lists() {
 
-		//error_log( print_r( new ConstantContact( CTCT_APIKEY ), true ) );
-
-		//$ccc = new ConstantContact( CTCT_APIKEY )
-
 		try {
 			$lists = $this->cc()->listService->getLists( $this->get_api_token() );
 
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
-				return $error;
+				$this->api_error_message( $error );
 			}
 			if ( ! isset( $lists ) ) {
 				$lists = null;
@@ -190,7 +186,7 @@ class ConstantContact_API {
 			return $List;
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
-				//return $error;
+				$this->api_error_message( $error );
 			}
 		}
 
@@ -204,7 +200,7 @@ class ConstantContact_API {
 				$returnList = $this->cc()->listService->addList( $this->get_api_token(), $list );
 			} catch ( CtctException $ex ) {
 				foreach ( $ex->getErrors() as $error ) {
-					return $error;
+					$this->api_error_message( $error );
 				}
 			}
 		}
@@ -213,7 +209,14 @@ class ConstantContact_API {
 
 	}
 
+	/**
+	 * update List from the connected CTCT account
+	 *
+	 * @since  1.0.0
+	 * @return array current connect ctct list
+	 */
 	public function update_list( $updated_list = array() ) {
+
 		try {
 			$list = new ContactList();
 			$list->id = $updated_list['id'];
@@ -222,19 +225,36 @@ class ConstantContact_API {
 			$returnList = $this->cc()->listService->updateList( $this->get_api_token(), $list );
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
-				return $error;
+				$this->api_error_message( $error );
+			}
+			if ( ! isset( $list ) ) {
+				$list = null;
 			}
 		}
+
+		return $list;
 	}
 
+	/**
+	 * delete List from the connected CTCT account
+	 *
+	 * @since  1.0.0
+	 * @return array current connect ctct list
+	 */
 	public function delete_list( $updated_list = array() ) {
+
 		try {
-			$returnList = $this->cc()->listService->deleteList( $this->get_api_token(), $updated_list['id'] );
+			$list = $this->cc()->listService->deleteList( $this->get_api_token(), $updated_list['id'] );
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
-				return $error;
+				$this->api_error_message( $error );
+			}
+			if ( ! isset( $list ) ) {
+				$list = null;
 			}
 		}
+
+		return $list;
 	}
 
 	/**
@@ -297,7 +317,7 @@ class ConstantContact_API {
 
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
-				return $error;
+				$this->api_error_message( $error );
 			}
 			if ( ! isset( $returnContact ) ) {
 				$returnContact = null;

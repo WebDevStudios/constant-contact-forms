@@ -34,8 +34,8 @@ if ( ! class_exists( 'ConstantContact_Shortcode_Admin', false ) ) {
 		public function js_button_data() {
 
 			return array(
-				'qt_button_text' => __( 'Constant Contact', 'cptuiext' ),
-				'button_tooltip' => __( 'Constant Contact', 'cptuiext' ),
+				'qt_button_text' => __( 'Constant Contact', constant_contact()->text_domain ),
+				'button_tooltip' => __( 'Constant Contact', constant_contact()->text_domain ),
 				'icon'		   => 'dashicons-format-aside',
 				'include_close'  => false,
 				'modalClass' 	 => 'ctct',
@@ -55,8 +55,8 @@ if ( ! class_exists( 'ConstantContact_Shortcode_Admin', false ) ) {
 		public function fields( $fields, $button_data ) {
 
 			$fields[] = array(
-				'name'			 => __( 'Form Shortcode', 'cptuiext' ),
-				'desc'			 => __( 'Choosing a form shortcode.', 'cptuiext' ),
+				'name'			 => __( 'Form Shortcode', constant_contact()->text_domain ),
+				'desc'			 => __( 'Choosing a form shortcode.', constant_contact()->text_domain ),
 				'id'			   => '_ctct_form',
 				'type'			 => 'select',
 				'show_option_none' => false,

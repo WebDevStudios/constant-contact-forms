@@ -13,7 +13,7 @@
 class ConstantContact_Builder {
 
 	/**
-	 * Holds an instance of the project
+	 * Holds an instance of the builder
 	 *
 	 * @ConstantContact_Builder
 	 **/
@@ -206,17 +206,20 @@ class ConstantContact_Builder {
 			'type' => 'title',
 		) );
 
-		$options_metabox->add_field( array(
-			'name' => __( 'List', constant_contact()->text_domain ),
-			'id'   => $prefix . 'list',
-			'description' => __( 'Choose a list.', constant_contact()->text_domain ),
-			'type' => 'select',
-			'show_option_none' => true,
-			'default' => 'none',
-			'options' => array(
-				'new' => 'New List'
-			),
-		) );
+		// Add field if conncted to API.
+		if ( $lists = $this->get_lists() ) {
+
+			$options_metabox->add_field( array(
+				'name' => __( 'List', constant_contact()->text_domain ),
+				'id'   => $prefix . 'list',
+				'description' => __( 'Choose a list.', constant_contact()->text_domain ),
+				'type' => 'select',
+				'show_option_none' => true,
+				'default' => 'none',
+				'options' => $lists,
+			) );
+
+		}
 
 		$options_metabox->add_field( array(
 			'name' => __( 'New List', constant_contact()->text_domain ),
@@ -238,6 +241,26 @@ class ConstantContact_Builder {
 			'description' => __( 'Add Opt In instructions.', constant_contact()->text_domain ),
 			'type' => 'textarea_small',
 		) );
+
+	}
+
+	public function get_lists() {
+
+			$get_lists = array();
+
+			if ( $lists = constantcontact_lists()->get_lists() ) {
+
+				$get_lists['new'] = 'New';
+
+				foreach ( $lists as $list => $value ) {
+					$get_lists[ $list ] = $value;
+				}
+
+				return $get_lists;
+
+			}
+
+			return false;
 
 	}
 
@@ -280,14 +303,38 @@ class ConstantContact_Builder {
 				padding-bottom: 0.1em;
 				border-bottom: 1px solid #e9e9e9 !important;
 			}
+			.cmb-repeat-group-wrap .cmb-repeatable-grouping {
+				margin: 0 0 1.5em 0;
+			}
+			.cmb-repeat-group-wrap .cmb-repeatable-grouping .cmb-row {
+				margin: 0 0 0 0.3em;
+			}
+			.postbox-container .cmb-remove-field-row {
+				padding-top: 0.8em;
+				padding-bottom: 0.8em;
+			}
 			.cmb-repeat-group-wrap {
 				padding: 0 !important;
 			}
-			div.postbox.cmb-row.cmb-repeatable-grouping {
-				border-bottom: none;
-			}
 			.cmb-repeat-group-wrap .cmb-repeat-group-field {
-				padding-top: 0.1em;
+				padding-top: 0.2em;
+			}
+			button.cmb-add-group-row {
+				color: white !important;
+				background: #008ec2 !important;
+				border-color: #006799 !important;
+			}
+			a.move-up::after {
+			  content: "move up";
+			}
+			a.move-down::after {
+			  content: "move down";
+			}
+			.cmb2-metabox button.dashicons-before.dashicons-no-alt.cmb-remove-group-row {
+				top: .3em;
+			}
+			button.cmb-remove-group-row {
+				background: #ffdfa3 !important;
 			}
 		</style>
 		<?php

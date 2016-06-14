@@ -167,6 +167,7 @@ class Constant_Contact {
 		$this->url	  = plugin_dir_url( __FILE__ );
 		$this->path	 = plugin_dir_path( __FILE__ );
 
+		$this->load_libs();
 		$this->plugin_classes();
 	}
 
@@ -177,6 +178,7 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function plugin_classes() {
+
 		$this->ctct_forms = new ConstantContact_CPTS( $this );
 	}
 
@@ -188,7 +190,6 @@ class Constant_Contact {
 	 */
 	public function hooks() {
 		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'init', array( $this, 'load_libs' ), 0 );
 		add_action( 'init', array( $this, 'includes' ), 5 );
 
 		add_filter( 'plugin_action_links_'. $this->basename, array( $this, 'add_social_links' ) );
@@ -266,11 +267,6 @@ class Constant_Contact {
 			require_once  __DIR__ . '/vendor/CMB2/init.php';
 		}
 
-		// Load shortcode button framework
-		if ( file_exists( __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php' ) ) {
-			require_once  __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php';
-		}
-
 		// Load dashboard widget.
 		if ( file_exists( __DIR__ . '/vendor/pluginize/dashboard-widget.php' ) ) {
 			require_once  __DIR__ . '/vendor/pluginize/dashboard-widget.php';
@@ -278,6 +274,20 @@ class Constant_Contact {
 
 		if ( file_exists( __DIR__ . '/vendor/constantcontact/autoload.php' ) ) {
 			require_once  __DIR__ . '/vendor/constantcontact/autoload.php';
+		}
+
+	}
+
+	/**
+	 * Load includes.
+	 *
+	 * @since 1.0.0
+	 */
+	public function includes() {
+
+		// Load shortcode button framework
+		if ( file_exists( __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php' ) ) {
+			require_once  __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php';
 		}
 
 		if ( class_exists( 'WDS_Shortcodes_Base' ) ) {
@@ -292,14 +302,9 @@ class Constant_Contact {
 
 		}
 
-	}
-
-	/**
-	 * Load includes.
-	 *
-	 * @since 1.0.0
-	 */
-	public function includes() {
+		if ( file_exists( __DIR__ . '/classes/class-api.php' ) ) {
+			require_once  __DIR__ . '/classes/class-api.php';
+		}
 
 		if ( file_exists( __DIR__ . '/classes/class-lists.php' ) ) {
 			require_once  __DIR__ . '/classes/class-lists.php';
@@ -311,10 +316,6 @@ class Constant_Contact {
 
 		if ( file_exists( __DIR__ . '/inc/auth-redirect.php' ) ) {
 			require_once  __DIR__ . '/inc/auth-redirect.php';
-		}
-
-		if ( file_exists( __DIR__ . '/classes/class-api.php' ) ) {
-			require_once  __DIR__ . '/classes/class-api.php';
 		}
 
 		if ( file_exists( __DIR__ . '/classes/class-settings.php' ) ) {
