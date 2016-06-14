@@ -35,7 +35,7 @@ if ( ! class_exists( 'ConstantContact_Shortcode_Admin', false ) ) {
 
 			return array(
 				'qt_button_text' => __( 'ctct', 'cptuiext' ),
-				'button_tooltip' => __( 'ctct', 'cptuiext' ),
+				'button_tooltip' => __( 'Constant Contact', 'cptuiext' ),
 				'icon'		   => 'dashicons-format-aside',
 				'include_close'  => false,
 				'modalClass' 	 => 'ctct',
