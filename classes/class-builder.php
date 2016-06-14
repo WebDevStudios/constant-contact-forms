@@ -145,6 +145,7 @@ class ConstantContact_Builder {
 			'name' => __( 'Field Name', constant_contact()->text_domain ),
 			'id'   => $prefix . 'field_name',
 			'type' => 'text',
+			'default' => 'Email',
 		) );
 
 		$default_fields = array(
@@ -166,7 +167,7 @@ class ConstantContact_Builder {
 			'id'   => $prefix . 'map_select',
 			'type' => 'select',
 			'show_option_none' => false,
-			'default' => 'custom',
+			'default' => 'email',
 			'options' => $default_fields,
 		) );
 
@@ -175,6 +176,7 @@ class ConstantContact_Builder {
 			'id'   => $prefix . 'required_field',
 			'type' => 'checkbox',
 			'row_classes' => 'required',
+			'default' => 'on',
 		) );
 
 	}
