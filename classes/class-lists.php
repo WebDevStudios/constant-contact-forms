@@ -144,8 +144,7 @@ class ConstantContact_Lists {
 
 			$myPost = get_post( $post_id );
 
-		     if( $myPost->post_modified_gmt === $myPost->post_date_gmt ) {
-				//error_log( 'new post' );
+		     if( isset( $myPost ) && $myPost->post_modified_gmt === $myPost->post_date_gmt ) {
 
 				$list = constantcontact_api()->add_list(
 					array(

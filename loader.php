@@ -266,6 +266,11 @@ class Constant_Contact {
 			require_once  __DIR__ . '/vendor/CMB2/init.php';
 		}
 
+		// Load shortcode button framework
+		if ( file_exists( __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php' ) ) {
+			require_once  __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php';
+		}
+
 		// Load dashboard widget.
 		if ( file_exists( __DIR__ . '/vendor/pluginize/dashboard-widget.php' ) ) {
 			require_once  __DIR__ . '/vendor/pluginize/dashboard-widget.php';
@@ -273,6 +278,18 @@ class Constant_Contact {
 
 		if ( file_exists( __DIR__ . '/vendor/constantcontact/autoload.php' ) ) {
 			require_once  __DIR__ . '/vendor/constantcontact/autoload.php';
+		}
+
+		if ( class_exists( 'WDS_Shortcodes_Base' ) ) {
+
+			$this->test_shortcode = new ConstantContact_Shortcode();
+			$this->test_shortcode_admin = new ConstantContact_Shortcode_Admin(
+				$this->test_shortcode->shortcode,
+				self::VERSION,
+				$this->test_shortcode->atts_defaults
+			);
+			$this->test_shortcode_admin->hooks();
+
 		}
 
 	}
@@ -283,10 +300,6 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 */
 	public function includes() {
-
-		if ( file_exists( __DIR__ . '/classes/class-shortcodes.php' ) ) {
-			require_once  __DIR__ . '/classes/class-shortcodes.php';
-		}
 
 		if ( file_exists( __DIR__ . '/classes/class-lists.php' ) ) {
 			require_once  __DIR__ . '/classes/class-lists.php';
@@ -326,6 +339,7 @@ class Constant_Contact {
 			if ( file_exists( __DIR__ . '/classes/class-connect.php' ) ) {
 				require_once  __DIR__ . '/classes/class-connect.php';
 			}
+
 		}
 	}
 
