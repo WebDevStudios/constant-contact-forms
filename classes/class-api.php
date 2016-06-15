@@ -283,31 +283,23 @@ class ConstantContact_API {
 	            $contact->last_name = $new_contact['last_name'];
 
 	            /*
-	             * The third parameter of addContact defaults to false, but if this were set to true it would tell Constant
-	             * Contact that this action is being performed by the contact themselves, and gives the ability to
-	             * opt contacts back in and trigger Welcome/Change-of-interest emails.
-	             *
 	             * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
 	             */
-	            $returnContact = $this->cc()->contactService->addContact( $this->get_api_token(), $contact );
+	            $returnContact = $this->cc()->contactService->addContact( $this->get_api_token(), $contact, array( 'action_by' => 'ACTION_BY_VISITOR' ) );
 
 	            // update the existing contact if address already existed
 	        } else {
 	            $action = "Updating Contact";
 	            $contact = $response->results[0];
 	            if ( $contact instanceof Contact ) {
-	                //$contact->addList($new_contact['list']);
+	                $contact->addList($new_contact['list']);
 	                $contact->first_name = $new_contact['first_name'];
 	                $contact->last_name = $new_contact['last_name'];
 
 	                /*
-	                 * The third parameter of updateContact defaults to false, but if this were set to true it would tell
-	                 * Constant Contact that this action is being performed by the contact themselves, and gives the ability to
-	                 * opt contacts back in and trigger Welcome/Change-of-interest emails.
-	                 *
-	                 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
+	                 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
 	                 */
-	                $returnContact = $this->cc()->contactService->updateContact( $this->get_api_token(), $contact );
+	                $returnContact = $this->cc()->contactService->updateContact( $this->get_api_token(), $contact, array( 'action_by' => 'ACTION_BY_VISITOR' ) );
 	            } else {
 	                $e = new CtctException();
 	                $e->setErrors(array("type", "Contact type not returned"));

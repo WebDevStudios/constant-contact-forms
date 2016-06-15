@@ -69,6 +69,11 @@ class ConstantContact_Settings {
 		add_filter( 'cmb2_override_option_get_'. $this->key, array( $this, 'get_override' ), 10, 2 );
 		// Override CMB's setter
 		add_filter( 'cmb2_override_option_save_'. $this->key, array( $this, 'update_override' ), 10, 2 );
+
+		add_action( 'cmb2_init', array( $this, 'add_optin_to_forms' ) );
+		add_filter( 'preprocess_comment', array( $this, 'process_optin_comment_form' ) );
+		add_filter( 'authenticate', array( $this, 'process_optin_login_form' ), 10, 3 );
+
 	}
 
 	/**
@@ -141,28 +146,37 @@ class ConstantContact_Settings {
 			$option_options['reg_form'] = __( 'Registration Form', constant_contact()->text_domain );
 		}
 
-		// Set our CMB2 fields
-		$cmb->add_field( array(
-			'name' 	=> __( 'Opt In', constant_contact()->text_domain ),
-			'desc' 	=> __( 'Add opt in checkbox to selected forms.', constant_contact()->text_domain ),
-			'id'   	=> '_ctct_optin_forms',
-			'type'	=> 'multicheck',
-			'options' => $option_options,
-		) );
 
-		$cmb->add_field( array(
-			'name' 	=> __( 'Opt In List', constant_contact()->text_domain ),
-			'desc' 	=> __( 'Choose list to add opt in subsciptions.', constant_contact()->text_domain ),
-			'id'   	=> '_ctct_optin_list',
-			'type'	=> 'select',
-			'show_option_none' => true,
-			'default'		  => 'none',
-			'options'		  => array(
-				'standard' 	=> __( 'Option One', constant_contact()->text_domain ),
-				'custom'   	=> __( 'Option Two', constant_contact()->text_domain ),
-				'three'	 	=> __( 'Option Three', constant_contact()->text_domain ),
-			),
-		) );
+		if ( $lists = ctct_builder_admin()->get_lists() ) {
+
+			unset( $lists['new'] );
+
+			// Set our CMB2 fields
+			$cmb->add_field( array(
+				'name' 	=> __( 'Opt In', constant_contact()->text_domain ),
+				'desc' 	=> __( 'Add opt in checkbox to selected forms.', constant_contact()->text_domain ),
+				'id'   	=> '_ctct_optin_forms',
+				'type'	=> 'multicheck',
+				'options' => $option_options,
+			) );
+
+			$cmb->add_field( array(
+				'name' 	=> __( 'Opt In Label', constant_contact()->text_domain ),
+				'desc' 	=> __( 'Opt in checkbox form label.', constant_contact()->text_domain ),
+				'id'   	=> '_ctct_optin_label',
+				'type'	=> 'text',
+			) );
+
+			$cmb->add_field( array(
+				'name' 	=> __( 'Opt In List', constant_contact()->text_domain ),
+				'desc' 	=> __( 'Choose list to add opt in subsciptions.', constant_contact()->text_domain ),
+				'id'   	=> '_ctct_optin_list',
+				'type'	=> 'select',
+				'show_option_none' => true,
+				'default'		  => 'none',
+				'options'		  => $lists,
+			) );
+		}
 
 		$cmb->add_field( array(
 			'name' 	=> __( 'API key', constant_contact()->text_domain ),
@@ -175,6 +189,107 @@ class ConstantContact_Settings {
 			'type'	=> 'text',
 		) );
 
+	}
+
+	/**
+	 * Add selected optin to forms.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function add_optin_to_forms() {
+
+		if ( ! ctct_builder_admin()->get_lists() ) { return; }
+
+		$optin_selected = ctct_get_settings_option( '_ctct_optin_forms' );
+
+		foreach ( $optin_selected as $key => $value ) {
+			switch ( $value ) {
+				case 'login_form':
+					add_action( 'login_form', array( $this, 'optin_form_field' ) );
+				break;
+				case 'comment_form':
+					add_action( 'comment_form_after_fields', array( $this, 'optin_form_field' ) );
+				break;
+				case 'reg_form':
+					add_action( 'register_form', array( $this, 'optin_form_field' ) );
+					add_action( 'signup_extra_fields', array( $this, 'optin_form_field' ) );
+				break;
+			}
+		}
+	}
+
+	/**
+	 * Opt in field checkbox
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function optin_form_field() {
+		$label = ctct_get_settings_option( '_ctct_optin_label' ) ? ctct_get_settings_option( '_ctct_optin_label' ) : __( 'Sign up to our newsletter.', constant_contact()->text_domain );
+	?>
+	    <p style="padding: 0 0 1em 0;">
+	        <label for="ctct_optin">
+	        <input type="checkbox" value="<?php echo esc_attr( ctct_get_settings_option( '_ctct_optin_list' ) ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list">
+			<?php echo esc_attr( $label ); ?>
+			</label>
+	    </p>
+	<?php
+
+	}
+
+	/**
+	 * Sends contact to CTCT if optin checked
+	 *
+	 * @param  array $comment_data comment form data.
+	 * @return array comment form data
+	 */
+	public function process_optin_comment_form( $comment_data ) {
+
+		if ( isset( $_POST['ctct_optin_list'] ) ) {
+
+			$args = array(
+				'email' => sanitize_email( $comment_data['comment_author_email'] ),
+				'list' => $_POST['ctct_optin_list'],
+				'first_name' => sanitize_text_field( $comment_data['comment_author'] ),
+				'last_name' => '',
+			);
+
+			constantcontact_api()->add_contact( $args );
+		}
+
+		return $comment_data;
+	}
+
+	/**
+	 * Sends contact to CTCT if optin checked
+	 *
+	 * @param  [type] $user     [description]
+	 * @param  [type] $username [description]
+	 * @param  [type] $password [description]
+	 * @return [type]           [description]
+	 */
+	public function process_optin_login_form( $user, $username, $password ) {
+
+		if ( isset( $_POST['ctct_optin_list'] ) ) {
+
+			$user_data = get_user_by('login', $username );
+
+			//error_log( print_r( $user_data, true ) );
+
+			$args = array(
+				'email' => sanitize_email( $user_data->data->user_email ),
+				'list' => $_POST['ctct_optin_list'],
+				'first_name' => sanitize_text_field( $user_data->data->display_name ),
+				'last_name' => '',
+			);
+
+			$addct = constantcontact_api()->add_contact( $args );
+
+			//error_log( print_r( $addct, true ) );
+		}
+
+		return $user;
 	}
 
 	/**
@@ -196,7 +311,9 @@ class ConstantContact_Settings {
 
 	/**
 	 * Replaces get_option with get_site_option
+	 *
 	 * @since  1.0.0
+	 * @return mixed site option
 	 */
 	public function get_override( $test, $default = false ) {
 		return get_site_option( $this->key, $default );
@@ -204,7 +321,9 @@ class ConstantContact_Settings {
 
 	/**
 	 * Replaces update_option with update_site_option
+	 *
 	 * @since  1.0.0
+	 * @return mixed site option
 	 */
 	public function update_override( $test, $option_value ) {
 		return update_site_option( $this->key, $option_value );
@@ -212,9 +331,10 @@ class ConstantContact_Settings {
 
 	/**
 	 * Public getter method for retrieving protected/private variables
+	 *
 	 * @since  1.0.0
-	 * @param  string  $field Field to retrieve
-	 * @return mixed		  Field value or exception is thrown
+	 * @param  string $field Field to retrieve.
+	 * @return mixed Field value or exception is thrown
 	 */
 	public function __get( $field ) {
 		// Allowed fields to retrieve
@@ -229,8 +349,9 @@ class ConstantContact_Settings {
 
 /**
  * Helper function to get/return the ConstantContact_Settings object
+ *
  * @since  1.0.0
- * @return ConstantContact_Settings object
+ * @return object ConstantContact_Settings
  */
 function ctct_settings_admin() {
 	return ConstantContact_Settings::get_instance();
@@ -238,13 +359,14 @@ function ctct_settings_admin() {
 
 /**
  * Wrapper function around cmb2_get_option
+ *
  * @since  1.0.0
- * @param  string  $key Options array key
- * @return mixed		Option value
+ * @param  string $key Options array key.
+ * @return mixed Option value
  */
 function ctct_get_settings_option( $key = '' ) {
 	return cmb2_get_option( ctct_settings_admin()->key, $key );
 }
 
-// Get it started
+// Get it started.
 ctct_settings_admin();
