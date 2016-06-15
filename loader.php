@@ -193,7 +193,6 @@ class Constant_Contact {
 		add_action( 'init', array( $this, 'includes' ), 5 );
 
 		add_filter( 'plugin_action_links_'. $this->basename, array( $this, 'add_social_links' ) );
-
 		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 
 		if ( is_ssl() ) {

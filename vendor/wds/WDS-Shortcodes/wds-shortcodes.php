@@ -23,7 +23,7 @@
  */
 
 // include composer autoloader (make sure you run `composer install`!)
-require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
+//require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
 
 /**
  * Main initiation class
@@ -34,7 +34,7 @@ require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
  * @var  string $url      Plugin URL
  * @var  string $path     Plugin Path
  */
-class WDS_Shortcodes_Base {
+class WDS_Shortcodes_Base_CTCT {
 
 	/**
 	 * Current version
@@ -150,9 +150,9 @@ class WDS_Shortcodes_Base {
  * @since  0.1.0
  * @return WDS_Shortcodes_Base  Singleton instance of plugin class.
  */
-function wds_shortcodes() {
-	return WDS_Shortcodes_Base::get_instance();
+function ctct_wds_shortcodes() {
+	return WDS_Shortcodes_Base_CTCT::get_instance();
 }
 
 // Kick it off
-add_action( 'plugins_loaded', array( wds_shortcodes(), 'hooks' ) );
+add_action( 'plugins_loaded', array( ctct_wds_shortcodes(), 'hooks' ) );
