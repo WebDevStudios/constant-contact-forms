@@ -50,7 +50,7 @@ function ctct_custom_columns( $column, $post_id ) {
 
 	switch ( $column ) {
 		case 'shortcodes':
-			echo esc_attr( '[ctct form='. $post_id .']' );
+			echo esc_attr( '[ctct form="'. $post_id .'"]' );
 		break;
 		case 'description':
 			if ( $meta = get_post_meta( $post_id, '_ctct_description' ) ) {
