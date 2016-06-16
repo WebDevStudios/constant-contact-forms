@@ -142,10 +142,10 @@ function ctct_form_submit_message() {
 
 		switch( $message ) {
 			case 'success':
-				$message_text = "You have liberated this city!";
+				$message_text = "Your message has been sent!";
 			break;
 			case 'error':
-				$message_text = "You have failed this city!";
+				$message_text = "Your message failed to send!";
 			break;
 
 		}
