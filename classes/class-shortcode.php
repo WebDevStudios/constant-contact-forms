@@ -74,6 +74,7 @@ if ( ! class_exists( 'ConstantContact_Shortcode', false ) ) {
     		foreach ( $custom_fields as $key => $value ) {
 
     			$c_fields['fields'][ $key ]['name'] = $custom_fields[ $key ]['_ctct_field_name'];
+                $c_fields['fields'][ $key ]['map_to'] = $custom_fields[ $key ]['_ctct_map_select'];
 
     			if ( isset( $custom_fields[ $key ]['_ctct_required_field'] ) && 'on' === $custom_fields[ $key ]['_ctct_required_field'] ) {
     				$c_fields['fields'][ $key ]['required'] = $custom_fields[ $key ]['_ctct_required_field'];

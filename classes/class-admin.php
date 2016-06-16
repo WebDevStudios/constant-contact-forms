@@ -144,8 +144,6 @@ class ConstantContact_Admin {
 				<?php
 				$page = isset( $_GET['page'] ) ? explode(  $this->key . '_', $_GET['page'] ) : '';
 
-				//bpextender_products_sidebar();
-
 				if ( in_array( $page[1], array( 'about', 'help' ) ) ) {
 					if ( file_exists( constant_contact()->path . 'inc/admin/'. $page[1] .'.php' )  ) {
 						include_once( constant_contact()->path . 'inc/admin/'. $page[1] .'.php' );
