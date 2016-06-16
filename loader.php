@@ -275,6 +275,11 @@ class Constant_Contact {
 			require_once  __DIR__ . '/vendor/constantcontact/autoload.php';
 		}
 
+		// Load shortcode button framework
+		if ( file_exists( __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php' ) ) {
+			require_once  __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php';
+		}
+
 	}
 
 	/**
@@ -283,11 +288,6 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 */
 	public function includes() {
-
-		// Load shortcode button framework
-		if ( file_exists( __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php' ) ) {
-			require_once  __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php';
-		}
 
 		if ( class_exists( 'WDS_Shortcodes_Base' ) ) {
 
