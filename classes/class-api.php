@@ -181,9 +181,14 @@ class ConstantContact_API {
 
 		if ( empty( $new_list ) ) { return null; }
 
+		$returnList = array();
+
 		try {
 			$list = $this->cc()->listService->getList( $this->get_api_token(), $new_list['id'] );
-			return $List;
+
+			if ( isset( $list ) ) {
+				return $List;
+			}
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
 				$this->api_error_message( $error );
@@ -194,7 +199,7 @@ class ConstantContact_API {
 
 			try {
 				$list = new ContactList();
-				$list->id = '234567';
+				//$list->id = '234567';
 				$list->name = $new_list['name'];
 				$list->status = 'HIDDEN';
 				$returnList = $this->cc()->listService->addList( $this->get_api_token(), $list );
@@ -203,10 +208,9 @@ class ConstantContact_API {
 					$this->api_error_message( $error );
 				}
 			}
+
+			return $returnList;
 		}
-		return $returnList;
-
-
 	}
 
 	/**

@@ -59,7 +59,7 @@ class ConstantContact_Lists {
 
 		add_action( 'cmb2_admin_init', array( $this, 'add_lists_metabox' ) );
 
-		add_action( 'init', array( $this, 'save_list' ) );
+		add_action( 'save_post_ctct_lists', array( $this, 'save_list' ) );
 		add_action( 'save_post_ctct_lists', array( $this, 'update_list' ) );
 		add_action( 'wp_trash_post', array( $this, 'delete_list' ) );
 
@@ -137,14 +137,14 @@ class ConstantContact_Lists {
 
 		if ( 'post-new.php' === $pagenow ) {
 
-			$myPost = get_post( $post_id );
+			$ctct_list = get_post( $post_id );
 
-			 if( isset( $myPost ) && $myPost->post_modified_gmt === $myPost->post_date_gmt ) {
+			 if( isset( $ctct_list ) && $ctct_list->post_modified_gmt === $ctct_list->post_date_gmt ) {
 
 				$list = constantcontact_api()->add_list(
 					array(
-						'id' => $myPost->ID,
-						'name' => $myPost->post_title,
+						'id' => $ctct_list->ID,
+						'name' => $ctct_list->post_title,
 					)
 				);
 
@@ -160,20 +160,21 @@ class ConstantContact_Lists {
 
 		if ( 'post.php' === $pagenow ) {
 
-			$myPost = get_post( $post_id );
+			$ctct_list = get_post( $post_id );
 
-			$list_id = get_post_meta( $myPost->ID, '_ctct_list_id', true );
+			$list_id = get_post_meta( $ctct_list->ID, '_ctct_list_id', true );
 
-			$list = constantcontact_api()->update_list(
-				array(
-					'id' => $list_id,
-					'name' => $myPost->post_title,
-				)
-			);
+			if ( $list_id ) {
 
+				$list = constantcontact_api()->update_list(
+					array(
+						'id' => $list_id,
+						'name' => $ctct_list->post_title,
+					)
+				);
+
+			}
 		}
-
-
 	}
 
 	/**
@@ -186,13 +187,17 @@ class ConstantContact_Lists {
 
 		$list_id = get_post_meta( $post_id, '_ctct_list_id', true );
 
-		$list = constantcontact_api()->delete_list(
-			array(
-				'id' => $list_id,
-			)
-		);
+		if ( $list_id ) {
 
-		wp_delete_post( $post_id, true );
+			$list = constantcontact_api()->delete_list(
+				array(
+					'id' => $list_id,
+				)
+			);
+
+			wp_delete_post( $post_id, true );
+
+		}
 		return false;
 	}
 
