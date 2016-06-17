@@ -55,7 +55,6 @@ class ConstantContact_Lists {
 	 */
 	public function hooks() {
 		add_action( 'cmb2_init', array( $this, 'sync_lists' ) );
-
 		add_action( 'cmb2_admin_init', array( $this, 'add_lists_metabox' ) );
 
 		add_action( 'save_post_ctct_lists', array( $this, 'save_list' ) );
@@ -127,6 +126,14 @@ class ConstantContact_Lists {
 						update_post_meta( $post, '_ctct_list_id', $list->id );
 
 				}
+
+				/**
+				 * Hook when a ctct list is updated.
+				 *
+				 * @since 1.0.0
+				 * @param array $list ctct returned list data
+				 */
+				do_action( 'ctct_sync_lists', $lists );
 			}
 		}
 	}
@@ -153,7 +160,18 @@ class ConstantContact_Lists {
 						'name' => $ctct_list->post_title,
 					)
 				);
+
 				add_post_meta( $post_id, '_ctct_list_id', $list->id );
+
+				/**
+				 * Hook when a ctct list is saved.
+				 *
+				 * @since 1.0.0
+				 * @param integer $post_id cpt post id
+				 * @param integer $list_id ctct list id
+				 * @param array $list ctct returned list data
+				 */
+				do_action( 'ctct_update_list', $post_id, $list_id, $list );
 
 			}
 		}
@@ -173,7 +191,6 @@ class ConstantContact_Lists {
 		if ( 'post.php' === $pagenow ) {
 
 			$ctct_list = get_post( $post_id );
-
 			$list_id = get_post_meta( $ctct_list->ID, '_ctct_list_id', true );
 
 			if ( $list_id ) {
@@ -184,6 +201,16 @@ class ConstantContact_Lists {
 						'name' => $ctct_list->post_title,
 					)
 				);
+
+				/**
+				 * Hook when a ctct list is updated.
+				 *
+				 * @since 1.0.0
+				 * @param integer $post_id cpt post id
+				 * @param integer $list_id ctct list id
+				 * @param array $list ctct returned list data
+				 */
+				do_action( 'ctct_update_list', $post_id, $list_id, $list );
 
 			}
 		}
@@ -209,12 +236,21 @@ class ConstantContact_Lists {
 
 			wp_delete_post( $post_id, true );
 
+			/**
+			 * Hook when a ctct list is deleted.
+			 *
+			 * @since 1.0.0
+			 * @param integer $post_id
+			 * @param integer $list_id
+			 */
+			do_action( 'ctct_delete_list', $post_id, $list_id );
+
 		}
 		return false;
 	}
 
 	/**
-	 * Gets the list data from CTCT
+	 * Returns array of the list data from CTCT
 	 *
 	 * @since 1.0.0
 	 * @return array contact list data from CTCT
@@ -234,7 +270,6 @@ class ConstantContact_Lists {
 
 		return $get_lists;
 	}
-
 }
 
 /**
