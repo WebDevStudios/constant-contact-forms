@@ -38,7 +38,6 @@ class ConstantContact_Lists {
 	 * Returns the running object
 	 *
 	 * @since 1.0.0
-	 *
 	 * @return ConstantContact_Lists
 	 */
 	public static function get_instance() {
@@ -68,6 +67,7 @@ class ConstantContact_Lists {
 	/**
 	 * CMB2 metabox for list data
 	 *
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public function add_lists_metabox() {
@@ -93,7 +93,7 @@ class ConstantContact_Lists {
 	}
 
 	/**
-	 * Hooked to WP init.
+	 * Syncs list cpt with lists on CTCT
 	 *
 	 * @since 1.0.0
 	 * @return void
@@ -106,14 +106,13 @@ class ConstantContact_Lists {
 		if ( in_array( $pagenow, array( 'edit.php' ), true ) && isset( $_GET['post_type'] ) && 'ctct_lists' === $_GET['post_type'] ) {
 
 			$args = array(
-				'post_type'	=>	'ctct_lists',
+				'post_type'	=> 'ctct_lists',
 			);
 			$my_query = new WP_Query( $args );
 
 			foreach ( $my_query->posts as $post ) {
 				wp_delete_post( $post->ID, true );
 			}
-
 
 			if ( $lists = constantcontact_api()->get_lists() ) {
 
@@ -132,6 +131,13 @@ class ConstantContact_Lists {
 		}
 	}
 
+	/**
+	 * Saves list cpt and sends add list request to CTCT
+	 *
+	 * @since 1.0.0
+	 * @param  integer $post_id current post id.
+	 * @return void
+	 */
 	public function save_list( $post_id ) {
 		global $pagenow;
 
@@ -139,7 +145,7 @@ class ConstantContact_Lists {
 
 			$ctct_list = get_post( $post_id );
 
-			 if( isset( $ctct_list ) && $ctct_list->post_modified_gmt === $ctct_list->post_date_gmt ) {
+			if ( isset( $ctct_list ) && $ctct_list->post_modified_gmt === $ctct_list->post_date_gmt ) {
 
 				$list = constantcontact_api()->add_list(
 					array(
@@ -147,13 +153,19 @@ class ConstantContact_Lists {
 						'name' => $ctct_list->post_title,
 					)
 				);
-
 				add_post_meta( $post_id, '_ctct_list_id', $list->id );
 
-			 }
+			}
 		}
 	}
 
+	/**
+	 * Update list data cpt and send update request to CTCT
+	 *
+	 * @since 1.0.0
+	 * @param  integer $post_id current post id.
+	 * @return void
+	 */
 	public function update_list( $post_id ) {
 
 		global $pagenow;
@@ -202,9 +214,10 @@ class ConstantContact_Lists {
 	}
 
 	/**
-	 * Get list from CTCT.
+	 * Gets the list data from CTCT
 	 *
-	 * @return boolean
+	 * @since 1.0.0
+	 * @return array contact list data from CTCT
 	 */
 	public function get_lists() {
 
@@ -228,7 +241,6 @@ class ConstantContact_Lists {
  * Helper function to get/return the ConstantContact_Lists object.
  *
  * @since 1.0.0
- *
  * @return ConstantContact_Lists object.
  */
 function constantcontact_lists() {
