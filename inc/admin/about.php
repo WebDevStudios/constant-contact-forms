@@ -30,6 +30,7 @@ class ConstantContact_Admin_About {
 	/**
 	 * Initiate our hooks
 	 *
+	 * @internal
 	 * @since 1.0.0
 	 */
 	public function hooks() {
@@ -37,11 +38,12 @@ class ConstantContact_Admin_About {
 		add_action( 'admin_head', array( $this, 'admin_head' ) );
 	}
 
-
 	/**
 	 * Register our setting to WP
 	 *
+	 * @internal
 	 * @since  1.0.0
+	 * @return void
 	 */
 	public function init( $plugin ) {
 
@@ -86,7 +88,9 @@ class ConstantContact_Admin_About {
 	/**
 	 * Admin page markup.
 	 *
+	 * @internal
 	 * @since  1.0.0
+	 * @return void
 	 */
 	public function welcome_text() {
 
@@ -154,6 +158,13 @@ class ConstantContact_Admin_About {
 
 	}
 
+	/**
+	 * About screen markup
+	 *
+	 * @internal
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public function about_screen() {
 	?>
 
@@ -185,13 +196,13 @@ class ConstantContact_Admin_About {
 				<div class="feature-section <?php if ( count( $this->plugin['features'] ) >= 2 ) { echo 'two-col'; } ?>">
 					<?php foreach ( $this->plugin['features'] as $feature ) : ?>
 					<div>
-						<h3 class="feature-title" style="text-align:center;"><?php esc_html_e( $feature['title'] ); ?></h3>
+						<h3 class="feature-title" style="text-align:center;"><?php echo esc_html( $feature['title'] ); ?></h3>
 						<?php if ( ! empty( $feature['image'] ) ) : ?>
 							<div class="feature-image" style="height:195px; max-width:500px; margin:20px; overflow:hidden;">
 								<img src="<?php echo esc_url( $feature['image'] ); ?>" alt="<?php esc_html_e( $this->plugin['plugin'] . ' feature image.', $this->plugin['domain'] ); ?>">
 							</div>
 						<?php endif; ?>
-						<p style="text-align:center;"><?php esc_html_e( $feature['description'] ); ?></p>
+						<p style="text-align:center;"><?php echo esc_html( $feature['description'] ); ?></p>
 					</div>
 				<?php endforeach; ?>
 				</div>
@@ -201,14 +212,14 @@ class ConstantContact_Admin_About {
 			<p>
 				<?php _ex( 'Learn more:', 'About screen, website links', $this->plugin['domain'] ); ?>
 				<?php foreach ( $this->plugin['links'] as $link => $value ) : ?>
-					<a href="<?php echo $value; ?>"><?php _e( $link, $this->plugin['domain'] ); ?></a> &bullet;
+					<a href="<?php echo esc_url( $value ); ?>"><?php esc_html_e( $link, $this->plugin['domain'] ); ?></a> &bullet;
 				<?php endforeach; ?>
 			</p>
 
 			<p>
 				<?php _ex( 'Follow Us!:', 'About screen, social media links', $this->plugin['domain'] ); ?>
 				<?php foreach ( $this->plugin['social'] as $link => $value ) : ?>
-					<a href="<?php echo $value; ?>"><?php _e( $link, $this->plugin['domain'] ); ?></a> &bullet;
+					<a href="<?php echo esc_url( $value ); ?>"><?php esc_html_e( $link, $this->plugin['domain'] ); ?></a> &bullet;
 				<?php endforeach; ?>
 			</p>
 
@@ -220,6 +231,8 @@ class ConstantContact_Admin_About {
 	/**
 	 * Output our tab navigation.
 	 *
+	 * @internal
+	 * @since 1.0.0
 	 * @param string $tab Active tab.
 	 */
 	public static function tab_navigation( $tab = 'whats_new' ) {
@@ -233,13 +246,14 @@ class ConstantContact_Admin_About {
 
 	<?php
 	}
-
-
 }
 
 /**
  * About page class setup
  *
+ * @internal
+ * @since 1.0.0
+ * @param array $args data to populate the about page.
  * @return void
  */
 function constantcontact_about( $args = array() ) {
@@ -247,7 +261,7 @@ function constantcontact_about( $args = array() ) {
 	$about->init( $args );
 }
 
-
+// Data for the content of the about page.
 constantcontact_about(
 	array(
 		'plugin' => constant_contact()->plugin_name,
@@ -278,14 +292,15 @@ constantcontact_about(
 	)
 );
 
-
-
+if ( ! function_exists( 'wds_wp_parse_args' ) ) {
 	/**
 	 * Parse multidemntional args
 	 *
+	 * @internal
+	 * @since 1.0.0
 	 * @param  array $a args to parse.
 	 * @param  array $b default array.
-	 * @return array   the parsed array
+	 * @return array the parsed array
 	 */
 	function wds_wp_parse_args( &$a, $b ) {
 		$a = (array) $a;
@@ -300,3 +315,4 @@ constantcontact_about(
 		}
 		return $result;
 	}
+}

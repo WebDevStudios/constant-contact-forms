@@ -27,6 +27,7 @@ add_action( 'admin_init', 'ctct_add_post_columns_filter' );
  *
  * @internal
  *
+ * @since 1.0.0
  * @param array $columns post list columns.
  * @return array $columns Array of columns to add.
  */
@@ -43,6 +44,7 @@ function ctct_set_custom_columns( $columns ) {
  *
  * @internal
  *
+ * @since 1.0.0
  * @param string  $column  Column title.
  * @param integer $post_id Post id of post item.
  */

@@ -40,7 +40,6 @@ class ConstantContact_API {
 	 * Returns the running object
 	 *
 	 * @since 1.0.0
-	 *
 	 * @return ConstantContact_API
 	 */
 	public static function get_instance() {
@@ -55,24 +54,16 @@ class ConstantContact_API {
 	 * Initiate our hooks.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
-	public function hooks() {
-		add_action( 'init', array( $this, 'init' ) );
-	}
+	public function hooks() {}
 
-
-	/**
-	 * Hooked to WP init.
-	 *
-	 * @since 1.0.0
-	 */
-	public function init() {
-	}
 
 	/**
 	 * Get instance of .ConstantContact.
 	 *
 	 * @since 1.0.0
+	 * @return object ConstantContact_API
 	 */
 	public function cc() {
 		return new ConstantContact( $this->get_api_token( 'CTCT_APIKEY' ) );
@@ -82,6 +73,7 @@ class ConstantContact_API {
 	 * Returns api token string to access api
 	 *
 	 * @since  1.0.0
+	 * @param string $type api key type.
 	 * @return string api token
 	 */
 	public function get_api_token( $type = '' ) {
@@ -175,19 +167,20 @@ class ConstantContact_API {
 	 * Add List to the connected CTCT account
 	 *
 	 * @since  1.0.0
+	 * @param array $new_list api data for new list.
 	 * @return array current connect ctct lists
 	 */
 	public function add_list( $new_list = array() ) {
 
 		if ( empty( $new_list ) ) { return null; }
 
-		$returnList = array();
+		$return_list = array();
 
 		try {
 			$list = $this->cc()->listService->getList( $this->get_api_token(), $new_list['id'] );
 
 			if ( isset( $list ) ) {
-				return $List;
+				return $list;
 			}
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
@@ -199,24 +192,24 @@ class ConstantContact_API {
 
 			try {
 				$list = new ContactList();
-				//$list->id = '234567';
 				$list->name = $new_list['name'];
 				$list->status = 'HIDDEN';
-				$returnList = $this->cc()->listService->addList( $this->get_api_token(), $list );
+				$return_list = $this->cc()->listService->addList( $this->get_api_token(), $list );
 			} catch ( CtctException $ex ) {
 				foreach ( $ex->getErrors() as $error ) {
 					$this->api_error_message( $error );
 				}
 			}
 
-			return $returnList;
+			return $return_list;
 		}
 	}
 
 	/**
-	 * update List from the connected CTCT account
+	 * Update List from the connected CTCT account
 	 *
 	 * @since  1.0.0
+	 * @param array $updated_list api data for list.
 	 * @return array current connect ctct list
 	 */
 	public function update_list( $updated_list = array() ) {
@@ -226,23 +219,24 @@ class ConstantContact_API {
 			$list->id = $updated_list['id'];
 			$list->name = $updated_list['name'];
 			$list->status = 'HIDDEN';
-			$returnList = $this->cc()->listService->updateList( $this->get_api_token(), $list );
+			$return_list = $this->cc()->listService->updateList( $this->get_api_token(), $list );
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
 				$this->api_error_message( $error );
 			}
-			if ( ! isset( $list ) ) {
-				$list = null;
+			if ( ! isset( $return_list ) ) {
+				$return_list = null;
 			}
 		}
 
-		return $list;
+		return $return_list;
 	}
 
 	/**
-	 * delete List from the connected CTCT account
+	 * Delete List from the connected CTCT account
 	 *
 	 * @since  1.0.0
+	 * @param array $updated_list api data for list.
 	 * @return array current connect ctct list
 	 */
 	public function delete_list( $updated_list = array() ) {
@@ -273,65 +267,64 @@ class ConstantContact_API {
 		if ( empty( $new_contact ) ) { return null; }
 
 		try {
-	        // check to see if a contact with the email address already exists in the account
-	        $response = $this->cc()->contactService->getContacts( $this->get_api_token(), array("email" => $new_contact['email'] ) );
+	        // Check to see if a contact with the email address already exists in the account.
+	        $response = $this->cc()->contactService->getContacts( $this->get_api_token(), array( 'email' => $new_contact['email'] ) );
 
-	        // create a new contact if one does not exist
+	        // Create a new contact if one does not exist.
 	        if ( empty( $response->results ) ) {
-	            $action = "Creating Contact";
+	            $action = 'Creating Contact';
 
 	            $contact = new Contact();
-	            $contact->addEmail($new_contact['email']);
-	            $contact->addList($new_contact['list']);
+	            $contact->addEmail( $new_contact['email'] );
+	            $contact->addList( $new_contact['list'] );
 	            $contact->first_name = $new_contact['first_name'];
 	            $contact->last_name = $new_contact['last_name'];
 
 	            /*
 	             * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
 	             */
-	            $returnContact = $this->cc()->contactService->addContact( $this->get_api_token(), $contact, array( 'action_by' => 'ACTION_BY_VISITOR' ) );
+	            $return_contact = $this->cc()->contactService->addContact( $this->get_api_token(), $contact, array( 'action_by' => 'ACTION_BY_VISITOR' ) );
 
-	            // update the existing contact if address already existed
+	            // Update the existing contact if address already existed.
 	        } else {
-	            $action = "Updating Contact";
+	            $action = 'Updating Contact';
 	            $contact = $response->results[0];
 	            if ( $contact instanceof Contact ) {
-	                $contact->addList($new_contact['list']);
+	                $contact->addList( $new_contact['list'] );
 	                $contact->first_name = $new_contact['first_name'];
 	                $contact->last_name = $new_contact['last_name'];
 
 	                /*
 	                 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
 	                 */
-	                $returnContact = $this->cc()->contactService->updateContact( $this->get_api_token(), $contact, array( 'action_by' => 'ACTION_BY_VISITOR' ) );
+	                $return_contact = $this->cc()->contactService->updateContact( $this->get_api_token(), $contact, array( 'action_by' => 'ACTION_BY_VISITOR' ) );
 	            } else {
 	                $e = new CtctException();
-	                $e->setErrors(array("type", "Contact type not returned"));
+	                $e->setErrors( array( 'type', 'Contact type not returned' ) );
 	                throw $e;
 	            }
 	        }
-
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
 				$this->api_error_message( $error );
 			}
-			if ( ! isset( $returnContact ) ) {
-				$returnContact = null;
+			if ( ! isset( $return_contact ) ) {
+				$return_contact = null;
 			}
 		}
-		return $returnContact;
+		return $return_contact;
 	}
 
 	/**
 	 * Process api error response
 	 *
 	 * @since  1.0.0
-	 * @param  array $error api error repsonse
-	 * @return void
+	 * @param  array $error api error repsonse.
+	 * @return mixed
 	 */
 	private function api_error_message( $error ) {
 
-		switch( $error->error_key ) {
+		switch ( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
 				$this->access_token = false;
 				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', constant_contact()->text_domain );
@@ -343,15 +336,13 @@ class ConstantContact_API {
 		}
 
 	}
-
 }
 
 /**
  * Helper function to get/return the ConstantContact_API object.
  *
  * @since 1.0.0
- *
- * @return ConstantContact_API object.
+ * @return object ConstantContact_API
  */
 function constantcontact_api() {
 	return ConstantContact_API::get_instance();
@@ -359,27 +350,3 @@ function constantcontact_api() {
 
 // Get it started.
 constantcontact_api();
-
-
-// testing api data
-function constantcontact_api_data() {
-	d( constantcontact_api()->get_account_info() );
-	d( constantcontact_api()->get_contacts() );
-	d( constantcontact_api()->get_lists() );
-
-	// d( constantcontact_api()->add_list(
-	// 	array(
-	// 		'id' => '234567',
-	// 		'name' => 'Test List',
-	// 	)
-	// ) );
-
-	//  d( constantcontact_api()->add_contact(
-	// 	 array(
-	// 		 'email' => 'cgriswald@wallyworld.com',
-	// 		 'list' => '',
-	// 		 'first_name' => 'Clark W. dddd',
-	// 		 'last_name' => 'Griswald',
-	// 	 )
-	//  ) );
-}

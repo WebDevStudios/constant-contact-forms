@@ -33,7 +33,6 @@ class ConstantContact_Process_Form {
 	 * Returns the running object
 	 *
 	 * @since 1.0.0
-	 *
 	 * @return ConstantContact_Process_Form
 	 */
 	public static function get_instance() {
@@ -48,22 +47,26 @@ class ConstantContact_Process_Form {
 	 * Initiate our hooks.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function hooks() {
 		add_action( 'cmb2_init', array( $this, 'process_form' ) );
 	}
 
-
+	/**
+	 * Process submitted form data
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
 	public function process_form() {
 
 		$notice = array();
 
-	    // if the submit button is clicked, send the email
+	    // If the submit button is clicked, send the email.
 	    if ( isset( $_POST['ctct-submitted'] ) ) {
 
-			//error_log( print_r( $_POST, true ) );
-
-			foreach ($_POST as $key => $value) {
+			foreach ( $_POST as $key => $value ) {
 			    if ( isset( $key ) ) {
 					if ( 'ctct-email' === $key ) {
 						$email = sanitize_email( $key );
@@ -76,8 +79,8 @@ class ConstantContact_Process_Form {
 			if ( isset( $_POST['ctct-opti-in'] ) ) {
 
 				$args = array(
-					'email' => $_POST['ctct-email'],
-					'list' => $_POST['ctct-opti-in'],
+					'email' => sanitize_email( $_POST['ctct-email'] ),
+					'list' => sanitize_text_field( $_POST['ctct-opti-in'] ),
 					'first_name' => 'test name',
 					'last_name' => '',
 				);
@@ -121,7 +124,7 @@ class ConstantContact_Process_Form {
  * Helper function to get/return the constantcontact_process_form object.
  *
  * @since 1.0.0
- * @return constantcontact_process_form object.
+ * @return object constantcontact_process_form.
  */
 function constantcontact_process_form() {
 	return ConstantContact_Process_Form::get_instance();
@@ -131,7 +134,7 @@ function constantcontact_process_form() {
 constantcontact_process_form();
 
 /**
- * form submit success/error messages
+ * Form submit success/error messages.
  *
  * @since 1.0.0
  * @return void
@@ -140,17 +143,17 @@ function ctct_form_submit_message() {
 
 	if ( $message = get_transient( 'ctct_form_submit_message' ) ) {
 
-		switch( $message ) {
+		switch ( $message ) {
 			case 'success':
-				$message_text = "Your message has been sent!";
+				$message_text = 'Your message has been sent!';
 			break;
 			case 'error':
-				$message_text = "Your message failed to send!";
+				$message_text = 'Your message failed to send!';
 			break;
 
 		}
 
-		echo sprintf( '<p class="message '. $message .'"> %s </p>', $message_text );
+		echo sprintf( '<p class="message '. esc_attr( $message ) .'"> %s </p>', esc_attr( $message_text ) );
 
 		delete_transient( 'ctct_form_submit_message' );
 
@@ -161,7 +164,7 @@ function ctct_form_submit_message() {
  * Build form fields for shortcode
  *
  * @since 1.0.0
- * @param  array $form_data formulated cmb2 data for form
+ * @param  array $form_data formulated cmb2 data for form.
  * @return void
  */
 function ctct_build_form_fields( $form_data ) {
@@ -172,23 +175,25 @@ function ctct_build_form_fields( $form_data ) {
 
 		echo '<div><p><label>' . esc_attr( $form_data['fields'][ $key ]['name'] ) .  esc_attr( $required ) . '</label></br>';
 
+		$field_name = esc_attr( $form_data['fields'][ $key ]['map_to'] );
+		$field_value = ( isset( $_POST[ 'ctct-' . $form_data['fields'][ $key ]['map_to'] ] ) ? esc_attr( $_POST[ 'ctct-' . $form_data['fields'][ $key ]['map_to'] ] ) : '' );
+
 		switch ( $form_data['fields'][ $key ]['map_to'] ) {
 
 			case 'email':
-					echo '<input type="email" required name="ctct-' . esc_attr( $form_data['fields'][ $key ]['map_to'] ) . '" value="' . ( isset( $_POST[ 'ctct-' . $form_data['fields'][ $key ]['map_to'] ] ) ? esc_attr( $_POST[ 'ctct-' . $form_data['fields'][ $key ]['map_to'] ] ) : '' ) .'" tabindex="1" size="40"></p></div>';
+					echo '<input type="email" required name="ctct-' . esc_attr( $field_name ) . '" value="' . esc_attr( $field_value ) . '" tabindex="1" size="40"></p></div>';
 			break;
 			default:
-					echo '<input type="text" pattern="[a-zA-Z0-9 ]+" name="ctct-' . esc_attr( $form_data['fields'][ $key ]['map_to'] ) . '" value="' . ( isset( $_POST[ 'ctct-' . $form_data['fields'][ $key ]['map_to'] ] ) ? esc_attr( $_POST[ 'ctct-' . $form_data['fields'][ $key ]['map_to'] ] ) : '' ) .'" tabindex="1" size="40"></p></div>';
+					echo '<input type="text" pattern="[a-zA-Z0-9 ]+" name="ctct-' . esc_attr( $field_name ) . '" value="' . esc_attr( $field_value ) . '" tabindex="1" size="40"></p></div>';
 			break;
 
 		}
-
 	}
 
 	if ( isset( $form_data['options']['opt_in'] ) && isset( $form_data['options']['list'] ) ) {
 		?>
 			<div><p>
-				<input type="checkbox" name="ctct-opti-in" value="<?php echo esc_attr( $form_data['options']['list'] ) ; ?>"/>
+				<input type="checkbox" name="ctct-opti-in" value="<?php echo esc_attr( $form_data['options']['list'] ); ?>"/>
 				<?php echo esc_attr( $form_data['options']['opt_in'] ); ?>
 			</p></div>
 		<?php

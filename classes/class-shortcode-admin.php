@@ -19,6 +19,7 @@ if ( ! class_exists( 'ConstantContact_Shortcode_Admin', false ) ) {
 		/**
 		 * Hooks
 		 *
+		 * @since 1.0.0
 		 * @return void
 		 */
 		public function hooks() {
@@ -29,6 +30,7 @@ if ( ! class_exists( 'ConstantContact_Shortcode_Admin', false ) ) {
 		/**
 		 * Array of button data
 		 *
+		 * @since 1.0.0
 		 * @return array
 		 */
 		public function js_button_data() {
@@ -48,6 +50,7 @@ if ( ! class_exists( 'ConstantContact_Shortcode_Admin', false ) ) {
 		/**
 		 * Adds fields to the button modal using CMB2
 		 *
+		 * @since 1.0.0
 		 * @param array $fields CMB2 fields data.
 		 * @param array $button_data Shotcode button data.
 		 * @return array $fields
