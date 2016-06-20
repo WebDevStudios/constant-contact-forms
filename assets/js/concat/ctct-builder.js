@@ -35,6 +35,14 @@ window.CTCTBuilder = {};
 			$(document).on( 'cmb2_shift_rows_complete', function() {
 				that.disableFields();
 			});
+
+			$(document).on( 'cmb2_add_row', function( e ) {
+				console.log( e );
+				var oldRow  = $( '#ctct_fields_metabox' ).find('.cmb-repeatable-grouping').last();
+				var map = oldRow.find( '.map select');
+				$(map).val('custom');
+				that.disableFields();
+			});
         }
 
         // Function to handle which items should be showing/hiding.
