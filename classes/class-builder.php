@@ -168,6 +168,7 @@ class ConstantContact_Builder {
 			'type' => 'select',
 			'show_option_none' => false,
 			'default' => 'email',
+			'row_classes' => 'map',
 			'options' => $default_fields,
 		) );
 

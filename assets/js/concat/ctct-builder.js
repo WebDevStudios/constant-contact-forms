@@ -20,8 +20,9 @@ window.CTCTBuilder = {};
 		that.bindEvents = function() {
 
 			that.metaShowHide( $('#_ctct_list') );
+			that.disableFields();
 
-            // Show fields based on selection
+            // Show fields based on selection.
             $('select[name=_ctct_list]').change( function(e) {
 				that.metaShowHide( $('#_ctct_list') );
 				$('input[name="_ctct_new_list"]').val('');
@@ -29,14 +30,44 @@ window.CTCTBuilder = {};
 					that.metaShowHide( $('.cmb2-id--ctct-new-list') );
 				}
 			});
+
+			// Disable email options on row change trigger.
+			$(document).on( 'cmb2_shift_rows_complete', function() {
+				that.disableFields();
+			});
         }
 
-        // Function to handle which items should be showing/hiding
+        // Function to handle which items should be showing/hiding.
         that.metaShowHide = function(showem) {
             var hideThese = $( that.$c.hide ).not(showem);
             showem.slideDown('fast');
             hideThese.hide();
         }
+
+		// Disable required email fields.
+		that.disableFields = function() {
+
+			$( '#ctct_fields_metabox .map select' ).each( function( key, value ) {
+
+				var field_parent = $( this ).parent().parent().parent();
+				var button = $( field_parent ).find( '.cmb-remove-row button');
+				var required = $( field_parent ).find( '.required input[type=checkbox]');
+				var map = $( field_parent ).find( '.map select');
+
+				if ( 'email' === $( this ).val() ) {
+					button.attr( 'disabled', true);
+					required.attr( 'disabled', true);
+					map.prop( 'disabled', true);
+
+				} else {
+					button.attr( 'disabled', false);
+					required.attr( 'disabled', false);
+					map.prop( 'disabled', false);
+				}
+
+			});
+
+		}
 
 		// Engage!
 		$( that.init );
