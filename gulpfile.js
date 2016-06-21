@@ -1,2 +1,13 @@
+var autoprefixer = require('autoprefixer');
+var cssnano = require('gulp-cssnano');
+var del = require('del');
 var gulp = require('gulp');
-require('./node_modules/wdsppf/gulpfile.js');
+var gutil = require('gulp-util');
+var mqpacker = require('css-mqpacker');
+var notify = require('gulp-notify');
+var plumber = require('gulp-plumber');
+var postcss = require('gulp-postcss');
+var rename = require('gulp-rename');
+var sass = require('gulp-sass');
+var sort = require('gulp-sort');
+var sourcemaps = require('gulp-sourcemaps');
