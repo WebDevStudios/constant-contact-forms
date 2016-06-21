@@ -48,3 +48,36 @@ gulp.task('sass', function() {
 	// Create style.css.
 	.pipe(gulp.dest('./assets/css'))
 });
+
+/**
+ * Run stylesheet through PostCSS.
+ *
+ * https://www.npmjs.com/package/gulp-postcss
+ * https://www.npmjs.com/package/gulp-autoprefixer
+ * https://www.npmjs.com/package/css-mqpacker
+ */
+gulp.task('postcss', ['sass'], function() {
+	return gulp.src('assets/css/style.css')
+
+	// Wrap tasks in a sourcemap.
+	.pipe(sourcemaps.init())
+	
+		// Deal with errors.
+		.pipe(plumber({ errorHandler: handleErrors }))
+
+		// Parse with PostCSS plugins.
+		.pipe(postcss([
+			autoprefixer({
+				browsers: ['last 2 version']
+			}),
+			mqpacker({
+				sort: true
+			}),
+		]))
+
+	// Create sourcemap.
+	.pipe(sourcemaps.write())
+
+	// Create style.css.
+	.pipe(gulp.dest('./assets/css'))
+});
