@@ -23,13 +23,13 @@ add_filter( 'query_vars', 'constantcontact_rewrite_add_var' );
 /**
  * Check for query params and redirect
  *
- * @return void
+ * @return boolean
  */
 function constantcontact_rewrite_catch() {
 	global $wp_query;
 
 	// Only run if logged in user can manage site options.
-	if ( ! current_user_can( 'manage_options' ) ) { return null; }
+	if ( ! current_user_can( 'manage_options' ) ) { return false; }
 
 	if ( isset( $wp_query->query_vars['code'] ) && 'ctct' === $wp_query->query_vars['auth'] && ! is_admin() ) {
 

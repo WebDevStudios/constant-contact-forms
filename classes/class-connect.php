@@ -40,7 +40,7 @@ class ConstantContact_Connect {
 	public $error_message = '';
 
 	/**
-	 * Page Url
+	 * Current page redirect Url
 	 *
 	 * @var string
 	 */
@@ -49,12 +49,13 @@ class ConstantContact_Connect {
 	/**
 	 * Holds an instance of the project
 	 *
-	 * @ConstantContact_Connect
-	 **/
+	 * @var object
+	 */
 	private static $instance = null;
 
 	/**
 	 * Constructor
+	 *
 	 * @since 1.0.0
 	 */
 	private function __construct() {
@@ -66,7 +67,7 @@ class ConstantContact_Connect {
 	 * @return ConstantContact_Connect
 	 **/
 	public static function get_instance() {
-		if( is_null( self::$instance ) ) {
+		if ( is_null( self::$instance ) ) {
 			self::$instance = new self();
 			self::$instance->hooks();
 		}
@@ -75,7 +76,9 @@ class ConstantContact_Connect {
 
 	/**
 	 * Initiate our hooks
+	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function hooks() {
 		add_action( 'admin_init', array( $this, 'init' ) );
@@ -84,7 +87,9 @@ class ConstantContact_Connect {
 
 	/**
 	 * Register our setting to WP
+	 *
 	 * @since  1.0.0
+	 * @return void
 	 */
 	public function init() {
 
@@ -119,7 +124,9 @@ class ConstantContact_Connect {
 
 	/**
 	 * Admin page markup. Mostly handled by CMB2
+	 *
 	 * @since  1.0.0
+	 * @return mixed page markup or false if not admin.
 	 */
 	public function admin_page_display() {
 
@@ -128,7 +135,7 @@ class ConstantContact_Connect {
 
 		$access_token = false;
 
-		// If the 'code' query parameter is present in the uri, the code can exchanged for an access token
+		// If the 'code' query parameter is present in the uri, the code can exchanged for an access token.
 		if ( isset( $_GET['code'] ) && is_admin() ) {
 			try {
 				$response = $this->oauth->getAccessToken( sanitize_text_field( $_GET['code'] ) );
@@ -144,7 +151,7 @@ class ConstantContact_Connect {
 		}
 
 		// Save auth token to options.
-		if( $access_token ) {
+		if ( $access_token ) {
 			$this->secure_token( sanitize_text_field( $access_token ) );
 		}
 
@@ -168,7 +175,7 @@ class ConstantContact_Connect {
 					$( '.ctct-disconnect' ).on( 'click', function(e) {
 						var disconnect = confirm('<? esc_html_e( 'Are you sure you want to disconnect?', constant_contact()->text_domain ); ?>');
 						if (disconnect) {
-						    window.location.href = '<?php echo $this->redirect_url . '&ctct-disconnect=true'; ?>';
+							window.location.href = '<?php echo esc_url( $this->redirect_url . '&ctct-disconnect=true' ); ?>';
 						}
 					});
 				});
@@ -179,7 +186,7 @@ class ConstantContact_Connect {
 
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>">
 
-			<?php constantcontact_connect_error_message(); ?>
+			<?php echo esc_html( constantcontact_connect_error_message() ); ?>
 
 			<?php if ( $token = constantcontact_api()->get_api_token() ) : ?>
 
@@ -204,7 +211,7 @@ class ConstantContact_Connect {
 	 * Disconnect from api
 	 *
 	 * @since  1.0.0
-	 * @return void
+	 * @return boolean
 	 */
 	private function disconnect() {
 
@@ -242,12 +249,12 @@ class ConstantContact_Connect {
 	 * Process api error response
 	 *
 	 * @since  1.0.0
-	 * @param  array $error api error repsonse
-	 * @return void
+	 * @param  array $error api error repsonse.
+	 * @return mixed Error message or false if no error.
 	 */
 	private function api_error_message( $error ) {
 
-		switch( $error->error_key ) {
+		switch ( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
 				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', constant_contact()->text_domain );
 			break;
@@ -258,7 +265,6 @@ class ConstantContact_Connect {
 		}
 
 	}
-
 }
 
 /**
@@ -274,11 +280,17 @@ function ctct_connect_admin() {
 // Get it started.
 ctct_connect_admin();
 
-
+/**
+ * If error then displays a notice
+ *
+ * @return string
+ */
 function constantcontact_connect_error_message() {
 	if ( $message = ctct_connect_admin()->error_message ) {
-		echo '<div class="message error notice"><p>';
-		echo ctct_connect_admin()->error_message;
-		echo '</p></div>';
+		$notice = '<div class="message error notice"><p>';
+		$notice .= ctct_connect_admin()->error_message;
+		$notice .= '</p></div>';
+
+		return $notice;
 	}
 }
