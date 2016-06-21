@@ -123,12 +123,15 @@ class ConstantContact_Connect {
 	 */
 	public function admin_page_display() {
 
+		// Only run if logged in user can manage site options.
+		if ( ! current_user_can( 'manage_options' ) ) { return false; }
+
 		$access_token = false;
 
 		// If the 'code' query parameter is present in the uri, the code can exchanged for an access token
-		if ( isset( $_GET['code'] ) ) {
+		if ( isset( $_GET['code'] ) && is_admin() ) {
 			try {
-				$response = $this->oauth->getAccessToken( $_GET['code'] );
+				$response = $this->oauth->getAccessToken( sanitize_text_field( $_GET['code'] ) );
 				$access_token = $response['access_token'];
 			} catch ( OAuth2Exception $ex ) {
 				foreach ( $ex->getErrors() as $error ) {
@@ -142,13 +145,12 @@ class ConstantContact_Connect {
 
 		// Save auth token to options.
 		if( $access_token ) {
-			$this->secure_token( $access_token );
+			$this->secure_token( sanitize_text_field( $access_token ) );
 		}
 
 		?>
 		<style>
 		.wp-core-ui .button-primary {
-			display: block;
 			margin: 20px 0;
 		}
 		.ctct-logo {
@@ -163,11 +165,8 @@ class ConstantContact_Connect {
 			jQuery.noConflict();
 			(function($) {
 				$(document).ready(function() {
-					$( '.ctct-connect' ).on( 'click', function(e) {
-						window.location.href = '<?php echo esc_url_raw( $this->oauth->getAuthorizationUrl() . '&oauthSignup=true' ); ?>';
-					});
 					$( '.ctct-disconnect' ).on( 'click', function(e) {
-						var disconnect = confirm('<? _e( 'Are you sure you want to disconnect?', constant_contact()->text_domain ); ?>');
+						var disconnect = confirm('<? esc_html_e( 'Are you sure you want to disconnect?', constant_contact()->text_domain ); ?>');
 						if (disconnect) {
 						    window.location.href = '<?php echo $this->redirect_url . '&ctct-disconnect=true'; ?>';
 						}
@@ -186,16 +185,16 @@ class ConstantContact_Connect {
 
 				<div class="message notice">
 					<p>
-						<?php esc_attr_e( 'Account connected to Constant Contact. ', constant_contact()->text_domain ); ?>
+						<?php esc_html_e( 'Account connected to Constant Contact.', constant_contact()->text_domain ); ?>
 					</p>
 				</div>
 				<input type="button" class="button-primary ctct-disconnect" value="Disconnect">
 
 			<?php else : ?>
 				<p class="ctct-description">
-					Click the connect button and login or sign up to Constant Contact. By connecting, you authorize this plugin to access your account on Constant Contact.
+					<?php esc_html_e( 'Click the connect button and login or sign up to Constant Contact. By connecting, you authorize this plugin to access your account on Constant Contact.', constant_contact()->text_domain ); ?>
 				</p>
-				<input type="button" class="button-primary ctct-connect" value="<?php esc_attr_e( 'Connect to Constant Contact', constant_contact()->text_domain ); ?>" >
+				<a href="<?php echo esc_url_raw( $this->oauth->getAuthorizationUrl() . '&oauthSignup=true' ); ?>" class="button-primary ctct-connect"><?php esc_html_e( 'Connect to Constant Contact', constant_contact()->text_domain ); ?></a>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -210,7 +209,7 @@ class ConstantContact_Connect {
 	private function disconnect() {
 
 		// Only run if logged in user can manage site options.
-		if ( ! current_user_can( 'manage_options' ) ) { return; }
+		if ( ! current_user_can( 'manage_options' ) ) { return false; }
 
 		if ( isset( $_GET['ctct-disconnect'] ) && is_admin() ) {
 
