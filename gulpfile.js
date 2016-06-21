@@ -102,3 +102,10 @@ gulp.task('cssnano', ['postcss'], function() {
 	
 	.pipe(gulp.dest('./assets/css'))
 });
+
+/**
+ * Define default Gulp watch task
+ */
+gulp.task('watch', function() {
+	gulp.watch('./assets/sass/**/*.scss', ['cssnano']);
+});
