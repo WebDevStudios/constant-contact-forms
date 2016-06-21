@@ -29,6 +29,14 @@ function handleErrors () {
 	// Prevent the 'watch' task from stopping
 	this.emit('end');
 }
+
+/**
+ * Delete style.css and style.min.css before we minify and optimize
+ */
+gulp.task('clean:styles', function() {
+	return del(['assets/css/style.css', 'assets/css/style.min.css'])
+});
+
 /**
  * Compile Sass
  *
