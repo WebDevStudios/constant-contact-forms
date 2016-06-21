@@ -22,10 +22,7 @@
  * Built using generator-plugin-wp
  */
 
-if ( ! class_exists( 'WDS_Shortcodes_Base' ) ) {
-
-	// include composer autoloader (make sure you run `composer install`!)
-	require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
+if ( ! class_exists( 'WDS_Shortcodes_Base_999' ) ) {
 
 	/**
 	 * Main initiation class
@@ -36,7 +33,7 @@ if ( ! class_exists( 'WDS_Shortcodes_Base' ) ) {
 	 * @var  string $url      Plugin URL
 	 * @var  string $path     Plugin Path
 	 */
-	class WDS_Shortcodes_Base {
+	class WDS_Shortcodes_Base_999 {
 
 		/**
 		 * Current version
@@ -153,7 +150,7 @@ if ( ! class_exists( 'WDS_Shortcodes_Base' ) ) {
 	 * @return WDS_Shortcodes_Base  Singleton instance of plugin class.
 	 */
 	function ctct_wds_shortcodes() {
-		return WDS_Shortcodes_Base::get_instance();
+		return WDS_Shortcodes_Base_999::get_instance();
 	}
 
 	// Kick it off
