@@ -109,3 +109,9 @@ gulp.task('cssnano', ['postcss'], function() {
 gulp.task('watch', function() {
 	gulp.watch('./assets/sass/**/*.scss', ['cssnano']);
 });
+
+/**
+ * Create individual tasks.
+ */
+gulp.task('styles', ['cssnano']);
+gulp.task('default', ['styles']);
