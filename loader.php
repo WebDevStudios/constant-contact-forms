@@ -147,7 +147,7 @@ class Constant_Contact {
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since  1.0.0
-	 * @return WDS_Product_Plugin_Framework A single instance of this class.
+	 * @return Constant_Contact A single instance of this class.
 	 */
 	public static function get_instance() {
 		if ( null === self::$single_instance ) {
