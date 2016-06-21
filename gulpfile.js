@@ -29,3 +29,22 @@ function handleErrors () {
 	// Prevent the 'watch' task from stopping
 	this.emit('end');
 }
+/**
+ * Compile Sass
+ *
+ * https://www.npmjs.com/package/gulp-sass
+ */
+gulp.task('sass', function() {
+	return gulp.src('assets/sass/*.scss')
+	
+	// Deal with errors.
+	.pipe(plumber({ errorHandler: handleErrors }))
+
+	// Compile Sass using LibSass.
+	.pipe(sass({
+		outputStyle: 'expanded' // Options: nested, expanded, compact, compressed
+	}))
+
+	// Create style.css.
+	.pipe(gulp.dest('./assets/css'))
+});
