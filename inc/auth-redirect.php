@@ -29,7 +29,7 @@ function constantcontact_rewrite_catch() {
 	global $wp_query;
 
 	// Only run if logged in user can manage site options.
-	if ( ! current_user_can( 'manage_options' ) ) { return; }
+	if ( ! current_user_can( 'manage_options' ) ) { return null; }
 
 	if ( isset( $wp_query->query_vars['code'] ) && 'ctct' === $wp_query->query_vars['auth'] && ! is_admin() ) {
 
@@ -37,8 +37,8 @@ function constantcontact_rewrite_catch() {
 		$path = add_query_arg( array(
 			'post_type' => 'ctct_forms',
 			'page' => 'ctct_options_connect',
-			'code' => $wp_query->query_vars['code'],
-			'user' => $wp_query->query_vars['username'],
+			'code' => sanitize_text_field( $wp_query->query_vars['code'] ),
+			'user' => sanitize_text_field( $wp_query->query_vars['username'] ),
 		) );
 		wp_safe_redirect( admin_url( 'edit.php' . $path ) );
 		exit;
