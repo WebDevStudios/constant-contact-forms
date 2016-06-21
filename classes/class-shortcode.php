@@ -98,7 +98,7 @@ if ( ! class_exists( 'ConstantContact_Shortcode', false ) ) {
 			}
 
 			if ( 'on' === $form_meta['_ctct_opt_in'][0] ) {
-				$fields['options']['opt_in'] = $form_meta['_ctct_opt_in_instructions'][0];
+				$fields['options']['opt_in'] = isset( $form_meta['_ctct_opt_in_instructions'] ) ? $form_meta['_ctct_opt_in_instructions'][0] : '';
 			}
 
 			return $fields;
