@@ -81,3 +81,24 @@ gulp.task('postcss', ['sass'], function() {
 	// Create style.css.
 	.pipe(gulp.dest('./assets/css'))
 });
+
+/**
+ * Minify and optimize style.css.
+ *
+ * https://www.npmjs.com/package/gulp-cssnano
+ */
+gulp.task('cssnano', ['postcss'], function() {
+	return gulp.src('assets/css/style.css')
+	
+	// handle any errors
+	.pipe(plumber({ errorHandler: handleErrors }))
+	
+	.pipe(cssnano({
+		safe: true // Use safe optimizations
+	}))
+	
+	// rename file from style.css to style.min.css
+	.pipe(rename('style.min.css'))
+	
+	.pipe(gulp.dest('./assets/css'))
+});
