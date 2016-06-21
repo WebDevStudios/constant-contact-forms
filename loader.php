@@ -191,7 +191,7 @@ class Constant_Contact {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'includes' ), 5 );
 
-		add_filter( 'plugin_action_links_'. $this->basename, array( $this, 'add_social_links' ) );
+		add_filter( 'plugin_action_links_' . $this->basename, array( $this, 'add_social_links' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 
 		if ( is_ssl() ) {
@@ -423,7 +423,7 @@ class Constant_Contact {
 			case 'path':
 				return $this->$field;
 			default:
-				throw new Exception( 'Invalid '. __CLASS__ .' property: ' . $field );
+				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
 		}
 	}
 
@@ -435,7 +435,7 @@ class Constant_Contact {
 	 * @return bool   Result of include call.
 	 */
 	public static function include_file( $filename ) {
-		$file = self::dir( 'classes/class-'. $filename .'.php' );
+		$file = self::dir( 'classes/class-' . $filename . '.php' );
 		if ( file_exists( $file ) ) {
 			return include_once( $file );
 		}
@@ -478,10 +478,10 @@ class Constant_Contact {
 		$site_link = 'http://constantcontact.com/';
 		$twitter_status = sprintf( __( 'Check out the official WordPress plugin from @constantcontact', 'constantcontact' ), $this->plugin_name );
 
-		array_push( $links, '<a title="'. __( 'Be a better marketer. All it takes is Constant Contact email marketing.', 'constantcontact' ). '" href="'. $site_link. '" target="_blank">constantcontact.com</a>' );
-		array_push( $links, '<a title="'. __( 'Spread the word!', 'constantcontact' ). '" href="https://www.facebook.com/sharer/sharer.php?u='. urlencode( $site_link ). '" target="_blank" class="dashicons-before dashicons-facebook"></a>' );
-		array_push( $links, '<a title="'. __( 'Spread the word!', 'constantcontact' ). '" href="https://twitter.com/home?status='. urlencode( $twitter_status ). '" target="_blank" class="dashicons-before dashicons-twitter"></a>' );
-		array_push( $links, '<a title="'. __( 'Spread the word!', 'constantcontact' ). '" href="https://plus.google.com/share?url='. urlencode( $site_link ). '" target="_blank" class="dashicons-before dashicons-googleplus"></a>' );
+		array_push( $links, '<a title="' . __( 'Be a better marketer. All it takes is Constant Contact email marketing.', 'constantcontact' ) . '" href="' . $site_link . '" target="_blank">constantcontact.com</a>' );
+		array_push( $links, '<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>' );
+		array_push( $links, '<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://twitter.com/home?status=' . urlencode( $twitter_status ) . '" target="_blank" class="dashicons-before dashicons-twitter"></a>' );
+		array_push( $links, '<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://plus.google.com/share?url=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>' );
 
 		return $links;
 	}
