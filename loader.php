@@ -178,7 +178,6 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function plugin_classes() {
-
 		$this->ctct_forms = new ConstantContact_CPTS( $this );
 	}
 

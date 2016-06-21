@@ -1,4 +1,16 @@
 <?php
+/**
+ * Plugin Name: WDS Shortcodes
+ * Plugin URI:  http://webdevstudios.com
+ * Description: Base plugin/classes/functionality for creating shortcodes.
+ * Version:     0.1.0
+ * Author:      WebDevStudios
+ * Author URI:  http://webdevstudios.com
+ * Donate link: http://webdevstudios.com
+ * License:     GPLv2
+ * Text Domain: wds-shortcodes
+ * Domain Path: /languages
+ */
 
 /**
  * Copyright (c) 2015 WebDevStudios (email : contact@webdevstudios.com)
@@ -22,138 +34,137 @@
  * Built using generator-plugin-wp
  */
 
-if ( ! class_exists( 'WDS_Shortcodes_Base_999' ) ) {
+// include composer autoloader (make sure you run `composer install`!)
+require_once trailingslashit( dirname( __FILE__ ) ) . 'vendor/autoload.php';
+
+/**
+ * Main initiation class
+ *
+ * @since  0.1.0
+ * @var  string $version  Plugin version
+ * @var  string $basename Plugin basename
+ * @var  string $url      Plugin URL
+ * @var  string $path     Plugin Path
+ */
+class WDS_Shortcodes_Base {
 
 	/**
-	 * Main initiation class
+	 * Current version
+	 *
+	 * @var  string
+	 * @since  0.1.0
+	 */
+	const VERSION = '0.1.0';
+
+	/**
+	 * URL of plugin directory
+	 *
+	 * @var string
+	 * @since  0.1.0
+	 */
+	protected $url = '';
+
+	/**
+	 * Path of plugin directory
+	 *
+	 * @var string
+	 * @since  0.1.0
+	 */
+	protected $path = '';
+
+	/**
+	 * Plugin basename
+	 *
+	 * @var string
+	 * @since  0.1.0
+	 */
+	protected $basename = '';
+
+	/**
+	 * Singleton instance of plugin
+	 *
+	 * @var WDS_Shortcodes_Base
+	 * @since  0.1.0
+	 */
+	protected static $single_instance = null;
+
+	/**
+	 * Creates or returns an instance of this class.
 	 *
 	 * @since  0.1.0
-	 * @var  string $version  Plugin version
-	 * @var  string $basename Plugin basename
-	 * @var  string $url      Plugin URL
-	 * @var  string $path     Plugin Path
+	 * @return WDS_Shortcodes_Base A single instance of this class.
 	 */
-	class WDS_Shortcodes_Base_999 {
-
-		/**
-		 * Current version
-		 *
-		 * @var  string
-		 * @since  0.1.0
-		 */
-		const VERSION = '0.1.0';
-
-		/**
-		 * URL of plugin directory
-		 *
-		 * @var string
-		 * @since  0.1.0
-		 */
-		protected $url = '';
-
-		/**
-		 * Path of plugin directory
-		 *
-		 * @var string
-		 * @since  0.1.0
-		 */
-		protected $path = '';
-
-		/**
-		 * Plugin basename
-		 *
-		 * @var string
-		 * @since  0.1.0
-		 */
-		protected $basename = '';
-
-		/**
-		 * Singleton instance of plugin
-		 *
-		 * @var WDS_Shortcodes_Base
-		 * @since  0.1.0
-		 */
-		protected static $single_instance = null;
-
-		/**
-		 * Creates or returns an instance of this class.
-		 *
-		 * @since  0.1.0
-		 * @return WDS_Shortcodes_Base A single instance of this class.
-		 */
-		public static function get_instance() {
-			if ( null === self::$single_instance ) {
-				self::$single_instance = new self();
-			}
-
-			return self::$single_instance;
+	public static function get_instance() {
+		if ( null === self::$single_instance ) {
+			self::$single_instance = new self();
 		}
 
-		/**
-		 * Sets up our plugin
-		 *
-		 * @since  0.1.0
-		 */
-		protected function __construct() {
-			$this->basename = plugin_basename( __FILE__ );
-			$this->url      = plugin_dir_url( __FILE__ );
-			$this->path     = plugin_dir_path( __FILE__ );
-		}
-
-		/**
-		 * Add hooks and filters
-		 *
-		 * @since 0.1.0
-		 * @return null
-		 */
-		public function hooks() {
-			add_action( 'init', array( $this, 'init' ) );
-		}
-
-		/**
-		 * Init hooks
-		 *
-		 * @since  0.1.0
-		 * @return null
-		 */
-		public function init() {
-			load_plugin_textdomain( 'wds-shortcodes', false, dirname( $this->basename ) . '/languages/' );
-		}
-
-		/**
-		 * Magic getter for our object.
-		 *
-		 * @since  0.1.0
-		 * @param string $field
-		 * @throws Exception Throws an exception if the field is invalid.
-		 * @return mixed
-		 */
-		public function __get( $field ) {
-			switch ( $field ) {
-				case 'version':
-					return self::VERSION;
-				case 'basename':
-				case 'url':
-				case 'path':
-					return $this->$field;
-				default:
-					throw new Exception( 'Invalid '. __CLASS__ .' property: ' . $field );
-			}
-		}
+		return self::$single_instance;
 	}
 
 	/**
-	 * Grab the WDS_Shortcodes_Base object and return it.
-	 * Wrapper for WDS_Shortcodes_Base::get_instance()
+	 * Sets up our plugin
 	 *
 	 * @since  0.1.0
-	 * @return WDS_Shortcodes_Base  Singleton instance of plugin class.
 	 */
-	function ctct_wds_shortcodes() {
-		return WDS_Shortcodes_Base_999::get_instance();
+	protected function __construct() {
+		$this->basename = plugin_basename( __FILE__ );
+		$this->url      = plugin_dir_url( __FILE__ );
+		$this->path     = plugin_dir_path( __FILE__ );
 	}
 
-	// Kick it off
-	add_action( 'plugins_loaded', array( ctct_wds_shortcodes(), 'hooks' ) );
+	/**
+	 * Add hooks and filters
+	 *
+	 * @since 0.1.0
+	 * @return null
+	 */
+	public function hooks() {
+		add_action( 'init', array( $this, 'init' ) );
+	}
 
+	/**
+	 * Init hooks
+	 *
+	 * @since  0.1.0
+	 * @return null
+	 */
+	public function init() {
+		load_plugin_textdomain( 'wds-shortcodes', false, dirname( $this->basename ) . '/languages/' );
+	}
+
+	/**
+	 * Magic getter for our object.
+	 *
+	 * @since  0.1.0
+	 * @param string $field
+	 * @throws Exception Throws an exception if the field is invalid.
+	 * @return mixed
+	 */
+	public function __get( $field ) {
+		switch ( $field ) {
+			case 'version':
+				return self::VERSION;
+			case 'basename':
+			case 'url':
+			case 'path':
+				return $this->$field;
+			default:
+				throw new Exception( 'Invalid '. __CLASS__ .' property: ' . $field );
+		}
+	}
 }
+
+/**
+ * Grab the WDS_Shortcodes_Base object and return it.
+ * Wrapper for WDS_Shortcodes_Base::get_instance()
+ *
+ * @since  0.1.0
+ * @return WDS_Shortcodes_Base  Singleton instance of plugin class.
+ */
+function wds_shortcodes() {
+	return WDS_Shortcodes_Base::get_instance();
+}
+
+// Kick it off
+add_action( 'plugins_loaded', array( wds_shortcodes(), 'hooks' ) );
