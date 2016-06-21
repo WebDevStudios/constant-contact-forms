@@ -7,11 +7,10 @@
  * @since 1.0.0
  */
 
-require_once constant_contact()->dir() . 'vendor/constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php';
-
 use Ctct\ConstantContact;
 use Ctct\Auth\CtctOAuth2;
 use Ctct\Exceptions\OAuth2Exception;
+use Defuse\Crypto\Key;
 
 /**
  * Class ConstantContact_Connect
@@ -102,6 +101,7 @@ class ConstantContact_Connect {
 		// Instantiate the CtctOAuth2 class.
 		$this->oauth = new CtctOAuth2( constantcontact_api()->get_api_token( 'CTCT_APIKEY' ), constantcontact_api()->get_api_token( 'CTCT_SECRETKEY' ), get_site_url() . '/?auth=ctct' );
 		$this->disconnect();
+
 	}
 
 	/**
@@ -138,11 +138,11 @@ class ConstantContact_Connect {
 		// If the 'code' query parameter is present in the uri, the code can exchanged for an access token.
 		if ( isset( $_GET['code'] ) && is_admin() ) {
 			try {
-				$response = $this->oauth->getAccessToken( sanitize_text_field( $_GET['code'] ) );
+				$response = $this->oauth->getAccessToken( sanitize_text_field( wp_unslash( $_GET['code'] ) ) );
 				$access_token = $response['access_token'];
 			} catch ( OAuth2Exception $ex ) {
 				foreach ( $ex->getErrors() as $error ) {
-					return $this->api_error_message( $error );
+					$this->error_message = $this->api_error_message( $error );
 				}
 				if ( ! isset( $access_token ) ) {
 					$access_token = null;
@@ -239,7 +239,6 @@ class ConstantContact_Connect {
 	 * @return void
 	 */
 	private function secure_token( $access_token ) {
-
 		update_option( '_ctct_token', $access_token );
 
 	}
