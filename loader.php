@@ -117,7 +117,7 @@ class Constant_Contact {
 	 * @var string
 	 * @since  1.0.0
 	 */
-	public $plugin_name = 'Constant Contact';
+	public $plugin_name = '';
 
 	/**
 	 * Text domain
@@ -163,6 +163,9 @@ class Constant_Contact {
 	 * @since  1.0.0
 	 */
 	protected function __construct() {
+
+		$this->plugin_name = __( 'Constant Contact', 'constantcontact' );
+
 		$this->basename = plugin_basename( __FILE__ );
 		$this->url	  = plugin_dir_url( __FILE__ );
 		$this->path	 = plugin_dir_path( __FILE__ );
