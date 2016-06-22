@@ -31,8 +31,15 @@ class ConstantContact_Display {
 		$this->plugin = $plugin;
 	}
 
+	/**
+	 * Helper method to display form description
+	 *
+	 * @author Brad Parbs
+	 * @param  string $description description to outpu
+	 * @return echo              echos out form description markup
+	 */
 	public function description( $description ) {
-		echo "<p class='constant-contact constant-contact-form-description'>{$description}</p>";
+		echo '<p class="constant-contact constant-contact-form-description">' . esc_attr( $description ) . '</p>';
 	}
 }
 
