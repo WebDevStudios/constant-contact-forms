@@ -233,8 +233,16 @@ class Constant_Contact {
 	public function scripts() {
 		global $pagenow;
 
+
+		// Check if we are in debug mode. allow
+		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG == true ? true : false;
+
+		// based on our debug mode, potentially add a min prefix
+		$suffix = ( true === $debug ) ? '' : '.min';
+
 		// Register out javascript file.
-		wp_register_script( 'ctct_form', $this->url() . 'assets/js/plugin.js' );
+		wp_register_script( 'ctct_form', $this->url() . 'assets/js/plugin' . $suffix . '.js', array(), self::VERSION, true );
+
 
 		if ( isset( $pagenow ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) {
 			// Enqueued script with localized data.
