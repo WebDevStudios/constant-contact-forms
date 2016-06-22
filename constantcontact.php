@@ -325,10 +325,6 @@ class Constant_Contact {
 				require_once  __DIR__ . '/includes/class-admin.php';
 			}
 
-			if ( file_exists( __DIR__ . '/inc/admin/post-list-columns.php' ) ) {
-				require_once  __DIR__ . '/inc/admin/post-list-columns.php';
-			}
-
 			if ( file_exists( __DIR__ . '/includes/class-connect.php' ) ) {
 				require_once  __DIR__ . '/includes/class-connect.php';
 			}

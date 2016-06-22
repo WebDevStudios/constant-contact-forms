@@ -86,6 +86,9 @@ class ConstantContact_Admin {
 	public function hooks() {
 		add_action( 'admin_init', array( $this, 'init' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ), 999 );
+
+		add_filter( 'manage_ctct_forms_posts_columns', array( $this, 'set_custom_columns' ) );
+		add_action( 'manage_ctct_forms_posts_custom_column' , array( $this, 'custom_columns', 10, 2 ) );
 	}
 
 
@@ -239,6 +242,52 @@ class ConstantContact_Admin {
 		}
 
 		echo '</h2>';
+	}
+
+	/**
+	 * Add shortcode columns to each cpt.
+	 *
+	 * @internal
+	 *
+	 * @since 1.0.0
+	 * @param array $columns post list columns.
+	 * @return array $columns Array of columns to add.
+	 */
+	public function set_custom_columns( $columns ) {
+
+		$columns['description'] = __( 'Description', 'constantcontact' );
+		$columns['shortcodes']  = __( 'Shortcode', 'constantcontact' );
+
+		return $columns;
+	}
+
+	/**
+	 * Content of custom  post columns.
+	 *
+	 * @internal
+	 *
+	 * @since 1.0.0
+	 * @param string  $column  Column title.
+	 * @param integer $post_id Post id of post item.
+	 */
+	public function custom_columns( $column, $post_id ) {
+
+		// Force our $post_id to an int
+		$post_id = absint( $post_id );
+
+		// if its a 0 bail out
+		if ( ! $post_id ) {
+			return;
+		}
+
+		switch ( $column ) {
+			case 'shortcodes':
+				echo esc_attr( '[ctct form="' . $post_id . '"]' );
+			break;
+			case 'description':
+				echo esc_attr( get_post_meta( $post_id, '_ctct_description', true ) );
+			break;
+		}
 	}
 }
 
