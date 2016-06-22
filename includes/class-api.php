@@ -226,11 +226,15 @@ class ConstantContact_API {
 	public function update_list( $updated_list = array() ) {
 
 		try {
+
 			$list = new ContactList();
-			$list->id = $updated_list['id'];
-			$list->name = $updated_list['name'];
-			$list->status = 'HIDDEN';
+
+			$list->id = isset( $updated_list['id'] ) ? esc_attr( $updated_list['id'] ) : '';
+			$list->name = isset( $updated_list['name'] ) ? esc_attr( $updated_list['name'] ) : '';
+			$list->status = $list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
+
 			$return_list = $this->cc()->listService->updateList( $this->get_api_token(), $list );
+
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
 		}
