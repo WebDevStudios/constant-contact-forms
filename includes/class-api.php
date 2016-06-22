@@ -76,19 +76,32 @@ class ConstantContact_API {
 	 */
 	public function get_api_token( $type = '' ) {
 
+		 // Depending on our request, we'll try to grab a defined value
+		 // otherwise we'll grab it from our options
 		switch ( $type ) {
 			case 'CTCT_APIKEY':
-				$token = defined( 'CTCT_APIKEY' ) ? CTCT_APIKEY : ctct_get_settings_option( '_ctct_api_key' );
+
+				if ( defined( 'CTCT_APIKEY' ) && CTCT_APIKEY ) {
+					return CTCT_APIKEY;
+				}
+
+				return ctct_get_settings_option( '_ctct_api_key' );
+
 			break;
 			case 'CTCT_SECRETKEY':
-				$token = defined( 'CTCT_SECRETKEY' ) ? CTCT_SECRETKEY : ctct_get_settings_option( '_ctct_api_secret' );
+
+				if ( defined( 'CTCT_SECRETKEY' ) && CTCT_SECRETKEY ) {
+					return CTCT_SECRETKEY;
+				}
+
+				return ctct_get_settings_option( '_ctct_api_secret' );
+
 			break;
 			default;
-				$token = get_option( '_ctct_token', false );
+				return get_option( '_ctct_token', false );
 			break;
 		}
 
-		return $token;
 	}
 
 	/**
