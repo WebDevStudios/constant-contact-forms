@@ -222,11 +222,12 @@ class ConstantContact_Admin {
 		);
 
 		echo '<h2 class="nav-tab-wrapper">';
-			foreach ( $tabs as $tab => $value ) {
 
-				$active = 0 === $tab ? 'nav-tab-active' : '';
-				echo '<a class="nav-tab '. esc_attr( $active ) .'">'. esc_attr( $value['title'] ) .'</a>';
-			}
+		foreach ( $tabs as $tab => $value ) {
+			$active = 0 === $tab ? 'nav-tab-active' : '';
+			echo '<a class="nav-tab ' . esc_attr( $active ) . '">' . esc_attr( $value['title'] ) . '</a>';
+		}
+
 		echo '</h2>';
 	}
 }
