@@ -26,11 +26,11 @@ function constant_contact_help_page() {
 
 	$faqs = array(
 		array(
-			'title' => __( 'Faq', 'constantcontact' ),
+			'title' => __( 'FAQ', 'constantcontact' ),
 			'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
 		),
 		array(
-			'title' => __( 'Faq 2', 'constantcontact' ),
+			'title' => __( 'FAQ 2', 'constantcontact' ),
 			'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
 		),
 	);
