@@ -69,7 +69,7 @@ class ConstantContact_Builder {
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'options_metabox' ) );
-			add_action( 'cmb2_after_post_form_ctct_description_metabox', array( $this, 'add_custom_css_for_metabox' ), 10, 2 );
+			add_action( 'cmb2_after_post_form_ctct_description_metabox', array( $this, 'add_form_css' ));
 
 			add_action( 'cmb2_save_field', array( $this, 'override_save' ), 10, 4 );
 			add_action( 'admin_notices', array( $this, 'admin_notice' ) );
@@ -291,77 +291,16 @@ class ConstantContact_Builder {
 	/**
 	 * Custom CMB2 meta box css
 	 *
-	 * @param integer $post_id current post id.
-	 * @param object  $cmb cmb2 metabox object.
 	 */
-	public function add_custom_css_for_metabox( $post_id, $cmb ) {
-		?>
-		<style type="text/css" media="screen">
+	public function add_form_css() {
 
-			#custom_fields_group_repeat .cmb-field-list .cmb-row:not(:last-of-type) {
-				border-bottom: none;
-				padding-bottom: 0.1em;
-			}
-			#custom_fields_group_repeat .required {
-				padding-bottom: 0.1em;
-				padding-top: 0.1em;
-			}
-			#ctct_options_metabox .cmb-row {
-				border-bottom: none;
-			}
-			#ctct_options_metabox .cmb2-id--ctct-opt-in,
-			#ctct_options_metabox .cmb2-id--ctct-list,
-			#ctct_fields_metabox .cmb-remove-field-row {
-				border-top: 1px solid #e9e9e9;
-			}
-			#ctct_options_metabox .cmb2-id--ctct-list {
-				padding-bottom: 0.5em;
-			}
-			#ctct_options_metabox .cmb2-id--ctct-new-list {
-				padding: 0 0;
-			}
-			#default_fields_group_repeat .cmb-field-list > .cmb-row {
-				padding-top: 0.5em;
-			}
-			#default_fields_group_repeat .cmb-field-list > .cmb-row:not(:last-of-type)  {
-				padding-bottom: 0.1em;
-				border-bottom: 1px solid #e9e9e9 !important;
-			}
-			.cmb-repeat-group-wrap .cmb-repeatable-grouping {
-				margin: 0 0 1.5em 0;
-			}
-			.cmb-repeat-group-wrap .cmb-repeatable-grouping .cmb-row {
-				margin: 0 0 0 0.3em;
-			}
-			.postbox-container .cmb-remove-field-row {
-				padding-top: 0.8em;
-				padding-bottom: 0.8em;
-			}
-			.cmb-repeat-group-wrap {
-				padding: 0 !important;
-			}
-			.cmb-repeat-group-wrap .cmb-repeat-group-field {
-				padding-top: 0.2em;
-			}
-			button.cmb-add-group-row {
-				color: white !important;
-				background: #008ec2 !important;
-				border-color: #006799 !important;
-			}
-			a.move-up::after {
-			  content: "move up";
-			}
-			a.move-down::after {
-			  content: "move down";
-			}
-			.cmb2-metabox button.dashicons-before.dashicons-no-alt.cmb-remove-group-row {
-				top: .3em;
-			}
-			button.cmb-remove-group-row {
-				background: #ffdfa3 !important;
-			}
-		</style>
-		<?php
+		// Let's style this thing
+		wp_enqueue_style(
+			'constant-contact-form-builder',
+			constant_contact()->url() . 'assets/css/form-builder.css',
+			array(),
+			constant_contact()->version
+		);
 	}
 
 	/**
