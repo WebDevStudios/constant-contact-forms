@@ -20,5 +20,5 @@
 	<?php ctct_build_form_fields( $form_data ); ?>
 
 	<p><input type="submit" name="ctct-submitted" value="Send"/></p>
-    <?php wp_nonce_field( 'ctct_submit_form', 'ctct_form' ) ?>
+	<?php wp_nonce_field( 'ctct_submit_form', 'ctct_form' ) ?>
 </form>
