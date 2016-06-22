@@ -184,36 +184,48 @@ class ConstantContact_API {
 	 */
 	public function add_list( $new_list = array() ) {
 
-		if ( empty( $new_list ) ) { return null; }
+		// Bail out early if we don't have the data we need
+		if ( empty( $new_list ) || ! isset( $new_list['id'] ) ) {
+			return;
+		}
 
+		// Set our return list to empty array
 		$return_list = array();
 
 		try {
-			$list = $this->cc()->listService->getList( $this->get_api_token(), $new_list['id'] );
-
-			if ( isset( $list ) ) {
-				return $list;
-			}
+			// Try to get the list from the API
+			$list = $this->cc()->listService->getList( $this->get_api_token(), esc_attr( $new_list['id'] ) );
 		} catch ( CtctException $ex ) {
 			// If we get an error, bail out
 			$this->log_errors( $ex->getErrors() );
 		}
 
-		if ( ! isset( $list ) ) {
-
-			try {
-				$list = new ContactList();
-				$list->name = $new_list['name'];
-				$list->status = 'HIDDEN';
-				$return_list = $this->cc()->listService->addList( $this->get_api_token(), $list );
-			} catch ( CtctException $ex ) {
-				foreach ( $ex->getErrors() as $error ) {
-					$this->api_error_message( $error );
-				}
-			}
-
-			return $return_list;
+		// If we got the list, return it.
+		if ( isset( $list ) ) {
+			return $list;
 		}
+
+		try {
+
+			// Generate a new list
+			$list = new ContactList();
+
+			// name it our passed in list
+			$list->name = isset( $new_list['name'] ) ? esc_attr( $new_list['name'] ) : '';
+
+			// Set status to hidden
+			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
+
+			// Push list to API
+			$return_list = $this->cc()->listService->addList( $this->get_api_token(), $list );
+
+		} catch ( CtctException $ex ) {
+			// Log an error we get
+			$this->log_errors( $ex->getErrors() );
+		}
+
+		// This will either have our data, or be an empty array
+		return $return_list;
 	}
 
 	/**
