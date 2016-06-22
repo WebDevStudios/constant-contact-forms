@@ -220,7 +220,9 @@ class ConstantContact_Settings {
 	 */
 	public function add_optin_to_forms() {
 
-		if ( ! ctct_builder_admin()->get_lists() ) { return; }
+		if ( ! ctct_builder_admin()->get_lists() ) {
+			return;
+		}
 
 		$optin_selected = ctct_get_settings_option( '_ctct_optin_forms' );
 
