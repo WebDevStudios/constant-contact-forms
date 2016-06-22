@@ -383,7 +383,12 @@ class ConstantContact_Builder {
 	public function admin_notice() {
 	    global $post;
 
-	    if ( $post && isset( $post->ID ) ) {
+	    if ( $post && isset( $post->ID ) && isset( $post->post_type ) ) {
+
+	    	// Make sure we're on our post type as well
+	    	if ( 'ctct_forms' != $post->post_type ) {
+	    		return;
+	    	}
 
 	    	// Check to see if we have an email set on our field
 	    	$has_email = get_post_meta( $post->ID, '_ctct_has_email_field', true );
