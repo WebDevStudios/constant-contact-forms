@@ -133,7 +133,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 						$form->post_title
 					) {
 						// Clean that data before we use it
-						$forms[ absint( $form->ID ) ] = sanitize_title( $form->post_title );
+						$forms[ absint( $form->ID ) ] = esc_attr( $form->post_title );
 					}
 				}
 
