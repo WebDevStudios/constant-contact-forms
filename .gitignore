@@ -30,5 +30,3 @@ lib
 # Sass Cache
 *.sass-cache
 
-# APIGen files
-cptuiext-docs/
