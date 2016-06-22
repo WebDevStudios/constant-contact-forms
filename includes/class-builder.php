@@ -360,22 +360,38 @@ class ConstantContact_Builder {
 	 * @return void
 	 */
 	public function override_save( $field_id, $updated, $action, $cmbobj ) {
+
+		// Hey $post nice to see you
 		global $post;
 
+		// Do all our existence checks
 		if (
 			isset( $post->ID ) &&
 			$post->ID &&
+			isset( $post->type ) &&
+			$post->type &&
+			'ctct_forms' == $post->type &&
 			$cmbobj &&
 			isset( $cmbobj->data_to_save ) &&
 			isset( $cmbobj->data_to_save['custom_fields_group'] ) &&
 			is_array( $cmbobj->data_to_save['custom_fields_group'] )
 		) {
 
+			// We want to set our meta to false, as we'll want to loop through
+			// and see if we should set it to true, but we want it to be false most
+			// of the time
 			update_post_meta( $post->ID, '_ctct_has_email_field', 'false' );
 
+			// Loop through all of our custom fields group fields
 			foreach ( $cmbobj->data_to_save['custom_fields_group'] as $data ) {
+
+				// If we have a an email field set in our map select:
 				if ( isset( $data['_ctct_map_select'] ) && 'email' === $data['_ctct_map_select'] ) {
+
+					// update our post meta to mark that we have email
 					update_post_meta( $post->ID, '_ctct_has_email_field', 'true' );
+
+					// bail out, more than one email fields are fine, but we know we have at least one
 					break;
 				}
 			}
