@@ -301,43 +301,44 @@ class Constant_Contact {
 
 		}
 
-		if ( file_exists( __DIR__ . '/classes/class-api.php' ) ) {
-			require_once  __DIR__ . '/classes/class-api.php';
+
+		if ( file_exists( __DIR__ . '/includes/class-api.php' ) ) {
+			require_once  __DIR__ . '/includes/class-api.php';
 		}
 
-		if ( file_exists( __DIR__ . '/classes/class-lists.php' ) ) {
-			require_once  __DIR__ . '/classes/class-lists.php';
+		if ( file_exists( __DIR__ . '/includes/class-lists.php' ) ) {
+			require_once  __DIR__ . '/includes/class-lists.php';
 		}
 
-		if ( file_exists( __DIR__ . '/classes/class-process-form.php' ) ) {
-			require_once  __DIR__ . '/classes/class-process-form.php';
+		if ( file_exists( __DIR__ . '/includes/class-process-form.php' ) ) {
+			require_once  __DIR__ . '/includes/class-process-form.php';
 		}
 
 		if ( file_exists( __DIR__ . '/inc/auth-redirect.php' ) ) {
 			require_once  __DIR__ . '/inc/auth-redirect.php';
 		}
 
-		if ( file_exists( __DIR__ . '/classes/class-settings.php' ) ) {
-			require_once  __DIR__ . '/classes/class-settings.php';
+		if ( file_exists( __DIR__ . '/includes/class-settings.php' ) ) {
+			require_once  __DIR__ . '/includes/class-settings.php';
 		}
 
-		if ( file_exists( __DIR__ . '/classes/class-builder.php' ) ) {
-			require_once  __DIR__ . '/classes/class-builder.php';
+		if ( file_exists( __DIR__ . '/includes/class-builder.php' ) ) {
+			require_once  __DIR__ . '/includes/class-builder.php';
 		}
 
 		// Only load in admin.
 		if ( is_admin() ) {
 
-			if ( file_exists( __DIR__ . '/classes/class-admin.php' ) ) {
-				require_once  __DIR__ . '/classes/class-admin.php';
+			if ( file_exists( __DIR__ . '/includes/class-admin.php' ) ) {
+				require_once  __DIR__ . '/includes/class-admin.php';
 			}
 
 			if ( file_exists( __DIR__ . '/inc/admin/post-list-columns.php' ) ) {
 				require_once  __DIR__ . '/inc/admin/post-list-columns.php';
 			}
 
-			if ( file_exists( __DIR__ . '/classes/class-connect.php' ) ) {
-				require_once  __DIR__ . '/classes/class-connect.php';
+			if ( file_exists( __DIR__ . '/includes/class-connect.php' ) ) {
+				require_once  __DIR__ . '/includes/class-connect.php';
 			}
 		}
 	}
