@@ -197,8 +197,9 @@ class Constant_Contact {
 		add_filter( 'plugin_action_links_' . $this->basename, array( $this, 'add_social_links' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 
-		if ( is_ssl() || ! defined( 'CC_IS_SSL' ) ) {
-			define( 'CC_IS_SSL', true );
+		// Our vendor files will do a check for ISSSL, so we want to set it to be that
+		if ( is_ssl() || ! defined( 'ISSSL' ) ) {
+			define( 'ISSSL', true );
 		}
 	}
 
