@@ -423,3 +423,30 @@ function constant_contact() {
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
 
 register_activation_hook( __FILE__, array( constant_contact(), '_activate' ) );
+
+
+
+if ( ! function_exists( 'wds_wp_parse_args' ) ) {
+	/**
+	 * Parse multidemntional args
+	 *
+	 * @internal
+	 * @since 1.0.0
+	 * @param  array $a args to parse.
+	 * @param  array $b default array.
+	 * @return array the parsed array
+	 */
+	function wds_wp_parse_args( &$a, $b ) {
+		$a = (array) $a;
+		$b = (array) $b;
+		$result = $b;
+		foreach ( $a as $k => &$v ) {
+			if ( is_array( $v ) && isset( $result[ $k ] ) ) {
+				$result[ $k ] = wds_wp_parse_args( $v, $result[ $k ] );
+			} else {
+				$result[ $k ] = $v;
+			}
+		}
+		return $result;
+	}
+}
