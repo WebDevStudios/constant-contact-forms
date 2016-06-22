@@ -109,8 +109,8 @@ class ConstantContact_Admin {
 
 		add_submenu_page(
 			'edit.php?post_type=ctct_forms',
-			'Help',
-			'Help',
+			__( 'Help', 'constanctcontact' ),
+			__( 'Help', 'constanctcontact' ),
 			'manage_options',
 			$this->key . '_help',
 			array( $this, 'admin_page_display' )
@@ -118,8 +118,8 @@ class ConstantContact_Admin {
 
 		add_submenu_page(
 			'edit.php?post_type=ctct_forms',
-			'About',
-			'About',
+			__( 'About', 'constanctcontact' ),
+			__( 'About', 'constanctcontact' ),
 			'manage_options',
 			$this->key . '_about',
 			array( $this, 'admin_page_display' )
