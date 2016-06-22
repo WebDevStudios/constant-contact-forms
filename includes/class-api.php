@@ -335,13 +335,24 @@ class ConstantContact_API {
 	 */
 	private function api_error_message( $error ) {
 
+		// Make sure we have our expected error key
+		if ( ! isset( $error->error_key ) ) {
+			return false;
+		}
+
+		// If we have our debugging turned on, push that error to the error log
+		if ( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) {
+			error_log( $error->error_key );
+		}
+
+		// Otherwise work through our list of error keys we know
 		switch ( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
 				$this->access_token = false;
 				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constantcontact' );
 			break;
 			default:
-			 return false;
+				return false;
 			break;
 
 		}
