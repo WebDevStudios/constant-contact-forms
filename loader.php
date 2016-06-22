@@ -215,25 +215,13 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Deactivate the plugin
-	 * Uninstall routines should be in uninstall.php
-	 *
-	 * @since  1.0.0
-	 * @return void
-	 */
-	function _deactivate() {}
-
-	/**
 	 * Init hooks
 	 *
 	 * @since  1.0.0
 	 * @return void
 	 */
 	public function init() {
-
-		if ( $this->check_requirements() ) {
-			load_plugin_textdomain( 'constantcontact', false, dirname( $this->basename ) . '/languages/' );
-		}
+		load_plugin_textdomain( 'constantcontact', false, dirname( $this->basename ) . '/languages/' );
 	}
 
 	/**
@@ -340,70 +328,6 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Check if the plugin meets requirements and
-	 * disable it if they are not present.
-	 *
-	 * @since  1.0.0
-	 * @return boolean result of meets_requirements
-	 */
-	public function check_requirements() {
-		if ( ! $this->meets_requirements() ) {
-
-			// Add a dashboard notice.
-			add_action( 'all_admin_notices', array( $this, 'requirements_not_met_notice' ) );
-
-			// Deactivate our plugin.
-			add_action( 'admin_init', array( $this, 'deactivate_me' ) );
-
-			return false;
-		}
-
-		return true;
-	}
-
-	/**
-	 * Deactivates this plugin, hook this function on admin_init.
-	 *
-	 * @since  1.0.0
-	 * @return void
-	 */
-	public function deactivate_me() {
-
-		if ( is_plugin_active( $this->basename ) ) {
-			deactivate_plugins( $this->basename );
-		}
-
-	}
-
-	/**
-	 * Check that all plugin requirements are met
-	 *
-	 * @since  1.0.0
-	 * @return boolean True if requirements are met.
-	 */
-	public static function meets_requirements() {
-		// Do checks for required classes / functions
-		// function_exists('') & class_exists('').
-		// We have met all requirements.
-		return true;
-	}
-
-	/**
-	 * Adds a notice to the dashboard if the plugin requirements are not met
-	 *
-	 * @since  1.0.0
-	 * @return void
-	 */
-	public function requirements_not_met_notice() {
-		// Output our error.
-		$error_text = sprintf( __( $this->plugin_name . ' is missing requirements and has been <a href="%s">deactivated</a>. Please make sure all requirements are available.', 'constantcontact' ), admin_url( 'plugins.php' ) );
-
-		echo '<div id="message" class="error">';
-		echo '<p>' . $error_text . '</p>';
-		echo '</div>';
-	}
-
-	/**
 	 * Magic getter for our object.
 	 *
 	 * @since  1.0.0
@@ -499,4 +423,3 @@ function constant_contact() {
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
 
 register_activation_hook( __FILE__, array( constant_contact(), '_activate' ) );
-register_deactivation_hook( __FILE__, array( constant_contact(), '_deactivate' ) );
