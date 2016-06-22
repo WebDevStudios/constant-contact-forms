@@ -40,24 +40,27 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function shortcode() {
 
-			$attributes = $this->shortcode_object->atts;
-
 			// Attributes.
-			$atts = shortcode_atts(
-				array(
-					'form' => '',
-				),
-				$attributes
-			);
+			$atts = shortcode_atts( array( 'form' => '' ), $this->shortcode_object->atts );
 
-			$meta = get_post_meta( $atts['form'] );
+			// Bail if we don't have a form set
+			if ( ! isset( $atts['form'] ) ) {
+				return;
+			}
+
+			// Grab all post meta
+			$meta = get_post_meta( $atts['form'] . 'a' );
+
+			// Bail if we didn't get meta
+			if ( ! $meta ) {
+				return;
+			}
+
+			// Pass our data into our field method
 			$form_data = $this->get_field_meta( $meta );
 
-			ob_start();
-			$shortcode = require( constant_contact()->dir() . 'templates/form.php' );
-			$shortcode = ob_get_contents();
-			ob_end_clean();
-			return $shortcode;
+			// return our markup
+			return constant_contact()->display->form( $form_data );
 
 		}
 
