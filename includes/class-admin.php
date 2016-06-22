@@ -86,7 +86,6 @@ class ConstantContact_Admin {
 	public function hooks() {
 		add_action( 'admin_init', array( $this, 'init' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ), 999 );
-		add_action( 'cmb2_admin_init', array( $this, 'add_options_page_metabox' ) );
 	}
 
 
@@ -156,44 +155,6 @@ class ConstantContact_Admin {
 			</div>
 		</div>
 		<?php
-	}
-
-	/**
-	 * Add the options metabox to the array of metaboxes.
-	 *
-	 * @since 1.0.0
-	 */
-	function add_options_page_metabox() {
-
-		$prefix = '_ctct_';
-
-		// Hook in our save notices.
-		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", array( $this, 'settings_notices' ), 10, 2 );
-
-		$cmb = new_cmb2_box( array(
-			'id'		 => $this->metabox_id,
-			'hookup'	 => false,
-			'cmb_styles' => false,
-			'show_on'	=> array(
-			// These are important don't remove.
-			'key'   => 'options-page',
-			'value' => array( $this->key ),
-			),
-		) );
-
-		$cmb->add_field( array(
-			'name' => 'Test Title',
-			'desc' => 'This is a title description',
-			'type' => 'title',
-			'id'   => $prefix . 'test_title'
-		) );
-
-		$cmb->add_field( array(
-			'name' => 'Test Text',
-			'desc' => '',
-			'type' => 'text',
-			'id'   => $prefix . 'test_text'
-		) );
 	}
 
 	/**
