@@ -82,7 +82,10 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			}
 
 			$filtered_fields = array();
-			$filtered_fields['form'] = $fields['_ctct_form'];
+
+			if ( isset( $fields['_ctct_form'] ) ) {
+				$filtered_fields['form'] = $fields['_ctct_form'];
+			}
 
 			return $filtered_fields;
 		}
