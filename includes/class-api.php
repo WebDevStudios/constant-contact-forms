@@ -307,6 +307,19 @@ class ConstantContact_API {
 	        }
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
+	/**
+	 * Pushes all error to api_error_message
+	 *
+	 * @param  array $errors  errors from api
+	 * @return void
+	 */
+	public function log_errors( $errors ) {
+
+		// Make sure we have an array
+		if ( is_array( $errors ) ) {
+
+			// Loop through all errors
+			foreach ( $errors as $error ) {
 				$this->api_error_message( $error );
 			}
 			if ( ! isset( $return_contact ) ) {
