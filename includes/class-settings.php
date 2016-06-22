@@ -275,14 +275,18 @@ class ConstantContact_Settings {
 
 		if ( isset( $_POST['ctct_optin_list'] ) ) {
 
-			$args = array(
-				'email' => sanitize_email( $comment_data['comment_author_email'] ),
-				'list' => $_POST['ctct_optin_list'],
-				'first_name' => sanitize_text_field( $comment_data['comment_author'] ),
-				'last_name' => '',
-			);
+			if ( isset( $comment_data['comment_author'] ) && isset( $comment_data['comment_author'] ) ) {
 
-			constantcontact_api()->add_contact( $args );
+				$args = array(
+					'email' => sanitize_email( $comment_data['comment_author_email'] ),
+					'list' => sanitize_text_field( $_POST['ctct_optin_list'] ),
+					'first_name' => sanitize_text_field( $comment_data['comment_author'] ),
+					'last_name' => '',
+				);
+
+				constantcontact_api()->add_contact( $args );
+
+			}
 		}
 
 		return $comment_data;
@@ -302,15 +306,26 @@ class ConstantContact_Settings {
 
 			$user_data = get_user_by( 'login', $username );
 
+			if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->user_email ) ) {
+				$email = sanitize_email( $user_data->data->user_email );
+			} else {
+				$email = '';
+			}
+
+			if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->display_name ) ) {
+				$name = sanitize_email( $user_data->data->display_name );
+			} else {
+				$name = '';
+			}
+
 			$args = array(
-				'email' => sanitize_email( $user_data->data->user_email ),
+				'email' => $email,
 				'list' => sanitize_text_field( $_POST['ctct_optin_list'] ),
-				'first_name' => sanitize_text_field( $user_data->data->display_name ),
+				'first_name' => $name,
 				'last_name' => '',
 			);
 
 			$user = constantcontact_api()->add_contact( $args );
-
 		}
 
 		return $user;
