@@ -263,6 +263,11 @@ class ConstantContact_API {
 	 */
 	public function delete_list( $updated_list = array() ) {
 
+		// bail early
+		if ( ! isset( $updated_list['id'] ) ) {
+			return;
+		}
+
 		try {
 			$list = $this->cc()->listService->deleteList( $this->get_api_token(), $updated_list['id'] );
 		} catch ( CtctException $ex ) {
@@ -398,11 +403,7 @@ class ConstantContact_API {
 			foreach ( $errors as $error ) {
 				$this->api_error_message( $error );
 			}
-			if ( ! isset( $return_contact ) ) {
-				$return_contact = null;
-			}
 		}
-		return $return_contact;
 	}
 
 	/**
