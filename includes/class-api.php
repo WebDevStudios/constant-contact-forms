@@ -309,6 +309,36 @@ class ConstantContact_API {
 			foreach ( $ex->getErrors() as $error ) {
 
 	/**
+	 * Helper method to creat contact
+	 *
+	 * @param  array $response  response from api call
+	 * @param  string $api_token token
+	 * @param  string $list      list name
+	 * @param  string email      email address
+	 * @param  string $f_name    first name
+	 * @param  string $l_name    last name
+	 * @return mixed             response from api
+	 */
+	public function _create_contact( $api_token, $list, $email, $f_name, $l_name ) {
+
+		$contact = new Contact();
+		$contact->addEmail( $email );
+		$contact->addList( $list );
+		$contact->first_name = $f_name;
+		$contact->last_name  = $l_name;
+
+		/*
+		 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
+		 */
+		return $this->cc()->contactService->addContact(
+			$api_token,
+			$contact,
+			array( 'action_by' => 'ACTION_BY_VISITOR' )
+		);
+
+	}
+
+	/**
 	 * Helper method to update contact
 	 *
 	 * @param  array $response  response from api call
