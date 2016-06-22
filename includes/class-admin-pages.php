@@ -42,7 +42,7 @@ class ConstantContact_Admin_Pages {
 	 * @param  array $defaults default array.
 	 * @return array the parsed array
 	 */
-	function parse_multidimensional_array_args( &$args, $defaults ) {
+	public function parse_multidimensional_array_args( &$args, $defaults ) {
 
 		$args = (array) $args;
 		$result = $defaults = (array) $defaults;
