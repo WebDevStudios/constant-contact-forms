@@ -74,7 +74,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		public function get_field_meta( $form_meta ) {
 
 			// Bail if we don't have form meta
-			if ( empty( $form_meta ) || ! is_array( $form_meta) ) {
+			if ( empty( $form_meta ) || ! is_array( $form_meta ) ) {
 				return false;
 			}
 
