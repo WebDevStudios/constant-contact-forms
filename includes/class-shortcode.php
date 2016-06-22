@@ -97,8 +97,21 @@ if ( ! class_exists( 'ConstantContact_Shortcode', false ) ) {
 				$fields['options']['list'] = $form_meta['_ctct_list'][0];
 			}
 
-			if ( 'on' === $form_meta['_ctct_opt_in'][0] ) {
-				$fields['options']['opt_in'] = isset( $form_meta['_ctct_opt_in_instructions'] ) ? $form_meta['_ctct_opt_in_instructions'][0] : '';
+			if (
+				isset( $form_meta['_ctct_opt_in'] ) &&
+				$form_meta['_ctct_opt_in'] &&
+				isset( $form_meta['_ctct_opt_in'][0] ) &&
+				$form_meta['_ctct_opt_in'][0] &&
+				'on' === $form_meta['_ctct_opt_in'][0]
+			) {
+				if (
+					isset( $form_meta['_ctct_opt_in_instructions'] ) &&
+					isset( $form_meta['_ctct_opt_in_instructions'][0] )
+				) {
+					$fields['options']['opt_in'] = $form_meta['_ctct_opt_in_instructions'][0];
+				} else {
+					$fields['options']['opt_in'] = '';
+				}
 			}
 
 			return $fields;
