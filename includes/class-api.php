@@ -265,45 +265,33 @@ class ConstantContact_API {
 	 */
 	public function add_contact( $new_contact = array() ) {
 
-		if ( empty( $new_contact ) ) { return null; }
+		if ( empty( $new_contact ) ) {
+			return;
+		}
+
+		if ( ! isset( $new_contact['email'] ) ) {
+			return;
+		}
+
+		// Set our API Token
+		$api_token = $this->get_api_token();
+
+		// Set up our data
+		$email = sanitize_email( $new_contact['email'] );
+		$list = isset( $new_contact['list'] ) ? esc_attr( $new_contact['list'] ) : 'cc_' . wp_generate_password( 15, false );
+		$f_name = isset( $new_contact['first_name'] ) ? esc_attr( $new_contact['first_name'] ) : '';
+		$l_name = isset( $new_contact['last_name'] ) ? esc_attr( $new_contact['last_name'] ) : '';
 
 		try {
 	        // Check to see if a contact with the email address already exists in the account.
-	        $response = $this->cc()->contactService->getContacts( $this->get_api_token(), array( 'email' => $new_contact['email'] ) );
+	        $response = $this->cc()->contactService->getContacts( $api_token, array( 'email' => $email ) );
 
 	        // Create a new contact if one does not exist.
 	        if ( empty( $response->results ) ) {
-	            $action = 'Creating Contact';
-
-	            $contact = new Contact();
-	            $contact->addEmail( $new_contact['email'] );
-	            $contact->addList( $new_contact['list'] );
-	            $contact->first_name = $new_contact['first_name'];
-	            $contact->last_name = $new_contact['last_name'];
-
-	            /*
-	             * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
-	             */
-	            $return_contact = $this->cc()->contactService->addContact( $this->get_api_token(), $contact, array( 'action_by' => 'ACTION_BY_VISITOR' ) );
-
+	        	$return_contact = $this->_create_contact( $api_token, $list, $email, $f_name, $l_name );
 	            // Update the existing contact if address already existed.
 	        } else {
-	            $action = 'Updating Contact';
-	            $contact = $response->results[0];
-	            if ( $contact instanceof Contact ) {
-	                $contact->addList( $new_contact['list'] );
-	                $contact->first_name = $new_contact['first_name'];
-	                $contact->last_name = $new_contact['last_name'];
-
-	                /*
-	                 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
-	                 */
-	                $return_contact = $this->cc()->contactService->updateContact( $this->get_api_token(), $contact, array( 'action_by' => 'ACTION_BY_VISITOR' ) );
-	            } else {
-	                $e = new CtctException();
-	                $e->setErrors( array( 'type', 'Contact type not returned' ) );
-	                throw $e;
-	            }
+	        	$return_contact = $this->_update_contact( $response, $api_token, $list, $f_name, $l_name );
 	        }
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
