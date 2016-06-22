@@ -114,6 +114,11 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				// Grab the posts
 				$q_forms = $query->get_posts();
 
+				// if for some reason we got an error, just return a blank array
+				if ( is_wp_error( $q_forms ) && ! is_array( $q_forms ) ) {
+					return array();
+				}
+
 				// Set up our default array
 				$forms = array();
 
