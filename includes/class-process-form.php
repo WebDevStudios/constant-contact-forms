@@ -168,7 +168,10 @@ function ctct_form_submit_message( $mode = 'echo ') {
  * @param  array $form_data formulated cmb2 data for form.
  * @return void
  */
-function ctct_build_form_fields( $form_data ) {
+function ctct_build_form_fields( $form_data, $display_mode = 'echo' ) {
+
+	// start our wrapper return var
+	$return = '';
 
 	// Check to see if we have a description for the form, and display it
 	if (
@@ -184,7 +187,7 @@ function ctct_build_form_fields( $form_data ) {
 
 		$required = isset( $form_data['fields'][ $key ]['required'] ) ? ' * required' : '';
 
-		echo '<div><p><label>' . esc_attr( $form_data['fields'][ $key ]['name'] ) . esc_attr( $required ) . '</label></br>';
+		$return .= '<div><p><label>' . esc_attr( $form_data['fields'][ $key ]['name'] ) . esc_attr( $required ) . '</label></br>';
 
 		$field_name = esc_attr( $form_data['fields'][ $key ]['map_to'] );
 		$field_value = ( isset( $_POST[ 'ctct-' . $form_data['fields'][ $key ]['map_to'] ] ) ? esc_attr( $_POST[ 'ctct-' . $form_data['fields'][ $key ]['map_to'] ] ) : '' );
@@ -192,22 +195,26 @@ function ctct_build_form_fields( $form_data ) {
 		switch ( $form_data['fields'][ $key ]['map_to'] ) {
 
 			case 'email':
-					echo '<input type="email" required name="ctct-' . esc_attr( $field_name ) . '" value="' . esc_attr( $field_value ) . '" tabindex="1" size="40"></p></div>';
+					$return .= '<input type="email" required name="ctct-' . esc_attr( $field_name ) . '" value="' . esc_attr( $field_value ) . '" tabindex="1" size="40"></p></div>';
 			break;
 			default:
-					echo '<input type="text" pattern="[a-zA-Z0-9 ]+" name="ctct-' . esc_attr( $field_name ) . '" value="' . esc_attr( $field_value ) . '" tabindex="1" size="40"></p></div>';
+					$return .= '<input type="text" pattern="[a-zA-Z0-9 ]+" name="ctct-' . esc_attr( $field_name ) . '" value="' . esc_attr( $field_value ) . '" tabindex="1" size="40"></p></div>';
 			break;
 
 		}
 	}
 
 	if ( isset( $form_data['options']['opt_in'] ) && isset( $form_data['options']['list'] ) ) {
-		?>
-			<div><p>
-				<input type="checkbox" name="ctct-opti-in" value="<?php echo esc_attr( $form_data['options']['list'] ); ?>"/>
-				<?php echo esc_attr( $form_data['options']['opt_in'] ); ?>
-			</p></div>
-		<?php
+			$return .= '<div><p>';
+				$return .= '<input type="checkbox" name="ctct-opti-in" value="' . esc_attr( $form_data['options']['list'] ) . '"/>';
+				$return .= esc_attr( $form_data['options']['opt_in'] );
+			$return .= '</p></div>';
+	}
+
+	if ( 'echo' == $display_mode ) {
+		echo $return;
+	} else {
+		return $return;
 	}
 
 }
