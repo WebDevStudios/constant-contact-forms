@@ -166,13 +166,12 @@ class ConstantContact_API {
 	public function get_lists() {
 
 		try {
-			$lists = $this->cc()->listService->getLists( $this->get_api_token() );
-
+			return $this->cc()->listService->getLists( $this->get_api_token() );
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
 		}
 
-		return $lists;
+		return false;
 	}
 
 
