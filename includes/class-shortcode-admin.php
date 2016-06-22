@@ -25,6 +25,8 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		public function hooks() {
 			add_filter( $this->shortcode . '_shortcode_fields', array( $this, 'filter_shortcode_field' ), 10, 2 );
 			parent::hooks();
+
+			add_action( 'save_post', array( $this, 'clear_saved_form_list_transient' ) );
 		}
 
 		/**
@@ -136,7 +138,8 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			return $forms;
 		}
 
+		public function clear_saved_form_list_transient() {
+			delete_transient( 'constant_contact_shortcode_form_list' );
 		}
 	}
-
 }
