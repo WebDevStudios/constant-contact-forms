@@ -251,17 +251,17 @@ class ConstantContact_Builder {
 
 			$get_lists = array();
 
-			if ( $lists = constantcontact_lists()->get_lists() ) {
+		if ( $lists = constantcontact_lists()->get_lists() ) {
 
-				$get_lists['new'] = 'New';
+			$get_lists['new'] = 'New';
 
-				foreach ( $lists as $list => $value ) {
-					$get_lists[ $list ] = $value;
-				}
-
-				return $get_lists;
-
+			foreach ( $lists as $list => $value ) {
+				$get_lists[ $list ] = $value;
 			}
+
+			return $get_lists;
+
+		}
 
 			return false;
 
