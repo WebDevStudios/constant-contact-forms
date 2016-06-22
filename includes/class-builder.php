@@ -99,7 +99,7 @@ class ConstantContact_Builder {
 		) );
 
 		$description_metabox->add_field( array(
-			'description' => __( 'Add a description about this form.', 'constantcontact' ),
+			'description' => __( 'Add a description about this form. This will be shown above the form fields on the site.', 'constantcontact' ),
 			'id'   => $prefix . 'description',
 			'type' => 'textarea_small',
 		) );
