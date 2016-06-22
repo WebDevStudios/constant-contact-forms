@@ -165,7 +165,10 @@ class ConstantContact_Settings {
 			$option_options['reg_form'] = __( 'Registration Form', 'constantcontact' );
 		}
 
-		if ( $lists = ctct_builder_admin()->get_lists() ) {
+		// Get our lists
+		$lists = ctct_builder_admin()->get_lists();
+
+		if ( $lists && is_array( $lists ) ) {
 
 			unset( $lists['new'] );
 
