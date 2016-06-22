@@ -167,8 +167,8 @@ class Constant_Contact {
 		$this->plugin_name = __( 'Constant Contact', 'constantcontact' );
 
 		$this->basename = plugin_basename( __FILE__ );
-		$this->url	  = plugin_dir_url( __FILE__ );
-		$this->path	 = plugin_dir_path( __FILE__ );
+		$this->url	    = plugin_dir_url( __FILE__ );
+		$this->path	    = plugin_dir_path( __FILE__ );
 
 		$this->load_libs();
 		$this->plugin_classes();
