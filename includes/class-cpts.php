@@ -226,11 +226,8 @@ class ConstantContact_CPTS {
 		// Remove top level CPT menu.
 		remove_menu_page( 'edit.php?post_type=ctct_lists' );
 
-		// Get our account info
-		$acct_connected = constantcontact_api()->get_account_info();
-
 		// Make sure we're connected before adding our lists;
-		if ( $acct_connected ) {
+		if ( constantcontact_api()->get_account_info() ) {
 			// Add List submenu item for CPT.
 			add_submenu_page(
 				'edit.php?post_type=ctct_forms',
