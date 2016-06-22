@@ -129,62 +129,62 @@ class ConstantContact_Builder {
 
 		// Custom CMB2 fields.
 		$fields_metabox->add_field( array(
-			'name' => __( 'Add Fields', 'constantcontact' ),
+			'name'        => __( 'Add Fields', 'constantcontact' ),
 			'description' => __( 'Fields are sortable and can be mapped to Constant Contact default fields.', 'constantcontact' ),
-			'id'   => $prefix . 'title',
-			'type' => 'title',
+			'id'          => $prefix . 'title',
+			'type'        => 'title',
 		) );
 
 		// Default fields.
-		$custom_group_field_id = $fields_metabox->add_field( array(
-			'id'		  => 'custom_fields_group',
-			'type'		=> 'group',
-			'repeatable'  => true,
-			'options'	 => array(
+		$custom_group = $fields_metabox->add_field( array(
+			'id'         => 'custom_fields_group',
+			'type'       => 'group',
+			'repeatable' => true,
+			'options'    => array(
 				'group_title'   => __( 'Field {#}', 'constantcontact' ),
-				'add_button'	=> __( 'Add Another Field', 'constantcontact' ),
+				'add_button'    => __( 'Add Another Field', 'constantcontact' ),
 				'remove_button' => __( 'Remove Field', 'constantcontact' ),
-				'sortable'	  => true,
+				'sortable'      => true,
 			),
 		) );
 
-		$fields_metabox->add_group_field( $custom_group_field_id, array(
-			'name' => __( 'Field Name', 'constantcontact' ),
-			'id'   => $prefix . 'field_name',
-			'type' => 'text',
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'    => __( 'Field Name', 'constantcontact' ),
+			'id'      => $prefix . 'field_name',
+			'type'    => 'text',
 			'default' => 'Email',
 		) );
 
-		$default_fields = array(
-			'custom' => __( 'Custom', 'constantcontact' ),
-			'email' => __( 'Email', 'constantcontact' ),
-			'first_name' => __( 'First Name', 'constantcontact' ),
-			'last_name' => __( 'Last Name', 'constantcontact' ),
+		$default_fields = apply_filters( 'constant_contact_field_types', array(
+			'custom'       => __( 'Custom Text Field', 'constantcontact' ),
+			'email'        => __( 'Email', 'constantcontact' ),
+			'first_name'   => __( 'First Name', 'constantcontact' ),
+			'last_name'    => __( 'Last Name', 'constantcontact' ),
 			'phone_number' => __( 'Phone Number', 'constantcontact' ),
-			'address' => __( 'Address', 'constantcontact' ),
-			'job_title' => __( 'Job Title', 'constantcontact' ),
-			'company' => __( 'Company', 'constantcontact' ),
-			'website' => __( 'Website', 'constantcontact' ),
-			'birthday' => __( 'Birthday', 'constantcontact' ),
-			'anniversary' => __( 'Anniversary', 'constantcontact' ),
-		);
-
-		$fields_metabox->add_group_field( $custom_group_field_id, array(
-			'name' => __( 'Map to field', 'constantcontact' ),
-			'id'   => $prefix . 'map_select',
-			'type' => 'select',
-			'show_option_none' => false,
-			'default' => 'email',
-			'row_classes' => 'map',
-			'options' => $default_fields,
+			'address'      => __( 'Address', 'constantcontact' ),
+			'job_title'    => __( 'Job Title', 'constantcontact' ),
+			'company'      => __( 'Company', 'constantcontact' ),
+			'website'      => __( 'Website', 'constantcontact' ),
+			'birthday'     => __( 'Birthday', 'constantcontact' ),
+			'anniversary'  => __( 'Anniversary', 'constantcontact' ),
 		) );
 
-		$fields_metabox->add_group_field( $custom_group_field_id, array(
-			'name' => __( 'Required', 'constantcontact' ),
-			'id'   => $prefix . 'required_field',
-			'type' => 'checkbox',
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'             => __( 'Map to field', 'constantcontact' ),
+			'id'               => $prefix . 'map_select',
+			'type'             => 'select',
+			'show_option_none' => false,
+			'default'          => 'email',
+			'row_classes'      => 'map',
+			'options'          => $default_fields,
+		) );
+
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'        => __( 'Required', 'constantcontact' ),
+			'id'          => $prefix . 'required_field',
+			'type'        => 'checkbox',
 			'row_classes' => 'required',
-			'default' => 'on',
+			'default'     => 'on',
 		) );
 
 	}
@@ -212,44 +212,44 @@ class ConstantContact_Builder {
 
 		$options_metabox->add_field( array(
 			'description' => __( 'Choose form options.', 'constantcontact' ),
-			'id'   => $prefix . 'title',
-			'type' => 'title',
+			'id'          => $prefix . 'title',
+			'type'        => 'title',
 		) );
 
 		// Add field if conncted to API.
 		if ( $lists = $this->get_lists() ) {
 
 			$options_metabox->add_field( array(
-				'name' => __( 'List', 'constantcontact' ),
-				'id'   => $prefix . 'list',
-				'description' => __( 'Choose a list.', 'constantcontact' ),
-				'type' => 'select',
+				'name'             => __( 'List', 'constantcontact' ),
+				'id'               => $prefix . 'list',
+				'description'      => __( 'Choose a list.', 'constantcontact' ),
+				'type'             => 'select',
 				'show_option_none' => true,
-				'default' => 'none',
-				'options' => $lists,
+				'default'          => 'none',
+				'options'          => $lists,
 			) );
 
 		}
 
 		$options_metabox->add_field( array(
-			'name' => __( 'New List', 'constantcontact' ),
-			'id'   => $prefix . 'new_list',
+			'name'        => __( 'New List', 'constantcontact' ),
+			'id'          => $prefix . 'new_list',
 			'description' => __( 'Enter title of new list.', 'constantcontact' ),
-			'type' => 'text',
+			'type'        => 'text',
 		) );
 
 		$options_metabox->add_field( array(
-			'name' => __( 'Opt In', 'constantcontact' ),
-			'id'   => $prefix . 'opt_in',
+			'name'        => __( 'Opt In', 'constantcontact' ),
+			'id'          => $prefix . 'opt_in',
 			'description' => __( 'Add Opt In checkbox to form.', 'constantcontact' ),
-			'type' => 'checkbox',
+			'type'        => 'checkbox',
 		) );
 
 		$options_metabox->add_field( array(
-			'name' => __( 'Opt In Instructions', 'constantcontact' ),
-			'id'   => $prefix . 'opt_in_instructions',
+			'name'        => __( 'Opt In Instructions', 'constantcontact' ),
+			'id'          => $prefix . 'opt_in_instructions',
 			'description' => __( 'Add Opt In instructions.', 'constantcontact' ),
-			'type' => 'textarea_small',
+			'type'        => 'textarea_small',
 		) );
 
 	}
