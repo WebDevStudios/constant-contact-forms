@@ -105,8 +105,6 @@ class ConstantContact_Admin {
 	 */
 	public function add_options_page() {
 
-		$icon = constant_contact()->menu_icon;
-
 		add_submenu_page(
 			'edit.php?post_type=ctct_forms',
 			__( 'Help', 'constanctcontact' ),
