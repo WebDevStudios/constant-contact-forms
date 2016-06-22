@@ -79,9 +79,9 @@ class ConstantContact_Settings {
 		add_action( 'cmb2_admin_init', array( $this, 'add_options_page_metabox' ) );
 
 		// Override CMB's getter.
-		add_filter( 'cmb2_override_option_get_'. $this->key, array( $this, 'get_override' ), 10, 2 );
+		add_filter( 'cmb2_override_option_get_' . $this->key, array( $this, 'get_override' ), 10, 2 );
 		// Override CMB's setter.
-		add_filter( 'cmb2_override_option_save_'. $this->key, array( $this, 'update_override' ), 10, 2 );
+		add_filter( 'cmb2_override_option_save_' . $this->key, array( $this, 'update_override' ), 10, 2 );
 
 		add_action( 'cmb2_init', array( $this, 'add_optin_to_forms' ) );
 		add_filter( 'preprocess_comment', array( $this, 'process_optin_comment_form' ) );
