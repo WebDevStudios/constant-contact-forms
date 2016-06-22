@@ -254,23 +254,37 @@ class ConstantContact_Builder {
 
 	}
 
+	/**
+	 * Get lists for dropdown option
+	 *
+	 * @author Brad Parbs
+	 * @return array array of lists
+	 */
 	public function get_lists() {
 
-			$get_lists = array();
+		// Grab our lists
+		$lists = constantcontact_lists()->get_lists();
 
-		if ( $lists = constantcontact_lists()->get_lists() ) {
+		if ( $lists && is_array( $lists ) ) {
 
-			$get_lists['new'] = 'New';
+			// Always want the 'new' element to be in the list
+			$get_lists['new'] = __( 'New', 'constantcontact' );
 
+			// Loop though our lists
 			foreach ( $lists as $list => $value ) {
-				$get_lists[ $list ] = $value;
+
+				// Make sure we have something to use as a key and a value,
+				// and that we don't overwrite our 'new' value we set before
+				if ( ! empty( $list ) && ! empty( $value ) && 'new' != $list ) {
+					$get_lists[ $list ] = $value;
+				}
 			}
 
+			// Return those lists
 			return $get_lists;
-
 		}
 
-			return false;
+		return array();
 
 	}
 
