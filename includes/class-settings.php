@@ -378,12 +378,15 @@ class ConstantContact_Settings {
 	public function __get( $field ) {
 		// Allowed fields to retrieve
 		if ( in_array( $field, array( 'key', 'metabox_id', 'title', 'options_page' ), true ) ) {
-			return $this->{$field};
+			if ( isset( $this->{$field} ) ) {
+				return $this->{$field};
+			} else {
+				return null;
+			}
 		}
 
 		throw new Exception( 'Invalid property: ' . $field );
 	}
-
 }
 
 /**
