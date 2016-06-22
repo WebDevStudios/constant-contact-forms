@@ -79,8 +79,8 @@ function constant_contact_help_page() {
 				<ol id="help_ctct">
 				<?php foreach ( $helps as $help ) : ?>
 					<li>
-						<span tabindex="0" class="question" aria-controls="q1" aria-expanded="false"><?php echo esc_html( $help['title'] ); ?></span>
-						<div class="answer"><?php echo esc_html( $help['content'] ); ?></div>
+						<span tabindex="0" class="question" aria-controls="q1" aria-expanded="false"><?php echo esc_html( isset( $help['title'] ) ? $help['title'] : '' ); ?></span>
+						<div class="answer"><?php echo esc_html( isset( $help['content'] ) ? $help['content'] : '' ); ?></div>
 					</li>
 				<?php endforeach; ?>
 				</ol>
@@ -90,8 +90,8 @@ function constant_contact_help_page() {
 				<ol id="faq_ctct">
 				<?php foreach ( $faqs as $faq ) : ?>
 					<li>
-						<span tabindex="0" class="question" aria-controls="q1" aria-expanded="false"><?php echo esc_html( $faq['title'] ); ?></span>
-						<div class="answer"><?php echo esc_html( $faq['content'] ); ?></div>
+						<span tabindex="0" class="question" aria-controls="q1" aria-expanded="false"><?php echo esc_html( isset( $faq['title'] ) ? $faq['title'] : '' ); ?></span>
+						<div class="answer"><?php echo esc_html( isset( $faq['content'] ) ? $faq['content'] : '' ); ?></div>
 					</li>
 				<?php endforeach; ?>
 				</ol>
