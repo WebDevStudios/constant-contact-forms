@@ -78,9 +78,6 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				return false;
 			}
 
-			// set our default values
-			$custom_fields = array();
-
 			// Data verificiation for our custom fields group
 			if (
 				isset( $form_meta['custom_fields_group'] ) &&
@@ -88,8 +85,20 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				isset( $form_meta['custom_fields_group'][0] )
 			) {
 				// If we passed all the checks, try to grab the data
-				$custom_fields = maybe_unserialize( $form_meta['custom_fields_group'][0]  );
+				return $this->get_field_values( $form_meta['custom_fields_group'][0] );
 			}
+		}
+
+		/**
+		 * Get custom field values from post meta data from form CPT post
+		 *
+		 * @author Brad Parbs
+		 * @param  array $custom_fields custom fields to parse through
+		 * @return string                form field markup
+		 */
+		public function get_field_values( $custom_fields ) {
+
+			$custom_fields = maybe_unserialize( $custom_fields );
 
 			// Loop through each of our fields
 			foreach ( $custom_fields as $key => $value ) {
