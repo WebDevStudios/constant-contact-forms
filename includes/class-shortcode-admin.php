@@ -57,12 +57,12 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		public function fields( $fields, $button_data ) {
 
 			$fields[] = array(
-				'name'			 => __( 'Form Shortcode', 'constantcontact' ),
-				'desc'			 => __( 'Choosing a form shortcode.', 'constantcontact' ),
-				'id'			   => '_ctct_form',
-				'type'			 => 'select',
+				'name'             => __( 'Form Shortcode', 'constantcontact' ),
+				'desc'             => __( 'Choosing a form shortcode.', 'constantcontact' ),
+				'id'               => '_ctct_form',
+				'type'             => 'select',
 				'show_option_none' => false,
-				'options'		  => $this->get_forms(),
+				'options'          => $this->get_forms(),
 			);
 
 			return $fields;
