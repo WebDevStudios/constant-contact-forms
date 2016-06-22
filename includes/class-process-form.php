@@ -136,24 +136,28 @@ constantcontact_process_form();
  * @since 1.0.0
  * @return void
  */
-function ctct_form_submit_message() {
+function ctct_form_submit_message( $mode = 'echo ') {
 
 	if ( $message = get_transient( 'ctct_form_submit_message' ) ) {
 
 		switch ( $message ) {
 			case 'success':
-				$message_text = 'Your message has been sent!';
+				$message_text = __( 'Your message has been sent!', 'constantcontact' );
 			break;
 			case 'error':
-				$message_text = 'Your message failed to send!';
+				$message_text = __( 'Your message failed to send!', 'constantcontact' );
 			break;
-
 		}
 
-		echo sprintf( '<p class="message ' . esc_attr( $message ) . '"> %s </p>', esc_attr( $message_text ) );
+		$return = sprintf( '<p class="message ' . esc_attr( $message ) . '"> %s </p>', esc_attr( $message_text ) );
 
 		delete_transient( 'ctct_form_submit_message' );
 
+		if ( 'echo' == $mode ) {
+			echo $return;
+		} else {
+			return $return;
+		}
 	}
 }
 
