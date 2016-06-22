@@ -307,6 +307,43 @@ class ConstantContact_API {
 	        }
 		} catch ( CtctException $ex ) {
 			foreach ( $ex->getErrors() as $error ) {
+
+	/**
+	 * Helper method to update contact
+	 *
+	 * @param  array $response  response from api call
+	 * @param  string $api_token token
+	 * @param  string $list      list name
+	 * @param  string $f_name    first name
+	 * @param  string $l_name    last name
+	 * @return mixed             response from api
+	 */
+	public function _update_contact( $response, $api_token, $list, $f_name, $l_name ) {
+		if (
+			isset( $response->results ) &&
+			isset( $response->results[0] ) &&
+			( $response->results[0] instanceof Contact )
+		) {
+			$contact = $response->results[0];
+			$contact->addList( $list );
+			$contact->first_name = $f_name;
+			$contact->last_name  = $l_name;
+
+		    /*
+		     * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
+		     */
+		    return $this->cc()->contactService->updateContact(
+		    	$api_token,
+		    	$contact,
+		    	array( 'action_by' => 'ACTION_BY_VISITOR' )
+		    );
+		} else {
+		    $error = new CtctException();
+		    $error->setErrors( array( 'type', __( 'Contact type not returned', 'constantcontact' ) ) );
+		    throw $error;
+		}
+	}
+
 	/**
 	 * Pushes all error to api_error_message
 	 *
