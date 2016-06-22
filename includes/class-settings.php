@@ -226,8 +226,12 @@ class ConstantContact_Settings {
 
 		$optin_selected = ctct_get_settings_option( '_ctct_optin_forms' );
 
-		foreach ( $optin_selected as $key => $value ) {
-			switch ( $value ) {
+		if ( ! is_array( $optin_selected ) ) {
+			return;
+		}
+
+		foreach ( $optin_selected as $selected ) {
+			switch ( $selected ) {
 				case 'login_form':
 					add_action( 'login_form', array( $this, 'optin_form_field' ) );
 				break;
