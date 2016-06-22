@@ -11,9 +11,10 @@
 
 	//error_log( print_r( $form_data, true ) );
 
-?>
 
-<form id="ctct-form" action="<?php echo esc_url( $_SERVER['REQUEST_URI'] ); ?>" method="post">
+	global $wp;
+?>
+<form id="ctct-form" action="<?php echo esc_url( trailingslashit( add_query_arg( '', '', home_url( $wp->request ) ) ) ); ?>" method="post">
 
 	<?php ctct_form_submit_message(); ?>
 
