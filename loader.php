@@ -258,26 +258,18 @@ class Constant_Contact {
 	 */
 	public function load_libs() {
 
-		// Load cmb2.
-		if ( file_exists( __DIR__ . '/vendor/cmb2/init.php' ) ) {
-			require_once  __DIR__ . '/vendor/cmb2/init.php';
-		} elseif ( file_exists( __DIR__ . '/vendor/CMB2/init.php' ) ) {
-			require_once  __DIR__ . '/vendor/CMB2/init.php';
-		}
+		// Set an array of libraries we need to load
+		$libs = array(
+			'CMB2/init.php',
+			'constantcontact/autoload.php',
+			'constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php',
+			'wds/WDS-Shortcodes/wds-shortcodes.php',
+		);
 
-		// Load encryption class.
-		if ( file_exists( __DIR__ . '/vendor/defuse/php-encryption/defuse-crypto.phar' ) ) {
-			require_once  __DIR__ . '/vendor/defuse/php-encryption/defuse-crypto.phar';
-		}
-
-		// Load CC php SDK.
-		if ( file_exists( __DIR__ . '/vendor/constantcontact/autoload.php' ) ) {
-			require_once  __DIR__ . '/vendor/constantcontact/autoload.php';
-		}
-
-		// Load shortcode button framework.
-		if ( file_exists( __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php' ) ) {
-			require_once  __DIR__ . '/vendor/wds/WDS-Shortcodes/wds-shortcodes.php';
+		// Loop through our vendor libraries and load them
+		foreach ( $libs as $lib ) {
+			// Require_once our file
+			require_once $this->dir( "vendor/{$lib}" );
 		}
 
 	}
