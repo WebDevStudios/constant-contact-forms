@@ -88,7 +88,7 @@ class ConstantContact_Admin {
 		add_action( 'admin_menu', array( $this, 'add_options_page' ), 999 );
 
 		add_filter( 'manage_ctct_forms_posts_columns', array( $this, 'set_custom_columns' ) );
-		add_action( 'manage_ctct_forms_posts_custom_column' , array( $this, 'custom_columns', 10, 2 ) );
+		add_action( 'manage_ctct_forms_posts_custom_column' , array( $this, 'custom_columns' ), 10, 2 );
 	}
 
 
