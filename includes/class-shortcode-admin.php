@@ -100,9 +100,15 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function get_forms() {
 
+			// Grab our saved transient
 			$forms = get_transient( 'constant_contact_shortcode_form_list' );
 
-			if ( false === $forms ) {
+			// Allow bypassing transient check
+			$bypass_forms = apply_filters( 'constant_contact_bypass_shotcode_forms', false );
+
+			// If we dont have a transient or we bypass, go through the motions
+			if ( false === $forms || $bypass_forms ) {
+
 				// Get all our forms that we have
 				$query = new WP_Query( array(
 					'post_status'            => 'publish',
@@ -137,6 +143,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 					}
 				}
 
+				// Save that
 				set_transient( 'constant_contact_shortcode_form_list', $forms, 1 * DAY_IN_SECONDS );
 			}
 
