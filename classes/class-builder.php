@@ -84,7 +84,7 @@ class ConstantContact_Builder {
 		 */
 		$description_metabox = new_cmb2_box( array(
 			'id'			=> 'ctct_description_metabox',
-			'title'		 	=> __( 'Form Description', constant_contact()->text_domain ),
+			'title'		 	=> __( 'Form Description', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
 			'priority'	  	=> 'high',
@@ -92,7 +92,7 @@ class ConstantContact_Builder {
 		) );
 
 		$description_metabox->add_field( array(
-			'description' => __( 'Add a description about this form.', constant_contact()->text_domain ),
+			'description' => __( 'Add a description about this form.', 'constantcontact' ),
 			'id'   => $prefix . 'description',
 			'type' => 'textarea_small',
 		) );
@@ -113,7 +113,7 @@ class ConstantContact_Builder {
 		 */
 		$fields_metabox = new_cmb2_box( array(
 			'id'			=> 'ctct_fields_metabox',
-			'title'		 	=> __( 'Form Fields', constant_contact()->text_domain ),
+			'title'		 	=> __( 'Form Fields', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
 			'priority'	  	=> 'high',
@@ -122,8 +122,8 @@ class ConstantContact_Builder {
 
 		// Custom CMB2 fields.
 		$fields_metabox->add_field( array(
-			'name' => __( 'Add Fields', constant_contact()->text_domain ),
-			'description' => __( 'Fields are sortable and can be mapped to Constant Contact default fields.', constant_contact()->text_domain ),
+			'name' => __( 'Add Fields', 'constantcontact' ),
+			'description' => __( 'Fields are sortable and can be mapped to Constant Contact default fields.', 'constantcontact' ),
 			'id'   => $prefix . 'title',
 			'type' => 'title',
 		) );
@@ -134,36 +134,36 @@ class ConstantContact_Builder {
 			'type'		=> 'group',
 			'repeatable'  => true,
 			'options'	 => array(
-				'group_title'   => __( 'Field {#}', constant_contact()->text_domain ),
-				'add_button'	=> __( 'Add Another Field', constant_contact()->text_domain ),
-				'remove_button' => __( 'Remove Field', constant_contact()->text_domain ),
+				'group_title'   => __( 'Field {#}', 'constantcontact' ),
+				'add_button'	=> __( 'Add Another Field', 'constantcontact' ),
+				'remove_button' => __( 'Remove Field', 'constantcontact' ),
 				'sortable'	  => true,
 			),
 		) );
 
 		$fields_metabox->add_group_field( $custom_group_field_id, array(
-			'name' => __( 'Field Name', constant_contact()->text_domain ),
+			'name' => __( 'Field Name', 'constantcontact' ),
 			'id'   => $prefix . 'field_name',
 			'type' => 'text',
 			'default' => 'Email',
 		) );
 
 		$default_fields = array(
-			'custom' => __( 'Custom', constant_contact()->text_domain ),
-			'email' => __( 'Email', constant_contact()->text_domain ),
-			'first_name' => __( 'First Name', constant_contact()->text_domain ),
-			'last_name' => __( 'Last Name', constant_contact()->text_domain ),
-			'phone_number' => __( 'Phone Number', constant_contact()->text_domain ),
-			'address' => __( 'Address', constant_contact()->text_domain ),
-			'job_title' => __( 'Job Title', constant_contact()->text_domain ),
-			'company' => __( 'Company', constant_contact()->text_domain ),
-			'website' => __( 'Website', constant_contact()->text_domain ),
-			'birthday' => __( 'Birthday', constant_contact()->text_domain ),
-			'anniversary' => __( 'Anniversary', constant_contact()->text_domain ),
+			'custom' => __( 'Custom', 'constantcontact' ),
+			'email' => __( 'Email', 'constantcontact' ),
+			'first_name' => __( 'First Name', 'constantcontact' ),
+			'last_name' => __( 'Last Name', 'constantcontact' ),
+			'phone_number' => __( 'Phone Number', 'constantcontact' ),
+			'address' => __( 'Address', 'constantcontact' ),
+			'job_title' => __( 'Job Title', 'constantcontact' ),
+			'company' => __( 'Company', 'constantcontact' ),
+			'website' => __( 'Website', 'constantcontact' ),
+			'birthday' => __( 'Birthday', 'constantcontact' ),
+			'anniversary' => __( 'Anniversary', 'constantcontact' ),
 		);
 
 		$fields_metabox->add_group_field( $custom_group_field_id, array(
-			'name' => __( 'Map to field', constant_contact()->text_domain ),
+			'name' => __( 'Map to field', 'constantcontact' ),
 			'id'   => $prefix . 'map_select',
 			'type' => 'select',
 			'show_option_none' => false,
@@ -173,7 +173,7 @@ class ConstantContact_Builder {
 		) );
 
 		$fields_metabox->add_group_field( $custom_group_field_id, array(
-			'name' => __( 'Required', constant_contact()->text_domain ),
+			'name' => __( 'Required', 'constantcontact' ),
 			'id'   => $prefix . 'required_field',
 			'type' => 'checkbox',
 			'row_classes' => 'required',
@@ -196,7 +196,7 @@ class ConstantContact_Builder {
 		 */
 		$options_metabox = new_cmb2_box( array(
 			'id'			=> 'ctct_options_metabox',
-			'title'		 	=> __( 'Form Options', constant_contact()->text_domain ),
+			'title'		 	=> __( 'Form Options', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
 			'priority'	  	=> 'high',
@@ -204,7 +204,7 @@ class ConstantContact_Builder {
 		) );
 
 		$options_metabox->add_field( array(
-			'description' => __( 'Choose form options.', constant_contact()->text_domain ),
+			'description' => __( 'Choose form options.', 'constantcontact' ),
 			'id'   => $prefix . 'title',
 			'type' => 'title',
 		) );
@@ -213,9 +213,9 @@ class ConstantContact_Builder {
 		if ( $lists = $this->get_lists() ) {
 
 			$options_metabox->add_field( array(
-				'name' => __( 'List', constant_contact()->text_domain ),
+				'name' => __( 'List', 'constantcontact' ),
 				'id'   => $prefix . 'list',
-				'description' => __( 'Choose a list.', constant_contact()->text_domain ),
+				'description' => __( 'Choose a list.', 'constantcontact' ),
 				'type' => 'select',
 				'show_option_none' => true,
 				'default' => 'none',
@@ -225,23 +225,23 @@ class ConstantContact_Builder {
 		}
 
 		$options_metabox->add_field( array(
-			'name' => __( 'New List', constant_contact()->text_domain ),
+			'name' => __( 'New List', 'constantcontact' ),
 			'id'   => $prefix . 'new_list',
-			'description' => __( 'Enter title of new list.', constant_contact()->text_domain ),
+			'description' => __( 'Enter title of new list.', 'constantcontact' ),
 			'type' => 'text',
 		) );
 
 		$options_metabox->add_field( array(
-			'name' => __( 'Opt In', constant_contact()->text_domain ),
+			'name' => __( 'Opt In', 'constantcontact' ),
 			'id'   => $prefix . 'opt_in',
-			'description' => __( 'Add Opt In checkbox to form.', constant_contact()->text_domain ),
+			'description' => __( 'Add Opt In checkbox to form.', 'constantcontact' ),
 			'type' => 'checkbox',
 		) );
 
 		$options_metabox->add_field( array(
-			'name' => __( 'Opt In Instructions', constant_contact()->text_domain ),
+			'name' => __( 'Opt In Instructions', 'constantcontact' ),
 			'id'   => $prefix . 'opt_in_instructions',
-			'description' => __( 'Add Opt In instructions.', constant_contact()->text_domain ),
+			'description' => __( 'Add Opt In instructions.', 'constantcontact' ),
 			'type' => 'textarea_small',
 		) );
 
@@ -376,7 +376,7 @@ class ConstantContact_Builder {
 
 	    if ( isset( $post ) && 'false' === get_post_meta( $post->ID, '_ctct_has_email_field', true ) ) {
 			$class = 'notice notice-error';
-			$message = __( 'Oop, looks like you havent added an email field to your form. Forms will not send unless a field is mapped to email.', constant_contact()->text_domain );
+			$message = __( 'Oop, looks like you havent added an email field to your form. Forms will not send unless a field is mapped to email.', 'constantcontact' );
 			printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
 	    }
 	}

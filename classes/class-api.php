@@ -327,7 +327,7 @@ class ConstantContact_API {
 		switch ( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
 				$this->access_token = false;
-				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', constant_contact()->text_domain );
+				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constantcontact' );
 			break;
 			default:
 			 return false;

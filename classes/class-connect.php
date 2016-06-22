@@ -113,8 +113,8 @@ class ConstantContact_Connect {
 
 		$this->options_page = add_submenu_page(
 			'edit.php?post_type=ctct_forms',
-			__( 'Connect', constant_contact()->text_domain ),
-			__( 'Connect', constant_contact()->text_domain ),
+			__( 'Connect', 'constantcontact' ),
+			__( 'Connect', 'constantcontact' ),
 			'manage_options',
 			$this->key,
 			array( $this, 'admin_page_display' )
@@ -173,7 +173,7 @@ class ConstantContact_Connect {
 			(function($) {
 				$(document).ready(function() {
 					$( '.ctct-disconnect' ).on( 'click', function(e) {
-						var disconnect = confirm('<? esc_html_e( 'Are you sure you want to disconnect?', constant_contact()->text_domain ); ?>');
+						var disconnect = confirm('<? esc_html_e( 'Are you sure you want to disconnect?', 'constantcontact' ); ?>');
 						if (disconnect) {
 							window.location.href = '<?php echo esc_url( $this->redirect_url . '&ctct-disconnect=true' ); ?>';
 						}
@@ -192,16 +192,16 @@ class ConstantContact_Connect {
 
 				<div class="message notice">
 					<p>
-						<?php esc_html_e( 'Account connected to Constant Contact.', constant_contact()->text_domain ); ?>
+						<?php esc_html_e( 'Account connected to Constant Contact.', 'constantcontact' ); ?>
 					</p>
 				</div>
 				<input type="button" class="button-primary ctct-disconnect" value="Disconnect">
 
 			<?php else : ?>
 				<p class="ctct-description">
-					<?php esc_html_e( 'Click the connect button and login or sign up to Constant Contact. By connecting, you authorize this plugin to access your account on Constant Contact.', constant_contact()->text_domain ); ?>
+					<?php esc_html_e( 'Click the connect button and login or sign up to Constant Contact. By connecting, you authorize this plugin to access your account on Constant Contact.', 'constantcontact' ); ?>
 				</p>
-				<a href="<?php echo esc_url_raw( $this->oauth->getAuthorizationUrl() . '&oauthSignup=true' ); ?>" class="button-primary ctct-connect"><?php esc_html_e( 'Connect to Constant Contact', constant_contact()->text_domain ); ?></a>
+				<a href="<?php echo esc_url_raw( $this->oauth->getAuthorizationUrl() . '&oauthSignup=true' ); ?>" class="button-primary ctct-connect"><?php esc_html_e( 'Connect to Constant Contact', 'constantcontact' ); ?></a>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -255,7 +255,7 @@ class ConstantContact_Connect {
 
 		switch ( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
-				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', constant_contact()->text_domain );
+				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constantcontact' );
 			break;
 			default:
 			 return false;

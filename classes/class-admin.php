@@ -60,7 +60,7 @@ class ConstantContact_Admin {
 	 */
 	private function __construct() {
 		// Set our title.
-		$this->title = __( constant_contact()->plugin_name, constant_contact()->text_domain );
+		$this->title = __( constant_contact()->plugin_name, 'constantcontact' );
 	}
 
 	/**
@@ -208,7 +208,7 @@ class ConstantContact_Admin {
 		if ( $object_id !== $this->key || empty( $updated ) ) {
 			return;
 		}
-		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', constant_contact()->text_domain ), 'updated' );
+		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', 'constantcontact' ), 'updated' );
 		settings_errors( $this->key . '-notices' );
 	}
 
@@ -239,19 +239,19 @@ class ConstantContact_Admin {
 
 		$tabs = array(
 			array(
-				'title' => __( 'Tab 1', constant_contact()->text_domain ),
+				'title' => __( 'Tab 1', 'constantcontact' ),
 				'url' => '',
 				'key' => 'builder',
 				'callback' => 'admin_page_display',
 			),
 			array(
-				'title' => __( 'Tab 2', constant_contact()->text_domain ),
+				'title' => __( 'Tab 2', 'constantcontact' ),
 				'url' => '',
 				'key' => 'help',
 				'callback' => 'admin_page_display',
 			),
 			array(
-				'title' => __( 'Tab 3', constant_contact()->text_domain ),
+				'title' => __( 'Tab 3', 'constantcontact' ),
 				'url' => '',
 				'key' => 'about',
 				'callback' => 'admin_page_display',

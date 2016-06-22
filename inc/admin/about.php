@@ -240,7 +240,7 @@ class ConstantContact_Admin_About {
 
 		<h2 class="nav-tab-wrapper">
 			<a class="nav-tab <?php if ( 'ConstantContact_Admin_About::about_screen' === $tab ) : ?>nav-tab-active<?php endif; ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'cptui_about' ), 'index.php' ) ) ); ?>">
-				<?php esc_html_e( 'What&#8217;s New', constant_contact()->text_domain ); ?>
+				<?php esc_html_e( 'What&#8217;s New', 'constantcontact' ); ?>
 			</a>
 		</h2>
 
@@ -266,9 +266,9 @@ constantcontact_about(
 	array(
 		'plugin' => constant_contact()->plugin_name,
 		'version' => constant_contact()->version,
-		'domain' => constant_contact()->text_domain,
+		'domain' => 'constantcontact',
 		'icon' => constant_contact()->url . 'assets/images/icon.jpg',
-		'welcome_text' => __( 'Powerful Email Marketing, Made Simple. For every dollar spent on email marketing, small businesses make an average of $40 back. * Stats like that make email marketing a must for small businesses. And with Constant Contact, you also get the free award-winning coaching, and resources to see results like that, faster.', constant_contact()->text_domain ),
+		'welcome_text' => __( 'Powerful Email Marketing, Made Simple. For every dollar spent on email marketing, small businesses make an average of $40 back. * Stats like that make email marketing a must for small businesses. And with Constant Contact, you also get the free award-winning coaching, and resources to see results like that, faster.', 'constantcontact' ),
 		'featured' => array(
 			'headline' => '',
 			'image' => constant_contact()->url . 'assets/images/coffee-hero.jpg',

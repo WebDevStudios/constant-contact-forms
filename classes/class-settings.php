@@ -107,8 +107,8 @@ class ConstantContact_Settings {
 
 		$this->options_page = add_submenu_page(
 			'edit.php?post_type=ctct_forms',
-			__( 'Settings', constant_contact()->text_domain ),
-			__( 'Settings', constant_contact()->text_domain ),
+			__( 'Settings', 'constantcontact' ),
+			__( 'Settings', 'constantcontact' ),
 			'manage_options',
 			$this->key,
 			array( $this, 'admin_page_display' )
@@ -126,7 +126,7 @@ class ConstantContact_Settings {
 	public function admin_page_display() {
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php esc_attr_e( ' Settings', constant_contact()->text_domain ); ?></h2>
+			<h2><?php esc_attr_e( ' Settings', 'constantcontact' ); ?></h2>
 			<?php cmb2_metabox_form( $this->metabox_id, $this->key ); ?>
 		</div>
 		<?php
@@ -153,12 +153,12 @@ class ConstantContact_Settings {
 		) );
 
 		$option_options = array(
-			'comment_form' => __( 'Comment Form', constant_contact()->text_domain ),
-			'login_form' => __( 'Login Form', constant_contact()->text_domain ),
+			'comment_form' => __( 'Comment Form', 'constantcontact' ),
+			'login_form' => __( 'Login Form', 'constantcontact' ),
 		);
 
 		if ( get_option( 'users_can_register' ) ) {
-			$option_options['reg_form'] = __( 'Registration Form', constant_contact()->text_domain );
+			$option_options['reg_form'] = __( 'Registration Form', 'constantcontact' );
 		}
 
 		if ( $lists = ctct_builder_admin()->get_lists() ) {
@@ -167,23 +167,23 @@ class ConstantContact_Settings {
 
 			// Set our CMB2 fields.
 			$cmb->add_field( array(
-				'name' 	=> __( 'Opt In', constant_contact()->text_domain ),
-				'desc' 	=> __( 'Add opt in checkbox to selected forms.', constant_contact()->text_domain ),
+				'name' 	=> __( 'Opt In', 'constantcontact' ),
+				'desc' 	=> __( 'Add opt in checkbox to selected forms.', 'constantcontact' ),
 				'id'   	=> '_ctct_optin_forms',
 				'type'	=> 'multicheck',
 				'options' => $option_options,
 			) );
 
 			$cmb->add_field( array(
-				'name' 	=> __( 'Opt In Label', constant_contact()->text_domain ),
-				'desc' 	=> __( 'Opt in checkbox form label.', constant_contact()->text_domain ),
+				'name' 	=> __( 'Opt In Label', 'constantcontact' ),
+				'desc' 	=> __( 'Opt in checkbox form label.', 'constantcontact' ),
 				'id'   	=> '_ctct_optin_label',
 				'type'	=> 'text',
 			) );
 
 			$cmb->add_field( array(
-				'name' 	=> __( 'Opt In List', constant_contact()->text_domain ),
-				'desc' 	=> __( 'Choose list to add opt in subsciptions.', constant_contact()->text_domain ),
+				'name' 	=> __( 'Opt In List', 'constantcontact' ),
+				'desc' 	=> __( 'Choose list to add opt in subsciptions.', 'constantcontact' ),
 				'id'   	=> '_ctct_optin_list',
 				'type'	=> 'select',
 				'show_option_none' => true,
@@ -193,12 +193,12 @@ class ConstantContact_Settings {
 		}
 
 		$cmb->add_field( array(
-			'name' 	=> __( 'API key', constant_contact()->text_domain ),
+			'name' 	=> __( 'API key', 'constantcontact' ),
 			'id'   	=> '_ctct_api_key',
 			'type'	=> 'text',
 		) );
 		$cmb->add_field( array(
-			'name' 	=> __( 'API Secret', constant_contact()->text_domain ),
+			'name' 	=> __( 'API Secret', 'constantcontact' ),
 			'id'   	=> '_ctct_api_secret',
 			'type'	=> 'text',
 		) );
@@ -240,7 +240,7 @@ class ConstantContact_Settings {
 	 * @return void
 	 */
 	public function optin_form_field() {
-		$label = ctct_get_settings_option( '_ctct_optin_label' ) ? ctct_get_settings_option( '_ctct_optin_label' ) : __( 'Sign up to our newsletter.', constant_contact()->text_domain );
+		$label = ctct_get_settings_option( '_ctct_optin_label' ) ? ctct_get_settings_option( '_ctct_optin_label' ) : __( 'Sign up to our newsletter.', 'constantcontact' );
 	?>
 	    <p style="padding: 0 0 1em 0;">
 	        <label for="ctct_optin">
@@ -278,7 +278,7 @@ class ConstantContact_Settings {
 	/**
 	 * Sends contact to CTCT if optin checked
 	 *
-	 * @param  array $user 
+	 * @param  array $user
 	 * @param  string $username login name.
 	 * @param  string $password user password.
 	 * @return object  CTCT return API for contact
@@ -316,7 +316,7 @@ class ConstantContact_Settings {
 			return;
 		}
 
-		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', constant_contact()->text_domain ), 'updated' );
+		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', 'constantcontact' ), 'updated' );
 		settings_errors( $this->key . '-notices' );
 	}
 

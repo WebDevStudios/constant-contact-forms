@@ -73,7 +73,7 @@ class ConstantContact_Lists {
 
 		$cmb = new_cmb2_box( array(
 			'id' => 'ctct_list_metabox',
-			'title' => __( 'List Meta', constant_contact()->text_domain ),
+			'title' => __( 'List Meta', 'constantcontact' ),
 			'object_types'  => array( 'ctct_lists' ),
 			'context'	   => 'normal',
 			'priority' => 'high',
@@ -83,7 +83,7 @@ class ConstantContact_Lists {
 		$post_meta = get_post_meta( $cmb->object_id(), '_ctct_list_id', true );
 
 		$cmb->add_field( array(
-			'name' 	=> __( 'ID', constant_contact()->text_domain ),
+			'name' 	=> __( 'ID', 'constantcontact' ),
 			'desc' 	=> $post_meta,
 			'id'   	=> '_ctct_list_meta',
 			'type'	=> 'title',

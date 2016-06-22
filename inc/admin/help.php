@@ -9,28 +9,28 @@
  */
 
 ?>
-<h2><?php esc_attr_e( 'Help / FAQ', constant_contact()->text_domain ); ?></h2>
+<h2><?php esc_attr_e( 'Help / FAQ', 'constantcontact' ); ?></h2>
 <?php
 //constantcontact_admin()->page_tabs();
 
 $helps = array(
     array(
-        'title' => __( 'Help', constant_contact()->text_domain ),
-        'content' => __( 'plugin is a of plugin by WebDevStudios', constant_contact()->text_domain ),
+        'title' => __( 'Help', 'constantcontact' ),
+        'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
     ),
     array(
-        'title' => __( 'Help 2', constant_contact()->text_domain ),
+        'title' => __( 'Help 2', 'constantcontact' ),
         'content' => __( 'plugin is a of plugin by WebDevStudios' ),
     ),
 );
 
 	$faqs = array(
 		array(
-			'title' => __( 'Faq', constant_contact()->text_domain ),
-			'content' => __( 'plugin is a of plugin by WebDevStudios', constant_contact()->text_domain ),
+			'title' => __( 'Faq', 'constantcontact' ),
+			'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
 		),
 		array(
-			'title' => __( 'Faq 2', constant_contact()->text_domain ),
+			'title' => __( 'Faq 2', 'constantcontact' ),
 			'content' => __( 'plugin is a of plugin by WebDevStudios' ),
 		),
 	);
@@ -70,7 +70,7 @@ $helps = array(
 
 		<tr>
 			<td class="outter" width="50%">
-				<h2><?php esc_html_e( 'Help', constant_contact()->text_domain ); ?></h2>
+				<h2><?php esc_html_e( 'Help', 'constantcontact' ); ?></h2>
 				<ol id="help_ctct">
 					<? foreach ( $helps as $help ) : ?>
 					<li>
@@ -82,7 +82,7 @@ $helps = array(
 				</ol>
 			</td>
             <td class="outter">
-                <h2><?php esc_html_e( 'Faq', constant_contact()->text_domain ); ?></h2>
+                <h2><?php esc_html_e( 'Faq', 'constantcontact' ); ?></h2>
                 <ol id="faq_ctct">
                     <? foreach ( $faqs as $faq ) : ?>
                     <li>
