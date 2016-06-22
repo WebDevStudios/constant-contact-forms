@@ -41,31 +41,22 @@ class ConstantContact_Settings {
 	protected $options_page = '';
 
 	/**
-	 * Holds an instance of the project
+	 * Parent plugin class
 	 *
-	 * @var object ConstantContact_Settings
-	 **/
-	private static $instance = null;
+	 * @var   class
+	 * @since 0.0.1
+	 */
+	protected $plugin = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 1.0.0
+	 * @since  0.0.1
+	 * @return void
 	 */
-	private function __construct() {
-	}
-
-	/**
-	 * Get the running object
-	 *
-	 * @return ConstantContact_Settings
-	 **/
-	public static function get_instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-			self::$instance->hooks();
-		}
-		return self::$instance;
+	public function __construct( $plugin ) {
+		$this->plugin = $plugin;
+		$this->hooks();
 	}
 
 	/**
@@ -389,15 +380,6 @@ class ConstantContact_Settings {
 	}
 }
 
-/**
- * Helper function to get/return the ConstantContact_Settings object
- *
- * @since  1.0.0
- * @return object ConstantContact_Settings
- */
-function ctct_settings_admin() {
-	return ConstantContact_Settings::get_instance();
-}
 
 /**
  * Wrapper function around cmb2_get_option
@@ -407,8 +389,5 @@ function ctct_settings_admin() {
  * @return mixed Option value
  */
 function ctct_get_settings_option( $key = '' ) {
-	return cmb2_get_option( ctct_settings_admin()->key, $key );
+	return cmb2_get_option( constant_contact()->settings->key, $key );
 }
-
-// Get it started.
-ctct_settings_admin();
