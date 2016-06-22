@@ -11,7 +11,7 @@ function constant_contact_help_page() {
 	?>
 	<h2><?php esc_attr_e( 'Help / FAQ', 'constantcontact' ); ?></h2>
 	<?php
-	//constantcontact_admin()->page_tabs();
+	// constantcontact_admin()->page_tabs();
 
 	$helps = array(
 		array(
