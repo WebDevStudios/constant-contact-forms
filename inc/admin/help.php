@@ -20,7 +20,7 @@ function constant_contact_help_page() {
 		),
 		array(
 			'title' => __( 'Help 2', 'constantcontact' ),
-			'content' => __( 'plugin is a of plugin by WebDevStudios' ),
+			'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
 		),
 	);
 
@@ -31,7 +31,7 @@ function constant_contact_help_page() {
 		),
 		array(
 			'title' => __( 'Faq 2', 'constantcontact' ),
-			'content' => __( 'plugin is a of plugin by WebDevStudios' ),
+			'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
 		),
 	);
 	?>
