@@ -145,6 +145,7 @@ class Constant_Contact {
 
 	private $ctct_forms;
 	private $display;
+	private $admin_pages;
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -184,8 +185,9 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function plugin_classes() {
-		$this->ctct_forms = new ConstantContact_CPTS( $this );
-		$this->display    = new ConstantContact_Display( $this );
+		$this->ctct_forms  = new ConstantContact_CPTS( $this );
+		$this->display     = new ConstantContact_Display( $this );
+		$this->admin_pages = new ConstantContact_Admin_Pages( $this );
 	}
 
 	/**
@@ -351,6 +353,7 @@ class Constant_Contact {
 			case 'url':
 			case 'path':
 			case 'display':
+			case 'admin_pages':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
