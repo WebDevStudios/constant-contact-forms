@@ -35,16 +35,15 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function js_button_data() {
 
-			return array(
-				'qt_button_text' => __( 'Constant Contact', 'constantcontact' ),
-				'button_tooltip' => __( 'Constant Contact', 'constantcontact' ),
-				'icon'		   => 'dashicons-format-aside',
+			return apply_filters( 'constant_contact_shortcode_button_settings', array(
+				'qt_button_text' => __( 'Add Constant Contact Form', 'constantcontact' ),
+				'button_tooltip' => __( 'Add Constant Contact Form', 'constantcontact' ),
+				'icon'           => 'dashicons-feedback',
 				'include_close'  => false,
-				'modalClass' 	 => 'ctct',
-				'modalHeight' 	 => 'auto',
-				'modalWidth'	 => 500,
-			);
-
+				'modalClass'     => 'ctct',
+				'modalHeight'    => 'auto',
+				'modalWidth'     => 500,
+			) );
 		}
 
 		/**
