@@ -57,7 +57,14 @@ class ConstantContact_Builder {
 	public function hooks() {
 		global $pagenow;
 
-		if ( in_array( $pagenow, array( 'post-new.php', 'post.php' ), true ) ) {
+		// Allow filtering the pages to load form build actions
+		$form_builder_pages = apply_filters(
+			'constant_contact_form_builder_pages',
+			array( 'post-new.php', 'post.php' )
+		);
+
+		// Only load the cmb2 fields on our specified pages
+		if ( in_array( $pagenow, $form_builder_pages, true ) ) {
 
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
