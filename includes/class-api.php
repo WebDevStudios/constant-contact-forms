@@ -306,7 +306,12 @@ class ConstantContact_API {
 	            }
 	        }
 		} catch ( CtctException $ex ) {
-			foreach ( $ex->getErrors() as $error ) {
+			$this->log_errors( $ex->getErrors() );
+		}
+
+		return $return_contact;
+	}
+
 
 	/**
 	 * Helper method to creat contact
