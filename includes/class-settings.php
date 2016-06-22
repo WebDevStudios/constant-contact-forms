@@ -127,7 +127,11 @@ class ConstantContact_Settings {
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
 			<h2><?php esc_attr_e( ' Settings', 'constantcontact' ); ?></h2>
-			<?php cmb2_metabox_form( $this->metabox_id, $this->key ); ?>
+			<?php
+			if ( function_exists( 'cmb2_metabox_form' ) ) {
+				cmb2_metabox_form( $this->metabox_id, $this->key );
+			}
+			?>
 		</div>
 		<?php
 	}
