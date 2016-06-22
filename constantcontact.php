@@ -143,6 +143,9 @@ class Constant_Contact {
 	 */
 	protected static $single_instance = null;
 
+	private $ctct_forms;
+	private $display;
+
 	/**
 	 * Creates or returns an instance of this class.
 	 *
@@ -182,6 +185,7 @@ class Constant_Contact {
 	 */
 	public function plugin_classes() {
 		$this->ctct_forms = new ConstantContact_CPTS( $this );
+		$this->display    = new ConstantContact_Display( $this );
 	}
 
 	/**
@@ -346,6 +350,7 @@ class Constant_Contact {
 			case 'basename':
 			case 'url':
 			case 'path':
+			case 'display':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
@@ -428,7 +433,6 @@ function constant_contact() {
 
 // Kick it off.
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
-
 register_activation_hook( __FILE__, array( constant_contact(), '_activate' ) );
 
 

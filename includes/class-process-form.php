@@ -166,6 +166,16 @@ function ctct_form_submit_message() {
  */
 function ctct_build_form_fields( $form_data ) {
 
+	// Check to see if we have a description for the form, and display it
+	if (
+		isset( $form_data['options'] ) &&
+		isset( $form_data['options']['description'] ) &&
+		$form_data['options']['description']
+	) {
+		constant_contact()->display->description( esc_attr( $form_data['options']['description'] ) );
+	}
+
+	// Loop through each of our form fields and output it
 	foreach ( $form_data['fields'] as $key => $value ) {
 
 		$required = isset( $form_data['fields'][ $key ]['required'] ) ? ' * required' : '';
