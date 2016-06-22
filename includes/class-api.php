@@ -112,19 +112,30 @@ class ConstantContact_API {
 	 */
 	public function get_account_info() {
 
-		try {
-			$account = $this->cc()->accountService->getAccountInfo( $this->get_api_token() );
-		} catch ( CtctException $ex ) {
+		// Get our saved account info
+		$acct_data = get_transient( 'constant_contact_acct_info' );
 
-			foreach ( $ex->getErrors() as $error ) {
-				$this->api_error_message( $error );
-			}
-			if ( ! isset( $account ) ) {
-				$account = null;
+		// allow bypassing transient with a filter
+		$bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', false );
+
+		if ( ! $acct_data || false === $acct_data || $bypass_acct_cache ) {
+			try {
+
+				// Grab our account
+				$acct_data = $this->cc()->accountService->getAccountInfo( $this->get_api_token() );
+
+				if ( $acct_data ) {
+
+					// Save our data to a transient for a day
+					set_transient( 'constant_contact_acct_info', $acct_data, 1 * DAY_IN_SECONDS );
+				}
+			} catch ( CtctException $ex ) {
+				$this->log_errors( $ex->getErrors() );
 			}
 		}
 
-		return $account;
+		// Return our account data
+		return $acct_data;
 	}
 
 	/**
