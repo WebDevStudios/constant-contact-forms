@@ -136,6 +136,7 @@ class ConstantContact_Admin {
 	 */
 	public function admin_page_display() {
 		wp_enqueue_style( 'ad-sidebar' );
+		do_action( 'constant_contact_admin_before' );
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
 
@@ -155,6 +156,7 @@ class ConstantContact_Admin {
 			</div>
 		</div>
 		<?php
+		do_action( 'constant_contact_admin_after' );
 	}
 
 	/**
