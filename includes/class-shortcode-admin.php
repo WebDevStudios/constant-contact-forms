@@ -98,18 +98,43 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function get_forms() {
 
-			$args = array(
-				'post_status' => 'publish',
-				'post_type' => 'ctct_forms',
-			);
-			$the_query = new WP_Query( $args );
+			$forms = get_transient( 'constant_contact_shortcode_form_list' );
 
-			$forms = array();
+			if ( false === $forms ) {
+				// Get all our forms that we have
+				$query = new WP_Query( array(
+					'post_status'            => 'publish',
+					'post_type'              => 'ctct_forms',
+					'no_found_rows'          => true,
+					'update_post_term_cache' => false,
+				) );
 
-			foreach ( $the_query->posts as $key => $value ) {
-				$forms[ $value->ID ] = $value->post_title;
+				// Grab the posts
+				$q_forms = $query->get_posts();
+
+				// Set up our default array
+				$forms = array();
+
+				// Foreach form we have, lets build up our return array
+				foreach ( $q_forms as $form ) {
+
+					// Make sure we have the data we want to use
+					if (
+						isset( $form->ID ) &&
+						$form->ID &&
+						isset( $form->post_title ) &&
+						$form->post_title
+					) {
+						// Clean that data before we use it
+						$forms[ absint( $form->ID ) ] = sanitize_title( $form->post_title );
+					}
+				}
+
+				set_transient( 'constant_contact_shortcode_form_list', $forms, 1 * DAY_IN_SECONDS );
 			}
+
 			return $forms;
+		}
 
 		}
 	}
