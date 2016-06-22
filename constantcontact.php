@@ -290,7 +290,7 @@ class Constant_Contact {
 	 */
 	public function includes() {
 
-		if ( class_exists( 'WDS_Shortcodes_Base' ) ) {
+		if ( class_exists( 'WDS_Shortcodes' ) ) {
 
 			$this->test_shortcode = new ConstantContact_Shortcode();
 			$this->test_shortcode_admin = new ConstantContact_Shortcode_Admin(

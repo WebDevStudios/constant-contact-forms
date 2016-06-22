@@ -7,7 +7,7 @@
  * @since 1.0.0
  */
 
-if ( ! class_exists( 'ConstantContact_Shortcode_Admin', false ) ) {
+if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact_Shortcode_Admin', false ) ) {
 
 	/**
 	 * ConstantContact_Shortcode_Admin
