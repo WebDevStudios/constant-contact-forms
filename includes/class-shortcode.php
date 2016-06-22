@@ -73,24 +73,34 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function get_field_meta( $form_meta ) {
 
-			if ( empty( $form_meta ) ) {
+			// Bail if we don't have form meta
+			if ( empty( $form_meta ) || ! is_array( $form_meta) ) {
 				return false;
 			}
 
-			$custom_fields = isset( $form_meta['custom_fields_group'] ) ?  maybe_unserialize( $form_meta['custom_fields_group'][0] ) : array();
-			$c_fields = array();
+			// set our default values
+			$custom_fields = array();
 
-			foreach ( $custom_fields as $key => $value ) {
-
-				$c_fields['fields'][ $key ]['name'] = $custom_fields[ $key ]['_ctct_field_name'];
-				$c_fields['fields'][ $key ]['map_to'] = $custom_fields[ $key ]['_ctct_map_select'];
-
-				if ( isset( $custom_fields[ $key ]['_ctct_required_field'] ) && 'on' === $custom_fields[ $key ]['_ctct_required_field'] ) {
-					$c_fields['fields'][ $key ]['required'] = $custom_fields[ $key ]['_ctct_required_field'];
-				}
+			// Data verificiation for our custom fields group
+			if (
+				isset( $form_meta['custom_fields_group'] ) &&
+				$form_meta['custom_fields_group'] &&
+				isset( $form_meta['custom_fields_group'][0] )
+			) {
+				// If we passed all the checks, try to grab the data
+				$custom_fields = maybe_unserialize( $form_meta['custom_fields_group'][0]  );
 			}
 
-			$fields = $c_fields;
+			// Loop through each of our fields
+			foreach ( $custom_fields as $key => $value ) {
+
+				$fields['fields'][ $key ]['name']   = $custom_fields[ $key ]['_ctct_field_name'];
+				$fields['fields'][ $key ]['map_to'] = $custom_fields[ $key ]['_ctct_map_select'];
+
+				if ( isset( $custom_fields[ $key ]['_ctct_required_field'] ) && 'on' === $custom_fields[ $key ]['_ctct_required_field'] ) {
+					$fields['fields'][ $key ]['required'] = $custom_fields[ $key ]['_ctct_required_field'];
+				}
+			}
 
 			if ( isset( $form_meta['_ctct_description'] ) ) {
 				$fields['options']['description'] = $form_meta['_ctct_description'][0];
