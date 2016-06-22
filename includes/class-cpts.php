@@ -51,8 +51,8 @@ class ConstantContact_CPTS {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-		add_action( 'init', array( $this, 'constant_contact_forms_post_type' ) );
-		add_action( 'init', array( $this, 'constant_contact_lists_post_type' ) );
+		add_action( 'init', array( $this, 'forms_post_type' ) );
+		add_action( 'init', array( $this, 'lists_post_type' ) );
 
 		add_action( 'admin_menu', array( $this, 'menu_items' ) );
 
@@ -64,7 +64,7 @@ class ConstantContact_CPTS {
 	 *
 	 * @since 1.0.0
 	 */
-	public function constant_contact_forms_post_type() {
+	public function forms_post_type() {
 
 		$labels = array(
 			'name'				  => _x( 'Forms', 'Post Type General Name', 'constantcontact' ),
@@ -122,7 +122,7 @@ class ConstantContact_CPTS {
 	 *
 	 * @since 1.0.0
 	 */
-	public function constant_contact_lists_post_type() {
+	public function lists_post_type() {
 
 		$labels = array(
 			'name'				  => _x( 'Lists', 'Post Type General Name', 'constantcontact' ),
