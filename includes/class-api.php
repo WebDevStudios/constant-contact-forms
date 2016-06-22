@@ -118,14 +118,15 @@ class ConstantContact_API {
 		// allow bypassing transient with a filter
 		$bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', false );
 
-		if ( ! $acct_data || false === $acct_data || $bypass_acct_cache ) {
+		// IF we dont' have a transient, or we want to bypass, hit our api
+		if ( false === $acct_data || $bypass_acct_cache ) {
 			try {
 
 				// Grab our account
 				$acct_data = $this->cc()->accountService->getAccountInfo( $this->get_api_token() );
 
+				// Make sure we got a response before trying to save our transient
 				if ( $acct_data ) {
-
 					// Save our data to a transient for a day
 					set_transient( 'constant_contact_acct_info', $acct_data, 1 * DAY_IN_SECONDS );
 				}
@@ -150,12 +151,7 @@ class ConstantContact_API {
 			$contacts = $this->cc()->contactService->getContacts( $this->get_api_token() );
 
 		} catch ( CtctException $ex ) {
-			foreach ( $ex->getErrors() as $error ) {
-				$this->api_error_message( $error );
-			}
-			if ( ! isset( $contacts ) ) {
-				$contacts = null;
-			}
+			$this->log_errors( $ex->getErrors() );
 		}
 
 		return $contacts;
@@ -173,12 +169,7 @@ class ConstantContact_API {
 			$lists = $this->cc()->listService->getLists( $this->get_api_token() );
 
 		} catch ( CtctException $ex ) {
-			foreach ( $ex->getErrors() as $error ) {
-				$this->api_error_message( $error );
-			}
-			if ( ! isset( $lists ) ) {
-				$lists = null;
-			}
+			$this->log_errors( $ex->getErrors() );
 		}
 
 		return $lists;
@@ -205,9 +196,8 @@ class ConstantContact_API {
 				return $list;
 			}
 		} catch ( CtctException $ex ) {
-			foreach ( $ex->getErrors() as $error ) {
-				$this->api_error_message( $error );
-			}
+			// If we get an error, bail out
+			$this->log_errors( $ex->getErrors() );
 		}
 
 		if ( ! isset( $list ) ) {
@@ -243,12 +233,7 @@ class ConstantContact_API {
 			$list->status = 'HIDDEN';
 			$return_list = $this->cc()->listService->updateList( $this->get_api_token(), $list );
 		} catch ( CtctException $ex ) {
-			foreach ( $ex->getErrors() as $error ) {
-				$this->api_error_message( $error );
-			}
-			if ( ! isset( $return_list ) ) {
-				$return_list = null;
-			}
+			$this->log_errors( $ex->getErrors() );
 		}
 
 		return $return_list;
@@ -266,12 +251,7 @@ class ConstantContact_API {
 		try {
 			$list = $this->cc()->listService->deleteList( $this->get_api_token(), $updated_list['id'] );
 		} catch ( CtctException $ex ) {
-			foreach ( $ex->getErrors() as $error ) {
-				$this->api_error_message( $error );
-			}
-			if ( ! isset( $list ) ) {
-				$list = null;
-			}
+			$this->log_errors( $ex->getErrors() );
 		}
 
 		return $list;
