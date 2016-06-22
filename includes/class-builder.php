@@ -69,7 +69,7 @@ class ConstantContact_Builder {
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'options_metabox' ) );
-			add_action( 'cmb2_after_post_form_ctct_description_metabox', array( $this, 'add_form_css' ));
+			add_action( 'cmb2_after_post_form_ctct_description_metabox', array( $this, 'add_form_css' ) );
 
 			add_action( 'cmb2_save_field', array( $this, 'override_save' ), 10, 4 );
 			add_action( 'admin_notices', array( $this, 'admin_notice' ) );
@@ -290,7 +290,6 @@ class ConstantContact_Builder {
 
 	/**
 	 * Custom CMB2 meta box css
-	 *
 	 */
 	public function add_form_css() {
 

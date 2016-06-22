@@ -286,7 +286,7 @@ class ConstantContact_Settings {
 	/**
 	 * Sends contact to CTCT if optin checked
 	 *
-	 * @param  array $user
+	 * @param  array  $user
 	 * @param  string $username login name.
 	 * @param  string $password user password.
 	 * @return object  CTCT return API for contact

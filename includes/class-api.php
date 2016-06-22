@@ -355,7 +355,7 @@ class ConstantContact_API {
 	/**
 	 * Helper method to update contact
 	 *
-	 * @param  array $response  response from api call
+	 * @param  array  $response  response from api call
 	 * @param  string $api_token token
 	 * @param  string $list      list name
 	 * @param  string $f_name    first name
