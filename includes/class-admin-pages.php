@@ -30,5 +30,31 @@ class ConstantContact_Admin_Pages {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 	}
+
+	/**
+	 * Parse multidemntional args
+	 *
+	 * Borrowed from: http://mekshq.com/recursive-wp-parse-args-wordpress-function/
+	 *
+	 * @internal
+	 * @since 1.0.0
+	 * @param  array $args args to parse.
+	 * @param  array $defaults default array.
+	 * @return array the parsed array
+	 */
+	function parse_multidimensional_array_args( &$args, $defaults ) {
+
+		$args = (array) $args;
+		$result = $defaults = (array) $defaults;
+
+		foreach ( $args as $key => &$value ) {
+			if ( is_array( $value ) && isset( $result[ $key ] ) ) {
+				$result[ $key ] = $this->parse_multidimensional_array_args( $value, $result[ $key ] );
+			} else {
+				$result[ $key ] = $value;
+			}
+		}
+		return $result;
+	}
 }
 
