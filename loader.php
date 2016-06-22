@@ -243,8 +243,10 @@ class Constant_Contact {
 		// Register out javascript file.
 		wp_register_script( 'ctct_form', $this->url() . 'assets/js/plugin' . $suffix . '.js', array(), self::VERSION, true );
 
+		// Allow filtering of allowed pages that we load scripts on
+		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', array( 'post.php', 'post-new.php' ) );
 
-		if ( isset( $pagenow ) && in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) {
+		if ( isset( $pagenow ) && is_array( $pagenow ) && in_array( $pagenow, $allowed_pages, true ) ) {
 			// Enqueued script with localized data.
 			wp_enqueue_script( 'ctct_form' );
 		}
