@@ -8,6 +8,7 @@
     "css-mqpacker": "^4.0.0",
     "del": "^2.2.0",
     "gulp": "^3.9.1",
+    "gulp-concat" : "^2.6.0",
     "gulp-cssnano": "^2.1.0",
     "gulp-notify": "^2.2.0",
     "gulp-plumber": "^1.1.0",
@@ -16,22 +17,20 @@
     "gulp-sass": "^2.2.0",
     "gulp-sort": "^1.1.1",
     "gulp-sourcemaps": "^1.6.0",
-	"gulp-util": "^3.0.7"
+    "gulp-uglify" : "^1.5.2",
+    "gulp-util": "^3.0.7"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://modemlooper@github.com/WebDevStudios/constantcontact.git"
+    "url": "git@github.com/WebDevStudios/constantcontact.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/WebDevStudios/constantcontact/issues"
   },
-  "homepage": "https://github.com/WebDevStudios/constantcontact#readme",
-  "dependencies": {
-    "wdsppf": "git+https://github.com/WebDevStudios/WDS-Product-Plugin-Framework.git"
-  }
+  "homepage": "https://github.com/WebDevStudios/constantcontact#readme"
 }
