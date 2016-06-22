@@ -139,16 +139,29 @@ class ConstantContact_Admin {
 
 			<div id="options-wrap">
 				<?php
-				$page = isset( $_GET['page'] ) ? explode(  $this->key . '_', $_GET['page'] ) : '';
 
-				if ( in_array( $page[1], array( 'about', 'help' ) ) ) {
-					if ( file_exists( constant_contact()->path . 'inc/admin/'. $page[1] .'.php' )  ) {
-						include_once( constant_contact()->path . 'inc/admin/'. $page[1] .'.php' );
+				// If we have a $_GET['page'], let's try to pull out the page we're looking for
+				if ( isset( $_GET['page'] ) && $_GET['page'] ) {
+					$page = explode( $this->key . '_', esc_attr( $_GET['page'] ) );
+				} else {
+					$page = array();
+				}
+
+				// If we have a second element set, let's check out what it should be
+				if ( isset( $page[1] ) && $page[1] ) {
+
+					// switch through our whitelisted pages that we shoud include
+					switch ( $page[1] ) {
+						case 'about':
+							include_once( constant_contact()->path . 'inc/admin/about.php' );
+							break;
+						case 'help':
+							include_once( constant_contact()->path . 'inc/admin/help.php' );
+							break;
 					}
 				} else {
 					cmb2_metabox_form( $this->metabox_id, $this->key );
 				}
-
 				?>
 			</div>
 		</div>
