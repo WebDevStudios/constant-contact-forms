@@ -233,7 +233,6 @@ class Constant_Contact {
 	public function scripts() {
 		global $pagenow;
 
-
 		// Check if we are in debug mode. allow
 		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG == true ? true : false;
 
@@ -294,7 +293,6 @@ class Constant_Contact {
 			$this->test_shortcode_admin->hooks();
 
 		}
-
 
 		if ( file_exists( __DIR__ . '/includes/class-api.php' ) ) {
 			require_once  __DIR__ . '/includes/class-api.php';
