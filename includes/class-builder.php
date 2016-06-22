@@ -355,12 +355,21 @@ class ConstantContact_Builder {
 	public function override_save( $field_id, $updated, $action, $cmbobj ) {
 		global $post;
 
-		if ( isset( $cmbobj->data_to_save['custom_fields_group'] ) ) {
-			foreach ( $cmbobj->data_to_save['custom_fields_group'] as $key => $value ) {
-				if ( 'email' === $value['_ctct_map_select'] ) {
+		if (
+			isset( $post->ID ) &&
+			$post->ID &&
+			$cmbobj &&
+			isset( $cmbobj->data_to_save ) &&
+			isset( $cmbobj->data_to_save['custom_fields_group'] ) &&
+			is_array( $cmbobj->data_to_save['custom_fields_group'] )
+		) {
+
+			update_post_meta( $post->ID, '_ctct_has_email_field', 'false' );
+
+			foreach ( $cmbobj->data_to_save['custom_fields_group'] as $data ) {
+				if ( isset( $data['_ctct_map_select'] ) && 'email' === $data['_ctct_map_select'] ) {
 					update_post_meta( $post->ID, '_ctct_has_email_field', 'true' );
-				} else {
-					update_post_meta( $post->ID, '_ctct_has_email_field', 'false' );
+					break;
 				}
 			}
 		}
@@ -374,10 +383,16 @@ class ConstantContact_Builder {
 	public function admin_notice() {
 	    global $post;
 
-	    if ( isset( $post ) && 'false' === get_post_meta( $post->ID, '_ctct_has_email_field', true ) ) {
-			$class = 'notice notice-error';
-			$message = __( 'Oop, looks like you havent added an email field to your form. Forms will not send unless a field is mapped to email.', 'constantcontact' );
-			printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+	    if ( $post && isset( $post->ID ) ) {
+
+	    	// Check to see if we have an email set on our field
+	    	$has_email = get_post_meta( $post->ID, '_ctct_has_email_field', true );
+
+	    	if ( ! $has_email || 'false' == $has_email ) {
+				$class = 'notice notice-error';
+				$message = __( "Oops, looks like you haven't added an email field to your form. Forms will not send unless a field is mapped to email.", 'constantcontact' );
+				printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+	    	}
 	    }
 	}
 }
