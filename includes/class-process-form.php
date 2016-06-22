@@ -92,7 +92,6 @@ class ConstantContact_Process_Form {
 				} else {
 					set_transient( 'ctct_form_submit_message', 'error' );
 				}
-
 			} else {
 
 		        // // sanitize form values
@@ -114,9 +113,7 @@ class ConstantContact_Process_Form {
 		        // }
 
 			}
-
-
-	    }
+		}
 	}
 }
 
@@ -153,7 +150,7 @@ function ctct_form_submit_message() {
 
 		}
 
-		echo sprintf( '<p class="message '. esc_attr( $message ) .'"> %s </p>', esc_attr( $message_text ) );
+		echo sprintf( '<p class="message ' . esc_attr( $message ) . '"> %s </p>', esc_attr( $message_text ) );
 
 		delete_transient( 'ctct_form_submit_message' );
 
@@ -173,7 +170,7 @@ function ctct_build_form_fields( $form_data ) {
 
 		$required = isset( $form_data['fields'][ $key ]['required'] ) ? ' * required' : '';
 
-		echo '<div><p><label>' . esc_attr( $form_data['fields'][ $key ]['name'] ) .  esc_attr( $required ) . '</label></br>';
+		echo '<div><p><label>' . esc_attr( $form_data['fields'][ $key ]['name'] ) . esc_attr( $required ) . '</label></br>';
 
 		$field_name = esc_attr( $form_data['fields'][ $key ]['map_to'] );
 		$field_value = ( isset( $_POST[ 'ctct-' . $form_data['fields'][ $key ]['map_to'] ] ) ? esc_attr( $_POST[ 'ctct-' . $form_data['fields'][ $key ]['map_to'] ] ) : '' );
