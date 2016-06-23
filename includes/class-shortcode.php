@@ -104,37 +104,75 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			// Loop through each of our fields.
 			foreach ( $custom_fields as $key => $value ) {
 
-				$fields['fields'][ $key ]['name']   = $custom_fields[ $key ]['_ctct_field_name'];
-				$fields['fields'][ $key ]['map_to'] = $custom_fields[ $key ]['_ctct_map_select'];
+				// Make sure we have the parts of our array that we expect
+				if (
+					empty( $key ) ||
+					! isset( $custom_fields ) ||
+					! isset( $custom_fields[ $key ] )
+				) {
+					continue;
+				}
 
-				if ( isset( $custom_fields[ $key ]['_ctct_required_field'] ) && 'on' === $custom_fields[ $key ]['_ctct_required_field'] ) {
-					$fields['fields'][ $key ]['required'] = $custom_fields[ $key ]['_ctct_required_field'];
+				// Set our field name, if we can.
+				if ( isset( $custom_fields[ $key ]['_ctct_field_name'] ) ) {
+					$fields['fields'][ $key ]['name'] = $custom_fields[ $key ]['_ctct_field_name'];
+				}
+
+				// Set our field mapping, if we can.
+				if ( isset( $custom_fields[ $key ]['_ctct_map_select'] ) ) {
+					$fields['fields'][ $key ]['map_to'] = $custom_fields[ $key ]['_ctct_map_select'];
+				}
+
+				// Set our field description, if we can.
+				if ( isset( $custom_fields[ $key ]['_ctct_field_desc'] ) ) {
+					$fields['fields'][ $key ]['description'] = $custom_fields[ $key ]['_ctct_field_desc'];
+				}
+
+				// Set our field type, hardcoded for now.
+				$fields['fields'][ $key ]['type'] = 'text_field';
+
+
+				// Set our field requirement, if we can.
+				if (
+					isset( $custom_fields[ $key ]['_ctct_required_field'] ) &&
+					'on' == $custom_fields[ $key ]['_ctct_required_field']
+				) {
+					$fields['fields'][ $key ]['required'] = true;
+				} else {
+					$fields['fields'][ $key ]['required'] = false;
 				}
 			}
 
-			if ( isset( $form_meta['_ctct_description'] ) ) {
-				$fields['options']['description'] = $form_meta['_ctct_description'][0];
+
+			// Now that we've finished checking all of our form fields, we'll
+			// want to set some general form information here.
+
+			if ( isset( $full_data['_ctct_description'] ) && isset( $full_data['_ctct_description'][0] ) ) {
+				$fields['options']['description'] = $full_data['_ctct_description'][0];
 			}
 
-			if ( isset( $form_meta['_ctct_list'] ) ) {
-				$fields['options']['list'] = $form_meta['_ctct_list'][0];
+			if ( isset( $full_data['_ctct_list'] ) && isset( $full_data['_ctct_list'][0] ) ) {
+				$fields['options']['list'] = $full_data['_ctct_list'][0];
 			}
 
 			if (
-				isset( $form_meta['_ctct_opt_in'] ) &&
-				$form_meta['_ctct_opt_in'] &&
-				isset( $form_meta['_ctct_opt_in'][0] ) &&
-				$form_meta['_ctct_opt_in'][0] &&
-				'on' === $form_meta['_ctct_opt_in'][0]
+				isset( $full_data['_ctct_opt_in'] ) &&
+				$full_data['_ctct_opt_in'] &&
+				isset( $full_data['_ctct_opt_in'][0] ) &&
+				$full_data['_ctct_opt_in'][0] &&
+				'on' === $full_data['_ctct_opt_in'][0]
 			) {
+
+				$fields['options']['opt_in'] = true;
+
 				if (
-					isset( $form_meta['_ctct_opt_in_instructions'] ) &&
-					isset( $form_meta['_ctct_opt_in_instructions'][0] )
+					isset( $full_data['_ctct_opt_in_instructions'] ) &&
+					isset( $full_data['_ctct_opt_in_instructions'][0] )
 				) {
-					$fields['options']['opt_in'] = $form_meta['_ctct_opt_in_instructions'][0];
-				} else {
-					$fields['options']['opt_in'] = '';
+					$fields['options']['opt_in_instructions'] = $full_data['_ctct_opt_in_instructions'][0];
 				}
+			} else {
+				$fields['options']['opt_in'] = false;
 			}
 
 			return $fields;
