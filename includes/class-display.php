@@ -171,7 +171,7 @@ class ConstantContact_Display {
 		// this makes sure we keep them unique when processing them.
 		$map = $map . '_' . md5( serialize( $field ) );
 
-		// @ todo fix this
+		// @TODO fix this
 		$value = ( isset( $_POST[ 'ctct-' . $map ] ) ? esc_attr( $_POST[ 'ctct-' . $map ] ) : '' );
 
 		// Based on our type, output different things
@@ -181,6 +181,9 @@ class ConstantContact_Display {
 				break;
 			case 'email':
 				return $this->input( 'text', $name, $value, $desc, $req );
+				break;
+			case 'checkbox':
+				return $this->checkbox( $name, $value, $desc );
 				break;
 			default:
 				return $this->input( 'text', $name, $value, $desc, $req );
