@@ -53,6 +53,13 @@ class ConstantContact_Admin_Pages {
 			array(),
 			constant_contact()->version
 		);
+
+		wp_register_style(
+			'constant_contact_admin_pages',
+			constant_contact()->url() . 'assets/css/admin-pages.css',
+			array(),
+			constant_contact()->version
+		);
 	}
 
 	/**

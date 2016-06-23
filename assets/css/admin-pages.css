@@ -1,0 +1,33 @@
+#ctct-support li {
+  padding: 0.8em 0;
+}
+
+#ctct-support ol li {
+  list-style: none;
+}
+
+#ctct-support li {
+  position: relative;
+}
+
+#ctct-support .answer {
+  padding: 0.5em;
+}
+
+#ctct-support .question {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+#ctct-support .question:before {
+  content: "\f139";
+  display: inline-block;
+  font: normal 25px/1 'dashicons';
+  margin-left: -25px;
+  position: absolute;
+  -webkit-font-smoothing: antialiased;
+}
+
+#ctct-support .question.active:before {
+  content: "\f140";
+}
