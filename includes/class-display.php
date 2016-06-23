@@ -38,43 +38,85 @@ class ConstantContact_Display {
 	 */
 	public function form( $form_data ) {
 
-		$return = '';
+		// Start our return markup and some default variables
+		$return           = '';
+		$form_err_display = '';
+		$error_message    = false;
+		$status           = false;
 
+
+		// Get a potential response from our processing wrapper
+		// This returns an array that looks like this:
+		//	array(
+		//	    'status'  => $status,
+		// 	    'message' => $message,
+		// )
+		// if the status is success, then we sent the form correctly
+		// if the status is error, then we will re-show the form, but also
+		// with our error messages.
+		// @TODO also do server-side verification and pass back field merrors
 		$response = constant_contact()->process_form->process_wrapper();
 
-		$error_message = false;
-		$status        = false;
+		// Check to see if we got a response, and if it has the fields we expect
+		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
-		if (
-			$response &&
-			isset( $response['message'] ) &&
-			isset( $response['status'] )
-		) {
+			// If we were succesful, then display success message
 			if ( 'success' == $response['status'] ) {
-				return '<p class="message success">' . esc_attr( $response['message'] ) . '</p>';
+
+				// If we were successful, we'll return here so we don't display the entire form again
+				return $this->message( 'success', $response['message'] );
+
 			} else {
+
+				// If we didn't get a success message, then we want to error.
+				// We already checked for a messsage response, but we'll force the
+				// status to error if we're not here
 				$status = 'error';
 				$error_message = $response['message'];
 			}
 		}
 
+		// If we got an error for our status, and we have an error message, display it.
 		if ( 'error' == $status || $error_message ) {
-			$return .= '<p class="message ' . esc_attr( $status ) . '">' . esc_attr( $error_message ) . '</p>';
+
+			// We'll show this error right inside our form
+			$form_err_display = $this->message( 'error', $error_message );
 		}
 
-		global $wp;
-		$return .= '<form id="ctct-form" action="' . esc_url( trailingslashit( add_query_arg( '', '', home_url( $wp->request ) ) ) ) . '" method="post">';
 
+		// Build out our form
+		$return .= '<form id="ctct-form" action="' . esc_url( $this->get_current_page() ) . '" method="post">';
+
+		// If we have errors, display them
+		$return .= $form_err_display;
+
+		// Output our normal form fields
 		$return .= $this->build_form_fields( $form_data );
 
+		// Add our hidden verification fields
 		$return .= $this->add_verify_fields( $form_data );
 
-		$return .= '<p><input type="submit" name="ctct-submitted" value="' . __( 'Send', 'constantcontact' ) . '"/></p>';
+		// Add our submit field
+		$return .= $this->submit();
+
+		// Nonce the field too
 		$return .= wp_nonce_field( 'ctct_submit_form', 'ctct_form', true, false );
 
+		// Close our form
 		$return .= '</form>';
 
+		// Return it all
 		return $return;
+	}
+
+	/**
+	 * Get our current URL in a somewhat robust way
+	 *
+	 * @return string url of current page
+	 */
+	public function get_current_page() {
+		global $wp;
+		return trailingslashit( add_query_arg( '', '', home_url( $wp->request ) ) );
 	}
 
 	/**
@@ -165,6 +207,7 @@ class ConstantContact_Display {
 		$map    = esc_attr( $field['map_to'] );
 		$desc   = esc_attr( isset( $field['description'] ) ? $field['description'] : '' );
 		$type   = esc_attr( isset( $field['type'] ) ? $field['type'] : 'text_field' );
+		$value  = esc_attr( isset( $field['value'] ) ? $field['value'] : false );
 		$req    = isset( $field['required'] ) ? $field['required'] : false;
 
 		// We may have more than one of the same field in our array.
@@ -172,7 +215,9 @@ class ConstantContact_Display {
 		$map = $map . '_' . md5( serialize( $field ) );
 
 		// @TODO fix this
-		$value = ( isset( $_POST[ 'ctct-' . $map ] ) ? esc_attr( $_POST[ 'ctct-' . $map ] ) : '' );
+		if ( ! $value ) {
+			$value = ( isset( $_POST[ 'ctct-' . $map ] ) ? esc_attr( $_POST[ 'ctct-' . $map ] ) : '' );
+		}
 
 		// Based on our type, output different things
 		switch ( $type ) {
@@ -187,6 +232,9 @@ class ConstantContact_Display {
 				break;
 			case 'checkbox':
 				return $this->checkbox( $name, $value, $desc );
+				break;
+			case 'submit':
+				return $this->input( 'submit', $name, $value, $desc );
 				break;
 			default:
 				return $this->input( 'text', $name, $value, $desc, $req );
@@ -257,8 +305,8 @@ class ConstantContact_Display {
 		// Start building our return markup
 		$markup = '<p class="constant-contact-form-field constant-contact-form-field-' . $type . '">';
 
-		// alow skipping label
-		if ( $use_label ) {
+		// alow skipping label, also don't show for submit buttons
+		if ( $use_label && 'submit' != $type ) {
 
 			// Our field label will be the form name + required asterisk + our label
 			$markup .= $this->get_label( $f_id, $name . ' ' . $required_label . $label );
@@ -336,10 +384,7 @@ class ConstantContact_Display {
 		// Clean our inputs
 		$name  = sanitize_text_field( $name );
 		$f_id  = sanitize_title( $name );
-		$type  = sanitize_text_field( $type );
 		$value = sanitize_text_field( $value );
-
-		// Set type to checkbox
 		$type = 'checkbox';
 
 		// Build up our markup
@@ -349,6 +394,33 @@ class ConstantContact_Display {
 
 		//  return it
 		return $markup;
+	}
+
+	/**
+	 * Helper method for submit button
+	 *
+	 * @author Brad Parbs
+	 * @return string html markup
+	 */
+	public function submit() {
+		return $this->field( array(
+			'type'   => 'submit',
+			'name'   => 'ctct-submitted',
+			'map_to' => 'ctct-submitted',
+			'value'  => __( 'Send', 'constantcontact' ),
+		) );
+	}
+
+	/**
+	 * Helper method to display in-line for success/error messages
+	 *
+	 * @author Brad Parbs
+	 * @param  string $type    success / error / etc for class
+	 * @param  string $message message to display to user
+	 * @return string          html markup
+	 */
+	public function message( $type, $message ) {
+		return '<p class="message ' . esc_attr( $type ) . '">' . esc_attr( $message ) . '</p>';
 	}
 }
 
