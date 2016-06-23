@@ -265,9 +265,8 @@ class ConstantContact_Admin_Pages {
 							<div class="feature-image">
 								<?php
 								$alt = isset( $feature['alt'] ) ? $feature['alt'] : '';
-								$alt = 'alt="' . esc_attr( $alt ) . '"';
 								?>
-								<img class="fff-img" src="<?php echo esc_url( $feature['image'] );?>" <?php echo $alt; ?>">
+								<img class="fff-img" src="<?php echo esc_url( $feature['image'] );?>" alt="<?php echo esc_attr( $alt ); ?>">
 							</div>
 							<?php } ?>
 							<p class="c-text">
