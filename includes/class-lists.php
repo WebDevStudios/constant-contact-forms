@@ -27,7 +27,7 @@ class ConstantContact_Lists {
 	/**
 	 * Constructor
 	 *
-	 * @since  0.0.1
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function __construct( $plugin ) {

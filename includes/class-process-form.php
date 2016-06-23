@@ -24,7 +24,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Constructor
 	 *
-	 * @since  0.0.1
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function __construct( $plugin ) {
