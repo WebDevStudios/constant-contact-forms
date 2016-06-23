@@ -17,19 +17,22 @@ use Ctct\Exceptions\CtctException;
 class ConstantContact_Lists {
 
 	/**
-	 * Holds an instance of the object.
+	 * Parent plugin class
 	 *
-	 * @since 1.0.0
-	 * @var ConstantContact_Lists
+	 * @var   class
+	 * @since 0.0.1
 	 */
-	private static $instance = null;
+	protected $plugin = null;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @since 1.0.0
+	 * @since  0.0.1
+	 * @return void
 	 */
-	private function __construct() {
+	public function __construct( $plugin ) {
+		$this->plugin = $plugin;
+		$this->hooks();
 	}
 
 	/**
@@ -269,16 +272,3 @@ class ConstantContact_Lists {
 		return $get_lists;
 	}
 }
-
-/**
- * Helper function to get/return the ConstantContact_Lists object.
- *
- * @since 1.0.0
- * @return ConstantContact_Lists object.
- */
-function constantcontact_lists() {
-	return ConstantContact_Lists::get_instance();
-}
-
-// Get it started.
-constantcontact_lists();

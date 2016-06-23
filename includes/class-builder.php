@@ -254,7 +254,7 @@ class ConstantContact_Builder {
 	public function get_lists() {
 
 		// Grab our lists
-		$lists = constantcontact_lists()->get_lists();
+		$lists = constant_contact()->lists->get_lists();
 
 		if ( $lists && is_array( $lists ) ) {
 

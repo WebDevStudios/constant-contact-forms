@@ -149,6 +149,7 @@ class Constant_Contact {
 	private $settings;
 	private $process_form;
 	private $builder;
+	private $lists;
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -194,6 +195,7 @@ class Constant_Contact {
 		$this->settings     = new ConstantContact_Settings( $this );
 		$this->process_form = new ConstantContact_Process_Form( $this );
 		$this->builder      = new ConstantContact_Builder( $this );
+		$this->lists        = new ConstantContact_Lists( $this );
 	}
 
 	/**
@@ -280,10 +282,6 @@ class Constant_Contact {
 			require_once  __DIR__ . '/includes/class-api.php';
 		}
 
-		if ( file_exists( __DIR__ . '/includes/class-lists.php' ) ) {
-			require_once  __DIR__ . '/includes/class-lists.php';
-		}
-
 		if ( file_exists( __DIR__ . '/inc/auth-redirect.php' ) ) {
 			require_once  __DIR__ . '/inc/auth-redirect.php';
 		}
@@ -321,6 +319,7 @@ class Constant_Contact {
 			case 'basename':
 			case 'builder':
 			case 'display':
+			case 'lists':
 			case 'path':
 			case 'process_form':
 			case 'settings':
