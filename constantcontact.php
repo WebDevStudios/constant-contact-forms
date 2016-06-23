@@ -135,13 +135,14 @@ class Constant_Contact {
 	 */
 	protected static $single_instance = null;
 
+	private $admin_pages;
+	private $api;
+	private $builder;
 	private $ctct_forms;
 	private $display;
-	private $admin_pages;
-	private $settings;
-	private $process_form;
-	private $builder;
 	private $lists;
+	private $process_form;
+	private $settings;
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -181,13 +182,14 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function plugin_classes() {
+		$this->admin_pages  = new ConstantContact_Admin_Pages( $this );
+		$this->api          = new ConstantContact_API( $this );
+		$this->builder      = new ConstantContact_Builder( $this );
 		$this->ctct_forms   = new ConstantContact_CPTS( $this );
 		$this->display      = new ConstantContact_Display( $this );
-		$this->admin_pages  = new ConstantContact_Admin_Pages( $this );
-		$this->settings     = new ConstantContact_Settings( $this );
-		$this->process_form = new ConstantContact_Process_Form( $this );
-		$this->builder      = new ConstantContact_Builder( $this );
 		$this->lists        = new ConstantContact_Lists( $this );
+		$this->process_form = new ConstantContact_Process_Form( $this );
+		$this->settings     = new ConstantContact_Settings( $this );
 	}
 
 	/**
@@ -267,11 +269,6 @@ class Constant_Contact {
 				$this->test_shortcode->atts_defaults
 			);
 			$this->test_shortcode_admin->hooks();
-
-		}
-
-		if ( file_exists( __DIR__ . '/includes/class-api.php' ) ) {
-			require_once  __DIR__ . '/includes/class-api.php';
 		}
 
 		if ( file_exists( __DIR__ . '/inc/auth-redirect.php' ) ) {
@@ -304,6 +301,7 @@ class Constant_Contact {
 			case 'version':
 				return self::VERSION;
 			case 'admin_pages':
+			case 'api':
 			case 'basename':
 			case 'builder':
 			case 'display':

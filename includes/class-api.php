@@ -19,33 +19,22 @@ use Ctct\Exceptions\CtctException;
 class ConstantContact_API {
 
 	/**
-	 * Holds an instance of the object.
+	 * Parent plugin class
 	 *
-	 * @since 1.0.0
-	 * @var ConstantContact_API
+	 * @var   class
+	 * @since 0.0.1
 	 */
-	private static $instance = null;
+	protected $plugin = null;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
+	 * @return void
 	 */
-	private function __construct() {
-	}
-
-	/**
-	 * Returns the running object
-	 *
-	 * @since 1.0.0
-	 * @return ConstantContact_API
-	 */
-	public static function get_instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new ConstantContact_API();
-			self::$instance->hooks();
-		}
-		return self::$instance;
+	public function __construct( $plugin ) {
+		$this->plugin = $plugin;
+		$this->hooks();
 	}
 
 	/**
@@ -450,8 +439,5 @@ class ConstantContact_API {
  * @return object ConstantContact_API
  */
 function constantcontact_api() {
-	return ConstantContact_API::get_instance();
+	return constant_contact()->api;
 }
-
-// Get it started.
-constantcontact_api();
