@@ -206,17 +206,75 @@ class ConstantContact_Display {
 	 */
 	public function opt_in( $form_data ) {
 
-		if ( ! isset( $form_data['opt_in'] ) || ! isset( $form_data['list'] ) ) {
-			return;
-		}
-		$return = '';
-		$return .= '<input type="checkbox" id="ctct-opti-in" name="ctct-opti-in" value="' . esc_attr( $form_data['list'] ) . '"/>';
+		// Make sure we have our opt in set, as well as an associated list
+		if ( isset( $form_data['opt_in'] ) && isset( $form_data['list'] ) ) {
 
-		if ( isset( $form_data['opt_in_instructions'] ) ) {
-			$return .= '<label for="ctct-opti-in">' . ' ' . esc_attr( $form_data['opt_in_instructions'] ) . '</label>';
+			// build that checkbox
+			return $this->checkbox(
+				'ctct-opti-in',
+				$form_data['list'],
+				( isset( $form_data['opt_in_instructions'] ) ? $form_data['opt_in_instructions'] : '' )
+			);
+		}
+	}
+
+	/**
+	 * Helper method to get form label
+	 *
+	 * @param  string $name name/id of form field
+	 * @param  string $text text to display as label
+	 * @return string       HTML markup
+	 */
+	public function get_label( $f_id, $field_label ) {
+		return '<label for="' . $f_id . '">' . $field_label . '</label>';
+	}
+
+	/**
+	 * Helper method to display label for form field + field starting markup
+	 *
+	 * @param  string  $type  type of field
+	 * @param  string  $name  name / id of field
+	 * @param  string  $label label text for field
+	 * @param  boolean $req   is this field required?
+	 * @return string         HTML markup
+	 */
+	public function field_top( $type = '', $name = '', $f_id = '', $label = '', $req = false, $use_label = true ) {
+
+		// Set blank defaults for required info
+		$required_label = '';
+
+		// If this is required, we output the HMTL5 required att
+		if ( $req ) {
+			$required_label = apply_filters( 'constant_contact_required_text_label', '* ' );
 		}
 
-		return $return;
+		// Start building our return markup
+		$markup = '<p class="constant-contact-form-field constant-contact-form-field-' . $type . '">';
+
+		// alow skipping label
+		if ( $use_label ) {
+
+			// Our field label will be the form name + required asterisk + our label
+			$markup .= $this->get_label( $f_id, $name . ' ' . $required_label . $label );
+		}
+
+		// return it
+		return $markup;
+	}
+
+	/**
+	 * Bottom of field markup
+	 *
+	 * @return string HTML markup
+	 */
+	public function field_bottom( $name = '', $field_label = '' ) {
+
+		$markup = '';
+		if ( ! empty( $name ) && ! empty( $field_label ) ) {
+			$markup .= $this->get_label( $name, $field_label );
+		}
+		// Finish building our markup
+		return $markup . '</p>';
 	}
 
 	/**
@@ -232,39 +290,23 @@ class ConstantContact_Display {
 	 */
 	public function input( $type = 'text', $name = '', $value = '', $label = '', $req = false, $f_only = false ) {
 
-		// Sanitize our stuff
+		// Sanitize our stuff / set values
 		$name  = sanitize_text_field( $name );
+		$f_id  = sanitize_title( $name );
 		$type  = sanitize_text_field( $type );
 		$value = sanitize_text_field( $value );
 		$label = sanitize_text_field( $label );
+		$req_text = $req ? 'required' : '';
 
-		// Set blank defaults for required info
-		$req_text = '';
-		$required_label = '';
-
-		// If this is required, we output the HMTL5 required att
-		if ( $req ) {
-			$req_text = 'required';
-			$required_label = apply_filters( 'constant_contact_required_text_label', '* ' );
-		}
-
-
-		// Our field label will be the form name + required asterisk + our label
-		$field_label = $name . ' ' . $required_label . $label;
-
-		// Start building our return markup
-		$markup = '<p class="constant-contact-form-field constant-contact-form-field-' . $type . '">';
-		$markup .= '<label for="' . $name . '">' . $field_label . '</label>';
+		// Start our markup
+		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
 
 		// Set our field as as seprate var, because we allow for only returning that
-		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $name . '" id="' . $name . '" value="' . $value . '" />';
+		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" />';
 
 		// Add our field to our markup
 		$markup .= $field;
-
-		// Finish building our markup
-		$markup .= '</p>';
-
+		$markup .= $this->field_bottom();
 
 		// If we passed in a flag for only the field, just return that
 		if ( $f_only ) {
@@ -272,6 +314,34 @@ class ConstantContact_Display {
 		}
 
 		// Otherwise all the markup
+		return $markup;
+	}
+
+	/**
+	 * Checkbox field helper method
+	 *
+	 * @param  string $name  name/it of field
+	 * @param  string $value value of field
+	 * @param  string $label label / desc text
+	 * @return string        html markup for checkbox
+	 */
+	public function checkbox( $name = '', $value = '', $label = '' ) {
+
+		// Clean our inputs
+		$name  = sanitize_text_field( $name );
+		$f_id  = sanitize_title( $name );
+		$type  = sanitize_text_field( $type );
+		$value = sanitize_text_field( $value );
+
+		// Set type to checkbox
+		$type = 'checkbox';
+
+		// Build up our markup
+		$markup = $this->field_top( $type, $name, $f_id, $label, false, false );
+		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" />';
+		$markup .= $this->field_bottom( $name, ' ' . $label );
+
+		//  return it
 		return $markup;
 	}
 }
