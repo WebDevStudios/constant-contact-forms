@@ -153,7 +153,6 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		/**
 		 * Delete transient of saved form
 		 *
-		 * @author Brad Parbs
 		 * @return void
 		 */
 		public function clear_saved_form_list_transient() {

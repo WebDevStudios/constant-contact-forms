@@ -98,7 +98,6 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		/**
 		 * Get custom field values from post meta data from form CPT post
 		 *
-		 * @author Brad Parbs
 		 * @param  array $custom_fields custom fields to parse through.
 		 * @return string                form field markup
 		 */

@@ -80,7 +80,6 @@ class ConstantContact_Display {
 	/**
 	 * Adds hidden input fields to our form for form id and verify id
 	 *
-	 * @author Brad Parbs
 	 * @param  string $form_data html markup
 	 */
 	public function add_verify_fields( $form_data ) {
@@ -151,7 +150,6 @@ class ConstantContact_Display {
 	/**
 	 * Wrapper for single field display
 	 *
-	 * @author Brad Parbs
 	 * @param  array $field field data
 	 * @return string        html markup
 	 */
