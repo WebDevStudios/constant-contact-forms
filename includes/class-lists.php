@@ -62,6 +62,8 @@ class ConstantContact_Lists {
 		add_action( 'save_post_ctct_lists', array( $this, 'save_or_update_list' ) );
 		add_action( 'wp_trash_post', array( $this, 'delete_list' ) );
 
+		add_action( 'cmb2_after_post_form_ctct_list_metabox', array( $this, 'add_form_css' ) );
+
 	}
 
 	/**
@@ -74,7 +76,7 @@ class ConstantContact_Lists {
 
 		$cmb = new_cmb2_box( array(
 			'id' => 'ctct_list_metabox',
-			'title' => __( 'List Meta', 'constantcontact' ),
+			'title' => __( 'List Information', 'constantcontact' ),
 			'object_types'  => array( 'ctct_lists' ),
 			'context'	   => 'normal',
 			'priority' => 'high',
@@ -91,6 +93,14 @@ class ConstantContact_Lists {
 				'type'	=> 'title',
 			) );
 		}
+	}
+
+	/**
+	 * Style our form stuff
+	 *
+	 */
+	public function add_form_css() {
+		wp_enqueue_style( 'constant-contact-form-builder' );
 	}
 
 	/**
