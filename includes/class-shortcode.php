@@ -85,7 +85,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				isset( $form_meta['custom_fields_group'][0] )
 			) {
 				// If we passed all the checks, try to grab the data.
-				return $this->get_field_values( $form_meta['custom_fields_group'][0] );
+				return $this->get_field_values( $form_meta['custom_fields_group'][0], $form_meta );
 			}
 		}
 
@@ -96,7 +96,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 * @param  array $custom_fields custom fields to parse through.
 		 * @return string                form field markup
 		 */
-		public function get_field_values( $custom_fields ) {
+		public function get_field_values( $custom_fields, $full_data ) {
 
 			// We may get serialized data, so undo that.
 			$custom_fields = maybe_unserialize( $custom_fields );
