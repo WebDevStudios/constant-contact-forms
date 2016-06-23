@@ -283,7 +283,6 @@ class ConstantContact_Lists {
 	/**
 	 * Wrapper function to handle saving and updating our lists
 	 *
-	 * @author Brad Parbs
 	 * @param  int $post_id wp post id
 	 * @return bool          whether or not it worked
 	 */
