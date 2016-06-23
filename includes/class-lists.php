@@ -58,8 +58,8 @@ class ConstantContact_Lists {
 		add_action( 'cmb2_init', array( $this, 'sync_lists' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'add_lists_metabox' ) );
 
-		add_action( 'save_post_ctct_lists', array( $this, 'save_list' ) );
-		add_action( 'save_post_ctct_lists', array( $this, 'update_list' ) );
+		add_action( 'save_post_ctct_lists', array( $this, 'save_or_update_list' ) );
+		add_action( 'save_post_ctct_lists', array( $this, 'save_or_update_list' ) );
 		add_action( 'wp_trash_post', array( $this, 'delete_list' ) );
 
 	}
@@ -129,7 +129,7 @@ class ConstantContact_Lists {
 		}
 
 		// If we can't edit and delete posts, get out of here
-		if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( 'delete_posts' )  ) {
+		if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( 'delete_posts' ) ) {
 			return;
 		}
 
@@ -272,42 +272,107 @@ class ConstantContact_Lists {
 	}
 
 	/**
+	 * Wrapper function to handle saving and updating our lists
+	 *
+	 * @author Brad Parbs
+	 * @param  int $post_id wp post id
+	 * @return bool          whether or not it worked
+	 */
+	public function save_or_update_list( $post_id ) {
+
+		// Make sure we're on the new post page
+		global $pagenow;
+		if ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+			return false;
+		}
+		// If we can't edit posts, get out of here
+		if ( ! current_user_can( 'edit_posts' ) ) {
+			return false;
+		}
+
+		// Grab the post we're using
+		$ctct_list = get_post( $post_id );
+
+		// If we didn't get data, bail
+		if ( ! $ctct_list ) {
+			return false;
+		}
+
+		// If we don't have a post status, bail
+		if ( ! isset( $ctct_list->post_status ) ) {
+			return false;
+		}
+
+		// If we're an autodraft, bail out
+		if ( 'auto-draft' == $ctct_list->post_status ) {
+			return false;
+		}
+
+		// if we didn't get an ID, return
+		if ( ! isset( $ctct_list->ID ) ) {
+			return;
+		}
+
+		// Try to grab our list id from our post meta
+		$list_id = get_post_meta( $ctct_list->ID, '_ctct_list_id', true );
+
+		// If we got a list id, let's update that list, other wise add it
+		if ( ! empty( $list_id ) ) {
+			return $this->_update_list( $ctct_list, $list_id );
+		} else {
+			return $this->_add_list( $ctct_list );
+		}
+
+
+	}
+
+	/**
 	 * Saves list cpt and sends add list request to CTCT
 	 *
 	 * @since 1.0.0
-	 * @param  integer $post_id current post id.
+	 * @param  object $ctct_list WP Post object
 	 * @return void
 	 */
-	public function save_list( $post_id ) {
-		global $pagenow;
+	public function _add_list( $ctct_list ) {
 
-		if ( 'post-new.php' === $pagenow ) {
+		// Make sure we have all the data we want to use
+		if (
+			isset( $ctct_list ) &&
+			isset( $ctct_list->ID ) &&
+			isset( $ctct_list->post_title )
+		) {
 
-			$ctct_list = get_post( $post_id );
+			// Push our list into the API. For the list ID, we append a string of random numbers
+			// to make sure its unique.
+			$list = constantcontact_api()->add_list(
+				array(
+					'id' => absint( $ctct_list->ID ) . wp_rand( 0, 1000 ),
+					'name' => esc_attr( $ctct_list->post_title ),
+				)
+			);
 
-			if ( isset( $ctct_list ) && $ctct_list->post_modified_gmt === $ctct_list->post_date_gmt ) {
+			// If we got a list ID back, make sure we add that to post meta
+			if ( isset( $list->id ) && $list->id ) {
+				add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list->id ) );
+			}
 
-				$list = constantcontact_api()->add_list(
-					array(
-						'id' => $ctct_list->ID,
-						'name' => $ctct_list->post_title,
-					)
-				);
+			/**
+			 * Hook when a ctct list is saved.
+			 *
+			 * @since 1.0.0
+			 * @param integer $post_id cpt post id
+			 * @param integer $list_id ctct list id
+			 * @param array $list ctct returned list data
+			 */
+			do_action( 'ctct_update_list', $ctct_list->ID, $list->id, $list );
 
-				add_post_meta( $post_id, '_ctct_list_id', $list->id );
-
-				/**
-				 * Hook when a ctct list is saved.
-				 *
-				 * @since 1.0.0
-				 * @param integer $post_id cpt post id
-				 * @param integer $list_id ctct list id
-				 * @param array $list ctct returned list data
-				 */
-				do_action( 'ctct_update_list', $post_id, $list_id, $list );
-
+			// check to make sure our api request was good
+			if ( is_object( $list ) && isset( $list->id ) ) {
+				return true;
 			}
 		}
+
+		return false;
 	}
 
 	/**
@@ -317,36 +382,41 @@ class ConstantContact_Lists {
 	 * @param  integer $post_id current post id.
 	 * @return void
 	 */
-	public function update_list( $post_id ) {
+	public function _update_list( $ctct_list, $list_id ) {
 
-		global $pagenow;
+		// Make sure we have all the data we want to use
+		if (
+			isset( $ctct_list ) &&
+			isset( $ctct_list->ID ) &&
+			isset( $ctct_list->post_title ) &&
+			! empty( $list_id )
+		) {
+			// Update the list via the API
+			$list = constantcontact_api()->update_list(
+				array(
+					'id' => esc_attr( $list_id ),
+					'name' => esc_attr( $ctct_list->post_title ),
+				)
+			);
 
-		if ( 'post.php' === $pagenow ) {
+			/**
+			 * Hook when a ctct list is updated.
+			 *
+			 * @since 1.0.0
+			 * @param integer $post_id cpt post id
+			 * @param integer $list_id ctct list id
+			 * @param array $list ctct returned list data
+			 */
+			do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
 
-			$ctct_list = get_post( $post_id );
-			$list_id = get_post_meta( $ctct_list->ID, '_ctct_list_id', true );
 
-			if ( $list_id ) {
-
-				$list = constantcontact_api()->update_list(
-					array(
-						'id' => $list_id,
-						'name' => $ctct_list->post_title,
-					)
-				);
-
-				/**
-				 * Hook when a ctct list is updated.
-				 *
-				 * @since 1.0.0
-				 * @param integer $post_id cpt post id
-				 * @param integer $list_id ctct list id
-				 * @param array $list ctct returned list data
-				 */
-				do_action( 'ctct_update_list', $post_id, $list_id, $list );
-
+			// check to make sure our api request was good
+			if ( is_object( $list ) && isset( $list->id ) ) {
+				return true;
 			}
 		}
+
+		return false;
 	}
 
 	/**
@@ -357,29 +427,39 @@ class ConstantContact_Lists {
 	 */
 	public function delete_list( $post_id ) {
 
+		// type cast our post id
+		$post_id = absint( $post_id );
+
+		// bail out if we can't get it
+		if ( ! $post_id ) {
+			return false;
+		}
+
+		// try to grab our list id
 		$list_id = get_post_meta( $post_id, '_ctct_list_id', true );
 
-		if ( $list_id ) {
-
-			$list = constantcontact_api()->delete_list(
-				array(
-					'id' => $list_id,
-				)
-			);
-
-			wp_delete_post( $post_id, true );
-
-			/**
-			 * Hook when a ctct list is deleted.
-			 *
-			 * @since 1.0.0
-			 * @param integer $post_id
-			 * @param integer $list_id
-			 */
-			do_action( 'ctct_delete_list', $post_id, $list_id );
-
+		// Make sure we got a list ID to delete with
+		if ( ! $list_id ) {
+			return false;
 		}
-		return false;
+
+		// delete via the api
+		$list = constantcontact_api()->delete_list(
+			array(
+				'id' => esc_attr( $list_id ),
+			)
+		);
+
+		/**
+		 * Hook when a ctct list is deleted.
+		 *
+		 * @since 1.0.0
+		 * @param integer $post_id
+		 * @param integer $list_id
+		 */
+		do_action( 'ctct_delete_list', $post_id, $list_id );
+
+		return $list;
 	}
 
 	/**
