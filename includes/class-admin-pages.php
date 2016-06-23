@@ -88,12 +88,76 @@ class ConstantContact_Admin_Pages {
 		return $result;
 	}
 
-	public function about_page() {
-		echo 'yo about';
+	/**
+	 * Display our help page
+	 *
+	 */
+	public function help_page() {
+
+		wp_enqueue_script( 'ctct_form' );
+		wp_enqueue_style( 'constant_contact_admin_pages' );
+
+		// constantcontact_admin()->page_tabs();
+
+		$helps = apply_filters( 'constant_contact_help_texts', array(
+			array(
+				'title' => __( 'Help', 'constantcontact' ),
+				'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
+			),
+			array(
+				'title' => __( 'Help 2', 'constantcontact' ),
+				'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
+			),
+		) );
+
+		$faqs = apply_filters( 'constant_contact_faq_texts', array(
+			array(
+				'title' => __( 'FAQ', 'constantcontact' ),
+				'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
+			),
+			array(
+				'title' => __( 'FAQ 2', 'constantcontact' ),
+				'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
+			),
+		) );
+		?>
+		<h2><?php esc_attr_e( 'Help / FAQ', 'constantcontact' ); ?></h2>
+		<div class="wrap">
+			<table id="ctct-support" class="form-table cptui-table">
+			<tr>
+				<td class="outter" width="50%">
+					<h2><?php esc_html_e( 'Help', 'constantcontact' ); ?></h2>
+					<ol id="help_ctct">
+					<?php foreach ( $helps as $help ) : ?>
+						<li>
+							<span tabindex="0" class="question" aria-controls="q1" aria-expanded="false"><?php echo esc_html( isset( $help['title'] ) ? $help['title'] : '' ); ?></span>
+							<div class="answer"><?php echo esc_html( isset( $help['content'] ) ? $help['content'] : '' ); ?></div>
+						</li>
+					<?php endforeach; ?>
+					</ol>
+				</td>
+				<td class="outter">
+					<h2><?php esc_html_e( 'Faq', 'constantcontact' ); ?></h2>
+					<ol id="faq_ctct">
+					<?php foreach ( $faqs as $faq ) : ?>
+						<li>
+							<span tabindex="0" class="question" aria-controls="q1" aria-expanded="false"><?php echo esc_html( isset( $faq['title'] ) ? $faq['title'] : '' ); ?></span>
+							<div class="answer"><?php echo esc_html( isset( $faq['content'] ) ? $faq['content'] : '' ); ?></div>
+						</li>
+					<?php endforeach; ?>
+					</ol>
+				</td>
+			</tr>
+			</table>
+		</div><?php
 	}
 
-	public function help_page() {
-		echo 'yo help';
+	/**
+	 * Display our about page
+	 *
+	 */
+	public function about_page() {
+		echo 'yo about';
 	}
 }
 
