@@ -79,14 +79,12 @@ class ConstantContact_Process_Form {
 
 		return $return;
 
-
-
 		// @ TODO need to replcae this to account for our dynamic form names
 		if ( isset( $_POST['ctct-opti-in'] ) ) {
 
 			if ( isset( $_POST['ctct-email'] ) && isset( $_POST['ctct-opti-in'] ) ) {
 				$args = array(
-					'email' => sanitize_email(  ),
+					'email' => sanitize_email( ),
 					'list' => sanitize_text_field( $_POST['ctct-opti-in'] ),
 					'first_name' => '',
 					'last_name' => '',
@@ -94,7 +92,6 @@ class ConstantContact_Process_Form {
 			}
 
 			// $contact = constantcontact_api()->add_contact( $args );
-
 
 			// @ todo need to replace, as this only lets one form be submitted
 			// on the site at a time
@@ -143,14 +140,14 @@ class ConstantContact_Process_Form {
 		// if ( $message = get_transient( 'ctct_form_submit_message' ) ) {
 		$message = 'success';
 
-			switch ( $message ) {
-				case 'success':
-					$message_text = __( 'Your message has been sent!', 'constantcontact' );
+		switch ( $message ) {
+			case 'success':
+				$message_text = __( 'Your message has been sent!', 'constantcontact' );
 				break;
-				case 'error':
-					$message_text = __( 'Your message failed to send!', 'constantcontact' );
+			case 'error':
+				$message_text = __( 'Your message failed to send!', 'constantcontact' );
 				break;
-			}
+		}
 
 			$return = sprintf( '<p class="message ' . esc_attr( $message ) . '"> %s </p>', esc_attr( $message_text ) );
 
