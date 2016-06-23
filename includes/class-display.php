@@ -1,4 +1,5 @@
 <?php
+
 /**
  * ConstantContact_Display class
  *
@@ -126,6 +127,7 @@ class ConstantContact_Display {
 	 */
 	public function add_verify_fields( $form_data ) {
 
+		// Sanity check
 		if (
 			isset( $form_data ) &&
 			isset( $form_data['options'] ) &&
@@ -214,32 +216,55 @@ class ConstantContact_Display {
 		// this makes sure we keep them unique when processing them.
 		$map = $map . '_' . md5( serialize( $field ) );
 
-		// @TODO fix this
-		if ( ! $value ) {
-			$value = ( isset( $_POST[ 'ctct-' . $map ] ) ? esc_attr( $_POST[ 'ctct-' . $map ] ) : '' );
-		}
+		// Potentially replace value with submitted value
+		$value = $this->get_submitted_value( $value, $map, $field );
 
 		// Based on our type, output different things
 		switch ( $type ) {
 			case 'text_field':
-				return $this->input( 'text', $name, $value, $desc, $req );
+				return $this->input( 'text', $name, $map, $value, $desc, $req );
 				break;
 			case 'email':
-				return $this->input( 'text', $name, $value, $desc, $req );
+				return $this->input( 'text', $name, $map, $value, $desc, $req );
 				break;
 			case 'hidden':
-				return $this->input( 'hidden', $name, $value, $desc, $req );
+				return $this->input( 'hidden', $name, $map, $value, $desc, $req );
 				break;
 			case 'checkbox':
-				return $this->checkbox( $name, $value, $desc );
+				return $this->checkbox( $name, $map, $value, $desc );
 				break;
 			case 'submit':
-				return $this->input( 'submit', $name, $value, $desc );
+				return $this->input( 'submit', $name, $map, $value, $desc );
+				break;
+			case 'address':
+				return $this->input( 'text', $name, $map, $value, $desc );
+				break;
+			case 'anniversery':
+				return $this->input( 'text', $name, $map, $value, $desc );
+				break;
+			case 'birthday':
+				return $this->input( 'text', $name, $map, $value, $desc );
 				break;
 			default:
-				return $this->input( 'text', $name, $value, $desc, $req );
+				return $this->input( 'text', $name, $map, $value, $desc, $req );
 				break;
 		}
+	}
+
+	/**
+	 * Gets submitted values
+	 *
+	 * @param  array $field field data
+	 * @return string        submitted value
+	 */
+	public function get_submitted_value( $value = '', $map = '', $field = array() ){
+
+		// If we have a value already return it
+		if ( $value ) {
+			return $value;
+		}
+		// @TODO fix this
+		return ( isset( $_POST[ 'ctct-' . $map ] ) ? esc_attr( $_POST[ 'ctct-' . $map ] ) : '' );
 	}
 
 	/**
@@ -334,11 +359,11 @@ class ConstantContact_Display {
 	 * @param  boolean $f_only should we only return the field itself, with no label?
 	 * @return string          HTML markup for field
 	 */
-	public function input( $type = 'text', $name = '', $value = '', $label = '', $req = false, $f_only = false ) {
+	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false ) {
 
 		// Sanitize our stuff / set values
 		$name  = sanitize_text_field( $name );
-		$f_id  = sanitize_title( $name );
+		$f_id  = sanitize_title( $id );
 		$type  = sanitize_text_field( $type );
 		$value = sanitize_text_field( $value );
 		$label = sanitize_text_field( $label );
@@ -371,11 +396,11 @@ class ConstantContact_Display {
 	 * @param  string $label label / desc text
 	 * @return string        html markup for checkbox
 	 */
-	public function checkbox( $name = '', $value = '', $label = '' ) {
+	public function checkbox( $name = '', $id = '', $value = '', $label = '' ) {
 
 		// Clean our inputs
 		$name  = sanitize_text_field( $name );
-		$f_id  = sanitize_title( $name );
+		$f_id  = sanitize_title( $id );
 		$value = sanitize_text_field( $value );
 		$type = 'checkbox';
 
