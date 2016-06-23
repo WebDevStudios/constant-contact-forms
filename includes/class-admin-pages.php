@@ -29,6 +29,16 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+		$this->hooks();
+	}
+
+	/**
+	 * Initiate our hooks.
+	 *
+	 * @since 1.0.0
+	 * @return void
+	 */
+	public function hooks() {
 		add_action( 'admin_init', array( $this, 'styles' ) );
 	}
 
