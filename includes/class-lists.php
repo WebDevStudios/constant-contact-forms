@@ -154,7 +154,7 @@ class ConstantContact_Lists {
 		}
 
 		// Make sure we're on our cpt page
-		if ( 'ctct_lists' != esc_attr( $_GET['post_type'] ) ) {
+		if ( 'ctct_lists' !== esc_attr( $_GET['post_type'] ) ) {
 			return;
 		}
 
@@ -261,7 +261,7 @@ class ConstantContact_Lists {
 			$post_id = absint( $post_id );
 
 			// If we have an ID and the post type is a list
-			if ( $post_id && ( 'ctct_lists' == get_post_type( $post_id ) ) ) {
+			if ( $post_id && ( 'ctct_lists' === get_post_type( $post_id ) ) ) {
 
 				// remove that post
 				wp_delete_post( $post_id, true );
@@ -291,7 +291,7 @@ class ConstantContact_Lists {
 
 		// Make sure we're on the new post page
 		global $pagenow;
-		if ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
+		if ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) {
 			return false;
 		}
 		// If we can't edit posts, get out of here
@@ -313,7 +313,7 @@ class ConstantContact_Lists {
 		}
 
 		// If we're an autodraft, bail out
-		if ( 'auto-draft' == $ctct_list->post_status ) {
+		if ( 'auto-draft' === $ctct_list->post_status ) {
 			return false;
 		}
 

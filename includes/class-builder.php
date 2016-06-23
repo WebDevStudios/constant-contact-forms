@@ -266,7 +266,7 @@ class ConstantContact_Builder {
 
 				// Make sure we have something to use as a key and a value,
 				// and that we don't overwrite our 'new' value we set before
-				if ( ! empty( $list ) && ! empty( $value ) && 'new' != $list ) {
+				if ( ! empty( $list ) && ! empty( $value ) && 'new' !== $list ) {
 					$get_lists[ $list ] = $value;
 				}
 			}
@@ -308,7 +308,7 @@ class ConstantContact_Builder {
 			$post->ID &&
 			isset( $post->type ) &&
 			$post->type &&
-			'ctct_forms' == $post->type &&
+			'ctct_forms' === $post->type &&
 			$cmbobj &&
 			isset( $cmbobj->data_to_save ) &&
 			isset( $cmbobj->data_to_save['custom_fields_group'] ) &&
@@ -349,18 +349,18 @@ class ConstantContact_Builder {
 	    	$post &&
 	    	isset( $post->ID ) &&
 	    	isset( $post->post_type ) &&
-	    	'ctct_forms' == $post->post_type &&
+	    	'ctct_forms' === $post->post_type &&
 	    	isset( $post->post_status ) &&
-	    	'auto-draft' != $post->post_status
+	    	'auto-draft' !== $post->post_status
 	    ) {
 
 	    	// Check to see if we have an email set on our field
 	    	$has_email = get_post_meta( $post->ID, '_ctct_has_email_field', true );
 
-	    	if ( ! $has_email || 'false' == $has_email ) {
+	    	if ( ! $has_email || 'false' === $has_email ) {
 				$class = 'notice notice-error';
 				$message = __( 'You have not added an email field to your form. Forms will not send unless a field is mapped to email.', 'constantcontact' );
-				printf( '<div class="%1$s"><p>%2$s</p></div>', $class, $message );
+				printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
 	    	}
 	    }
 	}

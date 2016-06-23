@@ -194,7 +194,7 @@ class ConstantContact_CPTS {
 			6 => __( 'List published.', 'constantcontact' ),
 			7 => __( 'List saved.', 'constantcontact' ),
 			8 => __( 'List submitted.', 'constantcontact' ),
-			9 => __( 'List scheduled for: <strong>%1$s</strong>.' ), date_i18n( 'M j, Y @ G:i', strtotime( $post->post_date ) ),
+			9 => __( 'List scheduled for: <strong>%1$s</strong>.', 'constantcontact' ), date_i18n( 'M j, Y @ G:i', strtotime( $post->post_date ) ),
 			10 => __( 'List draft updated.', 'constantcontact' ),
 		);
 
@@ -203,12 +203,12 @@ class ConstantContact_CPTS {
 			1 => __( 'Form updated.', 'constantcontact' ),
 			2 => __( 'Custom field updated.', 'constantcontact' ),
 			3 => __( 'Custom field deleted.', 'constantcontact' ),
-			4 => __( 'Form updated.' ),
-			5 => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			4 => __( 'Form updated.', 'constantcontact' ),
+			5 => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s', 'constantcontact' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 			6 => __( 'Form published.', 'constantcontact' ),
 			7 => __( 'Form saved.', 'constantcontact' ),
 			8 => __( 'Form submitted.', 'constantcontact' ),
-			9 => __( 'Form scheduled for: <strong>%1$s</strong>.' ), date_i18n( __( 'M j, Y @ G:i' ), strtotime( $post->post_date ) ),
+			9 => __( 'Form scheduled for: <strong>%1$s</strong>.', 'constantcontact' ), date_i18n( 'M j, Y @ G:i', strtotime( $post->post_date ) ),
 			10 => __( 'Form draft updated.', 'constantcontact' ),
 		);
 
