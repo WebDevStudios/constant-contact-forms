@@ -46,36 +46,23 @@ class ConstantContact_Admin {
 	protected $options_page = '';
 
 	/**
-	 * Holds an instance of the object.
+	 * Parent plugin class
 	 *
-	 * @since 1.0.0
-	 * @var BuddyExtender_Admin
+	 * @var   class
+	 * @since 0.0.1
 	 */
-	private static $instance = null;
+	protected $plugin = null;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
+	 * @return void
 	 */
-	private function __construct() {
-		// Set our title.
-		$this->title = __( constant_contact()->plugin_name, 'constantcontact' );
-	}
-
-	/**
-	 * Returns the running object
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return BuddyExtender_Admin
-	 */
-	public static function get_instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new ConstantContact_Admin();
-			self::$instance->hooks();
-		}
-		return self::$instance;
+	public function __construct( $plugin, $basename ) {
+		$this->plugin = $plugin;
+		$this->basename = $basename;
+		$this->hooks();
 	}
 
 	/**
@@ -350,17 +337,6 @@ class ConstantContact_Admin {
 }
 
 /**
- * Helper function to get/return the BPExtender_Admin object.
- *
- * @since 1.0.0
- *
- * @return ConstantContact_Admin object.
- */
-function constantcontact_admin() {
-	return ConstantContact_Admin::get_instance();
-}
-
-/**
  * Wrapper function around cmb2_get_option.
  *
  * @since 1.0.0
@@ -369,8 +345,5 @@ function constantcontact_admin() {
  * @return mixed Option value.
  */
 function constantcontact_get_option( $key = '' ) {
-	return cmb2_get_option( constantcontact_admin()->key, $key );
+	return cmb2_get_option( constantcontact()->admin->key, $key );
 }
-
-// Get it started.
-constantcontact_admin();

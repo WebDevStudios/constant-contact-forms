@@ -135,9 +135,11 @@ class Constant_Contact {
 	 */
 	protected static $single_instance = null;
 
+	private $admin;
 	private $admin_pages;
 	private $api;
 	private $builder;
+	private $connect;
 	private $ctct_forms;
 	private $display;
 	private $lists;
@@ -173,6 +175,10 @@ class Constant_Contact {
 
 		$this->load_libs();
 		$this->plugin_classes();
+
+		if ( is_admin() ) {
+			$this->admin_plugin_classes();
+		}
 	}
 
 	/**
@@ -182,7 +188,6 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function plugin_classes() {
-		$this->admin_pages  = new ConstantContact_Admin_Pages( $this );
 		$this->api          = new ConstantContact_API( $this );
 		$this->builder      = new ConstantContact_Builder( $this );
 		$this->ctct_forms   = new ConstantContact_CPTS( $this );
@@ -190,6 +195,18 @@ class Constant_Contact {
 		$this->lists        = new ConstantContact_Lists( $this );
 		$this->process_form = new ConstantContact_Process_Form( $this );
 		$this->settings     = new ConstantContact_Settings( $this );
+	}
+
+	/**
+	 * Attach other plugin classes to the base plugin class, but only in the admin
+	 *
+	 * @since  1.0.0
+	 * @return void
+	 */
+	public function admin_plugin_classes() {
+		$this->admin       = new ConstantContact_Admin( $this, $this->basename );
+		$this->admin_pages = new ConstantContact_Admin_Pages( $this );
+		$this->connect     = new ConstantContact_Connect( $this );
 	}
 
 	/**
@@ -274,18 +291,6 @@ class Constant_Contact {
 		if ( file_exists( __DIR__ . '/inc/auth-redirect.php' ) ) {
 			require_once  __DIR__ . '/inc/auth-redirect.php';
 		}
-
-		// Only load in admin.
-		if ( is_admin() ) {
-
-			if ( file_exists( __DIR__ . '/includes/class-admin.php' ) ) {
-				require_once  __DIR__ . '/includes/class-admin.php';
-			}
-
-			if ( file_exists( __DIR__ . '/includes/class-connect.php' ) ) {
-				require_once  __DIR__ . '/includes/class-connect.php';
-			}
-		}
 	}
 
 	/**
@@ -300,13 +305,17 @@ class Constant_Contact {
 		switch ( $field ) {
 			case 'version':
 				return self::VERSION;
+			case 'admin':
 			case 'admin_pages':
 			case 'api':
 			case 'basename':
 			case 'builder':
+			case 'connect':
+			case 'ctct_forms':
 			case 'display':
 			case 'lists':
 			case 'path':
+			case 'plugin_name':
 			case 'process_form':
 			case 'settings':
 			case 'url':

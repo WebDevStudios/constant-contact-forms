@@ -46,31 +46,22 @@ class ConstantContact_Connect {
 	private $redirect_url = '';
 
 	/**
-	 * Holds an instance of the project
+	 * Parent plugin class
 	 *
-	 * @var object
+	 * @var   class
+	 * @since 0.0.1
 	 */
-	private static $instance = null;
+	protected $plugin = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
+	 * @return void
 	 */
-	private function __construct() {
-	}
-
-	/**
-	 * Get the running object
-	 *
-	 * @return ConstantContact_Connect
-	 **/
-	public static function get_instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-			self::$instance->hooks();
-		}
-		return self::$instance;
+	public function __construct( $plugin ) {
+		$this->plugin = $plugin;
+		$this->hooks();
 	}
 
 	/**
@@ -92,16 +83,26 @@ class ConstantContact_Connect {
 	 */
 	public function init() {
 
-		$path = add_query_arg( array(
-			'post_type' => 'ctct_forms',
-			'page' => 'ctct_options_connect',
-		), admin_url( 'edit.php' ) );
-		$this->redirect_url = $path;
+		$this->redirect_url = add_query_arg(
+			array(
+				'post_type' => 'ctct_forms',
+				'page'      => 'ctct_options_connect',
+			),
+			admin_url( 'edit.php' )
+		);
 
 		// Instantiate the CtctOAuth2 class.
-		$this->oauth = new CtctOAuth2( constantcontact_api()->get_api_token( 'CTCT_APIKEY' ), constantcontact_api()->get_api_token( 'CTCT_SECRETKEY' ), get_site_url() . '/?auth=ctct' );
-		$this->disconnect();
+		$oath_connect = new CtctOAuth2(
+			constant_contact()->api->get_api_token( 'CTCT_APIKEY' ),
+			constant_contact()->api->get_api_token( 'CTCT_SECRETKEY' ),
+			add_query_arg( array( 'auth' => 'ctct' ), get_site_url() )
+		);
 
+		// Make sure that the connect worked before setting as class prop
+		if ( $oath_connect ) {
+			$this->oauth = $oath_connect;
+			$this->disconnect();
+		}
 	}
 
 	/**
@@ -186,7 +187,7 @@ class ConstantContact_Connect {
 
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>">
 
-			<?php echo esc_html( constantcontact_connect_error_message() ); ?>
+			<?php echo esc_html( $this->connect_error_message() ); ?>
 
 			<?php if ( $token = constantcontact_api()->get_api_token() ) : ?>
 
@@ -253,43 +254,28 @@ class ConstantContact_Connect {
 	 */
 	private function api_error_message( $error ) {
 
+		if ( ! isset( $error->error_key ) ) {
+			return false;
+		}
+
 		switch ( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
 				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constantcontact' );
 			break;
 			default:
-			 return false;
+				return false;
 			break;
 
 		}
 
 	}
-}
 
-/**
- * Helper function to get/return the ConstantContact_Connect object
- *
- * @since  1.0.0
- * @return ConstantContact_Connect object
- */
-function ctct_connect_admin() {
-	return ConstantContact_Connect::get_instance();
-}
-
-// Get it started.
-ctct_connect_admin();
-
-/**
- * If error then displays a notice
- *
- * @return string
- */
-function constantcontact_connect_error_message() {
-	if ( $message = ctct_connect_admin()->error_message ) {
-		$notice = '<div class="message error notice"><p>';
-		$notice .= ctct_connect_admin()->error_message;
-		$notice .= '</p></div>';
-
-		return $notice;
+	/**
+	 * If error then displays a notice
+	 *
+	 * @return string
+	 */
+	public function connect_error_message( $message ) {
+			return '<div class="message error notice"><p>' . esc_attr( $message ) . '</p></div>';
 	}
 }
