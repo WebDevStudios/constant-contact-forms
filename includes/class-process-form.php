@@ -50,10 +50,11 @@ class ConstantContact_Process_Form {
 		    ! wp_verify_nonce( $_POST['ctct_form'], 'ctct_submit_form' )
 		) {
 			// figure out a way to pass errors back
-			return;
+			return array(
+				'status' => 'named_error',
+				'error'  => __( 'Nonce verification failed.', 'constantcontact' ),
+			);
 		}
-
-		$return = array();
 
 		// If the submit button is clicked, send the email.
 		foreach ( $_POST as $key => $value ) {
@@ -71,13 +72,15 @@ class ConstantContact_Process_Form {
 			}
 
 			// Add our responses to a form we can deal with shortly.
-			$return[] = array(
-				'key'   => esc_attr( $key ),
-				'value' => esc_attr( $value ),
-			);
+			$return['values'][ esc_attr( $key ) ] = esc_attr( $value );
 		}
 
-		return $return;
+		// @ TODO need to replcae this to account for our dynamic form names
+		// if we're not processing the opt-in stuff, we can just return our data here
+		if ( ! isset( $_POST['ctct-opti-in'] ) ) {
+			$return['status'] = 'error';
+			return $return;
+		}
 
 		// @ TODO need to replcae this to account for our dynamic form names
 		if ( isset( $_POST['ctct-opti-in'] ) ) {
@@ -92,14 +95,6 @@ class ConstantContact_Process_Form {
 			}
 
 			// $contact = constantcontact_api()->add_contact( $args );
-
-			// @ todo need to replace, as this only lets one form be submitted
-			// on the site at a time
-			if ( $contact ) {
-				set_transient( 'ctct_form_submit_message', 'success' );
-			} else {
-				set_transient( 'ctct_form_submit_message', 'error' );
-			}
 
 	        // // sanitize form values
 	        // $name   = isset( $_ctct_first_name ) ? $_ctct_first_name : '';
@@ -130,30 +125,47 @@ class ConstantContact_Process_Form {
 	 */
 	public function process_wrapper() {
 
-		$status = $this->process_form();
+		// Process our data, and get our response.
+		$processed = $this->process_form();
 
-		if ( ! $status ) {
-			return false;
+		// set up our default error
+		$default_error = __( 'There was an error sending your form.', 'constantcontact' );
+
+		// default to no status
+		$status = false;
+
+		// If we got a status back, check that in our list of returns
+		if ( isset( $processed['status'] ) && $processed['status'] ) {
+			$status = $processed['status'];
 		}
 
-		// @todo this needs to be replaced
-		// if ( $message = get_transient( 'ctct_form_submit_message' ) ) {
-		$message = 'success';
+		// switch based on our status code
+		switch ( $status ) {
 
-		switch ( $message ) {
+			// yay success
 			case 'success':
-				$message_text = __( 'Your message has been sent!', 'constantcontact' );
+				$message = __( 'Your message has been sent.', 'constantcontact' );
 				break;
+
+			// generic error
 			case 'error':
-				$message_text = __( 'Your message failed to send!', 'constantcontact' );
+				$message = $default_error;
+				break;
+
+			// named error from our process
+			case 'named_error':
+				$message = isset( $processed['error'] ) ? $processed['error'] : $default_error;
+				break;
+
+			// all else fails, use default
+			default:
+				$message = '';
 				break;
 		}
 
-			$return = sprintf( '<p class="message ' . esc_attr( $message ) . '"> %s </p>', esc_attr( $message_text ) );
-
-			// delete_transient( 'ctct_form_submit_message' );
-
-			return $return;
-		// }
+		return array(
+			'status'  => $status,
+			'message' => $message,
+		);
 	}
 }

@@ -38,15 +38,32 @@ class ConstantContact_Display {
 	 */
 	public function form( $form_data ) {
 
+		$return = '';
+
 		$response = constant_contact()->process_form->process_wrapper();
 
-		if ( $response ) {
-			return wp_kses_post( $response );
+		$error_message = false;
+		$status        = false;
+
+		if (
+			$response &&
+			isset( $response['message'] ) &&
+			isset( $response['status'] )
+		) {
+			if ( 'success' == $response['status'] ) {
+				return '<p class="message success">' . esc_attr( $response['message'] ) . '</p>';
+			} else {
+				$status = 'error';
+				$error_message = $response['message'];
+			}
+		}
+
+		if ( 'error' == $status || $error_message ) {
+			$return .= '<p class="message ' . esc_attr( $status ) . '">' . esc_attr( $error_message ) . '</p>';
 		}
 
 		global $wp;
-
-		$return = '<form id="ctct-form" action="' . esc_url( trailingslashit( add_query_arg( '', '', home_url( $wp->request ) ) ) ) . '" method="post">';
+		$return .= '<form id="ctct-form" action="' . esc_url( trailingslashit( add_query_arg( '', '', home_url( $wp->request ) ) ) ) . '" method="post">';
 
 		$return .= $this->build_form_fields( $form_data );
 
