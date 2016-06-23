@@ -61,6 +61,36 @@ class ConstantContact_Process_Form {
 			);
 		}
 
+		// Make sure we have an original form id
+		$orig_form_id = absint( $_POST['ctct-id'] );
+		if ( ! $orig_form_id ) {
+			return array(
+				'status' => 'named_error',
+				'error'  => __( 'Mismatch in submitted Form ID.', 'constantcontact' ),
+			);
+		}
+
+		// Make sure we have a verify value
+		$form_verify = esc_attr( $_POST['ctct-verify'] );
+		if ( ! $form_verify ) {
+			return array(
+				'status' => 'named_error',
+				'error'  => __( 'Mismatch in submitted Form ID.', 'constantcontact' ),
+			);
+		}
+
+		// Make sure our verify key matches our saved one
+		$orig_verify = get_post_meta( $orig_form_id, '_ctct_verify_key', true );
+		if ( $orig_verify != $form_verify ) {
+			return array(
+				'status' => 'named_error',
+				'error'  => __( 'Mismatch in submitted Form ID.', 'constantcontact' ),
+			);
+		}
+
+		// @TODO at this point we can process and check required fields / all fields are there
+		// etc
+
 		// If the submit button is clicked, send the email.
 		foreach ( $_POST as $key => $value ) {
 
