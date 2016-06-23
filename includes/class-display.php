@@ -38,11 +38,16 @@ class ConstantContact_Display {
 	 */
 	public function form( $form_data ) {
 
+		$response = constant_contact()->process_form->process_wrapper();
+
+		if ( $response ) {
+			return wp_kses_post( $response );
+		}
+
 		global $wp;
 
 		$return = '<form id="ctct-form" action="' . esc_url( trailingslashit( add_query_arg( '', '', home_url( $wp->request ) ) ) ) . '" method="post">';
 
-		$return .= constant_contact()->process_form->submit_message();
 		$return .= $this->build_form_fields( $form_data );
 
 		$return .= '<p><input type="submit" name="ctct-submitted" value="' . __( 'Send', 'constantcontact' ) . '"/></p>';

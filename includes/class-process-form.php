@@ -29,17 +29,6 @@ class ConstantContact_Process_Form {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->hooks();
-	}
-
-	/**
-	 * Initiate our hooks.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function hooks() {
-		add_action( 'cmb2_init', array( $this, 'process_form' ) );
 	}
 
 	/**
@@ -64,28 +53,51 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
-	    // If the submit button is clicked, send the email.
+		$return = array();
+
+		// If the submit button is clicked, send the email.
 		foreach ( $_POST as $key => $value ) {
-		    if ( isset( $key ) ) {
-				if ( 'ctct-email' === $key ) {
-					$email = sanitize_email( $key );
-				} else {
-					${$key} = sanitize_text_field( $value );
-				}
+
+			// Allow ignoring of certain keys, like our nonce.
+			$ignored_keys = apply_filters( 'constant_contact_ignored_post_form_values', array(
+				'ctct-submitted',
+				'ctct_form',
+				'_wp_http_referer',
+			) );
+
+			// if our key we're processing is in our array, ignore it
+			if ( in_array( $key, $ignored_keys ) ) {
+				continue;
 			}
+
+			// Add our responses to a form we can deal with shortly.
+			$return[] = array(
+				'key'   => esc_attr( $key ),
+				'value' => esc_attr( $value ),
+			);
 		}
 
+		return $return;
+
+
+
+		// @ TODO need to replcae this to account for our dynamic form names
 		if ( isset( $_POST['ctct-opti-in'] ) ) {
 
-			$args = array(
-				'email' => sanitize_email( $_POST['ctct-email'] ),
-				'list' => sanitize_text_field( $_POST['ctct-opti-in'] ),
-				'first_name' => 'test name',
-				'last_name' => '',
-			);
+			if ( isset( $_POST['ctct-email'] ) && isset( $_POST['ctct-opti-in'] ) ) {
+				$args = array(
+					'email' => sanitize_email(  ),
+					'list' => sanitize_text_field( $_POST['ctct-opti-in'] ),
+					'first_name' => '',
+					'last_name' => '',
+				);
+			}
 
 			// $contact = constantcontact_api()->add_contact( $args );
 
+
+			// @ todo need to replace, as this only lets one form be submitted
+			// on the site at a time
 			if ( $contact ) {
 				set_transient( 'ctct_form_submit_message', 'success' );
 			} else {
@@ -119,9 +131,17 @@ class ConstantContact_Process_Form {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function submit_message() {
+	public function process_wrapper() {
 
-		if ( $message = get_transient( 'ctct_form_submit_message' ) ) {
+		$status = $this->process_form();
+
+		if ( ! $status ) {
+			return false;
+		}
+
+		// @todo this needs to be replaced
+		// if ( $message = get_transient( 'ctct_form_submit_message' ) ) {
+		$message = 'success';
 
 			switch ( $message ) {
 				case 'success':
@@ -134,9 +154,9 @@ class ConstantContact_Process_Form {
 
 			$return = sprintf( '<p class="message ' . esc_attr( $message ) . '"> %s </p>', esc_attr( $message_text ) );
 
-			delete_transient( 'ctct_form_submit_message' );
+			// delete_transient( 'ctct_form_submit_message' );
 
 			return $return;
-		}
+		// }
 	}
 }
