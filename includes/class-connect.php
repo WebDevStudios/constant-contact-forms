@@ -163,7 +163,8 @@ class ConstantContact_Connect {
 					$( '.ctct-disconnect' ).on( 'click', function(e) {
 						var disconnect = confirm('<?php esc_html_e( 'Are you sure you want to disconnect?', 'constantcontact' ); ?>');
 						if (disconnect) {
-							window.location.href = '<?php echo esc_url( $this->redirect_url . '&ctct-disconnect=true' ); ?>';
+							<?php // @TODO replace this so there is also a nonce ?>
+							window.location.href = '<?php echo esc_url( add_query_arg( array( 'ctct-disconnect' => 'true' ), $this->redirect_url ) ); ?>';
 						}
 					});
 				});
