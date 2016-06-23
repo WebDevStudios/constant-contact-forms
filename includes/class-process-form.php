@@ -44,6 +44,11 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
+		// If we don't have our submitted form id, just bail out
+		if ( ! isset( $_POST['ctct-id'] ) ) {
+			return;
+		}
+
 		// Verify our nonce first
 		if (
 		    ! isset( $_POST['ctct_form'] ) ||

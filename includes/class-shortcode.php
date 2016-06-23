@@ -48,8 +48,14 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				return;
 			}
 
+			// sanity check it
+			$form_id = absint( $atts['form'] );
+			if ( ! $form_id ) {
+				return;
+			}
+
 			// Grab all post meta.
-			$meta = get_post_meta( $atts['form'] );
+			$meta = get_post_meta( $form_id );
 
 			// Bail if we didn't get meta.
 			if ( ! $meta ) {
@@ -57,7 +63,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			}
 
 			// Pass our data into our field method.
-			$form_data = $this->get_field_meta( $meta );
+			$form_data = $this->get_field_meta( $meta, $form_id );
 
 			// Return our markup.
 			return constant_contact()->display->form( $form_data );
@@ -71,7 +77,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 * @param  array $form_meta post meta.
 		 * @return array  form field data
 		 */
-		public function get_field_meta( $form_meta ) {
+		public function get_field_meta( $form_meta, $form_id ) {
 
 			// Bail if we don't have form meta.
 			if ( empty( $form_meta ) || ! is_array( $form_meta ) ) {
@@ -85,7 +91,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				isset( $form_meta['custom_fields_group'][0] )
 			) {
 				// If we passed all the checks, try to grab the data.
-				return $this->get_field_values( $form_meta['custom_fields_group'][0], $form_meta );
+				return $this->get_field_values( $form_meta['custom_fields_group'][0], $form_meta, $form_id );
 			}
 		}
 
@@ -96,7 +102,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 * @param  array $custom_fields custom fields to parse through.
 		 * @return string                form field markup
 		 */
-		public function get_field_values( $custom_fields, $full_data ) {
+		public function get_field_values( $custom_fields, $full_data, $form_id ) {
 
 			// We may get serialized data, so undo that.
 			$custom_fields = maybe_unserialize( $custom_fields );
@@ -143,6 +149,10 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 
 			// Now that we've finished checking all of our form fields, we'll
 			// want to set some general form information here.
+
+			if ( $form_id ) {
+				$fields['options']['form_id'] = $form_id;
+			}
 
 			if ( isset( $full_data['_ctct_description'] ) && isset( $full_data['_ctct_description'][0] ) ) {
 				$fields['options']['description'] = $full_data['_ctct_description'][0];

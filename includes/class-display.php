@@ -67,6 +67,15 @@ class ConstantContact_Display {
 
 		$return .= $this->build_form_fields( $form_data );
 
+		if (
+			isset( $form_data ) &&
+			isset( $form_data['options'] ) &&
+			isset( $form_data['options']['form_id'] )
+		) {
+			// Add hidden field with our form id in it
+			$return .= '<input type="hidden" id="ctct-id" name="ctct-id" value="' . esc_attr( $form_data['options']['form_id'] ) . '">';
+		}
+
 		$return .= '<p><input type="submit" name="ctct-submitted" value="' . __( 'Send', 'constantcontact' ) . '"/></p>';
 		$return .= wp_nonce_field( 'ctct_submit_form', 'ctct_form', true, false );
 
