@@ -87,22 +87,43 @@ class ConstantContact_Display {
 		return $return;
 	}
 
+	/**
+	 * Wrapper for single field display
+	 *
+	 * @author Brad Parbs
+	 * @param  array $field field data
+	 * @return string        html markup
+	 */
 	public function field( $field ) {
 
-		$required = isset( $field['required'] ) ? ' * required' : '';
+		// If we don't have a name or a mapping, it will be hard to do things.
+		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
+			return;
+		}
 
-		$return = '<div><p><label>' . esc_attr( $field['name'] ) . esc_attr( $required ) . '</label></br>';
+		// Check all our data points.
+		$name   = esc_attr( $field['name'] );
+		$f_id   = esc_attr( $field['map_to'] );
+		$desc   = esc_attr( isset( $field['description'] ) ? $field['description'] : '' );
+		$type   = esc_attr( isset( $field['type'] ) ? $field['type'] : 'text_field' );
+		$req    = isset( $field['required'] ) ? $field['required'] : false;
 
-		$field_name = esc_attr( $field['map_to'] );
-		$field_value = ( isset( $_POST[ 'ctct-' . $field['map_to'] ] ) ? esc_attr( $_POST[ 'ctct-' . $field['map_to'] ] ) : '' );
+		// @TODO this could be better
+		$required_text = $req ? ' *' : '';
 
-		switch ( $field['map_to'] ) {
+		// @todo clean this
+		$return = '<div><p><label>' . esc_attr( $field['name'] ) . esc_attr( $required_text ) . '</label></br>';
+
+		// @todo what the heck is this
+		$field_value = ( isset( $_POST[ 'ctct-' . $f_id ] ) ? esc_attr( $_POST[ 'ctct-' . $f_id ] ) : '' );
+
+		switch ( $f_id ) {
 
 			case 'email':
-					$return .= '<input type="email" required name="ctct-' . esc_attr( $field_name ) . '" value="' . esc_attr( $field_value ) . '" tabindex="1" size="40"></p></div>';
+				$return .= '<input type="email" required name="ctct-' . esc_attr( $name ) . '" value="' . esc_attr( $field_value ) . '"></p></div>';
 			break;
 			default:
-					$return .= '<input type="text" pattern="[a-zA-Z0-9 ]+" name="ctct-' . esc_attr( $field_name ) . '" value="' . esc_attr( $field_value ) . '" tabindex="1" size="40"></p></div>';
+				$return .= '<input type="text" name="ctct-' . esc_attr( $name ) . '" value="' . esc_attr( $field_value ) . '"></p></div>';
 			break;
 		}
 
