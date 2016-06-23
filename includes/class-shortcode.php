@@ -49,7 +49,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			}
 
 			// Grab all post meta
-			$meta = get_post_meta( $atts['form'] . 'a' );
+			$meta = get_post_meta( $atts['form'] );
 
 			// Bail if we didn't get meta
 			if ( ! $meta ) {
