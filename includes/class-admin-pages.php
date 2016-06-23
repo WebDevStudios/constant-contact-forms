@@ -217,12 +217,182 @@ class ConstantContact_Admin_Pages {
 		</div><?php
 	}
 
+
 	/**
 	 * Display our about page
 	 *
 	 */
 	public function about_page() {
-		echo 'yo about';
+
+		// make it so pretty
+		wp_enqueue_style( 'constant_contact_admin_pages' );
+
+		?>
+		<div class="wrap about-wrap constant-contact-about">
+			<div class="hide-overflow">
+				<div class="left-side">
+					<h1 class="about-header"><?php echo esc_attr( $this->get_text( 'welcome_heading' ) ); ?></h1>
+					<div class="about-text">
+						<?php echo esc_attr( $this->get_text( 'welcome_text' ) ); ?>
+						<input type="button" class="button-primary ctct-disconnect" value="Connect Now!">
+					</div>
+				</div>
+				<div class="plugin-badge">
+					<img src="<?php echo esc_url( $this->get_text( 'icon' ) ); ?>">
+				</div>
+			</div>
+
+			<?php $this->tab_navigation(); ?>
+
+			<div class="headline-feature">
+				<h3 class="headline-title">
+					<?php echo esc_html( $this->get_text( 'feat_headline' ) ); ?>
+				</h3>
+
+				<div class="featured-image">
+					<img src="<?php echo esc_url( $this->get_text( 'feat_image' ) ); ?>">
+					<p class="featured-title c-text">
+						<?php echo esc_html( $this->get_text( 'feat_title' ) ); ?>
+					</p>
+					<p class="featured-introduction c-text">
+						<?php echo esc_html( $this->get_text( 'feat_sub_title' ) ); ?>
+					</p>
+				</div>
+				<p class="introduction c-text">
+					<?php echo esc_html( $this->get_text( 'feat_description' ) ); ?>
+				</p>
+				<div class="clear"></div>
+			</div>
+			<hr />
+			<div class="features-section">
+				<div class="feature-section<?php echo ( count( $this->get_text( 'features' ) ) >= 2 ) ? ' two-col' : ''; ?> ">
+					<?php
+					// get our features
+					$features = $this->get_text( 'features' );
+
+					// make sure its an array
+					if ( is_array( $features ) ) {
+
+						// loop through those features
+						foreach ( $features as $feature ) {
+
+							// Make sure we have the right though
+							if (
+								! isset( $feature['title'] ) ||
+								! isset( $feature['description'] )
+							) {
+								continue;
+							}
+						?>
+						<div>
+							<h3 class="feature-title c-text">
+								<?php echo esc_html( $feature['title'] ); ?>
+							</h3>
+							<?php if ( ! empty( $feature['image'] ) ) { ?>
+							<div class="feature-image">
+								<?php
+								$alt = isset( $feature['alt'] ) ? $feature['alt'] : '';
+								$alt = 'alt="' . esc_attr( $alt ) . '"';
+								?>
+								<img class="fff-img" src="<?php echo esc_url( $feature['image'] );?>" <?php echo $alt; ?>">
+							</div>
+							<?php } ?>
+							<p class="c-text">
+								<?php echo esc_html( $feature['description'] ); ?>
+							</p>
+						</div>
+						<?php
+						}
+					}
+				?>
+				</div>
+			</div>
+		</div>
+
+		<?php
+	}
+
+	/**
+	 * Holds all the data for the about page
+	 *
+	 * @author Brad Parbs
+	 * @param  string $key           array key of text to retrieve
+	 * @param  text $secondary_key   optional second key for nested array
+	 * @return mixed                If no params are passed in, all data returned.
+	                                passing one key will return that data if it exists,
+	                                either as a string or array. The secondary key will grab a nested
+	                                array data point.
+	 */
+	public function get_text( $key = null, $secondary_key = null ) {
+
+		$about_page_data = apply_filters( 'constant_contact_about_page_date', array(
+
+				'plugin'  => constant_contact()->plugin_name,
+				'version' => constant_contact()->version,
+				'icon'    => constant_contact()->url . 'assets/images/icon.jpg',
+
+				'welcome_heading'  => __( 'Welcome to Constant Contact', 'constantcontact' ),
+				'welcome_text'     => __( 'Powerful Email Marketing, Made Simple. For every dollar spent on email marketing, small businesses make an average of $40 back. * Stats like that make email marketing a must for small businesses. And with Constant Contact, you also get the free award-winning coaching, and resources to see results like that, faster.', 'constantcontact' ),
+				'feat_headline'    => __( '', 'constantcontact' ),
+				'feat_image'       => constant_contact()->url . 'assets/images/coffee-hero.jpg',
+				'feat_title'       => __( 'Powerful Email Marketing, Made Simple.', 'constantcontact' ),
+				'feat_sub_title'   => __( 'Create professional emails that bring customers to your door', 'constantcontact' ),
+				'feat_description' => __( 'Email marketing is good for your business. $44-back-for-every-$1-spent kind of good.* And with a tool as powerful and easy to use as Constant Contact, you don’t need to be a marketing expert to see results. *Direct Marketing Association 2013 Statistical Fact Book', 'constantcontact' ),
+
+				'features' => array(
+					array(
+						'title'       => __( 'Easy Contact management.', 'constantcontact' ),
+						'image'       => constant_contact()->url . 'assets/images/contacts.png',
+						'alt'         => __( 'Reporting management screen', 'constantcontact' ),
+						'description' => __( 'Create custom forms and add users to contact lists.', 'constantcontact' ),
+					),
+					array(
+						'title'       => __( 'Track Your Success', 'constantcontact' ),
+						'image'       => constant_contact()->url . 'assets/images/reporting.png',
+						'alt'         => __( 'Graph of increasing bars', 'constantcontact' ),
+						'description' => __( "Our email tracking tools tell you who's opening, clicking, and sharing your emails and social posts in real time.", 'constantcontact' ),
+					),
+				),
+		) );
+
+		// If we didn't pass a key, return all the data
+		if ( ! $key ) {
+			return $about_page_data;
+		}
+
+		// if we passed a key, check to see if we can return that key itself
+		if ( isset( $about_page_data[ $key ] ) ) {
+
+			// if we also have a secondary key, check for that
+			if ( $secondary_key ) {
+				if ( isset( $about_page_data[ $key ][ $secondary_key ] ) ) {
+					return $about_page_data[ $key ][ $secondary_key ];
+				}
+			}
+			return $about_page_data[ $key ];
+		}
+
+		return '';
+
+	}
+
+	/**
+	 * Output our tab navigation.
+	 *
+	 * @internal
+	 * @since 1.0.0
+	 * @param string $tab Active tab.
+	 */
+	public function tab_navigation( $tab = 'whats_new' ) {
+	?>
+
+		<h2 class="nav-tab-wrapper">
+			<a class="nav-tab <?php if ( 'ConstantContact_Admin_About::about_screen' === $tab ) : ?>nav-tab-active<?php endif; ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'cptui_about' ), 'index.php' ) ) ); ?>">
+				<?php esc_html_e( 'What&#8217;s New', 'constantcontact' ); ?>
+			</a>
+		</h2>
+
+	<?php
 	}
 }
 
