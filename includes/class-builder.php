@@ -182,7 +182,6 @@ class ConstantContact_Builder {
 			'id'          => $prefix . 'required_field',
 			'type'        => 'checkbox',
 			'row_classes' => 'required',
-			'default'     => 'on',
 		) );
 
 	}
