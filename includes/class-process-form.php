@@ -50,58 +50,66 @@ class ConstantContact_Process_Form {
 	 */
 	public function process_form() {
 
-		$notice = array();
+		// If we don't have our submitted action, just bail out
+		if ( ! isset( $_POST['ctct-submitted'] ) ) {
+			return;
+		}
+
+		// Verify our nonce first
+		if (
+		    ! isset( $_POST['ctct_form'] ) ||
+		    ! wp_verify_nonce( $_POST['ctct_form'], 'ctct_submit_form' )
+		) {
+			// figure out a way to pass errors back
+			return;
+		}
 
 	    // If the submit button is clicked, send the email.
-	    if ( isset( $_POST['ctct-submitted'] ) ) {
-
-			foreach ( $_POST as $key => $value ) {
-			    if ( isset( $key ) ) {
-					if ( 'ctct-email' === $key ) {
-						$email = sanitize_email( $key );
-					} else {
-						${$key} = sanitize_text_field( $value );
-					}
-				}
-			}
-
-			if ( isset( $_POST['ctct-opti-in'] ) ) {
-
-				$args = array(
-					'email' => sanitize_email( $_POST['ctct-email'] ),
-					'list' => sanitize_text_field( $_POST['ctct-opti-in'] ),
-					'first_name' => 'test name',
-					'last_name' => '',
-				);
-
-				$contact = constantcontact_api()->add_contact( $args );
-
-				if ( $contact ) {
-					set_transient( 'ctct_form_submit_message', 'success' );
+		foreach ( $_POST as $key => $value ) {
+		    if ( isset( $key ) ) {
+				if ( 'ctct-email' === $key ) {
+					$email = sanitize_email( $key );
 				} else {
-					set_transient( 'ctct_form_submit_message', 'error' );
+					${$key} = sanitize_text_field( $value );
 				}
-			} else {
-
-		        // // sanitize form values
-		        // $name   = isset( $_ctct_first_name ) ? $_ctct_first_name : '';
-				// $subject = '';
-				// $message = '';
-				//
-		        // // get the blog administrator's email address
-		        // $to = get_option( 'admin_email' );
-		        // $headers = "From: $name <$email>" . "\r\n";
-
-		        // // If email has been process for sending, display a success message
-		        // if ( wp_mail( $to, $subject, $message, $headers ) ) {
-		        //     echo '<div>';
-		        //     echo '<p>Thanks for contacting me, expect a response soon.</p>';
-		        //     echo '</div>';
-		        // } else {
-		        //     echo 'An unexpected error occurred';
-		        // }
-
 			}
+		}
+
+		if ( isset( $_POST['ctct-opti-in'] ) ) {
+
+			$args = array(
+				'email' => sanitize_email( $_POST['ctct-email'] ),
+				'list' => sanitize_text_field( $_POST['ctct-opti-in'] ),
+				'first_name' => 'test name',
+				'last_name' => '',
+			);
+
+			// $contact = constantcontact_api()->add_contact( $args );
+
+			if ( $contact ) {
+				set_transient( 'ctct_form_submit_message', 'success' );
+			} else {
+				set_transient( 'ctct_form_submit_message', 'error' );
+			}
+
+	        // // sanitize form values
+	        // $name   = isset( $_ctct_first_name ) ? $_ctct_first_name : '';
+			// $subject = '';
+			// $message = '';
+			//
+	        // // get the blog administrator's email address
+	        // $to = get_option( 'admin_email' );
+	        // $headers = "From: $name <$email>" . "\r\n";
+
+	        // // If email has been process for sending, display a success message
+	        // if ( wp_mail( $to, $subject, $message, $headers ) ) {
+	        //     echo '<div>';
+	        //     echo '<p>Thanks for contacting me, expect a response soon.</p>';
+	        //     echo '</div>';
+	        // } else {
+	        //     echo 'An unexpected error occurred';
+	        // }
+
 		}
 	}
 
