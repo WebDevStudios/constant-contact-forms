@@ -301,11 +301,11 @@ class ConstantContact_Display {
 	public function field_top( $type = '', $name = '', $f_id = '', $label = '', $req = false, $use_label = true ) {
 
 		// Set blank defaults for required info
-		$required_label = '';
+		$req_label = '';
 
 		// If this is required, we output the HMTL5 required att
 		if ( $req ) {
-			$required_label = apply_filters( 'constant_contact_required_text_label', '* ' );
+			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>&nbsp;' );
 		}
 
 		// Start building our return markup
@@ -315,7 +315,7 @@ class ConstantContact_Display {
 		if ( $use_label && 'submit' != $type ) {
 
 			// Our field label will be the form name + required asterisk + our label
-			$markup .= $this->get_label( $f_id, $name . ' ' . $required_label . $label );
+			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label . $label );
 		}
 
 		// return it
