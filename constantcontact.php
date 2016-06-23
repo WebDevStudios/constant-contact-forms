@@ -59,14 +59,6 @@ function constant_contact_autoload_classes( $class_name ) {
 }
 spl_autoload_register( 'constant_contact_autoload_classes' );
 
-// Ryan's test APP Keys.
-// define( 'CTCT_APIKEY', '595r3d4q432c3mdv2jtd3nj9' );
-// define( 'CTCT_SECRETKEY', 'XJ9H8n5m8fqt2WBpSk6E6dJm' );
-
-// CTCT APP keys.
-// define( 'CTCT_APIKEY', '6g9ecnn4d5epme94wpq26m77' );
-// define( 'CTCT_SECRETKEY', 'FxAkakNMj5HjwQUncQ2hMYj6' );
-
 /**
  * Main initiation class
  *
