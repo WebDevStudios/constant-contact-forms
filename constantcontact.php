@@ -286,10 +286,6 @@ class Constant_Contact {
 			require_once  __DIR__ . '/inc/auth-redirect.php';
 		}
 
-		if ( file_exists( __DIR__ . '/includes/class-builder.php' ) ) {
-			require_once  __DIR__ . '/includes/class-builder.php';
-		}
-
 		// Only load in admin.
 		if ( is_admin() ) {
 
