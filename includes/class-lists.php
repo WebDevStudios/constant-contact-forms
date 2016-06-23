@@ -148,7 +148,6 @@ class ConstantContact_Lists {
 			return;
 		}
 
-
 		// Grab all our lists that we have
 		$query = new WP_Query( apply_filters( 'constant_contact_lists_query_for_sync', array(
 			'post_type'	             => 'ctct_lists',
@@ -323,7 +322,6 @@ class ConstantContact_Lists {
 			return $this->_add_list( $ctct_list );
 		}
 
-
 	}
 
 	/**
@@ -408,7 +406,6 @@ class ConstantContact_Lists {
 			 * @param array $list ctct returned list data
 			 */
 			do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
-
 
 			// check to make sure our api request was good
 			if ( is_object( $list ) && isset( $list->id ) ) {
