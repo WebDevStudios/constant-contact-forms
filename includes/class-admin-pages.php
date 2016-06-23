@@ -89,6 +89,44 @@ class ConstantContact_Admin_Pages {
 	}
 
 	/**
+	 * Gets the help text for help page
+	 *
+	 * @author Brad Parbs
+	 * @return array array of all the help text
+	 */
+	public function get_help_texts() {
+		return apply_filters( 'constant_contact_help_texts', array(
+			array(
+				'title' => __( 'Help', 'constantcontact' ),
+				'content' => __( 'plugin is a plugin by WebDevStudios', 'constantcontact' ),
+			),
+			array(
+				'title' => __( 'Help 2', 'constantcontact' ),
+				'content' => __( 'plugin is a plugin by WebDevStudios', 'constantcontact' ),
+			),
+		) );
+	}
+
+	/**
+	 * Get faq text for help page
+	 *
+	 * @author Brad Parbs
+	 * @return array array of all the text
+	 */
+	public function get_faq_texts() {
+		return apply_filters( 'constant_contact_faq_texts', array(
+			array(
+				'title' => __( 'FAQ', 'constantcontact' ),
+				'content' => __( 'This is a sample answer', 'constantcontact' ),
+			),
+			array(
+				'title' => __( 'FAQ 2', 'constantcontact' ),
+				'content' => __( 'This is another answer', 'constantcontact' ),
+			),
+		) );
+	}
+
+	/**
 	 * Display our help page
 	 *
 	 */
@@ -99,27 +137,9 @@ class ConstantContact_Admin_Pages {
 
 		// constantcontact_admin()->page_tabs();
 
-		$helps = apply_filters( 'constant_contact_help_texts', array(
-			array(
-				'title' => __( 'Help', 'constantcontact' ),
-				'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
-			),
-			array(
-				'title' => __( 'Help 2', 'constantcontact' ),
-				'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
-			),
-		) );
+		$helps = $this->get_help_texts();
+		$faqs = $this->get_faq_texts();
 
-		$faqs = apply_filters( 'constant_contact_faq_texts', array(
-			array(
-				'title' => __( 'FAQ', 'constantcontact' ),
-				'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
-			),
-			array(
-				'title' => __( 'FAQ 2', 'constantcontact' ),
-				'content' => __( 'plugin is a of plugin by WebDevStudios', 'constantcontact' ),
-			),
-		) );
 		?>
 		<h2><?php esc_attr_e( 'Help / FAQ', 'constantcontact' ); ?></h2>
 		<div class="wrap">
