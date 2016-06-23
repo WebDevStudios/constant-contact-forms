@@ -151,7 +151,7 @@ class ConstantContact_Admin_Pages {
 				</td>
 				<td class="outter">
 					<h2>
-						<?php esc_html_e( 'Faq', 'constantcontact' ); ?>
+						<?php esc_html_e( 'FAQ', 'constantcontact' ); ?>
 					</h2>
 					<ol id="faq_ctct">
 					<?php
