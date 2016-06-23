@@ -83,16 +83,16 @@ class ConstantContact_Process_Form {
 		}
 
 		// @ TODO need to replcae this to account for our dynamic form names
-		if ( isset( $_POST['ctct-opti-in'] ) ) {
+		// if ( isset( $_POST['ctct-opti-in'] ) ) {
 
-			if ( isset( $_POST['ctct-email'] ) && isset( $_POST['ctct-opti-in'] ) ) {
-				$args = array(
-					'email' => sanitize_email( ),
-					'list' => sanitize_text_field( $_POST['ctct-opti-in'] ),
-					'first_name' => '',
-					'last_name' => '',
-				);
-			}
+		// 	if ( isset( $_POST['ctct-email'] ) && isset( $_POST['ctct-opti-in'] ) ) {
+		// 		$args = array(
+		// 			'email' => sanitize_email( ),
+		// 			'list' => sanitize_text_field( $_POST['ctct-opti-in'] ),
+		// 			'first_name' => '',
+		// 			'last_name' => '',
+		// 		);
+		// 	}
 
 			// $contact = constantcontact_api()->add_contact( $args );
 
@@ -114,7 +114,7 @@ class ConstantContact_Process_Form {
 	        //     echo 'An unexpected error occurred';
 	        // }
 
-		}
+		// }
 	}
 
 	/**
