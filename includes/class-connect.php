@@ -205,6 +205,8 @@ class ConstantContact_Connect {
 			return false;
 		}
 
+		// Make sure we have our disconnect and we're onthe admin
+		// @TODO we need to add a nonce verification to this
 		if ( isset( $_GET['ctct-disconnect'] ) && is_admin() ) {
 
 			// Delete access token.
@@ -228,5 +230,14 @@ class ConstantContact_Connect {
 	private function update_token( $access_token ) {
 		update_option( '_ctct_token', $access_token );
 
+	}
+
+	/**
+	 * Get saved API token
+	 *
+	 * @return string token
+	 */
+	public function get_api_token() {
+		return get_option( '_ctct_token', false );
 	}
 }

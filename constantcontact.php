@@ -197,6 +197,7 @@ class Constant_Contact {
 		$this->process_form  = new ConstantContact_Process_Form( $this );
 		$this->settings      = new ConstantContact_Settings( $this );
 		$this->auth_redirect = new ConstantContact_Auth_Redirect( $this );
+		$this->connect       = new ConstantContact_Connect( $this );
 	}
 
 	/**
@@ -208,7 +209,6 @@ class Constant_Contact {
 	public function admin_plugin_classes() {
 		$this->admin       = new ConstantContact_Admin( $this, $this->basename );
 		$this->admin_pages = new ConstantContact_Admin_Pages( $this );
-		$this->connect     = new ConstantContact_Connect( $this );
 	}
 
 	/**
