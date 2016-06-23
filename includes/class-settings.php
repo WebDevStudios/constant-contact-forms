@@ -52,6 +52,7 @@ class ConstantContact_Settings {
 	 * Constructor
 	 *
 	 * @since  1.0.0
+	 * @param object $plugin parent plugin instance.
 	 * @return void
 	 */
 	public function __construct( $plugin ) {
@@ -156,7 +157,7 @@ class ConstantContact_Settings {
 			$option_options['reg_form'] = __( 'Registration Form', 'constantcontact' );
 		}
 
-		// Get our lists
+		// Get our lists.
 		$lists = constant_contact()->builder->get_lists();
 
 		if ( $lists && is_array( $lists ) ) {

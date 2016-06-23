@@ -100,16 +100,16 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function get_forms() {
 
-			// Grab our saved transient
+			// Grab our saved transient.
 			$forms = get_transient( 'constant_contact_shortcode_form_list' );
 
-			// Allow bypassing transient check
+			// Allow bypassing transient check.
 			$bypass_forms = apply_filters( 'constant_contact_bypass_shotcode_forms', false );
 
-			// If we dont have a transient or we bypass, go through the motions
+			// If we dont have a transient or we bypass, go through the motions.
 			if ( false === $forms || $bypass_forms ) {
 
-				// Get all our forms that we have
+				// Get all our forms that we have.
 				$query = new WP_Query( array(
 					'post_status'            => 'publish',
 					'post_type'              => 'ctct_forms',
@@ -117,39 +117,45 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 					'update_post_term_cache' => false,
 				) );
 
-				// Grab the posts
+				// Grab the posts.
 				$q_forms = $query->get_posts();
 
-				// if for some reason we got an error, just return a blank array
+				// If for some reason we got an error, just return a blank array.
 				if ( is_wp_error( $q_forms ) && ! is_array( $q_forms ) ) {
 					return array();
 				}
 
-				// Set up our default array
+				// Set up our default array.
 				$forms = array();
 
-				// Foreach form we have, lets build up our return array
+				// Foreach form we have, lets build up our return array.
 				foreach ( $q_forms as $form ) {
 
-					// Make sure we have the data we want to use
+					// Make sure we have the data we want to use.
 					if (
 						isset( $form->ID ) &&
 						$form->ID &&
 						isset( $form->post_title ) &&
 						$form->post_title
 					) {
-						// Clean that data before we use it
+						// Clean that data before we use it.
 						$forms[ absint( $form->ID ) ] = esc_attr( $form->post_title );
 					}
 				}
 
-				// Save that
+				// Save that.
 				set_transient( 'constant_contact_shortcode_form_list', $forms, 1 * DAY_IN_SECONDS );
 			}
 
 			return $forms;
 		}
 
+		/**
+		 * Delete transient of saved form
+		 *
+		 * @author Brad Parbs
+		 * @return void
+		 */
 		public function clear_saved_form_list_transient() {
 			delete_transient( 'constant_contact_shortcode_form_list' );
 		}

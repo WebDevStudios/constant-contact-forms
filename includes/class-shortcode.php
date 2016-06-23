@@ -43,23 +43,23 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			// Attributes.
 			$atts = shortcode_atts( array( 'form' => '' ), $this->shortcode_object->atts );
 
-			// Bail if we don't have a form set
+			// Bail if we don't have a form set.
 			if ( ! isset( $atts['form'] ) ) {
 				return;
 			}
 
-			// Grab all post meta
+			// Grab all post meta.
 			$meta = get_post_meta( $atts['form'] );
 
-			// Bail if we didn't get meta
+			// Bail if we didn't get meta.
 			if ( ! $meta ) {
 				return;
 			}
 
-			// Pass our data into our field method
+			// Pass our data into our field method.
 			$form_data = $this->get_field_meta( $meta );
 
-			// return our markup
+			// Return our markup.
 			return constant_contact()->display->form( $form_data );
 
 		}
@@ -73,18 +73,18 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function get_field_meta( $form_meta ) {
 
-			// Bail if we don't have form meta
+			// Bail if we don't have form meta.
 			if ( empty( $form_meta ) || ! is_array( $form_meta ) ) {
 				return false;
 			}
 
-			// Data verificiation for our custom fields group
+			// Data verificiation for our custom fields group.
 			if (
 				isset( $form_meta['custom_fields_group'] ) &&
 				$form_meta['custom_fields_group'] &&
 				isset( $form_meta['custom_fields_group'][0] )
 			) {
-				// If we passed all the checks, try to grab the data
+				// If we passed all the checks, try to grab the data.
 				return $this->get_field_values( $form_meta['custom_fields_group'][0] );
 			}
 		}
@@ -93,15 +93,15 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 * Get custom field values from post meta data from form CPT post
 		 *
 		 * @author Brad Parbs
-		 * @param  array $custom_fields custom fields to parse through
+		 * @param  array $custom_fields custom fields to parse through.
 		 * @return string                form field markup
 		 */
 		public function get_field_values( $custom_fields ) {
 
-			// We may get serialized data, so undo that
+			// We may get serialized data, so undo that.
 			$custom_fields = maybe_unserialize( $custom_fields );
 
-			// Loop through each of our fields
+			// Loop through each of our fields.
 			foreach ( $custom_fields as $key => $value ) {
 
 				$fields['fields'][ $key ]['name']   = $custom_fields[ $key ]['_ctct_field_name'];
@@ -149,7 +149,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 * @see WDS_Shortcode::att
 		 *
 		 * @since 1.0.0
-		 * @param string $att	 Attribute to override.
+		 * @param string      $att	 Attribute to override.
 		 * @param string|null $default Default value.
 		 * @return string
 		 */
