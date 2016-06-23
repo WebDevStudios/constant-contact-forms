@@ -206,9 +206,6 @@ class Constant_Contact {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'includes' ), 5 );
 
-		add_filter( 'plugin_action_links_' . $this->basename, array( $this, 'add_social_links' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
-
 		// Our vendor files will do a check for ISSSL, so we want to set it to be that
 		if ( is_ssl() || ! defined( 'ISSSL' ) ) {
 			define( 'ISSSL', true );
@@ -234,33 +231,6 @@ class Constant_Contact {
 	 */
 	public function init() {
 		load_plugin_textdomain( 'constantcontact', false, dirname( $this->basename ) . '/languages/' );
-	}
-
-	/**
-	 * Scripts
-	 *
-	 * @since  1.0.0
-	 * @return void
-	 */
-	public function scripts() {
-		global $pagenow;
-
-		// Check if we are in debug mode. allow
-		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG == true ? true : false;
-
-		// based on our debug mode, potentially add a min prefix
-		$suffix = ( true === $debug ) ? '' : '.min';
-
-		// Register out javascript file.
-		wp_register_script( 'ctct_form', $this->url() . 'assets/js/plugin' . $suffix . '.js', array(), self::VERSION, true );
-
-		// Allow filtering of allowed pages that we load scripts on
-		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', array( 'post.php', 'post-new.php' ) );
-
-		if ( isset( $pagenow ) && is_array( $pagenow ) && in_array( $pagenow, $allowed_pages, true ) ) {
-			// Enqueued script with localized data.
-			wp_enqueue_script( 'ctct_form' );
-		}
 	}
 
 	/**
@@ -400,27 +370,6 @@ class Constant_Contact {
 		static $url;
 		$url = $url ? $url : trailingslashit( plugin_dir_url( __FILE__ ) );
 		return $url . $path;
-	}
-
-	/**
-	 * Add social media links to plugin screen
-	 *
-	 * @param array $links plugin action links.
-	 */
-	public function add_social_links( $links ) {
-
-		// Generate our site link
-		$site_link = apply_filters( 'constant_contact_social_base_url' , 'https://constantcontact.com/' );
-
-		// Build up all our social links
-		$add_links = apply_filters( 'constant_contacnt_social_links', array(
-			'<a title="' . __( 'Be a better marketer. All it takes is Constant Contact email marketing.', 'constantcontact' ) . '" href="' . $site_link . '" target="_blank">constantcontact.com</a>',
-			'<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>',
-			'<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://twitter.com/home?status=' . __( 'Check out the official WordPress plugin from @constantcontact : ' . $site_link, 'constantcontact' ) . '" target="_blank" class="dashicons-before dashicons-twitter"></a>',
-			'<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://plus.google.com/share?url=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>',
-		) );
-
-		return array_merge( $links, $add_links );
 	}
 }
 
