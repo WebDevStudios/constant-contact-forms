@@ -78,7 +78,7 @@ class ConstantContact_Process_Form {
 		// @ TODO need to replcae this to account for our dynamic form names
 		// if we're not processing the opt-in stuff, we can just return our data here
 		if ( ! isset( $_POST['ctct-opti-in'] ) ) {
-			$return['status'] = 'error';
+			$return['status'] = 'success';
 			return $return;
 		}
 
