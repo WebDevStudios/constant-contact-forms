@@ -31,3 +31,7 @@
 #ctct-support .question.active:before {
   content: "\f140";
 }
+
+#ctct-support .outer-first {
+  width: 50%;
+}

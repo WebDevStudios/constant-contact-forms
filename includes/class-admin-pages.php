@@ -97,12 +97,12 @@ class ConstantContact_Admin_Pages {
 	public function get_help_texts() {
 		return apply_filters( 'constant_contact_help_texts', array(
 			array(
-				'title' => __( 'Help', 'constantcontact' ),
-				'content' => __( 'plugin is a plugin by WebDevStudios', 'constantcontact' ),
+				'title' => __( 'This is a sample help header', 'constantcontact' ),
+				'content' => __( 'This is some sample help text.', 'constantcontact' ),
 			),
 			array(
-				'title' => __( 'Help 2', 'constantcontact' ),
-				'content' => __( 'plugin is a plugin by WebDevStudios', 'constantcontact' ),
+				'title' => __( 'This is another sample header', 'constantcontact' ),
+				'content' => __( 'This is also some sample help text.', 'constantcontact' ),
 			),
 		) );
 	}
@@ -116,12 +116,12 @@ class ConstantContact_Admin_Pages {
 	public function get_faq_texts() {
 		return apply_filters( 'constant_contact_faq_texts', array(
 			array(
-				'title' => __( 'FAQ', 'constantcontact' ),
+				'title' => __( 'Is this a sample question?', 'constantcontact' ),
 				'content' => __( 'This is a sample answer', 'constantcontact' ),
 			),
 			array(
-				'title' => __( 'FAQ 2', 'constantcontact' ),
-				'content' => __( 'This is another answer', 'constantcontact' ),
+				'title' => __( 'This is also a sample question', 'constantcontact' ),
+				'content' => __( 'This is another sample answer', 'constantcontact' ),
 			),
 		) );
 	}
@@ -132,39 +132,84 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function help_page() {
 
+		// Enqueue our JS and styles
 		wp_enqueue_script( 'ctct_form' );
 		wp_enqueue_style( 'constant_contact_admin_pages' );
 
 		// constantcontact_admin()->page_tabs();
-
-		$helps = $this->get_help_texts();
-		$faqs = $this->get_faq_texts();
-
 		?>
-		<h2><?php esc_attr_e( 'Help / FAQ', 'constantcontact' ); ?></h2>
+		<h1>
+			<?php esc_attr_e( 'Help / FAQ', 'constantcontact' ); ?>
+		</h1>
 		<div class="wrap">
-			<table id="ctct-support" class="form-table cptui-table">
+			<table id="ctct-support" class="form-table">
 			<tr>
-				<td class="outter" width="50%">
-					<h2><?php esc_html_e( 'Help', 'constantcontact' ); ?></h2>
+				<td class="outer outer-first">
+					<h2>
+						<?php esc_html_e( 'Help', 'constantcontact' ); ?>
+					</h2>
 					<ol id="help_ctct">
-					<?php foreach ( $helps as $help ) : ?>
-						<li>
-							<span tabindex="0" class="question" aria-controls="q1" aria-expanded="false"><?php echo esc_html( isset( $help['title'] ) ? $help['title'] : '' ); ?></span>
-							<div class="answer"><?php echo esc_html( isset( $help['content'] ) ? $help['content'] : '' ); ?></div>
-						</li>
-					<?php endforeach; ?>
+					<?php
+					// Grab our FAQs
+					$helps = $this->get_help_texts();
+
+					// Make sure we have some
+					if ( is_array( $helps ) ) {
+
+						// Loop through each$help
+						foreach ( $helps as $help ) {
+
+							// Make sure we have the right data
+							if ( ! isset( $help['title'] ) || ! isset( $help['content'] ) ) {
+								continue;
+							}
+							?>
+							<li>
+								<span class="question" aria-controls="q1" aria-expanded="false">
+									<?php echo esc_html( $help['title'] ); ?>
+								</span>
+								<div class="answer">
+									<?php echo esc_html( $help['content'] ); ?>
+								</div>
+							</li>
+							<?php
+						}
+					}
+					?>
 					</ol>
 				</td>
 				<td class="outter">
-					<h2><?php esc_html_e( 'Faq', 'constantcontact' ); ?></h2>
+					<h2>
+						<?php esc_html_e( 'Faq', 'constantcontact' ); ?>
+					</h2>
 					<ol id="faq_ctct">
-					<?php foreach ( $faqs as $faq ) : ?>
+					<?php
+					// Grab our FAQs
+					$faqs = $this->get_faq_texts();
+
+					// Make sure we have some
+					if ( is_array( $faqs ) ) {
+
+						// Loop through each faq
+						foreach ( $faqs as $faq ) {
+
+							// Make sure we have the right data
+							if ( ! isset( $faq['title'] ) || ! isset( $faq['content'] ) ) {
+								continue;
+							}
+						?>
 						<li>
-							<span tabindex="0" class="question" aria-controls="q1" aria-expanded="false"><?php echo esc_html( isset( $faq['title'] ) ? $faq['title'] : '' ); ?></span>
-							<div class="answer"><?php echo esc_html( isset( $faq['content'] ) ? $faq['content'] : '' ); ?></div>
+							<span class="question" aria-controls="q1" aria-expanded="false">
+								<?php echo esc_html( $faq['title'] ); ?>
+							</span>
+							<div class="answer">
+								<?php echo esc_html( $faq['content'] ); ?>
+							</div>
 						</li>
-					<?php endforeach; ?>
+						<?php
+						}
+					}
+					?>
 					</ol>
 				</td>
 			</tr>
