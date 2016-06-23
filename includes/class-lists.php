@@ -261,12 +261,18 @@ class ConstantContact_Lists {
 
 		$get_lists = array();
 
-		if ( $lists = constantcontact_api()->get_lists() ) {
+		// grab our lists
+		$lists = constantcontact_api()->get_lists();
+
+		// make sure we have an array to loop through
+		if ( $lists && is_array( $lists ) ) {
 
 			foreach ( $lists as $list ) {
 
-				$get_lists[ $list->id ] = $list->name;
-
+				// make sure we have the right data before setting it to our array
+				if ( isset( $list->id ) && isset( $list->name ) ) {
+					$get_lists[ esc_attr( $list->id ) ] = esc_attr( $list->name );
+				}
 			}
 		}
 
