@@ -147,6 +147,7 @@ class Constant_Contact {
 	private $display;
 	private $admin_pages;
 	private $settings;
+	private $process_form;
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -186,10 +187,11 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function plugin_classes() {
-		$this->ctct_forms  = new ConstantContact_CPTS( $this );
-		$this->display     = new ConstantContact_Display( $this );
-		$this->admin_pages = new ConstantContact_Admin_Pages( $this );
-		$this->settings    = new ConstantContact_Settings( $this );
+		$this->ctct_forms   = new ConstantContact_CPTS( $this );
+		$this->display      = new ConstantContact_Display( $this );
+		$this->admin_pages  = new ConstantContact_Admin_Pages( $this );
+		$this->settings     = new ConstantContact_Settings( $this );
+		$this->process_form = new ConstantContact_Process_Form( $this );
 	}
 
 	/**
@@ -310,10 +312,6 @@ class Constant_Contact {
 			require_once  __DIR__ . '/includes/class-lists.php';
 		}
 
-		if ( file_exists( __DIR__ . '/includes/class-process-form.php' ) ) {
-			require_once  __DIR__ . '/includes/class-process-form.php';
-		}
-
 		if ( file_exists( __DIR__ . '/inc/auth-redirect.php' ) ) {
 			require_once  __DIR__ . '/inc/auth-redirect.php';
 		}
@@ -353,6 +351,7 @@ class Constant_Contact {
 			case 'display':
 			case 'admin_pages':
 			case 'settings':
+			case 'process_form':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );

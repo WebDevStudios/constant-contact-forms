@@ -14,33 +14,22 @@
 class ConstantContact_Process_Form {
 
 	/**
-	 * Holds an instance of the object.
+	 * Parent plugin class
 	 *
-	 * @since 1.0.0
-	 * @var ConstantContact_Process_Form
+	 * @var   class
+	 * @since 0.0.1
 	 */
-	private static $instance = null;
+	protected $plugin = null;
 
 	/**
-	 * Constructor.
+	 * Constructor
 	 *
-	 * @since 1.0.0
+	 * @since  0.0.1
+	 * @return void
 	 */
-	private function __construct() {
-	}
-
-	/**
-	 * Returns the running object
-	 *
-	 * @since 1.0.0
-	 * @return ConstantContact_Process_Form
-	 */
-	public static function get_instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new ConstantContact_Process_Form();
-			self::$instance->hooks();
-		}
-		return self::$instance;
+	public function __construct( $plugin ) {
+		$this->plugin = $plugin;
+		$this->hooks();
 	}
 
 	/**
@@ -115,20 +104,6 @@ class ConstantContact_Process_Form {
 			}
 		}
 	}
-}
-
-/**
- * Helper function to get/return the constantcontact_process_form object.
- *
- * @since 1.0.0
- * @return object constantcontact_process_form.
- */
-function constantcontact_process_form() {
-	return ConstantContact_Process_Form::get_instance();
-}
-
-// Get it started.
-constantcontact_process_form();
 
 /**
  * Form submit success/error messages.
