@@ -98,6 +98,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function get_field_values( $custom_fields ) {
 
+			// We may get serialized data, so undo that
 			$custom_fields = maybe_unserialize( $custom_fields );
 
 			// Loop through each of our fields
