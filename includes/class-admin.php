@@ -189,6 +189,9 @@ class ConstantContact_Admin {
 	 * @return mixed Field value or exception is thrown.
 	 */
 	public function __get( $field ) {
+
+		$field = esc_attr( $field );
+
 		// Allowed fields to retrieve.
 		if ( in_array( $field, array( 'key', 'metabox_id', 'title', 'options_page' ), true ) ) {
 			return $this->{$field};
