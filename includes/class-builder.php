@@ -255,7 +255,6 @@ class ConstantContact_Builder {
 	/**
 	 * Get lists for dropdown option
 	 *
-	 * @author Brad Parbs
 	 * @return array array of lists
 	 */
 	public function get_lists() {
