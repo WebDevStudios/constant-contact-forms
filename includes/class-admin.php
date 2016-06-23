@@ -205,8 +205,9 @@ class ConstantContact_Admin {
 		// Allowed fields to retrieve.
 		if ( in_array( $field, array( 'key', 'metabox_id', 'title', 'options_page' ), true ) ) {
 			return $this->{$field};
+		} else {
+			return constant_contact()->{$field};
 		}
-		throw new Exception( 'Invalid property: ' . $field );
 	}
 
 	/**
