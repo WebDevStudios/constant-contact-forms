@@ -285,7 +285,7 @@ class ConstantContact_Builder {
 	public function add_form_css() {
 
 		// Let's style this thing
-		wp_enqueue_style( 'constant-contact-form-builder' );
+		wp_enqueue_style( 'constant-contact-forms' );
 	}
 
 	/**

@@ -100,7 +100,7 @@ class ConstantContact_Lists {
 	 *
 	 */
 	public function add_form_css() {
-		wp_enqueue_style( 'constant-contact-form-builder' );
+		wp_enqueue_style( 'constant-contact-forms' );
 	}
 
 	/**
