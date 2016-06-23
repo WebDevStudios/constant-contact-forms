@@ -148,7 +148,7 @@ class ConstantContact_Builder {
 
 		$default_fields = apply_filters( 'constant_contact_field_types', array(
 			'custom'       => __( 'Custom Text Field', 'constantcontact' ),
-			'email'        => __( 'Email', 'constantcontact' ),
+			'email'        => __( 'Email (required)', 'constantcontact' ),
 			'first_name'   => __( 'First Name', 'constantcontact' ),
 			'last_name'    => __( 'Last Name', 'constantcontact' ),
 			'phone_number' => __( 'Phone Number', 'constantcontact' ),
