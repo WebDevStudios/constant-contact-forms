@@ -236,17 +236,18 @@ class ConstantContact_Builder {
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Opt In', 'constantcontact' ),
+			'name'        => __( 'Opt-In', 'constantcontact' ),
 			'id'          => $prefix . 'opt_in',
 			'description' => __( 'Add Opt In checkbox to form.', 'constantcontact' ),
 			'type'        => 'checkbox',
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Opt In Instructions', 'constantcontact' ),
+			'name'        => __( 'Opt-In Instructions', 'constantcontact' ),
 			'id'          => $prefix . 'opt_in_instructions',
-			'description' => __( 'Add Opt In instructions.', 'constantcontact' ),
+			'description' => __( 'Add Opt-In instructions or disclaimer on site.', 'constantcontact' ),
 			'type'        => 'textarea_small',
+			'default'     => __( 'Sign up for our newsletter', 'constantcontact' ),
 		) );
 
 	}
