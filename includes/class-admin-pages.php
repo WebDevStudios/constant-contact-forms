@@ -80,5 +80,13 @@ class ConstantContact_Admin_Pages {
 		}
 		return $result;
 	}
+
+	public function about_page() {
+		echo 'yo about';
+	}
+
+	public function help_page() {
+		echo 'yo help';
+	}
 }
 

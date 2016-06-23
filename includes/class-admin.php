@@ -157,12 +157,12 @@ class ConstantContact_Admin {
 				if ( isset( $page[1] ) && $page[1] ) {
 
 					// switch through our whitelisted pages that we shoud include
-					switch ( $page[1] ) {
+					switch ( esc_attr( $page[1] ) ) {
 						case 'about':
-							include_once( constant_contact()->path . 'inc/admin/about.php' );
+							constant_contact()->admin_pages->about_page();
 							break;
 						case 'help':
-							include_once( constant_contact()->path . 'inc/admin/help.php' );
+							constant_contact()->admin_pages->help_page();
 							break;
 					}
 				} else {
