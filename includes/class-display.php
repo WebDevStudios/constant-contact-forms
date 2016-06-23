@@ -102,11 +102,15 @@ class ConstantContact_Display {
 		}
 
 		// Check all our data points.
-		$name   = esc_attr( $field['name'] );
-		$f_id   = esc_attr( $field['map_to'] );
-		$desc   = esc_attr( isset( $field['description'] ) ? $field['description'] : '' );
-		$type   = esc_attr( isset( $field['type'] ) ? $field['type'] : 'text_field' );
-		$req    = isset( $field['required'] ) ? $field['required'] : false;
+		$name  = esc_attr( $field['name'] );
+		$map   = esc_attr( $field['map_to'] );
+		$desc  = esc_attr( isset( $field['description'] ) ? $field['description'] : '' );
+		$type  = esc_attr( isset( $field['type'] ) ? $field['type'] : 'text_field' );
+		$req   = isset( $field['required'] ) ? $field['required'] : false;
+
+		// We may have more than one of the same field in our array.
+		// this makes sure we keep them unique when processing them.
+		$map = $map . '_' . md5( serialize( $field ) );
 
 		// @TODO this could be better
 		$required_text = $req ? ' *' : '';
@@ -115,15 +119,15 @@ class ConstantContact_Display {
 		$return = '<div><p><label>' . esc_attr( $field['name'] ) . esc_attr( $required_text ) . '</label></br>';
 
 		// @todo what the heck is this
-		$field_value = ( isset( $_POST[ 'ctct-' . $f_id ] ) ? esc_attr( $_POST[ 'ctct-' . $f_id ] ) : '' );
+		$field_value = ( isset( $_POST[ 'ctct-' . $map ] ) ? esc_attr( $_POST[ 'ctct-' . $map ] ) : '' );
 
-		switch ( $f_id ) {
+		switch ( $map ) {
 
 			case 'email':
-				$return .= '<input type="email" required name="ctct-' . esc_attr( $name ) . '" value="' . esc_attr( $field_value ) . '"></p></div>';
+				$return .= '<input type="email" required name="ctct-' . sanitize_title( $map ) . '" value="' . esc_attr( $field_value ) . '"></p></div>';
 			break;
 			default:
-				$return .= '<input type="text" name="ctct-' . esc_attr( $name ) . '" value="' . esc_attr( $field_value ) . '"></p></div>';
+				$return .= '<input type="text" name="ctct-' . sanitize_title( $map ) . '" value="' . esc_attr( $field_value ) . '"></p></div>';
 			break;
 		}
 
