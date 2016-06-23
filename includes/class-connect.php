@@ -132,49 +132,36 @@ class ConstantContact_Connect {
 	public function admin_page_display() {
 
 		// Only run if logged in user can manage site options.
-		if ( ! current_user_can( 'manage_options' ) ) { return false; }
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
 
-		$access_token = false;
+		$response = false;
 
 		// If the 'code' query parameter is present in the uri, the code can exchanged for an access token.
 		if ( isset( $_GET['code'] ) && is_admin() ) {
 			try {
+
 				$response = $this->oauth->getAccessToken( sanitize_text_field( wp_unslash( $_GET['code'] ) ) );
-				$access_token = $response['access_token'];
 			} catch ( OAuth2Exception $ex ) {
-				foreach ( $ex->getErrors() as $error ) {
-					$this->error_message = $this->api_error_message( $error );
-				}
-				if ( ! isset( $access_token ) ) {
-					$access_token = null;
-				}
+				constant_contact()->api->log_errors( $ex->getErrors() );
 			}
 		}
 
 		// Save auth token to options.
-		if ( $access_token ) {
-			$this->secure_token( sanitize_text_field( $access_token ) );
+		if ( $response && isset( $response['access_token'] ) && $response['access_token'] ) {
+			$this->update_token( sanitize_text_field( $response['access_token'] ) );
 		}
 
+		wp_enqueue_style( 'constant-contact-oath', constant_contact()->url() . 'assets/css/oath.css' );
 		?>
-		<style>
-		.wp-core-ui .button-primary {
-			margin: 20px 0;
-		}
-		.ctct-logo {
-			max-width: 400px;
-		}
-		.ctct-description {
-			max-width: 800px;
-		}
-		</style>
 
 		<script>
 			jQuery.noConflict();
 			(function($) {
 				$(document).ready(function() {
 					$( '.ctct-disconnect' ).on( 'click', function(e) {
-						var disconnect = confirm('<? esc_html_e( 'Are you sure you want to disconnect?', 'constantcontact' ); ?>');
+						var disconnect = confirm('<?php esc_html_e( 'Are you sure you want to disconnect?', 'constantcontact' ); ?>');
 						if (disconnect) {
 							window.location.href = '<?php echo esc_url( $this->redirect_url . '&ctct-disconnect=true' ); ?>';
 						}
@@ -184,25 +171,21 @@ class ConstantContact_Connect {
 		</script>
 
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>">
-
-			<?php echo esc_html( $this->connect_error_message() ); ?>
-
-			<?php if ( $token = constantcontact_api()->get_api_token() ) : ?>
-
+			<?php if ( constantcontact_api()->get_api_token() ) : ?>
 				<div class="message notice">
 					<p>
 						<?php esc_html_e( 'Account connected to Constant Contact.', 'constantcontact' ); ?>
 					</p>
 				</div>
-				<input type="button" class="button-primary ctct-disconnect" value="Disconnect">
-
+				<input type="button" class="button-primary ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constantcontact' ); ?>">
 			<?php else : ?>
 				<p class="ctct-description">
 					<?php esc_html_e( 'Click the connect button and login or sign up to Constant Contact. By connecting, you authorize this plugin to access your account on Constant Contact.', 'constantcontact' ); ?>
 				</p>
-				<a href="<?php echo esc_url_raw( $this->oauth->getAuthorizationUrl() . '&oauthSignup=true' ); ?>" class="button-primary ctct-connect"><?php esc_html_e( 'Connect to Constant Contact', 'constantcontact' ); ?></a>
+				<a href="<?php echo esc_url( add_query_arg( array( 'oauthSignup' => 'true' ), $this->oauth->getAuthorizationUrl() ) ); ?>" class="button-primary ctct-connect">
+					<?php esc_html_e( 'Connect to Constant Contact', 'constantcontact' ); ?>
+				</a>
 			<?php endif; ?>
 		</div>
 		<?php
@@ -217,7 +200,9 @@ class ConstantContact_Connect {
 	private function disconnect() {
 
 		// Only run if logged in user can manage site options.
-		if ( ! current_user_can( 'manage_options' ) ) { return false; }
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return false;
+		}
 
 		if ( isset( $_GET['ctct-disconnect'] ) && is_admin() ) {
 
@@ -239,43 +224,8 @@ class ConstantContact_Connect {
 	 * @param string $access_token api access token.
 	 * @return void
 	 */
-	private function secure_token( $access_token ) {
+	private function update_token( $access_token ) {
 		update_option( '_ctct_token', $access_token );
 
-	}
-
-
-	/**
-	 * Process api error response
-	 *
-	 * @since  1.0.0
-	 * @param  array $error api error repsonse.
-	 * @return mixed Error message or false if no error.
-	 */
-	private function api_error_message( $error ) {
-
-		if ( ! isset( $error->error_key ) ) {
-			return false;
-		}
-
-		switch ( $error->error_key ) {
-			case 'http.status.authentication.invalid_token':
-				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constantcontact' );
-			break;
-			default:
-				return false;
-			break;
-
-		}
-
-	}
-
-	/**
-	 * If error then displays a notice
-	 *
-	 * @return string
-	 */
-	public function connect_error_message( $message ) {
-			return '<div class="message error notice"><p>' . esc_attr( $message ) . '</p></div>';
 	}
 }
