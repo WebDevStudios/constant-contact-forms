@@ -157,7 +157,7 @@ class ConstantContact_Settings {
 		}
 
 		// Get our lists
-		$lists = ctct_builder_admin()->get_lists();
+		$lists = constant_contact()->builder->get_lists();
 
 		if ( $lists && is_array( $lists ) ) {
 
@@ -211,7 +211,7 @@ class ConstantContact_Settings {
 	 */
 	public function add_optin_to_forms() {
 
-		if ( ! ctct_builder_admin()->get_lists() ) {
+		if ( ! constant_contact()->builder->get_lists() ) {
 			return;
 		}
 

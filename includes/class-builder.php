@@ -13,31 +13,22 @@
 class ConstantContact_Builder {
 
 	/**
-	 * Holds an instance of the builder
+	 * Parent plugin class
 	 *
-	 * @ConstantContact_Builder
-	 **/
-	private static $instance = null;
+	 * @var   class
+	 * @since 0.0.1
+	 */
+	protected $plugin = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @since 1.0.0
+	 * @since  0.0.1
+	 * @return void
 	 */
-	private function __construct() {
-	}
-
-	/**
-	 * Get the running object
-	 *
-	 * @return ConstantContact_Builder
-	 **/
-	public static function get_instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-			self::$instance->init();
-		}
-		return self::$instance;
+	public function __construct( $plugin ) {
+		$this->plugin = $plugin;
+		$this->hooks();
 	}
 
 	/**
@@ -376,16 +367,3 @@ class ConstantContact_Builder {
 	    }
 	}
 }
-
-/**
- * Helper function to get/return the ConstantContact_Builder object
- *
- * @since  1.0.0
- * @return ConstantContact_Builder object
- */
-function ctct_builder_admin() {
-		return ConstantContact_Builder::get_instance();
-}
-
-// Get it started.
-ctct_builder_admin();

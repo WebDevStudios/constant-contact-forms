@@ -148,6 +148,7 @@ class Constant_Contact {
 	private $admin_pages;
 	private $settings;
 	private $process_form;
+	private $builder;
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -192,6 +193,7 @@ class Constant_Contact {
 		$this->admin_pages  = new ConstantContact_Admin_Pages( $this );
 		$this->settings     = new ConstantContact_Settings( $this );
 		$this->process_form = new ConstantContact_Process_Form( $this );
+		$this->builder      = new ConstantContact_Builder( $this );
 	}
 
 	/**
@@ -345,13 +347,14 @@ class Constant_Contact {
 		switch ( $field ) {
 			case 'version':
 				return self::VERSION;
-			case 'basename':
-			case 'url':
-			case 'path':
-			case 'display':
 			case 'admin_pages':
-			case 'settings':
+			case 'basename':
+			case 'builder':
+			case 'display':
+			case 'path':
 			case 'process_form':
+			case 'settings':
+			case 'url':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
