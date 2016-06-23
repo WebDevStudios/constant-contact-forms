@@ -312,14 +312,18 @@ class ConstantContact_Builder {
 		if (
 			isset( $post->ID ) &&
 			$post->ID &&
-			isset( $post->type ) &&
-			$post->type &&
-			'ctct_forms' === $post->type &&
+			isset( $post->post_type ) &&
+			$post->post_type &&
+			'ctct_forms' === $post->post_type &&
 			$cmbobj &&
 			isset( $cmbobj->data_to_save ) &&
 			isset( $cmbobj->data_to_save['custom_fields_group'] ) &&
 			is_array( $cmbobj->data_to_save['custom_fields_group'] )
 		) {
+
+			// Save post meta with a random key that we can verify later
+			update_post_meta( $post->ID, '_ctct_verify_key', wp_generate_password( 25, false ) );
+
 
 			// We want to set our meta to false, as we'll want to loop through
 			// and see if we should set it to true, but we want it to be false most
