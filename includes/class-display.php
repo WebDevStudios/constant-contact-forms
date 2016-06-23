@@ -67,14 +67,7 @@ class ConstantContact_Display {
 
 		$return .= $this->build_form_fields( $form_data );
 
-		if (
-			isset( $form_data ) &&
-			isset( $form_data['options'] ) &&
-			isset( $form_data['options']['form_id'] )
-		) {
-			// Add hidden field with our form id in it
-			$return .= '<input type="hidden" id="ctct-id" name="ctct-id" value="' . esc_attr( $form_data['options']['form_id'] ) . '">';
-		}
+		$return .= $this->add_verify_fields( $form_data );
 
 		$return .= '<p><input type="submit" name="ctct-submitted" value="' . __( 'Send', 'constantcontact' ) . '"/></p>';
 		$return .= wp_nonce_field( 'ctct_submit_form', 'ctct_form', true, false );
@@ -82,6 +75,42 @@ class ConstantContact_Display {
 		$return .= '</form>';
 
 		return $return;
+	}
+
+	/**
+	 * Adds hidden input fields to our form for form id and verify id
+	 *
+	 * @author Brad Parbs
+	 * @param  string $form_data html markup
+	 */
+	public function add_verify_fields( $form_data ) {
+
+		if (
+			isset( $form_data ) &&
+			isset( $form_data['options'] ) &&
+			isset( $form_data['options']['form_id'] )
+		) {
+
+			// sanitize our form id
+			$form_id = absint( $form_data['options']['form_id'] );
+
+			// sanity check on our form id
+			if ( ! $form_id ) {
+				return false;
+			}
+
+			// Add hidden field with our form id in it
+			$return = $this->input( 'hidden', 'ctct-id', $form_id );
+
+			// if we have saved a verify value, add that to our field as well. this is to double-check
+			// that we have the correct form id for processing later
+			$verify_key = get_post_meta( $form_id, '_ctct_verify_key', true );
+			if ( $verify_key ) {
+				$return .= $this->input( 'hidden', 'ctct-verify', $verify_key );
+			}
+
+			return $return;
+		}
 	}
 
 	/**
@@ -147,7 +176,7 @@ class ConstantContact_Display {
 		$required_text = $req ? ' *' : '';
 
 		// @todo clean this
-		$return = '<div><p><label>' . esc_attr( $field['name'] ) . esc_attr( $required_text ) . '</label></br>';
+		$return = '<label>' . esc_attr( $field['name'] ) . esc_attr( $required_text ) . '</label>';
 
 		// @todo what the heck is this
 		$field_value = ( isset( $_POST[ 'ctct-' . $map ] ) ? esc_attr( $_POST[ 'ctct-' . $map ] ) : '' );
@@ -158,7 +187,7 @@ class ConstantContact_Display {
 				$return .= '<input type="email" required name="ctct-' . sanitize_title( $map ) . '" value="' . esc_attr( $field_value ) . '"></p></div>';
 			break;
 			default:
-				$return .= '<input type="text" name="ctct-' . sanitize_title( $map ) . '" value="' . esc_attr( $field_value ) . '"></p></div>';
+				$return .= '<input type="text" name="ctct-' . sanitize_title( $map ) . '" value="' . esc_attr( $field_value ) . '">';
 			break;
 		}
 
@@ -186,16 +215,30 @@ class ConstantContact_Display {
 		if ( ! isset( $form_data['opt_in'] ) || ! isset( $form_data['list'] ) ) {
 			return;
 		}
-		$return = '<div><p>';
+		$return = '';
 		$return .= '<input type="checkbox" id="ctct-opti-in" name="ctct-opti-in" value="' . esc_attr( $form_data['list'] ) . '"/>';
 
 		if ( isset( $form_data['opt_in_instructions'] ) ) {
 			$return .= '<label for="ctct-opti-in">' . ' ' . esc_attr( $form_data['opt_in_instructions'] ) . '</label>';
 		}
 
-		$return .= '</p></div>';
-
 		return $return;
+	}
+
+	/**
+	 * wrapper for input display
+	 *
+	 * @author Brad Parbs
+	 * @param  string $type  type of form
+	 * @param  string $name  name/id of form
+	 * @param  string $value value to prepopulate
+	 * @return string        html markup
+	 */
+	public function input( $type, $name, $value ) {
+
+		$name = esc_attr( $name );
+
+		return '<input type="' . esc_attr( $type ) . '" id="' . $name . '" name="' . $name . '" value="' . esc_attr( $value ) . '">';
 	}
 }
 
