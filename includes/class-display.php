@@ -243,6 +243,18 @@ class ConstantContact_Display {
 	}
 
 	/**
+	 * Helper method to display in-line for success/error messages
+	 *
+	 * @author Brad Parbs
+	 * @param  string $type    success / error / etc for class
+	 * @param  string $message message to display to user
+	 * @return string          html markup
+	 */
+	public function message( $type, $message ) {
+		return '<p class="message ' . esc_attr( $type ) . '">' . esc_attr( $message ) . '</p>';
+	}
+
+	/**
 	 * Helper method to display form description
 	 *
 	 * @param  string $description description to outpu
@@ -250,37 +262,6 @@ class ConstantContact_Display {
 	 */
 	public function description( $description ) {
 		echo '<p class="constant-contact constant-contact-form-description">' . esc_attr( $description ) . '</p>';
-	}
-
-	/**
-	 * Build markup for opt_in form
-	 *
-	 * @param  array $form_data form data structure
-	 * @return string            markup of optin form
-	 */
-	public function opt_in( $form_data ) {
-
-		// Make sure we have our opt in set, as well as an associated list
-		if ( isset( $form_data['opt_in'] ) && isset( $form_data['list'] ) ) {
-
-			// build that checkbox
-			return $this->checkbox(
-				'ctct-opti-in',
-				$form_data['list'],
-				( isset( $form_data['opt_in_instructions'] ) ? $form_data['opt_in_instructions'] : '' )
-			);
-		}
-	}
-
-	/**
-	 * Helper method to get form label
-	 *
-	 * @param  string $name name/id of form field
-	 * @param  string $text text to display as label
-	 * @return string       HTML markup
-	 */
-	public function get_label( $f_id, $field_label ) {
-		return '<label for="' . $f_id . '">' . $field_label . '</label>';
 	}
 
 	/**
@@ -329,6 +310,17 @@ class ConstantContact_Display {
 		}
 		// Finish building our markup
 		return $markup . '</p>';
+	}
+
+	/**
+	 * Helper method to get form label
+	 *
+	 * @param  string $name name/id of form field
+	 * @param  string $text text to display as label
+	 * @return string       HTML markup
+	 */
+	public function get_label( $f_id, $field_label ) {
+		return '<label for="' . $f_id . '">' . $field_label . '</label>';
 	}
 
 	/**
@@ -412,15 +404,23 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Helper method to display in-line for success/error messages
+	 * Build markup for opt_in form
 	 *
-	 * @author Brad Parbs
-	 * @param  string $type    success / error / etc for class
-	 * @param  string $message message to display to user
-	 * @return string          html markup
+	 * @param  array $form_data form data structure
+	 * @return string            markup of optin form
 	 */
-	public function message( $type, $message ) {
-		return '<p class="message ' . esc_attr( $type ) . '">' . esc_attr( $message ) . '</p>';
+	public function opt_in( $form_data ) {
+
+		// Make sure we have our opt in set, as well as an associated list
+		if ( isset( $form_data['opt_in'] ) && isset( $form_data['list'] ) ) {
+
+			// build that checkbox
+			return $this->checkbox(
+				'ctct-opti-in',
+				$form_data['list'],
+				( isset( $form_data['opt_in_instructions'] ) ? $form_data['opt_in_instructions'] : '' )
+			);
+		}
 	}
 }
 
