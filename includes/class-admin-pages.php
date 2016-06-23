@@ -29,6 +29,20 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+		add_action( 'admin_init', array( $this, 'styles' ) );
+	}
+
+	/**
+	 * Global admin style enqueue stuff
+	 *
+	 */
+	public function styles() {
+		wp_register_style(
+			'constant-contact-form-builder',
+			constant_contact()->url() . 'assets/css/form-builder.css',
+			array(),
+			constant_contact()->version
+		);
 	}
 
 	/**

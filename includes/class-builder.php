@@ -285,12 +285,7 @@ class ConstantContact_Builder {
 	public function add_form_css() {
 
 		// Let's style this thing
-		wp_enqueue_style(
-			'constant-contact-form-builder',
-			constant_contact()->url() . 'assets/css/form-builder.css',
-			array(),
-			constant_contact()->version
-		);
+		wp_enqueue_style( 'constant-contact-form-builder' );
 	}
 
 	/**
