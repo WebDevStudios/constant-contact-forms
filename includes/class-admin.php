@@ -256,11 +256,12 @@ class ConstantContact_Admin {
 		// Generate our site link
 		$site_link = apply_filters( 'constant_contact_social_base_url' , 'https://constantcontact.com/' );
 
+		$twitter_cta = __( 'Check out the official WordPress plugin from @constantcontact :', 'constantcontact' );
 		// Build up all our social links
 		$add_links = apply_filters( 'constant_contacnt_social_links', array(
 			'<a title="' . __( 'Be a better marketer. All it takes is Constant Contact email marketing.', 'constantcontact' ) . '" href="' . $site_link . '" target="_blank">constantcontact.com</a>',
 			'<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>',
-			'<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://twitter.com/home?status=' . __( 'Check out the official WordPress plugin from @constantcontact : ' . $site_link, 'constantcontact' ) . '" target="_blank" class="dashicons-before dashicons-twitter"></a>',
+			'<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" class="dashicons-before dashicons-twitter"></a>',
 			'<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://plus.google.com/share?url=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>',
 		) );
 
