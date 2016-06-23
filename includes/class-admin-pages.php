@@ -110,7 +110,6 @@ class ConstantContact_Admin_Pages {
 		wp_enqueue_script( 'ctct_form' );
 		wp_enqueue_style( 'constant_contact_admin_pages' );
 
-		// constantcontact_admin()->page_tabs();
 		?>
 		<h1>
 			<?php esc_attr_e( 'Help / FAQ', 'constantcontact' ); ?>

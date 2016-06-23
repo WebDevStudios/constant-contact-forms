@@ -198,44 +198,6 @@ class ConstantContact_Admin {
 	}
 
 	/**
-	 * Admin Page Tabs
-	 *
-	 * @return void
-	 */
-	public function page_tabs() {
-
-		$tabs = array(
-			array(
-				'title' => __( 'Tab 1', 'constantcontact' ),
-				'url' => '',
-				'key' => 'builder',
-				'callback' => 'admin_page_display',
-			),
-			array(
-				'title' => __( 'Tab 2', 'constantcontact' ),
-				'url' => '',
-				'key' => 'help',
-				'callback' => 'admin_page_display',
-			),
-			array(
-				'title' => __( 'Tab 3', 'constantcontact' ),
-				'url' => '',
-				'key' => 'about',
-				'callback' => 'admin_page_display',
-			),
-		);
-
-		echo '<h2 class="nav-tab-wrapper">';
-
-		foreach ( $tabs as $tab => $value ) {
-			$active = 0 === $tab ? 'nav-tab-active' : '';
-			echo '<a class="nav-tab ' . esc_attr( $active ) . '">' . esc_attr( $value['title'] ) . '</a>';
-		}
-
-		echo '</h2>';
-	}
-
-	/**
 	 * Add shortcode columns to each cpt.
 	 *
 	 * @internal
