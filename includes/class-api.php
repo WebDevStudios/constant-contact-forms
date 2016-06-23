@@ -237,6 +237,9 @@ class ConstantContact_API {
 	 */
 	public function update_list( $updated_list = array() ) {
 
+		// set our var to do things with
+		$return_list = false;
+
 		try {
 
 			$list = new ContactList();
