@@ -100,13 +100,14 @@ class ConstantContact_Display {
 			}
 
 			// Add hidden field with our form id in it
-			$return = $this->input( 'hidden', 'ctct-id', $form_id );
+			$return = $this->input( 'hidden', 'ctct-id', $form_id, '', '', true );
 
 			// if we have saved a verify value, add that to our field as well. this is to double-check
 			// that we have the correct form id for processing later
 			$verify_key = get_post_meta( $form_id, '_ctct_verify_key', true );
+
 			if ( $verify_key ) {
-				$return .= $this->input( 'hidden', 'ctct-verify', $verify_key );
+				$return .= $this->input( 'hidden', 'ctct-verify', $verify_key, '', '', true );
 			}
 
 			return $return;
@@ -162,36 +163,31 @@ class ConstantContact_Display {
 		}
 
 		// Check all our data points.
-		$name  = esc_attr( $field['name'] );
-		$map   = esc_attr( $field['map_to'] );
-		$desc  = esc_attr( isset( $field['description'] ) ? $field['description'] : '' );
-		$type  = esc_attr( isset( $field['type'] ) ? $field['type'] : 'text_field' );
-		$req   = isset( $field['required'] ) ? $field['required'] : false;
+		$name   = esc_attr( $field['name'] );
+		$map    = esc_attr( $field['map_to'] );
+		$desc   = esc_attr( isset( $field['description'] ) ? $field['description'] : '' );
+		$type   = esc_attr( isset( $field['type'] ) ? $field['type'] : 'text_field' );
+		$req    = isset( $field['required'] ) ? $field['required'] : false;
 
 		// We may have more than one of the same field in our array.
 		// this makes sure we keep them unique when processing them.
 		$map = $map . '_' . md5( serialize( $field ) );
 
-		// @TODO this could be better
-		$required_text = $req ? ' *' : '';
+		// @ todo fix this
+		$value = ( isset( $_POST[ 'ctct-' . $map ] ) ? esc_attr( $_POST[ 'ctct-' . $map ] ) : '' );
 
-		// @todo clean this
-		$return = '<label>' . esc_attr( $field['name'] ) . esc_attr( $required_text ) . '</label>';
-
-		// @todo what the heck is this
-		$field_value = ( isset( $_POST[ 'ctct-' . $map ] ) ? esc_attr( $_POST[ 'ctct-' . $map ] ) : '' );
-
-		switch ( $map ) {
-
+		// Based on our type, output different things
+		switch ( $type ) {
+			case 'text_field':
+				return $this->input( 'text', $name, $value, $desc, $req );
+				break;
 			case 'email':
-				$return .= '<input type="email" required name="ctct-' . sanitize_title( $map ) . '" value="' . esc_attr( $field_value ) . '"></p></div>';
-			break;
+				return $this->input( 'text', $name, $value, $desc, $req );
+				break;
 			default:
-				$return .= '<input type="text" name="ctct-' . sanitize_title( $map ) . '" value="' . esc_attr( $field_value ) . '">';
-			break;
+				return $this->input( 'text', $name, $value, $desc, $req );
+				break;
 		}
-
-		return $return;
 	}
 
 	/**
@@ -226,19 +222,59 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * wrapper for input display
+	 * Wrapper for 'input' form fields
 	 *
-	 * @author Brad Parbs
-	 * @param  string $type  type of form
-	 * @param  string $name  name/id of form
-	 * @param  string $value value to prepopulate
-	 * @return string        html markup
+	 * @param  string  $type   type of form field
+	 * @param  string  $name   ID of form field
+	 * @param  string  $value  pre-filled value
+	 * @param  string  $label  label text for inpug
+	 * @param  boolean $req    is this field required?
+	 * @param  boolean $f_only should we only return the field itself, with no label?
+	 * @return string          HTML markup for field
 	 */
-	public function input( $type, $name, $value ) {
+	public function input( $type = 'text', $name = '', $value = '', $label = '', $req = false, $f_only = false ) {
 
-		$name = esc_attr( $name );
+		// Sanitize our stuff
+		$name  = sanitize_text_field( $name );
+		$type  = sanitize_text_field( $type );
+		$value = sanitize_text_field( $value );
+		$label = sanitize_text_field( $label );
 
-		return '<input type="' . esc_attr( $type ) . '" id="' . $name . '" name="' . $name . '" value="' . esc_attr( $value ) . '">';
+		// Set blank defaults for required info
+		$req_text = '';
+		$required_label = '';
+
+		// If this is required, we output the HMTL5 required att
+		if ( $req ) {
+			$req_text = 'required';
+			$required_label = apply_filters( 'constant_contact_required_text_label', '* ' );
+		}
+
+
+		// Our field label will be the form name + required asterisk + our label
+		$field_label = $name . ' ' . $required_label . $label;
+
+		// Start building our return markup
+		$markup = '<p class="constant-contact-form-field constant-contact-form-field-' . $type . '">';
+		$markup .= '<label for="' . $name . '">' . $field_label . '</label>';
+
+		// Set our field as as seprate var, because we allow for only returning that
+		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $name . '" id="' . $name . '" value="' . $value . '" />';
+
+		// Add our field to our markup
+		$markup .= $field;
+
+		// Finish building our markup
+		$markup .= '</p>';
+
+
+		// If we passed in a flag for only the field, just return that
+		if ( $f_only ) {
+			return $field;
+		}
+
+		// Otherwise all the markup
+		return $markup;
 	}
 }
 
