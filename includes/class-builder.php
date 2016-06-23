@@ -143,7 +143,14 @@ class ConstantContact_Builder {
 			'name'    => __( 'Field Name', 'constantcontact' ),
 			'id'      => $prefix . 'field_name',
 			'type'    => 'text',
-			'default' => 'Email',
+			'default' => __( 'Email', 'constantcontact' ),
+		) );
+
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'    => __( 'Field Description', 'constantcontact' ),
+			'id'      => $prefix . 'field_desc',
+			'type'    => 'text',
+			'default' => '',
 		) );
 
 		$default_fields = apply_filters( 'constant_contact_field_types', array(
