@@ -63,14 +63,9 @@ class ConstantContact_Auth_Redirect {
 	function rewrite_catch() {
 		global $wp_query;
 
-		// Only run if logged in user can manage site options.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
-		}
-
-
 		// So many data checks!
 		if (
+			current_user_can( 'manage_options' ) &&
 			! is_admin() &&
 			isset( $wp_query ) &&
 			$wp_query &&
