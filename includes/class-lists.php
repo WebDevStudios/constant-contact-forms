@@ -83,13 +83,14 @@ class ConstantContact_Lists {
 
 		$post_meta = get_post_meta( $cmb->object_id(), '_ctct_list_id', true );
 
-		$cmb->add_field( array(
-			'name' 	=> __( 'ID', 'constantcontact' ),
-			'desc' 	=> $post_meta,
-			'id'   	=> '_ctct_list_meta',
-			'type'	=> 'title',
-		) );
-
+		if ( $post_meta ) {
+			$cmb->add_field( array(
+				'name' 	=> __( 'ID', 'constantcontact' ),
+				'desc' 	=> esc_attr( $post_meta ),
+				'id'   	=> '_ctct_list_meta',
+				'type'	=> 'title',
+			) );
+		}
 	}
 
 	/**
