@@ -111,7 +111,7 @@ class ConstantContact_Process_Form {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function submit_message( $mode = 'echo ') {
+	public function submit_message() {
 
 		if ( $message = get_transient( 'ctct_form_submit_message' ) ) {
 
@@ -128,11 +128,7 @@ class ConstantContact_Process_Form {
 
 			delete_transient( 'ctct_form_submit_message' );
 
-			if ( 'echo' == $mode ) {
-				echo $return;
-			} else {
-				return $return;
-			}
+			return $return;
 		}
 	}
 }
