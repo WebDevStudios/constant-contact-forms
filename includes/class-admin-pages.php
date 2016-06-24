@@ -48,7 +48,7 @@ class ConstantContact_Admin_Pages {
 	public function styles() {
 		wp_register_style(
 			'constant-contact-forms',
-			constant_contact()->url() . 'assets/css/forms.css',
+			constant_contact()->url() . 'assets/css/admin-forms.css',
 			array(),
 			constant_contact()->version
 		);
