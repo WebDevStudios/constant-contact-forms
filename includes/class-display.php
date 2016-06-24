@@ -143,14 +143,14 @@ class ConstantContact_Display {
 			}
 
 			// Add hidden field with our form id in it
-			$return = $this->input( 'hidden', 'ctct-id', $form_id, '', '', true );
+			$return = $this->input( 'hidden', 'ctct-id', 'ctct-id', $form_id, '', '', true );
 
 			// if we have saved a verify value, add that to our field as well. this is to double-check
 			// that we have the correct form id for processing later
 			$verify_key = get_post_meta( $form_id, '_ctct_verify_key', true );
 
 			if ( $verify_key ) {
-				$return .= $this->input( 'hidden', 'ctct-verify', $verify_key, '', '', true );
+				$return .= $this->input( 'hidden', 'ctct-verify', 'ctct-verify', $verify_key, '', '', true );
 			}
 
 			return $return;
@@ -214,20 +214,30 @@ class ConstantContact_Display {
 
 		// We may have more than one of the same field in our array.
 		// this makes sure we keep them unique when processing them.
-		$map = $map . '_' . md5( serialize( $field ) );
+		if ( 'submit' != $type ) {
+			$map = $map . '___' . md5( serialize( $field ) );
+		}
 
 		// Potentially replace value with submitted value
 		$value = $this->get_submitted_value( $value, $map, $field );
 
 		// Based on our type, output different things
 		switch ( $type ) {
+			case 'custom':
+			case 'first_name':
+			case 'last_name':
+			case 'phone_number':
+			case 'job_title':
+			case 'company':
+			case 'website':
 			case 'text_field':
 				return $this->input( 'text', $name, $map, $value, $desc, $req );
 				break;
 			case 'email':
-				return $this->input( 'text', $name, $map, $value, $desc, $req );
+				return $this->input( 'email', $name, $map, $value, $desc, $req );
 				break;
 			case 'hidden':
+				echo '<pre>'; var_dump( $field ); die;
 				return $this->input( 'hidden', $name, $map, $value, $desc, $req );
 				break;
 			case 'checkbox':
@@ -237,12 +247,11 @@ class ConstantContact_Display {
 				return $this->input( 'submit', $name, $map, $value, $desc );
 				break;
 			case 'address':
-				return $this->input( 'text', $name, $map, $value, $desc );
+				return $this->address( $name, $map, $value, $desc );
 				break;
 			case 'anniversery':
-				return $this->input( 'text', $name, $map, $value, $desc );
-				break;
 			case 'birthday':
+				// need this to be month / day / year
 				return $this->input( 'text', $name, $map, $value, $desc );
 				break;
 			default:
@@ -312,7 +321,7 @@ class ConstantContact_Display {
 		$markup = '<p class="constant-contact-form-field constant-contact-form-field-' . $type . '">';
 
 		// alow skipping label, also don't show for submit buttons
-		if ( $use_label && 'submit' != $type ) {
+		if ( $use_label && ( 'submit' != $type ) && ( 'hidden' != $type ) ) {
 
 			// Our field label will be the form name + required asterisk + our label
 			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label . $label );
@@ -396,12 +405,13 @@ class ConstantContact_Display {
 	 * @param  string $label label / desc text
 	 * @return string        html markup for checkbox
 	 */
-	public function checkbox( $name = '', $id = '', $value = '', $label = '' ) {
+	public function checkbox( $name = '', $f_id = '', $value = '', $label = '' ) {
 
 		// Clean our inputs
 		$name  = sanitize_text_field( $name );
-		$f_id  = sanitize_title( $id );
+		$f_id  = sanitize_title( $f_id );
 		$value = sanitize_text_field( $value );
+		$label = esc_attr( $label );
 		$type = 'checkbox';
 
 		// Build up our markup
@@ -442,10 +452,66 @@ class ConstantContact_Display {
 			// build that checkbox
 			return $this->checkbox(
 				'ctct-opti-in',
+				'ctct-opti-in',
 				$form_data['list'],
 				( isset( $form_data['opt_in_instructions'] ) ? $form_data['opt_in_instructions'] : '' )
 			);
 		}
+	}
+
+	/**
+	 * Builds a fancy address field group
+	 *
+	 * @author Brad Parbs
+	 * @param  string $name  name of fields
+	 * @param  string $f_id  form id name
+	 * @param  array  $value values of each field
+	 * @param  string $desc  label of field
+	 * @return string        html markup of field
+	 */
+	public function address( $name = '', $f_id = '', $value = array(), $desc = '' ) {
+
+		// Set up our text strings
+		$street = __( 'Street Address', 'constantcontact' );
+		$line_2 = __( 'Address Line 2', 'constantcontact' );
+		$city   = __( 'City', 'constantcontact' );
+		$state  = __( 'State', 'constantcontact' );
+		$zip    = __( 'ZIP Code', 'constantcontact' );
+
+		// @TODO these need to get set correctly
+		// Set our values
+		$v_street = isset( $value['street'] ) ? $value['street'] : '';
+		$v_line_2 = isset( $value['line_2'] ) ? $value['line_2'] : '';
+		$v_city   = isset( $value['city'] ) ? $value['city'] : '';
+		$v_state  = isset( $value['state'] ) ? $value['state'] : '';
+		$v_zip    = isset( $value['zip'] ) ? $value['zip'] : '';
+
+		// Build our field
+		$return  = '<p><fieldset>';
+		$return .= ' <legend>' . esc_attr( $desc ) . '</legend>';
+		$return .= ' <span class="ctct-address-field-full address-line-1">';
+		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
+		$return .= '  <input type="text" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
+		$return .= ' </span>';
+		$return .= ' <span class="ctct-address-field-full address-line-2" id="input_2_1_2_container">';
+		$return .= '  <label for="line_2_' . esc_attr( $f_id ) . '">' . esc_attr( $line_2 ) . '</label>';
+		$return .= '  <input type="text" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
+		$return .= ' </span>';
+		$return .= ' <span class="ctct-address-field-left address-city" id="input_2_1_3_container">';
+		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . '</label>';
+		$return .= '  <input type="text" name="city_' . esc_attr( $f_id ) . '" id="city_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_city ) . '">';
+		$return .= ' </span>';
+		$return .= ' <span class="ctct-address-field-right address-state" id="input_2_1_4_container">';
+		$return .= '  <label for="state_' . esc_attr( $f_id ) . '">' . esc_attr( $state ) . '</label>';
+		$return .= '  <input type="text" name="state_' . esc_attr( $f_id ) . '" id="state_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_state ) . '">';
+		$return .= ' </span>';
+		$return .= ' <span class="ctct-address-field-left address-zip" id="input_2_1_5_container">';
+		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . '</label>';
+		$return .= '  <input type="text" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
+		$return .= ' </span>';
+		$return .= '</fieldset></p>';
+
+		return $return;
 	}
 }
 
