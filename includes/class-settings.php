@@ -433,6 +433,11 @@ class ConstantContact_Settings {
 			return $value;
 		}
 
+		// If they hvaen't entered anything, don't show mask
+		if ( empty( $value ) ) {
+			return '';
+		}
+
 		return $this->get_mask();
 	}
 
