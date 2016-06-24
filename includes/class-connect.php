@@ -11,6 +11,7 @@ use Ctct\ConstantContact;
 use Ctct\Auth\CtctOAuth2;
 use Ctct\Exceptions\OAuth2Exception;
 use Defuse\Crypto\Key;
+use Defuse\Crypto\Crypto;
 
 /**
  * Class ConstantContact_Connect
@@ -71,18 +72,17 @@ class ConstantContact_Connect {
 	 * @return void
 	 */
 	public function hooks() {
-		add_action( 'admin_init', array( $this, 'init' ) );
+		add_action( 'admin_init', array( $this, 'maybe_disconnect' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 	}
 
 	/**
-	 * Register our setting to WP
+	 * init oauth
 	 *
 	 * @since  1.0.0
 	 * @return void
 	 */
-	public function init() {
-
+	public function init_oauth() {
 		$this->redirect_url = add_query_arg(
 			array(
 				'post_type' => 'ctct_forms',
@@ -101,7 +101,6 @@ class ConstantContact_Connect {
 		// Make sure that the connect worked before setting as class prop
 		if ( $oath_connect ) {
 			$this->oauth = $oath_connect;
-			$this->disconnect();
 		}
 	}
 
@@ -136,12 +135,12 @@ class ConstantContact_Connect {
 			return false;
 		}
 
+		$this->init_oauth();
 		$response = false;
 
 		// If the 'code' query parameter is present in the uri, the code can exchanged for an access token.
 		if ( isset( $_GET['code'] ) && is_admin() ) {
 			try {
-
 				$response = $this->oauth->getAccessToken( sanitize_text_field( wp_unslash( $_GET['code'] ) ) );
 			} catch ( OAuth2Exception $ex ) {
 				constant_contact()->api->log_errors( $ex->getErrors() );
@@ -198,7 +197,7 @@ class ConstantContact_Connect {
 	 * @since  1.0.0
 	 * @return boolean
 	 */
-	private function disconnect() {
+	public function maybe_disconnect() {
 
 		// Only run if logged in user can manage site options.
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -210,14 +209,56 @@ class ConstantContact_Connect {
 		if ( isset( $_GET['ctct-disconnect'] ) && is_admin() ) {
 
 			// Delete access token.
-			delete_option( '_ctct_token' );
-			delete_option( '_ctct_access_salt' );
+			delete_option( 'ctct_token' );
+			delete_option( 'ctct_key' );
 
 			// Create a redirect back to connect page.
 			wp_safe_redirect( remove_query_arg( array( 'ctct-disconnect', 'code', 'auth', 'username' ), $this->redirect_url ) );
 			exit;
 		}
+	}
 
+	/**
+	 * Get an encrypted value
+	 *
+	 * @param  string $key key to save to
+	 */
+	public function e_get( $check_key ) {
+
+		// Get our key
+		$key = $this->get_encrpyt_key();
+
+		// Get our saved token
+		$encrypted_token = get_option( $check_key, false );
+
+		// Make sure we have something
+		if ( ! $encrypted_token ) {
+			return false;
+		}
+
+		// Return data
+		return Crypto::decrypt( $encrypted_token, $key );
+	}
+
+	/**
+	 * Set an encrypted value
+	 *
+	 * @param  string $key  key to save to
+	 * @param  string $data data to save
+	 */
+	public function e_set( $key, $data ) {
+
+		// Get our key
+		$key = $this->get_encrpyt_key();
+
+		// Encrypt
+		$saved = Crypto::encrypt( $data, $key );
+
+		// Save option
+		update_option( $key, $saved );
+
+		// Return data
+		return $saved;
 	}
 
 	/**
@@ -228,8 +269,7 @@ class ConstantContact_Connect {
 	 * @return void
 	 */
 	private function update_token( $access_token ) {
-		update_option( '_ctct_token', $access_token );
-
+		return $this->e_set( 'ctct_token', $access_token );
 	}
 
 	/**
@@ -238,6 +278,63 @@ class ConstantContact_Connect {
 	 * @return string token
 	 */
 	public function get_api_token() {
-		return get_option( '_ctct_token', false );
+
+		// Clean up our old tokens
+		$this->check_deleted_legacy_token();
+
+		return $this->e_get( 'ctct_token' );
+	}
+
+	/**
+	 * If we have a legacy token, let's re-save it
+	 *
+	 */
+	public function check_deleted_legacy_token() {
+
+		// Get our old token
+		$legacy = get_option( '_ctct_token' );
+
+		// If we got a legacy value, reencrypt and delete it
+		if ( $legacy ) {
+			// Update our token with our legacy data
+			$this->update_token( $legacy );
+			delete_option( '_ctct_token' );
+		}
+	}
+
+	/**
+	 * Get our encrypt key
+	 *
+	 * @return string key to use for encrypt
+	 */
+	public function get_encrpyt_key() {
+
+		// Get our key
+		$key = get_option( 'ctct_key', false );
+
+		// If we don't have one, make one
+		if ( ! $key ) {
+			$key = $this->generate_and_save_key();
+		}
+
+		// return it
+		return Key::loadFromAsciiSafeString( $key );
+	}
+
+	/**
+	 * Generates and saves a new key
+	 *
+	 * @return object key
+	 */
+	public function generate_and_save_key() {
+		$key = Key::createNewRandomKey();
+		$key = $key->saveToAsciiSafeString();
+		$updated = update_option( 'ctct_key', $key );
+
+		if ( ! $updated ) {
+			$key = $this->generate_and_save_key();
+		}
+
+		return $key;
 	}
 }

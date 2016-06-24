@@ -262,14 +262,28 @@ class Constant_Contact {
 			'constantcontact/autoload.php',
 			'constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php',
 			'wds/WDS-Shortcodes/wds-shortcodes.php',
+
+			'defuse-php-encryption/Exception/CryptoException.php',
+			'defuse-php-encryption/Exception/BadFormatException.php',
+			'defuse-php-encryption/Exception/EnvironmentIsBrokenException.php',
+			'defuse-php-encryption/Exception/IOException.php',
+			'defuse-php-encryption/Exception/WrongKeyOrModifiedCiphertextException.php',
+
+			'defuse-php-encryption/Core.php',
+			'defuse-php-encryption/Crypto.php',
+			'defuse-php-encryption/DerivedKeys.php',
+			'defuse-php-encryption/Encoding.php',
+			'defuse-php-encryption/Key.php',
+			'defuse-php-encryption/KeyOrPassword.php',
+			'defuse-php-encryption/RuntimeTests.php',
 		);
 
 		// Loop through our vendor libraries and load them
 		foreach ( $libs as $lib ) {
-			// Require_once our file
-			require_once $this->dir( "vendor/{$lib}" );
-		}
 
+			// Require_once our file
+			require_once( $this->dir( "vendor/{$lib}" ) );
+		}
 	}
 
 	/**
