@@ -122,44 +122,22 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
-		// at this point we can process all of our submitted values
-		$this->submit_form_values( $return['values'] );
-
 		// @ TODO need to replcae this to account for our dynamic form names
 		// if we're not processing the opt-in stuff, we can just return our data here
 		if ( ! isset( $_POST['ctct-opti-in'] ) ) {
+
+			// at this point we can process all of our submitted values
+			$this->submit_form_values( $return['values'] );
+
 			$return['status'] = 'success';
 			return $return;
 		}
 
-		// @ TODO need to replcae this to account for our dynamic form names
-		// if ( isset( $_POST['ctct-opti-in'] ) ) {
-		// if ( isset( $_POST['ctct-email'] ) && isset( $_POST['ctct-opti-in'] ) ) {
-		// $args = array(
-		// 'email' => sanitize_email( ),
-		// 'list' => sanitize_text_field( $_POST['ctct-opti-in'] ),
-		// 'first_name' => '',
-		// 'last_name' => '',
-		// );
-		// }
-			// $contact = constantcontact_api()->add_contact( $args );
-	        // // sanitize form values
-	        // $name   = isset( $_ctct_first_name ) ? $_ctct_first_name : '';
-			// $subject = '';
-			// $message = '';
-			//
-	        // // get the blog administrator's email address
-	        // $to = get_option( 'admin_email' );
-	        // $headers = "From: $name <$email>" . "\r\n";
-	        // // If email has been process for sending, display a success message
-	        // if ( wp_mail( $to, $subject, $message, $headers ) ) {
-	        // echo '<div>';
-	        // echo '<p>Thanks for contacting me, expect a response soon.</p>';
-	        // echo '</div>';
-	        // } else {
-	        // echo 'An unexpected error occurred';
-	        // }
-		// }
+		// at this point we can process all of our submitted values
+		$this->submit_form_values( $return['values'], true );
+
+		$return['status'] = 'success';
+		return $return;
 	}
 
 	/**
@@ -167,7 +145,7 @@ class ConstantContact_Process_Form {
 	 *
 	 * @param  array $values submitted form values
 	 */
-	public function submit_form_values( $values = array() ) {
+	public function submit_form_values( $values = array(), $add_to_opt_in = false ) {
 
 		// Sanity check
 		if ( ! is_array( $values ) ) {
@@ -177,11 +155,62 @@ class ConstantContact_Process_Form {
 		// Clean our values
 		$values = $this->clean_values( $values );
 
+		if ( $add_to_opt_in ) {
+			$this->opt_in_user( $values );
+		}
+
+		// pretty our values
+		$values = $this->pretty_values( $values );
+
 		// Format them
 		$values = $this->format_values_for_email( $values );
 
 		// Send the mail
 		return $this->mail( $this->get_email(), $values );
+	}
+
+	public function opt_in_user( $values ) {
+
+		// Set our default vars
+		$email      = '';
+		$first_name = '';
+		$last_name  = '';
+
+		// go through all our fields
+		foreach ( $values as $val ) {
+
+			// Make sure we have our data to check set
+			$key = isset( $val['key'] ) ? $val['key'] : '';
+			$val = isset( $val['value'] ) ? $val['value'] : '';
+
+			// Loop through our form and pluck out our email and names
+			switch ( $key ) {
+				case 'email':
+					$email = $val;
+					continue;
+					break;
+				case 'first_name':
+					$first_name = $val;
+					continue;
+					break;
+				case 'last_name':
+					$last_name = $val;
+					continue;
+					break;
+			}
+		}
+
+		// Make sure we have an email set
+		if ( $email ) {
+			$args = array(
+				'email'      => sanitize_email( $email ),
+				'list'       => sanitize_text_field( $_POST['ctct-opti-in'] ),
+				'first_name' => sanitize_text_field( $first_name ),
+				'last_name'  => sanitize_text_field( $last_name ),
+			);
+
+			$contact = constantcontact_api()->add_contact( $args );
+		}
 	}
 
 	/**
@@ -190,10 +219,7 @@ class ConstantContact_Process_Form {
 	 * @param  array $values values to format
 	 * @return string         html content for email
 	 */
-	public function format_values_for_email( $values ) {
-
-		// get our values
-		$pretty_vals = $this->pretty_values( $values );
+	public function format_values_for_email( $pretty_vals ) {
 
 		$return = '';
 		foreach ( $pretty_vals as $val ) {
