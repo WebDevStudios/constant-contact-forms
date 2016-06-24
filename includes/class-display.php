@@ -65,7 +65,7 @@ class ConstantContact_Display {
 		// if the status is error, then we will re-show the form, but also
 		// with our error messages.
 		// @TODO also do server-side verification and pass back field merrors
-		$response = constant_contact()->process_form->process_wrapper();
+		$response = constant_contact()->process_form->process_wrapper( $form_data, $form_id );
 
 		// Check to see if we got a response, and if it has the fields we expect
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
