@@ -298,7 +298,7 @@ class ConstantContact_Display {
 		if ( current_user_can( 'edit_posts' ) && $form_id ) {
 
 			// get our edit link
-			$edit_link = get_edit_post_link( absint( $form_id ), $context );
+			$edit_link = get_edit_post_link( absint( $form_id ) );
 
 			// if we got a link, display it
 			if ( $edit_link ) {
