@@ -192,14 +192,19 @@ class ConstantContact_Settings {
 		}
 
 		$cmb->add_field( array(
-			'name' 	=> __( 'API key', 'constantcontact' ),
-			'id'   	=> '_ctct_api_key',
-			'type'	=> 'text',
+			'name' 	          => __( 'API key', 'constantcontact' ),
+			'id'   	          => '_ctct_api_key',
+			'type'	          => 'text',
+			// 'sanitization_cb' => array( $this, 'save_api_keys' ),
+			// 'escape_cb'       => array( $this, 'mask_api_keys' ),
 		) );
+
 		$cmb->add_field( array(
-			'name' 	=> __( 'API Secret', 'constantcontact' ),
-			'id'   	=> '_ctct_api_secret',
-			'type'	=> 'text',
+			'name' 	          => __( 'API Secret', 'constantcontact' ),
+			'id'   	          => '_ctct_api_secret',
+			'type'	          => 'text',
+			// 'sanitization_cb' => array( $this, 'save_api_keys' ),
+			// 'escape_cb'       => array( $this, 'mask_api_keys' ),
 		) );
 
 	}
@@ -358,6 +363,20 @@ class ConstantContact_Settings {
 	 */
 	public function update_override( $test, $option_value ) {
 		return update_site_option( $this->key, $option_value );
+	}
+
+	/**
+	 * Encrpyts our api keys on saver
+	 */
+	public function save_api_keys( $value, $field_args, $field ) {
+
+	}
+
+	/**
+	 * Hides our api keys from display
+	 */
+	public function mask_api_keys( $value, $field_args, $field ) {
+		return '**********';
 	}
 
 	/**
