@@ -416,7 +416,7 @@ class ConstantContact_Process_Form {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function process_wrapper() {
+	public function process_wrapper( $form_data = array(), $form_id = '' ) {
 
 		// Process our data, and get our response.
 		$processed = $this->process_form();
