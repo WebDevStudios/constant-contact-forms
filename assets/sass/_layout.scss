@@ -2,6 +2,20 @@
 //   Layout helpers
 //--------------------------------------------------------------
 
+// 2-col layout helper for desktop
+.ctct-field-half {
+	
+	@include wider-than('medium') {
+		float: left;
+		margin-right: 2%;
+		width: 48%;
+		
+		&:last-of-type {
+			margin-right: 0;
+		}
+	}
+	
+} // .ctct-field-half
 .ctct-field-third {
 	
 	@include wider-than('medium') {
