@@ -202,7 +202,6 @@ class ConstantContact_Admin_Pages {
 					<h1 class="about-header"><?php echo esc_attr( $this->get_text( 'welcome_heading' ) ); ?></h1>
 					<div class="about-text">
 						<?php echo esc_attr( $this->get_text( 'welcome_text' ) ); ?>
-						<input type="button" class="button-primary ctct-disconnect" value="Connect Now!">
 					</div>
 				</div>
 				<div class="plugin-badge">
