@@ -21,4 +21,8 @@ $color-success: $color-green;
 $padding: 1em;
 
 // Breakpoints
-$bp-tablet-landscape: 1024px;
+$breakpoints: (
+	'small':  767px,
+	'medium': 992px,
+	'large':  1200px
+) !default;
