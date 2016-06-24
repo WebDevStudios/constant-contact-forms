@@ -266,7 +266,7 @@ class ConstantContact_Connect {
 	 * @param  string $key  key to save to
 	 * @param  string $data data to save
 	 */
-	public function e_set( $key, $data ) {
+	public function e_set( $check_key, $data ) {
 
 		// Get our key
 		$key = $this->get_encrpyt_key();
@@ -275,7 +275,7 @@ class ConstantContact_Connect {
 		$saved = Crypto::encrypt( $data, $key );
 
 		// Save option
-		update_option( $key, $saved );
+		update_option( $check_key, $saved );
 
 		// Return data
 		return $saved;
