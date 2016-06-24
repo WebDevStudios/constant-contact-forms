@@ -307,7 +307,6 @@ class ConstantContact_Connect {
 
 	/**
 	 * If we have a legacy token, let's re-save it
-	 *
 	 */
 	public function check_deleted_legacy_token() {
 

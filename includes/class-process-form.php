@@ -90,7 +90,6 @@ class ConstantContact_Process_Form {
 
 		// @TODO at this point we can process and check required fields / all fields are there
 		// etc
-
 		// If the submit button is clicked, send the email.
 		foreach ( $_POST as $key => $value ) {
 
@@ -122,7 +121,6 @@ class ConstantContact_Process_Form {
 		// at this point we can process all of our submitted values
 		$this->submit_form_values( $return['values'] );
 
-
 		// @ TODO need to replcae this to account for our dynamic form names
 		// if we're not processing the opt-in stuff, we can just return our data here
 		if ( ! isset( $_POST['ctct-opti-in'] ) ) {
@@ -132,18 +130,15 @@ class ConstantContact_Process_Form {
 
 		// @ TODO need to replcae this to account for our dynamic form names
 		// if ( isset( $_POST['ctct-opti-in'] ) ) {
-
-		// 	if ( isset( $_POST['ctct-email'] ) && isset( $_POST['ctct-opti-in'] ) ) {
-		// 		$args = array(
-		// 			'email' => sanitize_email( ),
-		// 			'list' => sanitize_text_field( $_POST['ctct-opti-in'] ),
-		// 			'first_name' => '',
-		// 			'last_name' => '',
-		// 		);
-		// 	}
-
+		// if ( isset( $_POST['ctct-email'] ) && isset( $_POST['ctct-opti-in'] ) ) {
+		// $args = array(
+		// 'email' => sanitize_email( ),
+		// 'list' => sanitize_text_field( $_POST['ctct-opti-in'] ),
+		// 'first_name' => '',
+		// 'last_name' => '',
+		// );
+		// }
 			// $contact = constantcontact_api()->add_contact( $args );
-
 	        // // sanitize form values
 	        // $name   = isset( $_ctct_first_name ) ? $_ctct_first_name : '';
 			// $subject = '';
@@ -152,14 +147,13 @@ class ConstantContact_Process_Form {
 	        // // get the blog administrator's email address
 	        // $to = get_option( 'admin_email' );
 	        // $headers = "From: $name <$email>" . "\r\n";
-
 	        // // If email has been process for sending, display a success message
 	        // if ( wp_mail( $to, $subject, $message, $headers ) ) {
-	        //     echo '<div>';
-	        //     echo '<p>Thanks for contacting me, expect a response soon.</p>';
-	        //     echo '</div>';
+	        // echo '<div>';
+	        // echo '<p>Thanks for contacting me, expect a response soon.</p>';
+	        // echo '</div>';
 	        // } else {
-	        //     echo 'An unexpected error occurred';
+	        // echo 'An unexpected error occurred';
 	        // }
 		// }
 	}
@@ -167,7 +161,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Process our form values
 	 *
-	 * @param  array  $values submitted form values
+	 * @param  array $values submitted form values
 	 */
 	public function submit_form_values( $values = array() ) {
 

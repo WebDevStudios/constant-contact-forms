@@ -316,10 +316,10 @@ class ConstantContact_API {
 	/**
 	 * Helper method to creat contact
 	 *
-	 * @param  array $response  response from api call
+	 * @param  array  $response  response from api call
 	 * @param  string $api_token token
 	 * @param  string $list      list name
-	 * @param  string email      email address
+	 * @param  string $email      email address
 	 * @param  string $f_name    first name
 	 * @param  string $l_name    last name
 	 * @return mixed             response from api

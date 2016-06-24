@@ -45,12 +45,11 @@ class ConstantContact_Display {
 		$error_message    = false;
 		$status           = false;
 
-
 		// Get a potential response from our processing wrapper
 		// This returns an array that looks like this:
-		//	array(
-		//	    'status'  => $status,
-		// 	    'message' => $message,
+		// array(
+		// 'status'  => $status,
+		// 'message' => $message,
 		// )
 		// if the status is success, then we sent the form correctly
 		// if the status is error, then we will re-show the form, but also
@@ -83,7 +82,6 @@ class ConstantContact_Display {
 			// We'll show this error right inside our form
 			$form_err_display = $this->message( 'error', $error_message );
 		}
-
 
 		// Build out our form
 		$return .= '<form id="ctct-form" action="' . esc_url( $this->get_current_page() ) . '" method="post">';
@@ -239,7 +237,6 @@ class ConstantContact_Display {
 				return $this->input( 'email', $name, $map, $value, $desc, $req );
 				break;
 			case 'hidden':
-				echo '<pre>'; var_dump( $field ); die;
 				return $this->input( 'hidden', $name, $map, $value, $desc, $req );
 				break;
 			case 'checkbox':
@@ -268,7 +265,7 @@ class ConstantContact_Display {
 	 * @param  array $field field data
 	 * @return string        submitted value
 	 */
-	public function get_submitted_value( $value = '', $map = '', $field = array() ){
+	public function get_submitted_value( $value = '', $map = '', $field = array() ) {
 
 		// If we have a value already return it
 		if ( $value ) {
@@ -280,7 +277,6 @@ class ConstantContact_Display {
 
 	/**
 	 * Helper method to display in-line for success/error messages
-	 *
 	 *
 	 * @param  string $type    success / error / etc for class
 	 * @param  string $message message to display to user
@@ -436,13 +432,12 @@ class ConstantContact_Display {
 		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" />';
 		$markup .= $this->field_bottom( $name, ' ' . $label );
 
-		//  return it
+		// return it
 		return $markup;
 	}
 
 	/**
 	 * Helper method for submit button
-	 *
 	 *
 	 * @return string html markup
 	 */
@@ -478,7 +473,6 @@ class ConstantContact_Display {
 
 	/**
 	 * Builds a fancy address field group
-	 *
 	 *
 	 * @param  string $name  name of fields
 	 * @param  string $f_id  form id name

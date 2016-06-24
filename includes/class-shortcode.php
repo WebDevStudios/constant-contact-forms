@@ -133,7 +133,6 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 					$fields['fields'][ $key ]['description'] = $custom_fields[ $key ]['_ctct_field_desc'];
 				}
 
-
 				// Set our field requirement, if we can.
 				if (
 					isset( $custom_fields[ $key ]['_ctct_required_field'] ) &&
@@ -147,7 +146,6 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 
 			// Now that we've finished checking all of our form fields, we'll
 			// want to set some general form information here.
-
 			if ( $form_id ) {
 				$fields['options']['form_id'] = $form_id;
 			}

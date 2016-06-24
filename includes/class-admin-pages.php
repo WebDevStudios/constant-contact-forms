@@ -44,7 +44,6 @@ class ConstantContact_Admin_Pages {
 
 	/**
 	 * Global admin style enqueue stuff
-	 *
 	 */
 	public function styles() {
 		wp_register_style(
@@ -100,7 +99,6 @@ class ConstantContact_Admin_Pages {
 
 	/**
 	 * Display our help page
-	 *
 	 */
 	public function help_page() {
 
@@ -191,7 +189,6 @@ class ConstantContact_Admin_Pages {
 
 	/**
 	 * Display our about page
-	 *
 	 */
 	public function about_page() {
 
@@ -286,7 +283,7 @@ class ConstantContact_Admin_Pages {
 	 * Holds all the data for the about page
 	 *
 	 * @param  string $key           array key of text to retrieve
-	 * @param  text $secondary_key   optional second key for nested array
+	 * @param  text   $secondary_key   optional second key for nested array
 	 * @return mixed                If no params are passed in, all data returned.
 	                                passing one key will return that data if it exists,
 	                                either as a string or array. The secondary key will grab a nested

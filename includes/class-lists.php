@@ -97,7 +97,6 @@ class ConstantContact_Lists {
 
 	/**
 	 * Style our form stuff
-	 *
 	 */
 	public function add_form_css() {
 		wp_enqueue_style( 'constant-contact-forms' );
