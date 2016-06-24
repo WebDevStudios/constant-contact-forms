@@ -8,17 +8,19 @@
 }  // .ctct-button
 
 // form messages / validation
-.message {
+.ctct-message {
     border: 1px solid;
 	padding: $padding;
 } // .message
 
+// message Error
 .error {
     background-color: fade-out($color-error, 0.98);
 	border-color: $color-error;
 	color: darken($color-error, 20%);
 } // .error
 
+// message Success
 .success {
     background-color: fade-out($color-success, 0.98);
 	border-color: $color-green;
