@@ -64,8 +64,11 @@ class ConstantContact_Display {
 		// if the status is success, then we sent the form correctly
 		// if the status is error, then we will re-show the form, but also
 		// with our error messages.
-		// @TODO also do server-side verification and pass back field merrors
 		$response = constant_contact()->process_form->process_wrapper( $form_data, $form_id );
+
+		// submitted values
+		$old_values = isset( $response['values'] ) ? $response['values'] : '';
+		$req_errors = isset( $response['errors'] ) ? $response['errors'] : '';
 
 		// Check to see if we got a response, and if it has the fields we expect
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
@@ -104,7 +107,7 @@ class ConstantContact_Display {
 		$return .= $form_err_display;
 
 		// Output our normal form fields
-		$return .= $this->build_form_fields( $form_data );
+		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
 		// Add our hidden verification fields
 		$return .= $this->add_verify_fields( $form_data );
@@ -176,7 +179,7 @@ class ConstantContact_Display {
 	 * @param  array $form_data formulated cmb2 data for form.
 	 * @return void
 	 */
-	public function build_form_fields( $form_data ) {
+	public function build_form_fields( $form_data, $old_values, $req_errors ) {
 
 		// start our wrapper return var
 		$return = '';
@@ -194,7 +197,7 @@ class ConstantContact_Display {
 
 		// Loop through each of our form fields and output it.
 		foreach ( $form_data['fields'] as $key => $value ) {
-			$return .= $this->field( $value );
+			$return .= $this->field( $value, $old_values, $req_errors );
 		}
 
 		// Check to see if we have an opt-in for the form, and display it.
@@ -211,7 +214,7 @@ class ConstantContact_Display {
 	 * @param  array $field field data
 	 * @return string        html markup
 	 */
-	public function field( $field ) {
+	public function field( $field, $old_values = array(), $req_errors = array() ) {
 
 		// If we don't have a name or a mapping, it will be hard to do things.
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
@@ -233,7 +236,7 @@ class ConstantContact_Display {
 		}
 
 		// Potentially replace value with submitted value
-		$value = $this->get_submitted_value( $value, $map, $field );
+		$value = $this->get_submitted_value( $value, $map, $field, $old_values );
 
 		// Based on our type, output different things
 		switch ( $type ) {
@@ -279,14 +282,29 @@ class ConstantContact_Display {
 	 * @param  array $field field data
 	 * @return string        submitted value
 	 */
-	public function get_submitted_value( $value = '', $map = '', $field = array() ) {
+	public function get_submitted_value( $value = '', $map = '', $field = array(), $submitted_vals = array() ) {
 
 		// If we have a value already return it
 		if ( $value ) {
 			return $value;
 		}
-		// @TODO fix this
-		return ( isset( $_POST[ 'ctct-' . $map ] ) ? esc_attr( $_POST[ 'ctct-' . $map ] ) : '' );
+
+		// Loop through each val and try to grab our submitted
+		foreach ( $submitted_vals as $post ) {
+
+			// Sanity check that
+			if (
+				isset( $post['key'] ) &&
+				$post['key'] &&
+				$post['key'] == $map &&
+				isset( $_POST[ esc_attr( $map ) ] )
+			) {
+				// Clean and return
+				return sanitize_text_field(  $_POST[ esc_attr( $map ) ] );
+			}
+		}
+
+		return '';
 	}
 
 	/**
@@ -406,7 +424,7 @@ class ConstantContact_Display {
 		$type  = sanitize_text_field( $type );
 		$value = sanitize_text_field( $value );
 		$label = sanitize_text_field( $label );
-		$req_text = $req ? 'required' : '';
+		$req_text = ''; //$req ? 'required' : '';
 
 		// Start our markup
 		$markup = $this->field_top( $type, $name, $f_id, $label, $req );

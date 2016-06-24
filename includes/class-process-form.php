@@ -93,8 +93,6 @@ class ConstantContact_Process_Form {
 			);
 		}
 
-		// @TODO at this point we can process and check required fields / all fields are there
-		// etc
 		// If the submit button is clicked, send the email.
 		foreach ( $_POST as $key => $value ) {
 
@@ -122,7 +120,19 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
-		// @ TODO need to replcae this to account for our dynamic form names
+		// Check for specific validation errors
+		$field_errors = $this->get_field_errors( $this->clean_values( $return['values'] ) );
+		// If we got errors
+		if ( is_array( $field_errors ) && ! empty( $field_errors ) ) {
+
+			// Send back an error status, a message, the errors we found, and all orig values
+			return array(
+				'status'   => 'req_error',
+				'errors'   => $field_errors,
+				'values'   => $return['values'],
+			);
+		}
+
 		// if we're not processing the opt-in stuff, we can just return our data here
 		if ( ! isset( $_POST['ctct-opti-in'] ) ) {
 
@@ -240,17 +250,7 @@ class ConstantContact_Process_Form {
 	 * @param  array $values values
 	 * @return array         values but better
 	 */
-	public function pretty_values( $values = array() ) {
-		//    ██                 ██
-		//   ░██                ░██
-		//  ██████  ██████      ░██  ██████
-		// ░░░██░  ██░░░░██  ██████ ██░░░░██
-		//   ░██  ░██   ░██ ██░░░██░██   ░██
-		//   ░██  ░██   ░██░██  ░██░██   ░██
-		//   ░░██ ░░██████ ░░██████░░██████
-		//    ░░   ░░░░░░   ░░░░░░  ░░░░░░
-		//    @ TODO rip this out and use it for the field require verification
-
+	public function pretty_values( $values = array(), $compare_type = '' ) {
 
 		// Sanity check
 		if ( ! is_array( $values ) ) {
@@ -323,15 +323,71 @@ class ConstantContact_Process_Form {
 			// force value to be set
 			$value['value'] = isset( $value['value'] ) ? $value['value'] : '';
 
-			if ( $value['key'] == $orig_fields[ $key ]['_ctct_map_select'] ) {
+
+			// If we define our compare as full value, we'll send back the
+			// entire two form values to compare
+			if ( 'full' === $compare_type ) {
 				$pretty_values[] = array(
-					'field' => sanitize_text_field( $orig_fields[ $key ]['_ctct_field_name'] ),
-					'value' => sanitize_text_field( $value['value'] ),
+					'orig' => $orig_fields[ $key ],
+					'post' => $value['value'],
 				);
+			} else {
+
+				// Otherwise, pretty up based on field names
+				if ( $value['key'] == $orig_fields[ $key ]['_ctct_map_select'] ) {
+					$pretty_values[] = array(
+						'field' => sanitize_text_field( $orig_fields[ $key ]['_ctct_field_name'] ),
+						'value' => sanitize_text_field( $value['value'] ),
+					);
+				}
 			}
 		}
 
+		// Send it back
 		return $pretty_values;
+	}
+
+	/**
+	 * Get field requirement errors
+	 *
+	 * @param  array $values values
+	 * @return array         return error code stuff
+	 */
+	public function get_field_errors( $values ) {
+
+		// get our values with full orig field comparisons
+		$values = $this->pretty_values( $values, 'full' );
+
+		// Sanity check
+		if ( ! is_array( $values ) ) {
+			return array();
+		}
+
+		// set up an array to populate with errors
+		$err_returns = array();
+
+		// Loop through each value
+		foreach ( $values as $value ) {
+
+			// Sanity check
+			if ( ! isset( $value['orig'] ) || ! isset( $value['post'] ) ) {
+				continue;
+			}
+
+			// Do a check for if field was required
+			if (
+				isset( $value['orig']['_ctct_required_field'] ) &&
+				$value['orig']['_ctct_required_field'] &&
+				'on' === $value['orig']['_ctct_required_field']
+			) {
+				// If it was required, check for a value
+				if ( empty( $value['post'] ) ) {
+					$err_returns[] = $value['orig']['_ctct_map_select'];
+				}
+			}
+		}
+
+		return $err_returns;
 	}
 
 	/**
@@ -449,6 +505,15 @@ class ConstantContact_Process_Form {
 			case 'named_error':
 				$message = isset( $processed['error'] ) ? $processed['error'] : $default_error;
 				break;
+
+			// required field errors
+			case 'req_error':
+				return array(
+					'status'  => 'error',
+					'message' => __( 'There was an error with your submission. Please correct the fields below.', 'constantcontact' ),
+					'errors'  => isset( $processed['errors'] ) ? $processed['errors'] : '',
+					'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
+				);
 
 			// all else fails, use default
 			default:
