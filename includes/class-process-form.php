@@ -99,6 +99,8 @@ class ConstantContact_Process_Form {
 				'ctct-submitted',
 				'ctct_form',
 				'_wp_http_referer',
+				'ctct-id',
+				'ctct-verify',
 			) );
 
 			// if our key we're processing is in our array, ignore it
@@ -107,8 +109,19 @@ class ConstantContact_Process_Form {
 			}
 
 			// Add our responses to a form we can deal with shortly.
-			$return['values'][ esc_attr( $key ) ] = esc_attr( $value );
+			$return['values'][] = array(
+				'key'   => esc_attr( $key ),
+				'value' => esc_attr( $value ),
+			);
 		}
+
+		if ( ! isset( $return['values'] ) || ! is_array( $return['values'] ) ) {
+			return;
+		}
+
+		// at this point we can process all of our submitted values
+		$this->submit_form_values( $return['values'] );
+
 
 		// @ TODO need to replcae this to account for our dynamic form names
 		// if we're not processing the opt-in stuff, we can just return our data here
@@ -149,6 +162,9 @@ class ConstantContact_Process_Form {
 	        //     echo 'An unexpected error occurred';
 	        // }
 		// }
+	}
+
+	public function submit_form_values( $values = array() ) {
 	}
 
 	/**
