@@ -241,7 +241,7 @@ class ConstantContact_Admin {
 				echo esc_attr( '[ctct form="' . $post_id . '"]' );
 			break;
 			case 'description':
-				echo esc_attr( get_post_meta( $post_id, '_ctct_description', true ) );
+				echo wpautop( wp_kses_post( get_post_meta( $post_id, '_ctct_description', true ) ) );
 			break;
 		}
 	}
