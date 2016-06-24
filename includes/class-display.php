@@ -289,6 +289,11 @@ class ConstantContact_Display {
 			return $value;
 		}
 
+		// Sanity check
+		if ( ! is_array( $submitted_vals ) ) {
+			return '';
+		}
+
 		// Loop through each val and try to grab our submitted
 		foreach ( $submitted_vals as $post ) {
 
