@@ -279,7 +279,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method to display in-line for success/error messages
 	 *
-	 * @author Brad Parbs
+	 *
 	 * @param  string $type    success / error / etc for class
 	 * @param  string $message message to display to user
 	 * @return string          html markup
@@ -426,7 +426,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method for submit button
 	 *
-	 * @author Brad Parbs
+	 *
 	 * @return string html markup
 	 */
 	public function submit() {
@@ -462,7 +462,7 @@ class ConstantContact_Display {
 	/**
 	 * Builds a fancy address field group
 	 *
-	 * @author Brad Parbs
+	 *
 	 * @param  string $name  name of fields
 	 * @param  string $f_id  form id name
 	 * @param  array  $value values of each field
