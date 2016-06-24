@@ -252,7 +252,7 @@ class ConstantContact_Connect {
 			$return = Crypto::decrypt( $encrypted_token, $key );
 		} catch ( Exception $e ) {
 			// otherwise just return the raw val
-			$return = $encrypted_token;
+			$return = '';
 		}
 
 		// Return data
