@@ -223,21 +223,42 @@ class ConstantContact_Connect {
 	 *
 	 * @param  string $key key to save to
 	 */
-	public function e_get( $check_key ) {
+	public function e_get( $check_key, $fallback_to_ctct_opt = false ) {
 
 		// Get our key
 		$key = $this->get_encrpyt_key();
 
 		// Get our saved token
-		$encrypted_token = get_option( $check_key, false );
+		if ( $fallback_to_ctct_opt ) {
+
+			// if we want to fallback, we'll get the nested option
+			$options = get_option( 'ctct_options_settings', false );
+			if ( $options && isset( $options[ $check_key ]) ) {
+				$encrypted_token = $options[ $check_key ];
+			}
+
+		} else {
+
+			// Otherwise get normal option
+			$encrypted_token = get_option( $check_key, false );
+		}
 
 		// Make sure we have something
 		if ( ! $encrypted_token ) {
 			return false;
 		}
 
+		try {
+			// Try to decrypt it
+			$return = Crypto::decrypt( $encrypted_token, $key );
+		} catch ( Exception $e ) {
+			// otherwise just return the raw val
+			$return = $encrypted_token;
+		}
+
 		// Return data
-		return Crypto::decrypt( $encrypted_token, $key );
+		return $return;
+
 	}
 
 	/**
