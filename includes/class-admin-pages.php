@@ -209,7 +209,7 @@ class ConstantContact_Admin_Pages {
 				</div>
 			</div>
 
-			<?php $this->tab_navigation(); ?>
+			<?php // $this->tab_navigation(); ?>
 
 			<div class="headline-feature">
 				<h3 class="headline-title">
