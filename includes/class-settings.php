@@ -250,6 +250,7 @@ class ConstantContact_Settings {
 	        <input type="checkbox" value="<?php echo esc_attr( ctct_get_settings_option( '_ctct_optin_list' ) ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list">
 			<?php echo esc_attr( $label ); ?>
 			</label>
+			<?php echo wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin' ); ?>
 	    </p>
 	<?php
 
@@ -263,20 +264,32 @@ class ConstantContact_Settings {
 	 */
 	public function process_optin_comment_form( $comment_data ) {
 
-		if ( isset( $_POST['ctct_optin_list'] ) ) {
+		// Sanity check
+		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+			return $comment_data;
+		}
 
-			if ( isset( $comment_data['comment_author'] ) && isset( $comment_data['comment_author'] ) ) {
+		// nonce sanity check
+		if ( ! isset( $_POST['ct_ct_optin'] ) ) {
+			return $comment_data;
+		}
 
-				$args = array(
-					'email' => sanitize_email( $comment_data['comment_author_email'] ),
-					'list' => sanitize_text_field( $_POST['ctct_optin_list'] ),
-					'first_name' => sanitize_text_field( $comment_data['comment_author'] ),
-					'last_name' => '',
-				);
+		// Check our nonce
+		if ( ! wp_verify_nonce( $_POST['ct_ct_optin'], 'ct_ct_add_to_optin' ) ) {
+			return $comment_data;
+		}
 
-				constantcontact_api()->add_contact( $args );
+		// finally, if we have our data, then add it to the api
+		if ( isset( $comment_data['comment_author'] ) && isset( $comment_data['comment_author'] ) ) {
 
-			}
+			$args = array(
+				'email' => sanitize_email( $comment_data['comment_author_email'] ),
+				'list' => sanitize_text_field( $_POST['ctct_optin_list'] ),
+				'first_name' => sanitize_text_field( $comment_data['comment_author'] ),
+				'last_name' => '',
+			);
+
+			constantcontact_api()->add_contact( $args );
 		}
 
 		return $comment_data;
@@ -292,22 +305,45 @@ class ConstantContact_Settings {
 	 */
 	public function process_optin_login_form( $user, $username, $password ) {
 
-		if ( isset( $_POST['ctct_optin_list'] ) ) {
+		// Sanity check
+		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+			return $user;
+		}
 
-			$user_data = get_user_by( 'login', $username );
+		// nonce sanity check
+		if ( ! isset( $_POST['ct_ct_optin'] ) ) {
+			return $user;
+		}
 
-			if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->user_email ) ) {
-				$email = sanitize_email( $user_data->data->user_email );
-			} else {
-				$email = '';
-			}
+		// Check our nonce
+		if ( ! wp_verify_nonce( $_POST['ct_ct_optin'], 'ct_ct_add_to_optin' ) ) {
+			return $user;
+		}
 
-			if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->display_name ) ) {
-				$name = sanitize_email( $user_data->data->display_name );
-			} else {
-				$name = '';
-			}
+		// Check username
+		if ( empty( $username ) ) {
+			return $user;
+		}
 
+		// Get user
+		$user_data = get_user_by( 'login', $username );
+
+		// Get email
+		if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->user_email ) ) {
+			$email = sanitize_email( $user_data->data->user_email );
+		} else {
+			$email = '';
+		}
+
+		// Get name
+		if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->display_name ) ) {
+			$name = sanitiize_text_field( $user_data->data->display_name );
+		} else {
+			$name = '';
+		}
+
+		// IF we have one or the other, try it
+		if ( $name || $email ) {
 			$args = array(
 				'email' => $email,
 				'list' => sanitize_text_field( $_POST['ctct_optin_list'] ),
@@ -315,7 +351,7 @@ class ConstantContact_Settings {
 				'last_name' => '',
 			);
 
-			$user = constantcontact_api()->add_contact( $args );
+			constantcontact_api()->add_contact( $args );
 		}
 
 		return $user;
@@ -369,12 +405,12 @@ class ConstantContact_Settings {
 		}
 
 		// If the id is not an api key, return
-		if ( ! ( ( '_ctct_api_key' == $field_args['id'] ) || ( '_ctct_api_secret' == $field_args['id'] ) ) ) {
+		if ( ! ( ( '_ctct_api_key' === $field_args['id'] ) || ( '_ctct_api_secret' === $field_args['id'] ) ) ) {
 			return $value;
 		}
 
 		// if we are looking at are masked password, we want to bypass saving
-		if ( $this->get_mask() == $value ) {
+		if ( $this->get_mask() === $value ) {
 			$value = constant_contact()->connect->e_get( esc_attr( $field_args['id'] ), true );
 		}
 
@@ -393,7 +429,7 @@ class ConstantContact_Settings {
 		}
 
 		// If the id is not an api key, return
-		if ( ! ( ( '_ctct_api_key' == $field_args['id'] ) || ( '_ctct_api_secret' == $field_args['id'] ) ) ) {
+		if ( ! ( ( '_ctct_api_key' === $field_args['id'] ) || ( '_ctct_api_secret' === $field_args['id'] ) ) ) {
 			return $value;
 		}
 

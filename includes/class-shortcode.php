@@ -136,7 +136,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				// Set our field requirement, if we can.
 				if (
 					isset( $custom_fields[ $key ]['_ctct_required_field'] ) &&
-					'on' == $custom_fields[ $key ]['_ctct_required_field']
+					'on' === $custom_fields[ $key ]['_ctct_required_field']
 				) {
 					$fields['fields'][ $key ]['required'] = true;
 				} else {
