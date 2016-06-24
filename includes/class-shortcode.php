@@ -125,6 +125,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				// Set our field mapping, if we can.
 				if ( isset( $custom_fields[ $key ]['_ctct_map_select'] ) ) {
 					$fields['fields'][ $key ]['map_to'] = $custom_fields[ $key ]['_ctct_map_select'];
+					$fields['fields'][ $key ]['type'] = $custom_fields[ $key ]['_ctct_map_select'];
 				}
 
 				// Set our field description, if we can.
@@ -132,8 +133,6 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 					$fields['fields'][ $key ]['description'] = $custom_fields[ $key ]['_ctct_field_desc'];
 				}
 
-				// Set our field type, hardcoded for now.
-				$fields['fields'][ $key ]['type'] = 'text_field';
 
 				// Set our field requirement, if we can.
 				if (
