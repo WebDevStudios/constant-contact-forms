@@ -16,3 +16,13 @@
 	} // <abbr>
 	
 } // .ctct-form
+
+// If Field Description (optional) is provided
+.ctct-input-container {
+    
+	label {
+	    color: $color-gray;
+		font-size: 0.8em;
+	} // label
+	
+} // .ctct-input-container
