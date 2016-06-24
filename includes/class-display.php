@@ -362,7 +362,7 @@ class ConstantContact_Display {
 
 		// If this is required, we output the HMTL5 required att
 		if ( $req ) {
-			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>&nbsp;' );
+			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
 		// Start building our return markup
