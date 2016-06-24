@@ -304,6 +304,9 @@ class ConstantContact_Display {
 	 */
 	public function description( $desc = '', $form_id = false ) {
 
+		// Set default var
+		$display = '';
+
 		// if we have the permissions, also display an edit link
 		if ( current_user_can( 'edit_posts' ) && $form_id ) {
 
@@ -312,12 +315,12 @@ class ConstantContact_Display {
 
 			// if we got a link, display it
 			if ( $edit_link ) {
-				echo '<a href="' . esc_url( $edit_link ) . '">' . __( 'Edit Form', 'constantcontact' ) . '</a>';
+				$display .= '<a href="' . esc_url( $edit_link ) . '">' . __( 'Edit Form', 'constantcontact' ) . '</a>';
 			}
 		}
 
 		// Display our description
-		echo '<span class="constant-contact-form-description">' . wpautop( wp_kses_post( $desc ) ) . '</span>';
+		return '<span class="constant-contact-form-description">' . wpautop( wp_kses_post( $desc ) ) . '</span>' . $display;
 
 	}
 
