@@ -233,19 +233,18 @@ class ConstantContact_Connect {
 
 			// if we want to fallback, we'll get the nested option
 			$options = get_option( 'ctct_options_settings', false );
-			if ( $options && isset( $options[ $check_key ]) ) {
+			if ( $options && isset( $options[ $check_key ] ) ) {
 				$encrypted_token = $options[ $check_key ];
 			}
-
 		} else {
 
 			// Otherwise get normal option
 			$encrypted_token = get_option( $check_key, false );
-		}
 
-		// Make sure we have something
-		if ( ! $encrypted_token ) {
-			return false;
+			// Make sure we have something
+			if ( ! $encrypted_token ) {
+				return false;
+			}
 		}
 
 		try {

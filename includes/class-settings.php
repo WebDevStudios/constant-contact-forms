@@ -150,7 +150,7 @@ class ConstantContact_Settings {
 
 		$option_options = array(
 			'comment_form' => __( 'Comment Form', 'constantcontact' ),
-			'login_form' => __( 'Login Form', 'constantcontact' ),
+			'login_form'   => __( 'Login Form', 'constantcontact' ),
 		);
 
 		if ( get_option( 'users_can_register' ) ) {
@@ -375,10 +375,10 @@ class ConstantContact_Settings {
 
 		// if we are looking at are masked password, we want to bypass saving
 		if ( $this->get_mask() == $value ) {
-			return get_option( esc_attr( $field_args['id'] ), '' );
+			$value = constant_contact()->connect->e_get( esc_attr( $field_args['id'] ), true );
 		}
 
-		// Otherwise encrypt and return
+		// Encrypt and return
 		return constant_contact()->connect->e_set( esc_attr( $field_args['id'] ), sanitize_text_field( $value ) );
 	}
 
