@@ -1,0 +1,18 @@
+//--------------------------------------------------------------
+//   FORMS
+//--------------------------------------------------------------
+
+// <form class="ctct-form">
+.ctct-form {
+	@include clearfix;
+	
+	label {
+		
+	} // <label>
+	
+	abbr {
+	    border: none;
+		color: $color-red;
+	} // <abbr>
+	
+} // .ctct-form

@@ -1,1 +1,10 @@
-// Form styling goes here
+//--------------------------------------------------------------
+//   Let's import all the things - style.css
+//--------------------------------------------------------------
+
+@import "variables";
+@import "mixins";
+
+//@import "global";
+@import "inputs";
+@import "forms";
