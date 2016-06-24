@@ -323,7 +323,6 @@ class ConstantContact_Process_Form {
 			// force value to be set
 			$value['value'] = isset( $value['value'] ) ? $value['value'] : '';
 
-
 			// If we define our compare as full value, we'll send back the
 			// entire two form values to compare
 			if ( 'full' === $compare_type ) {

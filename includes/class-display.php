@@ -300,7 +300,7 @@ class ConstantContact_Display {
 				isset( $_POST[ esc_attr( $map ) ] )
 			) {
 				// Clean and return
-				return sanitize_text_field(  $_POST[ esc_attr( $map ) ] );
+				return sanitize_text_field( $_POST[ esc_attr( $map ) ] );
 			}
 		}
 
@@ -424,7 +424,7 @@ class ConstantContact_Display {
 		$type  = sanitize_text_field( $type );
 		$value = sanitize_text_field( $value );
 		$label = sanitize_text_field( $label );
-		$req_text = ''; //$req ? 'required' : '';
+		$req_text = $req ? 'required' : '';
 
 		// Start our markup
 		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
