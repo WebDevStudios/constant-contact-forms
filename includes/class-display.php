@@ -37,7 +37,17 @@ class ConstantContact_Display {
 	 *
 	 * @return string Form markup
 	 */
-	public function form( $form_data ) {
+	public function form( $form_data, $form_id = '', $skip_styles = false ) {
+
+		// Conditionally enqueue our styles
+		if ( ! $skip_styles ) {
+			wp_enqueue_style(
+				'ctct_form_styles',
+				constant_contact()->url() . 'assets/css/style.css',
+				array(),
+				constant_contact()->version
+			);
+		}
 
 		// Start our return markup and some default variables
 		$return           = '';
