@@ -1,0 +1,26 @@
+//--------------------------------------------------------------
+//   Global styling goes here
+//--------------------------------------------------------------
+
+// 'Edit Form' link
+.ctct-button {
+	font-size: 0.9em;
+}  // .ctct-button
+
+// form messages / validation
+.message {
+    border: 1px solid;
+	padding: $padding;
+} // .message
+
+.error {
+    background-color: fade-out($color-error, 0.98);
+	border-color: $color-error;
+	color: darken($color-error, 20%);
+} // .error
+
+.success {
+    background-color: fade-out($color-success, 0.98);
+	border-color: $color-green;
+	color: darken($color-success, 20%);
+} // .success
