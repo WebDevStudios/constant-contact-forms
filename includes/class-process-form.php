@@ -49,6 +49,11 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
+		// If we don't have our submitted form verify, just bail out
+		if ( ! isset( $_POST['ctct-verify'] ) ) {
+			return;
+		}
+
 		// Verify our nonce first
 		if (
 		    ! isset( $_POST['ctct_form'] ) ||
@@ -98,7 +103,6 @@ class ConstantContact_Process_Form {
 				'ctct-submitted',
 				'ctct_form',
 				'_wp_http_referer',
-				'ctct-id',
 				'ctct-verify',
 			) );
 
@@ -170,6 +174,192 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
+		// Clean our values
+		$values = $this->clean_values( $values );
+
+		// Format them
+		$values = $this->format_values_for_email( $values );
+
+		// Send the mail
+		return $this->mail( $this->get_email(), $values );
+	}
+
+	/**
+	 * Formats values for email
+	 *
+	 * @param  array $values values to format
+	 * @return string         html content for email
+	 */
+	public function format_values_for_email( $values ) {
+
+		// get our values
+		$pretty_vals = $this->pretty_values( $values );
+
+		$return = '';
+		foreach ( $pretty_vals as $val ) {
+
+			// force vars to exist
+			$val['field'] = isset( $val['field'] ) ? $val['field'] : '&nbsp;';
+			$val['value'] = isset( $val['value'] ) ? $val['value'] : '&nbsp;';
+
+			$return .= '<p>' . sanitize_text_field( $val['field'] ) . ': ' . sanitize_text_field( $val['value'] ) . '</p>';
+		}
+
+		return $return;
+	}
+
+	/**
+	 * Pretty our values up, @todo rip this out for use in verification
+	 *
+	 * @param  array  $values values
+	 * @return array         values but better
+	 */
+	public function pretty_values( $values = array() ) {
+		//    ██                 ██
+		//   ░██                ░██
+		//  ██████  ██████      ░██  ██████
+		// ░░░██░  ██░░░░██  ██████ ██░░░░██
+		//   ░██  ░██   ░██ ██░░░██░██   ░██
+		//   ░██  ░██   ░██░██  ░██░██   ░██
+		//   ░░██ ░░██████ ░░██████░░██████
+		//    ░░   ░░░░░░   ░░░░░░  ░░░░░░
+		//    @ TODO rip this out and use it for the field require verification
+
+
+		// Sanity check
+		if ( ! is_array( $values ) ) {
+			return '';
+		}
+
+		// Loop through once to get our form ID
+		$form_id = 0;
+		foreach ( $values as $key => $value ) {
+
+			// Sanity check and check to see if we get our form ID
+			// when we find it, break out
+			if ( isset( $value['key'] ) && isset( $value['value'] ) ) {
+
+				// if we match our form ID, perfect
+				if ( 'ctct-id' === $value['key'] ) {
+
+					// set our form id, unset, and break out
+					$form_id = absint( $value['value'] );
+					unset( $values[ $key ] );
+					break;
+				}
+			}
+		}
+
+		// If we didn't get a form ID, bail out
+		if ( ! $form_id ) {
+			return '';
+		}
+
+		// Get our original fields
+		$orig_fields = get_post_meta( $form_id, 'custom_fields_group', true );
+
+		// if its not an array, bail out
+		if ( ! is_array( $orig_fields ) ) {
+			return;
+		}
+
+		// this is what we'll use
+		$pretty_values = array();
+
+		// Loop through each field again
+		foreach ( $values as $key => $value ) {
+
+			// make sure we have a value
+			if ( ! $value ) {
+				continue;
+			}
+
+			// make sure we have a value
+			if ( ! isset( $value['key'] ) ) {
+				continue;
+			}
+
+			// Make sure we have an orig field with the same key
+			if ( ! isset( $orig_fields[ $key ] ) ) {
+				continue;
+			}
+
+			// Make sure we have the orig mapping key
+			if ( ! isset( $orig_fields[ $key ]['_ctct_map_select'] ) ) {
+				continue;
+			}
+
+			// Make sure we have the orig field name
+			if ( ! isset( $orig_fields[ $key ]['_ctct_field_name'] ) ) {
+				continue;
+			}
+
+			// force value to be set
+			$value['value'] = isset( $value['value'] ) ? $value['value'] : '';
+
+
+			if ( $value['key'] == $orig_fields[ $key ]['_ctct_map_select'] ) {
+				$pretty_values[] = array(
+					'field' => sanitize_text_field( $orig_fields[ $key ]['_ctct_field_name'] ),
+					'value' => sanitize_text_field( $value['value'] ),
+				);
+			}
+		}
+
+		return $pretty_values;
+	}
+
+	/**
+	 * Get the email address to send to
+	 *
+	 * @return string email address to send to
+	 */
+	public function get_email() {
+
+		// Eventually we'll make this configurable
+		return get_option( 'admin_email' );
+	}
+
+	/**
+	 * Sends our mail out
+	 *
+	 * @param  string $destination_email email address
+	 * @param  array $data              data from clean values
+	 * @return bool                    if sent
+	 */
+	public function mail( $destination_email, $content ) {
+
+		// If we didn't get passed in a sanitized email, we know something is
+		// wonky here, so bail out
+		if ( sanitize_email( $destination_email ) != $destination_email ) {
+			return false;
+		}
+
+		// Send that mail
+		$mail_status = wp_mail(
+			$destination_email,
+			__( 'New submission' ),
+			$content
+		);
+
+		return $mail_status;
+	}
+
+	/**
+	 * Clean our values from form submission
+	 *
+	 * @param  array $values values to clean
+	 * @return array         cleaned values
+	 */
+	public function clean_values( $values ) {
+
+		// Sanity check that
+		if ( ! is_array( $values ) ) {
+			return $values;
+		}
+
+		$return_values = array();
+
 		// Loop through each of our values
 		foreach ( $values as $value ) {
 
@@ -186,12 +376,13 @@ class ConstantContact_Process_Form {
 				continue;
 			}
 
-			// Set some better vars now that we have our data
-			$key = sanitize_text_field( $key_break[0] );
-			$val = sanitize_text_field( $value['value'] );
-
-			// @ TODO process these things here
+			$return_values[] = array(
+				'key'   => sanitize_text_field( $key_break[0] ),
+				'value' => sanitize_text_field( $value['value'] ),
+			);
 		}
+
+		return $return_values;
 	}
 
 	/**
