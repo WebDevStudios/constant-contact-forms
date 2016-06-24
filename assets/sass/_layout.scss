@@ -1,0 +1,17 @@
+//--------------------------------------------------------------
+//   Layout helpers
+//--------------------------------------------------------------
+
+.ctct-field-third {
+	
+	@include wider-than('medium') {
+		float: left;
+		margin-right: 2%;
+		width: 32%;
+		
+		&:last-of-type {
+			margin-right: 0;
+		}
+	}
+	
+} // .ctct-field-third
