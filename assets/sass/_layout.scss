@@ -16,6 +16,8 @@
 	}
 	
 } // .ctct-field-half
+
+// 3-col layout helper for desktop
 .ctct-field-third {
 	
 	@include wider-than('medium') {
@@ -29,3 +31,18 @@
 	}
 	
 } // .ctct-field-third
+
+// 4-col layout helper for desktop
+.ctct-field-fourth {
+	
+	@include wider-than('medium') {
+		float: left;
+		margin-right: 2%;
+		width: 24%;
+		
+		&:last-of-type {
+			margin-right: 0;
+		}
+	}
+	
+} // .ctct-field-fourth
