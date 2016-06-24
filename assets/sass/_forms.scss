@@ -13,6 +13,18 @@
 	abbr {
 	    border: none;
 		color: $color-red;
+		font-size: 0.9em;
 	} // <abbr>
 	
 } // .ctct-form
+
+// If Field Description (optional) is provided
+// we wrap an extra div around <input> and <label>
+.ctct-input-container {
+    
+	label {
+	    color: $color-gray;
+		font-size: 0.8em;
+	} // label
+	
+} // .ctct-input-container

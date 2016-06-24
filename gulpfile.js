@@ -146,7 +146,7 @@ gulp.task('cssnano', ['postcss'], function() {
 * Define default Gulp watch task
 */
 gulp.task('watch', function() {
-	gulp.watch('./assets/sass/**/*.scss', ['cssnano']);
+	gulp.watch('./assets/sass/*.scss', ['cssnano']);
 	gulp.watch('./assets/js/concat/*.js', ['uglify']);
 });
 

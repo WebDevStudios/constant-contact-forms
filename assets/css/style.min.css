@@ -1,1 +1,1 @@
-.ctct-form:after{clear:both;content:"";display:table}.ctct-form abbr{border:none;color:#ff4136}
+.ctct-button{font-size:.9em}.message{border:1px solid;padding:1em}.error{background-color:rgba(255,65,54,.02);border-color:#ff4136;color:#cf0b00}.success{background-color:rgba(46,204,64,.02);border-color:#2ecc40;color:#1b7926}.ctct-form:after{clear:both;content:"";display:table}.ctct-form abbr{border:none;color:#ff4136;font-size:.9em}.ctct-input-container label{color:#aaa;font-size:.8em}
