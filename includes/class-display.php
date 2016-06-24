@@ -534,7 +534,7 @@ class ConstantContact_Display {
 
 		// Build our field
 		$return  = '<p><fieldset>';
-		$return .= ' <legend>' . esc_attr( $desc ) . '</legend>';
+		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <span class="ctct-address-field-full address-line-1">';
 		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
 		$return .= '  <input type="text" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
