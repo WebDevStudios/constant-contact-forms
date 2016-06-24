@@ -237,7 +237,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Pretty our values up, @todo rip this out for use in verification
 	 *
-	 * @param  array  $values values
+	 * @param  array $values values
 	 * @return array         values but better
 	 */
 	public function pretty_values( $values = array() ) {
@@ -323,7 +323,6 @@ class ConstantContact_Process_Form {
 			// force value to be set
 			$value['value'] = isset( $value['value'] ) ? $value['value'] : '';
 
-
 			if ( $value['key'] == $orig_fields[ $key ]['_ctct_map_select'] ) {
 				$pretty_values[] = array(
 					'field' => sanitize_text_field( $orig_fields[ $key ]['_ctct_field_name'] ),
@@ -350,7 +349,7 @@ class ConstantContact_Process_Form {
 	 * Sends our mail out
 	 *
 	 * @param  string $destination_email email address
-	 * @param  array $data              data from clean values
+	 * @param  array  $data              data from clean values
 	 * @return bool                    if sent
 	 */
 	public function mail( $destination_email, $content ) {
