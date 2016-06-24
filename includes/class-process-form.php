@@ -110,8 +110,8 @@ class ConstantContact_Process_Form {
 
 			// Add our responses to a form we can deal with shortly.
 			$return['values'][] = array(
-				'key'   => esc_attr( $key ),
-				'value' => esc_attr( $value ),
+				'key'   => sanitize_text_field( $key ),
+				'value' => sanitize_text_field( $value ),
 			);
 		}
 
@@ -164,7 +164,40 @@ class ConstantContact_Process_Form {
 		// }
 	}
 
+	/**
+	 * Process our form values
+	 *
+	 * @param  array  $values submitted form values
+	 */
 	public function submit_form_values( $values = array() ) {
+
+		// Sanity check
+		if ( ! is_array( $values ) ) {
+			return;
+		}
+
+		// Loop through each of our values
+		foreach ( $values as $value ) {
+
+			// if we don't have a key and value set, skip it
+			if ( ! isset( $value['key'] ) || ! isset( $value['value'] ) ) {
+				continue;
+			}
+
+			// we made our fields look like first_name___435fajiosdf to force unique
+			$key_break = explode( '___',  $value['key'] );
+
+			// Make sure we actually got something for that
+			if ( ! isset( $key_break[0] ) || ! $key_break[0] ) {
+				continue;
+			}
+
+			// Set some better vars now that we have our data
+			$key = sanitize_text_field( $key_break[0] );
+			$val = sanitize_text_field( $value['value'] );
+
+			// @ TODO process these things here
+		}
 	}
 
 	/**
