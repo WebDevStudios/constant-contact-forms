@@ -1,10 +1,10 @@
 var gulp = require('gulp');
 
 var autoprefixer = require('autoprefixer');
+var concat = require('gulp-concat');
 var cssnano = require('gulp-cssnano');
 var del = require('del');
 var gulp = require('gulp');
-var concat = require('gulp-concat');
 var gutil = require('gulp-util');
 var mqpacker = require('css-mqpacker');
 var notify = require('gulp-notify');
@@ -13,8 +13,8 @@ var postcss = require('gulp-postcss');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
 var sort = require('gulp-sort');
-var uglify = require('gulp-uglify');
 var sourcemaps = require('gulp-sourcemaps');
+var uglify = require('gulp-uglify');
 
 /**
 * Handle errors and alert the user.
