@@ -174,13 +174,6 @@ class ConstantContact_Settings {
 			) );
 
 			$cmb->add_field( array(
-				'name' 	=> __( 'Opt In Label', 'constantcontact' ),
-				'desc' 	=> __( 'Opt in checkbox form label.', 'constantcontact' ),
-				'id'   	=> '_ctct_optin_label',
-				'type'	=> 'text',
-			) );
-
-			$cmb->add_field( array(
 				'name' 	=> __( 'Opt In List', 'constantcontact' ),
 				'desc' 	=> __( 'Choose list to add opt in subsciptions.', 'constantcontact' ),
 				'id'   	=> '_ctct_optin_list',
@@ -195,16 +188,16 @@ class ConstantContact_Settings {
 			'name' 	          => __( 'API key', 'constantcontact' ),
 			'id'   	          => '_ctct_api_key',
 			'type'	          => 'text',
-			// 'sanitization_cb' => array( $this, 'save_api_keys' ),
-			// 'escape_cb'       => array( $this, 'mask_api_keys' ),
+			'sanitization_cb' => array( $this, 'save_api_keys' ),
+			'escape_cb'       => array( $this, 'mask_api_keys' ),
 		) );
 
 		$cmb->add_field( array(
 			'name' 	          => __( 'API Secret', 'constantcontact' ),
 			'id'   	          => '_ctct_api_secret',
 			'type'	          => 'text',
-			// 'sanitization_cb' => array( $this, 'save_api_keys' ),
-			// 'escape_cb'       => array( $this, 'mask_api_keys' ),
+			'sanitization_cb' => array( $this, 'save_api_keys' ),
+			'escape_cb'       => array( $this, 'mask_api_keys' ),
 		) );
 
 	}
@@ -370,12 +363,44 @@ class ConstantContact_Settings {
 	 */
 	public function save_api_keys( $value, $field_args, $field ) {
 
+		// If we don't have an ID, return orig value
+		if ( ! isset( $field_args['id'] ) ) {
+			return $value;
+		}
+
+		// If the id is not an api key, return
+		if ( ! ( ( '_ctct_api_key' == $field_args['id'] ) || ( '_ctct_api_secret' == $field_args['id'] ) ) ) {
+			return $value;
+		}
+
+		// if we are looking at are masked password, we want to bypass saving
+		if ( $this->get_mask() == $value ) {
+			return get_option( esc_attr( $field_args['id'] ), '' );
+		}
+
+		// Otherwise encrypt and return
+		return constant_contact()->connect->e_set( esc_attr( $field_args['id'] ), sanitize_text_field( $value ) );
 	}
 
 	/**
 	 * Hides our api keys from display
 	 */
 	public function mask_api_keys( $value, $field_args, $field ) {
+
+		// If we don't have an ID, return orig value
+		if ( ! isset( $field_args['id'] ) ) {
+			return $value;
+		}
+
+		// If the id is not an api key, return
+		if ( ! ( ( '_ctct_api_key' == $field_args['id'] ) || ( '_ctct_api_secret' == $field_args['id'] ) ) ) {
+			return $value;
+		}
+
+		return $this->get_mask();
+	}
+
+	public function get_mask() {
 		return '**********';
 	}
 
