@@ -93,8 +93,12 @@ class ConstantContact_Display {
 			$form_err_display = $this->message( 'error', $error_message );
 		}
 
+		// Force uniqueness of an id for the form
+		// @todo figure out another way to do this maybe?
+		$rf_id = 'ctct-form-' . mt_rand();
+
 		// Build out our form
-		$return .= '<form id="ctct-form" action="' . esc_url( $this->get_current_page() ) . '" method="post">';
+		$return .= '<form class="ctct-form" id=' . $rf_id . ' action="' . esc_url( $this->get_current_page() ) . '" method="post">';
 
 		// If we have errors, display them
 		$return .= $form_err_display;
