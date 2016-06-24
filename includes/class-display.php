@@ -319,7 +319,7 @@ class ConstantContact_Display {
 
 			// if we got a link, display it
 			if ( $edit_link ) {
-				$display .= '<a href="' . esc_url( $edit_link ) . '">' . __( 'Edit Form', 'constantcontact' ) . '</a>';
+				$display .= '<a class="button ctct-button" href="' . esc_url( $edit_link ) . '">' . __( 'Edit Form', 'constantcontact' ) . '</a>';
 			}
 		}
 
