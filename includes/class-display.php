@@ -30,18 +30,8 @@ class ConstantContact_Display {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->frontend_hooks();
 	}
-	
-	/**
-	 * Initiate our hooks.
-	 *
-	 * @since 1.0.0
-	 */
-	public function frontend_hooks() {
-		add_action( 'ctct_frontend_enqueue_scripts', array( $this, 'scripts' ) );
-	}
-	
+
 	/**
 	 * Scripts
 	 *
@@ -73,15 +63,19 @@ class ConstantContact_Display {
 	 */
 	public function form( $form_data, $form_id = '', $skip_styles = false ) {
 
+		// Also enqueue our scripts
+		$this->scripts();
+
 		// Conditionally enqueue our styles
 		if ( ! $skip_styles ) {
+
 			wp_enqueue_style(
 				'ctct_form_styles',
 				constant_contact()->url() . 'assets/css/style.css',
 				array(),
 				constant_contact()->version
 			);
-			
+
 			// Enqueued script.
 			wp_enqueue_script( 'ctct_frontend_forms' );
 		}
@@ -157,6 +151,10 @@ class ConstantContact_Display {
 
 		// Close our form
 		$return .= '</form>';
+
+		$return .= '<script type="text/javascript">';
+		$return .= 'var ajaxurl = "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '";';
+		$return .= '</script>';
 
 		// Return it all
 		return $return;
