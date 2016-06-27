@@ -183,13 +183,18 @@ class ConstantContact_Admin_Pages {
 				</td>
 			</tr>
 			</table>
-			<hr>
-			<div class="ctct-server-requirements">
-				<p>
-				<h4><?php _e( 'Server Check', 'constantcontact' ); ?></h4>
-					<?php constant_contact()->check->display_server_checks(); ?>
-				</p>
-			</div>
+					<?php
+					// Lets you add 'ctct-debug-server-check' to the query args of the help
+					// page to load a server requirements check
+					// http://mysite.com/wp-admin/edit.php?post_type=ctct_forms&page=ctct_options_help&ctct-debug-server-check
+					if ( isset( $_GET['ctct-debug-server-check'] ) ) {
+						?><hr><div class="ctct-server-requirements"><p>
+						<h4><?php _e( 'Server Check', 'constantcontact' ); ?></h4>
+						<?php
+						constant_contact()->check->display_server_checks();
+						?></p></div><?php
+					}
+					?>
 		</div><?php
 	}
 

@@ -78,6 +78,7 @@ class ConstantContact_Check {
 		$checks = $this->get_checks_to_make();
 
 
+		echo '<table class="ctct-server-check">';
 		// If we have a functions array
 		if (
 			isset( $checks['functions'] ) &&
@@ -85,16 +86,12 @@ class ConstantContact_Check {
 			1 <= count( $checks['functions'] )
 		) {
 
-			echo '<h5>' . __( 'Functions:', 'constantcontact' ) . '</h5><ul>';
-
 			// Loop through ech function
 			foreach ( $checks['functions'] as $function ) {
 
 				// Check to see if its available
-				echo '<li>' . esc_attr( $function ) . ' : ' . $this->exists_text( $function, 'f' ) . '</li>';
+				echo '<tr><td>' . esc_attr( $function ) . '</td><td>' . $this->exists_text( $function, 'f' ) . '</td></tr>';
 			}
-
-			echo '</ul>';
 		}
 
 		// See if we have any classes we should check for
@@ -104,17 +101,15 @@ class ConstantContact_Check {
 			1 <= count( $checks['classes'] )
 		) {
 
-			echo '<h5>' . __( 'Classes:', 'constantcontact' ) . '</h5><ul>';
-
 			// Loop through em
 			foreach ( $checks['classes'] as $class ) {
 
 				// check to see if its available
-				echo '<li>' . esc_attr( $class ) . ' : ' . $this->exists_text( $class, 'c' ) . '</li>';
+				echo '<tr><td>' . esc_attr( $class ) . '</td><td>' . $this->exists_text( $class, 'c' ) . '</td></tr>';
 			}
-
-			echo '</ul>';
 		}
+
+		echo '</table>';
 	}
 
 	/**
