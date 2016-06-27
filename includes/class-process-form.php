@@ -29,6 +29,66 @@ class ConstantContact_Process_Form {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+		$this->hooks();
+	}
+
+	public function hooks() {
+		add_action( 'wp_ajax_ctct_process_form', array( $this, 'process_form_ajax_wrapper' ) );
+		add_action( 'wp_ajax_nopriv_ctct_process_form', array( $this, 'process_form_ajax_wrapper' ) );
+	}
+
+	/**
+	 * A wrpper to process our form via AJAX
+	 *
+	 */
+	public function process_form_ajax_wrapper() {
+
+		// See if we're passed in data
+		if ( isset( $_POST['data'] ) ) {
+
+			// Form data comes over serialzied, so break it apart
+			$data = explode( '&', $_POST['data'] );
+
+			// Finish converting that ajax data to something we can use
+			$json_data = array();
+
+			// Make sure we have an array of data
+			if ( is_array( $data ) ) {
+
+				// Loop through each of our fields
+				foreach ( $data as $field ) {
+
+					// Our data looks like this:
+					// Array (
+					// [0] => email___5d94668ce0670de4192bbcdd94d8ef71=email_address
+					// [1] => custom___22d42a056afeffb8d99b2474693afa98=text
+					// so we want to break it apart to get the key and the value
+					// we pass 2 into explode() to limit it to only two return values
+					// in case there is an = in the actual form value
+					$exp_fields = explode( '=', $field, 2 );
+
+					// Sanity check
+					if ( isset( $exp_fields[0] ) && $exp_fields[0] ) {
+						// Set up our data structure if we have the data
+						$value = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
+						$json_data[  esc_attr( $exp_fields[0] ) ] = sanitize_text_field( $value );
+
+						error_log( serialize( $exp_fields ) );
+					}
+				}
+			}
+
+
+
+			// Send it to our process form method
+			$response = $this->process_form( $json_data, true );
+
+			// Send back our response
+			echo json_encode( $response );
+
+			// die out of the ajax request
+			wp_die();
+		}
 	}
 
 	/**
@@ -37,37 +97,44 @@ class ConstantContact_Process_Form {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function process_form() {
+	public function process_form( $data = array(), $skip_submission = false ) {
+
+		// Set our data var to $_POST if we dont get it passed in
+		if ( empty( $data ) ) {
+			$data = $_POST;
+		}
 
 		// If we don't have our submitted action, just bail out
-		if ( ! isset( $_POST['ctct-submitted'] ) ) {
+		if ( ! isset( $data['ctct-submitted'] ) ) {
 			return;
 		}
 
 		// If we don't have our submitted form id, just bail out
-		if ( ! isset( $_POST['ctct-id'] ) ) {
+		if ( ! isset( $data['ctct-id'] ) ) {
 			return;
 		}
 
 		// If we don't have our submitted form verify, just bail out
-		if ( ! isset( $_POST['ctct-verify'] ) ) {
+		if ( ! isset( $data['ctct-verify'] ) ) {
 			return;
 		}
 
-		// Verify our nonce first
-		if (
-		    ! isset( $_POST['ctct_form'] ) ||
-		    ! wp_verify_nonce( $_POST['ctct_form'], 'ctct_submit_form' )
-		) {
-			// figure out a way to pass errors back
-			return array(
-				'status' => 'named_error',
-				'error'  => __( 'Nonce verification failed.', 'constantcontact' ),
-			);
+		if ( ! $skip_submission ) {
+			// Verify our nonce first
+			if (
+			    ! isset( $data['ctct_form'] ) ||
+			    ! wp_verify_nonce( $data['ctct_form'], 'ctct_submit_form' )
+			) {
+				// figure out a way to pass errors back
+				return array(
+					'status' => 'named_error',
+					'error'  => __( 'Nonce verification failed.', 'constantcontact' ),
+				);
+			}
 		}
 
 		// Make sure we have an original form id
-		$orig_form_id = absint( $_POST['ctct-id'] );
+		$orig_form_id = absint( $data['ctct-id'] );
 		if ( ! $orig_form_id ) {
 			return array(
 				'status' => 'named_error',
@@ -76,7 +143,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// Make sure we have a verify value
-		$form_verify = esc_attr( $_POST['ctct-verify'] );
+		$form_verify = esc_attr( $data['ctct-verify'] );
 		if ( ! $form_verify ) {
 			return array(
 				'status' => 'named_error',
@@ -94,7 +161,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// If the submit button is clicked, send the email.
-		foreach ( $_POST as $key => $value ) {
+		foreach ( $data as $key => $value ) {
 
 			// Allow ignoring of certain keys, like our nonce.
 			$ignored_keys = apply_filters( 'constant_contact_ignored_post_form_values', array(
@@ -134,17 +201,21 @@ class ConstantContact_Process_Form {
 		}
 
 		// if we're not processing the opt-in stuff, we can just return our data here
-		if ( ! isset( $_POST['ctct-opti-in'] ) ) {
+		if ( ! isset( $data['ctct-opti-in'] ) ) {
 
-			// at this point we can process all of our submitted values
-			$this->submit_form_values( $return['values'] );
+			if ( ! $skip_submission ) {
+				// at this point we can process all of our submitted values
+				$this->submit_form_values( $return['values'] );
+			}
 
 			$return['status'] = 'success';
 			return $return;
 		}
 
-		// at this point we can process all of our submitted values
-		$this->submit_form_values( $return['values'], true );
+		if ( ! $skip_submission ) {
+			// at this point we can process all of our submitted values
+			$this->submit_form_values( $return['values'], true );
+		}
 
 		$return['status'] = 'success';
 		return $return;
