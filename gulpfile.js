@@ -4,10 +4,12 @@ var autoprefixer = require('autoprefixer');
 var concat = require('gulp-concat');
 var cssnano = require('gulp-cssnano');
 var del = require('del');
+var fs = require('fs'); // node file system manipulation 
 var gulp = require('gulp');
 var gutil = require('gulp-util');
 var mqpacker = require('css-mqpacker');
 var notify = require('gulp-notify');
+var path = require('path'); // node path module
 var plumber = require('gulp-plumber');
 var postcss = require('gulp-postcss');
 var rename = require('gulp-rename');
@@ -15,6 +17,9 @@ var sass = require('gulp-sass');
 var sort = require('gulp-sort');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
+
+// Set variable for paths
+var scriptsPath = 'assets/js';
 
 /**
 * Handle errors and alert the user.
@@ -35,30 +40,39 @@ function handleErrors () {
 }
 
 /**
- * Concatenate javascripts after they're clobbered.
- * https://www.npmjs.com/package/gulp-concat
+* Read directory name for filename
+*/
+function getFolders(dir) {
+	return fs.readdirSync(dir)
+		.filter(function(file) {
+			return fs.statSync(path.join(dir, file)).isDirectory();
+		});
+}
+
+/**
+ * Get folder names in /assets/js/, and map to filename
+ * based on foldername, concatenate all scripts in folder, 
+ * and minify, e.g. 
+ * assets/js/wp-admin/*.js -> assets/js/wp-admin.js and assets/js/wp-admin.min.js
  */
-gulp.task('concat', function() {
-	return gulp.src( 'assets/js/concat/*.js' )
-	.pipe(plumber({ errorHandler: handleErrors }))
-	.pipe(sourcemaps.init())
-	.pipe(concat('plugin.js'))
-	.pipe(sourcemaps.write())
-	.pipe(gulp.dest('assets/js'));
-});
+gulp.task('scripts', function() {
+   var folders = getFolders(scriptsPath);
 
-
- /**
-  * Minify javascripts after they're concatenated.
-  * https://www.npmjs.com/package/gulp-uglify
-  */
-gulp.task('uglify', ['concat'], function() {
-	return gulp.src( 'assets/js/plugin.js' )
-	.pipe(rename({suffix: '.min'}))
-	.pipe(uglify({
-		mangle: false
-	}))
-	.pipe(gulp.dest('assets/js'));
+   var tasks = folders.map(function(folder) {
+      return gulp.src(path.join(scriptsPath, folder, '/**/*.js'))
+        // concat into foldername.js
+        .pipe(concat(folder + '.js'))
+        // write to output
+        .pipe(gulp.dest(scriptsPath)) 
+        // minify
+        .pipe(uglify())    
+        // rename to folder.min.js
+        .pipe(rename(folder + '.min.js')) 
+        // write to output again
+        .pipe(gulp.dest(scriptsPath));    
+   });
+   
+   return tasks;
 });
 
 /**
@@ -147,12 +161,13 @@ gulp.task('cssnano', ['postcss'], function() {
 */
 gulp.task('watch', function() {
 	gulp.watch('./assets/sass/*.scss', ['cssnano']);
-	gulp.watch('./assets/js/concat/*.js', ['uglify']);
+	gulp.watch('./assets/js/**/*.js', ['scripts']);
 });
 
 /**
 * Create individual tasks.
 */
-gulp.task('scripts', ['uglify']);
+//gulp.task('scripts', ['scripts']);
+gulp.task('js', ['scripts']);
 gulp.task('styles', ['cssnano']);
-gulp.task('default', ['styles']);
+gulp.task('default', ['styles', 'js']);
