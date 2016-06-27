@@ -287,6 +287,23 @@ class Constant_Contact {
 	}
 
 	/**
+	 * Checks to see if the server will support encryption functionality
+	 *
+	 * @return boolean if we should load/use the encryption libraries
+	 */
+	public function is_encryption_ready() {
+
+		// Make sure we have our openssl libraries
+		if ( ! function_exists( 'openssl_encrypt' ) || ! function_exists( 'openssl_decrypt' ) ) {
+			return false;
+		}
+
+		// @TODO get more checks in here
+
+		return true;
+	}
+
+	/**
 	 * Load includes.
 	 *
 	 * @since 1.0.0
