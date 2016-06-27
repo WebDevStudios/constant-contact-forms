@@ -116,15 +116,17 @@ class ConstantContact_Display {
 				// We already checked for a messsage response, but we'll force the
 				// status to error if we're not here
 				$status = 'error';
-				$error_message = $response['message'];
+				$error_message = trim( $response['message'] );
 			}
 		}
 
 		// If we got an error for our status, and we have an error message, display it.
 		if ( 'error' == $status || $error_message ) {
 
-			// We'll show this error right inside our form
-			$form_err_display = $this->message( 'error', $error_message );
+			if ( ! empty( $error_message ) ) {
+				// We'll show this error right inside our form
+				$form_err_display = $this->message( 'error', $error_message );
+			}
 		}
 
 		// Force uniqueness of an id for the form
