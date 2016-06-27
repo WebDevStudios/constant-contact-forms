@@ -135,6 +135,11 @@ class ConstantContact_API {
 	 */
 	public function get_contacts() {
 
+		// Verify we're connected
+		if ( ! $this->is_connected() ) {
+			return array();
+		}
+
 		// first, check our saved transient for a value
 		$contacts = get_transient( 'ctct_contact' );
 
@@ -160,6 +165,11 @@ class ConstantContact_API {
 	 * @return array current connect ctct lists
 	 */
 	public function get_lists() {
+
+		// Verify we're connected
+		if ( ! $this->is_connected() ) {
+			return array();
+		}
 
 		// first, check our saved transient for a value
 		$lists = get_transient( 'ctct_lists' );
@@ -443,7 +453,15 @@ class ConstantContact_API {
 			break;
 
 		}
+	}
 
+	/**
+	 * Make sure we don't over-do API requests, helper method to check if we're connected
+	 *
+	 * @return boolean if connected
+	 */
+	public function is_connected() {
+		return false;
 	}
 }
 
