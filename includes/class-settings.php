@@ -188,6 +188,7 @@ class ConstantContact_Settings {
 			'name' 	          => __( 'API key', 'constantcontact' ),
 			'id'   	          => '_ctct_api_key',
 			'type'	          => 'text',
+			'desc'            => __( 'Please go <a target="_blank" href="https://constantcontact.mashery.com/page">here</a> and register a new app and API keys.', 'constantcontact' ),
 			'sanitization_cb' => array( $this, 'save_api_keys' ),
 			'escape_cb'       => array( $this, 'mask_api_keys' ),
 		) );
