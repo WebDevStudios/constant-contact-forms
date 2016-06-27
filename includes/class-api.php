@@ -461,7 +461,7 @@ class ConstantContact_API {
 	 * @return boolean if connected
 	 */
 	public function is_connected() {
-		return false;
+		return get_option( 'ctct_token', false ) ? true : false;
 	}
 }
 
