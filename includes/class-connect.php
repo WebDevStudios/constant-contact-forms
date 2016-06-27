@@ -235,6 +235,8 @@ class ConstantContact_Connect {
 			$options = get_option( 'ctct_options_settings', false );
 			if ( $options && isset( $options[ $check_key ] ) ) {
 				$encrypted_token = $options[ $check_key ];
+			} else {
+				return false;
 			}
 		} else {
 
