@@ -419,7 +419,7 @@ class Constant_Contact {
 			// If we have the Runtime test class
 			if ( class_exists( 'Defuse\Crypto\RuntimeTests' ) ) {
 
-				//  Use this to
+				// Use this to
 				$tests = new Defuse\Crypto\RuntimeTests;
 				$tests = $tests->runtimeTest();
 				$return = true;
