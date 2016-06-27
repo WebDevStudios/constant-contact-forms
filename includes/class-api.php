@@ -447,12 +447,25 @@ class ConstantContact_API {
 			case 'http.status.authentication.invalid_token':
 				$this->access_token = false;
 				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constantcontact' );
+			case 'mashery.not.authorized.over.qps':
+				$this->pause_api_calls();
+				return;
 			break;
 			default:
 				return false;
 			break;
 
 		}
+	}
+
+	/**
+	 * Rate limit ourselves to not bust API call rate limit
+	 *
+	 * @param  string $time amount of time to pause api calls
+	 */
+	public function pause_api_calls() {
+		// @TODO
+		sleep( 1 );
 	}
 
 	/**
