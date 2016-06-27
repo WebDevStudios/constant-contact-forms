@@ -127,6 +127,8 @@ class Constant_Contact {
 	 */
 	public $menu_icon = 'dashicons-megaphone';
 
+	public $is_encryption_ready = false;
+
 	/**
 	 * Singleton instance of plugin
 	 *
@@ -140,6 +142,7 @@ class Constant_Contact {
 	private $auth_redirect;
 	private $api;
 	private $builder;
+	private $check;
 	private $connect;
 	private $ctct_forms;
 	private $display;
@@ -174,8 +177,8 @@ class Constant_Contact {
 		$this->url	    = plugin_dir_url( __FILE__ );
 		$this->path	    = plugin_dir_path( __FILE__ );
 
-		$this->load_libs();
 		$this->plugin_classes();
+		$this->load_libs();
 
 		if ( is_admin() ) {
 			$this->admin_plugin_classes();
@@ -198,6 +201,7 @@ class Constant_Contact {
 		$this->settings      = new ConstantContact_Settings( $this );
 		$this->auth_redirect = new ConstantContact_Auth_Redirect( $this );
 		$this->connect       = new ConstantContact_Connect( $this );
+		$this->check         = new ConstantContact_Check( $this );
 	}
 
 	/**
@@ -280,7 +284,7 @@ class Constant_Contact {
 			'defuse-php-encryption/RuntimeTests.php',
 		);
 
-		if ( $this->is_encryption_ready() ) {
+		if ( $this->check->is_encryption_ready() ) {
 			$libs = array_merge( $libs, $encryption_libs );
 		}
 
@@ -290,23 +294,6 @@ class Constant_Contact {
 			// Require_once our file
 			require_once( $this->dir( "vendor/{$lib}" ) );
 		}
-	}
-
-	/**
-	 * Checks to see if the server will support encryption functionality
-	 *
-	 * @return boolean if we should load/use the encryption libraries
-	 */
-	public function is_encryption_ready() {
-
-		// Make sure we have our openssl libraries
-		if ( ! function_exists( 'openssl_encrypt' ) || ! function_exists( 'openssl_decrypt' ) ) {
-			return false;
-		}
-
-		// @TODO get more checks in here
-
-		return true;
 	}
 
 	/**
@@ -347,6 +334,7 @@ class Constant_Contact {
 			case 'basename':
 			case 'builder':
 			case 'connect':
+			case 'check':
 			case 'ctct_forms':
 			case 'display':
 			case 'lists':

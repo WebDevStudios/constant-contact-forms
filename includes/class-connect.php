@@ -229,7 +229,7 @@ class ConstantContact_Connect {
 	 */
 	public function e_get( $check_key, $fallback_to_ctct_opt = false ) {
 
-		if ( ! constant_contact()->is_encryption_ready() ) {
+		if ( ! constant_contact()->check->is_encryption_ready() ) {
 			return get_option( $check_key, '' );
 		}
 
@@ -278,7 +278,7 @@ class ConstantContact_Connect {
 	 */
 	public function e_set( $check_key, $data ) {
 
-		if ( ! constant_contact()->is_encryption_ready() ) {
+		if ( ! constant_contact()->check->is_encryption_ready() ) {
 			update_option( $check_key, $data );
 			return $data;
 		}
@@ -343,7 +343,7 @@ class ConstantContact_Connect {
 	 */
 	public function get_encrpyt_key() {
 
-		if ( ! constant_contact()->is_encryption_ready() ) {
+		if ( ! constant_contact()->check->is_encryption_ready() ) {
 			return 'ctct_key';
 		}
 
@@ -367,7 +367,7 @@ class ConstantContact_Connect {
 	public function generate_and_save_key() {
 
 		// If we can't run encryption stuff, then don't.
-		if ( ! constant_contact()->is_encryption_ready() ) {
+		if ( ! constant_contact()->check->is_encryption_ready() ) {
 			return 'ctct_key';
 		}
 
