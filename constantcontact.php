@@ -266,9 +266,7 @@ class Constant_Contact {
 			'constantcontact/autoload.php',
 			'constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php',
 			'wds/WDS-Shortcodes/wds-shortcodes.php',
-		);
 
-		$encryption_libs = array(
 			'defuse-php-encryption/Exception/CryptoException.php',
 			'defuse-php-encryption/Exception/BadFormatException.php',
 			'defuse-php-encryption/Exception/EnvironmentIsBrokenException.php',
@@ -283,10 +281,6 @@ class Constant_Contact {
 			'defuse-php-encryption/KeyOrPassword.php',
 			'defuse-php-encryption/RuntimeTests.php',
 		);
-
-		if ( $this->check->is_encryption_ready() ) {
-			$libs = array_merge( $libs, $encryption_libs );
-		}
 
 		// Loop through our vendor libraries and load them
 		foreach ( $libs as $lib ) {
@@ -388,6 +382,55 @@ class Constant_Contact {
 		static $url;
 		$url = $url ? $url : trailingslashit( plugin_dir_url( __FILE__ ) );
 		return $url . $path;
+	}
+
+	/**
+	 * Checks to see if the server will support encryption functionality
+	 *
+	 * @return boolean if we should load/use the encryption libraries
+	 */
+	public function is_encryption_ready() {
+
+		// Make sure we have our openssl libraries
+		if ( ! function_exists( 'openssl_encrypt' ) || ! function_exists( 'openssl_decrypt' ) ) {
+			return false;
+		}
+
+		// Check to make sure we dont' get any exceptions when laoding the c
+		if ( ! $this->check_crypto_class() ) {
+			return false;
+		}
+
+		return false;
+
+	}
+
+	/**
+	 * Helper method to check our crypto clases
+	 *
+	 * @return boolean if we can encrpyt or not
+	 */
+	public function check_crypto_class() {
+
+		try {
+			$return = false;
+			$this->load_libs( true );
+
+			// If we have the Runtime test class
+			if ( class_exists( 'Defuse\Crypto\RuntimeTests' ) ) {
+
+				//  Use this to
+				$tests = new Defuse\Crypto\RuntimeTests;
+				$tests = $tests->runtimeTest();
+				$return = true;
+			}
+		} catch ( Exception $exception ) {
+			if ( $exception ) {
+				$return = false;
+			}
+		}
+
+		return $return;
 	}
 }
 
