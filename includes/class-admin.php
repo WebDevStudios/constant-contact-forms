@@ -283,10 +283,10 @@ class ConstantContact_Admin {
 		// based on our debug mode, potentially add a min prefix
 		$suffix = ( true === $debug ) ? '' : '.min';
 
-		// Register out javascript file.
+		// Register our javascript file.
 		wp_register_script(
 			'ctct_form',
-			constant_contact()->url() . 'assets/js/plugin' . $suffix . '.js',
+			constant_contact()->url() . 'assets/js/ctct-plugin-admin' . $suffix . '.js',
 			array(),
 			constant_contact()->version,
 			true
