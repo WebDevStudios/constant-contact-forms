@@ -78,6 +78,9 @@ class ConstantContact_Display {
 				array(),
 				constant_contact()->version
 			);
+			
+			// Enqueued script.
+			wp_enqueue_script( 'ctct_frontend_forms' );
 		}
 
 		// Start our return markup and some default variables
