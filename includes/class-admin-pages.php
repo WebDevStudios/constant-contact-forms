@@ -183,6 +183,13 @@ class ConstantContact_Admin_Pages {
 				</td>
 			</tr>
 			</table>
+			<hr>
+			<div class="ctct-server-requirements">
+				<p>
+				<h4><?php _e( 'Server Check', 'constantcontact' ); ?></h4>
+					<?php constant_contact()->check->display_server_checks(); ?>
+				</p>
+			</div>
 		</div><?php
 	}
 

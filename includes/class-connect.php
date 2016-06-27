@@ -54,6 +54,8 @@ class ConstantContact_Connect {
 	 */
 	protected $plugin = null;
 
+	public $should_encrypt = false;
+
 	/**
 	 * Constructor
 	 *
@@ -227,6 +229,10 @@ class ConstantContact_Connect {
 	 */
 	public function e_get( $check_key, $fallback_to_ctct_opt = false ) {
 
+		if ( ! constant_contact()->check->is_encryption_ready() ) {
+			return get_option( $check_key, '' );
+		}
+
 		// Get our key
 		$key = $this->get_encrpyt_key();
 
@@ -271,6 +277,11 @@ class ConstantContact_Connect {
 	 * @param  string $data data to save
 	 */
 	public function e_set( $check_key, $data ) {
+
+		if ( ! constant_contact()->check->is_encryption_ready() ) {
+			update_option( $check_key, $data );
+			return $data;
+		}
 
 		// Get our key
 		$key = $this->get_encrpyt_key();
@@ -332,6 +343,10 @@ class ConstantContact_Connect {
 	 */
 	public function get_encrpyt_key() {
 
+		if ( ! constant_contact()->check->is_encryption_ready() ) {
+			return 'ctct_key';
+		}
+
 		// Get our key
 		$key = get_option( 'ctct_key', false );
 
@@ -350,6 +365,12 @@ class ConstantContact_Connect {
 	 * @return object key
 	 */
 	public function generate_and_save_key() {
+
+		// If we can't run encryption stuff, then don't.
+		if ( ! constant_contact()->check->is_encryption_ready() ) {
+			return 'ctct_key';
+		}
+
 		$key = Key::createNewRandomKey();
 		$key = $key->saveToAsciiSafeString();
 		$updated = update_option( 'ctct_key', $key );

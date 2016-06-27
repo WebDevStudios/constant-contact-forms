@@ -295,7 +295,7 @@ class ConstantContact_Admin {
 		// Allow filtering of allowed pages that we load scripts on
 		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', array( 'post.php', 'post-new.php' ) );
 
-		if ( isset( $pagenow ) && is_array( $pagenow ) && in_array( $pagenow, $allowed_pages, true ) ) {
+		if ( isset( $pagenow ) && in_array( $pagenow, $allowed_pages ) ) {
 			// Enqueued script with localized data.
 			wp_enqueue_script( 'ctct_form' );
 		}

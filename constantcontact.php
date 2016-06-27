@@ -127,6 +127,8 @@ class Constant_Contact {
 	 */
 	public $menu_icon = 'dashicons-megaphone';
 
+	public $is_encryption_ready = false;
+
 	/**
 	 * Singleton instance of plugin
 	 *
@@ -140,6 +142,7 @@ class Constant_Contact {
 	private $auth_redirect;
 	private $api;
 	private $builder;
+	private $check;
 	private $connect;
 	private $ctct_forms;
 	private $display;
@@ -174,8 +177,8 @@ class Constant_Contact {
 		$this->url	    = plugin_dir_url( __FILE__ );
 		$this->path	    = plugin_dir_path( __FILE__ );
 
-		$this->load_libs();
 		$this->plugin_classes();
+		$this->load_libs();
 
 		if ( is_admin() ) {
 			$this->admin_plugin_classes();
@@ -198,6 +201,7 @@ class Constant_Contact {
 		$this->settings      = new ConstantContact_Settings( $this );
 		$this->auth_redirect = new ConstantContact_Auth_Redirect( $this );
 		$this->connect       = new ConstantContact_Connect( $this );
+		$this->check         = new ConstantContact_Check( $this );
 	}
 
 	/**
@@ -262,7 +266,9 @@ class Constant_Contact {
 			'constantcontact/autoload.php',
 			'constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php',
 			'wds/WDS-Shortcodes/wds-shortcodes.php',
+		);
 
+		$encryption_libs = array(
 			'defuse-php-encryption/Exception/CryptoException.php',
 			'defuse-php-encryption/Exception/BadFormatException.php',
 			'defuse-php-encryption/Exception/EnvironmentIsBrokenException.php',
@@ -277,6 +283,10 @@ class Constant_Contact {
 			'defuse-php-encryption/KeyOrPassword.php',
 			'defuse-php-encryption/RuntimeTests.php',
 		);
+
+		if ( $this->check->is_encryption_ready() ) {
+			$libs = array_merge( $libs, $encryption_libs );
+		}
 
 		// Loop through our vendor libraries and load them
 		foreach ( $libs as $lib ) {
@@ -324,6 +334,7 @@ class Constant_Contact {
 			case 'basename':
 			case 'builder':
 			case 'connect':
+			case 'check':
 			case 'ctct_forms':
 			case 'display':
 			case 'lists':
