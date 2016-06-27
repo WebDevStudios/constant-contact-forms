@@ -262,7 +262,9 @@ class Constant_Contact {
 			'constantcontact/autoload.php',
 			'constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php',
 			'wds/WDS-Shortcodes/wds-shortcodes.php',
+		);
 
+		$encryption_libs = array(
 			'defuse-php-encryption/Exception/CryptoException.php',
 			'defuse-php-encryption/Exception/BadFormatException.php',
 			'defuse-php-encryption/Exception/EnvironmentIsBrokenException.php',
@@ -277,6 +279,10 @@ class Constant_Contact {
 			'defuse-php-encryption/KeyOrPassword.php',
 			'defuse-php-encryption/RuntimeTests.php',
 		);
+
+		if ( $this->is_encryption_ready() ) {
+			$libs = array_merge( $libs, $encryption_libs );
+		}
 
 		// Loop through our vendor libraries and load them
 		foreach ( $libs as $lib ) {
