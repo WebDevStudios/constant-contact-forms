@@ -176,7 +176,6 @@ class ConstantContact_Connect {
 					<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
 					<input type="submit" class="button-primary ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constantcontact' ); ?>">
 				</form>
-				<?php echo esc_url( add_query_arg( array( 'ctct-disconnect' => 'true' ), $this->redirect_url ) ); ?>
 
 			<?php else : ?>
 				<p class="ctct-description">
