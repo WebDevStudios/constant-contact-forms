@@ -38,6 +38,29 @@ class ConstantContact_Display {
 	public function frontend_hooks() {
 		add_action( 'ctct_frontend_enqueue_scripts', array( $this, 'scripts' ) );
 	}
+	
+	/**
+	 * Scripts
+	 *
+	 * @since  1.0.0
+	 * @return void
+	 */
+	public function scripts() {
+
+		// Check if we are in debug mode. allow
+		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ? true : false;
+
+		// based on our debug mode, potentially add a min prefix
+		$suffix = ( true === $debug ) ? '' : '.min';
+
+		// Register our javascript file.
+		wp_register_script(
+			'ctct_frontend_forms',
+			constant_contact()->url() . 'assets/js/ctct-plugin-frontend' . $suffix . '.js',
+			array(),
+			constant_contact()->version,
+			true
+		);
 	}
 
 	/**
