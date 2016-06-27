@@ -120,8 +120,8 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				}
 
 				// Set our field name, if we can.
-				if ( isset( $custom_fields[ $key ]['_ctct_field_name'] ) ) {
-					$fields['fields'][ $key ]['name'] = $custom_fields[ $key ]['_ctct_field_name'];
+				if ( isset( $custom_fields[ $key ]['_ctct_field_label'] ) ) {
+					$fields['fields'][ $key ]['name'] = $custom_fields[ $key ]['_ctct_field_label'];
 				}
 
 				// Set our field mapping, if we can.
