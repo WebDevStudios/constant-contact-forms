@@ -68,7 +68,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			// Return our markup.
 			$form = constant_contact()->display->form( $form_data, $form_id );
 
-			return '<div class=“ctct-form-wrapper”>' . $form . '</div><!-- .ctct-form-wrapper -->';
+			return '<div class="ctct-form-wrapper">' . $form . '</div><!-- .ctct-form-wrapper -->';
 
 		}
 
