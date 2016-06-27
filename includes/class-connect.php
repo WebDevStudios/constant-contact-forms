@@ -155,20 +155,6 @@ class ConstantContact_Connect {
 		wp_enqueue_style( 'constant-contact-oath', constant_contact()->url() . 'assets/css/oath.css' );
 		?>
 
-		<script>
-			jQuery.noConflict();
-			(function($) {
-				$(document).ready(function() {
-					$( '.ctct-disconnect' ).on( 'click', function(e) {
-						var disconnect = confirm('<?php esc_html_e( 'Are you sure you want to disconnect?', 'constantcontact' ); ?>');
-						if (disconnect) {
-							<?php // @TODO replace this so there is also a nonce ?>
-							window.location.href = '<?php echo esc_url( add_query_arg( array( 'ctct-disconnect' => 'true' ), $this->redirect_url ) ); ?>';
-						}
-					});
-				});
-			})(jQuery);
-		</script>
 
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>">
