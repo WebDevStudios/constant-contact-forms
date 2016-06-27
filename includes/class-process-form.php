@@ -316,7 +316,7 @@ class ConstantContact_Process_Form {
 			}
 
 			// Make sure we have the orig field name
-			if ( ! isset( $orig_fields[ $key ]['_ctct_field_name'] ) ) {
+			if ( ! isset( $orig_fields[ $key ]['_ctct_field_label'] ) ) {
 				continue;
 			}
 
@@ -335,7 +335,7 @@ class ConstantContact_Process_Form {
 				// Otherwise, pretty up based on field names
 				if ( $value['key'] == $orig_fields[ $key ]['_ctct_map_select'] ) {
 					$pretty_values[] = array(
-						'field' => sanitize_text_field( $orig_fields[ $key ]['_ctct_field_name'] ),
+						'field' => sanitize_text_field( $orig_fields[ $key ]['_ctct_field_label'] ),
 						'value' => sanitize_text_field( $value['value'] ),
 					);
 				}
