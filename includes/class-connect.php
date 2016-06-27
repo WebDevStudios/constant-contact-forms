@@ -199,13 +199,22 @@ class ConstantContact_Connect {
 	public function maybe_disconnect() {
 
 		// Only run if logged in user can manage site options.
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
+		if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+			return;
 		}
 
-		// Make sure we have our disconnect and we're onthe admin
-		// @TODO we need to add a nonce verification to this
-		if ( isset( $_GET['ctct-disconnect'] ) && is_admin() ) {
+		// Make sure we ahve our nonce key
+		if ( ! isset( $_POST['ctct-admin-disconnect'] ) ) {
+			return;
+		}
+
+		// Make sure we want to disconnect
+		if ( ! isset( $_POST['ctct-disconnect'] ) ) {
+			return;
+		}
+
+		// Verify that nonce
+		if ( wp_verify_nonce( $_POST['ctct-admin-disconnect'], 'ctct-admin-disconnect' ) ) {
 
 			// Delete access token.
 			delete_option( 'ctct_token' );
