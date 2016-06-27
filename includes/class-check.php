@@ -30,9 +30,6 @@ class ConstantContact_Check {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-
-		// Set our encrpytion ready flag
-		$this->plugin->is_encryption_ready = $this->is_encryption_ready();
 	}
 
 	public function get_checks_to_make() {
@@ -50,22 +47,6 @@ class ConstantContact_Check {
 		) );
 	}
 
-	/**
-	 * Checks to see if the server will support encryption functionality
-	 *
-	 * @return boolean if we should load/use the encryption libraries
-	 */
-	public function is_encryption_ready() {
-
-		// Make sure we have our openssl libraries
-		if ( ! function_exists( 'openssl_encrypt' ) || ! function_exists( 'openssl_decrypt' ) ) {
-			return false;
-		}
-
-		// @TODO get more checks in here
-
-		return true;
-	}
 
 	/**
 	 * Displays our server check
@@ -109,6 +90,10 @@ class ConstantContact_Check {
 			}
 		}
 
+		// Check to see if we can load the encryption library
+		$crypto = constant_contact()->check_crypto_class();
+		echo '<tr><td>' . __( 'Encrpytion Library: ', 'constantcontact' ) . '</td><td>' . $this->exists_text( $crypto ) . '</td></tr>';
+
 		echo '</table>';
 	}
 
@@ -119,13 +104,13 @@ class ConstantContact_Check {
 	 * @param  string $type function or class?
 	 * @return string       emoji of checkmark
 	 */
-	public function exists_text( $name, $type ) {
+	public function exists_text( $name, $type = '' ) {
 		if ( 'f' == $type ) {
 			$exists = function_exists( esc_attr( $name ) );
 		} elseif ( 'c' == $type ) {
 			$exists = class_exists( esc_attr( $name ) );
 		} else {
-			$exists = false;
+			$exists = $name;
 		}
 
 		if ( $exists ) {
