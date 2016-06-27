@@ -217,10 +217,6 @@ class ConstantContact_Connect {
 
 			// Delete access token.
 			delete_option( 'ctct_token' );
-
-			// Create a redirect back to connect page.
-			wp_safe_redirect( remove_query_arg( array( 'ctct-disconnect', 'code', 'auth', 'username' ), $this->redirect_url ) );
-			exit;
 		}
 	}
 
