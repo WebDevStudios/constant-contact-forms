@@ -185,7 +185,7 @@ class ConstantContact_Settings {
 		}
 
 		$cmb->add_field( array(
-			'name' 	          => __( 'API key', 'constantcontact' ),
+			'name' 	          => __( 'API Client Key', 'constantcontact' ),
 			'id'   	          => '_ctct_api_key',
 			'type'	          => 'text',
 			'desc'            => __( 'Please go <a target="_blank" href="https://constantcontact.mashery.com/page">here</a> and register a new app and API keys.', 'constantcontact' ),
