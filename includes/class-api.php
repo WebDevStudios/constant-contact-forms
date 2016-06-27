@@ -135,11 +135,19 @@ class ConstantContact_API {
 	 */
 	public function get_contacts() {
 
-		try {
-			$contacts = $this->cc()->contactService->getContacts( $this->get_api_token() );
+		// first, check our saved transient for a value
+		$contacts = get_transient( 'ctct_contact' );
 
-		} catch ( CtctException $ex ) {
-			$this->log_errors( $ex->getErrors() );
+		// If we didn't get anything, then re-do the API call
+		if ( false === $contacts ) {
+			try {
+				$contacts = $this->cc()->contactService->getContacts( $this->get_api_token() );
+				set_transient( 'ctct_contact', $contacts, 1 * HOUR_IN_SECONDS );
+				return $contacts;
+
+			} catch ( CtctException $ex ) {
+				$this->log_errors( $ex->getErrors() );
+			}
 		}
 
 		return $contacts;
@@ -153,13 +161,21 @@ class ConstantContact_API {
 	 */
 	public function get_lists() {
 
-		try {
-			return $this->cc()->listService->getLists( $this->get_api_token() );
-		} catch ( CtctException $ex ) {
-			$this->log_errors( $ex->getErrors() );
+		// first, check our saved transient for a value
+		$lists = get_transient( 'ctct_lists' );
+
+		// If we didn't get anything, then re-do the API call
+		if ( false === $lists ) {
+			try {
+				$lists = $this->cc()->listService->getLists( $this->get_api_token() );
+				set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
+				return $lists;
+			} catch ( CtctException $ex ) {
+				$this->log_errors( $ex->getErrors() );
+			}
 		}
 
-		return false;
+		return $lists;
 	}
 
 
