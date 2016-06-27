@@ -170,7 +170,14 @@ class ConstantContact_Connect {
 						<?php esc_html_e( 'Account connected to Constant Contact.', 'constantcontact' ); ?>
 					</p>
 				</div>
-				<input type="button" class="button-primary ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constantcontact' ); ?>">
+
+				<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
+					<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
+					<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
+					<input type="submit" class="button-primary ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constantcontact' ); ?>">
+				</form>
+				<?php echo esc_url( add_query_arg( array( 'ctct-disconnect' => 'true' ), $this->redirect_url ) ); ?>
+
 			<?php else : ?>
 				<p class="ctct-description">
 					<?php esc_html_e( 'Click the connect button and login or sign up to Constant Contact. By connecting, you authorize this plugin to access your account on Constant Contact.', 'constantcontact' ); ?>
