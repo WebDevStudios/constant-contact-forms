@@ -58,7 +58,6 @@ class ConstantContact_Check {
 		// Get everything we should check
 		$checks = $this->get_checks_to_make();
 
-
 		echo '<table class="ctct-server-check">';
 		// If we have a functions array
 		if (
