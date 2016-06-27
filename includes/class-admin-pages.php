@@ -188,14 +188,21 @@ class ConstantContact_Admin_Pages {
 					// page to load a server requirements check
 					// http://mysite.com/wp-admin/edit.php?post_type=ctct_forms&page=ctct_options_help&ctct-debug-server-check
 					if ( isset( $_GET['ctct-debug-server-check'] ) ) {
-						?><hr><div class="ctct-server-requirements"><p>
-						<h4><?php _e( 'Server Check', 'constantcontact' ); ?></h4>
+						?>
+						<hr>
+						<div class="ctct-server-requirements">
+							<p>
+								<h4><?php _e( 'Server Check', 'constantcontact' ); ?></h4>
+								<?php
+									constant_contact()->check->display_server_checks();
+								?>
+							</p>
+						</div>
 						<?php
-						constant_contact()->check->display_server_checks();
-						?></p></div><?php
 					}
-					?>
-		</div><?php
+		?>
+		</div>
+		<?php
 	}
 
 
