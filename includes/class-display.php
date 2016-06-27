@@ -30,16 +30,6 @@ class ConstantContact_Display {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->frontend_hooks();
-	}
-	
-	/**
-	 * Initiate our hooks.
-	 *
-	 * @since 1.0.0
-	 */
-	public function frontend_hooks() {
-		add_action( 'ctct_frontend_enqueue_scripts', array( $this, 'scripts' ) );
 	}
 	
 	/**
