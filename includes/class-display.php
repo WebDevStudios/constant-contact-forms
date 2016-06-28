@@ -259,11 +259,11 @@ class ConstantContact_Display {
 		}
 
 		// Check all our data points.
-		$name   = esc_attr( $field['name'] );
-		$map    = esc_attr( $field['map_to'] );
-		$desc   = esc_attr( isset( $field['description'] ) ? $field['description'] : '' );
-		$type   = esc_attr( isset( $field['type'] ) ? $field['type'] : 'text_field' );
-		$value  = esc_attr( isset( $field['value'] ) ? $field['value'] : false );
+		$name   = sanitize_text_field( $field['name'] );
+		$map    = sanitize_text_field( $field['map_to'] );
+		$desc   = sanitize_text_field( isset( $field['description'] ) ? $field['description'] : '' );
+		$type   = sanitize_text_field( isset( $field['type'] ) ? $field['type'] : 'text_field' );
+		$value  = sanitize_text_field( isset( $field['value'] ) ? $field['value'] : false );
 		$req    = isset( $field['required'] ) ? $field['required'] : false;
 
 		// We may have more than one of the same field in our array.
