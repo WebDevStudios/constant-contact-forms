@@ -110,8 +110,8 @@ class ConstantContact_Admin_Pages {
 		<h1>
 			<?php esc_attr_e( 'Help / FAQ', 'constantcontact' ); ?>
 		</h1>
-		<div class="wrap">
-			<table id="ctct-support" class="form-table">
+		<div class="ctct-wrap wrap">
+			<table id="ctct-support" class="ctct-form-table">
 			<tr>
 				<td class="outer outer-first">
 					<h2>
