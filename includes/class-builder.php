@@ -71,6 +71,7 @@ class ConstantContact_Builder {
 	/**
 	 * Form description CMB2 metabox
 	 *
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function description_metabox() {
@@ -105,6 +106,7 @@ class ConstantContact_Builder {
 	/**
 	 * Fields builder CMB2 metabox
 	 *
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function fields_metabox() {
@@ -194,6 +196,7 @@ class ConstantContact_Builder {
 	/**
 	 * Form options CMB2 metabox
 	 *
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function options_metabox() {
@@ -260,6 +263,7 @@ class ConstantContact_Builder {
 	/**
 	 * Get lists for dropdown option
 	 *
+	 * @since  1.0.0
 	 * @return array array of lists
 	 */
 	public function get_lists() {
@@ -292,6 +296,8 @@ class ConstantContact_Builder {
 
 	/**
 	 * Custom CMB2 meta box css
+	 *
+	 * @since  1.0.0
 	 */
 	public function add_form_css() {
 
@@ -302,9 +308,10 @@ class ConstantContact_Builder {
 	/**
 	 * Hook into CMB2 save meta to check if email field has been added
 	 *
+	 * @since  1.0.0
 	 * @param  string $field_id CMB2 Field id.
-	 * @param  [type] $updated  [description]
-	 * @param  [type] $action   [description]
+	 * @param  object $updated
+	 * @param  string $action
 	 * @param  object $cmbobj   CMB2 field object
 	 * @return void
 	 */
@@ -353,6 +360,7 @@ class ConstantContact_Builder {
 	/**
 	 * Set admin notice if no email field
 	 *
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function admin_notice() {
