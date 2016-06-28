@@ -47,25 +47,23 @@ window.CTCTBuilder = {};
 
 		$( '#ctct_fields_metabox .map select' ).each( function( key, value ) {
 
-			var field_parent = $( this ).parent().parent().parent();
-			var button = $( field_parent ).find( '.cmb-remove-row button' );
-			var required = $( field_parent ).find( '.required input[type=checkbox]' );
-			var map = $( field_parent ).find( '.map select' );
+			var $field_parent = $( this ).closest( '.cmb-field-list' );
+			var $button = $( $field_parent ).find( '.cmb-remove-group-row' );
+			var $required = $( $field_parent ).find( '.required input[type=checkbox]' );
+			var $requiredRow = $required.closest( '.cmb-row' );
+			var $map = $( $field_parent ).find( '.map select option:selected' );
 
 			if ( 'email' === $( this ).val() ) {
-				$( required ).prop( 'checked', true );
+				$required.prop( 'checked', true );
+				$requiredRow.hide();
+				$button.hide();
+				$map.attr( 'disabled', true );
+			} else {
+				$required.prop( 'checked', false);
+				$requiredRow.show();
+				$button.show();
+				$map.attr( 'disabled', false);
 			}
-
-			// if ( 'email' === $( this ).val() ) {
-			// 	button.attr( 'disabled', true);
-			// 	required.attr( 'disabled', true);
-			// 	map.prop( 'disabled', true);
-
-			// } else {
-			// 	button.attr( 'disabled', false);
-			// 	required.attr( 'disabled', false);
-			// 	map.prop( 'disabled', false);
-			// }
 
 		});
 
@@ -75,7 +73,6 @@ window.CTCTBuilder = {};
 	$( that.init );
 
 })( window, jQuery, window.CTCTBuilder );
-
 window.CTCTSupport = {};
 ( function( window, $, that ) {
 
