@@ -693,7 +693,6 @@ class ConstantContact_Display {
 	}
 
 	public function get_date_dropdown( $text = '', $type = '', $selected_value ) {
-
 		// Start our return
 		$return = '<select>';
 		$return .= $this->get_date_options( $text, $this->get_date_values( $type ), $selected_value );
@@ -703,25 +702,31 @@ class ConstantContact_Display {
 	}
 
 	public function get_date_options( $text, $values, $prev_selected_values ) {
-		return '<option>' . $text . '</option>';
+
+		$return = '<option>' . $text . '</option>';
+
+		foreach ( $values as $value ) {
+			$return .= '<option>' . sanitize_text_field( $value ) . '</option>';
+		}
+
+		return $return;
 	}
 
 	public function get_date_values( $type ) {
+
 		switch ( $type ) {
 			case 'day':
-				return 'Sunday';
+				$return = array( 'Sunday' );
 				break;
 			case 'month':
-				return 'January';
+				$return = array( 'January' );
 				break;
 			case 'year':
-				return '2016';
-				break;
-
-			default:
-				# code...
+				$return = array( '2016' );
 				break;
 		}
+
+		return $return;
 	}
 }
 
