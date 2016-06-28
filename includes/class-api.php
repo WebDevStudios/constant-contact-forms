@@ -2,7 +2,7 @@
 /**
  * ConstantContact_API class
  *
- * @package ConstantContactAPI
+ * @package ConstantContact_API
  * @subpackage ConstantContact
  * @author Pluginize
  * @since 1.0.0
@@ -342,6 +342,7 @@ class ConstantContact_API {
 	/**
 	 * Helper method to creat contact
 	 *
+	 * @since  1.0.0
 	 * @param  array  $response  response from api call
 	 * @param  string $api_token token
 	 * @param  string $list      list name
@@ -372,6 +373,7 @@ class ConstantContact_API {
 	/**
 	 * Helper method to update contact
 	 *
+	 * @since  1.0.0
 	 * @param  array  $response  response from api call
 	 * @param  string $api_token token
 	 * @param  string $list      list name
@@ -408,6 +410,7 @@ class ConstantContact_API {
 	/**
 	 * Pushes all error to api_error_message
 	 *
+	 * @since  1.0.0
 	 * @param  array $errors  errors from api
 	 * @return void
 	 */
@@ -447,6 +450,9 @@ class ConstantContact_API {
 			case 'http.status.authentication.invalid_token':
 				$this->access_token = false;
 				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constantcontact' );
+			case 'mashery.not.authorized.over.qps':
+				$this->pause_api_calls();
+				return;
 			break;
 			default:
 				return false;
@@ -456,12 +462,23 @@ class ConstantContact_API {
 	}
 
 	/**
+	 * Rate limit ourselves to not bust API call rate limit
+	 *
+	 * @since  1.0.0
+	 * @param  string $time amount of time to pause api calls
+	 */
+	public function pause_api_calls() {
+		// @TODO
+		sleep( 1 );
+	}
+
+	/**
 	 * Make sure we don't over-do API requests, helper method to check if we're connected
 	 *
 	 * @return boolean if connected
 	 */
 	public function is_connected() {
-		return false;
+		return get_option( 'ctct_token', false ) ? true : false;
 	}
 }
 

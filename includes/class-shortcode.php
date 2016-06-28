@@ -2,7 +2,7 @@
 /**
  * ConstantContact_Shortcode class
  *
- * @package ConstantContactShortcode
+ * @package ConstantContact_Shortcode
  * @author Pluginize
  * @since 1.0.0
  */
@@ -68,7 +68,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			// Return our markup.
 			$form = constant_contact()->display->form( $form_data, $form_id );
 
-			return '<div class=“ctct-form-wrapper”>' . $form . '</div><!-- .ctct-form-wrapper -->';
+			return '<div class="ctct-form-wrapper">' . $form . '</div><!-- .ctct-form-wrapper -->';
 
 		}
 
@@ -100,6 +100,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		/**
 		 * Get custom field values from post meta data from form CPT post
 		 *
+		 * @since  1.0.0
 		 * @param  array $custom_fields custom fields to parse through.
 		 * @return string                form field markup
 		 */

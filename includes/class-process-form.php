@@ -2,7 +2,7 @@
 /**
  * ConstantContact_Process_Form class
  *
- * @package ConstantContactProcessForm
+ * @package ConstantContact_Process_Form
  * @subpackage ConstantContact
  * @author Pluginize
  * @since 1.0.0
@@ -29,6 +29,74 @@ class ConstantContact_Process_Form {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+		$this->hooks();
+	}
+
+	/**
+	 * Do the hooks!
+	 *
+	 * @since  1.0.0
+	 * @return void
+	 */
+	public function hooks() {
+		add_action( 'wp_ajax_ctct_process_form', array( $this, 'process_form_ajax_wrapper' ) );
+		add_action( 'wp_ajax_nopriv_ctct_process_form', array( $this, 'process_form_ajax_wrapper' ) );
+	}
+
+	/**
+	 * A wrpper to process our form via AJAX
+	 *
+	 * @since  1.0.0
+	 */
+	public function process_form_ajax_wrapper() {
+
+		// See if we're passed in data
+		if ( isset( $_POST['data'] ) ) {
+
+			// Form data comes over serialzied, so break it apart
+			$data = explode( '&', $_POST['data'] );
+
+			// Finish converting that ajax data to something we can use
+			$json_data = array();
+
+			// Make sure we have an array of data
+			if ( is_array( $data ) ) {
+
+				// Loop through each of our fields
+				foreach ( $data as $field ) {
+
+					// Our data looks like this:
+					// Array (
+					// [0] => email___5d94668ce0670de4192bbcdd94d8ef71=email_address
+					// [1] => custom___22d42a056afeffb8d99b2474693afa98=text
+					// so we want to break it apart to get the key and the value
+					// we pass 2 into explode() to limit it to only two return values
+					// in case there is an = in the actual form value
+					$exp_fields = explode( '=', $field, 2 );
+
+					// Sanity check
+					if ( isset( $exp_fields[0] ) && $exp_fields[0] ) {
+						// Set up our data structure if we have the data
+						$value = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
+						$json_data[  esc_attr( $exp_fields[0] ) ] = sanitize_text_field( $value );
+					}
+				}
+			}
+
+			// Send it to our process form method
+			$response = $this->process_form( $json_data, true );
+
+			// We don't need the original values for the ajax check
+			if ( isset( $response['values'] ) ) {
+				unset( $response['values'] );
+			}
+
+			// Send back our response
+			wp_send_json( $response );
+
+			// die out of the ajax request
+			wp_die();
+		}
 	}
 
 	/**
@@ -37,27 +105,36 @@ class ConstantContact_Process_Form {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function process_form() {
+	public function process_form( $data = array(), $is_ajax = false ) {
 
-		// If we don't have our submitted action, just bail out
-		if ( ! isset( $_POST['ctct-submitted'] ) ) {
-			return;
+		// Set our data var to $_POST if we dont get it passed in
+		if ( empty( $data ) ) {
+			$data = $_POST;
+		}
+
+		// Don't check for submitted if we are doing it over ajax
+		if ( ! $is_ajax ) {
+			// If we don't have our submitted action, just bail out
+			if ( ! isset( $data['ctct-submitted'] ) ) {
+				return;
+			}
 		}
 
 		// If we don't have our submitted form id, just bail out
-		if ( ! isset( $_POST['ctct-id'] ) ) {
+		if ( ! isset( $data['ctct-id'] ) ) {
 			return;
 		}
 
 		// If we don't have our submitted form verify, just bail out
-		if ( ! isset( $_POST['ctct-verify'] ) ) {
+		if ( ! isset( $data['ctct-verify'] ) ) {
 			return;
 		}
 
+
 		// Verify our nonce first
 		if (
-		    ! isset( $_POST['ctct_form'] ) ||
-		    ! wp_verify_nonce( $_POST['ctct_form'], 'ctct_submit_form' )
+		    ! isset( $data['ctct_form'] ) ||
+		    ! wp_verify_nonce( $data['ctct_form'], 'ctct_submit_form' )
 		) {
 			// figure out a way to pass errors back
 			return array(
@@ -67,7 +144,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// Make sure we have an original form id
-		$orig_form_id = absint( $_POST['ctct-id'] );
+		$orig_form_id = absint( $data['ctct-id'] );
 		if ( ! $orig_form_id ) {
 			return array(
 				'status' => 'named_error',
@@ -76,7 +153,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// Make sure we have a verify value
-		$form_verify = esc_attr( $_POST['ctct-verify'] );
+		$form_verify = esc_attr( $data['ctct-verify'] );
 		if ( ! $form_verify ) {
 			return array(
 				'status' => 'named_error',
@@ -94,7 +171,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// If the submit button is clicked, send the email.
-		foreach ( $_POST as $key => $value ) {
+		foreach ( $data as $key => $value ) {
 
 			// Allow ignoring of certain keys, like our nonce.
 			$ignored_keys = apply_filters( 'constant_contact_ignored_post_form_values', array(
@@ -121,7 +198,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// Check for specific validation errors
-		$field_errors = $this->get_field_errors( $this->clean_values( $return['values'] ) );
+		$field_errors = $this->get_field_errors( $this->clean_values( $return['values'] ), $is_ajax );
 		// If we got errors
 		if ( is_array( $field_errors ) && ! empty( $field_errors ) ) {
 
@@ -134,17 +211,21 @@ class ConstantContact_Process_Form {
 		}
 
 		// if we're not processing the opt-in stuff, we can just return our data here
-		if ( ! isset( $_POST['ctct-opti-in'] ) ) {
+		if ( ! isset( $data['ctct-opti-in'] ) ) {
 
-			// at this point we can process all of our submitted values
-			$this->submit_form_values( $return['values'] );
+			if ( ! $is_ajax ) {
+				// at this point we can process all of our submitted values
+				$this->submit_form_values( $return['values'] );
+			}
 
 			$return['status'] = 'success';
 			return $return;
 		}
 
-		// at this point we can process all of our submitted values
-		$this->submit_form_values( $return['values'], true );
+		if ( ! $is_ajax ) {
+			// at this point we can process all of our submitted values
+			$this->submit_form_values( $return['values'], true );
+		}
 
 		$return['status'] = 'success';
 		return $return;
@@ -153,6 +234,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Process our form values
 	 *
+	 * @since  1.0.0
 	 * @param  array $values submitted form values
 	 */
 	public function submit_form_values( $values = array(), $add_to_opt_in = false ) {
@@ -179,6 +261,13 @@ class ConstantContact_Process_Form {
 		return $this->mail( $this->get_email(), $values );
 	}
 
+	/**
+	 * Opts in a user, if requested
+	 *
+	 * @since  1.0.0
+	 * @param  array $values submitted values
+	 * @return object         response from API
+	 */
 	public function opt_in_user( $values ) {
 
 		// Set our default vars
@@ -226,6 +315,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Formats values for email
 	 *
+	 * @since  1.0.0
 	 * @param  array $values values to format
 	 * @return string         html content for email
 	 */
@@ -245,8 +335,9 @@ class ConstantContact_Process_Form {
 	}
 
 	/**
-	 * Pretty our values up, @todo rip this out for use in verification
+	 * Pretty our values up
 	 *
+	 * @since  1.0.0
 	 * @param  array $values values
 	 * @return array         values but better
 	 */
@@ -327,16 +418,17 @@ class ConstantContact_Process_Form {
 			// entire two form values to compare
 			if ( 'full' === $compare_type ) {
 				$pretty_values[] = array(
-					'orig' => $orig_fields[ $key ],
-					'post' => $value['value'],
+					'orig'     => $orig_fields[ $key ],
+					'post'     => $value['value'],
+					'orig_key' => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
 				);
 			} else {
 
 				// Otherwise, pretty up based on field names
 				if ( $value['key'] == $orig_fields[ $key ]['_ctct_map_select'] ) {
 					$pretty_values[] = array(
-						'field' => sanitize_text_field( $orig_fields[ $key ]['_ctct_field_label'] ),
-						'value' => sanitize_text_field( $value['value'] ),
+						'field'    => sanitize_text_field( $orig_fields[ $key ]['_ctct_field_label'] ),
+						'value'    => sanitize_text_field( $value['value'] ),
 					);
 				}
 			}
@@ -349,10 +441,11 @@ class ConstantContact_Process_Form {
 	/**
 	 * Get field requirement errors
 	 *
+	 * @since  1.0.0
 	 * @param  array $values values
 	 * @return array         return error code stuff
 	 */
-	public function get_field_errors( $values ) {
+	public function get_field_errors( $values, $is_ajax = false ) {
 
 		// get our values with full orig field comparisons
 		$values = $this->pretty_values( $values, 'full' );
@@ -367,9 +460,12 @@ class ConstantContact_Process_Form {
 
 		// Loop through each value
 		foreach ( $values as $value ) {
-
 			// Sanity check
-			if ( ! isset( $value['orig'] ) || ! isset( $value['post'] ) ) {
+			if (
+				! isset( $value['orig'] ) ||
+				! isset( $value['post'] ) ||
+				! isset( $value['orig']['_ctct_map_select'] )
+			) {
 				continue;
 			}
 
@@ -380,8 +476,22 @@ class ConstantContact_Process_Form {
 				'on' === $value['orig']['_ctct_required_field']
 			) {
 				// If it was required, check for a value
-				if ( empty( $value['post'] ) ) {
-					$err_returns[] = $value['orig']['_ctct_map_select'];
+				if ( ! $value['post'] ) {
+					$err_returns[] = array(
+						'map'   => $value['orig']['_ctct_map_select'],
+						'id'    => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
+						'error' => 'required',
+					);
+				}
+			}
+
+			if ( 'email' == $value['orig']['_ctct_map_select'] ) {
+				if ( $value['post'] != sanitize_email( $value['post'] ) ) {
+					$err_returns[] = array(
+						'map'   => $value['orig']['_ctct_map_select'],
+						'id'    => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
+						'error' => 'invalid',
+					);
 				}
 			}
 		}
@@ -392,6 +502,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Get the email address to send to
 	 *
+	 * @since  1.0.0
 	 * @return string email address to send to
 	 */
 	public function get_email() {
@@ -403,6 +514,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Sends our mail out
 	 *
+	 * @since  1.0.0
 	 * @param  string $destination_email email address
 	 * @param  array  $data              data from clean values
 	 * @return bool                    if sent
@@ -415,6 +527,9 @@ class ConstantContact_Process_Form {
 			return false;
 		}
 
+		// Filter to allow sending HTML for our message body
+		add_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
+
 		// Send that mail
 		$mail_status = wp_mail(
 			$destination_email,
@@ -422,12 +537,26 @@ class ConstantContact_Process_Form {
 			$content
 		);
 
+		// Clean up, remove the filter we had set
+		remove_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
+
+		// Return the mail status
 		return $mail_status;
+	}
+
+	/**
+	 * Helper method to return 'text/html' string for actions
+	 *
+	 * @since  1.0.0
+	 */
+	public function set_email_type() {
+		return 'text/html';
 	}
 
 	/**
 	 * Clean our values from form submission
 	 *
+	 * @since  1.0.0
 	 * @param  array $values values to clean
 	 * @return array         cleaned values
 	 */
@@ -457,8 +586,9 @@ class ConstantContact_Process_Form {
 			}
 
 			$return_values[] = array(
-				'key'   => sanitize_text_field( $key_break[0] ),
-				'value' => sanitize_text_field( $value['value'] ),
+				'key'      => sanitize_text_field( $key_break[0] ),
+				'value'    => sanitize_text_field( $value['value'] ),
+				'orig_key' => $value['key'],
 			);
 		}
 

@@ -2,7 +2,7 @@
 /**
  * ConstantContact_Auth_Redirect class
  *
- * @package ConstantContactProcessForm
+ * @package ConstantContact_Auth_Redirect
  * @subpackage ConstantContact
  * @author Pluginize
  * @since 1.0.0
@@ -46,6 +46,7 @@ class ConstantContact_Auth_Redirect {
 	/**
 	 * Add auth params to query_vars
 	 *
+	 * @since  1.0.0
 	 * @param array $vars url params.
 	 */
 	function rewrite_add_var( $vars ) {
@@ -58,6 +59,7 @@ class ConstantContact_Auth_Redirect {
 	/**
 	 * Check for query params and redirect
 	 *
+	 * @since  1.0.0
 	 * @return boolean
 	 */
 	function rewrite_catch() {

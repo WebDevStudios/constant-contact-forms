@@ -5,7 +5,7 @@
  * @package ConstantContactLoader
  * @subpackage Loader
  * @author Pluginize
- * @since 1.0.0
+ * @since 1.0.1
  */
 
 /**
@@ -387,6 +387,7 @@ class Constant_Contact {
 	/**
 	 * Checks to see if the server will support encryption functionality
 	 *
+	 * @since  1.0.0
 	 * @return boolean if we should load/use the encryption libraries
 	 */
 	public function is_encryption_ready() {
@@ -408,6 +409,7 @@ class Constant_Contact {
 	/**
 	 * Helper method to check our crypto clases
 	 *
+	 * @since  1.0.0
 	 * @return boolean if we can encrpyt or not
 	 */
 	public function check_crypto_class() {
@@ -419,7 +421,7 @@ class Constant_Contact {
 			// If we have the Runtime test class
 			if ( class_exists( 'Defuse\Crypto\RuntimeTests' ) ) {
 
-				//  Use this to
+				// Use this to
 				$tests = new Defuse\Crypto\RuntimeTests;
 				$tests = $tests->runtimeTest();
 				$return = true;

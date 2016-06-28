@@ -2,7 +2,7 @@
 /**
  * ConstantContact_Shortcode_Admin
  *
- * @package	ConstantContactShortcodeAdmin
+ * @package	ConstantContact_Shortcode_Admin
  * @author	 Pluginize
  * @since 1.0.0
  */
@@ -153,6 +153,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		/**
 		 * Delete transient of saved form
 		 *
+		 * @since  1.0.0
 		 * @return void
 		 */
 		public function clear_saved_form_list_transient() {

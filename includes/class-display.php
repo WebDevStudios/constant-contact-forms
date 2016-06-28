@@ -3,7 +3,7 @@
 /**
  * ConstantContact_Display class
  *
- * @package ConstantContactProcessForm
+ * @package ConstantContact_Display
  * @subpackage ConstantContact
  * @author Pluginize
  * @since 1.0.0
@@ -31,7 +31,7 @@ class ConstantContact_Display {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 	}
-	
+
 	/**
 	 * Scripts
 	 *
@@ -59,24 +59,27 @@ class ConstantContact_Display {
 	/**
 	 * Main wrapper for getting our form display
 	 *
+	 * @since  1.0.0
 	 * @return string Form markup
 	 */
 	public function form( $form_data, $form_id = '', $skip_styles = false ) {
 
+		// Also enqueue our scripts
+		$this->scripts();
+
 		// Conditionally enqueue our styles
 		if ( ! $skip_styles ) {
+
 			wp_enqueue_style(
 				'ctct_form_styles',
 				constant_contact()->url() . 'assets/css/style.css',
 				array(),
 				constant_contact()->version
 			);
+
+			// Enqueued script.
+			wp_enqueue_script( 'ctct_frontend_forms' );
 		}
-		
-		$this->scripts();
-		
-		// Enqueued script.
-		wp_enqueue_script( 'ctct_frontend_forms' );
 
 		// Start our return markup and some default variables
 		$return           = '';
@@ -114,15 +117,17 @@ class ConstantContact_Display {
 				// We already checked for a messsage response, but we'll force the
 				// status to error if we're not here
 				$status = 'error';
-				$error_message = $response['message'];
+				$error_message = trim( $response['message'] );
 			}
 		}
 
 		// If we got an error for our status, and we have an error message, display it.
 		if ( 'error' == $status || $error_message ) {
 
-			// We'll show this error right inside our form
-			$form_err_display = $this->message( 'error', $error_message );
+			if ( ! empty( $error_message ) ) {
+				// We'll show this error right inside our form
+				$form_err_display = $this->message( 'error', $error_message );
+			}
 		}
 
 		// Force uniqueness of an id for the form
@@ -150,6 +155,10 @@ class ConstantContact_Display {
 		// Close our form
 		$return .= '</form>';
 
+		$return .= '<script type="text/javascript">';
+		$return .= 'var ajaxurl = "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '";';
+		$return .= '</script>';
+
 		// Return it all
 		return $return;
 	}
@@ -157,6 +166,7 @@ class ConstantContact_Display {
 	/**
 	 * Get our current URL in a somewhat robust way
 	 *
+	 * @since  1.0.0
 	 * @return string url of current page
 	 */
 	public function get_current_page() {
@@ -167,6 +177,7 @@ class ConstantContact_Display {
 	/**
 	 * Adds hidden input fields to our form for form id and verify id
 	 *
+	 * @since  1.0.0
 	 * @param  string $form_data html markup
 	 */
 	public function add_verify_fields( $form_data ) {
@@ -240,6 +251,7 @@ class ConstantContact_Display {
 	/**
 	 * Wrapper for single field display
 	 *
+	 * @since  1.0.0
 	 * @param  array $field field data
 	 * @return string        html markup
 	 */
@@ -251,17 +263,49 @@ class ConstantContact_Display {
 		}
 
 		// Check all our data points.
-		$name   = esc_attr( $field['name'] );
-		$map    = esc_attr( $field['map_to'] );
-		$desc   = esc_attr( isset( $field['description'] ) ? $field['description'] : '' );
-		$type   = esc_attr( isset( $field['type'] ) ? $field['type'] : 'text_field' );
-		$value  = esc_attr( isset( $field['value'] ) ? $field['value'] : false );
+		$name   = sanitize_text_field( $field['name'] );
+		$map    = sanitize_text_field( $field['map_to'] );
+		$desc   = sanitize_text_field( isset( $field['description'] ) ? $field['description'] : '' );
+		$type   = sanitize_text_field( isset( $field['type'] ) ? $field['type'] : 'text_field' );
+		$value  = sanitize_text_field( isset( $field['value'] ) ? $field['value'] : false );
 		$req    = isset( $field['required'] ) ? $field['required'] : false;
 
 		// We may have more than one of the same field in our array.
 		// this makes sure we keep them unique when processing them.
 		if ( 'submit' != $type ) {
 			$map = $map . '___' . md5( serialize( $field ) );
+		}
+
+		// Default error status
+		$field_error = false;
+
+		// If we got any errors, then pass them through to the form field
+		if ( ! empty( $req_errors ) ) {
+
+			// Loop through each error
+			foreach ( $req_errors as $error ) {
+
+				// Make sure we have a field ID and an actual error
+				if ( isset( $error['id'] ) && isset( $error['error'] ) ) {
+
+					// If the error matches the field we're rendering
+					if ( $map == $error['id'] ) {
+
+						// Start our field error return
+						$field_error = '<span class="ctct-field-error">';
+
+						// Based on the error type, display an error.
+						if ( 'invalid' == $error['error'] ) {
+							 $field_error .= __( 'Error: Please correct your entry.', 'constantcontact' );
+						} else {
+							$field_error .= __( ' Error: Please fill out this field.', 'constantcontact' );
+						}
+
+						// Finish error return
+						$field_error .= '</span>';
+					}
+				}
+			}
 		}
 
 		// Potentially replace value with submitted value
@@ -277,10 +321,10 @@ class ConstantContact_Display {
 			case 'company':
 			case 'website':
 			case 'text_field':
-				return $this->input( 'text', $name, $map, $value, $desc, $req );
+				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			case 'email':
-				return $this->input( 'email', $name, $map, $value, $desc, $req );
+				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			case 'hidden':
 				return $this->input( 'hidden', $name, $map, $value, $desc, $req );
@@ -289,18 +333,18 @@ class ConstantContact_Display {
 				return $this->checkbox( $name, $map, $value, $desc );
 				break;
 			case 'submit':
-				return $this->input( 'submit', $name, $map, $value, $desc );
+				return $this->input( 'submit', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			case 'address':
-				return $this->address( $name, $map, $value, $desc );
+				return $this->address( $name, $map, $value, $desc, $req, $field_error );
 				break;
 			case 'anniversery':
 			case 'birthday':
 				// need this to be month / day / year
-				return $this->input( 'text', $name, $map, $value, $desc );
+				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			default:
-				return $this->input( 'text', $name, $map, $value, $desc, $req );
+				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 		}
 	}
@@ -308,6 +352,7 @@ class ConstantContact_Display {
 	/**
 	 * Gets submitted values
 	 *
+	 * @since  1.0.0
 	 * @param  array $field field data
 	 * @return string        submitted value
 	 */
@@ -344,6 +389,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method to display in-line for success/error messages
 	 *
+	 * @since  1.0.0
 	 * @param  string $type    success / error / etc for class
 	 * @param  string $message message to display to user
 	 * @return string          html markup
@@ -355,6 +401,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method to display form description
 	 *
+	 * @since  1.0.0
 	 * @param  string $description description to outpu
 	 * @return echo              echos out form description markup
 	 */
@@ -383,6 +430,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method to display label for form field + field starting markup
 	 *
+	 * @since  1.0.0
 	 * @param  string  $type  type of field
 	 * @param  string  $name  name / id of field
 	 * @param  string  $label label text for field
@@ -416,6 +464,7 @@ class ConstantContact_Display {
 	/**
 	 * Bottom of field markup
 	 *
+	 * @since  1.0.0
 	 * @return string HTML markup
 	 */
 	public function field_bottom( $name = '', $field_label = '' ) {
@@ -431,6 +480,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method to get form label
 	 *
+	 * @since  1.0.0
 	 * @param  string $name name/id of form field
 	 * @param  string $text text to display as label
 	 * @return string       HTML markup
@@ -442,6 +492,7 @@ class ConstantContact_Display {
 	/**
 	 * Wrapper for 'input' form fields
 	 *
+	 * @since  1.0.0
 	 * @param  string  $type   type of form field
 	 * @param  string  $name   ID of form field
 	 * @param  string  $value  pre-filled value
@@ -450,7 +501,7 @@ class ConstantContact_Display {
 	 * @param  boolean $f_only should we only return the field itself, with no label?
 	 * @return string          HTML markup for field
 	 */
-	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false ) {
+	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false ) {
 
 		// Sanitize our stuff / set values
 		$name  = sanitize_text_field( $name );
@@ -464,11 +515,23 @@ class ConstantContact_Display {
 		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
 
 		// Set our field as as seprate var, because we allow for only returning that
-		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" />';
+		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '"/>';
+
+		// If we have an error
+		if ( $field_error ) {
+			// Tack that sucker on to the end of our input
+			$field = str_replace( '/>', 'class="ctct-invalid />', $field );
+		}
 
 		// Add our field to our markup
 		$markup .= $field;
-		$markup .= $this->field_bottom();
+
+		// If we got an error, add it to the bottom label
+		if ( $field_error ) {
+			$markup .= $this->field_bottom( $id, $field_error );
+		} else {
+			$markup .= $this->field_bottom();
+		}
 
 		// If we passed in a flag for only the field, just return that
 		if ( $f_only ) {
@@ -482,6 +545,7 @@ class ConstantContact_Display {
 	/**
 	 * Checkbox field helper method
 	 *
+	 * @since  1.0.0
 	 * @param  string $name  name/it of field
 	 * @param  string $value value of field
 	 * @param  string $label label / desc text
@@ -508,6 +572,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method for submit button
 	 *
+	 * @since  1.0.0
 	 * @return string html markup
 	 */
 	public function submit() {
@@ -522,6 +587,7 @@ class ConstantContact_Display {
 	/**
 	 * Build markup for opt_in form
 	 *
+	 * @since  1.0.0
 	 * @param  array $form_data form data structure
 	 * @return string            markup of optin form
 	 */
@@ -543,13 +609,14 @@ class ConstantContact_Display {
 	/**
 	 * Builds a fancy address field group
 	 *
+	 * @since  1.0.0
 	 * @param  string $name  name of fields
 	 * @param  string $f_id  form id name
 	 * @param  array  $value values of each field
 	 * @param  string $desc  label of field
 	 * @return string        html markup of field
 	 */
-	public function address( $name = '', $f_id = '', $value = array(), $desc = '' ) {
+	public function address( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '' ) {
 
 		// Set up our text strings
 		$street = __( 'Street Address', 'constantcontact' );

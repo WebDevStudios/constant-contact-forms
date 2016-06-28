@@ -2,7 +2,7 @@
 /**
  * ConstantContact_Lists class
  *
- * @package ConstantContactLists
+ * @package ConstantContact_Lists
  * @subpackage ConstantContact
  * @author Pluginize
  * @since 1.0.0
@@ -97,6 +97,8 @@ class ConstantContact_Lists {
 
 	/**
 	 * Style our form stuff
+	 *
+	 * @since  1.0.0
 	 */
 	public function add_form_css() {
 		wp_enqueue_style( 'constant-contact-forms' );
@@ -282,6 +284,7 @@ class ConstantContact_Lists {
 	/**
 	 * Wrapper function to handle saving and updating our lists
 	 *
+	 * @since  1.0.0
 	 * @param  int $post_id wp post id
 	 * @return bool          whether or not it worked
 	 */
@@ -427,6 +430,7 @@ class ConstantContact_Lists {
 	/**
 	 * Delete list from CTCT and database.
 	 *
+	 * @since  1.0.0
 	 * @param  integer $post_id list id.
 	 * @return boolean
 	 */
