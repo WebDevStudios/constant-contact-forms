@@ -716,13 +716,19 @@ class ConstantContact_Display {
 
 		switch ( $type ) {
 			case 'day':
-				$return = array( 'Sunday' );
+				$return = apply_filters( 'constant_contact_dates_day', array(
+					'Sunday'
+				) );
 				break;
 			case 'month':
-				$return = array( 'January' );
+				$return = apply_filters( 'constant_contact_dates_month', array(
+					'Sunday'
+				) );
 				break;
 			case 'year':
-				$return = array( '2016' );
+				$return = apply_filters( 'constant_contact_dates_year', array(
+					'Sunday'
+				) );
 				break;
 		}
 
