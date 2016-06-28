@@ -660,5 +660,10 @@ class ConstantContact_Display {
 
 		return $return;
 	}
+
+	public function dates( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '' ) {
+
+	}
+
 }
 
