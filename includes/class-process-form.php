@@ -32,6 +32,12 @@ class ConstantContact_Process_Form {
 		$this->hooks();
 	}
 
+	/**
+	 * Do the hooks!
+	 *
+	 * @since  1.0.0
+	 * @return void
+	 */
 	public function hooks() {
 		add_action( 'wp_ajax_ctct_process_form', array( $this, 'process_form_ajax_wrapper' ) );
 		add_action( 'wp_ajax_nopriv_ctct_process_form', array( $this, 'process_form_ajax_wrapper' ) );
@@ -40,6 +46,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * A wrpper to process our form via AJAX
 	 *
+	 * @since  1.0.0
 	 */
 	public function process_form_ajax_wrapper() {
 
@@ -227,6 +234,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Process our form values
 	 *
+	 * @since  1.0.0
 	 * @param  array $values submitted form values
 	 */
 	public function submit_form_values( $values = array(), $add_to_opt_in = false ) {
@@ -253,6 +261,13 @@ class ConstantContact_Process_Form {
 		return $this->mail( $this->get_email(), $values );
 	}
 
+	/**
+	 * Opts in a user, if requested
+	 *
+	 * @since  1.0.0
+	 * @param  array $values submitted values
+	 * @return object         response from API
+	 */
 	public function opt_in_user( $values ) {
 
 		// Set our default vars
@@ -300,6 +315,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Formats values for email
 	 *
+	 * @since  1.0.0
 	 * @param  array $values values to format
 	 * @return string         html content for email
 	 */
@@ -319,8 +335,9 @@ class ConstantContact_Process_Form {
 	}
 
 	/**
-	 * Pretty our values up, @todo rip this out for use in verification
+	 * Pretty our values up
 	 *
+	 * @since  1.0.0
 	 * @param  array $values values
 	 * @return array         values but better
 	 */
@@ -424,6 +441,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Get field requirement errors
 	 *
+	 * @since  1.0.0
 	 * @param  array $values values
 	 * @return array         return error code stuff
 	 */
@@ -484,6 +502,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Get the email address to send to
 	 *
+	 * @since  1.0.0
 	 * @return string email address to send to
 	 */
 	public function get_email() {
@@ -495,6 +514,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Sends our mail out
 	 *
+	 * @since  1.0.0
 	 * @param  string $destination_email email address
 	 * @param  array  $data              data from clean values
 	 * @return bool                    if sent
@@ -525,8 +545,9 @@ class ConstantContact_Process_Form {
 	}
 
 	/**
-	 * Helper method to return 'text/html' stringh for actions
+	 * Helper method to return 'text/html' string for actions
 	 *
+	 * @since  1.0.0
 	 */
 	public function set_email_type() {
 		return 'text/html';
@@ -535,6 +556,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Clean our values from form submission
 	 *
+	 * @since  1.0.0
 	 * @param  array $values values to clean
 	 * @return array         cleaned values
 	 */

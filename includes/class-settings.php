@@ -16,6 +16,7 @@ class ConstantContact_Settings {
 	 * Option key, and option page slug
 	 *
 	 * @var string
+	 * @since  1.0.0
 	 */
 	private $key = 'ctct_options_settings';
 
@@ -23,6 +24,7 @@ class ConstantContact_Settings {
 	 * Settings page metabox id
 	 *
 	 * @var string
+	 * @since  1.0.0
 	 */
 	private $metabox_id = 'ctct_option_metabox_settings';
 
@@ -30,6 +32,7 @@ class ConstantContact_Settings {
 	 * Settings Page title
 	 *
 	 * @var string
+	 * @since  1.0.0
 	 */
 	protected $title = '';
 
@@ -37,6 +40,7 @@ class ConstantContact_Settings {
 	 * Settings Page hook
 	 *
 	 * @var string
+	 * @since  1.0.0
 	 */
 	protected $options_page = '';
 
@@ -260,6 +264,7 @@ class ConstantContact_Settings {
 	/**
 	 * Sends contact to CTCT if optin checked
 	 *
+	 * @since  1.0.0
 	 * @param  array $comment_data comment form data.
 	 * @return array comment form data
 	 */
@@ -299,6 +304,7 @@ class ConstantContact_Settings {
 	/**
 	 * Sends contact to CTCT if optin checked
 	 *
+	 * @since  1.0.0
 	 * @param  array  $user
 	 * @param  string $username login name.
 	 * @param  string $password user password.
@@ -396,7 +402,9 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Encrpyts our api keys on saver
+	 * Encrpyts our api keys on server
+	 *
+	 * @since  1.0.0
 	 */
 	public function save_api_keys( $value, $field_args, $field ) {
 
@@ -421,6 +429,8 @@ class ConstantContact_Settings {
 
 	/**
 	 * Hides our api keys from display
+	 *
+	 * @since  1.0.0
 	 */
 	public function mask_api_keys( $value, $field_args, $field ) {
 
@@ -442,6 +452,12 @@ class ConstantContact_Settings {
 		return $this->get_mask();
 	}
 
+	/**
+	 * Returns text for field masking
+	 *
+	 * @since  1.0.0
+	 * @return string bunch of ***
+	 */
 	public function get_mask() {
 		return '**********';
 	}

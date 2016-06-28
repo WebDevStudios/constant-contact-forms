@@ -59,6 +59,7 @@ class ConstantContact_Display {
 	/**
 	 * Main wrapper for getting our form display
 	 *
+	 * @since  1.0.0
 	 * @return string Form markup
 	 */
 	public function form( $form_data, $form_id = '', $skip_styles = false ) {
@@ -165,6 +166,7 @@ class ConstantContact_Display {
 	/**
 	 * Get our current URL in a somewhat robust way
 	 *
+	 * @since  1.0.0
 	 * @return string url of current page
 	 */
 	public function get_current_page() {
@@ -175,6 +177,7 @@ class ConstantContact_Display {
 	/**
 	 * Adds hidden input fields to our form for form id and verify id
 	 *
+	 * @since  1.0.0
 	 * @param  string $form_data html markup
 	 */
 	public function add_verify_fields( $form_data ) {
@@ -248,6 +251,7 @@ class ConstantContact_Display {
 	/**
 	 * Wrapper for single field display
 	 *
+	 * @since  1.0.0
 	 * @param  array $field field data
 	 * @return string        html markup
 	 */
@@ -348,6 +352,7 @@ class ConstantContact_Display {
 	/**
 	 * Gets submitted values
 	 *
+	 * @since  1.0.0
 	 * @param  array $field field data
 	 * @return string        submitted value
 	 */
@@ -384,6 +389,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method to display in-line for success/error messages
 	 *
+	 * @since  1.0.0
 	 * @param  string $type    success / error / etc for class
 	 * @param  string $message message to display to user
 	 * @return string          html markup
@@ -395,6 +401,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method to display form description
 	 *
+	 * @since  1.0.0
 	 * @param  string $description description to outpu
 	 * @return echo              echos out form description markup
 	 */
@@ -423,6 +430,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method to display label for form field + field starting markup
 	 *
+	 * @since  1.0.0
 	 * @param  string  $type  type of field
 	 * @param  string  $name  name / id of field
 	 * @param  string  $label label text for field
@@ -456,6 +464,7 @@ class ConstantContact_Display {
 	/**
 	 * Bottom of field markup
 	 *
+	 * @since  1.0.0
 	 * @return string HTML markup
 	 */
 	public function field_bottom( $name = '', $field_label = '' ) {
@@ -471,6 +480,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method to get form label
 	 *
+	 * @since  1.0.0
 	 * @param  string $name name/id of form field
 	 * @param  string $text text to display as label
 	 * @return string       HTML markup
@@ -482,6 +492,7 @@ class ConstantContact_Display {
 	/**
 	 * Wrapper for 'input' form fields
 	 *
+	 * @since  1.0.0
 	 * @param  string  $type   type of form field
 	 * @param  string  $name   ID of form field
 	 * @param  string  $value  pre-filled value
@@ -534,6 +545,7 @@ class ConstantContact_Display {
 	/**
 	 * Checkbox field helper method
 	 *
+	 * @since  1.0.0
 	 * @param  string $name  name/it of field
 	 * @param  string $value value of field
 	 * @param  string $label label / desc text
@@ -560,6 +572,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method for submit button
 	 *
+	 * @since  1.0.0
 	 * @return string html markup
 	 */
 	public function submit() {
@@ -574,6 +587,7 @@ class ConstantContact_Display {
 	/**
 	 * Build markup for opt_in form
 	 *
+	 * @since  1.0.0
 	 * @param  array $form_data form data structure
 	 * @return string            markup of optin form
 	 */
@@ -595,6 +609,7 @@ class ConstantContact_Display {
 	/**
 	 * Builds a fancy address field group
 	 *
+	 * @since  1.0.0
 	 * @param  string $name  name of fields
 	 * @param  string $f_id  form id name
 	 * @param  array  $value values of each field
