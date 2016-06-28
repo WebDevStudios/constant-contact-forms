@@ -524,6 +524,10 @@ class ConstantContact_Process_Form {
 		return $mail_status;
 	}
 
+	/**
+	 * Helper method to return 'text/html' stringh for actions
+	 *
+	 */
 	public function set_email_type() {
 		return 'text/html';
 	}
