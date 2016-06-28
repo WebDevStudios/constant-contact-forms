@@ -57,21 +57,21 @@ window.CTCTBuilder = {};
 
 		$( '#ctct_fields_metabox .map select' ).each( function( key, value ) {
 
-			var field_parent = $( this ).parent().parent().parent();
-			var button = $( field_parent ).find( '.cmb-remove-row button');
-			var required = $( field_parent ).find( '.required input[type=checkbox]');
-			var map = $( field_parent ).find( '.map select');
+			// var field_parent = $( this ).parent().parent().parent();
+			// var button = $( field_parent ).find( '.cmb-remove-row button');
+			// var required = $( field_parent ).find( '.required input[type=checkbox]');
+			// var map = $( field_parent ).find( '.map select');
 
-			if ( 'email' === $( this ).val() ) {
-				button.attr( 'disabled', true);
-				required.attr( 'disabled', true);
-				map.prop( 'disabled', true);
+			// if ( 'email' === $( this ).val() ) {
+			// 	button.attr( 'disabled', true);
+			// 	required.attr( 'disabled', true);
+			// 	map.prop( 'disabled', true);
 
-			} else {
-				button.attr( 'disabled', false);
-				required.attr( 'disabled', false);
-				map.prop( 'disabled', false);
-			}
+			// } else {
+			// 	button.attr( 'disabled', false);
+			// 	required.attr( 'disabled', false);
+			// 	map.prop( 'disabled', false);
+			// }
 
 		});
 
