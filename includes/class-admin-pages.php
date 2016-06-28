@@ -197,7 +197,7 @@ class ConstantContact_Admin_Pages {
 						<hr>
 						<div class="ctct-server-requirements">
 							<p>
-								<h4><?php _e( 'Server Check', 'constantcontact' ); ?></h4>
+								<h4><?php esc_attr_e( 'Server Check', 'constantcontact' ); ?></h4>
 								<?php
 									constant_contact()->check->display_server_checks();
 								?>

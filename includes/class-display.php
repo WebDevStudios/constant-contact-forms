@@ -341,7 +341,7 @@ class ConstantContact_Display {
 			case 'anniversery':
 			case 'birthday':
 				// need this to be month / day / year
-				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
+				return $this->dates( 'text', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			default:
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
@@ -657,6 +657,74 @@ class ConstantContact_Display {
 		$return .= '  <input type="text" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
 		$return .= ' </div>';
 		$return .= '</fieldset></p>';
+
+		return $return;
+	}
+
+	public function dates( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '' ) {
+
+		// Set our field lables
+		$month = __( 'Month', 'constantcontact' );
+		$day   = __( 'Day', 'constantcontact' );
+		$year  = __( 'Year', 'constantcontact' );
+
+		// @TODO these need to get set correctly
+		// Set our values
+		$v_month = isset( $value['month'] ) ? $value['month'] : '';
+		$v_day   = isset( $value['day'] ) ? $value['day'] : '';
+		$v_year  = isset( $value['year'] ) ? $value['year'] : '';
+
+		// Build our field
+		$return  = '<p><fieldset>';
+		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
+		$return .= ' <div class="ctct-form-field ctct-field-third month">';
+		$return .= $this->get_date_dropdown( $month, 'month', $v_month );
+		$return .= ' </div>';
+		$return .= ' <div class="ctct-form-field ctct-field-third day">';
+		$return .= $this->get_date_dropdown( $day, 'day', $v_day );
+		$return .= ' </div>';
+		$return .= ' <div class="ctct-form-field ctct-field-third year">';
+		$return .= $this->get_date_dropdown( $year, 'year', $v_year );
+		$return .= ' </div>';
+
+		$return .= '</fieldset></p>';
+
+		return $return;
+	}
+
+	public function get_date_dropdown( $text = '', $type = '', $selected_value ) {
+		// Start our return
+		$return = '<select>';
+		$return .= $this->get_date_options( $text, $this->get_date_values( $type ), $selected_value );
+		$return .= '</select>';
+
+		return $return;
+	}
+
+	public function get_date_options( $text, $values, $prev_selected_values ) {
+
+		$return = '<option>' . $text . '</option>';
+
+		foreach ( $values as $value ) {
+			$return .= '<option>' . sanitize_text_field( $value ) . '</option>';
+		}
+
+		return $return;
+	}
+
+	public function get_date_values( $type ) {
+
+		switch ( $type ) {
+			case 'day':
+				$return = array( 'Sunday' );
+				break;
+			case 'month':
+				$return = array( 'January' );
+				break;
+			case 'year':
+				$return = array( '2016' );
+				break;
+		}
 
 		return $return;
 	}

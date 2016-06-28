@@ -135,7 +135,7 @@ class ConstantContact_Admin {
 
 				// If we have a $_GET['page'], let's try to pull out the page we're looking for
 				if ( isset( $_GET['page'] ) && $_GET['page'] ) {
-					$page = explode( $this->key . '_', esc_attr( $_GET['page'] ) );
+					$page = explode( $this->key . '_', esc_attr( wp_unslash( $_GET['page'] ) ) );
 				} else {
 					$page = array();
 				}
