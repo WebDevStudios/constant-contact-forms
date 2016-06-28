@@ -692,7 +692,7 @@ class ConstantContact_Display {
 		return $return;
 	}
 
-	public function get_date_dropdown( $text = '', $type = '', $selected_value ) {
+	public function get_date_dropdown( $text = '', $type = '', $selected_value = '' ) {
 		// Start our return
 		$return = '<select>';
 		$return .= $this->get_date_options( $text, $this->get_date_values( $type ), $selected_value );
@@ -701,12 +701,16 @@ class ConstantContact_Display {
 		return $return;
 	}
 
-	public function get_date_options( $text, $values, $prev_selected_values ) {
+	public function get_date_options( $text = '', $values = array(), $prev_selected_values = array() ) {
 
 		$return = '<option>' . $text . '</option>';
 
-		foreach ( $values as $value ) {
-			$return .= '<option>' . sanitize_text_field( $value ) . '</option>';
+		foreach ( $values as $key => $value ) {
+
+			$key = sanitize_text_field( isset( $key ) ? $key : '' );
+			$value = sanitize_text_field( isset( $value ) ? $value : '' );
+
+			$return .= '<option value="' . $key . '">' . $value . '</option>';
 		}
 
 		return $return;
@@ -717,22 +721,51 @@ class ConstantContact_Display {
 		switch ( $type ) {
 			case 'day':
 				$return = apply_filters( 'constant_contact_dates_day', array(
-					'Sunday'
+					'sunday'    => __( 'Sunday', 'constantcontact' ),
+					'monday'    => __( 'Monday', 'constantcontact' ),
+					'tuesday'   => __( 'Tuesday', 'constantcontact' ),
+					'wednesday' => __( 'Wednesday', 'constantcontact' ),
+					'thursday'  => __( 'Thursday', 'constantcontact' ),
+					'friday'    => __( 'Friday', 'constantcontact' ),
+					'saturday'  => __( 'Saturday', 'constantcontact' ),
 				) );
 				break;
 			case 'month':
 				$return = apply_filters( 'constant_contact_dates_month', array(
-					'Sunday'
+					'january'   => __( 'January', 'contantcontact' ),
+					'february'  => __( 'February', 'contantcontact' ),
+					'march'     => __( 'March', 'contantcontact' ),
+					'april'     => __( 'April', 'contantcontact' ),
+					'may'       => __( 'May', 'contantcontact' ),
+					'june'      => __( 'June', 'contantcontact' ),
+					'july '     => __( 'July ', 'contantcontact' ),
+					'august'    => __( 'August', 'contantcontact' ),
+					'september' => __( 'September', 'contantcontact' ),
+					'october'   => __( 'October', 'contantcontact' ),
+					'november'  => __( 'November', 'contantcontact' ),
+					'december'  => __( 'December', 'contantcontact' ),
 				) );
 				break;
 			case 'year':
-				$return = apply_filters( 'constant_contact_dates_year', array(
-					'Sunday'
-				) );
+				$return = apply_filters( 'constant_contact_dates_year', $this->get_years() );
 				break;
 		}
 
 		return $return;
+	}
+
+	public function get_years() {
+
+		// Get all of our years
+		$year_range = range( 1910,  date( 'Y' ) );
+
+		$year_range = array_reverse( $year_range );
+		// Loop through each of the years we  have
+		foreach ( $year_range as $year ) {
+			$years[ $year ] = $year;
+		}
+
+		return $years;
 	}
 }
 
