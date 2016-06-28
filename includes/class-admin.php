@@ -249,6 +249,7 @@ class ConstantContact_Admin {
 	/**
 	 * Add social media links to plugin screen
 	 *
+	 * @since  1.0.0
 	 * @param array $links plugin action links.
 	 */
 	public function add_social_links( $links ) {
