@@ -37,7 +37,6 @@ class ConstantContact_CPTS {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 *
 	 * @param object $plugin this class.
 	 */
 	public function __construct( $plugin ) {
@@ -177,6 +176,7 @@ class ConstantContact_CPTS {
 	/**
 	 * Custom post udate messages to match CPT naming
 	 *
+	 * @since  1.0.0
 	 * @param  array $messages default update messages.
 	 * @return array appended update messages with custom post types
 	 */
@@ -219,6 +219,7 @@ class ConstantContact_CPTS {
 	/**
 	 * Customize admin menu items
 	 *
+	 * @since  1.0.0
 	 * @return void
 	 */
 	public function menu_items() {

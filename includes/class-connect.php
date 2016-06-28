@@ -22,6 +22,7 @@ class ConstantContact_Connect {
 	 * Option key, and option page slug
 	 *
 	 * @var string
+	 * @since  1.0.0
 	 */
 	private $key = 'ctct_options_connect';
 
@@ -29,6 +30,7 @@ class ConstantContact_Connect {
 	 * CtctOAuth2 object
 	 *
 	 * @var object
+	 * @since  1.0.0
 	 */
 	private $oauth = '';
 
@@ -36,6 +38,7 @@ class ConstantContact_Connect {
 	 * Api Error message
 	 *
 	 * @var string
+	 * @since  1.0.0
 	 */
 	public $error_message = '';
 
@@ -43,6 +46,7 @@ class ConstantContact_Connect {
 	 * Current page redirect Url
 	 *
 	 * @var string
+	 * @since  1.0.0
 	 */
 	private $redirect_url = '';
 
@@ -225,6 +229,7 @@ class ConstantContact_Connect {
 	/**
 	 * Get an encrypted value
 	 *
+	 * @since  1.0.0
 	 * @param  string $key key to save to
 	 */
 	public function e_get( $check_key, $fallback_to_ctct_opt = false ) {
@@ -273,6 +278,7 @@ class ConstantContact_Connect {
 	/**
 	 * Set an encrypted value
 	 *
+	 * @since  1.0.0
 	 * @param  string $key  key to save to
 	 * @param  string $data data to save
 	 */
@@ -310,6 +316,7 @@ class ConstantContact_Connect {
 	/**
 	 * Get saved API token
 	 *
+	 * @since  1.0.0
 	 * @return string token
 	 */
 	public function get_api_token() {
@@ -322,6 +329,8 @@ class ConstantContact_Connect {
 
 	/**
 	 * If we have a legacy token, let's re-save it
+	 *
+	 * @since  1.0.0
 	 */
 	public function check_deleted_legacy_token() {
 
@@ -339,6 +348,7 @@ class ConstantContact_Connect {
 	/**
 	 * Get our encrypt key
 	 *
+	 * @since  1.0.0
 	 * @return string key to use for encrypt
 	 */
 	public function get_encrpyt_key() {
@@ -362,6 +372,7 @@ class ConstantContact_Connect {
 	/**
 	 * Generates and saves a new key
 	 *
+	 * @since  1.0.0
 	 * @return object key
 	 */
 	public function generate_and_save_key() {
