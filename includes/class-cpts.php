@@ -2,7 +2,7 @@
 /**
  * ConstantContact_Forms_CPT Class File.
  *
- * @package ConstantContactFormsCPT
+ * @package ConstantContact_CPTS
  * @subpackage ConstantContact
  * @author Pluginize
  * @since 1.0.0

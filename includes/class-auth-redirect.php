@@ -2,7 +2,7 @@
 /**
  * ConstantContact_Auth_Redirect class
  *
- * @package ConstantContactProcessForm
+ * @package ConstantContact_Auth_Redirect
  * @subpackage ConstantContact
  * @author Pluginize
  * @since 1.0.0

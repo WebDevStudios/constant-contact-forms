@@ -3,7 +3,7 @@
 /**
  * ConstantContact_Display class
  *
- * @package ConstantContactProcessForm
+ * @package ConstantContact_Display
  * @subpackage ConstantContact
  * @author Pluginize
  * @since 1.0.0

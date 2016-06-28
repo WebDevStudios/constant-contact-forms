@@ -2,7 +2,7 @@
 /**
  * ConstantContact_Admin_Pages class
  *
- * @package ConstantContactProcessForm
+ * @package ConstantContact_Admin_Pages
  * @subpackage ConstantContact
  * @author Pluginize
  * @since 1.0.0

@@ -2,7 +2,7 @@
 /**
  * ConstantContact_Connect
  *
- * @package ConstantContactConnect
+ * @package ConstantContact_Connect
  * @author Pluginize
  * @since 1.0.0
  */

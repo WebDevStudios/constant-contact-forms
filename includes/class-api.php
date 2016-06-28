@@ -2,7 +2,7 @@
 /**
  * ConstantContact_API class
  *
- * @package ConstantContactAPI
+ * @package ConstantContact_API
  * @subpackage ConstantContact
  * @author Pluginize
  * @since 1.0.0

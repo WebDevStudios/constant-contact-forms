@@ -2,7 +2,7 @@
 /**
  * ConstantContact_Shortcode_Admin
  *
- * @package	ConstantContactShortcodeAdmin
+ * @package	ConstantContact_Shortcode_Admin
  * @author	 Pluginize
  * @since 1.0.0
  */
