@@ -663,7 +663,65 @@ class ConstantContact_Display {
 
 	public function dates( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '' ) {
 
+		// Set our field lables
+		$month = __( 'Month', 'constantcontact' );
+		$day   = __( 'Day', 'constantcontact' );
+		$year  = __( 'Year', 'constantcontact' );
+
+		// @TODO these need to get set correctly
+		// Set our values
+		$v_month = isset( $value['month'] ) ? $value['month'] : '';
+		$v_day   = isset( $value['day'] ) ? $value['day'] : '';
+		$v_year  = isset( $value['year'] ) ? $value['year'] : '';
+
+		// Build our field
+		$return  = '<p><fieldset>';
+		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
+		$return .= ' <div class="ctct-form-field ctct-field-third month">';
+		$return .= $this->get_date_dropdown( $month, 'month', $v_month );
+		$return .= ' </div>';
+		$return .= ' <div class="ctct-form-field ctct-field-third day">';
+		$return .= $this->get_date_dropdown( $day, 'day', $v_day );
+		$return .= ' </div>';
+		$return .= ' <div class="ctct-form-field ctct-field-third year">';
+		$return .= $this->get_date_dropdown( $year, 'year', $v_year );
+		$return .= ' </div>';
+
+		$return .= '</fieldset></p>';
+
+		return $return;
 	}
 
+	public function get_date_dropdown( $text = '', $type = '', $selected_value ) {
+
+		// Start our return
+		$return = '<select>';
+		$return .= $this->get_date_options( $text, $this->get_date_values( $type ), $selected_value );
+		$return .= '</select>';
+
+		return $return;
+	}
+
+	public function get_date_options( $text, $values, $prev_selected_values ) {
+		return '<option>' . $text . '</option>';
+	}
+
+	public function get_date_values( $type ) {
+		switch ( $type ) {
+			case 'day':
+				return 'Sunday';
+				break;
+			case 'month':
+				return 'January';
+				break;
+			case 'year':
+				return '2016';
+				break;
+
+			default:
+				# code...
+				break;
+		}
+	}
 }
 
