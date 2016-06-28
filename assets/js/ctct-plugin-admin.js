@@ -22,17 +22,6 @@ window.CTCTBuilder = {};
 		that.metaShowHide( $( '#_ctct_list' ) );
 		that.disableFields();
 
-        // Show fields based on selection.
-        $( 'select[name=_ctct_list]' ).change( function( e ) {
-
-			that.metaShowHide( $( '#_ctct_list' ) );
-			$( 'input[name="_ctct_new_list"]' ).val( '' );
-
-			if ( 'new' === this.value ) {
-				that.metaShowHide( $( '.cmb2-id--ctct-new-list' ) );
-			}
-		});
-
 		// Disable email options on row change trigger.
 		$( document ).on( 'cmb2_shift_rows_complete', function() {
 			that.disableFields();
@@ -66,6 +55,18 @@ window.CTCTBuilder = {};
 			if ( 'email' === $( this ).val() ) {
 				$( required ).prop( 'checked', true );
 			}
+
+			// if ( 'email' === $( this ).val() ) {
+			// 	button.attr( 'disabled', true);
+			// 	required.attr( 'disabled', true);
+			// 	map.prop( 'disabled', true);
+
+			// } else {
+			// 	button.attr( 'disabled', false);
+			// 	required.attr( 'disabled', false);
+			// 	map.prop( 'disabled', false);
+			// }
+
 		});
 
 	}

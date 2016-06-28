@@ -237,13 +237,6 @@ class ConstantContact_Builder {
 		}
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'New List', 'constantcontact' ),
-			'id'          => $prefix . 'new_list',
-			'description' => __( 'Enter title of new list.', 'constantcontact' ),
-			'type'        => 'text',
-		) );
-
-		$options_metabox->add_field( array(
 			'name'        => __( 'Opt-In', 'constantcontact' ),
 			'id'          => $prefix . 'opt_in',
 			'description' => __( 'Add Opt In checkbox to form.', 'constantcontact' ),
@@ -272,9 +265,6 @@ class ConstantContact_Builder {
 		$lists = constant_contact()->lists->get_lists();
 
 		if ( $lists && is_array( $lists ) ) {
-
-			// Always want the 'new' element to be in the list
-			$get_lists['new'] = __( 'New', 'constantcontact' );
 
 			// Loop though our lists
 			foreach ( $lists as $list => $value ) {
