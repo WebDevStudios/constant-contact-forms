@@ -320,6 +320,8 @@ class ConstantContact_Display {
 			case 'job_title':
 			case 'company':
 			case 'website':
+				return $this-> input( 'url', $name, $map, $value, $desc, $req, false, $field_error );
+				break;
 			case 'text_field':
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
