@@ -507,6 +507,9 @@ class ConstantContact_Process_Form {
 			return false;
 		}
 
+		// Filter to allow sending HTML for our message body
+		add_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
+
 		// Send that mail
 		$mail_status = wp_mail(
 			$destination_email,
@@ -514,7 +517,15 @@ class ConstantContact_Process_Form {
 			$content
 		);
 
+		// Clean up, remove the filter we had set
+		remove_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
+
+		// Return the mail status
 		return $mail_status;
+	}
+
+	public function set_email_type() {
+		return 'text/html';
 	}
 
 	/**
