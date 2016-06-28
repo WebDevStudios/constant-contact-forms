@@ -342,6 +342,7 @@ class ConstantContact_API {
 	/**
 	 * Helper method to creat contact
 	 *
+	 * @since  1.0.0
 	 * @param  array  $response  response from api call
 	 * @param  string $api_token token
 	 * @param  string $list      list name
@@ -372,6 +373,7 @@ class ConstantContact_API {
 	/**
 	 * Helper method to update contact
 	 *
+	 * @since  1.0.0
 	 * @param  array  $response  response from api call
 	 * @param  string $api_token token
 	 * @param  string $list      list name
@@ -408,6 +410,7 @@ class ConstantContact_API {
 	/**
 	 * Pushes all error to api_error_message
 	 *
+	 * @since  1.0.0
 	 * @param  array $errors  errors from api
 	 * @return void
 	 */
@@ -461,6 +464,7 @@ class ConstantContact_API {
 	/**
 	 * Rate limit ourselves to not bust API call rate limit
 	 *
+	 * @since  1.0.0
 	 * @param  string $time amount of time to pause api calls
 	 */
 	public function pause_api_calls() {
