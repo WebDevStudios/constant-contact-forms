@@ -32,6 +32,13 @@ class ConstantContact_Check {
 		$this->plugin = $plugin;
 	}
 
+	/**
+	 * Gets the list of functions / classes we need ot check on the server
+	 * to be considered 'valid'
+	 *
+	 * @since  1.0.0
+	 * @return array nested array of functions/classes needed
+	 */
 	public function get_checks_to_make() {
 
 		// All the functions, classes, etc that we want to check on the server
@@ -51,6 +58,7 @@ class ConstantContact_Check {
 	/**
 	 * Displays our server check
 	 *
+	 * @since  1.0.0
 	 * @return string html markup
 	 */
 	public function display_server_checks() {
@@ -99,6 +107,7 @@ class ConstantContact_Check {
 	/**
 	 * Helper method to give us a display of something exists or not
 	 *
+	 * @since  1.0.0
 	 * @param  string $name function/class to check
 	 * @param  string $type function or class?
 	 * @return string       emoji of checkmark
