@@ -44,6 +44,7 @@ class ConstantContact_Admin_Pages {
 
 	/**
 	 * Global admin style enqueue stuff
+	 * @since  1.0.0
 	 */
 	public function styles() {
 		wp_register_style(
@@ -64,6 +65,7 @@ class ConstantContact_Admin_Pages {
 	/**
 	 * Gets the help text for help page
 	 *
+	 * @since  1.0.0
 	 * @return array array of all the help text
 	 */
 	public function get_help_texts() {
@@ -82,6 +84,7 @@ class ConstantContact_Admin_Pages {
 	/**
 	 * Get faq text for help page
 	 *
+	 * @since  1.0.0
 	 * @return array array of all the text
 	 */
 	public function get_faq_texts() {
@@ -99,6 +102,8 @@ class ConstantContact_Admin_Pages {
 
 	/**
 	 * Display our help page
+	 *
+	 * @since  1.0.0
 	 */
 	public function help_page() {
 
@@ -208,6 +213,8 @@ class ConstantContact_Admin_Pages {
 
 	/**
 	 * Display our about page
+	 *
+	 * @since  1.0.0
 	 */
 	public function about_page() {
 
@@ -300,6 +307,7 @@ class ConstantContact_Admin_Pages {
 	/**
 	 * Holds all the data for the about page
 	 *
+	 * @since  1.0.0
 	 * @param  string $key           array key of text to retrieve
 	 * @param  text   $secondary_key   optional second key for nested array
 	 * @return mixed                If no params are passed in, all data returned.
