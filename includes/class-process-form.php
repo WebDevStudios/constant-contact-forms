@@ -72,19 +72,20 @@ class ConstantContact_Process_Form {
 						// Set up our data structure if we have the data
 						$value = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
 						$json_data[  esc_attr( $exp_fields[0] ) ] = sanitize_text_field( $value );
-
-						error_log( serialize( $exp_fields ) );
 					}
 				}
 			}
 
-
-
 			// Send it to our process form method
 			$response = $this->process_form( $json_data, true );
 
+			// We don't need the original values for the ajax check
+			if ( isset( $response['values'] ) ) {
+				unset( $response['values'] );
+			}
+
 			// Send back our response
-			echo json_encode( $response );
+			wp_send_json( $response );
 
 			// die out of the ajax request
 			wp_die();
@@ -97,16 +98,19 @@ class ConstantContact_Process_Form {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function process_form( $data = array(), $skip_submission = false ) {
+	public function process_form( $data = array(), $is_ajax = false ) {
 
 		// Set our data var to $_POST if we dont get it passed in
 		if ( empty( $data ) ) {
 			$data = $_POST;
 		}
 
-		// If we don't have our submitted action, just bail out
-		if ( ! isset( $data['ctct-submitted'] ) ) {
-			return;
+		// Don't check for submitted if we are doing it over ajax
+		if ( ! $is_ajax ) {
+			// If we don't have our submitted action, just bail out
+			if ( ! isset( $data['ctct-submitted'] ) ) {
+				return;
+			}
 		}
 
 		// If we don't have our submitted form id, just bail out
@@ -119,18 +123,17 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
-		if ( ! $skip_submission ) {
-			// Verify our nonce first
-			if (
-			    ! isset( $data['ctct_form'] ) ||
-			    ! wp_verify_nonce( $data['ctct_form'], 'ctct_submit_form' )
-			) {
-				// figure out a way to pass errors back
-				return array(
-					'status' => 'named_error',
-					'error'  => __( 'Nonce verification failed.', 'constantcontact' ),
-				);
-			}
+
+		// Verify our nonce first
+		if (
+		    ! isset( $data['ctct_form'] ) ||
+		    ! wp_verify_nonce( $data['ctct_form'], 'ctct_submit_form' )
+		) {
+			// figure out a way to pass errors back
+			return array(
+				'status' => 'named_error',
+				'error'  => __( 'Nonce verification failed.', 'constantcontact' ),
+			);
 		}
 
 		// Make sure we have an original form id
@@ -188,7 +191,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// Check for specific validation errors
-		$field_errors = $this->get_field_errors( $this->clean_values( $return['values'] ) );
+		$field_errors = $this->get_field_errors( $this->clean_values( $return['values'] ), $is_ajax );
 		// If we got errors
 		if ( is_array( $field_errors ) && ! empty( $field_errors ) ) {
 
@@ -203,7 +206,7 @@ class ConstantContact_Process_Form {
 		// if we're not processing the opt-in stuff, we can just return our data here
 		if ( ! isset( $data['ctct-opti-in'] ) ) {
 
-			if ( ! $skip_submission ) {
+			if ( ! $is_ajax ) {
 				// at this point we can process all of our submitted values
 				$this->submit_form_values( $return['values'] );
 			}
@@ -212,7 +215,7 @@ class ConstantContact_Process_Form {
 			return $return;
 		}
 
-		if ( ! $skip_submission ) {
+		if ( ! $is_ajax ) {
 			// at this point we can process all of our submitted values
 			$this->submit_form_values( $return['values'], true );
 		}
@@ -398,16 +401,17 @@ class ConstantContact_Process_Form {
 			// entire two form values to compare
 			if ( 'full' === $compare_type ) {
 				$pretty_values[] = array(
-					'orig' => $orig_fields[ $key ],
-					'post' => $value['value'],
+					'orig'     => $orig_fields[ $key ],
+					'post'     => $value['value'],
+					'orig_key' => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
 				);
 			} else {
 
 				// Otherwise, pretty up based on field names
 				if ( $value['key'] == $orig_fields[ $key ]['_ctct_map_select'] ) {
 					$pretty_values[] = array(
-						'field' => sanitize_text_field( $orig_fields[ $key ]['_ctct_field_label'] ),
-						'value' => sanitize_text_field( $value['value'] ),
+						'field'    => sanitize_text_field( $orig_fields[ $key ]['_ctct_field_label'] ),
+						'value'    => sanitize_text_field( $value['value'] ),
 					);
 				}
 			}
@@ -423,7 +427,7 @@ class ConstantContact_Process_Form {
 	 * @param  array $values values
 	 * @return array         return error code stuff
 	 */
-	public function get_field_errors( $values ) {
+	public function get_field_errors( $values, $is_ajax = false ) {
 
 		// get our values with full orig field comparisons
 		$values = $this->pretty_values( $values, 'full' );
@@ -438,9 +442,12 @@ class ConstantContact_Process_Form {
 
 		// Loop through each value
 		foreach ( $values as $value ) {
-
 			// Sanity check
-			if ( ! isset( $value['orig'] ) || ! isset( $value['post'] ) ) {
+			if (
+				! isset( $value['orig'] ) ||
+				! isset( $value['post'] ) ||
+				! isset( $value['orig']['_ctct_map_select'] )
+			) {
 				continue;
 			}
 
@@ -451,8 +458,22 @@ class ConstantContact_Process_Form {
 				'on' === $value['orig']['_ctct_required_field']
 			) {
 				// If it was required, check for a value
-				if ( empty( $value['post'] ) ) {
-					$err_returns[] = $value['orig']['_ctct_map_select'];
+				if ( ! $value['post'] ) {
+					$err_returns[] = array(
+						'map'   => $value['orig']['_ctct_map_select'],
+						'id'    => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
+						'error' => 'required',
+					);
+				}
+			}
+
+			if ( 'email' == $value['orig']['_ctct_map_select'] ) {
+				if ( $value['post'] != sanitize_email( $value['post'] ) ) {
+					$err_returns[] = array(
+						'map'   => $value['orig']['_ctct_map_select'],
+						'id'    => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
+						'error' => 'invalid',
+					);
 				}
 			}
 		}
@@ -528,8 +549,9 @@ class ConstantContact_Process_Form {
 			}
 
 			$return_values[] = array(
-				'key'   => sanitize_text_field( $key_break[0] ),
-				'value' => sanitize_text_field( $value['value'] ),
+				'key'      => sanitize_text_field( $key_break[0] ),
+				'value'    => sanitize_text_field( $value['value'] ),
+				'orig_key' => $value['key'],
 			);
 		}
 
