@@ -252,10 +252,19 @@ class ConstantContact_CPTS {
 	public function change_default_title( $title ){
 	    global $post;
 
-		$screen = get_current_screen();
+	    // Sanity check
+	    if ( ! isset( $post ) ) {
+	    	return $title;
+	    }
 
-	    if ( 'ctct_forms' === $post->post_type ){
-	        $title = 'Enter a form name (Examples: Join Our Email List, Subscribe to Emails)';
+	    // Check for post type
+	    if ( ! isset( $post->post_type ) ) {
+	    	return $title;
+	    }
+
+	    // If we're on our forms post type
+	    if ( 'ctct_forms' === $post->post_type ) {
+	        $title = __( 'Enter a form name (Examples: Join Our Email List, Subscribe to Emails)', 'constantcontact' );
 	    }
 
 	    return $title;
