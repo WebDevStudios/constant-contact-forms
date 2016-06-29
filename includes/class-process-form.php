@@ -373,7 +373,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// Get our original fields
-		$orig_fields = get_post_meta( $form_id, 'custom_fields_group', true );
+		$orig_fields = $this->get_original_fields( $form_id );
 
 		// if its not an array, bail out
 		if ( ! is_array( $orig_fields ) ) {
@@ -387,7 +387,7 @@ class ConstantContact_Process_Form {
 		foreach ( $values as $key => $value ) {
 
 			// make sure we have a value
-			if ( ! $value ) {
+			if ( empty( $value ) ) {
 				continue;
 			}
 
@@ -436,6 +436,80 @@ class ConstantContact_Process_Form {
 
 		// Send it back
 		return $pretty_values;
+	}
+
+	public function get_original_fields( $form_id ) {
+
+		// Sanity check
+		if ( ! $form_id ) {
+			return false;
+		}
+
+		// Get our fields post meta
+		$fields = get_post_meta( $form_id, 'custom_fields_group', true );
+
+		// Sanity check again
+		if ( ! is_array( $fields ) ) {
+			return false;
+		}
+
+		// Start our return array
+		$return = array();
+
+		// Loop through fields to expand some multi-field groups
+		foreach ( $fields as $field ) {
+			// if we don't have a map, skip this loop
+			if ( ! isset( $field['_ctct_map_select'] ) ) {
+				continue;
+			}
+
+			// set our key field thing
+			$field_key = array(
+				'name'        => isset( $field['_ctct_field_label'] ) ? $field['_ctct_field_label'] : '',
+				'map_to'      => isset( $field['_ctct_map_select'] ) ? $field['_ctct_map_select'] : '',
+				'type'        => isset( $field['_ctct_map_select'] ) ? $field['_ctct_map_select'] : '',
+				'description' => isset( $field['_ctct_field_desc'] ) ? $field['_ctct_field_desc'] : '',
+				'required'    => isset( $field['_ctct_required_field'] ) ? true : false,
+			);
+
+			switch ( $field['_ctct_map_select'] ) {
+				case 'address':
+					$return[ 'street___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'street___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'street';
+
+					$return[ 'line_2___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'line_2___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'line_2';
+
+					$return[ 'city___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'city___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'city';
+
+					$return[ 'state___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'state___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'state';
+
+					$return[ 'zip___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'zip___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'zip';
+
+					break;
+				case 'anniversery':
+				case 'birthday':
+					$return[ 'month___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'month___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'month';
+
+					$return[ 'day___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'day___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'day';
+
+					$return[ 'year___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'year___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'year';
+
+					break;
+				default:
+					$return[ $field['_ctct_map_select'] . '___' . md5( serialize( $field_key ) ) ] = $field_key;
+					break;
+			}
+		}
+
+
+		return $return;
 	}
 
 	/**
@@ -585,7 +659,7 @@ class ConstantContact_Process_Form {
 				continue;
 			}
 
-			$return_values[] = array(
+			$return_values[ sanitize_text_field( $value['key'] ) ] = array(
 				'key'      => sanitize_text_field( $key_break[0] ),
 				'value'    => sanitize_text_field( $value['value'] ),
 				'orig_key' => $value['key'],
