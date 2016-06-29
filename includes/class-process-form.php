@@ -325,10 +325,19 @@ class ConstantContact_Process_Form {
 		foreach ( $pretty_vals as $val ) {
 
 			// force vars to exist
-			$val['field'] = isset( $val['field'] ) ? $val['field'] : '&nbsp;';
-			$val['value'] = isset( $val['value'] ) ? $val['value'] : '&nbsp;';
+			$label = isset( $val['orig_key'] ) ? $val['orig_key'] : false;
 
-			$return .= '<p>' . sanitize_text_field( $val['field'] ) . ': ' . sanitize_text_field( $val['value'] ) . '</p>';
+			// If we have a label
+			if ( $label ) {
+				// break out our unique key
+				$label = explode( '___', $label );
+
+				// Uppercase and format to be human readable
+				$label = ucwords( str_replace( '_', ' ', $label[0] ) );
+			}
+			$value = isset( $val['post'] ) ? $val['post'] : '&nbsp;';
+
+			$return .= '<p>' . sanitize_text_field( $label ) . ': ' . sanitize_text_field( $value ) . '</p>';
 		}
 
 		return $return;
@@ -341,7 +350,7 @@ class ConstantContact_Process_Form {
 	 * @param  array $values values
 	 * @return array         values but better
 	 */
-	public function pretty_values( $values = array(), $compare_type = '' ) {
+	public function pretty_values( $values = array() ) {
 
 		// Sanity check
 		if ( ! is_array( $values ) ) {
@@ -402,36 +411,25 @@ class ConstantContact_Process_Form {
 			}
 
 			// Make sure we have the orig mapping key
-			if ( ! isset( $orig_fields[ $key ]['_ctct_map_select'] ) ) {
+			if ( ! isset( $orig_fields[ $key ]['map_to'] ) ) {
 				continue;
 			}
 
 			// Make sure we have the orig field name
-			if ( ! isset( $orig_fields[ $key ]['_ctct_field_label'] ) ) {
+			if ( ! isset( $orig_fields[ $key ]['description'] ) ) {
 				continue;
 			}
 
 			// force value to be set
 			$value['value'] = isset( $value['value'] ) ? $value['value'] : '';
 
-			// If we define our compare as full value, we'll send back the
-			// entire two form values to compare
-			if ( 'full' === $compare_type ) {
-				$pretty_values[] = array(
-					'orig'     => $orig_fields[ $key ],
-					'post'     => $value['value'],
-					'orig_key' => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
-				);
-			} else {
+			// Send back our data
+			$pretty_values[] = array(
+				'orig'     => $orig_fields[ $key ],
+				'post'     => $value['value'],
+				'orig_key' => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
+			);
 
-				// Otherwise, pretty up based on field names
-				if ( $value['key'] == $orig_fields[ $key ]['_ctct_map_select'] ) {
-					$pretty_values[] = array(
-						'field'    => sanitize_text_field( $orig_fields[ $key ]['_ctct_field_label'] ),
-						'value'    => sanitize_text_field( $value['value'] ),
-					);
-				}
-			}
 		}
 
 		// Send it back
@@ -469,25 +467,25 @@ class ConstantContact_Process_Form {
 				'map_to'      => isset( $field['_ctct_map_select'] ) ? $field['_ctct_map_select'] : '',
 				'type'        => isset( $field['_ctct_map_select'] ) ? $field['_ctct_map_select'] : '',
 				'description' => isset( $field['_ctct_field_desc'] ) ? $field['_ctct_field_desc'] : '',
-				'required'    => isset( $field['_ctct_required_field'] ) ? true : false,
+				'required'    => ( isset( $field['_ctct_required_field'] ) && $field['_ctct_required_field'] ) ? true : false,
 			);
 
 			switch ( $field['_ctct_map_select'] ) {
 				case 'address':
-					$return[ 'street___' . md5( serialize( $field_key ) ) ] = $field_key;
-					$return[ 'street___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'street';
+					$return[ 'street_address___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'street_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'street';
 
-					$return[ 'line_2___' . md5( serialize( $field_key ) ) ] = $field_key;
-					$return[ 'line_2___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'line_2';
+					$return[ 'line_2_address___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'line_2_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'line_2';
 
-					$return[ 'city___' . md5( serialize( $field_key ) ) ] = $field_key;
-					$return[ 'city___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'city';
+					$return[ 'city_address___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'city_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'city';
 
-					$return[ 'state___' . md5( serialize( $field_key ) ) ] = $field_key;
-					$return[ 'state___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'state';
+					$return[ 'state_address___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'state_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'state';
 
-					$return[ 'zip___' . md5( serialize( $field_key ) ) ] = $field_key;
-					$return[ 'zip___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'zip';
+					$return[ 'zip_address___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'zip_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'zip';
 
 					break;
 				case 'anniversery':
@@ -522,7 +520,7 @@ class ConstantContact_Process_Form {
 	public function get_field_errors( $values, $is_ajax = false ) {
 
 		// get our values with full orig field comparisons
-		$values = $this->pretty_values( $values, 'full' );
+		$values = $this->pretty_values( $values );
 
 		// Sanity check
 		if ( ! is_array( $values ) ) {
