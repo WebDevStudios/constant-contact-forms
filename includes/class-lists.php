@@ -64,6 +64,8 @@ class ConstantContact_Lists {
 
 		add_action( 'cmb2_after_post_form_ctct_list_metabox', array( $this, 'add_form_css' ) );
 
+		add_action( 'cmb2_render_constant_contact_list_information', array( $this, 'list_information_metabox' ), 10, 5 );
+
 	}
 
 	/**
@@ -83,16 +85,55 @@ class ConstantContact_Lists {
 			'show_names'	=> true,
 		) );
 
-		$post_meta = get_post_meta( $cmb->object_id(), '_ctct_list_id', true );
+		$cmb->add_field( array(
+			'name' 	=> '',
+			'desc' 	=> '',
+			'id'   	=> '_ctct_list_meta',
+			'type'	=> 'constant_contact_list_information',
+		) );
+	}
 
-		if ( $post_meta ) {
-			$cmb->add_field( array(
-				'name' 	=> __( 'ID', 'constantcontact' ),
-				'desc' 	=> esc_attr( $post_meta ),
-				'id'   	=> '_ctct_list_meta',
-				'type'	=> 'title',
-			) );
+	/**
+	 * Display our list information metabox
+	 */
+	public function list_information_metabox( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
+
+		// Sanity check
+		if ( ! $object_id ) {
+			return;
 		}
+
+		$list_id = get_post_meta( absint( $object_id ), '_ctct_list_id', true );
+
+		if ( ! $list_id ) {
+			return;
+		}
+
+		// Get our list
+		$list_info = constant_contact()->api->get_list( esc_attr( $list_id ) );
+
+		// Make sure we have an actual list
+		if ( ! isset( $list_info->id ) ) {
+			return;
+		}
+
+		// Cast our list to an array, so we can easily display it
+		$list_info = (array) $list_info;
+
+		echo '<ul>';
+
+		// Loop through each property of the list object
+		foreach ( $list_info as $key => $value ) {
+
+			// Clean up our property name
+			$key = sanitize_text_field( $key );
+			$key = str_replace( '_', ' ', $key );
+			$key = ucwords( $key );
+
+			echo '<li>' . $key . ': ' . sanitize_text_field( $value ) . '</li>';
+		}
+
+		echo '</ul>';
 	}
 
 	/**

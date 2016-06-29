@@ -188,6 +188,38 @@ class ConstantContact_API {
 		return $lists;
 	}
 
+	public function get_list( $id ) {
+
+		// Clean our id
+		$id = esc_attr( $id );
+
+		// Sanity check that
+		if ( ! $id ) {
+			return;
+		}
+
+		// Verify we're connected
+		if ( ! $this->is_connected() ) {
+			return array();
+		}
+
+		// first, check our saved transient for a value
+		$list = get_transient( 'ctct_list_' . $id );
+
+		// If we didn't get anything, then re-do the API call
+		if ( false === $list ) {
+			try {
+				$list = $this->cc()->listService->getList( $this->get_api_token(), $id );
+				set_transient( 'ctct_lists_' . $id, $list, 1 * HOUR_IN_SECONDS );
+				return $list;
+			} catch ( CtctException $ex ) {
+				$this->log_errors( $ex->getErrors() );
+			}
+		}
+
+		return $list;
+	}
+
 
 	/**
 	 * Add List to the connected CTCT account

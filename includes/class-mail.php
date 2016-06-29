@@ -80,6 +80,7 @@ class ConstantContact_Mail {
 
 		// Format them
 		$values = $this->format_values_for_email( $values );
+
 		// Send the mail
 		return $this->mail( $this->get_email(), $values );
 	}
