@@ -693,31 +693,50 @@ class ConstantContact_Display {
 	}
 
 	public function get_date_dropdown( $text = '', $type = '', $selected_value = '' ) {
-		// Start our return
-		$return = '<select>';
+
+		// Start our field
+		$return = '<select class="ctct-date-select">';
+
+		// Grab all of our options based on the field type
 		$return .= $this->get_date_options( $text, $this->get_date_values( $type ), $selected_value );
+
+		// Close our field
 		$return .= '</select>';
 
+		// Send it back
 		return $return;
 	}
 
 	public function get_date_options( $text = '', $values = array(), $prev_selected_values = array() ) {
 
-		$return = '<option>' . $text . '</option>';
+		// First, we'll want
+		$return = '<option value="">' . sanitize_text_field( $text ) . '</option>';
 
+		// If we don't have a values array, bail out
+		if ( ! is_array( $values ) ) {
+			return $return;
+		}
+
+		// Loop through each of our values
 		foreach ( $values as $key => $value ) {
 
+			// Sanitize and make sure our key is set
 			$key = sanitize_text_field( isset( $key ) ? $key : '' );
+
+			// Sanitize and make sure our value is set
 			$value = sanitize_text_field( isset( $value ) ? $value : '' );
 
+			// Build out our option value
 			$return .= '<option value="' . $key . '">' . $value . '</option>';
 		}
 
+		// Send it back
 		return $return;
 	}
 
 	public function get_date_values( $type ) {
 
+		// Based on $type, we'll send back an array of either days, months, or years
 		switch ( $type ) {
 			case 'day':
 				$return = apply_filters( 'constant_contact_dates_day', array(
