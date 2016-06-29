@@ -91,7 +91,7 @@ class ConstantContact_Builder {
 		) );
 
 		$description_metabox->add_field( array(
-			'description' => __( 'Add a description about this form. This will be shown above the form fields on the site.', 'constantcontact' ),
+			'description' => __( 'This message will display above the form fields, so use it as an opportunity to pitch your email list. Tell visitors why they should subscribe to your emails, focusing on benefits like insider tips, discounts, subscriber coupons, and more.', 'constantcontact' ),
 			'id'   => $prefix . 'description',
 			'type' => 'wysiwyg',
 			'options' => array(
@@ -128,7 +128,7 @@ class ConstantContact_Builder {
 		// Custom CMB2 fields.
 		$fields_metabox->add_field( array(
 			'name'        => __( 'Add Fields', 'constantcontact' ),
-			'description' => __( 'Fields are sortable and can be mapped to Constant Contact default fields.', 'constantcontact' ),
+			'description' => __( 'Create a field for each piece of information you want to collect. Good basics include email address, first name, and last name. You can also collect birthday and anniversary dates to use with Constant Contact autoresponders! ', 'constantcontact' ),
 			'id'          => $prefix . 'title',
 			'type'        => 'title',
 		) );
@@ -175,7 +175,7 @@ class ConstantContact_Builder {
 		) );
 
 		$fields_metabox->add_group_field( $custom_group, array(
-			'name'             => __( 'Map to field', 'constantcontact' ),
+			'name'             => __( 'Map to Constant Contact Field', 'constantcontact' ),
 			'id'               => $prefix . 'map_select',
 			'type'             => 'select',
 			'show_option_none' => false,
@@ -215,19 +215,12 @@ class ConstantContact_Builder {
 			'show_names'	=> true,
 		) );
 
-		$options_metabox->add_field( array(
-			'description' => __( 'Choose form options.', 'constantcontact' ),
-			'id'          => $prefix . 'title',
-			'type'        => 'title',
-		) );
-
 		// Add field if conncted to API.
 		if ( $lists = $this->get_lists() ) {
 
 			$options_metabox->add_field( array(
-				'name'             => __( 'List', 'constantcontact' ),
+				'name'             => __( 'Add subscribers to', 'constantcontact' ),
 				'id'               => $prefix . 'list',
-				'description'      => __( 'Choose a list.', 'constantcontact' ),
 				'type'             => 'select',
 				'show_option_none' => true,
 				'default'          => 'none',
@@ -237,18 +230,17 @@ class ConstantContact_Builder {
 		}
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Opt-In', 'constantcontact' ),
+			'name'        => __( 'Opt-in', 'constantcontact' ),
 			'id'          => $prefix . 'opt_in',
-			'description' => __( 'Add Opt In checkbox to form.', 'constantcontact' ),
+			'description' => __( 'Require visitors to opt-in to your email list.', 'constantcontact' ),
 			'type'        => 'checkbox',
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Opt-In Instructions', 'constantcontact' ),
+			'name'        => __( 'Opt-in Affirmation', 'constantcontact' ),
 			'id'          => $prefix . 'opt_in_instructions',
-			'description' => __( 'Add Opt-In instructions or disclaimer on site.', 'constantcontact' ),
 			'type'        => 'textarea_small',
-			'default'     => __( 'Sign up for our newsletter', 'constantcontact' ),
+			'default'     => __( 'Yes, I would like to receive emails from Your Business Name', 'constantcontact' ),
 		) );
 
 	}

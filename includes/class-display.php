@@ -634,7 +634,7 @@ class ConstantContact_Display {
 		$v_zip    = isset( $value['zip'] ) ? $value['zip'] : '';
 
 		// Build our field
-		$return  = '<p><fieldset>';
+		$return  = '<p class="ctct-address"><fieldset>';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1">';
 		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
@@ -675,15 +675,15 @@ class ConstantContact_Display {
 		$v_year  = isset( $value['year'] ) ? $value['year'] : '';
 
 		// Build our field
-		$return  = '<p><fieldset>';
+		$return  = '<p class="ctct-date"><fieldset>';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
-		$return .= ' <div class="ctct-form-field ctct-field-third month">';
+		$return .= ' <div class="ctct-form-field ctct-field-inline month">';
 		$return .= $this->get_date_dropdown( $month, 'month', $v_month );
 		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-third day">';
+		$return .= ' <div class="ctct-form-field ctct-field-inline day">';
 		$return .= $this->get_date_dropdown( $day, 'day', $v_day );
 		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-third year">';
+		$return .= ' <div class="ctct-form-field ctct-field-inline year">';
 		$return .= $this->get_date_dropdown( $year, 'year', $v_year );
 		$return .= ' </div>';
 

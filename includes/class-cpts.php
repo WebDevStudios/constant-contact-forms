@@ -56,6 +56,7 @@ class ConstantContact_CPTS {
 		add_action( 'admin_menu', array( $this, 'menu_items' ) );
 
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ) );
+		add_filter( 'enter_title_here', array( $this, 'change_default_title' ) );
 	}
 
 	/**
@@ -239,5 +240,24 @@ class ConstantContact_CPTS {
 				''
 			);
 		}
+	}
+
+	/**
+	 * Customize the "Enter your title" placeholder text for Title field
+	 *
+	 * @since  1.0.0
+	 * @param  string $title desired placeholder text.
+	 * @return string $title output string
+	 */
+	public function change_default_title( $title ){
+	    global $post;
+
+		$screen = get_current_screen();
+
+	    if ( 'ctct_forms' === $post->post_type ){
+	        $title = 'Enter a form name (Examples: Join Our Email List, Subscribe to Emails)';
+	    }
+
+	    return $title;
 	}
 }

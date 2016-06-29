@@ -20,7 +20,8 @@ input {
 		}
 
 		// show error.
-		&:focus:required:invalid, & .ctct-invalid {
+		&:focus:required:invalid, 
+		&.ctct-invalid {
 			background: url("../images/error.svg") no-repeat;
 			background-color: fade-out($color-error, 0.98);
 			background-position: 8px 50%;
@@ -31,3 +32,8 @@ input {
 	}
 
 } // <input>
+
+.ctct-field-error {
+	font-size: 0.85em;
+	font-style: italic;
+}
