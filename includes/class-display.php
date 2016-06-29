@@ -262,6 +262,14 @@ class ConstantContact_Display {
 			return;
 		}
 
+		$field = wp_parse_args( $field, array(
+			'name'        => '',
+			'map_to'      => '',
+			'type'        => '',
+			'description' => '',
+			'required'    => false,
+		) );
+
 		// Check all our data points.
 		$name   = sanitize_text_field( $field['name'] );
 		$map    = sanitize_text_field( $field['map_to'] );
@@ -633,28 +641,30 @@ class ConstantContact_Display {
 		$v_state  = isset( $value['state'] ) ? $value['state'] : '';
 		$v_zip    = isset( $value['zip'] ) ? $value['zip'] : '';
 
+		$req = $req ? ' required ' : '';
+
 		// Build our field
 		$return  = '<p class="ctct-address"><fieldset>';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1">';
 		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
-		$return .= '  <input type="text" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
+		$return .= '  <input' . $req . 'type="text" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-2" id="input_2_1_2_container">';
 		$return .= '  <label for="line_2_' . esc_attr( $f_id ) . '">' . esc_attr( $line_2 ) . '</label>';
-		$return .= '  <input type="text" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
+		$return .= '  <input' . $req . 'type="text" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-city" id="input_2_1_3_container">';
 		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . '</label>';
-		$return .= '  <input type="text" name="city_' . esc_attr( $f_id ) . '" id="city_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_city ) . '">';
+		$return .= '  <input' . $req . 'type="text" name="city_' . esc_attr( $f_id ) . '" id="city_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_city ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-state" id="input_2_1_4_container">';
 		$return .= '  <label for="state_' . esc_attr( $f_id ) . '">' . esc_attr( $state ) . '</label>';
-		$return .= '  <input type="text" name="state_' . esc_attr( $f_id ) . '" id="state_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_state ) . '">';
+		$return .= '  <input' . $req . 'type="text" name="state_' . esc_attr( $f_id ) . '" id="state_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_state ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-zip" id="input_2_1_5_container">';
 		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . '</label>';
-		$return .= '  <input type="text" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
+		$return .= '  <input' . $req . 'type="text" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
 		$return .= ' </div>';
 		$return .= '</fieldset></p>';
 
@@ -678,13 +688,13 @@ class ConstantContact_Display {
 		$return  = '<p class="ctct-date"><fieldset>';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline month">';
-		$return .= $this->get_date_dropdown( $month, $f_id, 'month', $v_month );
+		$return .= $this->get_date_dropdown( $month, $f_id, 'month', $v_month, $req );
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline day">';
-		$return .= $this->get_date_dropdown( $day, $f_id, 'day', $v_day );
+		$return .= $this->get_date_dropdown( $day, $f_id, 'day', $v_day, $req );
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline year">';
-		$return .= $this->get_date_dropdown( $year, $f_id, 'year', $v_year );
+		$return .= $this->get_date_dropdown( $year, $f_id, 'year', $v_year, $req );
 		$return .= ' </div>';
 
 		$return .= '</fieldset></p>';
@@ -692,7 +702,7 @@ class ConstantContact_Display {
 		return $return;
 	}
 
-	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '' ) {
+	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '', $req = false ) {
 
 		// Account for our weird IDs
 		$f_id = str_replace( 'birthday', $type, $f_id );
@@ -700,6 +710,10 @@ class ConstantContact_Display {
 
 		// Start our field
 		$return = '<select name="' . esc_attr( $f_id ) . '" class="ctct-date-select ctct-date-select-' . esc_attr( $type ) . '">';
+
+		if ( $req ) {
+			$return = str_replace( '">', '" required>', $return );
+		}
 
 		// Grab all of our options based on the field type
 		$return .= $this->get_date_options( $text, $this->get_date_values( $type ), $selected_value );

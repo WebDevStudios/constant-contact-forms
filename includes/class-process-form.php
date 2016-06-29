@@ -260,7 +260,7 @@ class ConstantContact_Process_Form {
 
 					// set our form id, unset, and break out
 					$form_id = absint( $value['value'] );
-					unset( $values[ $key ] );
+					unset( $values['ctct-id'] );
 					break;
 				}
 			}
@@ -348,6 +348,7 @@ class ConstantContact_Process_Form {
 
 		// Loop through fields to expand some multi-field groups
 		foreach ( $fields as $field ) {
+
 			// if we don't have a map, skip this loop
 			if ( ! isset( $field['_ctct_map_select'] ) ) {
 				continue;
@@ -397,7 +398,6 @@ class ConstantContact_Process_Form {
 					break;
 			}
 		}
-
 
 		return $return;
 	}

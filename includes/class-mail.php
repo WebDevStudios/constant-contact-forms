@@ -71,7 +71,6 @@ class ConstantContact_Mail {
 
 		// Clean our values
 		$values = constant_contact()->process_form->clean_values( $values );
-
 		if ( $add_to_opt_in ) {
 			$this->opt_in_user( $values );
 		}
@@ -81,7 +80,6 @@ class ConstantContact_Mail {
 
 		// Format them
 		$values = $this->format_values_for_email( $values );
-
 		// Send the mail
 		return $this->mail( $this->get_email(), $values );
 	}
@@ -199,7 +197,6 @@ class ConstantContact_Mail {
 		// Filter to allow sending HTML for our message body
 		add_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
 
-		echo '<pre>'; var_dump( $content ); die;
 		// Send that mail
 		$mail_status = wp_mail(
 			$destination_email,
