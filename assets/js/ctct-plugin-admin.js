@@ -52,9 +52,7 @@ window.CTCTBuilder = {};
 	that.modifyFields = function() {
 
 		var foundEmail = false;
-
 		$( '#cmb2-metabox-ctct_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping' ).each( function( key, value ) {
-
 			// .map select
 			var $field_parent = $( this ).find( '.cmb-field-list' );
 			var $button = $( $field_parent ).find( '.cmb-remove-group-row' );
@@ -69,7 +67,6 @@ window.CTCTBuilder = {};
 				$requiredRow.hide();
 				$button.hide();
 			} else {
-				$required.prop( 'checked', false);
 				$requiredRow.show();
 				$button.show();
 			}
