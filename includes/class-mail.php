@@ -78,11 +78,16 @@ class ConstantContact_Mail {
 		// pretty our values
 		$values = constant_contact()->process_form->pretty_values( $values );
 
+		// Potentially send to constant contact
+		if ( constant_contact()->api->is_connected() ) {
+			$this->send_to_constant_contact( $values );
+		}
+
 		// Format them
-		$values = $this->format_values_for_email( $values );
+		$email_values = $this->format_values_for_email( $values );
 
 		// Send the mail
-		return $this->mail( $this->get_email(), $values );
+		return $this->mail( $this->get_email(), $email_values );
 	}
 
 	/**
@@ -105,6 +110,9 @@ class ConstantContact_Mail {
 			// Make sure we have our data to check set
 			$key = isset( $val['key'] ) ? $val['key'] : '';
 			$val = isset( $val['value'] ) ? $val['value'] : '';
+
+			// @TODO here we should probably do this for every possible field type
+			// or maybe grab the fields that exist inthe list and push them up
 
 			// Loop through our form and pluck out our email and names
 			switch ( $key ) {
@@ -210,6 +218,9 @@ class ConstantContact_Mail {
 
 		// Return the mail status
 		return $mail_status;
+	}
+
+	public function send_to_constant_contact( $values ) {
 	}
 
 	/**
