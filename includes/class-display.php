@@ -341,7 +341,7 @@ class ConstantContact_Display {
 			case 'anniversery':
 			case 'birthday':
 				// need this to be month / day / year
-				return $this->dates( 'text', $name, $map, $value, $desc, $req, false, $field_error );
+				return $this->dates( $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			default:
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
@@ -678,13 +678,13 @@ class ConstantContact_Display {
 		$return  = '<p class="ctct-date"><fieldset>';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline month">';
-		$return .= $this->get_date_dropdown( $month, 'month', $v_month );
+		$return .= $this->get_date_dropdown( $month, $f_id, 'month', $v_month );
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline day">';
-		$return .= $this->get_date_dropdown( $day, 'day', $v_day );
+		$return .= $this->get_date_dropdown( $day, $f_id, 'day', $v_day );
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline year">';
-		$return .= $this->get_date_dropdown( $year, 'year', $v_year );
+		$return .= $this->get_date_dropdown( $year, $f_id, 'year', $v_year );
 		$return .= ' </div>';
 
 		$return .= '</fieldset></p>';
@@ -692,10 +692,14 @@ class ConstantContact_Display {
 		return $return;
 	}
 
-	public function get_date_dropdown( $text = '', $type = '', $selected_value = '' ) {
+	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '' ) {
+
+		// Account for our weird IDs
+		$f_id = str_replace( 'birthday', $type, $f_id );
+		$f_id = str_replace( 'anniversery', $type, $f_id );
 
 		// Start our field
-		$return = '<select class="ctct-date-select">';
+		$return = '<select name="' . esc_attr( $f_id ) . '" class="ctct-date-select ctct-date-select-' . esc_attr( $type ) . '">';
 
 		// Grab all of our options based on the field type
 		$return .= $this->get_date_options( $text, $this->get_date_values( $type ), $selected_value );
