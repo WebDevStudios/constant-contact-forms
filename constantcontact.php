@@ -149,6 +149,7 @@ class Constant_Contact {
 	private $lists;
 	private $process_form;
 	private $settings;
+	private $mail;
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -201,7 +202,7 @@ class Constant_Contact {
 		$this->settings      = new ConstantContact_Settings( $this );
 		$this->auth_redirect = new ConstantContact_Auth_Redirect( $this );
 		$this->connect       = new ConstantContact_Connect( $this );
-		$this->check         = new ConstantContact_Check( $this );
+		$this->mail          = new ConstantContact_Mail( $this );
 	}
 
 	/**
@@ -337,6 +338,7 @@ class Constant_Contact {
 			case 'process_form':
 			case 'settings':
 			case 'url':
+			case 'mail':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );

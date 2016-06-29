@@ -215,7 +215,7 @@ class ConstantContact_Process_Form {
 
 			if ( ! $is_ajax ) {
 				// at this point we can process all of our submitted values
-				$this->submit_form_values( $return['values'] );
+				constant_contact()->mail->submit_form_values( $return['values'] );
 			}
 
 			$return['status'] = 'success';
@@ -224,124 +224,14 @@ class ConstantContact_Process_Form {
 
 		if ( ! $is_ajax ) {
 			// at this point we can process all of our submitted values
-			$this->submit_form_values( $return['values'], true );
+			constant_contact()->mail->submit_form_values( $return['values'], true );
 		}
 
 		$return['status'] = 'success';
 		return $return;
 	}
 
-	/**
-	 * Process our form values
-	 *
-	 * @since  1.0.0
-	 * @param  array $values submitted form values
-	 */
-	public function submit_form_values( $values = array(), $add_to_opt_in = false ) {
 
-		// Sanity check
-		if ( ! is_array( $values ) ) {
-			return;
-		}
-
-		// Clean our values
-		$values = $this->clean_values( $values );
-
-		if ( $add_to_opt_in ) {
-			$this->opt_in_user( $values );
-		}
-
-		// pretty our values
-		$values = $this->pretty_values( $values );
-
-		// Format them
-		$values = $this->format_values_for_email( $values );
-
-		// Send the mail
-		return $this->mail( $this->get_email(), $values );
-	}
-
-	/**
-	 * Opts in a user, if requested
-	 *
-	 * @since  1.0.0
-	 * @param  array $values submitted values
-	 * @return object         response from API
-	 */
-	public function opt_in_user( $values ) {
-
-		// Set our default vars
-		$email      = '';
-		$first_name = '';
-		$last_name  = '';
-
-		// go through all our fields
-		foreach ( $values as $val ) {
-
-			// Make sure we have our data to check set
-			$key = isset( $val['key'] ) ? $val['key'] : '';
-			$val = isset( $val['value'] ) ? $val['value'] : '';
-
-			// Loop through our form and pluck out our email and names
-			switch ( $key ) {
-				case 'email':
-					$email = $val;
-					continue;
-					break;
-				case 'first_name':
-					$first_name = $val;
-					continue;
-					break;
-				case 'last_name':
-					$last_name = $val;
-					continue;
-					break;
-			}
-		}
-
-		// Make sure we have an email set
-		if ( $email ) {
-			$args = array(
-				'email'      => sanitize_email( $email ),
-				'list'       => sanitize_text_field( $_POST['ctct-opti-in'] ),
-				'first_name' => sanitize_text_field( $first_name ),
-				'last_name'  => sanitize_text_field( $last_name ),
-			);
-
-			$contact = constantcontact_api()->add_contact( $args );
-		}
-	}
-
-	/**
-	 * Formats values for email
-	 *
-	 * @since  1.0.0
-	 * @param  array $values values to format
-	 * @return string         html content for email
-	 */
-	public function format_values_for_email( $pretty_vals ) {
-
-		$return = '';
-		foreach ( $pretty_vals as $val ) {
-
-			// force vars to exist
-			$label = isset( $val['orig_key'] ) ? $val['orig_key'] : false;
-
-			// If we have a label
-			if ( $label ) {
-				// break out our unique key
-				$label = explode( '___', $label );
-
-				// Uppercase and format to be human readable
-				$label = ucwords( str_replace( '_', ' ', $label[0] ) );
-			}
-			$value = isset( $val['post'] ) ? $val['post'] : '&nbsp;';
-
-			$return .= '<p>' . sanitize_text_field( $label ) . ': ' . sanitize_text_field( $value ) . '</p>';
-		}
-
-		return $return;
-	}
 
 	/**
 	 * Pretty our values up
@@ -415,11 +305,6 @@ class ConstantContact_Process_Form {
 				continue;
 			}
 
-			// Make sure we have the orig field name
-			if ( ! isset( $orig_fields[ $key ]['description'] ) ) {
-				continue;
-			}
-
 			// force value to be set
 			$value['value'] = isset( $value['value'] ) ? $value['value'] : '';
 
@@ -436,6 +321,13 @@ class ConstantContact_Process_Form {
 		return $pretty_values;
 	}
 
+	/**
+	 * Gets our original field from a form id
+	 *
+	 * @since 1.0.0
+	 * @param  int $form_id form id
+	 * @return array          array of form data
+	 */
 	public function get_original_fields( $form_id ) {
 
 		// Sanity check
@@ -571,59 +463,7 @@ class ConstantContact_Process_Form {
 		return $err_returns;
 	}
 
-	/**
-	 * Get the email address to send to
-	 *
-	 * @since  1.0.0
-	 * @return string email address to send to
-	 */
-	public function get_email() {
 
-		// Eventually we'll make this configurable
-		return get_option( 'admin_email' );
-	}
-
-	/**
-	 * Sends our mail out
-	 *
-	 * @since  1.0.0
-	 * @param  string $destination_email email address
-	 * @param  array  $data              data from clean values
-	 * @return bool                    if sent
-	 */
-	public function mail( $destination_email, $content ) {
-
-		// If we didn't get passed in a sanitized email, we know something is
-		// wonky here, so bail out
-		if ( sanitize_email( $destination_email ) != $destination_email ) {
-			return false;
-		}
-
-		// Filter to allow sending HTML for our message body
-		add_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
-
-		// Send that mail
-		$mail_status = wp_mail(
-			$destination_email,
-			__( 'New submission' ),
-			$content
-		);
-
-		// Clean up, remove the filter we had set
-		remove_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
-
-		// Return the mail status
-		return $mail_status;
-	}
-
-	/**
-	 * Helper method to return 'text/html' string for actions
-	 *
-	 * @since  1.0.0
-	 */
-	public function set_email_type() {
-		return 'text/html';
-	}
 
 	/**
 	 * Clean our values from form submission
