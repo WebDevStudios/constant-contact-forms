@@ -20,18 +20,24 @@ window.CTCTBuilder = {};
 	that.bindEvents = function() {
 
 		that.metaShowHide( $( '#_ctct_list' ) );
-		that.disableFields();
+		that.modifyFields();
 
 		// Disable email options on row change trigger.
 		$( document ).on( 'cmb2_shift_rows_complete', function() {
-			that.disableFields();
+			that.modifyFields();
 		});
 
-		$( document ).on( 'cmb2_add_row', function( e ) {
-			var oldRow  = $( '#ctct_fields_metabox' ).find( '.cmb-repeatable-grouping' ).last();
-			var map = oldRow.find( '.map select' );
-			$(map).val( 'custom' );
-			that.disableFields();
+		$( document ).on( 'cmb2_add_row', function() {
+			that.modifyFields();
+			that.checkForNewRows();
+		});
+
+		that.checkForNewRows();
+    }
+
+    that.checkForNewRows = function() {
+    	$( '.cmb-nested .postbox .inside .cmb-row .cmb-td select' ).change( function() {
+			that.modifyFields();
 		});
     }
 
@@ -43,26 +49,29 @@ window.CTCTBuilder = {};
     }
 
 	// Disable required email fields.
-	that.disableFields = function() {
+	that.modifyFields = function() {
 
-		$( '#ctct_fields_metabox .map select' ).each( function( key, value ) {
+		var foundEmail = false;
 
-			var $field_parent = $( this ).closest( '.cmb-field-list' );
+		$( '#cmb2-metabox-ctct_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping' ).each( function( key, value ) {
+
+			// .map select
+			var $field_parent = $( this ).find( '.cmb-field-list' );
 			var $button = $( $field_parent ).find( '.cmb-remove-group-row' );
 			var $required = $( $field_parent ).find( '.required input[type=checkbox]' );
 			var $requiredRow = $required.closest( '.cmb-row' );
 			var $map = $( $field_parent ).find( '.map select option:selected' );
+			var $mapRow = $map.closest( '.cmb-row' );
 
-			if ( 'email' === $( this ).val() ) {
+			if ( ! foundEmail && ( 'email' === $( $map ).val() ) ) {
+				foundEmail = true;
 				$required.prop( 'checked', true );
 				$requiredRow.hide();
 				$button.hide();
-				$map.attr( 'disabled', true );
 			} else {
 				$required.prop( 'checked', false);
 				$requiredRow.show();
 				$button.show();
-				$map.attr( 'disabled', false);
 			}
 
 		});
