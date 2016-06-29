@@ -739,15 +739,7 @@ class ConstantContact_Display {
 		// Based on $type, we'll send back an array of either days, months, or years
 		switch ( $type ) {
 			case 'day':
-				$return = apply_filters( 'constant_contact_dates_day', array(
-					'sunday'    => __( 'Sunday', 'constantcontact' ),
-					'monday'    => __( 'Monday', 'constantcontact' ),
-					'tuesday'   => __( 'Tuesday', 'constantcontact' ),
-					'wednesday' => __( 'Wednesday', 'constantcontact' ),
-					'thursday'  => __( 'Thursday', 'constantcontact' ),
-					'friday'    => __( 'Friday', 'constantcontact' ),
-					'saturday'  => __( 'Saturday', 'constantcontact' ),
-				) );
+				$return = apply_filters( 'constant_contact_dates_day', $this->get_days() );
 				break;
 			case 'month':
 				$return = apply_filters( 'constant_contact_dates_month', array(
@@ -779,12 +771,26 @@ class ConstantContact_Display {
 		$year_range = range( 1910,  date( 'Y' ) );
 
 		$year_range = array_reverse( $year_range );
+
 		// Loop through each of the years we  have
 		foreach ( $year_range as $year ) {
 			$years[ $year ] = $year;
 		}
 
 		return $years;
+	}
+
+	public function get_days() {
+
+		// Get all of our day
+		$day_range = range( 1, 31 );
+
+		// Loop through each of the days we  have
+		foreach ( $day_range as $day ) {
+			$days[ $day ] = $day;
+		}
+
+		return $days;
 	}
 }
 
