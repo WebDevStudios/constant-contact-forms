@@ -224,15 +224,17 @@ class ConstantContact_Display {
 		// start our wrapper return var
 		$return = '';
 
-		// Check to see if we have a description for the form, and display it.
-		if (
-			isset( $form_data['options'] ) &&
-			isset( $form_data['options']['description'] ) &&
-			$form_data['options']['description'] &&
-			isset( $form_data['options']['form_id'] )
-		) {
+		// Check to see if we have a form ID for the form, and display our description.
+		if ( isset( $form_data['options'] ) && isset( $form_data['options']['form_id'] ) ) {
+
+			// Get our description
+			$desc = isset( $form_data['options']['description'] ) ? $form_data['options']['description'] : '';
+
+			// Clean our form ID
 			$form_id = absint( $form_data['options']['form_id'] );
-			$return .= $this->description( $form_data['options']['description'], $form_id );
+
+			// Add in our Description
+			$return .= $this->description( $desc, $form_id );
 		}
 
 		// Loop through each of our form fields and output it.
