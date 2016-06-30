@@ -71,6 +71,8 @@ class ConstantContact_Mail {
 
 		// Clean our values
 		$values = constant_contact()->process_form->clean_values( $values );
+
+		// If a user opted-in, push their data to CC
 		if ( $add_to_opt_in ) {
 			$this->opt_in_user( $values );
 		}
@@ -99,48 +101,28 @@ class ConstantContact_Mail {
 	 */
 	public function opt_in_user( $values ) {
 
-		// Set our default vars
-		$email      = '';
-		$first_name = '';
-		$last_name  = '';
-
 		// go through all our fields
 		foreach ( $values as $val ) {
 
-			// Make sure we have our data to check set
-			$key = isset( $val['key'] ) ? $val['key'] : '';
-			$val = isset( $val['value'] ) ? $val['value'] : '';
+			// Clean up our data that we'll be using
+			$key = sanitize_text_field( isset( $val['key'] ) ? $val['key'] : '' );
+			$val = sanitize_text_field( isset( $val['value'] ) ? $val['value'] : '' );
 
-			// @TODO here we should probably do this for every possible field type
-			// or maybe grab the fields that exist inthe list and push them up
-
-			// Loop through our form and pluck out our email and names
-			switch ( $key ) {
-				case 'email':
-					$email = $val;
-					continue;
-					break;
-				case 'first_name':
-					$first_name = $val;
-					continue;
-					break;
-				case 'last_name':
-					$last_name = $val;
-					continue;
-					break;
+			// Make sure we have a key that we can use
+			if ( $key ) {
+				$args[ $key ] = $val;
 			}
 		}
 
 		// Make sure we have an email set
-		if ( $email ) {
-			$args = array(
-				'email'      => sanitize_email( $email ),
-				'list'       => sanitize_text_field( $_POST['ctct-opti-in'] ),
-				'first_name' => sanitize_text_field( $first_name ),
-				'last_name'  => sanitize_text_field( $last_name ),
-			);
+		if ( isset( $_POST['ctct-opti-in'] ) && $_POST['ctct-opti-in'] ) {
+			$args['list'] = sanitize_text_field( $_POST['ctct-opti-in'] );
 
-			$contact = constantcontact_api()->add_contact( $args );
+			// Unset unneeded fields
+			unset( $args['ctct-opti-in'] );
+			unset( $args['ctct-id'] );
+
+			return constantcontact_api()->add_contact( $args );
 		}
 	}
 
