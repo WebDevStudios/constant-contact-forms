@@ -701,23 +701,23 @@ class ConstantContact_Display {
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1">';
 		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
-		$return .= '  <input' . $req . 'type="text" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
+		$return .= '  <input ' . $req . 'type="text" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-2" id="input_2_1_2_container">';
 		$return .= '  <label for="line_2_' . esc_attr( $f_id ) . '">' . esc_attr( $line_2 ) . '</label>';
-		$return .= '  <input' . $req . 'type="text" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
+		$return .= '  <input ' . $req . 'type="text" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-city" id="input_2_1_3_container">';
 		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . '</label>';
-		$return .= '  <input' . $req . 'type="text" name="city_' . esc_attr( $f_id ) . '" id="city_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_city ) . '">';
+		$return .= '  <input ' . $req . 'type="text" name="city_' . esc_attr( $f_id ) . '" id="city_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_city ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-state" id="input_2_1_4_container">';
 		$return .= '  <label for="state_' . esc_attr( $f_id ) . '">' . esc_attr( $state ) . '</label>';
-		$return .= '  <input' . $req . 'type="text" name="state_' . esc_attr( $f_id ) . '" id="state_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_state ) . '">';
+		$return .= '  <input ' . $req . 'type="text" name="state_' . esc_attr( $f_id ) . '" id="state_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_state ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-zip" id="input_2_1_5_container">';
 		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . '</label>';
-		$return .= '  <input' . $req . 'type="text" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
+		$return .= '  <input ' . $req . 'type="text" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
 		$return .= ' </div>';
 		$return .= '</fieldset></p>';
 
