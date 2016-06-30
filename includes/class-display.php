@@ -779,8 +779,8 @@ class ConstantContact_Display {
 	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '', $req = false ) {
 
 		// Account for our weird IDs
-		$f_id = str_replace( 'birthday', $type, $f_id );
-		$f_id = str_replace( 'anniversery', $type, $f_id );
+		$f_id = str_replace( 'birthday', 'birthday_' . $type, $f_id );
+		$f_id = str_replace( 'anniversary', 'anniversary_' . $type, $f_id );
 
 		// Start our field
 		$return = '<select name="' . esc_attr( $f_id ) . '" class="ctct-date-select ctct-date-select-' . esc_attr( $type ) . '">';
