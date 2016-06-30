@@ -527,6 +527,7 @@ class ConstantContact_Display {
 
 		// If we have an error
 		if ( $field_error ) {
+
 			// Tack that sucker on to the end of our input
 			$field = str_replace( '/>', 'class="ctct-invalid />', $field );
 		}
