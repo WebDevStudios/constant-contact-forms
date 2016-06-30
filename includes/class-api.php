@@ -10,6 +10,7 @@
 
 use Ctct\ConstantContact;
 use Ctct\Components\Contacts\Contact;
+use Ctct\Components\Contacts\Contacts;
 use Ctct\Components\Contacts\ContactList;
 use Ctct\Exceptions\CtctException;
 
@@ -348,11 +349,13 @@ class ConstantContact_API {
 		// Set our API Token
 		$api_token = $this->get_api_token();
 
-		// Set up our data
+		// Clean our email address.
 		$email = sanitize_email( $new_contact['email'] );
+
+		// Set our list data. If we didn't get passed a list and got this far, just generate a random ID
 		$list = isset( $new_contact['list'] ) ? esc_attr( $new_contact['list'] ) : 'cc_' . wp_generate_password( 15, false );
-		$f_name = isset( $new_contact['first_name'] ) ? esc_attr( $new_contact['first_name'] ) : '';
-		$l_name = isset( $new_contact['last_name'] ) ? esc_attr( $new_contact['last_name'] ) : '';
+
+		$return_contact = false;
 
 		try {
 	        // Check to see if a contact with the email address already exists in the account.
@@ -360,10 +363,10 @@ class ConstantContact_API {
 
 	        // Create a new contact if one does not exist.
 	        if ( empty( $response->results ) ) {
-	        	$return_contact = $this->_create_contact( $api_token, $list, $email, $f_name, $l_name );
+	        	$return_contact = $this->_create_contact( $api_token, $list, $email, $new_contact );
 	            // Update the existing contact if address already existed.
 	        } else {
-	        	$return_contact = $this->_update_contact( $response, $api_token, $list, $f_name, $l_name );
+	        	$return_contact = $this->_update_contact( $response, $api_token, $list, $new_contact );
 	        }
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
@@ -385,13 +388,19 @@ class ConstantContact_API {
 	 * @param  string $l_name    last name
 	 * @return mixed             response from api
 	 */
-	public function _create_contact( $api_token, $list, $email, $f_name, $l_name ) {
+	public function _create_contact( $api_token, $list, $email, $user_data ) {
 
+		// Get a new instance of our contact
 		$contact = new Contact();
-		$contact->addEmail( $email );
-		$contact->addList( $list );
-		$contact->first_name = $f_name;
-		$contact->last_name  = $l_name;
+
+		// Set our email
+		$contact->addEmail( sanitize_text_field( $email ) );
+
+		// Set our list
+		$contact->addList( esc_attr( $list ) );
+
+		// Map the rest of our properties to
+		$contact = $this->set_contact_properties( $contact, $user_data );
 
 		/*
 		 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
@@ -415,16 +424,23 @@ class ConstantContact_API {
 	 * @param  string $l_name    last name
 	 * @return mixed             response from api
 	 */
-	public function _update_contact( $response, $api_token, $list, $f_name, $l_name ) {
+	public function _update_contact( $response, $api_token, $list, $user_data ) {
+
+		// Sanity checks on our response
 		if (
 			isset( $response->results ) &&
 			isset( $response->results[0] ) &&
 			( $response->results[0] instanceof Contact )
 		) {
+
+			// set our returned contact
 			$contact = $response->results[0];
-			$contact->addList( $list );
-			$contact->first_name = $f_name;
-			$contact->last_name  = $l_name;
+
+			// Attach our list
+			$contact->addList( esc_attr( $list ) );
+
+			// set the rest of our properties
+			$contact = $this->set_contact_properties( $contact, $user_data );
 
 		    /*
 		     * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
@@ -439,6 +455,111 @@ class ConstantContact_API {
 		    $error->setErrors( array( 'type', __( 'Contact type not returned', 'constantcontact' ) ) );
 		    throw $error;
 		}
+	}
+
+	/**
+	 * Helper method to push as much data from a form as we can into the
+	 * Constant Contact contact thats in a list
+	 *
+	 * @param  object $contact    Contact object
+	 * @param  array $user_data   bunch of user data
+	 * @return object             Contact object, with new properties
+	 */
+	public function set_contact_properties( $contact, $user_data ) {
+
+		// First, verify we have what we need
+		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
+			return;
+		}
+
+		// Remove some values we don't need
+		unset( $user_data['list'] );
+
+		$address  = null;
+
+		// Loop through each of our values and set it as a property.
+		foreach ( $user_data as $original => $value ) {
+
+			// Set our key and value to our value's actual key/value
+			$key   = sanitize_text_field( isset( $value['key'] ) ? $value['key'] : false );
+			$value = sanitize_text_field( isset( $value['val'] ) ? $value['val'] : false );
+
+			// If for some reason, we don't have those, then we'll just skip this one
+			if ( ! $key || ! $value ) {
+				continue;
+			}
+
+			switch ( $key ) {
+				case 'email':
+					// do nothing
+					break;
+				case 'company':
+					$contact->company_name = $value;
+				case 'custom':
+					// $custom = new Ctct\Components\Contacts\CustomField();
+					// $custom = $custom->create( array(
+					// 		'name' => sanitize_text_field( $original ),
+					// 		'value' => $value,
+					// ) );
+					// $contact->addCustomField( $custom );
+					break;
+				case 'street_address':
+				case 'line_2_address':
+				case 'city_address':
+				case 'state_address':
+				case 'zip_address':
+
+					// set our global address so we can append more data
+					if ( is_null( $address ) ) {
+						$address = new Ctct\Components\Contacts\Address();
+					}
+
+					// Nested switch to set all our address properties how they should be mapped
+					switch ( $key ) {
+						case 'street_address':
+							$address->address_type = 'PERSONAL';
+							$address->line1 = $value;
+							break;
+						case 'line_2_address':
+							$address->line2 = $value;
+							break;
+						case 'city_address':
+							$address->city = $value;
+							break;
+						case 'state_address':
+							$address->state = $value;
+							$address->country_code = 'us';
+							break;
+						case 'zip_address':
+							$address->postal_code = $value;
+							break;
+					}
+					break;
+				case 'birthday_month':
+				case 'birthday_day':
+				case 'birthday_year':
+				case 'anniversery_day':
+				case 'anniversary_month':
+				case 'anniversary_year':
+					// $custom = new Ctct\Components\Contacts\CustomField();
+					// $custom = $custom->create( array(
+					// 		'name' => $key,
+					// 		'value' => $value,
+					// ) );
+					// $contact->addCustomField( $custom );
+					break;
+				default:
+					$contact->$key = $value;
+					break;
+			}
+		}
+
+		// If we did set address properties, then push it to our contact
+		if ( ! is_null( $address ) ) {
+			$contact->addAddress( $address );
+		}
+
+		return $contact;
 	}
 
 	/**
@@ -476,6 +597,7 @@ class ConstantContact_API {
 
 		// If we have our debugging turned on, push that error to the error log
 		if ( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) {
+			echo '<pre>'; print_r( debug_backtrace( ) ); echo '</pre>';
 			error_log( $error->error_key );
 		}
 

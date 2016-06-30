@@ -101,27 +101,38 @@ class ConstantContact_Mail {
 	 */
 	public function opt_in_user( $values ) {
 
+
 		// go through all our fields
-		foreach ( $values as $val ) {
+		foreach ( $values as $key => $val ) {
 
 			// Clean up our data that we'll be using
-			$key = sanitize_text_field( isset( $val['key'] ) ? $val['key'] : '' );
-			$val = sanitize_text_field( isset( $val['value'] ) ? $val['value'] : '' );
+			$key  = sanitize_text_field( isset( $val['key'] ) ? $val['key'] : '' );
+			$orig = sanitize_text_field( isset( $val['orig_key'] ) ? $val['orig_key'] : '' );
+			$val  = sanitize_text_field( isset( $val['value'] ) ? $val['value'] : '' );
 
 			// Make sure we have a key that we can use
-			if ( $key ) {
-				$args[ $key ] = $val;
+			if ( $key && 'ctct-opt-in' != $key && 'ctct-id' != $key ) {
+
+				// Set our args that we'll pass to our API
+				$args[ $orig ] = array(
+					'key' => $key,
+					'val' => $val,
+				);
+
+				// If we have an email, make sure we keep it safe
+				if ( 'email' == $key ) {
+					$args['email'] = $val;
+				}
 			}
 		}
 
 		// Make sure we have an email set
-		if ( isset( $_POST['ctct-opti-in'] ) && $_POST['ctct-opti-in'] ) {
-			$args['list'] = sanitize_text_field( $_POST['ctct-opti-in'] );
+		if ( isset( $values['ctct-opt-in'] ) && isset( $values['ctct-opt-in']['value'] ) ) {
 
-			// Unset unneeded fields
-			unset( $args['ctct-opti-in'] );
-			unset( $args['ctct-id'] );
+			// Make sure that our list is a top level
+			$args['list'] = sanitize_text_field( $values['ctct-opt-in']['value'] );
 
+			// Send that to our API
 			return constantcontact_api()->add_contact( $args );
 		}
 	}
