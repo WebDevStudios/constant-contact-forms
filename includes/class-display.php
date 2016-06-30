@@ -602,27 +602,70 @@ class ConstantContact_Display {
 	 */
 	public function opt_in( $form_data ) {
 
+		// Make sure we have our optin data
+		if ( ! isset( $form_data['optin'] ) ) {
+			return;
+		}
 
 		// Set up our defaults
-		$optin = wp_parse_args( $form_data, array(
-			'opt_in' => false,
+		$optin = wp_parse_args( $form_data['optin'], array(
+			'opt_in'              => false,
 			'opt_in_instructions' => '',
-			'opt_in_hide' => true,
-			'opt_in_default' => false,
+			'opt_in_hide'         => false,
+			'opt_in_default'      => false,
+			'list'                => false,
 		) );
 
-
 		// Make sure we have our opt in set, as well as an associated list
-		if ( isset( $form_data['opt_in'] ) && isset( $form_data['list'] ) ) {
-
-			// build that checkbox
-			return $this->checkbox(
-				'ctct-opti-in',
-				'ctct-opti-in',
-				$form_data['list'],
-				( isset( $form_data['opt_in_instructions'] ) ? $form_data['opt_in_instructions'] : '' )
-			);
+		if (
+			isset( $optin['opt_in'] ) &&
+			$optin['opt_in'] &&
+			isset( $optin['list'] ) &&
+			$optin['list']
+		) {
+			return $this->optin_display( $optin );
 		}
+	}
+
+	/**
+	 * Internal method to display checkbox
+	 *
+	 * @since  1.0.1
+	 * @param  array $optin optin data
+	 * @return string        html markup
+	 */
+	public function optin_display( $optin ) {
+
+		// Clean our inputs, set defaults
+		$label   = sanitize_text_field( isset( $optin['opt_in_instructions'] ) ? $optin['opt_in_instructions'] : '' );
+		$hide    = isset( $optin['opt_in_hide'] ) ? $optin['opt_in_hide'] : false;
+		$value   = sanitize_text_field( isset( $optin['list'] ) ? $optin['list'] : '' );
+		//@TODO FIX $checked = ( isset( $optin['opt_in_default'] ) && isset( $optin['opt_in_default'] ) ) ? true : false;
+		$c_attr  = $checked ? 'checked' : '';
+
+		echo '<pre>'; var_dump( $c_attr ); die;
+
+
+		// Start our markup return
+		$markup = '';
+
+		// If we set to hide the field, then hide it inline
+		if ( $hide ) {
+			$markup = '<div class="ctct-optin-hide" style="display:none;">';
+		}
+
+		// Build up our markup
+		$markup .= $this->field_top( 'checkbox', 'ctct-opti-in', 'ctct-opti-in', $label, false, false );
+		$markup .= '<input type="checkbox" name="ctct-opti-in" id="ctct-opti-in" value="' . $value . '" ' . $c_attr . '/>';
+		$markup .= $this->field_bottom( 'ctct-opti-in', ' ' . $label );
+
+		// If we set to hide, close our open div
+		if ( $hide ) {
+			$markup = '</div><!--.ctct-optin-hide -->';
+		}
+
+		// return it
+		return $markup;
 	}
 
 	/**
@@ -682,6 +725,18 @@ class ConstantContact_Display {
 		return $return;
 	}
 
+	/**
+	 * Gets and return a 3-part date selector
+	 *
+	 * @since  1.0.1
+	 * @param  string  $name        name of field
+	 * @param  string  $f_id        field id
+	 * @param  array   $value       values to pre-fill
+	 * @param  string  $desc        description of fields
+	 * @param  boolean $req         is required?
+	 * @param  string  $field_error field error text
+	 * @return string               html markup of fields
+	 */
 	public function dates( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '' ) {
 
 		// Set our field lables
@@ -713,6 +768,17 @@ class ConstantContact_Display {
 		return $return;
 	}
 
+	/**
+	 * Gets actual dropdowns for date selector
+	 *
+	 * @since  1.0.1
+	 * @param  string  $text           text for default option
+	 * @param  string  $f_id           field id
+	 * @param  string  $type           type of dropdown (day, month, year)
+	 * @param  string  $selected_value previous value
+	 * @param  boolean $req            is require?
+	 * @return string                  markup of field
+	 */
 	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '', $req = false ) {
 
 		// Account for our weird IDs
@@ -736,6 +802,15 @@ class ConstantContact_Display {
 		return $return;
 	}
 
+	/**
+	 * Gets option markup for a date selector
+	 *
+	 * @since  1.0.1
+	 * @param  string $text                 default first option
+	 * @param  array  $values               values to use
+	 * @param  array  $prev_selected_values previous selected values
+	 * @return string                       html markup
+	 */
 	public function get_date_options( $text = '', $values = array(), $prev_selected_values = array() ) {
 
 		// First, we'll want
@@ -763,6 +838,13 @@ class ConstantContact_Display {
 		return $return;
 	}
 
+	/**
+	 * Gets array of data for a date dropdown type
+	 *
+	 * @since  1.0.1
+	 * @param  string $type day,month,or,year
+	 * @return array       array of data
+	 */
 	public function get_date_values( $type ) {
 
 		// Based on $type, we'll send back an array of either days, months, or years
@@ -794,6 +876,12 @@ class ConstantContact_Display {
 		return $return;
 	}
 
+	/**
+	 * Helper method to get all years
+	 *
+	 * @since  1.0.1
+	 * @return array years from 1910-current year
+	 */
 	public function get_years() {
 
 		// Get all of our years
@@ -809,6 +897,12 @@ class ConstantContact_Display {
 		return $years;
 	}
 
+	/**
+	 * Gets array of 1-31
+	 *
+	 * @since  1.0.1
+	 * @return array array of days
+	 */
 	public function get_days() {
 
 		// Get all of our day
