@@ -282,7 +282,7 @@ class Constant_Contact {
 			'defuse-php-encryption/RuntimeTests.php',
 		);
 
-		if ( ! class_exists( 'WDS_Shortcodes_Base' ) && ! function_exists( 'wds_shortcodes' ) ) {
+		if ( ! function_exists( 'wds_shortcodes' ) ) {
 			$libs[] = 'wds/WDS-Shortcodes/wds-shortcodes.php';
 		}
 
