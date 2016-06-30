@@ -640,9 +640,8 @@ class ConstantContact_Display {
 		$label   = sanitize_text_field( isset( $optin['opt_in_instructions'] ) ? $optin['opt_in_instructions'] : '' );
 		$hide    = isset( $optin['opt_in_hide'] ) ? $optin['opt_in_hide'] : false;
 		$value   = sanitize_text_field( isset( $optin['list'] ) ? $optin['list'] : '' );
-		$checked = ( isset( $optin['opt_in_default'] ) && isset( $optin['opt_in_default'] ) ) ? true : false;
+		$checked = ( isset( $optin['opt_in_default'] ) && $optin['opt_in_default'] ) ? true : false;
 		$c_attr  = $checked ? 'checked' : '';
-
 
 		// Start our markup return
 		$markup = '';
