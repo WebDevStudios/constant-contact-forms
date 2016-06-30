@@ -14,6 +14,13 @@ window.CTCTBuilder = {};
 			body:   $( 'body' ),
 			hide:   '.cmb2-id--ctct-new-list',
 		};
+
+		that.$c.optinfields = {
+			list     : $( '.cmb2-id--ctct-list' ),
+			default  : $( '.cmb2-id--ctct-opt-in-default' ),
+			hide     : $( '.cmb2-id--ctct-opt-in-hide' ),
+			instruct : $( '.cmb2-id--ctct-opt-in-instructions' ),
+		}
 	}
 
 	// Combine all events.
@@ -28,13 +35,37 @@ window.CTCTBuilder = {};
 		});
 
 		$( document ).on( 'cmb2_add_row', function() {
+
 			that.modifyFields();
 			that.checkForNewRows();
 		});
 
+		$( '#_ctct_opt_in' ).change( function() {
+			that.toggleOptInFields();
+		});
+
+		that.toggleOptInFields();
 		that.checkForNewRows();
     }
 
+    // Toggle un-needed optin fields if we're not showing the opt-in
+    that.toggleOptInFields = function() {
+
+    	// If checked, show them
+    	if ( $( '#_ctct_opt_in' ).prop( 'checked' ) ) {
+    		that.$c.optinfields.list.show();
+    		that.$c.optinfields.default.show();
+    		that.$c.optinfields.hide.show();
+    		that.$c.optinfields.instruct.show();
+    	} else {
+    		that.$c.optinfields.list.hide();
+    		that.$c.optinfields.default.hide();
+    		that.$c.optinfields.hide.hide();
+    		that.$c.optinfields.instruct.hide();
+    	}
+    }
+
+    // Check if a new row was added
     that.checkForNewRows = function() {
     	$( '.cmb-nested .postbox .inside .cmb-row .cmb-td select' ).change( function() {
 			that.modifyFields();
@@ -61,18 +92,29 @@ window.CTCTBuilder = {};
 			var $map = $( $field_parent ).find( '.map select option:selected' );
 			var $mapRow = $map.closest( '.cmb-row' );
 
+			// If we haven't yet found an email field, and this is our email field
 			if ( ! foundEmail && ( 'email' === $( $map ).val() ) ) {
+
+				// Set that we found an email field
 				foundEmail = true;
+
+				// Make it required
 				$required.prop( 'checked', true );
+
+				// Hide the required row
 				$requiredRow.hide();
+
+				// Hide the remove row button
 				$button.hide();
 			} else {
+
+				// If we're not an email field, reshow the required field
 				$requiredRow.show();
+				// and the remove button
 				$button.show();
 			}
 
 		});
-
 	}
 
 	// Engage!
