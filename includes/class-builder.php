@@ -215,6 +215,13 @@ class ConstantContact_Builder {
 			'show_names'	=> true,
 		) );
 
+		$options_metabox->add_field( array(
+			'name'        => __( 'Show Opt-in checkbox', 'constantcontact' ),
+			'id'          => $prefix . 'opt_in',
+			'description' => __( 'Show opt-in checkbox to allow visitors to opt-in to your email list.', 'constantcontact' ),
+			'type'        => 'checkbox',
+		) );
+
 		// Add field if conncted to API.
 		if ( $lists = $this->get_lists() ) {
 
@@ -230,23 +237,16 @@ class ConstantContact_Builder {
 		}
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Show Opt-in checkbox', 'constantcontact' ),
-			'id'          => $prefix . 'opt_in',
-			'description' => __( 'Show opt-in checkbox to allow visitors to opt-in to your email list.', 'constantcontact' ),
-			'type'        => 'checkbox',
-		) );
-
-		$options_metabox->add_field( array(
-			'name'        => __( 'Default Opt-in checkbox value', 'constantcontact' ),
-			'id'          => $prefix . 'opt_in_default_checked',
+			'name'        => __( 'Default state', 'constantcontact' ),
+			'id'          => $prefix . 'opt_in_default',
 			'description' => __( 'Default opt-in checkbox to be selected.', 'constantcontact' ),
 			'type'        => 'checkbox',
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Hide Opt-in checkbox from visitor', 'constantcontact' ),
-			'id'          => $prefix . 'opt_in_show',
-			'description' => __( 'Hides the checkbox, and will use default value (used in conjunction with default for a newsletter sign-up form, for example).', 'constantcontact' ),
+			'name'        => __( 'Hide checkbox', 'constantcontact' ),
+			'id'          => $prefix . 'opt_in_hide',
+			'description' => __( 'Hides the checkbox, and will use default value (usually when used with a simple newsletter sign-up form).', 'constantcontact' ),
 			'type'        => 'checkbox',
 		) );
 

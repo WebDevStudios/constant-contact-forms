@@ -153,29 +153,38 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				$fields['options']['form_id'] = $form_id;
 			}
 
+			// Check for opt in description
 			if ( isset( $full_data['_ctct_description'] ) && isset( $full_data['_ctct_description'][0] ) ) {
 				$fields['options']['description'] = $full_data['_ctct_description'][0];
 			}
 
+			// Check for opt in list
 			if ( isset( $full_data['_ctct_list'] ) && isset( $full_data['_ctct_list'][0] ) ) {
 				$fields['options']['list'] = $full_data['_ctct_list'][0];
 			}
 
+			// Check for if opt in
 			if (
 				isset( $full_data['_ctct_opt_in'] ) &&
-				$full_data['_ctct_opt_in'] &&
 				isset( $full_data['_ctct_opt_in'][0] ) &&
-				$full_data['_ctct_opt_in'][0] &&
-				'on' === $full_data['_ctct_opt_in'][0]
+				'on' == $full_data['_ctct_opt_in'][0]
 			) {
 
 				$fields['options']['opt_in'] = true;
 
-				if (
-					isset( $full_data['_ctct_opt_in_instructions'] ) &&
-					isset( $full_data['_ctct_opt_in_instructions'][0] )
-				) {
+				// Check for opt in description
+				if ( isset( $full_data['_ctct_opt_in_instructions'] ) && isset( $full_data['_ctct_opt_in_instructions'][0] ) ) {
 					$fields['options']['opt_in_instructions'] = $full_data['_ctct_opt_in_instructions'][0];
+				}
+
+				// Check for default value for opt in
+				if ( isset( $full_data['_ctct_opt_in_default'] ) && isset( $full_data['_ctct_opt_in_default'][0] ) ) {
+					$fields['options']['opt_in_default'] = true;
+				}
+
+				// Check for if opt in should show
+				if ( isset( $full_data['_ctct_opt_in_hide'] ) && isset( $full_data['_ctct_opt_in_hide'][0] ) ) {
+					$fields['options']['opt_in_hide'] = true;
 				}
 			} else {
 				$fields['options']['opt_in'] = false;
