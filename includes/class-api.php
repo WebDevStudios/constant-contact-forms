@@ -476,6 +476,7 @@ class ConstantContact_API {
 		unset( $user_data['list'] );
 
 		$address  = null;
+		$count = 0;
 
 		// Loop through each of our values and set it as a property.
 		foreach ( $user_data as $original => $value ) {
@@ -489,19 +490,13 @@ class ConstantContact_API {
 				continue;
 			}
 
+			// Based on our key, theres a few different things we should do
 			switch ( $key ) {
 				case 'email':
-					// do nothing
+					// do nothing, as we already captured
 					break;
 				case 'company':
 					$contact->company_name = $value;
-				case 'custom':
-					// $custom = new Ctct\Components\Contacts\CustomField();
-					// $custom = $custom->create( array(
-					// 		'name' => sanitize_text_field( $original ),
-					// 		'value' => $value,
-					// ) );
-					// $contact->addCustomField( $custom );
 					break;
 				case 'street_address':
 				case 'line_2_address':
@@ -541,17 +536,39 @@ class ConstantContact_API {
 				case 'anniversery_day':
 				case 'anniversary_month':
 				case 'anniversary_year':
-					// $custom = new Ctct\Components\Contacts\CustomField();
-					// $custom = $custom->create( array(
-					// 		'name' => $key,
-					// 		'value' => $value,
-					// ) );
-					// $contact->addCustomField( $custom );
+				case 'custom':
+					// Dont overload custom fields
+					if ( 15 >= $count ) {
+						break;
+					}
+
+					// Otherwise, set up our custom field
+					$custom = new Ctct\Components\Contacts\CustomField();
+
+					// Create, name it the way the API needs
+					$custom = $custom->create( array(
+							'name' => 'CustomField' . $count,
+							'value' => $key . ' : ' . $value,
+					) );
+
+					// Attach it
+					$contact->addCustomField( $custom );
 					break;
 				default:
-					$contact->$key = $value;
+					//	if we got here, try to map our field to the key
+					try {
+						// Try it
+						$contact->$key = $value;
+					} catch (Exception $e) {
+						// If we get an exception, then break.
+						break;
+					}
+
+					// Otherwise break anyway
 					break;
 			}
+
+			$count = $count + 1;
 		}
 
 		// If we did set address properties, then push it to our contact
