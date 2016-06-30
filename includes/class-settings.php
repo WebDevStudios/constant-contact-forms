@@ -248,12 +248,13 @@ class ConstantContact_Settings {
 	 * @return void
 	 */
 	public function optin_form_field() {
+
 		$label = ctct_get_settings_option( '_ctct_optin_label' ) ? ctct_get_settings_option( '_ctct_optin_label' ) : __( 'Sign up to our newsletter.', 'constantcontact' );
 	?>
 	    <p style="padding: 0 0 1em 0;">
 	        <label for="ctct_optin">
 	        <input type="checkbox" value="<?php echo esc_attr( ctct_get_settings_option( '_ctct_optin_list' ) ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list">
-			<?php echo esc_attr( $label ); ?>
+			<?php echo sanitize_text_field( $label ); ?>
 			</label>
 			<?php echo wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin' ); ?>
 	    </p>
@@ -353,7 +354,7 @@ class ConstantContact_Settings {
 		if ( $name || $email ) {
 			$args = array(
 				'email' => $email,
-				'list' => sanitize_text_field( $_POST['ctct_optin_list'] ),
+				'list' => sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ),
 				'first_name' => $name,
 				'last_name' => '',
 			);
