@@ -211,7 +211,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// if we're not processing the opt-in stuff, we can just return our data here
-		if ( ! isset( $data['ctct-opti-in'] ) ) {
+		if ( ! isset( $data['ctct-opt-in'] ) ) {
 
 			if ( ! $is_ajax ) {
 				// at this point we can process all of our submitted values

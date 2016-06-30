@@ -654,9 +654,9 @@ class ConstantContact_Display {
 		}
 
 		// Build up our markup
-		$markup .= $this->field_top( 'checkbox', 'ctct-opti-in', 'ctct-opti-in', $label, false, false );
-		$markup .= '<input type="checkbox" name="ctct-opti-in" id="ctct-opti-in" value="' . $value . '" ' . $c_attr . '/>';
-		$markup .= $this->field_bottom( 'ctct-opti-in', ' ' . $label );
+		$markup .= $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
+		$markup .= '<input type="checkbox" name="ctct-opt-in" id="ctct-opt-in" value="' . $value . '" ' . $c_attr . '/>';
+		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . $label );
 
 		// If we set to hide, close our open div
 		if ( $hide ) {
