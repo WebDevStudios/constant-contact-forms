@@ -78,10 +78,10 @@ class ConstantContact_Mail {
 		// pretty our values
 		$values = constant_contact()->process_form->pretty_values( $values );
 
-		// Potentially send to constant contact
+		/* Potentially send to constant contact
 		if ( constant_contact()->api->is_connected() ) {
 			$this->send_to_constant_contact( $values );
-		}
+		} */
 
 		// Format them
 		$email_values = $this->format_values_for_email( $values );
@@ -218,9 +218,6 @@ class ConstantContact_Mail {
 
 		// Return the mail status
 		return $mail_status;
-	}
-
-	public function send_to_constant_contact( $values ) {
 	}
 
 	/**
