@@ -266,7 +266,6 @@ class Constant_Contact {
 			'CMB2/init.php',
 			'constantcontact/autoload.php',
 			'constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php',
-			'wds/WDS-Shortcodes/wds-shortcodes.php',
 
 			'defuse-php-encryption/Exception/CryptoException.php',
 			'defuse-php-encryption/Exception/BadFormatException.php',
@@ -282,6 +281,10 @@ class Constant_Contact {
 			'defuse-php-encryption/KeyOrPassword.php',
 			'defuse-php-encryption/RuntimeTests.php',
 		);
+
+		if ( ! class_exists( 'WDS_Shortcodes_Base' ) && ! function_exists( 'wds_shortcodes' ) ) {
+			$libs[] = 'wds/WDS-Shortcodes/wds-shortcodes.php';
+		}
 
 		// Loop through our vendor libraries and load them
 		foreach ( $libs as $lib ) {
