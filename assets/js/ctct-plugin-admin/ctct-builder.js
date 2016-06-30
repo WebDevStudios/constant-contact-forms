@@ -26,24 +26,32 @@ window.CTCTBuilder = {};
 	// Combine all events.
 	that.bindEvents = function() {
 
-		that.metaShowHide( $( '#_ctct_list' ) );
-		that.modifyFields();
-
 		// Disable email options on row change trigger.
 		$( document ).on( 'cmb2_shift_rows_complete', function() {
 			that.modifyFields();
 		});
 
+		// If we get a row added, then do our stuff
 		$( document ).on( 'cmb2_add_row', function() {
 
+			// Automatically set new rows to be 'custom' field type
+			$( '#custom_fields_group_repeat .postbox' ).last().find( '.map select' ).val( 'custom' );
+
+			// Modfiy the field we need to modify
 			that.modifyFields();
+
+			// Re-recheck new rows
 			that.checkForNewRows();
 		});
 
+		// If we modify the opt in checkbox, then toggle fields if we have to
 		$( '#_ctct_opt_in' ).change( function() {
 			that.toggleOptInFields();
 		});
 
+		// On load, toggle our optin fields and run our new row
+		// functionality to apply to all saved values
+		that.modifyFields();
 		that.toggleOptInFields();
 		that.checkForNewRows();
     }
