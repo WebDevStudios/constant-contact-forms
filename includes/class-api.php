@@ -335,10 +335,12 @@ class ConstantContact_API {
 	 */
 	public function add_contact( $new_contact = array() ) {
 
+		// Make sure we're passed a full set of data
 		if ( empty( $new_contact ) ) {
 			return;
 		}
 
+		// If we don't get an email, it does us no good
 		if ( ! isset( $new_contact['email'] ) ) {
 			return;
 		}
