@@ -303,13 +303,13 @@ class Constant_Contact {
 
 		if ( class_exists( 'WDS_Shortcodes' ) ) {
 
-			$this->test_shortcode = new ConstantContact_Shortcode();
-			$this->test_shortcode_admin = new ConstantContact_Shortcode_Admin(
-				$this->test_shortcode->shortcode,
+			$this->shortcode       = new ConstantContact_Shortcode();
+			$this->shortcode_admin = new ConstantContact_Shortcode_Admin(
+				$this->shortcode->shortcode,
 				self::VERSION,
-				$this->test_shortcode->atts_defaults
+				$this->shortcode->atts_defaults
 			);
-			$this->test_shortcode_admin->hooks();
+			$this->shortcode_admin->hooks();
 		}
 	}
 
