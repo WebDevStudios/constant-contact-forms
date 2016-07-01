@@ -239,14 +239,14 @@ class ConstantContact_Builder {
 		$options_metabox->add_field( array(
 			'name'        => __( 'Default state', 'constantcontact' ),
 			'id'          => $prefix . 'opt_in_default',
-			'description' => __( 'Default opt-in checkbox to be selected.', 'constantcontact' ),
+			'description' => __( 'By default, show opt-in checkbox as checked.', 'constantcontact' ),
 			'type'        => 'checkbox',
 		) );
 
 		$options_metabox->add_field( array(
 			'name'        => __( 'Hide checkbox', 'constantcontact' ),
 			'id'          => $prefix . 'opt_in_hide',
-			'description' => __( 'Hides the checkbox, and will use default value (usually when used with a simple newsletter sign-up form).', 'constantcontact' ),
+			'description' => __( 'Hide the checkbox, and use default value (usually when used with a simple newsletter sign-up form).', 'constantcontact' ),
 			'type'        => 'checkbox',
 		) );
 
