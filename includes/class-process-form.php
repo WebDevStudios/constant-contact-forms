@@ -199,6 +199,7 @@ class ConstantContact_Process_Form {
 
 		// Check for specific validation errors
 		$field_errors = $this->get_field_errors( $this->clean_values( $return['values'] ), $is_ajax );
+
 		// If we got errors
 		if ( is_array( $field_errors ) && ! empty( $field_errors ) ) {
 
@@ -428,21 +429,21 @@ class ConstantContact_Process_Form {
 			if (
 				! isset( $value['orig'] ) ||
 				! isset( $value['post'] ) ||
-				! isset( $value['orig']['_ctct_map_select'] )
+				! isset( $value['orig']['map_to'] )
 			) {
 				continue;
 			}
 
 			// Do a check for if field was required
 			if (
-				isset( $value['orig']['_ctct_required_field'] ) &&
-				$value['orig']['_ctct_required_field'] &&
-				'on' === $value['orig']['_ctct_required_field']
+				isset( $value['orig']['required'] ) &&
+				$value['orig']['required'] &&
+				$value['orig']['required']
 			) {
 				// If it was required, check for a value
 				if ( ! $value['post'] ) {
 					$err_returns[] = array(
-						'map'   => $value['orig']['_ctct_map_select'],
+						'map'   => $value['orig']['map_to'],
 						'id'    => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
 						'error' => 'required',
 					);
