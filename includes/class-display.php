@@ -467,6 +467,12 @@ class ConstantContact_Display {
 			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label . $label );
 		}
 
+		// If we're not on submit or hidden, but still doing label on bottom,
+		// then output a container div
+		if ( ! $use_label ) {
+			$markup .= '<div class="ctct-input-container">';
+		}
+
 		// return it
 		return $markup;
 	}
@@ -481,7 +487,7 @@ class ConstantContact_Display {
 
 		$markup = '';
 		if ( ! empty( $name ) && ! empty( $field_label ) ) {
-			$markup .= $this->get_label( $name, $field_label );
+			$markup .= $this->get_label( $name, $field_label ) . '</div>';;
 		}
 		// Finish building our markup
 		return $markup . '</p>';
