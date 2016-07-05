@@ -334,14 +334,14 @@ class ConstantContact_Admin_Pages {
 				'features' => array(
 					array(
 						'title'       => __( 'Easy Contact management.', 'constantcontact' ),
-						'image'       => constant_contact()->url . 'assets/images/contacts.png',
-						'alt'         => __( 'Reporting management screen', 'constantcontact' ),
+						'image'       => constant_contact()->url . 'assets/images/form-display.png',
+						'alt'         => __( 'Form display in admin and front end', 'constantcontact' ),
 						'description' => __( 'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. ', 'constantcontact' ),
 					),
 					array(
 						'title'       => __( 'Track Your Success', 'constantcontact' ),
-						'image'       => constant_contact()->url . 'assets/images/reporting.png',
-						'alt'         => __( 'Graph of increasing bars', 'constantcontact' ),
+						'image'       => constant_contact()->url . 'assets/images/contacts.png',
+						'alt'         => __( 'Form entries in database', 'constantcontact' ),
 						'description' => __( 'Form completions from site visitors are conveniently added to your Constant Contact email list.', 'constantcontact' ),
 					),
 				),
