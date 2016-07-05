@@ -227,7 +227,7 @@ class ConstantContact_Admin_Pages {
 				<div class="left-side">
 					<h1 class="about-header"><?php echo esc_attr( $this->get_text( 'welcome_heading' ) ); ?></h1>
 					<div class="about-text">
-						<?php echo esc_attr( $this->get_text( 'welcome_text' ) ); ?>
+						<?php echo wp_kses_post( $this->get_text( 'welcome_text' ) ); ?>
 					</div>
 				</div>
 				<div class="plugin-badge">
@@ -252,7 +252,7 @@ class ConstantContact_Admin_Pages {
 					</p>
 				</div>
 				<p class="introduction c-text">
-					<?php echo esc_html( $this->get_text( 'feat_description' ) ); ?>
+					<?php echo wp_kses_post( $this->get_text( 'feat_description' ) ); ?>
 				</p>
 				<div class="clear"></div>
 			</div>
@@ -323,26 +323,26 @@ class ConstantContact_Admin_Pages {
 				'version' => constant_contact()->version,
 				'icon'    => constant_contact()->url . 'assets/images/icon.jpg',
 
-				'welcome_heading'  => __( 'Welcome to Constant Contact', 'constantcontact' ),
-				'welcome_text'     => __( 'Powerful Email Marketing, Made Simple. For every dollar spent on email marketing, small businesses make an average of $40 back. * Stats like that make email marketing a must for small businesses. And with Constant Contact, you also get the free award-winning coaching, and resources to see results like that, faster.', 'constantcontact' ),
+				'welcome_heading'  => __( 'Constant Contact for WordPress', 'constantcontact' ),
+				'welcome_text'     => __( 'Want to connect with visitors even after they’ve left your WordPress site? Constant Contact’s email marketing tools make it easy. And with an average of $44 back for every dollar spent, nothing beats email marketing for driving real business results. With the Constant Contact for WordPress plugin and an active Constant Contact account, you can easily add forms (sign-up, comment, opt-ins) to your site so every visitor can be easily added to your Constant Contact email list. <a class="button button-primary" href="https://www.constantcontact.com">Try Us Free</a>', 'constantcontact' ),
 				'feat_headline'    => __( '', 'constantcontact' ),
 				'feat_image'       => constant_contact()->url . 'assets/images/coffee-hero.jpg',
 				'feat_title'       => __( 'Powerful Email Marketing, Made Simple.', 'constantcontact' ),
 				'feat_sub_title'   => __( 'Create professional emails that bring customers to your door', 'constantcontact' ),
-				'feat_description' => __( 'Email marketing is good for your business. $44-back-for-every-$1-spent kind of good.* And with a tool as powerful and easy to use as Constant Contact, you don’t need to be a marketing expert to see results. *Direct Marketing Association 2013 Statistical Fact Book', 'constantcontact' ),
+				'feat_description' => __( 'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact for WordPress plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left. <h5>*Direct Marketing Association 2013 Statistical Fact Book</h5>', 'constantcontact' ),
 
 				'features' => array(
 					array(
 						'title'       => __( 'Easy Contact management.', 'constantcontact' ),
 						'image'       => constant_contact()->url . 'assets/images/contacts.png',
 						'alt'         => __( 'Reporting management screen', 'constantcontact' ),
-						'description' => __( 'Create custom forms and add users to contact lists.', 'constantcontact' ),
+						'description' => __( 'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. ', 'constantcontact' ),
 					),
 					array(
 						'title'       => __( 'Track Your Success', 'constantcontact' ),
 						'image'       => constant_contact()->url . 'assets/images/reporting.png',
 						'alt'         => __( 'Graph of increasing bars', 'constantcontact' ),
-						'description' => __( "Our email tracking tools tell you who's opening, clicking, and sharing your emails and social posts in real time.", 'constantcontact' ),
+						'description' => __( 'Form completions from site visitors are conveniently added to your Constant Contact email list.', 'constantcontact' ),
 					),
 				),
 		) );

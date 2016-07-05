@@ -1,4 +1,4 @@
-=== Constant Contact ===
+=== Constant Contact for WordPress ===
 Contributors:      constantcontact, pluginize, webdevstudios
 Tags:
 Requires at least: 3.9
@@ -7,36 +7,22 @@ Stable tag:        1.0.0
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
+Add an email sign-up form to your WordPress site and grow your Constant Contact email list fast.
 
 == Description ==
 
-Be a better marketer. All it takes is Constant Contact email marketing.
+Constant Contact for WordPress makes it easy to add email sign-up forms to your website so you can stay connected with visitors long after they’ve left. You’ll be able to create great looking opt-ins, sign-ups and subscribe forms throughout your site, and then automatically have all of your new subscribers directly uploaded into your Constant Contact account. You can even select exactly which data fields you want to capture for a more tailored mailing list within your Constant Contact account.
 
+Constant Contact for WordPress allows you to:
 
-== Installation ==
-
-
-
-
-= Manual Installation =
-
-1. Upload the entire constantcontact directory to the '/wp-content/plugins/' directory.
-2. Activate Constant Contact through the 'Plugins' menu in WordPress.
-
-
-== Frequently Asked Questions ==
-
-
-
-
-== Screenshots ==
-
-1. this is a screenshot.
+ * Connect to your Constant Contact account in seconds.
+ * Quickly create email sign-up forms that are clear, simple, and mobile-optimized for every device.
+ * Choose forms that automatically select the theme and styling of your WordPress site for a perfect match.
+ * Customize the form data fields, so you can tailor the type of information you send to your Constant Contact list.
+ * Not a customer? Sign-up for your Free Trial, right from the plugin.
 
 
 == Changelog ==
 
-
-
-
-== Upgrade Notice ==
+= 1.0.0 =
+* Initial Release
