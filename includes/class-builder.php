@@ -377,7 +377,7 @@ class ConstantContact_Builder {
 
 	    	if ( ! $has_email || 'false' === $has_email ) {
 				$class = 'notice notice-error';
-				$message = __( 'You have not added an email field to your form. Forms will not send unless a field is mapped to email.', 'constantcontact' );
+				$message = __( 'Please add an email field to continue.', 'constantcontact' );
 				printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
 	    	}
 	    }

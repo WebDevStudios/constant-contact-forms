@@ -139,7 +139,7 @@ class ConstantContact_Process_Form {
 			// figure out a way to pass errors back
 			return array(
 				'status' => 'named_error',
-				'error'  => __( 'Nonce verification failed.', 'constantcontact' ),
+				'error'  => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constantcontact' ),
 			);
 		}
 
@@ -148,7 +148,7 @@ class ConstantContact_Process_Form {
 		if ( ! $orig_form_id ) {
 			return array(
 				'status' => 'named_error',
-				'error'  => __( 'Mismatch in submitted Form ID.', 'constantcontact' ),
+				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constantcontact' ),
 			);
 		}
 
@@ -157,7 +157,7 @@ class ConstantContact_Process_Form {
 		if ( ! $form_verify ) {
 			return array(
 				'status' => 'named_error',
-				'error'  => __( 'Mismatch in submitted Form ID.', 'constantcontact' ),
+				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constantcontact' ),
 			);
 		}
 
@@ -166,7 +166,7 @@ class ConstantContact_Process_Form {
 		if ( $orig_verify != $form_verify ) {
 			return array(
 				'status' => 'named_error',
-				'error'  => __( 'Mismatch in submitted Form ID.', 'constantcontact' ),
+				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constantcontact' ),
 			);
 		}
 
@@ -552,7 +552,7 @@ class ConstantContact_Process_Form {
 			case 'req_error':
 				return array(
 					'status'  => 'error',
-					'message' => __( 'There was an error with your submission. Please correct the fields below.', 'constantcontact' ),
+					'message' => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constantcontact' ),
 					'errors'  => isset( $processed['errors'] ) ? $processed['errors'] : '',
 					'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
 				);
