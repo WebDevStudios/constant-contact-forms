@@ -205,6 +205,12 @@ class ConstantContact_Settings {
 			'escape_cb'       => array( $this, 'mask_api_keys' ),
 		) );
 
+		$cmb->add_field( array(
+			'name' 	          => __( '(temporary) Middlware Address', 'constantcontact' ),
+			'id'   	          => '_ctct_middleware',
+			'type'	          => 'text',
+		) );
+
 	}
 
 	/**

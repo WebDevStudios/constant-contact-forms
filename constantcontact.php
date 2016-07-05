@@ -150,6 +150,7 @@ class Constant_Contact {
 	private $process_form;
 	private $settings;
 	private $mail;
+	private $middleware;
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -203,6 +204,7 @@ class Constant_Contact {
 		$this->auth_redirect = new ConstantContact_Auth_Redirect( $this );
 		$this->connect       = new ConstantContact_Connect( $this );
 		$this->mail          = new ConstantContact_Mail( $this );
+		$this->middleware    = new ConstantContact_Middleware( $this );
 	}
 
 	/**
@@ -342,6 +344,7 @@ class Constant_Contact {
 			case 'settings':
 			case 'url':
 			case 'mail':
+			case 'middleware':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );

@@ -191,6 +191,8 @@ class ConstantContact_Connect {
 					<?php esc_html_e( 'Connect to Constant Contact', 'constantcontact' ); ?>
 				</a>
 			<?php endif; ?>
+
+			<?php constant_contact()->middleware->main(); ?>
 		</div>
 		<?php
 	}
