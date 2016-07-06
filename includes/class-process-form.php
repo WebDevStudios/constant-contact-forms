@@ -450,10 +450,10 @@ class ConstantContact_Process_Form {
 				}
 			}
 
-			if ( 'email' == $value['orig']['_ctct_map_select'] ) {
+			if ( 'email' == $value['orig']['map_to'] ) {
 				if ( $value['post'] != sanitize_email( $value['post'] ) ) {
 					$err_returns[] = array(
-						'map'   => $value['orig']['_ctct_map_select'],
+						'map'   => $value['orig']['map_to'],
 						'id'    => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
 						'error' => 'invalid',
 					);
