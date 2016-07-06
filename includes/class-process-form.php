@@ -130,7 +130,6 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
-
 		// Verify our nonce first
 		if (
 		    ! isset( $data['ctct_form'] ) ||

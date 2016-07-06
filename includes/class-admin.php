@@ -99,14 +99,13 @@ class ConstantContact_Admin {
 	public function add_options_page() {
 
 		// add_submenu_page(
-		// 	'edit.php?post_type=ctct_forms',
-		// 	__( 'Help', 'constanctcontact' ),
-		// 	__( 'Help', 'constanctcontact' ),
-		// 	'manage_options',
-		// 	$this->key . '_help',
-		// 	array( $this, 'admin_page_display' )
+		// 'edit.php?post_type=ctct_forms',
+		// __( 'Help', 'constanctcontact' ),
+		// __( 'Help', 'constanctcontact' ),
+		// 'manage_options',
+		// $this->key . '_help',
+		// array( $this, 'admin_page_display' )
 		// );
-
 		add_submenu_page(
 			'edit.php?post_type=ctct_forms',
 			__( 'About', 'constanctcontact' ),

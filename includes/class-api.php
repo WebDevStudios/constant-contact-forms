@@ -468,7 +468,7 @@ class ConstantContact_API {
 	 * Constant Contact contact thats in a list
 	 *
 	 * @param  object $contact    Contact object
-	 * @param  array $user_data   bunch of user data
+	 * @param  array  $user_data   bunch of user data
 	 * @return object             Contact object, with new properties
 	 */
 	public function set_contact_properties( $contact, $user_data ) {
@@ -561,7 +561,7 @@ class ConstantContact_API {
 					$contact->addCustomField( $custom );
 					break;
 				default:
-					//	if we got here, try to map our field to the key
+					// if we got here, try to map our field to the key
 					try {
 						// Try it
 						$contact->$key = $value;

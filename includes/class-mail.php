@@ -80,7 +80,8 @@ class ConstantContact_Mail {
 		// pretty our values
 		$values = constant_contact()->process_form->pretty_values( $values );
 
-		/* Potentially send to constant contact
+		/*
+		Potentially send to constant contact
 		if ( constant_contact()->api->is_connected() ) {
 			$this->send_to_constant_contact( $values );
 		} */
@@ -100,7 +101,6 @@ class ConstantContact_Mail {
 	 * @return object         response from API
 	 */
 	public function opt_in_user( $values ) {
-
 
 		// go through all our fields
 		foreach ( $values as $key => $val ) {

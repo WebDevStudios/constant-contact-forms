@@ -390,7 +390,6 @@ class ConstantContact_Display {
 				// If we have an address, its a special case
 				if ( 'address' == $field['name'] ) {
 
-
 					// If any of our keys contain our address breaker, then add
 					// it to the array
 					if ( strpos( $post['key'], '_address___' ) !== false ) {
@@ -404,7 +403,7 @@ class ConstantContact_Display {
 						}
 					}
 
-				// Otherwise make sure we have a value
+					// Otherwise make sure we have a value
 				} elseif ( $post['key'] == $map && isset( $_POST[ esc_attr( $map ) ] ) ) {
 					// Clean and return
 					return sanitize_text_field( $_POST[ esc_attr( $map ) ] );
@@ -511,7 +510,8 @@ class ConstantContact_Display {
 
 		$markup = '';
 		if ( ! empty( $name ) && ! empty( $field_label ) ) {
-			$markup .= $this->get_label( $name, $field_label ) . '</div>';;
+			$markup .= $this->get_label( $name, $field_label ) . '</div>';
+			;
 		}
 		// Finish building our markup
 		return $markup . '</p>';

@@ -44,6 +44,7 @@ class ConstantContact_Admin_Pages {
 
 	/**
 	 * Global admin style enqueue stuff
+	 *
 	 * @since  1.0.0
 	 */
 	public function styles() {

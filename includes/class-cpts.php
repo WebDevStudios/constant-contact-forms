@@ -249,7 +249,7 @@ class ConstantContact_CPTS {
 	 * @param  string $title desired placeholder text.
 	 * @return string $title output string
 	 */
-	public function change_default_title( $title ){
+	public function change_default_title( $title ) {
 	    global $post;
 
 	    // Sanity check
