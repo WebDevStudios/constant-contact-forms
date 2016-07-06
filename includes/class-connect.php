@@ -209,16 +209,23 @@ class ConstantContact_Connect {
 					<?php esc_html_e( 'To take full advantage of the Constant Contact for WordPress plugin, we recommend having either an active account or an active free trial with Constant Contact. Click the "Try Us Free" button to sign up for a free 60-day trial. Or click the "Connect Plugin" button to log in to your Constant Contact account (by connecting, you authorize this plugin to access your account) ', 'constantcontact' ); ?>
 				</p>
 				<a class="button button-primary" href="https://www.constantcontact.com"><?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?></a>
-				<a href="<?php echo esc_url( add_query_arg( array( 'oauthSignup' => 'true' ), $this->oauth->getAuthorizationUrl() ) ); ?>" class="button-primary ctct-connect">
-					<?php esc_html_e( 'Connect Plugin', 'constantcontact' ); ?>
-				</a>
+				<?php
+
+				// Get our middleware link
+				$auth_link = constant_contact()->authserver->do_connect_url();
+
+				// If we have a link, then display the connect button
+				if ( $auth_link ) { ?>
+					<a href="<?php echo $auth_link ?>" class="button-primary ctct-connect">
+						<?php esc_html_e( 'Connect Plugin', 'constantcontact' ); ?>
+					</a>
+				<?php } ?>
 
 				<p class="ctct-description">
 					<?php esc_html_e( 'NOTE: It is possible to use the plugin without an active Constant Contact account or trial.  In this scenario you will be able to create forms within a WordPress site, but submitted form completions will be individually emailed to the Site Admin.', 'constantcontact' ); ?>
 				</p>
 			<?php endif; ?>
 
-			<?php constant_contact()->middleware->main(); ?>
 		</div>
 		<?php
 	}
