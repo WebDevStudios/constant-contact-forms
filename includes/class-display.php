@@ -378,19 +378,43 @@ class ConstantContact_Display {
 			return '';
 		}
 
+		// Possible return this array
+		$return = array();
+
 		// Loop through each val and try to grab our submitted
 		foreach ( $submitted_vals as $post ) {
 
-			// Sanity check that
-			if (
-				isset( $post['key'] ) &&
-				$post['key'] &&
-				$post['key'] == $map &&
-				isset( $_POST[ esc_attr( $map ) ] )
-			) {
-				// Clean and return
-				return sanitize_text_field( $_POST[ esc_attr( $map ) ] );
+			// Make sure we have some value in the submitted
+			if ( isset( $post['key'] ) && $post['key'] ) {
+
+				// If we have an address, its a special case
+				if ( 'address' == $field['name'] ) {
+
+
+					// If any of our keys contain our address breaker, then add
+					// it to the array
+					if ( strpos( $post['key'], '_address___' ) !== false ) {
+
+						// Try to grab the street_address (etc) part of our key
+						$addr_key = explode( '___', $post['key'] );
+
+						// If we got something, add it to our return array
+						if ( isset( $addr_key[0] ) && $addr_key[0] ) {
+							$return[ esc_attr( $addr_key[0] ) ] = sanitize_text_field( $_POST[ esc_attr( $post['key'] ) ] );
+						}
+					}
+
+				// Otherwise make sure we have a value
+				} elseif ( $post['key'] == $map && isset( $_POST[ esc_attr( $map ) ] ) ) {
+					// Clean and return
+					return sanitize_text_field( $_POST[ esc_attr( $map ) ] );
+				}
 			}
+		}
+
+		// If we did add to our array, send it back
+		if ( ! empty( $return ) ) {
+			return $return;
 		}
 
 		return '';
@@ -694,11 +718,11 @@ class ConstantContact_Display {
 
 		// @TODO these need to get set correctly
 		// Set our values
-		$v_street = isset( $value['street'] ) ? $value['street'] : '';
-		$v_line_2 = isset( $value['line_2'] ) ? $value['line_2'] : '';
-		$v_city   = isset( $value['city'] ) ? $value['city'] : '';
-		$v_state  = isset( $value['state'] ) ? $value['state'] : '';
-		$v_zip    = isset( $value['zip'] ) ? $value['zip'] : '';
+		$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
+		$v_line_2 = isset( $value['line_2_address'] ) ? $value['line_2_address'] : '';
+		$v_city   = isset( $value['city_address'] ) ? $value['city_address'] : '';
+		$v_state  = isset( $value['state_address'] ) ? $value['state_address'] : '';
+		$v_zip    = isset( $value['zip_address'] ) ? $value['zip'] : '';
 
 		$req = $req ? ' required ' : '';
 
