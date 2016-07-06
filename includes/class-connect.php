@@ -163,7 +163,8 @@ class ConstantContact_Connect {
 				<?php
 
 				// Get our middleware link
-				$auth_link = constant_contact()->authserver->do_connect_url();
+				$proof = constant_contact()->authserver->set_verification_option();
+				$auth_link = constant_contact()->authserver->do_connect_url( $proof );
 
 				// If we have a link, then display the connect button
 				if ( $auth_link ) { ?>
