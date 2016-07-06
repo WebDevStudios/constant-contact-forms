@@ -96,7 +96,7 @@ class ConstantContact_Connect {
 
 		// If we have this get, we may be getting an connect attempt, so lets
 		// verify it and potentially process it
-		if ( isset( $_GET['cc_connect_attempt'] ) ) {
+		if ( isset( $_GET['cc_connect_attempt'] ) && is_user_logged_in() ) {
 
 			// Call our access token processing
 			constant_contact()->authserver->verify_and_save_access_token_return();
