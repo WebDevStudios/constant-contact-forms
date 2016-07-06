@@ -410,7 +410,8 @@ class Constant_Contact {
 			return false;
 		}
 
-		return false;
+		// We should be good
+		return true;
 
 	}
 
