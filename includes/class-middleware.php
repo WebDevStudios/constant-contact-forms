@@ -29,34 +29,34 @@ class ConstantContact_Middleware {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->hooks();
 	}
 
 	/**
-	 * Initiate our hooks
+	 * Get our auth server link
 	 *
-	 * @since  1.0.1
-	 * @return void
+	 * @since  0.0.1
+	 * @return string auth server link
 	 */
-	public function hooks() {
-	}
+	public function do_connect_url() {
 
-	public function main() {
+		// Get our main link
+		$auth_server_link = $this->get_auth_server_link();
 
-		// oh ugly I know
-		echo '<br><br><br><br><br>';
-
-		$middleware = $this->get_middleware_link();
-
-		if ( ! $middleware ) {
+		// If we don't have that, then bail
+		if ( ! $auth_server_link ) {
 			return;
 		}
 
-		$middleware = $this->add_query_args_to_link( $middleware );
-
-		echo $this->link_it( $middleware );
+		// Add our query args to our middleware link, and return it
+		return $this->add_query_args_to_link( $auth_server_link );
 	}
 
+	/**
+	 * Add our query args for proof and site callback to our auth server link
+	 *
+	 * @since  0.0.1
+	 * @param  string $link auth server link
+	 */
 	public function add_query_args_to_link( $link ) {
 		return add_query_arg( array(
 			'ctct-auth'  => 'auth',
@@ -66,12 +66,24 @@ class ConstantContact_Middleware {
 		$link );
 	}
 
-	public function get_middleware_link() {
+	/**
+	 * Gets our base auth server link
+	 *
+	 * @since  0.0.1
+	 * @return string url of auth server base
+	 */
+	public function get_auth_server_link() {
 		$options = get_option( 'ctct_options_settings' );
-		return isset( $options['_ctct_middleware'] ) ? $options['_ctct_middleware'] : false;
+		return isset( $options['_ctct_auth_server_link'] ) ? $options['_ctct_auth_server_link'] : false;
 	}
 
-	public function link_it( $link ) {
-		return '<a href="' . $link . '" target="_blank">' . $link . '</a>';
+
+
+
+	public function verify_and_save_access_token_return() {
+		// If we get this, we'll want to start our process of
+		// verifying the proof that the middleware server gives us
+		// so that we can ignore any malicious entries that are sent to us
+		echo '<pre>'; var_dump( $_GET ); die;
 	}
 }
