@@ -37,7 +37,7 @@ class ConstantContact_Middleware {
 	 * @since 1.0.1
 	 * @return string auth server link
 	 */
-	public function do_connect_url() {
+	public function do_connect_url( $proof = '' ) {
 
 		// Get our main link
 		$auth_server_link = $this->get_auth_server_link();
@@ -48,7 +48,7 @@ class ConstantContact_Middleware {
 		}
 
 		// Add our query args to our middleware link, and return it
-		return $this->add_query_args_to_link( $auth_server_link );
+		return $this->add_query_args_to_link( $auth_server_link, $proof );
 	}
 
 	/**
@@ -57,10 +57,10 @@ class ConstantContact_Middleware {
 	 * @since 1.0.1
 	 * @param  string $link auth server link
 	 */
-	public function add_query_args_to_link( $link ) {
+	public function add_query_args_to_link( $link, $proof ) {
 		return add_query_arg( array(
 			'ctct-auth'  => 'auth',
-			'ctct-proof' => 'S79rQSbP4onb3gPZLOUD3IUIx', // Hardcoded
+			'ctct-proof' => esc_attr( $proof ),
 			'ctct-site'  => get_site_url(),
 			),
 		$link );
