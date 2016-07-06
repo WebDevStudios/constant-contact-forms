@@ -95,10 +95,40 @@ class ConstantContact_Middleware {
 
 
 	public function verify_and_save_access_token_return() {
+
 		// If we get this, we'll want to start our process of
 		// verifying the proof that the middleware server gives us
 		// so that we can ignore any malicious entries that are sent to us
-		echo '<pre>'; var_dump( $_GET ); die;
+
+		// Sanitize our expected data
+		$proof = isset( $_GET['proof'] ) ? $_GET['proof'] : false;
+		$token = isset( $_GET['token'] ) ? $_GET['token'] : false;
+		$key   = isset( $_GET['key'] ) ? $_GET['key'] : false;
+
+		// If we're missing any piece of data, we failed
+		if ( ! $proof || ! $token || ! $key ) {
+			return false;
+		}
+
+		// We'll want to verify our proof before we continue
+		if ( ! $this->verify_proof( $proof ) ) {
+			return false;
+		}
+
+		// Save our token / key into the DB
+	 	constant_contact()->connect->update_token( sanitize_text_field( $token ) );
+		constant_contact()->connect->e_set( '_ctct_api_key', sanitize_text_field( $key ) );
+
+		// Redirect back to our connection page
+		wp_redirect( add_query_arg(
+			array(
+				'post_type' => 'ctct_forms',
+				'page'       => 'ctct_options_connect',
+			), admin_url( 'edit.php' )
+		) );
+		die;
+	}
+
 	/**
 	 * Verifies a given proof from a request against our DB, and does cleanup
 	 *
