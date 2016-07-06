@@ -73,6 +73,8 @@ class ConstantContact_Middleware {
 	 * @return string url of auth server base
 	 */
 	public function get_auth_server_link() {
+
+		// @TODO remove, set as hardcoded value
 		$options = get_option( 'ctct_options_settings' );
 		return isset( $options['_ctct_auth_server_link'] ) ? $options['_ctct_auth_server_link'] : false;
 	}
