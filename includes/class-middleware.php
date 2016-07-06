@@ -60,14 +60,10 @@ class ConstantContact_Middleware {
 	public function add_query_args_to_link( $link ) {
 		return add_query_arg( array(
 			'ctct-auth'  => 'auth',
-			'ctct-proof' => $this->get_proof(),
+			'ctct-proof' => 'S79rQSbP4onb3gPZLOUD3IUIx', // Hardcoded
 			'ctct-site'  => get_site_url(),
 			),
 		$link );
-	}
-
-	public function get_proof() {
-		return 'this-is-my-proof-key';
 	}
 
 	public function get_middleware_link() {
