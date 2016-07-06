@@ -101,6 +101,13 @@ class ConstantContact_API {
 	 */
 	public function get_account_info() {
 
+		// If we're not connectd, bail out
+		// @TODO need to make sure this doesnt run when we try
+		// to verify our connection
+		if ( ! $this->is_connected() ) {
+			return;
+		}
+
 		// Get our saved account info
 		$acct_data = get_transient( 'constant_contact_acct_info' );
 
