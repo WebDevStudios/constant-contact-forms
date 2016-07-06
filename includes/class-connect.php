@@ -297,7 +297,7 @@ class ConstantContact_Connect {
 	 * @param string $access_token api access token.
 	 * @return void
 	 */
-	private function update_token( $access_token ) {
+	public function update_token( $access_token ) {
 		return $this->e_set( 'ctct_token', $access_token );
 	}
 
