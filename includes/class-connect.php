@@ -363,21 +363,30 @@ class ConstantContact_Connect {
 	 * @since  1.0.0
 	 * @return object key
 	 */
-	public function generate_and_save_key() {
+	public function generate_and_save_key( $first_try = true ) {
 
 		// If we can't run encryption stuff, then don't.
 		if ( ! constant_contact()->is_encryption_ready() ) {
 			return 'ctct_key';
 		}
 
+		// Generate a random key from our Encryption library
 		$key = Key::createNewRandomKey();
+
+		// Save our key as a safe string, so we can add it to the DB
 		$key = $key->saveToAsciiSafeString();
+
+		// Save it as our ctct_key, so that we can use it later
 		$updated = update_option( 'ctct_key', $key );
 
-		if ( ! $updated ) {
-			$key = $this->generate_and_save_key();
+		// If we weren't able to update it, try again, but only do it once
+		if ( ! $updated || $first_try ) {
+
+			// try generating and saving again, but only one more time.
+			$key = $this->generate_and_save_key( false );
 		}
 
+		// Send that key back
 		return $key;
 	}
 }
