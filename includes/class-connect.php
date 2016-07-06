@@ -162,30 +162,11 @@ class ConstantContact_Connect {
 			return false;
 		}
 
-		$this->init_oauth();
-		$response = false;
-
-		// If the 'code' query parameter is present in the uri, the code can exchanged for an access token.
-		if ( isset( $_GET['code'] ) && is_admin() ) {
-			try {
-				$response = $this->oauth->getAccessToken( sanitize_text_field( wp_unslash( $_GET['code'] ) ) );
-			} catch ( OAuth2Exception $ex ) {
-				constant_contact()->api->log_errors( $ex->getErrors() );
-			}
-		}
-
-		// Save auth token to options.
-		if ( $response && isset( $response['access_token'] ) && $response['access_token'] ) {
-			$this->update_token( sanitize_text_field( $response['access_token'] ) );
-		}
+		$this->save_oauth();
 
 		wp_enqueue_style( 'constant-contact-oath', constant_contact()->url() . 'assets/css/oath.css' );
 
-		$js_strings = array(
-			'disconnect_confirm' => __( 'Are you sure you want to disconnect?', 'constantcontact' ),
-		);
-
-		wp_localize_script( 'ctct_form', 'texts', $js_strings );
+		wp_localize_script( 'ctct_form', 'texts', array( 'disconnect_confirm' => __( 'Are you sure you want to disconnect?', 'constantcontact' ) ) );
 
 		wp_enqueue_script( 'ctct_form' );
 		?>
@@ -228,6 +209,25 @@ class ConstantContact_Connect {
 
 		</div>
 		<?php
+	}
+
+	public function save_oauth() {
+		$this->init_oauth();
+		$response = false;
+
+		// If the 'code' query parameter is present in the uri, the code can exchanged for an access token.
+		if ( isset( $_GET['code'] ) && is_admin() ) {
+			try {
+				$response = $this->oauth->getAccessToken( sanitize_text_field( wp_unslash( $_GET['code'] ) ) );
+			} catch ( OAuth2Exception $ex ) {
+				constant_contact()->api->log_errors( $ex->getErrors() );
+			}
+		}
+
+		// Save auth token to options.
+		if ( $response && isset( $response['access_token'] ) && $response['access_token'] ) {
+			$this->update_token( sanitize_text_field( $response['access_token'] ) );
+		}
 	}
 
 	/**
