@@ -104,34 +104,6 @@ class ConstantContact_Connect {
 	}
 
 	/**
-	 * init oauth
-	 *
-	 * @since  1.0.0
-	 * @return void
-	 */
-	public function init_oauth() {
-		$this->redirect_url = add_query_arg(
-			array(
-				'post_type' => 'ctct_forms',
-				'page'      => 'ctct_options_connect',
-			),
-			admin_url( 'edit.php' )
-		);
-
-		// Instantiate the CtctOAuth2 class.
-		$oath_connect = new CtctOAuth2(
-			constant_contact()->api->get_api_token( 'CTCT_APIKEY' ),
-			constant_contact()->api->get_api_token( 'CTCT_SECRETKEY' ),
-			add_query_arg( array( 'auth' => 'ctct' ), get_site_url() )
-		);
-
-		// Make sure that the connect worked before setting as class prop
-		if ( $oath_connect ) {
-			$this->oauth = $oath_connect;
-		}
-	}
-
-	/**
 	 * Add menu options page
 	 *
 	 * @since 1.0.0
@@ -161,8 +133,6 @@ class ConstantContact_Connect {
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
-
-		$this->save_oauth();
 
 		wp_enqueue_style( 'constant-contact-oath', constant_contact()->url() . 'assets/css/oath.css' );
 
@@ -209,25 +179,6 @@ class ConstantContact_Connect {
 
 		</div>
 		<?php
-	}
-
-	public function save_oauth() {
-		$this->init_oauth();
-		$response = false;
-
-		// If the 'code' query parameter is present in the uri, the code can exchanged for an access token.
-		if ( isset( $_GET['code'] ) && is_admin() ) {
-			try {
-				$response = $this->oauth->getAccessToken( sanitize_text_field( wp_unslash( $_GET['code'] ) ) );
-			} catch ( OAuth2Exception $ex ) {
-				constant_contact()->api->log_errors( $ex->getErrors() );
-			}
-		}
-
-		// Save auth token to options.
-		if ( $response && isset( $response['access_token'] ) && $response['access_token'] ) {
-			$this->update_token( sanitize_text_field( $response['access_token'] ) );
-		}
 	}
 
 	/**
