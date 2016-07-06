@@ -208,8 +208,9 @@ class ConstantContact_Connect {
 		// Verify that nonce
 		if ( wp_verify_nonce( $_POST['ctct-admin-disconnect'], 'ctct-admin-disconnect' ) ) {
 
-			// Delete access token.
+			// Delete access token and delete our legacy token as well.
 			delete_option( 'ctct_token' );
+			delete_option( '_ctct_token' );
 		}
 	}
 
