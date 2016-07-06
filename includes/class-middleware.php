@@ -23,7 +23,7 @@ class ConstantContact_Middleware {
 	/**
 	 * Constructor
 	 *
-	 * @since  1.0.1
+	 * @since 1.0.1
 	 * @param  object $plugin Main plugin object.
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class ConstantContact_Middleware {
 	/**
 	 * Get our auth server link
 	 *
-	 * @since  0.0.1
+	 * @since 1.0.1
 	 * @return string auth server link
 	 */
 	public function do_connect_url() {
@@ -54,7 +54,7 @@ class ConstantContact_Middleware {
 	/**
 	 * Add our query args for proof and site callback to our auth server link
 	 *
-	 * @since  0.0.1
+	 * @since 1.0.1
 	 * @param  string $link auth server link
 	 */
 	public function add_query_args_to_link( $link ) {
@@ -69,7 +69,7 @@ class ConstantContact_Middleware {
 	/**
 	 * Gets our base auth server link
 	 *
-	 * @since  0.0.1
+	 * @since 1.0.1
 	 * @return string url of auth server base
 	 */
 	public function get_auth_server_link() {
