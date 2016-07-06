@@ -77,6 +77,18 @@ class ConstantContact_Middleware {
 		return isset( $options['_ctct_auth_server_link'] ) ? $options['_ctct_auth_server_link'] : false;
 	}
 
+	/**
+	 * Generates a random key, saves to the DB and returns it
+	 *
+	 * @since 1.0.1
+	 * @return string proof key
+	 */
+	public function set_verification_option() {
+		$proof = esc_attr( wp_generate_password( 35, false, false ) );
+		update_option( 'ctct_connect_verification', $proof );
+		return $proof;
+	}
+
 
 
 
