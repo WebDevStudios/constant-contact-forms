@@ -65,7 +65,6 @@ class ConstantContact_API {
 	 * @return string api token
 	 */
 	public function get_api_token( $type = '' ) {
-
 		 // Depending on our request, we'll try to grab a defined value
 		 // otherwise we'll grab it from our options
 		switch ( $type ) {
