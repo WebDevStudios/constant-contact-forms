@@ -716,7 +716,6 @@ class ConstantContact_Display {
 		$state  = __( 'State', 'constantcontact' );
 		$zip    = __( 'ZIP Code', 'constantcontact' );
 
-		// @TODO these need to get set correctly
 		// Set our values
 		$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
 		$v_line_2 = isset( $value['line_2_address'] ) ? $value['line_2_address'] : '';
