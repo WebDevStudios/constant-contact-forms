@@ -85,5 +85,23 @@ class ConstantContact_Middleware {
 		// verifying the proof that the middleware server gives us
 		// so that we can ignore any malicious entries that are sent to us
 		echo '<pre>'; var_dump( $_GET ); die;
+	/**
+	 * Verifies a given proof from a request against our DB, and does cleanup
+	 *
+	 * @since  1.0.1
+	 * @param  string $proof proof string to check
+	 * @return boolean        whether or not its our expected proof
+	 */
+	public function verify_proof( $proof ) {
+
+		// Get our saved option that we set for our proof
+		$expected_proof = get_option( 'ctct_connect_verification' );
+
+		// Clean up after ourselves
+		delete_option( 'ctct_connect_verification' );
+
+		// Send back a bool of whether they match or not
+		return ( $proof == $expected_proof );
+
 	}
 }
