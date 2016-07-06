@@ -189,23 +189,6 @@ class ConstantContact_Settings {
 		}
 
 		$cmb->add_field( array(
-			'name' 	          => __( 'API Client Key', 'constantcontact' ),
-			'id'   	          => '_ctct_api_key',
-			'type'	          => 'text',
-			'desc'            => __( 'Please go <a target="_blank" href="https://constantcontact.mashery.com/page">here</a> and register a new app and API keys.', 'constantcontact' ),
-			'sanitization_cb' => array( $this, 'save_api_keys' ),
-			'escape_cb'       => array( $this, 'mask_api_keys' ),
-		) );
-
-		$cmb->add_field( array(
-			'name' 	          => __( 'API Secret', 'constantcontact' ),
-			'id'   	          => '_ctct_api_secret',
-			'type'	          => 'text',
-			'sanitization_cb' => array( $this, 'save_api_keys' ),
-			'escape_cb'       => array( $this, 'mask_api_keys' ),
-		) );
-
-		$cmb->add_field( array(
 			'name' 	          => __( '(temporary) Middlware Address', 'constantcontact' ),
 			'id'   	          => '_ctct_auth_server_link',
 			'type'	          => 'text',
@@ -406,67 +389,6 @@ class ConstantContact_Settings {
 	 */
 	public function update_override( $test, $option_value ) {
 		return update_site_option( $this->key, $option_value );
-	}
-
-	/**
-	 * Encrpyts our api keys on server
-	 *
-	 * @since  1.0.0
-	 */
-	public function save_api_keys( $value, $field_args, $field ) {
-
-		// If we don't have an ID, return orig value
-		if ( ! isset( $field_args['id'] ) ) {
-			return $value;
-		}
-
-		// If the id is not an api key, return
-		if ( ! ( ( '_ctct_api_key' === $field_args['id'] ) || ( '_ctct_api_secret' === $field_args['id'] ) ) ) {
-			return $value;
-		}
-
-		// if we are looking at are masked password, we want to bypass saving
-		if ( $this->get_mask() === $value ) {
-			$value = constant_contact()->connect->e_get( esc_attr( $field_args['id'] ), true );
-		}
-
-		// Encrypt and return
-		return constant_contact()->connect->e_set( esc_attr( $field_args['id'] ), sanitize_text_field( $value ) );
-	}
-
-	/**
-	 * Hides our api keys from display
-	 *
-	 * @since  1.0.0
-	 */
-	public function mask_api_keys( $value, $field_args, $field ) {
-
-		// If we don't have an ID, return orig value
-		if ( ! isset( $field_args['id'] ) ) {
-			return $value;
-		}
-
-		// If the id is not an api key, return
-		if ( ! ( ( '_ctct_api_key' === $field_args['id'] ) || ( '_ctct_api_secret' === $field_args['id'] ) ) ) {
-			return $value;
-		}
-
-		// If they hvaen't entered anything, don't show mask
-		if ( empty( $value ) ) {
-			return '';
-		}
-
-		return $this->get_mask();
-	}
-
-	/**
-	 * Returns text for field masking
-	 *
-	 * @since  1.0.0
-	 * @return string bunch of ***
-	 */
-	public function get_mask() {
-		return '**********';
 	}
 
 	/**
