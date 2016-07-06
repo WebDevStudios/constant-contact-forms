@@ -78,8 +78,29 @@ class ConstantContact_Connect {
 	 * @return void
 	 */
 	public function hooks() {
+
+		add_action( 'init', array( $this, 'maybe_connect' ) );
+
 		add_action( 'admin_init', array( $this, 'maybe_disconnect' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
+	}
+
+	/**
+	 * Watches for our specific $_GET paramaters and if we get a connect request,
+	 * pass it to our auth server class to process
+	 *
+	 * @since  0.0.1
+	 * @return void
+	 */
+	public function maybe_connect() {
+
+		// If we have this get, we may be getting an connect attempt, so lets
+		// verify it and potentially process it
+		if ( isset( $_GET['cc_connect_attempt'] ) ) {
+
+			// Call our access token processing
+			constant_contact()->authserver->verify_and_save_access_token_return();
+		}
 	}
 
 	/**
