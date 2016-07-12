@@ -9,6 +9,7 @@ window.CTCTBuilder = {};
 
 	// Cache all the things.
 	that.cache = function() {
+
 		that.$c = {
 			window: $( window ),
 			body:   $( 'body' ),
@@ -90,15 +91,23 @@ window.CTCTBuilder = {};
 	// Disable required email fields.
 	that.modifyFields = function() {
 
+		// Set that we haven't found an email
 		var foundEmail = false;
+
+		// Loop through all fields to modify them
 		$( '#cmb2-metabox-ctct_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping' ).each( function( key, value ) {
-			// .map select
+
+			// Set some of our helper paramaters
 			var $field_parent = $( this ).find( '.cmb-field-list' );
 			var $button       = $( $field_parent ).find( '.cmb-remove-group-row' );
-			var $required     = $( $field_parent ).find( '.required input[type            = checkbox]' );
+			var $required     = $( $field_parent ).find( '.required input[type=checkbox]' );
 			var $requiredRow  = $required.closest( '.cmb-row' );
 			var $map          = $( $field_parent ).find( '.map select option:selected' );
-			var $mapRow       = $map.closest( '.cmb-row' );
+			var $mapName      = $map.text();
+			var $fieldTitle   = $( this ).find( 'h3' );
+
+			// Set our field row to be the name of the selected option
+			$fieldTitle.text( $mapName );
 
 			// If we haven't yet found an email field, and this is our email field
 			if ( ! foundEmail && ( 'email' === $( $map ).val() ) ) {
@@ -117,6 +126,7 @@ window.CTCTBuilder = {};
 
 				// Hide the remove row button
 				$button.hide();
+
 			} else {
 
 				// If we're not an email field, reshow the required field
