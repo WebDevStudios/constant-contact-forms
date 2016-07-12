@@ -136,10 +136,24 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 						isset( $form->ID ) &&
 						$form->ID &&
 						isset( $form->post_title ) &&
-						$form->post_title
+						isset( $form->post_modified )
 					) {
+
+						// Get our title
+						$title = ( $form->post_title ) ? $form->post_title : __( 'No title', 'constantcontact' );
+
+						// Get the last modified time in human text
+						$last_modified = human_time_diff( strtotime( $form->post_modified ), time() );
+
+						// Build up our title for the shortcode form admin
+						$title = sprintf(
+							esc_html__( '%s (last modified %s ago)', 'constantcontact' ),
+							$title,
+							$last_modified
+						);
+
 						// Clean that data before we use it.
-						$forms[ absint( $form->ID ) ] = esc_attr( $form->post_title );
+						$forms[ absint( $form->ID ) ] = $title;
 					}
 				}
 
