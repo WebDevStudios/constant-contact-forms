@@ -94,11 +94,11 @@ window.CTCTBuilder = {};
 		$( '#cmb2-metabox-ctct_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping' ).each( function( key, value ) {
 			// .map select
 			var $field_parent = $( this ).find( '.cmb-field-list' );
-			var $button = $( $field_parent ).find( '.cmb-remove-group-row' );
-			var $required = $( $field_parent ).find( '.required input[type=checkbox]' );
-			var $requiredRow = $required.closest( '.cmb-row' );
-			var $map = $( $field_parent ).find( '.map select option:selected' );
-			var $mapRow = $map.closest( '.cmb-row' );
+			var $button       = $( $field_parent ).find( '.cmb-remove-group-row' );
+			var $required     = $( $field_parent ).find( '.required input[type            = checkbox]' );
+			var $requiredRow  = $required.closest( '.cmb-row' );
+			var $map          = $( $field_parent ).find( '.map select option:selected' );
+			var $mapRow       = $map.closest( '.cmb-row' );
 
 			// If we haven't yet found an email field, and this is our email field
 			if ( ! foundEmail && ( 'email' === $( $map ).val() ) ) {
@@ -108,6 +108,9 @@ window.CTCTBuilder = {};
 
 				// Make it required
 				$required.prop( 'checked', true );
+
+				// Disabled the dropdown
+				$map.parent().prop( 'disabled', true );
 
 				// Hide the required row
 				$requiredRow.hide();
@@ -120,6 +123,9 @@ window.CTCTBuilder = {};
 				$requiredRow.show();
 				// and the remove button
 				$button.show();
+
+				// Don't disable other than the first
+				$map.parent().prop( 'disabled', false );
 			}
 
 		});
