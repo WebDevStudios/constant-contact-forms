@@ -279,10 +279,10 @@ class ConstantContact_Settings {
 		if ( isset( $comment_data['comment_author'] ) && isset( $comment_data['comment_author'] ) ) {
 
 			$args = array(
-				'email' => sanitize_email( $comment_data['comment_author_email'] ),
-				'list' => sanitize_text_field( $_POST['ctct_optin_list'] ),
+				'email'      => sanitize_email( $comment_data['comment_author_email'] ),
+				'list'       => sanitize_text_field( $_POST['ctct_optin_list'] ),
 				'first_name' => sanitize_text_field( $comment_data['comment_author'] ),
-				'last_name' => '',
+				'last_name'  => '',
 			);
 
 			constantcontact_api()->add_contact( $args );
@@ -339,7 +339,7 @@ class ConstantContact_Settings {
 			$name = '';
 		}
 
-		// IF we have one or the other, try it
+		// If we have one or the other, try it
 		if ( $name || $email ) {
 			$args = array(
 				'email' => $email,
@@ -363,6 +363,7 @@ class ConstantContact_Settings {
 	 * @return void
 	 */
 	public function settings_notices( $object_id, $updated ) {
+
 		if ( $object_id !== $this->key || empty( $updated ) ) {
 			return;
 		}
