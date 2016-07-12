@@ -119,7 +119,8 @@ window.CTCTBuilder = {};
 				$required.prop( 'checked', true );
 
 				// Disabled the dropdown
-				$map.parent().prop( 'disabled', true );
+				$map.parent().after( '<select disabled="disabled"><option>Email (required)</option></select>' );
+				$map.parent().hide();
 
 				// Hide the required row
 				$requiredRow.hide();
