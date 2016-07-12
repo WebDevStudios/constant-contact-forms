@@ -109,6 +109,9 @@ window.CTCTBuilder = {};
 				// Make it required
 				$required.prop( 'checked', true );
 
+				// Disabled the dropdown
+				$map.parent().prop( 'disabled', true );
+
 				// Hide the required row
 				$requiredRow.hide();
 
@@ -120,6 +123,9 @@ window.CTCTBuilder = {};
 				$requiredRow.show();
 				// and the remove button
 				$button.show();
+
+				// Don't disable other than the first
+				$map.parent().prop( 'disabled', false );
 			}
 
 		});
