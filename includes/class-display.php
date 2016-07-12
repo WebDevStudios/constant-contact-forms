@@ -333,6 +333,9 @@ class ConstantContact_Display {
 			case 'text_field':
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
+			case 'custom_text_area':
+				return $this->textarea( $name, $map, $value, $desc, $req, false, $field_error );
+				break;
 			case 'email':
 				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
@@ -942,6 +945,10 @@ class ConstantContact_Display {
 		}
 
 		return $days;
+	}
+
+	public function textarea( $name, $map, $value, $desc, $req, $field_error ) {
+		return '<textarea></textarea>';
 	}
 }
 
