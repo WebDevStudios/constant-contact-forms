@@ -242,7 +242,7 @@ class ConstantContact_Connect {
 		} else {
 
 			// Otherwise get normal option
-			$encrypted_token = get_option( $check_key, false );
+			$encrypted_token = get_option( $check_key );
 
 			// Make sure we have something
 			if ( ! $encrypted_token ) {
