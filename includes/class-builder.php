@@ -175,7 +175,7 @@ class ConstantContact_Builder {
 		) );
 
 		$fields_metabox->add_group_field( $custom_group, array(
-			'name'             => __( 'Map to Constant Contact Field', 'constantcontact' ),
+			'name'             => __( 'Select a Field', 'constantcontact' ),
 			'id'               => $prefix . 'map_select',
 			'type'             => 'select',
 			'show_option_none' => false,
