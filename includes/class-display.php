@@ -947,8 +947,34 @@ class ConstantContact_Display {
 		return $days;
 	}
 
+	/**
+	 * Displays text area field
+	 *
+	 * @author Brad Parbs
+	 * @param  string $name        name of field
+	 * @param  string $map         id of field
+	 * @param  string $value       previous value of field
+	 * @param  string $desc        description/label of field
+	 * @param  boolean $req         is required?
+	 * @param  string $field_error error from field
+	 * @return string              html markup
+	 */
 	public function textarea( $name, $map, $value, $desc, $req, $field_error ) {
-		return '<textarea></textarea>';
+
+		// Set our required text
+		$req_text = $req ? 'required' : '';
+
+
+		// Build up our field markup
+		$return  = '<p><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . esc_attr( $desc ) . '</label><textarea ' . $req_text . ' name="' . esc_attr( $map ) . '"">' . esc_html( $value ) . '</textarea>';
+
+		// IF we have an error, add it to our markup
+		if ( $field_error ) {
+			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $map ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constantcontact' ) ) . '</label></span>';
+		}
+
+		// Send it back
+		return $return . '</p>';
 	}
 }
 
