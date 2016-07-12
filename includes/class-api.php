@@ -35,20 +35,10 @@ class ConstantContact_API {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->hooks();
 	}
 
 	/**
-	 * Initiate our hooks.
-	 *
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function hooks() {}
-
-
-	/**
-	 * Get instance of .ConstantContact.
+	 * Get new instance of ConstantContact.
 	 *
 	 * @since 1.0.0
 	 * @return object ConstantContact_API
@@ -65,6 +55,7 @@ class ConstantContact_API {
 	 * @return string api token
 	 */
 	public function get_api_token( $type = '' ) {
+
 		 // Depending on our request, we'll try to grab a defined value
 		 // otherwise we'll grab it from our options
 		switch ( $type ) {
@@ -73,6 +64,7 @@ class ConstantContact_API {
 				if ( defined( 'CTCT_APIKEY' ) && CTCT_APIKEY ) {
 					return CTCT_APIKEY;
 				}
+
 				return constant_contact()->connect->e_get( '_ctct_api_key', true );
 
 			break;
@@ -184,8 +176,13 @@ class ConstantContact_API {
 		// If we didn't get anything, then re-do the API call
 		if ( false === $lists ) {
 			try {
+
 				$lists = $this->cc()->listService->getLists( $this->get_api_token() );
-				set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
+
+				if ( is_array( $lists ) ) {
+					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
+				}
+
 				return $lists;
 			} catch ( CtctException $ex ) {
 				$this->log_errors( $ex->getErrors() );
