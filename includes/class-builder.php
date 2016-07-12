@@ -161,17 +161,18 @@ class ConstantContact_Builder {
 		) );
 
 		$default_fields = apply_filters( 'constant_contact_field_types', array(
-			'custom'       => __( 'Custom Text Field', 'constantcontact' ),
-			'email'        => __( 'Email (required)', 'constantcontact' ),
-			'first_name'   => __( 'First Name', 'constantcontact' ),
-			'last_name'    => __( 'Last Name', 'constantcontact' ),
-			'phone_number' => __( 'Phone Number', 'constantcontact' ),
-			'address'      => __( 'Address', 'constantcontact' ),
-			'job_title'    => __( 'Job Title', 'constantcontact' ),
-			'company'      => __( 'Company', 'constantcontact' ),
-			'website'      => __( 'Website', 'constantcontact' ),
-			'birthday'     => __( 'Birthday', 'constantcontact' ),
-			'anniversary'  => __( 'Anniversary', 'constantcontact' ),
+			'email'            => __( 'Email (required)', 'constantcontact' ),
+			'first_name'       => __( 'First Name', 'constantcontact' ),
+			'last_name'        => __( 'Last Name', 'constantcontact' ),
+			'phone_number'     => __( 'Phone Number', 'constantcontact' ),
+			'address'          => __( 'Address', 'constantcontact' ),
+			'job_title'        => __( 'Job Title', 'constantcontact' ),
+			'company'          => __( 'Company', 'constantcontact' ),
+			'website'          => __( 'Website', 'constantcontact' ),
+			'birthday'         => __( 'Birthday', 'constantcontact' ),
+			'anniversary'      => __( 'Anniversary', 'constantcontact' ),
+			'custom'           => __( 'Custom Text Field', 'constantcontact' ),
+			'custom_text_area' => __( 'Custom Text Area', 'constantcontact' ),
 		) );
 
 		$fields_metabox->add_group_field( $custom_group, array(
