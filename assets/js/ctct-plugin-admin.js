@@ -29,6 +29,13 @@ window.CTCTBuilder = {};
 
 		// Disable email options on row change trigger.
 		$( document ).on( 'cmb2_shift_rows_complete', function() {
+
+			var $injectedEmail = $( 'select.ctct-injected-form-display' );
+
+			if ( $injectedEmail ) {
+				$injectedEmail.remove();
+			}
+
 			that.modifyFields();
 		});
 
@@ -106,6 +113,8 @@ window.CTCTBuilder = {};
 			var $mapName      = $map.text();
 			var $fieldTitle   = $( this ).find( 'h3' );
 
+			$map.parent().show();
+
 			// Set our field row to be the name of the selected option
 			$fieldTitle.text( $mapName );
 
@@ -119,7 +128,7 @@ window.CTCTBuilder = {};
 				$required.prop( 'checked', true );
 
 				// Disabled the dropdown
-				$map.parent().after( '<select disabled="disabled"><option>Email (required)</option></select>' );
+				$map.parent().after( '<select class="ctct-injected-form-display" disabled="disabled"><option>Email (required)</option></select>' );
 				$map.parent().hide();
 
 				// Hide the required row
