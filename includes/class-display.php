@@ -959,7 +959,7 @@ class ConstantContact_Display {
 	 * @param  string $field_error error from field
 	 * @return string              html markup
 	 */
-	public function textarea( $name, $map, $value, $desc, $req, $field_error ) {
+	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '' ) {
 
 		// Set our required text
 		$req_text = $req ? 'required' : '';
