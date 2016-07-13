@@ -65,7 +65,7 @@ class ConstantContact_API {
 					return CTCT_APIKEY;
 				}
 
-				return constant_contact()->connect->e_get( '_ctct_api_key', true );
+				return constant_contact()->connect->e_get( '_ctct_api_key' );
 
 			break;
 			case 'CTCT_SECRETKEY':
@@ -74,7 +74,7 @@ class ConstantContact_API {
 					return CTCT_SECRETKEY;
 				}
 
-				return constant_contact()->connect->e_get( '_ctct_api_secret', true );
+				return constant_contact()->connect->e_get( '_ctct_api_secret' );
 
 			break;
 			default;
