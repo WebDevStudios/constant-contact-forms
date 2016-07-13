@@ -99,7 +99,21 @@ class ConstantContact_Connect {
 		if ( isset( $_GET['cc_connect_attempt'] ) && is_user_logged_in() ) {
 
 			// Call our access token processing
-			constant_contact()->authserver->verify_and_save_access_token_return();
+			$verified = constant_contact()->authserver->verify_and_save_access_token_return();
+
+
+			$redirect_args = array(
+				'post_type' => 'ctct_forms',
+				'page'      => 'ctct_options_connect',
+			);
+
+			if ( ! $verified ) {
+				$redirect_args['ctct_connect_error'] = 'true';
+			}
+
+			// Redirect back to our connection page
+			wp_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
+			die;
 		}
 	}
 
@@ -156,6 +170,12 @@ class ConstantContact_Connect {
 				</form>
 
 			<?php else : ?>
+
+			<?php if ( isset( $_GET['ctct_connect_error'] ) ) { ?>
+				<div id="message" class="error"><p>
+				<?php esc_html_e( 'There was an error connecting your account. Please try again.', 'constantcontact' ); ?>
+				</p></div>
+			<?php } ?>
 				<p class="ctct-description">
 					<?php esc_html_e( 'To take full advantage of the Constant Contact for WordPress plugin, we recommend having either an active account or an active free trial with Constant Contact. Click the "Try Us Free" button to sign up for a free 60-day trial. Or click the "Connect Plugin" button to log in to your Constant Contact account (by connecting, you authorize this plugin to access your account) ', 'constantcontact' ); ?>
 				</p>

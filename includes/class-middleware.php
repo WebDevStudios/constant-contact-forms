@@ -117,15 +117,6 @@ class ConstantContact_Middleware {
 		// Save our token / key into the DB
 	 	constant_contact()->connect->update_token( sanitize_text_field( $token ) );
 		constant_contact()->connect->e_set( '_ctct_api_key', sanitize_text_field( $key ) );
-
-		// Redirect back to our connection page
-		wp_redirect( add_query_arg(
-			array(
-				'post_type' => 'ctct_forms',
-				'page'       => 'ctct_options_connect',
-			), admin_url( 'edit.php' )
-		) );
-		die;
 	}
 
 	/**
