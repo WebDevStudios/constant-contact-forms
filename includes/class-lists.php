@@ -100,12 +100,14 @@ class ConstantContact_Lists {
 
 		// Sanity check
 		if ( ! $object_id ) {
+			echo $this->get_list_info_no_data();
 			return;
 		}
 
 		$list_id = get_post_meta( absint( $object_id ), '_ctct_list_id', true );
 
 		if ( ! $list_id ) {
+			echo $this->get_list_info_no_data();
 			return;
 		}
 
@@ -114,6 +116,7 @@ class ConstantContact_Lists {
 
 		// Make sure we have an actual list
 		if ( ! isset( $list_info->id ) ) {
+			echo $this->get_list_info_no_data();
 			return;
 		}
 
@@ -134,6 +137,10 @@ class ConstantContact_Lists {
 		}
 
 		echo '</ul>';
+	}
+
+	public function get_list_info_no_data() {
+		return '<em>' . __( 'List information will populate upon saving.', 'constantcontact' ) . '</em>';
 	}
 
 	/**
