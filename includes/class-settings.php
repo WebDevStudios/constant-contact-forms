@@ -191,13 +191,6 @@ class ConstantContact_Settings {
 				'options'		  => $lists,
 			) );
 		}
-
-		$cmb->add_field( array(
-			'name' 	          => __( '(temporary) Middlware Address', 'constantcontact' ),
-			'id'   	          => '_ctct_auth_server_link',
-			'type'	          => 'text',
-		) );
-
 	}
 
 	/**
