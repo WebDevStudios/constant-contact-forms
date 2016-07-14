@@ -88,9 +88,12 @@ class ConstantContact_Middleware {
 		return $proof;
 	}
 
-
-
-
+	/**
+	 * Verify a returned request from the auth server, and save the returned token
+	 *
+	 * @author Brad Parbs
+	 * @return boolean   is valid?
+	 */
 	public function verify_and_save_access_token_return() {
 
 		// If we get this, we'll want to start our process of
