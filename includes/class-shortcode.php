@@ -162,7 +162,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			if (
 				isset( $full_data['_ctct_opt_in'] ) &&
 				isset( $full_data['_ctct_opt_in'][0] ) &&
-				'on' == $full_data['_ctct_opt_in'][0]
+				'on' === $full_data['_ctct_opt_in'][0]
 			) {
 
 				$fields['options']['optin']['opt_in'] = true;

@@ -964,7 +964,6 @@ class ConstantContact_Display {
 		// Set our required text
 		$req_text = $req ? 'required' : '';
 
-
 		// Build up our field markup
 		$return  = '<p><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . esc_attr( $desc ) . '</label><textarea ' . $req_text . ' name="' . esc_attr( $map ) . '"">' . esc_html( $value ) . '</textarea>';
 

@@ -139,6 +139,11 @@ class ConstantContact_Lists {
 		echo '</ul>';
 	}
 
+	/**
+	 * Gets our no list info data
+	 *
+	 * @return string
+	 */
 	public function get_list_info_no_data() {
 		return '<em>' . __( 'List information will populate upon saving.', 'constantcontact' ) . '</em>';
 	}
