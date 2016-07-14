@@ -5,7 +5,7 @@
  * @package ConstantContactLoader
  * @subpackage Loader
  * @author Pluginize
- * @since 1.0.1
+ * @since 1.0.2
  */
 
 /**
@@ -127,6 +127,12 @@ class Constant_Contact {
 	 */
 	public $menu_icon = 'dashicons-megaphone';
 
+	/**
+	 * Does site support encrpytions?
+	 *
+	 * @var boolean
+	 * @since 1.0.1
+	 */
 	public $is_encryption_ready = false;
 
 	/**
@@ -137,6 +143,11 @@ class Constant_Contact {
 	 */
 	protected static $single_instance = null;
 
+	/**
+	 * All our class instances
+	 *
+	 * @since 1.0.1
+	 */
 	private $admin;
 	private $admin_pages;
 	private $auth_redirect;
@@ -173,15 +184,19 @@ class Constant_Contact {
 	 */
 	protected function __construct() {
 
+		// Set up our plugin name
 		$this->plugin_name = __( 'Constant Contact', 'constantcontact' );
 
+		// Set up some helper properties
 		$this->basename = plugin_basename( __FILE__ );
 		$this->url	    = plugin_dir_url( __FILE__ );
 		$this->path	    = plugin_dir_path( __FILE__ );
 
+		// Load our plugin and our libraries
 		$this->plugin_classes();
 		$this->load_libs();
 
+		// If we're in the admin, also load up the admin classes
 		if ( is_admin() ) {
 			$this->admin_plugin_classes();
 		}
@@ -225,10 +240,13 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function hooks() {
+
+		// Hook in our older includes and our init method
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'includes' ), 5 );
 
-		// Our vendor files will do a check for ISSSL, so we want to set it to be that
+		// Our vendor files will do a check for ISSSL, so we want to set it to be that.
+		// See Guzzle for more info and usage of this
 		if ( is_ssl() || ! defined( 'ISSSL' ) ) {
 			define( 'ISSSL', true );
 		}
@@ -241,6 +259,7 @@ class Constant_Contact {
 	 * @return void
 	 */
 	function _activate() {
+
 		// Make sure any rewrite functionality has been loaded.
 		flush_rewrite_rules();
 	}
@@ -252,6 +271,8 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function init() {
+
+		// Load our textdomain, 'constantcontact'
 		load_plugin_textdomain( 'constantcontact', false, dirname( $this->basename ) . '/languages/' );
 	}
 
@@ -284,6 +305,7 @@ class Constant_Contact {
 			'defuse-php-encryption/RuntimeTests.php',
 		);
 
+		// If we don't alrady have WDS_Shortcodes loaded somewhere else, load it up
 		if ( ! function_exists( 'wds_shortcodes' ) ) {
 			$libs[] = 'wds/WDS-Shortcodes/wds-shortcodes.php';
 		}
@@ -303,14 +325,20 @@ class Constant_Contact {
 	 */
 	public function includes() {
 
+		// Only load this if we have the WDS Shortcodes class
 		if ( class_exists( 'WDS_Shortcodes' ) ) {
 
+			// Set up our base WDS_Shortcodes class
 			$this->shortcode       = new ConstantContact_Shortcode();
+
+			// Set our custom shortcode with correct version and data
 			$this->shortcode_admin = new ConstantContact_Shortcode_Admin(
 				$this->shortcode->shortcode,
 				self::VERSION,
 				$this->shortcode->atts_defaults
 			);
+
+			// Launch it
 			$this->shortcode_admin->hooks();
 		}
 	}
@@ -430,17 +458,22 @@ class Constant_Contact {
 			// If we have the Runtime test class
 			if ( class_exists( 'Defuse\Crypto\RuntimeTests' ) ) {
 
-				// Use this to
+				// If we have our Crpyto class, we'll run the included
+				// runtime tests and see if we get the correct response.
 				$tests = new Defuse\Crypto\RuntimeTests;
 				$tests = $tests->runtimeTest();
 				$return = true;
 			}
 		} catch ( Exception $exception ) {
+
+			// If we caught an exception of some kind, then we're not able
+			// to use this library
 			if ( $exception ) {
 				$return = false;
 			}
 		}
 
+		// Send back if we can or can't use the library
 		return $return;
 	}
 }

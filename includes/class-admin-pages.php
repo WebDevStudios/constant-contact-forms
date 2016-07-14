@@ -48,6 +48,8 @@ class ConstantContact_Admin_Pages {
 	 * @since  1.0.0
 	 */
 	public function styles() {
+
+		// Register our admin form styles
 		wp_register_style(
 			'constant-contact-forms',
 			constant_contact()->url() . 'assets/css/admin-forms.css',
@@ -55,6 +57,7 @@ class ConstantContact_Admin_Pages {
 			constant_contact()->version
 		);
 
+		// Register our admin pages styles
 		wp_register_style(
 			'constant_contact_admin_pages',
 			constant_contact()->url() . 'assets/css/admin-pages.css',
@@ -70,6 +73,8 @@ class ConstantContact_Admin_Pages {
 	 * @return array array of all the help text
 	 */
 	public function get_help_texts() {
+
+		// Grab our help text. This can be filtered elsewhere, as well.
 		return apply_filters( 'constant_contact_help_texts', array(
 			array(
 				'title' => __( 'This is a sample help header', 'constantcontact' ),
@@ -89,6 +94,8 @@ class ConstantContact_Admin_Pages {
 	 * @return array array of all the text
 	 */
 	public function get_faq_texts() {
+
+		// Get our FAQ texts. This can be filtered
 		return apply_filters( 'constant_contact_faq_texts', array(
 			array(
 				'title' => __( 'Is this a sample question?', 'constantcontact' ),
@@ -211,7 +218,6 @@ class ConstantContact_Admin_Pages {
 		<?php
 	}
 
-
 	/**
 	 * Display our about page
 	 *
@@ -315,8 +321,9 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function get_text( $key = null, $secondary_key = null ) {
 
+		// Set up a filter to hold all of our about page data,
+		// so we can modify it elsewhere if we want.
 		$about_page_data = apply_filters( 'constant_contact_about_page_date', array(
-
 				'plugin'  => constant_contact()->plugin_name,
 				'version' => constant_contact()->version,
 				'icon'    => constant_contact()->url . 'assets/images/icon.jpg',
@@ -359,30 +366,14 @@ class ConstantContact_Admin_Pages {
 					return $about_page_data[ $key ][ $secondary_key ];
 				}
 			}
+
+			// If we don't have a secondary key, return our orignal
 			return $about_page_data[ $key ];
 		}
 
+		// Didn't get anything, pass it back
 		return '';
 
-	}
-
-	/**
-	 * Output our tab navigation.
-	 *
-	 * @internal
-	 * @since 1.0.0
-	 * @param string $tab Active tab.
-	 */
-	public function tab_navigation( $tab = 'whats_new' ) {
-	?>
-
-		<h2 class="nav-tab-wrapper">
-			<a class="nav-tab <?php if ( 'ConstantContact_Admin_About::about_screen' === $tab ) : ?>nav-tab-active<?php endif; ?>" href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'cptui_about' ), 'index.php' ) ) ); ?>">
-				<?php esc_html_e( 'What&#8217;s New', 'constantcontact' ); ?>
-			</a>
-		</h2>
-
-	<?php
 	}
 }
 
