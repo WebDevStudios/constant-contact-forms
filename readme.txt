@@ -7,7 +7,7 @@ Stable tag:        1.0.0
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
-Add an email sign-up form to your WordPress site and grow your Constant Contact email list fast.
+Add an email sign-up form to your WordPress site and grow your Constant Contact email list.
 
 == Description ==
 
