@@ -113,9 +113,9 @@ class ConstantContact_Check {
 	 * @return string       emoji of checkmark
 	 */
 	public function exists_text( $name, $type = '' ) {
-		if ( 'f' == $type ) {
+		if ( 'f' === $type ) {
 			$exists = function_exists( esc_attr( $name ) );
-		} elseif ( 'c' == $type ) {
+		} elseif ( 'c' === $type ) {
 			$exists = class_exists( esc_attr( $name ) );
 		} else {
 			$exists = $name;
