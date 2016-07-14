@@ -166,12 +166,8 @@ class ConstantContact_Settings {
 			$option_options['reg_form'] = __( 'Registration Form', 'constantcontact' );
 		}
 
-		// Get our lists, if we're connected
-		if ( constant_contact()->api->is_connected() ) {
-			$lists = constant_contact()->builder->get_lists();
-		} else {
-			$lists = array();
-		}
+		// Get our lists
+		$lists = constant_contact()->builder->get_lists();
 
 		if ( $lists && is_array( $lists ) ) {
 
