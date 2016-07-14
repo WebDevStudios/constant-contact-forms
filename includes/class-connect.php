@@ -101,7 +101,6 @@ class ConstantContact_Connect {
 			// Call our access token processing
 			$verified = constant_contact()->authserver->verify_and_save_access_token_return();
 
-
 			$redirect_args = array(
 				'post_type' => 'ctct_forms',
 				'page'      => 'ctct_options_connect',
