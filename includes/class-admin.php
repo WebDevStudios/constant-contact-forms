@@ -106,6 +106,7 @@ class ConstantContact_Admin {
 		// $this->key . '_help',
 		// array( $this, 'admin_page_display' )
 		// );
+
 		add_submenu_page(
 			'edit.php?post_type=ctct_forms',
 			__( 'About', 'constanctcontact' ),
@@ -133,8 +134,8 @@ class ConstantContact_Admin {
 				<?php
 
 				// If we have a $_GET['page'], let's try to pull out the page we're looking for
-				if ( isset( $_GET['page'] ) && $_GET['page'] ) {
-					$page = explode( $this->key . '_', esc_attr( wp_unslash( $_GET['page'] ) ) );
+				if ( isset( $_GET['page'] ) && $_GET['page'] ) { // Input var okay.
+					$page = explode( $this->key . '_', esc_attr( wp_unslash( $_GET['page'] ) ) ); // Input var okay.
 				} else {
 					$page = array();
 				}
