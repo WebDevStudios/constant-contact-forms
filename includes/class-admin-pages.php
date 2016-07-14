@@ -235,9 +235,6 @@ class ConstantContact_Admin_Pages {
 					<img src="<?php echo esc_url( $this->get_text( 'icon' ) ); ?>">
 				</div>
 			</div>
-
-			<?php // $this->tab_navigation(); ?>
-
 			<div class="headline-feature">
 				<h3 class="headline-title">
 					<?php echo esc_html( $this->get_text( 'feat_headline' ) ); ?>
