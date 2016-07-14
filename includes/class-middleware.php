@@ -114,6 +114,7 @@ class ConstantContact_Middleware {
 		// Save our token / key into the DB
 	 	constant_contact()->connect->update_token( sanitize_text_field( $token ) );
 		constant_contact()->connect->e_set( '_ctct_api_key', sanitize_text_field( $key ) );
+		return true;
 	}
 
 	/**
