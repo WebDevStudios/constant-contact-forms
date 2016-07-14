@@ -124,15 +124,36 @@ class ConstantContact_Connect {
 	 */
 	public function add_options_page() {
 
+		if ( ! constant_contact()->api->is_connected() ) {
+			// Set our default title of the connect link
+			$connect_title = __( 'Connect Now', 'constantcontact' );
+			$connect_link = 'edit.php?post_type=ctct_forms';
+
+			wp_register_style(
+				'constant_contact_admin_global_no_connection',
+				constant_contact()->url() . 'assets/css/admin-global-no-connection.css',
+				array(),
+				constant_contact()->version
+			);
+
+			wp_enqueue_style( 'constant_contact_admin_global_no_connection' );
+
+		} else {
+
+			// If we've already been connected, then we can set it to be a disconnect button
+			$connect_title = __( 'Disconnect', 'constantcontact' );
+			$connect_link = 'edit.php?post_type=ctct_forms';
+		}
+
+		// Set up our page
 		$this->options_page = add_submenu_page(
-			'edit.php?post_type=ctct_forms',
-			__( 'Connect', 'constantcontact' ),
-			__( 'Connect', 'constantcontact' ),
+			$connect_link,
+			$connect_title,
+			$connect_title,
 			'manage_options',
 			$this->key,
 			array( $this, 'admin_page_display' )
 		);
-
 	}
 
 	/**
