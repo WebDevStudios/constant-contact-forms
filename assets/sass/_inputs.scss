@@ -6,7 +6,6 @@ input {
 
 	&[type="text"],
 	&[type="password"],
-	&[type="email"],
 	&[type="tel"],
 	&[type="number"] {
 
@@ -20,7 +19,7 @@ input {
 		}
 
 		// show error.
-		&:focus:required:invalid, 
+		&:focus:required:invalid,
 		&.ctct-invalid {
 			background: url("../images/error.svg") no-repeat;
 			background-color: fade-out($color-error, 0.98);
@@ -36,4 +35,13 @@ input {
 .ctct-field-error {
 	font-size: 0.85em;
 	font-style: italic;
+}
+
+input.ctct-invalid {
+	background: url("../images/error.svg") no-repeat;
+	background-color: fade-out($color-error, 0.98);
+	background-position: 8px 50%;
+	background-size: 24px;
+	border-color: $color-error;
+	padding-left: 40px;
 }

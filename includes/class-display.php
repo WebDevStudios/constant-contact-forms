@@ -490,7 +490,7 @@ class ConstantContact_Display {
 		if ( $use_label && ( 'submit' != $type ) && ( 'hidden' != $type ) ) {
 
 			// Our field label will be the form name + required asterisk + our label
-			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label . $label );
+			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
 		}
 
 		// If we're not on submit or hidden, but still doing label on bottom,
@@ -558,7 +558,7 @@ class ConstantContact_Display {
 		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
 
 		// Set our field as as seprate var, because we allow for only returning that
-		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '"/>';
+		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" placeholder="' . $label . '"/>';
 
 		// If we have an error
 		if ( $field_error ) {
