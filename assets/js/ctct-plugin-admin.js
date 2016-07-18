@@ -29,13 +29,6 @@ window.CTCTBuilder = {};
 
 		// Disable email options on row change trigger.
 		$( document ).on( 'cmb2_shift_rows_complete', function() {
-
-			var $injectedEmail = $( 'select.ctct-injected-form-display' );
-
-			if ( $injectedEmail ) {
-				$injectedEmail.remove();
-			}
-
 			that.modifyFields();
 		});
 
@@ -47,9 +40,6 @@ window.CTCTBuilder = {};
 
 			// Modfiy the field we need to modify
 			that.modifyFields();
-
-			// Re-recheck new rows
-			that.checkForNewRows();
 		});
 
 		// If we modify the opt in checkbox, then toggle fields if we have to
@@ -61,7 +51,6 @@ window.CTCTBuilder = {};
 		// functionality to apply to all saved values
 		that.modifyFields();
 		that.toggleOptInFields();
-		that.checkForNewRows();
     }
 
     // Toggle un-needed optin fields if we're not showing the opt-in
@@ -79,20 +68,6 @@ window.CTCTBuilder = {};
     		that.$c.optinfields.hide.hide();
     		that.$c.optinfields.instruct.hide();
     	}
-    }
-
-    // Check if a new row was added
-    that.checkForNewRows = function() {
-    	$( '.cmb-nested .postbox .inside .cmb-row .cmb-td select' ).change( function() {
-			that.modifyFields();
-		});
-    }
-
-    // Function to handle which items should be showing/hiding.
-    that.metaShowHide = function(showem) {
-        var hideThese = $( that.$c.hide ).not( showem );
-        showem.slideDown( 'fast' );
-        hideThese.hide();
     }
 
 	// Disable required email fields.
@@ -113,8 +88,6 @@ window.CTCTBuilder = {};
 			var $mapName      = $map.text();
 			var $fieldTitle   = $( this ).find( 'h3' );
 
-			$map.parent().show();
-
 			// Set our field row to be the name of the selected option
 			$fieldTitle.text( $mapName );
 
@@ -127,9 +100,8 @@ window.CTCTBuilder = {};
 				// Make it required
 				$required.prop( 'checked', true );
 
-				// Disabled the dropdown
-				$map.parent().after( '<select class="ctct-injected-form-display" disabled="disabled"><option>Email (required)</option></select>' );
-				$map.parent().hide();
+				// Set it to be 'disabled'
+				$( value ).find( 'select' ).addClass( 'disabled' );
 
 				// Hide the required row
 				$requiredRow.hide();
@@ -139,13 +111,14 @@ window.CTCTBuilder = {};
 
 			} else {
 
+				// Verify its not disabled
+				$( value ).find( 'select' ).removeClass( 'disabled' );
+
 				// If we're not an email field, reshow the required field
 				$requiredRow.show();
+
 				// and the remove button
 				$button.show();
-
-				// Don't disable other than the first
-				$map.parent().prop( 'disabled', false );
 			}
 
 		});
