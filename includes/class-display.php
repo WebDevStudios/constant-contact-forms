@@ -680,7 +680,6 @@ class ConstantContact_Display {
 
 		// Start our markup return
 		$markup = '';
-
 		// If we set to hide the field, then hide it inline
 		if ( $hide ) {
 			$markup = '<div class="ctct-optin-hide" style="display:none;">';
@@ -693,7 +692,7 @@ class ConstantContact_Display {
 
 		// If we set to hide, close our open div
 		if ( $hide ) {
-			$markup = '</div><!--.ctct-optin-hide -->';
+			$markup .= '</div><!--.ctct-optin-hide -->';
 		}
 
 		// return it
