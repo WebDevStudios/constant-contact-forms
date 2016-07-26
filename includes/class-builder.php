@@ -342,7 +342,7 @@ class ConstantContact_Builder {
 			foreach ( $cmbobj->data_to_save['custom_fields_group'] as $data ) {
 
 				// If we have a an email field set in our map select:
-				if ( isset( $data['_ctct_map_select'] ) && 'email' === $data['_ctct_map_select'] ) {
+				if ( ( isset( $data['_ctct_map_select'] ) && 'email' === $data['_ctct_map_select'] ) || ! isset( $data['_ctct_map_select'] ) ) {
 
 					// update our post meta to mark that we have email
 					update_post_meta( $post->ID, '_ctct_has_email_field', 'true' );
