@@ -101,7 +101,7 @@ window.CTCTBuilder = {};
 				$required.prop( 'checked', true );
 
 				// Set it to be 'disabled'
-				$( value ).find( 'select' ).addClass( 'disabled' );
+				$( value ).find( 'select' ).addClass( 'disabled' ).prop( 'disabled', true );
 
 				// Hide the required row
 				$requiredRow.hide();
@@ -112,7 +112,7 @@ window.CTCTBuilder = {};
 			} else {
 
 				// Verify its not disabled
-				$( value ).find( 'select' ).removeClass( 'disabled' );
+				$( value ).find( 'select' ).removeClass( 'disabled' ).prop( 'disabled', false );
 
 				// If we're not an email field, reshow the required field
 				$requiredRow.show();
