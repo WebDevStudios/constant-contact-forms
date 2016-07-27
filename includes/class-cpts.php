@@ -53,8 +53,6 @@ class ConstantContact_CPTS {
 		add_action( 'init', array( $this, 'forms_post_type' ) );
 		add_action( 'init', array( $this, 'lists_post_type' ) );
 
-		add_action( 'admin_menu', array( $this, 'menu_items' ) );
-
 		add_filter( 'post_updated_messages', array( $this, 'post_updated_messages' ) );
 		add_filter( 'enter_title_here', array( $this, 'change_default_title' ) );
 	}
@@ -131,7 +129,7 @@ class ConstantContact_CPTS {
 			'name_admin_bar'        => __( 'Lists', 'constantcontact' ),
 			'archives'              => __( 'List Archives', 'constantcontact' ),
 			'parent_item_colon'	    => __( 'Parent List:', 'constantcontact' ),
-			'all_items'             => __( 'All Lists', 'constantcontact' ),
+			'all_items'             => __( 'Lists', 'constantcontact' ),
 			'add_new_item'          => __( 'Add New List', 'constantcontact' ),
 			'add_new'               => __( 'Add New List', 'constantcontact' ),
 			'new_item'              => __( 'New List', 'constantcontact' ),
@@ -160,7 +158,7 @@ class ConstantContact_CPTS {
 			'hierarchical'        => false,
 			'public'              => false,
 			'show_ui'             => true,
-			'show_in_menu'        => true,
+			'show_in_menu'        => 'edit.php?post_type=ctct_forms',
 			'menu_position'       => 20,
 			'menu_icon'           => 'dashicons-megaphone',
 			'show_in_admin_bar'   => false,
@@ -171,7 +169,11 @@ class ConstantContact_CPTS {
 			'publicly_queryable'  => false,
 			'capability_type'     => 'page',
 		);
-		register_post_type( 'ctct_lists', $args );
+
+		// Only register if we're connected
+		if ( constantcontact_api()->get_account_info() ) {
+			register_post_type( 'ctct_lists', $args );
+		}
 	}
 
 	/**
@@ -214,32 +216,6 @@ class ConstantContact_CPTS {
 		);
 
 		return $messages;
-	}
-
-
-	/**
-	 * Customize admin menu items
-	 *
-	 * @since  1.0.0
-	 * @return void
-	 */
-	public function menu_items() {
-
-		// Remove top level CPT menu.
-		remove_menu_page( 'edit.php?post_type=ctct_lists' );
-
-		// Make sure we're connected before adding our lists;
-		if ( constantcontact_api()->get_account_info() ) {
-			// Add List submenu item for CPT.
-			add_submenu_page(
-				'edit.php?post_type=ctct_forms',
-				__( 'Lists', 'constantcontact' ),
-				__( 'Lists', 'constantcontact' ),
-				'manage_options',
-				'edit.php?post_type=ctct_lists',
-				''
-			);
-		}
 	}
 
 	/**
