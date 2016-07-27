@@ -959,12 +959,17 @@ class ConstantContact_Display {
 	 * @return string              html markup
 	 */
 	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '' ) {
-
 		// Set our required text
 		$req_text = $req ? 'required' : '';
 
+		// If required, get our label
+		$req_label = '';
+		if ( $req ) {
+			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+		}
+
 		// Build up our field markup
-		$return  = '<p><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . esc_attr( $desc ) . '</label><textarea ' . $req_text . ' name="' . esc_attr( $map ) . '"">' . esc_html( $value ) . '</textarea>';
+		$return  = '<p><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label><textarea ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '">' . esc_html( $value ) . '</textarea>';
 
 		// IF we have an error, add it to our markup
 		if ( $field_error ) {
