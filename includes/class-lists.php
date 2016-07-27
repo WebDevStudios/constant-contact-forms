@@ -125,6 +125,10 @@ class ConstantContact_Lists {
 
 		echo '<ul>';
 
+		// Unset non-cust facing details
+		unset( $list_info['id'] );
+		unset( $list_info['status'] );
+
 		// Loop through each property of the list object
 		foreach ( $list_info as $key => $value ) {
 
