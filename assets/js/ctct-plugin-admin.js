@@ -27,6 +27,9 @@ window.CTCTBuilder = {};
 	// Combine all events.
 	that.bindEvents = function() {
 
+		// Make description non-draggable, so we don't run into weird cmb2 issues
+		$( '#ctct_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
+
 		// Disable email options on row change trigger.
 		$( document ).on( 'cmb2_shift_rows_complete', function() {
 			that.modifyFields();
