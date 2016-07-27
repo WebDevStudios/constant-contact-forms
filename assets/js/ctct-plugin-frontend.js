@@ -5,6 +5,15 @@ window.CTCTSupport = {};
 	that.init = function() {
 		that.cache();
 		that.bindEvents();
+		that.removePlaceholder();
+	}
+
+	that.removePlaceholder = function() {
+		$( '.ctct-form-field input' ).focus( function() {
+			$( this ).data( 'placeholder', $( this ).attr( 'placeholder' ) ).attr( 'placeholder','' );
+		}).blur( function() {
+			$( this ).attr( 'placeholder', $( this ).data( 'placeholder' ) );
+		});
 	}
 
 	// Cache all the things.
