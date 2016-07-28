@@ -131,12 +131,12 @@ class ConstantContact_Lists {
 
 		// Convert our time/dates to a better format
 		if ( isset( $list_info['created_date'] ) && $list_info['created_date'] ) {
-			$list_info['created_date'] = '&nbsp;&nbsp;' . date( 'l, F jS, F Y g:i A', strtotime( $list_info['created_date'] ) );
+			$list_info['created_date'] = '&nbsp;&nbsp;' . date( 'l, F jS, Y g:i A', strtotime( $list_info['created_date'] ) );
 		}
 
 		// Convert our time/dates to a better format
 		if ( isset( $list_info['modified_date'] ) && $list_info['modified_date'] ) {
-			$list_info['modified_date'] = date( 'l, F jS, F Y g:i A', strtotime( $list_info['modified_date'] ) );
+			$list_info['modified_date'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['modified_date'] ) );
 		}
 
 		// Loop through each property of the list object
