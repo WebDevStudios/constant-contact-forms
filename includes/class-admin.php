@@ -293,6 +293,8 @@ class ConstantContact_Admin {
 			true
 		);
 
+		wp_localize_script( 'ctct_form', 'ctct_texts', array( 'leavewarning' => __( 'You have unsaved changes.', 'constantcontact' ) ) );
+
 		// Allow filtering of allowed pages that we load scripts on
 		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', array( 'post.php', 'post-new.php' ) );
 

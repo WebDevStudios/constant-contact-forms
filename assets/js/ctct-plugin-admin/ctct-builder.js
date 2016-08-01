@@ -24,6 +24,12 @@ window.CTCTBuilder = {};
 		}
 	}
 
+	that.triggerLeaveWarning = function() {
+		$( window ).bind('beforeunload', function(){
+			return ctct_texts.leavewarning;
+		});
+	}
+
 	// Combine all events.
 	that.bindEvents = function() {
 
@@ -33,6 +39,9 @@ window.CTCTBuilder = {};
 		// Disable email options on row change trigger.
 		$( document ).on( 'cmb2_shift_rows_complete', function() {
 			that.modifyFields();
+
+			// Trigger our leave warning
+			that.triggerLeaveWarning();
 		});
 
 		// If we get a row added, then do our stuff
@@ -43,6 +52,9 @@ window.CTCTBuilder = {};
 
 			// Modfiy the field we need to modify
 			that.modifyFields();
+
+			// Trigger our leave warning
+			that.triggerLeaveWarning();
 		});
 
 		// If we modify the opt in checkbox, then toggle fields if we have to

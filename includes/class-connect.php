@@ -170,7 +170,7 @@ class ConstantContact_Connect {
 
 		wp_enqueue_style( 'constant-contact-oath', constant_contact()->url() . 'assets/css/oath.css' );
 
-		wp_localize_script( 'ctct_form', 'texts', array( 'disconnect_confirm' => __( 'Are you sure you want to disconnect?', 'constantcontact' ) ) );
+		wp_localize_script( 'ctct_form', 'ctct_texts', array( 'disconnectconfirm' => __( 'Are you sure you want to disconnect?', 'constantcontact' ) ) );
 
 		wp_enqueue_script( 'ctct_form' );
 		?>

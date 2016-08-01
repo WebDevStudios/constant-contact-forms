@@ -20,7 +20,7 @@ window.CTCTForms = {};
 		that.bindEvents = function() {
 
             $( that.$c.disconnect ).on( 'click', function(e) {
-				confirm( 'Are you sure you want to disconnect?' );
+				confirm( ctct_texts.disconnectconfirm );
 			});
         }
 
