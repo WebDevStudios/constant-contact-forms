@@ -217,7 +217,7 @@ class ConstantContact_Builder {
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Show Opt-in checkbox', 'constantcontact' ),
+			'name'        => __( 'Enable Opt-in checkbox', 'constantcontact' ),
 			'id'          => $prefix . 'opt_in',
 			'description' => __( 'Show opt-in checkbox to allow visitors to opt-in to your email list.', 'constantcontact' ),
 			'type'        => 'checkbox',
