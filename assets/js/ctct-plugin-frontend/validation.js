@@ -31,6 +31,7 @@ window.CTCTSupport = {};
 	}
 
 	that.processError = function( error ) {
+
 		// If we have an id property set
 		if ( typeof( error.id ) !== 'undefined' ) {
 			$( '#' + error.id ).addClass( 'ctct-invalid' );
@@ -40,7 +41,7 @@ window.CTCTSupport = {};
 
 	// Combine all events.
 	that.bindEvents = function() {
-		$( that.$c.form + ' input' ).keyup( function() {
+		$( that.$c.form ).on( 'click', 'input[type=submit]', function() {
 
 			clearTimeout( that.timeout );
 

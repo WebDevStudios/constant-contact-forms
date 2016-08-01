@@ -5,6 +5,7 @@
 input {
 
 	&[type="text"],
+	&[type="email"],
 	&[type="password"],
 	&[type="tel"],
 	&[type="number"] {
