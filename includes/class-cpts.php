@@ -171,7 +171,7 @@ class ConstantContact_CPTS {
 		);
 
 		// Only register if we're connected
-		if ( constantcontact_api()->get_account_info() ) {
+		if ( constantcontact_api()->is_connected() ) {
 			register_post_type( 'ctct_lists', $args );
 		}
 	}

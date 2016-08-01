@@ -81,7 +81,7 @@ class ConstantContact_Connect {
 
 		add_action( 'init', array( $this, 'maybe_connect' ) );
 
-		add_action( 'admin_init', array( $this, 'maybe_disconnect' ) );
+		add_action( 'plugins_loaded', array( $this, 'maybe_disconnect' ) );
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 	}
 
