@@ -240,7 +240,12 @@ class ConstantContact_CPTS {
 
 	    // If we're on our forms post type
 	    if ( 'ctct_forms' === $post->post_type ) {
-	        $title = __( 'Enter a form name (Examples: Join Our Email List, Subscribe to Emails)', 'constantcontact' );
+	    	$title = sprintf(
+	    		'%s <span class="ctct-admin-title-details">%s</span>',
+	    		__( 'Enter a form name', 'constantcontact' ),
+	    		__( '(Examples: Join Our Email List, Subscribe to Emails)', 'constantcontact' )
+	    	 );
+
 	    }
 
 	    return $title;
