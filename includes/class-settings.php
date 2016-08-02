@@ -191,6 +191,14 @@ class ConstantContact_Settings {
 				'default'		  => 'none',
 				'options'		  => $lists,
 			) );
+
+			$cmb->add_field( array(
+				'name' 	=> __( 'Opt In Text', 'constantcontact' ),
+				'desc' 	=> __( 'Text shows next to checkbox.', 'constantcontact' ),
+				'id'   	=> '_ctct_optin_label',
+				'type'	=> 'text_medium',
+				'default'		  => __( 'Subscribe to our newsletter', 'constantcontact' ),
+			) );
 		}
 	}
 
