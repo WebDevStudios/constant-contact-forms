@@ -260,49 +260,6 @@ class ConstantContact_Admin_Pages {
 				</p>
 				<div class="clear"></div>
 			</div>
-			<hr />
-			<div class="features-section">
-				<div class="feature-section<?php echo ( count( $this->get_text( 'features' ) ) >= 2 ) ? ' two-col' : ''; ?> ">
-					<?php
-					// get our features
-					$features = $this->get_text( 'features' );
-
-					// make sure its an array
-					if ( is_array( $features ) ) {
-
-						// loop through those features
-						foreach ( $features as $feature ) {
-
-							// Make sure we have the right though
-							if (
-								! isset( $feature['title'] ) ||
-								! isset( $feature['description'] )
-							) {
-								continue;
-							}
-						?>
-						<div>
-							<h3 class="feature-title c-text">
-								<?php echo esc_html( $feature['title'] ); ?>
-							</h3>
-							<?php if ( ! empty( $feature['image'] ) ) { ?>
-							<div class="feature-image">
-								<?php
-								$alt = isset( $feature['alt'] ) ? $feature['alt'] : '';
-								?>
-								<img class="fff-img" src="<?php echo esc_url( $feature['image'] );?>" alt="<?php echo esc_attr( $alt ); ?>">
-							</div>
-							<?php } ?>
-							<p class="c-text">
-								<?php echo esc_html( $feature['description'] ); ?>
-							</p>
-						</div>
-						<?php
-						}
-					}
-				?>
-				</div>
-			</div>
 		</div>
 
 		<?php
