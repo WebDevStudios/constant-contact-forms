@@ -199,7 +199,6 @@ class ConstantContact_Mail {
 		// Filter to allow sending HTML for our message body
 		add_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
 
-
 		// Before text for content
 		$content_before = __( 'Congratulations! Your Constant Contact Forms plugin has successfully captured new information:', 'constantcontact' );
 

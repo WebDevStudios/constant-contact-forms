@@ -244,7 +244,7 @@ class ConstantContact_CPTS {
 	    		'%s <span class="ctct-admin-title-details">%s</span>',
 	    		__( 'Enter a form name', 'constantcontact' ),
 	    		__( '(Examples: Join Our Email List, Subscribe to Emails)', 'constantcontact' )
-	    	 );
+			);
 
 	    }
 

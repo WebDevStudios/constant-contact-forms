@@ -251,7 +251,6 @@ class ConstantContact_Builder {
 			'type'        => 'checkbox',
 		) );
 
-
 		// Get our site name, and if we don't have it, then use a placeholder
 		$business_name = get_bloginfo( 'name' );
 		$business_name ? $business_name : __( 'Your Business Name', 'constantcontact' );
