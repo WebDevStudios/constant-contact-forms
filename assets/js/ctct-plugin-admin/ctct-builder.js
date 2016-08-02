@@ -24,14 +24,30 @@ window.CTCTBuilder = {};
 		}
 	}
 
+	// Triggers our leave warning if we modify things in the form
 	that.triggerLeaveWarning = function() {
-		$( window ).bind('beforeunload', function(){
+		$( window ).bind( 'beforeunload', function(){
 			return ctct_texts.leavewarning;
 		});
 	}
 
+	// Removes our binding of our leavce warning
+	that.unbindLeaveWarning = function() {
+		$( window ).unbind( 'beforeunload' );
+	}
+
 	// Combine all events.
 	that.bindEvents = function() {
+
+		// Trigger before saving post
+		$( '#post' ).submit( function () {
+
+			// Make sure our email dropdown reverts from disbled, as CMB2 doesn't save those values
+			$( '.ctct-email-disabled' ).removeClass( 'disabled' ).prop( 'disabled', false );
+
+			// Unbind our leave warning, so we don't trigger it when we shouldn't.
+			that.unbindLeaveWarning();
+		});
 
 		// Make description non-draggable, so we don't run into weird cmb2 issues
 		$( '#ctct_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
@@ -116,7 +132,7 @@ window.CTCTBuilder = {};
 				$required.prop( 'checked', true );
 
 				// Set it to be 'disabled'
-				$( value ).find( 'select' ).addClass( 'disabled' ).prop( 'disabled', true );
+				$( value ).find( 'select' ).addClass( 'disabled ctct-email-disabled' ).prop( 'disabled', true );
 
 				// Hide the required row
 				$requiredRow.hide();
@@ -127,7 +143,7 @@ window.CTCTBuilder = {};
 			} else {
 
 				// Verify its not disabled
-				$( value ).find( 'select' ).removeClass( 'disabled' ).prop( 'disabled', false );
+				$( value ).find( 'select' ).removeClass( 'disabled ctct-email-disabled' ).prop( 'disabled', false );
 
 				// If we're not an email field, reshow the required field
 				$requiredRow.show();
