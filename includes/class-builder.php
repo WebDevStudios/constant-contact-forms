@@ -251,11 +251,16 @@ class ConstantContact_Builder {
 			'type'        => 'checkbox',
 		) );
 
+
+		// Get our site name, and if we don't have it, then use a placeholder
+		$business_name = get_bloginfo( 'name' );
+		$business_name ? $business_name : __( 'Your Business Name', 'constantcontact' );
+
 		$options_metabox->add_field( array(
 			'name'        => __( 'Opt-in Affirmation', 'constantcontact' ),
 			'id'          => $prefix . 'opt_in_instructions',
 			'type'        => 'textarea_small',
-			'default'     => __( 'Yes, I would like to receive emails from Your Business Name', 'constantcontact' ),
+			'default'     => sprintf( __( 'Yes, I would like to receive emails from %s', 'constantcontact' ), $business_name ),
 		) );
 
 	}
