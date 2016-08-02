@@ -5,7 +5,7 @@
  * @package ConstantContactLoader
  * @subpackage Loader
  * @author Pluginize
- * @since 1.0.2
+ * @since 1.0.0
  */
 
 /**
@@ -77,7 +77,7 @@ class Constant_Contact {
 	 * @var  string
 	 * @since  1.0.0
 	 */
-	const VERSION = '1.0.0';
+	const VERSION = '1.0.1';
 
 	/**
 	 * URL of plugin directory
