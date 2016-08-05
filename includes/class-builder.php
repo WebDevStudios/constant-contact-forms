@@ -448,21 +448,21 @@ class ConstantContact_Builder {
 					<div class="modal-body">
 						<div class="left">
 							<img class="flare" src="<?php echo plugins_url( '', dirname(__FILE__) ); ?>/assets/images/question-mail.png" alt="? mail" />
-							<h3>Need to manage contacts?</h3>
+							<h3>Try email marketing.</h3>
 							<p>
-								This is a version of the copy from the admin email after the form is submitted by the user.
+								Import everything into Constant Contact so I can see what email marketing can do for me.
 							</p>
 							<a href="#" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
 							<img src="<?php echo plugins_url( '', dirname(__FILE__) ); ?>/assets/images/cc-modal-logo.png" alt="Constant Contact" />
 						</div>
 						<div class="right">
 							<img class="flare" src="<?php echo plugins_url( '', dirname(__FILE__) ); ?>/assets/images/cc-login.png" alt="hand holding phone" />
-							<h3>Have and account?</h3>
+							<h3>Connect my account.</h3>
 							<p>
-								Connect the plugin to log in to your <strong><em>Constant Contact</em></strong> account and manage contacts.
+								CAutomatically add collected information to contacts in my Constant Contact account.
 							</p>
 							<a href="#" class="button button-blue" title="Connect Plugin">Connect Plugin</a><br/>
-							<p class="small"><small>By connecting you authorize this<br/>
+							<p class="small"><small> By connecting, you authorize this<br/>
 							plugin to access your account.</small></p>
 						</div>
 					</div><!-- modal body -->
