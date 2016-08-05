@@ -190,7 +190,7 @@ body.post-type-ctct_forms #titlediv #title {
 
 		// The modal header container.
 		.modal-header {
-			background: $color-sky-blue url(../images/cc-modal-bg.png) 0 0 repeat;
+			background: $color-sky-blue url(../images/cc-modal-bg.png) 50% 50% no-repeat;
 			border-top-left-radius: 8px;
 			border-top-right-radius: 8px;
 			padding: 65px 20px 40px;
@@ -208,8 +208,7 @@ body.post-type-ctct_forms #titlediv #title {
 
 				color: #ffffff;
 				cursor: pointer;
-				font-size: 24px;
-				font-weight: 300;
+				font-size: 26px;
 				height: 16px;
 				line-height: 0;
 				margin: 0;
@@ -225,8 +224,10 @@ body.post-type-ctct_forms #titlediv #title {
 		} // modal header
 
 		// No thanks
-		.modal-no-thanks {
+		.modal-footer {
 			background-color: $color-alt-silver;
+			border-bottom-left-radius: 8px;
+			border-bottom-right-radius: 8px;
 			border-top: 3px solid $color-white;
 			padding:15px 15px 18px; // line-height fix
 			text-align: center;
@@ -238,8 +239,6 @@ body.post-type-ctct_forms #titlediv #title {
 
 			a {
 				color: $color-prussian-blue;
-				font-style: italic;
-				font-weight: 600;
 				text-decoration: underline;
 			} // a
 		} // modal no thanks
@@ -253,7 +252,7 @@ body.post-type-ctct_forms #titlediv #title {
 			.left,
 			.right {
 				float:left;
-				padding: 25px 50px 35px;
+				padding: 15px 50px 15px;
 				text-align: center;
 				width: 50%;
     			box-sizing: border-box;

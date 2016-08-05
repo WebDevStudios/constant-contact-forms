@@ -434,7 +434,7 @@ class ConstantContact_Builder {
 	 */
 	public function add_not_conn_query_arg( $location ) {
 
-		// REmove our filter that we added before
+		// Remove our filter that we added before
 		remove_filter( 'redirect_post_location', array( $this, 'add_notice_query_var' ), 99 );
 
 		// Inject in our query arg
@@ -465,6 +465,7 @@ class ConstantContact_Builder {
 	 * @return  void
 	 */
 	public function output_not_connected_modal() {
+
 		// output markup of non connected modal here ?>
 		<div class="modal modal-open">
 
@@ -473,7 +474,6 @@ class ConstantContact_Builder {
 				<div class="modal-content">
 					<div class="modal-header">
 						<a href="#close" class="modal-close" aria-hidden="true">&times;</a>
-						</button>
 						<h2><?php esc_attr_e( 'Congratulations on your first form!', 'constantcontact' ); ?></h2>
 						<p>
 						<?php printf( __( 'Now, how do you want to manage your %s form contacts?', 'constantcontact' ), $this->get_form_name_markup_for_modal() ); ?>
@@ -482,7 +482,7 @@ class ConstantContact_Builder {
 					<div class="modal-body">
 						<div class="left">
 							<img class="flare" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail.png' ); ?>" alt="? mail" />
-							<h3><?php esc_attr_e( 'Need to manage contacts?', 'constantcontact' ); ?></h3>
+							<h3><?php esc_attr_e( 'Try email marketing.', 'constantcontact' ); ?></h3>
 							<p>
 								<?php esc_attr_e( 'Import everything into constant Contact so I can see what email marketing can do for me.' , 'constantcontact' ); ?>
 							</p>
@@ -491,7 +491,7 @@ class ConstantContact_Builder {
 						</div>
 						<div class="right">
 							<img class="flare" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login.png' ); ?>" alt="hand holding phone" />
-							<h3><?php esc_attr_e( 'Have and account?', 'constantcontact' ); ?></h3>
+							<h3><?php esc_attr_e( 'Connect my account.', 'constantcontact' ); ?></h3>
 							<p>
 								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account', 'constantcontact' ); ?>
 							</p>
@@ -499,10 +499,10 @@ class ConstantContact_Builder {
 							<p class="small"><small><?php esc_attr_e( 'By connecting you authorize this
 							plugin to access your account.', 'constantcontact' ); ?></small></p>
 						</div>
-					</div>
-					<div class="modal-no-thanks">
+					</div><!-- modal body -->
+					<div class="modal-footer">
 						<p>
-							<a href="#">I'm all set.</a> I'll manage the information on my own for now.
+							<a href="#">I'm all set.</a> I’ll manage the information on my own for now.
 						</p>
 					</div>
 				</div><!-- .modal-content -->
