@@ -445,11 +445,6 @@ class ConstantContact_Builder {
 						Now, how do you want to manage your <strong>[Form Name]</strong> form contacts?
 						</p>
 					</div>
-					<div class="modal-no-thanks">
-						<p>
-							<a href="#">No Thanks,</a> I'm not interested in managing my contacts right now.
-						</p>
-					</div>
 					<div class="modal-body">
 						<div class="left">
 							<img class="flare" src="<?php echo plugins_url( '', dirname(__FILE__) ); ?>/assets/images/question-mail.png" alt="? mail" />
@@ -470,6 +465,11 @@ class ConstantContact_Builder {
 							<p class="small"><small>By connecting you authorize this<br/>
 							plugin to access your account.</small></p>
 						</div>
+					</div><!-- modal body -->
+					<div class="modal-footer">
+						<p>
+							<a href="#">No Thanks,</a> I'm not interested in managing my contacts right now.
+						</p>
 					</div>
 				</div><!-- .modal-content -->
 			</div><!-- .modal-dialog -->
