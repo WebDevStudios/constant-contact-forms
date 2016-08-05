@@ -111,54 +111,55 @@ body.post-type-ctct_forms #titlediv #title {
 @import 'variables';
 @import 'mixins';
 
+// start modal
 .modal {
 	@include clearfix;
 
-	position: fixed;
-	top: 0;
-	bottom: 0;
-	left: 0;
-	right: 0;
-	background-color: rgba(0,0,0,0.3);
-	display: none;
-	overflow: hidden;
-	z-index: 1050;
-	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+	-webkit-font-smoothing: antialiased;
+	background-color: rgba(0,0,0,0.3);
+	bottom: 0;
+	display: none;
+	left: 0;
+	overflow: hidden;
+	position: fixed;
+	right: 0;
+	top: 0;
+	z-index: 1050;
 
+	// global heading/text
 	h2 {
 		font-size: 28px;
 		color: $color-white;
 		margin: 0;
 		font-weight: 400;
-	}
+	} // h2
 
 	h3 {
 		font-size: 20px;
 		color: $color-prussian-blue;
-	}
+	} // h3
 
 	p {
 		color: $color-modal-text;
 		font-size: 14.7px;
-	}
+	} // p
 
 	// When the .modal-open class is set.
 	&.modal-open {
 		display: block;
 		overflow-x: hidden;
 		overflow-y: auto;
-	}
+	} // modal open
 
 	// Center the modal container.
 	.modal-dialog {
+		left: 50%;
 		position: absolute;
 		top: 50%;
-		left: 50%;
-
 		transform: translate(-50%, -50%);
 		width: auto;
-	}
+	} // modal dialog
 
 	// The modal content container.
 	.modal-content {
@@ -166,24 +167,24 @@ body.post-type-ctct_forms #titlediv #title {
 		background-color: #ffffff;
 		border-radius: 8px;
 		box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.5);
+		max-width: 720px;
 		outline: 0;
 		padding: rem(10);
 		position: relative;
-		max-width: 720px;
 
 		// The modal header container.
 		.modal-header {
-			text-align: center;
-			padding: 65px 50px 40px;
 			background-color: $color-sky-blue;
 			border-top-left-radius: 8px;
 			border-top-right-radius: 8px;
+			padding: 65px 50px 40px;
+			text-align: center;
 
 			p {
-				margin-bottom: 0;
-				font-size: 16px;
 				color: $color-modal-header;
-			}
+				font-size: 16px;
+				margin-bottom: 0;
+			} // p
 
 			// Close "X" button.
 			.modal-close {
@@ -192,8 +193,8 @@ body.post-type-ctct_forms #titlediv #title {
 				color: #ffffff;
 				cursor: pointer;
 				font-size: 24px;
-				height: 16px;
 				font-weight: 300;
+				height: 16px;
 				line-height: 0;
 				margin: 0;
 				outline: none;
@@ -204,28 +205,28 @@ body.post-type-ctct_forms #titlediv #title {
 				text-decoration: none;
 				top:  18px;
 				width: 16px;
-			}
-		}
+			} // modal close
+		} // modal header
 
 		// No thanks
 		.modal-no-thanks {
 			background-color: $color-alt-silver;
+			border-top: 2px solid $color-white;
 			padding:15px 15px 18px; // line-height fix
 			text-align: center;
-			border-top: 2px solid $color-white;
 
 			p {
 				margin: 0;
 				font-size: 16px;
-			}
+			} // p 
 
 			a {
-				text-decoration: underline;
-				font-weight: 600;
 				color: $color-prussian-blue;
 				font-style: italic;
-			}
-		}
+				font-weight: 600;
+				text-decoration: underline;
+			} // a
+		} // modal no thanks
 
 		// The modal body container.
 		.modal-body {
@@ -236,23 +237,23 @@ body.post-type-ctct_forms #titlediv #title {
 			.left,
 			.right {
 				float:left;
-				width: 50%;
-    			box-sizing: border-box;
 				padding: 25px 50px 35px;
 				text-align: center;
-			}
+				width: 50%;
+    			box-sizing: border-box;
+			} // left/right
 
 			.left {
 				border-right: 1px solid $color-alt-silver;
-			}
+			} // left
 
 			.right {
 				border-left: 2px solid $color-alt-silver;
-			}
+			} // right
 
 			.button {
 
-			}
-		}
-	}
-}
+			} // button
+		} // modal-body
+	} // modal content
+} // modal
