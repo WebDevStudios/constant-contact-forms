@@ -185,7 +185,7 @@ body.post-type-ctct_forms #titlediv #title {
 }
 
 .modal .modal-content .modal-header {
-  background: #86C3DF url(../images/cc-modal-bg.png) 0 0 repeat;
+  background: #88C5E2 url(../images/cc-modal-bg.png) 50% 50% no-repeat;
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   padding: 65px 20px 40px;
@@ -201,8 +201,7 @@ body.post-type-ctct_forms #titlediv #title {
 .modal .modal-content .modal-header .modal-close {
   color: #ffffff;
   cursor: pointer;
-  font-size: 24px;
-  font-weight: 300;
+  font-size: 26px;
   height: 16px;
   line-height: 0;
   margin: 0;
@@ -222,22 +221,22 @@ body.post-type-ctct_forms #titlediv #title {
   display: table;
 }
 
-.modal .modal-content .modal-no-thanks {
+.modal .modal-content .modal-footer {
   background-color: #EFEFEE;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
   border-top: 3px solid #fff;
   padding: 15px 15px 18px;
   text-align: center;
 }
 
-.modal .modal-content .modal-no-thanks p {
+.modal .modal-content .modal-footer p {
   margin: 0;
   font-size: 16px;
 }
 
-.modal .modal-content .modal-no-thanks a {
+.modal .modal-content .modal-footer a {
   color: #0078C3;
-  font-style: italic;
-  font-weight: 600;
   text-decoration: underline;
 }
 
@@ -255,7 +254,7 @@ body.post-type-ctct_forms #titlediv #title {
 .modal .modal-content .modal-body .left,
 .modal .modal-content .modal-body .right {
   float: left;
-  padding: 25px 50px 35px;
+  padding: 15px 50px 15px;
   text-align: center;
   width: 50%;
   box-sizing: border-box;
