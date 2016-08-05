@@ -226,6 +226,8 @@ body.post-type-ctct_forms #titlediv #title {
 		// No thanks
 		.modal-footer {
 			background-color: $color-alt-silver;
+			border-bottom-left-radius: 8px;
+			border-bottom-right-radius: 8px;
 			border-top: 3px solid $color-white;
 			padding:15px 15px 18px; // line-height fix
 			text-align: center;
