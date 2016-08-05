@@ -452,22 +452,23 @@ class ConstantContact_Builder {
 					</div>
 					<div class="modal-body">
 						<div class="left">
-							<img src="" alt="? mail" />
+							<img class="flare" src="<?php echo plugins_url( '', dirname(__FILE__) ); ?>/assets/images/question-mail.png" alt="? mail" />
 							<h3>Need to manage contacts?</h3>
 							<p>
 								This is a version of the copy from the admin email after the form is submitted by the user.
 							</p>
 							<a href="#" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
-							<img src="" alt="Constant Contact" />
+							<img src="<?php echo plugins_url( '', dirname(__FILE__) ); ?>/assets/images/cc-modal-logo.png" alt="Constant Contact" />
 						</div>
 						<div class="right">
-							<img src="" alt="hand holding phone" />
+							<img class="flare" src="<?php echo plugins_url( '', dirname(__FILE__) ); ?>/assets/images/cc-login.png" alt="hand holding phone" />
 							<h3>Have and account?</h3>
 							<p>
 								Connect the plugin to log in to your <strong><em>Constant Contact</em></strong> account and manage contacts.
 							</p>
 							<a href="#" class="button button-blue" title="Connect Plugin">Connect Plugin</a><br/>
-							<small>by connecting you authorize this plugin to access your account.</small>
+							<p class="small"><small>By connecting you authorize this<br/>
+							plugin to access your account.</small></p>
 						</div>
 					</div>
 				</div><!-- .modal-content -->
