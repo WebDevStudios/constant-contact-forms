@@ -64,6 +64,7 @@ class ConstantContact_Builder {
 
 			add_action( 'cmb2_save_field', array( $this, 'override_save' ), 10, 4 );
 			add_action( 'admin_notices', array( $this, 'admin_notice' ) );
+			add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
 		}
 
 	}
@@ -386,10 +387,47 @@ class ConstantContact_Builder {
 				printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
 			}
 
-			if ( ! constant_contact()->api->is_connected() ) {
-				$this->output_no_connected_modal();
+			// Check for our query arg
+			if ( isset( $_GET['ctct_not_connected'] ) ) {
+
+				// Double check that we're not connected
+				if ( ! constant_contact()->api->is_connected() ) {
+
+					// Show our modal
+					$this->output_no_connected_modal();
+				}
 			}
 		}
+	}
+
+	/**
+	 * On post save, see if we should trigger the not connected modal
+	 *
+	 * @since   1.0.0
+	 * @param   int  $post_id  post id
+	 * @param   object  $post     post object
+	 * @return  void
+	 */
+	public function save_post( $post_id, $post ) {
+
+		if (
+			$post &&
+			isset( $post->ID ) &&
+			isset( $post->post_type ) &&
+			'ctct_forms' === $post->post_type &&
+			! wp_is_post_revision( $post ) &&
+			! constant_contact()->api->is_connected()
+		) {
+			add_filter( 'redirect_post_location', array( $this, 'add_not_conn_query_arg' ), 99 );
+		}
+	}
+
+	// Return our query arg, and reomve our filter that we added before
+	public function add_not_conn_query_arg( $location ) {
+
+		remove_filter( 'redirect_post_location', array( $this, 'add_notice_query_var' ), 99 );
+
+		return add_query_arg( array( 'ctct_not_connected' => 'true' ), $location );
 	}
 
 	public function output_no_connected_modal() {
