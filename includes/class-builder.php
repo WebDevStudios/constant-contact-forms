@@ -365,26 +365,35 @@ class ConstantContact_Builder {
 	 * @return void
 	 */
 	public function admin_notice() {
-	    global $post;
+		global $post;
 
-	    // data verification
-	    if (
-	    	$post &&
-	    	isset( $post->ID ) &&
-	    	isset( $post->post_type ) &&
-	    	'ctct_forms' === $post->post_type &&
-	    	isset( $post->post_status ) &&
-	    	'auto-draft' !== $post->post_status
-	    ) {
+		// data verification
+		if (
+			$post &&
+			isset( $post->ID ) &&
+			isset( $post->post_type ) &&
+			'ctct_forms' === $post->post_type &&
+			isset( $post->post_status ) &&
+			'auto-draft' !== $post->post_status
+		) {
 
-	    	// Check to see if we have an email set on our field
-	    	$has_email = get_post_meta( $post->ID, '_ctct_has_email_field', true );
+			// Check to see if we have an email set on our field
+			$has_email = get_post_meta( $post->ID, '_ctct_has_email_field', true );
 
-	    	if ( ! $has_email || 'false' === $has_email ) {
+			if ( ! $has_email || 'false' === $has_email ) {
 				$class = 'notice notice-error';
 				$message = __( 'Please add an email field to continue.', 'constantcontact' );
 				printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
-	    	}
-	    }
+			}
+
+			if ( ! constant_contact()->api->is_connected() ) {
+				$this->output_no_connected_modal();
+			}
+		}
+	}
+
+	public function output_no_connected_modal() {
+		// output markup of non connected modal here
+		echo "Modal Markup here!";
 	}
 }
