@@ -438,7 +438,12 @@ class ConstantContact_Builder {
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						
+						<a href="#close" class="modal-close" aria-hidden="true">&times;</a>
+						</button>
+						<h2>Congratulations on your first form!</h2>
+						<p>
+						Now, how do you want to manage your <strong>[Form Name]</strong> form contacts?
+						</p>
 					</div>
 					<div class="modal-no-thanks">
 						<p>
