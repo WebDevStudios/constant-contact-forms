@@ -125,7 +125,7 @@ body.post-type-ctct_forms #titlediv #title {
 	position: fixed;
 	right: 0;
 	top: 0;
-	z-index: 1050;
+	z-index: 9999;
 
 	// global heading/text
 	h2 {
@@ -162,7 +162,12 @@ body.post-type-ctct_forms #titlediv #title {
 		position: absolute;
 		top: 50%;
 		transform: translate(-50%, -50%);
-		width: auto;
+		width: 100%;
+		max-width: 720px;
+
+		@media screen and (max-width: 1024px) {
+			max-width: 75%;
+		}
 
 		@media screen and (max-width: 782px) {
 			left: 7.5%;
@@ -179,7 +184,6 @@ body.post-type-ctct_forms #titlediv #title {
 		background-color: #ffffff;
 		border-radius: 8px;
 		box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.4);
-		max-width: 720px;
 		outline: 0;
 		padding: rem(10);
 		position: relative;
