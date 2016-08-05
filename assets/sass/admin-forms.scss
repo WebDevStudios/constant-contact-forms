@@ -190,7 +190,7 @@ body.post-type-ctct_forms #titlediv #title {
 
 		// The modal header container.
 		.modal-header {
-			background: $color-sky-blue url(../images/cc-modal-bg.png) 0 0 repeat;
+			background: $color-sky-blue url(../images/cc-modal-bg.png) 50% 50% no-repeat;
 			border-top-left-radius: 8px;
 			border-top-right-radius: 8px;
 			padding: 65px 20px 40px;
@@ -208,8 +208,7 @@ body.post-type-ctct_forms #titlediv #title {
 
 				color: #ffffff;
 				cursor: pointer;
-				font-size: 24px;
-				font-weight: 300;
+				font-size: 26px;
 				height: 16px;
 				line-height: 0;
 				margin: 0;
