@@ -431,7 +431,21 @@ class ConstantContact_Builder {
 	}
 
 	public function output_no_connected_modal() {
-		// output markup of non connected modal here
-		echo "Modal Markup here!";
-	}
+		// output markup of non connected modal here ?>
+		<div class="modal modal-open">
+
+			<?php // modal header ?>
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						
+					</div>
+					
+					<div class="modal-body">
+						
+					</div>
+				</div><!-- .modal-content -->
+			</div><!-- .modal-dialog -->
+		</div>
+	<?php }
 }
