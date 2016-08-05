@@ -468,7 +468,7 @@ class ConstantContact_Builder {
 					</div><!-- modal body -->
 					<div class="modal-footer">
 						<p>
-							<a href="#">No Thanks,</a> I'm not interested in managing my contacts right now.
+							<a href="#">I'm all set.</a> I’ll manage the information on my own for now.
 						</p>
 					</div>
 				</div><!-- .modal-content -->
