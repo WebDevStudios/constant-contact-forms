@@ -110,3 +110,149 @@ body.post-type-ctct_forms #titlediv #title {
 
 @import 'variables';
 @import 'mixins';
+
+.modal {
+	@include clearfix;
+
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background-color: rgba(0,0,0,0.3);
+	display: none;
+	overflow: hidden;
+	z-index: 1050;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+
+	h2 {
+		font-size: 28px;
+		color: $color-white;
+		margin: 0;
+		font-weight: 400;
+	}
+
+	h3 {
+		font-size: 20px;
+		color: $color-prussian-blue;
+	}
+
+	p {
+		color: $color-modal-text;
+		font-size: 14.7px;
+	}
+
+	// When the .modal-open class is set.
+	&.modal-open {
+		display: block;
+		overflow-x: hidden;
+		overflow-y: auto;
+	}
+
+	// Center the modal container.
+	.modal-dialog {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+
+		transform: translate(-50%, -50%);
+		width: auto;
+	}
+
+	// The modal content container.
+	.modal-content {
+		background-clip: padding-box;
+		background-color: #ffffff;
+		border-radius: 8px;
+		box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.5);
+		outline: 0;
+		padding: rem(10);
+		position: relative;
+		max-width: 720px;
+
+		// The modal header container.
+		.modal-header {
+			text-align: center;
+			padding: 65px 50px 40px;
+			background-color: $color-sky-blue;
+			border-top-left-radius: 8px;
+			border-top-right-radius: 8px;
+
+			p {
+				margin-bottom: 0;
+				font-size: 16px;
+				color: $color-modal-header;
+			}
+
+			// Close "X" button.
+			.modal-close {
+				@include clearfix;
+
+				color: #ffffff;
+				cursor: pointer;
+				font-size: 24px;
+				height: 16px;
+				font-weight: 300;
+				line-height: 0;
+				margin: 0;
+				outline: none;
+				padding: 0;
+				padding: 0;
+				position: absolute;
+				right: 10px;
+				text-decoration: none;
+				top:  18px;
+				width: 16px;
+			}
+		}
+
+		// No thanks
+		.modal-no-thanks {
+			background-color: $color-alt-silver;
+			padding:15px 15px 18px; // line-height fix
+			text-align: center;
+			border-top: 2px solid $color-white;
+
+			p {
+				margin: 0;
+				font-size: 16px;
+			}
+
+			a {
+				text-decoration: underline;
+				font-weight: 600;
+				color: $color-prussian-blue;
+				font-style: italic;
+			}
+		}
+
+		// The modal body container.
+		.modal-body {
+			@include clearfix;
+			padding: 15px;
+			position: relative;
+
+			.left,
+			.right {
+				float:left;
+				width: 50%;
+    			box-sizing: border-box;
+				padding: 25px 50px 35px;
+				text-align: center;
+			}
+
+			.left {
+				border-right: 1px solid $color-alt-silver;
+			}
+
+			.right {
+				border-left: 2px solid $color-alt-silver;
+			}
+
+			.button {
+
+			}
+		}
+	}
+}
