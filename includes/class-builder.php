@@ -440,7 +440,11 @@ class ConstantContact_Builder {
 					<div class="modal-header">
 						
 					</div>
-					
+					<div class="modal-no-thanks">
+						<p>
+							<a href="#">No Thanks,</a> I'm not interested in managing my contacts right now.
+						</p>
+					</div>
 					<div class="modal-body">
 						<div class="left">
 							<img src="" alt="? mail" />
