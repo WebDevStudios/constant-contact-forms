@@ -129,15 +129,19 @@ body.post-type-ctct_forms #titlediv #title {
 
 	// global heading/text
 	h2 {
-		font-size: 28px;
 		color: $color-white;
-		margin: 0;
+		font-size: 28px;
 		font-weight: 400;
+		line-height: 1.2;
+		margin: 0;
 	} // h2
 
 	h3 {
-		font-size: 20px;
-		color: $color-prussian-blue;
+		color: darken($color-prussian-blue,10%);
+		font-size: 18px;
+		line-height: 1.2;
+		margin-bottom: 15px;
+		margin-top: 10px;
 	} // h3
 
 	p {
@@ -159,6 +163,14 @@ body.post-type-ctct_forms #titlediv #title {
 		top: 50%;
 		transform: translate(-50%, -50%);
 		width: auto;
+
+		@media screen and (max-width: 782px) {
+			left: 7.5%;
+			top: 15%;
+			transform: translate(0,0);
+			margin-bottom: 15%;
+			max-width: 85%;
+		}
 	} // modal dialog
 
 	// The modal content container.
@@ -166,7 +178,7 @@ body.post-type-ctct_forms #titlediv #title {
 		background-clip: padding-box;
 		background-color: #ffffff;
 		border-radius: 8px;
-		box-shadow: 0 0 10px 3px rgba(0, 0, 0, 0.5);
+		box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.4);
 		max-width: 720px;
 		outline: 0;
 		padding: rem(10);
@@ -174,10 +186,10 @@ body.post-type-ctct_forms #titlediv #title {
 
 		// The modal header container.
 		.modal-header {
-			background-color: $color-sky-blue;
+			background: $color-sky-blue url(../images/cc-modal-bg.png) 0 0 repeat;
 			border-top-left-radius: 8px;
 			border-top-right-radius: 8px;
-			padding: 65px 50px 40px;
+			padding: 65px 20px 40px;
 			text-align: center;
 
 			p {
@@ -211,7 +223,7 @@ body.post-type-ctct_forms #titlediv #title {
 		// No thanks
 		.modal-no-thanks {
 			background-color: $color-alt-silver;
-			border-top: 2px solid $color-white;
+			border-top: 3px solid $color-white;
 			padding:15px 15px 18px; // line-height fix
 			text-align: center;
 
@@ -241,18 +253,85 @@ body.post-type-ctct_forms #titlediv #title {
 				text-align: center;
 				width: 50%;
     			box-sizing: border-box;
+
+    			@media screen and (max-width: 782px) {
+    				width: 100%;
+    				float: none;
+    			}
+
+    			img,
+    			svg {
+
+    				&.flare {
+						max-width: 120px;
+						height: auto;
+    				} // flare
+    			} // img
+
+    			p {
+    				max-width: 90%;
+    				margin: 0 auto 25px;
+
+    				&.small {
+    					line-height: 1;
+    					margin: 0;
+    					max-width: 100%;
+    				} // &.small
+    			} // p
+
+    			small {
+    				font-style: italic;
+    			} // small
 			} // left/right
 
 			.left {
 				border-right: 1px solid $color-alt-silver;
+
+				@media screen and (max-width: 782px) {
+					border-bottom: 1px solid $color-alt-silver;
+					border-right: 0;
+				}
 			} // left
 
 			.right {
 				border-left: 2px solid $color-alt-silver;
+
+				@media screen and (max-width: 782px) {
+					border-top: 1px solid $color-alt-silver;
+					border-left: 0;
+				}
 			} // right
 
 			.button {
+				border-radius: 4px;
+				color: $color-white;
+				font-size: 16px;
+				font-weight: 600;
+				height: auto;
+				line-height: 1;
+				margin-bottom: 10px;
+				min-width: 180px;
+				padding: 14px 30px;
 
+				&.button-orange {
+					background-color: $color-chrome-yellow;
+					border: 1px solid darken($color-chrome-yellow, 10%);
+
+					&:hover,
+					&:focus {
+						background-color: darken($color-chrome-yellow, 10%);
+					}
+				} // button orange
+
+				&.button-blue {
+					background-color: $color-prussian-blue;
+					border: 1px solid darken($color-prussian-blue, 10%);
+
+					&:hover,
+					&:focus {
+						background-color: darken($color-prussian-blue, 10%);
+					}
+				} // button blue
 			} // button
 		} // modal-body
 	} // modal content
