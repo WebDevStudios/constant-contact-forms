@@ -476,34 +476,52 @@ class ConstantContact_Builder {
 						<a href="#close" class="modal-close" aria-hidden="true">&times;</a>
 						<h2><?php esc_attr_e( 'Congratulations on your first form!', 'constantcontact' ); ?></h2>
 						<p>
-						<?php printf( __( 'Now, how do you want to manage your %s form contacts?', 'constantcontact' ), $this->get_form_name_markup_for_modal() ); ?>
+						<?php printf( esc_html__( 'Now, how do you want to manage your %s form contacts?', 'constantcontact' ), $this->get_form_name_markup_for_modal() ); ?>
 						</p>
 					</div>
 					<div class="modal-body">
 						<div class="left">
-							<img class="flare" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail.png' ); ?>" alt="? mail" />
+							<img
+								class="flare"
+								src="<?php echo $this->plugin->url . 'assets/images/question-mail.png'; ?>"
+								alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constantcontact' ); ?>"
+							/>
 							<h3><?php esc_attr_e( 'Try email marketing.', 'constantcontact' ); ?></h3>
 							<p>
 								<?php esc_attr_e( 'Import everything into constant Contact so I can see what email marketing can do for me.' , 'constantcontact' ); ?>
 							</p>
 							<a href="#" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
-							<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-modal-logo.png' ); ?>" alt="Constant Contact" />
+							<img
+								class="flare"
+								src="<?php echo $this->plugin->url . 'assets/images/cc-modal-logo.png'; ?>"
+								alt="<?php esc_attr_e( 'Constant Contact', 'constantcontact' ); ?>"
+							/>
 						</div>
 						<div class="right">
-							<img class="flare" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login.png' ); ?>" alt="hand holding phone" />
+							<img
+								class="flare"
+								src="<?php echo $this->plugin->url . 'assets/images/cc-login.png'; ?>"
+								alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constantcontact' ); ?>"
+							/>
 							<h3><?php esc_attr_e( 'Connect my account.', 'constantcontact' ); ?></h3>
 							<p>
 								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account', 'constantcontact' ); ?>
 							</p>
-							<a href="#" class="button button-blue" title="Connect Plugin">Connect Plugin</a><br/>
+							<a href="#" class="button button-blue" title="Connect Plugin">
+								<?php esc_attr_e( 'Connect Plugin', 'constantcontact' ); ?>
+							</a><br/>
 							<p class="small"><small><?php esc_attr_e( 'By connecting you authorize this
 							plugin to access your account.', 'constantcontact' ); ?></small></p>
 						</div>
 					</div><!-- modal body -->
 					<div class="modal-footer">
-						<p>
-							<a href="#">I'm all set.</a> I’ll manage the information on my own for now.
-						</p>
+						<p><?php
+							printf( '<a href="%s">%s</a>%s',
+								'#',
+								esc_attr__( "I'm all set.", 'constantcontact' ),
+								esc_attr__( "I'll manage the information on my own for now.", 'constantcontact' )
+							);
+						?></p>
 					</div>
 				</div><!-- .modal-content -->
 			</div><!-- .modal-dialog -->
