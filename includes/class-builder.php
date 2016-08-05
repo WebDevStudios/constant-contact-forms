@@ -381,20 +381,21 @@ class ConstantContact_Builder {
 			// Check to see if we have an email set on our field
 			$has_email = get_post_meta( $post->ID, '_ctct_has_email_field', true );
 
+			// If we don't have an email, then display our admin notice to the user
 			if ( ! $has_email || 'false' === $has_email ) {
-				$class = 'notice notice-error';
-				$message = __( 'Please add an email field to continue.', 'constantcontact' );
-				printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), esc_attr( $message ) );
+				echo '<div class="notice notice-error"><p>';
+				esc_attr_e( 'Please add an email field to continue.', 'constantcontact' );
+				echo '</p></div>';
 			}
 
 			// Check for our query arg
-			if ( isset( $_GET['ctct_not_connected'] ) ) {
+			if ( isset( $_GET['ctct_not_connected'] ) && $_GET['ctct_not_connected'] ) {
 
 				// Double check that we're not connected
 				if ( ! constant_contact()->api->is_connected() ) {
 
 					// Show our modal
-					$this->output_no_connected_modal();
+					$this->output_not_connected_modal();
 				}
 			}
 		}
@@ -410,27 +411,60 @@ class ConstantContact_Builder {
 	 */
 	public function save_post( $post_id, $post ) {
 
+		// Sanity checks to make sure it only applies to
+		// what we want to deal with, which is saving a form
+		// and not connected to constant contact
 		if (
 			$post &&
-			isset( $post->ID ) &&
+			$post_id &&
 			isset( $post->post_type ) &&
 			'ctct_forms' === $post->post_type &&
 			! wp_is_post_revision( $post ) &&
 			! constant_contact()->api->is_connected()
 		) {
+			// Inject in a query arg that we can read later
 			add_filter( 'redirect_post_location', array( $this, 'add_not_conn_query_arg' ), 99 );
 		}
 	}
 
-	// Return our query arg, and reomve our filter that we added before
+	/**
+	 * Return our query arg, and reomve our filter that we added before
+	 *
+	 * @since   1.0.0
+	 */
 	public function add_not_conn_query_arg( $location ) {
 
+		// REmove our filter that we added before
 		remove_filter( 'redirect_post_location', array( $this, 'add_notice_query_var' ), 99 );
 
+		// Inject in our query arg
 		return add_query_arg( array( 'ctct_not_connected' => 'true' ), $location );
 	}
 
-	public function output_no_connected_modal() {
+	/**
+	 * Gets our form title for our connect modal window
+	 *
+	 * @since   1.0.0
+	 * @return  string  markup with form title
+	 */
+	public function get_form_name_markup_for_modal() {
+
+		// Get the post object
+		global $post;
+
+		// If we have a post title set, use that for our modal
+		if ( isset( $post->post_title ) ) {
+			return '<strong>' . esc_attr( $post->post_title ) . '</strong>';
+		}
+	}
+
+	/**
+	 * Displays our not connected modal to the user
+	 *
+	 * @since   1.0.0
+	 * @return  void
+	 */
+	public function output_not_connected_modal() {
 		// output markup of non connected modal here ?>
 		<div class="modal modal-open">
 
@@ -440,36 +474,36 @@ class ConstantContact_Builder {
 					<div class="modal-header">
 						<a href="#close" class="modal-close" aria-hidden="true">&times;</a>
 						</button>
-						<h2>Congratulations on your first form!</h2>
+						<h2><?php esc_attr_e( 'Congratulations on your first form!', 'constantcontact' ); ?></h2>
 						<p>
-						Now, how do you want to manage your <strong>[Form Name]</strong> form contacts?
-						</p>
-					</div>
-					<div class="modal-no-thanks">
-						<p>
-							<a href="#">No Thanks,</a> I'm not interested in managing my contacts right now.
+						<?php printf( __( 'Now, how do you want to manage your %s form contacts?', 'constantcontact' ), $this->get_form_name_markup_for_modal() ); ?>
 						</p>
 					</div>
 					<div class="modal-body">
 						<div class="left">
-							<img class="flare" src="<?php echo plugins_url( '', dirname(__FILE__) ); ?>/assets/images/question-mail.png" alt="? mail" />
-							<h3>Need to manage contacts?</h3>
+							<img class="flare" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail.png' ); ?>" alt="? mail" />
+							<h3><?php esc_attr_e( 'Need to manage contacts?', 'constantcontact' ); ?></h3>
 							<p>
-								This is a version of the copy from the admin email after the form is submitted by the user.
+								<?php esc_attr_e( 'Import everything into constant Contact so I can see what email marketing can do for me.' , 'constantcontact' ); ?>
 							</p>
 							<a href="#" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
-							<img src="<?php echo plugins_url( '', dirname(__FILE__) ); ?>/assets/images/cc-modal-logo.png" alt="Constant Contact" />
+							<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-modal-logo.png' ); ?>" alt="Constant Contact" />
 						</div>
 						<div class="right">
-							<img class="flare" src="<?php echo plugins_url( '', dirname(__FILE__) ); ?>/assets/images/cc-login.png" alt="hand holding phone" />
-							<h3>Have and account?</h3>
+							<img class="flare" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login.png' ); ?>" alt="hand holding phone" />
+							<h3><?php esc_attr_e( 'Have and account?', 'constantcontact' ); ?></h3>
 							<p>
-								Connect the plugin to log in to your <strong><em>Constant Contact</em></strong> account and manage contacts.
+								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account', 'constantcontact' ); ?>
 							</p>
 							<a href="#" class="button button-blue" title="Connect Plugin">Connect Plugin</a><br/>
-							<p class="small"><small>By connecting you authorize this<br/>
-							plugin to access your account.</small></p>
+							<p class="small"><small><?php esc_attr_e( 'By connecting you authorize this
+							plugin to access your account.', 'constantcontact' ); ?></small></p>
 						</div>
+					</div>
+					<div class="modal-no-thanks">
+						<p>
+							<a href="#">I'm all set.</a> I'll manage the information on my own for now.
+						</p>
 					</div>
 				</div><!-- .modal-content -->
 			</div><!-- .modal-dialog -->
