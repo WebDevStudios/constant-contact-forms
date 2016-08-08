@@ -171,6 +171,7 @@
 
 	.hide-overflow {
 		overflow: hidden;
+		position: relative;
 
 		hr {
 			margin-top: 30px;
@@ -187,12 +188,18 @@
 
 	.left-side {
 		float:left;
-		max-width:80%;
+		box-sizing: border-box;
+		padding-right: 160px;
+
+		@media screen and (max-width: 782px) {
+		
+		}
 	} // left side
 
 	.plugin-badge {
-		float: right;
-		margin: 10px 0 0 0;
+		position: absolute;
+		top: 0;
+		right: 0;
 		max-height: 180px;
 		max-width: 160px;
 	} // plugin-badge
@@ -204,7 +211,53 @@
 
 // advert-block 
 .advert-block {
+	@include clearfix;
+
 	margin: 0 auto;
 	max-width: 90%;
 	padding: 50px 0;
+	text-align: center;
+
+	h3 {
+		color: $color-cc-blue;
+		font-size: 21px;
+		font-weight: 300;
+		height: 63px;
+		margin: 0 auto; 
+		max-width: 70%;
+	}
+
+	// ad block containers
+	.left,
+	.right {
+		@include clearfix;
+
+		float:left;
+		width: 50%;
+
+		// ad blocks
+		.ad-1,
+		.ad-2 {
+			width: 90%;
+
+			img {
+				width: 100%;
+				height: auto;
+			}
+		} // ad-1, ad-2
+
+		// ad-1
+		.ad-1 {
+			float:left;
+
+			h3 {
+				padding-top: 35px;
+				height: 47px;
+			}
+		}
+		// ad-2
+		.ad-2 {
+			float:right;
+		}
+	} // left/right
 } // advert block
