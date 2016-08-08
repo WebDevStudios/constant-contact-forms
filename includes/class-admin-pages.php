@@ -232,16 +232,16 @@ class ConstantContact_Admin_Pages {
 		<div class="wrap about-wrap constant-contact-about">
 			<div class="hide-overflow">
 				<div class="left-side">
-					<h1 class="about-header"><?php echo esc_attr( $this->get_text( 'welcome_heading' ) ); ?></h1>
+					<h1 class="about-header"><?php esc_attr_e( 'Constant Contact for WordPress', 'constantcontact' ); ?></h1>
 					<div class="about-text">
 						<p>
-							<?php echo wp_kses_post( $this->get_text( 'welcome_text' ) ); ?>
+							<?php esc_attr_e( 'Want to connect with visitors even after they’ve left your WordPress site? Constant Contact’s email marketing tools make it easy. And with an average of $44 back for every dollar spent, nothing beats email marketing for driving real business results. With the Constant Contact for WordPress plugin and an active Constant Contact account, you can easily add forms (sign-up, comment, opt-ins) to your site so every visitor can be easily added to your Constant Contact email list.', 'constantcontact' ); ?>
 						</p>
 						<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a>
 					</div>
 				</div>
 				<span class="plugin-badge">
-					<img src="<?php echo esc_url( $this->get_text( 'icon' ) ); ?>">
+					<img src="<?php echo $this->plugin->url . 'assets/images/icon.jpg'; ?>">
 				</span>
 				<div class="clear"></div>
 				<hr>
@@ -249,31 +249,27 @@ class ConstantContact_Admin_Pages {
 					// Get our middleware link
 					$proof = constant_contact()->authserver->set_verification_option();
 					$auth_link = constant_contact()->authserver->do_connect_url( $proof );
-
-					// If we have a link, then display the connect button
-					if ( $auth_link ) { ?>
-						<h2><?php esc_attr_e( 'Already a Constant Contact Member?', 'constantcontact' ); ?></h2>
-						<a href="<?php echo $auth_link ?>" class="button button-blue ctct-connect">
-							<?php esc_html_e( 'Connect Plugin', 'constantcontact' ); ?>
-						</a>
+				?>
+				<?php if ( $auth_link ) { // If we have a link, then display the connect button ?>
+					<h2><?php esc_attr_e( 'Already a Constant Contact Member?', 'constantcontact' ); ?></h2>
+					<a href="<?php echo $auth_link ?>" class="button button-blue ctct-connect">
+						<?php esc_html_e( 'Connect Plugin', 'constantcontact' ); ?>
+					</a>
 				<?php } ?>
 			</div>
 			<div class="headline-feature">
-				<h3 class="headline-title">
-					<?php echo esc_html( $this->get_text( 'feat_headline' ) ); ?>
-				</h3>
-
+				<h3></h3>
 				<div class="featured-image">
-					<img src="<?php echo esc_url( $this->get_text( 'feat_image' ) ); ?>">
+					<img src="<?php echo $this->plugin->url . 'assets/images/coffee-hero.jpg'; ?>">
 					<p class="featured-title c-text">
-						<?php echo esc_html( $this->get_text( 'feat_title' ) ); ?>
+						<?php esc_attr_e( 'Powerful Email Marketing, Made Simple.', 'constantcontact' ); ?>
 					</p>
 					<p class="featured-introduction c-text">
-						<?php echo esc_html( $this->get_text( 'feat_sub_title' ) ); ?>
+						<?php esc_attr_e( 'Create professional emails that bring customers to your door', 'constantcontact' ) ?>
 					</p>
 				</div>
 				<p class="introduction c-text">
-					<?php echo wp_kses_post( $this->get_text( 'feat_description' ) ); ?>
+					<?php echo wp_kses_post( __( 'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact for WordPress plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left. <h5>*Direct Marketing Association 2013 Statistical Fact Book</h5>', 'constantcontact' ) ); ?>
 				</p>
 				<div class="clear"></div>
 			</div>
@@ -288,8 +284,7 @@ class ConstantContact_Admin_Pages {
 							alt="<?php echo esc_attr_x( 'add forms screenshot', 'add forms alt text', 'constantcontact' ); ?>"
 						/>
 						<p>
-							<?php esc_html_e( 'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. 
-', 'constantcontact' ); ?>
+							<?php esc_html_e( 'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. ', 'constantcontact' ); ?>
 						</p>
 					</div>
 				</div>
@@ -301,8 +296,7 @@ class ConstantContact_Admin_Pages {
 							alt="<?php echo esc_attr_x( 'stay connected screenshot', 'stay connected alt text', 'constantcontact' ); ?>"
 						/>
 						<p>
-							<?php esc_html_e( 'Form completions from site visitors are conveniently added to your Constant Contact email list.
-', 'constantcontact' ); ?>
+							<?php esc_html_e( 'Form completions from site visitors are conveniently added to your Constant Contact email list.', 'constantcontact' ); ?>
 						</p>
 					</div>
 				</div>
@@ -310,74 +304,6 @@ class ConstantContact_Admin_Pages {
 		</div>
 
 		<?php
-	}
-
-	/**
-	 * Holds all the data for the about page
-	 *
-	 * @since  1.0.0
-	 * @param  string $key           array key of text to retrieve
-	 * @param  text   $secondary_key   optional second key for nested array
-	 * @return mixed                If no params are passed in, all data returned.
-	                                passing one key will return that data if it exists,
-	                                either as a string or array. The secondary key will grab a nested
-	                                array data point.
-	 */
-	public function get_text( $key = null, $secondary_key = null ) {
-
-		// Set up a filter to hold all of our about page data,
-		// so we can modify it elsewhere if we want.
-		$about_page_data = apply_filters( 'constant_contact_about_page_date', array(
-				'plugin'  => constant_contact()->plugin_name,
-				'version' => constant_contact()->version,
-				'icon'    => constant_contact()->url . 'assets/images/icon.jpg',
-
-				'welcome_heading'  => __( 'Constant Contact for WordPress', 'constantcontact' ),
-				'welcome_text'     => __( 'Want to connect with visitors even after they’ve left your WordPress site? Constant Contact’s email marketing tools make it easy. And with an average of $44 back for every dollar spent, nothing beats email marketing for driving real business results. With the Constant Contact for WordPress plugin and an active Constant Contact account, you can easily add forms (sign-up, comment, opt-ins) to your site so every visitor can be easily added to your Constant Contact email list.', 'constantcontact' ),
-				'feat_headline'    => __( '', 'constantcontact' ),
-				'feat_image'       => constant_contact()->url . 'assets/images/coffee-hero.jpg',
-				'feat_title'       => __( 'Powerful Email Marketing, Made Simple.', 'constantcontact' ),
-				'feat_sub_title'   => __( 'Create professional emails that bring customers to your door', 'constantcontact' ),
-				'feat_description' => __( 'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact for WordPress plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left. <h5>*Direct Marketing Association 2013 Statistical Fact Book</h5>', 'constantcontact' ),
-
-				'features' => array(
-					array(
-						'title'       => __( 'Easy Contact management.', 'constantcontact' ),
-						'image'       => constant_contact()->url . 'assets/images/form-display.png',
-						'alt'         => __( 'Form display in admin and front end', 'constantcontact' ),
-						'description' => __( 'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. ', 'constantcontact' ),
-					),
-					array(
-						'title'       => __( 'Track Your Success', 'constantcontact' ),
-						'image'       => constant_contact()->url . 'assets/images/contacts.png',
-						'alt'         => __( 'Form entries in database', 'constantcontact' ),
-						'description' => __( 'Form completions from site visitors are conveniently added to your Constant Contact email list.', 'constantcontact' ),
-					),
-				),
-		) );
-
-		// If we didn't pass a key, return all the data
-		if ( ! $key ) {
-			return $about_page_data;
-		}
-
-		// if we passed a key, check to see if we can return that key itself
-		if ( isset( $about_page_data[ $key ] ) ) {
-
-			// if we also have a secondary key, check for that
-			if ( $secondary_key ) {
-				if ( isset( $about_page_data[ $key ][ $secondary_key ] ) ) {
-					return $about_page_data[ $key ][ $secondary_key ];
-				}
-			}
-
-			// If we don't have a secondary key, return our orignal
-			return $about_page_data[ $key ];
-		}
-
-		// Didn't get anything, pass it back
-		return '';
-
 	}
 }
 
