@@ -493,7 +493,7 @@ class ConstantContact_Builder {
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-header">
-						<a href="#close" class="modal-close" aria-hidden="true">&times;</a>
+						<a href="#" class="modal-close" aria-hidden="true">&times;</a>
 						<h2><?php esc_attr_e( 'Congratulations on your first form!', 'constantcontact' ); ?></h2>
 						<p>
 						<?php printf( esc_html__( 'Now, how do you want to manage your %s form contacts?', 'constantcontact' ), $this->get_form_name_markup_for_modal() ); ?>
@@ -536,8 +536,8 @@ class ConstantContact_Builder {
 					</div><!-- modal body -->
 					<div class="modal-footer">
 						<p><?php
-							printf( '<a href="%s">%s</a> %s',
-								'#close',
+							printf( '<a class="modal-close" href="%s">%s</a> %s',
+								'#',
 								esc_attr__( "I'm all set.", 'constantcontact' ),
 								esc_attr__( "I'll manage the information on my own for now.", 'constantcontact' )
 							);
