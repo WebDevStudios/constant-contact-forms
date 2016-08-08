@@ -128,15 +128,6 @@ class ConstantContact_Connect {
 			$connect_title = __( 'Connect Now', 'constantcontact' );
 			$connect_link = 'edit.php?post_type=ctct_forms';
 
-			wp_register_style(
-				'constant_contact_admin_global_no_connection',
-				constant_contact()->url() . 'assets/css/admin-global-no-connection.css',
-				array(),
-				constant_contact()->version
-			);
-
-			wp_enqueue_style( 'constant_contact_admin_global_no_connection' );
-
 		} else {
 
 			// If we've already been connected, then we can set it to be a disconnect button
@@ -239,7 +230,7 @@ class ConstantContact_Connect {
 						<?php } ?>
 					</div>
 				</div>
-				
+
 				<p class="ctct-description small">
 					<strong><?php esc_html_e( 'NOTE: ', 'constantcontact' ); ?></strong><?php esc_html_e( 'It’s possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin.', 'constantcontact' ); ?>
 				</p>
