@@ -477,15 +477,6 @@ class ConstantContact_Builder {
 	 */
 	public function output_not_connected_modal() {
 
-		wp_register_style(
-			'constant_contact_admin_global_no_connection',
-			constant_contact()->url() . 'assets/css/admin-global-no-connection.css',
-			array(),
-			constant_contact()->version
-		);
-
-		wp_enqueue_style( 'constant_contact_admin_global_no_connection' );
-
 		// output markup of non connected modal here ?>
 		<div class="modal modal-open">
 
