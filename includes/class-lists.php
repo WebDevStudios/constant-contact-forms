@@ -177,7 +177,7 @@ class ConstantContact_Lists {
 	 * @since 1.0.0
 	 * @return void
 	 */
-	public function sync_lists() {
+	public function sync_lists( $force = false ) {
 
 		// Because we want the lists to stay in sync, but we don't want to do too many
 		// requests, we save an option and check against it to make sure we don't sync more than
@@ -359,6 +359,7 @@ class ConstantContact_Lists {
 
 		// Make sure we're on the new post page
 		global $pagenow;
+
 		if ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) {
 			return false;
 		}
@@ -395,10 +396,18 @@ class ConstantContact_Lists {
 
 		// If we got a list id, let's update that list, other wise add it
 		if ( ! empty( $list_id ) ) {
-			return $this->_update_list( $ctct_list, $list_id );
+			$return = $this->_update_list( $ctct_list, $list_id );
 		} else {
-			return $this->_add_list( $ctct_list );
+			$return = $this->_add_list( $ctct_list );
 		}
+
+		// Force re-syncing our lists right after deletion
+		$this->sync_lists( true );
+
+		// Set our last synced time to now, so we don't re-add our new/removed list right away
+		update_option( 'constant_contact_lists_last_synced', time() );
+
+		return $return;
 
 	}
 
