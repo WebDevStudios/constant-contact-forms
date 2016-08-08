@@ -238,14 +238,11 @@ class ConstantContact_Connect {
 							</a>
 						<?php } ?>
 					</div>
-
-					<div class="clear"></div>
-
+				</div>
 				<p class="ctct-description small">
 					<strong><?php esc_html_e( 'NOTE: ', 'constantcontact' ); ?></strong><?php esc_html_e( 'It’s possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin.', 'constantcontact' ); ?>
 				</p>
 			<?php endif; ?>
-			</div>
 		</div>
 		<?php
 	}
