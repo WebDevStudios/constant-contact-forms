@@ -22,13 +22,23 @@ window.CTCTBuilder = {};
 			hide     : $( '.cmb2-id--ctct-opt-in-hide' ),
 			instruct : $( '.cmb2-id--ctct-opt-in-instructions' ),
 		}
+
+		that.isLeaveWarningBound = false;
 	}
 
 	// Triggers our leave warning if we modify things in the form
 	that.bindLeaveWarning = function() {
-		$( window ).bind( 'beforeunload', function(){
-			return ctct_texts.leavewarning;
-		});
+
+		// Don't double-bind it
+		if ( ! that.isLeaveWarningBound ) {
+
+			$( window ).bind( 'beforeunload', function(){
+				return ctct_texts.leavewarning;
+			});
+
+			// Save our state
+			that.isLeaveWarningBound = true;
+		}
 	}
 
 	// Removes our binding of our leavce warning
@@ -71,7 +81,7 @@ window.CTCTBuilder = {};
 		});
 
 		// On cmb2 select chnages, fire our modify fields function
-		$( '.cmb2-wrap input' ).change( function() {
+		$( '.cmb2-wrap input, .cmb2-wrap textarea' ).on( 'input', function() {
 
 			// Bind our leave warning
 			that.bindLeaveWarning();
@@ -177,13 +187,6 @@ window.CTCTBuilder = {};
 
 })( window, jQuery, window.CTCTBuilder );
 
-
-
-/**
- * Modal Script
- *
- * @author jomurgel
- */
 window.Modal_Object = {};
 ( function( window, $, app ) {
 
