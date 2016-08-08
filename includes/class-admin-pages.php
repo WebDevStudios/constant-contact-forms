@@ -240,9 +240,9 @@ class ConstantContact_Admin_Pages {
 						<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a>
 					</div>
 				</div>
-				<div class="plugin-badge">
+				<span class="plugin-badge">
 					<img src="<?php echo esc_url( $this->get_text( 'icon' ) ); ?>">
-				</div>
+				</span>
 				<div class="clear"></div>
 				<hr>
 				<?php
