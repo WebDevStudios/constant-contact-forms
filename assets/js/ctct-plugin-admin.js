@@ -60,6 +60,10 @@ window.CTCTBuilder = {};
 			that.triggerLeaveWarning();
 		});
 
+		$( '.cmb2_select' ).change( function() {
+			that.modifyFields();
+		});
+
 		// If we get a row added, then do our stuff
 		$( document ).on( 'cmb2_add_row', function() {
 
@@ -164,7 +168,7 @@ window.CTCTBuilder = {};
 
 /**
  * Modal Script
- * 
+ *
  * @author jomurgel
  */
 window.Modal_Object = {};
@@ -211,6 +215,7 @@ window.Modal_Object = {};
     $( app.init );
 
 })( window, jQuery, window.Modal_Object );
+
 window.CTCTSupport = {};
 ( function( window, $, that ) {
 
