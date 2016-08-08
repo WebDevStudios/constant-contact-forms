@@ -48,10 +48,14 @@
 .constant-contact-about {
 	padding: 15px;
 
+	@media screen and (max-width: 782px) {
+		padding: 0;
+	}
+
 	h1.about-header {
 		color: $color-cc-blue;
 		font-size: 26px;
-		margin-bottom: 15px;
+		margin: 0 0 15px 0;
 	} // h1
 
 	h3 {
@@ -104,8 +108,12 @@
 	} // button
 
 	.about-text {
-		margin: 0 70px 0 0;
-	} // about-text
+		margin: 0 50px 0 0;
+
+		@media screen and (max-width: 482px) {
+			margiun: 0;
+		}
+	}
 
 	.feature-section.two-col > div {
 		width: 49%;
@@ -114,6 +122,10 @@
 
 	.headline-feature {
 		max-width: 90%;
+
+		@media screen and (max-width: 782px) {
+			max-width: 100%;
+		}
 
 		p {
 			margin-bottom: 0;
@@ -155,7 +167,17 @@
 		text-align: center;
 		text-shadow: 0 0 15px #000;
 		top: 80px;
-		width: 100%;
+		width: 100%;	
+
+		@media screen and (max-width: 482px) {
+			color: $color-cc-blue;
+			font-size: 26px;
+			line-height: 28px;
+			margin-top: 15px;
+			position: relative;
+			text-shadow: none;
+			top: 0;
+		}
 	} // featured-title
 
 	.featured-introduction {
@@ -167,6 +189,15 @@
 		text-shadow: 0 0 15px #000;
 		top: 120px;
 		width: 100%;
+
+		@media screen and (max-width: 482px) {
+			color: $color-cc-blue;
+			line-height: 1;
+			margin-top: 15px;
+			position: relative;
+			text-shadow: none;
+			top: 0;
+		}
 	} // featured-introduction
 
 	.hide-overflow {
@@ -191,17 +222,21 @@
 		box-sizing: border-box;
 		padding-right: 160px;
 
-		@media screen and (max-width: 782px) {
-		
+		@media screen and (max-width: 482px) {
+			padding-right: 0;
 		}
 	} // left side
 
 	.plugin-badge {
 		position: absolute;
-		top: 0;
+		top: 10px;
 		right: 0;
 		max-height: 180px;
-		max-width: 160px;
+		max-width: 160px;		
+
+		@media screen and (max-width: 482px) {
+			display: none;
+		}
 	} // plugin-badge
 
 	.feature-image {
@@ -218,6 +253,10 @@
 	padding: 50px 0;
 	text-align: center;
 
+	@media screen and (max-width: 482px) {
+		padding: 25px 0;
+	}
+
 	h3 {
 		color: $color-cc-blue;
 		font-size: 21px;
@@ -225,7 +264,12 @@
 		height: 63px;
 		margin: 0 auto; 
 		max-width: 70%;
-	}
+
+		@media screen and (max-width: 782px) {
+			height: auto;
+			max-width: 100%;
+		}
+	} // h3
 
 	// ad block containers
 	.left,
@@ -235,10 +279,20 @@
 		float:left;
 		width: 50%;
 
+		@media screen and (max-width: 482px) {
+			width: 100%;
+			float:none;
+		}
+
 		// ad blocks
 		.ad-1,
 		.ad-2 {
 			width: 90%;
+
+			@media screen and (max-width: 482px) {
+				width: 100%;
+				float: none;
+			}
 
 			img {
 				width: 100%;
