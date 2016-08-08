@@ -23,12 +23,17 @@
 	} // h3
 
 	p {
-		color: $color-modal-text;
+		color: $color-modal-alt-text;
 		font-size: 14.7px;
 
 		&.ctct-description {
 			font-size: 16px;
 			margin-bottom: 0;
 		} // ctct-description
+
+		&.small {
+			font-size: 13.3px;
+			margin-bottom: 0;
+		}
 	} // p
 } // ctct_options_connect
