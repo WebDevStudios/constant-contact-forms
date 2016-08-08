@@ -1,5 +1,4 @@
-.misc-pub-section.misc-pub-visibility, .misc-pub-section.misc-pub-post-status,
-.misc-pub-section.misc-pub-curtime a {
+.misc-pub-section.misc-pub-visibility, .misc-pub-section.misc-pub-curtime {
   display: none;
 }
 

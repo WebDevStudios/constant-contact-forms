@@ -1,7 +1,7 @@
 .misc-pub-section {
 	&.misc-pub-visibility,
-	&.misc-pub-post-status,
-	&.misc-pub-curtime a {
+	// &.misc-pub-post-status,
+	&.misc-pub-curtime {
 		display: none;
 	}
 }
@@ -235,7 +235,7 @@ body.post-type-ctct_forms #titlediv #title {
 			p {
 				margin: 0;
 				font-size: 16px;
-			} // p 
+			} // p
 
 			a {
 				color: $color-prussian-blue;

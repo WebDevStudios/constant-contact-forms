@@ -61,6 +61,8 @@ class ConstantContact_Lists {
 		add_action( 'save_post_ctct_lists', array( $this, 'save_or_update_list' ), 10, 1 );
 		add_action( 'transition_post_status', array( $this, 'post_status_transition' ), 11, 3 );
 
+		add_action( 'admin_notices', array( $this, 'show_duplicate_list_message' ) );
+
 		add_action( 'wp_trash_post', array( $this, 'delete_list' ) );
 
 		add_action( 'cmb2_after_post_form_ctct_list_metabox', array( $this, 'add_form_css' ) );
@@ -268,7 +270,7 @@ class ConstantContact_Lists {
 		}
 
 		// Grab the lists we'll want to update/insert
-		$lists_to_insert = constantcontact_api()->get_lists();
+		$lists_to_insert = constantcontact_api()->get_lists( true );
 
 		// verify our data before continuing
 		if ( $lists_to_insert && is_array( $lists_to_insert ) ) {
@@ -329,8 +331,12 @@ class ConstantContact_Lists {
 			// force our post ID to be an int
 			$post_id = absint( $post_id );
 
-			// If we have an ID and the post type is a list
-			if ( $post_id && ( 'ctct_lists' === get_post_type( $post_id ) ) ) {
+			// If we have an ID and the post type is a list, and is published
+			if (
+				$post_id &&
+				( 'ctct_lists' === get_post_type( $post_id ) ) &&
+				( 'publish' == get_post_status( $post_id ) )
+			) {
 
 				// remove that post
 				wp_delete_post( $post_id, true );
@@ -392,17 +398,31 @@ class ConstantContact_Lists {
 			return;
 		}
 
-		// Try to grab our list id from our post meta
-		$list_id = get_post_meta( $ctct_list->ID, '_ctct_list_id', true );
+		// Verify we don't mark things as duplicate if they aren't
+		delete_post_meta( $ctct_list->ID, 'ctct_duplicate_list' );
 
-		// If we got a list id, let's update that list, other wise add it
-		if ( ! empty( $list_id ) ) {
-			$return = $this->_update_list( $ctct_list, $list_id );
+		// When we're adding a list, make sure we don't have one of the same name
+		if ( $this->check_if_list_exists_by_title( $ctct_list->post_title ) ) {
+
+			// If it does exist, flag it in our post meta
+			add_post_meta( $ctct_list->ID, 'ctct_duplicate_list', true );
+
+			if ( 'draft' != $ctct_list->post_status ) {
+				$return = wp_update_post( array(
+					'ID'          => absint( $ctct_list->ID ),
+					'post_status' => 'draft',
+				) );
+			}
 		} else {
+			// Try to grab our list id from our post meta
+			$list_id = get_post_meta( $ctct_list->ID, '_ctct_list_id', true );
 
-			$title_exists_already = $this->check_if_list_exists_by_title( $ctct_list->post_title );
-
-			$return = $this->_add_list( $ctct_list );
+			// If we got a list id, let's update that list, other wise add it
+			if ( ! empty( $list_id ) ) {
+				$return = $this->_update_list( $ctct_list, $list_id );
+			} else {
+				$return = $this->_add_list( $ctct_list );
+			}
 		}
 
 		// Force re-syncing our lists right after deletion
@@ -708,5 +728,41 @@ class ConstantContact_Lists {
 		}
 
 		return $get_lists;
+	}
+
+	public function show_duplicate_list_message() {
+
+		// Make sure we're on the correct page
+		global $pagenow, $post;
+		if ( ! in_array( $pagenow, array( 'post.php' ), true ) ) {
+			return;
+		}
+
+		// Make sure we have all the data we need
+		if (
+			isset( $post->ID ) &&
+			$post->ID &&
+			isset( $post->post_type ) &&
+			$post->post_type &&
+			'ctct_lists' == $post->post_type &&
+			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
+		) {
+
+			?>
+			<div class="notice notice-error">
+				<p><?php esc_attr_e( 'You already have a list with that name.', 'constantcontact' ); ?></p>
+			</div>
+			<style>
+			#title {
+				background: url( "<?php echo $this->plugin->url; ?> 'assets/images/error.svg" ) no-repeat;
+				background-color: fade-out( #FF4136, 0.98);
+				background-position: 8px 50%;
+				background-size: 24px;
+				border-color: #FF4136;
+				padding-left: 40px;
+			}
+			</style>
+			<?php
+		}
 	}
 }
