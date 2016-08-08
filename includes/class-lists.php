@@ -192,10 +192,10 @@ class ConstantContact_Lists {
 		// Currently, the rate limit for this is a refresh every 2 minutes. This can be filtered to be
 		// less or more time.
 		$last_synced = get_option( 'constant_contact_lists_last_synced', time() - DAY_IN_SECONDS );
-		$sync_rate_limit_time = apply_filters( 'constant_contact_list_sync_rate_limit', 5 * MINUTE_IN_SECONDS );
+		$sync_rate_limit_time = apply_filters( 'constant_contact_list_sync_rate_limit', 2 * MINUTE_IN_SECONDS );
 
 		// If our last synced time plus our rate limit is less than or equal to right now,
-		// then we don't want to refresh. If we refreshed less than 5 minutes ago, we do not want to
+		// then we don't want to refresh. If we refreshed less than 2 minutes ago, we do not want to
 		// redo it. Also allow forcing a bypass of this check
 		if ( ( ! $force ) && ( $last_synced + $sync_rate_limit_time ) >= time() ) {
 			return;
