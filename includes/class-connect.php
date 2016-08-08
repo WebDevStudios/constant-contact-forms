@@ -205,7 +205,7 @@ class ConstantContact_Connect {
 					<div class="left">
 						<img
 							class="flare"
-							src="<?php echo $this->plugin->url . 'assets/images/question-mail.png'; ?>"
+							src="<?php echo $this->plugin->url . 'assets/images/question-mail-connect.png'; ?>"
 							alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constantcontact' ); ?>"
 						/>
 						<h3><?php esc_attr_e( 'Need an Account?', 'constantcontact' ); ?></h3>
@@ -217,7 +217,7 @@ class ConstantContact_Connect {
 					<div class="right">
 						<img
 							class="flare"
-							src="<?php echo $this->plugin->url . 'assets/images/cc-login.png'; ?>"
+							src="<?php echo $this->plugin->url . 'assets/images/cc-login-connect.png'; ?>"
 							alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constantcontact' ); ?>"
 						/>
 						<h3><?php esc_attr_e( 'Have an account?', 'constantcontact' ); ?></h3>
