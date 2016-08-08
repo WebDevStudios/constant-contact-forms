@@ -58,10 +58,11 @@
 
 	.ctct-body {		
 		@include clearfix;
+		
 		margin: 0 auto;
 		max-width: 75%;
-		position: relative;
 		overflow-y: hidden;
+		position: relative;
 
 		.clear {
 			width: 100%;
@@ -72,18 +73,18 @@
 		.left,
 		.right {
 			box-sizing: border-box;
+			box-sizing: border-box;
 			float:left;
-			padding: 15px 0px 520px;
 			margin-bottom: -500px;
+			padding: 15px 0px 520px;
 			text-align: center;
 			width: 50%;
-			box-sizing: border-box;
 
 			@media screen and (max-width: 782px) {
-				width: 100%;
 				float: none;
-				padding: 15px 0;
 				margin-bottom: 0;
+				padding: 15px 0;
+				width: 100%;
 			}
 
 			img,
@@ -102,8 +103,8 @@
 			@media screen and (max-width: 782px) {
 				border-bottom: 1px solid $color-silver;
 				border-right: 0;
-				padding-right: 0;
 				padding-bottom: 30px;
+				padding-right: 0;
 			}
 
 			p {
@@ -170,11 +171,11 @@
 .error {
 	background: none !important;
 	border-left: 1px solid $color-red !important;
-	border: 1px solid $color-red;
 	border-radius: 3px;
+	border: 1px solid $color-red;
 	box-shadow: none !important;
+	display: inline-block;
 	margin: 0 0 20px 0 !important;
-	padding: 0 !important;
 
 	p {
 		color: $color-red !important;
