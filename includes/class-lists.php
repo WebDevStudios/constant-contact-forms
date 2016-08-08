@@ -105,7 +105,7 @@ class ConstantContact_Lists {
 	/**
 	 * Display our list information metabox
 	 */
-	public function list_information_metabox( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
+	public function list_info_metabox( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
 
 		// Sanity check
 		if ( ! $object_id ) {
