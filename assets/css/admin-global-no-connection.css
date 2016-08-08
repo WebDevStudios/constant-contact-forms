@@ -37,7 +37,7 @@
 
 .ctct_options_connect p.ctct-description {
   font-size: 16px;
-  margin-bottom: 0;
+  margin-bottom: 15px;
   margin-top: 5px;
 }
 
@@ -57,9 +57,8 @@
 .ctct_options_connect .ctct-body {
   margin: 0 auto;
   max-width: 75%;
-  padding: 25px 0 15px 0;
-  position: relative;
   overflow-y: hidden;
+  position: relative;
 }
 
 .ctct_options_connect .ctct-body:after {
@@ -68,24 +67,30 @@
   display: table;
 }
 
+.ctct_options_connect .ctct-body .clear {
+  width: 100%;
+  clear: both;
+  height: 0;
+}
+
 .ctct_options_connect .ctct-body .left,
 .ctct_options_connect .ctct-body .right {
   box-sizing: border-box;
+  box-sizing: border-box;
   float: left;
-  padding: 15px 0px 520px;
   margin-bottom: -500px;
+  padding: 15px 0px 520px;
   text-align: center;
   width: 50%;
-  box-sizing: border-box;
 }
 
 @media screen and (max-width: 782px) {
   .ctct_options_connect .ctct-body .left,
   .ctct_options_connect .ctct-body .right {
-    width: 100%;
     float: none;
-    padding: 15px 0;
     margin-bottom: 0;
+    padding: 15px 0;
+    width: 100%;
   }
 }
 
@@ -106,8 +111,8 @@
   .ctct_options_connect .ctct-body .left {
     border-bottom: 1px solid #ddd;
     border-right: 0;
-    padding-right: 0;
     padding-bottom: 30px;
+    padding-right: 0;
   }
 }
 
@@ -134,7 +139,8 @@
 }
 
 .ctct_options_connect .ctct-body .right p {
-  max-width: 310px;
+  display: block;
+  max-width: 350px;
   margin: 0 auto 25px;
 }
 
@@ -172,4 +178,18 @@
 
 .ctct_options_connect .ctct-body .button.button-blue:hover, .ctct_options_connect .ctct-body .button.button-blue:focus {
   background-color: #005990;
+}
+
+.error {
+  background: none !important;
+  border-left: 1px solid #FF4136 !important;
+  border-radius: 3px;
+  border: 1px solid #FF4136;
+  box-shadow: none !important;
+  display: inline-block;
+  margin: 0 0 20px 0 !important;
+}
+
+.error p {
+  color: #FF4136 !important;
 }

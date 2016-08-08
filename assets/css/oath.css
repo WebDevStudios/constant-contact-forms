@@ -1,3 +1,80 @@
 .ctct-logo {
   max-width: 400px;
 }
+
+.ctct_options_connect {
+  box-sizing: border-box;
+  padding: 70px;
+  text-align: center;
+  width: 100%;
+}
+
+@media screen and (max-width: 782px) {
+  .ctct_options_connect {
+    padding: 30px 30px 0;
+    margin-left: -10px;
+  }
+}
+
+.ctct_options_connect img {
+  width: 100%;
+  max-width: 400px;
+  height: auto;
+}
+
+.ctct_options_connect p {
+  color: #606d78;
+  font-size: 16px;
+}
+
+.ctct_options_connect .ctct-body {
+  margin: 0 auto;
+  max-width: 75%;
+  overflow-y: hidden;
+  padding: 0 15px;
+  position: relative;
+}
+
+.ctct_options_connect .ctct-body:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.ctct_options_connect .ctct-body .notice {
+  background: none;
+  border-left: none;
+  box-shadow: none;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+.ctct_options_connect .ctct-body .button {
+  border-radius: 4px;
+  color: #fff;
+  font-size: 16px;
+  font-weight: 600;
+  height: auto;
+  line-height: 1;
+  margin-bottom: 10px;
+  min-width: 180px;
+  padding: 14px 30px;
+}
+
+.ctct_options_connect .ctct-body .button.button-orange {
+  background-color: #FFA901;
+  border: 1px solid #cd8800;
+}
+
+.ctct_options_connect .ctct-body .button.button-orange:hover, .ctct_options_connect .ctct-body .button.button-orange:focus {
+  background-color: #cd8800;
+}
+
+.ctct_options_connect .ctct-body .button.button-blue {
+  background-color: #0078C3;
+  border: 1px solid #005990;
+}
+
+.ctct_options_connect .ctct-body .button.button-blue:hover, .ctct_options_connect .ctct-body .button.button-blue:focus {
+  background-color: #005990;
+}
