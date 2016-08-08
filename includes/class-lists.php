@@ -399,6 +399,9 @@ class ConstantContact_Lists {
 		if ( ! empty( $list_id ) ) {
 			$return = $this->_update_list( $ctct_list, $list_id );
 		} else {
+
+			$title_exists_already = $this->check_if_list_exists_by_title( $ctct_list->post_title );
+
 			$return = $this->_add_list( $ctct_list );
 		}
 
@@ -526,7 +529,12 @@ class ConstantContact_Lists {
 	 * @param   array   $lists lists to search in
 	 * @return  bool          if exists
 	 */
-	public function check_if_list_exists_by_title( $title, $lists ) {
+	public function check_if_list_exists_by_title( $title, $lists = array() ) {
+
+		// If we didn't get passed in a list array, then grab them all
+		if ( empty( $lists ) ) {
+			$lists = $this->get_lists();
+		}
 
 		// Loop through each of our lists
 		foreach ( $lists as $list ) {
@@ -580,6 +588,7 @@ class ConstantContact_Lists {
 			return;
 		}
 
+		// If we're moving something out of the trash, re-run our add list functionality.
 		if ( 'trash' == $old_status ) {
 			return $this->_add_list( $post );
 		}
