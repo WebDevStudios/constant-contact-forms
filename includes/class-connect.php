@@ -256,11 +256,6 @@ class ConstantContact_Connect {
 	 */
 	public function maybe_disconnect() {
 
-		// Only run if logged in user can manage site options.
-		if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
-
 		// Make sure we ahve our nonce key
 		if ( ! isset( $_POST['ctct-admin-disconnect'] ) ) {
 			return;
@@ -270,6 +265,12 @@ class ConstantContact_Connect {
 		if ( ! isset( $_POST['ctct-disconnect'] ) ) {
 			return;
 		}
+
+		// Only run if logged in user can manage site options.
+		if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
 
 		// Verify that nonce
 		if ( wp_verify_nonce( $_POST['ctct-admin-disconnect'], 'ctct-admin-disconnect' ) ) {
