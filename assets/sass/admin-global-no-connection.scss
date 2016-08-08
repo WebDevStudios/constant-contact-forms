@@ -64,6 +64,12 @@
 		position: relative;
 		overflow-y: hidden;
 
+		.clear {
+			width: 100%;
+			clear: both;
+			height: 0;
+		}
+
 		.left,
 		.right {
 			box-sizing: border-box;
@@ -119,7 +125,8 @@
 			}
 
 			p {
-				max-width: 310px;
+				display: block;
+				max-width: 350px;
 				margin: 0 auto 25px;
 
 				@media screen and (max-width: 782px) {
@@ -160,3 +167,12 @@
 		} // button
 	} // ctct-body
 } // ctct_options_connect
+
+.error {
+	background: none;
+	border-left: none;
+	box-shadow: none;
+	margin: 0 0 20px 0;
+	padding: 0;
+	color: $color-red;
+}
