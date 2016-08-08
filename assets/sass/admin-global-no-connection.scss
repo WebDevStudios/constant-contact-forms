@@ -40,7 +40,7 @@
 
 		&.ctct-description {
 			font-size: 16px;
-			margin-bottom: 0;
+			margin-bottom: 15px;
 			margin-top: 5px;
 		} // ctct-description
 
@@ -60,7 +60,6 @@
 		@include clearfix;
 		margin: 0 auto;
 		max-width: 75%;
-		padding: 25px 0 15px 0;
 		position: relative;
 		overflow-y: hidden;
 
@@ -169,10 +168,15 @@
 } // ctct_options_connect
 
 .error {
-	background: none;
-	border-left: none;
-	box-shadow: none;
-	margin: 0 0 20px 0;
-	padding: 0;
-	color: $color-red;
-}
+	background: none !important;
+	border-left: 1px solid $color-red !important;
+	border: 1px solid $color-red;
+	border-radius: 3px;
+	box-shadow: none !important;
+	margin: 0 0 20px 0 !important;
+	padding: 0 !important;
+
+	p {
+		color: $color-red !important;
+	} // p
+} // error
