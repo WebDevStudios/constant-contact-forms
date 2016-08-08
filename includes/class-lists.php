@@ -744,7 +744,6 @@ class ConstantContact_Lists {
 	/**
 	 * Hooked into admin_notices, show our duplicate list message if we have one
 	 *
-	 * @author Brad Parbs
 	 */
 	public function show_duplicate_list_message() {
 
