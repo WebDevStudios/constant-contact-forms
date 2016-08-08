@@ -250,6 +250,9 @@ class Constant_Contact {
 		if ( is_ssl() || ! defined( 'ISSSL' ) ) {
 			define( 'ISSSL', true );
 		}
+
+		// Allow shortcodes in widgets for our plugin
+		add_filter( 'widget_text', 'do_shortcode' );
 	}
 
 	/**
