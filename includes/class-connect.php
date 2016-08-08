@@ -197,7 +197,7 @@ class ConstantContact_Connect {
 				</p></div>
 			<?php } ?>
 				<p class="ctct-description">
-					<?php esc_html_e( 'To take full advantage of the Constant Contact for WordPress plugin, we recommend having either an active account or an active free trial with Constant Contact. Click the "Try Us Free" button to sign up for a free 60-day trial. Or click the "Connect Plugin" button to log in to your Constant Contact account (by connecting, you authorize this plugin to access your account) ', 'constantcontact' ); ?>
+					<?php esc_html_e( 'To take full advantage of this plugin, we recommend having an active Constant Contact account.', 'constantcontact' ); ?>
 				</p>
 				<a class="button button-primary" href="https://www.constantcontact.com"><?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?></a>
 				<?php
