@@ -154,6 +154,15 @@ class ConstantContact_Connect {
 	 */
 	public function admin_page_display() {
 
+		wp_register_style(
+			'constant_contact_admin_global_no_connection',
+			constant_contact()->url() . 'assets/css/admin-global-no-connection.css',
+			array(),
+			constant_contact()->version
+		);
+
+		wp_enqueue_style( 'constant_contact_admin_global_no_connection' );
+
 		// Only run if logged in user can manage site options.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return false;
