@@ -66,7 +66,7 @@ window.CTCTBuilder = {};
 		$( document ).on( 'cmb2_shift_rows_complete', function() {
 
 			// Fire our field modifications function
-			that.modifyFields();
+			that.bindEvents();
 
 			// Bind our leave warning
 			that.bindLeaveWarning();
@@ -74,7 +74,10 @@ window.CTCTBuilder = {};
 
 		// On cmb2 select chnages, fire our modify fields function
 		$( '.cmb2_select' ).change( function() {
-			that.modifyFields();
+
+			// Call the bindEvents function so that we trigger the modifyFields()
+			// function as well as catching newly-added fields for all triggers
+			that.bindEvents();
 
 			// Bind our leave warning
 			that.bindLeaveWarning();
@@ -93,8 +96,9 @@ window.CTCTBuilder = {};
 			// Automatically set new rows to be 'custom' field type
 			$( '#custom_fields_group_repeat .postbox' ).last().find( '.map select' ).val( 'custom' );
 
-			// Modfiy the field we need to modify
-			that.modifyFields();
+			// Call the bindEvents function so that we trigger the modifyFields()
+			// function as well as catching newly-added fields for all triggers
+			that.bindEvents();
 
 			// Bind our leave warning
 			that.bindLeaveWarning();
