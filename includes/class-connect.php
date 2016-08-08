@@ -199,6 +199,16 @@ class ConstantContact_Connect {
 				<p class="ctct-description">
 					<?php esc_html_e( 'To take full advantage of this plugin, we recommend having an active Constant Contact account.', 'constantcontact' ); ?>
 				</p>
+
+				<!-- Start Columns Here -->
+				<div class="ctct-body">
+					<div class="left">
+					</div>
+					<div class="right">
+					</div>
+				</div>
+				<!-- End Columns -->
+
 				<a class="button button-primary" href="https://www.constantcontact.com"><?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?></a>
 				<?php
 
