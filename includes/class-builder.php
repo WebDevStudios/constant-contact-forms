@@ -464,8 +464,11 @@ class ConstantContact_Builder {
 	 * @since   1.0.0
 	 * @param   string  $type  type of link to output
 	 */
-	public function link( $type ) {
-
+	public function display_connect_link() {
+		echo add_query_arg( array(
+			'post_type' => 'ctct_forms',
+			'page' => 'ctct_options_connect',
+		), admin_url( 'edit.php' ) );
 	}
 
 	/**
@@ -500,7 +503,7 @@ class ConstantContact_Builder {
 							<p>
 								<?php esc_attr_e( 'Import everything into constant Contact so I can see what email marketing can do for me.' , 'constantcontact' ); ?>
 							</p>
-							<a href="#" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
+							<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
 							<img
 								class="flare"
 								src="<?php echo $this->plugin->url . 'assets/images/cc-modal-logo.png'; ?>"
@@ -517,7 +520,7 @@ class ConstantContact_Builder {
 							<p>
 								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account', 'constantcontact' ); ?>
 							</p>
-							<a href="#" class="button button-blue" title="Connect Plugin">
+							<a href="<?php $this->display_connect_link(); ?>" class="button button-blue" title="Connect Plugin">
 								<?php esc_attr_e( 'Connect Plugin', 'constantcontact' ); ?>
 							</a><br/>
 							<p class="small"><small><?php esc_attr_e( 'By connecting you authorize this
@@ -527,7 +530,7 @@ class ConstantContact_Builder {
 					<div class="modal-footer">
 						<p><?php
 							printf( '<a href="%s">%s</a> %s',
-								'#',
+								'#close',
 								esc_attr__( "I'm all set.", 'constantcontact' ),
 								esc_attr__( "I'll manage the information on my own for now.", 'constantcontact' )
 							);
