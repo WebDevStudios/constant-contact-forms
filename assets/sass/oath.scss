@@ -28,33 +28,24 @@
 
 	p {
 		color: $color-modal-alt-text;
-		font-size: 14.7px;
-
-		&.ctct-description {
-			font-size: 16px;
-			margin-bottom: 0;
-			margin-top: 5px;
-		} // ctct-description
-
-		&.small {
-			color: $color-light-silver;
-			font-size: 13.3px;
-			margin: 15px auto 0;
-			max-width: 60%;
-
-			@media screen and (max-width: 782px) {
-				max-width: 100%;
-			}
-		}
+		font-size: 16px;
 	} // p
 
 	.ctct-body {		
 		@include clearfix;
 		margin: 0 auto;
 		max-width: 75%;
-		padding: 25px 0 15px 0;
+		padding: 0 15px;
 		position: relative;
 		overflow-y: hidden;
+
+		.notice {
+			background: none;
+		    border-left: none;
+		    box-shadow: none;
+		    margin: 0 0 20px 0;
+		    padding: 0;
+		}
 
 		.button {
 			border-radius: 4px;
