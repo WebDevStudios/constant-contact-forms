@@ -25,5 +25,10 @@
 	p {
 		color: $color-modal-text;
 		font-size: 14.7px;
+
+		&.ctct-description {
+			font-size: 16px;
+			margin-bottom: 0;
+		} // ctct-description
 	} // p
 } // ctct_options_connect
