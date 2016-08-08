@@ -516,7 +516,7 @@ class ConstantContact_Builder {
 					</div><!-- modal body -->
 					<div class="modal-footer">
 						<p><?php
-							printf( '<a href="%s">%s</a>%s',
+							printf( '<a href="%s"> %s</a>%s',
 								'#',
 								esc_attr__( "I'm all set.", 'constantcontact' ),
 								esc_attr__( "I'll manage the information on my own for now.", 'constantcontact' )
