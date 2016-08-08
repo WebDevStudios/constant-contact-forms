@@ -55,19 +55,25 @@ class ConstantContact_Lists {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-		add_action( 'cmb2_init', array( $this, 'sync_lists' ) );
+
+		// Hook in our CMB2 fields / functionality
+		add_action( 'cmb2_admin_init', array( $this, 'sync_lists' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'add_lists_metabox' ) );
 
+		// On save, process a list
 		add_action( 'save_post_ctct_lists', array( $this, 'save_or_update_list' ), 10, 1 );
 		add_action( 'transition_post_status', array( $this, 'post_status_transition' ), 11, 3 );
 
+		// Show duplicate notices for lists
 		add_action( 'admin_notices', array( $this, 'show_duplicate_list_message' ) );
 
+		// On deletion, verify the list is handled correctly
 		add_action( 'wp_trash_post', array( $this, 'delete_list' ) );
 
+		// Add some CMB2 goodness
 		add_action( 'cmb2_after_post_form_ctct_list_metabox', array( $this, 'add_form_css' ) );
+		add_action( 'cmb2_render_constant_contact_list_information', array( $this, 'list_info_metabox' ), 10, 5 );
 
-		add_action( 'cmb2_render_constant_contact_list_information', array( $this, 'list_information_metabox' ), 10, 5 );
 
 	}
 
