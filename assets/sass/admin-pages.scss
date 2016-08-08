@@ -38,19 +38,32 @@
 	}
 }
 
+//--------------------------------------------------------------
+// About Page
+//--------------------------------------------------------------
+
+@import 'variables';
+@import 'mixins';
+
 .constant-contact-about {
+	padding: 15px;
 
 	h1.about-header {
-		font-size: 22px;
-	}
+		font-size: 26px;
+		color: $color-cc-blue;
+		margin-bottom: 15px;
+	} // h1
 
 	h3 {
 		padding: 20px 0;
-	}
+	} // h3 
 
 	.about-text {
-		margin: 1em 0.5em 1em 0;
-	}
+
+		p {
+			font-size: 16px;
+		}
+	} // about-text
 
 	.feature-section.two-col > div {
 		width: 49%;
@@ -123,4 +136,5 @@
 	.feature-image {
 		text-align: center;
 	}
-}
+
+} // constant-contact-about
