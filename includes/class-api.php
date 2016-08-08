@@ -658,7 +658,17 @@ class ConstantContact_API {
 	 * @return boolean if connected
 	 */
 	public function is_connected() {
-		return get_option( 'ctct_token', false ) ? true : false;
+
+		// Make sure we only grab our token once during a page load
+		static $token = null;
+
+		// If we haven't grabbed it yet, grab it
+		if ( is_null( $token ) ) {
+			$token = get_option( 'ctct_token', false ) ? true : false;
+		}
+
+		// Return it
+		return $token;
 	}
 }
 
