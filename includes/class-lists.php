@@ -74,6 +74,9 @@ class ConstantContact_Lists {
 		add_action( 'cmb2_after_post_form_ctct_list_metabox', array( $this, 'add_form_css' ) );
 		add_action( 'cmb2_render_constant_contact_list_information', array( $this, 'list_info_metabox' ), 10, 5 );
 
+		// Add a force sync button to the admin
+		add_filter( 'views_edit-ctct_lists', array( $this, 'add_force_sync_button' ) );
+		add_action( 'admin_init', array( $this, 'check_for_list_sync_request' ) );
 
 	}
 
@@ -779,6 +782,43 @@ class ConstantContact_Lists {
 			}
 			</style>
 			<?php
+		}
+	}
+
+	/**
+	 * Adds a 'Sync Lists with Constant Contact' button to the lists CPT page
+	 *
+	 * @since   1.0.0
+	 * @param   array  $views  current views
+	 */
+	public function add_force_sync_button( $views ) {
+
+		// Build up our nonced url
+		$link = wp_nonce_url( add_query_arg(), 'ctct_reysncing', 'ctct_resyncing' );
+
+		// Add a view to our list
+		$views['sync'] = '<strong><a href="' . $link . '">' . __( 'Sync Lists with Constant Contact', 'constantcontact' ) . '</a></strong>';
+
+		// Send em back
+		return $views;
+	}
+
+	/**
+	 * Watch for our request to re-sync lists, and do it
+	 *
+	 * @since   1.0.0
+	 */
+	public function check_for_list_sync_request() {
+
+		// Only run if we have our request, and we are capable of it
+		if (
+			isset( $_GET['ctct_resyncing'] ) &&
+			$_GET['ctct_resyncing'] &&
+			is_admin() &&
+			current_user_can( 'manage_options' )
+		) {
+			// Force our last updated time to be in the past, so we trigger the auto-refresh
+			update_option( 'constant_contact_lists_last_synced', time() - HOUR_IN_SECONDS );
 		}
 	}
 }
