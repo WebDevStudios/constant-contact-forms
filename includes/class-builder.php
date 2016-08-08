@@ -499,7 +499,7 @@ class ConstantContact_Builder {
 							/>
 							<h3><?php esc_attr_e( 'Try email marketing.', 'constantcontact' ); ?></h3>
 							<p>
-								<?php esc_attr_e( 'Import everything into constant Contact so I can see what email marketing can do for me.' , 'constantcontact' ); ?>
+								<?php esc_attr_e( 'Import everything into Constant Contact so I can see what email marketing can do for me.' , 'constantcontact' ); ?>
 							</p>
 							<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
 							<img
@@ -516,7 +516,7 @@ class ConstantContact_Builder {
 							/>
 							<h3><?php esc_attr_e( 'Connect my account.', 'constantcontact' ); ?></h3>
 							<p>
-								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account', 'constantcontact' ); ?>
+								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account.', 'constantcontact' ); ?>
 							</p>
 							<a href="<?php echo esc_url_raw( $this->display_connect_link() ); ?>" target="_blank" class="button button-blue" title="Connect Plugin">
 								<?php esc_attr_e( 'Connect Plugin', 'constantcontact' ); ?>
