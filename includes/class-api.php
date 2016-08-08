@@ -163,7 +163,7 @@ class ConstantContact_API {
 	 * @since  1.0.0
 	 * @return array current connect ctct lists
 	 */
-	public function get_lists( $force_skip_cache = false) {
+	public function get_lists( $force_skip_cache = false ) {
 
 		// Verify we're connected
 		if ( ! $this->is_connected() ) {

@@ -758,7 +758,6 @@ class ConstantContact_Lists {
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
 
-
 			// Add our output ( I know, gross inline CSS )
 			?>
 			<div class="notice notice-error">
