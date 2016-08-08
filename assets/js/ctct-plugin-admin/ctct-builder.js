@@ -149,9 +149,19 @@ window.CTCTBuilder = {};
 			var $map          = $( $field_parent ).find( '.map select option:selected' );
 			var $mapName      = $map.text();
 			var $fieldTitle   = $( this ).find( 'h3' );
+			var $labelField   = $( this ).find( "input[name*='_ctct_field_label']" )
 
 			// Set our field row to be the name of the selected option
 			$fieldTitle.text( $mapName );
+
+			// If we have a blank field label, then use the name of the field to fill it in
+			if ( $labelField.val().length === 0 ) {
+				// @TODO this only changes one time, because after, it does not get flagged as
+				// an empty string
+				$labelField.val( $mapName );
+			}
+
+			console.log( $labelField );
 
 			// If we haven't yet found an email field, and this is our email field
 			if ( ! foundEmail && ( 'email' === $( $map ).val() ) ) {
