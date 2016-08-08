@@ -58,8 +58,9 @@ class ConstantContact_Lists {
 		add_action( 'cmb2_init', array( $this, 'sync_lists' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'add_lists_metabox' ) );
 
-		add_action( 'save_post_ctct_lists', array( $this, 'save_or_update_list' ) );
-		add_action( 'save_post_ctct_lists', array( $this, 'save_or_update_list' ) );
+		add_action( 'save_post_ctct_lists', array( $this, 'save_or_update_list' ), 10, 1 );
+		add_action( 'transition_post_status', array( $this, 'post_status_transition' ), 11, 3 );
+
 		add_action( 'wp_trash_post', array( $this, 'delete_list' ) );
 
 		add_action( 'cmb2_after_post_form_ctct_list_metabox', array( $this, 'add_form_css' ) );
@@ -427,12 +428,15 @@ class ConstantContact_Lists {
 			isset( $ctct_list->post_title )
 		) {
 
+			// Make sure we get a unique list name for our list
+			$name = $this->set_unique_list_name( $ctct_list->ID, $ctct_list->post_title );
+
 			// Push our list into the API. For the list ID, we append a string of random numbers
 			// to make sure its unique.
 			$list = constantcontact_api()->add_list(
 				array(
 					'id' => absint( $ctct_list->ID ) . wp_rand( 0, 1000 ),
-					'name' => esc_attr( $ctct_list->post_title ),
+					'name' => esc_attr( $name ),
 				)
 			);
 
@@ -458,6 +462,128 @@ class ConstantContact_Lists {
 		}
 
 		return false;
+	}
+
+	public function set_unique_list_name( $id, $title = '' ) {
+
+		// Keep track of our original title, so we can compare later
+		$original_title = $title;
+
+		// Grab all our lists
+		$lists = $this->get_lists( true );
+
+		// Start by assuming our list title will exist, so we can kick off the loop
+		$list_title_exists = true;
+
+		// Set our unique increment to start with
+		$increment = 0;
+
+		// Keep checking + modifying title until we find a list title that is unique
+		while ( $list_title_exists ) {
+
+			// CC doesn't allow duplicate list titles, so we want to rename one of them
+			$list_title_exists = $this->check_if_list_exists_by_title( $title, $lists );
+
+			// If we did get a unique name, then break out
+			if ( ! $list_title_exists ) {
+				break;
+			}
+
+			// If our string contains what we tacked on previously,
+			// just remove it
+			if ( strpos( $title, ' (' . $increment . ')' ) !== false ) {
+			    $title = str_replace( ' (' . $increment . ')', '', $title );
+			}
+
+			// Increase our increment count, and add it into the title
+			$increment = $increment + 1;
+			$title = $title . ' (' . $increment . ')';
+		}
+
+		// If we did modify our list title, update the WP side of things
+		if ( $title != $original_title ) {
+
+			// Update our list post type to make sure we have
+			// the new title, so that it matches
+			wp_update_post( array(
+				'ID'         => absint( $id ),
+				'post_title' => $title,
+			) );
+		}
+
+		// Send back our title
+		return $title;
+
+	}
+
+	/**
+	 * CC doesn't allow duplicate lists by title, so we want to fix a 2nd list
+	 * that gets attempted to created
+	 *
+	 * @author Brad Parbs
+	 * @since   1.0.0
+	 * @param   string  $title  title of list
+	 * @param   array   $lists lists to search in
+	 * @return  bool          if exists
+	 */
+	public function check_if_list_exists_by_title( $title, $lists ) {
+
+		// Loop through each of our lists
+		foreach ( $lists as $list ) {
+
+			// If we come across one that matches, then return true,
+			// as a list with that title exists
+			if ( $title == $list ) {
+				return true;
+			}
+		}
+
+		// If we made it through, then return false
+		return false;
+	}
+
+	/**
+	 * Hooked into transition_post_status, we want to verify our deletion of a
+	 * list when we remove it, as well as re-adding any restored lists.
+	 *
+	 * @author Brad Parbs
+	 * @since   1.0.0
+	 * @param   string  $new_status  transitioned to status
+	 * @param   string  $old_status  transitioned from status
+	 * @param   objewct  $post        post object
+	 * @return  void
+	 */
+	public function post_status_transition( $new_status, $old_status, $post ) {
+
+		// Make sure we have a post passed in
+		if ( ! $post ) {
+			return;
+		}
+
+		// If we don't have a post type, bail.
+		if ( ! isset( $post->post_type ) ) {
+			return;
+		}
+
+		// If we don't have an ID, bail
+		if ( ! $post->ID ) {
+			return;
+		}
+
+		// If we're not on the list post type
+		if ( 'ctct_lists' != $post->post_type ) {
+			return;
+		}
+
+		// Only fire if we got a change in status
+		if ( $new_status == $old_status ) {
+			return;
+		}
+
+		if ( 'trash' == $old_status ) {
+			return $this->_add_list( $post );
+		}
+
 	}
 
 	/**
