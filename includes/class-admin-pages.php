@@ -235,13 +235,28 @@ class ConstantContact_Admin_Pages {
 					<h1 class="about-header"><?php echo esc_attr( $this->get_text( 'welcome_heading' ) ); ?></h1>
 					<div class="about-text">
 						<p>
-							<?php echo wp_kses_post( $this->get_text( 'welcome_text' ) ); ?>
+							<?php esc_attr_e( 'Want to connect with visitors even after they’ve left your WordPress site? Constant Contact’s email marketing tools make it easy. And with an average of $44 back for every dollar spent, nothing beats email marketing for driving real business results. With the Constant Contact for WordPress plugin and an active Constant Contact account, you can easily add forms (sign-up, comment, opt-ins) to your site so every visitor can be easily added to your Constant Contact email list.', 'constantcontact' ); ?>
 						</p>
+						<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a>
 					</div>
 				</div>
 				<div class="plugin-badge">
 					<img src="<?php echo esc_url( $this->get_text( 'icon' ) ); ?>">
 				</div>
+				<div class="clear"></div>
+				<hr>
+				<?php
+					// Get our middleware link
+					$proof = constant_contact()->authserver->set_verification_option();
+					$auth_link = constant_contact()->authserver->do_connect_url( $proof );
+
+					// If we have a link, then display the connect button
+					if ( $auth_link ) { ?>
+						<h2><?php esc_attr_e( 'Already a Constant Contact Member?', 'constantcontact' ); ?></h2>
+						<a href="<?php echo $auth_link ?>" class="button button-blue ctct-connect">
+							<?php esc_html_e( 'Connect Plugin', 'constantcontact' ); ?>
+						</a>
+				<?php } ?>
 			</div>
 			<div class="headline-feature">
 				<h3 class="headline-title">
@@ -261,6 +276,11 @@ class ConstantContact_Admin_Pages {
 					<?php echo wp_kses_post( $this->get_text( 'feat_description' ) ); ?>
 				</p>
 				<div class="clear"></div>
+			</div>
+				<hr>
+
+			<div class="advert-block">
+				Adverts
 			</div>
 		</div>
 
