@@ -794,7 +794,7 @@ class ConstantContact_Lists {
 	public function add_force_sync_button( $views ) {
 
 		// Build up our nonced url
-		$link = wp_nonce_url( add_query_arg(), 'ctct_reysncing', 'ctct_resyncing' );
+		$link = wp_nonce_url( add_query_arg( array( 'ctct_list_sync' => 'true' ) ), 'ctct_reysncing', 'ctct_resyncing' );
 
 		// Add a view to our list
 		$views['sync'] = '<strong><a href="' . $link . '">' . __( 'Sync Lists with Constant Contact', 'constantcontact' ) . '</a></strong>';
@@ -819,6 +819,13 @@ class ConstantContact_Lists {
 		) {
 			// Force our last updated time to be in the past, so we trigger the auto-refresh
 			update_option( 'constant_contact_lists_last_synced', time() - HOUR_IN_SECONDS );
+
+			// Get our url with our custom query args removed
+			$url = remove_query_arg( array( 'ctct_resyncing', 'ctct_list_sync' ) );
+
+			// Send user back to the page they were on after refreshing
+			wp_safe_redirect( $url );
+			die;
 		}
 	}
 }
