@@ -176,6 +176,7 @@ class ConstantContact_Connect {
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>">
+			<div class="ctct-body">
 			<?php if ( constantcontact_api()->get_api_token() ) : ?>
 				<div class="message notice">
 					<p>
@@ -186,7 +187,7 @@ class ConstantContact_Connect {
 				<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
 					<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
 					<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
-					<input type="submit" class="button-primary ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constantcontact' ); ?>">
+					<input type="submit" class="button button-orange ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constantcontact' ); ?>">
 				</form>
 
 			<?php else : ?>
@@ -201,7 +202,6 @@ class ConstantContact_Connect {
 				</p>
 
 				<!-- Start Columns Here -->
-				<div class="ctct-body">
 					<div class="left">
 						<img
 							class="flare"
@@ -238,14 +238,12 @@ class ConstantContact_Connect {
 							</a>
 						<?php } ?>
 					</div>
-				</div>
-				<!-- End Columns -->
 
 				<p class="ctct-description small">
 					<strong><?php esc_html_e( 'NOTE: ', 'constantcontact' ); ?></strong><?php esc_html_e( 'It’s possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin.', 'constantcontact' ); ?>
 				</p>
 			<?php endif; ?>
-
+			</div>
 		</div>
 		<?php
 	}
