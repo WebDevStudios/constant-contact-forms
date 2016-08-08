@@ -269,7 +269,10 @@ class ConstantContact_Admin_Pages {
 					</p>
 				</div>
 				<p class="introduction c-text">
-					<?php echo wp_kses_post( __( 'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact for WordPress plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left. <h5>*Direct Marketing Association 2013 Statistical Fact Book</h5>', 'constantcontact' ) ); ?>
+				<?php esc_attr_e( 'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact for WordPress plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left.', 'constantcontact' ); ?>
+					<h5>
+						<?php esc_attr_e( '*Direct Marketing Association 2013 Statistical Fact Book', 'constantcontact' ); ?>
+					</h5>
 				</p>
 				<div class="clear"></div>
 			</div>
