@@ -213,7 +213,7 @@ class ConstantContact_Connect {
 					</a>
 				<?php } ?>
 
-				<p class="ctct-description">
+				<p class="ctct-description small">
 					<?php esc_html_e( 'NOTE: It is possible to use the plugin without an active Constant Contact account or trial.  In this scenario you will be able to create forms within a WordPress site, but submitted form completions will be individually emailed to the Site Admin.', 'constantcontact' ); ?>
 				</p>
 			<?php endif; ?>
