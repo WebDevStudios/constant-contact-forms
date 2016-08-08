@@ -30,7 +30,6 @@ class ConstantContact_Mail {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->hooks();
 	}
 
 	/**
@@ -45,15 +44,6 @@ class ConstantContact_Mail {
 			self::$instance->hooks();
 		}
 		return self::$instance;
-	}
-
-	/**
-	 * Initiate our hooks.
-	 *
-	 * @since 1.0.0
-	 */
-	public function hooks() {
-
 	}
 
 	/**
