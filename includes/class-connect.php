@@ -208,7 +208,7 @@ class ConstantContact_Connect {
 							src="<?php echo $this->plugin->url . 'assets/images/question-mail-connect.png'; ?>"
 							alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constantcontact' ); ?>"
 						/>
-						<h3><?php esc_attr_e( 'Need an Account?', 'constantcontact' ); ?></h3>
+						<h3><?php esc_attr_e( 'Need an account?', 'constantcontact' ); ?></h3>
 						<p>
 							<?php esc_attr_e( 'Sign up for a free 60-day trial to connect with visitors beyond your website.' , 'constantcontact' ); ?>
 						</p>
