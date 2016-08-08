@@ -163,7 +163,7 @@ class ConstantContact_API {
 	 * @since  1.0.0
 	 * @return array current connect ctct lists
 	 */
-	public function get_lists() {
+	public function get_lists( $force_skip_cache = false) {
 
 		// Verify we're connected
 		if ( ! $this->is_connected() ) {
@@ -172,6 +172,11 @@ class ConstantContact_API {
 
 		// first, check our saved transient for a value
 		$lists = get_transient( 'ctct_lists' );
+
+		// If we passed in our force skip cache flag, we hit the API directly
+		if ( $force_skip_cache ) {
+			$lists = false;
+		}
 
 		// If we didn't get anything, then re-do the API call
 		if ( false === $lists ) {
