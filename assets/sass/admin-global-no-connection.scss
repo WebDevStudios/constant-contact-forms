@@ -18,7 +18,7 @@
 		color: darken($color-prussian-blue,10%);
 		font-size: 20px;
 		line-height: 1.2;
-		margin-bottom: 15px;
+		margin-bottom: 10px;
 		margin-top: 10px;
 	} // h3
 
@@ -34,9 +34,97 @@
 
 		&.small {
 			font-size: 13.3px;
-			margin-bottom: 0;
+			margin: 15px auto 0;
+			max-width: 70%;
+
 		}
 	} // p
+
+	.ctct-body {		
+		@include clearfix;
+		margin: 0 auto;
+		max-width: 720px;
+		padding: 15px;
+		position: relative;
+		overflow: hidden;
+
+		.left,
+		.right {
+			float:left;
+			padding: 15px 0px 520px;
+			margin-bottom: -500px;
+			text-align: center;
+			width: 50%;
+			box-sizing: border-box;
+
+			@media screen and (max-width: 782px) {
+				width: 100%;
+				float: none;
+			}
+
+			img,
+			svg {
+
+				&.flare {
+					width: 150px;
+					height: auto;
+				} // flare
+			} // img
+		} // left-right
+		.left {
+			border-right: 1px solid $color-silver;
+			padding-right: 70px;
+
+			@media screen and (max-width: 782px) {
+				border-bottom: 1px solid $color-silver;
+				border-right: 0;
+			}
+
+			p {
+				width: 220px;
+				margin: 0 auto 25px;
+			} // p
+		} // left
+		.right {
+			padding-left: 70px; 
+
+			p {
+				width: 310px;
+				margin: 0 auto 25px;
+			} // p
+		} // right
+		.button {
+			border-radius: 4px;
+			color: $color-white;
+			font-size: 16px;
+			font-weight: 600;
+			height: auto;
+			line-height: 1;
+			margin-bottom: 10px;
+			min-width: 180px;
+			padding: 14px 30px;
+
+			&.button-orange {
+				background-color: $color-chrome-yellow;
+				border: 1px solid darken($color-chrome-yellow, 10%);
+
+				&:hover,
+				&:focus {
+					background-color: darken($color-chrome-yellow, 10%);
+				}
+			} // button orange
+
+			&.button-blue {
+				background-color: $color-prussian-blue;
+				border: 1px solid darken($color-prussian-blue, 10%);
+
+				&:hover,
+				&:focus {
+					background-color: darken($color-prussian-blue, 10%);
+				}
+			} // button blue
+		} // button
+	} // ctct-body
 } // ctct_options_connect
 
 // error 
