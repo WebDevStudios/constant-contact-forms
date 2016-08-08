@@ -337,7 +337,7 @@ class ConstantContact_Connect {
 	 * @param  string $key  key to save to
 	 * @param  string $data data to save
 	 */
-	public function e_set( $check_key, $data ) {
+	public function e_set( $check_key, $data, $autoload = false ) {
 
 		if ( ! constant_contact()->is_encryption_ready() ) {
 			update_option( $check_key, $data );
@@ -351,7 +351,8 @@ class ConstantContact_Connect {
 		$saved = Crypto::encrypt( $data, $key );
 
 		// Save option
-		update_option( $check_key, $saved );
+		update_option( $check_key, $saved, $autoload );
+
 
 		// Return data
 		return $saved;
@@ -365,7 +366,7 @@ class ConstantContact_Connect {
 	 * @return void
 	 */
 	public function update_token( $access_token ) {
-		return $this->e_set( 'ctct_token', $access_token );
+		return $this->e_set( 'ctct_token', $access_token, true );
 	}
 
 	/**
