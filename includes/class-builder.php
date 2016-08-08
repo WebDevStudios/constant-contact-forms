@@ -465,10 +465,8 @@ class ConstantContact_Builder {
 	 * @param   string  $type  type of link to output
 	 */
 	public function display_connect_link() {
-		echo add_query_arg( array(
-			'post_type' => 'ctct_forms',
-			'page' => 'ctct_options_connect',
-		), admin_url( 'edit.php' ) );
+		$proof = constant_contact()->authserver->set_verification_option();
+		return constant_contact()->authserver->do_connect_url( $proof );
 	}
 
 	/**
@@ -520,7 +518,7 @@ class ConstantContact_Builder {
 							<p>
 								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account', 'constantcontact' ); ?>
 							</p>
-							<a href="<?php $this->display_connect_link(); ?>" class="button button-blue" title="Connect Plugin">
+							<a href="<?php echo esc_url_raw( $this->display_connect_link() ); ?>" target="_blank" class="button button-blue" title="Connect Plugin">
 								<?php esc_attr_e( 'Connect Plugin', 'constantcontact' ); ?>
 							</a><br/>
 							<p class="small"><small><?php esc_attr_e( 'By connecting you authorize this
