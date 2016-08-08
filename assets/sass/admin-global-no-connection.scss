@@ -33,9 +33,10 @@
 		} // ctct-description
 
 		&.small {
+			color: $color-light-silver;
 			font-size: 13.3px;
 			margin: 15px auto 0;
-			max-width: 70%;
+			max-width: 60%;
 
 		}
 	} // p
@@ -43,13 +44,14 @@
 	.ctct-body {		
 		@include clearfix;
 		margin: 0 auto;
-		max-width: 720px;
-		padding: 15px;
+		max-width: 75%;
+		padding: 25px 0 15px 0;
 		position: relative;
-		overflow: hidden;
+		overflow-y: hidden;
 
 		.left,
 		.right {
+			box-sizing: border-box;
 			float:left;
 			padding: 15px 0px 520px;
 			margin-bottom: -500px;
@@ -81,7 +83,7 @@
 			}
 
 			p {
-				width: 220px;
+				max-width: 220px;
 				margin: 0 auto 25px;
 			} // p
 		} // left
@@ -89,7 +91,7 @@
 			padding-left: 70px; 
 
 			p {
-				width: 310px;
+				max-width: 310px;
 				margin: 0 auto 25px;
 			} // p
 		} // right
