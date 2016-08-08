@@ -20,6 +20,7 @@ input {
 		}
 
 		// show error.
+		&:required.ctct-invalid,
 		&.ctct-invalid {
 			background: url("../images/error.svg") no-repeat;
 			background-color: fade-out($color-error, 0.98);
