@@ -5,8 +5,25 @@
 //--------------------------------------------------------------
 // Connect Page
 //--------------------------------------------------------------
+
+@import 'variables';
+@import 'mixins';
+
 .ctct_options_connect {
 	box-sizing: border-box;
 	padding: 70px;
 	text-align: center;
+
+	h3 {
+		color: darken($color-prussian-blue,10%);
+		font-size: 20px;
+		line-height: 1.2;
+		margin-bottom: 15px;
+		margin-top: 10px;
+	} // h3
+
+	p {
+		color: $color-modal-text;
+		font-size: 14.7px;
+	} // p
 } // ctct_options_connect
