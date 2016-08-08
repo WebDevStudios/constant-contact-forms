@@ -13,6 +13,18 @@
 	box-sizing: border-box;
 	padding: 70px;
 	text-align: center;
+	width: 100%;
+
+	@media screen and (max-width: 782px) {
+		padding: 30px 30px 0;
+		margin-left: -10px;
+	}
+
+	img {
+		width: 100%;
+		max-width: 400px;
+		height: auto;
+	}
 
 	h3 {
 		color: darken($color-prussian-blue,10%);
@@ -38,6 +50,9 @@
 			margin: 15px auto 0;
 			max-width: 60%;
 
+			@media screen and (max-width: 782px) {
+				max-width: 100%;
+			}
 		}
 	} // p
 
@@ -62,13 +77,15 @@
 			@media screen and (max-width: 782px) {
 				width: 100%;
 				float: none;
+				padding: 15px 0;
+				margin-bottom: 0;
 			}
 
 			img,
 			svg {
 
 				&.flare {
-					width: 150px;
+					width: 180px;
 					height: auto;
 				} // flare
 			} // img
@@ -80,19 +97,34 @@
 			@media screen and (max-width: 782px) {
 				border-bottom: 1px solid $color-silver;
 				border-right: 0;
+				padding-right: 0;
+				padding-bottom: 30px;
 			}
 
 			p {
 				max-width: 220px;
 				margin: 0 auto 25px;
+
+				@media screen and (max-width: 782px) {
+					max-width: 100%;
+				}
 			} // p
 		} // left
 		.right {
 			padding-left: 70px; 
 
+			@media screen and (max-width: 782px) {
+				padding-left: 0;
+				padding-top: 30px;
+			}
+
 			p {
 				max-width: 310px;
 				margin: 0 auto 25px;
+
+				@media screen and (max-width: 782px) {
+					max-width: 100%;
+				}
 			} // p
 		} // right
 		.button {
