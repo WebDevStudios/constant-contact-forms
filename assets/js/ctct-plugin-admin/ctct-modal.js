@@ -1,41 +1,26 @@
 window.Modal_Object = {};
 ( function( window, $, app ) {
 
-    // Private variable
-    var modal = document.getElementsByClassName('modal');
-
     // Constructor
     app.init = function() {
         app.cache();
-
-        if ( app.meetsRequirements() ) {
-            app.bindEvents();
-        }
+        app.bindEvents();
     };
 
     // Cache all the things
     app.cache = function() {
         app.$c = {
-            window: $(window),
+            window: $( window ),
             modalSelector: $( '.modal' ),
+            modalClose: $( '.modal-close' ),
         };
     };
 
     // Combine all events
     app.bindEvents = function() {
-        app.$c.window.on( 'load', app.doModal );
-    };
-
-    // Do we meet the requirements?
-    app.meetsRequirements = function() {
-        return app.$c.modalSelector.length;
-    };
-
-    // Some function
-    app.doModal = function() {
-        $(".modal-close").click(function(){
-	        $('.modal').removeClass('modal-open');
-	    });
+       app.$c.modalClose.click( function() {
+            app.$c.modalSelector.removeClass( 'modal-open' );
+        });
     };
 
     // Engage
