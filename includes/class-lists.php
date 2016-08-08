@@ -487,6 +487,13 @@ class ConstantContact_Lists {
 		return false;
 	}
 
+	/**
+	 * Set a unique list name for a post based on id / title
+	 *
+	 * @since   1.0.0
+	 * @param   int  $id     post ID
+	 * @param   string  $title  post title
+	 */
 	public function set_unique_list_name( $id, $title = '' ) {
 
 		// Keep track of our original title, so we can compare later
@@ -543,7 +550,6 @@ class ConstantContact_Lists {
 	 * CC doesn't allow duplicate lists by title, so we want to fix a 2nd list
 	 * that gets attempted to created
 	 *
-	 * @author Brad Parbs
 	 * @since   1.0.0
 	 * @param   string  $title  title of list
 	 * @param   array   $lists lists to search in
@@ -574,7 +580,6 @@ class ConstantContact_Lists {
 	 * Hooked into transition_post_status, we want to verify our deletion of a
 	 * list when we remove it, as well as re-adding any restored lists.
 	 *
-	 * @author Brad Parbs
 	 * @since   1.0.0
 	 * @param   string  $new_status  transitioned to status
 	 * @param   string  $old_status  transitioned from status
@@ -730,6 +735,11 @@ class ConstantContact_Lists {
 		return $get_lists;
 	}
 
+	/**
+	 * Hooked into admin_notices, show our duplicate list message if we have one
+	 *
+	 * @author Brad Parbs
+	 */
 	public function show_duplicate_list_message() {
 
 		// Make sure we're on the correct page
@@ -748,6 +758,8 @@ class ConstantContact_Lists {
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
 
+
+			// Add our output ( I know, gross inline CSS )
 			?>
 			<div class="notice notice-error">
 				<p><?php esc_attr_e( 'You already have a list with that name.', 'constantcontact' ); ?></p>

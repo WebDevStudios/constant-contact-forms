@@ -949,7 +949,6 @@ class ConstantContact_Display {
 	/**
 	 * Displays text area field
 	 *
-	 * @author Brad Parbs
 	 * @param  string $name        name of field
 	 * @param  string $map         id of field
 	 * @param  string $value       previous value of field

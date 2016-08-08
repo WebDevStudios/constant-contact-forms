@@ -459,6 +459,16 @@ class ConstantContact_Builder {
 	}
 
 	/**
+	 * Helper method to output a link for our connect modal
+	 *
+	 * @since   1.0.0
+	 * @param   string  $type  type of link to output
+	 */
+	public function link( $type ) {
+
+	}
+
+	/**
 	 * Displays our not connected modal to the user
 	 *
 	 * @since   1.0.0

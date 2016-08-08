@@ -91,7 +91,6 @@ class ConstantContact_Middleware {
 	/**
 	 * Verify a returned request from the auth server, and save the returned token
 	 *
-	 * @author Brad Parbs
 	 * @return boolean   is valid?
 	 */
 	public function verify_and_save_access_token_return() {
