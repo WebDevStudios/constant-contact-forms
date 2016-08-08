@@ -235,7 +235,7 @@ class ConstantContact_Admin_Pages {
 					<h1 class="about-header"><?php echo esc_attr( $this->get_text( 'welcome_heading' ) ); ?></h1>
 					<div class="about-text">
 						<p>
-							<?php esc_attr_e( 'Want to connect with visitors even after they’ve left your WordPress site? Constant Contact’s email marketing tools make it easy. And with an average of $44 back for every dollar spent, nothing beats email marketing for driving real business results. With the Constant Contact for WordPress plugin and an active Constant Contact account, you can easily add forms (sign-up, comment, opt-ins) to your site so every visitor can be easily added to your Constant Contact email list.', 'constantcontact' ); ?>
+							<?php echo wp_kses_post( $this->get_text( 'welcome_text' ) ); ?>
 						</p>
 						<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a>
 					</div>
@@ -333,7 +333,7 @@ class ConstantContact_Admin_Pages {
 				'icon'    => constant_contact()->url . 'assets/images/icon.jpg',
 
 				'welcome_heading'  => __( 'Constant Contact for WordPress', 'constantcontact' ),
-				'welcome_text'     => __( 'Want to connect with visitors even after they’ve left your WordPress site? Constant Contact’s email marketing tools make it easy. And with an average of $44 back for every dollar spent, nothing beats email marketing for driving real business results. With the Constant Contact for WordPress plugin and an active Constant Contact account, you can easily add forms (sign-up, comment, opt-ins) to your site so every visitor can be easily added to your Constant Contact email list. <a class="button button-primary" href="https://www.constantcontact.com">Try Us Free</a>', 'constantcontact' ),
+				'welcome_text'     => __( 'Want to connect with visitors even after they’ve left your WordPress site? Constant Contact’s email marketing tools make it easy. And with an average of $44 back for every dollar spent, nothing beats email marketing for driving real business results. With the Constant Contact for WordPress plugin and an active Constant Contact account, you can easily add forms (sign-up, comment, opt-ins) to your site so every visitor can be easily added to your Constant Contact email list.', 'constantcontact' ),
 				'feat_headline'    => __( '', 'constantcontact' ),
 				'feat_image'       => constant_contact()->url . 'assets/images/coffee-hero.jpg',
 				'feat_title'       => __( 'Powerful Email Marketing, Made Simple.', 'constantcontact' ),
