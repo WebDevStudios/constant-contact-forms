@@ -176,6 +176,7 @@ class ConstantContact_Connect {
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>">
+			<div class="ctct-body">
 			<?php if ( constantcontact_api()->get_api_token() ) : ?>
 				<div class="message notice">
 					<p>
@@ -186,7 +187,7 @@ class ConstantContact_Connect {
 				<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
 					<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
 					<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
-					<input type="submit" class="button-primary ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constantcontact' ); ?>">
+					<input type="submit" class="button button-orange ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constantcontact' ); ?>">
 				</form>
 
 			<?php else : ?>
@@ -197,27 +198,52 @@ class ConstantContact_Connect {
 				</p></div>
 			<?php } ?>
 				<p class="ctct-description">
-					<?php esc_html_e( 'To take full advantage of the Constant Contact for WordPress plugin, we recommend having either an active account or an active free trial with Constant Contact. Click the "Try Us Free" button to sign up for a free 60-day trial. Or click the "Connect Plugin" button to log in to your Constant Contact account (by connecting, you authorize this plugin to access your account) ', 'constantcontact' ); ?>
+					<?php esc_html_e( 'To take full advantage of this plugin, we recommend having an active Constant Contact account.', 'constantcontact' ); ?>
 				</p>
-				<a class="button button-primary" href="https://www.constantcontact.com"><?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?></a>
-				<?php
 
-				// Get our middleware link
-				$proof = constant_contact()->authserver->set_verification_option();
-				$auth_link = constant_contact()->authserver->do_connect_url( $proof );
+				<!-- Start Columns Here -->
+					<div class="left">
+						<img
+							class="flare"
+							src="<?php echo $this->plugin->url . 'assets/images/question-mail-connect.png'; ?>"
+							alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constantcontact' ); ?>"
+						/>
+						<h3><?php esc_attr_e( 'Need an Account?', 'constantcontact' ); ?></h3>
+						<p>
+							<?php esc_attr_e( 'Sign up for a free 60-day trial to connect with visitors beyond your website.' , 'constantcontact' ); ?>
+						</p>
+						<a class="button button-orange" href="https://www.constantcontact.com"><?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?></a>
+					</div>
+					<div class="right">
+						<img
+							class="flare"
+							src="<?php echo $this->plugin->url . 'assets/images/cc-login-connect.png'; ?>"
+							alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constantcontact' ); ?>"
+						/>
+						<h3><?php esc_attr_e( 'Have an account?', 'constantcontact' ); ?></h3>
+						<p>
+							<?php esc_attr_e( 'Connect the plugin to log in to your Constant Contact account', 'constantcontact' ); ?>
+							<em><?php esc_attr_e( '(by connecting, you authorize this plugin to access your account).', 'constantcontact' ); ?></em>
+						</p>
+						<?php
 
-				// If we have a link, then display the connect button
-				if ( $auth_link ) { ?>
-					<a href="<?php echo $auth_link ?>" class="button-primary ctct-connect">
-						<?php esc_html_e( 'Connect Plugin', 'constantcontact' ); ?>
-					</a>
-				<?php } ?>
+						// Get our middleware link
+						$proof = constant_contact()->authserver->set_verification_option();
+						$auth_link = constant_contact()->authserver->do_connect_url( $proof );
 
-				<p class="ctct-description">
-					<?php esc_html_e( 'NOTE: It is possible to use the plugin without an active Constant Contact account or trial.  In this scenario you will be able to create forms within a WordPress site, but submitted form completions will be individually emailed to the Site Admin.', 'constantcontact' ); ?>
+						// If we have a link, then display the connect button
+						if ( $auth_link ) { ?>
+							<a href="<?php echo $auth_link ?>" class="button button-blue ctct-connect">
+								<?php esc_html_e( 'Connect Plugin', 'constantcontact' ); ?>
+							</a>
+						<?php } ?>
+					</div>
+				</div>
+				
+				<p class="ctct-description small">
+					<strong><?php esc_html_e( 'NOTE: ', 'constantcontact' ); ?></strong><?php esc_html_e( 'It’s possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin.', 'constantcontact' ); ?>
 				</p>
 			<?php endif; ?>
-
 		</div>
 		<?php
 	}
