@@ -29,6 +29,7 @@
 		&.ctct-description {
 			font-size: 16px;
 			margin-bottom: 0;
+			margin-top: 5px;
 		} // ctct-description
 
 		&.small {
@@ -37,3 +38,8 @@
 		}
 	} // p
 } // ctct_options_connect
+
+// error 
+.error {
+	color: $color-red;
+}
