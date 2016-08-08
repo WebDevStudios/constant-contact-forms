@@ -246,11 +246,23 @@ class ConstantContact_Admin_Pages {
 				<div class="clear"></div>
 				<hr>
 				<?php
-					// Get our middleware link
-					$proof = constant_contact()->authserver->set_verification_option();
-					$auth_link = constant_contact()->authserver->do_connect_url( $proof );
+					// Get our connected state
+					$connected = constant_contact()->api->is_connected();
+
+					// @codingStandardsIgnoreStart
+					if ( ! $connected ) {
+					// @codingStandardsIgnoreEnd
+
+						// Get our middleware link
+						$proof = constant_contact()->authserver->set_verification_option();
+						$auth_link = constant_contact()->authserver->do_connect_url( $proof );
+
+					// @codingStandardsIgnoreStart
+					}
+					// @codingStandardsIgnoreEnd
+
 				?>
-				<?php if ( $auth_link ) { // If we have a link, then display the connect button ?>
+				<?php if ( ! $connected && $auth_link ) { // If we have a link, then display the connect button ?>
 					<h2><?php esc_attr_e( 'Already a Constant Contact Member?', 'constantcontact' ); ?></h2>
 					<a href="<?php echo $auth_link ?>" class="button button-blue ctct-connect">
 						<?php esc_html_e( 'Connect Plugin', 'constantcontact' ); ?>
