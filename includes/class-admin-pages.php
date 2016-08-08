@@ -234,7 +234,9 @@ class ConstantContact_Admin_Pages {
 				<div class="left-side">
 					<h1 class="about-header"><?php echo esc_attr( $this->get_text( 'welcome_heading' ) ); ?></h1>
 					<div class="about-text">
-						<?php echo wp_kses_post( $this->get_text( 'welcome_text' ) ); ?>
+						<p>
+							<?php echo wp_kses_post( $this->get_text( 'welcome_text' ) ); ?>
+						</p>
 					</div>
 				</div>
 				<div class="plugin-badge">
