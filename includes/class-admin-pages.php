@@ -280,7 +280,32 @@ class ConstantContact_Admin_Pages {
 				<hr>
 
 			<div class="advert-block">
-				Adverts
+				<div class="left">
+					<div class="ad-1">
+						<h3><?php esc_html_e( 'Easily Add Forms', 'constantcontact' ); ?></h3>
+						<img
+							src="<?php echo $this->plugin->url . 'assets/images/add-forms.png'; ?>"
+							alt="<?php echo esc_attr_x( 'add forms screenshot', 'add forms alt text', 'constantcontact' ); ?>"
+						/>
+						<p>
+							<?php esc_html_e( 'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. 
+', 'constantcontact' ); ?>
+						</p>
+					</div>
+				</div>
+				<div class="right">
+					<div class="ad-2">
+						<h3><?php esc_html_e( 'Stay Connected With Your WordPress Visitors', 'constantcontact' ); ?></h3>
+						<img
+							src="<?php echo $this->plugin->url . 'assets/images/stay-connected.png'; ?>"
+							alt="<?php echo esc_attr_x( 'stay connected screenshot', 'stay connected alt text', 'constantcontact' ); ?>"
+						/>
+						<p>
+							<?php esc_html_e( 'Form completions from site visitors are conveniently added to your Constant Contact email list.
+', 'constantcontact' ); ?>
+						</p>
+					</div>
+				</div>
 			</div>
 		</div>
 
