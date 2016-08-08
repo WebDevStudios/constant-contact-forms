@@ -544,12 +544,12 @@ class ConstantContact_Lists {
 	 * @since 1.0.0
 	 * @return array contact list data from CTCT
 	 */
-	public function get_lists() {
+	public function get_lists( $skip_cache = false ) {
 
 		$get_lists = array();
 
-		// grab our lists
-		$lists = constantcontact_api()->get_lists();
+		// Grab our lists, potentiall forcing a bypass of the cache
+		$lists = constantcontact_api()->get_lists( $skip_cache );
 
 		// make sure we have an array to loop through
 		if ( $lists && is_array( $lists ) ) {
