@@ -513,7 +513,7 @@ class ConstantContact_Display {
 
 		$markup = '';
 		if ( ! empty( $name ) && ! empty( $field_label ) ) {
-			$markup .= $this->get_label( $name, $field_label ) . '</div>';
+			$markup .= $this->get_label( $name, $field_label );
 			;
 		}
 		// Finish building our markup
@@ -558,14 +558,17 @@ class ConstantContact_Display {
 		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
 
 		// Set our field as as seprate var, because we allow for only returning that
-		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" placeholder="' . $label . '"/>';
+		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" placeholder="' . $label . '"';
 
 		// If we have an error
 		if ( $field_error ) {
 
 			// Tack that sucker on to the end of our input
-			$field = str_replace( '/>', 'class="ctct-invalid />', $field );
+			$field .= 'class="ctct-invalid"';
 		}
+
+		// Finish the markup for our field itself
+		$field .= '/>';
 
 		// Add our field to our markup
 		$markup .= $field;
@@ -676,6 +679,7 @@ class ConstantContact_Display {
 
 		// Start our markup return
 		$markup = '';
+
 		// If we set to hide the field, then hide it inline
 		if ( ! $show ) {
 			$markup = '<div class="ctct-optin-hide" style="display:none;">';
