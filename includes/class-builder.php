@@ -214,7 +214,7 @@ class ConstantContact_Builder {
 			'name'        => __( 'Opt-in Affirmation', 'constantcontact' ),
 			'id'          => $this->prefix . 'opt_in_instructions',
 			'type'        => 'textarea_small',
-			'default'     => sprintf( __( 'Example: Yes, I would like to receive emails from %s', 'constantcontact' ), $business_name ),
+			'default'     => sprintf( __( 'Example: Yes, I would like to receive emails from %s. (You can unsubscribe  anytime)', 'constantcontact' ), $business_name ),
 		) );
 	}
 
