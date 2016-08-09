@@ -70,20 +70,44 @@ class ConstantContact_Settings {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
+
+		// Kick it off / register our settings
 		add_action( 'admin_init', array( $this, 'init' ) );
 
+		// Add our options menu + options page
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'add_options_page_metabox' ) );
 
 		// Override CMB's getter.
 		add_filter( 'cmb2_override_option_get_' . $this->key, array( $this, 'get_override' ), 10, 2 );
+
 		// Override CMB's setter.
 		add_filter( 'cmb2_override_option_save_' . $this->key, array( $this, 'update_override' ), 10, 2 );
 
-		add_action( 'cmb2_init', array( $this, 'add_optin_to_forms' ) );
+		// Hook in all our form opt-in injects, decide to show or not when we are at the display point
+		$this->inject_optin_form_hooks();
+
+		// Process our opt-ins
 		add_filter( 'preprocess_comment', array( $this, 'process_optin_comment_form' ) );
 		add_filter( 'authenticate', array( $this, 'process_optin_login_form' ), 10, 3 );
+	}
 
+	/**
+	 * Hook in all our form opt-in injects, decide to show or not when we are at the display point
+	 *
+	 * @since   1.0.0
+	 */
+	public function inject_optin_form_hooks() {
+
+		// Login form
+		add_action( 'login_form', array( $this, 'optin_form_field_login' ) );
+
+		// Comment Form
+		add_action( 'comment_form_after_fields', array( $this, 'optin_form_field_comment' ) );
+
+		// Registration form
+		add_action( 'register_form', array( $this, 'optin_form_field_registration' ) );
+		add_action( 'signup_extra_fields', array( $this, 'optin_form_field_registration' ) );
 	}
 
 	/**
@@ -194,8 +218,6 @@ class ConstantContact_Settings {
 
 		if ( $lists && is_array( $lists ) ) {
 
-			unset( $lists['new'] );
-
 			// Set our CMB2 fields.
 			$cmb->add_field( array(
 				'name' 	=> __( 'Opt In Location', 'constantcontact' ),
@@ -206,14 +228,13 @@ class ConstantContact_Settings {
 
 			// Tack on 'select a list' to our lists array
 			$lists[0] = __( 'Select a list', 'constantcontact' );
-			$lists = array_reverse( $lists );
 
 			$cmb->add_field( array(
 				'name' 	=> __( 'Add subscribers to', 'constantcontact' ),
 				'id'   	=> '_ctct_optin_list',
 				'type'	=> 'select',
 				'show_option_none' => false,
-				'default'          => 'none',
+				'default'          => __( 'Select a list', 'constantcontact' ),
 				'options'		   => $lists,
 			) );
 
@@ -238,49 +259,85 @@ class ConstantContact_Settings {
 	 */
 	public function get_optin_show_options() {
 
+		// Set up our default options
 		$optin_options = array(
 			'comment_form' => __( 'Add a checkbox to the comment field in your posts', 'constantcontact' ),
 			'login_form'   => __( 'Add a checkbox to the main WordPress login page', 'constantcontact' ),
 		);
 
+		// If users can register, then allow this option as well
 		if ( get_option( 'users_can_register' ) ) {
 			$optin_options['reg_form'] = __( 'Add a checkbox to the WordPress user registration page', 'constantcontact' );
 		}
 
+		// Send em back
 		return $optin_options;
 	}
 
 	/**
-	 * Add selected optin to forms.
+	 * Based on a type of form we pass in, check if the saved option
+	 * for that form is checked or not in the admin
 	 *
-	 * @since 1.0.0
-	 * @return void
+	 * @since   1.0.0
+	 * @param   string  $type  allowed values: 'login_form', 'comment_form', 'reg_form'
+	 * @return  boolean        if should show or not
 	 */
-	public function add_optin_to_forms() {
+	public function check_if_optin_should_show( $type ) {
 
-		if ( ! constant_contact()->api->is_connected() ) {
-			return;
+		// Get all our settings
+		$available_areas = ctct_get_settings_option( '_ctct_optin_forms' );
+
+		// If our settings aren't an array, bail out
+		if ( ! is_array( $available_areas ) ) {
+			return false;
 		}
 
-		$optin_selected = ctct_get_settings_option( '_ctct_optin_forms' );
+		// Otherwise, check to see if our check is in the array
+		return in_array( $type, $available_areas );
+	}
 
-		if ( ! is_array( $optin_selected ) ) {
-			return;
+	/**
+	 * Potentially add our opt-in form to the login form. We have three almost
+	 * identical functions here. This allows us to hook them all in by themselves
+	 * and determine whether or not they should have been hooked in when we get
+	 * to displaying them, rather than on potentially pages we dont care about.
+	 *
+	 * @since   1.0.0
+	 * @return  void
+	 */
+	public function optin_form_field_login() {
+
+		// If we should show it this field, then show it
+		if ( $this->check_if_optin_should_show( 'login_form' ) ) {
+			$this->optin_form_field();
 		}
+	}
 
-		foreach ( $optin_selected as $selected ) {
-			switch ( $selected ) {
-				case 'login_form':
-					add_action( 'login_form', array( $this, 'optin_form_field' ) );
-				break;
-				case 'comment_form':
-					add_action( 'comment_form_after_fields', array( $this, 'optin_form_field' ) );
-				break;
-				case 'reg_form':
-					add_action( 'register_form', array( $this, 'optin_form_field' ) );
-					add_action( 'signup_extra_fields', array( $this, 'optin_form_field' ) );
-				break;
-			}
+	/**
+	 * Potentially add our opt-in form to comment forms
+	 *
+	 * @since   1.0.0
+	 * @return  void
+	 */
+	public function optin_form_field_comment() {
+
+		// If we should show it this field, then show it
+		if ( $this->check_if_optin_should_show( 'comment_form' ) ) {
+			$this->optin_form_field();
+		}
+	}
+
+	/**
+	 * Potentially add our opt-in form to the registration form
+	 *
+	 * @since   1.0.0
+	 * @return  void
+	 */
+	public function optin_form_field_registration() {
+
+		// If we should show it this field, then show it
+		if ( $this->check_if_optin_should_show( 'reg_form' ) ) {
+			$this->optin_form_field();
 		}
 	}
 
@@ -292,16 +349,25 @@ class ConstantContact_Settings {
 	 */
 	public function optin_form_field() {
 
-		$label = ctct_get_settings_option( '_ctct_optin_label' ) ? ctct_get_settings_option( '_ctct_optin_label' ) : __( 'Sign up to our newsletter.', 'constantcontact' );
-	?>
-	    <p style="padding: 0 0 1em 0;">
+		// Only show this if we're connected
+		if ( ! constant_contact()->api->is_connected() ) {
+			return;
+		}
+
+		// Get our label, based on our settings if they're available
+		$saved_label = ctct_get_settings_option( '_ctct_optin_label' );
+		$list = ctct_get_settings_option( '_ctct_optin_list' );
+
+		// Otherwise, use our default
+		$label = $saved_label ? $saved_label : __( 'Sign up to our newsletter.', 'constantcontact' );
+
+		?><p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
 	        <label for="ctct_optin">
-	        <input type="checkbox" value="<?php echo esc_attr( ctct_get_settings_option( '_ctct_optin_list' ) ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list">
-			<?php echo sanitize_text_field( $label ); ?>
+	        	<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
+				<?php echo sanitize_text_field( $label ); ?>
 			</label>
 			<?php echo wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin' ); ?>
-	    </p>
-	<?php
+	    </p><?php
 
 	}
 
@@ -329,19 +395,42 @@ class ConstantContact_Settings {
 			return $comment_data;
 		}
 
-		// finally, if we have our data, then add it to the api
-		if ( isset( $comment_data['comment_author'] ) && isset( $comment_data['comment_author'] ) ) {
+		// Send our data to be processed, send back original comment data
+		return $this->_process_comment_data_for_optin( $comment_data );
+	}
 
+	/**
+	 * Process our comment data and send to CC
+	 *
+	 * @since   1.0.0
+	 * @param   array  $comment_data  array of comment data
+	 * @return  array                 passed in comment data
+	 */
+	public function _process_comment_data_for_optin( $comment_data ) {
+
+		// finally, if we have at least an email, then add it to the api
+		if ( isset( $comment_data['comment_author_email'] ) && $comment_data['comment_author_email'] ) {
+
+			// If we can grab a name, try to use it
+			$name = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
+
+			// If we can get a website, use it
+			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
+
+			// Build up our data array
 			$args = array(
+				'list'       => sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ),
 				'email'      => sanitize_email( $comment_data['comment_author_email'] ),
-				'list'       => sanitize_text_field( $_POST['ctct_optin_list'] ),
-				'first_name' => sanitize_text_field( $comment_data['comment_author'] ),
+				'first_name' => sanitize_text_field( $name ),
 				'last_name'  => '',
+				'website'    => sanitize_text_field( $website ),
 			);
 
+			// Add the contact, based on our whitelist of information we have from above
 			constantcontact_api()->add_contact( $args );
 		}
 
+		// Send back original comment data
 		return $comment_data;
 	}
 
@@ -376,6 +465,20 @@ class ConstantContact_Settings {
 			return $user;
 		}
 
+		// Send data to CC and send back our passed in user object
+		return $this->_process_user_data_for_optin( $user, $username );
+	}
+
+	/**
+	 * Sends user data to CC
+	 *
+	 * @since   1.0.0
+	 * @param   object  $user      WP user object
+	 * @param   string  $username  username
+	 * @return  object             passed in $user object
+	 */
+	public function _process_user_data_for_optin( $user, $username ) {
+
 		// Get user
 		$user_data = get_user_by( 'login', $username );
 
@@ -394,17 +497,19 @@ class ConstantContact_Settings {
 		}
 
 		// If we have one or the other, try it
-		if ( $name || $email ) {
+		if ( $email ) {
 			$args = array(
-				'email' => $email,
-				'list' => sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ),
+				'email'      => $email,
+				'list'       => sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ),
 				'first_name' => $name,
-				'last_name' => '',
+				'last_name'  => '',
 			);
 
+			// Add the contact!
 			constantcontact_api()->add_contact( $args );
 		}
 
+		// Send back our passed in user object
 		return $user;
 	}
 
@@ -418,10 +523,12 @@ class ConstantContact_Settings {
 	 */
 	public function settings_notices( $object_id, $updated ) {
 
+		// Sanity checking
 		if ( $object_id !== $this->key || empty( $updated ) ) {
 			return;
 		}
 
+		// Output any errors / notices we need
 		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', 'constantcontact' ), 'updated' );
 		settings_errors( $this->key . '-notices' );
 	}
