@@ -267,6 +267,21 @@ class Constant_Contact {
 	 */
 	function _activate() { }
 
+	/**
+	 * Deactivate the plugin
+	 *
+	 * @since  1.0.0
+	 * @return void
+	 */
+	function _deactivate() {
+
+		// If we deactivate the plugin, remove our option related to
+		// hiding the dismiss notices so that it will show on activation
+		delete_option( 'ctct_notices_dismissed' );
+
+		// Remove our saved transients for our lists, so we force a refresh on re-connection
+		delete_transient( 'ctct_lists' );
+
 	}
 
 	/**
@@ -520,3 +535,4 @@ function constant_contact_display_form( $form_id ) {
 // Kick it off.
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
 register_activation_hook( __FILE__, array( constant_contact(), '_activate' ) );
+register_deactivation_hook( __FILE__, array( constant_contact(), '_deactivate' ) );
