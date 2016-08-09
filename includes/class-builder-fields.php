@@ -137,8 +137,11 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function show_optin_connected_fields( $options_metabox ) {
 
+		// Get our lists
+		$lists = $this->plugin->builder->get_lists();
+
 		// Add field if conncted to API.
-		if ( $lists = $this->plugin->builder->get_lists() ) {
+		if ( $lists ) {
 
 			// Allow choosing a list to add to
 			$options_metabox->add_field( array(
