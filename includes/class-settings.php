@@ -158,7 +158,7 @@ class ConstantContact_Settings {
 		) );
 
 		$option_options = array(
-			'comment_form' => __( 'Add a check box to the comment field in your posts', 'constantcontact' ),
+			'comment_form' => __( 'Add a checkbox to the comment field in your posts', 'constantcontact' ),
 			'login_form'   => __( 'Add a checkbox to the main WordPress login page', 'constantcontact' ),
 		);
 
