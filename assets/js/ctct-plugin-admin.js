@@ -18,6 +18,10 @@ window.CTCTBuilder = {};
 
 		// Make description non-draggable, so we don't run into weird cmb2 issues
 		$( '#ctct_0_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
+
+		// Inject our new labels for the up/down CMB2 buttons, so they can be properly localized.
+		// Because we're using :after, we can't use .css() to do this, we need to inject a style tag
+		$( 'head' ).append( '<style> #cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "' + ctct_texts.move_up + '" } #cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "' + ctct_texts.move_down + '" }</style>' );
 	}
 
 	// Cache all the things.
@@ -276,17 +280,16 @@ window.CTCT_OptIns = {};
 	// Cache all the things
 	app.cache = function() {
 		app.$c = {
-			optin    : $( '#_ctct_opt_in' ),
-			list     : $( '.cmb2-id--ctct-list' ),
-			default  : $( '.cmb2-id--ctct-opt-in-default' ),
-			hide     : $( '.cmb2-id--ctct-opt-in-hide' ),
-			instruct : $( '.cmb2-id--ctct-opt-in-instructions' ),
+			optin         : $( '#_ctct_opt_in' ),
+			optin_no_conn : $( '#_ctct_opt_in_not_connected' ),
+			list          : $( '.cmb2-id--ctct-list' ),
+			instruct      : $( '.cmb2-id--ctct-opt-in-instructions' ),
 		};
 	};
 
 	// Combine all events
 	app.bindEvents = function() {
-		$( '#_ctct_opt_in' ).change( function() {
+		app.$c.optin_no_conn.change( function() {
 			app.toggleOptInFields();
 		});
 	};
@@ -294,22 +297,16 @@ window.CTCT_OptIns = {};
 	// Toggle un-needed optin fields if we're not showing the opt-in
 	app.toggleOptInFields = function() {
 
-		//@TODO modify here for new opt in methods
-		//Set up our optin selector
+		console.log( app.$c.optin_no_conn );
 
 		// Only fire show/hide if we have the normal checkbox
-		if ( app.$c.optin.length && false ) {
+		if ( app.$c.optin_no_conn.length ) {
+
 			// If checked, show them
-			if ( app.$c.optin.prop( 'checked' ) ) {
-				that.$c.optinfields.list.show();
-				that.$c.optinfields.default.show();
-				that.$c.optinfields.hide.show();
-				that.$c.optinfields.instruct.show();
+			if ( app.$c.optin_no_conn.prop( 'checked' ) ) {
+				app.$c.instruct.slideDown();
 			} else {
-				that.$c.optinfields.list.hide();
-				that.$c.optinfields.default.hide();
-				that.$c.optinfields.hide.hide();
-				that.$c.optinfields.instruct.hide();
+				app.$c.instruct.slideUp();
 			}
 		}
 	}
