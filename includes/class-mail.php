@@ -62,8 +62,8 @@ class ConstantContact_Mail {
 		// Clean our values
 		$values = constant_contact()->process_form->clean_values( $values );
 
-		// If a user opted-in, push their data to CC
-		if ( $add_to_opt_in ) {
+		// If a user opted-in and we're still connected, push their data to CC
+		if ( $add_to_opt_in && constant_contact()->api->is_connected() ) {
 			$this->opt_in_user( $values );
 		}
 
