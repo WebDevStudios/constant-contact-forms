@@ -312,7 +312,7 @@ class Constant_Contact {
 
 		// If we don't alrady have WDS_Shortcodes loaded somewhere else, load it up
 		if ( ! function_exists( 'wds_shortcodes' ) ) {
-			$libs[] = 'wds/WDS-Shortcodes/wds-shortcodes.php';
+			$libs[] = 'WDS-Shortcodes/wds-shortcodes.php';
 		}
 
 		// Loop through our vendor libraries and load them
