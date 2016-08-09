@@ -9,6 +9,15 @@ window.CTCTBuilder = {};
 
 		// Bind our events
 		that.bindEvents();
+
+		// Bind our select dropdown events
+		that.selectBinds();
+
+		// Trigger any field modifications we need to do
+		that.modifyFields();
+
+		// Make description non-draggable, so we don't run into weird cmb2 issues
+		$( '#ctct_0_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
 	}
 
 	// Cache all the things.
@@ -81,20 +90,11 @@ window.CTCTBuilder = {};
 			// Trigger bind events again for our selects, as well as our field changes
 			that.modifyFields();
 			that.selectBinds();
+    		that.removeDuplicateMappings();
 		});
-
-
-		// Bind our select dropdown events
-		that.selectBinds();
-
-		// Trigger any field modifications we need to do
-		that.modifyFields();
 
 		// Remove any duplicate mappings in fields
 		that.removeDuplicateMappings();
-
-		// Make description non-draggable, so we don't run into weird cmb2 issues
-		$( '#ctct_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
     }
 
     // When .cmb2_select <selects> get changed, do some actions
@@ -119,7 +119,7 @@ window.CTCTBuilder = {};
 		var foundEmail = false;
 
 		// Loop through all fields to modify them
-		$( '#cmb2-metabox-ctct_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping' ).each( function( key, value ) {
+		$( '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping' ).each( function( key, value ) {
 
 			// Set some of our helper paramaters
 			var $field_parent = $( this ).find( '.cmb-field-list' );
@@ -178,7 +178,7 @@ window.CTCTBuilder = {};
 		var usedMappings = [];
 
 		// Get all our dropdowns on the page
-		var dropdowns = '#cmb2-metabox-ctct_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select';
+		var dropdowns = '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select';
 
 		// For each dropdown, build up our array of used values
 		$( dropdowns ).each( function( key, value ) {
@@ -189,7 +189,7 @@ window.CTCTBuilder = {};
 		usedMappings.forEach( function( value ) {
 
 			// But only do it if the value isn't one of our custom ones
-			if ( 'custom_text_area' != value && 'custom' != value ) {
+			if ( ( 'custom_text_area' ) != ( value && 'custom' != value ) ) {
 
 				// Remove all options from our dropdowns with the value
 				$( dropdowns + ' option[value=' + value +']:not( :selected )' ).remove();
