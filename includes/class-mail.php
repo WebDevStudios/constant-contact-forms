@@ -85,7 +85,8 @@ class ConstantContact_Mail {
 	 * @return object         response from API
 	 */
 	public function opt_in_user( $values ) {
-//@TODO modify here for new opt in methods
+
+
 		// go through all our fields
 		foreach ( $values as $key => $val ) {
 
@@ -95,7 +96,7 @@ class ConstantContact_Mail {
 			$val  = sanitize_text_field( isset( $val['value'] ) ? $val['value'] : '' );
 
 			// Make sure we have a key that we can use
-			if ( $key && 'ctct-opt-in' != $key && 'ctct-id' != $key ) {
+			if ( $key && ( 'ctct-opt-in' != $key ) && ( 'ctct-id' != $key ) ) {
 
 				// Set our args that we'll pass to our API
 				$args[ $orig ] = array(
