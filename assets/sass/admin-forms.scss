@@ -22,7 +22,8 @@ body.post-type-ctct_forms #titlediv #title {
 	line-height: 2em;
 }
 
-.cmb2-id--ctct-opt-in-instructions {
+#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in-instructions,
+#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in {
 	display: none;
 }
 
@@ -97,10 +98,6 @@ body.post-type-ctct_forms #titlediv #title {
 
 	.cmb-row {
 		border-bottom: none;
-	}
-
-	.cmb2-id--ctct-opt-in-instructions {
-		border-top: 1px solid #e9e9e9;
 	}
 
 	.cmb2-id--ctct-list {
