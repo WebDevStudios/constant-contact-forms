@@ -3,8 +3,24 @@ window.CTCTBuilder = {};
 
 	// Constructor.
 	that.init = function() {
+
+		// Cache it all
 		that.cache();
+
+		// Bind our events
 		that.bindEvents();
+
+		// Bind our select dropdown events
+		that.selectBinds();
+
+		// Trigger any field modifications we need to do
+		that.modifyFields();
+
+		// Remove any duplicate mappings in fields
+		that.removeDuplicateMappings();
+
+		// Make description non-draggable, so we don't run into weird cmb2 issues
+		$( '#ctct_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
 	}
 
 	// Cache all the things.
@@ -25,6 +41,7 @@ window.CTCTBuilder = {};
 		// Don't double-bind it
 		if ( ! that.isLeaveWarningBound ) {
 
+			// Bind our error that displays before leaving page
 			$( window ).bind( 'beforeunload', function(){
 				return ctct_texts.leavewarning;
 			});
@@ -34,7 +51,7 @@ window.CTCTBuilder = {};
 		}
 	}
 
-	// Removes our binding of our leavce warning
+	// Removes our binding of our leave warning
 	that.unbindLeaveWarning = function() {
 		$( window ).unbind( 'beforeunload' );
 	}
@@ -52,10 +69,8 @@ window.CTCTBuilder = {};
 			that.unbindLeaveWarning();
 		});
 
-		// On cmb2 select chnages, fire our leave warning function
+		// On cmb2 select changes, fire our leave warning function
 		$( '.cmb2-wrap input, .cmb2-wrap textarea' ).on( 'input', function() {
-
-			// Bind our leave warning
 			that.bindLeaveWarning();
 		});
 
@@ -80,23 +95,11 @@ window.CTCTBuilder = {};
 			that.modifyFields();
 			that.selectBinds();
 		});
-
-
-		// On load, toggle our optin fields and run our new row
-		// functionality to apply to all saved values, bind our select
-		// functionality, and don't allow duplicate mappings in form
-		that.modifyFields();
-		that.selectBinds();
-		that.removeDuplicateMappings();
-
-		// Make description non-draggable, so we don't run into weird cmb2 issues
-		$( '#ctct_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
-
     }
 
+    // When .cmb2_select <selects> get changed, do some actions
     that.selectBinds = function() {
-    	// On cmb2 select chaages, fire our modify fields function
-    	$( '.cmb2_select' ).change( function() {
+    	$( '#cmb2-metabox-ctct_2_fields_metabox .cmb2_select' ).change( function() {
 
     		// Modify our fields
     		that.modifyFields();
@@ -109,7 +112,7 @@ window.CTCTBuilder = {};
     	});
     }
 
-	// Disable required email fields.
+	// We need to manipulate our form builder a bit. We do this here.
 	that.modifyFields = function() {
 
 		// Set that we haven't found an email
@@ -165,7 +168,6 @@ window.CTCTBuilder = {};
 				// and the remove button
 				$button.show();
 			}
-
 		});
 	}
 

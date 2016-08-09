@@ -3,8 +3,24 @@ window.CTCTBuilder = {};
 
 	// Constructor.
 	that.init = function() {
+
+		// Cache it all
 		that.cache();
+
+		// Bind our events
 		that.bindEvents();
+
+		// Bind our select dropdown events
+		that.selectBinds();
+
+		// Trigger any field modifications we need to do
+		that.modifyFields();
+
+		// Remove any duplicate mappings in fields
+		that.removeDuplicateMappings();
+
+		// Make description non-draggable, so we don't run into weird cmb2 issues
+		$( '#ctct_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
 	}
 
 	// Cache all the things.
@@ -25,6 +41,7 @@ window.CTCTBuilder = {};
 		// Don't double-bind it
 		if ( ! that.isLeaveWarningBound ) {
 
+			// Bind our error that displays before leaving page
 			$( window ).bind( 'beforeunload', function(){
 				return ctct_texts.leavewarning;
 			});
@@ -34,7 +51,7 @@ window.CTCTBuilder = {};
 		}
 	}
 
-	// Removes our binding of our leavce warning
+	// Removes our binding of our leave warning
 	that.unbindLeaveWarning = function() {
 		$( window ).unbind( 'beforeunload' );
 	}
@@ -52,10 +69,8 @@ window.CTCTBuilder = {};
 			that.unbindLeaveWarning();
 		});
 
-		// On cmb2 select chnages, fire our leave warning function
+		// On cmb2 select changes, fire our leave warning function
 		$( '.cmb2-wrap input, .cmb2-wrap textarea' ).on( 'input', function() {
-
-			// Bind our leave warning
 			that.bindLeaveWarning();
 		});
 
@@ -80,23 +95,11 @@ window.CTCTBuilder = {};
 			that.modifyFields();
 			that.selectBinds();
 		});
-
-
-		// On load, toggle our optin fields and run our new row
-		// functionality to apply to all saved values, bind our select
-		// functionality, and don't allow duplicate mappings in form
-		that.modifyFields();
-		that.selectBinds();
-		that.removeDuplicateMappings();
-
-		// Make description non-draggable, so we don't run into weird cmb2 issues
-		$( '#ctct_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
-
     }
 
+    // When .cmb2_select <selects> get changed, do some actions
     that.selectBinds = function() {
-    	// On cmb2 select chaages, fire our modify fields function
-    	$( '.cmb2_select' ).change( function() {
+    	$( '#cmb2-metabox-ctct_2_fields_metabox .cmb2_select' ).change( function() {
 
     		// Modify our fields
     		that.modifyFields();
@@ -109,7 +112,7 @@ window.CTCTBuilder = {};
     	});
     }
 
-	// Disable required email fields.
+	// We need to manipulate our form builder a bit. We do this here.
 	that.modifyFields = function() {
 
 		// Set that we haven't found an email
@@ -165,7 +168,6 @@ window.CTCTBuilder = {};
 				// and the remove button
 				$button.show();
 			}
-
 		});
 	}
 
@@ -230,60 +232,56 @@ window.CTCTModal = {};
 
 })( window, jQuery, window.CTCTModal );
 
-
-    // If we modify the opt in checkbox, then toggle fields if we have to
-    $( '#_ctct_opt_in' ).change( function() {
-    	that.toggleOptInFields();
-    });
-    // Toggle un-needed optin fields if we're not showing the opt-in
-    that.toggleOptInFields = function() {
-    	_ctct_list
-//@TODO modify here for new opt in methods
-		// Set up our optin selector
-		// $optin = $( '#_ctct_opt_in' );
-
-		// // Only fire show/hide if we have the normal checkbox
-		// if ( $optin.length ) {
-		// 	// If checked, show them
-		// 	if ( $optin.prop( 'checked' ) ) {
-		// 		that.$c.optinfields.list.show();
-		// 		that.$c.optinfields.default.show();
-		// 		that.$c.optinfields.hide.show();
-		// 		that.$c.optinfields.instruct.show();
-		// 	} else {
-		// 		that.$c.optinfields.list.hide();
-		// 		that.$c.optinfields.default.hide();
-		// 		that.$c.optinfields.hide.hide();
-		// 		that.$c.optinfields.instruct.hide();
-		// 	}
-		// }
-	}
-
-
 window.CTCT_OptIns = {};
 ( function( window, $, app ) {
 
 	// Constructor
 	app.init = function() {
-	    app.cache();
-	    app.bindEvents();
+		app.cache();
+		app.bindEvents();
+		app.toggleOptInFields();
 	};
 
 	// Cache all the things
 	app.cache = function() {
-	    app.$c = {
-	        window: $( window ),
-	        modalSelector: $( '.modal' ),
-	        modalClose: $( '.modal-close' ),
-	    };
+		app.$c = {
+			optin    : $( '#_ctct_opt_in' ),
+			list     : $( '.cmb2-id--ctct-list' ),
+			default  : $( '.cmb2-id--ctct-opt-in-default' ),
+			hide     : $( '.cmb2-id--ctct-opt-in-hide' ),
+			instruct : $( '.cmb2-id--ctct-opt-in-instructions' ),
+		};
 	};
 
 	// Combine all events
 	app.bindEvents = function() {
-	   app.$c.modalClose.click( function() {
-	        app.$c.modalSelector.removeClass( 'modal-open' );
-	    });
+		$( '#_ctct_opt_in' ).change( function() {
+			app.toggleOptInFields();
+		});
 	};
+
+	// Toggle un-needed optin fields if we're not showing the opt-in
+	app.toggleOptInFields = function() {
+
+		//@TODO modify here for new opt in methods
+		//Set up our optin selector
+
+		// Only fire show/hide if we have the normal checkbox
+		if ( app.$c.optin.length && false ) {
+			// If checked, show them
+			if ( app.$c.optin.prop( 'checked' ) ) {
+				that.$c.optinfields.list.show();
+				that.$c.optinfields.default.show();
+				that.$c.optinfields.hide.show();
+				that.$c.optinfields.instruct.show();
+			} else {
+				that.$c.optinfields.list.hide();
+				that.$c.optinfields.default.hide();
+				that.$c.optinfields.hide.hide();
+				that.$c.optinfields.instruct.hide();
+			}
+		}
+	}
 
 	// Engage
 	$( app.init );
