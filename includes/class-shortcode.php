@@ -25,7 +25,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		public $shortcode = 'ctct';
 
 		/**
-		 * Default attributes applied tot he shortcode.
+		 * Default attributes applied to the shortcode.
 		 *
 		 * @since 1.0.0
 		 * @var array
@@ -158,39 +158,49 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				$fields['options']['description'] = $full_data['_ctct_description'][0];
 			}
 //@TODO modify here for new opt in methods
-			// Check for if opt in
-			if (
-				isset( $full_data['_ctct_opt_in'] ) &&
-				isset( $full_data['_ctct_opt_in'][0] ) &&
-				'on' === $full_data['_ctct_opt_in'][0]
-			) {
 
-				$fields['options']['optin']['opt_in'] = true;
-
-				// Check for opt in list
-				if ( isset( $full_data['_ctct_list'] ) && isset( $full_data['_ctct_list'][0] ) ) {
-					$fields['options']['optin']['list'] = $full_data['_ctct_list'][0];
-				}
-
-				// Check for opt in description
-				if ( isset( $full_data['_ctct_opt_in_instructions'] ) && isset( $full_data['_ctct_opt_in_instructions'][0] ) ) {
-					$fields['options']['optin']['opt_in_instructions'] = $full_data['_ctct_opt_in_instructions'][0];
-				}
-
-				// Check for default value for opt in
-				if ( isset( $full_data['_ctct_opt_in_default'] ) && isset( $full_data['_ctct_opt_in_default'][0] ) ) {
-					$fields['options']['optin']['opt_in_default'] = true;
-				}
-
-				// Check for if opt in should show
-				if ( isset( $full_data['_ctct_opt_in_hide'] ) && isset( $full_data['_ctct_opt_in_hide'][0] ) ) {
-					$fields['options']['optin']['opt_in_hide'] = true;
-				}
-			} else {
-				$fields['options']['optin']['opt_in'] = false;
-			}
+			// Get our optin data
+			$fields['options']['optin'] = $this->generate_optin_data( $full_data );
 
 			return $fields;
+		}
+
+		/**
+		 * Helper method to get our optin data
+		 *
+		 * @since   1.0.0
+		 * @param   array  $form_data  form data array
+		 * @return  array              array of opt-in data
+		 */
+		public function generate_optin_data( $form_data ) {
+
+			return array(
+				'list' => isset( $form_data['_ctct_list'] )  ? $form_data['_ctct_list'] : false,
+				'show' => isset( $form_data['_ctct_opt_in'] ) ? $form_data['_ctct_opt_in'] : false,
+				'instructions' => $this->get_optin_instructions( $form_data ),
+			);
+		}
+
+		/**
+		 * Helper method to get opt in instructions from form data
+		 *
+		 * @since   1.0.0
+		 * @param   array  $form_data  form data
+		 * @return  string              instructions
+		 */
+		public function get_optin_instructions( $form_data ) {
+
+			// Get our instructions for our opt in
+			if (
+				isset( $form_data['_ctct_opt_in_instructions'] ) &&
+				$form_data['_ctct_opt_in_instructions'] &&
+				isset( $form_data['_ctct_opt_in_instructions'][0] ) &&
+				$form_data['_ctct_opt_in_instructions'][0]
+			) {
+				return wp_kses_post( $form_data['_ctct_opt_in_instructions'][0] );
+			}
+
+			return '';
 		}
 
 		/**
