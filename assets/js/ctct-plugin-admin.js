@@ -59,49 +59,33 @@ window.CTCTBuilder = {};
 			that.unbindLeaveWarning();
 		});
 
-		// Make description non-draggable, so we don't run into weird cmb2 issues
-		$( '#ctct_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
-
-		// Disable email options on row change trigger.
-		$( document ).on( 'cmb2_shift_rows_complete', function() {
-
-			// Fire our field modifications function
-			that.bindEvents();
-
-			// Bind our leave warning
-			that.bindLeaveWarning();
-		});
-
-		// On cmb2 select chnages, fire our modify fields function
-		$( '.cmb2_select' ).change( function() {
-
-			// Call the bindEvents function so that we trigger the modifyFields()
-			// function as well as catching newly-added fields for all triggers
-			that.bindEvents();
-
-			// Bind our leave warning
-			that.bindLeaveWarning();
-		});
-
-		// On cmb2 select chnages, fire our modify fields function
+		// On cmb2 select chnages, fire our leave warning function
 		$( '.cmb2-wrap input, .cmb2-wrap textarea' ).on( 'input', function() {
 
 			// Bind our leave warning
 			that.bindLeaveWarning();
 		});
 
+		// Disable email options on row change trigger.
+		$( document ).on( 'cmb2_shift_rows_complete', function() {
+
+			// Fire our field modifications function
+			// functionality to apply to all saved values
+			that.modifyFields();
+
+			// Bind our leave warning
+			that.bindLeaveWarning();
+		});
+
 		// If we get a row added, then do our stuff
-		$( document ).on( 'cmb2_add_row', function() {
+		$( document ).on( 'cmb2_add_row', function( newRow ) {
 
 			// Automatically set new rows to be 'custom' field type
 			$( '#custom_fields_group_repeat .postbox' ).last().find( '.map select' ).val( 'custom' );
 
-			// Call the bindEvents function so that we trigger the modifyFields()
-			// function as well as catching newly-added fields for all triggers
-			that.bindEvents();
-
-			// Bind our leave warning
-			that.bindLeaveWarning();
+			// Trigger bind events again for our selects, as well as our field changes
+			that.modifyFields();
+			that.selectBinds();
 		});
 
 		// If we modify the opt in checkbox, then toggle fields if we have to
@@ -110,9 +94,31 @@ window.CTCTBuilder = {};
 		});
 
 		// On load, toggle our optin fields and run our new row
-		// functionality to apply to all saved values
+		// functionality to apply to all saved values, bind our select
+		// functionality, and don't allow duplicate mappings in form
 		that.modifyFields();
 		that.toggleOptInFields();
+		that.selectBinds();
+		that.removeDuplicateMappings();
+
+		// Make description non-draggable, so we don't run into weird cmb2 issues
+		$( '#ctct_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
+
+    }
+
+    that.selectBinds = function() {
+    	// On cmb2 select chaages, fire our modify fields function
+    	$( '.cmb2_select' ).change( function() {
+
+    		// Modify our fields
+    		that.modifyFields();
+
+    		// Don't allow duplicate mappings in form
+    		that.removeDuplicateMappings();
+
+    		// Bind our leave warning
+    		that.bindLeaveWarning();
+    	});
     }
 
     // Toggle un-needed optin fields if we're not showing the opt-in
@@ -156,9 +162,6 @@ window.CTCTBuilder = {};
 
 			// If we have a blank field label, then use the name of the field to fill it in
 			if ( ( $labelField.val().length === 0 ) || $labelField.hasClass( 'ctct-label-filled' ) ) {
-
-				// @TODO this only changes one time, because after, it does not get flagged as
-				// an empty string
 				$labelField.val( $mapName ).addClass( 'ctct-label-filled' );
 			}
 
@@ -192,6 +195,32 @@ window.CTCTBuilder = {};
 				$button.show();
 			}
 
+		});
+	}
+
+	// Go through all dropdowns, and remove used options
+	that.removeDuplicateMappings = function() {
+
+		// Set up an array for our mappings
+		var usedMappings = [];
+
+		// Get all our dropdowns on the page
+		var dropdowns = '#cmb2-metabox-ctct_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select';
+
+		// For each dropdown, build up our array of used values
+		$( dropdowns ).each( function( key, value ) {
+			usedMappings.push( $( value ).val() );
+		});
+
+		// For each of our mappings that we already have, remove them from all selects
+		usedMappings.forEach( function( value ) {
+
+			// But only do it if the value isn't one of our custom ones
+			if ( 'custom_text_area' != value && 'custom' != value ) {
+
+				// Remove all options from our dropdowns with the value
+				$( dropdowns + ' option[value=' + value +']:not( :selected )' ).remove();
+			}
 		});
 	}
 
