@@ -650,12 +650,7 @@ class ConstantContact_Display {
 		) );
 
 		// Make sure we have our opt in set, as well as an associated list
-		if (
-			isset( $optin['opt_in'] ) &&
-			$optin['opt_in'] &&
-			isset( $optin['list'] ) &&
-			$optin['list']
-		) {
+		if ( isset( $optin['list'] ) && $optin['list'] ) {
 			return $this->optin_display( $optin );
 		}
 	}
