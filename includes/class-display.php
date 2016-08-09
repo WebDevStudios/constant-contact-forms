@@ -663,30 +663,52 @@ class ConstantContact_Display {
 	 * @return string        html markup
 	 */
 	public function optin_display( $optin ) {
-//@TODO modify here for new opt in methods
+
 		// Clean our inputs, set defaults
-		$label   = sanitize_text_field( isset( $optin['opt_in_instructions'] ) ? $optin['opt_in_instructions'] : '' );
-		$hide    = isset( $optin['opt_in_hide'] ) ? $optin['opt_in_hide'] : false;
+		$label   = sanitize_text_field( isset( $optin['instructions'] ) ? $optin['instructions'] : '' );
 		$value   = sanitize_text_field( isset( $optin['list'] ) ? $optin['list'] : '' );
+
+		// Set our $show var
+		$show = false;
+		if ( isset( $optin['show'] ) && 'on' == $optin['show'] ) {
+			$show = true;
+		}
 
 		// Start our markup return
 		$markup = '';
 		// If we set to hide the field, then hide it inline
-		if ( $hide ) {
+		if ( ! $show ) {
 			$markup = '<div class="ctct-optin-hide" style="display:none;">';
 		}
 
-		// Build up our markup
-		$markup .= $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
-		$markup .= '<input type="checkbox" name="ctct-opt-in" id="ctct-opt-in" value="' . $value . '" />';
-		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . $label );
+		// Grab our markup
+		$markup .= $this->get_optin_markup( $label, $value );
 
 		// If we set to hide, close our open div
-		if ( $hide ) {
+		if ( ! $show ) {
 			$markup .= '</div><!--.ctct-optin-hide -->';
 		}
 
 		// return it
+		return $markup;
+	}
+
+	/**
+	 * Helper method to get optin markup
+	 *
+	 * @since   1.0.0
+	 * @param   string  $label  label for field
+	 * @param   string  $value  value of opt in field
+	 * @return  string          HTML markup
+	 */
+	public function get_optin_markup( $label, $value ) {
+
+		// Build up our markup
+		$markup = $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
+		$markup .= '<input type="checkbox" name="ctct-opt-in" id="ctct-opt-in" value="' . $value . '" />';
+		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . wp_kses_post( $label ) );
+
+		// Send it back
 		return $markup;
 	}
 
