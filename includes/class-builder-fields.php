@@ -145,7 +145,7 @@ class ConstantContact_Builder_Fields {
 				'name'             => __( 'Add subscribers to', 'constantcontact' ),
 				'id'               => $this->prefix . 'list',
 				'type'             => 'select',
-				'show_option_none' =>  __( 'No List Selected', 'constantcontact' ),
+				'show_option_none' => __( 'No List Selected', 'constantcontact' ),
 				'default'          => 'none',
 				'options'          => $lists,
 			) );

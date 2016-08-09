@@ -271,7 +271,6 @@ class ConstantContact_Connect {
 			return;
 		}
 
-
 		// Verify that nonce
 		if ( wp_verify_nonce( $_POST['ctct-admin-disconnect'], 'ctct-admin-disconnect' ) ) {
 
@@ -352,7 +351,6 @@ class ConstantContact_Connect {
 
 		// Save option
 		update_option( $check_key, $saved, $autoload );
-
 
 		// Return data
 		return $saved;
