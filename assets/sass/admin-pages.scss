@@ -1,49 +1,9 @@
-#ctct-support {
-	li {
-		padding: 0.8em 0;
-	}
-
-	ol li {
-		list-style: none;
-	}
-
-	li {
-		position: relative;
-	}
-
-	.answer {
-		padding: 0.5em;
-	}
-
-	.question {
-		font-size: 18px;
-	font-weight: bold;
-	}
-
-	.question:before {
-		content: "\f139";
-		display: inline-block;
-		font: normal 25px/1 'dashicons';
-		margin-left: -25px;
-		position: absolute;
-		-webkit-font-smoothing: antialiased;
-	}
-
-	.question.active:before {
-		content: "\f140";
-	}
-
-	.outer-first {
-		width: 50%;
-	}
-}
+@import 'variables';
+@import 'mixins';
 
 //--------------------------------------------------------------
 // About Page
 //--------------------------------------------------------------
-
-@import 'variables';
-@import 'mixins';
 
 .constant-contact-about {
 	padding: 15px;

@@ -1,3 +1,7 @@
+@import 'variables';
+@import 'mixins';
+
+
 #adminmenu .wp-submenu a[href="edit.php?post_type=ctct_forms&page=ctct_options_connect"] {
 	color: rgb(58, 209, 130);
 }
@@ -5,9 +9,6 @@
 //--------------------------------------------------------------
 // Connect Page
 //--------------------------------------------------------------
-
-@import 'variables';
-@import 'mixins';
 
 .ctct_options_connect {
 	box-sizing: border-box;
@@ -56,9 +57,9 @@
 		}
 	} // p
 
-	.ctct-body {		
+	.ctct-body {
 		@include clearfix;
-		
+
 		margin: 0 auto;
 		max-width: 75%;
 		overflow-y: hidden;
@@ -117,7 +118,7 @@
 			} // p
 		} // left
 		.right {
-			padding-left: 70px; 
+			padding-left: 70px;
 
 			@media screen and (max-width: 782px) {
 				padding-left: 0;

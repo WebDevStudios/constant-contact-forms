@@ -275,22 +275,22 @@ class ConstantContact_Builder {
 	public function output_not_connected_modal() {
 
 		// output markup of non connected modal here ?>
-		<div class="modal modal-open">
+		<div class="ctct-modal ctct-modal-open">
 
 			<?php // modal header ?>
-			<div class="modal-dialog" role="document">
-				<div class="modal-content">
-					<div class="modal-header">
-						<a href="#" class="modal-close" aria-hidden="true">&times;</a>
+			<div class="ctct-modal-dialog" role="document">
+				<div class="ctct-modal-content">
+					<div class="ctct-modal-header">
+						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
 						<h2><?php esc_attr_e( 'Congratulations on your first form!', 'constantcontact' ); ?></h2>
 						<p>
 						<?php printf( esc_html__( 'Now, how do you want to manage your %s form contacts?', 'constantcontact' ), $this->get_form_name_markup_for_modal() ); ?>
 						</p>
 					</div>
-					<div class="modal-body">
-						<div class="left">
+					<div class="ctct-modal-body">
+						<div class="ctct-modal-left">
 							<img
-								class="flare"
+								class="ctct-modal-flare"
 								src="<?php echo $this->plugin->url . 'assets/images/question-mail.png'; ?>"
 								alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constantcontact' ); ?>"
 							/>
@@ -305,9 +305,9 @@ class ConstantContact_Builder {
 								alt="<?php esc_attr_e( 'Constant Contact', 'constantcontact' ); ?>"
 							/>
 						</div>
-						<div class="right">
+						<div class="ctct-modal-right">
 							<img
-								class="flare"
+								class="ctct-modal-flare"
 								src="<?php echo $this->plugin->url . 'assets/images/cc-login.png'; ?>"
 								alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constantcontact' ); ?>"
 							/>
@@ -315,16 +315,16 @@ class ConstantContact_Builder {
 							<p>
 								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account.', 'constantcontact' ); ?>
 							</p>
-							<a href="<?php echo esc_url_raw( constant_contact()->connnect->get_connect_link() ); ?>" target="_blank" class="button button-blue" title="Connect Plugin">
+							<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" target="_blank" class="button button-blue" title="Connect Plugin">
 								<?php esc_attr_e( 'Connect Plugin', 'constantcontact' ); ?>
 							</a><br/>
 							<p class="small"><small><?php esc_attr_e( 'By connecting you authorize this
 							plugin to access your account.', 'constantcontact' ); ?></small></p>
 						</div>
 					</div><!-- modal body -->
-					<div class="modal-footer">
+					<div class="ctct-modal-footer">
 						<p><?php
-							printf( '<a class="modal-close" href="%s">%s</a> %s',
+							printf( '<a class="ctct-modal-close" href="%s">%s</a> %s',
 								'#',
 								esc_attr__( "I'm all set.", 'constantcontact' ),
 								esc_attr__( "I'll manage the information on my own for now.", 'constantcontact' )

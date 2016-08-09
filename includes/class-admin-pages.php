@@ -96,7 +96,7 @@ class ConstantContact_Admin_Pages {
 				?>
 				</p>
 				<p>
-					<a href="<?php echo esc_url_raw( constant_contact()->connect->get_connect_link() ); ?>" target="_blank" class="ctct-activated-button button-primary"><?php esc_attr_e( 'Connect your account', 'constantcontact' ); ?></a>
+					<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" target="_blank" class="ctct-activated-button button-primary"><?php esc_attr_e( 'Connect your account', 'constantcontact' ); ?></a>
 					<a href="https://www.constantcontact.com/" target="_blank" class="ctct-activated-button button-secondary"><?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?></a>
 
 					<em><sub><a href="#" target="_blank" class=""><?php esc_attr_e( 'Dismiss this notice.', 'constantcontact' ); ?></a></sub></em>

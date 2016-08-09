@@ -246,15 +246,15 @@ window.CTCTModal = {};
     app.cache = function() {
         app.$c = {
             window: $( window ),
-            modalSelector: $( '.modal' ),
-            modalClose: $( '.modal-close' ),
+            modalSelector: $( '.ctct-modal' ),
+            modalClose: $( '.ctct-modal-close' ),
         };
     };
 
     // Combine all events
     app.bindEvents = function() {
        app.$c.modalClose.click( function() {
-            app.$c.modalSelector.removeClass( 'modal-open' );
+            app.$c.modalSelector.removeClass( 'ctct-modal-open' );
         });
     };
 

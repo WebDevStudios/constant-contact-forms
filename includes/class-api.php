@@ -670,6 +670,17 @@ class ConstantContact_API {
 		// Return it
 		return $token;
 	}
+
+	/**
+	 * Helper method to output a link for our connect modal
+	 *
+	 * @since   1.0.0
+	 * @param   string  $type  type of link to output
+	 */
+	public function get_connect_link() {
+		$proof = constant_contact()->authserver->set_verification_option();
+		return constant_contact()->authserver->do_connect_url( $proof );
+	}
 }
 
 /**
