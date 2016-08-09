@@ -574,7 +574,6 @@ class ConstantContact_Settings {
 	}
 }
 
-
 /**
  * Wrapper function around cmb2_get_option
  *
