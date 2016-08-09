@@ -115,6 +115,9 @@ class ConstantContact_Display_Shortcode {
 			$fields['options']['form_id'] = $form_id;
 		}
 
+		// add in our form description, if we have one
+		$fields['options']['description'] = $this->get_text_from_nested_array( '_ctct_description', $full_data );
+
 		// Get our optin data
 		$fields['options']['optin'] = $this->generate_optin_data( $full_data );
 
@@ -215,27 +218,27 @@ class ConstantContact_Display_Shortcode {
 		return array(
 			'list' => isset( $form_data['_ctct_list'] )  ? $form_data['_ctct_list'] : false,
 			'show' => isset( $form_data['_ctct_opt_in'] ) ? $form_data['_ctct_opt_in'] : false,
-			'instructions' => $this->get_optin_instructions( $form_data ),
+			'instructions' => $this->get_text_from_nested_array( '_ctct_opt_in_instructions', $form_data ),
 		);
 	}
 
 	/**
-	 * Helper method to get opt in instructions from form data
+	 * Helper method to get opt in instructions or other text from form data
 	 *
 	 * @since   1.0.0
 	 * @param   array  $form_data  form data
 	 * @return  string              instructions
 	 */
-	public function get_optin_instructions( $form_data ) {
+	public function get_text_from_nested_array( $key, $form_data ) {
 
 		// Get our instructions for our opt in
 		if (
-			isset( $form_data['_ctct_opt_in_instructions'] ) &&
-			$form_data['_ctct_opt_in_instructions'] &&
-			isset( $form_data['_ctct_opt_in_instructions'][0] ) &&
-			$form_data['_ctct_opt_in_instructions'][0]
+			isset( $form_data[ $key ] ) &&
+			$form_data[ $key ] &&
+			isset( $form_data[ $key ][0] ) &&
+			$form_data[ $key ][0]
 		) {
-			return wp_kses_post( $form_data['_ctct_opt_in_instructions'][0] );
+			return wp_kses_post( $form_data[ $key ][0] );
 		}
 
 		return '';
