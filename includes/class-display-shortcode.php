@@ -146,10 +146,7 @@ class ConstantContact_Display_Shortcode {
 		foreach ( $custom_fields as $key => $value ) {
 
 			// Make sure we have the parts of our array that we expect
-			if (
-				! isset( $custom_fields ) ||
-				! isset( $custom_fields[ $key ] )
-			) {
+			if ( ! isset( $custom_fields ) || ! isset( $custom_fields[ $key ] ) ) {
 				continue;
 			}
 
@@ -163,15 +160,11 @@ class ConstantContact_Display_Shortcode {
 			// Set our field description, if we can.
 			$fields = $this->set_field( '_ctct_field_desc', 'description', $key, $fields, $custom_fields );
 
-			// Set our field requirement, if we can.
-			if (
+			// Set our field requirement, if we can. We do this by casting the results of our two checks to a boolean
+			$fields['fields'][ $key ]['required'] = (
 				isset( $custom_fields[ $key ]['_ctct_required_field'] ) &&
 				'on' === $custom_fields[ $key ]['_ctct_required_field']
-			) {
-				$fields['fields'][ $key ]['required'] = true;
-			} else {
-				$fields['fields'][ $key ]['required'] = false;
-			}
+			);
 		}
 
 		return $fields;
