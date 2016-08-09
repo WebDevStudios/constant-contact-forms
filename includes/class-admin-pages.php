@@ -39,7 +39,56 @@ class ConstantContact_Admin_Pages {
 	 * @return void
 	 */
 	public function hooks() {
+
+		// Add our styles to the site
 		add_action( 'admin_init', array( $this, 'styles' ) );
+
+		// Add activation message
+		// add_action( 'admin_notices', array( $this, 'maybe_show_activation_message' ) );
+
+	}
+
+	public function maybe_show_activation_message() {
+
+		if ( ! constant_contact()->api->is_connected() ) {
+			$this->activation_message();
+		}
+	}
+
+	/**
+	 * Displays a fancy activation message to the user
+	 *
+	 * @since   1.0.0
+	 */
+	public function activation_message() {
+
+		wp_enqueue_style(
+			'constant-contact-admin-notices',
+			constant_contact()->url() . 'assets/css/admin-notices.css',
+			array(),
+			constant_contact()->version
+		);
+
+		?>
+		<div id="ctct-activated-admin-notice" class="ctct-activated-admin-notice updated notice">
+				<p class="ctct-activated-intro">
+				<?php
+					printf(
+						esc_attr__( 'To take full advatage of the %s plugin, we recommend having an active Constant Contact account or an active free trial with Constant Contact.', 'constantcontact' ),
+						'<strong>' . esc_attr__( 'Constant Contact Forms' ) . '</strong>'
+					);
+				?>
+				</p>
+				<p>
+					<a href="<?php echo esc_url_raw( constant_contact()->connect->get_connect_link() ); ?>" target="_blank" class="ctct-activated-button button-primary"><?php esc_attr_e( 'Connect your account', 'constantcontact' ); ?></a>
+					<a href="https://www.constantcontact.com/" target="_blank" class="ctct-activated-button button-secondary"><?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?></a>
+
+					<em><sub><a href="#" target="_blank" class=""><?php esc_attr_e( 'Dismiss this notice.', 'constantcontact' ); ?></a></sub></em>
+				</p>
+			</p>
+		</div>
+
+		<?php
 	}
 
 	/**
