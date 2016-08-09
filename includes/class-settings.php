@@ -491,7 +491,7 @@ class ConstantContact_Settings {
 
 		// Get name
 		if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->display_name ) ) {
-			$name = sanitiize_text_field( $user_data->data->display_name );
+			$name = sanitize_text_field( $user_data->data->display_name );
 		} else {
 			$name = '';
 		}
