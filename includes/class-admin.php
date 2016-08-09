@@ -286,7 +286,15 @@ class ConstantContact_Admin {
 			true
 		);
 
-		wp_localize_script( 'ctct_form', 'ctct_texts', array( 'leavewarning' => __( 'You have unsaved changes.', 'constantcontact' ) ) );
+		wp_localize_script(
+			'ctct_form',
+			'ctct_texts',
+			apply_filters( 'constant_contact_localized_js_texts', array(
+				'leavewarning' => __( 'You have unsaved changes.', 'constantcontact' ),
+				'move_up'      => __( 'move up', 'constantcontact' ),
+				'move_down'    => __( 'move down', 'constantcontact' ),
+			) )
+		);
 
 		// Allow filtering of allowed pages that we load scripts on
 		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', array( 'post.php', 'post-new.php' ) );
