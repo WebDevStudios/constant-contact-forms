@@ -127,7 +127,6 @@ class ConstantContact_Display_Shortcode {
 	/**
 	 * Get all our data from our fields
 	 *
-	 * @author Brad Parbs
 	 * @since   1.0.0
 	 * @param   array  $custom_fields  all custom fields data
 	 * @return  array                  fields array of converted data
@@ -173,7 +172,6 @@ class ConstantContact_Display_Shortcode {
 	/**
 	 * Helper method to set our $fields array keys
 	 *
-	 * @author Brad Parbs
 	 * @since   1.0.0
 	 * @param   string  $from_key       key to grab from $custom_fields
 	 * @param   string  $to_key         key to use for return $fields
