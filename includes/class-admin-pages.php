@@ -44,7 +44,7 @@ class ConstantContact_Admin_Pages {
 		add_action( 'admin_init', array( $this, 'styles' ) );
 
 		// Add activation message
-		// add_action( 'admin_notices', array( $this, 'maybe_show_activation_message' ) );
+		add_action( 'admin_notices', array( $this, 'maybe_show_activation_message' ) );
 
 	}
 
@@ -55,8 +55,20 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function maybe_show_activation_message() {
 
+		// If we have our query args where we're attempting to dismiss the notice
+		if (
+			isset( $_GET['ctct-dismiss'] ) &&
+			isset( $_GET['ctct-activation-action'] ) &&
+			$_GET['ctct-activation-action'] &&
+			wp_verify_nonce( $_GET['ctct-dismiss'], 'ctct-user-is-dismissing' )
+		) {
+
+			// Then save that we dismissed it
+			$this->save_dismissed_activation_message();
+		}
+
 		// Only show if not connected & it wasn't dismissed
-		if ( ! constant_contact()->api->is_connected() && ! $this->was_activation_message_dismissed() ) {
+		if ( ! $this->was_activation_message_dismissed() && ! constant_contact()->api->is_connected() ) {
 			$this->activation_message();
 		}
 	}
@@ -68,7 +80,17 @@ class ConstantContact_Admin_Pages {
 	 * @return  boolean
 	 */
 	public function was_activation_message_dismissed() {
+		return get_option( 'ctct_notices_dismissed' );
+	}
 
+	/**
+	 * Save the fact that the user dismissed our message, and don't show again
+	 *
+	 * @since   1.0.0
+	 * @return  boolean  if we updated correctly
+	 */
+	public function save_dismissed_activation_message() {
+		return update_option( 'ctct_notices_dismissed', true, true );
 	}
 
 	/**
@@ -99,12 +121,33 @@ class ConstantContact_Admin_Pages {
 					<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" target="_blank" class="ctct-activated-button button-primary"><?php esc_attr_e( 'Connect your account', 'constantcontact' ); ?></a>
 					<a href="https://www.constantcontact.com/" target="_blank" class="ctct-activated-button button-secondary"><?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?></a>
 
-					<em><sub><a href="#" target="_blank" class=""><?php esc_attr_e( 'Dismiss this notice.', 'constantcontact' ); ?></a></sub></em>
+					<sub  class='ctct-activated-dismiss'>
+						<em>
+							<a href="<?php echo esc_url_raw( $this->get_activation_dismiss_url() ); ?>">
+								<?php esc_attr_e( 'Dismiss this notice.', 'constantcontact' ); ?>
+							</a>
+						</em>
+					</sub>
 				</p>
 			</p>
 		</div>
 
 		<?php
+	}
+
+	/**
+	 * Helper method to get our dimiss activation message url
+	 *
+	 * @since   1.0.0
+	 * @return  string  url to dismiss prompt
+	 */
+	public function get_activation_dismiss_url() {
+
+		// Set a link with our current url and desired action
+		$link = add_query_arg( array( 'ctct-activation-action' => 'dismiss' ) );
+
+		// Also nonce it and return it
+		return wp_nonce_url( $link, 'ctct-user-is-dismissing', 'ctct-dismiss' );
 	}
 
 	/**
