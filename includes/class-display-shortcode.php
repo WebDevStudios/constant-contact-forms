@@ -106,46 +106,8 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function get_field_values( $custom_fields, $full_data, $form_id ) {
 
-		// We may get serialized data, so undo that.
-		$custom_fields = maybe_unserialize( $custom_fields );
-
-		// Loop through each of our fields.
-		foreach ( $custom_fields as $key => $value ) {
-
-			// Make sure we have the parts of our array that we expect
-			if (
-				! isset( $custom_fields ) ||
-				! isset( $custom_fields[ $key ] )
-			) {
-				continue;
-			}
-
-			// Set our field name, if we can.
-			if ( isset( $custom_fields[ $key ]['_ctct_field_label'] ) ) {
-				$fields['fields'][ $key ]['name'] = $custom_fields[ $key ]['_ctct_field_label'];
-			}
-
-			// Set our field mapping, if we can.
-			if ( isset( $custom_fields[ $key ]['_ctct_map_select'] ) ) {
-				$fields['fields'][ $key ]['map_to'] = $custom_fields[ $key ]['_ctct_map_select'];
-				$fields['fields'][ $key ]['type'] = $custom_fields[ $key ]['_ctct_map_select'];
-			}
-
-			// Set our field description, if we can.
-			if ( isset( $custom_fields[ $key ]['_ctct_field_desc'] ) ) {
-				$fields['fields'][ $key ]['description'] = $custom_fields[ $key ]['_ctct_field_desc'];
-			}
-
-			// Set our field requirement, if we can.
-			if (
-				isset( $custom_fields[ $key ]['_ctct_required_field'] ) &&
-				'on' === $custom_fields[ $key ]['_ctct_required_field']
-			) {
-				$fields['fields'][ $key ]['required'] = true;
-			} else {
-				$fields['fields'][ $key ]['required'] = false;
-			}
-		}
+		// Get all our data from our fields, while we unserialize them
+		$fields = $this->generate_field_values_for_fields( maybe_unserialize( $custom_fields ) );
 
 		// Now that we've finished checking all of our form fields, we'll
 		// want to set some general form information here.
@@ -160,6 +122,87 @@ class ConstantContact_Display_Shortcode {
 	}
 
 	/**
+	 * Get all our data from our fields
+	 *
+	 * @author Brad Parbs
+	 * @since   1.0.0
+	 * @param   array  $custom_fields  all custom fields data
+	 * @return  array                  fields array of converted data
+	 */
+	public function generate_field_values_for_fields( $custom_fields ) {
+
+		// Set up our base fields value
+		$fields = array();
+
+		// Sanity check
+		if ( ! is_array( $custom_fields ) ) {
+			return $fields;
+		}
+
+		// Loop through each of our fields.
+		foreach ( $custom_fields as $key => $value ) {
+
+			// Make sure we have the parts of our array that we expect
+			if (
+				! isset( $custom_fields ) ||
+				! isset( $custom_fields[ $key ] )
+			) {
+				continue;
+			}
+
+			// Set our field name, if we can.
+			$fields = $this->set_field( '_ctct_field_label', 'name', $key, $fields, $custom_fields );
+
+			// Set our field mapping, if we can.
+			$fields = $this->set_field( '_ctct_map_select', 'map_to', $key, $fields, $custom_fields );
+			$fields = $this->set_field( '_ctct_map_select', 'type', $key, $fields, $custom_fields );
+
+			// Set our field description, if we can.
+			$fields = $this->set_field( '_ctct_field_desc', 'description', $key, $fields, $custom_fields );
+
+			// Set our field requirement, if we can.
+			if (
+				isset( $custom_fields[ $key ]['_ctct_required_field'] ) &&
+				'on' === $custom_fields[ $key ]['_ctct_required_field']
+			) {
+				$fields['fields'][ $key ]['required'] = true;
+			} else {
+				$fields['fields'][ $key ]['required'] = false;
+			}
+		}
+
+		return $fields;
+	}
+
+	/**
+	 * Helper method to set our $fields array keys
+	 *
+	 * @author Brad Parbs
+	 * @since   1.0.0
+	 * @param   string  $from_key       key to grab from $custom_fields
+	 * @param   string  $to_key         key to use for return $fields
+	 * @param   array  $fields         current $fields array
+	 * @param   array  $custom_fields  all $custom_fields
+	 */
+	public function set_field( $from_key, $to_key, $key, $fields, $custom_fields ) {
+
+		// Data sanity check / verification
+		if (
+			is_array( $custom_fields ) &&
+			isset( $custom_fields[ $key ] ) &&
+			$custom_fields[ $key ] &&
+			isset( $custom_fields[ $key ][ $from_key ] ) &&
+			$custom_fields[ $key ][ $from_key ]
+		) {
+			// Set our data to the correct key
+			$fields['fields'][ $key ][ $to_key ] = $custom_fields[ $key ][ $from_key ];
+		}
+
+		// Send it all back
+		return $fields;
+	}
+
+	/**
 	 * Helper method to get our optin data
 	 *
 	 * @since   1.0.0
@@ -168,6 +211,7 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function generate_optin_data( $form_data ) {
 
+		// Return our data for our optin
 		return array(
 			'list' => isset( $form_data['_ctct_list'] )  ? $form_data['_ctct_list'] : false,
 			'show' => isset( $form_data['_ctct_opt_in'] ) ? $form_data['_ctct_opt_in'] : false,
