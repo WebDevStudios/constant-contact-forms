@@ -258,7 +258,7 @@ class ConstantContact_Settings {
 	 */
 	public function add_optin_to_forms() {
 
-		if ( ! constant_contact()->builder->get_lists() ) {
+		if ( ! constant_contact()->api->is_connected() ) {
 			return;
 		}
 
