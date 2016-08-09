@@ -137,8 +137,19 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function show_optin_connected_fields( $options_metabox ) {
 
-		// Show our list selector
-		$this->show_optin_list_selector( $options_metabox );
+		// Add field if conncted to API.
+		if ( $lists = $this->plugin->builder->get_lists() ) {
+
+			// Allow choosing a list to add to
+			$options_metabox->add_field( array(
+				'name'             => __( 'Add subscribers to', 'constantcontact' ),
+				'id'               => $this->prefix . 'list',
+				'type'             => 'select',
+				'show_option_none' => true,
+				'default'          => 'none',
+				'options'          => $lists,
+			) );
+		}
 
 		// Show our show/hide checkbox field
 		$this->show_enable_show_checkbox_field( $options_metabox );
@@ -184,32 +195,6 @@ class ConstantContact_Builder_Fields {
 			'description' => __( 'Show opt-in checkbox to allow visitors to opt-in to your email list. (usually used with a Contact Us type form)', 'constantcontact' ),
 			'type'        => 'checkbox',
 		) );
-	}
-
-	/**
-	 * Helper method to show our list selector field
-	 *
-	 * @since   1.0.0
-	 * @param   object  $options_metabox  CMB2 options metabox object
-	 * @return  void
-	 */
-
-	public function show_optin_list_selector( $options_metabox ) {
-
-		// Add field if conncted to API.
-		if ( $lists = $this->plugin->builder->get_lists() ) {
-
-			// Allow choosing a list to add to
-			$options_metabox->add_field( array(
-				'name'             => __( 'Add subscribers to', 'constantcontact' ),
-				'id'               => $this->prefix . 'list',
-				'type'             => 'select',
-				'show_option_none' => true,
-				'default'          => 'none',
-				'options'          => $lists,
-			) );
-
-		}
 	}
 
 	/**

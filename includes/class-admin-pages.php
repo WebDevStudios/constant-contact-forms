@@ -392,7 +392,6 @@ class ConstantContact_Admin_Pages {
 				</div>
 			</div>
 		</div>
-
 		<?php
 	}
 }
