@@ -498,6 +498,27 @@ function constant_contact() {
 	return Constant_Contact::get_instance();
 }
 
+/**
+ * Get a form's markup without using a shortcode
+ *
+ * @since   1.0.0
+ * @param   int  $form_id  form post ID to grab
+ * @return  string            HTML markup
+ */
+function constant_contact_get_form( $form_id ) {
+	return constant_contact()->display_shortcode->get_form( $form_id );
+}
+
+/**
+ * Get a form and display it without using a shortcode
+ *
+ * @since   1.0.0
+ * @param   int  $form_id  form post ID to grab
+ */
+function constant_contact_display_form( $form_id ) {
+	constant_contact()->display_shortcode->display_form( $form_id );
+}
+
 // Kick it off.
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
 register_activation_hook( __FILE__, array( constant_contact(), '_activate' ) );
