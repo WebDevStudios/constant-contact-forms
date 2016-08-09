@@ -369,12 +369,14 @@ class ConstantContact_API {
 	        // Check to see if a contact with the email address already exists in the account.
 	        $response = $this->cc()->contactService->getContacts( $api_token, array( 'email' => $email ) );
 
-	        // Create a new contact if one does not exist.
-	        if ( empty( $response->results ) ) {
-	        	$return_contact = $this->_create_contact( $api_token, $list, $email, $new_contact );
-	            // Update the existing contact if address already existed.
-	        } else {
+	        if ( isset( $response->results ) && ! empty( $response->results ) ) {
+	        	// Update the existing contact if address already existed.
 	        	$return_contact = $this->_update_contact( $response, $api_token, $list, $new_contact );
+
+	        } else {
+
+	        	// Create a new contact if one does not exist.
+	        	$return_contact = $this->_create_contact( $api_token, $list, $email, $new_contact );
 	        }
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
@@ -440,6 +442,7 @@ class ConstantContact_API {
 			isset( $response->results[0] ) &&
 			( $response->results[0] instanceof Contact )
 		) {
+
 
 			// set our returned contact
 			$contact = $response->results[0];
