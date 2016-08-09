@@ -443,7 +443,6 @@ class ConstantContact_API {
 			( $response->results[0] instanceof Contact )
 		) {
 
-
 			// set our returned contact
 			$contact = $response->results[0];
 

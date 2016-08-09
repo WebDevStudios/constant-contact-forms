@@ -86,7 +86,6 @@ class ConstantContact_Mail {
 	 */
 	public function opt_in_user( $values ) {
 
-
 		// go through all our fields
 		foreach ( $values as $key => $val ) {
 
