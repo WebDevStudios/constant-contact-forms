@@ -48,11 +48,27 @@ class ConstantContact_Admin_Pages {
 
 	}
 
+	/**
+	 * Depending on if we should or shouldn't show our activation message, queue it up
+	 *
+	 * @since   1.0.0
+	 */
 	public function maybe_show_activation_message() {
 
-		if ( ! constant_contact()->api->is_connected() ) {
+		// Only show if not connected & it wasn't dismissed
+		if ( ! constant_contact()->api->is_connected() && ! $this->was_activation_message_dismissed() ) {
 			$this->activation_message();
 		}
+	}
+
+	/**
+	 * Was our activation message dismissed
+	 *
+	 * @since   1.0.0
+	 * @return  boolean
+	 */
+	public function was_activation_message_dismissed() {
+
 	}
 
 	/**
