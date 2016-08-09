@@ -178,6 +178,8 @@ window.CTCTBuilder = {};
 	// Go through all dropdowns, and remove used options
 	that.removeDuplicateMappings = function() {
 
+		return; //@TODO fix this on field row shifting
+
 		// Set up an array for our mappings
 		var usedMappings = [];
 
