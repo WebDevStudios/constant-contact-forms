@@ -2,47 +2,50 @@
 //   INPUTS
 //--------------------------------------------------------------
 
-input {
+.ctct-form-wrapper{
 
-	&[type="text"],
-	&[type="email"],
-	&[type="password"],
-	&[type="tel"],
-	&[type="number"] {
+	input {
 
-		// show success!
-		&:required:valid {
-			background: url("../images/check_circle.svg") no-repeat;
-			background-position: 8px 50%;
-			background-size: 24px;
-			border-color: $color-success;
-			padding-left: 40px;
+		&[type="text"],
+		&[type="email"],
+		&[type="password"],
+		&[type="tel"],
+		&[type="number"] {
+
+			// show success!
+			&:required:valid {
+				background: url( '../images/check_circle.svg' ) no-repeat;
+				background-position: 8px 50%;
+				background-size: 24px;
+				border-color: $color-success;
+				padding-left: 40px;
+			}
+
+			// show error.
+			&:required.ctct-invalid,
+			&.ctct-invalid {
+				background: url( '../images/error.svg' ) no-repeat;
+				background-color: fade-out($color-error, 0.98);
+				background-position: 8px 50%;
+				background-size: 24px;
+				border-color: $color-error;
+				padding-left: 40px;
+			}
 		}
 
-		// show error.
-		&:required.ctct-invalid,
-		&.ctct-invalid {
-			background: url("../images/error.svg") no-repeat;
-			background-color: fade-out($color-error, 0.98);
-			background-position: 8px 50%;
-			background-size: 24px;
-			border-color: $color-error;
-			padding-left: 40px;
-		}
+	} // <input>
+
+	.ctct-field-error {
+		font-size: 0.85em;
+		font-style: italic;
 	}
 
-} // <input>
-
-.ctct-field-error {
-	font-size: 0.85em;
-	font-style: italic;
-}
-
-input.ctct-invalid {
-	background: url("../images/error.svg") no-repeat;
-	background-color: fade-out($color-error, 0.98);
-	background-position: 8px 50%;
-	background-size: 24px;
-	border-color: $color-error;
-	padding-left: 40px;
+	input.ctct-invalid {
+		background: url( '../images/error.svg' ) no-repeat;
+		background-color: fade-out($color-error, 0.98);
+		background-position: 8px 50%;
+		background-size: 24px;
+		border-color: $color-error;
+		padding-left: 40px;
+	}
 }
