@@ -1,4 +1,4 @@
-window.Modal_Object = {};
+window.CTCTModal = {};
 ( function( window, $, app ) {
 
     // Constructor
@@ -26,4 +26,4 @@ window.Modal_Object = {};
     // Engage
     $( app.init );
 
-})( window, jQuery, window.Modal_Object );
+})( window, jQuery, window.CTCTModal );
