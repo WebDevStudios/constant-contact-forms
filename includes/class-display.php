@@ -644,9 +644,9 @@ class ConstantContact_Display {
 
 		// Set up our defaults
 		$optin = wp_parse_args( $form_data['optin'], array(
-			'opt_in'              => false,
-			'opt_in_instructions' => '',
-			'list'                => false,
+			'list'         => false,
+			'show'         => false,
+			'instructions' => '',
 		) );
 
 		// Make sure we have our opt in set, as well as an associated list
