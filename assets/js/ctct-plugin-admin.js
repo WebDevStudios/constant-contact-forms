@@ -9,18 +9,6 @@ window.CTCTBuilder = {};
 
 		// Bind our events
 		that.bindEvents();
-
-		// Bind our select dropdown events
-		that.selectBinds();
-
-		// Trigger any field modifications we need to do
-		that.modifyFields();
-
-		// Remove any duplicate mappings in fields
-		that.removeDuplicateMappings();
-
-		// Make description non-draggable, so we don't run into weird cmb2 issues
-		$( '#ctct_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
 	}
 
 	// Cache all the things.
@@ -29,7 +17,6 @@ window.CTCTBuilder = {};
 		that.$c = {
 			window: $( window ),
 			body:   $( 'body' ),
-			hide:   '.cmb2-id--ctct-new-list',
 		};
 
 		that.isLeaveWarningBound = false;
@@ -95,6 +82,19 @@ window.CTCTBuilder = {};
 			that.modifyFields();
 			that.selectBinds();
 		});
+
+
+		// Bind our select dropdown events
+		that.selectBinds();
+
+		// Trigger any field modifications we need to do
+		that.modifyFields();
+
+		// Remove any duplicate mappings in fields
+		that.removeDuplicateMappings();
+
+		// Make description non-draggable, so we don't run into weird cmb2 issues
+		$( '#ctct_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
     }
 
     // When .cmb2_select <selects> get changed, do some actions
