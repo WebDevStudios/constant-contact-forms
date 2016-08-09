@@ -60,7 +60,7 @@
 
 	h3 {
 		padding: 20px 0;
-	} // h3 
+	} // h3
 
 	p {
 		font-size: 16px;
@@ -167,7 +167,7 @@
 		text-align: center;
 		text-shadow: 0 0 15px #000;
 		top: 80px;
-		width: 100%;	
+		width: 100%;
 
 		@media screen and (max-width: 482px) {
 			color: $color-cc-blue;
@@ -232,7 +232,7 @@
 		top: 10px;
 		right: 0;
 		max-height: 180px;
-		max-width: 160px;		
+		max-width: 160px;
 
 		@media screen and (max-width: 482px) {
 			display: none;
@@ -241,11 +241,11 @@
 
 	.feature-image {
 		text-align: center;
-	} // featured image 
+	} // featured image
 } // constant-contact-about
 
-// advert-block 
-.advert-block {
+// advert-block
+.cc-a-block {
 	@include clearfix;
 
 	margin: 0 auto;
@@ -262,7 +262,7 @@
 		font-size: 21px;
 		font-weight: 300;
 		height: 63px;
-		margin: 0 auto; 
+		margin: 0 auto;
 		max-width: 70%;
 
 		@media screen and (max-width: 782px) {
@@ -315,3 +315,17 @@
 		}
 	} // left/right
 } // advert block
+
+
+.ctct-bonus-points {
+
+	list-style: circle;
+	  padding-left: 50px;
+	  font-size: 16px;
+	  font-weight: 300;
+	  color: #2b5e8c;
+
+	li {
+
+	}
+}

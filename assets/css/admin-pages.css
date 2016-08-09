@@ -247,26 +247,26 @@
   text-align: center;
 }
 
-.advert-block {
+.cc-a-block {
   margin: 0 auto;
   max-width: 90%;
   padding: 50px 0;
   text-align: center;
 }
 
-.advert-block:after {
+.cc-a-block:after {
   clear: both;
   content: "";
   display: table;
 }
 
 @media screen and (max-width: 482px) {
-  .advert-block {
+  .cc-a-block {
     padding: 25px 0;
   }
 }
 
-.advert-block h3 {
+.cc-a-block h3 {
   color: #1a5285;
   font-size: 21px;
   font-weight: 300;
@@ -276,70 +276,78 @@
 }
 
 @media screen and (max-width: 782px) {
-  .advert-block h3 {
+  .cc-a-block h3 {
     height: auto;
     max-width: 100%;
   }
 }
 
-.advert-block .left,
-.advert-block .right {
+.cc-a-block .left,
+.cc-a-block .right {
   float: left;
   width: 50%;
 }
 
-.advert-block .left:after,
-.advert-block .right:after {
+.cc-a-block .left:after,
+.cc-a-block .right:after {
   clear: both;
   content: "";
   display: table;
 }
 
 @media screen and (max-width: 482px) {
-  .advert-block .left,
-  .advert-block .right {
+  .cc-a-block .left,
+  .cc-a-block .right {
     width: 100%;
     float: none;
   }
 }
 
-.advert-block .left .ad-1,
-.advert-block .left .ad-2,
-.advert-block .right .ad-1,
-.advert-block .right .ad-2 {
+.cc-a-block .left .ad-1,
+.cc-a-block .left .ad-2,
+.cc-a-block .right .ad-1,
+.cc-a-block .right .ad-2 {
   width: 90%;
 }
 
 @media screen and (max-width: 482px) {
-  .advert-block .left .ad-1,
-  .advert-block .left .ad-2,
-  .advert-block .right .ad-1,
-  .advert-block .right .ad-2 {
+  .cc-a-block .left .ad-1,
+  .cc-a-block .left .ad-2,
+  .cc-a-block .right .ad-1,
+  .cc-a-block .right .ad-2 {
     width: 100%;
     float: none;
   }
 }
 
-.advert-block .left .ad-1 img,
-.advert-block .left .ad-2 img,
-.advert-block .right .ad-1 img,
-.advert-block .right .ad-2 img {
+.cc-a-block .left .ad-1 img,
+.cc-a-block .left .ad-2 img,
+.cc-a-block .right .ad-1 img,
+.cc-a-block .right .ad-2 img {
   width: 100%;
   height: auto;
 }
 
-.advert-block .left .ad-1,
-.advert-block .right .ad-1 {
+.cc-a-block .left .ad-1,
+.cc-a-block .right .ad-1 {
   float: left;
 }
 
-.advert-block .left .ad-1 h3,
-.advert-block .right .ad-1 h3 {
+.cc-a-block .left .ad-1 h3,
+.cc-a-block .right .ad-1 h3 {
   padding-top: 35px;
   height: 47px;
 }
 
-.advert-block .left .ad-2,
-.advert-block .right .ad-2 {
+.cc-a-block .left .ad-2,
+.cc-a-block .right .ad-2 {
   float: right;
+}
+
+.ctct-bonus-points {
+  list-style: circle;
+  padding-left: 50px;
+  font-size: 16px;
+  font-weight: 300;
+  color: #2b5e8c;
 }
