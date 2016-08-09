@@ -265,10 +265,8 @@ class Constant_Contact {
 	 * @since  1.0.0
 	 * @return void
 	 */
-	function _activate() {
+	function _activate() { }
 
-		// Make sure any rewrite functionality has been loaded.
-		flush_rewrite_rules();
 	}
 
 	/**
