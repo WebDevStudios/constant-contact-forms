@@ -11,17 +11,16 @@ window.CTCT_OptIns = {};
 	// Cache all the things
 	app.cache = function() {
 		app.$c = {
-			optin    : $( '#_ctct_opt_in' ),
-			list     : $( '.cmb2-id--ctct-list' ),
-			default  : $( '.cmb2-id--ctct-opt-in-default' ),
-			hide     : $( '.cmb2-id--ctct-opt-in-hide' ),
-			instruct : $( '.cmb2-id--ctct-opt-in-instructions' ),
+			optin         : $( '#_ctct_opt_in' ),
+			optin_no_conn : $( '#_ctct_opt_in_not_connected' ),
+			list          : $( '.cmb2-id--ctct-list' ),
+			instruct      : $( '.cmb2-id--ctct-opt-in-instructions' ),
 		};
 	};
 
 	// Combine all events
 	app.bindEvents = function() {
-		$( '#_ctct_opt_in' ).change( function() {
+		app.$c.optin_no_conn.change( function() {
 			app.toggleOptInFields();
 		});
 	};
@@ -29,22 +28,16 @@ window.CTCT_OptIns = {};
 	// Toggle un-needed optin fields if we're not showing the opt-in
 	app.toggleOptInFields = function() {
 
-		//@TODO modify here for new opt in methods
-		//Set up our optin selector
+		console.log( app.$c.optin_no_conn );
 
 		// Only fire show/hide if we have the normal checkbox
-		if ( app.$c.optin.length && false ) {
+		if ( app.$c.optin_no_conn.length ) {
+
 			// If checked, show them
-			if ( app.$c.optin.prop( 'checked' ) ) {
-				that.$c.optinfields.list.show();
-				that.$c.optinfields.default.show();
-				that.$c.optinfields.hide.show();
-				that.$c.optinfields.instruct.show();
+			if ( app.$c.optin_no_conn.prop( 'checked' ) ) {
+				app.$c.instruct.slideDown();
 			} else {
-				that.$c.optinfields.list.hide();
-				that.$c.optinfields.default.hide();
-				that.$c.optinfields.hide.hide();
-				that.$c.optinfields.instruct.hide();
+				app.$c.instruct.slideUp();
 			}
 		}
 	}
