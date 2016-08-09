@@ -680,7 +680,16 @@ class ConstantContact_API {
 	 * @param   string  $type  type of link to output
 	 */
 	public function get_connect_link() {
-		$proof = constant_contact()->authserver->set_verification_option();
+
+		// Allow us to re-use the same verification twice on one page load
+		static $proof = null;
+
+		// If we haven't set a proof yet, generate it
+		if ( is_null( $proof ) ) {
+			$proof = constant_contact()->authserver->set_verification_option();
+		}
+
+		// Send back our connect url
 		return constant_contact()->authserver->do_connect_url( $proof );
 	}
 }
