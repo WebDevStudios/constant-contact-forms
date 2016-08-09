@@ -186,10 +186,15 @@ class ConstantContact_Builder_Fields {
 	 * @return  void
 	 */
 	public function show_enable_show_checkbox_field( $options_metabox ) {
+
+		$description = __( 'Show opt-in checkbox to allow visitors to opt-in to your email list.', 'constantcontact' );
+		$description .= '<br>';
+		$description .= __( '(usually used with a Contact Us type form)', 'constantcontact' );
+
 		$options_metabox->add_field( array(
 			'name'        => __( 'Show Opt-in checkbox', 'constantcontact' ),
 			'id'          => $this->prefix . 'opt_in',
-			'description' => __( 'Show opt-in checkbox to allow visitors to opt-in to your email list. (usually used with a Contact Us type form)', 'constantcontact' ),
+			'description' => $description,
 			'type'        => 'checkbox',
 		) );
 	}
@@ -211,7 +216,7 @@ class ConstantContact_Builder_Fields {
 			'name'        => __( 'Opt-in Affirmation', 'constantcontact' ),
 			'id'          => $this->prefix . 'opt_in_instructions',
 			'type'        => 'textarea_small',
-			'default'     => sprintf( __( 'Example: Yes, I would like to receive emails from %s. (You can unsubscribe  anytime)', 'constantcontact' ), $business_name ),
+			'default'     => sprintf( __( 'Example: Yes, I would like to receive emails from %s. (You can unsubscribe anytime)', 'constantcontact' ), $business_name ),
 		) );
 	}
 
