@@ -162,24 +162,32 @@ class ConstantContact_Settings {
 		// Hook in our save notices.
 		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", array( $this, 'settings_notices' ), 10, 2 );
 
-		$cmb = new_cmb2_box( array(
-			'id'		 => $this->metabox_id,
-			'hookup'	 => false,
-			'cmb_styles' => false,
-			'show_on'	=> array(
-				'key'   => 'options-page',
-				'value' => array( $this->key ),
-			),
-		) );
+		// Only do the settings fields if we're on the options settings page of edit.php
+		if ( $this->on_settings_page() ) {
 
-		$option_options = array(
-			'comment_form' => __( 'Add a checkbox to the comment field in your posts', 'constantcontact' ),
-			'login_form'   => __( 'Add a checkbox to the main WordPress login page', 'constantcontact' ),
-		);
+			// Start our new field
+			$cmb = new_cmb2_box( array(
+				'id'		 => $this->metabox_id,
+				'hookup'	 => false,
+				'cmb_styles' => false,
+				'show_on'	=> array(
+					'key'   => 'options-page',
+					'value' => array( $this->key ),
+				),
+			) );
 
-		if ( get_option( 'users_can_register' ) ) {
-			$option_options['reg_form'] = __( 'Add a checkbox to the WordPress user registration page', 'constantcontact' );
+			// Get our lists fields
+			$this->do_lists_field( $cmb );
 		}
+	}
+
+	/**
+	 * Helper to show our lists field for settings
+	 *
+	 * @since   1.0.0
+	 * @param object $cmb CMB fields object
+	 */
+	public function do_lists_field( $cmb ) {
 
 		// Get our lists
 		$lists = constant_contact()->builder->get_lists();
@@ -193,7 +201,7 @@ class ConstantContact_Settings {
 				'name' 	=> __( 'Opt In Location', 'constantcontact' ),
 				'id'   	=> '_ctct_optin_forms',
 				'type'	=> 'multicheck',
-				'options' => $option_options,
+				'options' => $this->get_optin_show_options(),
 			) );
 
 			// Tack on 'select a list' to our lists array
@@ -220,6 +228,26 @@ class ConstantContact_Settings {
 				'default'		  => sprintf( __( 'Yes, I would like to receive emails from %s. Sign me up!', 'constantcontact' ), $business_name ),
 			) );
 		}
+	}
+
+	/**
+	 * Get array of options for our 'optin show' settings
+	 *
+	 * @since   1.0.0
+	 * @return  array  array of options
+	 */
+	public function get_optin_show_options() {
+
+		$optin_options = array(
+			'comment_form' => __( 'Add a checkbox to the comment field in your posts', 'constantcontact' ),
+			'login_form'   => __( 'Add a checkbox to the main WordPress login page', 'constantcontact' ),
+		);
+
+		if ( get_option( 'users_can_register' ) ) {
+			$optin_options['reg_form'] = __( 'Add a checkbox to the WordPress user registration page', 'constantcontact' );
+		}
+
+		return $optin_options;
 	}
 
 	/**
