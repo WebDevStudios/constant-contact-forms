@@ -107,8 +107,8 @@ class ConstantContact_Settings {
 
 			$this->options_page = add_submenu_page(
 				'edit.php?post_type=ctct_forms',
-				__( 'Settings', 'constantcontact' ),
-				__( 'Settings', 'constantcontact' ),
+				__( 'Advanced Opt-in', 'constantcontact' ),
+				__( 'Advanced Opt-in', 'constantcontact' ),
 				'manage_options',
 				$this->key,
 				array( $this, 'admin_page_display' )
@@ -127,7 +127,7 @@ class ConstantContact_Settings {
 	public function admin_page_display() {
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php esc_attr_e( ' Settings', 'constantcontact' ); ?></h2>
+			<h2><?php esc_attr_e( ' Advanced Opt-in', 'constantcontact' ); ?></h2>
 			<?php
 			if ( function_exists( 'cmb2_metabox_form' ) ) {
 				cmb2_metabox_form( $this->metabox_id, $this->key );
@@ -158,12 +158,12 @@ class ConstantContact_Settings {
 		) );
 
 		$option_options = array(
-			'comment_form' => __( 'Comment Form', 'constantcontact' ),
-			'login_form'   => __( 'Login Form', 'constantcontact' ),
+			'comment_form' => __( 'Add a check box to the comment field in your posts', 'constantcontact' ),
+			'login_form'   => __( 'Add a checkbox to the main WordPress login page', 'constantcontact' ),
 		);
 
 		if ( get_option( 'users_can_register' ) ) {
-			$option_options['reg_form'] = __( 'Registration Form', 'constantcontact' );
+			$option_options['reg_form'] = __( 'Add a checkbox to the WordPress user registration page', 'constantcontact' );
 		}
 
 		// Get our lists
@@ -175,29 +175,34 @@ class ConstantContact_Settings {
 
 			// Set our CMB2 fields.
 			$cmb->add_field( array(
-				'name' 	=> __( 'Opt In', 'constantcontact' ),
-				'desc' 	=> __( 'Add opt in checkbox to selected forms.', 'constantcontact' ),
+				'name' 	=> __( 'Opt In Location', 'constantcontact' ),
 				'id'   	=> '_ctct_optin_forms',
 				'type'	=> 'multicheck',
 				'options' => $option_options,
 			) );
 
-			$cmb->add_field( array(
-				'name' 	=> __( 'Opt In List', 'constantcontact' ),
-				'desc' 	=> __( 'Choose list to add opt in subsciptions.', 'constantcontact' ),
-				'id'   	=> '_ctct_optin_list',
-				'type'	=> 'select',
-				'show_option_none' => true,
-				'default'		  => 'none',
-				'options'		  => $lists,
-			) );
+			// Tack on 'select a list' to our lists array
+			$lists[0] = __( 'Select a list', 'constantcontact' );
+			$lists = array_reverse( $lists );
 
 			$cmb->add_field( array(
-				'name' 	=> __( 'Opt In Text', 'constantcontact' ),
-				'desc' 	=> __( 'Text shows next to checkbox.', 'constantcontact' ),
+				'name' 	=> __( 'Add subscribers to', 'constantcontact' ),
+				'id'   	=> '_ctct_optin_list',
+				'type'	=> 'select',
+				'show_option_none' => false,
+				'default'          => 'none',
+				'options'		   => $lists,
+			) );
+
+			// Get our site name, and if we don't have it, then use a placeholder
+			$business_name = get_bloginfo( 'name' );
+			$business_name ? $business_name : __( 'Business Name', 'constantcontact' );
+
+			$cmb->add_field( array(
+				'name' 	=> __( 'Opt-in Affirmation', 'constantcontact' ),
 				'id'   	=> '_ctct_optin_label',
-				'type'	=> 'text_medium',
-				'default'		  => __( 'Subscribe to our newsletter', 'constantcontact' ),
+				'type'	=> 'text',
+				'default'		  => sprintf( __( 'Yes, I would like to receive emails from %s. Sign me up!', 'constantcontact' ), $business_name ),
 			) );
 		}
 	}
