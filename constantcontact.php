@@ -158,6 +158,7 @@ class Constant_Contact {
 	private $connect;
 	private $ctct_forms;
 	private $display;
+	private $display_shortcode;
 	private $lists;
 	private $process_form;
 	private $settings;
@@ -210,18 +211,19 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function plugin_classes() {
-		$this->api            = new ConstantContact_API( $this );
-		$this->builder        = new ConstantContact_Builder( $this );
-		$this->builder_fields = new ConstantContact_Builder_Fields( $this );
-		$this->ctct_forms     = new ConstantContact_CPTS( $this );
-		$this->display        = new ConstantContact_Display( $this );
-		$this->lists          = new ConstantContact_Lists( $this );
-		$this->process_form   = new ConstantContact_Process_Form( $this );
-		$this->settings       = new ConstantContact_Settings( $this );
-		$this->auth_redirect  = new ConstantContact_Auth_Redirect( $this );
-		$this->connect        = new ConstantContact_Connect( $this );
-		$this->mail           = new ConstantContact_Mail( $this );
-		$this->authserver     = new ConstantContact_Middleware( $this );
+		$this->api               = new ConstantContact_API( $this );
+		$this->builder           = new ConstantContact_Builder( $this );
+		$this->builder_fields    = new ConstantContact_Builder_Fields( $this );
+		$this->ctct_forms        = new ConstantContact_CPTS( $this );
+		$this->display           = new ConstantContact_Display( $this );
+		$this->display_shortcode = new ConstantContact_Display_Shortcode( $this );
+		$this->lists             = new ConstantContact_Lists( $this );
+		$this->process_form      = new ConstantContact_Process_Form( $this );
+		$this->settings          = new ConstantContact_Settings( $this );
+		$this->auth_redirect     = new ConstantContact_Auth_Redirect( $this );
+		$this->connect           = new ConstantContact_Connect( $this );
+		$this->mail              = new ConstantContact_Mail( $this );
+		$this->authserver        = new ConstantContact_Middleware( $this );
 	}
 
 	/**
@@ -371,6 +373,7 @@ class Constant_Contact {
 			case 'check':
 			case 'ctct_forms':
 			case 'display':
+			case 'display_shortcode':
 			case 'lists':
 			case 'path':
 			case 'plugin_name':
