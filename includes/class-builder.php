@@ -58,8 +58,9 @@ class ConstantContact_Builder {
 		if ( in_array( $pagenow, $form_builder_pages, true ) ) {
 
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ), 9 );
-			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ), 11 );
 			add_action( 'cmb2_admin_init', array( $this, 'options_metabox' ), 10 );
+			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ), 11 );
+
 			add_action( 'cmb2_after_post_form_ctct_1_description_metabox', array( $this, 'add_form_css' ) );
 
 			add_action( 'cmb2_save_field', array( $this, 'override_save' ), 10, 4 );
@@ -100,6 +101,75 @@ class ConstantContact_Builder {
 				'textarea_rows' => '5',
 				'teeny'         => false,
 			),
+		) );
+	}
+
+	/**
+	 * Form options CMB2 metabox
+	 *
+	 * @since  1.0.0
+	 * @return void
+	 */
+	public function options_metabox() {
+
+		$prefix = '_ctct_';
+
+		/**
+		 * Initiate the $options_metabox
+		 */
+		$options_metabox = new_cmb2_box( array(
+			'id'			=> 'ctct_2_options_metabox',
+			'title'		 	=> __( 'Form Options', 'constantcontact' ),
+			'object_types'  => array( 'ctct_forms' ),
+			'context'	   	=> 'normal',
+			'priority'	  	=> 'high',
+			'show_names'	=> true,
+		) );
+
+		$options_metabox->add_field( array(
+			'name'        => __( 'Enable Opt-in checkbox', 'constantcontact' ),
+			'id'          => $prefix . 'opt_in',
+			'description' => __( 'Show opt-in checkbox to allow visitors to opt-in to your email list.', 'constantcontact' ),
+			'type'        => 'checkbox',
+		) );
+
+		// Add field if conncted to API.
+		if ( $lists = $this->get_lists() ) {
+
+			$options_metabox->add_field( array(
+				'name'             => __( 'Add subscribers to', 'constantcontact' ),
+				'id'               => $prefix . 'list',
+				'type'             => 'select',
+				'show_option_none' => true,
+				'default'          => 'none',
+				'options'          => $lists,
+			) );
+
+		}
+
+		$options_metabox->add_field( array(
+			'name'        => __( 'Default state', 'constantcontact' ),
+			'id'          => $prefix . 'opt_in_default',
+			'description' => __( 'By default, show opt-in checkbox as checked.', 'constantcontact' ),
+			'type'        => 'checkbox',
+		) );
+
+		$options_metabox->add_field( array(
+			'name'        => __( 'Hide checkbox', 'constantcontact' ),
+			'id'          => $prefix . 'opt_in_hide',
+			'description' => __( 'Hide the checkbox, and use default value (usually when used with a simple newsletter sign-up form).', 'constantcontact' ),
+			'type'        => 'checkbox',
+		) );
+
+		// Get our site name, and if we don't have it, then use a placeholder
+		$business_name = get_bloginfo( 'name' );
+		$business_name ? $business_name : __( 'Your Business Name', 'constantcontact' );
+
+		$options_metabox->add_field( array(
+			'name'        => __( 'Opt-in Affirmation', 'constantcontact' ),
+			'id'          => $prefix . 'opt_in_instructions',
+			'type'        => 'textarea_small',
+			'default'     => sprintf( __( 'Yes, I would like to receive emails from %s', 'constantcontact' ), $business_name ),
 		) );
 	}
 
@@ -191,76 +261,6 @@ class ConstantContact_Builder {
 			'id'          => $prefix . 'required_field',
 			'type'        => 'checkbox',
 			'row_classes' => 'required',
-		) );
-
-	}
-
-	/**
-	 * Form options CMB2 metabox
-	 *
-	 * @since  1.0.0
-	 * @return void
-	 */
-	public function options_metabox() {
-
-		$prefix = '_ctct_';
-
-		/**
-		 * Initiate the $options_metabox
-		 */
-		$options_metabox = new_cmb2_box( array(
-			'id'			=> 'ctct_2_options_metabox',
-			'title'		 	=> __( 'Form Options', 'constantcontact' ),
-			'object_types'  => array( 'ctct_forms' ),
-			'context'	   	=> 'normal',
-			'priority'	  	=> 'high',
-			'show_names'	=> true,
-		) );
-
-		$options_metabox->add_field( array(
-			'name'        => __( 'Enable Opt-in checkbox', 'constantcontact' ),
-			'id'          => $prefix . 'opt_in',
-			'description' => __( 'Show opt-in checkbox to allow visitors to opt-in to your email list.', 'constantcontact' ),
-			'type'        => 'checkbox',
-		) );
-
-		// Add field if conncted to API.
-		if ( $lists = $this->get_lists() ) {
-
-			$options_metabox->add_field( array(
-				'name'             => __( 'Add subscribers to', 'constantcontact' ),
-				'id'               => $prefix . 'list',
-				'type'             => 'select',
-				'show_option_none' => true,
-				'default'          => 'none',
-				'options'          => $lists,
-			) );
-
-		}
-
-		$options_metabox->add_field( array(
-			'name'        => __( 'Default state', 'constantcontact' ),
-			'id'          => $prefix . 'opt_in_default',
-			'description' => __( 'By default, show opt-in checkbox as checked.', 'constantcontact' ),
-			'type'        => 'checkbox',
-		) );
-
-		$options_metabox->add_field( array(
-			'name'        => __( 'Hide checkbox', 'constantcontact' ),
-			'id'          => $prefix . 'opt_in_hide',
-			'description' => __( 'Hide the checkbox, and use default value (usually when used with a simple newsletter sign-up form).', 'constantcontact' ),
-			'type'        => 'checkbox',
-		) );
-
-		// Get our site name, and if we don't have it, then use a placeholder
-		$business_name = get_bloginfo( 'name' );
-		$business_name ? $business_name : __( 'Your Business Name', 'constantcontact' );
-
-		$options_metabox->add_field( array(
-			'name'        => __( 'Opt-in Affirmation', 'constantcontact' ),
-			'id'          => $prefix . 'opt_in_instructions',
-			'type'        => 'textarea_small',
-			'default'     => sprintf( __( 'Yes, I would like to receive emails from %s', 'constantcontact' ), $business_name ),
 		) );
 
 	}
