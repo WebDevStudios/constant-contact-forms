@@ -232,10 +232,21 @@ class ConstantContact_Admin_Pages {
 		<div class="wrap about-wrap constant-contact-about">
 			<div class="hide-overflow">
 				<div class="left-side">
-					<h1 class="about-header"><?php esc_attr_e( 'Constant Contact for WordPress', 'constantcontact' ); ?></h1>
+					<h1 class="about-header"><?php esc_attr_e( 'Constant Contact Forms', 'constantcontact' ); ?></h1>
 					<div class="about-text">
 						<p>
-							<?php esc_attr_e( 'Want to connect with visitors even after they’ve left your WordPress site? Constant Contact’s email marketing tools make it easy. And with an average of $44 back for every dollar spent, nothing beats email marketing for driving real business results. With the Constant Contact for WordPress plugin and an active Constant Contact account, you can easily add forms (sign-up, comment, opt-ins) to your site so every visitor can be easily added to your Constant Contact email list.', 'constantcontact' ); ?>
+						<?php echo wp_kses_post( __( 'The <strong>Constant Contact Forms</strong> plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don’t have a Constant Contact account.', 'constantcontact' ) ); ?>
+						</p>
+						<p>
+						<?php esc_attr_e( 'Whether you’re looking to collect email addresses, contact info, event sign-ups, or visitor feedback, you can customize your forms with data fields that work best for you. You can:', 'constantcontact' ); ?>
+						<ul class="ctct-bonus-points">
+							<li> <?php esc_attr_e( 'Quickly create different types of forms that are clear, simple, and mobile-optimized.', 'constantcontact' ); ?></li>
+							<li> <?php esc_attr_e( 'Choose forms that automatically select the theme and style of your WordPress site.', 'constantcontact' ); ?></li>
+							<li> <?php esc_attr_e( 'Customize the form data fields, so you can tailor the type of information you collect', 'constantcontact' ); ?></li>
+						</ul>
+						</p>
+						<p>
+						<?php esc_attr_e( 'Using your sign-up forms to collect email addresses? Email marketing is a great way to stay connected with visitors after they’ve left your site. And with an active Constant Contact account, every new subscriber you capture will be automatically added to your selected email lists.  ', 'constantcontact' ); ?>
 						</p>
 						<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a>
 					</div>
@@ -263,9 +274,9 @@ class ConstantContact_Admin_Pages {
 
 				?>
 				<?php if ( ! $connected && $auth_link ) { // If we have a link, then display the connect button ?>
-					<h2><?php esc_attr_e( 'Already a Constant Contact Member?', 'constantcontact' ); ?></h2>
+					<h2><?php esc_attr_e( 'Already a Constant Contact account?', 'constantcontact' ); ?></h2>
 					<a href="<?php echo $auth_link ?>" class="button button-blue ctct-connect">
-						<?php esc_html_e( 'Connect Plugin', 'constantcontact' ); ?>
+						<?php esc_html_e( 'Connect the plugin', 'constantcontact' ); ?>
 					</a>
 				<?php } ?>
 			</div>
@@ -288,9 +299,8 @@ class ConstantContact_Admin_Pages {
 				</p>
 				<div class="clear"></div>
 			</div>
-				<hr>
-
-			<div class="advert-block">
+			<hr>
+			<div class="cc-a-block">
 				<div class="left">
 					<div class="ad-1">
 						<h3><?php esc_html_e( 'Easily Add Forms', 'constantcontact' ); ?></h3>
