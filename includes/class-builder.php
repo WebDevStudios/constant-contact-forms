@@ -57,10 +57,10 @@ class ConstantContact_Builder {
 		// Only load the cmb2 fields on our specified pages
 		if ( in_array( $pagenow, $form_builder_pages, true ) ) {
 
-			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
-			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
-			add_action( 'cmb2_admin_init', array( $this, 'options_metabox' ) );
-			add_action( 'cmb2_after_post_form_ctct_description_metabox', array( $this, 'add_form_css' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ), 9 );
+			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ), 11 );
+			add_action( 'cmb2_admin_init', array( $this, 'options_metabox' ), 10 );
+			add_action( 'cmb2_after_post_form_ctct_1_description_metabox', array( $this, 'add_form_css' ) );
 
 			add_action( 'cmb2_save_field', array( $this, 'override_save' ), 10, 4 );
 			add_action( 'admin_notices', array( $this, 'admin_notice' ) );
@@ -83,7 +83,7 @@ class ConstantContact_Builder {
 		 * Initiate the $description_metabox
 		 */
 		$description_metabox = new_cmb2_box( array(
-			'id'			=> 'ctct_description_metabox',
+			'id'			=> 'ctct_1_description_metabox',
 			'title'		 	=> __( 'Form Description', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
@@ -97,7 +97,7 @@ class ConstantContact_Builder {
 			'type' => 'wysiwyg',
 			'options' => array(
 				'media_buttons' => false,
-				'textarea_rows' => '10',
+				'textarea_rows' => '5',
 				'teeny'         => false,
 			),
 		) );
@@ -118,7 +118,7 @@ class ConstantContact_Builder {
 		 * Initiate the $fields_metabox
 		 */
 		$fields_metabox = new_cmb2_box( array(
-			'id'			=> 'ctct_fields_metabox',
+			'id'			=> 'ctct_3_fields_metabox',
 			'title'		 	=> __( 'Form Fields', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
@@ -209,7 +209,7 @@ class ConstantContact_Builder {
 		 * Initiate the $options_metabox
 		 */
 		$options_metabox = new_cmb2_box( array(
-			'id'			=> 'ctct_options_metabox',
+			'id'			=> 'ctct_2_options_metabox',
 			'title'		 	=> __( 'Form Options', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
