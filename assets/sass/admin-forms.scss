@@ -16,22 +16,12 @@
 	padding-top: 0.1em;
 }
 
-#ctct_options_metabox .cmb-row {
+#ctct_optin_metabox .cmb-row {
 	border-bottom: none;
 }
 
-#ctct_options_metabox .cmb2-id--ctct-opt-in,
-#ctct_options_metabox .cmb2-id--ctct-list,
-#ctct_fields_metabox .cmb-remove-field-row {
-	border-top: 1px solid #e9e9e9;
-}
-
-#ctct_options_metabox .cmb2-id--ctct-list {
+#ctct_optin_1_metabox .cmb2-id--ctct-list {
 	padding-bottom: 0.5em;
-}
-
-#ctct_options_metabox .cmb2-id--ctct-new-list {
-	padding: 0 0;
 }
 
 #default_fields_group_repeat .cmb-field-list > .cmb-row {
@@ -86,11 +76,11 @@ button.cmb-remove-group-row {
 	background: #ffdfa3 !important;
 }
 
-#cmb2-metabox-ctct_fields_metabox button.cmb-remove-group-row {
+#cmb2-metabox-ctct_2_fields_metabox button.cmb-remove-group-row {
 	display: none;
 }
 
-#cmb2-metabox-ctct_fields_metabox h3.cmb-group-title.cmbhandle-title {
+#cmb2-metabox-ctct_2_fields_metabox h3.cmb-group-title.cmbhandle-title {
 	padding-left: 1em;
 }
 
@@ -103,6 +93,7 @@ body.post-type-ctct_forms #titlediv #title {
 	display: block;
 	line-height: 2em;
 }
+
 
 //--------------------------------------------------------------
 // Modal

@@ -21,6 +21,12 @@ class ConstantContact_Builder {
 	protected $plugin = null;
 
 	/**
+	 * Prefix for our meta fields / boxes
+	 * @var  string
+	 */
+	public $prefix = '_ctct_';
+
+	/**
 	 * Constructor
 	 *
 	 * @since  1.0.0
@@ -57,11 +63,11 @@ class ConstantContact_Builder {
 		// Only load the cmb2 fields on our specified pages
 		if ( in_array( $pagenow, $form_builder_pages, true ) ) {
 
-			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ), 9 );
-			add_action( 'cmb2_admin_init', array( $this, 'options_metabox' ), 10 );
-			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ), 11 );
+			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'opt_ins_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 
-			add_action( 'cmb2_after_post_form_ctct_1_description_metabox', array( $this, 'add_form_css' ) );
+			add_action( 'cmb2_after_post_form_ctct_0_description_metabox', array( $this, 'add_form_css' ) );
 
 			add_action( 'cmb2_save_field', array( $this, 'override_save' ), 10, 4 );
 			add_action( 'admin_notices', array( $this, 'admin_notice' ) );
@@ -78,13 +84,11 @@ class ConstantContact_Builder {
 	 */
 	public function description_metabox() {
 
-		$prefix = '_ctct_';
-
 		/**
 		 * Initiate the $description_metabox
 		 */
 		$description_metabox = new_cmb2_box( array(
-			'id'			=> 'ctct_1_description_metabox',
+			'id'			=> 'ctct_0_description_metabox',
 			'title'		 	=> __( 'Form Description', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
@@ -94,7 +98,7 @@ class ConstantContact_Builder {
 
 		$description_metabox->add_field( array(
 			'description' => __( 'This message will display above the form fields, so use it as an opportunity to pitch your email list. Tell visitors why they should subscribe to your emails, focusing on benefits like insider tips, discounts, subscriber coupons, and more.', 'constantcontact' ),
-			'id'   => $prefix . 'description',
+			'id'   => $this->prefix . 'description',
 			'type' => 'wysiwyg',
 			'options' => array(
 				'media_buttons' => false,
@@ -110,35 +114,42 @@ class ConstantContact_Builder {
 	 * @since  1.0.0
 	 * @return void
 	 */
-	public function options_metabox() {
+	public function opt_ins_metabox() {
 
-		$prefix = '_ctct_';
-
-		/**
-		 * Initiate the $options_metabox
-		 */
+		// Initiate the $options_metabox, as this is used either way
 		$options_metabox = new_cmb2_box( array(
-			'id'			=> 'ctct_2_options_metabox',
-			'title'		 	=> __( 'Form Options', 'constantcontact' ),
+			'id'			=> 'ctct_1_optin_metabox',
+			'title'		 	=> __( 'Connect your form to a Constant Contact Email List', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
 			'priority'	  	=> 'high',
 			'show_names'	=> true,
 		) );
 
-		$options_metabox->add_field( array(
-			'name'        => __( 'Enable Opt-in checkbox', 'constantcontact' ),
-			'id'          => $prefix . 'opt_in',
-			'description' => __( 'Show opt-in checkbox to allow visitors to opt-in to your email list.', 'constantcontact' ),
-			'type'        => 'checkbox',
-		) );
+		// Depending on if we're connected or not, show different opt-in fields
+		if ( constant_contact()->api->is_connected() ) {
+			$this->show_optin_connected_fields( $options_metabox );
+		} else {
+			$this->show_optin_not_connected_fields( $options_metabox );
+		}
+	}
+
+	/**
+	 * Helper method to show our connected optin fields
+	 *
+	 * @since   1.0.0
+	 * @param   object  $options_metabox  CMB2 options metabox object
+	 * @return  void
+	 */
+	public function show_optin_connected_fields( $options_metabox ) {
 
 		// Add field if conncted to API.
 		if ( $lists = $this->get_lists() ) {
 
+			// Allow choosing a list to add to
 			$options_metabox->add_field( array(
 				'name'             => __( 'Add subscribers to', 'constantcontact' ),
-				'id'               => $prefix . 'list',
+				'id'               => $this->prefix . 'list',
 				'type'             => 'select',
 				'show_option_none' => true,
 				'default'          => 'none',
@@ -147,19 +158,53 @@ class ConstantContact_Builder {
 
 		}
 
+		// Show our show/hide checkbox field
+		$this->show_enable_show_checkbox_field( $options_metabox );
+
+		// Show our affirmation textbox field
+		$this->show_affirmation_field( $options_metabox );
+	}
+
+	/**
+	 * Helper method to show our non connected optin fields
+	 *
+	 * @since   1.0.0
+	 * @param   object  $options_metabox  CMB2 options metabox object
+	 * @return  void
+	 */
+	public function show_optin_not_connected_fields( $options_metabox ) {
+
 		$options_metabox->add_field( array(
-			'name'        => __( 'Default state', 'constantcontact' ),
-			'id'          => $prefix . 'opt_in_default',
-			'description' => __( 'By default, show opt-in checkbox as checked.', 'constantcontact' ),
+			'name'        => __( 'Enable email subscriber opt-in', 'constantcontact' ),
+			'id'          => $this->prefix . 'opt_in',
+			'description' => __( 'Email opt-in is added to the bottom of your form.', 'constantcontact' ),
 			'type'        => 'checkbox',
 		) );
 
+		// Show our show/hide checkbox field
+		$this->show_enable_show_checkbox_field( $options_metabox );
+
+		// Show our affirmation textbox field
+		$this->show_affirmation_field( $options_metabox );
+	}
+
+	public function show_enable_show_checkbox_field( $options_metabox ) {
 		$options_metabox->add_field( array(
-			'name'        => __( 'Hide checkbox', 'constantcontact' ),
-			'id'          => $prefix . 'opt_in_hide',
-			'description' => __( 'Hide the checkbox, and use default value (usually when used with a simple newsletter sign-up form).', 'constantcontact' ),
+			'name'        => __( 'Show Opt-in checkbox', 'constantcontact' ),
+			'id'          => $this->prefix . 'opt_in',
+			'description' => __( 'Show opt-in checkbox to allow visitors to opt-in to your email list. (usually used with a Contact Us type form)', 'constantcontact' ),
 			'type'        => 'checkbox',
 		) );
+	}
+
+	/**
+	 * Helper method to show our affirmation textarea field
+	 *
+	 * @since   1.0.0
+	 * @param   object  $options_metabox  CMB2 options metabox object
+	 * @return  void
+	 */
+	public function show_affirmation_field( $options_metabox ) {
 
 		// Get our site name, and if we don't have it, then use a placeholder
 		$business_name = get_bloginfo( 'name' );
@@ -167,12 +212,11 @@ class ConstantContact_Builder {
 
 		$options_metabox->add_field( array(
 			'name'        => __( 'Opt-in Affirmation', 'constantcontact' ),
-			'id'          => $prefix . 'opt_in_instructions',
+			'id'          => $this->prefix . 'opt_in_instructions',
 			'type'        => 'textarea_small',
-			'default'     => sprintf( __( 'Yes, I would like to receive emails from %s', 'constantcontact' ), $business_name ),
+			'default'     => sprintf( __( 'Example: Yes, I would like to receive emails from %s', 'constantcontact' ), $business_name ),
 		) );
 	}
-
 
 	/**
 	 * Fields builder CMB2 metabox
@@ -182,17 +226,15 @@ class ConstantContact_Builder {
 	 */
 	public function fields_metabox() {
 
-		$prefix = '_ctct_';
-
 		/**
 		 * Initiate the $fields_metabox
 		 */
 		$fields_metabox = new_cmb2_box( array(
-			'id'			=> 'ctct_3_fields_metabox',
+			'id'			=> 'ctct_2_fields_metabox',
 			'title'		 	=> __( 'Form Fields', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
-			'priority'	  	=> 'high',
+			'priority'	  	=> 'low',
 			'show_names'	=> true,
 		) );
 
@@ -200,11 +242,11 @@ class ConstantContact_Builder {
 		$fields_metabox->add_field( array(
 			'name'        => __( 'Add Fields', 'constantcontact' ),
 			'description' => __( 'Create a field for each piece of information you want to collect. Good basics include email address, first name, and last name. You can also collect birthday and anniversary dates to use with Constant Contact autoresponders! ', 'constantcontact' ),
-			'id'          => $prefix . 'title',
+			'id'          => $this->prefix . 'title',
 			'type'        => 'title',
 		) );
 
-		// Default fields.
+		// Form builder repeater
 		$custom_group = $fields_metabox->add_field( array(
 			'id'         => 'custom_fields_group',
 			'type'       => 'group',
@@ -217,16 +259,18 @@ class ConstantContact_Builder {
 			),
 		) );
 
+		// Add a field label
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'    => __( 'Field Label', 'constantcontact' ),
-			'id'      => $prefix . 'field_label',
+			'id'      => $this->prefix . 'field_label',
 			'type'    => 'text',
 			'default' => __( 'Email', 'constantcontact' ),
 		) );
 
+		// Add our field description
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'    => __( 'Field Description', 'constantcontact' ),
-			'id'      => $prefix . 'field_desc',
+			'id'      => $this->prefix . 'field_desc',
 			'type'    => 'text',
 			'default' => '',
 		) );
@@ -246,9 +290,10 @@ class ConstantContact_Builder {
 			'custom_text_area' => __( 'Custom Text Area', 'constantcontact' ),
 		) );
 
+		// Choose which field
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'             => __( 'Select a Field', 'constantcontact' ),
-			'id'               => $prefix . 'map_select',
+			'id'               => $this->prefix . 'map_select',
 			'type'             => 'select',
 			'show_option_none' => false,
 			'default'          => 'email',
@@ -256,9 +301,10 @@ class ConstantContact_Builder {
 			'options'          => $default_fields,
 		) );
 
+		// Allow toggling of required fields
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'        => __( 'Required', 'constantcontact' ),
-			'id'          => $prefix . 'required_field',
+			'id'          => $this->prefix . 'required_field',
 			'type'        => 'checkbox',
 			'row_classes' => 'required',
 		) );
@@ -276,6 +322,7 @@ class ConstantContact_Builder {
 		// Grab our lists
 		$lists = constant_contact()->lists->get_lists();
 
+		// Data verification
 		if ( $lists && is_array( $lists ) ) {
 
 			// Loop though our lists
@@ -292,6 +339,7 @@ class ConstantContact_Builder {
 			return $get_lists;
 		}
 
+		// If we got this far, we didn't get any lists
 		return array();
 
 	}

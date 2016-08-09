@@ -124,19 +124,25 @@ window.CTCTBuilder = {};
     // Toggle un-needed optin fields if we're not showing the opt-in
     that.toggleOptInFields = function() {
 
-    	// If checked, show them
-    	if ( $( '#_ctct_opt_in' ).prop( 'checked' ) ) {
-    		that.$c.optinfields.list.show();
-    		that.$c.optinfields.default.show();
-    		that.$c.optinfields.hide.show();
-    		that.$c.optinfields.instruct.show();
-    	} else {
-    		that.$c.optinfields.list.hide();
-    		that.$c.optinfields.default.hide();
-    		that.$c.optinfields.hide.hide();
-    		that.$c.optinfields.instruct.hide();
-    	}
-    }
+		// Set up our optin selector
+		// $optin = $( '#_ctct_opt_in' );
+
+		// // Only fire show/hide if we have the normal checkbox
+		// if ( $optin.length ) {
+		// 	// If checked, show them
+		// 	if ( $optin.prop( 'checked' ) ) {
+		// 		that.$c.optinfields.list.show();
+		// 		that.$c.optinfields.default.show();
+		// 		that.$c.optinfields.hide.show();
+		// 		that.$c.optinfields.instruct.show();
+		// 	} else {
+		// 		that.$c.optinfields.list.hide();
+		// 		that.$c.optinfields.default.hide();
+		// 		that.$c.optinfields.hide.hide();
+		// 		that.$c.optinfields.instruct.hide();
+		// 	}
+		// }
+	}
 
 	// Disable required email fields.
 	that.modifyFields = function() {
