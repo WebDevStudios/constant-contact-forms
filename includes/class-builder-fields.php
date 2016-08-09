@@ -169,13 +169,10 @@ class ConstantContact_Builder_Fields {
 
 		$options_metabox->add_field( array(
 			'name'        => __( 'Enable email subscriber opt-in', 'constantcontact' ),
-			'id'          => $this->prefix . 'opt_in',
+			'id'          => $this->prefix . 'opt_in_not_connected',
 			'description' => __( 'Email opt-in is added to the bottom of your form.', 'constantcontact' ),
 			'type'        => 'checkbox',
 		) );
-
-		// Show our show/hide checkbox field
-		$this->show_enable_show_checkbox_field( $options_metabox );
 
 		// Show our affirmation textbox field
 		$this->show_affirmation_field( $options_metabox );
