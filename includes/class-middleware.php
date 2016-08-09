@@ -83,8 +83,17 @@ class ConstantContact_Middleware {
 	 * @return string proof key
 	 */
 	public function set_verification_option() {
-		$proof = esc_attr( wp_generate_password( 35, false, false ) );
-		update_option( 'ctct_connect_verification', $proof );
+
+		// Allow re-use of our $proof on a page load
+		static $proof = null;
+
+		// If its null, then generate it
+		if ( is_null( $proof ) ) {
+			$proof = esc_attr( wp_generate_password( 35, false, false ) );
+			update_option( 'ctct_connect_verification', $proof );
+		}
+
+		// Send it back
 		return $proof;
 	}
 
