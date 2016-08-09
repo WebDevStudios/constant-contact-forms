@@ -12,12 +12,20 @@
   padding-top: 0.1em;
 }
 
-#ctct_optin_metabox .cmb-row {
+#ctct_1_optin_metabox .cmb-row {
   border-bottom: none;
 }
 
-#ctct_optin_1_metabox .cmb2-id--ctct-list {
+#ctct_1_optin_metabox .cmb2-id--ctct-list {
   padding-bottom: 0.5em;
+}
+
+#ctct_1_optin_metabox .cmb-th {
+  width: 25%;
+}
+
+#ctct_1_optin_metabox .cmb-th + .cmb-td {
+  width: 70%;
 }
 
 #default_fields_group_repeat .cmb-field-list > .cmb-row {
