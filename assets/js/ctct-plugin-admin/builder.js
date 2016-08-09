@@ -83,6 +83,9 @@ window.CTCTBuilder = {};
 
 			// Bind our leave warning
 			that.bindLeaveWarning();
+
+			// Re-run our mapping de-dupe
+			that.removeDuplicateMappings();
 		});
 
 		// If we get a row added, then do our stuff
@@ -178,27 +181,29 @@ window.CTCTBuilder = {};
 	// Go through all dropdowns, and remove used options
 	that.removeDuplicateMappings = function() {
 
-		return; //@TODO fix this on field row shifting
-
 		// Set up an array for our mappings
 		var usedMappings = [];
 
 		// Get all our dropdowns on the page
 		var dropdowns = '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select';
+		var $dropdowns = $( dropdowns );
 
 		// For each dropdown, build up our array of used values
-		$( dropdowns ).each( function( key, value ) {
+		$dropdowns.each( function( key, value ) {
 			usedMappings.push( $( value ).val() );
 		});
+
+		// Re-show all the children options we may have hidden
+		$dropdowns.children().show();
 
 		// For each of our mappings that we already have, remove them from all selects
 		usedMappings.forEach( function( value ) {
 
 			// But only do it if the value isn't one of our custom ones
-			if ( ( 'custom_text_area' ) != ( value && 'custom' != value ) ) {
+			if ( ( 'custom_text_area' != value ) && ( 'custom' != value ) ) {
 
 				// Remove all options from our dropdowns with the value
-				$( dropdowns + ' option[value=' + value +']:not( :selected )' ).remove();
+				$( dropdowns + ' option[value=' + value +']:not( :selected )' ).hide();
 			}
 		});
 	}
