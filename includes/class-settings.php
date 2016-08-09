@@ -138,6 +138,21 @@ class ConstantContact_Settings {
 	}
 
 	/**
+	 * Are we on the settings page?
+	 *
+	 * @since   1.0.0
+	 * @return  boolean  if we are on the settings page or not
+	 */
+	public function on_settings_page() {
+
+		// Get our current page
+		global $pagenow;
+
+		// Check if we're on edit.php, and if we're on our options page, cast to bool and return
+		return ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' == $_GET['page'] );
+	}
+
+	/**
 	 * Add the options metabox to the array of metaboxes
 	 *
 	 * @since  1.0.0
