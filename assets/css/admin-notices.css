@@ -1,12 +1,17 @@
-.wp-core-ui .notice.is-dismissible.ctct-activated-admin-notice {
+#ctct-activated-admin-notice {
   padding: 1em 1em 0 1em;
 }
 
-.wp-core-ui .notice.is-dismissible.ctct-activated-admin-notice .ctct-activated-intro {
+#ctct-activated-admin-notice .ctct-activated-intro {
   max-width: 600px;
   line-height: 1.5em;
 }
 
-.wp-core-ui .notice.is-dismissible.ctct-activated-admin-notice .ctct-activated-button {
+#ctct-activated-admin-notice .ctct-activated-button {
   margin: .5em;
+}
+
+#ctct-activated-admin-notice .ctct-activated-dismiss {
+  padding-left: .5em;
+  vertical-align: middle;
 }

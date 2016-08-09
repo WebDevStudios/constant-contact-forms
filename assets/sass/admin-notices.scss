@@ -1,4 +1,4 @@
-.wp-core-ui .notice.is-dismissible.ctct-activated-admin-notice {
+#ctct-activated-admin-notice {
 
 	padding: 1em 1em 0 1em;
 
@@ -9,5 +9,10 @@
 
 	.ctct-activated-button {
 		margin: .5em;
+	}
+
+	.ctct-activated-dismiss {
+		padding-left: .5em;
+		vertical-align: middle;
 	}
 }
