@@ -646,8 +646,6 @@ class ConstantContact_Display {
 		$optin = wp_parse_args( $form_data['optin'], array(
 			'opt_in'              => false,
 			'opt_in_instructions' => '',
-			'opt_in_hide'         => false,
-			'opt_in_default'      => false,
 			'list'                => false,
 		) );
 
@@ -670,13 +668,11 @@ class ConstantContact_Display {
 	 * @return string        html markup
 	 */
 	public function optin_display( $optin ) {
-
+//@TODO modify here for new opt in methods
 		// Clean our inputs, set defaults
 		$label   = sanitize_text_field( isset( $optin['opt_in_instructions'] ) ? $optin['opt_in_instructions'] : '' );
 		$hide    = isset( $optin['opt_in_hide'] ) ? $optin['opt_in_hide'] : false;
 		$value   = sanitize_text_field( isset( $optin['list'] ) ? $optin['list'] : '' );
-		$checked = ( isset( $optin['opt_in_default'] ) && $optin['opt_in_default'] ) ? true : false;
-		$c_attr  = $checked ? 'checked' : '';
 
 		// Start our markup return
 		$markup = '';
@@ -687,7 +683,7 @@ class ConstantContact_Display {
 
 		// Build up our markup
 		$markup .= $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
-		$markup .= '<input type="checkbox" name="ctct-opt-in" id="ctct-opt-in" value="' . $value . '" ' . $c_attr . '/>';
+		$markup .= '<input type="checkbox" name="ctct-opt-in" id="ctct-opt-in" value="' . $value . '" />';
 		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . $label );
 
 		// If we set to hide, close our open div

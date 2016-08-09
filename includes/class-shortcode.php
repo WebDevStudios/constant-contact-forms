@@ -157,7 +157,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			if ( isset( $full_data['_ctct_description'] ) && isset( $full_data['_ctct_description'][0] ) ) {
 				$fields['options']['description'] = $full_data['_ctct_description'][0];
 			}
-
+//@TODO modify here for new opt in methods
 			// Check for if opt in
 			if (
 				isset( $full_data['_ctct_opt_in'] ) &&

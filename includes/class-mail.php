@@ -91,7 +91,7 @@ class ConstantContact_Mail {
 	 * @return object         response from API
 	 */
 	public function opt_in_user( $values ) {
-
+//@TODO modify here for new opt in methods
 		// go through all our fields
 		foreach ( $values as $key => $val ) {
 

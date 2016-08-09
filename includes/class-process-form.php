@@ -223,6 +223,7 @@ class ConstantContact_Process_Form {
 		}
 
 		if ( ! $is_ajax ) {
+
 			// at this point we can process all of our submitted values
 			constant_contact()->mail->submit_form_values( $return['values'], true );
 		}

@@ -123,7 +123,7 @@ window.CTCTBuilder = {};
 
     // Toggle un-needed optin fields if we're not showing the opt-in
     that.toggleOptInFields = function() {
-
+//@TODO modify here for new opt in methods
 		// Set up our optin selector
 		// $optin = $( '#_ctct_opt_in' );
 
