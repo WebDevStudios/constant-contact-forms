@@ -60,7 +60,6 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 
 			$fields[] = array(
 				'name'             => __( 'Form Shortcode', 'constantcontact' ),
-				'desc'             => __( 'Choosing a form shortcode.', 'constantcontact' ),
 				'id'               => '_ctct_form',
 				'type'             => 'select',
 				'show_option_none' => false,
