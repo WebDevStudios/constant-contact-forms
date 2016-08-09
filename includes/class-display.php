@@ -682,7 +682,7 @@ class ConstantContact_Display {
 		}
 
 		// Grab our markup
-		$markup .= $this->get_optin_markup( $label, $value );
+		$markup .= $this->get_optin_markup( $label, $value, $show );
 
 		// If we set to hide, close our open div
 		if ( ! $show ) {
@@ -699,13 +699,17 @@ class ConstantContact_Display {
 	 * @since   1.0.0
 	 * @param   string  $label  label for field
 	 * @param   string  $value  value of opt in field
+	 * @param   string  $show   whether or not we are showing the field
 	 * @return  string          HTML markup
 	 */
-	public function get_optin_markup( $label, $value ) {
+	public function get_optin_markup( $label, $value, $show ) {
+
+		// If we aren't showing the field, then we default our checkbox to checked
+		$checked = $show ? '' : 'checked';
 
 		// Build up our markup
 		$markup = $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
-		$markup .= '<input type="checkbox" name="ctct-opt-in" id="ctct-opt-in" value="' . $value . '" />';
+		$markup .= '<input type="checkbox" ' . $checked . ' name="ctct-opt-in" id="ctct-opt-in" value="' . $value . '" />';
 		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . wp_kses_post( $label ) );
 
 		// Send it back
