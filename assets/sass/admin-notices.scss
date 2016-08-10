@@ -1,4 +1,14 @@
-#ctct-admin-notice {
+.updated.ctct-admin-notice,
+.error.ctct-admin-notice {
+	padding: 1em 38px 1em 1em ;
+	position: relative;
+}
+
+a.ctct-notice-dismiss {
+	text-decoration: none;
+}
+
+#ctct-admin-notice-activation {
 
 	padding: 1em 1em 0 1em;
 
@@ -11,15 +21,5 @@
 	.ctct-notice-button:active {
 		vertical-align: middle;
 		margin: .5em;
-	}
-
-	.ctct-notice-dismiss {
-		padding-left: .5em;
-		display: inline;
-
-		a, a.updated {
-			vertical-align: middle;
-		}
-
 	}
 }

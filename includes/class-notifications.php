@@ -344,6 +344,7 @@ class ConstantContact_Notifications {
 		?>
 		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
 			<?php echo $content; ?>
+			<?php constant_contact()->notifications->do_dismiss_link( 'activation' ); ?>
 		</div>
 		<?php
 	}
@@ -375,15 +376,16 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Display our dismiss link for a notficaion
+	 * Display our dismiss link for a notfication
 	 *
 	 * @since   1.0.0
 	 * @param   string  $id  ID of notification
 	 */
 	public function do_dismiss_link( $notif_id ) {
+
 		?>
-		<a class='ctct-notice-dismiss' href="<?php echo esc_url_raw( $this->get_activation_dismiss_url( esc_attr( $notif_id ) ) ); ?>">
-			<em><?php esc_attr_e( 'Dismiss this notice.', 'constantcontact' ); ?></em>
+		<a class="ctct-notice-dismiss notice-dismiss" href="<?php echo esc_url_raw( $this->get_activation_dismiss_url( esc_attr( $notif_id ) ) ); ?>">
+			<span class="screen-reader-text"><?php esc_attr_e( 'Dismiss this notice.', 'constantcontact' ); ?></span>
 		</a>
 		<?php
 	}
