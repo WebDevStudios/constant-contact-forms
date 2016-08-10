@@ -175,7 +175,7 @@ class ConstantContact_Settings {
 		global $pagenow;
 
 		// Check if we're on edit.php, and if we're on our options page, cast to bool and return
-		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' == $_GET['page'] );
+		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ); // Input var okay.
 	}
 
 	/**
@@ -295,7 +295,7 @@ class ConstantContact_Settings {
 		}
 
 		// Otherwise, check to see if our check is in the array
-		return in_array( $type, $available_areas );
+		return in_array( $type, $available_areas, true );
 	}
 
 	/**
@@ -366,9 +366,9 @@ class ConstantContact_Settings {
 		?><p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
 	        <label for="ctct_optin">
 	        	<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
-				<?php echo sanitize_text_field( $label ); ?>
+				<?php echo esc_attr( $label ); ?>
 			</label>
-			<?php echo wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin' ); ?>
+			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin', true, true ); ?>
 	    </p><?php
 
 	}
@@ -383,17 +383,17 @@ class ConstantContact_Settings {
 	public function process_optin_comment_form( $comment_data ) {
 
 		// Sanity check
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+		if ( ! isset( $_POST['ctct_optin_list'] ) ) { // Input var okay.
 			return $comment_data;
 		}
 
 		// nonce sanity check
-		if ( ! isset( $_POST['ct_ct_optin'] ) ) {
+		if ( ! isset( $_POST['ct_ct_optin'] ) ) { // Input var okay.
 			return $comment_data;
 		}
 
 		// Check our nonce
-		if ( ! wp_verify_nonce( $_POST['ct_ct_optin'], 'ct_ct_add_to_optin' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ct_ct_optin'] ) ), 'ct_ct_add_to_optin' ) ) { // Input var okay.
 			return $comment_data;
 		}
 
@@ -419,9 +419,29 @@ class ConstantContact_Settings {
 			// If we can get a website, use it
 			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
 
+			// Check for our list
+			//
+			// We also flag PHPCS to ignore this line, as we get
+			// a nonce verification error, but we process the nonce
+			// quite a bit earlier than this
+			//
+			// @codingStandardsIgnoreLine
+			if ( ! isset( $_POST['ctct_optin_list'] ) ) {  // Input var okay.
+				return $comment_data;
+			}
+
+			// Set up a helper var
+			//
+			// We also flag PHPCS to ignore this line, as we get
+			// a nonce verification error, but we process the nonce
+			// quite a bit earlier than this
+			//
+			// @codingStandardsIgnoreLine
+			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // Input var okay.
+
 			// Build up our data array
 			$args = array(
-				'list'       => sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ),
+				'list'       => $list,
 				'email'      => sanitize_email( $comment_data['comment_author_email'] ),
 				'first_name' => sanitize_text_field( $name ),
 				'last_name'  => '',
@@ -448,17 +468,17 @@ class ConstantContact_Settings {
 	public function process_optin_login_form( $user, $username, $password ) {
 
 		// Sanity check
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+		if ( ! isset( $_POST['ctct_optin_list'] ) ) { // Input var okay.
 			return $user;
 		}
 
 		// nonce sanity check
-		if ( ! isset( $_POST['ct_ct_optin'] ) ) {
+		if ( ! isset( $_POST['ct_ct_optin'] ) ) { // Input var okay.
 			return $user;
 		}
 
 		// Check our nonce
-		if ( ! wp_verify_nonce( $_POST['ct_ct_optin'], 'ct_ct_add_to_optin' ) ) {
+		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ct_ct_optin'] ) ), 'ct_ct_add_to_optin' ) ) { // Input var okay.
 			return $user;
 		}
 
@@ -498,11 +518,27 @@ class ConstantContact_Settings {
 			$name = '';
 		}
 
+		// We also flag PHPCS to ignore this line, as we get
+		// a nonce verification error, but we process the nonce
+		// quite a bit earlier than this
+		//
+		// @codingStandardsIgnoreLine
+		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+			return $user;
+		}
+
+		// We also flag PHPCS to ignore this line, as we get
+		// a nonce verification error, but we process the nonce
+		// quite a bit earlier than this
+		//
+		// @codingStandardsIgnoreLine
+		$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) );
+
 		// If we have one or the other, try it
 		if ( $email ) {
 			$args = array(
 				'email'      => $email,
-				'list'       => sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ),
+				'list'       => $list,
 				'first_name' => $name,
 				'last_name'  => '',
 			);
