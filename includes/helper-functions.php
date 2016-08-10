@@ -31,7 +31,6 @@ function constant_contact_display_form( $form_id ) {
 /**
  * Get an array of forms
  *
- * @author Brad Parbs
  * @since   1.0.0
  * @return  array  WP Query results of forms
  */
