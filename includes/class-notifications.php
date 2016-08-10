@@ -136,7 +136,7 @@ class ConstantContact_Notifications {
 		// Get our notifictaion content from our callback
 		$notif_content = call_user_func( $callback );
 
-		$this->show_notice( $notif_content );
+		$this->show_notice( $notif_id, $notif_content );
 
 		return;
 
@@ -330,7 +330,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @since   1.0.0
 	 */
-	public function show_notice( $content = '' ) {
+	public function show_notice( $key, $content = '' ) {
 
 		// If we don't have any content, bail
 		if ( ! $content ) {
@@ -342,7 +342,7 @@ class ConstantContact_Notifications {
 
 		// Wrap our content in our markup
 		?>
-		<div id="ctct-admin-notice" class="ctct-admin-notice updated notice">
+		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
 			<?php echo $content; ?>
 		</div>
 		<?php
