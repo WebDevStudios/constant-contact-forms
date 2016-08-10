@@ -202,6 +202,9 @@ class Constant_Contact {
 		if ( is_admin() ) {
 			$this->admin_plugin_classes();
 		}
+
+	// Include our helper functions function for end-users
+		Constant_Contact::include_file( 'helper-functions', false );
 	}
 
 	/**
@@ -465,11 +468,22 @@ class Constant_Contact {
 	 * @param  string $filename Name of the file to be included.
 	 * @return bool   Result of include call.
 	 */
-	public static function include_file( $filename ) {
-		$file = self::dir( 'includes/class-' . $filename . '.php' );
+	public static function include_file( $filename, $include_class = true ) {
+
+		// By default, all files are named 'class-something.php'
+		if ( $include_class ) {
+			$filename = 'class-' . $filename;
+		}
+
+		// Get the file
+		$file = self::dir( 'includes/' . $filename . '.php' );
+
+		// If its there, include it
 		if ( file_exists( $file ) ) {
 			return include_once( $file );
 		}
+
+		// Wasn't there
 		return false;
 	}
 
