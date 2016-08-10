@@ -151,11 +151,14 @@ class ConstantContact_Settings {
 	public function admin_page_display() {
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php esc_attr_e( ' Advanced Opt-in', 'constantcontact' ); ?></h2>
+			<h2><?php esc_attr_e( 'Advanced Opt-in', 'constantcontact' ); ?></h2>
 			<?php
 			if ( function_exists( 'cmb2_metabox_form' ) ) {
 				cmb2_metabox_form( $this->metabox_id, $this->key );
 			}
+
+			// add 'ctct-debug-server-check' to query args to display server debug
+			$this->plugin->check->maybe_display_debug_info();
 			?>
 		</div>
 		<?php
