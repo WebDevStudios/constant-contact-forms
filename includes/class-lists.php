@@ -76,6 +76,8 @@ class ConstantContact_Lists {
 		add_filter( 'views_edit-ctct_lists', array( $this, 'add_force_sync_button' ) );
 		add_action( 'admin_init', array( $this, 'check_for_list_sync_request' ) );
 
+		// Remove quick edit
+		add_filter( 'post_row_actions', array( $this, 'remove_quick_edit_from_lists' ) );
 	}
 
 	/**
@@ -829,5 +831,27 @@ class ConstantContact_Lists {
 			wp_safe_redirect( $url );
 			die;
 		}
+	}
+
+	/**
+	 * Remove quick edit from our lists post type
+	 *
+	 * @since   1.0.0
+	 * @param   array  $actions  current actions
+	 * @return  array            modified actions
+	 */
+	public function remove_quick_edit_from_lists( $actions ) {
+
+		// Get our global post object
+		global $post;
+
+		// Make sure we're on our lists post type
+		if ( $post && isset( $post->post_type ) && $post->post_type && 'ctct_lists' == $post->post_type ) {
+
+			// Unset our quick edit actions, which is named SO WELL
+			unset( $actions['inline hide-if-no-js'] );
+		}
+
+		return $actions;
 	}
 }

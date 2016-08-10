@@ -246,6 +246,10 @@
   display: none;
 }
 
+body.post-type-ctct_lists .misc-pub-post-status {
+  display: none;
+}
+
 body.post-type-ctct_forms #titlediv #title {
   height: 2.7em;
 }

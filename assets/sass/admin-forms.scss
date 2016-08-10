@@ -5,10 +5,13 @@
 
 .misc-pub-section {
 	&.misc-pub-visibility,
-	// &.misc-pub-post-status,
 	&.misc-pub-curtime {
 		display: none;
 	}
+}
+
+body.post-type-ctct_lists .misc-pub-post-status {
+	display: none;
 }
 
 body.post-type-ctct_forms #titlediv #title {
