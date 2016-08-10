@@ -108,9 +108,9 @@ class ConstantContact_Middleware {
 		// verifying the proof that the middleware server gives us
 		// so that we can ignore any malicious entries that are sent to us
 		// Sanitize our expected data
-		$proof = isset( $_GET['proof'] ) ? $_GET['proof'] : false;
-		$token = isset( $_GET['token'] ) ? $_GET['token'] : false;
-		$key   = isset( $_GET['key'] ) ? $_GET['key'] : false;
+		$proof = isset( $_GET['proof'] ) ? sanitize_text_field( wp_unslash( $_GET['proof'] ) ) : false; // Input var okay.
+		$token = isset( $_GET['token'] ) ? sanitize_text_field( wp_unslash( $_GET['token'] ) ) : false; // Input var okay.
+		$key   = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : false; // Input var okay.
 
 		// If we're missing any piece of data, we failed
 		if ( ! $proof || ! $token || ! $key ) {
@@ -144,7 +144,7 @@ class ConstantContact_Middleware {
 		delete_option( 'ctct_connect_verification' );
 
 		// Send back a bool of whether they match or not
-		return ( $proof == $expected_proof );
+		return ( $proof === $expected_proof );
 
 	}
 }
