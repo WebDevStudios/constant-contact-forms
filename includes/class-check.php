@@ -33,6 +33,27 @@ class ConstantContact_Check {
 	}
 
 	/**
+	 * Lets you add 'ctct-debug-server-check' to the query
+	 * args of a page to load a server requirements check
+	 *
+	 * @since   1.0.0
+	 */
+	public function maybe_display_debug_info() {
+
+		// Make sure we have our query arg, we're an admin, and we can manage options
+		if ( isset( $_GET['ctct-debug-server-check'] ) && is_admin() && current_user_can( 'manage_options' ) ) {
+			?>
+			<div class="ctct-server-requirements">
+				<p>
+					<h4><?php esc_attr_e( 'Server Check', 'constantcontact' ); ?></h4>
+					<?php $this->display_server_checks(); ?>
+				</p>
+			</div>
+			<?php
+		}
+	}
+
+	/**
 	 * Gets the list of functions / classes we need ot check on the server
 	 * to be considered 'valid'
 	 *
