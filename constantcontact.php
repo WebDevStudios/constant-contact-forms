@@ -287,9 +287,9 @@ class Constant_Contact {
 	 */
 	function _deactivate() {
 
-		// If we deactivate the plugin, remove our option related to
-		// hiding the dismiss notices so that it will show on activation
-		delete_option( 'ctct_notices_dismissed' );
+		// If we deactivate the plugin, remove our saved dismiss state for the activation
+		// admin notice that pops up, so we can re-prompt the user to connect
+		$this->notifications->delete_dismissed_notification( 'activation' );
 
 		// Remove our saved transients for our lists, so we force a refresh on re-connection
 		delete_transient( 'ctct_lists' );

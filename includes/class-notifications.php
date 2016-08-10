@@ -39,8 +39,25 @@ class ConstantContact_Notifications {
 	public function hooks() {
 
 		// Add activation message
-		add_action( 'admin_notices', array( $this, 'maybe_show_activation_message' ) );
+		add_action( 'admin_notices', array( $this, 'main' ) );
 
+	}
+
+	/**
+	 * Get all our notifications that should fire
+	 *
+	 * @since   1.0.0
+	 */
+	public function get_notifications() {
+
+		// Return all our notifications
+		return apply_filters( 'constant_contact_notifications', array(
+			array(
+				'ID'         => 'activation',
+				'callback'   => array( $this, 'get_notification_content_activation' ),
+				'require_cb' => 'constant_contact_is_not_connected',
+			),
+		) );
 	}
 
 	/**
@@ -48,42 +65,130 @@ class ConstantContact_Notifications {
 	 *
 	 * @since   1.0.0
 	 */
-	public function maybe_show_activation_message() {
+	public function main() {
 
 		// If we have our query args where we're attempting to dismiss the notice
-		if ( $this->should_message_be_dismissed_and_saved() ) {
+		// Get our potentically dismissed notif ID
+		$notif_id = $this->get_dismissal_id();
+
+		// First, we want to check if we should save any dismissals
+		if ( $this->check_dismissal_nonce() && $notif_id ) {
+
 			// Then save that we dismissed it
-			$this->save_dismissed_activation_message();
+			$this->save_dismissed_notification( $notif_id );
 		}
 
-		// Only show if not connected & it wasn't dismissed
-		if ( ! $this->was_activation_message_dismissed() && ! constant_contact()->api->is_connected() ) {
-			$this->activation_message();
+		// Get all our notifications
+		$notifications = $this->get_notifications();
+
+		foreach ( $notifications as $notif ) {
+			$this->maybe_show_notification( $notif );
 		}
 	}
 
 	/**
-	 * Checks our query args and nonce to make sure we should save the dismissal of the notice
+	 * Determines whether or not a specific notification should be show, and
+	 * shows it it it should be shown.
 	 *
 	 * @since   1.0.0
-	 * @return  boolean  should we dismiss and save?
+	 * @param   array  $notif  array of notification data
+	 * @return  mixed          false if not shown, nothing if shown
 	 */
-	public function should_message_be_dismissed_and_saved() {
+	public function maybe_show_notification( $notif ) {
 
-		// Check to make sure we got a dismissal ID
-		if ( ! $this->get_notification_dismissal_id() ) {
+		// If our notification isn't an array, skip it
+		if ( ! is_array( $notif ) ) {
+			return;
+		}
+
+		// Save our notification data to a helper var
+		$notif_id     = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
+		$callback     = isset( $notif['callback'] ) ? $notif['callback'] : false;
+		$require_cb   = isset( $notif['require_cb'] ) ? $notif['require_cb'] : false;
+
+		// If we don't have an ID or callback set, bail
+		if ( ! $notif_id || ! $callback ) {
+			return;
+		}
+
+		// Don't show if it was dismissed
+		if ( $this->was_notification_dismissed( $notif_id ) ) {
+			return;
+		}
+
+		// If we don have requirements set up for a notif, then check them
+		if ( $require_cb ) {
+
+			// Check to make sure the requirements defined for a notification evalulate to true
+			$requirements_passed = ( $this->check_requirements_callback_for_notif( $require_cb ) );
+
+			// If we didnt' pass, then return
+			if ( ! $requirements_passed ) {
+				return;
+			}
+		}
+
+		// If we cant call our notification callback, bail
+		if ( ! is_callable( $callback ) ) {
 			return false;
 		}
 
-		// If our nonce fails, then bail
-		if ( ! ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['ctct-dismiss'] ) ), 'ctct-user-is-dismissing' ) ) ) { // Input var okay.
-			return false;
-		}
+		// Get our notifictaion content from our callback
+		$notif_content = call_user_func( $callback );
 
-		return true;
+		$this->show_notice( $notif_content );
+
+		return;
+
 	}
 
-	public function get_notification_dismissal_id() {
+	/**
+	 * Call and return results of executing a callback for a notificaion
+	 *
+	 * @since   1.0.0
+	 * @param   mixed  $require_cb  valid callback
+	 * @return  boolean               boolean results of callback
+	 */
+	public function check_requirements_callback_for_notif( $require_cb ) {
+
+		// Make sure we can call our require callback
+		if ( is_callable( $require_cb ) ) {
+
+			// Call it
+			return ( call_user_func( $require_cb ) );
+		}
+
+		// Otherwise false
+		return false;
+	}
+
+	/**
+	 * Checks to see if we have a dismissal nonce, and if it is valid
+	 *
+	 * @since   1.0.0
+	 * @return  boolean  whether or not nonce is verified
+	 */
+	public function check_dismissal_nonce() {
+
+		// Double check that we have our nonce that we'll use
+		if ( ! isset( $_GET['ctct-dismiss'] ) ) {
+			return false;
+		}
+
+		// Save our nonce
+		$nonce = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss'] ) );
+
+		// If our nonce fails, then we don't want to dismiss it
+		return ( wp_verify_nonce( $nonce, 'ctct-user-is-dismissing' ) );
+	}
+
+	/**
+	 * Get the notice the user is attempting to dismiss
+	 *
+	 * @since   1.0.0
+	 * @return  mixed  false on failure, string of ID on success
+	 */
+	public function get_dismissal_id() {
 
 		// If we don't have our nonce action, bail
 		if ( ! isset( $_GET['ctct-dismiss'] ) ) { // Input var okay.
@@ -108,23 +213,116 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Was our activation message dismissed
-	 *
-	 * @since   1.0.0
-	 * @return  boolean
-	 */
-	public function was_activation_message_dismissed() {
-		return get_option( 'ctct_notices_dismissed' );
-	}
-
-	/**
 	 * Save the fact that the user dismissed our message, and don't show again
 	 *
 	 * @since   1.0.0
 	 * @return  boolean  if we updated correctly
 	 */
-	public function save_dismissed_activation_message() {
-		return update_option( 'ctct_notices_dismissed', true, true );
+	public function save_dismissed_notification( $key ) {
+
+		// Call our save option helper
+		return $this->save_dismissed_option( $key, true );
+	}
+
+	/**
+	 * Set a specific notificaion saved state to false
+	 *
+	 * @since   1.0.0
+	 * @param   strin  $key  ID of notificaion
+	 * @return  boolean      update succeeded?
+	 */
+	public function delete_dismissed_notification( $key ) {
+
+		// Call our save option helper
+		return $this->save_dismissed_option( $key, false );
+	}
+
+	/**
+	 * Get all saved dismissial states
+	 *
+	 * @since   1.0.0
+	 * @return  array  states of dismissial notices
+	 */
+	public function get_dismissed_options() {
+		return get_option( 'ctct_notices_dismissed' );
+	}
+
+	/**
+	 * Save all dismissed notices
+	 *
+	 * @since   1.0.0
+	 * @param   array  $options  array of dismissial states
+	 * @return  boolean          if updated
+	 */
+	public function save_dismissed_options( $options ) {
+		return update_option( 'ctct_notices_dismissed', $options, true );
+	}
+
+	/**
+	 * Save a single dismissal notice state
+	 *
+	 * @since   1.0.0
+	 * @param   string  $key    ID of notice
+	 * @param   string  $value  value to be saved to DB
+	 * @return  boolean         if saved or not
+	 */
+	public function save_dismissed_option( $key, $value ) {
+
+		// Get all of our options we have saved
+		$options = $this->get_dismissed_options();
+
+		// If for some reason, we didn't get an array, then clear it out
+		if ( ! is_array( $options ) ) {
+			$options = array();
+		}
+
+		// Save our keyed notification to be saved
+		$options[ esc_attr( $key ) ] = esc_attr( $value );
+
+		// Save all the options
+		return $this->save_dismissed_options( $options );
+	}
+
+	/**
+	 * Check to see if we've already dismissed a specific notificaion
+	 *
+	 * @since   1.0.0
+	 * @param   string  $key  notif ID
+	 * @return  boolean       if dismissed
+	 */
+	public function was_notification_dismissed( $key = '' ) {
+
+		// Get all our options
+		$option = $this->get_dismissed_option( $key );
+
+		// If we have 'true' or '1' saved, then its true
+		$is_true = ( ( 'true' === $option ) || ( '1' === $option ) );
+
+		// Cast to boolean and send it back
+		return ( $is_true ? true : false );
+	}
+
+	/**
+	 * Helper to get single option from our array of notif states
+	 *
+	 * @since   1.0.0
+	 * @param   string  $key  ID of notif state to get
+	 * @return  string        value in DB
+	 */
+	public function get_dismissed_option( $key = '' ) {
+
+		// Get all our dismissed notifications
+		$options = $this->get_dismissed_options();
+
+		// If we have the notification saved in our options array
+		if ( isset( $options[ esc_attr( $key ) ] ) ) {
+
+			// Return the option of whatever it is
+			return $options[ esc_attr( $key ) ];
+		}
+
+		// Otherwise, return false
+		return false;
 	}
 
 	/**
@@ -132,40 +330,61 @@ class ConstantContact_Notifications {
 	 *
 	 * @since   1.0.0
 	 */
-	public function activation_message() {
+	public function show_notice( $content = '' ) {
 
-		// Style it up
-		wp_enqueue_style(
-			'constant-contact-admin-notices',
-			constant_contact()->url() . 'assets/css/admin-notices.css',
-			array(),
-			constant_contact()->version
-		);
+		// If we don't have any content, bail
+		if ( ! $content ) {
+			return;
+		}
 
+		// Show our styles
+		$this->do_styles();
+
+		// Wrap our content in our markup
 		?>
 		<div id="ctct-admin-notice" class="ctct-admin-notice updated notice">
-				<p class="ctct-notice-intro">
-				<?php
-					printf(
-						esc_attr__( 'To take full advatage of the %s plugin, we recommend having an active Constant Contact account or an active free trial with Constant Contact.', 'constantcontact' ),
-						'<strong>' . esc_attr__( 'Constant Contact Forms' ) . '</strong>'
-					);
-				?>
-				</p>
-				<p>
-					<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" target="_blank" class="ctct-notice-button button-primary">
-						<?php esc_attr_e( 'Connect your account', 'constantcontact' ); ?>
-					</a>
-					<a href="https://www.constantcontact.com/" target="_blank" class="ctct-notice-button button-secondary">
-						<?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?>
-					</a>
-					<a class='ctct-notice-dismiss' href="<?php echo esc_url_raw( $this->get_activation_dismiss_url( 'activation' ) ); ?>">
-						<em><?php esc_attr_e( 'Dismiss this notice.', 'constantcontact' ); ?></em>
-					</a>
-				</p>
-			</p>
+			<?php echo $content; ?>
 		</div>
+		<?php
+	}
 
+	/**
+	 * Enqueue our admin notification styles
+	 *
+	 * @since   1.0.0
+	 */
+	public function do_styles() {
+
+		// Set our flag about notice being shown, so we don't re-enqueue styles
+		static $have_styles = false;
+
+		// If we haven't shown styles yet, enqueue em
+		if ( ! $have_styles ) {
+
+			// Style it up
+			wp_enqueue_style(
+				'constant-contact-admin-notices',
+				constant_contact()->url() . 'assets/css/admin-notices.css',
+				array(),
+				constant_contact()->version
+			);
+
+			// Set to true
+			$have_styles = true;
+		}
+	}
+
+	/**
+	 * Display our dismiss link for a notficaion
+	 *
+	 * @since   1.0.0
+	 * @param   string  $id  ID of notification
+	 */
+	public function do_dismiss_link( $notif_id ) {
+		?>
+		<a class='ctct-notice-dismiss' href="<?php echo esc_url_raw( $this->get_activation_dismiss_url( esc_attr( $notif_id ) ) ); ?>">
+			<em><?php esc_attr_e( 'Dismiss this notice.', 'constantcontact' ); ?></em>
+		</a>
 		<?php
 	}
 
@@ -183,5 +402,41 @@ class ConstantContact_Notifications {
 		// Also nonce it and return it
 		return wp_nonce_url( $link, 'ctct-user-is-dismissing', 'ctct-dismiss' );
 	}
+
+	/**
+	 * Display our notification content for our activation message
+	 *
+	 * @since   1.0.0
+	 */
+	public function get_notification_content_activation() {
+
+		// Start our output buffer
+		ob_start();
+
+		?>
+		<p class="ctct-notice-intro">
+			<?php
+				printf(
+					esc_attr__( 'To take full advatage of the %s plugin, we recommend having an active Constant Contact account or an active free trial with Constant Contact.', 'constantcontact' ),
+					'<strong>' . esc_attr__( 'Constant Contact Forms' ) . '</strong>'
+				);
+			?>
+			</p>
+			<p>
+				<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" target="_blank" class="ctct-notice-button button-primary">
+					<?php esc_attr_e( 'Connect your account', 'constantcontact' ); ?>
+				</a>
+				<a href="https://www.constantcontact.com/" target="_blank" class="ctct-notice-button button-secondary">
+					<?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?>
+				</a>
+				<?php $this->do_dismiss_link( 'activation' ); ?>
+			</p>
+		</p>
+		<?php
+
+		$output = ob_get_clean();
+		return $output;
+	}
+
 }
 
