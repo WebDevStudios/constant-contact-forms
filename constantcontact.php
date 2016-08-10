@@ -209,7 +209,7 @@ class Constant_Contact {
 			$this->admin_plugin_classes();
 		}
 
-	// Include our helper functions function for end-users
+		// Include our helper functions function for end-users
 		Constant_Contact::include_file( 'helper-functions', false );
 	}
 
