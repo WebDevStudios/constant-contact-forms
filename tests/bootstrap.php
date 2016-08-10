@@ -16,9 +16,9 @@ if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
 	$test_root = getenv( 'WP_DEVELOP_DIR' );
 } elseif ( false !== getenv( 'WP_TESTS_DIR' ) ) {
 	$test_root = getenv( 'WP_TESTS_DIR' );
-} else if ( file_exists( '../../../../tests/phpunit/includes/bootstrap.php' ) ) {
+} elseif ( file_exists( '../../../../tests/phpunit/includes/bootstrap.php' ) ) {
 	$test_root = '../../../../tests/phpunit';
-} else if ( file_exists( '/tmp/wordpress-tests-lib/includes/bootstrap.php' ) ) {
+} elseif ( file_exists( '/tmp/wordpress-tests-lib/includes/bootstrap.php' ) ) {
 	$test_root = '/tmp/wordpress-tests-lib';
 }
 require_once $test_root . '/includes/functions.php';

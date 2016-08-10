@@ -1,9 +1,9 @@
 <?php
 /**
- * Constant Contact Loader
+ * Constant Contact Main Plugin File
  *
- * @package ConstantContactLoader
- * @subpackage Loader
+ * @package ConstantContact
+ * @subpackage ConstantContact_Loader
  * @author Pluginize
  * @since 1.0.0
  */

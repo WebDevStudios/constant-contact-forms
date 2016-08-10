@@ -4,7 +4,7 @@
  * Also intercepts and helps with authentication to it.
  *
  * @package ConstantContact
- * @subpackage ConstantContact_Auth_Redirect
+ * @subpackage ConstantContact_AuthRedirect
  * @author Pluginize
  * @since 1.0.0
  */

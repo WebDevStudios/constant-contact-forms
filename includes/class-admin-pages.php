@@ -3,7 +3,7 @@
  * Powers Admin pages and activation message.
  *
  * @package ConstantContact
- * @subpackage ConstantContact_Admin_Pages
+ * @subpackage ConstantContact_AdminPages
  * @author Pluginize
  * @since 1.0.0
  */
