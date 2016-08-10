@@ -99,7 +99,7 @@ class ConstantContact_Display {
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
 			// If we were succesful, then display success message
-			if ( 'success' == $response['status'] ) {
+			if ( 'success' === $response['status'] ) {
 
 				// If we were successful, we'll return here so we don't display the entire form again
 				return $this->message( 'success', $response['message'] );
@@ -115,7 +115,7 @@ class ConstantContact_Display {
 		}
 
 		// If we got an error for our status, and we have an error message, display it.
-		if ( 'error' == $status || $error_message ) {
+		if ( 'error' === $status || $error_message ) {
 
 			if ( ! empty( $error_message ) ) {
 				// We'll show this error right inside our form
@@ -275,7 +275,7 @@ class ConstantContact_Display {
 
 		// We may have more than one of the same field in our array.
 		// this makes sure we keep them unique when processing them.
-		if ( 'submit' != $type ) {
+		if ( 'submit' !== $type ) {
 			$map = $map . '___' . md5( serialize( $field ) );
 		}
 
@@ -292,13 +292,13 @@ class ConstantContact_Display {
 				if ( isset( $error['id'] ) && isset( $error['error'] ) ) {
 
 					// If the error matches the field we're rendering
-					if ( $map == $error['id'] ) {
+					if ( $map === $error['id'] ) {
 
 						// Start our field error return
 						$field_error = '<span class="ctct-field-error">';
 
 						// Based on the error type, display an error.
-						if ( 'invalid' == $error['error'] ) {
+						if ( 'invalid' === $error['error'] ) {
 							 $field_error .= __( 'Error: Please correct your entry.', 'constantcontact' );
 						} else {
 							$field_error .= __( ' Error: Please fill out this field.', 'constantcontact' );
@@ -384,7 +384,7 @@ class ConstantContact_Display {
 			if ( isset( $post['key'] ) && $post['key'] ) {
 
 				// If we have an address, its a special case
-				if ( 'address' == $field['name'] ) {
+				if ( 'address' === $field['name'] ) {
 
 					// If any of our keys contain our address breaker, then add
 					// it to the array
@@ -395,15 +395,49 @@ class ConstantContact_Display {
 
 						// If we got something, add it to our return array
 						if ( isset( $addr_key[0] ) && $addr_key[0] ) {
-							$return[ esc_attr( $addr_key[0] ) ] = sanitize_text_field( $_POST[ esc_attr( $post['key'] ) ] );
+
+							// Set default
+							$post_key = '';
+
+							// Validate our data we're about to use
+							//
+							// We also flag PHPCS to ignore this line, as we get
+							// a nonce verification error, but we process the nonce
+							// quite a bit earlier than this
+							//
+							// @codingStandardsIgnoreLine
+							if ( isset( $_POST[ esc_attr( $post['key'] ) ] ) ) { // Input var okay.
+
+								// We also flag PHPCS to ignore this line, as we get
+								// a nonce verification error, but we process the nonce
+								// quite a bit earlier than this
+								//
+								// @codingStandardsIgnoreLine
+								$post_key = sanitize_text_field( wp_unslash( $_POST[ esc_attr( $post['key'] ) ] ) ); // Input var okay.
+							}
+
+							// Set our return data
+							$return[ esc_attr( $addr_key[0] ) ] = $post_key;
 						}
 					}
 
 					// Otherwise make sure we have a value
-				} elseif ( $post['key'] == $map && isset( $_POST[ esc_attr( $map ) ] ) ) {
+					//
+					// We also flag PHPCS to ignore this line, as we get
+					// a nonce verification error, but we process the nonce
+					// quite a bit earlier than this
+					//
+					// @codingStandardsIgnoreLine
+				} elseif ( $post['key'] === $map && isset( $_POST[ esc_attr( $map ) ] ) ) { // Input var okay.
 
 					// Clean and return
-					return sanitize_text_field( wp_unslash( $_POST[ esc_attr( $map ) ] ) );
+					//
+					// We also flag PHPCS to ignore this line, as we get
+					// a nonce verification error, but we process the nonce
+					// quite a bit earlier than this
+					//
+					// @codingStandardsIgnoreLine
+					return sanitize_text_field( wp_unslash( $_POST[ esc_attr( $map ) ] ) ); // Input var okay.
 				}
 			}
 		}
