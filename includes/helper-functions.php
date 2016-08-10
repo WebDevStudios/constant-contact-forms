@@ -8,6 +8,26 @@
  */
 
 /**
+ * Checks to see if a user is connected to Constant Contact or not
+ *
+ * @since   1.0.0
+ * @return  boolean  whether or not they are connected
+ */
+function constant_contact_is_connected() {
+	return constant_contact()->api->is_connected();
+}
+
+/**
+ * Checks to see if a user is not connected to Constant Contact or not
+ *
+ * @since   1.0.0
+ * @return  boolean  whether or not they are NOT connected
+ */
+function constant_contact_is_not_connected() {
+	return ! ( constant_contact()->api->is_connected() );
+}
+
+/**
  * Get a form's markup without using a shortcode
  *
  * @since   1.0.0
