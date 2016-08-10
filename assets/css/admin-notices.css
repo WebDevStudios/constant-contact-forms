@@ -1,23 +1,23 @@
-#ctct-activated-admin-notice {
+#ctct-admin-notice {
   padding: 1em 1em 0 1em;
 }
 
-#ctct-activated-admin-notice .ctct-activated-intro {
+#ctct-admin-notice .ctct-notice-intro {
   max-width: 600px;
   line-height: 1.5em;
 }
 
-#ctct-activated-admin-notice .ctct-activated-button,
-#ctct-activated-admin-notice .ctct-activated-button:active {
+#ctct-admin-notice .ctct-notice-button,
+#ctct-admin-notice .ctct-notice-button:active {
   vertical-align: middle;
   margin: .5em;
 }
 
-#ctct-activated-admin-notice .ctct-activated-dismiss {
+#ctct-admin-notice .ctct-notice-dismiss {
   padding-left: .5em;
   display: inline;
 }
 
-#ctct-activated-admin-notice .ctct-activated-dismiss a, #ctct-activated-admin-notice .ctct-activated-dismiss a.updated {
+#ctct-admin-notice .ctct-notice-dismiss a, #ctct-admin-notice .ctct-notice-dismiss a.updated {
   vertical-align: middle;
 }

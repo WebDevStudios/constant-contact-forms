@@ -169,6 +169,7 @@ class Constant_Contact {
 	private $process_form;
 	private $settings;
 	private $mail;
+	private $notifications;
 	private $authserver;
 
 	/**
@@ -233,6 +234,7 @@ class Constant_Contact {
 		$this->auth_redirect     = new ConstantContact_Auth_Redirect( $this );
 		$this->connect           = new ConstantContact_Connect( $this );
 		$this->mail              = new ConstantContact_Mail( $this );
+		$this->notifications     = new ConstantContact_Notifications( $this );
 		$this->authserver        = new ConstantContact_Middleware( $this );
 	}
 
@@ -460,6 +462,7 @@ class Constant_Contact {
 			case 'settings':
 			case 'url':
 			case 'mail':
+			case 'notifications':
 			case 'authserver':
 				return $this->$field;
 			default:

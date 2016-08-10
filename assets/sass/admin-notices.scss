@@ -1,19 +1,19 @@
-#ctct-activated-admin-notice {
+#ctct-admin-notice {
 
 	padding: 1em 1em 0 1em;
 
-	.ctct-activated-intro {
+	.ctct-notice-intro {
 		max-width: 600px;
 		line-height: 1.5em;
 	}
 
-	.ctct-activated-button,
-	.ctct-activated-button:active {
+	.ctct-notice-button,
+	.ctct-notice-button:active {
 		vertical-align: middle;
 		margin: .5em;
 	}
 
-	.ctct-activated-dismiss {
+	.ctct-notice-dismiss {
 		padding-left: .5em;
 		display: inline;
 
