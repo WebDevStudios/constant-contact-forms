@@ -191,7 +191,7 @@ class ConstantContact_CPTS {
 			2 => __( 'Custom field updated.', 'constantcontact' ),
 			3 => __( 'Custom field deleted.', 'constantcontact' ),
 			4 => __( 'List updated.', 'constantcontact' ),
-			5 => isset( $_GET['revision'] ) ? sprintf( __( 'List restored to revision from %s', 'constantcontact' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			5 => isset( $_GET['revision'] ) ? sprintf( __( 'List restored to revision from %s', 'constantcontact' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // Input var okay.
 			6 => __( 'List published.', 'constantcontact' ),
 			7 => __( 'List saved.', 'constantcontact' ),
 			8 => __( 'List submitted.', 'constantcontact' ),
@@ -205,7 +205,7 @@ class ConstantContact_CPTS {
 			2 => __( 'Custom field updated.', 'constantcontact' ),
 			3 => __( 'Custom field deleted.', 'constantcontact' ),
 			4 => __( 'Form updated.', 'constantcontact' ),
-			5 => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s', 'constantcontact' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			5 => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s', 'constantcontact' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,  // Input var okay.
 			6 => __( 'Form published.', 'constantcontact' ),
 			7 => __( 'Form saved.', 'constantcontact' ),
 			8 => __( 'Form submitted.', 'constantcontact' ),

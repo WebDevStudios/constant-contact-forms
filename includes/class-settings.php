@@ -175,7 +175,7 @@ class ConstantContact_Settings {
 		global $pagenow;
 
 		// Check if we're on edit.php, and if we're on our options page, cast to bool and return
-		return ( 'edit.php' == $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' == $_GET['page'] );
+		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' == $_GET['page'] );
 	}
 
 	/**
