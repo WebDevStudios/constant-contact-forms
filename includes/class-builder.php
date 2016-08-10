@@ -173,6 +173,7 @@ class ConstantContact_Builder {
 	 * @return void
 	 */
 	public function admin_notice() {
+
 		global $post;
 
 		// data verification
@@ -188,9 +189,10 @@ class ConstantContact_Builder {
 			// Check to see if we have an email set on our field
 			$has_email = get_post_meta( $post->ID, '_ctct_has_email_field', true );
 
+
 			// If we don't have an email, then display our admin notice to the user
 			if ( ! $has_email || 'false' === $has_email ) {
-				echo '<div class="notice notice-error"><p>';
+				echo '<div id="ctct-no-email-error" class="notice notice-error ctct-no-email-error"><p>';
 				esc_attr_e( 'Please add an email field to continue.', 'constantcontact' );
 				echo '</p></div>';
 			}

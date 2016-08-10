@@ -4,6 +4,11 @@ window.CTCTBuilder = {};
 	// Constructor.
 	that.init = function() {
 
+		// If we do actually have an email field set, then remove our error
+		if ( $( "#cmb2-metabox-ctct_2_fields_metabox option[value='email']:selected" ).length ) {
+			$( '#ctct-no-email-error' ).remove();
+		}
+
 		// Cache it all
 		that.cache();
 
@@ -106,6 +111,8 @@ window.CTCTBuilder = {};
 
     // When .cmb2_select <selects> get changed, do some actions
     that.selectBinds = function() {
+
+    	// For each fields select
     	$( '#cmb2-metabox-ctct_2_fields_metabox .cmb2_select' ).change( function() {
 
     		// Modify our fields
