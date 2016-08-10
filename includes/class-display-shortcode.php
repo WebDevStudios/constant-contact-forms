@@ -2,8 +2,8 @@
 /**
  * ConstantContact_Display_Shortcode class
  *
- * @package ConstantContact_Display_Shortcode
- * @subpackage ConstantContact
+ * @package ConstantContact
+ * @subpackage ConstantContact_Display_Shortcode
  * @author Pluginize
  * @since 1.0.0
  */

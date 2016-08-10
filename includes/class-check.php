@@ -2,8 +2,8 @@
 /**
  * ConstantContact_Check class
  *
- * @package ConstantContact_Check
- * @subpackage ConstantContact
+ * @package ConstantContact
+ * @subpackage ConstantContact_Check
  * @author Pluginize
  * @since 1.0.0
  */

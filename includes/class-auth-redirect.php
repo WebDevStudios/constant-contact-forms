@@ -2,8 +2,8 @@
 /**
  * ConstantContact_Auth_Redirect class
  *
- * @package ConstantContact_Auth_Redirect
- * @subpackage ConstantContact
+ * @package ConstantContact
+ * @subpackage ConstantContact_Auth_Redirect
  * @author Pluginize
  * @since 1.0.0
  */

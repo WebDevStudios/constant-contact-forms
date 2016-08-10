@@ -2,8 +2,8 @@
 /**
  * ConstantContact_Lists class
  *
- * @package ConstantContact_Lists
- * @subpackage ConstantContact
+ * @package ConstantContact
+ * @subpackage ConstantContact_Lists
  * @author Pluginize
  * @since 1.0.0
  */

@@ -1,4 +1,13 @@
 <?php
+
+/**
+ * Helper Functions
+ *
+ * @package ConstantContact
+ * @author Pluginize
+ * @since 1.0.0
+ */
+
 /**
  * Get a form's markup without using a shortcode
  *

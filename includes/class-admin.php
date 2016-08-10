@@ -2,8 +2,8 @@
 /**
  * ConstantContact_Admin class
  *
- * @package ConstantContact_Admin
- * @subpackage ConstantContact
+ * @package ConstantContact
+ * @subpackage ConstantContact_Admin
  * @author Pluginize
  * @since 1.0.0
  */

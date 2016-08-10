@@ -2,8 +2,8 @@
 /**
  * ConstantContact_Process_Form class
  *
- * @package ConstantContact_Process_Form
- * @subpackage ConstantContact
+ * @package ConstantContact
+ * @subpackage ConstantContact_Process_Form *
  * @author Pluginize
  * @since 1.0.0
  */

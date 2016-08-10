@@ -2,7 +2,8 @@
 /**
  * ConstantContact_Shortcode class
  *
- * @package ConstantContact_Shortcode
+ * @package ConstantContact
+ * @subpackage ConstantContact_Shortcode
  * @author Pluginize
  * @since 1.0.0
  */

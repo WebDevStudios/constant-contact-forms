@@ -2,8 +2,8 @@
 /**
  * ConstantContact_Middleware Class File.
  *
- * @package ConstantContact_Middleware
- * @subpackage ConstantContact
+ * @package ConstantContact
+ * @subpackage ConstantContact_Middleware *
  * @author Pluginize
  * @since 1.0.0
  */

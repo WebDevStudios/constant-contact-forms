@@ -2,7 +2,8 @@
 /**
  * ConstantContact_Builder form Builder Settings
  *
- * @package ConstantContact_Builder
+ * @package ConstantContact
+ * @subpackage ConstantContact_Builder
  * @author Pluginize
  * @since 1.0.0
  */

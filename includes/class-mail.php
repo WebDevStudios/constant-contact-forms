@@ -2,8 +2,8 @@
 /**
  * ConstantContact_Mail class
  *
- * @package ConstantContact_Mail
- * @subpackage ConstantContact
+ * @package ConstantContact
+ * @subpackage ConstantContact_Mail *
  * @author Pluginize
  * @since 1.0.0
  */
