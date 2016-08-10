@@ -54,13 +54,7 @@ class ConstantContact_Admin_Pages {
 	public function maybe_show_activation_message() {
 
 		// If we have our query args where we're attempting to dismiss the notice
-		if (
-			isset( $_GET['ctct-dismiss'] ) &&
-			isset( $_GET['ctct-activation-action'] ) &&
-			$_GET['ctct-activation-action'] &&
-			wp_verify_nonce( $_GET['ctct-dismiss'], 'ctct-user-is-dismissing' )
-		) {
-
+		if ( $this->should_message_be_dismissed_and_saved() ) {
 			// Then save that we dismissed it
 			$this->save_dismissed_activation_message();
 		}
@@ -69,6 +63,37 @@ class ConstantContact_Admin_Pages {
 		if ( ! $this->was_activation_message_dismissed() && ! constant_contact()->api->is_connected() ) {
 			$this->activation_message();
 		}
+	}
+
+	/**
+	 * Checks our query args and nonce to make sure we should save the dismissal of the notice
+	 *
+	 * @since   1.0.0
+	 * @return  boolean  should we dismiss and save?
+	 */
+	public function should_message_be_dismissed_and_saved() {
+
+		// If we don't have our nonce action, bail
+		if ( ! isset( $_GET['ctct-dismiss'] ) ) { // Input var okay.
+			return false;
+		}
+
+		// if we don't have our dismiss query arg, bail
+		if ( ! isset( $_GET['ctct-activation-action'] ) ) { // Input var okay.
+			return false;
+		}
+
+		// If we don't have an action set for our dismiss action, bail
+		if ( ! sanitize_text_field( wp_unslash( $_GET['ctct-activation-action'] ) ) ) { // Input var okay.
+			return false;
+		}
+
+		// If our nonce fails, then bail
+		if ( ! ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_GET['ctct-dismiss'] ) ), 'ctct-user-is-dismissing' ) ) ) { // Input var okay.
+			return false;
+		}
+
+		return true;
 	}
 
 	/**
@@ -340,7 +365,7 @@ class ConstantContact_Admin_Pages {
 					</div>
 				</div>
 				<span class="plugin-badge">
-					<img src="<?php echo $this->plugin->url . 'assets/images/icon.jpg'; ?>">
+					<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/icon.jpg' ); ?>">
 				</span>
 				<div class="clear"></div>
 				<hr>
@@ -363,7 +388,7 @@ class ConstantContact_Admin_Pages {
 				?>
 				<?php if ( ! $connected && $auth_link ) { // If we have a link, then display the connect button ?>
 					<h2><?php esc_attr_e( 'Already a Constant Contact account?', 'constantcontact' ); ?></h2>
-					<a href="<?php echo $auth_link ?>" class="button button-blue ctct-connect">
+					<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button button-blue ctct-connect">
 						<?php esc_html_e( 'Connect the plugin', 'constantcontact' ); ?>
 					</a>
 				<?php } ?>
@@ -371,7 +396,7 @@ class ConstantContact_Admin_Pages {
 			<div class="headline-feature">
 				<h3></h3>
 				<div class="featured-image">
-					<img src="<?php echo $this->plugin->url . 'assets/images/coffee-hero.jpg'; ?>">
+					<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/coffee-hero.jpg' ); ?>">
 					<p class="featured-title c-text">
 						<?php esc_attr_e( 'Powerful Email Marketing, Made Simple.', 'constantcontact' ); ?>
 					</p>
@@ -393,7 +418,7 @@ class ConstantContact_Admin_Pages {
 					<div class="ad-1">
 						<h3><?php esc_html_e( 'Easily Add Forms', 'constantcontact' ); ?></h3>
 						<img
-							src="<?php echo $this->plugin->url . 'assets/images/add-forms.png'; ?>"
+							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/add-forms.png' ); ?>"
 							alt="<?php echo esc_attr_x( 'add forms screenshot', 'add forms alt text', 'constantcontact' ); ?>"
 						/>
 						<p>
@@ -405,7 +430,7 @@ class ConstantContact_Admin_Pages {
 					<div class="ad-2">
 						<h3><?php esc_html_e( 'Stay Connected With Your WordPress Visitors', 'constantcontact' ); ?></h3>
 						<img
-							src="<?php echo $this->plugin->url . 'assets/images/stay-connected.png'; ?>"
+							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/stay-connected.png' ); ?>"
 							alt="<?php echo esc_attr_x( 'stay connected screenshot', 'stay connected alt text', 'constantcontact' ); ?>"
 						/>
 						<p>
