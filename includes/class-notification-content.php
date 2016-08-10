@@ -58,8 +58,19 @@ class ConstantContact_Notification_Content {
 		</p>
 		<?php
 
+		// Get our output and send it back
 		$output = ob_get_clean();
 		return $output;
+	}
+
+	/**
+	 * Sample update notification for updating to 1.0.1
+	 *
+	 * @since   1.0.0
+	 * @return  string    notification text
+	 */
+	public static function v1_0_1() {
+		// return __( 'Welcome to v1.0.1 of Constant Contact.', 'constantcontact' );
 	}
 }
 

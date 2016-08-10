@@ -61,6 +61,16 @@ class ConstantContact_Notifications {
 	}
 
 	/**
+	 * Get our update notifications from our update class
+	 *
+	 * @since   1.0.0
+	 * @return  array  update notifications we should surface
+	 */
+	public function get_update_notifications() {
+		return get_option( 'ctct_update_notifications', array() );
+	}
+
+	/**
 	 * Depending on if we should or shouldn't show our activation message, queue it up
 	 *
 	 * @since   1.0.0
@@ -80,6 +90,11 @@ class ConstantContact_Notifications {
 
 		// Get all our notifications
 		$notifications = $this->get_notifications();
+		$update_notifications = $this->get_update_notifications();
+
+		if ( is_array( $notifications ) && is_array( $update_notifications ) ) {
+			$notifications = array_merge( $notifications, $update_notifications );
+		}
 
 		foreach ( $notifications as $notif ) {
 			$this->maybe_show_notification( $notif );
@@ -344,7 +359,7 @@ class ConstantContact_Notifications {
 		?>
 		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
 			<?php echo $content; ?>
-			<?php constant_contact()->notifications->do_dismiss_link( 'activation' ); ?>
+			<?php constant_contact()->notifications->do_dismiss_link( esc_attr( $key ) ); ?>
 		</div>
 		<?php
 	}

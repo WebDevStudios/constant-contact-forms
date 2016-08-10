@@ -172,6 +172,7 @@ class Constant_Contact {
 	private $notifications;
 	private $notification_content;
 	private $authserver;
+	private $updates;
 
 	/**
 	 * Creates or returns an instance of this class.
@@ -238,6 +239,7 @@ class Constant_Contact {
 		$this->notifications        = new ConstantContact_Notifications( $this );
 		$this->notification_content = new ConstantContact_Notification_Content( $this );
 		$this->authserver           = new ConstantContact_Middleware( $this );
+		$this->updates              = new ConstantContact_Updates( $this );
 	}
 
 	/**
@@ -467,6 +469,7 @@ class Constant_Contact {
 			case 'notifications':
 			case 'notification_content':
 			case 'authserver':
+			case 'updates':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
