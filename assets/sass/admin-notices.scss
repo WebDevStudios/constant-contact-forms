@@ -7,12 +7,19 @@
 		line-height: 1.5em;
 	}
 
-	.ctct-activated-button {
+	.ctct-activated-button,
+	.ctct-activated-button:active {
+		vertical-align: middle;
 		margin: .5em;
 	}
 
 	.ctct-activated-dismiss {
 		padding-left: .5em;
-		vertical-align: middle;
+		display: inline;
+
+		a, a.updated {
+			vertical-align: middle;
+		}
+
 	}
 }

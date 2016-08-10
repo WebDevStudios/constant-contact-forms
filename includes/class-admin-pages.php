@@ -141,16 +141,15 @@ class ConstantContact_Admin_Pages {
 				?>
 				</p>
 				<p>
-					<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" target="_blank" class="ctct-activated-button button-primary"><?php esc_attr_e( 'Connect your account', 'constantcontact' ); ?></a>
-					<a href="https://www.constantcontact.com/" target="_blank" class="ctct-activated-button button-secondary"><?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?></a>
-
-					<sub  class='ctct-activated-dismiss'>
-						<em>
-							<a href="<?php echo esc_url_raw( $this->get_activation_dismiss_url() ); ?>">
-								<?php esc_attr_e( 'Dismiss this notice.', 'constantcontact' ); ?>
-							</a>
-						</em>
-					</sub>
+					<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" target="_blank" class="ctct-activated-button button-primary">
+						<?php esc_attr_e( 'Connect your account', 'constantcontact' ); ?>
+					</a>
+					<a href="https://www.constantcontact.com/" target="_blank" class="ctct-activated-button button-secondary">
+						<?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?>
+					</a>
+					<a class='ctct-activated-dismiss' href="<?php echo esc_url_raw( $this->get_activation_dismiss_url() ); ?>">
+						<em><?php esc_attr_e( 'Dismiss this notice.', 'constantcontact' ); ?></em>
+					</a>
 				</p>
 			</p>
 		</div>

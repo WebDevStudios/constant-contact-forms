@@ -7,11 +7,17 @@
   line-height: 1.5em;
 }
 
-#ctct-activated-admin-notice .ctct-activated-button {
+#ctct-activated-admin-notice .ctct-activated-button,
+#ctct-activated-admin-notice .ctct-activated-button:active {
+  vertical-align: middle;
   margin: .5em;
 }
 
 #ctct-activated-admin-notice .ctct-activated-dismiss {
   padding-left: .5em;
+  display: inline;
+}
+
+#ctct-activated-admin-notice .ctct-activated-dismiss a, #ctct-activated-admin-notice .ctct-activated-dismiss a.updated {
   vertical-align: middle;
 }
