@@ -21,6 +21,12 @@
  */
 
 /**
+ * Looking to extend this plugin at all? There are a series of helper
+ * functions in includes/helper-functions.php for you to use. There are also
+ * filters throughout the plugin, to customize most areas.
+ */
+
+/**
  * Copyright (c) 2016 Constant Contact (email : contact@constantcontact.com)
  *
  * This program is free software; you can redistribute it and/or modify
