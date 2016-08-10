@@ -533,5 +533,7 @@ function constant_contact_display_form( $form_id ) {
 
 // Kick it off.
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
-register_activation_hook( __FILE__, array( constant_contact(), '_activate' ) );
-register_deactivation_hook( __FILE__, array( constant_contact(), '_deactivate' ) );
+
+// Hook in Activation / Deactivation hooks
+register_activation_hook( __FILE__ , array( constant_contact(), '_activate' ) );
+register_deactivation_hook( __FILE__ , array( constant_contact(), '_deactivate' ) );
