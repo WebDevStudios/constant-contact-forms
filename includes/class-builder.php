@@ -263,7 +263,7 @@ class ConstantContact_Builder {
 
 		// If we have a post title set, use that for our modal
 		if ( isset( $post->post_title ) ) {
-			return '<strong>' . esc_attr( $post->post_title ) . '</strong>';
+			return esc_attr( $post->post_title );
 		}
 	}
 
@@ -285,7 +285,7 @@ class ConstantContact_Builder {
 						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
 						<h2><?php esc_attr_e( 'Congratulations on your first form!', 'constantcontact' ); ?></h2>
 						<p>
-						<?php printf( esc_html__( 'Now, how do you want to manage your %s form contacts?', 'constantcontact' ), esc_attr( $this->get_form_name_markup_for_modal() ) ); ?>
+						<?php printf( esc_html__( 'Now, how do you want to manage your %s form contacts?', 'constantcontact' ), '<strong>' . esc_attr( $this->get_form_name_markup_for_modal() ) . '</strong>' ); ?>
 						</p>
 					</div>
 					<div class="ctct-modal-body">
