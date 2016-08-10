@@ -1,7 +1,6 @@
 <?php
-
 /**
- * Helper Functions
+ * Helper Functions for end-users to leverage when building themes or plugins.
  *
  * @package ConstantContact
  * @author Pluginize

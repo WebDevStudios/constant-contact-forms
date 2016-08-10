@@ -1,6 +1,6 @@
 <?php
 /**
- * ConstantContact_Settings
+ * Powers our settings and options page, as well as injecting our optins to the front-end.
  *
  * @package ConstantContact
  * @subpackage ConstantContact_Settings

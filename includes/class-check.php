@@ -1,6 +1,6 @@
 <?php
 /**
- * ConstantContact_Check class
+ * Helper class to allow for checking and displaying server status.
  *
  * @package ConstantContact
  * @subpackage ConstantContact_Check

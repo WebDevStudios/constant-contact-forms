@@ -1,9 +1,10 @@
 <?php
 /**
- * ConstantContact_Shortcode_Admin
+ * Extends WDS_Shortcode_Admin to add our shortcode into a pretty shortcode picker in the editor.
  *
- * @package	ConstantContact_Shortcode_Admin
- * @author	 Pluginize
+ * @package	ConstantContact
+ * @subpackage ConstantContact_Shortcode
+ * @author Pluginize
  * @since 1.0.0
  */
 

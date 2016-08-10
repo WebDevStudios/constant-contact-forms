@@ -1,9 +1,9 @@
 <?php
 /**
- * ConstantContact_Middleware Class File.
+ * Powers our OAuth connection to the middleware Constant Contact server.
  *
  * @package ConstantContact
- * @subpackage ConstantContact_Middleware *
+ * @subpackage ConstantContact_Middleware
  * @author Pluginize
  * @since 1.0.0
  */

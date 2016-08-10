@@ -1,9 +1,9 @@
 <?php
 /**
- * ConstantContact_Process_Form class
+ * Powers our form processing, validation, and value cleanup.
  *
  * @package ConstantContact
- * @subpackage ConstantContact_Process_Form *
+ * @subpackage ConstantContact_Process_Form
  * @author Pluginize
  * @since 1.0.0
  */

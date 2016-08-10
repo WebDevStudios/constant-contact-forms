@@ -1,6 +1,6 @@
 <?php
 /**
- * ConstantContact_API class
+ * Powers connection between site and Constant Contact API.
  *
  * @package ConstantContact
  * @subpackage ConstantContact_API

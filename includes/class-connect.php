@@ -1,6 +1,6 @@
 <?php
 /**
- * ConstantContact_Connect
+ * Powers our admin connect page, as well as misc functionality around connecting to Constant Contact.
  *
  * @package ConstantContact
  * @subpackage ConstantContact_Connect

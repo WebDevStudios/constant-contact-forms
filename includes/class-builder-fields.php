@@ -1,6 +1,6 @@
 <?php
 /**
- * ConstantContact_Builder_Fields form Builder Settings
+ * Helper class for dealing with our form builder field functionality.
  *
  * @package ConstantContact
  * @subpackage ConstantContact_Builder_Fields

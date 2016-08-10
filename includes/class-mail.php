@@ -1,9 +1,9 @@
 <?php
 /**
- * ConstantContact_Mail class
+ * Wrapper functions for mailing successful contact forms to the user.
  *
  * @package ConstantContact
- * @subpackage ConstantContact_Mail *
+ * @subpackage ConstantContact_Mail
  * @author Pluginize
  * @since 1.0.0
  */

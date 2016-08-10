@@ -1,6 +1,6 @@
 <?php
 /**
- * ConstantContact_Shortcode class
+ * Extends WDS_Shortcodes to easily build up our shortcode.
  *
  * @package ConstantContact
  * @subpackage ConstantContact_Shortcode

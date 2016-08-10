@@ -1,6 +1,6 @@
 <?php
 /**
- * ConstantContact_Admin_Pages class
+ * Powers Admin pages and activation message.
  *
  * @package ConstantContact
  * @subpackage ConstantContact_Admin_Pages

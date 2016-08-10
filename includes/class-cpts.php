@@ -1,6 +1,6 @@
 <?php
 /**
- * ConstantContact_Forms_CPT Class File.
+ * Powers our custom post types.
  *
  * @package ConstantContact
  * @subpackage ConstantContact_CPTS

@@ -1,6 +1,6 @@
 <?php
 /**
- * ConstantContact_Admin class
+ * Powers admin options pages, customized display for plugin listing, and admin scripts.
  *
  * @package ConstantContact
  * @subpackage ConstantContact_Admin

@@ -1,6 +1,6 @@
 <?php
 /**
- * ConstantContact_Display_Shortcode class
+ * Helper class that gets called to display our stuff on the front-end via a shortcode.
  *
  * @package ConstantContact
  * @subpackage ConstantContact_Display_Shortcode

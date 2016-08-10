@@ -1,6 +1,6 @@
 <?php
 /**
- * ConstantContact_Lists class
+ * Powers Lists functionality, creation, deletion, syncing, and more.
  *
  * @package ConstantContact
  * @subpackage ConstantContact_Lists
