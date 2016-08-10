@@ -364,6 +364,62 @@ class Constant_Contact {
 	}
 
 	/**
+	 * Checks to see if the server will support encryption functionality
+	 *
+	 * @since  1.0.0
+	 * @return boolean if we should load/use the encryption libraries
+	 */
+	public function is_encryption_ready() {
+
+		// Make sure we have our openssl libraries
+		if ( ! function_exists( 'openssl_encrypt' ) || ! function_exists( 'openssl_decrypt' ) ) {
+			return false;
+		}
+
+		// Check to make sure we dont' get any exceptions when laoding the c
+		if ( ! $this->check_crypto_class() ) {
+			return false;
+		}
+
+		// We should be good
+		return true;
+	}
+
+	/**
+	 * Helper method to check our crypto clases
+	 *
+	 * @since  1.0.0
+	 * @return boolean if we can encrpyt or not
+	 */
+	public function check_crypto_class() {
+
+		try {
+			$return = false;
+			$this->load_libs( true );
+
+			// If we have the Runtime test class
+			if ( class_exists( 'Defuse\Crypto\RuntimeTests' ) ) {
+
+				// If we have our Crpyto class, we'll run the included
+				// runtime tests and see if we get the correct response.
+				$tests = new Defuse\Crypto\RuntimeTests;
+				$tests = $tests->runtimeTest();
+				$return = true;
+			}
+		} catch ( Exception $exception ) {
+
+			// If we caught an exception of some kind, then we're not able
+			// to use this library
+			if ( $exception ) {
+				$return = false;
+			}
+		}
+
+		// Send back if we can or can't use the library
+		return $return;
+	}
+
+	/**
 	 * Magic getter for our object.
 	 *
 	 * @since  1.0.0
@@ -440,63 +496,6 @@ class Constant_Contact {
 		static $url;
 		$url = $url ? $url : trailingslashit( plugin_dir_url( __FILE__ ) );
 		return $url . $path;
-	}
-
-	/**
-	 * Checks to see if the server will support encryption functionality
-	 *
-	 * @since  1.0.0
-	 * @return boolean if we should load/use the encryption libraries
-	 */
-	public function is_encryption_ready() {
-
-		// Make sure we have our openssl libraries
-		if ( ! function_exists( 'openssl_encrypt' ) || ! function_exists( 'openssl_decrypt' ) ) {
-			return false;
-		}
-
-		// Check to make sure we dont' get any exceptions when laoding the c
-		if ( ! $this->check_crypto_class() ) {
-			return false;
-		}
-
-		// We should be good
-		return true;
-
-	}
-
-	/**
-	 * Helper method to check our crypto clases
-	 *
-	 * @since  1.0.0
-	 * @return boolean if we can encrpyt or not
-	 */
-	public function check_crypto_class() {
-
-		try {
-			$return = false;
-			$this->load_libs( true );
-
-			// If we have the Runtime test class
-			if ( class_exists( 'Defuse\Crypto\RuntimeTests' ) ) {
-
-				// If we have our Crpyto class, we'll run the included
-				// runtime tests and see if we get the correct response.
-				$tests = new Defuse\Crypto\RuntimeTests;
-				$tests = $tests->runtimeTest();
-				$return = true;
-			}
-		} catch ( Exception $exception ) {
-
-			// If we caught an exception of some kind, then we're not able
-			// to use this library
-			if ( $exception ) {
-				$return = false;
-			}
-		}
-
-		// Send back if we can or can't use the library
-		return $return;
 	}
 }
 
