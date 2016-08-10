@@ -196,7 +196,7 @@ class ConstantContact_Builder {
 			}
 
 			// Check for our query arg
-			if ( isset( $_GET['ctct_not_connected'] ) && $_GET['ctct_not_connected'] ) {
+			if ( isset( $_GET['ctct_not_connected'] ) && sanitize_text_field( wp_unslash( $_GET['ctct_not_connected'] ) ) ) { //Input var okay.
 
 				// Double check that we're not connected
 				if ( ! constant_contact()->api->is_connected() ) {
@@ -283,14 +283,14 @@ class ConstantContact_Builder {
 						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
 						<h2><?php esc_attr_e( 'Congratulations on your first form!', 'constantcontact' ); ?></h2>
 						<p>
-						<?php printf( esc_html__( 'Now, how do you want to manage your %s form contacts?', 'constantcontact' ), $this->get_form_name_markup_for_modal() ); ?>
+						<?php printf( esc_html__( 'Now, how do you want to manage your %s form contacts?', 'constantcontact' ), esc_attr( $this->get_form_name_markup_for_modal() ) ); ?>
 						</p>
 					</div>
 					<div class="ctct-modal-body">
 						<div class="ctct-modal-left">
 							<img
 								class="ctct-modal-flare"
-								src="<?php echo $this->plugin->url . 'assets/images/question-mail.png'; ?>"
+								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail.png' ); ?>"
 								alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constantcontact' ); ?>"
 							/>
 							<h3><?php esc_attr_e( 'Try email marketing.', 'constantcontact' ); ?></h3>
@@ -300,14 +300,14 @@ class ConstantContact_Builder {
 							<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
 							<img
 								class="flare"
-								src="<?php echo $this->plugin->url . 'assets/images/cc-modal-logo.png'; ?>"
+								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-modal-logo.png' ); ?>"
 								alt="<?php esc_attr_e( 'Constant Contact', 'constantcontact' ); ?>"
 							/>
 						</div>
 						<div class="ctct-modal-right">
 							<img
 								class="ctct-modal-flare"
-								src="<?php echo $this->plugin->url . 'assets/images/cc-login.png'; ?>"
+								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login.png' ); ?>"
 								alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constantcontact' ); ?>"
 							/>
 							<h3><?php esc_attr_e( 'Connect my account.', 'constantcontact' ); ?></h3>
