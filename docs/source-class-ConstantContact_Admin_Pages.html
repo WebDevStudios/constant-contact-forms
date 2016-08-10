@@ -96,6 +96,18 @@
 
 						</li>
 				<li>
+					<a href="package-ConstantContact.Notifications.html">
+						Notifications<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="package-ConstantContact.Notifications.Content.html">
+						Content					</a>
+
+						</li>
+							</ul></li>
+				<li>
 					<a href="package-ConstantContact.ProcessForm.html">
 						ProcessForm					</a>
 
@@ -124,6 +136,11 @@
 				<li>
 					<a href="package-ConstantContact.Tests.Admin.html">
 						Admin					</a>
+
+						</li>
+				<li>
+					<a href="package-ConstantContact.Tests.AdminPages.html">
+						AdminPages					</a>
 
 						</li>
 				<li>
@@ -202,6 +219,16 @@
 
 						</li>
 				<li>
+					<a href="package-ConstantContact.Tests.NotificationContent.html">
+						NotificationContent					</a>
+
+						</li>
+				<li>
+					<a href="package-ConstantContact.Tests.Notifications.html">
+						Notifications					</a>
+
+						</li>
+				<li>
 					<a href="package-ConstantContact.Tests.ProcessForm.html">
 						ProcessForm					</a>
 
@@ -221,12 +248,18 @@
 						ShortcodeAdmin					</a>
 
 						</li>
-							</ul></li></ul></li>
 				<li>
-					<a href="package-None.html">
-						None					</a>
+					<a href="package-ConstantContact.Tests.Updates.html">
+						Updates					</a>
 
 						</li>
+							</ul></li>
+				<li>
+					<a href="package-ConstantContact.Updates.html">
+						Updates					</a>
+
+						</li>
+							</ul></li>
 				<li>
 					<a href="package-PHP.html">
 						PHP					</a>
@@ -271,6 +304,10 @@
 				<li><a href="class-ConstantContact_Mail_Test.html">ConstantContact_Mail_Test</a></li>
 				<li><a href="class-ConstantContact_Middleware.html">ConstantContact_Middleware</a></li>
 				<li><a href="class-ConstantContact_Middleware_Test.html">ConstantContact_Middleware_Test</a></li>
+				<li><a href="class-ConstantContact_Notification_Content.html">ConstantContact_Notification_Content</a></li>
+				<li><a href="class-ConstantContact_Notification_Content_Test.html">ConstantContact_Notification_Content_Test</a></li>
+				<li><a href="class-ConstantContact_Notifications.html">ConstantContact_Notifications</a></li>
+				<li><a href="class-ConstantContact_Notifications_Test.html">ConstantContact_Notifications_Test</a></li>
 				<li><a href="class-ConstantContact_Process_Form.html">ConstantContact_Process_Form</a></li>
 				<li><a href="class-ConstantContact_Process_Form_Test.html">ConstantContact_Process_Form_Test</a></li>
 				<li><a href="class-ConstantContact_Settings.html">ConstantContact_Settings</a></li>
@@ -279,6 +316,8 @@
 				<li><a href="class-ConstantContact_Shortcode_Admin.html">ConstantContact_Shortcode_Admin</a></li>
 				<li><a href="class-ConstantContact_Shortcode_Admin_Test.html">ConstantContact_Shortcode_Admin_Test</a></li>
 				<li><a href="class-ConstantContact_Shortcode_Test.html">ConstantContact_Shortcode_Test</a></li>
+				<li><a href="class-ConstantContact_Updates.html">ConstantContact_Updates</a></li>
+				<li><a href="class-ConstantContact_Updates_Test.html">ConstantContact_Updates_Test</a></li>
 			</ul>
 
 
@@ -297,6 +336,8 @@
 				<li><a href="function-constant_contact_display_form.html">constant_contact_display_form</a></li>
 				<li><a href="function-constant_contact_get_form.html">constant_contact_get_form</a></li>
 				<li><a href="function-constant_contact_get_forms.html">constant_contact_get_forms</a></li>
+				<li><a href="function-constant_contact_is_connected.html">constant_contact_is_connected</a></li>
+				<li><a href="function-constant_contact_is_not_connected.html">constant_contact_is_not_connected</a></li>
 				<li><a href="function-constantcontact_api.html">constantcontact_api</a></li>
 				<li><a href="function-constantcontact_get_option.html">constantcontact_get_option</a></li>
 				<li><a href="function-ctct_get_settings_option.html">ctct_get_settings_option</a></li>
@@ -384,386 +425,280 @@
 </span><span id="40" class="l"><a href="#40"> 40: </a>
 </span><span id="41" class="l"><a href="#41"> 41: </a>        <span class="php-comment">// Add our styles to the site</span>
 </span><span id="42" class="l"><a href="#42"> 42: </a>        add_action( <span class="php-quote">'admin_init'</span>, <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'styles'</span> ) );
-</span><span id="43" class="l"><a href="#43"> 43: </a>
-</span><span id="44" class="l"><a href="#44"> 44: </a>        <span class="php-comment">// Add activation message</span>
-</span><span id="45" class="l"><a href="#45"> 45: </a>        add_action( <span class="php-quote">'admin_notices'</span>, <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'maybe_show_activation_message'</span> ) );
-</span><span id="46" class="l"><a href="#46"> 46: </a>
-</span><span id="47" class="l"><a href="#47"> 47: </a>    }
-</span><span id="48" class="l"><a href="#48"> 48: </a>
-</span><span id="49" class="l"><a href="#49"> 49: </a>    <span class="php-comment">/**
-</span></span><span id="50" class="l"><a href="#50"> 50: </a><span class="php-comment">     * Depending on if we should or shouldn't show our activation message, queue it up
-</span></span><span id="51" class="l"><a href="#51"> 51: </a><span class="php-comment">     *
-</span></span><span id="52" class="l"><a href="#52"> 52: </a><span class="php-comment">     * @since   1.0.0
-</span></span><span id="53" class="l"><a href="#53"> 53: </a><span class="php-comment">     */</span>
-</span><span id="54" class="l"><a href="#54"> 54: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> maybe_show_activation_message() {
-</span><span id="55" class="l"><a href="#55"> 55: </a>
-</span><span id="56" class="l"><a href="#56"> 56: </a>        <span class="php-comment">// If we have our query args where we're attempting to dismiss the notice</span>
-</span><span id="57" class="l"><a href="#57"> 57: </a>        <span class="php-keyword1">if</span> (
-</span><span id="58" class="l"><a href="#58"> 58: </a>            <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'ctct-dismiss'</span>] ) &amp;&amp;
-</span><span id="59" class="l"><a href="#59"> 59: </a>            <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'ctct-activation-action'</span>] ) &amp;&amp;
-</span><span id="60" class="l"><a href="#60"> 60: </a>            <span class="php-var">$_GET</span>[<span class="php-quote">'ctct-activation-action'</span>] &amp;&amp;
-</span><span id="61" class="l"><a href="#61"> 61: </a>            wp_verify_nonce( <span class="php-var">$_GET</span>[<span class="php-quote">'ctct-dismiss'</span>], <span class="php-quote">'ctct-user-is-dismissing'</span> )
-</span><span id="62" class="l"><a href="#62"> 62: </a>        ) {
-</span><span id="63" class="l"><a href="#63"> 63: </a>
-</span><span id="64" class="l"><a href="#64"> 64: </a>            <span class="php-comment">// Then save that we dismissed it</span>
-</span><span id="65" class="l"><a href="#65"> 65: </a>            <span class="php-var">$this</span>-&gt;save_dismissed_activation_message();
-</span><span id="66" class="l"><a href="#66"> 66: </a>        }
-</span><span id="67" class="l"><a href="#67"> 67: </a>
-</span><span id="68" class="l"><a href="#68"> 68: </a>        <span class="php-comment">// Only show if not connected &amp; it wasn't dismissed</span>
-</span><span id="69" class="l"><a href="#69"> 69: </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$this</span>-&gt;was_activation_message_dismissed() &amp;&amp; ! constant_contact()-&gt;api-&gt;is_connected() ) {
-</span><span id="70" class="l"><a href="#70"> 70: </a>            <span class="php-var">$this</span>-&gt;activation_message();
-</span><span id="71" class="l"><a href="#71"> 71: </a>        }
-</span><span id="72" class="l"><a href="#72"> 72: </a>    }
-</span><span id="73" class="l"><a href="#73"> 73: </a>
-</span><span id="74" class="l"><a href="#74"> 74: </a>    <span class="php-comment">/**
-</span></span><span id="75" class="l"><a href="#75"> 75: </a><span class="php-comment">     * Was our activation message dismissed
-</span></span><span id="76" class="l"><a href="#76"> 76: </a><span class="php-comment">     *
-</span></span><span id="77" class="l"><a href="#77"> 77: </a><span class="php-comment">     * @since   1.0.0
-</span></span><span id="78" class="l"><a href="#78"> 78: </a><span class="php-comment">     * @return  boolean
-</span></span><span id="79" class="l"><a href="#79"> 79: </a><span class="php-comment">     */</span>
-</span><span id="80" class="l"><a href="#80"> 80: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> was_activation_message_dismissed() {
-</span><span id="81" class="l"><a href="#81"> 81: </a>        <span class="php-keyword1">return</span> get_option( <span class="php-quote">'ctct_notices_dismissed'</span> );
-</span><span id="82" class="l"><a href="#82"> 82: </a>    }
-</span><span id="83" class="l"><a href="#83"> 83: </a>
-</span><span id="84" class="l"><a href="#84"> 84: </a>    <span class="php-comment">/**
-</span></span><span id="85" class="l"><a href="#85"> 85: </a><span class="php-comment">     * Save the fact that the user dismissed our message, and don't show again
-</span></span><span id="86" class="l"><a href="#86"> 86: </a><span class="php-comment">     *
-</span></span><span id="87" class="l"><a href="#87"> 87: </a><span class="php-comment">     * @since   1.0.0
-</span></span><span id="88" class="l"><a href="#88"> 88: </a><span class="php-comment">     * @return  boolean  if we updated correctly
-</span></span><span id="89" class="l"><a href="#89"> 89: </a><span class="php-comment">     */</span>
-</span><span id="90" class="l"><a href="#90"> 90: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> save_dismissed_activation_message() {
-</span><span id="91" class="l"><a href="#91"> 91: </a>        <span class="php-keyword1">return</span> update_option( <span class="php-quote">'ctct_notices_dismissed'</span>, <span class="php-keyword1">true</span>, <span class="php-keyword1">true</span> );
-</span><span id="92" class="l"><a href="#92"> 92: </a>    }
-</span><span id="93" class="l"><a href="#93"> 93: </a>
-</span><span id="94" class="l"><a href="#94"> 94: </a>    <span class="php-comment">/**
-</span></span><span id="95" class="l"><a href="#95"> 95: </a><span class="php-comment">     * Displays a fancy activation message to the user
-</span></span><span id="96" class="l"><a href="#96"> 96: </a><span class="php-comment">     *
-</span></span><span id="97" class="l"><a href="#97"> 97: </a><span class="php-comment">     * @since   1.0.0
-</span></span><span id="98" class="l"><a href="#98"> 98: </a><span class="php-comment">     */</span>
-</span><span id="99" class="l"><a href="#99"> 99: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> activation_message() {
-</span><span id="100" class="l"><a href="#100">100: </a>
-</span><span id="101" class="l"><a href="#101">101: </a>        wp_enqueue_style(
-</span><span id="102" class="l"><a href="#102">102: </a>            <span class="php-quote">'constant-contact-admin-notices'</span>,
-</span><span id="103" class="l"><a href="#103">103: </a>            constant_contact()-&gt;url() . <span class="php-quote">'assets/css/admin-notices.css'</span>,
-</span><span id="104" class="l"><a href="#104">104: </a>            <span class="php-keyword1">array</span>(),
-</span><span id="105" class="l"><a href="#105">105: </a>            constant_contact()-&gt;version
-</span><span id="106" class="l"><a href="#106">106: </a>        );
-</span><span id="107" class="l"><a href="#107">107: </a>
-</span><span id="108" class="l"><a href="#108">108: </a>        <span class="xlang">?&gt;</span>
-</span><span id="109" class="l"><a href="#109">109: </a>        &lt;div id=<span class="php-quote">&quot;ctct-activated-admin-notice&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-activated-admin-notice updated notice&quot;</span>&gt;
-</span><span id="110" class="l"><a href="#110">110: </a>                &lt;p <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-activated-intro&quot;</span>&gt;
-</span><span id="111" class="l"><a href="#111">111: </a>                <span class="xlang">&lt;?php</span>
-</span><span id="112" class="l"><a href="#112">112: </a>                    <span class="php-keyword2">printf</span>(
-</span><span id="113" class="l"><a href="#113">113: </a>                        esc_attr__( <span class="php-quote">'To take full advatage of the %s plugin, we recommend having an active Constant Contact account or an active free trial with Constant Contact.'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="114" class="l"><a href="#114">114: </a>                        <span class="php-quote">'&lt;strong&gt;'</span> . esc_attr__( <span class="php-quote">'Constant Contact Forms'</span> ) . <span class="php-quote">'&lt;/strong&gt;'</span>
-</span><span id="115" class="l"><a href="#115">115: </a>                    );
-</span><span id="116" class="l"><a href="#116">116: </a>                <span class="xlang">?&gt;</span>
-</span><span id="117" class="l"><a href="#117">117: </a>                &lt;/p&gt;
-</span><span id="118" class="l"><a href="#118">118: </a>                &lt;p&gt;
-</span><span id="119" class="l"><a href="#119">119: </a>                    &lt;a href=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( constant_contact()-&gt;api-&gt;get_connect_link() ); ?&gt;&quot;</span> target=<span class="php-quote">&quot;_blank&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-activated-button button-primary&quot;</span>&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Connect your account'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/a&gt;
-</span><span id="120" class="l"><a href="#120">120: </a>                    &lt;a href=<span class="php-quote">&quot;https://www.constantcontact.com/&quot;</span> target=<span class="php-quote">&quot;_blank&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-activated-button button-secondary&quot;</span>&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Try Us Free'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/a&gt;
+</span><span id="43" class="l"><a href="#43"> 43: </a>    }
+</span><span id="44" class="l"><a href="#44"> 44: </a>
+</span><span id="45" class="l"><a href="#45"> 45: </a>    <span class="php-comment">/**
+</span></span><span id="46" class="l"><a href="#46"> 46: </a><span class="php-comment">     * Global admin style enqueue stuff
+</span></span><span id="47" class="l"><a href="#47"> 47: </a><span class="php-comment">     *
+</span></span><span id="48" class="l"><a href="#48"> 48: </a><span class="php-comment">     * @since  1.0.0
+</span></span><span id="49" class="l"><a href="#49"> 49: </a><span class="php-comment">     */</span>
+</span><span id="50" class="l"><a href="#50"> 50: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> styles() {
+</span><span id="51" class="l"><a href="#51"> 51: </a>
+</span><span id="52" class="l"><a href="#52"> 52: </a>        <span class="php-comment">// Register our admin form styles</span>
+</span><span id="53" class="l"><a href="#53"> 53: </a>        wp_register_style(
+</span><span id="54" class="l"><a href="#54"> 54: </a>            <span class="php-quote">'constant-contact-forms'</span>,
+</span><span id="55" class="l"><a href="#55"> 55: </a>            constant_contact()-&gt;url() . <span class="php-quote">'assets/css/admin-forms.css'</span>,
+</span><span id="56" class="l"><a href="#56"> 56: </a>            <span class="php-keyword1">array</span>(),
+</span><span id="57" class="l"><a href="#57"> 57: </a>            constant_contact()-&gt;version
+</span><span id="58" class="l"><a href="#58"> 58: </a>        );
+</span><span id="59" class="l"><a href="#59"> 59: </a>
+</span><span id="60" class="l"><a href="#60"> 60: </a>        <span class="php-comment">// Register our admin pages styles</span>
+</span><span id="61" class="l"><a href="#61"> 61: </a>        wp_register_style(
+</span><span id="62" class="l"><a href="#62"> 62: </a>            <span class="php-quote">'constant_contact_admin_pages'</span>,
+</span><span id="63" class="l"><a href="#63"> 63: </a>            constant_contact()-&gt;url() . <span class="php-quote">'assets/css/admin-pages.css'</span>,
+</span><span id="64" class="l"><a href="#64"> 64: </a>            <span class="php-keyword1">array</span>(),
+</span><span id="65" class="l"><a href="#65"> 65: </a>            constant_contact()-&gt;version
+</span><span id="66" class="l"><a href="#66"> 66: </a>        );
+</span><span id="67" class="l"><a href="#67"> 67: </a>    }
+</span><span id="68" class="l"><a href="#68"> 68: </a>
+</span><span id="69" class="l"><a href="#69"> 69: </a>    <span class="php-comment">/**
+</span></span><span id="70" class="l"><a href="#70"> 70: </a><span class="php-comment">     * Gets the help text for help page
+</span></span><span id="71" class="l"><a href="#71"> 71: </a><span class="php-comment">     *
+</span></span><span id="72" class="l"><a href="#72"> 72: </a><span class="php-comment">     * @since  1.0.0
+</span></span><span id="73" class="l"><a href="#73"> 73: </a><span class="php-comment">     * @return array array of all the help text
+</span></span><span id="74" class="l"><a href="#74"> 74: </a><span class="php-comment">     */</span>
+</span><span id="75" class="l"><a href="#75"> 75: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> get_help_texts() {
+</span><span id="76" class="l"><a href="#76"> 76: </a>
+</span><span id="77" class="l"><a href="#77"> 77: </a>        <span class="php-comment">// Grab our help text. This can be filtered elsewhere, as well.</span>
+</span><span id="78" class="l"><a href="#78"> 78: </a>        <span class="php-keyword1">return</span> apply_filters( <span class="php-quote">'constant_contact_help_texts'</span>, <span class="php-keyword1">array</span>(
+</span><span id="79" class="l"><a href="#79"> 79: </a>            <span class="php-keyword1">array</span>(
+</span><span id="80" class="l"><a href="#80"> 80: </a>                <span class="php-quote">'title'</span> =&gt; __( <span class="php-quote">'This is a sample help header'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="81" class="l"><a href="#81"> 81: </a>                <span class="php-quote">'content'</span> =&gt; __( <span class="php-quote">'This is some sample help text.'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="82" class="l"><a href="#82"> 82: </a>            ),
+</span><span id="83" class="l"><a href="#83"> 83: </a>            <span class="php-keyword1">array</span>(
+</span><span id="84" class="l"><a href="#84"> 84: </a>                <span class="php-quote">'title'</span> =&gt; __( <span class="php-quote">'This is another sample header'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="85" class="l"><a href="#85"> 85: </a>                <span class="php-quote">'content'</span> =&gt; __( <span class="php-quote">'This is also some sample help text.'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="86" class="l"><a href="#86"> 86: </a>            ),
+</span><span id="87" class="l"><a href="#87"> 87: </a>        ) );
+</span><span id="88" class="l"><a href="#88"> 88: </a>    }
+</span><span id="89" class="l"><a href="#89"> 89: </a>
+</span><span id="90" class="l"><a href="#90"> 90: </a>    <span class="php-comment">/**
+</span></span><span id="91" class="l"><a href="#91"> 91: </a><span class="php-comment">     * Get faq text for help page
+</span></span><span id="92" class="l"><a href="#92"> 92: </a><span class="php-comment">     *
+</span></span><span id="93" class="l"><a href="#93"> 93: </a><span class="php-comment">     * @since  1.0.0
+</span></span><span id="94" class="l"><a href="#94"> 94: </a><span class="php-comment">     * @return array array of all the text
+</span></span><span id="95" class="l"><a href="#95"> 95: </a><span class="php-comment">     */</span>
+</span><span id="96" class="l"><a href="#96"> 96: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> get_faq_texts() {
+</span><span id="97" class="l"><a href="#97"> 97: </a>
+</span><span id="98" class="l"><a href="#98"> 98: </a>        <span class="php-comment">// Get our FAQ texts. This can be filtered</span>
+</span><span id="99" class="l"><a href="#99"> 99: </a>        <span class="php-keyword1">return</span> apply_filters( <span class="php-quote">'constant_contact_faq_texts'</span>, <span class="php-keyword1">array</span>(
+</span><span id="100" class="l"><a href="#100">100: </a>            <span class="php-keyword1">array</span>(
+</span><span id="101" class="l"><a href="#101">101: </a>                <span class="php-quote">'title'</span> =&gt; __( <span class="php-quote">'Is this a sample question?'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="102" class="l"><a href="#102">102: </a>                <span class="php-quote">'content'</span> =&gt; __( <span class="php-quote">'This is a sample answer'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="103" class="l"><a href="#103">103: </a>            ),
+</span><span id="104" class="l"><a href="#104">104: </a>            <span class="php-keyword1">array</span>(
+</span><span id="105" class="l"><a href="#105">105: </a>                <span class="php-quote">'title'</span> =&gt; __( <span class="php-quote">'This is also a sample question'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="106" class="l"><a href="#106">106: </a>                <span class="php-quote">'content'</span> =&gt; __( <span class="php-quote">'This is another sample answer'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="107" class="l"><a href="#107">107: </a>            ),
+</span><span id="108" class="l"><a href="#108">108: </a>        ) );
+</span><span id="109" class="l"><a href="#109">109: </a>    }
+</span><span id="110" class="l"><a href="#110">110: </a>
+</span><span id="111" class="l"><a href="#111">111: </a>    <span class="php-comment">/**
+</span></span><span id="112" class="l"><a href="#112">112: </a><span class="php-comment">     * Display our help page
+</span></span><span id="113" class="l"><a href="#113">113: </a><span class="php-comment">     *
+</span></span><span id="114" class="l"><a href="#114">114: </a><span class="php-comment">     * @since  1.0.0
+</span></span><span id="115" class="l"><a href="#115">115: </a><span class="php-comment">     */</span>
+</span><span id="116" class="l"><a href="#116">116: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> help_page() {
+</span><span id="117" class="l"><a href="#117">117: </a>
+</span><span id="118" class="l"><a href="#118">118: </a>        <span class="php-comment">// Enqueue our JS and styles</span>
+</span><span id="119" class="l"><a href="#119">119: </a>        wp_enqueue_script( <span class="php-quote">'ctct_form'</span> );
+</span><span id="120" class="l"><a href="#120">120: </a>        wp_enqueue_style( <span class="php-quote">'constant_contact_admin_pages'</span> );
 </span><span id="121" class="l"><a href="#121">121: </a>
-</span><span id="122" class="l"><a href="#122">122: </a>                    &lt;sub  <span class="php-keyword1">class</span>=<span class="php-quote">'ctct-activated-dismiss'</span>&gt;
-</span><span id="123" class="l"><a href="#123">123: </a>                        &lt;em&gt;
-</span><span id="124" class="l"><a href="#124">124: </a>                            &lt;a href=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$this</span><span class="php-quote">-&gt;get_activation_dismiss_url() ); ?&gt;&quot;</span>&gt;
-</span><span id="125" class="l"><a href="#125">125: </a>                                <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Dismiss this notice.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="126" class="l"><a href="#126">126: </a>                            &lt;/a&gt;
-</span><span id="127" class="l"><a href="#127">127: </a>                        &lt;/em&gt;
-</span><span id="128" class="l"><a href="#128">128: </a>                    &lt;/sub&gt;
-</span><span id="129" class="l"><a href="#129">129: </a>                &lt;/p&gt;
-</span><span id="130" class="l"><a href="#130">130: </a>            &lt;/p&gt;
-</span><span id="131" class="l"><a href="#131">131: </a>        &lt;/div&gt;
-</span><span id="132" class="l"><a href="#132">132: </a>
-</span><span id="133" class="l"><a href="#133">133: </a>        <span class="xlang">&lt;?php</span>
-</span><span id="134" class="l"><a href="#134">134: </a>    }
-</span><span id="135" class="l"><a href="#135">135: </a>
-</span><span id="136" class="l"><a href="#136">136: </a>    <span class="php-comment">/**
-</span></span><span id="137" class="l"><a href="#137">137: </a><span class="php-comment">     * Helper method to get our dimiss activation message url
-</span></span><span id="138" class="l"><a href="#138">138: </a><span class="php-comment">     *
-</span></span><span id="139" class="l"><a href="#139">139: </a><span class="php-comment">     * @since   1.0.0
-</span></span><span id="140" class="l"><a href="#140">140: </a><span class="php-comment">     * @return  string  url to dismiss prompt
-</span></span><span id="141" class="l"><a href="#141">141: </a><span class="php-comment">     */</span>
-</span><span id="142" class="l"><a href="#142">142: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> get_activation_dismiss_url() {
+</span><span id="122" class="l"><a href="#122">122: </a>        <span class="xlang">?&gt;</span>
+</span><span id="123" class="l"><a href="#123">123: </a>        &lt;h1&gt;
+</span><span id="124" class="l"><a href="#124">124: </a>            <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Help / FAQ'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="125" class="l"><a href="#125">125: </a>        &lt;/h1&gt;
+</span><span id="126" class="l"><a href="#126">126: </a>        &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-wrap wrap&quot;</span>&gt;
+</span><span id="127" class="l"><a href="#127">127: </a>            &lt;table id=<span class="php-quote">&quot;ctct-support&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-form-table&quot;</span>&gt;
+</span><span id="128" class="l"><a href="#128">128: </a>            &lt;tr&gt;
+</span><span id="129" class="l"><a href="#129">129: </a>                &lt;td <span class="php-keyword1">class</span>=<span class="php-quote">&quot;outer outer-first&quot;</span>&gt;
+</span><span id="130" class="l"><a href="#130">130: </a>                    &lt;h2&gt;
+</span><span id="131" class="l"><a href="#131">131: </a>                        <span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Help'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="132" class="l"><a href="#132">132: </a>                    &lt;/h2&gt;
+</span><span id="133" class="l"><a href="#133">133: </a>                    &lt;ol id=<span class="php-quote">&quot;help_ctct&quot;</span>&gt;
+</span><span id="134" class="l"><a href="#134">134: </a>                    <span class="xlang">&lt;?php</span>
+</span><span id="135" class="l"><a href="#135">135: </a>                    <span class="php-comment">// Grab our FAQs</span>
+</span><span id="136" class="l"><a href="#136">136: </a>                    <span class="php-var">$helps</span> = <span class="php-var">$this</span>-&gt;get_help_texts();
+</span><span id="137" class="l"><a href="#137">137: </a>
+</span><span id="138" class="l"><a href="#138">138: </a>                    <span class="php-comment">// Make sure we have some</span>
+</span><span id="139" class="l"><a href="#139">139: </a>                    <span class="php-keyword1">if</span> ( <span class="php-keyword2">is_array</span>( <span class="php-var">$helps</span> ) ) {
+</span><span id="140" class="l"><a href="#140">140: </a>
+</span><span id="141" class="l"><a href="#141">141: </a>                        <span class="php-comment">// Loop through each$help</span>
+</span><span id="142" class="l"><a href="#142">142: </a>                        <span class="php-keyword1">foreach</span> ( <span class="php-var">$helps</span> <span class="php-keyword1">as</span> <span class="php-var">$help</span> ) {
 </span><span id="143" class="l"><a href="#143">143: </a>
-</span><span id="144" class="l"><a href="#144">144: </a>        <span class="php-comment">// Set a link with our current url and desired action</span>
-</span><span id="145" class="l"><a href="#145">145: </a>        <span class="php-var">$link</span> = add_query_arg( <span class="php-keyword1">array</span>( <span class="php-quote">'ctct-activation-action'</span> =&gt; <span class="php-quote">'dismiss'</span> ) );
-</span><span id="146" class="l"><a href="#146">146: </a>
-</span><span id="147" class="l"><a href="#147">147: </a>        <span class="php-comment">// Also nonce it and return it</span>
-</span><span id="148" class="l"><a href="#148">148: </a>        <span class="php-keyword1">return</span> wp_nonce_url( <span class="php-var">$link</span>, <span class="php-quote">'ctct-user-is-dismissing'</span>, <span class="php-quote">'ctct-dismiss'</span> );
-</span><span id="149" class="l"><a href="#149">149: </a>    }
-</span><span id="150" class="l"><a href="#150">150: </a>
-</span><span id="151" class="l"><a href="#151">151: </a>    <span class="php-comment">/**
-</span></span><span id="152" class="l"><a href="#152">152: </a><span class="php-comment">     * Global admin style enqueue stuff
-</span></span><span id="153" class="l"><a href="#153">153: </a><span class="php-comment">     *
-</span></span><span id="154" class="l"><a href="#154">154: </a><span class="php-comment">     * @since  1.0.0
-</span></span><span id="155" class="l"><a href="#155">155: </a><span class="php-comment">     */</span>
-</span><span id="156" class="l"><a href="#156">156: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> styles() {
-</span><span id="157" class="l"><a href="#157">157: </a>
-</span><span id="158" class="l"><a href="#158">158: </a>        <span class="php-comment">// Register our admin form styles</span>
-</span><span id="159" class="l"><a href="#159">159: </a>        wp_register_style(
-</span><span id="160" class="l"><a href="#160">160: </a>            <span class="php-quote">'constant-contact-forms'</span>,
-</span><span id="161" class="l"><a href="#161">161: </a>            constant_contact()-&gt;url() . <span class="php-quote">'assets/css/admin-forms.css'</span>,
-</span><span id="162" class="l"><a href="#162">162: </a>            <span class="php-keyword1">array</span>(),
-</span><span id="163" class="l"><a href="#163">163: </a>            constant_contact()-&gt;version
-</span><span id="164" class="l"><a href="#164">164: </a>        );
-</span><span id="165" class="l"><a href="#165">165: </a>
-</span><span id="166" class="l"><a href="#166">166: </a>        <span class="php-comment">// Register our admin pages styles</span>
-</span><span id="167" class="l"><a href="#167">167: </a>        wp_register_style(
-</span><span id="168" class="l"><a href="#168">168: </a>            <span class="php-quote">'constant_contact_admin_pages'</span>,
-</span><span id="169" class="l"><a href="#169">169: </a>            constant_contact()-&gt;url() . <span class="php-quote">'assets/css/admin-pages.css'</span>,
-</span><span id="170" class="l"><a href="#170">170: </a>            <span class="php-keyword1">array</span>(),
-</span><span id="171" class="l"><a href="#171">171: </a>            constant_contact()-&gt;version
-</span><span id="172" class="l"><a href="#172">172: </a>        );
-</span><span id="173" class="l"><a href="#173">173: </a>    }
+</span><span id="144" class="l"><a href="#144">144: </a>                            <span class="php-comment">// Make sure we have the right data</span>
+</span><span id="145" class="l"><a href="#145">145: </a>                            <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">isset</span>( <span class="php-var">$help</span>[<span class="php-quote">'title'</span>] ) || ! <span class="php-keyword1">isset</span>( <span class="php-var">$help</span>[<span class="php-quote">'content'</span>] ) ) {
+</span><span id="146" class="l"><a href="#146">146: </a>                                <span class="php-keyword1">continue</span>;
+</span><span id="147" class="l"><a href="#147">147: </a>                            }
+</span><span id="148" class="l"><a href="#148">148: </a>                            <span class="xlang">?&gt;</span>
+</span><span id="149" class="l"><a href="#149">149: </a>                            &lt;li&gt;
+</span><span id="150" class="l"><a href="#150">150: </a>                                &lt;span <span class="php-keyword1">class</span>=<span class="php-quote">&quot;question&quot;</span> aria-controls=<span class="php-quote">&quot;q1&quot;</span> aria-expanded=<span class="php-quote">&quot;false&quot;</span>&gt;
+</span><span id="151" class="l"><a href="#151">151: </a>                                    <span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> esc_html( <span class="php-var">$help</span>[<span class="php-quote">'title'</span>] ); <span class="xlang">?&gt;</span>
+</span><span id="152" class="l"><a href="#152">152: </a>                                &lt;/span&gt;
+</span><span id="153" class="l"><a href="#153">153: </a>                                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;answer&quot;</span>&gt;
+</span><span id="154" class="l"><a href="#154">154: </a>                                    <span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> esc_html( <span class="php-var">$help</span>[<span class="php-quote">'content'</span>] ); <span class="xlang">?&gt;</span>
+</span><span id="155" class="l"><a href="#155">155: </a>                                &lt;/div&gt;
+</span><span id="156" class="l"><a href="#156">156: </a>                            &lt;/li&gt;
+</span><span id="157" class="l"><a href="#157">157: </a>                            <span class="xlang">&lt;?php</span>
+</span><span id="158" class="l"><a href="#158">158: </a>                        }
+</span><span id="159" class="l"><a href="#159">159: </a>                    }
+</span><span id="160" class="l"><a href="#160">160: </a>                    <span class="xlang">?&gt;</span>
+</span><span id="161" class="l"><a href="#161">161: </a>                    &lt;/ol&gt;
+</span><span id="162" class="l"><a href="#162">162: </a>                &lt;/td&gt;
+</span><span id="163" class="l"><a href="#163">163: </a>                &lt;td <span class="php-keyword1">class</span>=<span class="php-quote">&quot;outter&quot;</span>&gt;
+</span><span id="164" class="l"><a href="#164">164: </a>                    &lt;h2&gt;
+</span><span id="165" class="l"><a href="#165">165: </a>                        <span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'FAQ'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="166" class="l"><a href="#166">166: </a>                    &lt;/h2&gt;
+</span><span id="167" class="l"><a href="#167">167: </a>                    &lt;ol id=<span class="php-quote">&quot;faq_ctct&quot;</span>&gt;
+</span><span id="168" class="l"><a href="#168">168: </a>                    <span class="xlang">&lt;?php</span>
+</span><span id="169" class="l"><a href="#169">169: </a>                    <span class="php-comment">// Grab our FAQs</span>
+</span><span id="170" class="l"><a href="#170">170: </a>                    <span class="php-var">$faqs</span> = <span class="php-var">$this</span>-&gt;get_faq_texts();
+</span><span id="171" class="l"><a href="#171">171: </a>
+</span><span id="172" class="l"><a href="#172">172: </a>                    <span class="php-comment">// Make sure we have some</span>
+</span><span id="173" class="l"><a href="#173">173: </a>                    <span class="php-keyword1">if</span> ( <span class="php-keyword2">is_array</span>( <span class="php-var">$faqs</span> ) ) {
 </span><span id="174" class="l"><a href="#174">174: </a>
-</span><span id="175" class="l"><a href="#175">175: </a>    <span class="php-comment">/**
-</span></span><span id="176" class="l"><a href="#176">176: </a><span class="php-comment">     * Gets the help text for help page
-</span></span><span id="177" class="l"><a href="#177">177: </a><span class="php-comment">     *
-</span></span><span id="178" class="l"><a href="#178">178: </a><span class="php-comment">     * @since  1.0.0
-</span></span><span id="179" class="l"><a href="#179">179: </a><span class="php-comment">     * @return array array of all the help text
-</span></span><span id="180" class="l"><a href="#180">180: </a><span class="php-comment">     */</span>
-</span><span id="181" class="l"><a href="#181">181: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> get_help_texts() {
-</span><span id="182" class="l"><a href="#182">182: </a>
-</span><span id="183" class="l"><a href="#183">183: </a>        <span class="php-comment">// Grab our help text. This can be filtered elsewhere, as well.</span>
-</span><span id="184" class="l"><a href="#184">184: </a>        <span class="php-keyword1">return</span> apply_filters( <span class="php-quote">'constant_contact_help_texts'</span>, <span class="php-keyword1">array</span>(
-</span><span id="185" class="l"><a href="#185">185: </a>            <span class="php-keyword1">array</span>(
-</span><span id="186" class="l"><a href="#186">186: </a>                <span class="php-quote">'title'</span> =&gt; __( <span class="php-quote">'This is a sample help header'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="187" class="l"><a href="#187">187: </a>                <span class="php-quote">'content'</span> =&gt; __( <span class="php-quote">'This is some sample help text.'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="188" class="l"><a href="#188">188: </a>            ),
-</span><span id="189" class="l"><a href="#189">189: </a>            <span class="php-keyword1">array</span>(
-</span><span id="190" class="l"><a href="#190">190: </a>                <span class="php-quote">'title'</span> =&gt; __( <span class="php-quote">'This is another sample header'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="191" class="l"><a href="#191">191: </a>                <span class="php-quote">'content'</span> =&gt; __( <span class="php-quote">'This is also some sample help text.'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="192" class="l"><a href="#192">192: </a>            ),
-</span><span id="193" class="l"><a href="#193">193: </a>        ) );
-</span><span id="194" class="l"><a href="#194">194: </a>    }
-</span><span id="195" class="l"><a href="#195">195: </a>
-</span><span id="196" class="l"><a href="#196">196: </a>    <span class="php-comment">/**
-</span></span><span id="197" class="l"><a href="#197">197: </a><span class="php-comment">     * Get faq text for help page
-</span></span><span id="198" class="l"><a href="#198">198: </a><span class="php-comment">     *
-</span></span><span id="199" class="l"><a href="#199">199: </a><span class="php-comment">     * @since  1.0.0
-</span></span><span id="200" class="l"><a href="#200">200: </a><span class="php-comment">     * @return array array of all the text
-</span></span><span id="201" class="l"><a href="#201">201: </a><span class="php-comment">     */</span>
-</span><span id="202" class="l"><a href="#202">202: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> get_faq_texts() {
-</span><span id="203" class="l"><a href="#203">203: </a>
-</span><span id="204" class="l"><a href="#204">204: </a>        <span class="php-comment">// Get our FAQ texts. This can be filtered</span>
-</span><span id="205" class="l"><a href="#205">205: </a>        <span class="php-keyword1">return</span> apply_filters( <span class="php-quote">'constant_contact_faq_texts'</span>, <span class="php-keyword1">array</span>(
-</span><span id="206" class="l"><a href="#206">206: </a>            <span class="php-keyword1">array</span>(
-</span><span id="207" class="l"><a href="#207">207: </a>                <span class="php-quote">'title'</span> =&gt; __( <span class="php-quote">'Is this a sample question?'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="208" class="l"><a href="#208">208: </a>                <span class="php-quote">'content'</span> =&gt; __( <span class="php-quote">'This is a sample answer'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="209" class="l"><a href="#209">209: </a>            ),
-</span><span id="210" class="l"><a href="#210">210: </a>            <span class="php-keyword1">array</span>(
-</span><span id="211" class="l"><a href="#211">211: </a>                <span class="php-quote">'title'</span> =&gt; __( <span class="php-quote">'This is also a sample question'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="212" class="l"><a href="#212">212: </a>                <span class="php-quote">'content'</span> =&gt; __( <span class="php-quote">'This is another sample answer'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="213" class="l"><a href="#213">213: </a>            ),
-</span><span id="214" class="l"><a href="#214">214: </a>        ) );
-</span><span id="215" class="l"><a href="#215">215: </a>    }
-</span><span id="216" class="l"><a href="#216">216: </a>
-</span><span id="217" class="l"><a href="#217">217: </a>    <span class="php-comment">/**
-</span></span><span id="218" class="l"><a href="#218">218: </a><span class="php-comment">     * Display our help page
-</span></span><span id="219" class="l"><a href="#219">219: </a><span class="php-comment">     *
-</span></span><span id="220" class="l"><a href="#220">220: </a><span class="php-comment">     * @since  1.0.0
-</span></span><span id="221" class="l"><a href="#221">221: </a><span class="php-comment">     */</span>
-</span><span id="222" class="l"><a href="#222">222: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> help_page() {
-</span><span id="223" class="l"><a href="#223">223: </a>
-</span><span id="224" class="l"><a href="#224">224: </a>        <span class="php-comment">// Enqueue our JS and styles</span>
-</span><span id="225" class="l"><a href="#225">225: </a>        wp_enqueue_script( <span class="php-quote">'ctct_form'</span> );
-</span><span id="226" class="l"><a href="#226">226: </a>        wp_enqueue_style( <span class="php-quote">'constant_contact_admin_pages'</span> );
-</span><span id="227" class="l"><a href="#227">227: </a>
-</span><span id="228" class="l"><a href="#228">228: </a>        <span class="xlang">?&gt;</span>
-</span><span id="229" class="l"><a href="#229">229: </a>        &lt;h1&gt;
-</span><span id="230" class="l"><a href="#230">230: </a>            <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Help / FAQ'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="231" class="l"><a href="#231">231: </a>        &lt;/h1&gt;
-</span><span id="232" class="l"><a href="#232">232: </a>        &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-wrap wrap&quot;</span>&gt;
-</span><span id="233" class="l"><a href="#233">233: </a>            &lt;table id=<span class="php-quote">&quot;ctct-support&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-form-table&quot;</span>&gt;
-</span><span id="234" class="l"><a href="#234">234: </a>            &lt;tr&gt;
-</span><span id="235" class="l"><a href="#235">235: </a>                &lt;td <span class="php-keyword1">class</span>=<span class="php-quote">&quot;outer outer-first&quot;</span>&gt;
-</span><span id="236" class="l"><a href="#236">236: </a>                    &lt;h2&gt;
-</span><span id="237" class="l"><a href="#237">237: </a>                        <span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Help'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="238" class="l"><a href="#238">238: </a>                    &lt;/h2&gt;
-</span><span id="239" class="l"><a href="#239">239: </a>                    &lt;ol id=<span class="php-quote">&quot;help_ctct&quot;</span>&gt;
-</span><span id="240" class="l"><a href="#240">240: </a>                    <span class="xlang">&lt;?php</span>
-</span><span id="241" class="l"><a href="#241">241: </a>                    <span class="php-comment">// Grab our FAQs</span>
-</span><span id="242" class="l"><a href="#242">242: </a>                    <span class="php-var">$helps</span> = <span class="php-var">$this</span>-&gt;get_help_texts();
-</span><span id="243" class="l"><a href="#243">243: </a>
-</span><span id="244" class="l"><a href="#244">244: </a>                    <span class="php-comment">// Make sure we have some</span>
-</span><span id="245" class="l"><a href="#245">245: </a>                    <span class="php-keyword1">if</span> ( <span class="php-keyword2">is_array</span>( <span class="php-var">$helps</span> ) ) {
-</span><span id="246" class="l"><a href="#246">246: </a>
-</span><span id="247" class="l"><a href="#247">247: </a>                        <span class="php-comment">// Loop through each$help</span>
-</span><span id="248" class="l"><a href="#248">248: </a>                        <span class="php-keyword1">foreach</span> ( <span class="php-var">$helps</span> <span class="php-keyword1">as</span> <span class="php-var">$help</span> ) {
-</span><span id="249" class="l"><a href="#249">249: </a>
-</span><span id="250" class="l"><a href="#250">250: </a>                            <span class="php-comment">// Make sure we have the right data</span>
-</span><span id="251" class="l"><a href="#251">251: </a>                            <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">isset</span>( <span class="php-var">$help</span>[<span class="php-quote">'title'</span>] ) || ! <span class="php-keyword1">isset</span>( <span class="php-var">$help</span>[<span class="php-quote">'content'</span>] ) ) {
-</span><span id="252" class="l"><a href="#252">252: </a>                                <span class="php-keyword1">continue</span>;
-</span><span id="253" class="l"><a href="#253">253: </a>                            }
-</span><span id="254" class="l"><a href="#254">254: </a>                            <span class="xlang">?&gt;</span>
-</span><span id="255" class="l"><a href="#255">255: </a>                            &lt;li&gt;
-</span><span id="256" class="l"><a href="#256">256: </a>                                &lt;span <span class="php-keyword1">class</span>=<span class="php-quote">&quot;question&quot;</span> aria-controls=<span class="php-quote">&quot;q1&quot;</span> aria-expanded=<span class="php-quote">&quot;false&quot;</span>&gt;
-</span><span id="257" class="l"><a href="#257">257: </a>                                    <span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> esc_html( <span class="php-var">$help</span>[<span class="php-quote">'title'</span>] ); <span class="xlang">?&gt;</span>
-</span><span id="258" class="l"><a href="#258">258: </a>                                &lt;/span&gt;
-</span><span id="259" class="l"><a href="#259">259: </a>                                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;answer&quot;</span>&gt;
-</span><span id="260" class="l"><a href="#260">260: </a>                                    <span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> esc_html( <span class="php-var">$help</span>[<span class="php-quote">'content'</span>] ); <span class="xlang">?&gt;</span>
-</span><span id="261" class="l"><a href="#261">261: </a>                                &lt;/div&gt;
-</span><span id="262" class="l"><a href="#262">262: </a>                            &lt;/li&gt;
-</span><span id="263" class="l"><a href="#263">263: </a>                            <span class="xlang">&lt;?php</span>
-</span><span id="264" class="l"><a href="#264">264: </a>                        }
-</span><span id="265" class="l"><a href="#265">265: </a>                    }
-</span><span id="266" class="l"><a href="#266">266: </a>                    <span class="xlang">?&gt;</span>
-</span><span id="267" class="l"><a href="#267">267: </a>                    &lt;/ol&gt;
-</span><span id="268" class="l"><a href="#268">268: </a>                &lt;/td&gt;
-</span><span id="269" class="l"><a href="#269">269: </a>                &lt;td <span class="php-keyword1">class</span>=<span class="php-quote">&quot;outter&quot;</span>&gt;
-</span><span id="270" class="l"><a href="#270">270: </a>                    &lt;h2&gt;
-</span><span id="271" class="l"><a href="#271">271: </a>                        <span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'FAQ'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="272" class="l"><a href="#272">272: </a>                    &lt;/h2&gt;
-</span><span id="273" class="l"><a href="#273">273: </a>                    &lt;ol id=<span class="php-quote">&quot;faq_ctct&quot;</span>&gt;
-</span><span id="274" class="l"><a href="#274">274: </a>                    <span class="xlang">&lt;?php</span>
-</span><span id="275" class="l"><a href="#275">275: </a>                    <span class="php-comment">// Grab our FAQs</span>
-</span><span id="276" class="l"><a href="#276">276: </a>                    <span class="php-var">$faqs</span> = <span class="php-var">$this</span>-&gt;get_faq_texts();
-</span><span id="277" class="l"><a href="#277">277: </a>
-</span><span id="278" class="l"><a href="#278">278: </a>                    <span class="php-comment">// Make sure we have some</span>
-</span><span id="279" class="l"><a href="#279">279: </a>                    <span class="php-keyword1">if</span> ( <span class="php-keyword2">is_array</span>( <span class="php-var">$faqs</span> ) ) {
-</span><span id="280" class="l"><a href="#280">280: </a>
-</span><span id="281" class="l"><a href="#281">281: </a>                        <span class="php-comment">// Loop through each faq</span>
-</span><span id="282" class="l"><a href="#282">282: </a>                        <span class="php-keyword1">foreach</span> ( <span class="php-var">$faqs</span> <span class="php-keyword1">as</span> <span class="php-var">$faq</span> ) {
-</span><span id="283" class="l"><a href="#283">283: </a>
-</span><span id="284" class="l"><a href="#284">284: </a>                            <span class="php-comment">// Make sure we have the right data</span>
-</span><span id="285" class="l"><a href="#285">285: </a>                            <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">isset</span>( <span class="php-var">$faq</span>[<span class="php-quote">'title'</span>] ) || ! <span class="php-keyword1">isset</span>( <span class="php-var">$faq</span>[<span class="php-quote">'content'</span>] ) ) {
-</span><span id="286" class="l"><a href="#286">286: </a>                                <span class="php-keyword1">continue</span>;
-</span><span id="287" class="l"><a href="#287">287: </a>                            }
-</span><span id="288" class="l"><a href="#288">288: </a>                        <span class="xlang">?&gt;</span>
-</span><span id="289" class="l"><a href="#289">289: </a>                        &lt;li&gt;
-</span><span id="290" class="l"><a href="#290">290: </a>                            &lt;span <span class="php-keyword1">class</span>=<span class="php-quote">&quot;question&quot;</span> aria-controls=<span class="php-quote">&quot;q1&quot;</span> aria-expanded=<span class="php-quote">&quot;false&quot;</span>&gt;
-</span><span id="291" class="l"><a href="#291">291: </a>                                <span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> esc_html( <span class="php-var">$faq</span>[<span class="php-quote">'title'</span>] ); <span class="xlang">?&gt;</span>
-</span><span id="292" class="l"><a href="#292">292: </a>                            &lt;/span&gt;
-</span><span id="293" class="l"><a href="#293">293: </a>                            &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;answer&quot;</span>&gt;
-</span><span id="294" class="l"><a href="#294">294: </a>                                <span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> esc_html( <span class="php-var">$faq</span>[<span class="php-quote">'content'</span>] ); <span class="xlang">?&gt;</span>
-</span><span id="295" class="l"><a href="#295">295: </a>                            &lt;/div&gt;
-</span><span id="296" class="l"><a href="#296">296: </a>                        &lt;/li&gt;
-</span><span id="297" class="l"><a href="#297">297: </a>                        <span class="xlang">&lt;?php</span>
-</span><span id="298" class="l"><a href="#298">298: </a>                        }
-</span><span id="299" class="l"><a href="#299">299: </a>                    }
-</span><span id="300" class="l"><a href="#300">300: </a>                    <span class="xlang">?&gt;</span>
-</span><span id="301" class="l"><a href="#301">301: </a>                    &lt;/ol&gt;
-</span><span id="302" class="l"><a href="#302">302: </a>                &lt;/td&gt;
-</span><span id="303" class="l"><a href="#303">303: </a>            &lt;/tr&gt;
-</span><span id="304" class="l"><a href="#304">304: </a>            &lt;/table
-</span><span id="305" class="l"><a href="#305">305: </a>        &lt;/div&gt;
-</span><span id="306" class="l"><a href="#306">306: </a>        <span class="xlang">&lt;?php</span>
-</span><span id="307" class="l"><a href="#307">307: </a>    }
-</span><span id="308" class="l"><a href="#308">308: </a>
-</span><span id="309" class="l"><a href="#309">309: </a>    <span class="php-comment">/**
-</span></span><span id="310" class="l"><a href="#310">310: </a><span class="php-comment">     * Display our about page
-</span></span><span id="311" class="l"><a href="#311">311: </a><span class="php-comment">     *
-</span></span><span id="312" class="l"><a href="#312">312: </a><span class="php-comment">     * @since  1.0.0
-</span></span><span id="313" class="l"><a href="#313">313: </a><span class="php-comment">     */</span>
-</span><span id="314" class="l"><a href="#314">314: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> about_page() {
+</span><span id="175" class="l"><a href="#175">175: </a>                        <span class="php-comment">// Loop through each faq</span>
+</span><span id="176" class="l"><a href="#176">176: </a>                        <span class="php-keyword1">foreach</span> ( <span class="php-var">$faqs</span> <span class="php-keyword1">as</span> <span class="php-var">$faq</span> ) {
+</span><span id="177" class="l"><a href="#177">177: </a>
+</span><span id="178" class="l"><a href="#178">178: </a>                            <span class="php-comment">// Make sure we have the right data</span>
+</span><span id="179" class="l"><a href="#179">179: </a>                            <span class="php-keyword1">if</span> ( ! <span class="php-keyword1">isset</span>( <span class="php-var">$faq</span>[<span class="php-quote">'title'</span>] ) || ! <span class="php-keyword1">isset</span>( <span class="php-var">$faq</span>[<span class="php-quote">'content'</span>] ) ) {
+</span><span id="180" class="l"><a href="#180">180: </a>                                <span class="php-keyword1">continue</span>;
+</span><span id="181" class="l"><a href="#181">181: </a>                            }
+</span><span id="182" class="l"><a href="#182">182: </a>                        <span class="xlang">?&gt;</span>
+</span><span id="183" class="l"><a href="#183">183: </a>                        &lt;li&gt;
+</span><span id="184" class="l"><a href="#184">184: </a>                            &lt;span <span class="php-keyword1">class</span>=<span class="php-quote">&quot;question&quot;</span> aria-controls=<span class="php-quote">&quot;q1&quot;</span> aria-expanded=<span class="php-quote">&quot;false&quot;</span>&gt;
+</span><span id="185" class="l"><a href="#185">185: </a>                                <span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> esc_html( <span class="php-var">$faq</span>[<span class="php-quote">'title'</span>] ); <span class="xlang">?&gt;</span>
+</span><span id="186" class="l"><a href="#186">186: </a>                            &lt;/span&gt;
+</span><span id="187" class="l"><a href="#187">187: </a>                            &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;answer&quot;</span>&gt;
+</span><span id="188" class="l"><a href="#188">188: </a>                                <span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> esc_html( <span class="php-var">$faq</span>[<span class="php-quote">'content'</span>] ); <span class="xlang">?&gt;</span>
+</span><span id="189" class="l"><a href="#189">189: </a>                            &lt;/div&gt;
+</span><span id="190" class="l"><a href="#190">190: </a>                        &lt;/li&gt;
+</span><span id="191" class="l"><a href="#191">191: </a>                        <span class="xlang">&lt;?php</span>
+</span><span id="192" class="l"><a href="#192">192: </a>                        }
+</span><span id="193" class="l"><a href="#193">193: </a>                    }
+</span><span id="194" class="l"><a href="#194">194: </a>                    <span class="xlang">?&gt;</span>
+</span><span id="195" class="l"><a href="#195">195: </a>                    &lt;/ol&gt;
+</span><span id="196" class="l"><a href="#196">196: </a>                &lt;/td&gt;
+</span><span id="197" class="l"><a href="#197">197: </a>            &lt;/tr&gt;
+</span><span id="198" class="l"><a href="#198">198: </a>            &lt;/table
+</span><span id="199" class="l"><a href="#199">199: </a>        &lt;/div&gt;
+</span><span id="200" class="l"><a href="#200">200: </a>        <span class="xlang">&lt;?php</span>
+</span><span id="201" class="l"><a href="#201">201: </a>    }
+</span><span id="202" class="l"><a href="#202">202: </a>
+</span><span id="203" class="l"><a href="#203">203: </a>    <span class="php-comment">/**
+</span></span><span id="204" class="l"><a href="#204">204: </a><span class="php-comment">     * Display our about page
+</span></span><span id="205" class="l"><a href="#205">205: </a><span class="php-comment">     *
+</span></span><span id="206" class="l"><a href="#206">206: </a><span class="php-comment">     * @since  1.0.0
+</span></span><span id="207" class="l"><a href="#207">207: </a><span class="php-comment">     */</span>
+</span><span id="208" class="l"><a href="#208">208: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> about_page() {
+</span><span id="209" class="l"><a href="#209">209: </a>
+</span><span id="210" class="l"><a href="#210">210: </a>        <span class="php-comment">// make it so pretty</span>
+</span><span id="211" class="l"><a href="#211">211: </a>        wp_enqueue_style( <span class="php-quote">'constant_contact_admin_pages'</span> );
+</span><span id="212" class="l"><a href="#212">212: </a>
+</span><span id="213" class="l"><a href="#213">213: </a>        <span class="xlang">?&gt;</span>
+</span><span id="214" class="l"><a href="#214">214: </a>        &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;wrap about-wrap constant-contact-about&quot;</span>&gt;
+</span><span id="215" class="l"><a href="#215">215: </a>            &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;hide-overflow&quot;</span>&gt;
+</span><span id="216" class="l"><a href="#216">216: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;left-side&quot;</span>&gt;
+</span><span id="217" class="l"><a href="#217">217: </a>                    &lt;h1 <span class="php-keyword1">class</span>=<span class="php-quote">&quot;about-header&quot;</span>&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Constant Contact Forms'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h1&gt;
+</span><span id="218" class="l"><a href="#218">218: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;about-text&quot;</span>&gt;
+</span><span id="219" class="l"><a href="#219">219: </a>                        &lt;p&gt;
+</span><span id="220" class="l"><a href="#220">220: </a>                        <span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> wp_kses_post( __( <span class="php-quote">'The &lt;strong&gt;Constant Contact Forms&lt;/strong&gt; plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don’t have a Constant Contact account.'</span>, <span class="php-quote">'constantcontact'</span> ) ); <span class="xlang">?&gt;</span>
+</span><span id="221" class="l"><a href="#221">221: </a>                        &lt;/p&gt;
+</span><span id="222" class="l"><a href="#222">222: </a>                        &lt;p&gt;
+</span><span id="223" class="l"><a href="#223">223: </a>                        <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Whether you’re looking to collect email addresses, contact info, event sign-ups, or visitor feedback, you can customize your forms with data fields that work best for you. You can:'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="224" class="l"><a href="#224">224: </a>                        &lt;ul <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-bonus-points&quot;</span>&gt;
+</span><span id="225" class="l"><a href="#225">225: </a>                            &lt;li&gt; <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Quickly create different types of forms that are clear, simple, and mobile-optimized.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/li&gt;
+</span><span id="226" class="l"><a href="#226">226: </a>                            &lt;li&gt; <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Choose forms that automatically select the theme and style of your WordPress site.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/li&gt;
+</span><span id="227" class="l"><a href="#227">227: </a>                            &lt;li&gt; <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Customize the form data fields, so you can tailor the type of information you collect'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/li&gt;
+</span><span id="228" class="l"><a href="#228">228: </a>                        &lt;/ul&gt;
+</span><span id="229" class="l"><a href="#229">229: </a>                        &lt;/p&gt;
+</span><span id="230" class="l"><a href="#230">230: </a>                        &lt;p&gt;
+</span><span id="231" class="l"><a href="#231">231: </a>                        <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Using your sign-up forms to collect email addresses? Email marketing is a great way to stay connected with visitors after they’ve left your site. And with an active Constant Contact account, every new subscriber you capture will be automatically added to your selected email lists.  '</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="232" class="l"><a href="#232">232: </a>                        &lt;/p&gt;
+</span><span id="233" class="l"><a href="#233">233: </a>                        &lt;a href=<span class="php-quote">&quot;https://www.constantcontact.com/&quot;</span> target=<span class="php-quote">&quot;_blank&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;button button-orange&quot;</span> title=<span class="php-quote">&quot;Try Us Free&quot;</span>&gt;<span class="php-keyword1">Try</span> Us Free&lt;/a&gt;
+</span><span id="234" class="l"><a href="#234">234: </a>                    &lt;/div&gt;
+</span><span id="235" class="l"><a href="#235">235: </a>                &lt;/div&gt;
+</span><span id="236" class="l"><a href="#236">236: </a>                &lt;span <span class="php-keyword1">class</span>=<span class="php-quote">&quot;plugin-badge&quot;</span>&gt;
+</span><span id="237" class="l"><a href="#237">237: </a>                    &lt;img src=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/icon.jpg' ); ?&gt;&quot;</span>&gt;
+</span><span id="238" class="l"><a href="#238">238: </a>                &lt;/span&gt;
+</span><span id="239" class="l"><a href="#239">239: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;clear&quot;</span>&gt;&lt;/div&gt;
+</span><span id="240" class="l"><a href="#240">240: </a>                &lt;hr&gt;
+</span><span id="241" class="l"><a href="#241">241: </a>                <span class="xlang">&lt;?php</span>
+</span><span id="242" class="l"><a href="#242">242: </a>                    <span class="php-comment">// Get our connected state</span>
+</span><span id="243" class="l"><a href="#243">243: </a>                    <span class="php-var">$connected</span> = constant_contact()-&gt;api-&gt;is_connected();
+</span><span id="244" class="l"><a href="#244">244: </a>
+</span><span id="245" class="l"><a href="#245">245: </a>                    <span class="php-comment">// @codingStandardsIgnoreStart</span>
+</span><span id="246" class="l"><a href="#246">246: </a>                    <span class="php-keyword1">if</span> ( ! <span class="php-var">$connected</span> ) {
+</span><span id="247" class="l"><a href="#247">247: </a>                    <span class="php-comment">// @codingStandardsIgnoreEnd</span>
+</span><span id="248" class="l"><a href="#248">248: </a>
+</span><span id="249" class="l"><a href="#249">249: </a>                        <span class="php-comment">// Get our middleware link</span>
+</span><span id="250" class="l"><a href="#250">250: </a>                        <span class="php-var">$proof</span> = constant_contact()-&gt;authserver-&gt;set_verification_option();
+</span><span id="251" class="l"><a href="#251">251: </a>                        <span class="php-var">$auth_link</span> = constant_contact()-&gt;authserver-&gt;do_connect_url( <span class="php-var">$proof</span> );
+</span><span id="252" class="l"><a href="#252">252: </a>
+</span><span id="253" class="l"><a href="#253">253: </a>                    <span class="php-comment">// @codingStandardsIgnoreStart</span>
+</span><span id="254" class="l"><a href="#254">254: </a>                    }
+</span><span id="255" class="l"><a href="#255">255: </a>                    <span class="php-comment">// @codingStandardsIgnoreEnd</span>
+</span><span id="256" class="l"><a href="#256">256: </a>
+</span><span id="257" class="l"><a href="#257">257: </a>                <span class="xlang">?&gt;</span>
+</span><span id="258" class="l"><a href="#258">258: </a>                <span class="xlang">&lt;?php</span> <span class="php-keyword1">if</span> ( ! <span class="php-var">$connected</span> &amp;&amp; <span class="php-var">$auth_link</span> ) { <span class="php-comment">// If we have a link, then display the connect button ?&gt;</span>
+</span><span id="259" class="l"><a href="#259">259: </a>                    &lt;h2&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Already a Constant Contact account?'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h2&gt;
+</span><span id="260" class="l"><a href="#260">260: </a>                    &lt;a href=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$auth_link</span><span class="php-quote"> ); ?&gt;&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;button button-blue ctct-connect&quot;</span>&gt;
+</span><span id="261" class="l"><a href="#261">261: </a>                        <span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Connect the plugin'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="262" class="l"><a href="#262">262: </a>                    &lt;/a&gt;
+</span><span id="263" class="l"><a href="#263">263: </a>                <span class="xlang">&lt;?php</span> } <span class="xlang">?&gt;</span>
+</span><span id="264" class="l"><a href="#264">264: </a>            &lt;/div&gt;
+</span><span id="265" class="l"><a href="#265">265: </a>            &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;headline-feature&quot;</span>&gt;
+</span><span id="266" class="l"><a href="#266">266: </a>                &lt;h3&gt;&lt;/h3&gt;
+</span><span id="267" class="l"><a href="#267">267: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;featured-image&quot;</span>&gt;
+</span><span id="268" class="l"><a href="#268">268: </a>                    &lt;img src=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/coffee-hero.jpg' ); ?&gt;&quot;</span>&gt;
+</span><span id="269" class="l"><a href="#269">269: </a>                    &lt;p <span class="php-keyword1">class</span>=<span class="php-quote">&quot;featured-title c-text&quot;</span>&gt;
+</span><span id="270" class="l"><a href="#270">270: </a>                        <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Powerful Email Marketing, Made Simple.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="271" class="l"><a href="#271">271: </a>                    &lt;/p&gt;
+</span><span id="272" class="l"><a href="#272">272: </a>                    &lt;p <span class="php-keyword1">class</span>=<span class="php-quote">&quot;featured-introduction c-text&quot;</span>&gt;
+</span><span id="273" class="l"><a href="#273">273: </a>                        <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Create professional emails that bring customers to your door'</span>, <span class="php-quote">'constantcontact'</span> ) <span class="xlang">?&gt;</span>
+</span><span id="274" class="l"><a href="#274">274: </a>                    &lt;/p&gt;
+</span><span id="275" class="l"><a href="#275">275: </a>                &lt;/div&gt;
+</span><span id="276" class="l"><a href="#276">276: </a>                &lt;p <span class="php-keyword1">class</span>=<span class="php-quote">&quot;introduction c-text&quot;</span>&gt;
+</span><span id="277" class="l"><a href="#277">277: </a>                <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact Forms plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="278" class="l"><a href="#278">278: </a>                    &lt;h5&gt;
+</span><span id="279" class="l"><a href="#279">279: </a>                        <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'*Direct Marketing Association 2013 Statistical Fact Book'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="280" class="l"><a href="#280">280: </a>                    &lt;/h5&gt;
+</span><span id="281" class="l"><a href="#281">281: </a>                &lt;/p&gt;
+</span><span id="282" class="l"><a href="#282">282: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;clear&quot;</span>&gt;&lt;/div&gt;
+</span><span id="283" class="l"><a href="#283">283: </a>            &lt;/div&gt;
+</span><span id="284" class="l"><a href="#284">284: </a>            &lt;hr&gt;
+</span><span id="285" class="l"><a href="#285">285: </a>            &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;cc-a-block&quot;</span>&gt;
+</span><span id="286" class="l"><a href="#286">286: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;left&quot;</span>&gt;
+</span><span id="287" class="l"><a href="#287">287: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ad-1&quot;</span>&gt;
+</span><span id="288" class="l"><a href="#288">288: </a>                        &lt;h3&gt;<span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Easily Add Forms'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h3&gt;
+</span><span id="289" class="l"><a href="#289">289: </a>                        &lt;img
+</span><span id="290" class="l"><a href="#290">290: </a>                            src=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/add-forms.png' ); ?&gt;&quot;</span>
+</span><span id="291" class="l"><a href="#291">291: </a>                            alt=<span class="php-quote">&quot;&lt;?php echo esc_attr_x( 'add forms screenshot', 'add forms alt text', 'constantcontact' ); ?&gt;&quot;</span>
+</span><span id="292" class="l"><a href="#292">292: </a>                        /&gt;
+</span><span id="293" class="l"><a href="#293">293: </a>                        &lt;p&gt;
+</span><span id="294" class="l"><a href="#294">294: </a>                            <span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. '</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="295" class="l"><a href="#295">295: </a>                        &lt;/p&gt;
+</span><span id="296" class="l"><a href="#296">296: </a>                    &lt;/div&gt;
+</span><span id="297" class="l"><a href="#297">297: </a>                &lt;/div&gt;
+</span><span id="298" class="l"><a href="#298">298: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;right&quot;</span>&gt;
+</span><span id="299" class="l"><a href="#299">299: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ad-2&quot;</span>&gt;
+</span><span id="300" class="l"><a href="#300">300: </a>                        &lt;h3&gt;<span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Stay Connected With Your WordPress Visitors'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h3&gt;
+</span><span id="301" class="l"><a href="#301">301: </a>                        &lt;img
+</span><span id="302" class="l"><a href="#302">302: </a>                            src=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/stay-connected.png' ); ?&gt;&quot;</span>
+</span><span id="303" class="l"><a href="#303">303: </a>                            alt=<span class="php-quote">&quot;&lt;?php echo esc_attr_x( 'stay connected screenshot', 'stay connected alt text', 'constantcontact' ); ?&gt;&quot;</span>
+</span><span id="304" class="l"><a href="#304">304: </a>                        /&gt;
+</span><span id="305" class="l"><a href="#305">305: </a>                        &lt;p&gt;
+</span><span id="306" class="l"><a href="#306">306: </a>                            <span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Form completions from site visitors are conveniently added to your Constant Contact email list.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="307" class="l"><a href="#307">307: </a>                        &lt;/p&gt;
+</span><span id="308" class="l"><a href="#308">308: </a>                    &lt;/div&gt;
+</span><span id="309" class="l"><a href="#309">309: </a>                &lt;/div&gt;
+</span><span id="310" class="l"><a href="#310">310: </a>            &lt;/div&gt;
+</span><span id="311" class="l"><a href="#311">311: </a>        &lt;/div&gt;
+</span><span id="312" class="l"><a href="#312">312: </a>        <span class="xlang">&lt;?php</span>
+</span><span id="313" class="l"><a href="#313">313: </a>    }
+</span><span id="314" class="l"><a href="#314">314: </a>}
 </span><span id="315" class="l"><a href="#315">315: </a>
-</span><span id="316" class="l"><a href="#316">316: </a>        <span class="php-comment">// make it so pretty</span>
-</span><span id="317" class="l"><a href="#317">317: </a>        wp_enqueue_style( <span class="php-quote">'constant_contact_admin_pages'</span> );
-</span><span id="318" class="l"><a href="#318">318: </a>
-</span><span id="319" class="l"><a href="#319">319: </a>        <span class="xlang">?&gt;</span>
-</span><span id="320" class="l"><a href="#320">320: </a>        &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;wrap about-wrap constant-contact-about&quot;</span>&gt;
-</span><span id="321" class="l"><a href="#321">321: </a>            &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;hide-overflow&quot;</span>&gt;
-</span><span id="322" class="l"><a href="#322">322: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;left-side&quot;</span>&gt;
-</span><span id="323" class="l"><a href="#323">323: </a>                    &lt;h1 <span class="php-keyword1">class</span>=<span class="php-quote">&quot;about-header&quot;</span>&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Constant Contact Forms'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h1&gt;
-</span><span id="324" class="l"><a href="#324">324: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;about-text&quot;</span>&gt;
-</span><span id="325" class="l"><a href="#325">325: </a>                        &lt;p&gt;
-</span><span id="326" class="l"><a href="#326">326: </a>                        <span class="xlang">&lt;?php</span> <span class="php-keyword1">echo</span> wp_kses_post( __( <span class="php-quote">'The &lt;strong&gt;Constant Contact Forms&lt;/strong&gt; plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don’t have a Constant Contact account.'</span>, <span class="php-quote">'constantcontact'</span> ) ); <span class="xlang">?&gt;</span>
-</span><span id="327" class="l"><a href="#327">327: </a>                        &lt;/p&gt;
-</span><span id="328" class="l"><a href="#328">328: </a>                        &lt;p&gt;
-</span><span id="329" class="l"><a href="#329">329: </a>                        <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Whether you’re looking to collect email addresses, contact info, event sign-ups, or visitor feedback, you can customize your forms with data fields that work best for you. You can:'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="330" class="l"><a href="#330">330: </a>                        &lt;ul <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-bonus-points&quot;</span>&gt;
-</span><span id="331" class="l"><a href="#331">331: </a>                            &lt;li&gt; <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Quickly create different types of forms that are clear, simple, and mobile-optimized.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/li&gt;
-</span><span id="332" class="l"><a href="#332">332: </a>                            &lt;li&gt; <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Choose forms that automatically select the theme and style of your WordPress site.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/li&gt;
-</span><span id="333" class="l"><a href="#333">333: </a>                            &lt;li&gt; <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Customize the form data fields, so you can tailor the type of information you collect'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/li&gt;
-</span><span id="334" class="l"><a href="#334">334: </a>                        &lt;/ul&gt;
-</span><span id="335" class="l"><a href="#335">335: </a>                        &lt;/p&gt;
-</span><span id="336" class="l"><a href="#336">336: </a>                        &lt;p&gt;
-</span><span id="337" class="l"><a href="#337">337: </a>                        <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Using your sign-up forms to collect email addresses? Email marketing is a great way to stay connected with visitors after they’ve left your site. And with an active Constant Contact account, every new subscriber you capture will be automatically added to your selected email lists.  '</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="338" class="l"><a href="#338">338: </a>                        &lt;/p&gt;
-</span><span id="339" class="l"><a href="#339">339: </a>                        &lt;a href=<span class="php-quote">&quot;https://www.constantcontact.com/&quot;</span> target=<span class="php-quote">&quot;_blank&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;button button-orange&quot;</span> title=<span class="php-quote">&quot;Try Us Free&quot;</span>&gt;<span class="php-keyword1">Try</span> Us Free&lt;/a&gt;
-</span><span id="340" class="l"><a href="#340">340: </a>                    &lt;/div&gt;
-</span><span id="341" class="l"><a href="#341">341: </a>                &lt;/div&gt;
-</span><span id="342" class="l"><a href="#342">342: </a>                &lt;span <span class="php-keyword1">class</span>=<span class="php-quote">&quot;plugin-badge&quot;</span>&gt;
-</span><span id="343" class="l"><a href="#343">343: </a>                    &lt;img src=<span class="php-quote">&quot;&lt;?php echo </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/icon.jpg'; ?&gt;&quot;</span>&gt;
-</span><span id="344" class="l"><a href="#344">344: </a>                &lt;/span&gt;
-</span><span id="345" class="l"><a href="#345">345: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;clear&quot;</span>&gt;&lt;/div&gt;
-</span><span id="346" class="l"><a href="#346">346: </a>                &lt;hr&gt;
-</span><span id="347" class="l"><a href="#347">347: </a>                <span class="xlang">&lt;?php</span>
-</span><span id="348" class="l"><a href="#348">348: </a>                    <span class="php-comment">// Get our connected state</span>
-</span><span id="349" class="l"><a href="#349">349: </a>                    <span class="php-var">$connected</span> = constant_contact()-&gt;api-&gt;is_connected();
-</span><span id="350" class="l"><a href="#350">350: </a>
-</span><span id="351" class="l"><a href="#351">351: </a>                    <span class="php-comment">// @codingStandardsIgnoreStart</span>
-</span><span id="352" class="l"><a href="#352">352: </a>                    <span class="php-keyword1">if</span> ( ! <span class="php-var">$connected</span> ) {
-</span><span id="353" class="l"><a href="#353">353: </a>                    <span class="php-comment">// @codingStandardsIgnoreEnd</span>
-</span><span id="354" class="l"><a href="#354">354: </a>
-</span><span id="355" class="l"><a href="#355">355: </a>                        <span class="php-comment">// Get our middleware link</span>
-</span><span id="356" class="l"><a href="#356">356: </a>                        <span class="php-var">$proof</span> = constant_contact()-&gt;authserver-&gt;set_verification_option();
-</span><span id="357" class="l"><a href="#357">357: </a>                        <span class="php-var">$auth_link</span> = constant_contact()-&gt;authserver-&gt;do_connect_url( <span class="php-var">$proof</span> );
-</span><span id="358" class="l"><a href="#358">358: </a>
-</span><span id="359" class="l"><a href="#359">359: </a>                    <span class="php-comment">// @codingStandardsIgnoreStart</span>
-</span><span id="360" class="l"><a href="#360">360: </a>                    }
-</span><span id="361" class="l"><a href="#361">361: </a>                    <span class="php-comment">// @codingStandardsIgnoreEnd</span>
-</span><span id="362" class="l"><a href="#362">362: </a>
-</span><span id="363" class="l"><a href="#363">363: </a>                <span class="xlang">?&gt;</span>
-</span><span id="364" class="l"><a href="#364">364: </a>                <span class="xlang">&lt;?php</span> <span class="php-keyword1">if</span> ( ! <span class="php-var">$connected</span> &amp;&amp; <span class="php-var">$auth_link</span> ) { <span class="php-comment">// If we have a link, then display the connect button ?&gt;</span>
-</span><span id="365" class="l"><a href="#365">365: </a>                    &lt;h2&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Already a Constant Contact account?'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h2&gt;
-</span><span id="366" class="l"><a href="#366">366: </a>                    &lt;a href=<span class="php-quote">&quot;&lt;?php echo </span><span class="php-var">$auth_link</span><span class="php-quote"> ?&gt;&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;button button-blue ctct-connect&quot;</span>&gt;
-</span><span id="367" class="l"><a href="#367">367: </a>                        <span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Connect the plugin'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="368" class="l"><a href="#368">368: </a>                    &lt;/a&gt;
-</span><span id="369" class="l"><a href="#369">369: </a>                <span class="xlang">&lt;?php</span> } <span class="xlang">?&gt;</span>
-</span><span id="370" class="l"><a href="#370">370: </a>            &lt;/div&gt;
-</span><span id="371" class="l"><a href="#371">371: </a>            &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;headline-feature&quot;</span>&gt;
-</span><span id="372" class="l"><a href="#372">372: </a>                &lt;h3&gt;&lt;/h3&gt;
-</span><span id="373" class="l"><a href="#373">373: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;featured-image&quot;</span>&gt;
-</span><span id="374" class="l"><a href="#374">374: </a>                    &lt;img src=<span class="php-quote">&quot;&lt;?php echo </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/coffee-hero.jpg'; ?&gt;&quot;</span>&gt;
-</span><span id="375" class="l"><a href="#375">375: </a>                    &lt;p <span class="php-keyword1">class</span>=<span class="php-quote">&quot;featured-title c-text&quot;</span>&gt;
-</span><span id="376" class="l"><a href="#376">376: </a>                        <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Powerful Email Marketing, Made Simple.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="377" class="l"><a href="#377">377: </a>                    &lt;/p&gt;
-</span><span id="378" class="l"><a href="#378">378: </a>                    &lt;p <span class="php-keyword1">class</span>=<span class="php-quote">&quot;featured-introduction c-text&quot;</span>&gt;
-</span><span id="379" class="l"><a href="#379">379: </a>                        <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Create professional emails that bring customers to your door'</span>, <span class="php-quote">'constantcontact'</span> ) <span class="xlang">?&gt;</span>
-</span><span id="380" class="l"><a href="#380">380: </a>                    &lt;/p&gt;
-</span><span id="381" class="l"><a href="#381">381: </a>                &lt;/div&gt;
-</span><span id="382" class="l"><a href="#382">382: </a>                &lt;p <span class="php-keyword1">class</span>=<span class="php-quote">&quot;introduction c-text&quot;</span>&gt;
-</span><span id="383" class="l"><a href="#383">383: </a>                <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact for WordPress plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="384" class="l"><a href="#384">384: </a>                    &lt;h5&gt;
-</span><span id="385" class="l"><a href="#385">385: </a>                        <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'*Direct Marketing Association 2013 Statistical Fact Book'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="386" class="l"><a href="#386">386: </a>                    &lt;/h5&gt;
-</span><span id="387" class="l"><a href="#387">387: </a>                &lt;/p&gt;
-</span><span id="388" class="l"><a href="#388">388: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;clear&quot;</span>&gt;&lt;/div&gt;
-</span><span id="389" class="l"><a href="#389">389: </a>            &lt;/div&gt;
-</span><span id="390" class="l"><a href="#390">390: </a>            &lt;hr&gt;
-</span><span id="391" class="l"><a href="#391">391: </a>            &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;cc-a-block&quot;</span>&gt;
-</span><span id="392" class="l"><a href="#392">392: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;left&quot;</span>&gt;
-</span><span id="393" class="l"><a href="#393">393: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ad-1&quot;</span>&gt;
-</span><span id="394" class="l"><a href="#394">394: </a>                        &lt;h3&gt;<span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Easily Add Forms'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h3&gt;
-</span><span id="395" class="l"><a href="#395">395: </a>                        &lt;img
-</span><span id="396" class="l"><a href="#396">396: </a>                            src=<span class="php-quote">&quot;&lt;?php echo </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/add-forms.png'; ?&gt;&quot;</span>
-</span><span id="397" class="l"><a href="#397">397: </a>                            alt=<span class="php-quote">&quot;&lt;?php echo esc_attr_x( 'add forms screenshot', 'add forms alt text', 'constantcontact' ); ?&gt;&quot;</span>
-</span><span id="398" class="l"><a href="#398">398: </a>                        /&gt;
-</span><span id="399" class="l"><a href="#399">399: </a>                        &lt;p&gt;
-</span><span id="400" class="l"><a href="#400">400: </a>                            <span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. '</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="401" class="l"><a href="#401">401: </a>                        &lt;/p&gt;
-</span><span id="402" class="l"><a href="#402">402: </a>                    &lt;/div&gt;
-</span><span id="403" class="l"><a href="#403">403: </a>                &lt;/div&gt;
-</span><span id="404" class="l"><a href="#404">404: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;right&quot;</span>&gt;
-</span><span id="405" class="l"><a href="#405">405: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ad-2&quot;</span>&gt;
-</span><span id="406" class="l"><a href="#406">406: </a>                        &lt;h3&gt;<span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Stay Connected With Your WordPress Visitors'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h3&gt;
-</span><span id="407" class="l"><a href="#407">407: </a>                        &lt;img
-</span><span id="408" class="l"><a href="#408">408: </a>                            src=<span class="php-quote">&quot;&lt;?php echo </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/stay-connected.png'; ?&gt;&quot;</span>
-</span><span id="409" class="l"><a href="#409">409: </a>                            alt=<span class="php-quote">&quot;&lt;?php echo esc_attr_x( 'stay connected screenshot', 'stay connected alt text', 'constantcontact' ); ?&gt;&quot;</span>
-</span><span id="410" class="l"><a href="#410">410: </a>                        /&gt;
-</span><span id="411" class="l"><a href="#411">411: </a>                        &lt;p&gt;
-</span><span id="412" class="l"><a href="#412">412: </a>                            <span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Form completions from site visitors are conveniently added to your Constant Contact email list.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="413" class="l"><a href="#413">413: </a>                        &lt;/p&gt;
-</span><span id="414" class="l"><a href="#414">414: </a>                    &lt;/div&gt;
-</span><span id="415" class="l"><a href="#415">415: </a>                &lt;/div&gt;
-</span><span id="416" class="l"><a href="#416">416: </a>            &lt;/div&gt;
-</span><span id="417" class="l"><a href="#417">417: </a>        &lt;/div&gt;
-</span><span id="418" class="l"><a href="#418">418: </a>        <span class="xlang">&lt;?php</span>
-</span><span id="419" class="l"><a href="#419">419: </a>    }
-</span><span id="420" class="l"><a href="#420">420: </a>}
-</span><span id="421" class="l"><a href="#421">421: </a>
-</span><span id="422" class="l"><a href="#422">422: </a></span></code></pre>
+</span><span id="316" class="l"><a href="#316">316: </a></span></code></pre>
 
 	<div id="footer">
 		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
@@ -771,6 +706,6 @@
 </div>
 </div>
 <script src="resources/combined.js?cd021bc814832c24a7cec5319ea03335bfba1caf"></script>
-<script src="elementlist.js?674629cadf4eb0973acc4bfd087ef1012a6e6448"></script>
+<script src="elementlist.js?211d734f3d217dea7c94e5eba6c010181a99d952"></script>
 </body>
 </html>

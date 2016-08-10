@@ -96,6 +96,18 @@
 
 						</li>
 				<li>
+					<a href="package-ConstantContact.Notifications.html">
+						Notifications<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="package-ConstantContact.Notifications.Content.html">
+						Content					</a>
+
+						</li>
+							</ul></li>
+				<li>
 					<a href="package-ConstantContact.ProcessForm.html">
 						ProcessForm					</a>
 
@@ -124,6 +136,11 @@
 				<li>
 					<a href="package-ConstantContact.Tests.Admin.html">
 						Admin					</a>
+
+						</li>
+				<li>
+					<a href="package-ConstantContact.Tests.AdminPages.html">
+						AdminPages					</a>
 
 						</li>
 				<li>
@@ -202,6 +219,16 @@
 
 						</li>
 				<li>
+					<a href="package-ConstantContact.Tests.NotificationContent.html">
+						NotificationContent					</a>
+
+						</li>
+				<li>
+					<a href="package-ConstantContact.Tests.Notifications.html">
+						Notifications					</a>
+
+						</li>
+				<li>
 					<a href="package-ConstantContact.Tests.ProcessForm.html">
 						ProcessForm					</a>
 
@@ -221,12 +248,18 @@
 						ShortcodeAdmin					</a>
 
 						</li>
-							</ul></li></ul></li>
 				<li>
-					<a href="package-None.html">
-						None					</a>
+					<a href="package-ConstantContact.Tests.Updates.html">
+						Updates					</a>
 
 						</li>
+							</ul></li>
+				<li>
+					<a href="package-ConstantContact.Updates.html">
+						Updates					</a>
+
+						</li>
+							</ul></li>
 				<li>
 					<a href="package-PHP.html">
 						PHP					</a>
@@ -271,6 +304,10 @@
 				<li><a href="class-ConstantContact_Mail_Test.html">ConstantContact_Mail_Test</a></li>
 				<li><a href="class-ConstantContact_Middleware.html">ConstantContact_Middleware</a></li>
 				<li><a href="class-ConstantContact_Middleware_Test.html">ConstantContact_Middleware_Test</a></li>
+				<li><a href="class-ConstantContact_Notification_Content.html">ConstantContact_Notification_Content</a></li>
+				<li><a href="class-ConstantContact_Notification_Content_Test.html">ConstantContact_Notification_Content_Test</a></li>
+				<li><a href="class-ConstantContact_Notifications.html">ConstantContact_Notifications</a></li>
+				<li><a href="class-ConstantContact_Notifications_Test.html">ConstantContact_Notifications_Test</a></li>
 				<li><a href="class-ConstantContact_Process_Form.html">ConstantContact_Process_Form</a></li>
 				<li><a href="class-ConstantContact_Process_Form_Test.html">ConstantContact_Process_Form_Test</a></li>
 				<li><a href="class-ConstantContact_Settings.html">ConstantContact_Settings</a></li>
@@ -279,6 +316,8 @@
 				<li><a href="class-ConstantContact_Shortcode_Admin.html">ConstantContact_Shortcode_Admin</a></li>
 				<li><a href="class-ConstantContact_Shortcode_Admin_Test.html">ConstantContact_Shortcode_Admin_Test</a></li>
 				<li><a href="class-ConstantContact_Shortcode_Test.html">ConstantContact_Shortcode_Test</a></li>
+				<li><a href="class-ConstantContact_Updates.html">ConstantContact_Updates</a></li>
+				<li><a href="class-ConstantContact_Updates_Test.html">ConstantContact_Updates_Test</a></li>
 			</ul>
 
 
@@ -297,6 +336,8 @@
 				<li><a href="function-constant_contact_display_form.html">constant_contact_display_form</a></li>
 				<li><a href="function-constant_contact_get_form.html">constant_contact_get_form</a></li>
 				<li><a href="function-constant_contact_get_forms.html">constant_contact_get_forms</a></li>
+				<li><a href="function-constant_contact_is_connected.html">constant_contact_is_connected</a></li>
+				<li><a href="function-constant_contact_is_not_connected.html">constant_contact_is_not_connected</a></li>
 				<li><a href="function-constantcontact_api.html">constantcontact_api</a></li>
 				<li><a href="function-constantcontact_get_option.html">constantcontact_get_option</a></li>
 				<li><a href="function-ctct_get_settings_option.html">ctct_get_settings_option</a></li>
@@ -343,26 +384,32 @@
 	</div>
 
 <pre><code><span id="1" class="l"><a href="#1"> 1: </a><span class="xlang">&lt;?php</span>
-</span><span id="2" class="l"><a href="#2"> 2: </a>
-</span><span id="3" class="l"><a href="#3"> 3: </a><span class="php-keyword1">class</span> ConstantContact_Admin_Pages_Test <span class="php-keyword1">extends</span> WP_UnitTestCase {
-</span><span id="4" class="l"><a href="#4"> 4: </a>
-</span><span id="5" class="l"><a href="#5"> 5: </a>    <span class="php-keyword1">function</span> test_class_exists() {
-</span><span id="6" class="l"><a href="#6"> 6: </a>        <span class="php-var">$this</span>-&gt;assertTrue( <span class="php-keyword2">class_exists</span>( <span class="php-quote">'ConstantContact_Admin_Pages'</span> ) );
-</span><span id="7" class="l"><a href="#7"> 7: </a>    }
+</span><span id="2" class="l"><a href="#2"> 2: </a><span class="php-comment">/**
+</span></span><span id="3" class="l"><a href="#3"> 3: </a><span class="php-comment"> * @package ConstantContact_Tests
+</span></span><span id="4" class="l"><a href="#4"> 4: </a><span class="php-comment"> * @subpackage AdminPages
+</span></span><span id="5" class="l"><a href="#5"> 5: </a><span class="php-comment"> * @author Pluginize
+</span></span><span id="6" class="l"><a href="#6"> 6: </a><span class="php-comment"> * @since 1.0.0
+</span></span><span id="7" class="l"><a href="#7"> 7: </a><span class="php-comment"> */</span>
 </span><span id="8" class="l"><a href="#8"> 8: </a>
-</span><span id="9" class="l"><a href="#9"> 9: </a>    <span class="php-keyword1">function</span> test_class_access() {
+</span><span id="9" class="l"><a href="#9"> 9: </a><span class="php-keyword1">class</span> ConstantContact_Admin_Pages_Test <span class="php-keyword1">extends</span> WP_UnitTestCase {
 </span><span id="10" class="l"><a href="#10">10: </a>
-</span><span id="11" class="l"><a href="#11">11: </a>        <span class="php-keyword1">if</span> ( is_admin() ) {
-</span><span id="12" class="l"><a href="#12">12: </a>            <span class="php-var">$this</span>-&gt;assertTrue( constant_contact()-&gt;admin_pages <span class="php-keyword1">instanceof</span> ConstantContact_Admin_Pages );
-</span><span id="13" class="l"><a href="#13">13: </a>        }
-</span><span id="14" class="l"><a href="#14">14: </a>    }
-</span><span id="15" class="l"><a href="#15">15: </a>
-</span><span id="16" class="l"><a href="#16">16: </a>    <span class="php-keyword1">function</span> test_sample() {
-</span><span id="17" class="l"><a href="#17">17: </a>        <span class="php-comment">// replace this with some actual testing code</span>
-</span><span id="18" class="l"><a href="#18">18: </a>        <span class="php-var">$this</span>-&gt;assertTrue( <span class="php-keyword1">true</span> );
-</span><span id="19" class="l"><a href="#19">19: </a>    }
-</span><span id="20" class="l"><a href="#20">20: </a>}
-</span><span id="21" class="l"><a href="#21">21: </a></span></code></pre>
+</span><span id="11" class="l"><a href="#11">11: </a>    <span class="php-keyword1">function</span> test_class_exists() {
+</span><span id="12" class="l"><a href="#12">12: </a>        <span class="php-var">$this</span>-&gt;assertTrue( <span class="php-keyword2">class_exists</span>( <span class="php-quote">'ConstantContact_Admin_Pages'</span> ) );
+</span><span id="13" class="l"><a href="#13">13: </a>    }
+</span><span id="14" class="l"><a href="#14">14: </a>
+</span><span id="15" class="l"><a href="#15">15: </a>    <span class="php-keyword1">function</span> test_class_access() {
+</span><span id="16" class="l"><a href="#16">16: </a>
+</span><span id="17" class="l"><a href="#17">17: </a>        <span class="php-keyword1">if</span> ( is_admin() ) {
+</span><span id="18" class="l"><a href="#18">18: </a>            <span class="php-var">$this</span>-&gt;assertTrue( constant_contact()-&gt;admin_pages <span class="php-keyword1">instanceof</span> ConstantContact_Admin_Pages );
+</span><span id="19" class="l"><a href="#19">19: </a>        }
+</span><span id="20" class="l"><a href="#20">20: </a>    }
+</span><span id="21" class="l"><a href="#21">21: </a>
+</span><span id="22" class="l"><a href="#22">22: </a>    <span class="php-keyword1">function</span> test_sample() {
+</span><span id="23" class="l"><a href="#23">23: </a>        <span class="php-comment">// replace this with some actual testing code</span>
+</span><span id="24" class="l"><a href="#24">24: </a>        <span class="php-var">$this</span>-&gt;assertTrue( <span class="php-keyword1">true</span> );
+</span><span id="25" class="l"><a href="#25">25: </a>    }
+</span><span id="26" class="l"><a href="#26">26: </a>}
+</span><span id="27" class="l"><a href="#27">27: </a></span></code></pre>
 
 	<div id="footer">
 		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
@@ -370,6 +417,6 @@
 </div>
 </div>
 <script src="resources/combined.js?cd021bc814832c24a7cec5319ea03335bfba1caf"></script>
-<script src="elementlist.js?674629cadf4eb0973acc4bfd087ef1012a6e6448"></script>
+<script src="elementlist.js?211d734f3d217dea7c94e5eba6c010181a99d952"></script>
 </body>
 </html>

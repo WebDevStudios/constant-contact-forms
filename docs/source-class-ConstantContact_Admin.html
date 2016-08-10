@@ -96,6 +96,18 @@
 
 						</li>
 				<li>
+					<a href="package-ConstantContact.Notifications.html">
+						Notifications<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="package-ConstantContact.Notifications.Content.html">
+						Content					</a>
+
+						</li>
+							</ul></li>
+				<li>
 					<a href="package-ConstantContact.ProcessForm.html">
 						ProcessForm					</a>
 
@@ -124,6 +136,11 @@
 				<li>
 					<a href="package-ConstantContact.Tests.Admin.html">
 						Admin					</a>
+
+						</li>
+				<li>
+					<a href="package-ConstantContact.Tests.AdminPages.html">
+						AdminPages					</a>
 
 						</li>
 				<li>
@@ -202,6 +219,16 @@
 
 						</li>
 				<li>
+					<a href="package-ConstantContact.Tests.NotificationContent.html">
+						NotificationContent					</a>
+
+						</li>
+				<li>
+					<a href="package-ConstantContact.Tests.Notifications.html">
+						Notifications					</a>
+
+						</li>
+				<li>
 					<a href="package-ConstantContact.Tests.ProcessForm.html">
 						ProcessForm					</a>
 
@@ -221,12 +248,18 @@
 						ShortcodeAdmin					</a>
 
 						</li>
-							</ul></li></ul></li>
 				<li>
-					<a href="package-None.html">
-						None					</a>
+					<a href="package-ConstantContact.Tests.Updates.html">
+						Updates					</a>
 
 						</li>
+							</ul></li>
+				<li>
+					<a href="package-ConstantContact.Updates.html">
+						Updates					</a>
+
+						</li>
+							</ul></li>
 				<li>
 					<a href="package-PHP.html">
 						PHP					</a>
@@ -271,6 +304,10 @@
 				<li><a href="class-ConstantContact_Mail_Test.html">ConstantContact_Mail_Test</a></li>
 				<li><a href="class-ConstantContact_Middleware.html">ConstantContact_Middleware</a></li>
 				<li><a href="class-ConstantContact_Middleware_Test.html">ConstantContact_Middleware_Test</a></li>
+				<li><a href="class-ConstantContact_Notification_Content.html">ConstantContact_Notification_Content</a></li>
+				<li><a href="class-ConstantContact_Notification_Content_Test.html">ConstantContact_Notification_Content_Test</a></li>
+				<li><a href="class-ConstantContact_Notifications.html">ConstantContact_Notifications</a></li>
+				<li><a href="class-ConstantContact_Notifications_Test.html">ConstantContact_Notifications_Test</a></li>
 				<li><a href="class-ConstantContact_Process_Form.html">ConstantContact_Process_Form</a></li>
 				<li><a href="class-ConstantContact_Process_Form_Test.html">ConstantContact_Process_Form_Test</a></li>
 				<li><a href="class-ConstantContact_Settings.html">ConstantContact_Settings</a></li>
@@ -279,6 +316,8 @@
 				<li><a href="class-ConstantContact_Shortcode_Admin.html">ConstantContact_Shortcode_Admin</a></li>
 				<li><a href="class-ConstantContact_Shortcode_Admin_Test.html">ConstantContact_Shortcode_Admin_Test</a></li>
 				<li><a href="class-ConstantContact_Shortcode_Test.html">ConstantContact_Shortcode_Test</a></li>
+				<li><a href="class-ConstantContact_Updates.html">ConstantContact_Updates</a></li>
+				<li><a href="class-ConstantContact_Updates_Test.html">ConstantContact_Updates_Test</a></li>
 			</ul>
 
 
@@ -297,6 +336,8 @@
 				<li><a href="function-constant_contact_display_form.html">constant_contact_display_form</a></li>
 				<li><a href="function-constant_contact_get_form.html">constant_contact_get_form</a></li>
 				<li><a href="function-constant_contact_get_forms.html">constant_contact_get_forms</a></li>
+				<li><a href="function-constant_contact_is_connected.html">constant_contact_is_connected</a></li>
+				<li><a href="function-constant_contact_is_not_connected.html">constant_contact_is_not_connected</a></li>
 				<li><a href="function-constantcontact_api.html">constantcontact_api</a></li>
 				<li><a href="function-constantcontact_get_option.html">constantcontact_get_option</a></li>
 				<li><a href="function-ctct_get_settings_option.html">ctct_get_settings_option</a></li>
@@ -468,199 +509,215 @@
 </span><span id="124" class="l"><a href="#124">124: </a>            &lt;div id=<span class="php-quote">&quot;options-wrap&quot;</span>&gt;
 </span><span id="125" class="l"><a href="#125">125: </a>                <span class="xlang">&lt;?php</span>
 </span><span id="126" class="l"><a href="#126">126: </a>
-</span><span id="127" class="l"><a href="#127">127: </a>                <span class="php-comment">// If we have a $_GET['page'], let's try to pull out the page we're looking for</span>
-</span><span id="128" class="l"><a href="#128">128: </a>                <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) &amp;&amp; <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) { <span class="php-comment">// Input var okay.</span>
-</span><span id="129" class="l"><a href="#129">129: </a>                    <span class="php-var">$page</span> = <span class="php-keyword2">explode</span>( <span class="php-var">$this</span>-&gt;<span class="php-keyword2">key</span> . <span class="php-quote">'_'</span>, esc_attr( wp_unslash( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ) ); <span class="php-comment">// Input var okay.</span>
-</span><span id="130" class="l"><a href="#130">130: </a>                } <span class="php-keyword1">else</span> {
-</span><span id="131" class="l"><a href="#131">131: </a>                    <span class="php-var">$page</span> = <span class="php-keyword1">array</span>();
-</span><span id="132" class="l"><a href="#132">132: </a>                }
-</span><span id="133" class="l"><a href="#133">133: </a>
-</span><span id="134" class="l"><a href="#134">134: </a>                <span class="php-comment">// If we have a second element set, let's check out what it should be</span>
-</span><span id="135" class="l"><a href="#135">135: </a>                <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$page</span>[<span class="php-num">1</span>] ) &amp;&amp; <span class="php-var">$page</span>[<span class="php-num">1</span>] ) {
+</span><span id="127" class="l"><a href="#127">127: </a>                <span class="php-comment">// If we have a page get var set, let's try to pull out the page we're looking for</span>
+</span><span id="128" class="l"><a href="#128">128: </a>                <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) ) { <span class="php-comment">// Input var okay.</span>
+</span><span id="129" class="l"><a href="#129">129: </a>
+</span><span id="130" class="l"><a href="#130">130: </a>                    <span class="php-var">$page_key</span> = sanitize_text_field( wp_unslash( <span class="php-var">$_GET</span>[<span class="php-quote">'page'</span>] ) );  <span class="php-comment">// Input var okay.</span>
+</span><span id="131" class="l"><a href="#131">131: </a>
+</span><span id="132" class="l"><a href="#132">132: </a>                    <span class="php-var">$page</span> = <span class="php-keyword2">explode</span>( <span class="php-var">$this</span>-&gt;<span class="php-keyword2">key</span> . <span class="php-quote">'_'</span>, <span class="php-var">$page_key</span> );
+</span><span id="133" class="l"><a href="#133">133: </a>                } <span class="php-keyword1">else</span> {
+</span><span id="134" class="l"><a href="#134">134: </a>                    <span class="php-var">$page</span> = <span class="php-keyword1">array</span>();
+</span><span id="135" class="l"><a href="#135">135: </a>                }
 </span><span id="136" class="l"><a href="#136">136: </a>
-</span><span id="137" class="l"><a href="#137">137: </a>                    <span class="php-comment">// switch through our whitelisted pages that we shoud include</span>
-</span><span id="138" class="l"><a href="#138">138: </a>                    <span class="php-keyword1">switch</span> ( esc_attr( <span class="php-var">$page</span>[<span class="php-num">1</span>] ) ) {
-</span><span id="139" class="l"><a href="#139">139: </a>                        <span class="php-keyword1">case</span> <span class="php-quote">'about'</span>:
-</span><span id="140" class="l"><a href="#140">140: </a>                            constant_contact()-&gt;admin_pages-&gt;about_page();
-</span><span id="141" class="l"><a href="#141">141: </a>                            <span class="php-keyword1">break</span>;
-</span><span id="142" class="l"><a href="#142">142: </a>                        <span class="php-keyword1">case</span> <span class="php-quote">'help'</span>:
-</span><span id="143" class="l"><a href="#143">143: </a>                            constant_contact()-&gt;admin_pages-&gt;help_page();
+</span><span id="137" class="l"><a href="#137">137: </a>                <span class="php-comment">// If we have a second element set, let's check out what it should be</span>
+</span><span id="138" class="l"><a href="#138">138: </a>                <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$page</span>[<span class="php-num">1</span>] ) &amp;&amp; <span class="php-var">$page</span>[<span class="php-num">1</span>] ) {
+</span><span id="139" class="l"><a href="#139">139: </a>
+</span><span id="140" class="l"><a href="#140">140: </a>                    <span class="php-comment">// switch through our whitelisted pages that we shoud include</span>
+</span><span id="141" class="l"><a href="#141">141: </a>                    <span class="php-keyword1">switch</span> ( esc_attr( <span class="php-var">$page</span>[<span class="php-num">1</span>] ) ) {
+</span><span id="142" class="l"><a href="#142">142: </a>                        <span class="php-keyword1">case</span> <span class="php-quote">'about'</span>:
+</span><span id="143" class="l"><a href="#143">143: </a>                            constant_contact()-&gt;admin_pages-&gt;about_page();
 </span><span id="144" class="l"><a href="#144">144: </a>                            <span class="php-keyword1">break</span>;
-</span><span id="145" class="l"><a href="#145">145: </a>                    }
-</span><span id="146" class="l"><a href="#146">146: </a>                } <span class="php-keyword1">else</span> {
-</span><span id="147" class="l"><a href="#147">147: </a>                    cmb2_metabox_form( <span class="php-var">$this</span>-&gt;metabox_id, <span class="php-var">$this</span>-&gt;<span class="php-keyword2">key</span> );
-</span><span id="148" class="l"><a href="#148">148: </a>                }
-</span><span id="149" class="l"><a href="#149">149: </a>                <span class="xlang">?&gt;</span>
-</span><span id="150" class="l"><a href="#150">150: </a>            &lt;/div&gt;
-</span><span id="151" class="l"><a href="#151">151: </a>        &lt;/div&gt;
-</span><span id="152" class="l"><a href="#152">152: </a>        <span class="xlang">&lt;?php</span>
-</span><span id="153" class="l"><a href="#153">153: </a>        do_action( <span class="php-quote">'constant_contact_admin_after'</span> );
-</span><span id="154" class="l"><a href="#154">154: </a>    }
-</span><span id="155" class="l"><a href="#155">155: </a>
-</span><span id="156" class="l"><a href="#156">156: </a>    <span class="php-comment">/**
-</span></span><span id="157" class="l"><a href="#157">157: </a><span class="php-comment">     * Register settings notices for display.
-</span></span><span id="158" class="l"><a href="#158">158: </a><span class="php-comment">     *
-</span></span><span id="159" class="l"><a href="#159">159: </a><span class="php-comment">     * @since 1.0.0
-</span></span><span id="160" class="l"><a href="#160">160: </a><span class="php-comment">     *
-</span></span><span id="161" class="l"><a href="#161">161: </a><span class="php-comment">     * @param int   $object_id Option key.
-</span></span><span id="162" class="l"><a href="#162">162: </a><span class="php-comment">     * @param array $updated Array of updated fields.
-</span></span><span id="163" class="l"><a href="#163">163: </a><span class="php-comment">     */</span>
-</span><span id="164" class="l"><a href="#164">164: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> settings_notices( <span class="php-var">$object_id</span>, <span class="php-var">$updated</span> ) {
-</span><span id="165" class="l"><a href="#165">165: </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$object_id</span> !== <span class="php-var">$this</span>-&gt;<span class="php-keyword2">key</span> || <span class="php-keyword1">empty</span>( <span class="php-var">$updated</span> ) ) {
-</span><span id="166" class="l"><a href="#166">166: </a>            <span class="php-keyword1">return</span>;
-</span><span id="167" class="l"><a href="#167">167: </a>        }
-</span><span id="168" class="l"><a href="#168">168: </a>        add_settings_error( <span class="php-var">$this</span>-&gt;<span class="php-keyword2">key</span> . <span class="php-quote">'-notices'</span>, <span class="php-quote">''</span>, __( <span class="php-quote">'Settings updated.'</span>, <span class="php-quote">'constantcontact'</span> ), <span class="php-quote">'updated'</span> );
-</span><span id="169" class="l"><a href="#169">169: </a>        settings_errors( <span class="php-var">$this</span>-&gt;<span class="php-keyword2">key</span> . <span class="php-quote">'-notices'</span> );
-</span><span id="170" class="l"><a href="#170">170: </a>    }
-</span><span id="171" class="l"><a href="#171">171: </a>
-</span><span id="172" class="l"><a href="#172">172: </a>    <span class="php-comment">/**
-</span></span><span id="173" class="l"><a href="#173">173: </a><span class="php-comment">     * Public getter method for retrieving protected/private variables.
-</span></span><span id="174" class="l"><a href="#174">174: </a><span class="php-comment">     *
-</span></span><span id="175" class="l"><a href="#175">175: </a><span class="php-comment">     * @since 1.0.0
-</span></span><span id="176" class="l"><a href="#176">176: </a><span class="php-comment">     *
-</span></span><span id="177" class="l"><a href="#177">177: </a><span class="php-comment">     * @throws Exception Throws an exception if the field is invalid.
-</span></span><span id="178" class="l"><a href="#178">178: </a><span class="php-comment">     *
-</span></span><span id="179" class="l"><a href="#179">179: </a><span class="php-comment">     * @param string $field Field to retrieve.
-</span></span><span id="180" class="l"><a href="#180">180: </a><span class="php-comment">     * @return mixed Field value or exception is thrown.
-</span></span><span id="181" class="l"><a href="#181">181: </a><span class="php-comment">     */</span>
-</span><span id="182" class="l"><a href="#182">182: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __get( <span class="php-var">$field</span> ) {
-</span><span id="183" class="l"><a href="#183">183: </a>
-</span><span id="184" class="l"><a href="#184">184: </a>        <span class="php-var">$field</span> = esc_attr( <span class="php-var">$field</span> );
-</span><span id="185" class="l"><a href="#185">185: </a>
-</span><span id="186" class="l"><a href="#186">186: </a>        <span class="php-comment">// Allowed fields to retrieve.</span>
-</span><span id="187" class="l"><a href="#187">187: </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword2">in_array</span>( <span class="php-var">$field</span>, <span class="php-keyword1">array</span>( <span class="php-quote">'key'</span>, <span class="php-quote">'metabox_id'</span>, <span class="php-quote">'title'</span>, <span class="php-quote">'options_page'</span> ), <span class="php-keyword1">true</span> ) ) {
-</span><span id="188" class="l"><a href="#188">188: </a>            <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;{<span class="php-var">$field</span>};
-</span><span id="189" class="l"><a href="#189">189: </a>        } <span class="php-keyword1">else</span> {
-</span><span id="190" class="l"><a href="#190">190: </a>            <span class="php-keyword1">return</span> constant_contact()-&gt;{<span class="php-var">$field</span>};
-</span><span id="191" class="l"><a href="#191">191: </a>        }
-</span><span id="192" class="l"><a href="#192">192: </a>    }
-</span><span id="193" class="l"><a href="#193">193: </a>
-</span><span id="194" class="l"><a href="#194">194: </a>    <span class="php-comment">/**
-</span></span><span id="195" class="l"><a href="#195">195: </a><span class="php-comment">     * Add shortcode columns to each cpt.
-</span></span><span id="196" class="l"><a href="#196">196: </a><span class="php-comment">     *
-</span></span><span id="197" class="l"><a href="#197">197: </a><span class="php-comment">     * @internal
-</span></span><span id="198" class="l"><a href="#198">198: </a><span class="php-comment">     *
-</span></span><span id="199" class="l"><a href="#199">199: </a><span class="php-comment">     * @since 1.0.0
-</span></span><span id="200" class="l"><a href="#200">200: </a><span class="php-comment">     * @param array $columns post list columns.
-</span></span><span id="201" class="l"><a href="#201">201: </a><span class="php-comment">     * @return array $columns Array of columns to add.
-</span></span><span id="202" class="l"><a href="#202">202: </a><span class="php-comment">     */</span>
-</span><span id="203" class="l"><a href="#203">203: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> set_custom_columns( <span class="php-var">$columns</span> ) {
-</span><span id="204" class="l"><a href="#204">204: </a>
-</span><span id="205" class="l"><a href="#205">205: </a>        <span class="php-var">$columns</span>[<span class="php-quote">'description'</span>] = __( <span class="php-quote">'Description'</span>, <span class="php-quote">'constantcontact'</span> );
-</span><span id="206" class="l"><a href="#206">206: </a>        <span class="php-var">$columns</span>[<span class="php-quote">'shortcodes'</span>]  = __( <span class="php-quote">'Shortcode'</span>, <span class="php-quote">'constantcontact'</span> );
+</span><span id="145" class="l"><a href="#145">145: </a>                        <span class="php-keyword1">case</span> <span class="php-quote">'help'</span>:
+</span><span id="146" class="l"><a href="#146">146: </a>                            constant_contact()-&gt;admin_pages-&gt;help_page();
+</span><span id="147" class="l"><a href="#147">147: </a>                            <span class="php-keyword1">break</span>;
+</span><span id="148" class="l"><a href="#148">148: </a>                    }
+</span><span id="149" class="l"><a href="#149">149: </a>                } <span class="php-keyword1">else</span> {
+</span><span id="150" class="l"><a href="#150">150: </a>                    cmb2_metabox_form( <span class="php-var">$this</span>-&gt;metabox_id, <span class="php-var">$this</span>-&gt;<span class="php-keyword2">key</span> );
+</span><span id="151" class="l"><a href="#151">151: </a>                }
+</span><span id="152" class="l"><a href="#152">152: </a>                <span class="xlang">?&gt;</span>
+</span><span id="153" class="l"><a href="#153">153: </a>            &lt;/div&gt;
+</span><span id="154" class="l"><a href="#154">154: </a>        &lt;/div&gt;
+</span><span id="155" class="l"><a href="#155">155: </a>        <span class="xlang">&lt;?php</span>
+</span><span id="156" class="l"><a href="#156">156: </a>        do_action( <span class="php-quote">'constant_contact_admin_after'</span> );
+</span><span id="157" class="l"><a href="#157">157: </a>    }
+</span><span id="158" class="l"><a href="#158">158: </a>
+</span><span id="159" class="l"><a href="#159">159: </a>    <span class="php-comment">/**
+</span></span><span id="160" class="l"><a href="#160">160: </a><span class="php-comment">     * Register settings notices for display.
+</span></span><span id="161" class="l"><a href="#161">161: </a><span class="php-comment">     *
+</span></span><span id="162" class="l"><a href="#162">162: </a><span class="php-comment">     * @since 1.0.0
+</span></span><span id="163" class="l"><a href="#163">163: </a><span class="php-comment">     *
+</span></span><span id="164" class="l"><a href="#164">164: </a><span class="php-comment">     * @param int   $object_id Option key.
+</span></span><span id="165" class="l"><a href="#165">165: </a><span class="php-comment">     * @param array $updated Array of updated fields.
+</span></span><span id="166" class="l"><a href="#166">166: </a><span class="php-comment">     */</span>
+</span><span id="167" class="l"><a href="#167">167: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> settings_notices( <span class="php-var">$object_id</span>, <span class="php-var">$updated</span> ) {
+</span><span id="168" class="l"><a href="#168">168: </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$object_id</span> !== <span class="php-var">$this</span>-&gt;<span class="php-keyword2">key</span> || <span class="php-keyword1">empty</span>( <span class="php-var">$updated</span> ) ) {
+</span><span id="169" class="l"><a href="#169">169: </a>            <span class="php-keyword1">return</span>;
+</span><span id="170" class="l"><a href="#170">170: </a>        }
+</span><span id="171" class="l"><a href="#171">171: </a>        add_settings_error( <span class="php-var">$this</span>-&gt;<span class="php-keyword2">key</span> . <span class="php-quote">'-notices'</span>, <span class="php-quote">''</span>, __( <span class="php-quote">'Settings updated.'</span>, <span class="php-quote">'constantcontact'</span> ), <span class="php-quote">'updated'</span> );
+</span><span id="172" class="l"><a href="#172">172: </a>        settings_errors( <span class="php-var">$this</span>-&gt;<span class="php-keyword2">key</span> . <span class="php-quote">'-notices'</span> );
+</span><span id="173" class="l"><a href="#173">173: </a>    }
+</span><span id="174" class="l"><a href="#174">174: </a>
+</span><span id="175" class="l"><a href="#175">175: </a>    <span class="php-comment">/**
+</span></span><span id="176" class="l"><a href="#176">176: </a><span class="php-comment">     * Public getter method for retrieving protected/private variables.
+</span></span><span id="177" class="l"><a href="#177">177: </a><span class="php-comment">     *
+</span></span><span id="178" class="l"><a href="#178">178: </a><span class="php-comment">     * @since 1.0.0
+</span></span><span id="179" class="l"><a href="#179">179: </a><span class="php-comment">     *
+</span></span><span id="180" class="l"><a href="#180">180: </a><span class="php-comment">     * @throws Exception Throws an exception if the field is invalid.
+</span></span><span id="181" class="l"><a href="#181">181: </a><span class="php-comment">     *
+</span></span><span id="182" class="l"><a href="#182">182: </a><span class="php-comment">     * @param string $field Field to retrieve.
+</span></span><span id="183" class="l"><a href="#183">183: </a><span class="php-comment">     * @return mixed Field value or exception is thrown.
+</span></span><span id="184" class="l"><a href="#184">184: </a><span class="php-comment">     */</span>
+</span><span id="185" class="l"><a href="#185">185: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> __get( <span class="php-var">$field</span> ) {
+</span><span id="186" class="l"><a href="#186">186: </a>
+</span><span id="187" class="l"><a href="#187">187: </a>        <span class="php-var">$field</span> = esc_attr( <span class="php-var">$field</span> );
+</span><span id="188" class="l"><a href="#188">188: </a>
+</span><span id="189" class="l"><a href="#189">189: </a>        <span class="php-comment">// Allowed fields to retrieve.</span>
+</span><span id="190" class="l"><a href="#190">190: </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword2">in_array</span>( <span class="php-var">$field</span>, <span class="php-keyword1">array</span>( <span class="php-quote">'key'</span>, <span class="php-quote">'metabox_id'</span>, <span class="php-quote">'title'</span>, <span class="php-quote">'options_page'</span> ), <span class="php-keyword1">true</span> ) ) {
+</span><span id="191" class="l"><a href="#191">191: </a>            <span class="php-keyword1">return</span> <span class="php-var">$this</span>-&gt;{<span class="php-var">$field</span>};
+</span><span id="192" class="l"><a href="#192">192: </a>        } <span class="php-keyword1">else</span> {
+</span><span id="193" class="l"><a href="#193">193: </a>            <span class="php-keyword1">return</span> constant_contact()-&gt;{<span class="php-var">$field</span>};
+</span><span id="194" class="l"><a href="#194">194: </a>        }
+</span><span id="195" class="l"><a href="#195">195: </a>    }
+</span><span id="196" class="l"><a href="#196">196: </a>
+</span><span id="197" class="l"><a href="#197">197: </a>    <span class="php-comment">/**
+</span></span><span id="198" class="l"><a href="#198">198: </a><span class="php-comment">     * Add shortcode columns to each cpt.
+</span></span><span id="199" class="l"><a href="#199">199: </a><span class="php-comment">     *
+</span></span><span id="200" class="l"><a href="#200">200: </a><span class="php-comment">     * @internal
+</span></span><span id="201" class="l"><a href="#201">201: </a><span class="php-comment">     *
+</span></span><span id="202" class="l"><a href="#202">202: </a><span class="php-comment">     * @since 1.0.0
+</span></span><span id="203" class="l"><a href="#203">203: </a><span class="php-comment">     * @param array $columns post list columns.
+</span></span><span id="204" class="l"><a href="#204">204: </a><span class="php-comment">     * @return array $columns Array of columns to add.
+</span></span><span id="205" class="l"><a href="#205">205: </a><span class="php-comment">     */</span>
+</span><span id="206" class="l"><a href="#206">206: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> set_custom_columns( <span class="php-var">$columns</span> ) {
 </span><span id="207" class="l"><a href="#207">207: </a>
-</span><span id="208" class="l"><a href="#208">208: </a>        <span class="php-keyword1">return</span> <span class="php-var">$columns</span>;
-</span><span id="209" class="l"><a href="#209">209: </a>    }
+</span><span id="208" class="l"><a href="#208">208: </a>        <span class="php-var">$columns</span>[<span class="php-quote">'description'</span>] = __( <span class="php-quote">'Description'</span>, <span class="php-quote">'constantcontact'</span> );
+</span><span id="209" class="l"><a href="#209">209: </a>        <span class="php-var">$columns</span>[<span class="php-quote">'shortcodes'</span>]  = __( <span class="php-quote">'Shortcode'</span>, <span class="php-quote">'constantcontact'</span> );
 </span><span id="210" class="l"><a href="#210">210: </a>
-</span><span id="211" class="l"><a href="#211">211: </a>    <span class="php-comment">/**
-</span></span><span id="212" class="l"><a href="#212">212: </a><span class="php-comment">     * Content of custom  post columns.
-</span></span><span id="213" class="l"><a href="#213">213: </a><span class="php-comment">     *
-</span></span><span id="214" class="l"><a href="#214">214: </a><span class="php-comment">     * @internal
-</span></span><span id="215" class="l"><a href="#215">215: </a><span class="php-comment">     *
-</span></span><span id="216" class="l"><a href="#216">216: </a><span class="php-comment">     * @since 1.0.0
-</span></span><span id="217" class="l"><a href="#217">217: </a><span class="php-comment">     * @param string  $column  Column title.
-</span></span><span id="218" class="l"><a href="#218">218: </a><span class="php-comment">     * @param integer $post_id Post id of post item.
-</span></span><span id="219" class="l"><a href="#219">219: </a><span class="php-comment">     */</span>
-</span><span id="220" class="l"><a href="#220">220: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> custom_columns( <span class="php-var">$column</span>, <span class="php-var">$post_id</span> ) {
-</span><span id="221" class="l"><a href="#221">221: </a>
-</span><span id="222" class="l"><a href="#222">222: </a>        <span class="php-comment">// Force our $post_id to an int</span>
-</span><span id="223" class="l"><a href="#223">223: </a>        <span class="php-var">$post_id</span> = absint( <span class="php-var">$post_id</span> );
+</span><span id="211" class="l"><a href="#211">211: </a>        <span class="php-keyword1">return</span> <span class="php-var">$columns</span>;
+</span><span id="212" class="l"><a href="#212">212: </a>    }
+</span><span id="213" class="l"><a href="#213">213: </a>
+</span><span id="214" class="l"><a href="#214">214: </a>    <span class="php-comment">/**
+</span></span><span id="215" class="l"><a href="#215">215: </a><span class="php-comment">     * Content of custom  post columns.
+</span></span><span id="216" class="l"><a href="#216">216: </a><span class="php-comment">     *
+</span></span><span id="217" class="l"><a href="#217">217: </a><span class="php-comment">     * @internal
+</span></span><span id="218" class="l"><a href="#218">218: </a><span class="php-comment">     *
+</span></span><span id="219" class="l"><a href="#219">219: </a><span class="php-comment">     * @since 1.0.0
+</span></span><span id="220" class="l"><a href="#220">220: </a><span class="php-comment">     * @param string  $column  Column title.
+</span></span><span id="221" class="l"><a href="#221">221: </a><span class="php-comment">     * @param integer $post_id Post id of post item.
+</span></span><span id="222" class="l"><a href="#222">222: </a><span class="php-comment">     */</span>
+</span><span id="223" class="l"><a href="#223">223: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> custom_columns( <span class="php-var">$column</span>, <span class="php-var">$post_id</span> ) {
 </span><span id="224" class="l"><a href="#224">224: </a>
-</span><span id="225" class="l"><a href="#225">225: </a>        <span class="php-comment">// if its a 0 bail out</span>
-</span><span id="226" class="l"><a href="#226">226: </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$post_id</span> ) {
-</span><span id="227" class="l"><a href="#227">227: </a>            <span class="php-keyword1">return</span>;
-</span><span id="228" class="l"><a href="#228">228: </a>        }
-</span><span id="229" class="l"><a href="#229">229: </a>
-</span><span id="230" class="l"><a href="#230">230: </a>        <span class="php-keyword1">switch</span> ( <span class="php-var">$column</span> ) {
-</span><span id="231" class="l"><a href="#231">231: </a>            <span class="php-keyword1">case</span> <span class="php-quote">'shortcodes'</span>:
-</span><span id="232" class="l"><a href="#232">232: </a>                <span class="php-keyword1">echo</span> esc_attr( <span class="php-quote">'[ctct form=&quot;'</span> . <span class="php-var">$post_id</span> . <span class="php-quote">'&quot;]'</span> );
-</span><span id="233" class="l"><a href="#233">233: </a>            <span class="php-keyword1">break</span>;
-</span><span id="234" class="l"><a href="#234">234: </a>            <span class="php-keyword1">case</span> <span class="php-quote">'description'</span>:
-</span><span id="235" class="l"><a href="#235">235: </a>                <span class="php-keyword1">echo</span> wpautop( wp_kses_post( get_post_meta( <span class="php-var">$post_id</span>, <span class="php-quote">'_ctct_description'</span>, <span class="php-keyword1">true</span> ) ) );
+</span><span id="225" class="l"><a href="#225">225: </a>        <span class="php-comment">// Force our $post_id to an int</span>
+</span><span id="226" class="l"><a href="#226">226: </a>        <span class="php-var">$post_id</span> = absint( <span class="php-var">$post_id</span> );
+</span><span id="227" class="l"><a href="#227">227: </a>
+</span><span id="228" class="l"><a href="#228">228: </a>        <span class="php-comment">// if its a 0 bail out</span>
+</span><span id="229" class="l"><a href="#229">229: </a>        <span class="php-keyword1">if</span> ( ! <span class="php-var">$post_id</span> ) {
+</span><span id="230" class="l"><a href="#230">230: </a>            <span class="php-keyword1">return</span>;
+</span><span id="231" class="l"><a href="#231">231: </a>        }
+</span><span id="232" class="l"><a href="#232">232: </a>
+</span><span id="233" class="l"><a href="#233">233: </a>        <span class="php-keyword1">switch</span> ( <span class="php-var">$column</span> ) {
+</span><span id="234" class="l"><a href="#234">234: </a>            <span class="php-keyword1">case</span> <span class="php-quote">'shortcodes'</span>:
+</span><span id="235" class="l"><a href="#235">235: </a>                <span class="php-keyword1">echo</span> esc_attr( <span class="php-quote">'[ctct form=&quot;'</span> . <span class="php-var">$post_id</span> . <span class="php-quote">'&quot;]'</span> );
 </span><span id="236" class="l"><a href="#236">236: </a>            <span class="php-keyword1">break</span>;
-</span><span id="237" class="l"><a href="#237">237: </a>        }
-</span><span id="238" class="l"><a href="#238">238: </a>    }
-</span><span id="239" class="l"><a href="#239">239: </a>
-</span><span id="240" class="l"><a href="#240">240: </a>    <span class="php-comment">/**
-</span></span><span id="241" class="l"><a href="#241">241: </a><span class="php-comment">     * Add social media links to plugin screen
-</span></span><span id="242" class="l"><a href="#242">242: </a><span class="php-comment">     *
-</span></span><span id="243" class="l"><a href="#243">243: </a><span class="php-comment">     * @since  1.0.0
-</span></span><span id="244" class="l"><a href="#244">244: </a><span class="php-comment">     * @param array $links plugin action links.
-</span></span><span id="245" class="l"><a href="#245">245: </a><span class="php-comment">     */</span>
-</span><span id="246" class="l"><a href="#246">246: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> add_social_links( <span class="php-var">$links</span> ) {
-</span><span id="247" class="l"><a href="#247">247: </a>
-</span><span id="248" class="l"><a href="#248">248: </a>        <span class="php-comment">// Generate our site link</span>
-</span><span id="249" class="l"><a href="#249">249: </a>        <span class="php-var">$site_link</span> = apply_filters( <span class="php-quote">'constant_contact_social_base_url'</span> , <span class="php-quote">'https://constantcontact.com/'</span> );
+</span><span id="237" class="l"><a href="#237">237: </a>            <span class="php-keyword1">case</span> <span class="php-quote">'description'</span>:
+</span><span id="238" class="l"><a href="#238">238: </a>                <span class="php-keyword1">echo</span> wp_kses_post( wpautop( get_post_meta( <span class="php-var">$post_id</span>, <span class="php-quote">'_ctct_description'</span>, <span class="php-keyword1">true</span> ) ) );
+</span><span id="239" class="l"><a href="#239">239: </a>            <span class="php-keyword1">break</span>;
+</span><span id="240" class="l"><a href="#240">240: </a>        }
+</span><span id="241" class="l"><a href="#241">241: </a>    }
+</span><span id="242" class="l"><a href="#242">242: </a>
+</span><span id="243" class="l"><a href="#243">243: </a>    <span class="php-comment">/**
+</span></span><span id="244" class="l"><a href="#244">244: </a><span class="php-comment">     * Add social media links to plugin screen
+</span></span><span id="245" class="l"><a href="#245">245: </a><span class="php-comment">     *
+</span></span><span id="246" class="l"><a href="#246">246: </a><span class="php-comment">     * @since  1.0.0
+</span></span><span id="247" class="l"><a href="#247">247: </a><span class="php-comment">     * @param array $links plugin action links.
+</span></span><span id="248" class="l"><a href="#248">248: </a><span class="php-comment">     */</span>
+</span><span id="249" class="l"><a href="#249">249: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> add_social_links( <span class="php-var">$links</span> ) {
 </span><span id="250" class="l"><a href="#250">250: </a>
-</span><span id="251" class="l"><a href="#251">251: </a>        <span class="php-var">$twitter_cta</span> = __( <span class="php-quote">'Check out the official WordPress plugin from @constantcontact :'</span>, <span class="php-quote">'constantcontact'</span> );
-</span><span id="252" class="l"><a href="#252">252: </a>        <span class="php-comment">// Build up all our social links</span>
-</span><span id="253" class="l"><a href="#253">253: </a>        <span class="php-var">$add_links</span> = apply_filters( <span class="php-quote">'constant_contacnt_social_links'</span>, <span class="php-keyword1">array</span>(
-</span><span id="254" class="l"><a href="#254">254: </a>            <span class="php-quote">'&lt;a title=&quot;'</span> . __( <span class="php-quote">'Be a better marketer. All it takes is Constant Contact email marketing.'</span>, <span class="php-quote">'constantcontact'</span> ) . <span class="php-quote">'&quot; href=&quot;'</span> . <span class="php-var">$site_link</span> . <span class="php-quote">'&quot; target=&quot;_blank&quot;&gt;constantcontact.com&lt;/a&gt;'</span>,
-</span><span id="255" class="l"><a href="#255">255: </a>            <span class="php-quote">'&lt;a title=&quot;'</span> . __( <span class="php-quote">'Spread the word!'</span>, <span class="php-quote">'constantcontact'</span> ) . <span class="php-quote">'&quot; href=&quot;https://www.facebook.com/sharer/sharer.php?u='</span> . <span class="php-keyword2">urlencode</span>( <span class="php-var">$site_link</span> ) . <span class="php-quote">'&quot; target=&quot;_blank&quot; class=&quot;dashicons-before dashicons-facebook&quot;&gt;&lt;/a&gt;'</span>,
-</span><span id="256" class="l"><a href="#256">256: </a>            <span class="php-quote">'&lt;a title=&quot;'</span> . __( <span class="php-quote">'Spread the word!'</span>, <span class="php-quote">'constantcontact'</span> ) . <span class="php-quote">'&quot; href=&quot;https://twitter.com/home?status='</span> . <span class="php-var">$twitter_cta</span> . <span class="php-quote">' '</span> . <span class="php-var">$site_link</span> . <span class="php-quote">'&quot; target=&quot;_blank&quot; class=&quot;dashicons-before dashicons-twitter&quot;&gt;&lt;/a&gt;'</span>,
-</span><span id="257" class="l"><a href="#257">257: </a>            <span class="php-quote">'&lt;a title=&quot;'</span> . __( <span class="php-quote">'Spread the word!'</span>, <span class="php-quote">'constantcontact'</span> ) . <span class="php-quote">'&quot; href=&quot;https://plus.google.com/share?url='</span> . <span class="php-keyword2">urlencode</span>( <span class="php-var">$site_link</span> ) . <span class="php-quote">'&quot; target=&quot;_blank&quot; class=&quot;dashicons-before dashicons-googleplus&quot;&gt;&lt;/a&gt;'</span>,
-</span><span id="258" class="l"><a href="#258">258: </a>        ) );
+</span><span id="251" class="l"><a href="#251">251: </a>        <span class="php-comment">// Get twitter share link</span>
+</span><span id="252" class="l"><a href="#252">252: </a>        <span class="php-var">$twitter_cta</span> = __( <span class="php-quote">'Check out the official WordPress plugin from @constantcontact :'</span>, <span class="php-quote">'constantcontact'</span> );
+</span><span id="253" class="l"><a href="#253">253: </a>
+</span><span id="254" class="l"><a href="#254">254: </a>        <span class="php-comment">// Build up all our plugin links</span>
+</span><span id="255" class="l"><a href="#255">255: </a>        <span class="php-var">$about</span> = __( <span class="php-quote">'About'</span>, <span class="php-quote">'constantcontact'</span> );
+</span><span id="256" class="l"><a href="#256">256: </a>        <span class="php-var">$about_args</span> = <span class="php-keyword1">array</span>( <span class="php-quote">'post_type'</span> =&gt; <span class="php-quote">'ctct_forms'</span>, <span class="php-quote">'page'</span> =&gt; <span class="php-quote">'ctct_options_about'</span> );
+</span><span id="257" class="l"><a href="#257">257: </a>        <span class="php-var">$about_link</span> = add_query_arg( <span class="php-var">$about_args</span>, admin_url( <span class="php-quote">'edit.php'</span> ) );
+</span><span id="258" class="l"><a href="#258">258: </a>        <span class="php-var">$add_links</span>[] = <span class="php-quote">'&lt;a title=&quot;'</span> . <span class="php-var">$about</span> . <span class="php-quote">'&quot; href=&quot;'</span> . <span class="php-var">$about_link</span> . <span class="php-quote">'&quot; target=&quot;_blank&quot;&gt;'</span> . <span class="php-var">$about</span> . <span class="php-quote">'&lt;/a&gt;'</span>;
 </span><span id="259" class="l"><a href="#259">259: </a>
-</span><span id="260" class="l"><a href="#260">260: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">array_merge</span>( <span class="php-var">$links</span>, <span class="php-var">$add_links</span> );
-</span><span id="261" class="l"><a href="#261">261: </a>    }
-</span><span id="262" class="l"><a href="#262">262: </a>
-</span><span id="263" class="l"><a href="#263">263: </a>    <span class="php-comment">/**
-</span></span><span id="264" class="l"><a href="#264">264: </a><span class="php-comment">     * Scripts
-</span></span><span id="265" class="l"><a href="#265">265: </a><span class="php-comment">     *
-</span></span><span id="266" class="l"><a href="#266">266: </a><span class="php-comment">     * @since  1.0.0
-</span></span><span id="267" class="l"><a href="#267">267: </a><span class="php-comment">     * @return void
-</span></span><span id="268" class="l"><a href="#268">268: </a><span class="php-comment">     */</span>
-</span><span id="269" class="l"><a href="#269">269: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> scripts() {
-</span><span id="270" class="l"><a href="#270">270: </a>
-</span><span id="271" class="l"><a href="#271">271: </a>        <span class="php-keyword1">global</span> <span class="php-var">$pagenow</span>;
-</span><span id="272" class="l"><a href="#272">272: </a>
-</span><span id="273" class="l"><a href="#273">273: </a>        <span class="php-comment">// Check if we are in debug mode. allow</span>
-</span><span id="274" class="l"><a href="#274">274: </a>        <span class="php-var">$debug</span> = <span class="php-keyword2">defined</span>( <span class="php-quote">'SCRIPT_DEBUG'</span> ) &amp;&amp; SCRIPT_DEBUG === <span class="php-keyword1">true</span> ? <span class="php-keyword1">true</span> : <span class="php-keyword1">false</span>;
-</span><span id="275" class="l"><a href="#275">275: </a>
-</span><span id="276" class="l"><a href="#276">276: </a>        <span class="php-comment">// based on our debug mode, potentially add a min prefix</span>
-</span><span id="277" class="l"><a href="#277">277: </a>        <span class="php-var">$suffix</span> = ( <span class="php-keyword1">true</span> === <span class="php-var">$debug</span> ) ? <span class="php-quote">''</span> : <span class="php-quote">'.min'</span>;
+</span><span id="260" class="l"><a href="#260">260: </a>        <span class="php-comment">// Get site link</span>
+</span><span id="261" class="l"><a href="#261">261: </a>        <span class="php-var">$site_text_a</span> = __( <span class="php-quote">'Be a better marketer. All it takes is Constant Contact email marketing.'</span>, <span class="php-quote">'constantcontact'</span> );
+</span><span id="262" class="l"><a href="#262">262: </a>        <span class="php-var">$site_text_b</span> = __( <span class="php-quote">'constantcontact.com'</span>, <span class="php-quote">'constantcontact'</span> );
+</span><span id="263" class="l"><a href="#263">263: </a>        <span class="php-var">$site_link</span> = apply_filters( <span class="php-quote">'constant_contact_social_base_url'</span> , <span class="php-quote">'https://constantcontact.com/'</span> );
+</span><span id="264" class="l"><a href="#264">264: </a>        <span class="php-var">$add_links</span>[] = <span class="php-quote">'&lt;a title=&quot;'</span> . <span class="php-var">$site_text_a</span> . <span class="php-quote">'&quot; href=&quot;'</span> . <span class="php-var">$site_link</span> . <span class="php-quote">'&quot; target=&quot;_blank&quot;&gt;'</span> . <span class="php-var">$site_text_b</span> . <span class="php-quote">'&lt;/a&gt;'</span>;
+</span><span id="265" class="l"><a href="#265">265: </a>
+</span><span id="266" class="l"><a href="#266">266: </a>        <span class="php-comment">// Start our social share links</span>
+</span><span id="267" class="l"><a href="#267">267: </a>        <span class="php-var">$social_share</span> = __( <span class="php-quote">'Spread the word!'</span>, <span class="php-quote">'constantcontact'</span> );
+</span><span id="268" class="l"><a href="#268">268: </a>        <span class="php-var">$add_links</span>[] = <span class="php-quote">'&lt;a title=&quot;'</span> . <span class="php-var">$social_share</span> . <span class="php-quote">'&quot; href=&quot;https://www.facebook.com/sharer/sharer.php?u='</span> . <span class="php-keyword2">urlencode</span>( <span class="php-var">$site_link</span> ) . <span class="php-quote">'&quot; target=&quot;_blank&quot; class=&quot;dashicons-before dashicons-facebook&quot;&gt;&lt;/a&gt;'</span>;
+</span><span id="269" class="l"><a href="#269">269: </a>        <span class="php-var">$add_links</span>[] = <span class="php-quote">'&lt;a title=&quot;'</span> . <span class="php-var">$social_share</span> . <span class="php-quote">'&quot; href=&quot;https://twitter.com/home?status='</span> . <span class="php-var">$twitter_cta</span> . <span class="php-quote">' '</span> . <span class="php-var">$site_link</span> . <span class="php-quote">'&quot; target=&quot;_blank&quot; class=&quot;dashicons-before dashicons-twitter&quot;&gt;&lt;/a&gt;'</span>;
+</span><span id="270" class="l"><a href="#270">270: </a>        <span class="php-var">$add_links</span>[] = <span class="php-quote">'&lt;a title=&quot;'</span> . <span class="php-var">$social_share</span> . <span class="php-quote">'&quot; href=&quot;https://plus.google.com/share?url='</span> . <span class="php-keyword2">urlencode</span>( <span class="php-var">$site_link</span> ) . <span class="php-quote">'&quot; target=&quot;_blank&quot; class=&quot;dashicons-before dashicons-googleplus&quot;&gt;&lt;/a&gt;'</span>;
+</span><span id="271" class="l"><a href="#271">271: </a>
+</span><span id="272" class="l"><a href="#272">272: </a>        <span class="php-comment">// Allow filtering our links</span>
+</span><span id="273" class="l"><a href="#273">273: </a>        <span class="php-var">$add_links</span> = apply_filters( <span class="php-quote">'constant_contact_social_links'</span>, <span class="php-var">$add_links</span> );
+</span><span id="274" class="l"><a href="#274">274: </a>
+</span><span id="275" class="l"><a href="#275">275: </a>        <span class="php-comment">// Send it back</span>
+</span><span id="276" class="l"><a href="#276">276: </a>        <span class="php-keyword1">return</span> <span class="php-keyword2">array_merge</span>( <span class="php-var">$links</span>, <span class="php-var">$add_links</span> );
+</span><span id="277" class="l"><a href="#277">277: </a>    }
 </span><span id="278" class="l"><a href="#278">278: </a>
-</span><span id="279" class="l"><a href="#279">279: </a>        <span class="php-comment">// Register our javascript file.</span>
-</span><span id="280" class="l"><a href="#280">280: </a>        wp_register_script(
-</span><span id="281" class="l"><a href="#281">281: </a>            <span class="php-quote">'ctct_form'</span>,
-</span><span id="282" class="l"><a href="#282">282: </a>            constant_contact()-&gt;url() . <span class="php-quote">'assets/js/ctct-plugin-admin'</span> . <span class="php-var">$suffix</span> . <span class="php-quote">'.js'</span>,
-</span><span id="283" class="l"><a href="#283">283: </a>            <span class="php-keyword1">array</span>(),
-</span><span id="284" class="l"><a href="#284">284: </a>            constant_contact()-&gt;version,
-</span><span id="285" class="l"><a href="#285">285: </a>            <span class="php-keyword1">true</span>
-</span><span id="286" class="l"><a href="#286">286: </a>        );
-</span><span id="287" class="l"><a href="#287">287: </a>
-</span><span id="288" class="l"><a href="#288">288: </a>        wp_localize_script(
-</span><span id="289" class="l"><a href="#289">289: </a>            <span class="php-quote">'ctct_form'</span>,
-</span><span id="290" class="l"><a href="#290">290: </a>            <span class="php-quote">'ctct_texts'</span>,
-</span><span id="291" class="l"><a href="#291">291: </a>            apply_filters( <span class="php-quote">'constant_contact_localized_js_texts'</span>, <span class="php-keyword1">array</span>(
-</span><span id="292" class="l"><a href="#292">292: </a>                <span class="php-quote">'leavewarning'</span> =&gt; __( <span class="php-quote">'You have unsaved changes.'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="293" class="l"><a href="#293">293: </a>                <span class="php-quote">'move_up'</span>      =&gt; __( <span class="php-quote">'move up'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="294" class="l"><a href="#294">294: </a>                <span class="php-quote">'move_down'</span>    =&gt; __( <span class="php-quote">'move down'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="295" class="l"><a href="#295">295: </a>            ) )
-</span><span id="296" class="l"><a href="#296">296: </a>        );
-</span><span id="297" class="l"><a href="#297">297: </a>
-</span><span id="298" class="l"><a href="#298">298: </a>        <span class="php-comment">// Allow filtering of allowed pages that we load scripts on</span>
-</span><span id="299" class="l"><a href="#299">299: </a>        <span class="php-var">$allowed_pages</span> = apply_filters( <span class="php-quote">'constant_contact_script_load_pages'</span>, <span class="php-keyword1">array</span>( <span class="php-quote">'post.php'</span>, <span class="php-quote">'post-new.php'</span> ) );
-</span><span id="300" class="l"><a href="#300">300: </a>
-</span><span id="301" class="l"><a href="#301">301: </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$pagenow</span> &amp;&amp; <span class="php-keyword2">in_array</span>( <span class="php-var">$pagenow</span>, <span class="php-var">$allowed_pages</span> ) ) {
-</span><span id="302" class="l"><a href="#302">302: </a>            <span class="php-comment">// Enqueued script with localized data.</span>
-</span><span id="303" class="l"><a href="#303">303: </a>            wp_enqueue_script( <span class="php-quote">'ctct_form'</span> );
-</span><span id="304" class="l"><a href="#304">304: </a>        }
-</span><span id="305" class="l"><a href="#305">305: </a>    }
-</span><span id="306" class="l"><a href="#306">306: </a>}
-</span><span id="307" class="l"><a href="#307">307: </a>
-</span><span id="308" class="l"><a href="#308">308: </a><span class="php-comment">/**
-</span></span><span id="309" class="l"><a href="#309">309: </a><span class="php-comment"> * Wrapper function around cmb2_get_option.
-</span></span><span id="310" class="l"><a href="#310">310: </a><span class="php-comment"> *
-</span></span><span id="311" class="l"><a href="#311">311: </a><span class="php-comment"> * @since 1.0.0
-</span></span><span id="312" class="l"><a href="#312">312: </a><span class="php-comment"> *
-</span></span><span id="313" class="l"><a href="#313">313: </a><span class="php-comment"> * @param string $key Options array key.
-</span></span><span id="314" class="l"><a href="#314">314: </a><span class="php-comment"> * @return mixed Option value.
-</span></span><span id="315" class="l"><a href="#315">315: </a><span class="php-comment"> */</span>
-</span><span id="316" class="l"><a href="#316">316: </a><span class="php-keyword1">function</span> constantcontact_get_option( <span class="php-var">$key</span> = <span class="php-quote">''</span> ) {
-</span><span id="317" class="l"><a href="#317">317: </a>    <span class="php-keyword1">return</span> cmb2_get_option( constantcontact()-&gt;admin-&gt;<span class="php-keyword2">key</span>, <span class="php-var">$key</span> );
-</span><span id="318" class="l"><a href="#318">318: </a>}
-</span><span id="319" class="l"><a href="#319">319: </a></span></code></pre>
+</span><span id="279" class="l"><a href="#279">279: </a>    <span class="php-comment">/**
+</span></span><span id="280" class="l"><a href="#280">280: </a><span class="php-comment">     * Scripts
+</span></span><span id="281" class="l"><a href="#281">281: </a><span class="php-comment">     *
+</span></span><span id="282" class="l"><a href="#282">282: </a><span class="php-comment">     * @since  1.0.0
+</span></span><span id="283" class="l"><a href="#283">283: </a><span class="php-comment">     * @return void
+</span></span><span id="284" class="l"><a href="#284">284: </a><span class="php-comment">     */</span>
+</span><span id="285" class="l"><a href="#285">285: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> scripts() {
+</span><span id="286" class="l"><a href="#286">286: </a>
+</span><span id="287" class="l"><a href="#287">287: </a>        <span class="php-keyword1">global</span> <span class="php-var">$pagenow</span>;
+</span><span id="288" class="l"><a href="#288">288: </a>
+</span><span id="289" class="l"><a href="#289">289: </a>        <span class="php-comment">// Check if we are in debug mode. allow</span>
+</span><span id="290" class="l"><a href="#290">290: </a>        <span class="php-var">$debug</span> = <span class="php-keyword2">defined</span>( <span class="php-quote">'SCRIPT_DEBUG'</span> ) &amp;&amp; SCRIPT_DEBUG === <span class="php-keyword1">true</span> ? <span class="php-keyword1">true</span> : <span class="php-keyword1">false</span>;
+</span><span id="291" class="l"><a href="#291">291: </a>
+</span><span id="292" class="l"><a href="#292">292: </a>        <span class="php-comment">// based on our debug mode, potentially add a min prefix</span>
+</span><span id="293" class="l"><a href="#293">293: </a>        <span class="php-var">$suffix</span> = ( <span class="php-keyword1">true</span> === <span class="php-var">$debug</span> ) ? <span class="php-quote">''</span> : <span class="php-quote">'.min'</span>;
+</span><span id="294" class="l"><a href="#294">294: </a>
+</span><span id="295" class="l"><a href="#295">295: </a>        <span class="php-comment">// Register our javascript file.</span>
+</span><span id="296" class="l"><a href="#296">296: </a>        wp_register_script(
+</span><span id="297" class="l"><a href="#297">297: </a>            <span class="php-quote">'ctct_form'</span>,
+</span><span id="298" class="l"><a href="#298">298: </a>            constant_contact()-&gt;url() . <span class="php-quote">'assets/js/ctct-plugin-admin'</span> . <span class="php-var">$suffix</span> . <span class="php-quote">'.js'</span>,
+</span><span id="299" class="l"><a href="#299">299: </a>            <span class="php-keyword1">array</span>(),
+</span><span id="300" class="l"><a href="#300">300: </a>            constant_contact()-&gt;version,
+</span><span id="301" class="l"><a href="#301">301: </a>            <span class="php-keyword1">true</span>
+</span><span id="302" class="l"><a href="#302">302: </a>        );
+</span><span id="303" class="l"><a href="#303">303: </a>
+</span><span id="304" class="l"><a href="#304">304: </a>        wp_localize_script(
+</span><span id="305" class="l"><a href="#305">305: </a>            <span class="php-quote">'ctct_form'</span>,
+</span><span id="306" class="l"><a href="#306">306: </a>            <span class="php-quote">'ctct_texts'</span>,
+</span><span id="307" class="l"><a href="#307">307: </a>            apply_filters( <span class="php-quote">'constant_contact_localized_js_texts'</span>, <span class="php-keyword1">array</span>(
+</span><span id="308" class="l"><a href="#308">308: </a>                <span class="php-quote">'leavewarning'</span> =&gt; __( <span class="php-quote">'You have unsaved changes.'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="309" class="l"><a href="#309">309: </a>                <span class="php-quote">'move_up'</span>      =&gt; __( <span class="php-quote">'move up'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="310" class="l"><a href="#310">310: </a>                <span class="php-quote">'move_down'</span>    =&gt; __( <span class="php-quote">'move down'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="311" class="l"><a href="#311">311: </a>            ) )
+</span><span id="312" class="l"><a href="#312">312: </a>        );
+</span><span id="313" class="l"><a href="#313">313: </a>
+</span><span id="314" class="l"><a href="#314">314: </a>        <span class="php-comment">// Allow filtering of allowed pages that we load scripts on</span>
+</span><span id="315" class="l"><a href="#315">315: </a>        <span class="php-var">$allowed_pages</span> = apply_filters( <span class="php-quote">'constant_contact_script_load_pages'</span>, <span class="php-keyword1">array</span>( <span class="php-quote">'post.php'</span>, <span class="php-quote">'post-new.php'</span> ) );
+</span><span id="316" class="l"><a href="#316">316: </a>
+</span><span id="317" class="l"><a href="#317">317: </a>        <span class="php-keyword1">if</span> ( <span class="php-var">$pagenow</span> &amp;&amp; <span class="php-keyword2">in_array</span>( <span class="php-var">$pagenow</span>, <span class="php-var">$allowed_pages</span>, <span class="php-keyword1">true</span> ) ) {
+</span><span id="318" class="l"><a href="#318">318: </a>            <span class="php-comment">// Enqueued script with localized data.</span>
+</span><span id="319" class="l"><a href="#319">319: </a>            wp_enqueue_script( <span class="php-quote">'ctct_form'</span> );
+</span><span id="320" class="l"><a href="#320">320: </a>        }
+</span><span id="321" class="l"><a href="#321">321: </a>    }
+</span><span id="322" class="l"><a href="#322">322: </a>}
+</span><span id="323" class="l"><a href="#323">323: </a>
+</span><span id="324" class="l"><a href="#324">324: </a><span class="php-comment">/**
+</span></span><span id="325" class="l"><a href="#325">325: </a><span class="php-comment"> * Wrapper function around cmb2_get_option.
+</span></span><span id="326" class="l"><a href="#326">326: </a><span class="php-comment"> *
+</span></span><span id="327" class="l"><a href="#327">327: </a><span class="php-comment"> * @since 1.0.0
+</span></span><span id="328" class="l"><a href="#328">328: </a><span class="php-comment"> *
+</span></span><span id="329" class="l"><a href="#329">329: </a><span class="php-comment"> * @param string $key Options array key.
+</span></span><span id="330" class="l"><a href="#330">330: </a><span class="php-comment"> * @return mixed Option value.
+</span></span><span id="331" class="l"><a href="#331">331: </a><span class="php-comment"> */</span>
+</span><span id="332" class="l"><a href="#332">332: </a><span class="php-keyword1">function</span> constantcontact_get_option( <span class="php-var">$key</span> = <span class="php-quote">''</span> ) {
+</span><span id="333" class="l"><a href="#333">333: </a>    <span class="php-keyword1">return</span> cmb2_get_option( constantcontact()-&gt;admin-&gt;<span class="php-keyword2">key</span>, <span class="php-var">$key</span> );
+</span><span id="334" class="l"><a href="#334">334: </a>}
+</span><span id="335" class="l"><a href="#335">335: </a></span></code></pre>
 
 	<div id="footer">
 		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
@@ -668,6 +725,6 @@
 </div>
 </div>
 <script src="resources/combined.js?cd021bc814832c24a7cec5319ea03335bfba1caf"></script>
-<script src="elementlist.js?674629cadf4eb0973acc4bfd087ef1012a6e6448"></script>
+<script src="elementlist.js?211d734f3d217dea7c94e5eba6c010181a99d952"></script>
 </body>
 </html>
