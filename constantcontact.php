@@ -21,7 +21,7 @@
  */
 
 /**
- * Copyright (c) 2016 Constant Contact (email : contact@contstantcontact.com)
+ * Copyright (c) 2016 Constant Contact (email : contact@constantcontact.com)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License, version 2 or, at
