@@ -156,7 +156,7 @@ class Constant_Contact {
 	private $builder_fields;
 	private $check;
 	private $connect;
-	private $ctct_forms;
+	private $cpts;
 	private $display;
 	private $display_shortcode;
 	private $lists;
@@ -218,7 +218,7 @@ class Constant_Contact {
 		$this->builder           = new ConstantContact_Builder( $this );
 		$this->builder_fields    = new ConstantContact_Builder_Fields( $this );
 		$this->check             = new ConstantContact_Check( $this );
-		$this->ctct_forms        = new ConstantContact_CPTS( $this );
+		$this->cpts              = new ConstantContact_CPTS( $this );
 		$this->display           = new ConstantContact_Display( $this );
 		$this->display_shortcode = new ConstantContact_Display_Shortcode( $this );
 		$this->lists             = new ConstantContact_Lists( $this );
@@ -444,7 +444,7 @@ class Constant_Contact {
 			case 'builder_fields':
 			case 'connect':
 			case 'check':
-			case 'ctct_forms':
+			case 'cpts':
 			case 'display':
 			case 'display_shortcode':
 			case 'lists':
