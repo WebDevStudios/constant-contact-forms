@@ -1,0 +1,9 @@
+source:
+    - .
+destination: docs
+exclude:
+	- *vendor/*
+php: yes
+tree: yes
+todo: yes
+download: yes
