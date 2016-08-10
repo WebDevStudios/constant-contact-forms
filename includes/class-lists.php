@@ -374,6 +374,8 @@ class ConstantContact_Lists {
 		// Make sure we're on the new post page
 		global $pagenow;
 
+
+		// Verify we're on the correct page
 		if ( ! $pagenow || ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) ) {
 			return false;
 		}
@@ -431,6 +433,9 @@ class ConstantContact_Lists {
 				$return = $this->_add_list( $ctct_list );
 			}
 		}
+
+		// Remove our saved transient of our lists
+		delete_transient( 'ctct_lists' );
 
 		// Force re-syncing our lists right after deletion
 		$this->sync_lists( true );
