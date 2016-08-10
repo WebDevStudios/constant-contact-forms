@@ -1,9 +1,7 @@
 <?php
 /**
- * Powers our admin connect page, as well as misc functionality around connecting to Constant Contact.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Connect
+ * @subpackage Connect
  * @author Pluginize
  * @since 1.0.0
  */
@@ -15,7 +13,7 @@ use Defuse\Crypto\Key;
 use Defuse\Crypto\Crypto;
 
 /**
- * Class ConstantContact_Connect
+ * Powers our admin connect page, as well as misc functionality around connecting to Constant Contact.
  */
 class ConstantContact_Connect {
 

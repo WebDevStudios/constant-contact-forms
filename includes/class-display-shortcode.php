@@ -1,15 +1,13 @@
 <?php
 /**
- * Helper class that gets called to display our stuff on the front-end via a shortcode.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Display_Shortcode
+ * @subpackage DisplayShortcode
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * Class ConstantContact_Display_Shortcode
+ * Helper class that gets called to display our stuff on the front-end via a shortcode.
  */
 class ConstantContact_Display_Shortcode {
 

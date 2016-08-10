@@ -1,16 +1,13 @@
 <?php
 /**
- * Hooks in to allow for our query args for connecting to Constant Contact.
- * Also intercepts and helps with authentication to it.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_AuthRedirect
+ * @subpackage AuthRedirect
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * Class ConstantContact_Auth_Redirect
+ * Hooks in to allow for our query args for connecting to Constant Contact, and helps with authentication to it.
  */
 class ConstantContact_Auth_Redirect {
 

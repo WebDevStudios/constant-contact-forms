@@ -1,15 +1,13 @@
 <?php
 /**
- * Powers our custom post types.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_CPTS
+ * @subpackage CPTS
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * Main initiation class.
+ * Powers our custom post types.
  *
  * @internal
  *

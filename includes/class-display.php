@@ -1,15 +1,13 @@
 <?php
 /**
- * Powers displaying our forms to the front end, generating field markup, and output.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Display
+ * @subpackage Display
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * Class ConstantContact_Display
+ * Powers displaying our forms to the front end, generating field markup, and output.
  */
 class ConstantContact_Display {
 

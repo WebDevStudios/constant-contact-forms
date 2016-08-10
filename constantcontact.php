@@ -3,7 +3,7 @@
  * Constant Contact Main Plugin File
  *
  * @package ConstantContact
- * @subpackage ConstantContact_Loader
+ * @subpackage Loader
  * @author Pluginize
  * @since 1.0.0
  */

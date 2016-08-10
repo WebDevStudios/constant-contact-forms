@@ -1,15 +1,13 @@
 <?php
 /**
- * Powers our OAuth connection to the middleware Constant Contact server.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Middleware
+ * @subpackage Middleware
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * Constant Contact Middleware.
+ * Powers our OAuth connection to the middleware Constant Contact server.
  *
  * @since 1.0.1
  */

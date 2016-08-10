@@ -1,9 +1,7 @@
 <?php
 /**
- * Powers connection between site and Constant Contact API.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_API
+ * @subpackage API
  * @author Pluginize
  * @since 1.0.0
  */
@@ -15,7 +13,7 @@ use Ctct\Components\Contacts\ContactList;
 use Ctct\Exceptions\CtctException;
 
 /**
- * Class ConstantContact_API
+ * Powers connection between site and Constant Contact API.
  */
 class ConstantContact_API {
 

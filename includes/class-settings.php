@@ -1,15 +1,13 @@
 <?php
 /**
- * Powers our settings and options page, as well as injecting our optins to the front-end.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Settings
+ * @subpackage Settings
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * ConstantContact_Settings class
+ * Powers our settings and options page, as well as injecting our optins to the front-end.
  */
 class ConstantContact_Settings {
 

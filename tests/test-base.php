@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package ConstantContact_Tests
+ * @subpackage Loader
+ * @author Pluginize
+ * @since 1.0.0
+ */
 
 class BaseTest extends WP_UnitTestCase {
 

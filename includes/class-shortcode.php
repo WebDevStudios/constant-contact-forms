@@ -1,9 +1,7 @@
 <?php
 /**
- * Extends WDS_Shortcodes to easily build up our shortcode.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Shortcode
+ * @subpackage Shortcode
  * @author Pluginize
  * @since 1.0.0
  */
@@ -11,7 +9,7 @@
 if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact_Shortcode', false ) ) {
 
 	/**
-	 * ConstantContact_Shortcode
+	 * Extends WDS_Shortcodes to easily build up our shortcode.
 	 *
 	 * Sets up shortcode
 	 */

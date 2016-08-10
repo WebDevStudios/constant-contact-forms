@@ -1,15 +1,13 @@
 <?php
 /**
- * Powers admin options pages, customized display for plugin listing, and admin scripts.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Admin
+ * @subpackage Admin
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * Class ConstantContact_Admin
+ * Powers admin options pages, customized display for plugin listing, and admin scripts.
  */
 class ConstantContact_Admin {
 

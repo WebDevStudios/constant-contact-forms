@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package ConstantContact_Tests
+ * @subpackage Shortcode
+ * @author Pluginize
+ * @since 1.0.0
+ */
 
 class ConstantContact_Shortcode_Test extends WP_UnitTestCase {
 

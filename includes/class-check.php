@@ -1,15 +1,13 @@
 <?php
 /**
- * Helper class to allow for checking and displaying server status.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Check
+ * @subpackage Check
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * Class ConstantContact_Check
+ * Helper class to allow for checking and displaying server status.
  */
 class ConstantContact_Check {
 

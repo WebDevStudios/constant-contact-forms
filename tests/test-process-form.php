@@ -1,4 +1,10 @@
 <?php
+/**
+ * @package ConstantContact_Tests
+ * @subpackage ProcessForm
+ * @author Pluginize
+ * @since 1.0.0
+ */
 
 class ConstantContact_Process_Form_Test extends WP_UnitTestCase {
 

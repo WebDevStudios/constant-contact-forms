@@ -1,15 +1,13 @@
 <?php
 /**
- * Helper class for dealing with our form builder field functionality.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Builder_Fields
+ * @subpackage BuilderFields
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * ConstantContact_Builder_Fields
+ * Helper class for dealing with our form builder field functionality.
  */
 class ConstantContact_Builder_Fields {
 

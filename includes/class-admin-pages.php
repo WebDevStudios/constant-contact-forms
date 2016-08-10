@@ -1,15 +1,13 @@
 <?php
 /**
- * Powers Admin pages and activation message.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_AdminPages
+ * @subpackage AdminPages
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * Class ConstantContact_Admin_Pages
+ * Powers admin pages and activation message.
  */
 class ConstantContact_Admin_Pages {
 

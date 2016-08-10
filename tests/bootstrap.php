@@ -1,5 +1,12 @@
 <?php
 /**
+ * @package ConstantContact_Tests
+ * @subpackage Boostrap
+ * @author Pluginize
+ * @since 1.0.0
+ */
+
+/**
  * Bootstrap the plugin unit testing environment.
  *
  * Edit 'active_plugins' setting below to point to your main plugin file.

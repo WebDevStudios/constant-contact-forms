@@ -1,15 +1,13 @@
 <?php
 /**
- * Powers our form processing, validation, and value cleanup.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Process_Form
+ * @subpackage ProcessForm
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * Class ConstantContact_Process_Form
+ * Powers our form processing, validation, and value cleanup.
  */
 class ConstantContact_Process_Form {
 

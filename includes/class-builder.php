@@ -1,15 +1,13 @@
 <?php
 /**
- * Main class for dealing with our form builder functionality.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Builder
+ * @subpackage Builder
  * @author Pluginize
  * @since 1.0.0
  */
 
 /**
- * ConstantContact_Builder
+ * Main class for dealing with our form builder functionality.
  */
 class ConstantContact_Builder {
 

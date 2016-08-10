@@ -1,9 +1,7 @@
 <?php
 /**
- * Extends WDS_Shortcode_Admin to add our shortcode into a pretty shortcode picker in the editor.
- *
  * @package	ConstantContact
- * @subpackage ConstantContact_Shortcode
+ * @subpackage ShortcodeAdmin
  * @author Pluginize
  * @since 1.0.0
  */
@@ -11,7 +9,7 @@
 if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact_Shortcode_Admin', false ) ) {
 
 	/**
-	 * ConstantContact_Shortcode_Admin
+	 * Extends WDS_Shortcode_Admin to add our shortcode into a pretty shortcode picker in the editor.
 	 *
 	 * Sets up shortcode button
 	 */

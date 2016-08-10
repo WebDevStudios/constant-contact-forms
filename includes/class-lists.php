@@ -1,9 +1,7 @@
 <?php
 /**
- * Powers Lists functionality, creation, deletion, syncing, and more.
- *
  * @package ConstantContact
- * @subpackage ConstantContact_Lists
+ * @subpackage Lists
  * @author Pluginize
  * @since 1.0.0
  */
@@ -12,7 +10,7 @@ use Ctct\ConstantContact;
 use Ctct\Exceptions\CtctException;
 
 /**
- * Class ConstantContact_Lists
+ * Powers Lists functionality, creation, deletion, syncing, and more.
  */
 class ConstantContact_Lists {
 
