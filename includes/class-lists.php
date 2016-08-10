@@ -112,14 +112,14 @@ class ConstantContact_Lists {
 
 		// Sanity check
 		if ( ! $object_id ) {
-			echo $this->get_list_info_no_data();
+			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
 
 		$list_id = get_post_meta( absint( $object_id ), '_ctct_list_id', true );
 
 		if ( ! $list_id ) {
-			echo $this->get_list_info_no_data();
+			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
 
@@ -128,7 +128,7 @@ class ConstantContact_Lists {
 
 		// Make sure we have an actual list
 		if ( ! isset( $list_info->id ) ) {
-			echo $this->get_list_info_no_data();
+			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
 
@@ -159,7 +159,7 @@ class ConstantContact_Lists {
 			$key = str_replace( '_', ' ', $key );
 			$key = ucwords( $key );
 
-			echo '<li>' . $key . ': ' . sanitize_text_field( $value ) . '</li>';
+			echo wp_kses_post( '<li>' . $key . ': ' . sanitize_text_field( $value ) . '</li>' );
 		}
 
 		echo '</ul>';
@@ -229,12 +229,12 @@ class ConstantContact_Lists {
 		}
 
 		// Make sure we're on the edit page
-		if ( ! isset( $_GET['post_type'] ) ) {
+		if ( ! isset( $_GET['post_type'] ) ) { // Input var okay.
 			return;
 		}
 
 		// Make sure we're on our cpt page
-		if ( 'ctct_lists' !== esc_attr( $_GET['post_type'] ) ) {
+		if ( 'ctct_lists' !== esc_attr( sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) ) ) { // Input var okay.
 			return;
 		}
 
@@ -344,7 +344,7 @@ class ConstantContact_Lists {
 			if (
 				$post_id &&
 				( 'ctct_lists' === get_post_type( $post_id ) ) &&
-				( 'publish' == get_post_status( $post_id ) )
+				( 'publish' === get_post_status( $post_id ) )
 			) {
 
 				// remove that post
@@ -417,7 +417,7 @@ class ConstantContact_Lists {
 			// If it does exist, flag it in our post meta
 			add_post_meta( $ctct_list->ID, 'ctct_duplicate_list', true );
 
-			if ( 'draft' != $ctct_list->post_status ) {
+			if ( 'draft' !== $ctct_list->post_status ) {
 				$return = wp_update_post( array(
 					'ID'          => absint( $ctct_list->ID ),
 					'post_status' => 'draft',
@@ -544,7 +544,7 @@ class ConstantContact_Lists {
 		}
 
 		// If we did modify our list title, update the WP side of things
-		if ( $title != $original_title ) {
+		if ( $title !== $original_title ) {
 
 			// Update our list post type to make sure we have
 			// the new title, so that it matches
@@ -580,7 +580,7 @@ class ConstantContact_Lists {
 
 			// If we come across one that matches, then return true,
 			// as a list with that title exists
-			if ( $title == $list ) {
+			if ( $title === $list ) {
 				return true;
 			}
 		}
@@ -617,17 +617,17 @@ class ConstantContact_Lists {
 		}
 
 		// If we're not on the list post type
-		if ( 'ctct_lists' != $post->post_type ) {
+		if ( 'ctct_lists' !== $post->post_type ) {
 			return;
 		}
 
 		// Only fire if we got a change in status
-		if ( $new_status == $old_status ) {
+		if ( $new_status === $old_status ) {
 			return;
 		}
 
 		// If we're moving something out of the trash, re-run our add list functionality.
-		if ( 'trash' == $old_status ) {
+		if ( 'trash' === $old_status ) {
 			return $this->_add_list( $post );
 		}
 
@@ -766,7 +766,7 @@ class ConstantContact_Lists {
 			$post->ID &&
 			isset( $post->post_type ) &&
 			$post->post_type &&
-			'ctct_lists' == $post->post_type &&
+			'ctct_lists' === $post->post_type &&
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
 
@@ -777,7 +777,7 @@ class ConstantContact_Lists {
 			</div>
 			<style>
 			#title {
-				background: url( "<?php echo $this->plugin->url; ?> 'assets/images/error.svg" ) no-repeat;
+				background: url( "<?php echo esc_url_raw( $this->plugin->url . 'assets/images/error.svg' ); ?>" ) no-repeat;
 				background-color: fade-out( #FF4136, 0.98);
 				background-position: 8px 50%;
 				background-size: 24px;
@@ -816,8 +816,8 @@ class ConstantContact_Lists {
 
 		// Only run if we have our request, and we are capable of it
 		if (
-			isset( $_GET['ctct_resyncing'] ) &&
-			$_GET['ctct_resyncing'] &&
+			isset( $_GET['ctct_resyncing'] ) && // Input var okay.
+			sanitize_text_field( wp_unslash( $_GET['ctct_resyncing'] ) ) && // Input var okay.
 			is_admin() &&
 			current_user_can( 'manage_options' )
 		) {
@@ -846,7 +846,7 @@ class ConstantContact_Lists {
 		global $post;
 
 		// Make sure we're on our lists post type
-		if ( $post && isset( $post->post_type ) && $post->post_type && 'ctct_lists' == $post->post_type ) {
+		if ( $post && isset( $post->post_type ) && $post->post_type && 'ctct_lists' === $post->post_type ) {
 
 			// Unset our quick edit actions, which is named SO WELL
 			unset( $actions['inline hide-if-no-js'] );

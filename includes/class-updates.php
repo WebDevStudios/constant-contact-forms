@@ -116,8 +116,12 @@ class ConstantContact_Updates {
 	 * Sample update scaffolding for 1.0.0 -> 1.0.1 update
 	 */
 	public function run_update_v1_0_0_to_v1_0_1( $version ) {
+
 		// If we need a notification, then we add it in this way
 
+		// Example of adding a notification to an update. The @codingStand.. line
+		// can be removed as this is to suppress commented code warnings in PHPCS
+		// @codingStandardsIgnoreLine
 		// $this->add_notification( $version );
 
 		// Here we would run any other necessary update code
