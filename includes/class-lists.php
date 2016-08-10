@@ -374,7 +374,6 @@ class ConstantContact_Lists {
 		// Make sure we're on the new post page
 		global $pagenow;
 
-
 		// Verify we're on the correct page
 		if ( ! $pagenow || ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) ) {
 			return false;
