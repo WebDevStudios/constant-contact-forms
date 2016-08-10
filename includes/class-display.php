@@ -659,7 +659,7 @@ class ConstantContact_Display {
 	/**
 	 * Internal method to display checkbox
 	 *
-	 * @since  1.0.1
+	 * @since  1.0.0
 	 * @param  array $optin optin data
 	 * @return string        html markup
 	 */
@@ -777,7 +777,7 @@ class ConstantContact_Display {
 	/**
 	 * Gets and return a 3-part date selector
 	 *
-	 * @since  1.0.1
+	 * @since  1.0.0
 	 * @param  string  $name        name of field
 	 * @param  string  $f_id        field id
 	 * @param  array   $value       values to pre-fill
@@ -820,7 +820,7 @@ class ConstantContact_Display {
 	/**
 	 * Gets actual dropdowns for date selector
 	 *
-	 * @since  1.0.1
+	 * @since  1.0.0
 	 * @param  string  $text           text for default option
 	 * @param  string  $f_id           field id
 	 * @param  string  $type           type of dropdown (day, month, year)
@@ -854,7 +854,7 @@ class ConstantContact_Display {
 	/**
 	 * Gets option markup for a date selector
 	 *
-	 * @since  1.0.1
+	 * @since  1.0.0
 	 * @param  string $text                 default first option
 	 * @param  array  $values               values to use
 	 * @param  array  $prev_selected_values previous selected values
@@ -890,7 +890,7 @@ class ConstantContact_Display {
 	/**
 	 * Gets array of data for a date dropdown type
 	 *
-	 * @since  1.0.1
+	 * @since  1.0.0
 	 * @param  string $type day,month,or,year
 	 * @return array       array of data
 	 */
@@ -928,7 +928,7 @@ class ConstantContact_Display {
 	/**
 	 * Helper method to get all years
 	 *
-	 * @since  1.0.1
+	 * @since  1.0.0
 	 * @return array years from 1910-current year
 	 */
 	public function get_years() {
@@ -949,7 +949,7 @@ class ConstantContact_Display {
 	/**
 	 * Gets array of 1-31
 	 *
-	 * @since  1.0.1
+	 * @since  1.0.0
 	 * @return array array of days
 	 */
 	public function get_days() {

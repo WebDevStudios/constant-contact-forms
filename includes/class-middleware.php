@@ -131,7 +131,7 @@ class ConstantContact_Middleware {
 	/**
 	 * Verifies a given proof from a request against our DB, and does cleanup
 	 *
-	 * @since  1.0.1
+	 * @since  1.0.0
 	 * @param  string $proof proof string to check
 	 * @return boolean        whether or not its our expected proof
 	 */
