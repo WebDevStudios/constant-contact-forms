@@ -70,6 +70,10 @@ class ConstantContact_Notification_Content {
 	 * @return  string    notification text
 	 */
 	public static function v1_0_1() {
+
+		// This is an example of outputting the text for a notification.
+		// The @codingStand.. is to suppress PHPCS warnings about commented code
+		// @codingStandardsIgnoreLine
 		// return __( 'Welcome to v1.0.1 of Constant Contact.', 'constantcontact' );
 	}
 }
