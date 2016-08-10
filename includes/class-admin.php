@@ -251,7 +251,6 @@ class ConstantContact_Admin {
 		// Get twitter share link
 		$twitter_cta = __( 'Check out the official WordPress plugin from @constantcontact :', 'constantcontact' );
 
-
 		// Build up all our plugin links
 		$about = __( 'About', 'constantcontact' );
 		$about_args = array( 'post_type' => 'ctct_forms', 'page' => 'ctct_options_about' );
