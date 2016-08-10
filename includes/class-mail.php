@@ -92,7 +92,7 @@ class ConstantContact_Mail {
 			$val  = sanitize_text_field( isset( $val['value'] ) ? $val['value'] : '' );
 
 			// Make sure we have a key that we can use
-			if ( $key && ( 'ctct-opt-in' != $key ) && ( 'ctct-id' != $key ) ) {
+			if ( $key && ( 'ctct-opt-in' !== $key ) && ( 'ctct-id' !== $key ) ) {
 
 				// Set our args that we'll pass to our API
 				$args[ $orig ] = array(
@@ -101,7 +101,7 @@ class ConstantContact_Mail {
 				);
 
 				// If we have an email, make sure we keep it safe
-				if ( 'email' == $key ) {
+				if ( 'email' === $key ) {
 					$args['email'] = $val;
 				}
 			}
@@ -173,7 +173,7 @@ class ConstantContact_Mail {
 
 		// If we didn't get passed in a sanitized email, we know something is
 		// wonky here, so bail out
-		if ( sanitize_email( $destination_email ) != $destination_email ) {
+		if ( sanitize_email( $destination_email ) !== $destination_email ) {
 			return false;
 		}
 
