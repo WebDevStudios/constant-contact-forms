@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# Usage: bash tests/bin/install-wp-tests.sh wordpress_tests root root
+
 if [ $# -lt 3 ]; then
 	echo "usage: $0 <db-name> <db-user> <db-pass> [db-host] [wp-version]"
 	exit 1
