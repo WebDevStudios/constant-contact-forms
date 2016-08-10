@@ -49,9 +49,15 @@ class ConstantContact_Process_Form {
 	public function process_form_ajax_wrapper() {
 
 		// See if we're passed in data
-		if ( isset( $_POST['data'] ) ) {
+		//
+		// We set to ignore this from PHPCS, as our nonce is handled elsewhere
+		// @codingStandardsIgnoreLine
+		if ( isset( $_POST['data'] ) ) { // Input var okay.
 
 			// Form data comes over serialzied, so break it apart
+			//
+			// We set to ignore this from PHPCS, as our nonce is handled elsewhere
+			// @codingStandardsIgnoreLine
 			$data = explode( '&', $_POST['data'] );
 
 			// Finish converting that ajax data to something we can use
@@ -63,10 +69,12 @@ class ConstantContact_Process_Form {
 				// Loop through each of our fields
 				foreach ( $data as $field ) {
 
+					// @codingStandardsIgnoreStart
 					// Our data looks like this:
 					// Array (
 					// [0] => email___5d94668ce0670de4192bbcdd94d8ef71=email_address
 					// [1] => custom___22d42a056afeffb8d99b2474693afa98=text
+					// @codingStandardsIgnoreEnd
 					// so we want to break it apart to get the key and the value
 					// we pass 2 into explode() to limit it to only two return values
 					// in case there is an = in the actual form value
@@ -107,7 +115,8 @@ class ConstantContact_Process_Form {
 
 		// Set our data var to $_POST if we dont get it passed in
 		if ( empty( $data ) ) {
-			$data = $_POST;
+
+			$data = $_POST; // @codingStandardsIgnoreLine
 		}
 
 		// Don't check for submitted if we are doing it over ajax
@@ -160,7 +169,7 @@ class ConstantContact_Process_Form {
 
 		// Make sure our verify key matches our saved one
 		$orig_verify = get_post_meta( $orig_form_id, '_ctct_verify_key', true );
-		if ( $orig_verify != $form_verify ) {
+		if ( $orig_verify !== $form_verify ) {
 			return array(
 				'status' => 'named_error',
 				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constantcontact' ),
@@ -179,7 +188,7 @@ class ConstantContact_Process_Form {
 			) );
 
 			// if our key we're processing is in our array, ignore it
-			if ( in_array( $key, $ignored_keys ) ) {
+			if ( in_array( $key, $ignored_keys, true ) ) {
 				continue;
 			}
 
@@ -449,8 +458,8 @@ class ConstantContact_Process_Form {
 				}
 			}
 
-			if ( 'email' == $value['orig']['map_to'] ) {
-				if ( sanitize_email( $value['post'] ) != $value['post'] ) {
+			if ( 'email' === $value['orig']['map_to'] ) {
+				if ( sanitize_email( $value['post'] ) !== $value['post'] ) {
 					$err_returns[] = array(
 						'map'   => $value['orig']['map_to'],
 						'id'    => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
@@ -556,7 +565,7 @@ class ConstantContact_Process_Form {
 					'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
 				);
 
-			// all else fails, use default
+			// all else fails, then we'll just use the default
 			default:
 				$message = '';
 				break;
