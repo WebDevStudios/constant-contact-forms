@@ -214,6 +214,7 @@ class Constant_Contact {
 		$this->api               = new ConstantContact_API( $this );
 		$this->builder           = new ConstantContact_Builder( $this );
 		$this->builder_fields    = new ConstantContact_Builder_Fields( $this );
+		$this->check             = new ConstantContact_Check( $this );
 		$this->ctct_forms        = new ConstantContact_CPTS( $this );
 		$this->display           = new ConstantContact_Display( $this );
 		$this->display_shortcode = new ConstantContact_Display_Shortcode( $this );
