@@ -250,4 +250,82 @@ class ConstantContact_CPTS {
 
 	    return $title;
 	}
+
+	/**
+	 * Returns array of form ids
+	 *
+	 * @since 1.0.0
+	 * @return array
+	 */
+	public function get_forms( $expanded_data = false, $bust_cache = false ) {
+
+		// Grab our saved transient.
+		$forms = get_transient( 'constant_contact_shortcode_form_list' );
+
+		// Allow bypassing transient check.
+		$bypass_forms = apply_filters( 'constant_contact_bypass_shotcode_forms', false );
+
+		// If we dont have a transient or we bypass, go through the motions.
+		if ( false === $forms || $bypass_forms || $bust_cache ) {
+
+			// Get all our forms that we have.
+			$query = new WP_Query( array(
+				'post_status'            => 'publish',
+				'post_type'              => 'ctct_forms',
+				'no_found_rows'          => true,
+				'update_post_term_cache' => false,
+			) );
+
+			// Grab the posts.
+			$q_forms = $query->get_posts();
+
+			// If for some reason we got an error, just return a blank array.
+			if ( is_wp_error( $q_forms ) && ! is_array( $q_forms ) ) {
+				return array();
+			}
+
+			// If we're not using this for the shortcode in the admin, just return
+			// the IDs of our forms
+			if ( ! $expanded_data ) {
+				return $q_forms;
+			}
+
+			// Set up our default array.
+			$forms = array();
+
+			// Foreach form we have, lets build up our return array.
+			foreach ( $q_forms as $form ) {
+
+				// Make sure we have the data we want to use.
+				if (
+					isset( $form->ID ) &&
+					$form->ID &&
+					isset( $form->post_title ) &&
+					isset( $form->post_modified )
+				) {
+
+					// Get our title
+					$title = ( $form->post_title ) ? $form->post_title : __( 'No title', 'constantcontact' );
+
+					// Get the last modified time in human text
+					$last_modified = human_time_diff( strtotime( $form->post_modified ), time() );
+
+					// Build up our title for the shortcode form admin
+					$title = sprintf(
+						esc_html__( '%s (last modified %s ago)', 'constantcontact' ),
+						$title,
+						$last_modified
+					);
+
+					// Clean that data before we use it.
+					$forms[ absint( $form->ID ) ] = $title;
+				}
+			}
+
+			// Save that.
+			set_transient( 'constant_contact_shortcode_form_list', $forms, 1 * HOUR_IN_SECONDS );
+		}
+
+		return $forms;
+	}
 }
