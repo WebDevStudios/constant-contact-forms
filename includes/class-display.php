@@ -405,8 +405,9 @@ class ConstantContact_Display {
 
 					// Otherwise make sure we have a value
 				} elseif ( $post['key'] == $map && isset( $_POST[ esc_attr( $map ) ] ) ) {
+
 					// Clean and return
-					return sanitize_text_field( $_POST[ esc_attr( $map ) ] );
+					return sanitize_text_field( wp_unslash( $_POST[ esc_attr( $map ) ] ) );
 				}
 			}
 		}
@@ -484,7 +485,7 @@ class ConstantContact_Display {
 		$markup = '<p class="ctct-form-field ctct-form-field-' . $type . '">';
 
 		// alow skipping label, also don't show for submit buttons
-		if ( $use_label && ( 'submit' != $type ) && ( 'hidden' != $type ) ) {
+		if ( $use_label && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
 
 			// Our field label will be the form name + required asterisk + our label
 			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
@@ -670,7 +671,7 @@ class ConstantContact_Display {
 
 		// Set our $show var
 		$show = false;
-		if ( isset( $optin['show'] ) && 'on' == $optin['show'] ) {
+		if ( isset( $optin['show'] ) && 'on' === $optin['show'] ) {
 			$show = true;
 		}
 

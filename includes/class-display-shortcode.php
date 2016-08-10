@@ -30,6 +30,12 @@ class ConstantContact_Display_Shortcode {
 		$this->plugin = $plugin;
 	}
 
+	/**
+	 * Acts as a wrapper so our shortcode class doesnt have to do this
+	 *
+	 * @since   1.0.0
+	 * @param   array  $atts  shortcode attributes
+	 */
 	public function shortcode_wrapper( $atts ) {
 
 		// Bail if we don't have a form set.
@@ -40,6 +46,12 @@ class ConstantContact_Display_Shortcode {
 		return $this->get_form( $atts['form'] );
 	}
 
+	/**
+	 * Get a form from ID
+	 *
+	 * @since   1.0.0
+	 * @param   int  $form_id  form ID
+	 */
 	public function get_form( $form_id ) {
 
 		// sanity check it
@@ -66,8 +78,17 @@ class ConstantContact_Display_Shortcode {
 
 	}
 
+	/**
+	 * Display a form to the screen
+	 *
+	 * @since   1.0.0
+	 * @param   int  $form_id  form ID to display
+	 */
 	public function display_form( $form_id ) {
-		echo $this->get_form( $form_id );
+
+		// @codingStandardsIgnoreStart
+		echo $this->get_form( absint( $form_id ) );
+		// @codingStandardsIgnoreEnd
 	}
 
 	/**
