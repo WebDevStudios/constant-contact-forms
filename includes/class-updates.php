@@ -106,7 +106,7 @@ class ConstantContact_Updates {
 		);
 
 		// Re-save it if we actually did add one
-		if ( $compare_notifs != $current_notifs ) {
+		if ( $compare_notifs !== $current_notifs ) {
 			update_option( 'ctct_update_notifications', $current_notifs );
 		}
 	}

@@ -189,7 +189,6 @@ class ConstantContact_Builder {
 			// Check to see if we have an email set on our field
 			$has_email = get_post_meta( $post->ID, '_ctct_has_email_field', true );
 
-
 			// If we don't have an email, then display our admin notice to the user
 			if ( ! $has_email || 'false' === $has_email ) {
 				echo '<div id="ctct-no-email-error" class="notice notice-error ctct-no-email-error"><p>';

@@ -95,7 +95,7 @@ class ConstantContact_Connect {
 
 		// If we have this get, we may be getting an connect attempt, so lets
 		// verify it and potentially process it
-		if ( isset( $_GET['cc_connect_attempt'] ) && is_user_logged_in() ) {
+		if ( isset( $_GET['cc_connect_attempt'] ) && is_user_logged_in() ) { // Input var okay.
 
 			// Call our access token processing
 			$verified = constant_contact()->authserver->verify_and_save_access_token_return();
@@ -191,11 +191,15 @@ class ConstantContact_Connect {
 
 			<?php else : ?>
 
-			<?php if ( isset( $_GET['ctct_connect_error'] ) ) { ?>
+			<?php
+			if ( isset( $_GET['ctct_connect_error'] ) ) { // Input var okay.
+			?>
 				<div id="message" class="error"><p>
 				<?php esc_html_e( 'There was an error connecting your account. Please try again.', 'constantcontact' ); ?>
 				</p></div>
-			<?php } ?>
+			<?php
+			}
+			?>
 				<p class="ctct-description">
 					<?php esc_html_e( 'To take full advantage of this plugin, we recommend having an active Constant Contact account.', 'constantcontact' ); ?>
 				</p>
@@ -204,7 +208,7 @@ class ConstantContact_Connect {
 					<div class="left">
 						<img
 							class="flare"
-							src="<?php echo $this->plugin->url . 'assets/images/question-mail-connect.png'; ?>"
+							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail-connect.png' ); ?>"
 							alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constantcontact' ); ?>"
 						/>
 						<h3><?php esc_attr_e( 'Need an account?', 'constantcontact' ); ?></h3>
@@ -216,7 +220,7 @@ class ConstantContact_Connect {
 					<div class="right">
 						<img
 							class="flare"
-							src="<?php echo $this->plugin->url . 'assets/images/cc-login-connect.png'; ?>"
+							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login-connect.png' ); ?>"
 							alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constantcontact' ); ?>"
 						/>
 						<h3><?php esc_attr_e( 'Have an account?', 'constantcontact' ); ?></h3>
@@ -232,7 +236,7 @@ class ConstantContact_Connect {
 
 						// If we have a link, then display the connect button
 						if ( $auth_link ) { ?>
-							<a href="<?php echo $auth_link ?>" class="button button-blue ctct-connect">
+							<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button button-blue ctct-connect">
 								<?php esc_html_e( 'Connect Plugin', 'constantcontact' ); ?>
 							</a>
 						<?php } ?>
@@ -256,12 +260,12 @@ class ConstantContact_Connect {
 	public function maybe_disconnect() {
 
 		// Make sure we ahve our nonce key
-		if ( ! isset( $_POST['ctct-admin-disconnect'] ) ) {
+		if ( ! isset( $_POST['ctct-admin-disconnect'] ) ) { // Input var okay.
 			return;
 		}
 
 		// Make sure we want to disconnect
-		if ( ! isset( $_POST['ctct-disconnect'] ) ) {
+		if ( ! isset( $_POST['ctct-disconnect'] ) ) { // Input var okay.
 			return;
 		}
 
@@ -271,7 +275,7 @@ class ConstantContact_Connect {
 		}
 
 		// Verify that nonce
-		if ( wp_verify_nonce( $_POST['ctct-admin-disconnect'], 'ctct-admin-disconnect' ) ) {
+		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ctct-admin-disconnect'] ) ), 'ctct-admin-disconnect' ) ) { // Input var okay.
 
 			// Delete access token and delete our legacy token as well.
 			delete_option( 'ctct_token' );

@@ -85,11 +85,7 @@ class ConstantContact_Display {
 		$status           = false;
 
 		// Get a potential response from our processing wrapper
-		// This returns an array that looks like this:
-		// array(
-		// 'status'  => $status,
-		// 'message' => $message,
-		// )
+		// This returns an array that has 'status' and 'message keys'
 		// if the status is success, then we sent the form correctly
 		// if the status is error, then we will re-show the form, but also
 		// with our error messages.
