@@ -186,12 +186,12 @@ class ConstantContact_Notifications {
 	public function check_dismissal_nonce() {
 
 		// Double check that we have our nonce that we'll use
-		if ( ! isset( $_GET['ctct-dismiss'] ) ) {
+		if ( ! isset( $_GET['ctct-dismiss'] ) ) { // Input var okay.
 			return false;
 		}
 
 		// Save our nonce
-		$nonce = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss'] ) );
+		$nonce = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss'] ) );  // Input var okay.
 
 		// If our nonce fails, then we don't want to dismiss it
 		return ( wp_verify_nonce( $nonce, 'ctct-user-is-dismissing' ) );
@@ -336,7 +336,7 @@ class ConstantContact_Notifications {
 			return $options[ esc_attr( $key ) ];
 		}
 
-		// Otherwise, return false
+		// Otherwise, we'll just return false and bail
 		return false;
 	}
 
@@ -358,7 +358,7 @@ class ConstantContact_Notifications {
 		// Wrap our content in our markup
 		?>
 		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
-			<?php echo $content; ?>
+			<?php echo wp_kses_post( $content ); ?>
 			<?php constant_contact()->notifications->do_dismiss_link( esc_attr( $key ) ); ?>
 		</div>
 		<?php
