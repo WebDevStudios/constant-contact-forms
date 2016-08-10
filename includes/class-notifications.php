@@ -54,7 +54,7 @@ class ConstantContact_Notifications {
 		return apply_filters( 'constant_contact_notifications', array(
 			array(
 				'ID'         => 'activation',
-				'callback'   => array( $this, 'get_notification_content_activation' ),
+				'callback'   => array( 'ConstantContact_Notification_Content', 'activation' ),
 				'require_cb' => 'constant_contact_is_not_connected',
 			),
 		) );
