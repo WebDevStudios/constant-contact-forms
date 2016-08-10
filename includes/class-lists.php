@@ -214,7 +214,7 @@ class ConstantContact_Lists {
 
 		// Make sure we're on the correct page
 		global $pagenow;
-		if ( ! in_array( $pagenow, array( 'edit.php' ), true ) ) {
+		if ( ! $pagenow || ( ! in_array( $pagenow, array( 'edit.php' ), true ) ) ) {
 			return;
 		}
 
@@ -376,7 +376,7 @@ class ConstantContact_Lists {
 		// Make sure we're on the new post page
 		global $pagenow;
 
-		if ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) {
+		if ( ! $pagenow || ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) ) {
 			return false;
 		}
 		// If we can't edit posts, get out of here
@@ -752,7 +752,7 @@ class ConstantContact_Lists {
 
 		// Make sure we're on the correct page
 		global $pagenow, $post;
-		if ( ! in_array( $pagenow, array( 'post.php' ), true ) ) {
+		if ( $pagenow || ( ! in_array( $pagenow, array( 'post.php' ), true ) ) ) {
 			return;
 		}
 

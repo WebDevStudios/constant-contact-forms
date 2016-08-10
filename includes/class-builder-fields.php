@@ -61,7 +61,7 @@ class ConstantContact_Builder_Fields {
 		);
 
 		// Only load the cmb2 fields on our specified pages
-		if ( in_array( $pagenow, $form_builder_pages, true ) ) {
+		if ( $pagenow && in_array( $pagenow, $form_builder_pages, true ) ) {
 
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'opt_ins_metabox' ) );
