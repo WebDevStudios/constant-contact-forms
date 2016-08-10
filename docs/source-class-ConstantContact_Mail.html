@@ -477,7 +477,7 @@
 </span><span id="92" class="l"><a href="#92"> 92: </a>            <span class="php-var">$val</span>  = sanitize_text_field( <span class="php-keyword1">isset</span>( <span class="php-var">$val</span>[<span class="php-quote">'value'</span>] ) ? <span class="php-var">$val</span>[<span class="php-quote">'value'</span>] : <span class="php-quote">''</span> );
 </span><span id="93" class="l"><a href="#93"> 93: </a>
 </span><span id="94" class="l"><a href="#94"> 94: </a>            <span class="php-comment">// Make sure we have a key that we can use</span>
-</span><span id="95" class="l"><a href="#95"> 95: </a>            <span class="php-keyword1">if</span> ( <span class="php-var">$key</span> &amp;&amp; ( <span class="php-quote">'ctct-opt-in'</span> != <span class="php-var">$key</span> ) &amp;&amp; ( <span class="php-quote">'ctct-id'</span> != <span class="php-var">$key</span> ) ) {
+</span><span id="95" class="l"><a href="#95"> 95: </a>            <span class="php-keyword1">if</span> ( <span class="php-var">$key</span> &amp;&amp; ( <span class="php-quote">'ctct-opt-in'</span> !== <span class="php-var">$key</span> ) &amp;&amp; ( <span class="php-quote">'ctct-id'</span> !== <span class="php-var">$key</span> ) ) {
 </span><span id="96" class="l"><a href="#96"> 96: </a>
 </span><span id="97" class="l"><a href="#97"> 97: </a>                <span class="php-comment">// Set our args that we'll pass to our API</span>
 </span><span id="98" class="l"><a href="#98"> 98: </a>                <span class="php-var">$args</span>[ <span class="php-var">$orig</span> ] = <span class="php-keyword1">array</span>(
@@ -486,7 +486,7 @@
 </span><span id="101" class="l"><a href="#101">101: </a>                );
 </span><span id="102" class="l"><a href="#102">102: </a>
 </span><span id="103" class="l"><a href="#103">103: </a>                <span class="php-comment">// If we have an email, make sure we keep it safe</span>
-</span><span id="104" class="l"><a href="#104">104: </a>                <span class="php-keyword1">if</span> ( <span class="php-quote">'email'</span> == <span class="php-var">$key</span> ) {
+</span><span id="104" class="l"><a href="#104">104: </a>                <span class="php-keyword1">if</span> ( <span class="php-quote">'email'</span> === <span class="php-var">$key</span> ) {
 </span><span id="105" class="l"><a href="#105">105: </a>                    <span class="php-var">$args</span>[<span class="php-quote">'email'</span>] = <span class="php-var">$val</span>;
 </span><span id="106" class="l"><a href="#106">106: </a>                }
 </span><span id="107" class="l"><a href="#107">107: </a>            }
@@ -558,7 +558,7 @@
 </span><span id="173" class="l"><a href="#173">173: </a>
 </span><span id="174" class="l"><a href="#174">174: </a>        <span class="php-comment">// If we didn't get passed in a sanitized email, we know something is</span>
 </span><span id="175" class="l"><a href="#175">175: </a>        <span class="php-comment">// wonky here, so bail out</span>
-</span><span id="176" class="l"><a href="#176">176: </a>        <span class="php-keyword1">if</span> ( sanitize_email( <span class="php-var">$destination_email</span> ) != <span class="php-var">$destination_email</span> ) {
+</span><span id="176" class="l"><a href="#176">176: </a>        <span class="php-keyword1">if</span> ( sanitize_email( <span class="php-var">$destination_email</span> ) !== <span class="php-var">$destination_email</span> ) {
 </span><span id="177" class="l"><a href="#177">177: </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">false</span>;
 </span><span id="178" class="l"><a href="#178">178: </a>        }
 </span><span id="179" class="l"><a href="#179">179: </a>
