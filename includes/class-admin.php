@@ -124,9 +124,12 @@ class ConstantContact_Admin {
 			<div id="options-wrap">
 				<?php
 
-				// If we have a $_GET['page'], let's try to pull out the page we're looking for
-				if ( isset( $_GET['page'] ) && $_GET['page'] ) { // Input var okay.
-					$page = explode( $this->key . '_', esc_attr( wp_unslash( $_GET['page'] ) ) ); // Input var okay.
+				// If we have a page get var set, let's try to pull out the page we're looking for
+				if ( isset( $_GET['page'] ) ) { // Input var okay.
+
+					$page_key = sanitize_text_field( wp_unslash( $_GET['page'] ) );  // Input var okay.
+
+					$page = explode( $this->key . '_', $page_key );
 				} else {
 					$page = array();
 				}
@@ -232,7 +235,7 @@ class ConstantContact_Admin {
 				echo esc_attr( '[ctct form="' . $post_id . '"]' );
 			break;
 			case 'description':
-				echo wpautop( wp_kses_post( get_post_meta( $post_id, '_ctct_description', true ) ) );
+				echo wp_kses_post( wpautop( get_post_meta( $post_id, '_ctct_description', true ) ) );
 			break;
 		}
 	}
@@ -298,7 +301,7 @@ class ConstantContact_Admin {
 		// Allow filtering of allowed pages that we load scripts on
 		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', array( 'post.php', 'post-new.php' ) );
 
-		if ( $pagenow && in_array( $pagenow, $allowed_pages ) ) {
+		if ( $pagenow && in_array( $pagenow, $allowed_pages, true ) ) {
 			// Enqueued script with localized data.
 			wp_enqueue_script( 'ctct_form' );
 		}
