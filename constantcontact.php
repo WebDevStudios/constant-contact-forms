@@ -170,6 +170,7 @@ class Constant_Contact {
 	private $settings;
 	private $mail;
 	private $notifications;
+	private $notification_content;
 	private $authserver;
 
 	/**
@@ -221,21 +222,22 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function plugin_classes() {
-		$this->api               = new ConstantContact_API( $this );
-		$this->builder           = new ConstantContact_Builder( $this );
-		$this->builder_fields    = new ConstantContact_Builder_Fields( $this );
-		$this->check             = new ConstantContact_Check( $this );
-		$this->cpts              = new ConstantContact_CPTS( $this );
-		$this->display           = new ConstantContact_Display( $this );
-		$this->display_shortcode = new ConstantContact_Display_Shortcode( $this );
-		$this->lists             = new ConstantContact_Lists( $this );
-		$this->process_form      = new ConstantContact_Process_Form( $this );
-		$this->settings          = new ConstantContact_Settings( $this );
-		$this->auth_redirect     = new ConstantContact_Auth_Redirect( $this );
-		$this->connect           = new ConstantContact_Connect( $this );
-		$this->mail              = new ConstantContact_Mail( $this );
-		$this->notifications     = new ConstantContact_Notifications( $this );
-		$this->authserver        = new ConstantContact_Middleware( $this );
+		$this->api                  = new ConstantContact_API( $this );
+		$this->builder              = new ConstantContact_Builder( $this );
+		$this->builder_fields       = new ConstantContact_Builder_Fields( $this );
+		$this->check                = new ConstantContact_Check( $this );
+		$this->cpts                 = new ConstantContact_CPTS( $this );
+		$this->display              = new ConstantContact_Display( $this );
+		$this->display_shortcode    = new ConstantContact_Display_Shortcode( $this );
+		$this->lists                = new ConstantContact_Lists( $this );
+		$this->process_form         = new ConstantContact_Process_Form( $this );
+		$this->settings             = new ConstantContact_Settings( $this );
+		$this->auth_redirect        = new ConstantContact_Auth_Redirect( $this );
+		$this->connect              = new ConstantContact_Connect( $this );
+		$this->mail                 = new ConstantContact_Mail( $this );
+		$this->notifications        = new ConstantContact_Notifications( $this );
+		$this->notification_content = new ConstantContact_Notification_Content( $this );
+		$this->authserver           = new ConstantContact_Middleware( $this );
 	}
 
 	/**
@@ -463,6 +465,7 @@ class Constant_Contact {
 			case 'url':
 			case 'mail':
 			case 'notifications':
+			case 'notification_content':
 			case 'authserver':
 				return $this->$field;
 			default:
