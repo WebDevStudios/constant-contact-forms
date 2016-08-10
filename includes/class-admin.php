@@ -248,18 +248,32 @@ class ConstantContact_Admin {
 	 */
 	public function add_social_links( $links ) {
 
-		// Generate our site link
-		$site_link = apply_filters( 'constant_contact_social_base_url' , 'https://constantcontact.com/' );
-
+		// Get twitter share link
 		$twitter_cta = __( 'Check out the official WordPress plugin from @constantcontact :', 'constantcontact' );
-		// Build up all our social links
-		$add_links = apply_filters( 'constant_contacnt_social_links', array(
-			'<a title="' . __( 'Be a better marketer. All it takes is Constant Contact email marketing.', 'constantcontact' ) . '" href="' . $site_link . '" target="_blank">constantcontact.com</a>',
-			'<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>',
-			'<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" class="dashicons-before dashicons-twitter"></a>',
-			'<a title="' . __( 'Spread the word!', 'constantcontact' ) . '" href="https://plus.google.com/share?url=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>',
-		) );
 
+
+		// Build up all our plugin links
+		$about = __( 'About', 'constantcontact' );
+		$about_args = array( 'post_type' => 'ctct_forms', 'page' => 'ctct_options_about' );
+		$about_link = add_query_arg( $about_args, admin_url( 'edit.php' ) );
+		$add_links[] = '<a title="' . $about . '" href="' . $about_link . '" target="_blank">' . $about . '</a>';
+
+		// Get site link
+		$site_text_a = __( 'Be a better marketer. All it takes is Constant Contact email marketing.', 'constantcontact' );
+		$site_text_b = __( 'constantcontact.com', 'constantcontact' );
+		$site_link = apply_filters( 'constant_contact_social_base_url' , 'https://constantcontact.com/' );
+		$add_links[] = '<a title="' . $site_text_a . '" href="' . $site_link . '" target="_blank">' . $site_text_b . '</a>';
+
+		// Start our social share links
+		$social_share = __( 'Spread the word!', 'constantcontact' );
+		$add_links[] = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>';
+		$add_links[] = '<a title="' . $social_share . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" class="dashicons-before dashicons-twitter"></a>';
+		$add_links[] = '<a title="' . $social_share . '" href="https://plus.google.com/share?url=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>';
+
+		// Allow filtering our links
+		$add_links = apply_filters( 'constant_contact_social_links', $add_links );
+
+		// Send it back
 		return array_merge( $links, $add_links );
 	}
 
