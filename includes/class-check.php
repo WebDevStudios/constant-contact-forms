@@ -39,7 +39,7 @@ class ConstantContact_Check {
 	public function maybe_display_debug_info() {
 
 		// Make sure we have our query arg, we're an admin, and we can manage options
-		if ( isset( $_GET['ctct-debug-server-check'] ) && is_admin() && current_user_can( 'manage_options' ) ) {
+		if ( isset( $_GET['ctct-debug-server-check'] ) && is_admin() && current_user_can( 'manage_options' ) ) { // Input var okay.
 			?>
 			<div class="ctct-server-requirements">
 				<p>
@@ -97,7 +97,7 @@ class ConstantContact_Check {
 			foreach ( $checks['functions'] as $function ) {
 
 				// Check to see if its available
-				echo '<tr><td>' . esc_attr( $function ) . '</td><td>' . $this->exists_text( $function, 'f' ) . '</td></tr>';
+				echo '<tr><td>' . esc_attr( $function ) . '</td><td>' . esc_attr( $this->exists_text( $function, 'f' ) ) . '</td></tr>';
 			}
 		}
 
@@ -112,13 +112,13 @@ class ConstantContact_Check {
 			foreach ( $checks['classes'] as $class ) {
 
 				// check to see if its available
-				echo '<tr><td>' . esc_attr( $class ) . '</td><td>' . $this->exists_text( $class, 'c' ) . '</td></tr>';
+				echo '<tr><td>' . esc_attr( $class ) . '</td><td>' . esc_attr( $this->exists_text( $class, 'c' ) ) . '</td></tr>';
 			}
 		}
 
 		// Check to see if we can load the encryption library
 		$crypto = constant_contact()->check_crypto_class();
-		echo '<tr><td>' . __( 'Encrpytion Library: ', 'constantcontact' ) . '</td><td>' . $this->exists_text( $crypto ) . '</td></tr>';
+		echo '<tr><td>' . esc_attr_e( 'Encrpytion Library: ', 'constantcontact' ) . '</td><td>' . esc_attr( $this->exists_text( $crypto ) ) . '</td></tr>';
 
 		echo '</table>';
 	}
