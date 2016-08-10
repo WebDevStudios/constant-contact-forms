@@ -1,9 +1,11 @@
 <?php
 /**
- * Constant Contact Middleware
+ * ConstantContact_Middleware Class File.
  *
- * @since 1.0.1
- * @package Constant Contact
+ * @package ConstantContact_Middleware
+ * @subpackage ConstantContact
+ * @author Pluginize
+ * @since 1.0.0
  */
 
 /**
