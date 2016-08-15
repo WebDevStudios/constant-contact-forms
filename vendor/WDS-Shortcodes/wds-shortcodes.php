@@ -1,16 +1,4 @@
 <?php
-/**
- * Plugin Name: WDS Shortcodes
- * Plugin URI:  http://webdevstudios.com
- * Description: Base plugin/classes/functionality for creating shortcodes.
- * Version:     0.1.0
- * Author:      WebDevStudios
- * Author URI:  http://webdevstudios.com
- * Donate link: http://webdevstudios.com
- * License:     GPLv2
- * Text Domain: wds-shortcodes
- * Domain Path: /languages
- */
 
 /**
  * Copyright (c) 2015 WebDevStudios (email : contact@webdevstudios.com)
