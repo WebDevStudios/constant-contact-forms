@@ -249,10 +249,10 @@ class ConstantContact_Lists {
 		) ) );
 
 		// Grab our posts
-		$lists_to_remove = $query->get_posts();
+		$potentially_remove_list = $query->get_posts();
 
 		// Make sure we didn't get an error and that it is an array
-		if ( is_wp_error( $lists_to_remove ) || ! is_array( $lists_to_remove ) ) {
+		if ( is_wp_error( $potentially_remove_list ) || ! is_array( $potentially_remove_list ) ) {
 			return;
 		}
 
@@ -260,7 +260,7 @@ class ConstantContact_Lists {
 		$lists_to_delete = array();
 
 		// Loop through each of our lists
-		foreach ( $lists_to_remove as $post ) {
+		foreach ( $potentially_remove_list as $post ) {
 
 			// make sure we have a post ied
 			if ( isset( $post->ID ) ) {
