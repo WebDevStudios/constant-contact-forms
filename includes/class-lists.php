@@ -244,7 +244,6 @@ class ConstantContact_Lists {
 			'posts_per_page'         => 10,
 			'no_found_rows'          => true,
 			'update_post_term_cache' => false,
-			'update_post_meta_cache' => false,
 			'fields'                 => 'ids',
 		) ) );
 
@@ -260,13 +259,13 @@ class ConstantContact_Lists {
 		$lists_to_delete = array();
 
 		// Loop through each of our lists
-		foreach ( $potentially_remove_list as $post ) {
+		foreach ( $potentially_remove_list as $post_id ) {
 
 			// make sure we have a post ied
-			if ( isset( $post->ID ) ) {
+			if ( isset( $post_id ) ) {
 
 				// grab our list id
-				$list_id = get_post_meta( $post->ID, '_ctct_list_id', true );
+				$list_id = get_post_meta( $post_id, '_ctct_list_id', true );
 
 				if ( ! $list_id ) {
 					// If we didn't get a list id, we'll want to generate a random string
@@ -276,7 +275,7 @@ class ConstantContact_Lists {
 				}
 
 				// set the key of our array to the list id, value to our post ID
-				$lists_to_delete[ esc_attr( $list_id ) ] = absint( $post->ID );
+				$lists_to_delete[ esc_attr( $list_id ) ] = absint( $post_id );
 			}
 		}
 
