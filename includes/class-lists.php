@@ -244,6 +244,8 @@ class ConstantContact_Lists {
 			'posts_per_page'         => 50,
 			'no_found_rows'          => true,
 			'update_post_term_cache' => false,
+			'update_post_meta_cache' => false,
+			'fields'                 => 'ids',
 		) ) );
 
 		// Grab our posts
