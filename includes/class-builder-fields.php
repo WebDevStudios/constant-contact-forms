@@ -82,7 +82,7 @@ class ConstantContact_Builder_Fields {
 		 */
 		$description_metabox = new_cmb2_box( array(
 			'id'			=> 'ctct_0_description_metabox',
-			'title'		 	=> __( 'Form Description', 'constantcontact' ),
+			'title'		 	=> __( 'Form Title', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
 			'priority'	  	=> 'high',
@@ -273,7 +273,7 @@ class ConstantContact_Builder_Fields {
 
 		// Add our field description
 		$fields_metabox->add_group_field( $custom_group, array(
-			'name'    => __( 'Field Description', 'constantcontact' ),
+			'name'    => __( 'Field Helper Text', 'constantcontact' ),
 			'id'      => $this->prefix . 'field_desc',
 			'type'    => 'text',
 			'default' => '',
