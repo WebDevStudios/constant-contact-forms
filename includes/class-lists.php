@@ -413,6 +413,9 @@ class ConstantContact_Lists {
 		// Verify we don't mark things as duplicate if they aren't
 		delete_post_meta( $ctct_list->ID, 'ctct_duplicate_list' );
 
+		// Set our placeholder return var
+		$return = false;
+
 		// When we're adding a list, make sure we don't have one of the same name
 		if ( $this->check_if_list_exists_by_title( $ctct_list->post_title ) ) {
 
@@ -462,8 +465,11 @@ class ConstantContact_Lists {
 		// Make sure we have all the data we want to use
 		if (
 			isset( $ctct_list ) &&
+			$ctct_list &&
 			isset( $ctct_list->ID ) &&
-			isset( $ctct_list->post_title )
+			$ctct_list->ID &&
+			isset( $ctct_list->post_title ) &&
+			$ctct_list->post_title
 		) {
 
 			// Make sure we get a unique list name for our list
@@ -478,9 +484,13 @@ class ConstantContact_Lists {
 				)
 			);
 
+			// Set placeholder return var
+			$list_id = false;
+
 			// If we got a list ID back, make sure we add that to post meta
 			if ( isset( $list->id ) && $list->id ) {
 				add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list->id ) );
+				$list_id = $list->id;
 			}
 
 			/**
@@ -491,7 +501,7 @@ class ConstantContact_Lists {
 			 * @param integer $list_id ctct list id
 			 * @param array $list ctct returned list data
 			 */
-			do_action( 'ctct_update_list', $ctct_list->ID, $list->id, $list );
+			do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
 
 			// check to make sure our api request was good
 			if ( is_object( $list ) && isset( $list->id ) ) {

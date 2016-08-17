@@ -178,13 +178,14 @@ class ConstantContact_API {
 		if ( false === $lists ) {
 			try {
 
+				// Get our lists
 				$lists = $this->cc()->listService->getLists( $this->get_api_token() );
 
+				// If its an array, then set our transient and return it
 				if ( is_array( $lists ) ) {
 					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
+					return $lists;
 				}
-
-				return $lists;
 			} catch ( CtctException $ex ) {
 				$this->log_errors( $ex->getErrors() );
 			}
@@ -322,12 +323,17 @@ class ConstantContact_API {
 			return;
 		}
 
+		// Set up our potential return var
+		$list = false;
+
+		// Attempt deletion
 		try {
 			$list = $this->cc()->listService->deleteList( $this->get_api_token(), $updated_list['id'] );
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
 		}
 
+		// Send back the list
 		return $list;
 	}
 
@@ -621,6 +627,7 @@ class ConstantContact_API {
 		// If we have our debugging turned on, push that error to the error log
 		if ( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) {
 			error_log( $error->error_key );
+			error_log( serialize( debug_backtrace() ) );
 		}
 
 		// Otherwise work through our list of error keys we know
