@@ -191,6 +191,12 @@ class ConstantContact_Lists {
 	 */
 	public function sync_lists( $force = false ) {
 
+		// Make sure we're on the correct page
+		global $pagenow;
+		if ( ! $pagenow || ( ! in_array( $pagenow, array( 'edit.php' ), true ) ) ) {
+			return;
+		}
+
 		// Because we want the lists to stay in sync, but we don't want to do too many
 		// requests, we save an option and check against it to make sure we don't sync more than
 		// every minute or so.
@@ -209,12 +215,6 @@ class ConstantContact_Lists {
 		// then we don't want to refresh. If we refreshed less than 15 minutes ago, we do not want to
 		// redo it. Also allow forcing a bypass of this check
 		if ( ( ! $force ) && ( $last_synced + $sync_rate_limit_time ) >= time() ) {
-			return;
-		}
-
-		// Make sure we're on the correct page
-		global $pagenow;
-		if ( ! $pagenow || ( ! in_array( $pagenow, array( 'edit.php' ), true ) ) ) {
 			return;
 		}
 
@@ -268,6 +268,7 @@ class ConstantContact_Lists {
 				$list_id = get_post_meta( $post_id, '_ctct_list_id', true );
 
 				if ( ! $list_id ) {
+
 					// If we didn't get a list id, we'll want to generate a random string
 					// so that we'll still delete it, rather than automatically giving it a
 					// numerical value in our array
