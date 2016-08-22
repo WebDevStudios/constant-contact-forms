@@ -85,7 +85,7 @@ class ConstantContact_Updates {
 	 * @since   1.0.0
 	 * @param   string  $notif_id  update key to use for version
 	 */
-	private function add_notification( $update_id ) {
+	public function add_notification( $update_id ) {
 
 		// Get our current saved update notifications
 		$current_notifs = get_option( 'ctct_update_notifications' );

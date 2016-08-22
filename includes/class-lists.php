@@ -241,7 +241,7 @@ class ConstantContact_Lists {
 		// Grab all our lists that we have
 		$query = new WP_Query( apply_filters( 'constant_contact_lists_query_for_sync', array(
 			'post_type'	             => 'ctct_lists',
-			'posts_per_page'         => 10,
+			'posts_per_page'         => 150,
 			'no_found_rows'          => true,
 			'update_post_term_cache' => false,
 			'fields'                 => 'ids',
@@ -285,6 +285,19 @@ class ConstantContact_Lists {
 
 		// verify our data before continuing
 		if ( $lists_to_insert && is_array( $lists_to_insert ) ) {
+
+			// If we get too many lists, surface an error
+			if ( count( $lists_to_insert ) >= 150 ) {
+
+				// Set a notification of this
+				$this->plugin->updates->add_notification( 'too_many_lists' );
+
+				// Break the list into just 100 items
+				$lists_to_insert = array_chunk( $lists_to_insert, 100 );
+				if ( isset( $lists_to_insert[0] ) ) {
+					$lists_to_insert = $lists_to_insert[0];
+				}
+			}
 
 			// Loop through our lists to insert
 			foreach ( $lists_to_insert as $list ) {
