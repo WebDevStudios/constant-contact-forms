@@ -217,20 +217,20 @@ class ConstantContact_Admin_Pages {
 					<h1 class="about-header"><?php esc_attr_e( 'Constant Contact Forms', 'constantcontact' ); ?></h1>
 					<div class="about-text">
 						<p>
-						<?php echo wp_kses_post( __( 'The <strong>Constant Contact Forms</strong> plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don’t have a Constant Contact account.', 'constantcontact' ) ); ?>
+						<?php echo wp_kses_post( __( 'This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don’t have a Constant Contact account.', 'constantcontact' ) ); ?>
 						</p>
 						<p>
-						<?php esc_attr_e( 'Whether you’re looking to collect email addresses, contact info, event sign-ups, or visitor feedback, you can customize your forms with data fields that work best for you. You can:', 'constantcontact' ); ?>
+						<?php esc_attr_e( 'Whether you’re looking to collect email addresses, contact info, event sign-ups, or visitor feedback, you can customize your forms with data fields that work best for you.', 'constantcontact' ); ?>
 						<ul class="ctct-bonus-points">
 							<li> <?php esc_attr_e( 'Quickly create different types of forms that are clear, simple, and mobile-optimized.', 'constantcontact' ); ?></li>
 							<li> <?php esc_attr_e( 'Choose forms that automatically select the theme and style of your WordPress site.', 'constantcontact' ); ?></li>
-							<li> <?php esc_attr_e( 'Customize the form data fields, so you can tailor the type of information you collect', 'constantcontact' ); ?></li>
+							<li> <?php esc_attr_e( 'Customize the form data fields, so you can tailor the type of information you collect.', 'constantcontact' ); ?></li>
 						</ul>
 						</p>
 						<p>
 						<?php esc_attr_e( 'Using your sign-up forms to collect email addresses? Email marketing is a great way to stay connected with visitors after they’ve left your site. And with an active Constant Contact account, every new subscriber you capture will be automatically added to your selected email lists.  ', 'constantcontact' ); ?>
 						</p>
-						<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a>
+						<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try Us Free"><?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?></a>
 					</div>
 				</div>
 				<span class="plugin-badge">
@@ -256,7 +256,7 @@ class ConstantContact_Admin_Pages {
 
 				?>
 				<?php if ( ! $connected && $auth_link ) { // If we have a link, then display the connect button ?>
-					<h2><?php esc_attr_e( 'Already a Constant Contact account?', 'constantcontact' ); ?></h2>
+					<h2><?php esc_attr_e( 'Already have a Constant Contact account?', 'constantcontact' ); ?></h2>
 					<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button button-blue ctct-connect">
 						<?php esc_html_e( 'Connect the plugin', 'constantcontact' ); ?>
 					</a>
