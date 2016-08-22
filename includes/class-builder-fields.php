@@ -172,7 +172,7 @@ class ConstantContact_Builder_Fields {
 		$options_metabox->add_field( array(
 			'name'        => __( 'Enable email subscriber opt-in', 'constantcontact' ),
 			'id'          => $this->prefix . 'opt_in_not_connected',
-			'description' => __( 'Email opt-in is added to the bottom of your form.', 'constantcontact' ),
+			'description' => __( 'Adds an opt-in to the bottom of your form.', 'constantcontact' ),
 			'type'        => 'checkbox',
 		) );
 
@@ -274,6 +274,7 @@ class ConstantContact_Builder_Fields {
 		// Add our field description
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'    => __( 'Field Helper Text', 'constantcontact' ),
+			'desc'    => __( 'Appears as helper text in the field on your published form.', 'constantcontact' ),
 			'id'      => $this->prefix . 'field_desc',
 			'type'    => 'text',
 			'default' => '',
