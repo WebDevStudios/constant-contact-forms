@@ -70,7 +70,7 @@ class ConstantContact_Notification_Content {
 	 * @return  string  notification text
 	 */
 	public static function too_many_lists() {
-		return __( 'You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing these.', 'constantcontact' );
+		return __( 'You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them.', 'constantcontact' );
 	}
 
 	/**

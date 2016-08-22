@@ -273,6 +273,11 @@ class Constant_Contact {
 
 		// Allow shortcodes in widgets for our plugin
 		add_filter( 'widget_text', 'do_shortcode' );
+
+		if ( is_admin() ) {
+			add_action( 'wp_ajax_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
+			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
+		}
 	}
 
 	/**
@@ -433,6 +438,22 @@ class Constant_Contact {
 
 		// Send back if we can or can't use the library
 		return $return;
+	}
+
+	/**
+	 * Save our dismissed first form notification
+	 *
+	 * @since   1.0.0
+	 * @return  void
+	 */
+	public function ajax_save_clear_first_form() {
+
+		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' == $_POST['action'] ) {
+
+			// Save our dismiss for the first form modal
+			update_option( 'ctct_first_form_modal_dismissed', time() );
+		}
+		wp_die();
 	}
 
 	/**

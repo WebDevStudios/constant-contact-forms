@@ -202,8 +202,12 @@ class ConstantContact_Builder {
 				// Double check that we're not connected
 				if ( ! constant_contact()->api->is_connected() ) {
 
-					// Show our modal
-					$this->output_not_connected_modal();
+					// See if we dismissed the modal, if not, show it
+					if ( ! get_option( 'ctct_first_form_modal_dismissed', false ) ) {
+
+						// Show our modal
+						$this->output_not_connected_modal();
+					}
 				}
 			}
 		}

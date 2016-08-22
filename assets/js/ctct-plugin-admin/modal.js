@@ -20,6 +20,16 @@ window.CTCTModal = {};
     app.bindEvents = function() {
        app.$c.modalClose.click( function() {
             app.$c.modalSelector.removeClass( 'ctct-modal-open' );
+
+            jQuery.ajax({
+                type : "post",
+                dataType : "json",
+                url : ajaxurl,
+                data : {
+                    action: 'ctct_dismiss_first_modal',
+                    'ctct_is_dismissed' : 'true',
+                }
+            });
         });
     };
 
