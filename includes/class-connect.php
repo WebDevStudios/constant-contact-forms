@@ -179,7 +179,7 @@ class ConstantContact_Connect {
 			<?php if ( constantcontact_api()->get_api_token() ) : ?>
 				<div class="message notice">
 					<p>
-						<?php esc_html_e( 'Account connected to Constant Contact.', 'constantcontact' ); ?>
+						<?php esc_html_e( 'Plugin connected to Constant Contact.', 'constantcontact' ); ?>
 					</p>
 				</div>
 
