@@ -282,9 +282,9 @@ class ConstantContact_Builder {
 				<div class="ctct-modal-content">
 					<div class="ctct-modal-header">
 						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
-						<h2><?php esc_attr_e( 'Congratulations on your first form!', 'constantcontact' ); ?></h2>
+						<h2><?php esc_attr_e( 'Your first form is ready!', 'constantcontact' ); ?></h2>
 						<p>
-						<?php printf( esc_html__( 'Now, how do you want to manage your %s form contacts?', 'constantcontact' ), '<strong>' . esc_attr( $this->get_form_name_markup_for_modal() ) . '</strong>' ); ?>
+						<?php esc_html_e( 'Now, how would you like to manage the information you collect?', 'constantcontact' ); ?>
 						</p>
 					</div>
 					<div class="ctct-modal-body">
@@ -318,15 +318,15 @@ class ConstantContact_Builder {
 							<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" target="_blank" class="button button-blue" title="Connect Plugin">
 								<?php esc_attr_e( 'Connect Plugin', 'constantcontact' ); ?>
 							</a><br/>
-							<p class="small"><small><?php esc_attr_e( 'By connecting you authorize this
+							<p class="small"><small><?php esc_attr_e( 'By connecting, you authorize this
 							plugin to access your account.', 'constantcontact' ); ?></small></p>
 						</div>
 					</div><!-- modal body -->
 					<div class="ctct-modal-footer">
 						<p><?php
-							printf( '<a class="ctct-modal-close" href="%s">%s</a> %s',
+							printf( '<a class="ctct-modal-close" href="%s">%s</a>. %s',
 								'#',
-								esc_attr__( "I'm all set.", 'constantcontact' ),
+								esc_attr__( "I'm all set", 'constantcontact' ),
 								esc_attr__( "I'll manage the information on my own for now.", 'constantcontact' )
 							);
 						?></p>
