@@ -222,7 +222,7 @@ class ConstantContact_Settings {
 
 			// Set our CMB2 fields.
 			$cmb->add_field( array(
-				'name' 	=> __( 'Opt In Location', 'constantcontact' ),
+				'name' 	=> __( 'Opt-in Location', 'constantcontact' ),
 				'id'   	=> '_ctct_optin_forms',
 				'type'	=> 'multicheck',
 				'options' => $this->get_optin_show_options(),
