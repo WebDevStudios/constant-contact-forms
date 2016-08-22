@@ -543,7 +543,7 @@ class ConstantContact_Process_Form {
 
 			// yay success
 			case 'success':
-				$message = __( 'Your message has been sent.', 'constantcontact' );
+				$message = __( 'Your information has been submitted.', 'constantcontact' );
 				break;
 
 			// generic error
