@@ -241,7 +241,7 @@ class ConstantContact_CPTS {
 	    	$title = sprintf(
 	    		'%s <span class="ctct-admin-title-details">%s</span>',
 	    		__( 'Enter a form name', 'constantcontact' ),
-	    		__( '(Examples: Join Our Email List, Subscribe to Emails)', 'constantcontact' )
+	    		__( '(Examples: Join Our Email List, Contact Us)', 'constantcontact' )
 			);
 
 	    }
