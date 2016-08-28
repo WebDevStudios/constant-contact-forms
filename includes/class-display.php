@@ -163,7 +163,29 @@ class ConstantContact_Display {
 	 * @return string url of current page
 	 */
 	public function get_current_page() {
-		return @untrailingslashit( home_url( add_query_arg() ) );
+
+		// Grab our global wp objects
+		global $wp;
+
+		// If we have a request, use that
+		$request = ( isset( $wp->request ) && $wp->request ) ? $wp->request : null;
+
+		// If we still have a request, lets get our url magically
+		if ( $request ) {
+
+			$curr_url = untrailingslashit( add_query_arg( '', '', home_url( $request ) ) );
+
+			// if we're not using a custom permalink strucutre, theres a chance the above
+			// will return the home_url. so we do another check to makesure we're going
+			// to use the right thing. This check doesn't work on the homepage, but
+			// that will just get caught with our fallback check correctly anyway
+			if ( ! is_home() && ( home_url() != $curr_url ) ) {
+				return $curr_url;
+			}
+		}
+
+		// Otherwise, we'll default to just using add_query_arg, which may throw errors
+		return untrailingslashit( home_url( add_query_arg() ) );
 	}
 
 	/**
