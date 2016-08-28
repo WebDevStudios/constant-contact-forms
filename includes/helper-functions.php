@@ -14,7 +14,7 @@
  * @return  boolean  whether or not they are connected
  */
 function constant_contact_is_connected() {
-	return constant_contact()->api->is_connected();
+	return ( constant_contact()->api->is_connected() );
 }
 
 /**
