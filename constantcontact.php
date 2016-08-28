@@ -448,7 +448,7 @@ class Constant_Contact {
 	 */
 	public function ajax_save_clear_first_form() {
 
-		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' == $_POST['action'] ) {
+		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' === $_POST['action'] ) { // Input var okay
 
 			// Save our dismiss for the first form modal
 			update_option( 'ctct_first_form_modal_dismissed', time() );
