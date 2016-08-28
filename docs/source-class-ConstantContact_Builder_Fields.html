@@ -467,7 +467,7 @@
 </span></span><span id="82" class="l"><a href="#82"> 82: </a><span class="php-comment">         */</span>
 </span><span id="83" class="l"><a href="#83"> 83: </a>        <span class="php-var">$description_metabox</span> = new_cmb2_box( <span class="php-keyword1">array</span>(
 </span><span id="84" class="l"><a href="#84"> 84: </a>            <span class="php-quote">'id'</span>            =&gt; <span class="php-quote">'ctct_0_description_metabox'</span>,
-</span><span id="85" class="l"><a href="#85"> 85: </a>            <span class="php-quote">'title'</span>         =&gt; __( <span class="php-quote">'Form Description'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="85" class="l"><a href="#85"> 85: </a>            <span class="php-quote">'title'</span>         =&gt; __( <span class="php-quote">'Form Title'</span>, <span class="php-quote">'constantcontact'</span> ),
 </span><span id="86" class="l"><a href="#86"> 86: </a>            <span class="php-quote">'object_types'</span>  =&gt; <span class="php-keyword1">array</span>( <span class="php-quote">'ctct_forms'</span> ),
 </span><span id="87" class="l"><a href="#87"> 87: </a>            <span class="php-quote">'context'</span>       =&gt; <span class="php-quote">'normal'</span>,
 </span><span id="88" class="l"><a href="#88"> 88: </a>            <span class="php-quote">'priority'</span>      =&gt; <span class="php-quote">'high'</span>,
@@ -557,7 +557,7 @@
 </span><span id="172" class="l"><a href="#172">172: </a>        <span class="php-var">$options_metabox</span>-&gt;add_field( <span class="php-keyword1">array</span>(
 </span><span id="173" class="l"><a href="#173">173: </a>            <span class="php-quote">'name'</span>        =&gt; __( <span class="php-quote">'Enable email subscriber opt-in'</span>, <span class="php-quote">'constantcontact'</span> ),
 </span><span id="174" class="l"><a href="#174">174: </a>            <span class="php-quote">'id'</span>          =&gt; <span class="php-var">$this</span>-&gt;prefix . <span class="php-quote">'opt_in_not_connected'</span>,
-</span><span id="175" class="l"><a href="#175">175: </a>            <span class="php-quote">'description'</span> =&gt; __( <span class="php-quote">'Email opt-in is added to the bottom of your form.'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="175" class="l"><a href="#175">175: </a>            <span class="php-quote">'description'</span> =&gt; __( <span class="php-quote">'Adds an opt-in to the bottom of your form.'</span>, <span class="php-quote">'constantcontact'</span> ),
 </span><span id="176" class="l"><a href="#176">176: </a>            <span class="php-quote">'type'</span>        =&gt; <span class="php-quote">'checkbox'</span>,
 </span><span id="177" class="l"><a href="#177">177: </a>        ) );
 </span><span id="178" class="l"><a href="#178">178: </a>
@@ -658,49 +658,50 @@
 </span><span id="273" class="l"><a href="#273">273: </a>
 </span><span id="274" class="l"><a href="#274">274: </a>        <span class="php-comment">// Add our field description</span>
 </span><span id="275" class="l"><a href="#275">275: </a>        <span class="php-var">$fields_metabox</span>-&gt;add_group_field( <span class="php-var">$custom_group</span>, <span class="php-keyword1">array</span>(
-</span><span id="276" class="l"><a href="#276">276: </a>            <span class="php-quote">'name'</span>    =&gt; __( <span class="php-quote">'Field Description'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="277" class="l"><a href="#277">277: </a>            <span class="php-quote">'id'</span>      =&gt; <span class="php-var">$this</span>-&gt;prefix . <span class="php-quote">'field_desc'</span>,
-</span><span id="278" class="l"><a href="#278">278: </a>            <span class="php-quote">'type'</span>    =&gt; <span class="php-quote">'text'</span>,
-</span><span id="279" class="l"><a href="#279">279: </a>            <span class="php-quote">'default'</span> =&gt; <span class="php-quote">''</span>,
-</span><span id="280" class="l"><a href="#280">280: </a>        ) );
-</span><span id="281" class="l"><a href="#281">281: </a>
-</span><span id="282" class="l"><a href="#282">282: </a>        <span class="php-var">$default_fields</span> = apply_filters( <span class="php-quote">'constant_contact_field_types'</span>, <span class="php-keyword1">array</span>(
-</span><span id="283" class="l"><a href="#283">283: </a>            <span class="php-quote">'email'</span>            =&gt; __( <span class="php-quote">'Email (required)'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="284" class="l"><a href="#284">284: </a>            <span class="php-quote">'first_name'</span>       =&gt; __( <span class="php-quote">'First Name'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="285" class="l"><a href="#285">285: </a>            <span class="php-quote">'last_name'</span>        =&gt; __( <span class="php-quote">'Last Name'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="286" class="l"><a href="#286">286: </a>            <span class="php-quote">'phone_number'</span>     =&gt; __( <span class="php-quote">'Phone Number'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="287" class="l"><a href="#287">287: </a>            <span class="php-quote">'address'</span>          =&gt; __( <span class="php-quote">'Address'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="288" class="l"><a href="#288">288: </a>            <span class="php-quote">'job_title'</span>        =&gt; __( <span class="php-quote">'Job Title'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="289" class="l"><a href="#289">289: </a>            <span class="php-quote">'company'</span>          =&gt; __( <span class="php-quote">'Company'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="290" class="l"><a href="#290">290: </a>            <span class="php-quote">'website'</span>          =&gt; __( <span class="php-quote">'Website'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="291" class="l"><a href="#291">291: </a>            <span class="php-quote">'birthday'</span>         =&gt; __( <span class="php-quote">'Birthday'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="292" class="l"><a href="#292">292: </a>            <span class="php-quote">'anniversary'</span>      =&gt; __( <span class="php-quote">'Anniversary'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="293" class="l"><a href="#293">293: </a>            <span class="php-quote">'custom'</span>           =&gt; __( <span class="php-quote">'Custom Text Field'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="294" class="l"><a href="#294">294: </a>            <span class="php-quote">'custom_text_area'</span> =&gt; __( <span class="php-quote">'Custom Text Area'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="295" class="l"><a href="#295">295: </a>        ) );
-</span><span id="296" class="l"><a href="#296">296: </a>
-</span><span id="297" class="l"><a href="#297">297: </a>        <span class="php-comment">// Choose which field</span>
-</span><span id="298" class="l"><a href="#298">298: </a>        <span class="php-var">$fields_metabox</span>-&gt;add_group_field( <span class="php-var">$custom_group</span>, <span class="php-keyword1">array</span>(
-</span><span id="299" class="l"><a href="#299">299: </a>            <span class="php-quote">'name'</span>             =&gt; __( <span class="php-quote">'Select a Field'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="300" class="l"><a href="#300">300: </a>            <span class="php-quote">'id'</span>               =&gt; <span class="php-var">$this</span>-&gt;prefix . <span class="php-quote">'map_select'</span>,
-</span><span id="301" class="l"><a href="#301">301: </a>            <span class="php-quote">'type'</span>             =&gt; <span class="php-quote">'select'</span>,
-</span><span id="302" class="l"><a href="#302">302: </a>            <span class="php-quote">'show_option_none'</span> =&gt; <span class="php-keyword1">false</span>,
-</span><span id="303" class="l"><a href="#303">303: </a>            <span class="php-quote">'default'</span>          =&gt; <span class="php-quote">'email'</span>,
-</span><span id="304" class="l"><a href="#304">304: </a>            <span class="php-quote">'row_classes'</span>      =&gt; <span class="php-quote">'map'</span>,
-</span><span id="305" class="l"><a href="#305">305: </a>            <span class="php-quote">'options'</span>          =&gt; <span class="php-var">$default_fields</span>,
-</span><span id="306" class="l"><a href="#306">306: </a>        ) );
-</span><span id="307" class="l"><a href="#307">307: </a>
-</span><span id="308" class="l"><a href="#308">308: </a>        <span class="php-comment">// Allow toggling of required fields</span>
-</span><span id="309" class="l"><a href="#309">309: </a>        <span class="php-var">$fields_metabox</span>-&gt;add_group_field( <span class="php-var">$custom_group</span>, <span class="php-keyword1">array</span>(
-</span><span id="310" class="l"><a href="#310">310: </a>            <span class="php-quote">'name'</span>        =&gt; __( <span class="php-quote">'Required'</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="311" class="l"><a href="#311">311: </a>            <span class="php-quote">'id'</span>          =&gt; <span class="php-var">$this</span>-&gt;prefix . <span class="php-quote">'required_field'</span>,
-</span><span id="312" class="l"><a href="#312">312: </a>            <span class="php-quote">'type'</span>        =&gt; <span class="php-quote">'checkbox'</span>,
-</span><span id="313" class="l"><a href="#313">313: </a>            <span class="php-quote">'row_classes'</span> =&gt; <span class="php-quote">'required'</span>,
-</span><span id="314" class="l"><a href="#314">314: </a>        ) );
-</span><span id="315" class="l"><a href="#315">315: </a>
-</span><span id="316" class="l"><a href="#316">316: </a>    }
-</span><span id="317" class="l"><a href="#317">317: </a>}
-</span><span id="318" class="l"><a href="#318">318: </a></span></code></pre>
+</span><span id="276" class="l"><a href="#276">276: </a>            <span class="php-quote">'name'</span>    =&gt; __( <span class="php-quote">'Field Helper Text'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="277" class="l"><a href="#277">277: </a>            <span class="php-quote">'desc'</span>    =&gt; __( <span class="php-quote">'Appears as helper text in the field on your published form.'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="278" class="l"><a href="#278">278: </a>            <span class="php-quote">'id'</span>      =&gt; <span class="php-var">$this</span>-&gt;prefix . <span class="php-quote">'field_desc'</span>,
+</span><span id="279" class="l"><a href="#279">279: </a>            <span class="php-quote">'type'</span>    =&gt; <span class="php-quote">'text'</span>,
+</span><span id="280" class="l"><a href="#280">280: </a>            <span class="php-quote">'default'</span> =&gt; <span class="php-quote">''</span>,
+</span><span id="281" class="l"><a href="#281">281: </a>        ) );
+</span><span id="282" class="l"><a href="#282">282: </a>
+</span><span id="283" class="l"><a href="#283">283: </a>        <span class="php-var">$default_fields</span> = apply_filters( <span class="php-quote">'constant_contact_field_types'</span>, <span class="php-keyword1">array</span>(
+</span><span id="284" class="l"><a href="#284">284: </a>            <span class="php-quote">'email'</span>            =&gt; __( <span class="php-quote">'Email (required)'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="285" class="l"><a href="#285">285: </a>            <span class="php-quote">'first_name'</span>       =&gt; __( <span class="php-quote">'First Name'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="286" class="l"><a href="#286">286: </a>            <span class="php-quote">'last_name'</span>        =&gt; __( <span class="php-quote">'Last Name'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="287" class="l"><a href="#287">287: </a>            <span class="php-quote">'phone_number'</span>     =&gt; __( <span class="php-quote">'Phone Number'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="288" class="l"><a href="#288">288: </a>            <span class="php-quote">'address'</span>          =&gt; __( <span class="php-quote">'Address'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="289" class="l"><a href="#289">289: </a>            <span class="php-quote">'job_title'</span>        =&gt; __( <span class="php-quote">'Job Title'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="290" class="l"><a href="#290">290: </a>            <span class="php-quote">'company'</span>          =&gt; __( <span class="php-quote">'Company'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="291" class="l"><a href="#291">291: </a>            <span class="php-quote">'website'</span>          =&gt; __( <span class="php-quote">'Website'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="292" class="l"><a href="#292">292: </a>            <span class="php-quote">'birthday'</span>         =&gt; __( <span class="php-quote">'Birthday'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="293" class="l"><a href="#293">293: </a>            <span class="php-quote">'anniversary'</span>      =&gt; __( <span class="php-quote">'Anniversary'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="294" class="l"><a href="#294">294: </a>            <span class="php-quote">'custom'</span>           =&gt; __( <span class="php-quote">'Custom Text Field'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="295" class="l"><a href="#295">295: </a>            <span class="php-quote">'custom_text_area'</span> =&gt; __( <span class="php-quote">'Custom Text Area'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="296" class="l"><a href="#296">296: </a>        ) );
+</span><span id="297" class="l"><a href="#297">297: </a>
+</span><span id="298" class="l"><a href="#298">298: </a>        <span class="php-comment">// Choose which field</span>
+</span><span id="299" class="l"><a href="#299">299: </a>        <span class="php-var">$fields_metabox</span>-&gt;add_group_field( <span class="php-var">$custom_group</span>, <span class="php-keyword1">array</span>(
+</span><span id="300" class="l"><a href="#300">300: </a>            <span class="php-quote">'name'</span>             =&gt; __( <span class="php-quote">'Select a Field'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="301" class="l"><a href="#301">301: </a>            <span class="php-quote">'id'</span>               =&gt; <span class="php-var">$this</span>-&gt;prefix . <span class="php-quote">'map_select'</span>,
+</span><span id="302" class="l"><a href="#302">302: </a>            <span class="php-quote">'type'</span>             =&gt; <span class="php-quote">'select'</span>,
+</span><span id="303" class="l"><a href="#303">303: </a>            <span class="php-quote">'show_option_none'</span> =&gt; <span class="php-keyword1">false</span>,
+</span><span id="304" class="l"><a href="#304">304: </a>            <span class="php-quote">'default'</span>          =&gt; <span class="php-quote">'email'</span>,
+</span><span id="305" class="l"><a href="#305">305: </a>            <span class="php-quote">'row_classes'</span>      =&gt; <span class="php-quote">'map'</span>,
+</span><span id="306" class="l"><a href="#306">306: </a>            <span class="php-quote">'options'</span>          =&gt; <span class="php-var">$default_fields</span>,
+</span><span id="307" class="l"><a href="#307">307: </a>        ) );
+</span><span id="308" class="l"><a href="#308">308: </a>
+</span><span id="309" class="l"><a href="#309">309: </a>        <span class="php-comment">// Allow toggling of required fields</span>
+</span><span id="310" class="l"><a href="#310">310: </a>        <span class="php-var">$fields_metabox</span>-&gt;add_group_field( <span class="php-var">$custom_group</span>, <span class="php-keyword1">array</span>(
+</span><span id="311" class="l"><a href="#311">311: </a>            <span class="php-quote">'name'</span>        =&gt; __( <span class="php-quote">'Required'</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="312" class="l"><a href="#312">312: </a>            <span class="php-quote">'id'</span>          =&gt; <span class="php-var">$this</span>-&gt;prefix . <span class="php-quote">'required_field'</span>,
+</span><span id="313" class="l"><a href="#313">313: </a>            <span class="php-quote">'type'</span>        =&gt; <span class="php-quote">'checkbox'</span>,
+</span><span id="314" class="l"><a href="#314">314: </a>            <span class="php-quote">'row_classes'</span> =&gt; <span class="php-quote">'required'</span>,
+</span><span id="315" class="l"><a href="#315">315: </a>        ) );
+</span><span id="316" class="l"><a href="#316">316: </a>
+</span><span id="317" class="l"><a href="#317">317: </a>    }
+</span><span id="318" class="l"><a href="#318">318: </a>}
+</span><span id="319" class="l"><a href="#319">319: </a></span></code></pre>
 
 	<div id="footer">
 		 API documentation generated by <a href="http://apigen.org">ApiGen</a>

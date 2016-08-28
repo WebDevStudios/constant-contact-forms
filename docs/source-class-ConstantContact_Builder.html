@@ -587,141 +587,145 @@
 </span><span id="202" class="l"><a href="#202">202: </a>                <span class="php-comment">// Double check that we're not connected</span>
 </span><span id="203" class="l"><a href="#203">203: </a>                <span class="php-keyword1">if</span> ( ! constant_contact()-&gt;api-&gt;is_connected() ) {
 </span><span id="204" class="l"><a href="#204">204: </a>
-</span><span id="205" class="l"><a href="#205">205: </a>                    <span class="php-comment">// Show our modal</span>
-</span><span id="206" class="l"><a href="#206">206: </a>                    <span class="php-var">$this</span>-&gt;output_not_connected_modal();
-</span><span id="207" class="l"><a href="#207">207: </a>                }
-</span><span id="208" class="l"><a href="#208">208: </a>            }
-</span><span id="209" class="l"><a href="#209">209: </a>        }
-</span><span id="210" class="l"><a href="#210">210: </a>    }
-</span><span id="211" class="l"><a href="#211">211: </a>
-</span><span id="212" class="l"><a href="#212">212: </a>    <span class="php-comment">/**
-</span></span><span id="213" class="l"><a href="#213">213: </a><span class="php-comment">     * On post save, see if we should trigger the not connected modal
-</span></span><span id="214" class="l"><a href="#214">214: </a><span class="php-comment">     *
-</span></span><span id="215" class="l"><a href="#215">215: </a><span class="php-comment">     * @since   1.0.0
-</span></span><span id="216" class="l"><a href="#216">216: </a><span class="php-comment">     * @param   int  $post_id  post id
-</span></span><span id="217" class="l"><a href="#217">217: </a><span class="php-comment">     * @param   object  $post     post object
-</span></span><span id="218" class="l"><a href="#218">218: </a><span class="php-comment">     * @return  void
-</span></span><span id="219" class="l"><a href="#219">219: </a><span class="php-comment">     */</span>
-</span><span id="220" class="l"><a href="#220">220: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> save_post( <span class="php-var">$post_id</span>, <span class="php-var">$post</span> ) {
-</span><span id="221" class="l"><a href="#221">221: </a>
-</span><span id="222" class="l"><a href="#222">222: </a>        <span class="php-comment">// Sanity checks to make sure it only applies to</span>
-</span><span id="223" class="l"><a href="#223">223: </a>        <span class="php-comment">// what we want to deal with, which is saving a form</span>
-</span><span id="224" class="l"><a href="#224">224: </a>        <span class="php-comment">// and not connected to constant contact</span>
-</span><span id="225" class="l"><a href="#225">225: </a>        <span class="php-keyword1">if</span> (
-</span><span id="226" class="l"><a href="#226">226: </a>            <span class="php-var">$post</span> &amp;&amp;
-</span><span id="227" class="l"><a href="#227">227: </a>            <span class="php-var">$post_id</span> &amp;&amp;
-</span><span id="228" class="l"><a href="#228">228: </a>            <span class="php-keyword1">isset</span>( <span class="php-var">$post</span>-&gt;post_type ) &amp;&amp;
-</span><span id="229" class="l"><a href="#229">229: </a>            <span class="php-quote">'ctct_forms'</span> === <span class="php-var">$post</span>-&gt;post_type &amp;&amp;
-</span><span id="230" class="l"><a href="#230">230: </a>            ! wp_is_post_revision( <span class="php-var">$post</span> ) &amp;&amp;
-</span><span id="231" class="l"><a href="#231">231: </a>            ! constant_contact()-&gt;api-&gt;is_connected()
-</span><span id="232" class="l"><a href="#232">232: </a>        ) {
-</span><span id="233" class="l"><a href="#233">233: </a>            <span class="php-comment">// Inject in a query arg that we can read later</span>
-</span><span id="234" class="l"><a href="#234">234: </a>            add_filter( <span class="php-quote">'redirect_post_location'</span>, <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'add_not_conn_query_arg'</span> ), <span class="php-num">99</span> );
-</span><span id="235" class="l"><a href="#235">235: </a>        }
-</span><span id="236" class="l"><a href="#236">236: </a>    }
-</span><span id="237" class="l"><a href="#237">237: </a>
-</span><span id="238" class="l"><a href="#238">238: </a>    <span class="php-comment">/**
-</span></span><span id="239" class="l"><a href="#239">239: </a><span class="php-comment">     * Return our query arg, and reomve our filter that we added before
-</span></span><span id="240" class="l"><a href="#240">240: </a><span class="php-comment">     *
-</span></span><span id="241" class="l"><a href="#241">241: </a><span class="php-comment">     * @since   1.0.0
-</span></span><span id="242" class="l"><a href="#242">242: </a><span class="php-comment">     */</span>
-</span><span id="243" class="l"><a href="#243">243: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> add_not_conn_query_arg( <span class="php-var">$location</span> ) {
-</span><span id="244" class="l"><a href="#244">244: </a>
-</span><span id="245" class="l"><a href="#245">245: </a>        <span class="php-comment">// Remove our filter that we added before</span>
-</span><span id="246" class="l"><a href="#246">246: </a>        remove_filter( <span class="php-quote">'redirect_post_location'</span>, <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'add_notice_query_var'</span> ), <span class="php-num">99</span> );
-</span><span id="247" class="l"><a href="#247">247: </a>
-</span><span id="248" class="l"><a href="#248">248: </a>        <span class="php-comment">// Inject in our query arg</span>
-</span><span id="249" class="l"><a href="#249">249: </a>        <span class="php-keyword1">return</span> add_query_arg( <span class="php-keyword1">array</span>( <span class="php-quote">'ctct_not_connected'</span> =&gt; <span class="php-quote">'true'</span> ), <span class="php-var">$location</span> );
-</span><span id="250" class="l"><a href="#250">250: </a>    }
+</span><span id="205" class="l"><a href="#205">205: </a>                    <span class="php-comment">// See if we dismissed the modal, if not, show it</span>
+</span><span id="206" class="l"><a href="#206">206: </a>                    <span class="php-keyword1">if</span> ( ! get_option( <span class="php-quote">'ctct_first_form_modal_dismissed'</span>, <span class="php-keyword1">false</span> ) ) {
+</span><span id="207" class="l"><a href="#207">207: </a>
+</span><span id="208" class="l"><a href="#208">208: </a>                        <span class="php-comment">// Show our modal</span>
+</span><span id="209" class="l"><a href="#209">209: </a>                        <span class="php-var">$this</span>-&gt;output_not_connected_modal();
+</span><span id="210" class="l"><a href="#210">210: </a>                    }
+</span><span id="211" class="l"><a href="#211">211: </a>                }
+</span><span id="212" class="l"><a href="#212">212: </a>            }
+</span><span id="213" class="l"><a href="#213">213: </a>        }
+</span><span id="214" class="l"><a href="#214">214: </a>    }
+</span><span id="215" class="l"><a href="#215">215: </a>
+</span><span id="216" class="l"><a href="#216">216: </a>    <span class="php-comment">/**
+</span></span><span id="217" class="l"><a href="#217">217: </a><span class="php-comment">     * On post save, see if we should trigger the not connected modal
+</span></span><span id="218" class="l"><a href="#218">218: </a><span class="php-comment">     *
+</span></span><span id="219" class="l"><a href="#219">219: </a><span class="php-comment">     * @since   1.0.0
+</span></span><span id="220" class="l"><a href="#220">220: </a><span class="php-comment">     * @param   int  $post_id  post id
+</span></span><span id="221" class="l"><a href="#221">221: </a><span class="php-comment">     * @param   object  $post     post object
+</span></span><span id="222" class="l"><a href="#222">222: </a><span class="php-comment">     * @return  void
+</span></span><span id="223" class="l"><a href="#223">223: </a><span class="php-comment">     */</span>
+</span><span id="224" class="l"><a href="#224">224: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> save_post( <span class="php-var">$post_id</span>, <span class="php-var">$post</span> ) {
+</span><span id="225" class="l"><a href="#225">225: </a>
+</span><span id="226" class="l"><a href="#226">226: </a>        <span class="php-comment">// Sanity checks to make sure it only applies to</span>
+</span><span id="227" class="l"><a href="#227">227: </a>        <span class="php-comment">// what we want to deal with, which is saving a form</span>
+</span><span id="228" class="l"><a href="#228">228: </a>        <span class="php-comment">// and not connected to constant contact</span>
+</span><span id="229" class="l"><a href="#229">229: </a>        <span class="php-keyword1">if</span> (
+</span><span id="230" class="l"><a href="#230">230: </a>            <span class="php-var">$post</span> &amp;&amp;
+</span><span id="231" class="l"><a href="#231">231: </a>            <span class="php-var">$post_id</span> &amp;&amp;
+</span><span id="232" class="l"><a href="#232">232: </a>            <span class="php-keyword1">isset</span>( <span class="php-var">$post</span>-&gt;post_type ) &amp;&amp;
+</span><span id="233" class="l"><a href="#233">233: </a>            <span class="php-quote">'ctct_forms'</span> === <span class="php-var">$post</span>-&gt;post_type &amp;&amp;
+</span><span id="234" class="l"><a href="#234">234: </a>            ! wp_is_post_revision( <span class="php-var">$post</span> ) &amp;&amp;
+</span><span id="235" class="l"><a href="#235">235: </a>            ! constant_contact()-&gt;api-&gt;is_connected()
+</span><span id="236" class="l"><a href="#236">236: </a>        ) {
+</span><span id="237" class="l"><a href="#237">237: </a>            <span class="php-comment">// Inject in a query arg that we can read later</span>
+</span><span id="238" class="l"><a href="#238">238: </a>            add_filter( <span class="php-quote">'redirect_post_location'</span>, <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'add_not_conn_query_arg'</span> ), <span class="php-num">99</span> );
+</span><span id="239" class="l"><a href="#239">239: </a>        }
+</span><span id="240" class="l"><a href="#240">240: </a>    }
+</span><span id="241" class="l"><a href="#241">241: </a>
+</span><span id="242" class="l"><a href="#242">242: </a>    <span class="php-comment">/**
+</span></span><span id="243" class="l"><a href="#243">243: </a><span class="php-comment">     * Return our query arg, and reomve our filter that we added before
+</span></span><span id="244" class="l"><a href="#244">244: </a><span class="php-comment">     *
+</span></span><span id="245" class="l"><a href="#245">245: </a><span class="php-comment">     * @since   1.0.0
+</span></span><span id="246" class="l"><a href="#246">246: </a><span class="php-comment">     */</span>
+</span><span id="247" class="l"><a href="#247">247: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> add_not_conn_query_arg( <span class="php-var">$location</span> ) {
+</span><span id="248" class="l"><a href="#248">248: </a>
+</span><span id="249" class="l"><a href="#249">249: </a>        <span class="php-comment">// Remove our filter that we added before</span>
+</span><span id="250" class="l"><a href="#250">250: </a>        remove_filter( <span class="php-quote">'redirect_post_location'</span>, <span class="php-keyword1">array</span>( <span class="php-var">$this</span>, <span class="php-quote">'add_notice_query_var'</span> ), <span class="php-num">99</span> );
 </span><span id="251" class="l"><a href="#251">251: </a>
-</span><span id="252" class="l"><a href="#252">252: </a>    <span class="php-comment">/**
-</span></span><span id="253" class="l"><a href="#253">253: </a><span class="php-comment">     * Gets our form title for our connect modal window
-</span></span><span id="254" class="l"><a href="#254">254: </a><span class="php-comment">     *
-</span></span><span id="255" class="l"><a href="#255">255: </a><span class="php-comment">     * @since   1.0.0
-</span></span><span id="256" class="l"><a href="#256">256: </a><span class="php-comment">     * @return  string  markup with form title
-</span></span><span id="257" class="l"><a href="#257">257: </a><span class="php-comment">     */</span>
-</span><span id="258" class="l"><a href="#258">258: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> get_form_name_markup_for_modal() {
-</span><span id="259" class="l"><a href="#259">259: </a>
-</span><span id="260" class="l"><a href="#260">260: </a>        <span class="php-comment">// Get the post object</span>
-</span><span id="261" class="l"><a href="#261">261: </a>        <span class="php-keyword1">global</span> <span class="php-var">$post</span>;
-</span><span id="262" class="l"><a href="#262">262: </a>
-</span><span id="263" class="l"><a href="#263">263: </a>        <span class="php-comment">// If we have a post title set, use that for our modal</span>
-</span><span id="264" class="l"><a href="#264">264: </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$post</span>-&gt;post_title ) ) {
-</span><span id="265" class="l"><a href="#265">265: </a>            <span class="php-keyword1">return</span> esc_attr( <span class="php-var">$post</span>-&gt;post_title );
-</span><span id="266" class="l"><a href="#266">266: </a>        }
-</span><span id="267" class="l"><a href="#267">267: </a>    }
-</span><span id="268" class="l"><a href="#268">268: </a>
-</span><span id="269" class="l"><a href="#269">269: </a>    <span class="php-comment">/**
-</span></span><span id="270" class="l"><a href="#270">270: </a><span class="php-comment">     * Displays our not connected modal to the user
-</span></span><span id="271" class="l"><a href="#271">271: </a><span class="php-comment">     *
-</span></span><span id="272" class="l"><a href="#272">272: </a><span class="php-comment">     * @since   1.0.0
-</span></span><span id="273" class="l"><a href="#273">273: </a><span class="php-comment">     * @return  void
-</span></span><span id="274" class="l"><a href="#274">274: </a><span class="php-comment">     */</span>
-</span><span id="275" class="l"><a href="#275">275: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> output_not_connected_modal() {
-</span><span id="276" class="l"><a href="#276">276: </a>
-</span><span id="277" class="l"><a href="#277">277: </a>        <span class="php-comment">// output markup of non connected modal here ?&gt;</span>
-</span><span id="278" class="l"><a href="#278">278: </a>        &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal ctct-modal-open&quot;</span>&gt;
-</span><span id="279" class="l"><a href="#279">279: </a>
-</span><span id="280" class="l"><a href="#280">280: </a>            <span class="xlang">&lt;?php</span> <span class="php-comment">// modal header ?&gt;</span>
-</span><span id="281" class="l"><a href="#281">281: </a>            &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-dialog&quot;</span> role=<span class="php-quote">&quot;document&quot;</span>&gt;
-</span><span id="282" class="l"><a href="#282">282: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-content&quot;</span>&gt;
-</span><span id="283" class="l"><a href="#283">283: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-header&quot;</span>&gt;
-</span><span id="284" class="l"><a href="#284">284: </a>                        &lt;a href=<span class="php-quote">&quot;#&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-close&quot;</span> aria-hidden=<span class="php-quote">&quot;true&quot;</span>&gt;&amp;times;&lt;/a&gt;
-</span><span id="285" class="l"><a href="#285">285: </a>                        &lt;h2&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Congratulations on your first form!'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h2&gt;
-</span><span id="286" class="l"><a href="#286">286: </a>                        &lt;p&gt;
-</span><span id="287" class="l"><a href="#287">287: </a>                        <span class="xlang">&lt;?php</span> <span class="php-keyword2">printf</span>( esc_html__( <span class="php-quote">'Now, how do you want to manage your %s form contacts?'</span>, <span class="php-quote">'constantcontact'</span> ), <span class="php-quote">'&lt;strong&gt;'</span> . esc_attr( <span class="php-var">$this</span>-&gt;get_form_name_markup_for_modal() ) . <span class="php-quote">'&lt;/strong&gt;'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="288" class="l"><a href="#288">288: </a>                        &lt;/p&gt;
-</span><span id="289" class="l"><a href="#289">289: </a>                    &lt;/div&gt;
-</span><span id="290" class="l"><a href="#290">290: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-body&quot;</span>&gt;
-</span><span id="291" class="l"><a href="#291">291: </a>                        &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-left&quot;</span>&gt;
-</span><span id="292" class="l"><a href="#292">292: </a>                            &lt;img
-</span><span id="293" class="l"><a href="#293">293: </a>                                <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-flare&quot;</span>
-</span><span id="294" class="l"><a href="#294">294: </a>                                src=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/question-mail.png' ); ?&gt;&quot;</span>
-</span><span id="295" class="l"><a href="#295">295: </a>                                alt=<span class="php-quote">&quot;&lt;?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constantcontact' ); ?&gt;&quot;</span>
-</span><span id="296" class="l"><a href="#296">296: </a>                            /&gt;
-</span><span id="297" class="l"><a href="#297">297: </a>                            &lt;h3&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Try email marketing.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h3&gt;
-</span><span id="298" class="l"><a href="#298">298: </a>                            &lt;p&gt;
-</span><span id="299" class="l"><a href="#299">299: </a>                                <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Import everything into Constant Contact so I can see what email marketing can do for me.'</span> , <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="300" class="l"><a href="#300">300: </a>                            &lt;/p&gt;
-</span><span id="301" class="l"><a href="#301">301: </a>                            &lt;a href=<span class="php-quote">&quot;https://www.constantcontact.com/&quot;</span> target=<span class="php-quote">&quot;_blank&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;button button-orange&quot;</span> title=<span class="php-quote">&quot;Try Us Free&quot;</span>&gt;<span class="php-keyword1">Try</span> Us Free&lt;/a&gt;&lt;br/&gt;
-</span><span id="302" class="l"><a href="#302">302: </a>                            &lt;img
-</span><span id="303" class="l"><a href="#303">303: </a>                                <span class="php-keyword1">class</span>=<span class="php-quote">&quot;flare&quot;</span>
-</span><span id="304" class="l"><a href="#304">304: </a>                                src=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/cc-modal-logo.png' ); ?&gt;&quot;</span>
-</span><span id="305" class="l"><a href="#305">305: </a>                                alt=<span class="php-quote">&quot;&lt;?php esc_attr_e( 'Constant Contact', 'constantcontact' ); ?&gt;&quot;</span>
-</span><span id="306" class="l"><a href="#306">306: </a>                            /&gt;
-</span><span id="307" class="l"><a href="#307">307: </a>                        &lt;/div&gt;
-</span><span id="308" class="l"><a href="#308">308: </a>                        &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-right&quot;</span>&gt;
-</span><span id="309" class="l"><a href="#309">309: </a>                            &lt;img
-</span><span id="310" class="l"><a href="#310">310: </a>                                <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-flare&quot;</span>
-</span><span id="311" class="l"><a href="#311">311: </a>                                src=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/cc-login.png' ); ?&gt;&quot;</span>
-</span><span id="312" class="l"><a href="#312">312: </a>                                alt=<span class="php-quote">&quot;&lt;?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constantcontact' ); ?&gt;&quot;</span>
-</span><span id="313" class="l"><a href="#313">313: </a>                            /&gt;
-</span><span id="314" class="l"><a href="#314">314: </a>                            &lt;h3&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Connect my account.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h3&gt;
-</span><span id="315" class="l"><a href="#315">315: </a>                            &lt;p&gt;
-</span><span id="316" class="l"><a href="#316">316: </a>                                <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Automatically add collected information to contacts in my Constant Contact account.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="317" class="l"><a href="#317">317: </a>                            &lt;/p&gt;
-</span><span id="318" class="l"><a href="#318">318: </a>                            &lt;a href=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( constant_contact()-&gt;api-&gt;get_connect_link() ); ?&gt;&quot;</span> target=<span class="php-quote">&quot;_blank&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;button button-blue&quot;</span> title=<span class="php-quote">&quot;Connect Plugin&quot;</span>&gt;
-</span><span id="319" class="l"><a href="#319">319: </a>                                <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Connect Plugin'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
-</span><span id="320" class="l"><a href="#320">320: </a>                            &lt;/a&gt;&lt;br/&gt;
-</span><span id="321" class="l"><a href="#321">321: </a>                            &lt;p <span class="php-keyword1">class</span>=<span class="php-quote">&quot;small&quot;</span>&gt;&lt;small&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'By connecting you authorize this
-</span></span><span id="322" class="l"><a href="#322">322: </a><span class="php-quote">                            plugin to access your account.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/small&gt;&lt;/p&gt;
-</span><span id="323" class="l"><a href="#323">323: </a>                        &lt;/div&gt;
-</span><span id="324" class="l"><a href="#324">324: </a>                    &lt;/div&gt;&lt;!-- modal body --&gt;
-</span><span id="325" class="l"><a href="#325">325: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-footer&quot;</span>&gt;
-</span><span id="326" class="l"><a href="#326">326: </a>                        &lt;p&gt;<span class="xlang">&lt;?php</span>
-</span><span id="327" class="l"><a href="#327">327: </a>                            <span class="php-keyword2">printf</span>( <span class="php-quote">'&lt;a class=&quot;ctct-modal-close&quot; href=&quot;%s&quot;&gt;%s&lt;/a&gt; %s'</span>,
-</span><span id="328" class="l"><a href="#328">328: </a>                                <span class="php-quote">'#'</span>,
-</span><span id="329" class="l"><a href="#329">329: </a>                                esc_attr__( <span class="php-quote">&quot;I'm all set.&quot;</span>, <span class="php-quote">'constantcontact'</span> ),
-</span><span id="330" class="l"><a href="#330">330: </a>                                esc_attr__( <span class="php-quote">&quot;I'll manage the information on my own for now.&quot;</span>, <span class="php-quote">'constantcontact'</span> )
-</span><span id="331" class="l"><a href="#331">331: </a>                            );
-</span><span id="332" class="l"><a href="#332">332: </a>                        <span class="xlang">?&gt;</span>&lt;/p&gt;
-</span><span id="333" class="l"><a href="#333">333: </a>                    &lt;/div&gt;
-</span><span id="334" class="l"><a href="#334">334: </a>                &lt;/div&gt;&lt;!-- .modal-content --&gt;
-</span><span id="335" class="l"><a href="#335">335: </a>            &lt;/div&gt;&lt;!-- .modal-dialog --&gt;
-</span><span id="336" class="l"><a href="#336">336: </a>        &lt;/div&gt;
-</span><span id="337" class="l"><a href="#337">337: </a>    <span class="xlang">&lt;?php</span> }
-</span><span id="338" class="l"><a href="#338">338: </a>}
-</span><span id="339" class="l"><a href="#339">339: </a></span></code></pre>
+</span><span id="252" class="l"><a href="#252">252: </a>        <span class="php-comment">// Inject in our query arg</span>
+</span><span id="253" class="l"><a href="#253">253: </a>        <span class="php-keyword1">return</span> add_query_arg( <span class="php-keyword1">array</span>( <span class="php-quote">'ctct_not_connected'</span> =&gt; <span class="php-quote">'true'</span> ), <span class="php-var">$location</span> );
+</span><span id="254" class="l"><a href="#254">254: </a>    }
+</span><span id="255" class="l"><a href="#255">255: </a>
+</span><span id="256" class="l"><a href="#256">256: </a>    <span class="php-comment">/**
+</span></span><span id="257" class="l"><a href="#257">257: </a><span class="php-comment">     * Gets our form title for our connect modal window
+</span></span><span id="258" class="l"><a href="#258">258: </a><span class="php-comment">     *
+</span></span><span id="259" class="l"><a href="#259">259: </a><span class="php-comment">     * @since   1.0.0
+</span></span><span id="260" class="l"><a href="#260">260: </a><span class="php-comment">     * @return  string  markup with form title
+</span></span><span id="261" class="l"><a href="#261">261: </a><span class="php-comment">     */</span>
+</span><span id="262" class="l"><a href="#262">262: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> get_form_name_markup_for_modal() {
+</span><span id="263" class="l"><a href="#263">263: </a>
+</span><span id="264" class="l"><a href="#264">264: </a>        <span class="php-comment">// Get the post object</span>
+</span><span id="265" class="l"><a href="#265">265: </a>        <span class="php-keyword1">global</span> <span class="php-var">$post</span>;
+</span><span id="266" class="l"><a href="#266">266: </a>
+</span><span id="267" class="l"><a href="#267">267: </a>        <span class="php-comment">// If we have a post title set, use that for our modal</span>
+</span><span id="268" class="l"><a href="#268">268: </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword1">isset</span>( <span class="php-var">$post</span>-&gt;post_title ) ) {
+</span><span id="269" class="l"><a href="#269">269: </a>            <span class="php-keyword1">return</span> esc_attr( <span class="php-var">$post</span>-&gt;post_title );
+</span><span id="270" class="l"><a href="#270">270: </a>        }
+</span><span id="271" class="l"><a href="#271">271: </a>    }
+</span><span id="272" class="l"><a href="#272">272: </a>
+</span><span id="273" class="l"><a href="#273">273: </a>    <span class="php-comment">/**
+</span></span><span id="274" class="l"><a href="#274">274: </a><span class="php-comment">     * Displays our not connected modal to the user
+</span></span><span id="275" class="l"><a href="#275">275: </a><span class="php-comment">     *
+</span></span><span id="276" class="l"><a href="#276">276: </a><span class="php-comment">     * @since   1.0.0
+</span></span><span id="277" class="l"><a href="#277">277: </a><span class="php-comment">     * @return  void
+</span></span><span id="278" class="l"><a href="#278">278: </a><span class="php-comment">     */</span>
+</span><span id="279" class="l"><a href="#279">279: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> output_not_connected_modal() {
+</span><span id="280" class="l"><a href="#280">280: </a>
+</span><span id="281" class="l"><a href="#281">281: </a>        <span class="php-comment">// output markup of non connected modal here ?&gt;</span>
+</span><span id="282" class="l"><a href="#282">282: </a>        &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal ctct-modal-open&quot;</span>&gt;
+</span><span id="283" class="l"><a href="#283">283: </a>
+</span><span id="284" class="l"><a href="#284">284: </a>            <span class="xlang">&lt;?php</span> <span class="php-comment">// modal header ?&gt;</span>
+</span><span id="285" class="l"><a href="#285">285: </a>            &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-dialog&quot;</span> role=<span class="php-quote">&quot;document&quot;</span>&gt;
+</span><span id="286" class="l"><a href="#286">286: </a>                &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-content&quot;</span>&gt;
+</span><span id="287" class="l"><a href="#287">287: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-header&quot;</span>&gt;
+</span><span id="288" class="l"><a href="#288">288: </a>                        &lt;a href=<span class="php-quote">&quot;#&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-close&quot;</span> aria-hidden=<span class="php-quote">&quot;true&quot;</span>&gt;&amp;times;&lt;/a&gt;
+</span><span id="289" class="l"><a href="#289">289: </a>                        &lt;h2&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Your first form is ready!'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h2&gt;
+</span><span id="290" class="l"><a href="#290">290: </a>                        &lt;p&gt;
+</span><span id="291" class="l"><a href="#291">291: </a>                        <span class="xlang">&lt;?php</span> esc_html_e( <span class="php-quote">'Now, how would you like to manage the information you collect?'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="292" class="l"><a href="#292">292: </a>                        &lt;/p&gt;
+</span><span id="293" class="l"><a href="#293">293: </a>                    &lt;/div&gt;
+</span><span id="294" class="l"><a href="#294">294: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-body&quot;</span>&gt;
+</span><span id="295" class="l"><a href="#295">295: </a>                        &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-left&quot;</span>&gt;
+</span><span id="296" class="l"><a href="#296">296: </a>                            &lt;img
+</span><span id="297" class="l"><a href="#297">297: </a>                                <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-flare&quot;</span>
+</span><span id="298" class="l"><a href="#298">298: </a>                                src=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/question-mail.png' ); ?&gt;&quot;</span>
+</span><span id="299" class="l"><a href="#299">299: </a>                                alt=<span class="php-quote">&quot;&lt;?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constantcontact' ); ?&gt;&quot;</span>
+</span><span id="300" class="l"><a href="#300">300: </a>                            /&gt;
+</span><span id="301" class="l"><a href="#301">301: </a>                            &lt;h3&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Try email marketing.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h3&gt;
+</span><span id="302" class="l"><a href="#302">302: </a>                            &lt;p&gt;
+</span><span id="303" class="l"><a href="#303">303: </a>                                <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Import everything into Constant Contact so I can see what email marketing can do for me.'</span> , <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="304" class="l"><a href="#304">304: </a>                            &lt;/p&gt;
+</span><span id="305" class="l"><a href="#305">305: </a>                            &lt;a href=<span class="php-quote">&quot;https://www.constantcontact.com/&quot;</span> target=<span class="php-quote">&quot;_blank&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;button button-orange&quot;</span> title=<span class="php-quote">&quot;Try Us Free&quot;</span>&gt;<span class="php-keyword1">Try</span> Us Free&lt;/a&gt;&lt;br/&gt;
+</span><span id="306" class="l"><a href="#306">306: </a>                            &lt;img
+</span><span id="307" class="l"><a href="#307">307: </a>                                <span class="php-keyword1">class</span>=<span class="php-quote">&quot;flare&quot;</span>
+</span><span id="308" class="l"><a href="#308">308: </a>                                src=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/cc-modal-logo.png' ); ?&gt;&quot;</span>
+</span><span id="309" class="l"><a href="#309">309: </a>                                alt=<span class="php-quote">&quot;&lt;?php esc_attr_e( 'Constant Contact', 'constantcontact' ); ?&gt;&quot;</span>
+</span><span id="310" class="l"><a href="#310">310: </a>                            /&gt;
+</span><span id="311" class="l"><a href="#311">311: </a>                        &lt;/div&gt;
+</span><span id="312" class="l"><a href="#312">312: </a>                        &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-right&quot;</span>&gt;
+</span><span id="313" class="l"><a href="#313">313: </a>                            &lt;img
+</span><span id="314" class="l"><a href="#314">314: </a>                                <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-flare&quot;</span>
+</span><span id="315" class="l"><a href="#315">315: </a>                                src=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( </span><span class="php-var">$this</span><span class="php-quote">-&gt;plugin-&gt;url . 'assets/images/cc-login.png' ); ?&gt;&quot;</span>
+</span><span id="316" class="l"><a href="#316">316: </a>                                alt=<span class="php-quote">&quot;&lt;?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constantcontact' ); ?&gt;&quot;</span>
+</span><span id="317" class="l"><a href="#317">317: </a>                            /&gt;
+</span><span id="318" class="l"><a href="#318">318: </a>                            &lt;h3&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Connect my account.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/h3&gt;
+</span><span id="319" class="l"><a href="#319">319: </a>                            &lt;p&gt;
+</span><span id="320" class="l"><a href="#320">320: </a>                                <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Automatically add collected information to contacts in my Constant Contact account.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="321" class="l"><a href="#321">321: </a>                            &lt;/p&gt;
+</span><span id="322" class="l"><a href="#322">322: </a>                            &lt;a href=<span class="php-quote">&quot;&lt;?php echo esc_url_raw( constant_contact()-&gt;api-&gt;get_connect_link() ); ?&gt;&quot;</span> target=<span class="php-quote">&quot;_blank&quot;</span> <span class="php-keyword1">class</span>=<span class="php-quote">&quot;button button-blue&quot;</span> title=<span class="php-quote">&quot;Connect Plugin&quot;</span>&gt;
+</span><span id="323" class="l"><a href="#323">323: </a>                                <span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'Connect Plugin'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>
+</span><span id="324" class="l"><a href="#324">324: </a>                            &lt;/a&gt;&lt;br/&gt;
+</span><span id="325" class="l"><a href="#325">325: </a>                            &lt;p <span class="php-keyword1">class</span>=<span class="php-quote">&quot;small&quot;</span>&gt;&lt;small&gt;<span class="xlang">&lt;?php</span> esc_attr_e( <span class="php-quote">'By connecting, you authorize this
+</span></span><span id="326" class="l"><a href="#326">326: </a><span class="php-quote">                            plugin to access your account.'</span>, <span class="php-quote">'constantcontact'</span> ); <span class="xlang">?&gt;</span>&lt;/small&gt;&lt;/p&gt;
+</span><span id="327" class="l"><a href="#327">327: </a>                        &lt;/div&gt;
+</span><span id="328" class="l"><a href="#328">328: </a>                    &lt;/div&gt;&lt;!-- modal body --&gt;
+</span><span id="329" class="l"><a href="#329">329: </a>                    &lt;div <span class="php-keyword1">class</span>=<span class="php-quote">&quot;ctct-modal-footer&quot;</span>&gt;
+</span><span id="330" class="l"><a href="#330">330: </a>                        &lt;p&gt;<span class="xlang">&lt;?php</span>
+</span><span id="331" class="l"><a href="#331">331: </a>                            <span class="php-keyword2">printf</span>( <span class="php-quote">'&lt;a class=&quot;ctct-modal-close&quot; href=&quot;%s&quot;&gt;%s&lt;/a&gt;. %s'</span>,
+</span><span id="332" class="l"><a href="#332">332: </a>                                <span class="php-quote">'#'</span>,
+</span><span id="333" class="l"><a href="#333">333: </a>                                esc_attr__( <span class="php-quote">&quot;I'm all set&quot;</span>, <span class="php-quote">'constantcontact'</span> ),
+</span><span id="334" class="l"><a href="#334">334: </a>                                esc_attr__( <span class="php-quote">&quot;I'll manage the information on my own for now.&quot;</span>, <span class="php-quote">'constantcontact'</span> )
+</span><span id="335" class="l"><a href="#335">335: </a>                            );
+</span><span id="336" class="l"><a href="#336">336: </a>                        <span class="xlang">?&gt;</span>&lt;/p&gt;
+</span><span id="337" class="l"><a href="#337">337: </a>                    &lt;/div&gt;
+</span><span id="338" class="l"><a href="#338">338: </a>                &lt;/div&gt;&lt;!-- .modal-content --&gt;
+</span><span id="339" class="l"><a href="#339">339: </a>            &lt;/div&gt;&lt;!-- .modal-dialog --&gt;
+</span><span id="340" class="l"><a href="#340">340: </a>        &lt;/div&gt;
+</span><span id="341" class="l"><a href="#341">341: </a>    <span class="xlang">&lt;?php</span> }
+</span><span id="342" class="l"><a href="#342">342: </a>}
+</span><span id="343" class="l"><a href="#343">343: </a></span></code></pre>
 
 	<div id="footer">
 		 API documentation generated by <a href="http://apigen.org">ApiGen</a>

@@ -345,7 +345,7 @@
 
 				<b>Author:</b>
 				Pluginize<br>
-			<b>Located at</b> <a href="source-class-ConstantContact_Lists.html#12-857" title="Go to source code">includes/class-lists.php</a>
+			<b>Located at</b> <a href="source-class-ConstantContact_Lists.html#12-882" title="Go to source code">includes/class-lists.php</a>
 		<br>
 	</div>
 
@@ -603,7 +603,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_sync_lists">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#186-365" title="Go to source code">sync_lists</a>( <span> <var>$force</var> = <span class="php-keyword1">false</span> </span> )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#186-380" title="Go to source code">sync_lists</a>( <span> <var>$force</var> = <span class="php-keyword1">false</span> </span> )</code>
 
 		<div class="description short">
 			<p>Syncs list cpt with lists on CTCT</p>
@@ -637,7 +637,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_save_or_update_list">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#367-449" title="Go to source code">save_or_update_list</a>( <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#382-467" title="Go to source code">save_or_update_list</a>( <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			<p>Wrapper function to handle saving and updating our lists</p>
@@ -680,7 +680,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#__add_list">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#451-501" title="Go to source code">_add_list</a>( <span>object <var>$ctct_list</var></span> )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#469-526" title="Go to source code">_add_list</a>( <span>object <var>$ctct_list</var></span> )</code>
 
 		<div class="description short">
 			<p>Saves list cpt and sends add list request to CTCT</p>
@@ -719,7 +719,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_unique_list_name">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#503-560" title="Go to source code">set_unique_list_name</a>( <span>integer <var>$id</var></span>, <span>string <var>$title</var> = <span class="php-quote">''</span> </span> )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#528-585" title="Go to source code">set_unique_list_name</a>( <span>integer <var>$id</var></span>, <span>string <var>$title</var> = <span class="php-quote">''</span> </span> )</code>
 
 		<div class="description short">
 			<p>Set a unique list name for a post based on id / title</p>
@@ -760,7 +760,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_check_if_list_exists_by_title">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#562-590" title="Go to source code">check_if_list_exists_by_title</a>( <span>string <var>$title</var></span>, <span>array <var>$lists</var> = <span class="php-keyword1">array</span>() </span> )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#587-615" title="Go to source code">check_if_list_exists_by_title</a>( <span>string <var>$title</var></span>, <span>array <var>$lists</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 		<div class="description short">
 			<p>CC doesn't allow duplicate lists by title, so we want to fix a 2nd list
@@ -807,7 +807,7 @@ that gets attempted to created</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_post_status_transition">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#592-634" title="Go to source code">post_status_transition</a>( <span>string <var>$new_status</var></span>, <span>string <var>$old_status</var></span>, <span>objewct <var>$post</var></span> )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#617-659" title="Go to source code">post_status_transition</a>( <span>string <var>$new_status</var></span>, <span>string <var>$old_status</var></span>, <span>objewct <var>$post</var></span> )</code>
 
 		<div class="description short">
 			<p>Hooked into transition_post_status, we want to verify our deletion of a
@@ -852,7 +852,7 @@ list when we remove it, as well as re-adding any restored lists.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#__update_list">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#636-677" title="Go to source code">_update_list</a>( <span>integer <var>$ctct_list</var></span>, <span> <var>$list_id</var></span> )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#661-702" title="Go to source code">_update_list</a>( <span>integer <var>$ctct_list</var></span>, <span> <var>$list_id</var></span> )</code>
 
 		<div class="description short">
 			<p>Update list data cpt and send update request to CTCT</p>
@@ -893,7 +893,7 @@ list when we remove it, as well as re-adding any restored lists.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_delete_list">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#679-721" title="Go to source code">delete_list</a>( <span>integer <var>$post_id</var></span> )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#704-746" title="Go to source code">delete_list</a>( <span>integer <var>$post_id</var></span> )</code>
 
 		<div class="description short">
 			<p>Delete list from CTCT and database.</p>
@@ -936,7 +936,7 @@ list when we remove it, as well as re-adding any restored lists.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_lists">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#723-749" title="Go to source code">get_lists</a>( <span> <var>$skip_cache</var> = <span class="php-keyword1">false</span> </span> )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#748-774" title="Go to source code">get_lists</a>( <span> <var>$skip_cache</var> = <span class="php-keyword1">false</span> </span> )</code>
 
 		<div class="description short">
 			<p>Returns array of the list data from CTCT</p>
@@ -974,7 +974,7 @@ list when we remove it, as well as re-adding any restored lists.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_show_duplicate_list_message">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#751-790" title="Go to source code">show_duplicate_list_message</a>( )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#776-815" title="Go to source code">show_duplicate_list_message</a>( )</code>
 
 		<div class="description short">
 			<p>Hooked into admin_notices, show our duplicate list message if we have one</p>
@@ -1004,7 +1004,7 @@ list when we remove it, as well as re-adding any restored lists.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_add_force_sync_button">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#792-808" title="Go to source code">add_force_sync_button</a>( <span>array <var>$views</var></span> )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#817-833" title="Go to source code">add_force_sync_button</a>( <span>array <var>$views</var></span> )</code>
 
 		<div class="description short">
 			<p>Adds a 'Sync Lists with Constant Contact' button to the lists CPT page</p>
@@ -1043,7 +1043,7 @@ list when we remove it, as well as re-adding any restored lists.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_check_for_list_sync_request">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#810-834" title="Go to source code">check_for_list_sync_request</a>( )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#835-859" title="Go to source code">check_for_list_sync_request</a>( )</code>
 
 		<div class="description short">
 			<p>Watch for our request to re-sync lists, and do it</p>
@@ -1077,7 +1077,7 @@ list when we remove it, as well as re-adding any restored lists.</p>
 
 		<td class="name"><div>
 		<a class="anchor" href="#_remove_quick_edit_from_lists">#</a>
-		<code><a href="source-class-ConstantContact_Lists.html#836-856" title="Go to source code">remove_quick_edit_from_lists</a>( <span>array <var>$actions</var></span> )</code>
+		<code><a href="source-class-ConstantContact_Lists.html#861-881" title="Go to source code">remove_quick_edit_from_lists</a>( <span>array <var>$actions</var></span> )</code>
 
 		<div class="description short">
 			<p>Remove quick edit from our lists post type</p>
