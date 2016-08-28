@@ -163,7 +163,7 @@ class ConstantContact_Display {
 	 * @return string url of current page
 	 */
 	public function get_current_page() {
-		return untrailingslashit( home_url( add_query_arg() ) );
+		return @untrailingslashit( home_url( add_query_arg() ) );
 	}
 
 	/**
