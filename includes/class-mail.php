@@ -196,6 +196,8 @@ class ConstantContact_Mail {
 			$content
 		);
 
+		$this->maybe_log_mail_status( $mail_status, $destination_email, $content );
+
 		// Clean up, remove the filter we had set
 		remove_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
 
@@ -210,5 +212,28 @@ class ConstantContact_Mail {
 	 */
 	public function set_email_type() {
 		return 'text/html';
+	}
+
+	/**
+	 * If our mail debugging is set, then log mail statuses to the error log
+	 *
+	 * @since   1.0.0
+	 * @param   string  $status      status from wp_mai
+	 * @param   string  $dest_email  destination email
+	 * @param   string  $content     content of email
+	 * @return  void
+	 */
+	public function maybe_log_mail_status( $status, $dest_email, $content ) {
+
+		// If we have our debugging turned on
+		if ( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) {
+
+			// Log status of mail
+			error_log( 'mail attempted for ' . $dest_email . ': ' . $status );
+
+			// Log content too just in case
+			error_log( print_r( $content, true ) );
+		}
+
 	}
 }
