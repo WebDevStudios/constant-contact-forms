@@ -695,6 +695,26 @@ class ConstantContact_API {
 		// Send back our connect url
 		return constant_contact()->authserver->do_connect_url( $proof );
 	}
+
+	/**
+	 * Helper method to output a link for our connect modal
+	 *
+	 * @since   1.0.0
+	 * @param   string  $type  type of link to output
+	 */
+	public function get_signup_link() {
+
+		// Allow us to re-use the same verification twice on one page load
+		static $proof = null;
+
+		// If we haven't set a proof yet, generate it
+		if ( is_null( $proof ) ) {
+			$proof = constant_contact()->authserver->set_verification_option();
+		}
+
+		// Send back our connect url
+		return constant_contact()->authserver->do_signup_url( $proof );
+	}
 }
 
 /**
