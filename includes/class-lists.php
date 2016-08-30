@@ -420,7 +420,7 @@ class ConstantContact_Lists {
 
 		// if we didn't get an ID, return
 		if ( ! isset( $ctct_list->ID ) ) {
-			return;
+			return false;
 		}
 
 		// Verify we don't mark things as duplicate if they aren't
