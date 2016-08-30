@@ -347,7 +347,7 @@
 				Pluginize<br>
 				<b>Since:</b>
 				1.0.1<br>
-			<b>Located at</b> <a href="source-class-ConstantContact_Middleware.html#9-150" title="Go to source code">includes/class-middleware.php</a>
+			<b>Located at</b> <a href="source-class-ConstantContact_Middleware.html#9-171" title="Go to source code">includes/class-middleware.php</a>
 		<br>
 	</div>
 
@@ -406,7 +406,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_do_connect_url">#</a>
-		<code><a href="source-class-ConstantContact_Middleware.html#34-52" title="Go to source code">do_connect_url</a>( <span> <var>$proof</var> = <span class="php-quote">''</span> </span> )</code>
+		<code><a href="source-class-ConstantContact_Middleware.html#34-52" title="Go to source code">do_connect_url</a>( <span> <var>$proof</var> = <span class="php-quote">''</span></span>, <span> <var>$extra_args</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 		<div class="description short">
 			<p>Get our auth server link</p>
@@ -432,6 +432,49 @@
 		</div>
 		</div></td>
 	</tr>
+	<tr data-order="do_signup_url" id="_do_signup_url">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_do_signup_url">#</a>
+		<code><a href="source-class-ConstantContact_Middleware.html#54-65" title="Go to source code">do_signup_url</a>( <span>string <var>$proof</var> = <span class="php-quote">''</span> </span> )</code>
+
+		<div class="description short">
+			<p>Build out our signup version of the connect url</p>
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Build out our signup version of the connect url</p>
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$proof</var></dt>
+					<dd>proof key</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					string<br>signup / connect url
+				</div>
+
+
+				<h4>Since</h4>
+				<div class="list">
+						1.0.0<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
 	<tr data-order="add_query_args_to_link" id="_add_query_args_to_link">
 
 		<td class="attributes"><code>
@@ -444,7 +487,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_add_query_args_to_link">#</a>
-		<code><a href="source-class-ConstantContact_Middleware.html#54-67" title="Go to source code">add_query_args_to_link</a>( <span>string <var>$link</var></span>, <span> <var>$proof</var></span> )</code>
+		<code><a href="source-class-ConstantContact_Middleware.html#67-88" title="Go to source code">add_query_args_to_link</a>( <span>string <var>$link</var></span>, <span> <var>$proof</var></span>, <span> <var>$extra_args</var> = <span class="php-keyword1">array</span>() </span> )</code>
 
 		<div class="description short">
 			<p>Add our query args for proof and site callback to our auth server link</p>
@@ -459,6 +502,8 @@
 					<dt><var>$link</var></dt>
 					<dd>auth server link</dd>
 					<dt><var>$proof</var></dt>
+					<dd></dd>
+					<dt><var>$extra_args</var></dt>
 					<dd></dd>
 				</dl></div>
 
@@ -485,7 +530,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_get_auth_server_link">#</a>
-		<code><a href="source-class-ConstantContact_Middleware.html#69-77" title="Go to source code">get_auth_server_link</a>( )</code>
+		<code><a href="source-class-ConstantContact_Middleware.html#90-98" title="Go to source code">get_auth_server_link</a>( )</code>
 
 		<div class="description short">
 			<p>Gets our base auth server link</p>
@@ -523,7 +568,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_set_verification_option">#</a>
-		<code><a href="source-class-ConstantContact_Middleware.html#79-98" title="Go to source code">set_verification_option</a>( )</code>
+		<code><a href="source-class-ConstantContact_Middleware.html#100-119" title="Go to source code">set_verification_option</a>( )</code>
 
 		<div class="description short">
 			<p>Generates a random key, saves to the DB and returns it</p>
@@ -561,7 +606,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_verify_and_save_access_token_return">#</a>
-		<code><a href="source-class-ConstantContact_Middleware.html#100-129" title="Go to source code">verify_and_save_access_token_return</a>( )</code>
+		<code><a href="source-class-ConstantContact_Middleware.html#121-150" title="Go to source code">verify_and_save_access_token_return</a>( )</code>
 
 		<div class="description short">
 			<p>Verify a returned request from the auth server, and save the returned token</p>
@@ -595,7 +640,7 @@
 
 		<td class="name"><div>
 		<a class="anchor" href="#_verify_proof">#</a>
-		<code><a href="source-class-ConstantContact_Middleware.html#131-149" title="Go to source code">verify_proof</a>( <span>string <var>$proof</var></span> )</code>
+		<code><a href="source-class-ConstantContact_Middleware.html#152-170" title="Go to source code">verify_proof</a>( <span>string <var>$proof</var></span> )</code>
 
 		<div class="description short">
 			<p>Verifies a given proof from a request against our DB, and does cleanup</p>

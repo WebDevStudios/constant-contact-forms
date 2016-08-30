@@ -1080,18 +1080,38 @@
 </span><span id="695" class="l"><a href="#695">695: </a>        <span class="php-comment">// Send back our connect url</span>
 </span><span id="696" class="l"><a href="#696">696: </a>        <span class="php-keyword1">return</span> constant_contact()-&gt;authserver-&gt;do_connect_url( <span class="php-var">$proof</span> );
 </span><span id="697" class="l"><a href="#697">697: </a>    }
-</span><span id="698" class="l"><a href="#698">698: </a>}
-</span><span id="699" class="l"><a href="#699">699: </a>
-</span><span id="700" class="l"><a href="#700">700: </a><span class="php-comment">/**
-</span></span><span id="701" class="l"><a href="#701">701: </a><span class="php-comment"> * Helper function to get/return the ConstantContact_API object.
-</span></span><span id="702" class="l"><a href="#702">702: </a><span class="php-comment"> *
-</span></span><span id="703" class="l"><a href="#703">703: </a><span class="php-comment"> * @since 1.0.0
-</span></span><span id="704" class="l"><a href="#704">704: </a><span class="php-comment"> * @return object ConstantContact_API
-</span></span><span id="705" class="l"><a href="#705">705: </a><span class="php-comment"> */</span>
-</span><span id="706" class="l"><a href="#706">706: </a><span class="php-keyword1">function</span> constantcontact_api() {
-</span><span id="707" class="l"><a href="#707">707: </a>    <span class="php-keyword1">return</span> constant_contact()-&gt;api;
-</span><span id="708" class="l"><a href="#708">708: </a>}
-</span><span id="709" class="l"><a href="#709">709: </a></span></code></pre>
+</span><span id="698" class="l"><a href="#698">698: </a>
+</span><span id="699" class="l"><a href="#699">699: </a>    <span class="php-comment">/**
+</span></span><span id="700" class="l"><a href="#700">700: </a><span class="php-comment">     * Helper method to output a link for our connect modal
+</span></span><span id="701" class="l"><a href="#701">701: </a><span class="php-comment">     *
+</span></span><span id="702" class="l"><a href="#702">702: </a><span class="php-comment">     * @since   1.0.0
+</span></span><span id="703" class="l"><a href="#703">703: </a><span class="php-comment">     * @param   string  $type  type of link to output
+</span></span><span id="704" class="l"><a href="#704">704: </a><span class="php-comment">     */</span>
+</span><span id="705" class="l"><a href="#705">705: </a>    <span class="php-keyword1">public</span> <span class="php-keyword1">function</span> get_signup_link() {
+</span><span id="706" class="l"><a href="#706">706: </a>
+</span><span id="707" class="l"><a href="#707">707: </a>        <span class="php-comment">// Allow us to re-use the same verification twice on one page load</span>
+</span><span id="708" class="l"><a href="#708">708: </a>        <span class="php-keyword1">static</span> <span class="php-var">$proof</span> = <span class="php-keyword1">null</span>;
+</span><span id="709" class="l"><a href="#709">709: </a>
+</span><span id="710" class="l"><a href="#710">710: </a>        <span class="php-comment">// If we haven't set a proof yet, generate it</span>
+</span><span id="711" class="l"><a href="#711">711: </a>        <span class="php-keyword1">if</span> ( <span class="php-keyword2">is_null</span>( <span class="php-var">$proof</span> ) ) {
+</span><span id="712" class="l"><a href="#712">712: </a>            <span class="php-var">$proof</span> = constant_contact()-&gt;authserver-&gt;set_verification_option();
+</span><span id="713" class="l"><a href="#713">713: </a>        }
+</span><span id="714" class="l"><a href="#714">714: </a>
+</span><span id="715" class="l"><a href="#715">715: </a>        <span class="php-comment">// Send back our connect url</span>
+</span><span id="716" class="l"><a href="#716">716: </a>        <span class="php-keyword1">return</span> constant_contact()-&gt;authserver-&gt;do_signup_url( <span class="php-var">$proof</span> );
+</span><span id="717" class="l"><a href="#717">717: </a>    }
+</span><span id="718" class="l"><a href="#718">718: </a>}
+</span><span id="719" class="l"><a href="#719">719: </a>
+</span><span id="720" class="l"><a href="#720">720: </a><span class="php-comment">/**
+</span></span><span id="721" class="l"><a href="#721">721: </a><span class="php-comment"> * Helper function to get/return the ConstantContact_API object.
+</span></span><span id="722" class="l"><a href="#722">722: </a><span class="php-comment"> *
+</span></span><span id="723" class="l"><a href="#723">723: </a><span class="php-comment"> * @since 1.0.0
+</span></span><span id="724" class="l"><a href="#724">724: </a><span class="php-comment"> * @return object ConstantContact_API
+</span></span><span id="725" class="l"><a href="#725">725: </a><span class="php-comment"> */</span>
+</span><span id="726" class="l"><a href="#726">726: </a><span class="php-keyword1">function</span> constantcontact_api() {
+</span><span id="727" class="l"><a href="#727">727: </a>    <span class="php-keyword1">return</span> constant_contact()-&gt;api;
+</span><span id="728" class="l"><a href="#728">728: </a>}
+</span><span id="729" class="l"><a href="#729">729: </a></span></code></pre>
 
 	<div id="footer">
 		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
