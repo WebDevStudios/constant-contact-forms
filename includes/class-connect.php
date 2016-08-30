@@ -215,7 +215,7 @@ class ConstantContact_Connect {
 						<p>
 							<?php esc_attr_e( 'Sign up for a free 60-day trial to connect with visitors beyond your website.' , 'constantcontact' ); ?>
 						</p>
-						<a class="button button-orange" href="https://www.constantcontact.com"><?php esc_attr_e( 'Try us Free', 'constantcontact' ); ?></a>
+						<a class="button button-orange" href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>"><?php esc_attr_e( 'Try us Free', 'constantcontact' ); ?></a>
 					</div>
 					<div class="right">
 						<img

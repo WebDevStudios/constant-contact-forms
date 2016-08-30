@@ -302,7 +302,7 @@ class ConstantContact_Builder {
 							<p>
 								<?php esc_attr_e( 'Import everything into Constant Contact so I can see what email marketing can do for me.' , 'constantcontact' ); ?>
 							</p>
-							<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
+							<a href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
 							<img
 								class="flare"
 								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-modal-logo.png' ); ?>"

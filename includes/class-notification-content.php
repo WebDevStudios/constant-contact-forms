@@ -49,10 +49,10 @@ class ConstantContact_Notification_Content {
 		?>
 		</p>
 		<p>
-			<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" target="_blank" class="ctct-notice-button button-primary">
+			<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" class="ctct-notice-button button-primary">
 				<?php esc_attr_e( 'Connect your account', 'constantcontact' ); ?>
 			</a>
-			<a href="https://www.constantcontact.com/" target="_blank" class="ctct-notice-button button-secondary">
+			<a href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>" class="ctct-notice-button button-secondary">
 				<?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?>
 			</a>
 		</p>
