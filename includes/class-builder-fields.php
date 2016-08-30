@@ -112,7 +112,7 @@ class ConstantContact_Builder_Fields {
 		// Initiate the $options_metabox, as this is used either way
 		$options_metabox = new_cmb2_box( array(
 			'id'			=> 'ctct_1_optin_metabox',
-			'title'		 	=> __( 'Connect your form to a Constant Contact Email List', 'constantcontact' ),
+			'title'		 	=> __( 'Form Options', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
 			'priority'	  	=> 'high',
