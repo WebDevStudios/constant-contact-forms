@@ -54,7 +54,6 @@ class ConstantContact_Middleware {
 	/**
 	 * Build out our signup version of the connect url
 	 *
-	 * @author Brad Parbs
 	 * @since   1.0.0
 	 * @param   string  $proof  proof key
 	 * @return  string          signup / connect url
