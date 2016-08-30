@@ -210,6 +210,22 @@ class ConstantContact_Admin_Pages {
 		// make it so pretty
 		wp_enqueue_style( 'constant_contact_admin_pages' );
 
+		// Set our placeholder vars for links and stuff
+		$proof = $auth_link = $new_link = '';
+
+		// @codingStandardsIgnoreStart
+		if ( ! constant_contact()->api->is_connected() ) {
+		// @codingStandardsIgnoreEnd
+
+			// Get our middleware link
+			$proof     = constant_contact()->authserver->set_verification_option();
+			$auth_link = constant_contact()->authserver->do_connect_url( $proof );
+			$new_link  = constant_contact()->authserver->do_signup_url( $proof );
+
+		// @codingStandardsIgnoreStart
+		}
+		// @codingStandardsIgnoreEnd
+
 		?>
 		<div class="wrap about-wrap constant-contact-about">
 			<div class="hide-overflow">
@@ -230,7 +246,9 @@ class ConstantContact_Admin_Pages {
 						<p>
 						<?php esc_attr_e( 'Using your sign-up forms to collect email addresses? Email marketing is a great way to stay connected with visitors after they’ve left your site. And with an active Constant Contact account, every new subscriber you capture will be automatically added to your selected email lists.  ', 'constantcontact' ); ?>
 						</p>
-						<a href="https://www.constantcontact.com/" target="_blank" class="button button-orange" title="Try us Free"><?php esc_attr_e( 'Try us Free', 'constantcontact' ); ?></a>
+						<?php if ( $new_link ) { // If we have a link, then display the connect button ?>
+						<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" class="button button-orange" title="Try us Free"><?php esc_attr_e( 'Try us Free', 'constantcontact' ); ?></a>
+						<?php } ?>
 					</div>
 				</div>
 				<span class="plugin-badge">
@@ -238,24 +256,7 @@ class ConstantContact_Admin_Pages {
 				</span>
 				<div class="clear"></div>
 				<hr>
-				<?php
-					// Get our connected state
-					$connected = constant_contact()->api->is_connected();
-
-					// @codingStandardsIgnoreStart
-					if ( ! $connected ) {
-					// @codingStandardsIgnoreEnd
-
-						// Get our middleware link
-						$proof = constant_contact()->authserver->set_verification_option();
-						$auth_link = constant_contact()->authserver->do_connect_url( $proof );
-
-					// @codingStandardsIgnoreStart
-					}
-					// @codingStandardsIgnoreEnd
-
-				?>
-				<?php if ( ! $connected && $auth_link ) { // If we have a link, then display the connect button ?>
+				<?php if ( $auth_link ) { // If we have a link, then display the connect button ?>
 					<h2><?php esc_attr_e( 'Already have a Constant Contact account?', 'constantcontact' ); ?></h2>
 					<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button button-blue ctct-connect">
 						<?php esc_html_e( 'Connect the plugin', 'constantcontact' ); ?>

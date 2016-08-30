@@ -37,7 +37,7 @@ class ConstantContact_Middleware {
 	 * @since 1.0.1
 	 * @return string auth server link
 	 */
-	public function do_connect_url( $proof = '' ) {
+	public function do_connect_url( $proof = '', $extra_args = array() ) {
 
 		// Get our main link
 		$auth_server_link = $this->get_auth_server_link();
@@ -48,7 +48,21 @@ class ConstantContact_Middleware {
 		}
 
 		// Add our query args to our middleware link, and return it
-		return $this->add_query_args_to_link( $auth_server_link, $proof );
+		return $this->add_query_args_to_link( $auth_server_link, $proof, $extra_args );
+	}
+
+	/**
+	 * Build out our signup version of the connect url
+	 *
+	 * @author Brad Parbs
+	 * @since   1.0.0
+	 * @param   string  $proof  proof key
+	 * @return  string          signup / connect url
+	 */
+	public function do_signup_url( $proof = '' ) {
+
+		// Just a wrapper for the connect url, but with the signup param we'll be passing
+		return $this->do_connect_url( $proof, array( 'new_signup' => true ) );
 	}
 
 	/**
@@ -57,13 +71,21 @@ class ConstantContact_Middleware {
 	 * @since 1.0.1
 	 * @param  string $link auth server link
 	 */
-	public function add_query_args_to_link( $link, $proof ) {
-		return add_query_arg( array(
+	public function add_query_args_to_link( $link, $proof, $extra_args = array() ) {
+		$return = add_query_arg( array(
 			'ctct-auth'  => 'auth',
 			'ctct-proof' => esc_attr( $proof ),
 			'ctct-site'  => get_site_url(),
 			),
 		$link );
+
+		// If got passed other args, tack them on as query args to the link that we were going to be using
+		if ( ! empty( $extra_args ) ) {
+			$return = add_query_arg( $extra_args, $return );
+		}
+
+		// Send it back
+		return $return;
 	}
 
 	/**
