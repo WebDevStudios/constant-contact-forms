@@ -69,11 +69,6 @@ spl_autoload_register( 'constant_contact_autoload_classes' );
  * Main initiation class
  *
  * @since  1.0.0
- * @var  string $version  Plugin version
- * @var  string $basename Plugin basename
- * @var  string $url	  Plugin URL
- * @var  string $path	 Plugin Path
- * @var  string $plugin_name Plugin name
  */
 class Constant_Contact {
 
@@ -397,7 +392,7 @@ class Constant_Contact {
 			return false;
 		}
 
-		// Check to make sure we dont' get any exceptions when laoding the c
+		// Check to make sure we dont' get any exceptions when loading the class
 		if ( ! $this->check_crypto_class() ) {
 			return false;
 		}
