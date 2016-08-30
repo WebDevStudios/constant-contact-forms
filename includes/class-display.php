@@ -185,7 +185,7 @@ class ConstantContact_Display {
 		}
 
 		// Otherwise, we'll default to just using add_query_arg, which may throw errors
-		return untrailingslashit( home_url( add_query_arg() ) );
+		return untrailingslashit( home_url( add_query_arg( array( '' => '' ) ) ) );
 	}
 
 	/**
