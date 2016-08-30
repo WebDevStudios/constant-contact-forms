@@ -145,6 +145,9 @@ class ConstantContact_Display {
 		// Nonce the field too
 		$return .= wp_nonce_field( 'ctct_submit_form', 'ctct_form', true, false );
 
+		// add our disclose notice maybe
+		$return .= wp_kses_post( $this->maybe_add_disclose_note( $form_data ) );
+
 		// Close our form
 		$return .= '</form>';
 
@@ -1047,6 +1050,97 @@ class ConstantContact_Display {
 
 		// Send it back
 		return $return . '</p>';
+	}
+
+	/**
+	 * Maybe display the disclourse notice
+	 *
+	 * @since   1.0.0
+	 * @param   array  $form_data  form data
+	 * @return  string              html markup
+	 */
+	public function maybe_add_disclose_note( $form_data ) {
+
+		// Get out our form options
+		$opts = isset( $form_data['options'] ) ? $form_data['options'] : false;
+
+		// Bail if they're not set
+		if ( ! $opts ) {
+			return;
+		}
+
+		// Get our optin data
+		$optin = isset( $opts['optin'] ) ? $opts['optin'] : false;
+
+		// Bail if not set
+		if ( ! $optin ) {
+			return false;
+		}
+
+		// Get our list
+		$list = isset( $optin['list'] ) ? $optin['list'] : false;
+
+		// Bail if not set
+		if ( ! $list ) {
+			return false;
+		}
+
+		// Get if we should show
+		$show = isset( $optin['show'] ) ? $optin['show'] : false;
+
+		// Bail if not set
+		if ( ! $show ) {
+			return false;
+		}
+
+		// Bail if not showing
+		if ( 'on' != $show ) {
+			return false;
+		}
+
+		// finally, send back our text
+		return $this->get_disclose_text();
+	}
+
+	/**
+	 * Get our disclose markup
+	 *
+	 * @since   1.0.0
+	 * @return  string  html markup
+	 */
+	public function get_disclose_text() {
+		return apply_filters( 'constant_contact_disclose', '<hr><sub>' . $this->get_inner_disclose_text() . '</sub>' );
+	}
+
+	/**
+	 * Get our disclose text
+	 *
+	 * @since   1.0.0
+	 * @return  string  text
+	 */
+	public function get_inner_disclose_text() {
+		return sprintf( __( 'By submitting this form, you are granting: %s permission to email you. You may unsubscribe via the link found at the bottom of every email. (See our Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) for details.) Emails are serviced by Constant Contact.', 'constantcontact' ), $this->get_disclose_name_address() );
+	}
+
+	/**
+	 * Get our name and address
+	 *
+	 * @since   1.0.0
+	 * @return  string  text
+	 */
+	public function get_disclose_name_address() {
+
+		// grab name and address
+		$name = ctct_get_settings_option( '_ctct_disclose_name' );
+		$addr = ctct_get_settings_option( '_ctct_disclose_address' );
+
+		// If we have both name and address, use both
+		if ( $name && $addr ) {
+			return $name . ', ' . $addr;
+		}
+
+		// Otherwise just use the name
+		return $name;
 	}
 }
 

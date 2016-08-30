@@ -245,10 +245,31 @@ class ConstantContact_Settings {
 			$business_name ? $business_name : __( 'Business Name', 'constantcontact' );
 
 			$cmb->add_field( array(
-				'name' 	=> __( 'Opt-in Affirmation', 'constantcontact' ),
-				'id'   	=> '_ctct_optin_label',
-				'type'	=> 'text',
-				'default'		  => sprintf( __( 'Yes, I would like to receive emails from %s. Sign me up!', 'constantcontact' ), $business_name ),
+				'name' 	  => __( 'Opt-in Affirmation', 'constantcontact' ),
+				'id'   	  => '_ctct_optin_label',
+				'type'    => 'text',
+				'default' => sprintf( __( 'Yes, I would like to receive emails from %s. Sign me up!', 'constantcontact' ), $business_name ),
+			) );
+
+			$cmb->add_field( array(
+				'name' 	  => __( 'Opt-in Affirmation', 'constantcontact' ),
+				'id'   	  => '_ctct_optin_label',
+				'type'    => 'text',
+				'default' => sprintf( __( 'Yes, I would like to receive emails from %s. Sign me up!', 'constantcontact' ), $business_name ),
+			) );
+
+			$cmb->add_field( array(
+				'name' 	  => __( 'Disclosure Name', 'constantcontact' ),
+				'id'   	  => '_ctct_disclose_name',
+				'type'    => 'text',
+				'default' => $business_name,
+			) );
+
+			$cmb->add_field( array(
+				'name' 	  => __( 'Disclosure Address', 'constantcontact' ),
+				'id'   	  => '_ctct_disclose_address',
+				'type'    => 'text',
+				'default' => '',
 			) );
 		}
 	}
