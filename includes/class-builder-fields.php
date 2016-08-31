@@ -82,7 +82,7 @@ class ConstantContact_Builder_Fields {
 		 */
 		$description_metabox = new_cmb2_box( array(
 			'id'			=> 'ctct_0_description_metabox',
-			'title'		 	=> __( 'Form Title', 'constantcontact' ),
+			'title'		 	=> __( 'Form Description', 'constantcontact' ),
 			'object_types'  => array( 'ctct_forms' ),
 			'context'	   	=> 'normal',
 			'priority'	  	=> 'high',
@@ -273,11 +273,11 @@ class ConstantContact_Builder_Fields {
 
 		// Add our field description
 		$fields_metabox->add_group_field( $custom_group, array(
-			'name'    => __( 'Field Helper Text', 'constantcontact' ),
-			'desc'    => __( 'Appears as helper text in the field on your published form.', 'constantcontact' ),
+			'name'    => __( 'Field Description', 'constantcontact' ),
+			'desc'    => __( '', 'constantcontact' ),
 			'id'      => $this->prefix . 'field_desc',
 			'type'    => 'text',
-			'default' => '',
+			'default' => 'Ex: Enter email address',
 		) );
 
 		$default_fields = apply_filters( 'constant_contact_field_types', array(

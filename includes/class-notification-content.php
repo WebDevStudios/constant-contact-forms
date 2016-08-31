@@ -43,7 +43,7 @@ class ConstantContact_Notification_Content {
 		<p class="ctct-notice-intro">
 		<?php
 			printf(
-				esc_attr__( 'To take full advatage of the %s plugin, we recommend having an active Constant Contact account.', 'constantcontact' ),
+				esc_attr__( 'To take full advantage of the %s plugin, we recommend having an active Constant Contact account.', 'constantcontact' ),
 				'<strong>' . esc_attr__( 'Constant Contact Forms' ) . '</strong>'
 			);
 		?>
