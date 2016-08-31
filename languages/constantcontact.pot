@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact\n"
-"POT-Creation-Date: 2016-08-30 13:09-0500\n"
+"POT-Creation-Date: 2016-08-31 10:57-0500\n"
 "PO-Revision-Date: 2016-08-30 13:08-0500\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
@@ -235,7 +235,7 @@ msgid ""
 msgstr ""
 
 #: includes/class-builder-fields.php:85
-msgid "Form Title"
+msgid "Form Description"
 msgstr ""
 
 #: includes/class-builder-fields.php:93
@@ -331,11 +331,7 @@ msgid "Email"
 msgstr ""
 
 #: includes/class-builder-fields.php:276
-msgid "Field Helper Text"
-msgstr ""
-
-#: includes/class-builder-fields.php:277
-msgid "Appears as helper text in the field on your published form."
+msgid "Field Description"
 msgstr ""
 
 #: includes/class-builder-fields.php:284
@@ -912,7 +908,7 @@ msgstr ""
 #: includes/class-notification-content.php:46
 #, php-format
 msgid ""
-"To take full advatage of the %s plugin, we recommend having an active "
+"To take full advantage of the %s plugin, we recommend having an active "
 "Constant Contact account."
 msgstr ""
 
