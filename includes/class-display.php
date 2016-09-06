@@ -1120,28 +1120,7 @@ class ConstantContact_Display {
 	 * @return  string  text
 	 */
 	public function get_inner_disclose_text() {
-		return sprintf( __( 'By submitting this form, you are granting: %s permission to email you. You may unsubscribe via the link found at the bottom of every email. (See our Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) for details.) Emails are serviced by Constant Contact.', 'constantcontact' ), $this->get_disclose_name_address() );
-	}
-
-	/**
-	 * Get our name and address
-	 *
-	 * @since   1.0.0
-	 * @return  string  text
-	 */
-	public function get_disclose_name_address() {
-
-		// grab name and address
-		$name = ctct_get_settings_option( '_ctct_disclose_name' );
-		$addr = ctct_get_settings_option( '_ctct_disclose_address' );
-
-		// If we have both name and address, use both
-		if ( $name && $addr ) {
-			return $name . ', ' . $addr;
-		}
-
-		// Otherwise just use the name
-		return $name;
+		return sprintf( __( 'By submitting this form, you are granting: %s permission to email you. You may unsubscribe via the link found at the bottom of every email. (See our Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) for details.) Emails are serviced by Constant Contact.', 'constantcontact' ), $this->plugin->api->get_disclosure_info() );
 	}
 }
 

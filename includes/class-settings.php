@@ -240,11 +240,18 @@ class ConstantContact_Settings {
 				'options'		   => $lists,
 			) );
 
-			// Get our site name, and if we don't have it, then use a placeholder
-			$business_name = get_bloginfo( 'name' );
-			$business_name ? $business_name : __( 'Business Name', 'constantcontact' );
+			// Get the business name and address.
+			$business_name = get_bloginfo( 'name' ) ?: __( 'Business Name', 'constantcontact' );
+			$business_addr = '';
 
-			$cmb->add_field( array(
+			// We might be able to get it from the API?
+			if ( ! empty( $disclosure_info = $this->plugin->api->get_disclosure_info( true ) ) ) {
+				// Make sure no one can edit.
+				$business_name = $disclosure_info['name']    ?: __( 'Business Name', 'constantcontact' );
+				$business_addr = $disclosure_info['address'] ?: '';
+			}
+
+			$cmb->add_field( array (
 				'name' 	  => __( 'Opt-in Affirmation', 'constantcontact' ),
 				'id'   	  => '_ctct_optin_label',
 				'type'    => 'text',
@@ -252,24 +259,19 @@ class ConstantContact_Settings {
 			) );
 
 			$cmb->add_field( array(
-				'name' 	  => __( 'Opt-in Affirmation', 'constantcontact' ),
-				'id'   	  => '_ctct_optin_label',
-				'type'    => 'text',
-				'default' => sprintf( __( 'Yes, I would like to receive emails from %s. Sign me up!', 'constantcontact' ), $business_name ),
+				'name'       => __( 'Disclosure Name', 'constantcontact' ),
+				'id'         => '_ctct_disclose_name',
+				'type'       => 'text',
+				'default'    => $business_name,
+				'attributes' => strlen( $business_name ) ? array( 'readonly' => 'readonly' ) : array(),
 			) );
 
 			$cmb->add_field( array(
-				'name' 	  => __( 'Disclosure Name', 'constantcontact' ),
-				'id'   	  => '_ctct_disclose_name',
-				'type'    => 'text',
-				'default' => $business_name,
-			) );
-
-			$cmb->add_field( array(
-				'name' 	  => __( 'Disclosure Address', 'constantcontact' ),
-				'id'   	  => '_ctct_disclose_address',
-				'type'    => 'text',
-				'default' => '',
+				'name'       => __( 'Disclosure Address', 'constantcontact' ),
+				'id'         => '_ctct_disclose_address',
+				'type'       => 'text',
+				'default'    => $business_addr,
+				'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
 			) );
 		}
 	}

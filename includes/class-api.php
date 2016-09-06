@@ -715,6 +715,63 @@ class ConstantContact_API {
 		// Send back our connect url
 		return constant_contact()->authserver->do_signup_url( $proof );
 	}
+
+	/**
+	 * Maybe get the disclosure address from the API Organization Information.
+	 *
+	 * @since 1.0.0
+	 * @param bool $as_parts If true return an array.
+	 * Array (
+	 *     [name] => Business Name
+	 *     [address] => 555 Business Place Ln., Beverly Hills, CA, 90210
+	 * ).
+	 *
+	 * @return mixed
+	 */
+	public function get_disclosure_info( $as_parts = false ) {
+
+		// These fields are used to try and buld the full address.
+		static $address_fields = array( 'line1', 'city', 'state_code', 'postal_code' );
+
+		// Grab disclosure info from the API.
+		$account_info = $this->get_account_info();
+		$account_info->organization_name = '';
+		$account_info->organization_addresses = array();
+
+		// Bail on empty.
+		if ( empty( $account_info ) ) {
+			return $as_parts ? array() : '';
+		}
+
+		$disclosure = array(
+			'name'    => empty( $account_info->organization_name ) ? ctct_get_settings_option( '_ctct_disclose_name' ) : $account_info->organization_name,
+			'address' => ctct_get_settings_option( '_ctct_disclose_address' ),
+		);
+
+		// Determine the address to use for disclosure from the API.
+		if (
+			isset( $account_info->organization_addresses )
+			&& count( $account_info->organization_addresses )
+		) {
+			// Assume the first address.
+			$organization_address = array_shift( $account_info->organization_addresses );
+
+			$max = count( $address_fields );
+			for ( $i = 0; $i < $max, $field = $address_fields[ $i++ ]; ) {
+				if ( isset( $organization_address[ $field ] ) && strlen( $organization_address[ $field ] ) ) {
+					$disclosure_address .= $organization_address[ $field ] . ',';
+				}
+			}
+
+			// Remove the trailing ,.
+			$disclosure['address'] = rtrim( $disclosure_address, ',' );
+		} else if ( empty( $disclosure['address'] ) ) {
+			// Remove the address so we don't get a disclosure like "Business Name, ".
+			unset( $disclosure['address'] );
+		}
+
+		return $as_parts ? $disclosure : implode( ', ', array_values( $disclosure ) );
+	}
 }
 
 /**
