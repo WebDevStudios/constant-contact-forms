@@ -1086,19 +1086,6 @@ class ConstantContact_Display {
 			return false;
 		}
 
-		// Get if we should show
-		$show = isset( $optin['show'] ) ? $optin['show'] : false;
-
-		// Bail if not set
-		if ( ! $show ) {
-			return false;
-		}
-
-		// Bail if not showing
-		if ( 'on' != $show ) {
-			return false;
-		}
-
 		// finally, send back our text
 		return $this->get_disclose_text();
 	}
