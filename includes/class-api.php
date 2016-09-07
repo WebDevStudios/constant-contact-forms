@@ -735,8 +735,6 @@ class ConstantContact_API {
 
 		// Grab disclosure info from the API.
 		$account_info = $this->get_account_info();
-		$account_info->organization_name = '';
-		$account_info->organization_addresses = array();
 
 		// Bail on empty.
 		if ( empty( $account_info ) ) {

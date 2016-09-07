@@ -258,21 +258,23 @@ class ConstantContact_Settings {
 				'default' => sprintf( __( 'Yes, I would like to receive emails from %s. Sign me up!', 'constantcontact' ), $business_name ),
 			) );
 
-			$cmb->add_field( array(
-				'name'       => __( 'Disclosure Name', 'constantcontact' ),
-				'id'         => '_ctct_disclose_name',
-				'type'       => 'text',
-				'default'    => $business_name,
-				'attributes' => strlen( $business_name ) ? array( 'readonly' => 'readonly' ) : array(),
-			) );
+			if ( empty( $disclosure_info ) ) {
+				$cmb->add_field( array(
+					'name'       => __( 'Disclosure Name', 'constantcontact' ),
+					'id'         => '_ctct_disclose_name',
+					'type'       => 'text',
+					'default'    => $business_name,
+					'attributes' => strlen( $business_name ) ? array( 'readonly' => 'readonly' ) : array(),
+				) );
 
-			$cmb->add_field( array(
-				'name'       => __( 'Disclosure Address', 'constantcontact' ),
-				'id'         => '_ctct_disclose_address',
-				'type'       => 'text',
-				'default'    => $business_addr,
-				'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
-			) );
+				$cmb->add_field( array(
+					'name'       => __( 'Disclosure Address', 'constantcontact' ),
+					'id'         => '_ctct_disclose_address',
+					'type'       => 'text',
+					'default'    => $business_addr,
+					'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
+				) );
+			}
 		}
 	}
 
