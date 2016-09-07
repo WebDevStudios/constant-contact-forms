@@ -1,28 +1,21 @@
-#, fuzzy
+# Copyright (C) 2016 Constant Contact
+# This file is distributed under the same license as the Constant Contact package.
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"Project-Id-Version: Constant Contact\n"
-"POT-Creation-Date: 2016-08-31 10:57-0500\n"
-"PO-Revision-Date: 2016-08-30 13:08-0500\n"
-"Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
-"Language-Team: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
+"Project-Id-Version: Constant Contact 999.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/constant-contact-"
+"forms\n"
+"POT-Creation-Date: 2016-09-07 22:08:52+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.8\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-WPHeader: constantcontact.php\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.js\n"
-"X-Poedit-SearchPathExcluded-1: vendor\n"
+"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
 
+#. #-#-#-#-#  constant-contact-forms.pot (Constant Contact 999.0.0)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: constantcontact.php:194 includes/class-builder.php:309
+#: constant-contact-forms.php:194 includes/class-builder.php:309
 #: includes/class-cpts.php:93 includes/class-cpts.php:151
 msgid "Constant Contact"
 msgstr ""
@@ -183,7 +176,7 @@ msgstr ""
 msgid "About"
 msgstr ""
 
-#: includes/class-admin.php:171 includes/class-settings.php:591
+#: includes/class-admin.php:171 includes/class-settings.php:595
 msgid "Settings updated."
 msgstr ""
 
@@ -199,6 +192,7 @@ msgstr ""
 msgid "Check out the official WordPress plugin from @constantcontact :"
 msgstr ""
 
+#. #-#-#-#-#  constant-contact-forms.pot (Constant Contact 999.0.0)  #-#-#-#-#
 #. Description of the plugin/theme
 #: includes/class-admin.php:261
 msgid "Be a better marketer. All it takes is Constant Contact email marketing."
@@ -282,13 +276,11 @@ msgstr ""
 msgid "Your Business Name"
 msgstr ""
 
-#: includes/class-builder-fields.php:218 includes/class-settings.php:248
-#: includes/class-settings.php:255
+#: includes/class-builder-fields.php:218 includes/class-settings.php:255
 msgid "Opt-in Affirmation"
 msgstr ""
 
 #: includes/class-builder-fields.php:221
-#, php-format
 msgid ""
 "Example: Yes, I would like to receive emails from %s. (You can unsubscribe "
 "anytime)"
@@ -698,7 +690,6 @@ msgid "Custom field deleted."
 msgstr ""
 
 #: includes/class-cpts.php:194
-#, php-format
 msgid "List restored to revision from %s"
 msgstr ""
 
@@ -715,7 +706,6 @@ msgid "List submitted."
 msgstr ""
 
 #: includes/class-cpts.php:198
-#, php-format
 msgid "List scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
@@ -728,7 +718,6 @@ msgid "Form updated."
 msgstr ""
 
 #: includes/class-cpts.php:208
-#, php-format
 msgid "Form restored to revision from %s"
 msgstr ""
 
@@ -745,7 +734,6 @@ msgid "Form submitted."
 msgstr ""
 
 #: includes/class-cpts.php:212
-#, php-format
 msgid "Form scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
@@ -766,7 +754,6 @@ msgid "No title"
 msgstr ""
 
 #: includes/class-cpts.php:313
-#, php-format
 msgid "%s (last modified %s ago)"
 msgstr ""
 
@@ -862,8 +849,7 @@ msgstr ""
 msgid "December"
 msgstr ""
 
-#: includes/class-display.php:1123
-#, php-format
+#: includes/class-display.php:1110
 msgid ""
 "By submitting this form, you are granting: %s permission to email you. You "
 "may unsubscribe via the link found at the bottom of every email. (See our "
@@ -906,7 +892,6 @@ msgid "New submission"
 msgstr ""
 
 #: includes/class-notification-content.php:46
-#, php-format
 msgid ""
 "To take full advantage of the %s plugin, we recommend having an active "
 "Constant Contact account."
@@ -964,36 +949,35 @@ msgstr ""
 msgid "Select a list"
 msgstr ""
 
-#: includes/class-settings.php:245
+#: includes/class-settings.php:244 includes/class-settings.php:250
 msgid "Business Name"
 msgstr ""
 
-#: includes/class-settings.php:251 includes/class-settings.php:258
-#, php-format
+#: includes/class-settings.php:258
 msgid "Yes, I would like to receive emails from %s. Sign me up!"
 msgstr ""
 
-#: includes/class-settings.php:262
+#: includes/class-settings.php:263
 msgid "Disclosure Name"
 msgstr ""
 
-#: includes/class-settings.php:269
+#: includes/class-settings.php:271
 msgid "Disclosure Address"
 msgstr ""
 
-#: includes/class-settings.php:287
+#: includes/class-settings.php:291
 msgid "Add a checkbox to the comment field in your posts"
 msgstr ""
 
-#: includes/class-settings.php:288
+#: includes/class-settings.php:292
 msgid "Add a checkbox to the main WordPress login page"
 msgstr ""
 
-#: includes/class-settings.php:293
+#: includes/class-settings.php:297
 msgid "Add a checkbox to the WordPress user registration page"
 msgstr ""
 
-#: includes/class-settings.php:385
+#: includes/class-settings.php:389
 msgid "Sign up to our newsletter."
 msgstr ""
 
@@ -1003,6 +987,219 @@ msgstr ""
 
 #: includes/class-shortcode-admin.php:61
 msgid "Form Shortcode"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2.php:122
+msgid "Metabox configuration is required to have an ID parameter"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2.php:375
+msgid "Click to toggle"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_Ajax.php:65
+msgid "Please Try Again"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_Ajax.php:155
+msgid "Remove Embed"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_Ajax.php:159
+msgid "No oEmbed Results Found for %s. View more info at"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_Field.php:1030
+msgid "Add Group"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_Field.php:1031
+msgid "Remove Group"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_Field.php:1053
+#: vendor/CMB2/includes/CMB2_Field.php:1057
+msgid "None"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:86 vendor/CMB2/includes/CMB2_JS.php:119
+msgid "Clear"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:87
+msgid "Default"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:88
+msgid "Select Color"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:89
+msgid "Current Color"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:109
+msgctxt "Valid formatDate string for jquery-ui datepicker"
+msgid "mm/dd/yy"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:110
+msgid "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:111
+msgid "Su, Mo, Tu, We, Th, Fr, Sa"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:112
+msgid "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:113
+msgid ""
+"January, February, March, April, May, June, July, August, September, "
+"October, November, December"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:114
+msgid "Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:115
+msgid "Next"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:116
+msgid "Prev"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:117
+msgid "Today"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:118 vendor/CMB2/includes/CMB2_JS.php:128
+msgid "Done"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:122
+msgid "Choose Time"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:123
+msgid "Time"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:124
+msgid "Hour"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:125
+msgid "Minute"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:126
+msgid "Second"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:127
+msgid "Now"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:129
+msgctxt ""
+"Valid formatting string, as per http://trentrichardson.com/examples/"
+"timepicker/"
+msgid "hh:mm TT"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:135
+msgid "Use this file"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:136
+msgid "Use these files"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:137
+#: vendor/CMB2/includes/CMB2_Types.php:1021
+msgid "Remove Image"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:138 vendor/CMB2/includes/CMB2_Types.php:357
+#: vendor/CMB2/includes/CMB2_Types.php:1040
+msgid "Remove"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:139
+#: vendor/CMB2/includes/CMB2_Types.php:1035
+msgid "File:"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:140
+#: vendor/CMB2/includes/CMB2_Types.php:1038
+msgid "Download"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_JS.php:141
+msgid "Select / Deselect All"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_Types.php:298
+msgid "Add Row"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_Types.php:768
+#: vendor/CMB2/includes/CMB2_Types.php:816
+msgid "No terms"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_Types.php:884
+msgid "Add or Upload Files"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_Types.php:945
+msgid "Add or Upload File"
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_hookup.php:120
+msgid ""
+"Term Metadata is a WordPress > 4.4 feature. Please upgrade your WordPress "
+"install."
+msgstr ""
+
+#: vendor/CMB2/includes/CMB2_hookup.php:124
+msgid "Term metaboxes configuration requires a 'taxonomies' parameter"
+msgstr ""
+
+#: vendor/CMB2/includes/helper-functions.php:250
+msgid "Save"
+msgstr ""
+
+#: vendor/WDS-Shortcodes/includes/shortcode-admin.php:57
+#: vendor/WDS-Shortcodes/vendor/jtsternberg/shortcode-button/shortcode-button.php:48
+msgid "Cancel"
+msgstr ""
+
+#: vendor/WDS-Shortcodes/includes/shortcode-admin.php:58
+#: vendor/WDS-Shortcodes/vendor/jtsternberg/shortcode-button/shortcode-button.php:49
+msgid "Insert Shortcode"
+msgstr ""
+
+#: vendor/WDS-Shortcodes/vendor/jtsternberg/shortcode-button/shortcode-button.php:50
+msgid "Update Shortcode"
+msgstr ""
+
+#: vendor/WDS-Shortcodes/vendor/jtsternberg/shortcode-button/shortcode-button.php:302
+msgid "failed verification"
+msgstr ""
+
+#: vendor/WDS-Shortcodes/vendor/jtsternberg/shortcode-button/shortcode-button.php:380
+msgid "No items found."
+msgstr ""
+
+#: vendor/WDS-Shortcodes/vendor/jtsternberg/shortcode-button/templates/modal.php:6
+#: vendor/WDS-Shortcodes/vendor/jtsternberg/shortcode-button/templates/modal.php:9
+msgid "Close"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
