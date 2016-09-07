@@ -746,6 +746,11 @@ class ConstantContact_API {
 			'address' => ctct_get_settings_option( '_ctct_disclose_address' ),
 		);
 
+		// Bail if we don't have a name.
+		if ( empty( $disclosure['name' ] ) ) {
+			return $as_parts ? array() : '';
+		}
+
 		// Determine the address to use for disclosure from the API.
 		if (
 			isset( $account_info->organization_addresses )
