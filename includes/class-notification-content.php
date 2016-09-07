@@ -43,17 +43,17 @@ class ConstantContact_Notification_Content {
 		<p class="ctct-notice-intro">
 		<?php
 			printf(
-				esc_attr__( 'To take full advantage of the %s plugin, we recommend having an active Constant Contact account.', 'constantcontact' ),
+				esc_attr__( 'To take full advantage of the %s plugin, we recommend having an active Constant Contact account.', 'constant-contact-forms' ),
 				'<strong>' . esc_attr__( 'Constant Contact Forms' ) . '</strong>'
 			);
 		?>
 		</p>
 		<p>
 			<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" class="ctct-notice-button button-primary">
-				<?php esc_attr_e( 'Connect your account', 'constantcontact' ); ?>
+				<?php esc_attr_e( 'Connect your account', 'constant-contact-forms' ); ?>
 			</a>
 			<a href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>" class="ctct-notice-button button-secondary">
-				<?php esc_attr_e( 'Try Us Free', 'constantcontact' ); ?>
+				<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>
 			</a>
 		</p>
 		<?php
@@ -70,7 +70,7 @@ class ConstantContact_Notification_Content {
 	 * @return  string  notification text
 	 */
 	public static function too_many_lists() {
-		return __( 'You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them.', 'constantcontact' );
+		return __( 'You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them.', 'constant-contact-forms' );
 	}
 
 	/**
@@ -84,7 +84,7 @@ class ConstantContact_Notification_Content {
 		// This is an example of outputting the text for a notification.
 		// The @codingStand.. is to suppress PHPCS warnings about commented code
 		// @codingStandardsIgnoreLine
-		// return __( 'Welcome to v1.0.1 of Constant Contact.', 'constantcontact' );
+		// return __( 'Welcome to v1.0.1 of Constant Contact.', 'constant-contact-forms' );
 	}
 }
 

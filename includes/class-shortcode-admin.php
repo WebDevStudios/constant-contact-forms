@@ -37,8 +37,8 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		public function js_button_data() {
 
 			return apply_filters( 'constant_contact_shortcode_button_settings', array(
-				'qt_button_text' => __( 'Add Constant Contact Form', 'constantcontact' ),
-				'button_tooltip' => __( 'Add Constant Contact Form', 'constantcontact' ),
+				'qt_button_text' => __( 'Add Constant Contact Form', 'constant-contact-forms' ),
+				'button_tooltip' => __( 'Add Constant Contact Form', 'constant-contact-forms' ),
 				'icon'           => 'dashicons-feedback',
 				'include_close'  => false,
 				'modalClass'     => 'ctct',
@@ -58,7 +58,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		public function fields( $fields, $button_data ) {
 
 			$fields[] = array(
-				'name'             => __( 'Form Shortcode', 'constantcontact' ),
+				'name'             => __( 'Form Shortcode', 'constant-contact-forms' ),
 				'id'               => '_ctct_form',
 				'type'             => 'select',
 				'show_option_none' => false,

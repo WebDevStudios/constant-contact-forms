@@ -145,7 +145,7 @@ class ConstantContact_Process_Form {
 			// figure out a way to pass errors back
 			return array(
 				'status' => 'named_error',
-				'error'  => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constantcontact' ),
+				'error'  => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
 			);
 		}
 
@@ -154,7 +154,7 @@ class ConstantContact_Process_Form {
 		if ( ! $orig_form_id ) {
 			return array(
 				'status' => 'named_error',
-				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constantcontact' ),
+				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constant-contact-forms' ),
 			);
 		}
 
@@ -163,7 +163,7 @@ class ConstantContact_Process_Form {
 		if ( ! $form_verify ) {
 			return array(
 				'status' => 'named_error',
-				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constantcontact' ),
+				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constant-contact-forms' ),
 			);
 		}
 
@@ -172,7 +172,7 @@ class ConstantContact_Process_Form {
 		if ( $orig_verify !== $form_verify ) {
 			return array(
 				'status' => 'named_error',
-				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constantcontact' ),
+				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constant-contact-forms' ),
 			);
 		}
 
@@ -528,7 +528,7 @@ class ConstantContact_Process_Form {
 		$processed = $this->process_form();
 
 		// set up our default error
-		$default_error = __( 'There was an error sending your form.', 'constantcontact' );
+		$default_error = __( 'There was an error sending your form.', 'constant-contact-forms' );
 
 		// default to no status
 		$status = false;
@@ -543,7 +543,7 @@ class ConstantContact_Process_Form {
 
 			// yay success
 			case 'success':
-				$message = __( 'Your information has been submitted.', 'constantcontact' );
+				$message = __( 'Your information has been submitted.', 'constant-contact-forms' );
 				break;
 
 			// generic error
@@ -560,7 +560,7 @@ class ConstantContact_Process_Form {
 			case 'req_error':
 				return array(
 					'status'  => 'error',
-					'message' => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constantcontact' ),
+					'message' => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
 					'errors'  => isset( $processed['errors'] ) ? $processed['errors'] : '',
 					'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
 				);

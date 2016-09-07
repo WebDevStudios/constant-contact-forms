@@ -323,9 +323,9 @@ class ConstantContact_Display {
 
 						// Based on the error type, display an error.
 						if ( 'invalid' === $error['error'] ) {
-							 $field_error .= __( 'Error: Please correct your entry.', 'constantcontact' );
+							 $field_error .= __( 'Error: Please correct your entry.', 'constant-contact-forms' );
 						} else {
-							$field_error .= __( ' Error: Please fill out this field.', 'constantcontact' );
+							$field_error .= __( ' Error: Please fill out this field.', 'constant-contact-forms' );
 						}
 
 						// Finish error return
@@ -506,7 +506,7 @@ class ConstantContact_Display {
 
 			// if we got a link, display it
 			if ( $edit_link ) {
-				$display .= '<a class="button ctct-button" href="' . esc_url( $edit_link ) . '">' . __( 'Edit Form', 'constantcontact' ) . '</a>';
+				$display .= '<a class="button ctct-button" href="' . esc_url( $edit_link ) . '">' . __( 'Edit Form', 'constant-contact-forms' ) . '</a>';
 			}
 		}
 
@@ -679,7 +679,7 @@ class ConstantContact_Display {
 			'type'   => 'submit',
 			'name'   => 'ctct-submitted',
 			'map_to' => 'ctct-submitted',
-			'value'  => __( 'Send', 'constantcontact' ),
+			'value'  => __( 'Send', 'constant-contact-forms' ),
 		) );
 	}
 
@@ -786,11 +786,11 @@ class ConstantContact_Display {
 	public function address( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '' ) {
 
 		// Set up our text strings
-		$street = __( 'Street Address', 'constantcontact' );
-		$line_2 = __( 'Address Line 2', 'constantcontact' );
-		$city   = __( 'City', 'constantcontact' );
-		$state  = __( 'State', 'constantcontact' );
-		$zip    = __( 'ZIP Code', 'constantcontact' );
+		$street = __( 'Street Address', 'constant-contact-forms' );
+		$line_2 = __( 'Address Line 2', 'constant-contact-forms' );
+		$city   = __( 'City', 'constant-contact-forms' );
+		$state  = __( 'State', 'constant-contact-forms' );
+		$zip    = __( 'ZIP Code', 'constant-contact-forms' );
 
 		// Set our values
 		$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
@@ -844,9 +844,9 @@ class ConstantContact_Display {
 	public function dates( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '' ) {
 
 		// Set our field lables
-		$month = __( 'Month', 'constantcontact' );
-		$day   = __( 'Day', 'constantcontact' );
-		$year  = __( 'Year', 'constantcontact' );
+		$month = __( 'Month', 'constant-contact-forms' );
+		$day   = __( 'Day', 'constant-contact-forms' );
+		$year  = __( 'Year', 'constant-contact-forms' );
 
 		// @TODO these need to get set correctly
 		// Set our values
@@ -1046,7 +1046,7 @@ class ConstantContact_Display {
 
 		// IF we have an error, add it to our markup
 		if ( $field_error ) {
-			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $map ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constantcontact' ) ) . '</label></span>';
+			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $map ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constant-contact-forms' ) ) . '</label></span>';
 		}
 
 		// Send it back
@@ -1107,7 +1107,7 @@ class ConstantContact_Display {
 	 * @return  string  text
 	 */
 	public function get_inner_disclose_text() {
-		return sprintf( __( 'By submitting this form, you are granting: %s permission to email you. You may unsubscribe via the link found at the bottom of every email. (See our Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) for details.) Emails are serviced by Constant Contact.', 'constantcontact' ), $this->plugin->api->get_disclosure_info() );
+		return sprintf( __( 'By submitting this form, you are granting: %s permission to email you. You may unsubscribe via the link found at the bottom of every email. (See our Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) for details.) Emails are serviced by Constant Contact.', 'constant-contact-forms' ), $this->plugin->api->get_disclosure_info() );
 	}
 }
 

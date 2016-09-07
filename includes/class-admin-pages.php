@@ -77,12 +77,12 @@ class ConstantContact_Admin_Pages {
 		// Grab our help text. This can be filtered elsewhere, as well.
 		return apply_filters( 'constant_contact_help_texts', array(
 			array(
-				'title' => __( 'This is a sample help header', 'constantcontact' ),
-				'content' => __( 'This is some sample help text.', 'constantcontact' ),
+				'title' => __( 'This is a sample help header', 'constant-contact-forms' ),
+				'content' => __( 'This is some sample help text.', 'constant-contact-forms' ),
 			),
 			array(
-				'title' => __( 'This is another sample header', 'constantcontact' ),
-				'content' => __( 'This is also some sample help text.', 'constantcontact' ),
+				'title' => __( 'This is another sample header', 'constant-contact-forms' ),
+				'content' => __( 'This is also some sample help text.', 'constant-contact-forms' ),
 			),
 		) );
 	}
@@ -98,12 +98,12 @@ class ConstantContact_Admin_Pages {
 		// Get our FAQ texts. This can be filtered
 		return apply_filters( 'constant_contact_faq_texts', array(
 			array(
-				'title' => __( 'Is this a sample question?', 'constantcontact' ),
-				'content' => __( 'This is a sample answer', 'constantcontact' ),
+				'title' => __( 'Is this a sample question?', 'constant-contact-forms' ),
+				'content' => __( 'This is a sample answer', 'constant-contact-forms' ),
 			),
 			array(
-				'title' => __( 'This is also a sample question', 'constantcontact' ),
-				'content' => __( 'This is another sample answer', 'constantcontact' ),
+				'title' => __( 'This is also a sample question', 'constant-contact-forms' ),
+				'content' => __( 'This is another sample answer', 'constant-contact-forms' ),
 			),
 		) );
 	}
@@ -121,14 +121,14 @@ class ConstantContact_Admin_Pages {
 
 		?>
 		<h1>
-			<?php esc_attr_e( 'Help / FAQ', 'constantcontact' ); ?>
+			<?php esc_attr_e( 'Help / FAQ', 'constant-contact-forms' ); ?>
 		</h1>
 		<div class="ctct-wrap wrap">
 			<table id="ctct-support" class="ctct-form-table">
 			<tr>
 				<td class="outer outer-first">
 					<h2>
-						<?php esc_html_e( 'Help', 'constantcontact' ); ?>
+						<?php esc_html_e( 'Help', 'constant-contact-forms' ); ?>
 					</h2>
 					<ol id="help_ctct">
 					<?php
@@ -162,7 +162,7 @@ class ConstantContact_Admin_Pages {
 				</td>
 				<td class="outter">
 					<h2>
-						<?php esc_html_e( 'FAQ', 'constantcontact' ); ?>
+						<?php esc_html_e( 'FAQ', 'constant-contact-forms' ); ?>
 					</h2>
 					<ol id="faq_ctct">
 					<?php
@@ -230,24 +230,24 @@ class ConstantContact_Admin_Pages {
 		<div class="wrap about-wrap constant-contact-about">
 			<div class="hide-overflow">
 				<div class="left-side">
-					<h1 class="about-header"><?php esc_attr_e( 'Constant Contact Forms', 'constantcontact' ); ?></h1>
+					<h1 class="about-header"><?php esc_attr_e( 'Constant Contact Forms', 'constant-contact-forms' ); ?></h1>
 					<div class="about-text">
 						<p>
-						<?php echo wp_kses_post( __( 'This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don’t have a Constant Contact account.', 'constantcontact' ) ); ?>
+						<?php echo wp_kses_post( __( 'This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don’t have a Constant Contact account.', 'constant-contact-forms' ) ); ?>
 						</p>
 						<p>
-						<?php esc_attr_e( 'Whether you’re looking to collect email addresses, contact info, event sign-ups, or visitor feedback, you can customize your forms with data fields that work best for you.', 'constantcontact' ); ?>
+						<?php esc_attr_e( 'Whether you’re looking to collect email addresses, contact info, event sign-ups, or visitor feedback, you can customize your forms with data fields that work best for you.', 'constant-contact-forms' ); ?>
 						<ul class="ctct-bonus-points">
-							<li> <?php esc_attr_e( 'Quickly create different types of forms that are clear, simple, and mobile-optimized.', 'constantcontact' ); ?></li>
-							<li> <?php esc_attr_e( 'Choose forms that automatically select the theme and style of your WordPress site.', 'constantcontact' ); ?></li>
-							<li> <?php esc_attr_e( 'Customize the form data fields, so you can tailor the type of information you collect.', 'constantcontact' ); ?></li>
+							<li> <?php esc_attr_e( 'Quickly create different types of forms that are clear, simple, and mobile-optimized.', 'constant-contact-forms' ); ?></li>
+							<li> <?php esc_attr_e( 'Choose forms that automatically select the theme and style of your WordPress site.', 'constant-contact-forms' ); ?></li>
+							<li> <?php esc_attr_e( 'Customize the form data fields, so you can tailor the type of information you collect.', 'constant-contact-forms' ); ?></li>
 						</ul>
 						</p>
 						<p>
-						<?php esc_attr_e( 'Using your sign-up forms to collect email addresses? Email marketing is a great way to stay connected with visitors after they’ve left your site. And with an active Constant Contact account, every new subscriber you capture will be automatically added to your selected email lists.  ', 'constantcontact' ); ?>
+						<?php esc_attr_e( 'Using your sign-up forms to collect email addresses? Email marketing is a great way to stay connected with visitors after they’ve left your site. And with an active Constant Contact account, every new subscriber you capture will be automatically added to your selected email lists.  ', 'constant-contact-forms' ); ?>
 						</p>
 						<?php if ( $new_link ) { // If we have a link, then display the connect button ?>
-						<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" class="button button-orange" title="Try us Free"><?php esc_attr_e( 'Try us Free', 'constantcontact' ); ?></a>
+						<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" class="button button-orange" title="Try us Free"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
 						<?php } ?>
 					</div>
 				</div>
@@ -257,9 +257,9 @@ class ConstantContact_Admin_Pages {
 				<div class="clear"></div>
 				<hr>
 				<?php if ( $auth_link ) { // If we have a link, then display the connect button ?>
-					<h2><?php esc_attr_e( 'Already have a Constant Contact account?', 'constantcontact' ); ?></h2>
+					<h2><?php esc_attr_e( 'Already have a Constant Contact account?', 'constant-contact-forms' ); ?></h2>
 					<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button button-blue ctct-connect">
-						<?php esc_html_e( 'Connect the plugin', 'constantcontact' ); ?>
+						<?php esc_html_e( 'Connect the plugin', 'constant-contact-forms' ); ?>
 					</a>
 				<?php } ?>
 			</div>
@@ -268,16 +268,16 @@ class ConstantContact_Admin_Pages {
 				<div class="featured-image">
 					<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/coffee-hero.jpg' ); ?>">
 					<p class="featured-title c-text">
-						<?php esc_attr_e( 'Powerful Email Marketing, Made Simple.', 'constantcontact' ); ?>
+						<?php esc_attr_e( 'Powerful Email Marketing, Made Simple.', 'constant-contact-forms' ); ?>
 					</p>
 					<p class="featured-introduction c-text">
-						<?php esc_attr_e( 'Create professional emails that bring customers to your door', 'constantcontact' ) ?>
+						<?php esc_attr_e( 'Create professional emails that bring customers to your door', 'constant-contact-forms' ) ?>
 					</p>
 				</div>
 				<p class="introduction c-text">
-				<?php esc_attr_e( 'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact Forms plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left.', 'constantcontact' ); ?>
+				<?php esc_attr_e( 'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact Forms plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left.', 'constant-contact-forms' ); ?>
 					<h5>
-						<?php esc_attr_e( '*Direct Marketing Association 2013 Statistical Fact Book', 'constantcontact' ); ?>
+						<?php esc_attr_e( '*Direct Marketing Association 2013 Statistical Fact Book', 'constant-contact-forms' ); ?>
 					</h5>
 				</p>
 				<div class="clear"></div>
@@ -286,25 +286,25 @@ class ConstantContact_Admin_Pages {
 			<div class="cc-a-block">
 				<div class="left">
 					<div class="ad-1">
-						<h3><?php esc_html_e( 'Easily Add Forms', 'constantcontact' ); ?></h3>
+						<h3><?php esc_html_e( 'Easily Add Forms', 'constant-contact-forms' ); ?></h3>
 						<img
 							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/add-forms.png' ); ?>"
-							alt="<?php echo esc_attr_x( 'add forms screenshot', 'add forms alt text', 'constantcontact' ); ?>"
+							alt="<?php echo esc_attr_x( 'add forms screenshot', 'add forms alt text', 'constant-contact-forms' ); ?>"
 						/>
 						<p>
-							<?php esc_html_e( 'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. ', 'constantcontact' ); ?>
+							<?php esc_html_e( 'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. ', 'constant-contact-forms' ); ?>
 						</p>
 					</div>
 				</div>
 				<div class="right">
 					<div class="ad-2">
-						<h3><?php esc_html_e( 'Stay Connected With Your WordPress Visitors', 'constantcontact' ); ?></h3>
+						<h3><?php esc_html_e( 'Stay Connected With Your WordPress Visitors', 'constant-contact-forms' ); ?></h3>
 						<img
 							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/stay-connected.png' ); ?>"
-							alt="<?php echo esc_attr_x( 'stay connected screenshot', 'stay connected alt text', 'constantcontact' ); ?>"
+							alt="<?php echo esc_attr_x( 'stay connected screenshot', 'stay connected alt text', 'constant-contact-forms' ); ?>"
 						/>
 						<p>
-							<?php esc_html_e( 'Form completions from site visitors are conveniently added to your Constant Contact email list.', 'constantcontact' ); ?>
+							<?php esc_html_e( 'Form completions from site visitors are conveniently added to your Constant Contact email list.', 'constant-contact-forms' ); ?>
 						</p>
 					</div>
 				</div>

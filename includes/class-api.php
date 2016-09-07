@@ -464,7 +464,7 @@ class ConstantContact_API {
 		    );
 		} else {
 		    $error = new CtctException();
-		    $error->setErrors( array( 'type', __( 'Contact type not returned', 'constantcontact' ) ) );
+		    $error->setErrors( array( 'type', __( 'Contact type not returned', 'constant-contact-forms' ) ) );
 		    throw $error;
 		}
 	}
@@ -634,7 +634,7 @@ class ConstantContact_API {
 		switch ( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
 				$this->access_token = false;
-				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constantcontact' );
+				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constant-contact-forms' );
 			case 'mashery.not.authorized.over.qps':
 				$this->pause_api_calls();
 				return;

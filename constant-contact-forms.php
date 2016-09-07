@@ -16,7 +16,7 @@
  * Author:	  Pluginize
  * Author URI:  http://pluginize.com
  * License:	 GPLv2
- * Text Domain: constantcontact
+ * Text Domain: constant-contact-forms
  * Domain Path: /languages
  */
 
@@ -118,7 +118,7 @@ class Constant_Contact {
 	 * @var string
 	 * @since  1.0.0
 	 */
-	public $text_domain = 'constantcontact';
+	public $text_domain = 'constant-contact-forms';
 
 	/**
 	 * Menu Icon
@@ -191,7 +191,7 @@ class Constant_Contact {
 	protected function __construct() {
 
 		// Set up our plugin name
-		$this->plugin_name = __( 'Constant Contact', 'constantcontact' );
+		$this->plugin_name = __( 'Constant Contact', 'constant-contact-forms' );
 
 		// Set up some helper properties
 		$this->basename = plugin_basename( __FILE__ );
@@ -308,8 +308,8 @@ class Constant_Contact {
 	 */
 	public function init() {
 
-		// Load our textdomain, 'constantcontact'
-		load_plugin_textdomain( 'constantcontact', false, dirname( $this->basename ) . '/languages/' );
+		// Load our textdomain
+		load_plugin_textdomain( $this->text_domain, false, dirname( $this->basename ) . '/languages/' );
 	}
 
 	/**

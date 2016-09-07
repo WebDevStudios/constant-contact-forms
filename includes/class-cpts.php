@@ -63,35 +63,35 @@ class ConstantContact_CPTS {
 	public function forms_post_type() {
 
 		$labels = array(
-			'name'                  => _x( 'Forms', 'Post Type General Name', 'constantcontact' ),
-			'singular_name'         => _x( 'Form', 'Post Type Singular Name', 'constantcontact' ),
-			'menu_name'             => __( 'Contact Form', 'constantcontact' ),
-			'name_admin_bar'        => __( 'Contact Form', 'constantcontact' ),
-			'archives'              => __( 'Form Archives', 'constantcontact' ),
-			'parent_item_colon'     => __( 'Parent Form:', 'constantcontact' ),
-			'all_items'             => __( 'All Forms', 'constantcontact' ),
-			'add_new_item'          => __( 'Add New Form', 'constantcontact' ),
-			'add_new'               => __( 'Add New Form', 'constantcontact' ),
-			'new_item'              => __( 'New Form', 'constantcontact' ),
-			'edit_item'             => __( 'Edit Form', 'constantcontact' ),
-			'update_item'           => __( 'Update Form', 'constantcontact' ),
-			'view_item'             => __( 'View Form', 'constantcontact' ),
-			'search_items'          => __( 'Search Form', 'constantcontact' ),
-			'not_found'             => __( 'Not found', 'constantcontact' ),
-			'not_found_in_trash'    => __( 'Not found in Trash', 'constantcontact' ),
-			'featured_image'        => __( 'Featured Image', 'constantcontact' ),
-			'set_featured_image'    => __( 'Set featured image', 'constantcontact' ),
-			'remove_featured_image' => __( 'Remove featured image', 'constantcontact' ),
-			'use_featured_image'    => __( 'Use as featured image', 'constantcontact' ),
-			'insert_into_item'      => __( 'Insert into Form', 'constantcontact' ),
-			'uploaded_to_this_item' => __( 'Uploaded to this Form', 'constantcontact' ),
-			'items_list'            => __( 'Forms list', 'constantcontact' ),
-			'items_list_navigation' => __( 'Forms list navigation', 'constantcontact' ),
-			'filter_items_list'     => __( 'Filter forms list', 'constantcontact' ),
+			'name'                  => _x( 'Forms', 'Post Type General Name', 'constant-contact-forms' ),
+			'singular_name'         => _x( 'Form', 'Post Type Singular Name', 'constant-contact-forms' ),
+			'menu_name'             => __( 'Contact Form', 'constant-contact-forms' ),
+			'name_admin_bar'        => __( 'Contact Form', 'constant-contact-forms' ),
+			'archives'              => __( 'Form Archives', 'constant-contact-forms' ),
+			'parent_item_colon'     => __( 'Parent Form:', 'constant-contact-forms' ),
+			'all_items'             => __( 'All Forms', 'constant-contact-forms' ),
+			'add_new_item'          => __( 'Add New Form', 'constant-contact-forms' ),
+			'add_new'               => __( 'Add New Form', 'constant-contact-forms' ),
+			'new_item'              => __( 'New Form', 'constant-contact-forms' ),
+			'edit_item'             => __( 'Edit Form', 'constant-contact-forms' ),
+			'update_item'           => __( 'Update Form', 'constant-contact-forms' ),
+			'view_item'             => __( 'View Form', 'constant-contact-forms' ),
+			'search_items'          => __( 'Search Form', 'constant-contact-forms' ),
+			'not_found'             => __( 'Not found', 'constant-contact-forms' ),
+			'not_found_in_trash'    => __( 'Not found in Trash', 'constant-contact-forms' ),
+			'featured_image'        => __( 'Featured Image', 'constant-contact-forms' ),
+			'set_featured_image'    => __( 'Set featured image', 'constant-contact-forms' ),
+			'remove_featured_image' => __( 'Remove featured image', 'constant-contact-forms' ),
+			'use_featured_image'    => __( 'Use as featured image', 'constant-contact-forms' ),
+			'insert_into_item'      => __( 'Insert into Form', 'constant-contact-forms' ),
+			'uploaded_to_this_item' => __( 'Uploaded to this Form', 'constant-contact-forms' ),
+			'items_list'            => __( 'Forms list', 'constant-contact-forms' ),
+			'items_list_navigation' => __( 'Forms list navigation', 'constant-contact-forms' ),
+			'filter_items_list'     => __( 'Filter forms list', 'constant-contact-forms' ),
 		);
 		$args = array(
-			'label'               => __( 'Constant Contact', 'constantcontact' ),
-			'description'         => __( 'Constant Contact forms.', 'constantcontact' ),
+			'label'               => __( 'Constant Contact', 'constant-contact-forms' ),
+			'description'         => __( 'Constant Contact forms.', 'constant-contact-forms' ),
 			'labels'              => $labels,
 			'supports'            => array( 'title' ),
 			'taxonomies'          => array(),
@@ -121,35 +121,35 @@ class ConstantContact_CPTS {
 	public function lists_post_type() {
 
 		$labels = array(
-			'name'                  => _x( 'Lists', 'Post Type General Name', 'constantcontact' ),
-			'singular_name'         => _x( 'List', 'Post Type Singular Name', 'constantcontact' ),
-			'menu_name'             => __( 'Lists', 'constantcontact' ),
-			'name_admin_bar'        => __( 'Lists', 'constantcontact' ),
-			'archives'              => __( 'List Archives', 'constantcontact' ),
-			'parent_item_colon'	    => __( 'Parent List:', 'constantcontact' ),
-			'all_items'             => __( 'Lists', 'constantcontact' ),
-			'add_new_item'          => __( 'Add New List', 'constantcontact' ),
-			'add_new'               => __( 'Add New List', 'constantcontact' ),
-			'new_item'              => __( 'New List', 'constantcontact' ),
-			'edit_item'             => __( 'Edit List', 'constantcontact' ),
-			'update_item'           => __( 'Update List', 'constantcontact' ),
-			'view_item'             => __( 'View List', 'constantcontact' ),
-			'search_items'          => __( 'Search List', 'constantcontact' ),
-			'not_found'             => __( 'Not found', 'constantcontact' ),
-			'not_found_in_trash'    => __( 'Not found in Trash', 'constantcontact' ),
-			'featured_image'        => __( 'Featured Image', 'constantcontact' ),
-			'set_featured_image'    => __( 'Set featured image', 'constantcontact' ),
-			'remove_featured_image' => __( 'Remove featured image', 'constantcontact' ),
-			'use_featured_image'    => __( 'Use as featured image', 'constantcontact' ),
-			'insert_into_item'	     => __( 'Insert into List', 'constantcontact' ),
-			'uploaded_to_this_item' => __( 'Uploaded to this List', 'constantcontact' ),
-			'items_list'            => __( 'Lists list', 'constantcontact' ),
-			'items_list_navigation' => __( 'Lists list navigation', 'constantcontact' ),
-			'filter_items_list'	    => __( 'Filter lists list', 'constantcontact' ),
+			'name'                  => _x( 'Lists', 'Post Type General Name', 'constant-contact-forms' ),
+			'singular_name'         => _x( 'List', 'Post Type Singular Name', 'constant-contact-forms' ),
+			'menu_name'             => __( 'Lists', 'constant-contact-forms' ),
+			'name_admin_bar'        => __( 'Lists', 'constant-contact-forms' ),
+			'archives'              => __( 'List Archives', 'constant-contact-forms' ),
+			'parent_item_colon'	    => __( 'Parent List:', 'constant-contact-forms' ),
+			'all_items'             => __( 'Lists', 'constant-contact-forms' ),
+			'add_new_item'          => __( 'Add New List', 'constant-contact-forms' ),
+			'add_new'               => __( 'Add New List', 'constant-contact-forms' ),
+			'new_item'              => __( 'New List', 'constant-contact-forms' ),
+			'edit_item'             => __( 'Edit List', 'constant-contact-forms' ),
+			'update_item'           => __( 'Update List', 'constant-contact-forms' ),
+			'view_item'             => __( 'View List', 'constant-contact-forms' ),
+			'search_items'          => __( 'Search List', 'constant-contact-forms' ),
+			'not_found'             => __( 'Not found', 'constant-contact-forms' ),
+			'not_found_in_trash'    => __( 'Not found in Trash', 'constant-contact-forms' ),
+			'featured_image'        => __( 'Featured Image', 'constant-contact-forms' ),
+			'set_featured_image'    => __( 'Set featured image', 'constant-contact-forms' ),
+			'remove_featured_image' => __( 'Remove featured image', 'constant-contact-forms' ),
+			'use_featured_image'    => __( 'Use as featured image', 'constant-contact-forms' ),
+			'insert_into_item'	     => __( 'Insert into List', 'constant-contact-forms' ),
+			'uploaded_to_this_item' => __( 'Uploaded to this List', 'constant-contact-forms' ),
+			'items_list'            => __( 'Lists list', 'constant-contact-forms' ),
+			'items_list_navigation' => __( 'Lists list navigation', 'constant-contact-forms' ),
+			'filter_items_list'	    => __( 'Filter lists list', 'constant-contact-forms' ),
 		);
 		$args = array(
-			'label'               => __( 'Constant Contact', 'constantcontact' ),
-			'description'         => __( 'Constant Contact lists.', 'constantcontact' ),
+			'label'               => __( 'Constant Contact', 'constant-contact-forms' ),
+			'description'         => __( 'Constant Contact lists.', 'constant-contact-forms' ),
 			'labels'              => $labels,
 			'supports'            => array( 'title' ),
 			'taxonomies'          => array(),
@@ -187,30 +187,30 @@ class ConstantContact_CPTS {
 
 		$messages['ctct_lists'] = array(
 			0 => '', // Unused. Messages start at index 1.
-			1 => __( 'List updated.', 'constantcontact' ),
-			2 => __( 'Custom field updated.', 'constantcontact' ),
-			3 => __( 'Custom field deleted.', 'constantcontact' ),
-			4 => __( 'List updated.', 'constantcontact' ),
-			5 => isset( $_GET['revision'] ) ? sprintf( __( 'List restored to revision from %s', 'constantcontact' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // Input var okay.
-			6 => __( 'List published.', 'constantcontact' ),
-			7 => __( 'List saved.', 'constantcontact' ),
-			8 => __( 'List submitted.', 'constantcontact' ),
-			9 => __( 'List scheduled for: <strong>%1$s</strong>.', 'constantcontact' ), date_i18n( 'M j, Y @ G:i', strtotime( $post->post_date ) ),
-			10 => __( 'List draft updated.', 'constantcontact' ),
+			1 => __( 'List updated.', 'constant-contact-forms' ),
+			2 => __( 'Custom field updated.', 'constant-contact-forms' ),
+			3 => __( 'Custom field deleted.', 'constant-contact-forms' ),
+			4 => __( 'List updated.', 'constant-contact-forms' ),
+			5 => isset( $_GET['revision'] ) ? sprintf( __( 'List restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // Input var okay.
+			6 => __( 'List published.', 'constant-contact-forms' ),
+			7 => __( 'List saved.', 'constant-contact-forms' ),
+			8 => __( 'List submitted.', 'constant-contact-forms' ),
+			9 => __( 'List scheduled for: <strong>%1$s</strong>.', 'constant-contact-forms' ), date_i18n( 'M j, Y @ G:i', strtotime( $post->post_date ) ),
+			10 => __( 'List draft updated.', 'constant-contact-forms' ),
 		);
 
 		$messages['ctct_forms'] = array(
 			0 => '', // Unused. Messages start at index 1.
-			1 => __( 'Form updated.', 'constantcontact' ),
-			2 => __( 'Custom field updated.', 'constantcontact' ),
-			3 => __( 'Custom field deleted.', 'constantcontact' ),
-			4 => __( 'Form updated.', 'constantcontact' ),
-			5 => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s', 'constantcontact' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,  // Input var okay.
-			6 => __( 'Form published.', 'constantcontact' ),
-			7 => __( 'Form saved.', 'constantcontact' ),
-			8 => __( 'Form submitted.', 'constantcontact' ),
-			9 => __( 'Form scheduled for: <strong>%1$s</strong>.', 'constantcontact' ), date_i18n( 'M j, Y @ G:i', strtotime( $post->post_date ) ),
-			10 => __( 'Form draft updated.', 'constantcontact' ),
+			1 => __( 'Form updated.', 'constant-contact-forms' ),
+			2 => __( 'Custom field updated.', 'constant-contact-forms' ),
+			3 => __( 'Custom field deleted.', 'constant-contact-forms' ),
+			4 => __( 'Form updated.', 'constant-contact-forms' ),
+			5 => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,  // Input var okay.
+			6 => __( 'Form published.', 'constant-contact-forms' ),
+			7 => __( 'Form saved.', 'constant-contact-forms' ),
+			8 => __( 'Form submitted.', 'constant-contact-forms' ),
+			9 => __( 'Form scheduled for: <strong>%1$s</strong>.', 'constant-contact-forms' ), date_i18n( 'M j, Y @ G:i', strtotime( $post->post_date ) ),
+			10 => __( 'Form draft updated.', 'constant-contact-forms' ),
 		);
 
 		return $messages;
@@ -240,8 +240,8 @@ class ConstantContact_CPTS {
 	    if ( 'ctct_forms' === $post->post_type ) {
 	    	$title = sprintf(
 	    		'%s <span class="ctct-admin-title-details">%s</span>',
-	    		__( 'Enter a form name', 'constantcontact' ),
-	    		__( '(Examples: Join Our Email List, Contact Us)', 'constantcontact' )
+				__( 'Enter a form name', 'constant-contact-forms' ),
+				__( '(Examples: Join Our Email List, Contact Us)', 'constant-contact-forms' )
 			);
 
 	    }
@@ -303,14 +303,14 @@ class ConstantContact_CPTS {
 				) {
 
 					// Get our title
-					$title = ( $form->post_title ) ? $form->post_title : __( 'No title', 'constantcontact' );
+					$title = ( $form->post_title ) ? $form->post_title : __( 'No title', 'constant-contact-forms' );
 
 					// Get the last modified time in human text
 					$last_modified = human_time_diff( strtotime( $form->post_modified ), time() );
 
 					// Build up our title for the shortcode form admin
 					$title = sprintf(
-						esc_html__( '%s (last modified %s ago)', 'constantcontact' ),
+						esc_html__( '%s (last modified %s ago)', 'constant-contact-forms' ),
 						$title,
 						$last_modified
 					);

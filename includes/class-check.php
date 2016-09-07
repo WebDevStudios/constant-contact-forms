@@ -43,7 +43,7 @@ class ConstantContact_Check {
 			?>
 			<div class="ctct-server-requirements">
 				<p>
-					<h4><?php esc_attr_e( 'Server Check', 'constantcontact' ); ?></h4>
+					<h4><?php esc_attr_e( 'Server Check', 'constant-contact-forms' ); ?></h4>
 					<?php $this->display_server_checks(); ?>
 				</p>
 			</div>
@@ -118,7 +118,7 @@ class ConstantContact_Check {
 
 		// Check to see if we can load the encryption library
 		$crypto = constant_contact()->check_crypto_class();
-		echo '<tr><td>' . esc_attr_e( 'Encrpytion Library: ', 'constantcontact' ) . '</td><td>' . esc_attr( $this->exists_text( $crypto ) ) . '</td></tr>';
+		echo '<tr><td>' . esc_attr_e( 'Encrpytion Library: ', 'constant-contact-forms' ) . '</td><td>' . esc_attr( $this->exists_text( $crypto ) ) . '</td></tr>';
 
 		echo '</table>';
 	}

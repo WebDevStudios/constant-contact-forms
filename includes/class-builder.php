@@ -192,7 +192,7 @@ class ConstantContact_Builder {
 			// If we don't have an email, then display our admin notice to the user
 			if ( ! $has_email || 'false' === $has_email ) {
 				echo '<div id="ctct-no-email-error" class="notice notice-error ctct-no-email-error"><p>';
-				esc_attr_e( 'Please add an email field to continue.', 'constantcontact' );
+				esc_attr_e( 'Please add an email field to continue.', 'constant-contact-forms' );
 				echo '</p></div>';
 			}
 
@@ -286,9 +286,9 @@ class ConstantContact_Builder {
 				<div class="ctct-modal-content">
 					<div class="ctct-modal-header">
 						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
-						<h2><?php esc_attr_e( 'Your first form is ready!', 'constantcontact' ); ?></h2>
+						<h2><?php esc_attr_e( 'Your first form is ready!', 'constant-contact-forms' ); ?></h2>
 						<p>
-						<?php esc_html_e( 'Now, how would you like to manage the information you collect?', 'constantcontact' ); ?>
+						<?php esc_html_e( 'Now, how would you like to manage the information you collect?', 'constant-contact-forms' ); ?>
 						</p>
 					</div>
 					<div class="ctct-modal-body">
@@ -296,42 +296,42 @@ class ConstantContact_Builder {
 							<img
 								class="ctct-modal-flare"
 								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail.png' ); ?>"
-								alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constantcontact' ); ?>"
+								alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constant-contact-forms' ); ?>"
 							/>
-							<h3><?php esc_attr_e( 'Try email marketing.', 'constantcontact' ); ?></h3>
+							<h3><?php esc_attr_e( 'Try email marketing.', 'constant-contact-forms' ); ?></h3>
 							<p>
-								<?php esc_attr_e( 'Import everything into Constant Contact so I can see what email marketing can do for me.' , 'constantcontact' ); ?>
+								<?php esc_attr_e( 'Import everything into Constant Contact so I can see what email marketing can do for me.', 'constant-contact-forms' ); ?>
 							</p>
 							<a href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
 							<img
 								class="flare"
 								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-modal-logo.png' ); ?>"
-								alt="<?php esc_attr_e( 'Constant Contact', 'constantcontact' ); ?>"
+								alt="<?php esc_attr_e( 'Constant Contact', 'constant-contact-forms' ); ?>"
 							/>
 						</div>
 						<div class="ctct-modal-right">
 							<img
 								class="ctct-modal-flare"
 								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login.png' ); ?>"
-								alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constantcontact' ); ?>"
+								alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constant-contact-forms' ); ?>"
 							/>
-							<h3><?php esc_attr_e( 'Connect my account.', 'constantcontact' ); ?></h3>
+							<h3><?php esc_attr_e( 'Connect my account.', 'constant-contact-forms' ); ?></h3>
 							<p>
-								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account.', 'constantcontact' ); ?>
+								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account.', 'constant-contact-forms' ); ?>
 							</p>
 							<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" target="_blank" class="button button-blue" title="Connect Plugin">
-								<?php esc_attr_e( 'Connect Plugin', 'constantcontact' ); ?>
+								<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
 							</a><br/>
 							<p class="small"><small><?php esc_attr_e( 'By connecting, you authorize this
-							plugin to access your account.', 'constantcontact' ); ?></small></p>
+							plugin to access your account.', 'constant-contact-forms' ); ?></small></p>
 						</div>
 					</div><!-- modal body -->
 					<div class="ctct-modal-footer">
 						<p><?php
 							printf( '<a class="ctct-modal-close" href="%s">%s</a>. %s',
 								'#',
-								esc_attr__( "I'm all set", 'constantcontact' ),
-								esc_attr__( "I'll manage the information on my own for now.", 'constantcontact' )
+								esc_attr__( "I'm all set", 'constant-contact-forms' ),
+								esc_attr__( "I'll manage the information on my own for now.", 'constant-contact-forms' )
 							);
 						?></p>
 					</div>

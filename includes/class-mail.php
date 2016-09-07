@@ -181,10 +181,10 @@ class ConstantContact_Mail {
 		add_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
 
 		// Before text for content
-		$content_before = __( 'Congratulations! Your Constant Contact Forms plugin has successfully captured new information:', 'constantcontact' );
+		$content_before = __( 'Congratulations! Your Constant Contact Forms plugin has successfully captured new information:', 'constant-contact-forms' );
 
 		// After text for content
-		$content_after = __( "Don't forget: Email marketing is a great way to stay connected with visitors after they’ve left your site. To make the most of the information you collect, connect the plugin to an active Constant Contact account. Just go to the Connect page from the Plugin console view.", 'constantcontact' );
+		$content_after = __( "Don't forget: Email marketing is a great way to stay connected with visitors after they’ve left your site. To make the most of the information you collect, connect the plugin to an active Constant Contact account. Just go to the Connect page from the Plugin console view.", 'constant-contact-forms' );
 
 		// Tie our contents together
 		$content = $content_before . $content . $content_after;

@@ -400,7 +400,7 @@ class ConstantContact_Notifications {
 
 		?>
 		<a class="ctct-notice-dismiss notice-dismiss" href="<?php echo esc_url_raw( $this->get_activation_dismiss_url( esc_attr( $notif_id ) ) ); ?>">
-			<span class="screen-reader-text"><?php esc_attr_e( 'Dismiss this notice.', 'constantcontact' ); ?></span>
+			<span class="screen-reader-text"><?php esc_attr_e( 'Dismiss this notice.', 'constant-contact-forms' ); ?></span>
 		</a>
 		<?php
 	}

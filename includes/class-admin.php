@@ -168,7 +168,7 @@ class ConstantContact_Admin {
 		if ( $object_id !== $this->key || empty( $updated ) ) {
 			return;
 		}
-		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', 'constantcontact' ), 'updated' );
+		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', 'constant-contact-forms' ), 'updated' );
 		settings_errors( $this->key . '-notices' );
 	}
 
@@ -205,8 +205,8 @@ class ConstantContact_Admin {
 	 */
 	public function set_custom_columns( $columns ) {
 
-		$columns['description'] = __( 'Description', 'constantcontact' );
-		$columns['shortcodes']  = __( 'Shortcode', 'constantcontact' );
+		$columns['description'] = __( 'Description', 'constant-contact-forms' );
+		$columns['shortcodes']  = __( 'Shortcode', 'constant-contact-forms' );
 
 		return $columns;
 	}
@@ -249,22 +249,22 @@ class ConstantContact_Admin {
 	public function add_social_links( $links ) {
 
 		// Get twitter share link
-		$twitter_cta = __( 'Check out the official WordPress plugin from @constantcontact :', 'constantcontact' );
+		$twitter_cta = __( 'Check out the official WordPress plugin from @constantcontact :', 'constant-contact-forms' );
 
 		// Build up all our plugin links
-		$about = __( 'About', 'constantcontact' );
+		$about = __( 'About', 'constant-contact-forms' );
 		$about_args = array( 'post_type' => 'ctct_forms', 'page' => 'ctct_options_about' );
 		$about_link = add_query_arg( $about_args, admin_url( 'edit.php' ) );
 		$add_links[] = '<a title="' . $about . '" href="' . $about_link . '" target="_blank">' . $about . '</a>';
 
 		// Get site link
-		$site_text_a = __( 'Be a better marketer. All it takes is Constant Contact email marketing.', 'constantcontact' );
-		$site_text_b = __( 'constantcontact.com', 'constantcontact' );
+		$site_text_a = __( 'Be a better marketer. All it takes is Constant Contact email marketing.', 'constant-contact-forms' );
+		$site_text_b = __( 'constantcontact.com', 'constant-contact-forms' );
 		$site_link = apply_filters( 'constant_contact_social_base_url' , 'https://constantcontact.com/' );
 		$add_links[] = '<a title="' . $site_text_a . '" href="' . $site_link . '" target="_blank">' . $site_text_b . '</a>';
 
 		// Start our social share links
-		$social_share = __( 'Spread the word!', 'constantcontact' );
+		$social_share = __( 'Spread the word!', 'constant-contact-forms' );
 		$add_links[] = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>';
 		$add_links[] = '<a title="' . $social_share . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" class="dashicons-before dashicons-twitter"></a>';
 		$add_links[] = '<a title="' . $social_share . '" href="https://plus.google.com/share?url=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>';
@@ -305,9 +305,9 @@ class ConstantContact_Admin {
 			'ctct_form',
 			'ctct_texts',
 			apply_filters( 'constant_contact_localized_js_texts', array(
-				'leavewarning' => __( 'You have unsaved changes.', 'constantcontact' ),
-				'move_up'      => __( 'move up', 'constantcontact' ),
-				'move_down'    => __( 'move down', 'constantcontact' ),
+				'leavewarning' => __( 'You have unsaved changes.', 'constant-contact-forms' ),
+				'move_up'      => __( 'move up', 'constant-contact-forms' ),
+				'move_down'    => __( 'move down', 'constant-contact-forms' ),
 			) )
 		);
 

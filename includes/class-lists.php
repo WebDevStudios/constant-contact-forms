@@ -90,7 +90,7 @@ class ConstantContact_Lists {
 
 		$cmb = new_cmb2_box( array(
 			'id' => 'ctct_list_metabox',
-			'title' => __( 'List Information', 'constantcontact' ),
+			'title' => __( 'List Information', 'constant-contact-forms' ),
 			'object_types'  => array( 'ctct_lists' ),
 			'context'	   => 'normal',
 			'priority' => 'high',
@@ -171,7 +171,7 @@ class ConstantContact_Lists {
 	 * @return string
 	 */
 	public function get_list_info_no_data() {
-		return '<em>' . __( 'List information will populate upon saving.', 'constantcontact' ) . '</em>';
+		return '<em>' . __( 'List information will populate upon saving.', 'constant-contact-forms' ) . '</em>';
 	}
 
 	/**
@@ -798,7 +798,7 @@ class ConstantContact_Lists {
 			// Add our output ( I know, gross inline CSS )
 			?>
 			<div class="notice notice-error">
-				<p><?php esc_attr_e( 'You already have a list with that name.', 'constantcontact' ); ?></p>
+				<p><?php esc_attr_e( 'You already have a list with that name.', 'constant-contact-forms' ); ?></p>
 			</div>
 			<style>
 			#title {
@@ -826,7 +826,7 @@ class ConstantContact_Lists {
 		$link = wp_nonce_url( add_query_arg( array( 'ctct_list_sync' => 'true' ) ), 'ctct_reysncing', 'ctct_resyncing' );
 
 		// Add a view to our list
-		$views['sync'] = '<strong><a href="' . $link . '">' . __( 'Sync Lists with Constant Contact', 'constantcontact' ) . '</a></strong>';
+		$views['sync'] = '<strong><a href="' . $link . '">' . __( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
 
 		// Send em back
 		return $views;

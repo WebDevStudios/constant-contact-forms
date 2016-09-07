@@ -1,5 +1,5 @@
 {
-  "name": "constantcontact",
+  "name": "constant-contact-forms",
   "version": "1.0.0",
   "description": "",
   "main": "gulpfile.js",
@@ -25,12 +25,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com/WebDevStudios/constantcontact.git"
+    "url": "git@github.com/WebDevStudios/constant-contact-forms.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/WebDevStudios/constantcontact/issues"
+    "url": "https://github.com/WebDevStudios/constant-contact-forms/issues"
   },
-  "homepage": "https://github.com/WebDevStudios/constantcontact#readme"
+  "homepage": "https://github.com/WebDevStudios/constant-contact-forms#readme"
 }

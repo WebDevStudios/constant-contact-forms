@@ -124,13 +124,13 @@ class ConstantContact_Connect {
 
 		if ( ! constant_contact()->api->is_connected() ) {
 			// Set our default title of the connect link
-			$connect_title = __( 'Connect Now', 'constantcontact' );
+			$connect_title = __( 'Connect Now', 'constant-contact-forms' );
 			$connect_link = 'edit.php?post_type=ctct_forms';
 
 		} else {
 
 			// If we've already been connected, then we can set it to be a disconnect button
-			$connect_title = __( 'Disconnect', 'constantcontact' );
+			$connect_title = __( 'Disconnect', 'constant-contact-forms' );
 			$connect_link = 'edit.php?post_type=ctct_forms';
 		}
 
@@ -169,7 +169,7 @@ class ConstantContact_Connect {
 
 		wp_enqueue_style( 'constant-contact-oath', constant_contact()->url() . 'assets/css/oath.css' );
 
-		wp_localize_script( 'ctct_form', 'ctct_texts', array( 'disconnectconfirm' => __( 'Are you sure you want to disconnect?', 'constantcontact' ) ) );
+		wp_localize_script( 'ctct_form', 'ctct_texts', array( 'disconnectconfirm' => __( 'Are you sure you want to disconnect?', 'constant-contact-forms' ) ) );
 
 		wp_enqueue_script( 'ctct_form' );
 		?>
@@ -179,14 +179,14 @@ class ConstantContact_Connect {
 			<?php if ( constantcontact_api()->get_api_token() ) : ?>
 				<div class="message notice">
 					<p>
-						<?php esc_html_e( 'Plugin connected to Constant Contact.', 'constantcontact' ); ?>
+						<?php esc_html_e( 'Plugin connected to Constant Contact.', 'constant-contact-forms' ); ?>
 					</p>
 				</div>
 
 				<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
 					<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
 					<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
-					<input type="submit" class="button button-orange ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constantcontact' ); ?>">
+					<input type="submit" class="button button-orange ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constant-contact-forms' ); ?>">
 				</form>
 
 			<?php else : ?>
@@ -195,13 +195,13 @@ class ConstantContact_Connect {
 			if ( isset( $_GET['ctct_connect_error'] ) ) { // Input var okay.
 			?>
 				<div id="message" class="error"><p>
-				<?php esc_html_e( 'There was an error connecting your account. Please try again.', 'constantcontact' ); ?>
+				<?php esc_html_e( 'There was an error connecting your account. Please try again.', 'constant-contact-forms' ); ?>
 				</p></div>
 			<?php
 			}
 			?>
 				<p class="ctct-description">
-					<?php esc_html_e( 'To take full advantage of this plugin, we recommend having an active Constant Contact account.', 'constantcontact' ); ?>
+					<?php esc_html_e( 'To take full advantage of this plugin, we recommend having an active Constant Contact account.', 'constant-contact-forms' ); ?>
 				</p>
 
 				<!-- Start Columns Here -->
@@ -209,24 +209,24 @@ class ConstantContact_Connect {
 						<img
 							class="flare"
 							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail-connect.png' ); ?>"
-							alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constantcontact' ); ?>"
+							alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constant-contact-forms' ); ?>"
 						/>
-						<h3><?php esc_attr_e( 'Need an account?', 'constantcontact' ); ?></h3>
+						<h3><?php esc_attr_e( 'Need an account?', 'constant-contact-forms' ); ?></h3>
 						<p>
-							<?php esc_attr_e( 'Sign up for a free 60-day trial to connect with visitors beyond your website.' , 'constantcontact' ); ?>
+							<?php esc_attr_e( 'Sign up for a free 60-day trial to connect with visitors beyond your website.', 'constant-contact-forms' ); ?>
 						</p>
-						<a class="button button-orange" href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>"><?php esc_attr_e( 'Try us Free', 'constantcontact' ); ?></a>
+						<a class="button button-orange" href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
 					</div>
 					<div class="right">
 						<img
 							class="flare"
 							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login-connect.png' ); ?>"
-							alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constantcontact' ); ?>"
+							alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constant-contact-forms' ); ?>"
 						/>
-						<h3><?php esc_attr_e( 'Have an account?', 'constantcontact' ); ?></h3>
+						<h3><?php esc_attr_e( 'Have an account?', 'constant-contact-forms' ); ?></h3>
 						<p>
-							<?php esc_attr_e( 'Connect the plugin to log in to your Constant Contact account', 'constantcontact' ); ?>
-							<em><?php esc_attr_e( '(by connecting, you authorize this plugin to access your account).', 'constantcontact' ); ?></em>
+							<?php esc_attr_e( 'Connect the plugin to log in to your Constant Contact account', 'constant-contact-forms' ); ?>
+							<em><?php esc_attr_e( '(by connecting, you authorize this plugin to access your account).', 'constant-contact-forms' ); ?></em>
 						</p>
 						<?php
 
@@ -237,14 +237,14 @@ class ConstantContact_Connect {
 						// If we have a link, then display the connect button
 						if ( $auth_link ) { ?>
 							<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button button-blue ctct-connect">
-								<?php esc_html_e( 'Connect Plugin', 'constantcontact' ); ?>
+								<?php esc_html_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
 							</a>
 						<?php } ?>
 					</div>
 				</div>
 
 				<p class="ctct-description small">
-					<strong><?php esc_html_e( 'NOTE: ', 'constantcontact' ); ?></strong><?php esc_html_e( 'It’s possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin.', 'constantcontact' ); ?>
+					<strong><?php esc_html_e( 'NOTE: ', 'constant-contact-forms' ); ?></strong><?php esc_html_e( 'It’s possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin.', 'constant-contact-forms' ); ?>
 				</p>
 			<?php endif; ?>
 		</div>
