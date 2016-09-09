@@ -618,6 +618,75 @@ an absolute waiver of all civil liability in connection with the
 Program, unless a warranty or assumption of liability accompanies a
 copy of the Program in return for a fee.
 
+  18. Further Restrictions
+    A. Indemnification
+
+    You hereby agree to defend, indemnify and hold harmless Constant Contact,
+Inc. (“us”), our affiliates and our underlying service providers (i.e.
+vendors who help us provide the Program or other Constant Contact products
+(the “Products”)), business partners, third-party suppliers and providers,
+account providers, licensors, distributors and agents and our and their
+respective officers, directors, employees, distributors and agents from and
+against any claims, damages, suits, actions, demands, proceedings (whether
+legal or administrative), losses, liabilities, penalties, settlements and
+expenses (including costs and reasonable attorneys' fees) in connection
+with any claim or action that (a) arises from any actual or alleged breach
+by you of this License; (b) arises from your contacts and content,
+including the content or effects of any messages you distribute, events you
+host, surveys you administer, social media campaigns you publish,
+promotions or deals you offer, donations you collect or products or
+services you sell (including claims relating to violations of law, false
+advertising, injuries, illness, damages, death, taxes, fulfillment, breach
+of offer terms, defective products or services or unclaimed property); (c)
+arises from your provision of incomplete or inaccurate information to your
+subscribers or customers; (d) arises from your activities or postings in
+any Constant Contact Community; (e) arises from your use of any third party
+service; (f) arises from your activities related to the Constant Contact
+Authorized Local Expert Program or the Constant Contact Boot Camp; or (g)
+otherwise arises from or relates to your use of the Constant Contact
+website (the “Site”) or the Program or Products. You agree to provide us
+with prompt written notice in the event of any such claims or actions. In
+addition, you acknowledge and agree that we have the right to seek damages
+when you use the Site or the Program or Products for unlawful purposes, in
+an unlawful manner, or in a manner inconsistent with the terms of this
+License, and that such damages may include, without limitation, direct,
+indirect, special, incidental, cover, reliance and/or consequential
+damages. In the event that we are required to respond to a third party or
+law enforcement subpoena or court order that is related to your use of the
+Site or the Program or Products, we may, in our sole discretion, require
+you to reimburse us for our reasonable expenses associated with complying
+with such subpoena or order.
+
+    B. Limitation of Liability
+
+    EXCEPT WITH RESPECT TO DEATH OR PERSONAL INJURY DUE TO THE NEGLIGENCE OF
+CONSTANT CONTACT, TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, UNDER
+NO CIRCUMSTANCES AND UNDER NO LEGAL THEORY, TORT, CONTRACT, OR OTHERWISE,
+SHALL CONSTANT CONTACT OR ANY OF ITS UNDERLYING SERVICE PROVIDERS, BUSINESS
+PARTNERS, THIRD PARTY SUPPLIERS AND PROVIDERS AND MEMBERS OF OUR NETWORK,
+ACCOUNT PROVIDERS, LICENSORS, OFFICERS, DIRECTORS, EMPLOYEES, DISTRIBUTORS
+OR AGENTS (COLLECTIVELY REFERRED TO FOR PURPOSES OF THIS SECTION AS
+"CONSTANT CONTACT") BE LIABLE TO YOU OR ANY OTHER PERSON FOR ANY MONEY
+DAMAGES, WHETHER DIRECT, INDIRECT, SPECIAL, INCIDENTAL, COVER, RELIANCE OR
+CONSEQUENTIAL DAMAGES, EVEN IF CONSTANT CONTACT SHALL HAVE BEEN INFORMED OF
+THE POSSIBILITY OF SUCH DAMAGES, OR FOR ANY CLAIM BY ANY OTHER PARTY, AND
+REGARDLESS OF THE FORM OF ACTION (WHETHER IN CONTRACT, TORT (INCLUDING
+NEGLIGENCE), PRODUCT LIABILITY OR OTHERWISE), THE MAXIMUM AGGREGATE
+LIABILITY OF CONSTANT CONTACT TO YOU ARISING IN CONNECTION WITH THIS
+LICENSE SHALL BE LIMITED TO THE AMOUNT YOU PAID FOR THE APPLICABLE PRODUCT
+OR PROGRAM IN THE 12 MONTHS PRIOR TO THE ACCRUAL OF THE APPLICABLE CLAIM,
+LESS ANY DAMAGES PREVIOUSLY PAID BY CONSTANT CONTACT TO YOU IN THAT 12
+MONTH PERIOD. SOME JURISDICTIONS DO NOT ALLOW THE EXCLUSION OR LIMITATION
+OF INCIDENTAL OR CONSEQUENTIAL DAMAGES, SO THIS LIMITATION AND EXCLUSION
+MAY NOT APPLY TO YOU.
+
+You agree that Constant Contact has set its prices and entered into this
+License in reliance upon the disclaimers of warranty and the limitations of
+liability set forth herein, that they reflect an allocation of risk between
+the parties (including the risk that a contract remedy may fail of its
+essential purpose and cause consequential loss), and that they form an
+essential basis of the bargain between the parties.
+
                      END OF TERMS AND CONDITIONS
 
             How to Apply These Terms to Your New Programs
