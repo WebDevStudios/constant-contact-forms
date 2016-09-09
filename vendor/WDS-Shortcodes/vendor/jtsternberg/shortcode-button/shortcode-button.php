@@ -88,7 +88,7 @@ class Shortcode_Button {
 
 		if ( ! $once ) {
 
-			self::$scripts_url = apply_filters( 'shortcode_button_assets_url', set_url_scheme( str_ireplace( ABSPATH, site_url( '/' ), trailingslashit( dirname( __FILE__ ) ) ) ) );
+			self::$scripts_url = apply_filters( 'shortcode_button_assets_url', plugin_dir_url( __FILE__ ) );
 
 			add_action( 'admin_footer', array( __CLASS__, 'add_quicktag_button_script' ), 7 );
 			add_action( 'wp_ajax_scb_parse_shortcode', array( __CLASS__, 'ajax_parse_shortcode' ) );
