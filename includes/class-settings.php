@@ -247,7 +247,7 @@ class ConstantContact_Settings {
 			// We might be able to get it from the API?
 			if ( ! empty( $disclosure_info = $this->plugin->api->get_disclosure_info( true ) ) ) {
 				// Make sure no one can edit.
-				$business_name = $disclosure_info['name']    ?: __( 'Business Name', 'constant-contact-forms' );
+				$business_name = $disclosure_info['name']    ?: $business_name;
 				$business_addr = $disclosure_info['address'] ?: '';
 			}
 
