@@ -169,6 +169,14 @@ class Constant_Contact {
 	private $updates;
 
 	/**
+	 * License file.
+	 *
+	 * @var   string
+	 * @since 1.0.1
+	 */
+	const LICENSE_FILE = 'license.txt';
+
+	/**
 	 * Creates or returns an instance of this class.
 	 *
 	 * @since  1.0.0
@@ -541,6 +549,22 @@ class Constant_Contact {
 		static $url;
 		$url = $url ? $url : trailingslashit( plugin_dir_url( __FILE__ ) );
 		return $url . $path;
+	}
+
+	/**
+	 * Retrieve license as text.
+	 *
+	 * @since  1.0.0
+	 * @return string License text.
+	 */
+	public function get_license_text() {
+		$license = $this->dir( self::LICENSE_FILE );
+
+		if ( ! is_readable( $license ) ) {
+			return '';
+		}
+
+		return file_get_contents( $license );
 	}
 }
 // Kick it off.
