@@ -2,20 +2,20 @@
 /**
  * Constant Contact Main Plugin File
  *
- * @package ConstantContact
+ * @package ConstantContactForms
  * @subpackage Loader
  * @author Pluginize
  * @since 1.0.0
- */
-
-/**
- * Plugin Name: Constant Contact
+ * @license GPLv3
+ *
+ * @wordpress-plugin
+ * Plugin Name: Constant Contact Forms
  * Plugin URI:  http://constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:	 999.0.0
+ * Version:	 1.0.0
  * Author:	  Pluginize
  * Author URI:  http://pluginize.com
- * License:	 GPLv2
+ * License:	 GPLv3
  * Text Domain: constant-contact-forms
  * Domain Path: /languages
  */
@@ -29,10 +29,10 @@
 /**
  * Copyright (c) 2016 Constant Contact (email : contact@constantcontact.com)
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License, version 2 or, at
- * your discretion, any later version, as published by the Free
- * Software Foundation.
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -40,8 +40,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ * along with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
 /**
