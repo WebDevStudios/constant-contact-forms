@@ -3,7 +3,7 @@
  * @package ConstantContact
  * @subpackage Admin
  * @author Pluginize
- * @since 1.0.0
+ * @since 1.0.1
  */
 
 /**
@@ -52,6 +52,14 @@ class ConstantContact_Admin {
 	protected $plugin = null;
 
 	/**
+	 * The parent menu page slug.
+	 *
+	 * @var   string
+	 * @since 1.0.1
+	 */
+	protected $parent_menu_slug = 'edit.php?post_type=ctct_forms';
+
+	/**
 	 * Constructor
 	 *
 	 * @since  1.0.0
@@ -97,14 +105,24 @@ class ConstantContact_Admin {
 	public function add_options_page() {
 
 		add_submenu_page(
-			'edit.php?post_type=ctct_forms',
-			__( 'About', 'constanctcontact' ),
-			__( 'About', 'constanctcontact' ),
+			$this->parent_menu_slug,
+			__( 'About', 'constant-contact-forms' ),
+			__( 'About', 'constant-contact-forms' ),
 			'manage_options',
 			$this->key . '_about',
 			array( $this, 'admin_page_display' )
 		);
 
+		add_submenu_page(
+			$this->parent_menu_slug,
+			__( 'License', 'constant-contact-forms' ),
+			__( 'License', 'constant-contact-forms' ),
+			'manage_options',
+			$this->key . '_license',
+			array( $this, 'admin_page_display' )
+		);
+
+		remove_submenu_page( $this->parent_menu_slug, $this->key . '_license' );
 		// Include CMB CSS in the head to avoid FOUC.
 		add_action( "admin_print_styles-{$this->options_page}", array( 'CMB2_hookup', 'enqueue_cmb_css' ) );
 	}
@@ -144,6 +162,9 @@ class ConstantContact_Admin {
 							break;
 						case 'help':
 							constant_contact()->admin_pages->help_page();
+							break;
+						case 'license':
+							constant_contact()->admin_pages->license_page();
 							break;
 					}
 				} else {
@@ -247,21 +268,12 @@ class ConstantContact_Admin {
 	 * @param array $links plugin action links.
 	 */
 	public function add_social_links( $links ) {
-
 		// Get twitter share link
 		$twitter_cta = __( 'Check out the official WordPress plugin from @constantcontact :', 'constant-contact-forms' );
 
-		// Build up all our plugin links
-		$about = __( 'About', 'constant-contact-forms' );
-		$about_args = array( 'post_type' => 'ctct_forms', 'page' => 'ctct_options_about' );
-		$about_link = add_query_arg( $about_args, admin_url( 'edit.php' ) );
-		$add_links[] = '<a title="' . $about . '" href="' . $about_link . '" target="_blank">' . $about . '</a>';
-
-		// Get site link
-		$site_text_a = __( 'Be a better marketer. All it takes is Constant Contact email marketing.', 'constant-contact-forms' );
-		$site_text_b = __( 'constantcontact.com', 'constant-contact-forms' );
-		$site_link = apply_filters( 'constant_contact_social_base_url' , 'https://constantcontact.com/' );
-		$add_links[] = '<a title="' . $site_text_a . '" href="' . $site_link . '" target="_blank">' . $site_text_b . '</a>';
+		// Add about page.
+		$add_links[] = $this->get_admin_link( __( 'About', 'constant-contact-forms' ), 'about' );
+		$add_links[] = $this->get_admin_link( __( 'License', 'constant-contact-forms' ), 'license' );
 
 		// Start our social share links
 		$social_share = __( 'Spread the word!', 'constant-contact-forms' );
@@ -274,6 +286,27 @@ class ConstantContact_Admin {
 
 		// Send it back
 		return array_merge( $links, $add_links );
+	}
+
+	/**
+	 * Get a link to an admin page.
+	 *
+	 * @since  1.0.1
+	 * @param  string $text      The link text to use.
+	 * @param  string $link_slug The slug of the admin page.
+	 * @return string
+	 */
+	public function get_admin_link( $text, $link_slug ) {
+		// Resuse these.
+		static $link_template = '<a title="%1$s" href="%2$s" target="_blank">%1$s</a>';
+		static $link_args = array(
+			'post_type' => 'ctct_forms',
+			'page'      => ''
+		);
+
+		$link_args['page'] = 'ctct_options_' . $link_slug;
+		$link = add_query_arg( $link_args, admin_url( 'edit.php' ) );
+		return sprintf( $link_template, $text, $link );
 	}
 
 	/**

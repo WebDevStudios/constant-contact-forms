@@ -3,7 +3,7 @@
  * @package ConstantContact
  * @subpackage AdminPages
  * @author Pluginize
- * @since 1.0.0
+ * @since 1.0.1
  */
 
 /**
@@ -226,6 +226,8 @@ class ConstantContact_Admin_Pages {
 		}
 		// @codingStandardsIgnoreEnd
 
+		$license_link = $this->plugin->admin->get_admin_link( __( 'available here', 'constant-contact-forms' ), 'license' );
+
 		?>
 		<div class="wrap about-wrap constant-contact-about">
 			<div class="hide-overflow">
@@ -276,6 +278,12 @@ class ConstantContact_Admin_Pages {
 				</div>
 				<p class="introduction c-text">
 				<?php esc_attr_e( 'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact Forms plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left.', 'constant-contact-forms' ); ?>
+				</p>
+				<?php if ( $license_link ) { // Include our license link if we have it. ?>
+				<p class="c-text">
+					This software is released under a modified GPLv3 license, <?php echo $license_link; ?>.
+				</p>
+				<?php } ?>
 					<h5>
 						<?php esc_attr_e( '*Direct Marketing Association 2013 Statistical Fact Book', 'constant-contact-forms' ); ?>
 					</h5>
@@ -306,6 +314,27 @@ class ConstantContact_Admin_Pages {
 						<p>
 							<?php esc_html_e( 'Form completions from site visitors are conveniently added to your Constant Contact email list.', 'constant-contact-forms' ); ?>
 						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Display our license page.
+	 *
+	 * @since  1.0.1
+	 */
+	public function license_page() {
+		$license_text = $this->plugin->get_license_text();
+		?>
+		<div class="wrap license-wrap constant-contact-license">
+			<div class="hide-overflow">
+				<div class="left-side">
+					<h1 class="license-header"><?php esc_attr_e( 'Constant Contact Forms - License', 'constant-contact-forms' ); ?></h1>
+					<div class="license-text">
+					<pre><?php echo $license_text; ?></pre>
 					</div>
 				</div>
 			</div>
