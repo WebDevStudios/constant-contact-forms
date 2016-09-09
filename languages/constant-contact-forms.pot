@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the Constant Contact package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Constant Contact 999.0.0\n"
+"Project-Id-Version: Constant Contact 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/constant-contact-"
 "forms\n"
-"POT-Creation-Date: 2016-09-07 22:08:52+00:00\n"
+"POT-Creation-Date: 2016-09-09 17:08:50+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,9 +13,9 @@ msgstr ""
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
-#. #-#-#-#-#  constant-contact-forms.pot (Constant Contact 999.0.0)  #-#-#-#-#
+#. #-#-#-#-#  constant-contact-forms.pot (Constant Contact 1.0.0)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: constant-contact-forms.php:194 includes/class-builder.php:309
+#: constant-contact-forms.php:201 includes/class-builder.php:309
 #: includes/class-cpts.php:93 includes/class-cpts.php:151
 msgid "Constant Contact"
 msgstr ""
@@ -64,44 +64,48 @@ msgstr ""
 msgid "FAQ"
 msgstr ""
 
-#: includes/class-admin-pages.php:233
+#: includes/class-admin-pages.php:229
+msgid "available here"
+msgstr ""
+
+#: includes/class-admin-pages.php:235
 #: includes/class-notification-content.php:47
 msgid "Constant Contact Forms"
 msgstr ""
 
-#: includes/class-admin-pages.php:236
+#: includes/class-admin-pages.php:238
 msgid ""
 "This plugin makes it fast and easy to capture all kinds of visitor "
 "information right from your WordPress site—even if you don’t have a Constant "
 "Contact account."
 msgstr ""
 
-#: includes/class-admin-pages.php:239
+#: includes/class-admin-pages.php:241
 msgid ""
 "Whether you’re looking to collect email addresses, contact info, event sign-"
 "ups, or visitor feedback, you can customize your forms with data fields that "
 "work best for you."
 msgstr ""
 
-#: includes/class-admin-pages.php:241
+#: includes/class-admin-pages.php:243
 msgid ""
 "Quickly create different types of forms that are clear, simple, and mobile-"
 "optimized."
 msgstr ""
 
-#: includes/class-admin-pages.php:242
+#: includes/class-admin-pages.php:244
 msgid ""
 "Choose forms that automatically select the theme and style of your WordPress "
 "site."
 msgstr ""
 
-#: includes/class-admin-pages.php:243
+#: includes/class-admin-pages.php:245
 msgid ""
 "Customize the form data fields, so you can tailor the type of information "
 "you collect."
 msgstr ""
 
-#: includes/class-admin-pages.php:247
+#: includes/class-admin-pages.php:249
 msgid ""
 "Using your sign-up forms to collect email addresses? Email marketing is a "
 "great way to stay connected with visitors after they’ve left your site. And "
@@ -109,27 +113,27 @@ msgid ""
 "will be automatically added to your selected email lists.  "
 msgstr ""
 
-#: includes/class-admin-pages.php:250 includes/class-connect.php:218
+#: includes/class-admin-pages.php:252 includes/class-connect.php:218
 msgid "Try us Free"
 msgstr ""
 
-#: includes/class-admin-pages.php:260
+#: includes/class-admin-pages.php:262
 msgid "Already have a Constant Contact account?"
 msgstr ""
 
-#: includes/class-admin-pages.php:262
+#: includes/class-admin-pages.php:264
 msgid "Connect the plugin"
 msgstr ""
 
-#: includes/class-admin-pages.php:271
+#: includes/class-admin-pages.php:273
 msgid "Powerful Email Marketing, Made Simple."
 msgstr ""
 
-#: includes/class-admin-pages.php:274
+#: includes/class-admin-pages.php:276
 msgid "Create professional emails that bring customers to your door"
 msgstr ""
 
-#: includes/class-admin-pages.php:278
+#: includes/class-admin-pages.php:280
 msgid ""
 "Email marketing is good for your business.  $44-back-for-every-$1-spent kind "
 "of good.*  And with the Constant Contact Forms plugin, you can easily add "
@@ -137,84 +141,83 @@ msgid ""
 "after they’ve left."
 msgstr ""
 
-#: includes/class-admin-pages.php:280
+#: includes/class-admin-pages.php:288
 msgid "*Direct Marketing Association 2013 Statistical Fact Book"
 msgstr ""
 
-#: includes/class-admin-pages.php:289
+#: includes/class-admin-pages.php:297
 msgid "Easily Add Forms"
 msgstr ""
 
-#: includes/class-admin-pages.php:292
+#: includes/class-admin-pages.php:300
 msgctxt "add forms alt text"
 msgid "add forms screenshot"
 msgstr ""
 
-#: includes/class-admin-pages.php:295
+#: includes/class-admin-pages.php:303
 msgid ""
 "Create forms that automatically select the theme and styling of your "
 "WordPress site for a perfect match. "
 msgstr ""
 
-#: includes/class-admin-pages.php:301
+#: includes/class-admin-pages.php:309
 msgid "Stay Connected With Your WordPress Visitors"
 msgstr ""
 
-#: includes/class-admin-pages.php:304
+#: includes/class-admin-pages.php:312
 msgctxt "stay connected alt text"
 msgid "stay connected screenshot"
 msgstr ""
 
-#: includes/class-admin-pages.php:307
+#: includes/class-admin-pages.php:315
 msgid ""
 "Form completions from site visitors are conveniently added to your Constant "
 "Contact email list."
 msgstr ""
 
-#: includes/class-admin.php:101 includes/class-admin.php:102
-#: includes/class-admin.php:255
+#: includes/class-admin-pages.php:335
+msgid "Constant Contact Forms - License"
+msgstr ""
+
+#: includes/class-admin.php:109 includes/class-admin.php:110
+#: includes/class-admin.php:275
 msgid "About"
 msgstr ""
 
-#: includes/class-admin.php:171 includes/class-settings.php:595
+#: includes/class-admin.php:118 includes/class-admin.php:119
+#: includes/class-admin.php:276
+msgid "License"
+msgstr ""
+
+#: includes/class-admin.php:192 includes/class-settings.php:595
 msgid "Settings updated."
 msgstr ""
 
-#: includes/class-admin.php:208
+#: includes/class-admin.php:229
 msgid "Description"
 msgstr ""
 
-#: includes/class-admin.php:209
+#: includes/class-admin.php:230
 msgid "Shortcode"
 msgstr ""
 
-#: includes/class-admin.php:252
+#: includes/class-admin.php:272
 msgid "Check out the official WordPress plugin from @constantcontact :"
 msgstr ""
 
-#. #-#-#-#-#  constant-contact-forms.pot (Constant Contact 999.0.0)  #-#-#-#-#
-#. Description of the plugin/theme
-#: includes/class-admin.php:261
-msgid "Be a better marketer. All it takes is Constant Contact email marketing."
-msgstr ""
-
-#: includes/class-admin.php:262
-msgid "constantcontact.com"
-msgstr ""
-
-#: includes/class-admin.php:267
+#: includes/class-admin.php:279
 msgid "Spread the word!"
 msgstr ""
 
-#: includes/class-admin.php:308
+#: includes/class-admin.php:341
 msgid "You have unsaved changes."
 msgstr ""
 
-#: includes/class-admin.php:309
+#: includes/class-admin.php:342
 msgid "move up"
 msgstr ""
 
-#: includes/class-admin.php:310
+#: includes/class-admin.php:343
 msgid "move down"
 msgstr ""
 
@@ -949,7 +952,7 @@ msgstr ""
 msgid "Select a list"
 msgstr ""
 
-#: includes/class-settings.php:244 includes/class-settings.php:250
+#: includes/class-settings.php:244
 msgid "Business Name"
 msgstr ""
 
@@ -1204,6 +1207,10 @@ msgstr ""
 
 #. Plugin URI of the plugin/theme
 msgid "http://constantcontact.com"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Be a better marketer. All it takes is Constant Contact email marketing."
 msgstr ""
 
 #. Author of the plugin/theme
