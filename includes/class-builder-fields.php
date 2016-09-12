@@ -174,6 +174,9 @@ class ConstantContact_Builder_Fields {
 			'id'          => $this->prefix . 'opt_in_not_connected',
 			'description' => __( 'Adds an opt-in to the bottom of your form.', 'constant-contact-forms' ),
 			'type'        => 'checkbox',
+			'attributes'  => array(
+				'disabled' => 'disabled',
+			),
 		) );
 
 		// Show our affirmation textbox field
