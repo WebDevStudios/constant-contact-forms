@@ -758,9 +758,9 @@ class ConstantContact_API {
 		) {
 			// Assume the first address.
 			$organization_address = array_shift( $account_info->organization_addresses );
+			$disclosure_address   = '';
 
-			$max = count( $address_fields );
-			for ( $i = 0; $i < $max, $field = $address_fields[ $i++ ]; ) {
+			foreach ( $address_fields as $field ) {
 				if ( isset( $organization_address[ $field ] ) && strlen( $organization_address[ $field ] ) ) {
 					$disclosure_address .= $organization_address[ $field ] . ',';
 				}
