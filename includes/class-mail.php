@@ -3,7 +3,7 @@
  * @package ConstantContact
  * @subpackage Mail
  * @author Pluginize
- * @since 1.0.0
+ * @since 1.0.1
  */
 
 /**
@@ -18,6 +18,14 @@ class ConstantContact_Mail {
 	 * @since 0.0.1
 	 */
 	protected $plugin = null;
+
+	/**
+	 * Cache of e-mails already sent - fallback for preventing duplicate e-mails.
+	 *
+	 * @var   array
+	 * @since 1.0.1
+	 */
+	protected $sent_mail = array();
 
 	/**
 	 * Constructor
@@ -171,6 +179,14 @@ class ConstantContact_Mail {
 	 */
 	public function mail( $destination_email, $content ) {
 
+		// Define a mail key for the cache.
+		$sent_mail_key = md5( "{$destination_email}:{$content}:" . time() );
+
+		// If we already have sent this e-mail, don't send it again.
+		if ( isset( $this->sent_mail[ $sent_mail_key ] ) ) {
+			return true;
+		}
+
 		// If we didn't get passed in a sanitized email, we know something is
 		// wonky here, so bail out
 		if ( sanitize_email( $destination_email ) !== $destination_email ) {
@@ -200,6 +216,11 @@ class ConstantContact_Mail {
 
 		// Clean up, remove the filter we had set
 		remove_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
+
+		// Store this for later.
+		if ( $mail_status ) {
+			$this->sent_mail[ $sent_mail_key ] = true;
+		}
 
 		// Return the mail status
 		return $mail_status;
