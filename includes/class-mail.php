@@ -20,14 +20,6 @@ class ConstantContact_Mail {
 	protected $plugin = null;
 
 	/**
-	 * Cache of e-mails already sent - fallback for preventing duplicate e-mails.
-	 *
-	 * @var   array
-	 * @since 1.0.1
-	 */
-	protected $sent_mail = array();
-
-	/**
 	 * Constructor
 	 *
 	 * @since  1.0.0
@@ -180,10 +172,13 @@ class ConstantContact_Mail {
 	public function mail( $destination_email, $content ) {
 
 		// Define a mail key for the cache.
-		$sent_mail_key = md5( "{$destination_email}:{$content}:" . time() );
+		static $last_sent = false;
+
+		$screen = get_current_screen();
+		$mail_key = md5( "{$destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
 
 		// If we already have sent this e-mail, don't send it again.
-		if ( isset( $this->sent_mail[ $sent_mail_key ] ) ) {
+		if ( $last_sent === $mail_key ) {
 			return true;
 		}
 
@@ -219,7 +214,7 @@ class ConstantContact_Mail {
 
 		// Store this for later.
 		if ( $mail_status ) {
-			$this->sent_mail[ $sent_mail_key ] = true;
+			$last_sent = $mail_key;
 		}
 
 		// Return the mail status
