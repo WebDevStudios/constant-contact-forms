@@ -179,6 +179,10 @@ class ConstantContact_Mail {
 
 		// If we already have sent this e-mail, don't send it again.
 		if ( $last_sent === $mail_key ) {
+			$this->maybe_log_mail_status( vsprintf( __( 'Duplicate send mail for: %s and: %s' ), array(
+				$destination_email,
+				$mail_key,
+			) ) );
 			return true;
 		}
 
