@@ -771,7 +771,7 @@ class ConstantContact_API {
 
 			// Remove the trailing ,.
 			$disclosure['address'] = rtrim( $disclosure_address, ',' );
-		} else if ( empty( $disclosure['address'] ) ) {
+		} elseif ( empty( $disclosure['address'] ) ) {
 			// Remove the address so we don't get a disclosure like "Business Name, ".
 			unset( $disclosure['address'] );
 		}

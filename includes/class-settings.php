@@ -251,7 +251,7 @@ class ConstantContact_Settings {
 				$business_addr = $disclosure_info['address'] ?: '';
 			}
 
-			$cmb->add_field( array (
+			$cmb->add_field( array(
 				'name' 	  => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
 				'id'   	  => '_ctct_optin_label',
 				'type'    => 'text',
