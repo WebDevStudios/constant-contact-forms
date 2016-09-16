@@ -561,7 +561,7 @@ class Constant_Contact {
 		$license = $this->dir( self::LICENSE_FILE );
 
 		if ( ! is_readable( $license ) ) {
-			return '';
+			return __( 'Error loading licensce.', 'constant-contact-forms' );
 		}
 
 		return file_get_contents( $license );
