@@ -5,7 +5,7 @@ msgstr ""
 "Project-Id-Version: Constant Contact Forms for WordPress 1.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/constant-contact-"
 "forms\n"
-"POT-Creation-Date: 2016-09-16 17:25:27+00:00\n"
+"POT-Creation-Date: 2016-09-16 17:37:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -140,44 +140,48 @@ msgid ""
 msgstr ""
 
 #: includes/class-admin-pages.php:282
-msgid "This software is released under a modified GPLv3 license."
+msgid "GPLv3 license"
 msgstr ""
 
-#: includes/class-admin-pages.php:286
+#: includes/class-admin-pages.php:285
+msgid "This software is released under a modified %s."
+msgstr ""
+
+#: includes/class-admin-pages.php:292
 msgid "*Direct Marketing Association 2013 Statistical Fact Book"
 msgstr ""
 
-#: includes/class-admin-pages.php:295
+#: includes/class-admin-pages.php:301
 msgid "Easily Add Forms"
 msgstr ""
 
-#: includes/class-admin-pages.php:298
+#: includes/class-admin-pages.php:304
 msgctxt "add forms alt text"
 msgid "add forms screenshot"
 msgstr ""
 
-#: includes/class-admin-pages.php:301
+#: includes/class-admin-pages.php:307
 msgid ""
 "Create forms that automatically select the theme and styling of your "
 "WordPress site for a perfect match. "
 msgstr ""
 
-#: includes/class-admin-pages.php:307
+#: includes/class-admin-pages.php:313
 msgid "Stay Connected With Your WordPress Visitors"
 msgstr ""
 
-#: includes/class-admin-pages.php:310
+#: includes/class-admin-pages.php:316
 msgctxt "stay connected alt text"
 msgid "stay connected screenshot"
 msgstr ""
 
-#: includes/class-admin-pages.php:313
+#: includes/class-admin-pages.php:319
 msgid ""
 "Form completions from site visitors are conveniently added to your Constant "
 "Contact email list."
 msgstr ""
 
-#: includes/class-admin-pages.php:333
+#: includes/class-admin-pages.php:339
 msgid "Constant Contact Forms - License"
 msgstr ""
 
@@ -211,15 +215,15 @@ msgstr ""
 msgid "Spread the word!"
 msgstr ""
 
-#: includes/class-admin.php:343
+#: includes/class-admin.php:344
 msgid "You have unsaved changes."
 msgstr ""
 
-#: includes/class-admin.php:344
+#: includes/class-admin.php:345
 msgid "move up"
 msgstr ""
 
-#: includes/class-admin.php:345
+#: includes/class-admin.php:346
 msgid "move down"
 msgstr ""
 
@@ -762,7 +766,7 @@ msgstr ""
 msgid "%s (last modified %s ago)"
 msgstr ""
 
-#: includes/class-display.php:326 includes/class-display.php:1049
+#: includes/class-display.php:326 includes/class-display.php:1048
 msgid "Error: Please correct your entry."
 msgstr ""
 
@@ -774,89 +778,89 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: includes/class-display.php:789
+#: includes/class-display.php:788
 msgid "Street Address"
 msgstr ""
 
-#: includes/class-display.php:790
+#: includes/class-display.php:789
 msgid "Address Line 2"
 msgstr ""
 
-#: includes/class-display.php:791
+#: includes/class-display.php:790
 msgid "City"
 msgstr ""
 
-#: includes/class-display.php:792
+#: includes/class-display.php:791
 msgid "State"
 msgstr ""
 
-#: includes/class-display.php:793
+#: includes/class-display.php:792
 msgid "ZIP Code"
 msgstr ""
 
-#: includes/class-display.php:847
+#: includes/class-display.php:846
 msgid "Month"
 msgstr ""
 
-#: includes/class-display.php:848
+#: includes/class-display.php:847
 msgid "Day"
 msgstr ""
 
-#: includes/class-display.php:849
+#: includes/class-display.php:848
 msgid "Year"
 msgstr ""
 
-#: includes/class-display.php:961
+#: includes/class-display.php:960
 msgid "January"
 msgstr ""
 
-#: includes/class-display.php:962
+#: includes/class-display.php:961
 msgid "February"
 msgstr ""
 
-#: includes/class-display.php:963
+#: includes/class-display.php:962
 msgid "March"
 msgstr ""
 
-#: includes/class-display.php:964
+#: includes/class-display.php:963
 msgid "April"
 msgstr ""
 
-#: includes/class-display.php:965
+#: includes/class-display.php:964
 msgid "May"
 msgstr ""
 
-#: includes/class-display.php:966
+#: includes/class-display.php:965
 msgid "June"
 msgstr ""
 
-#: includes/class-display.php:967
+#: includes/class-display.php:966
 msgid "July "
 msgstr ""
 
-#: includes/class-display.php:968
+#: includes/class-display.php:967
 msgid "August"
 msgstr ""
 
-#: includes/class-display.php:969
+#: includes/class-display.php:968
 msgid "September"
 msgstr ""
 
-#: includes/class-display.php:970
+#: includes/class-display.php:969
 msgid "October"
 msgstr ""
 
-#: includes/class-display.php:971
+#: includes/class-display.php:970
 msgid "November"
 msgstr ""
 
-#: includes/class-display.php:972
+#: includes/class-display.php:971
 msgid "December"
 msgstr ""
 
-#: includes/class-display.php:1110
+#: includes/class-display.php:1109
 msgid ""
-"By submitting this form, you are granting: %s permission to email you. You "
+"By submitting this form, you are granting: %s, permission to email you. You "
 "may unsubscribe via the link found at the bottom of every email. (See our "
 "Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) "
 "for details.) Emails are serviced by Constant Contact."
@@ -878,17 +882,17 @@ msgstr ""
 msgid "Sync Lists with Constant Contact"
 msgstr ""
 
-#: includes/class-mail.php:192
+#: includes/class-mail.php:191
 msgid "Duplicate send mail for: %s and: %s"
 msgstr ""
 
-#: includes/class-mail.php:209
+#: includes/class-mail.php:208
 msgid ""
 "Congratulations! Your Constant Contact Forms plugin has successfully "
 "captured new information:"
 msgstr ""
 
-#: includes/class-mail.php:212
+#: includes/class-mail.php:211
 msgid ""
 "Don't forget: Email marketing is a great way to stay connected with visitors "
 "after they’ve left your site. To make the most of the information you "
@@ -896,7 +900,7 @@ msgid ""
 "to the Connect page from the Plugin console view."
 msgstr ""
 
-#: includes/class-mail.php:220
+#: includes/class-mail.php:219
 msgid "New submission"
 msgstr ""
 
