@@ -277,11 +277,17 @@ class ConstantContact_Admin_Pages {
 				<p class="introduction c-text">
 				<?php esc_attr_e( 'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact Forms plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left.', 'constant-contact-forms' ); ?>
 				</p>
-				<?php if ( $license_link = $this->plugin->admin->get_admin_link( '', 'license' ) ) { // Include our license link if we have it. ?>
-				<p class="c-text">
-					<?php esc_attr_e( 'This software is released under a modified GPLv3 license.', 'constant-contact-forms' ); echo esc_url_raw( $license_link ); ?>.
+				<?php
+				// Include our license link if we have it.
+				if ( $license_link = $this->plugin->admin->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' ) ) {  ?>
+					<p class="c-text">
+					<?php
+					echo wp_kses_post( sprintf( __( 'This software is released under a modified %s.', 'constant-contact-forms' ), $license_link ) );
+					?>
 				</p>
-				<?php } ?>
+				<?php
+				}
+				?>
 					<h5>
 						<?php esc_attr_e( '*Direct Marketing Association 2013 Statistical Fact Book', 'constant-contact-forms' ); ?>
 					</h5>
