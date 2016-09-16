@@ -3,7 +3,7 @@
  * @package ConstantContact
  * @subpackage Mail
  * @author Pluginize
- * @since 1.0.1
+ * @since 1.0.2
  */
 
 /**
@@ -27,20 +27,16 @@ class ConstantContact_Mail {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+		$this->hooks();
 	}
 
 	/**
-	 * Returns the running object
+	 * Fire hoosk for actions.
 	 *
-	 * @since 1.0.0
-	 * @return ConstantContact_Lists
+	 * @since 1.0.2
 	 */
-	public static function get_instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new ConstantContact_Lists();
-			self::$instance->hooks();
-		}
-		return self::$instance;
+	protected function hooks() {
+		add_action( 'ctct_schedule_form_opt_in', array( $this, 'opt_in_user' ) );
 	}
 
 	/**
@@ -61,7 +57,15 @@ class ConstantContact_Mail {
 
 		// If a user opted-in and we're still connected, push their data to CC
 		if ( $add_to_opt_in && constant_contact()->api->is_connected() ) {
-			$this->opt_in_user( $values );
+			/**
+			 * Delay the scheduling of the opt-in e-mail event.
+			 *
+			 * @since  1.0.2
+			 * @param  int   $schedule_delay The time to add to `time()` for the event.
+			 * @return int
+			 */
+			$schedule_delay = apply_filters( 'constant_contact_opt_in_delay', MINUTE_IN_SECONDS );
+			wp_schedule_single_event( time() + absint( $schedule_delay ), 'ctct_schedule_form_opt_in', array( $values ) );
 		}
 
 		// pretty our values
