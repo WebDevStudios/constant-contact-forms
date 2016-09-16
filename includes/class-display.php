@@ -768,7 +768,6 @@ class ConstantContact_Display {
 		$markup .= '<input type="checkbox" ' . $checked . ' name="ctct-opt-in" id="ctct-opt-in" value="' . $value . '" />';
 		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . wp_kses_post( $label ) ) . '</div>';
 
-
 		// Send it back
 		return $markup;
 	}

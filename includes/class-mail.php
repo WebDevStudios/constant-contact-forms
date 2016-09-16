@@ -184,7 +184,6 @@ class ConstantContact_Mail {
 			$screen = get_current_screen();
 		}
 
-
 		$mail_key = md5( "{$destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
 
 		// If we already have sent this e-mail, don't send it again.
