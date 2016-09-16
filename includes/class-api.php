@@ -747,7 +747,7 @@ class ConstantContact_API {
 		);
 
 		// Bail if we don't have a name.
-		if ( empty( $disclosure['name' ] ) ) {
+		if ( empty( $disclosure['name'] ) ) {
 			return $as_parts ? array() : '';
 		}
 
@@ -760,9 +760,12 @@ class ConstantContact_API {
 			$organization_address = array_shift( $account_info->organization_addresses );
 			$disclosure_address   = '';
 
-			foreach ( $address_fields as $field ) {
-				if ( isset( $organization_address[ $field ] ) && strlen( $organization_address[ $field ] ) ) {
-					$disclosure_address .= $organization_address[ $field ] . ',';
+			// Add in our disclouse address
+			if ( is_array( $address_fields ) ) {
+				foreach ( $address_fields as $field ) {
+					if ( isset( $organization_address[ $field ] ) && strlen( $organization_address[ $field ] ) ) {
+						$disclosure_address .= $organization_address[ $field ] . ',';
+					}
 				}
 			}
 
