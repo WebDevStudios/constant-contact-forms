@@ -174,7 +174,13 @@ class ConstantContact_Mail {
 		// Define a mail key for the cache.
 		static $last_sent = false;
 
-		$screen = get_current_screen();
+		$screen = '';
+		// Sanity check for get_current_screen, as we may run too early
+		if ( function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
+		}
+
+
 		$mail_key = md5( "{$destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
 
 		// If we already have sent this e-mail, don't send it again.

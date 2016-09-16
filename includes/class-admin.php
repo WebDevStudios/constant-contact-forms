@@ -275,6 +275,8 @@ class ConstantContact_Admin {
 		$add_links[] = $this->get_admin_link( __( 'About', 'constant-contact-forms' ), 'about' );
 		$add_links[] = $this->get_admin_link( __( 'License', 'constant-contact-forms' ), 'license' );
 
+		$site_link = apply_filters( 'constant_contact_social_base_url' , 'https://constantcontact.com/' );
+
 		// Start our social share links
 		$social_share = __( 'Spread the word!', 'constant-contact-forms' );
 		$add_links[] = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>';
