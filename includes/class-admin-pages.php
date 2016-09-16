@@ -226,8 +226,6 @@ class ConstantContact_Admin_Pages {
 		}
 		// @codingStandardsIgnoreEnd
 
-		$license_link = $this->plugin->admin->get_admin_link( __( 'available here', 'constant-contact-forms' ), 'license' );
-
 		?>
 		<div class="wrap about-wrap constant-contact-about">
 			<div class="hide-overflow">
@@ -249,7 +247,7 @@ class ConstantContact_Admin_Pages {
 						<?php esc_attr_e( 'Using your sign-up forms to collect email addresses? Email marketing is a great way to stay connected with visitors after they’ve left your site. And with an active Constant Contact account, every new subscriber you capture will be automatically added to your selected email lists.  ', 'constant-contact-forms' ); ?>
 						</p>
 						<?php if ( $new_link ) { // If we have a link, then display the connect button ?>
-						<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" class="button button-orange" title="Try us Free"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
+						<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
 						<?php } ?>
 					</div>
 				</div>
@@ -279,9 +277,9 @@ class ConstantContact_Admin_Pages {
 				<p class="introduction c-text">
 				<?php esc_attr_e( 'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact Forms plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left.', 'constant-contact-forms' ); ?>
 				</p>
-				<?php if ( $license_link ) { // Include our license link if we have it. ?>
+				<?php if ( $license_link = $this->plugin->admin->get_admin_link( '', 'license' ) ) { // Include our license link if we have it. ?>
 				<p class="c-text">
-					This software is released under a modified GPLv3 license, <?php echo $license_link; ?>.
+					<?php esc_attr_e( 'This software is released under a modified GPLv3 license.', 'constant-contact-forms' ); echo esc_url_raw( $license_link ); ?>.
 				</p>
 				<?php } ?>
 					<h5>
