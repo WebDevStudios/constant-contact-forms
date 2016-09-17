@@ -758,19 +758,19 @@ class ConstantContact_API {
 		) {
 			// Assume the first address.
 			$organization_address = array_shift( $account_info->organization_addresses );
-			$disclosure_address   = '';
+			$disclosure_address   = array();
 
 			// Add in our disclouse address
 			if ( is_array( $address_fields ) ) {
 				foreach ( $address_fields as $field ) {
 					if ( isset( $organization_address[ $field ] ) && strlen( $organization_address[ $field ] ) ) {
-						$disclosure_address .= $organization_address[ $field ] . ',';
+						$disclosure_address[] = $organization_address[ $field ];
 					}
 				}
 			}
 
-			// Remove the trailing ,.
-			$disclosure['address'] = rtrim( $disclosure_address, ',' );
+			// Join it all together.
+			$disclosure['address'] = implode( ', ', $disclosure_address );
 		} elseif ( empty( $disclosure['address'] ) ) {
 			// Remove the address so we don't get a disclosure like "Business Name, ".
 			unset( $disclosure['address'] );
