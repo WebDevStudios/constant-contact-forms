@@ -15,21 +15,21 @@ Add a contact form to your WordPress site and quickly capture information from v
 
 **Constant Contact Forms** allows you to:
 
-- Create forms that are clear, simple, and mobile-optimized for every device.  
-- Choose forms that automatically select the theme and style of your WordPress site.  
-- Customize data fields, so you can tailor the type of information you collect.  
+* Create forms that are clear, simple, and mobile-optimized for every device.
+* Choose forms that automatically select the theme and style of your WordPress site.
+* Customize data fields, so you can tailor the type of information you collect.
 
 BONUS: If you have a Constant Contact account, all new email addresses that you capture will be automatically added to the Constant Contact email lists of your choosing. Not a Constant Contact customer? Sign up for a Free Trial right from the plugin.
 
 **Constant Contact Forms** requires a PHP version of 5.4 or higher. You will not be able to use if on a lower version. Talk to your system administrator or hosting company if you are not sure what version you are on.
 
 == Screenshots ==
-1. Adding a New form  
-2. Viewing All Forms  
-3. Lists Page  
-4. Basic Form  
+1. Adding a New form
+2. Viewing All Forms
+3. Lists Page
+4. Basic Form
 
 == Changelog ==
 
 = 1.0.0 =
-* Initial Release  
+* Initial Release
