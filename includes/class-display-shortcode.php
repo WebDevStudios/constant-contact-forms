@@ -1,4 +1,4 @@
- <?php
+<?php
 /**
  * @package ConstantContact
  * @subpackage DisplayShortcode
