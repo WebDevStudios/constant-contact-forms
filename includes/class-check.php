@@ -117,7 +117,7 @@ class ConstantContact_Check {
 		}
 
 		// Check to see if we can load the encryption library
-		$crypto = $this->check_crypto_class();
+		$crypto = $this->plugin->connect->check_crypto_class();
 		echo '<tr><td>' . esc_attr_e( 'Encrpytion Library: ', 'constant-contact-forms' ) . '</td><td>' . esc_attr( $this->exists_text( $crypto ) ) . '</td></tr>';
 
 		echo '</table>';
@@ -145,40 +145,5 @@ class ConstantContact_Check {
 		} else {
 			return '🚫';
 		}
-	}
-
-	/**
-	 * Helper method to check our crypto clases.
-	 * 
-	 * @since 1.0.0
-	 *        
-	 * @return boolean If we can encrpyt or not.
-	 */
-	public function check_crypto_class() {
-
-		try {
-			$return = false;
-			$this->load_libs( true );
-
-			// If we have the Runtime test class.
-			if ( class_exists( 'Defuse\Crypto\RuntimeTests' ) ) {
-
-				// If we have our Crpyto class, we'll run the included
-				// runtime tests and see if we get the correct response.
-				$tests  = new Defuse\Crypto\RuntimeTests;
-				$tests  = $tests->runtimeTest();
-				$return = true;
-			}
-		} catch ( Exception $exception ) {
-
-			// If we caught an exception of some kind, then we're not able
-			// to use this library.
-			if ( $exception ) {
-				$return = false;
-			}
-		}
-
-		// Send back if we can or can't use the library.
-		return $return;
 	}
 }
