@@ -223,8 +223,13 @@ class Constant_Contact {
 		Constant_Contact::include_file( 'helper-functions', false );
 	}
 
+	/**
+	 * Display an admin notice for users on less than PHP 5.4.x.
+	 *
+	 * @since 1.0.1
+	 */
 	public function minimum_version() {
-		echo '<div id="message" class="notice is-dismissible error"><p>Please update to PHP version 5.4 or higher.</p></div>';
+		echo '<div id="message" class="notice is-dismissible error"><p>' . esc_html__( 'Please update to PHP version 5.4 or higher.', 'constant-contact-forms' ) . '</p></div>';
 	}
 
 	/**
