@@ -205,6 +205,11 @@ class Constant_Contact {
 		$this->url	    = plugin_dir_url( __FILE__ );
 		$this->path	    = plugin_dir_path( __FILE__ );
 
+		if ( version_compare( PHP_VERSION, '5.4.0', '<' ) ) {
+			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
+			return;
+		}
+
 		// Load our plugin and our libraries
 		$this->plugin_classes();
 		$this->load_libs();
@@ -216,6 +221,15 @@ class Constant_Contact {
 
 		// Include our helper functions function for end-users
 		Constant_Contact::include_file( 'helper-functions', false );
+	}
+
+	/**
+	 * Display an admin notice for users on less than PHP 5.4.x.
+	 *
+	 * @since 1.0.1
+	 */
+	public function minimum_version() {
+		echo '<div id="message" class="notice is-dismissible error"><p>' . esc_html__( 'Please update to PHP version 5.4 or higher.', 'constant-contact-forms' ) . '</p></div>';
 	}
 
 	/**
@@ -384,62 +398,6 @@ class Constant_Contact {
 			// Launch it
 			$this->shortcode_admin->hooks();
 		}
-	}
-
-	/**
-	 * Checks to see if the server will support encryption functionality
-	 *
-	 * @since  1.0.0
-	 * @return boolean if we should load/use the encryption libraries
-	 */
-	public function is_encryption_ready() {
-
-		// Make sure we have our openssl libraries
-		if ( ! function_exists( 'openssl_encrypt' ) || ! function_exists( 'openssl_decrypt' ) ) {
-			return false;
-		}
-
-		// Check to make sure we dont' get any exceptions when loading the class
-		if ( ! $this->check_crypto_class() ) {
-			return false;
-		}
-
-		// We should be good
-		return true;
-	}
-
-	/**
-	 * Helper method to check our crypto clases
-	 *
-	 * @since  1.0.0
-	 * @return boolean if we can encrpyt or not
-	 */
-	public function check_crypto_class() {
-
-		try {
-			$return = false;
-			$this->load_libs( true );
-
-			// If we have the Runtime test class
-			if ( class_exists( 'Defuse\Crypto\RuntimeTests' ) ) {
-
-				// If we have our Crpyto class, we'll run the included
-				// runtime tests and see if we get the correct response.
-				$tests = new Defuse\Crypto\RuntimeTests;
-				$tests = $tests->runtimeTest();
-				$return = true;
-			}
-		} catch ( Exception $exception ) {
-
-			// If we caught an exception of some kind, then we're not able
-			// to use this library
-			if ( $exception ) {
-				$return = false;
-			}
-		}
-
-		// Send back if we can or can't use the library
-		return $return;
 	}
 
 	/**
