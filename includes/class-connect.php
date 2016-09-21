@@ -291,7 +291,7 @@ class ConstantContact_Connect {
 	 */
 	public function e_get( $check_key, $fallback_to_ctct_opt = false ) {
 
-		if ( ! constant_contact()->is_encryption_ready() ) {
+		if ( ! $this->is_encryption_ready() ) {
 			return get_option( $check_key, '' );
 		}
 
@@ -341,7 +341,7 @@ class ConstantContact_Connect {
 	 */
 	public function e_set( $check_key, $data, $autoload = false ) {
 
-		if ( ! constant_contact()->is_encryption_ready() ) {
+		if ( ! $this->is_encryption_ready() ) {
 			update_option( $check_key, $data );
 			return $data;
 		}
@@ -410,7 +410,7 @@ class ConstantContact_Connect {
 	 */
 	public function get_encrpyt_key() {
 
-		if ( ! constant_contact()->is_encryption_ready() ) {
+		if ( ! $this->is_encryption_ready() ) {
 			return 'ctct_key';
 		}
 
@@ -435,7 +435,7 @@ class ConstantContact_Connect {
 	public function generate_and_save_key( $first_try = true ) {
 
 		// If we can't run encryption stuff, then don't.
-		if ( ! constant_contact()->is_encryption_ready() ) {
+		if ( ! $this->is_encryption_ready() ) {
 			return 'ctct_key';
 		}
 
@@ -457,5 +457,63 @@ class ConstantContact_Connect {
 
 		// Send that key back
 		return $key;
+	}
+
+	/**
+	 * Checks to see if the server will support encryption functionality.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return boolean If we should load/use the encryption libraries.
+	 */
+	 public function is_encryption_ready() {
+
+		// Make sure we have our openssl libraries.
+		if ( ! function_exists( 'openssl_encrypt' ) || ! function_exists( 'openssl_decrypt' ) ) {
+			return false;
+		}
+
+		// Check to make sure we dont' get any exceptions when loading the class.
+		if ( ! $this->check_crypto_class() ) {
+			return false;
+		}
+
+		// We should be good.
+		return true;
+	}
+
+	/**
+	 * Helper method to check our crypto clases.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return boolean If we can encrpyt or not.
+	 */
+	public function check_crypto_class() {
+
+		try {
+			$return = false;
+			$this->load_libs( true );
+
+			// If we have the Runtime test class.
+			if ( class_exists( 'Defuse\Crypto\RuntimeTests' ) ) {
+
+				// If we have our Crpyto class, we'll run the included
+				// runtime tests and see if we get the correct response.
+				$tests  = new Defuse\Crypto\RuntimeTests;
+				$tests  = $tests->runtimeTest();
+				$return = true;
+			}
+		} catch ( Exception $exception ) {
+
+			// If we caught an exception of some kind, then we're not able
+			// to use this library.
+			if ( $exception ) {
+				$return = false;
+			}
+		}
+
+		// Send back if we can or can't use the library.
+		return $return;
 	}
 }
