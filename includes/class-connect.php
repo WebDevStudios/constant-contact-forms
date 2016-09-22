@@ -493,7 +493,7 @@ class ConstantContact_Connect {
 
 		try {
 			$return = false;
-			$this->load_libs( true );
+			Constant_Contact::get_instance()->load_libs( true );
 
 			// If we have the Runtime test class.
 			if ( class_exists( 'Defuse\Crypto\RuntimeTests' ) ) {
