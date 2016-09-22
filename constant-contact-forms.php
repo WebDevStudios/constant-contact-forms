@@ -229,7 +229,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 */
 	public function minimum_version() {
-		echo '<div id="message" class="notice is-dismissible error"><p>' . esc_html__( 'Please update to PHP version 5.4 or higher.', 'constant-contact-forms' ) . '</p></div>';
+		echo '<div id="message" class="notice is-dismissible error"><p>' . esc_html__( 'This plugin requires PHP 5.4 or higher. Your hosting provider or website administrator should be able to assist in updating your PHP version.', 'constant-contact-forms' ) . '</p></div>';
 	}
 
 	/**
