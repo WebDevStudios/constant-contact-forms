@@ -5,7 +5,7 @@
  * @package ConstantContactForms
  * @subpackage Loader
  * @author Pluginize
- * @since 1.0.0
+ * @since 1.0.1
  * @license GPLv3
  *
  * @wordpress-plugin
@@ -77,7 +77,7 @@ class Constant_Contact {
 	 * @var  string
 	 * @since  1.0.0
 	 */
-	const VERSION = '1.0.0';
+	const VERSION = '1.0.1';
 
 	/**
 	 * URL of plugin directory
