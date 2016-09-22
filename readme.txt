@@ -31,5 +31,9 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.0.1 =
+* Fixed: issue with PHP 5.5+ syntax when we need 5.4+
+* Added: Prevention of plugin loading for users below PHP version 5.4 to avoid incompatibility issues.
+
 = 1.0.0 =
 * Initial Release
