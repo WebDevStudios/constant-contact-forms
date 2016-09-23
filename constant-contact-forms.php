@@ -4,18 +4,18 @@
  *
  * @package ConstantContactForms
  * @subpackage Loader
- * @author Pluginize
+ * @author Constant Contact
  * @since 1.0.1
  * @license GPLv3
  *
  * @wordpress-plugin
  * Plugin Name: Constant Contact Forms for WordPress
- * Plugin URI:  http://constantcontact.com
+ * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:	 1.0.0
- * Author:	  Pluginize
- * Author URI:  http://pluginize.com
- * License:	 GPLv3
+ * Version:     1.0.0
+ * Author:      Constant Contact
+ * Author URI:  https://www.constantcontact.com
+ * License:     GPLv3
  * Text Domain: constant-contact-forms
  * Domain Path: /languages
  */

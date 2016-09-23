@@ -2,7 +2,7 @@
 /**
  * @package ConstantContact
  * @subpackage AdminPages
- * @author Pluginize
+ * @author Constant Contact
  * @since 1.0.1
  */
 

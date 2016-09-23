@@ -2,7 +2,7 @@
 /**
  * @package ConstantContact
  * @subpackage Notifications_Content
- * @author Pluginize
+ * @author Constant Contact
  * @since 1.0.0
  */
 

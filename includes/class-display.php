@@ -2,7 +2,7 @@
 /**
  * @package ConstantContact
  * @subpackage Display
- * @author Pluginize
+ * @author Constant Contact
  * @since 1.0.0
  */
 

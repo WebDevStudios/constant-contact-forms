@@ -2,7 +2,7 @@
 /**
  * @package ConstantContact
  * @subpackage Shortcode
- * @author Pluginize
+ * @author Constant Contact
  * @since 1.0.0
  */
 
