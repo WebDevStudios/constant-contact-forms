@@ -277,7 +277,6 @@ class ConstantContact_Builder_Fields {
 		// Add our field description
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'    => __( 'Field Description', 'constant-contact-forms' ),
-			'desc'    => __( '', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'field_desc',
 			'type'    => 'text',
 			'default' => 'Ex: Enter email address',
