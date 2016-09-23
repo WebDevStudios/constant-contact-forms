@@ -249,7 +249,7 @@ class ConstantContact_Settings {
 			if ( ! empty( $disclosure_info ) ) {
 				// Make sure no one can edit.
 				$business_name = $disclosure_info['name']    ?: $business_name;
-				$business_addr = $disclosure_info['address'] ?: '';
+				$business_addr = isset( $disclosure_info['address'] ) ?: '';
 			}
 
 			$cmb->add_field( array(
