@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.0.0
+ * Version:     1.0.1
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com
  * License:     GPLv3
