@@ -1,5 +1,5 @@
 === Constant Contact Forms ===
-Contributors:      constantcontact, pluginize, webdevstudios
+Contributors:      constantcontact
 Tags:
 Requires at least: 4.0.0
 Tested up to:      4.6.1
