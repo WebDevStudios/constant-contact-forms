@@ -108,23 +108,28 @@ class ConstantContact_Builder_Fields {
 	 * @return void
 	 */
 	public function opt_ins_metabox() {
-
-		// Initiate the $options_metabox, as this is used either way
-		$options_metabox = new_cmb2_box( array(
-			'id'			=> 'ctct_1_optin_metabox',
-			'title'		 	=> __( 'Form Options', 'constant-contact-forms' ),
-			'object_types'  => array( 'ctct_forms' ),
-			'context'	   	=> 'normal',
-			'priority'	  	=> 'high',
-			'show_names'	=> true,
-		) );
-
-		// Depending on if we're connected or not, show different opt-in fields
+		/**
+		 * Only connected users will get the Form Options. This may change
+		 * in the future, leaving the old code here for posterity.
+		 * @todo
+		 * @since 1.0.2
+		 */
 		if ( constant_contact()->api->is_connected() ) {
+			$options_metabox = new_cmb2_box( array(
+				'id'			=> 'ctct_1_optin_metabox',
+				'title'		 	=> __( 'Form Options', 'constant-contact-forms' ),
+				'object_types'  => array( 'ctct_forms' ),
+				'context'	   	=> 'normal',
+				'priority'	  	=> 'high',
+				'show_names'	=> true,
+			) );
+
 			$this->show_optin_connected_fields( $options_metabox );
-		} else {
+		}/**
+		  * Same as the block above.
+		else {
 			$this->show_optin_not_connected_fields( $options_metabox );
-		}
+		}*/
 	}
 
 	/**
