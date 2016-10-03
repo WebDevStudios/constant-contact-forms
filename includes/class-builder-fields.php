@@ -248,7 +248,13 @@ class ConstantContact_Builder_Fields {
 		// Custom CMB2 fields.
 		$fields_metabox->add_field( array(
 			'name'        => __( 'Add Fields', 'constant-contact-forms' ),
-			'description' => __( 'Create a field for each piece of information you want to collect. Good basics include email address, first name, and last name. You can also collect birthday and anniversary dates to use with Constant Contact autoresponders! ', 'constant-contact-forms' ),
+			/**
+			 * No birthdays or anniversarys in CC API V2, keeping this for later.
+			 * "You can also collect birthday and anniversary dates to use with Constant Contact autoresponders! "
+			 * @todo
+			 * @since 1.0.2
+			 */
+			'description' => __( 'Create a field for each piece of information you want to collect. Good basics include email address, first name, and last name.', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'title',
 			'type'        => 'title',
 		) );
@@ -291,8 +297,13 @@ class ConstantContact_Builder_Fields {
 			'job_title'        => __( 'Job Title', 'constant-contact-forms' ),
 			'company'          => __( 'Company', 'constant-contact-forms' ),
 			'website'          => __( 'Website', 'constant-contact-forms' ),
-			'birthday'         => __( 'Birthday', 'constant-contact-forms' ),
-			'anniversary'      => __( 'Anniversary', 'constant-contact-forms' ),
+			/**
+			 * V2 of the CC API doesn't support these fields. Hopefully this will get sorted out.
+			 * 'birthday'         => __( 'Birthday', 'constant-contact-forms' ),
+			 * 'anniversary'      => __( 'Anniversary', 'constant-contact-forms' ),
+			 * @todo
+			 * @since 1.0.2
+			 */
 			'custom'           => __( 'Custom Text Field', 'constant-contact-forms' ),
 			'custom_text_area' => __( 'Custom Text Area', 'constant-contact-forms' ),
 		) );
