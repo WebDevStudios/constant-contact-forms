@@ -626,7 +626,7 @@ class ConstantContact_API {
 
 		// If we have our debugging turned on, push that error to the error log
 		if ( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) {
-			error_log( $error->error_key );
+			error_log( $error->error_key . ': ' . $error->error_message );
 			error_log( serialize( debug_backtrace() ) );
 		}
 
