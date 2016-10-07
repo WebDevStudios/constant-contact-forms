@@ -32,7 +32,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 == Changelog ==
 
 = 1.0.2 =
-* Upate copyright information.
+* Update copyright information.
 * Remove Form Options for users who aren't connected to Constant Contact.
 * Clean up API fields.
 
