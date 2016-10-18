@@ -507,6 +507,9 @@ class ConstantContact_API {
 				case 'email':
 					// do nothing, as we already captured
 					break;
+				case 'phone_number':
+					$contact->cell_phone = $value;
+					break;
 				case 'company':
 					$contact->company_name = $value;
 					break;
