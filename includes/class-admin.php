@@ -1,5 +1,7 @@
 <?php
 /**
+ * Admin
+ *
  * @package ConstantContact
  * @subpackage Admin
  * @author Constant Contact
@@ -44,7 +46,7 @@ class ConstantContact_Admin {
 	protected $options_page = '';
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
 	 * @var   class
 	 * @since 0.0.1
@@ -62,8 +64,7 @@ class ConstantContact_Admin {
 	/**
 	 * Constructor
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	public function __construct( $plugin, $basename ) {
 		$this->plugin = $plugin;
@@ -142,20 +143,20 @@ class ConstantContact_Admin {
 			<div id="options-wrap">
 				<?php
 
-				// If we have a page get var set, let's try to pull out the page we're looking for
-				if ( isset( $_GET['page'] ) ) { // Input var okay.
+				// If we have a page get var set, let's try to pull out the page we're looking for.
+				if ( isset( $_GET['page'] ) ) {
 
-					$page_key = sanitize_text_field( wp_unslash( $_GET['page'] ) );  // Input var okay.
+					$page_key = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 
 					$page = explode( $this->key . '_', $page_key );
 				} else {
 					$page = array();
 				}
 
-				// If we have a second element set, let's check out what it should be
+				// If we have a second element set, let's check out what it should be.
 				if ( isset( $page[1] ) && $page[1] ) {
 
-					// switch through our whitelisted pages that we shoud include
+					// Switch through our whitelisted pages that we shoud include.
 					switch ( esc_attr( $page[1] ) ) {
 						case 'about':
 							constant_contact()->admin_pages->about_page();
@@ -183,7 +184,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 *
 	 * @param int   $object_id Option key.
-	 * @param array $updated Array of updated fields.
+	 * @param array $updated   Array of updated fields.
 	 */
 	public function settings_notices( $object_id, $updated ) {
 		if ( $object_id !== $this->key || empty( $updated ) ) {
@@ -221,6 +222,7 @@ class ConstantContact_Admin {
 	 * @internal
 	 *
 	 * @since 1.0.0
+	 *
 	 * @param array $columns post list columns.
 	 * @return array $columns Array of columns to add.
 	 */
@@ -233,7 +235,7 @@ class ConstantContact_Admin {
 	}
 
 	/**
-	 * Content of custom  post columns.
+	 * Content of custom post columns.
 	 *
 	 * @internal
 	 *
@@ -243,10 +245,10 @@ class ConstantContact_Admin {
 	 */
 	public function custom_columns( $column, $post_id ) {
 
-		// Force our $post_id to an int
+		// Force our $post_id to an int.
 		$post_id = absint( $post_id );
 
-		// if its a 0 bail out
+		// If its a 0 bail out.
 		if ( ! $post_id ) {
 			return;
 		}
@@ -262,13 +264,15 @@ class ConstantContact_Admin {
 	}
 
 	/**
-	 * Add social media links to plugin screen
+	 * Add social media links to plugin screen.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param array $links plugin action links.
+	 * @return array
 	 */
 	public function add_social_links( $links ) {
-		// Get twitter share link
+		// Get Twitter share link.
 		$twitter_cta = __( 'Check out the official WordPress plugin from @constantcontact :', 'constant-contact-forms' );
 
 		// Add about page.
@@ -277,25 +281,25 @@ class ConstantContact_Admin {
 
 		$site_link = apply_filters( 'constant_contact_social_base_url' , 'https://constantcontact.com/' );
 
-		// Start our social share links
+		// Start our social share links.
 		$social_share = __( 'Spread the word!', 'constant-contact-forms' );
 		$add_links[] = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>';
 		$add_links[] = '<a title="' . $social_share . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" class="dashicons-before dashicons-twitter"></a>';
 		$add_links[] = '<a title="' . $social_share . '" href="https://plus.google.com/share?url=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>';
 
-		// Allow filtering our links
+		// Allow filtering our links.
 		$add_links = apply_filters( 'constant_contact_social_links', $add_links );
 
-		// Send it back
 		return array_merge( $links, $add_links );
 	}
 
 	/**
 	 * Get a link to an admin page.
 	 *
-	 * @since  1.0.1
-	 * @param  string $text      The link text to use.
-	 * @param  string $link_slug The slug of the admin page.
+	 * @since 1.0.1
+	 *
+	 * @param string $text      The link text to use.
+	 * @param string $link_slug The slug of the admin page.
 	 * @return string
 	 */
 	public function get_admin_link( $text, $link_slug ) {
@@ -313,22 +317,20 @@ class ConstantContact_Admin {
 	}
 
 	/**
-	 * Scripts
+	 * Scripts.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	public function scripts() {
 
 		global $pagenow;
 
-		// Check if we are in debug mode. allow
+		// Check if we are in debug mode. allow.
 		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ? true : false;
 
-		// based on our debug mode, potentially add a min prefix
+		// Based on our debug mode, potentially add a min prefix.
 		$suffix = ( true === $debug ) ? '' : '.min';
 
-		// Register our javascript file.
 		wp_register_script(
 			'ctct_form',
 			constant_contact()->url() . 'assets/js/ctct-plugin-admin' . $suffix . '.js',
@@ -347,7 +349,7 @@ class ConstantContact_Admin {
 			) )
 		);
 
-		// Allow filtering of allowed pages that we load scripts on
+		// Allow filtering of allowed pages that we load scripts on.
 		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', array( 'post.php', 'post-new.php' ) );
 
 		if ( $pagenow && in_array( $pagenow, $allowed_pages, true ) ) {

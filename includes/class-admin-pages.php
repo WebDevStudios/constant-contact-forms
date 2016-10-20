@@ -1,5 +1,7 @@
 <?php
 /**
+ * Admin Pages.
+ *
  * @package ConstantContact
  * @subpackage AdminPages
  * @author Constant Contact
@@ -12,18 +14,18 @@
 class ConstantContact_Admin_Pages {
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
-	 * @var   class
+	 * @var object
 	 * @since 0.0.1
 	 */
 	protected $plugin = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
+	 * @param object $plugin Plugin parent.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -38,18 +40,17 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function hooks() {
 
-		// Add our styles to the site
+		// Add our styles to the site.
 		add_action( 'admin_init', array( $this, 'styles' ) );
 	}
 
 	/**
 	 * Global admin style enqueue stuff
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	public function styles() {
 
-		// Register our admin form styles
 		wp_register_style(
 			'constant-contact-forms',
 			constant_contact()->url() . 'assets/css/admin-forms.css',
@@ -57,7 +58,6 @@ class ConstantContact_Admin_Pages {
 			constant_contact()->version
 		);
 
-		// Register our admin pages styles
 		wp_register_style(
 			'constant_contact_admin_pages',
 			constant_contact()->url() . 'assets/css/admin-pages.css',
@@ -67,10 +67,11 @@ class ConstantContact_Admin_Pages {
 	}
 
 	/**
-	 * Gets the help text for help page
+	 * Gets the help text for help page.
 	 *
-	 * @since  1.0.0
-	 * @return array array of all the help text
+	 * @since 1.0.0
+	 *
+	 * @return array Array of all the help text.
 	 */
 	public function get_help_texts() {
 
@@ -88,14 +89,14 @@ class ConstantContact_Admin_Pages {
 	}
 
 	/**
-	 * Get faq text for help page
+	 * Get faq text for help page.
 	 *
 	 * @since  1.0.0
-	 * @return array array of all the text
+	 * @return array Array of all the text.
 	 */
 	public function get_faq_texts() {
 
-		// Get our FAQ texts. This can be filtered
+		// Get our FAQ texts. This can be filtered.
 		return apply_filters( 'constant_contact_faq_texts', array(
 			array(
 				'title' => __( 'Is this a sample question?', 'constant-contact-forms' ),
@@ -115,7 +116,6 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function help_page() {
 
-		// Enqueue our JS and styles
 		wp_enqueue_script( 'ctct_form' );
 		wp_enqueue_style( 'constant_contact_admin_pages' );
 
@@ -132,16 +132,16 @@ class ConstantContact_Admin_Pages {
 					</h2>
 					<ol id="help_ctct">
 					<?php
-					// Grab our FAQs
+					// Grab our FAQs.
 					$helps = $this->get_help_texts();
 
-					// Make sure we have some
+					// Make sure we have some.
 					if ( is_array( $helps ) ) {
 
-						// Loop through each$help
+						// Loop through each $help.
 						foreach ( $helps as $help ) {
 
-							// Make sure we have the right data
+							// Make sure we have the right data.
 							if ( ! isset( $help['title'] ) || ! isset( $help['content'] ) ) {
 								continue;
 							}
@@ -166,16 +166,14 @@ class ConstantContact_Admin_Pages {
 					</h2>
 					<ol id="faq_ctct">
 					<?php
-					// Grab our FAQs
+					// Grab our FAQs.
 					$faqs = $this->get_faq_texts();
 
-					// Make sure we have some
 					if ( is_array( $faqs ) ) {
 
-						// Loop through each faq
 						foreach ( $faqs as $faq ) {
 
-							// Make sure we have the right data
+							// Make sure we have the right data.
 							if ( ! isset( $faq['title'] ) || ! isset( $faq['content'] ) ) {
 								continue;
 							}
@@ -201,23 +199,21 @@ class ConstantContact_Admin_Pages {
 	}
 
 	/**
-	 * Display our about page
+	 * Display our about page.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	public function about_page() {
 
-		// make it so pretty
 		wp_enqueue_style( 'constant_contact_admin_pages' );
 
-		// Set our placeholder vars for links and stuff
 		$proof = $auth_link = $new_link = '';
 
 		// @codingStandardsIgnoreStart
 		if ( ! constant_contact()->api->is_connected() ) {
 		// @codingStandardsIgnoreEnd
 
-			// Get our middleware link
+			// Get our middleware link.
 			$proof     = constant_contact()->authserver->set_verification_option();
 			$auth_link = constant_contact()->authserver->do_connect_url( $proof );
 			$new_link  = constant_contact()->authserver->do_signup_url( $proof );
@@ -246,7 +242,7 @@ class ConstantContact_Admin_Pages {
 						<p>
 						<?php esc_attr_e( 'Using your sign-up forms to collect email addresses? Email marketing is a great way to stay connected with visitors after they’ve left your site. And with an active Constant Contact account, every new subscriber you capture will be automatically added to your selected email lists.  ', 'constant-contact-forms' ); ?>
 						</p>
-						<?php if ( $new_link ) { // If we have a link, then display the connect button ?>
+						<?php if ( $new_link ) { // If we have a link, then display the connect button. ?>
 						<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
 						<?php } ?>
 					</div>
@@ -256,7 +252,7 @@ class ConstantContact_Admin_Pages {
 				</span>
 				<div class="clear"></div>
 				<hr>
-				<?php if ( $auth_link ) { // If we have a link, then display the connect button ?>
+				<?php if ( $auth_link ) { // If we have a link, then display the connect button. ?>
 					<h2><?php esc_attr_e( 'Already have a Constant Contact account?', 'constant-contact-forms' ); ?></h2>
 					<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button button-blue ctct-connect">
 						<?php esc_html_e( 'Connect the plugin', 'constant-contact-forms' ); ?>

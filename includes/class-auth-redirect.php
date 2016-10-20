@@ -1,5 +1,7 @@
 <?php
 /**
+ * Authentication Redirection.
+ *
  * @package ConstantContact
  * @subpackage AuthRedirect
  * @author Constant Contact
@@ -14,7 +16,7 @@ class ConstantContact_Auth_Redirect {
 	/**
 	 * Parent plugin class
 	 *
-	 * @var   class
+	 * @var object
 	 * @since 0.0.1
 	 */
 	protected $plugin = null;
@@ -22,8 +24,9 @@ class ConstantContact_Auth_Redirect {
 	/**
 	 * Constructor
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
+	 *
+	 * @param object $plugin Parent plugin.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -42,10 +45,12 @@ class ConstantContact_Auth_Redirect {
 	}
 
 	/**
-	 * Add auth params to query_vars
+	 * Add auth params to query_vars.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param array $vars url params.
+	 * @return array
 	 */
 	function rewrite_add_var( $vars ) {
 		$vars[] = 'auth';
@@ -55,15 +60,13 @@ class ConstantContact_Auth_Redirect {
 	}
 
 	/**
-	 * Check for query params and redirect
+	 * Check for query params and redirect.
 	 *
-	 * @since  1.0.0
-	 * @return boolean
+	 * @since 1.0.0
 	 */
 	function rewrite_catch() {
 		global $wp_query;
 
-		// So many data checks!
 		if (
 			current_user_can( 'manage_options' ) &&
 			! is_admin() &&

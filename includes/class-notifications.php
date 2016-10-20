@@ -1,5 +1,7 @@
 <?php
 /**
+ * Notifications.
+ *
  * @package ConstantContact
  * @subpackage Notifications
  * @author Constant Contact
@@ -23,7 +25,6 @@ class ConstantContact_Notifications {
 	 * Constructor
 	 *
 	 * @since  1.0.0
-	 * @return void
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -38,7 +39,7 @@ class ConstantContact_Notifications {
 	 */
 	public function hooks() {
 
-		// Add activation message
+		// Add activation message.
 		add_action( 'admin_notices', array( $this, 'main' ) );
 
 	}
@@ -50,7 +51,7 @@ class ConstantContact_Notifications {
 	 */
 	public function get_notifications() {
 
-		// Return all our notifications
+		// Return all our notifications.
 		return apply_filters( 'constant_contact_notifications', array(
 			array(
 				'ID'         => 'activation',
@@ -78,17 +79,17 @@ class ConstantContact_Notifications {
 	public function main() {
 
 		// If we have our query args where we're attempting to dismiss the notice
-		// Get our potentically dismissed notif ID
+		// Get our potentically dismissed notif ID.
 		$notif_id = $this->get_dismissal_id();
 
-		// First, we want to check if we should save any dismissals
+		// First, we want to check if we should save any dismissals.
 		if ( $this->check_dismissal_nonce() && $notif_id ) {
 
-			// Then save that we dismissed it
+			// Then save that we dismissed it.
 			$this->save_dismissed_notification( $notif_id );
 		}
 
-		// Get all our notifications
+		// Get all our notifications.
 		$notifications = $this->get_notifications();
 		$update_notifications = $this->get_update_notifications();
 
@@ -111,44 +112,44 @@ class ConstantContact_Notifications {
 	 */
 	public function maybe_show_notification( $notif ) {
 
-		// If our notification isn't an array, skip it
+		// If our notification isn't an array, skip it.
 		if ( ! is_array( $notif ) ) {
 			return;
 		}
 
-		// Save our notification data to a helper var
+		// Save our notification data to a helper var.
 		$notif_id     = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
 		$callback     = isset( $notif['callback'] ) ? $notif['callback'] : false;
 		$require_cb   = isset( $notif['require_cb'] ) ? $notif['require_cb'] : false;
 
-		// If we don't have an ID or callback set, bail
+		// If we don't have an ID or callback set, bail.
 		if ( ! $notif_id || ! $callback ) {
 			return;
 		}
 
-		// Don't show if it was dismissed
+		// Don't show if it was dismissed.
 		if ( $this->was_notification_dismissed( $notif_id ) ) {
 			return;
 		}
 
-		// If we don have requirements set up for a notif, then check them
+		// If we don have requirements set up for a notif, then check them.
 		if ( $require_cb ) {
 
-			// Check to make sure the requirements defined for a notification evalulate to true
+			// Check to make sure the requirements defined for a notification evalulate to true.
 			$requirements_passed = ( $this->check_requirements_callback_for_notif( $require_cb ) );
 
-			// If we didnt' pass, then return
+			// If we didnt' pass, then return.
 			if ( ! $requirements_passed ) {
 				return;
 			}
 		}
 
-		// If we cant call our notification callback, bail
+		// If we cant call our notification callback, bail.
 		if ( ! is_callable( $callback ) ) {
 			return false;
 		}
 
-		// Get our notifictaion content from our callback
+		// Get our notifictaion content from our callback.
 		$notif_content = call_user_func( $callback );
 
 		$this->show_notice( $notif_id, $notif_content );
@@ -161,26 +162,22 @@ class ConstantContact_Notifications {
 	 * Call and return results of executing a callback for a notificaion
 	 *
 	 * @since   1.0.0
-	 * @param   mixed  $require_cb  valid callback
+	 * @param mixed $require_cb valid callback.
 	 * @return  boolean               boolean results of callback
 	 */
 	public function check_requirements_callback_for_notif( $require_cb ) {
 
-		// Make sure we can call our require callback
 		if ( is_callable( $require_cb ) ) {
-
-			// Call it
 			return ( call_user_func( $require_cb ) );
 		}
 
-		// Otherwise false
 		return false;
 	}
 
 	/**
-	 * Checks to see if we have a dismissal nonce, and if it is valid
+	 * Checks to see if we have a dismissal nonce, and if it is valid.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
 	 * @return  boolean  whether or not nonce is verified
 	 */
 	public function check_dismissal_nonce() {
@@ -193,7 +190,7 @@ class ConstantContact_Notifications {
 		// Save our nonce
 		$nonce = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss'] ) );  // Input var okay.
 
-		// If our nonce fails, then we don't want to dismiss it
+		// If our nonce fails, then we don't want to dismiss it.
 		return ( wp_verify_nonce( $nonce, 'ctct-user-is-dismissing' ) );
 	}
 
@@ -210,20 +207,20 @@ class ConstantContact_Notifications {
 			return false;
 		}
 
-		// if we don't have our dismiss query arg, bail
+		// If we don't have our dismiss query arg, bail.
 		if ( ! isset( $_GET['ctct-dismiss-action'] ) ) { // Input var okay.
 			return false;
 		}
 
-		// Get what notification we're attempting to dismiss
+		// Get what notification we're attempting to dismiss.
 		$dismissing_notif = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss-action'] ) );  // Input var okay.
 
-		// If we don't have an action set for our dismiss action, bail
+		// If we don't have an action set for our dismiss action, bail.
 		if ( ! $dismissing_notif ) {
 			return false;
 		}
 
-		// Send back our notification type
+		// Send back our notification type.
 		return $dismissing_notif;
 	}
 
@@ -235,7 +232,7 @@ class ConstantContact_Notifications {
 	 */
 	public function save_dismissed_notification( $key ) {
 
-		// Call our save option helper
+		// Call our save option helper.
 		return $this->save_dismissed_option( $key, true );
 	}
 
@@ -243,12 +240,12 @@ class ConstantContact_Notifications {
 	 * Set a specific notificaion saved state to false
 	 *
 	 * @since   1.0.0
-	 * @param   strin  $key  ID of notificaion
+	 * @param strin $key ID of notificaion.
 	 * @return  boolean      update succeeded?
 	 */
 	public function delete_dismissed_notification( $key ) {
 
-		// Call our save option helper
+		// Call our save option helper.
 		return $this->save_dismissed_option( $key, false );
 	}
 
@@ -283,18 +280,18 @@ class ConstantContact_Notifications {
 	 */
 	public function save_dismissed_option( $key, $value ) {
 
-		// Get all of our options we have saved
+		// Get all of our options we have saved.
 		$options = $this->get_dismissed_options();
 
-		// If for some reason, we didn't get an array, then clear it out
+		// If for some reason, we didn't get an array, then clear it out.
 		if ( ! is_array( $options ) ) {
 			$options = array();
 		}
 
-		// Save our keyed notification to be saved
+		// Save our keyed notification to be saved.
 		$options[ esc_attr( $key ) ] = esc_attr( $value );
 
-		// Save all the options
+		// Save all the options.
 		return $this->save_dismissed_options( $options );
 	}
 
@@ -307,13 +304,13 @@ class ConstantContact_Notifications {
 	 */
 	public function was_notification_dismissed( $key = '' ) {
 
-		// Get all our options
+		// Get all our options.
 		$option = $this->get_dismissed_option( $key );
 
-		// If we have 'true' or '1' saved, then its true
+		// If we have 'true' or '1' saved, then its true.
 		$is_true = ( ( 'true' === $option ) || ( '1' === $option ) );
 
-		// Cast to boolean and send it back
+		// Cast to boolean and send it back.
 		return ( $is_true ? true : false );
 	}
 
@@ -326,17 +323,17 @@ class ConstantContact_Notifications {
 	 */
 	public function get_dismissed_option( $key = '' ) {
 
-		// Get all our dismissed notifications
+		// Get all our dismissed notifications.
 		$options = $this->get_dismissed_options();
 
-		// If we have the notification saved in our options array
+		// If we have the notification saved in our options array.
 		if ( isset( $options[ esc_attr( $key ) ] ) ) {
 
-			// Return the option of whatever it is
+			// Return the option of whatever it is.
 			return $options[ esc_attr( $key ) ];
 		}
 
-		// Otherwise, we'll just return false and bail
+		// Otherwise, we'll just return false and bail.
 		return false;
 	}
 
@@ -347,15 +344,15 @@ class ConstantContact_Notifications {
 	 */
 	public function show_notice( $key, $content = '' ) {
 
-		// If we don't have any content, bail
+		// If we don't have any content, bail.
 		if ( ! $content ) {
 			return;
 		}
 
-		// Show our styles
+		// Show our styles.
 		$this->do_styles();
 
-		// Wrap our content in our markup
+		// Wrap our content in our markup.
 		?>
 		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
 			<?php echo wp_kses_post( $content ); ?>
@@ -371,13 +368,12 @@ class ConstantContact_Notifications {
 	 */
 	public function do_styles() {
 
-		// Set our flag about notice being shown, so we don't re-enqueue styles
+		// Set our flag about notice being shown, so we don't re-enqueue styles.
 		static $have_styles = false;
 
-		// If we haven't shown styles yet, enqueue em
+		// If we haven't shown styles yet, enqueue em.
 		if ( ! $have_styles ) {
 
-			// Style it up
 			wp_enqueue_style(
 				'constant-contact-admin-notices',
 				constant_contact()->url() . 'assets/css/admin-notices.css',
@@ -385,7 +381,6 @@ class ConstantContact_Notifications {
 				constant_contact()->version
 			);
 
-			// Set to true
 			$have_styles = true;
 		}
 	}
@@ -413,10 +408,9 @@ class ConstantContact_Notifications {
 	 */
 	public function get_activation_dismiss_url( $type ) {
 
-		// Set a link with our current url and desired action
+		// Set a link with our current url and desired action.
 		$link = add_query_arg( array( 'ctct-dismiss-action' => esc_attr( $type ) ) );
 
-		// Also nonce it and return it
 		return wp_nonce_url( $link, 'ctct-user-is-dismissing', 'ctct-dismiss' );
 	}
 }

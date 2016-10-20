@@ -1,5 +1,7 @@
 <?php
 /**
+ * Connect
+ *
  * @package ConstantContact
  * @subpackage Connect
  * @author Constant Contact
@@ -18,31 +20,31 @@ use Defuse\Crypto\Crypto;
 class ConstantContact_Connect {
 
 	/**
-	 * Option key, and option page slug
+	 * Option key, and option page slug.
 	 *
 	 * @var string
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	private $key = 'ctct_options_connect';
 
 	/**
-	 * CtctOAuth2 object
+	 * CtctOAuth2 object.
 	 *
 	 * @var object
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	private $oauth = '';
 
 	/**
-	 * Api Error message
+	 * Api Error message.
 	 *
 	 * @var string
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	public $error_message = '';
 
 	/**
-	 * Current page redirect Url
+	 * Current page redirect Url.
 	 *
 	 * @var string
 	 * @since  1.0.0
@@ -50,20 +52,24 @@ class ConstantContact_Connect {
 	private $redirect_url = '';
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
-	 * @var   class
+	 * @var object
 	 * @since 0.0.1
 	 */
 	protected $plugin = null;
 
+	/**
+	 * Whether or not to encrypt.
+	 *
+	 * @var bool
+	 */
 	public $should_encrypt = false;
 
 	/**
 	 * Constructor
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -71,10 +77,9 @@ class ConstantContact_Connect {
 	}
 
 	/**
-	 * Initiate our hooks
+	 * Initiate our hooks.
 	 *
 	 * @since 1.0.0
-	 * @return void
 	 */
 	public function hooks() {
 
@@ -86,10 +91,9 @@ class ConstantContact_Connect {
 
 	/**
 	 * Watches for our specific $_GET paramaters and if we get a connect request,
-	 * pass it to our auth server class to process
+	 * pass it to our auth server class to process.
 	 *
-	 * @since  0.0.1
-	 * @return void
+	 * @since 0.0.1
 	 */
 	public function maybe_connect() {
 
@@ -97,7 +101,7 @@ class ConstantContact_Connect {
 		// verify it and potentially process it
 		if ( isset( $_GET['cc_connect_attempt'] ) && is_user_logged_in() ) { // Input var okay.
 
-			// Call our access token processing
+			// Call our access token processing.
 			$verified = constant_contact()->authserver->verify_and_save_access_token_return();
 
 			$redirect_args = array(
@@ -109,32 +113,31 @@ class ConstantContact_Connect {
 				$redirect_args['ctct_connect_error'] = 'true';
 			}
 
-			// Redirect back to our connection page
 			wp_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
 			die;
 		}
 	}
 
 	/**
-	 * Add menu options page
+	 * Add menu options page.
 	 *
 	 * @since 1.0.0
 	 */
 	public function add_options_page() {
 
 		if ( ! constant_contact()->api->is_connected() ) {
-			// Set our default title of the connect link
+			// Set our default title of the connect link.
 			$connect_title = __( 'Connect Now', 'constant-contact-forms' );
 			$connect_link = 'edit.php?post_type=ctct_forms';
 
 		} else {
 
-			// If we've already been connected, then we can set it to be a disconnect button
+			// If we've already been connected, then we can set it to be a disconnect button.
 			$connect_title = __( 'Disconnect', 'constant-contact-forms' );
 			$connect_link = 'edit.php?post_type=ctct_forms';
 		}
 
-		// Set up our page
+		// Set up our page.
 		$this->options_page = add_submenu_page(
 			$connect_link,
 			$connect_title,
@@ -146,9 +149,9 @@ class ConstantContact_Connect {
 	}
 
 	/**
-	 * Admin page markup. Mostly handled by CMB2
+	 * Admin page markup. Mostly handled by CMB2.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 * @return mixed page markup or false if not admin.
 	 */
 	public function admin_page_display() {
@@ -162,7 +165,6 @@ class ConstantContact_Connect {
 
 		wp_enqueue_style( 'constant_contact_admin_global_no_connection' );
 
-		// Only run if logged in user can manage site options.
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
@@ -230,11 +232,11 @@ class ConstantContact_Connect {
 						</p>
 						<?php
 
-						// Get our middleware link
+						// Get our middleware link.
 						$proof = constant_contact()->authserver->set_verification_option();
 						$auth_link = constant_contact()->authserver->do_connect_url( $proof );
 
-						// If we have a link, then display the connect button
+						// If we have a link, then display the connect button.
 						if ( $auth_link ) { ?>
 							<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button button-blue ctct-connect">
 								<?php esc_html_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
@@ -252,20 +254,20 @@ class ConstantContact_Connect {
 	}
 
 	/**
-	 * Disconnect from api
+	 * Disconnect from API.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 * @return boolean
 	 */
 	public function maybe_disconnect() {
 
-		// Make sure we ahve our nonce key
-		if ( ! isset( $_POST['ctct-admin-disconnect'] ) ) { // Input var okay.
+		// Make sure we ahve our nonce key.
+		if ( ! isset( $_POST['ctct-admin-disconnect'] ) ) {
 			return;
 		}
 
-		// Make sure we want to disconnect
-		if ( ! isset( $_POST['ctct-disconnect'] ) ) { // Input var okay.
+		// Make sure we want to disconnect.
+		if ( ! isset( $_POST['ctct-disconnect'] ) ) {
 			return;
 		}
 
@@ -274,8 +276,7 @@ class ConstantContact_Connect {
 			return;
 		}
 
-		// Verify that nonce
-		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ctct-admin-disconnect'] ) ), 'ctct-admin-disconnect' ) ) { // Input var okay.
+		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ctct-admin-disconnect'] ) ), 'ctct-admin-disconnect' ) ) {
 
 			// Delete access token and delete our legacy token as well.
 			delete_option( 'ctct_token' );
@@ -284,10 +285,13 @@ class ConstantContact_Connect {
 	}
 
 	/**
-	 * Get an encrypted value
+	 * Get an encrypted value.
 	 *
-	 * @since  1.0.0
-	 * @param  string $key key to save to
+	 * @since 1.0.0
+	 *
+	 * @param string  $check_key key to save to.
+	 * @param boolean $fallback_to_ctct_opt Fall back maybe.
+	 * @return boolean|string
 	 */
 	public function e_get( $check_key, $fallback_to_ctct_opt = false ) {
 
@@ -295,13 +299,13 @@ class ConstantContact_Connect {
 			return get_option( $check_key, '' );
 		}
 
-		// Get our key
+		// Get our key.
 		$key = $this->get_encrpyt_key();
 
-		// Get our saved token
+		// Get our saved token.
 		if ( $fallback_to_ctct_opt ) {
 
-			// if we want to fallback, we'll get the nested option
+			// If we want to fallback, we'll get the nested option.
 			$options = get_option( 'ctct_options_settings', false );
 			if ( $options && isset( $options[ $check_key ] ) ) {
 				$encrypted_token = $options[ $check_key ];
@@ -310,34 +314,36 @@ class ConstantContact_Connect {
 			}
 		} else {
 
-			// Otherwise get normal option
+			// Otherwise get normal option.
 			$encrypted_token = get_option( $check_key );
 
-			// Make sure we have something
+			// Make sure we have something.
 			if ( ! $encrypted_token ) {
 				return false;
 			}
 		}
 
 		try {
-			// Try to decrypt it
+			// Try to decrypt it.
 			$return = Crypto::decrypt( $encrypted_token, $key );
 		} catch ( Exception $e ) {
-			// otherwise just return the raw val
+			// Otherwise just return the raw val.
 			$return = '';
 		}
 
-		// Return data
 		return $return;
 
 	}
 
 	/**
-	 * Set an encrypted value
+	 * Set an encrypted value.
 	 *
-	 * @since  1.0.0
-	 * @param  string $key  key to save to
-	 * @param  string $data data to save
+	 * @since 1.0.0
+	 *
+	 * @param string  $check_key  Key to save to.
+	 * @param string  $data       Data to save.
+	 * @param boolean $autoload  Autoload it.
+	 * @return string
 	 */
 	public function e_set( $check_key, $data, $autoload = false ) {
 
@@ -346,67 +352,65 @@ class ConstantContact_Connect {
 			return $data;
 		}
 
-		// Get our key
 		$key = $this->get_encrpyt_key();
 
-		// Encrypt
 		$saved = Crypto::encrypt( $data, $key );
 
-		// Save option
 		update_option( $check_key, $saved, $autoload );
 
-		// Return data
 		return $saved;
 	}
 
 	/**
-	 * Secure API access token
+	 * Secure API access token.
 	 *
-	 * @since  1.0.0
-	 * @param string $access_token api access token.
-	 * @return void
+	 * @since 1.0.0
+	 *
+	 * @param string $access_token API access token.
+	 * @return string
 	 */
 	public function update_token( $access_token ) {
 		return $this->e_set( 'ctct_token', $access_token, true );
 	}
 
 	/**
-	 * Get saved API token
+	 * Get saved API token.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @return string token
 	 */
 	public function get_api_token() {
 
-		// Clean up our old tokens
+		// Clean up our old tokens.
 		$this->check_deleted_legacy_token();
 
 		return $this->e_get( 'ctct_token' );
 	}
 
 	/**
-	 * If we have a legacy token, let's re-save it
+	 * If we have a legacy token, let's re-save it.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	public function check_deleted_legacy_token() {
 
-		// Get our old token
+		// Get our old token.
 		$legacy = get_option( '_ctct_token' );
 
-		// If we got a legacy value, reencrypt and delete it
+		// If we got a legacy value, reencrypt and delete it.
 		if ( $legacy ) {
-			// Update our token with our legacy data
+			// Update our token with our legacy data.
 			$this->update_token( $legacy );
 			delete_option( '_ctct_token' );
 		}
 	}
 
 	/**
-	 * Get our encrypt key
+	 * Get our encrypt key.
 	 *
-	 * @since  1.0.0
-	 * @return string key to use for encrypt
+	 * @since 1.0.0
+	 * @return string Key to use for encrypt.
 	 */
 	public function get_encrpyt_key() {
 
@@ -414,23 +418,23 @@ class ConstantContact_Connect {
 			return 'ctct_key';
 		}
 
-		// Get our key
 		$key = get_option( 'ctct_key', false );
 
-		// If we don't have one, make one
+		// If we don't have one, make one.
 		if ( ! $key ) {
 			$key = $this->generate_and_save_key();
 		}
 
-		// return it
 		return Key::loadFromAsciiSafeString( $key );
 	}
 
 	/**
-	 * Generates and saves a new key
+	 * Generates and saves a new key.
 	 *
-	 * @since  1.0.0
-	 * @return object key
+	 * @since 1.0.0
+	 *
+	 * @param boolean $first_try If first try or not.
+	 * @return object Key
 	 */
 	public function generate_and_save_key( $first_try = true ) {
 
@@ -439,23 +443,22 @@ class ConstantContact_Connect {
 			return 'ctct_key';
 		}
 
-		// Generate a random key from our Encryption library
+		// Generate a random key from our Encryption library.
 		$key = Key::createNewRandomKey();
 
-		// Save our key as a safe string, so we can add it to the DB
+		// Save our key as a safe string, so we can add it to the DB.
 		$key = $key->saveToAsciiSafeString();
 
-		// Save it as our ctct_key, so that we can use it later
+		// Save it as our ctct_key, so that we can use it later.
 		$updated = update_option( 'ctct_key', $key );
 
-		// If we weren't able to update it, try again, but only do it once
+		// If we weren't able to update it, try again, but only do it once.
 		if ( ! $updated || $first_try ) {
 
-			// try generating and saving again, but only one more time.
+			// Try generating and saving again, but only one more time.
 			$key = $this->generate_and_save_key( false );
 		}
 
-		// Send that key back
 		return $key;
 	}
 
@@ -466,7 +469,7 @@ class ConstantContact_Connect {
 	 *
 	 * @return boolean If we should load/use the encryption libraries.
 	 */
-	 public function is_encryption_ready() {
+	public function is_encryption_ready() {
 
 		// Make sure we have our openssl libraries.
 		if ( ! function_exists( 'openssl_encrypt' ) || ! function_exists( 'openssl_decrypt' ) ) {
@@ -478,7 +481,6 @@ class ConstantContact_Connect {
 			return false;
 		}
 
-		// We should be good.
 		return true;
 	}
 

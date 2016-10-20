@@ -1,5 +1,7 @@
 <?php
 /**
+ * Custom Post Types
+ *
  * @package ConstantContact
  * @subpackage CPTS
  * @author Constant Contact
@@ -168,18 +170,18 @@ class ConstantContact_CPTS {
 			'capability_type'     => 'page',
 		);
 
-		// Only register if we're connected
+		// Only register if we're connected.
 		if ( constantcontact_api()->is_connected() ) {
 			register_post_type( 'ctct_lists', $args );
 		}
 	}
 
 	/**
-	 * Custom post udate messages to match CPT naming
+	 * Custom post udate messages to match CPT naming.
 	 *
-	 * @since  1.0.0
-	 * @param  array $messages default update messages.
-	 * @return array appended update messages with custom post types
+	 * @since 1.0.0
+	 * @param array $messages Default update messages.
+	 * @return array appended update messages with custom post types.
 	 */
 	public function post_updated_messages( $messages ) {
 
@@ -217,26 +219,25 @@ class ConstantContact_CPTS {
 	}
 
 	/**
-	 * Customize the "Enter your title" placeholder text for Title field
+	 * Customize the "Enter your title" placeholder text for Title field.
 	 *
-	 * @since  1.0.0
-	 * @param  string $title desired placeholder text.
+	 * @since 1.0.0
+	 * @param string $title Desired placeholder text.
 	 * @return string $title output string
 	 */
 	public function change_default_title( $title ) {
 	    global $post;
 
-	    // Sanity check
+
 	    if ( ! isset( $post ) ) {
 	    	return $title;
 	    }
 
-	    // Check for post type
 	    if ( ! isset( $post->post_type ) ) {
 	    	return $title;
 	    }
 
-	    // If we're on our forms post type
+	    // If we're on our forms post type.
 	    if ( 'ctct_forms' === $post->post_type ) {
 	    	$title = sprintf(
 	    		'%s <span class="ctct-admin-title-details">%s</span>',
@@ -253,11 +254,11 @@ class ConstantContact_CPTS {
 	 * Returns array of form ids
 	 *
 	 * @since 1.0.0
+	 *
 	 * @return array
 	 */
 	public function get_forms( $expanded_data = false, $bust_cache = false ) {
 
-		// Grab our saved transient.
 		$forms = get_transient( 'constant_contact_shortcode_form_list' );
 
 		// Allow bypassing transient check.
@@ -274,7 +275,6 @@ class ConstantContact_CPTS {
 				'update_post_term_cache' => false,
 			) );
 
-			// Grab the posts.
 			$q_forms = $query->get_posts();
 
 			// If for some reason we got an error, just return a blank array.
@@ -283,15 +283,13 @@ class ConstantContact_CPTS {
 			}
 
 			// If we're not using this for the shortcode in the admin, just return
-			// the IDs of our forms
+			// the IDs of our forms.
 			if ( ! $expanded_data ) {
 				return $q_forms;
 			}
 
-			// Set up our default array.
 			$forms = array();
 
-			// Foreach form we have, lets build up our return array.
 			foreach ( $q_forms as $form ) {
 
 				// Make sure we have the data we want to use.
@@ -302,13 +300,13 @@ class ConstantContact_CPTS {
 					isset( $form->post_modified )
 				) {
 
-					// Get our title
+					// Get our title.
 					$title = ( $form->post_title ) ? $form->post_title : __( 'No title', 'constant-contact-forms' );
 
-					// Get the last modified time in human text
+					// Get the last modified time in human text.
 					$last_modified = human_time_diff( strtotime( $form->post_modified ), time() );
 
-					// Build up our title for the shortcode form admin
+					// Build up our title for the shortcode form admin.
 					$title = sprintf(
 						esc_html__( '%s (last modified %s ago)', 'constant-contact-forms' ),
 						$title,
@@ -320,7 +318,6 @@ class ConstantContact_CPTS {
 				}
 			}
 
-			// Save that.
 			set_transient( 'constant_contact_shortcode_form_list', $forms, 1 * HOUR_IN_SECONDS );
 		}
 

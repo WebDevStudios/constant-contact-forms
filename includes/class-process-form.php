@@ -1,5 +1,7 @@
 <?php
 /**
+ * Process form.
+ *
  * @package ConstantContact
  * @subpackage ProcessForm
  * @author Constant Contact
@@ -14,7 +16,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Parent plugin class
 	 *
-	 * @var   class
+	 * @var object
 	 * @since 0.0.1
 	 */
 	protected $plugin = null;
@@ -23,7 +25,6 @@ class ConstantContact_Process_Form {
 	 * Constructor
 	 *
 	 * @since  1.0.0
-	 * @return void
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -60,13 +61,13 @@ class ConstantContact_Process_Form {
 			// @codingStandardsIgnoreLine
 			$data = explode( '&', $_POST['data'] );
 
-			// Finish converting that ajax data to something we can use
+			// Finish converting that ajax data to something we can use.
 			$json_data = array();
 
-			// Make sure we have an array of data
+			// Make sure we have an array of data.
 			if ( is_array( $data ) ) {
 
-				// Loop through each of our fields
+				// Loop through each of our fields.
 				foreach ( $data as $field ) {
 
 					// @codingStandardsIgnoreStart
@@ -80,27 +81,27 @@ class ConstantContact_Process_Form {
 					// in case there is an = in the actual form value
 					$exp_fields = explode( '=', $field, 2 );
 
-					// Sanity check
+					// Sanity check.
 					if ( isset( $exp_fields[0] ) && $exp_fields[0] ) {
-						// Set up our data structure if we have the data
+						// Set up our data structure if we have the data.
 						$value = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
 						$json_data[  esc_attr( $exp_fields[0] ) ] = sanitize_text_field( $value );
 					}
 				}
 			}
 
-			// Send it to our process form method
+			// Send it to our process form method.
 			$response = $this->process_form( $json_data, true );
 
-			// We don't need the original values for the ajax check
+			// We don't need the original values for the ajax check.
 			if ( isset( $response['values'] ) ) {
 				unset( $response['values'] );
 			}
 
-			// Send back our response
+			// Send back our response.
 			wp_send_json( $response );
 
-			// die out of the ajax request
+			// Die out of the ajax request.
 			wp_die();
 		}
 	}
@@ -109,47 +110,47 @@ class ConstantContact_Process_Form {
 	 * Process submitted form data
 	 *
 	 * @since 1.0.0
-	 * @return void
+	 * @return array
 	 */
 	public function process_form( $data = array(), $is_ajax = false ) {
 
-		// Set our data var to $_POST if we dont get it passed in
+		// Set our data var to $_POST if we dont get it passed in.
 		if ( empty( $data ) ) {
 
 			$data = $_POST; // @codingStandardsIgnoreLine
 		}
 
-		// Don't check for submitted if we are doing it over ajax
+		// Don't check for submitted if we are doing it over ajax.
 		if ( ! $is_ajax ) {
-			// If we don't have our submitted action, just bail out
+			// If we don't have our submitted action, just bail out.
 			if ( ! isset( $data['ctct-submitted'] ) ) {
 				return;
 			}
 		}
 
-		// If we don't have our submitted form id, just bail out
+		// If we don't have our submitted form id, just bail out.
 		if ( ! isset( $data['ctct-id'] ) ) {
 			return;
 		}
 
-		// If we don't have our submitted form verify, just bail out
+		// If we don't have our submitted form verify, just bail out.
 		if ( ! isset( $data['ctct-verify'] ) ) {
 			return;
 		}
 
-		// Verify our nonce first
+		// Verify our nonce first.
 		if (
 		    ! isset( $data['ctct_form'] ) ||
 		    ! wp_verify_nonce( $data['ctct_form'], 'ctct_submit_form' )
 		) {
-			// figure out a way to pass errors back
+			// Figure out a way to pass errors back.
 			return array(
 				'status' => 'named_error',
 				'error'  => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
 			);
 		}
 
-		// Make sure we have an original form id
+		// Make sure we have an original form id.
 		$orig_form_id = absint( $data['ctct-id'] );
 		if ( ! $orig_form_id ) {
 			return array(
@@ -158,7 +159,7 @@ class ConstantContact_Process_Form {
 			);
 		}
 
-		// Make sure we have a verify value
+		// Make sure we have a verify value.
 		$form_verify = esc_attr( $data['ctct-verify'] );
 		if ( ! $form_verify ) {
 			return array(
@@ -167,7 +168,7 @@ class ConstantContact_Process_Form {
 			);
 		}
 
-		// Make sure our verify key matches our saved one
+		// Make sure our verify key matches our saved one.
 		$orig_verify = get_post_meta( $orig_form_id, '_ctct_verify_key', true );
 		if ( $orig_verify !== $form_verify ) {
 			return array(
@@ -187,7 +188,7 @@ class ConstantContact_Process_Form {
 				'ctct-verify',
 			) );
 
-			// if our key we're processing is in our array, ignore it
+			// If our key we're processing is in our array, ignore it.
 			if ( in_array( $key, $ignored_keys, true ) ) {
 				continue;
 			}
@@ -203,13 +204,13 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
-		// Check for specific validation errors
+		// Check for specific validation errors.
 		$field_errors = $this->get_field_errors( $this->clean_values( $return['values'] ), $is_ajax );
 
-		// If we got errors
+		// If we got errors.
 		if ( is_array( $field_errors ) && ! empty( $field_errors ) ) {
 
-			// Send back an error status, a message, the errors we found, and all orig values
+			// Send back an error status, a message, the errors we found, and all orig values.
 			return array(
 				'status'   => 'req_error',
 				'errors'   => $field_errors,
@@ -217,12 +218,12 @@ class ConstantContact_Process_Form {
 			);
 		}
 
-		// if we're not processing the opt-in stuff, we can just return our data here
+		// If we're not processing the opt-in stuff, we can just return our data here.
 		if ( ! isset( $data['ctct-opt-in'] ) ) {
 
 			if ( ! $is_ajax ) {
 
-				// at this point we can process all of our submitted values
+				// At this point we can process all of our submitted values.
 				constant_contact()->mail->submit_form_values( $return['values'] );
 			}
 
@@ -232,7 +233,7 @@ class ConstantContact_Process_Form {
 
 		if ( ! $is_ajax ) {
 
-			// at this point we can process all of our submitted values
+			// At this point we can process all of our submitted values.
 			constant_contact()->mail->submit_form_values( $return['values'], true );
 		}
 
@@ -246,28 +247,28 @@ class ConstantContact_Process_Form {
 	 * Pretty our values up
 	 *
 	 * @since  1.0.0
-	 * @param  array $values values
+	 * @param array $values values.
 	 * @return array         values but better
 	 */
 	public function pretty_values( $values = array() ) {
 
-		// Sanity check
+		// Sanity check.
 		if ( ! is_array( $values ) ) {
 			return '';
 		}
 
-		// Loop through once to get our form ID
+		// Loop through once to get our form ID.
 		$form_id = 0;
 		foreach ( $values as $key => $value ) {
 
 			// Sanity check and check to see if we get our form ID
-			// when we find it, break out
+			// when we find it, break out.
 			if ( isset( $value['key'] ) && isset( $value['value'] ) ) {
 
-				// if we match our form ID, perfect
+				// Ff we match our form ID, perfect.
 				if ( 'ctct-id' === $value['key'] ) {
 
-					// set our form id, unset, and break out
+					// Set our form id, unset, and break out.
 					$form_id = absint( $value['value'] );
 					unset( $values['ctct-id'] );
 					break;
@@ -275,49 +276,49 @@ class ConstantContact_Process_Form {
 			}
 		}
 
-		// If we didn't get a form ID, bail out
+		// If we didn't get a form ID, bail out.
 		if ( ! $form_id ) {
 			return '';
 		}
 
-		// Get our original fields
+		// Get our original fields.
 		$orig_fields = $this->get_original_fields( $form_id );
 
-		// if its not an array, bail out
+		// If its not an array, bail out.
 		if ( ! is_array( $orig_fields ) ) {
 			return;
 		}
 
-		// this is what we'll use
+		// This is what we'll use.
 		$pretty_values = array();
 
-		// Loop through each field again
+		// Loop through each field again.
 		foreach ( $values as $key => $value ) {
 
-			// make sure we have a value
+			// Make sure we have a value.
 			if ( empty( $value ) ) {
 				continue;
 			}
 
-			// make sure we have a value
+			// Make sure we have a value.
 			if ( ! isset( $value['key'] ) ) {
 				continue;
 			}
 
-			// Make sure we have an orig field with the same key
+			// Make sure we have an orig field with the same key.
 			if ( ! isset( $orig_fields[ $key ] ) ) {
 				continue;
 			}
 
-			// Make sure we have the orig mapping key
+			// Make sure we have the orig mapping key.
 			if ( ! isset( $orig_fields[ $key ]['map_to'] ) ) {
 				continue;
 			}
 
-			// force value to be set
+			// Force value to be set.
 			$value['value'] = isset( $value['value'] ) ? $value['value'] : '';
 
-			// Send back our data
+			// Send back our data.
 			$pretty_values[] = array(
 				'orig'     => $orig_fields[ $key ],
 				'post'     => $value['value'],
@@ -326,7 +327,7 @@ class ConstantContact_Process_Form {
 
 		}
 
-		// Send it back
+		// Send it back.
 		return $pretty_values;
 	}
 
@@ -334,36 +335,36 @@ class ConstantContact_Process_Form {
 	 * Gets our original field from a form id
 	 *
 	 * @since 1.0.0
-	 * @param  int $form_id form id
+	 * @param int $form_id form id.
 	 * @return array          array of form data
 	 */
 	public function get_original_fields( $form_id ) {
 
-		// Sanity check
+		// Sanity check.
 		if ( ! $form_id ) {
 			return false;
 		}
 
-		// Get our fields post meta
+		// Get our fields post meta.
 		$fields = get_post_meta( $form_id, 'custom_fields_group', true );
 
-		// Sanity check again
+		// Sanity check again.
 		if ( ! is_array( $fields ) ) {
 			return false;
 		}
 
-		// Start our return array
+		// Start our return array.
 		$return = array();
 
-		// Loop through fields to expand some multi-field groups
+		// Loop through fields to expand some multi-field groups.
 		foreach ( $fields as $field ) {
 
-			// if we don't have a map, skip this loop
+			// If we don't have a map, skip this loop.
 			if ( ! isset( $field['_ctct_map_select'] ) ) {
 				continue;
 			}
 
-			// set our key field thing
+			// Set our key field thing.
 			$field_key = array(
 				'name'        => isset( $field['_ctct_field_label'] ) ? $field['_ctct_field_label'] : '',
 				'map_to'      => isset( $field['_ctct_map_select'] ) ? $field['_ctct_map_select'] : '',
@@ -415,25 +416,25 @@ class ConstantContact_Process_Form {
 	 * Get field requirement errors
 	 *
 	 * @since  1.0.0
-	 * @param  array $values values
+	 * @param array $values values.
 	 * @return array         return error code stuff
 	 */
 	public function get_field_errors( $values, $is_ajax = false ) {
 
-		// get our values with full orig field comparisons
+		// Get our values with full orig field comparisons.
 		$values = $this->pretty_values( $values );
 
-		// Sanity check
+		// Sanity check.
 		if ( ! is_array( $values ) ) {
 			return array();
 		}
 
-		// set up an array to populate with errors
+		// Set up an array to populate with errors.
 		$err_returns = array();
 
-		// Loop through each value
+		// Loop through each value.
 		foreach ( $values as $value ) {
-			// Sanity check
+			// Sanity check.
 			if (
 				! isset( $value['orig'] ) ||
 				! isset( $value['post'] ) ||
@@ -442,13 +443,13 @@ class ConstantContact_Process_Form {
 				continue;
 			}
 
-			// Do a check for if field was required
+			// Do a check for if field was required.
 			if (
 				isset( $value['orig']['required'] ) &&
 				$value['orig']['required'] &&
 				$value['orig']['required']
 			) {
-				// If it was required, check for a value
+				// If it was required, check for a value.
 				if ( ! $value['post'] ) {
 					$err_returns[] = array(
 						'map'   => $value['orig']['map_to'],
@@ -478,30 +479,30 @@ class ConstantContact_Process_Form {
 	 * Clean our values from form submission
 	 *
 	 * @since  1.0.0
-	 * @param  array $values values to clean
+	 * @param  array $values values to clean.
 	 * @return array         cleaned values
 	 */
 	public function clean_values( $values ) {
 
-		// Sanity check that
+		// Sanity check that.
 		if ( ! is_array( $values ) ) {
 			return $values;
 		}
 
 		$return_values = array();
 
-		// Loop through each of our values
+		// Loop through each of our values.
 		foreach ( $values as $value ) {
 
-			// if we don't have a key and value set, skip it
+			// If we don't have a key and value set, skip it.
 			if ( ! isset( $value['key'] ) || ! isset( $value['value'] ) ) {
 				continue;
 			}
 
-			// we made our fields look like first_name___435fajiosdf to force unique
+			// We made our fields look like first_name___435fajiosdf to force unique.
 			$key_break = explode( '___',  $value['key'] );
 
-			// Make sure we actually got something for that
+			// Make sure we actually got something for that.
 			if ( ! isset( $key_break[0] ) || ! $key_break[0] ) {
 				continue;
 			}
@@ -520,43 +521,42 @@ class ConstantContact_Process_Form {
 	 * Form submit success/error messages.
 	 *
 	 * @since 1.0.0
-	 * @return void
+	 * @return array
 	 */
 	public function process_wrapper( $form_data = array(), $form_id = '' ) {
 
 		// Process our data, and get our response.
 		$processed = $this->process_form();
 
-		// set up our default error
+		// Set up our default error.
 		$default_error = __( 'There was an error sending your form.', 'constant-contact-forms' );
 
-		// default to no status
+		// Default to no status.
 		$status = false;
 
-		// If we got a status back, check that in our list of returns
+		// If we got a status back, check that in our list of returns.
 		if ( isset( $processed['status'] ) && $processed['status'] ) {
 			$status = $processed['status'];
 		}
 
-		// switch based on our status code
+		// Switch based on our status code.
 		switch ( $status ) {
 
-			// yay success
 			case 'success':
 				$message = __( 'Your information has been submitted.', 'constant-contact-forms' );
 				break;
 
-			// generic error
+			// Generic error.
 			case 'error':
 				$message = $default_error;
 				break;
 
-			// named error from our process
+			// Named error from our process.
 			case 'named_error':
 				$message = isset( $processed['error'] ) ? $processed['error'] : $default_error;
 				break;
 
-			// required field errors
+			// Required field errors.
 			case 'req_error':
 				return array(
 					'status'  => 'error',
@@ -565,7 +565,7 @@ class ConstantContact_Process_Form {
 					'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
 				);
 
-			// all else fails, then we'll just use the default
+			// All else fails, then we'll just use the default.
 			default:
 				$message = '';
 				break;

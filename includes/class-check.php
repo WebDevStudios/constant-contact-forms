@@ -1,5 +1,7 @@
 <?php
 /**
+ * Server status checks.
+ *
  * @package ConstantContact
  * @subpackage Check
  * @author Constant Contact
@@ -14,7 +16,7 @@ class ConstantContact_Check {
 	/**
 	 * Parent plugin class
 	 *
-	 * @var   class
+	 * @var object
 	 * @since 0.0.1
 	 */
 	protected $plugin = null;
@@ -23,8 +25,8 @@ class ConstantContact_Check {
 	/**
 	 * Constructor
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
+	 * @param object $plugin Parent plugin.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -38,14 +40,12 @@ class ConstantContact_Check {
 	 */
 	public function maybe_display_debug_info() {
 
-		// Make sure we have our query arg, we're an admin, and we can manage options
+		// Make sure we have our query arg, we're an admin, and we can manage options.
 		if ( isset( $_GET['ctct-debug-server-check'] ) && is_admin() && current_user_can( 'manage_options' ) ) { // Input var okay.
 			?>
 			<div class="ctct-server-requirements">
-				<p>
-					<h4><?php esc_attr_e( 'Server Check', 'constant-contact-forms' ); ?></h4>
-					<?php $this->display_server_checks(); ?>
-				</p>
+				<h4><?php esc_attr_e( 'Server Check', 'constant-contact-forms' ); ?></h4>
+				<?php $this->display_server_checks(); ?>
 			</div>
 			<?php
 		}
@@ -60,7 +60,7 @@ class ConstantContact_Check {
 	 */
 	public function get_checks_to_make() {
 
-		// All the functions, classes, etc that we want to check on the server
+		// All the functions, classes, etc that we want to check on the server.
 		return apply_filters( 'constant_contact_server_checks', array(
 			'functions' => array(
 				'openssl_encrypt',
@@ -78,45 +78,37 @@ class ConstantContact_Check {
 	 * Displays our server check
 	 *
 	 * @since  1.0.0
-	 * @return string html markup
 	 */
 	public function display_server_checks() {
 
-		// Get everything we should check
+		// Get everything we should check.
 		$checks = $this->get_checks_to_make();
 
 		echo '<table class="ctct-server-check">';
-		// If we have a functions array
+		// If we have a functions array.
 		if (
 			isset( $checks['functions'] ) &&
 			is_array( $checks['functions'] ) &&
 			1 <= count( $checks['functions'] )
 		) {
-
-			// Loop through ech function
 			foreach ( $checks['functions'] as $function ) {
-
-				// Check to see if its available
 				echo '<tr><td>' . esc_attr( $function ) . '</td><td>' . esc_attr( $this->exists_text( $function, 'f' ) ) . '</td></tr>';
 			}
 		}
 
-		// See if we have any classes we should check for
+		// See if we have any classes we should check for.
 		if (
 			isset( $checks['classes'] ) &&
 			is_array( $checks['classes'] ) &&
 			1 <= count( $checks['classes'] )
 		) {
 
-			// Loop through em
 			foreach ( $checks['classes'] as $class ) {
-
-				// check to see if its available
 				echo '<tr><td>' . esc_attr( $class ) . '</td><td>' . esc_attr( $this->exists_text( $class, 'c' ) ) . '</td></tr>';
 			}
 		}
 
-		// Check to see if we can load the encryption library
+		// Check to see if we can load the encryption library.
 		$crypto = $this->plugin->connect->check_crypto_class();
 		echo '<tr><td>' . esc_attr_e( 'Encrpytion Library: ', 'constant-contact-forms' ) . '</td><td>' . esc_attr( $this->exists_text( $crypto ) ) . '</td></tr>';
 
@@ -126,10 +118,11 @@ class ConstantContact_Check {
 	/**
 	 * Helper method to give us a display of something exists or not
 	 *
-	 * @since  1.0.0
-	 * @param  string $name function/class to check
-	 * @param  string $type function or class?
-	 * @return string       emoji of checkmark
+	 * @since 1.0.0
+	 *
+	 * @param string $name Function/class to check.
+	 * @param string $type Function or class.
+	 * @return string Emoji of checkmark
 	 */
 	public function exists_text( $name, $type = '' ) {
 		if ( 'f' === $type ) {
@@ -142,8 +135,8 @@ class ConstantContact_Check {
 
 		if ( $exists ) {
 			return '✅';
-		} else {
-			return '🚫';
 		}
+
+		return '🚫';
 	}
 }

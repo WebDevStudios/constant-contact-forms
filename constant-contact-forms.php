@@ -197,10 +197,10 @@ class Constant_Contact {
 	 */
 	protected function __construct() {
 
-		// Set up our plugin name
+		// Set up our plugin name.
 		$this->plugin_name = __( 'Constant Contact', 'constant-contact-forms' );
 
-		// Set up some helper properties
+		// Set up some helper properties.
 		$this->basename = plugin_basename( __FILE__ );
 		$this->url	    = plugin_dir_url( __FILE__ );
 		$this->path	    = plugin_dir_path( __FILE__ );
@@ -210,16 +210,16 @@ class Constant_Contact {
 			return;
 		}
 
-		// Load our plugin and our libraries
+		// Load our plugin and our libraries.
 		$this->plugin_classes();
 		$this->load_libs();
 
-		// If we're in the admin, also load up the admin classes
+		// If we're in the admin, also load up the admin classes.
 		if ( is_admin() ) {
 			$this->admin_plugin_classes();
 		}
 
-		// Include our helper functions function for end-users
+		// Include our helper functions function for end-users.
 		Constant_Contact::include_file( 'helper-functions', false );
 	}
 
@@ -277,17 +277,17 @@ class Constant_Contact {
 	 */
 	public function hooks() {
 
-		// Hook in our older includes and our init method
+		// Hook in our older includes and our init method.
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'includes' ), 5 );
 
 		// Our vendor files will do a check for ISSSL, so we want to set it to be that.
-		// See Guzzle for more info and usage of this
+		// See Guzzle for more info and usage of this.
 		if ( is_ssl() || ! defined( 'ISSSL' ) ) {
 			define( 'ISSSL', true );
 		}
 
-		// Allow shortcodes in widgets for our plugin
+		// Allow shortcodes in widgets for our plugin.
 		add_filter( 'widget_text', 'do_shortcode' );
 
 		if ( is_admin() ) {
@@ -313,10 +313,10 @@ class Constant_Contact {
 	function _deactivate() {
 
 		// If we deactivate the plugin, remove our saved dismiss state for the activation
-		// admin notice that pops up, so we can re-prompt the user to connect
+		// admin notice that pops up, so we can re-prompt the user to connect.
 		$this->notifications->delete_dismissed_notification( 'activation' );
 
-		// Remove our saved transients for our lists, so we force a refresh on re-connection
+		// Remove our saved transients for our lists, so we force a refresh on re-connection.
 		delete_transient( 'ctct_lists' );
 
 	}
@@ -329,7 +329,7 @@ class Constant_Contact {
 	 */
 	public function init() {
 
-		// Load our textdomain
+		// Load our textdomain.
 		load_plugin_textdomain( $this->text_domain, false, dirname( $this->basename ) . '/languages/' );
 	}
 
@@ -341,7 +341,7 @@ class Constant_Contact {
 	 */
 	public function load_libs() {
 
-		// Set an array of libraries we need to load
+		// Set an array of libraries we need to load.
 		$libs = array(
 			'CMB2/init.php',
 			'constantcontact/autoload.php',
@@ -362,15 +362,15 @@ class Constant_Contact {
 			'defuse-php-encryption/RuntimeTests.php',
 		);
 
-		// If we don't alrady have WDS_Shortcodes loaded somewhere else, load it up
+		// If we don't alrady have WDS_Shortcodes loaded somewhere else, load it up.
 		if ( ! function_exists( 'wds_shortcodes' ) ) {
 			$libs[] = 'WDS-Shortcodes/wds-shortcodes.php';
 		}
 
-		// Loop through our vendor libraries and load them
+		// Loop through our vendor libraries and load them.
 		foreach ( $libs as $lib ) {
 
-			// Require_once our file
+			// Require_once our file.
 			require_once( $this->dir( "vendor/{$lib}" ) );
 		}
 	}
@@ -382,20 +382,20 @@ class Constant_Contact {
 	 */
 	public function includes() {
 
-		// Only load this if we have the WDS Shortcodes class
+		// Only load this if we have the WDS Shortcodes class.
 		if ( class_exists( 'WDS_Shortcodes' ) ) {
 
-			// Set up our base WDS_Shortcodes class
+			// Set up our base WDS_Shortcodes class.
 			$this->shortcode       = new ConstantContact_Shortcode();
 
-			// Set our custom shortcode with correct version and data
+			// Set our custom shortcode with correct version and data.
 			$this->shortcode_admin = new ConstantContact_Shortcode_Admin(
 				$this->shortcode->shortcode,
 				self::VERSION,
 				$this->shortcode->atts_defaults
 			);
 
-			// Launch it
+			// Launch it.
 			$this->shortcode_admin->hooks();
 		}
 	}
@@ -408,9 +408,9 @@ class Constant_Contact {
 	 */
 	public function ajax_save_clear_first_form() {
 
-		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' === $_POST['action'] ) { // Input var okay
+		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' === $_POST['action'] ) { // Input var okay.
 
-			// Save our dismiss for the first form modal
+			// Save our dismiss for the first form modal.
 			update_option( 'ctct_first_form_modal_dismissed', time() );
 		}
 		wp_die();
@@ -462,33 +462,34 @@ class Constant_Contact {
 	 *
 	 * @since  1.0.0
 	 * @param  string $filename Name of the file to be included.
+	 * @param  bool   $include_class Whether or ot to include the class.
 	 * @return bool   Result of include call.
 	 */
 	public static function include_file( $filename, $include_class = true ) {
 
-		// By default, all files are named 'class-something.php'
+		// By default, all files are named 'class-something.php'.
 		if ( $include_class ) {
 			$filename = 'class-' . $filename;
 		}
 
-		// Get the file
+		// Get the file.
 		$file = self::dir( 'includes/' . $filename . '.php' );
 
-		// If its there, include it
+		// If its there, include it.
 		if ( file_exists( $file ) ) {
 			return include_once( $file );
 		}
 
-		// Wasn't there
+		// Wasn't there.
 		return false;
 	}
 
 	/**
-	 * This plugin's directory
+	 * This plugin's directory.
 	 *
 	 * @since  1.0.0
 	 * @param  string $path (optional) appended path.
-	 * @return string	   Directory and path
+	 * @return string Directory and path
 	 */
 	public static function dir( $path = '' ) {
 		static $dir;
@@ -501,7 +502,7 @@ class Constant_Contact {
 	 *
 	 * @since  1.0.0
 	 * @param  string $path (optional) appended path.
-	 * @return string	   URL and path
+	 * @return string   URL and path
 	 */
 	public static function url( $path = '' ) {
 		static $url;
@@ -525,10 +526,8 @@ class Constant_Contact {
 		return file_get_contents( $license );
 	}
 }
-// Kick it off.
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
 
-// Hook in Activation / Deactivation hooks
 register_activation_hook( __FILE__ , array( constant_contact(), '_activate' ) );
 register_deactivation_hook( __FILE__ , array( constant_contact(), '_deactivate' ) );
 

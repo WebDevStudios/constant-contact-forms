@@ -1,5 +1,7 @@
 <?php
 /**
+ * Notification content.
+ *
  * @package ConstantContact
  * @subpackage Notifications_Content
  * @author Constant Contact
@@ -23,7 +25,6 @@ class ConstantContact_Notification_Content {
 	 * Constructor
 	 *
 	 * @since  1.0.0
-	 * @return void
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -36,7 +37,6 @@ class ConstantContact_Notification_Content {
 	 */
 	public static function activation() {
 
-		// Start our output buffer
 		ob_start();
 
 		?>
@@ -58,7 +58,6 @@ class ConstantContact_Notification_Content {
 		</p>
 		<?php
 
-		// Get our output and send it back
 		$output = ob_get_clean();
 		return $output;
 	}
@@ -77,7 +76,7 @@ class ConstantContact_Notification_Content {
 	 * Sample update notification for updating to 1.0.1
 	 *
 	 * @since   1.0.0
-	 * @return  string    notification text
+	 * @return string notification text Text.
 	 */
 	public static function v1_0_1() {
 

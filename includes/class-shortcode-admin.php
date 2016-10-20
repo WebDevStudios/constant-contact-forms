@@ -1,6 +1,8 @@
 <?php
 /**
- * @package	ConstantContact
+ * Shortcode admin button.
+ *
+ * @package ConstantContact
  * @subpackage ShortcodeAdmin
  * @author Constant Contact
  * @since 1.0.0

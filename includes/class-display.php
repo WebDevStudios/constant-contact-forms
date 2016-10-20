@@ -1,5 +1,7 @@
 <?php
 /**
+ * Display.
+ *
  * @package ConstantContact
  * @subpackage Display
  * @author Constant Contact
@@ -14,7 +16,7 @@ class ConstantContact_Display {
 	/**
 	 * Parent plugin class
 	 *
-	 * @var   class
+	 * @var object
 	 * @since 0.0.1
 	 */
 	protected $plugin = null;
@@ -22,8 +24,9 @@ class ConstantContact_Display {
 	/**
 	 * Constructor
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
+	 *
+	 * @param object $plugin Parent plugin.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -32,18 +35,13 @@ class ConstantContact_Display {
 	/**
 	 * Scripts
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	public function scripts() {
 
-		// Check if we are in debug mode. allow
 		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ? true : false;
-
-		// based on our debug mode, potentially add a min prefix
 		$suffix = ( true === $debug ) ? '' : '.min';
 
-		// Register our javascript file.
 		wp_register_script(
 			'ctct_frontend_forms',
 			constant_contact()->url() . 'assets/js/ctct-plugin-frontend' . $suffix . '.js',
@@ -56,15 +54,15 @@ class ConstantContact_Display {
 	/**
 	 * Main wrapper for getting our form display
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @return string Form markup
 	 */
 	public function form( $form_data, $form_id = '', $skip_styles = false ) {
 
-		// Also enqueue our scripts
+		// Also enqueue our scripts.
 		$this->scripts();
 
-		// Conditionally enqueue our styles
 		if ( ! $skip_styles ) {
 
 			wp_enqueue_style(
@@ -78,7 +76,6 @@ class ConstantContact_Display {
 			wp_enqueue_script( 'ctct_frontend_forms' );
 		}
 
-		// Start our return markup and some default variables
 		$return           = '';
 		$form_err_display = '';
 		$error_message    = false;
@@ -91,24 +88,24 @@ class ConstantContact_Display {
 		// with our error messages.
 		$response = constant_contact()->process_form->process_wrapper( $form_data, $form_id );
 
-		// submitted values
+		// Submitted values.
 		$old_values = isset( $response['values'] ) ? $response['values'] : '';
 		$req_errors = isset( $response['errors'] ) ? $response['errors'] : '';
 
-		// Check to see if we got a response, and if it has the fields we expect
+		// Check to see if we got a response, and if it has the fields we expect.
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
-			// If we were succesful, then display success message
+			// If we were succesful, then display success message.
 			if ( 'success' === $response['status'] ) {
 
-				// If we were successful, we'll return here so we don't display the entire form again
+				// If we were successful, we'll return here so we don't display the entire form again.
 				return $this->message( 'success', $response['message'] );
 
 			} else {
 
 				// If we didn't get a success message, then we want to error.
 				// We already checked for a messsage response, but we'll force the
-				// status to error if we're not here
+				// status to error if we're not here.
 				$status = 'error';
 				$error_message = trim( $response['message'] );
 			}
@@ -118,107 +115,105 @@ class ConstantContact_Display {
 		if ( 'error' === $status || $error_message ) {
 
 			if ( ! empty( $error_message ) ) {
-				// We'll show this error right inside our form
+				// We'll show this error right inside our form.
 				$form_err_display = $this->message( 'error', $error_message );
 			}
 		}
 
-		// Force uniqueness of an id for the form
+		// Force uniqueness of an id for the form.
 		// @todo figure out another way to do this maybe?
 		$rf_id = 'ctct-form-' . mt_rand();
 
-		// Build out our form
+		// Build out our form.
 		$return .= '<form class="ctct-form" id=' . $rf_id . ' action="' . esc_url( $this->get_current_page() ) . '" method="post">';
 
-		// If we have errors, display them
+		// If we have errors, display them.
 		$return .= $form_err_display;
 
-		// Output our normal form fields
+		// Output our normal form fields.
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
-		// Add our hidden verification fields
+		// Add our hidden verification fields.
 		$return .= $this->add_verify_fields( $form_data );
 
-		// Add our submit field
+		// Add our submit field.
 		$return .= $this->submit();
 
-		// Nonce the field too
+		// Nonce the field too.
 		$return .= wp_nonce_field( 'ctct_submit_form', 'ctct_form', true, false );
 
-		// add our disclose notice maybe
+		// Add our disclose notice maybe.
 		$return .= wp_kses_post( $this->maybe_add_disclose_note( $form_data ) );
 
-		// Close our form
 		$return .= '</form>';
 
 		$return .= '<script type="text/javascript">';
 		$return .= 'var ajaxurl = "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '";';
 		$return .= '</script>';
 
-		// Return it all
 		return $return;
 	}
 
 	/**
-	 * Get our current URL in a somewhat robust way
+	 * Get our current URL in a somewhat robust way.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @return string url of current page
 	 */
 	public function get_current_page() {
 
-		// Grab our global wp objects
+		// Grab our global wp objects.
 		global $wp;
 
-		// If we have a request, use that
+		// If we have a request, use that.
 		$request = ( isset( $wp->request ) && $wp->request ) ? $wp->request : null;
 
-		// If we still have a request, lets get our url magically
+		// If we still have a request, lets get our url magically.
 		if ( $request ) {
 
 			$curr_url = untrailingslashit( add_query_arg( '', '', home_url( $request ) ) );
 
-			// if we're not using a custom permalink strucutre, theres a chance the above
+			// If we're not using a custom permalink strucutre, theres a chance the above
 			// will return the home_url. so we do another check to makesure we're going
 			// to use the right thing. This check doesn't work on the homepage, but
-			// that will just get caught with our fallback check correctly anyway
+			// that will just get caught with our fallback check correctly anyway.
 			if ( ! is_home() && ( home_url() !== $curr_url ) ) {
 				return $curr_url;
 			}
 		}
 
-		// Otherwise, we'll default to just using add_query_arg, which may throw errors
+		// Otherwise, we'll default to just using add_query_arg, which may throw errors.
 		return untrailingslashit( home_url( add_query_arg( array( '' => '' ) ) ) );
 	}
 
 	/**
-	 * Adds hidden input fields to our form for form id and verify id
+	 * Adds hidden input fields to our form for form id and verify id.
 	 *
-	 * @since  1.0.0
-	 * @param  string $form_data html markup
+	 * @since 1.0.0
+	 *
+	 * @param string $form_data html markup.
+	 * @return mixed.
 	 */
 	public function add_verify_fields( $form_data ) {
 
-		// Sanity check
 		if (
 			isset( $form_data ) &&
 			isset( $form_data['options'] ) &&
 			isset( $form_data['options']['form_id'] )
 		) {
 
-			// sanitize our form id
 			$form_id = absint( $form_data['options']['form_id'] );
 
-			// sanity check on our form id
 			if ( ! $form_id ) {
 				return false;
 			}
 
-			// Add hidden field with our form id in it
+			// Add hidden field with our form id in it.
 			$return = $this->input( 'hidden', 'ctct-id', 'ctct-id', $form_id, '', '', true );
 
-			// if we have saved a verify value, add that to our field as well. this is to double-check
-			// that we have the correct form id for processing later
+			// If we have saved a verify value, add that to our field as well. this is to double-check
+			// that we have the correct form id for processing later.
 			$verify_key = get_post_meta( $form_id, '_ctct_verify_key', true );
 
 			if ( $verify_key ) {
@@ -233,24 +228,25 @@ class ConstantContact_Display {
 	 * Build form fields for shortcode
 	 *
 	 * @since 1.0.0
+	 *
 	 * @param  array $form_data formulated cmb2 data for form.
-	 * @return void
+	 * @return string
 	 */
 	public function build_form_fields( $form_data, $old_values, $req_errors ) {
 
-		// start our wrapper return var
+		// Start our wrapper return var.
 		$return = '';
 
 		// Check to see if we have a form ID for the form, and display our description.
 		if ( isset( $form_data['options'] ) && isset( $form_data['options']['form_id'] ) ) {
 
-			// Get our description
+			// Get our description.
 			$desc = isset( $form_data['options']['description'] ) ? $form_data['options']['description'] : '';
 
-			// Clean our form ID
+			// Clean our form ID.
 			$form_id = absint( $form_data['options']['form_id'] );
 
-			// Add in our Description
+			// Add in our Description.
 			$return .= $this->description( $desc, $form_id );
 		}
 
@@ -268,10 +264,11 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Wrapper for single field display
+	 * Wrapper for single field display.
 	 *
-	 * @since  1.0.0
-	 * @param  array $field field data
+	 * @since 1.0.0
+	 *
+	 * @param array $field field data.
 	 * @return string        html markup
 	 */
 	public function field( $field, $old_values = array(), $req_errors = array() ) {
@@ -303,22 +300,22 @@ class ConstantContact_Display {
 			$map = $map . '___' . md5( serialize( $field ) );
 		}
 
-		// Default error status
+		// Default error status.
 		$field_error = false;
 
-		// If we got any errors, then pass them through to the form field
+		// If we got any errors, then pass them through to the form field.
 		if ( ! empty( $req_errors ) ) {
 
-			// Loop through each error
+			// Loop through each error.
 			foreach ( $req_errors as $error ) {
 
-				// Make sure we have a field ID and an actual error
+				// Make sure we have a field ID and an actual error.
 				if ( isset( $error['id'] ) && isset( $error['error'] ) ) {
 
-					// If the error matches the field we're rendering
+					// If the error matches the field we're rendering.
 					if ( $map === $error['id'] ) {
 
-						// Start our field error return
+						// Start our field error return.
 						$field_error = '<span class="ctct-field-error">';
 
 						// Based on the error type, display an error.
@@ -328,17 +325,17 @@ class ConstantContact_Display {
 							$field_error .= __( ' Error: Please fill out this field.', 'constant-contact-forms' );
 						}
 
-						// Finish error return
+						// Finish error return.
 						$field_error .= '</span>';
 					}
 				}
 			}
 		}
 
-		// Potentially replace value with submitted value
+		// Potentially replace value with submitted value.
 		$value = $this->get_submitted_value( $value, $map, $field, $old_values );
 
-		// Based on our type, output different things
+		// Based on our type, output different things.
 		switch ( $type ) {
 			case 'custom':
 			case 'first_name':
@@ -370,7 +367,7 @@ class ConstantContact_Display {
 				break;
 			case 'anniversery':
 			case 'birthday':
-				// need this to be month / day / year
+				// Need this to be month / day / year.
 				return $this->dates( $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			default:
@@ -382,45 +379,40 @@ class ConstantContact_Display {
 	/**
 	 * Gets submitted values
 	 *
-	 * @since  1.0.0
-	 * @param  array $field field data
+	 * @since 1.0.0
+	 *
+	 * @param array $field field data.
 	 * @return string        submitted value
 	 */
 	public function get_submitted_value( $value = '', $map = '', $field = array(), $submitted_vals = array() ) {
 
-		// If we have a value already return it
 		if ( $value ) {
 			return $value;
 		}
 
-		// Sanity check
 		if ( ! is_array( $submitted_vals ) ) {
 			return '';
 		}
 
-		// Possible return this array
 		$return = array();
 
-		// Loop through each val and try to grab our submitted
 		foreach ( $submitted_vals as $post ) {
 
-			// Make sure we have some value in the submitted
 			if ( isset( $post['key'] ) && $post['key'] ) {
 
-				// If we have an address, its a special case
+				// If we have an address, its a special case.
 				if ( 'address' === $field['name'] ) {
 
 					// If any of our keys contain our address breaker, then add
-					// it to the array
+					// it to the array.
 					if ( strpos( $post['key'], '_address___' ) !== false ) {
 
-						// Try to grab the street_address (etc) part of our key
+						// Try to grab the street_address (etc) part of our key.
 						$addr_key = explode( '___', $post['key'] );
 
-						// If we got something, add it to our return array
+						// If we got something, add it to our return array.
 						if ( isset( $addr_key[0] ) && $addr_key[0] ) {
 
-							// Set default
 							$post_key = '';
 
 							// Validate our data we're about to use
@@ -440,12 +432,12 @@ class ConstantContact_Display {
 								$post_key = sanitize_text_field( wp_unslash( $_POST[ esc_attr( $post['key'] ) ] ) ); // Input var okay.
 							}
 
-							// Set our return data
+							// Set our return data.
 							$return[ esc_attr( $addr_key[0] ) ] = $post_key;
 						}
 					}
 
-					// Otherwise make sure we have a value
+					// Otherwise make sure we have a value.
 					//
 					// We also flag PHPCS to ignore this line, as we get
 					// a nonce verification error, but we process the nonce
@@ -454,7 +446,7 @@ class ConstantContact_Display {
 					// @codingStandardsIgnoreLine
 				} elseif ( $post['key'] === $map && isset( $_POST[ esc_attr( $map ) ] ) ) { // Input var okay.
 
-					// Clean and return
+					// Clean and return.
 					//
 					// We also flag PHPCS to ignore this line, as we get
 					// a nonce verification error, but we process the nonce
@@ -466,99 +458,99 @@ class ConstantContact_Display {
 			}
 		}
 
-		// If we did add to our array, send it back
-		if ( ! empty( $return ) ) {
-			return $return;
-		}
-
-		return '';
+		return $return;
 	}
 
 	/**
-	 * Helper method to display in-line for success/error messages
+	 * Helper method to display in-line for success/error messages.
 	 *
-	 * @since  1.0.0
-	 * @param  string $type    success / error / etc for class
-	 * @param  string $message message to display to user
-	 * @return string          html markup
+	 * @since 1.0.0
+	 *
+	 * @param string $type    Success / error / etc for class.
+	 * @param string $message Message to display to user.
+	 * @return string HTML markup.
 	 */
 	public function message( $type, $message ) {
 		return '<p class="ctct-message ' . esc_attr( $type ) . '">' . esc_attr( $message ) . '</p>';
 	}
 
 	/**
-	 * Helper method to display form description
+	 * Helper method to display form description.
 	 *
-	 * @since  1.0.0
-	 * @param  string $description description to outpu
-	 * @return echo              echos out form description markup
+	 * @since 1.0.0
+	 *
+	 * @param string      $desc    Description to output.
+	 * @param int|boolean $form_id Form ID.
+	 * @return string Form description markup.
 	 */
 	public function description( $desc = '', $form_id = false ) {
 
-		// Set default var
 		$display = '';
 
-		// if we have the permissions, also display an edit link
+		// If we have the permissions, also display an edit link.
 		if ( current_user_can( 'edit_posts' ) && $form_id ) {
 
-			// get our edit link
+			// Get our edit link.
 			$edit_link = get_edit_post_link( absint( $form_id ) );
 
-			// if we got a link, display it
+			// If we got a link, display it.
 			if ( $edit_link ) {
 				$display .= '<a class="button ctct-button" href="' . esc_url( $edit_link ) . '">' . __( 'Edit Form', 'constant-contact-forms' ) . '</a>';
 			}
 		}
 
-		// Display our description
 		return '<span class="ctct-form-description">' . wpautop( wp_kses_post( $desc ) ) . '</span>' . $display;
-
 	}
 
 	/**
-	 * Helper method to display label for form field + field starting markup
+	 * Helper method to display label for form field + field starting markup.
 	 *
-	 * @since  1.0.0
-	 * @param  string  $type  type of field
-	 * @param  string  $name  name / id of field
-	 * @param  string  $label label text for field
-	 * @param  boolean $req   is this field required?
-	 * @return string         HTML markup
+	 * @since 1.0.0
+	 *
+	 * @param string  $type      Type of field.
+	 * @param string  $name      Name / id of field.
+	 * @param string  $f_id      Field ID.
+	 * @param string  $label     Label text for field.
+	 * @param boolean $req       If this field required.
+	 * @param boolean $use_label Whether or not to use label.
+	 * @return string HTML markup.
 	 */
 	public function field_top( $type = '', $name = '', $f_id = '', $label = '', $req = false, $use_label = true ) {
 
-		// Set blank defaults for required info
+		// Set blank defaults for required info.
 		$req_label = '';
 
-		// If this is required, we output the HMTL5 required att
+		// If this is required, we output the HMTL5 required att.
 		if ( $req ) {
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
-		// Start building our return markup
+		// Start building our return markup.
 		$markup = '<p class="ctct-form-field ctct-form-field-' . $type . '">';
 
-		// alow skipping label, also don't show for submit buttons
+		// Allow skipping label, also don't show for submit buttons.
 		if ( $use_label && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
 
-			// Our field label will be the form name + required asterisk + our label
+			// Our field label will be the form name + required asterisk + our label.
 			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
 		}
 
 		// If we're not on submit or hidden, but still doing label on bottom,
-		// then output a container div
+		// then output a container div.
 		if ( ! $use_label ) {
 			$markup .= '<div class="ctct-input-container">';
 		}
 
-		// return it
 		return $markup;
 	}
 
 	/**
-	 * Bottom of field markup
+	 * Bottom of field markup.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
+	 * @param string $name        Field name.
+	 * @param string $field_label Field label.
 	 * @return string HTML markup
 	 */
 	public function field_bottom( $name = '', $field_label = '' ) {
@@ -568,37 +560,41 @@ class ConstantContact_Display {
 			$markup .= $this->get_label( $name, $field_label );
 			;
 		}
-		// Finish building our markup
+		// Finish building our markup.
 		return $markup . '</p>';
 	}
 
 	/**
-	 * Helper method to get form label
+	 * Helper method to get form label.
 	 *
-	 * @since  1.0.0
-	 * @param  string $name name/id of form field
-	 * @param  string $text text to display as label
-	 * @return string       HTML markup
+	 * @since 1.0.0
+	 *
+	 * @param string $f_id        Name/id of form field.
+	 * @param string $field_label Text to display as label.
+	 * @return string HTML markup
 	 */
 	public function get_label( $f_id, $field_label ) {
 		return '<label for="' . $f_id . '">' . $field_label . '</label>';
 	}
 
 	/**
-	 * Wrapper for 'input' form fields
+	 * Wrapper for 'input' form fields.
 	 *
-	 * @since  1.0.0
-	 * @param  string  $type   type of form field
-	 * @param  string  $name   ID of form field
-	 * @param  string  $value  pre-filled value
-	 * @param  string  $label  label text for inpug
-	 * @param  boolean $req    is this field required?
-	 * @param  boolean $f_only should we only return the field itself, with no label?
-	 * @return string          HTML markup for field
+	 * @since 1.0.0
+	 *
+	 * @param string  $type        Type of form field.
+	 * @param string  $name        ID of form field.
+	 * @param string  $id          ID attribute value.
+	 * @param string  $value       pre-filled value.
+	 * @param string  $label       label text for inpug.
+	 * @param boolean $req         If field required.
+	 * @param boolean $f_only      If we only return the field itself, with no label.
+	 * @param boolean $field_error Field error.
+	 * @return string HTML markup for field.
 	 */
 	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false ) {
 
-		// Sanitize our stuff / set values
+		// Sanitize our stuff / set values.
 		$name  = sanitize_text_field( $name );
 		$f_id  = sanitize_title( $id );
 		$type  = sanitize_text_field( $type );
@@ -606,73 +602,72 @@ class ConstantContact_Display {
 		$label = sanitize_text_field( $label );
 		$req_text = $req ? 'required' : '';
 
-		// Start our markup
+		// Start our markup.
 		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
 
-		// Set our field as as seprate var, because we allow for only returning that
+		// Set our field as as seprate var, because we allow for only returning that.
 		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" placeholder="' . $label . '"';
 
-		// If we have an error
+		// If we have an error.
 		if ( $field_error ) {
 
-			// Tack that sucker on to the end of our input
+			// Tack that sucker on to the end of our input.
 			$field .= 'class="ctct-invalid"';
 		}
 
-		// Finish the markup for our field itself
+		// Finish the markup for our field itself.
 		$field .= '/>';
 
-		// Add our field to our markup
+		// Add our field to our markup.
 		$markup .= $field;
 
-		// If we got an error, add it to the bottom label
+		// If we got an error, add it to the bottom label.
 		if ( $field_error ) {
 			$markup .= $this->field_bottom( $id, $field_error );
 		} else {
 			$markup .= $this->field_bottom();
 		}
 
-		// If we passed in a flag for only the field, just return that
+		// If we passed in a flag for only the field, just return that.
 		if ( $f_only ) {
 			return $field;
 		}
 
-		// Otherwise all the markup
 		return $markup;
 	}
 
 	/**
-	 * Checkbox field helper method
+	 * Checkbox field helper method.
 	 *
-	 * @since  1.0.0
-	 * @param  string $name  name/it of field
-	 * @param  string $value value of field
-	 * @param  string $label label / desc text
-	 * @return string        html markup for checkbox
+	 * @since 1.0.0
+	 *
+	 * @param string $name  Name/it of field.
+	 * @param string $f_id  Field ID.
+	 * @param string $value Value of field.
+	 * @param string $label Label / desc text.
+	 * @return string HTML markup for checkbox.
 	 */
 	public function checkbox( $name = '', $f_id = '', $value = '', $label = '' ) {
 
-		// Clean our inputs
 		$name  = sanitize_text_field( $name );
 		$f_id  = sanitize_title( $f_id );
 		$value = sanitize_text_field( $value );
 		$label = esc_attr( $label );
 		$type = 'checkbox';
 
-		// Build up our markup
 		$markup = $this->field_top( $type, $name, $f_id, $label, false, false );
 		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" />';
 		$markup .= $this->field_bottom( $name, ' ' . $label );
 
-		// return it
 		return $markup;
 	}
 
 	/**
-	 * Helper method for submit button
+	 * Helper method for submit button.
 	 *
-	 * @since  1.0.0
-	 * @return string html markup
+	 * @since 1.0.0
+	 *
+	 * @return string HTML markup.
 	 */
 	public function submit() {
 		return $this->field( array(
@@ -684,114 +679,114 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Build markup for opt_in form
+	 * Build markup for opt_in form.
 	 *
-	 * @since  1.0.0
-	 * @param  array $form_data form data structure
-	 * @return string            markup of optin form
+	 * @since 1.0.0
+	 *
+	 * @param array $form_data Form data structure.
+	 * @return string Markup of optin form.
 	 */
 	public function opt_in( $form_data ) {
 
-		// Make sure we have our optin data
+		// Make sure we have our optin data.
 		if ( ! isset( $form_data['optin'] ) ) {
 			return;
 		}
 
-		// Set up our defaults
+		// Set up our defaults.
 		$optin = wp_parse_args( $form_data['optin'], array(
 			'list'         => false,
 			'show'         => false,
 			'instructions' => '',
 		) );
 
-		// Make sure we have our opt in set, as well as an associated list
+		// Make sure we have our opt in set, as well as an associated list.
 		if ( isset( $optin['list'] ) && $optin['list'] ) {
 			return $this->optin_display( $optin );
 		}
 	}
 
 	/**
-	 * Internal method to display checkbox
+	 * Internal method to display checkbox.
 	 *
-	 * @since  1.0.0
-	 * @param  array $optin optin data
-	 * @return string        html markup
+	 * @since 1.0.0
+	 *
+	 * @param array $optin Optin data.
+	 * @return string HTML markup.
 	 */
 	public function optin_display( $optin ) {
 
-		// Clean our inputs, set defaults
 		$label   = sanitize_text_field( isset( $optin['instructions'] ) ? $optin['instructions'] : '' );
 		$value   = sanitize_text_field( isset( $optin['list'] ) ? $optin['list'] : '' );
 
-		// Set our $show var
 		$show = false;
 		if ( isset( $optin['show'] ) && 'on' === $optin['show'] ) {
 			$show = true;
 		}
 
-		// Start our markup return
 		$markup = '';
 
-		// If we set to hide the field, then hide it inline
+		// If we set to hide the field, then hide it inline.
 		if ( ! $show ) {
 			$markup = '<div class="ctct-optin-hide" style="display:none;">';
 		}
 
-		// Grab our markup
+		// Grab our markup.
 		$markup .= $this->get_optin_markup( $label, $value, $show );
 
-		// If we set to hide, close our open div
+		// If we set to hide, close our open div.
 		if ( ! $show ) {
 			$markup .= '</div><!--.ctct-optin-hide -->';
 		}
 
-		// return it
 		return $markup;
 	}
 
 	/**
 	 * Helper method to get optin markup
 	 *
-	 * @since   1.0.0
-	 * @param   string  $label  label for field
-	 * @param   string  $value  value of opt in field
-	 * @param   string  $show   whether or not we are showing the field
-	 * @return  string          HTML markup
+	 * @since 1.0.0
+	 *
+	 * @param string $label Label for field.
+	 * @param string $value Value of opt in field.
+	 * @param string $show  Whether or not we are showing the field.
+	 * @return string HTML markup
 	 */
 	public function get_optin_markup( $label, $value, $show ) {
 
-		// If we aren't showing the field, then we default our checkbox to checked
+		// If we aren't showing the field, then we default our checkbox to checked.
 		$checked = $show ? '' : 'checked';
 
-		// Build up our markup
 		$markup = $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
 		$markup .= '<input type="checkbox" ' . $checked . ' name="ctct-opt-in" id="ctct-opt-in" value="' . $value . '" />';
 		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . wp_kses_post( $label ) ) . '</div>';
 
-		// Send it back
 		return $markup;
 	}
 
 	/**
 	 * Builds a fancy address field group
 	 *
-	 * @since  1.0.0
-	 * @param  string $name  name of fields
-	 * @param  string $f_id  form id name
-	 * @param  array  $value values of each field
-	 * @param  string $desc  label of field
-	 * @return string        html markup of field
+	 * @since 1.0.0
+	 *
+	 * @param string  $name        Name of fields.
+	 * @param string  $f_id        Form ID name.
+	 * @param array   $value       Values of each field.
+	 * @param string  $desc        Label of field.
+	 * @param boolean $req         Whether or not required.
+	 * @param string  $field_error Field error value.
+	 * @return string field HTML markup.
 	 */
 	public function address( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '' ) {
 
-		// Set up our text strings
+		// Set up our text strings.
 		$street = __( 'Street Address', 'constant-contact-forms' );
 		$line_2 = __( 'Address Line 2', 'constant-contact-forms' );
 		$city   = __( 'City', 'constant-contact-forms' );
 		$state  = __( 'State', 'constant-contact-forms' );
 		$zip    = __( 'ZIP Code', 'constant-contact-forms' );
 
-		// Set our values
+		// Set our values.
 		$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
 		$v_line_2 = isset( $value['line_2_address'] ) ? $value['line_2_address'] : '';
 		$v_city   = isset( $value['city_address'] ) ? $value['city_address'] : '';
@@ -800,7 +795,7 @@ class ConstantContact_Display {
 
 		$req = $req ? ' required ' : '';
 
-		// Build our field
+		// Build our field.
 		$return  = '<p class="ctct-address"><fieldset>';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1">';
@@ -831,29 +826,30 @@ class ConstantContact_Display {
 	/**
 	 * Gets and return a 3-part date selector
 	 *
-	 * @since  1.0.0
-	 * @param  string  $name        name of field
-	 * @param  string  $f_id        field id
-	 * @param  array   $value       values to pre-fill
-	 * @param  string  $desc        description of fields
-	 * @param  boolean $req         is required?
-	 * @param  string  $field_error field error text
-	 * @return string               html markup of fields
+	 * @since 1.0.0
+	 *
+	 * @param string  $name        Name of field.
+	 * @param string  $f_id        Field ID.
+	 * @param array   $value       Values to pre-fill.
+	 * @param string  $desc        Description of fields.
+	 * @param boolean $req         If is required.
+	 * @param string  $field_error Field error text.
+	 * @return string Fields HTML markup.
 	 */
 	public function dates( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '' ) {
 
-		// Set our field lables
+		// Set our field lables.
 		$month = __( 'Month', 'constant-contact-forms' );
 		$day   = __( 'Day', 'constant-contact-forms' );
 		$year  = __( 'Year', 'constant-contact-forms' );
 
-		// @TODO these need to get set correctly
-		// Set our values
+		// @TODO these need to get set correctly.
+		// Set our values.
 		$v_month = isset( $value['month'] ) ? $value['month'] : '';
 		$v_day   = isset( $value['day'] ) ? $value['day'] : '';
 		$v_year  = isset( $value['year'] ) ? $value['year'] : '';
 
-		// Build our field
+		// Build our field.
 		$return  = '<p class="ctct-date"><fieldset>';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline month">';
@@ -874,83 +870,76 @@ class ConstantContact_Display {
 	/**
 	 * Gets actual dropdowns for date selector
 	 *
-	 * @since  1.0.0
-	 * @param  string  $text           text for default option
-	 * @param  string  $f_id           field id
-	 * @param  string  $type           type of dropdown (day, month, year)
-	 * @param  string  $selected_value previous value
-	 * @param  boolean $req            is require?
-	 * @return string                  markup of field
+	 * @since 1.0.0
+	 *
+	 * @param string  $text           Text for default option.
+	 * @param string  $f_id           Field ID.
+	 * @param string  $type           Type of dropdown (day, month, year).
+	 * @param string  $selected_value Previous value.
+	 * @param boolean $req            If is require.
+	 * @return string field markup.
 	 */
 	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '', $req = false ) {
 
-		// Account for our weird IDs
+		// Account for our weird IDs.
 		$f_id = str_replace( 'birthday', 'birthday_' . $type, $f_id );
 		$f_id = str_replace( 'anniversary', 'anniversary_' . $type, $f_id );
 
-		// Start our field
 		$return = '<select name="' . esc_attr( $f_id ) . '" class="ctct-date-select ctct-date-select-' . esc_attr( $type ) . '">';
 
 		if ( $req ) {
 			$return = str_replace( '">', '" required>', $return );
 		}
 
-		// Grab all of our options based on the field type
+		// Grab all of our options based on the field type.
 		$return .= $this->get_date_options( $text, $this->get_date_values( $type ), $selected_value );
 
-		// Close our field
 		$return .= '</select>';
 
-		// Send it back
 		return $return;
 	}
 
 	/**
-	 * Gets option markup for a date selector
+	 * Gets option markup for a date selector.
 	 *
-	 * @since  1.0.0
-	 * @param  string $text                 default first option
-	 * @param  array  $values               values to use
-	 * @param  array  $prev_selected_values previous selected values
-	 * @return string                       html markup
+	 * @since 1.0.0
+	 *
+	 * @param string $text                 Default first option.
+	 * @param array  $values               Values to use.
+	 * @param array  $prev_selected_values Previous selected values.
+	 * @return string HTML markup.
 	 */
 	public function get_date_options( $text = '', $values = array(), $prev_selected_values = array() ) {
 
-		// First, we'll want
 		$return = '<option value="">' . sanitize_text_field( $text ) . '</option>';
 
-		// If we don't have a values array, bail out
 		if ( ! is_array( $values ) ) {
 			return $return;
 		}
 
-		// Loop through each of our values
 		foreach ( $values as $key => $value ) {
 
-			// Sanitize and make sure our key is set
 			$key = sanitize_text_field( isset( $key ) ? $key : '' );
 
-			// Sanitize and make sure our value is set
 			$value = sanitize_text_field( isset( $value ) ? $value : '' );
 
-			// Build out our option value
 			$return .= '<option value="' . $key . '">' . $value . '</option>';
 		}
 
-		// Send it back
 		return $return;
 	}
 
 	/**
-	 * Gets array of data for a date dropdown type
+	 * Gets array of data for a date dropdown type.
 	 *
-	 * @since  1.0.0
-	 * @param  string $type day,month,or,year
-	 * @return array       array of data
+	 * @since 1.0.0
+	 *
+	 * @param string $type Day, month, or year.
+	 * @return array Array of data
 	 */
 	public function get_date_values( $type ) {
 
-		// Based on $type, we'll send back an array of either days, months, or years
+		// Based on $type, we'll send back an array of either days, months, or years.
 		switch ( $type ) {
 			case 'day':
 				$return = apply_filters( 'constant_contact_dates_day', $this->get_days() );
@@ -980,19 +969,19 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Helper method to get all years
+	 * Helper method to get all years.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 * @return array years from 1910-current year
 	 */
 	public function get_years() {
 
-		// Get all of our years
+		// Get all of our years.
 		$year_range = range( 1910,  date( 'Y' ) );
 
 		$year_range = array_reverse( $year_range );
 
-		// Loop through each of the years we  have
+		// Loop through each of the years we have.
 		foreach ( $year_range as $year ) {
 			$years[ $year ] = $year;
 		}
@@ -1003,15 +992,15 @@ class ConstantContact_Display {
 	/**
 	 * Gets array of 1-31
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 * @return array array of days
 	 */
 	public function get_days() {
 
-		// Get all of our day
+		// Get all of our day.
 		$day_range = range( 1, 31 );
 
-		// Loop through each of the days we  have
+		// Loop through each of the days we have.
 		foreach ( $day_range as $day ) {
 			$days[ $day ] = $day;
 		}
@@ -1022,88 +1011,81 @@ class ConstantContact_Display {
 	/**
 	 * Displays text area field
 	 *
-	 * @param  string $name        name of field
-	 * @param  string $map         id of field
-	 * @param  string $value       previous value of field
-	 * @param  string $desc        description/label of field
-	 * @param  boolean $req         is required?
-	 * @param  string $field_error error from field
-	 * @return string              html markup
+	 * @param string  $name        Name of field.
+	 * @param string  $map         ID of field.
+	 * @param string  $value       Previous value of field.
+	 * @param string  $desc        Description/label of field.
+	 * @param boolean $req         If is required.
+	 * @param string  $field_error Error from field.
+	 * @return string HTML markup.
 	 */
 	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '' ) {
-		// Set our required text
+		// Set our required text.
 		$req_text = $req ? 'required' : '';
 
-		// If required, get our label
+		// If required, get our label.
 		$req_label = '';
 		if ( $req ) {
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
-		// Build up our field markup
 		$return  = '<p><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label><textarea ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '">' . esc_html( $value ) . '</textarea>';
 
-		// IF we have an error, add it to our markup
 		if ( $field_error ) {
 			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $map ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constant-contact-forms' ) ) . '</label></span>';
 		}
 
-		// Send it back
 		return $return . '</p>';
 	}
 
 	/**
-	 * Maybe display the disclourse notice
+	 * Maybe display the disclourse notice.
 	 *
-	 * @since   1.0.0
-	 * @param   array  $form_data  form data
-	 * @return  string              html markup
+	 * @since 1.0.0
+	 *
+	 * @param array $form_data Form data.
+	 * @return string HTML markup
 	 */
 	public function maybe_add_disclose_note( $form_data ) {
 
-		// Get out our form options
 		$opts = isset( $form_data['options'] ) ? $form_data['options'] : false;
 
-		// Bail if they're not set
 		if ( ! $opts ) {
 			return;
 		}
 
-		// Get our optin data
 		$optin = isset( $opts['optin'] ) ? $opts['optin'] : false;
 
-		// Bail if not set
 		if ( ! $optin ) {
 			return false;
 		}
 
-		// Get our list
 		$list = isset( $optin['list'] ) ? $optin['list'] : false;
 
-		// Bail if not set
 		if ( ! $list ) {
 			return false;
 		}
 
-		// finally, send back our text
 		return $this->get_disclose_text();
 	}
 
 	/**
-	 * Get our disclose markup
+	 * Get our disclose markup.
 	 *
-	 * @since   1.0.0
-	 * @return  string  html markup
+	 * @since 1.0.0
+	 *
+	 * @return string HTML markup.
 	 */
 	public function get_disclose_text() {
 		return apply_filters( 'constant_contact_disclose', '<hr><sub>' . $this->get_inner_disclose_text() . '</sub>' );
 	}
 
 	/**
-	 * Get our disclose text
+	 * Get our disclose text.
 	 *
-	 * @since   1.0.0
-	 * @return  string  text
+	 * @since 1.0.0
+	 *
+	 * @return string text
 	 */
 	public function get_inner_disclose_text() {
 		return sprintf( __( 'By submitting this form, you are granting: %s, permission to email you. You may unsubscribe via the link found at the bottom of every email. (See our Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) for details.) Emails are serviced by Constant Contact.', 'constant-contact-forms' ), $this->plugin->api->get_disclosure_info() );

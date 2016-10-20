@@ -1,5 +1,7 @@
 <?php
 /**
+ * Shortcode button.
+ *
  * @package ConstantContact
  * @subpackage Shortcode
  * @author Constant Contact
@@ -42,7 +44,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			// Attributes.
 			$atts = shortcode_atts( array( 'form' => '' ), $this->shortcode_object->atts );
 
-			// Use our helper class to display the shortcode
+			// Use our helper class to display the shortcode.
 			return constant_contact()->display_shortcode->shortcode_wrapper( $atts );
 		}
 
@@ -55,7 +57,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 * @see WDS_Shortcode::att
 		 *
 		 * @since 1.0.0
-		 * @param string      $att	 Attribute to override.
+		 * @param string      $att     Attribute to override.
 		 * @param string|null $default Default value.
 		 * @return string
 		 */
