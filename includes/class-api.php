@@ -505,7 +505,8 @@ class ConstantContact_API {
 			// Based on our key, theres a few different things we should do
 			switch ( $key ) {
 				case 'email':
-					// do nothing, as we already captured
+				case 'website':
+					// Do nothing, as we already captured.
 					break;
 				case 'phone_number':
 					$contact->cell_phone = $value;
