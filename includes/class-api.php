@@ -502,7 +502,7 @@ class ConstantContact_API {
 				continue;
 			}
 
-			// Based on our key, theres a few different things we should do
+			// Based on our key, theres a few different things we should do.
 			switch ( $key ) {
 				case 'email':
 				case 'website':
@@ -520,12 +520,12 @@ class ConstantContact_API {
 				case 'state_address':
 				case 'zip_address':
 
-					// set our global address so we can append more data
+					// Set our global address so we can append more data.
 					if ( is_null( $address ) ) {
 						$address = new Ctct\Components\Contacts\Address();
 					}
 
-					// Nested switch to set all our address properties how they should be mapped
+					// Nested switch to set all our address properties how they should be mapped.
 					switch ( $key ) {
 						case 'street_address':
 							$address->address_type = 'PERSONAL';
@@ -553,41 +553,40 @@ class ConstantContact_API {
 				case 'anniversary_month':
 				case 'anniversary_year':
 				case 'custom':
-					// Dont overload custom fields
+					// Dont overload custom fields.
 					if ( 15 >= $count ) {
 						break;
 					}
 
-					// Otherwise, set up our custom field
+					// Otherwise, set up our custom field.
 					$custom = new Ctct\Components\Contacts\CustomField();
 
-					// Create, name it the way the API needs
+					// Create, name it the way the API needs.
 					$custom = $custom->create( array(
 							'name' => 'CustomField' . $count,
 							'value' => $key . ' : ' . $value,
 					) );
 
-					// Attach it
+					// Attach it.
 					$contact->addCustomField( $custom );
 					break;
 				default:
-					// if we got here, try to map our field to the key
+					// If we got here, try to map our field to the key.
 					try {
-						// Try it
 						$contact->$key = $value;
 					} catch (Exception $e) {
-						// If we get an exception, then break.
+						// @todo Log the exception.
 						break;
 					}
 
-					// Otherwise break anyway
+					// Otherwise break anyway.
 					break;
 			}
 
 			$count = $count + 1;
 		}
 
-		// If we did set address properties, then push it to our contact
+		// If we did set address properties, then push it to our contact.
 		if ( ! is_null( $address ) ) {
 			$contact->addAddress( $address );
 		}
@@ -604,10 +603,7 @@ class ConstantContact_API {
 	 */
 	public function log_errors( $errors ) {
 
-		// Make sure we have an array
 		if ( is_array( $errors ) ) {
-
-			// Loop through all errors
 			foreach ( $errors as $error ) {
 				$this->api_error_message( $error );
 			}
@@ -623,18 +619,18 @@ class ConstantContact_API {
 	 */
 	private function api_error_message( $error ) {
 
-		// Make sure we have our expected error key
+		// Make sure we have our expected error key.
 		if ( ! isset( $error->error_key ) ) {
 			return false;
 		}
 
-		// If we have our debugging turned on, push that error to the error log
+		// If we have our debugging turned on, push that error to the error log.
 		if ( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) {
 			error_log( $error->error_key . ': ' . $error->error_message );
 			error_log( serialize( debug_backtrace() ) );
 		}
 
-		// Otherwise work through our list of error keys we know
+		// Otherwise work through our list of error keys we know.
 		switch ( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
 				$this->access_token = false;
@@ -651,10 +647,9 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Rate limit ourselves to not bust API call rate limit
+	 * Rate limit ourselves to not bust API call rate limit.
 	 *
-	 * @since  1.0.0
-	 * @param  string $time amount of time to pause api calls
+	 * @since 1.0.0
 	 */
 	public function pause_api_calls() {
 		// @TODO
@@ -668,55 +663,52 @@ class ConstantContact_API {
 	 */
 	public function is_connected() {
 
-		// Make sure we only grab our token once during a page load
+		// Make sure we only grab our token once during a page load.
 		static $token = null;
 
-		// If we haven't grabbed it yet, grab it
+		// If we haven't grabbed it yet, grab it.
 		if ( is_null( $token ) ) {
 			$token = get_option( 'ctct_token', false ) ? true : false;
 		}
 
-		// Return it
 		return $token;
 	}
 
 	/**
 	 * Helper method to output a link for our connect modal
 	 *
-	 * @since   1.0.0
-	 * @param   string  $type  type of link to output
+	 * @since 1.0.0
 	 */
 	public function get_connect_link() {
 
-		// Allow us to re-use the same verification twice on one page load
+		// Allow us to re-use the same verification twice on one page load.
 		static $proof = null;
 
-		// If we haven't set a proof yet, generate it
+		// If we haven't set a proof yet, generate it.
 		if ( is_null( $proof ) ) {
 			$proof = constant_contact()->authserver->set_verification_option();
 		}
 
-		// Send back our connect url
+		// Send back our connect url.
 		return constant_contact()->authserver->do_connect_url( $proof );
 	}
 
 	/**
-	 * Helper method to output a link for our connect modal
+	 * Helper method to output a link for our connect modal.
 	 *
-	 * @since   1.0.0
-	 * @param   string  $type  type of link to output
+	 * @since 1.0.0
 	 */
 	public function get_signup_link() {
 
-		// Allow us to re-use the same verification twice on one page load
+		// Allow us to re-use the same verification twice on one page load.
 		static $proof = null;
 
-		// If we haven't set a proof yet, generate it
+		// If we haven't set a proof yet, generate it.
 		if ( is_null( $proof ) ) {
 			$proof = constant_contact()->authserver->set_verification_option();
 		}
 
-		// Send back our connect url
+		// Send back our connect url.
 		return constant_contact()->authserver->do_signup_url( $proof );
 	}
 
@@ -725,7 +717,7 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 * @param bool $as_parts If true return an array.
-	 * Array (
+	 * array (
 	 *     [name] => Business Name
 	 *     [address] => 555 Business Place Ln., Beverly Hills, CA, 90210
 	 * ).
@@ -764,7 +756,7 @@ class ConstantContact_API {
 			$organization_address = array_shift( $account_info->organization_addresses );
 			$disclosure_address   = array();
 
-			// Add in our disclouse address
+			// Add in our disclouse address.
 			if ( is_array( $address_fields ) ) {
 				foreach ( $address_fields as $field ) {
 					if ( isset( $organization_address[ $field ] ) && strlen( $organization_address[ $field ] ) ) {
