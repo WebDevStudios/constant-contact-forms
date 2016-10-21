@@ -210,6 +210,14 @@ class ConstantContact_Lists {
 		// Currently, the rate limit for this is a refresh every 2 minutes. This can be filtered to be
 		// less or more time.
 		$last_synced = get_option( 'constant_contact_lists_last_synced', time() - DAY_IN_SECONDS );
+
+		/**
+		 * Filters the rate limit to use for syncing lists.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param int $value Amount o time to wait between syncs. Default 15 minutes.
+		 */
 		$sync_rate_limit_time = apply_filters( 'constant_contact_list_sync_rate_limit', 15 * MINUTE_IN_SECONDS );
 
 		// If our last synced time plus our rate limit is less than or equal to right now,
@@ -239,7 +247,13 @@ class ConstantContact_Lists {
 			return;
 		}
 
-		// Grab all our lists that we have.
+		/**
+		 * Filters the arguments used to grab the lists to sync.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of WP_Query arguments.
+		 */
 		$query = new WP_Query( apply_filters( 'constant_contact_lists_query_for_sync', array(
 			'post_type'	             => 'ctct_lists',
 			'posts_per_page'         => 150,
@@ -310,9 +324,15 @@ class ConstantContact_Lists {
 
 				$list_id = esc_attr( $list->id );
 
-				// Build up our insertion args.
+				/**
+				 * Filters the arguments used for inserting new lists from a fresh sync.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param array $value Array of arguments for a new list to be inserted into database.
+				 */
 				$new_post = apply_filters( 'constant_contact_list_insert_args', array(
-					  'post_title'	=> isset( $list->name ) ? esc_attr( $list->name ) : '',
+					  'post_title'  => isset( $list->name ) ? esc_attr( $list->name ) : '',
 					  'post_status' => 'publish',
 					  'post_type'   => 'ctct_lists',
 				) );
@@ -372,7 +392,8 @@ class ConstantContact_Lists {
 		 * Hook when a ctct list is updated.
 		 *
 		 * @since 1.0.0
-		 * @param array $list CTCT returned list data.
+		 *
+		 * @param array $lists_to_insert CTCT returned list data.
 		 */
 		do_action( 'ctct_sync_lists', $lists_to_insert );
 	}
@@ -507,9 +528,10 @@ class ConstantContact_Lists {
 			 * Hook when a ctct list is saved.
 			 *
 			 * @since 1.0.0
-			 * @param integer $post_id cpt post id
-			 * @param integer $list_id ctct list id
-			 * @param array $list ctct returned list data
+			 *
+			 * @param integer $post_id CPT post id.
+			 * @param integer $list_id Ctct list id.
+			 * @param array   $list    Ctct returned list data.
 			 */
 			do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
 
@@ -683,9 +705,9 @@ class ConstantContact_Lists {
 			 * Hook when a ctct list is updated.
 			 *
 			 * @since 1.0.0
-			 * @param integer $post_id cpt post id
-			 * @param integer $list_id ctct list id
-			 * @param array $list ctct returned list data
+			 * @param integer $post_id CPT post id.
+			 * @param integer $list_id Ctct list id.
+			 * @param array   $list    Ctct returned list data.
 			 */
 			do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
 
@@ -734,8 +756,9 @@ class ConstantContact_Lists {
 		 * Hook when a ctct list is deleted.
 		 *
 		 * @since 1.0.0
-		 * @param integer $post_id
-		 * @param integer $list_id
+		 *
+		 * @param integer $post_id Form list ID that was deleted.
+		 * @param integer $list_id Constant Contact list ID.
 		 */
 		do_action( 'ctct_delete_list', $post_id, $list_id );
 

@@ -522,6 +522,14 @@ class ConstantContact_Display {
 
 		// If this is required, we output the HMTL5 required att.
 		if ( $req ) {
+
+			/**
+			 * Filters the markup used for the required indicator.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+			 */
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
@@ -958,9 +966,25 @@ class ConstantContact_Display {
 		// Based on $type, we'll send back an array of either days, months, or years.
 		switch ( $type ) {
 			case 'day':
+
+				/**
+				 * Filters the array of numbers used to indicate day of the month in numerals.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param array $value Array of numbers ranging from 1 to 31.
+				 */
 				$return = apply_filters( 'constant_contact_dates_day', $this->get_days() );
 				break;
 			case 'month':
+
+				/**
+				 * Filters the array of months used for dropdown.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param array $value Array of months from calendar.
+				 */
 				$return = apply_filters( 'constant_contact_dates_month', array(
 					'january'   => __( 'January', 'contantcontact' ),
 					'february'  => __( 'February', 'contantcontact' ),
@@ -977,6 +1001,14 @@ class ConstantContact_Display {
 				) );
 				break;
 			case 'year':
+
+				/**
+				 * Filters the array of years, starting from 1910 to present.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param array $value Array of years.
+				 */
 				$return = apply_filters( 'constant_contact_dates_year', $this->get_years() );
 				break;
 		}
@@ -1042,6 +1074,14 @@ class ConstantContact_Display {
 		// If required, get our label.
 		$req_label = '';
 		if ( $req ) {
+
+			/**
+			 * Filters the markup used for the required indicator.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+			 */
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
@@ -1093,6 +1133,14 @@ class ConstantContact_Display {
 	 * @return string HTML markup.
 	 */
 	public function get_disclose_text() {
+
+		/**
+		 * Filters the content used to display the disclose text.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value HTML and disclose text.
+		 */
 		return apply_filters( 'constant_contact_disclose', '<hr><sub>' . $this->get_inner_disclose_text() . '</sub>' );
 	}
 

@@ -38,6 +38,13 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function js_button_data() {
 
+			/**
+			 * Filters our shortcode button settings for WDS_Shortcode class.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param array $value Array of properties to use with shortcode popup.
+			 */
 			return apply_filters( 'constant_contact_shortcode_button_settings', array(
 				'qt_button_text' => __( 'Add Constant Contact Form', 'constant-contact-forms' ),
 				'button_tooltip' => __( 'Add Constant Contact Form', 'constant-contact-forms' ),

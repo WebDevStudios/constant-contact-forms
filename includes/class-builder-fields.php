@@ -55,7 +55,13 @@ class ConstantContact_Builder_Fields {
 	public function hooks() {
 		global $pagenow;
 
-		// Allow filtering the pages to load form build actions.
+		/**
+		 * Filters the pages to add our form builder content to.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of WP admin pages to load builder on.
+		 */
 		$form_builder_pages = apply_filters(
 			'constant_contact_form_builder_pages',
 			array( 'post-new.php', 'post.php' )
@@ -297,6 +303,13 @@ class ConstantContact_Builder_Fields {
 			'default' => 'Ex: Enter email address',
 		) );
 
+		/**
+		 * Filters the Constant Contact field types to display as an option.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of field types.
+		 */
 		$default_fields = apply_filters( 'constant_contact_field_types', array(
 			'email'            => __( 'Email (required)', 'constant-contact-forms' ),
 			'first_name'       => __( 'First Name', 'constant-contact-forms' ),

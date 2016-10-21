@@ -261,7 +261,14 @@ class ConstantContact_CPTS {
 
 		$forms = get_transient( 'constant_contact_shortcode_form_list' );
 
-		// Allow bypassing transient check.
+
+		/**
+		 * Filters whether or not to bypass transient checks.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool $value Whether or not to bypass.
+		 */
 		$bypass_forms = apply_filters( 'constant_contact_bypass_shotcode_forms', false );
 
 		// If we dont have a transient or we bypass, go through the motions.
