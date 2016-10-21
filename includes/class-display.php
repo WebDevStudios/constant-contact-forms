@@ -674,7 +674,14 @@ class ConstantContact_Display {
 			'type'   => 'submit',
 			'name'   => 'ctct-submitted',
 			'map_to' => 'ctct-submitted',
-			'value'  => __( 'Send', 'constant-contact-forms' ),
+			/**
+			 * Filters the text that appears on the submit button.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param string $value Submit button text.
+			 */
+			'value'  => appy_filters( 'constant_contact_submit_text', __( 'Send', 'constant-contact-forms' ) ),
 		) );
 	}
 
