@@ -1,5 +1,7 @@
 <?php
 /**
+ * Constant Contact API class.
+ *
  * @package ConstantContact
  * @subpackage API
  * @author Constant Contact
@@ -18,9 +20,9 @@ use Ctct\Exceptions\CtctException;
 class ConstantContact_API {
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
-	 * @var   class
+	 * @var object
 	 * @since 0.0.1
 	 */
 	protected $plugin = null;
@@ -28,8 +30,9 @@ class ConstantContact_API {
 	/**
 	 * Constructor
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
+	 *
+	 * @param object $plugin Parent plugin class.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -39,6 +42,7 @@ class ConstantContact_API {
 	 * Get new instance of ConstantContact.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @return object ConstantContact_API
 	 */
 	public function cc() {
@@ -46,16 +50,17 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Returns api token string to access api
+	 * Returns API token string to access API.
 	 *
 	 * @since  1.0.0
+	 *
 	 * @param string $type api key type.
-	 * @return string api token
+	 * @return string API token.
 	 */
 	public function get_api_token( $type = '' ) {
 
 		 // Depending on our request, we'll try to grab a defined value
-		 // otherwise we'll grab it from our options
+		 // otherwise we'll grab it from our options.
 		switch ( $type ) {
 			case 'CTCT_APIKEY':
 
@@ -83,34 +88,35 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Info of the connected CTCT account
+	 * Info of the connected CTCT account.
 	 *
-	 * @since  1.0.0
-	 * @return array current connected ctct account info
+	 * @since 1.0.0
+	 *
+	 * @return array Current connected ctct account info.
 	 */
 	public function get_account_info() {
 
-		// If we're not connectd, bail out
+		// If we're not connectd, bail out.
 		if ( ! $this->is_connected() ) {
 			return;
 		}
 
-		// Get our saved account info
+		// Get our saved account info.
 		$acct_data = get_transient( 'constant_contact_acct_info' );
 
-		// allow bypassing transient with a filter
+		// Allow bypassing transient with a filter.
 		$bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', false );
 
-		// IF we dont' have a transient, or we want to bypass, hit our api
+		// If we dont' have a transient, or we want to bypass, hit our API.
 		if ( false === $acct_data || $bypass_acct_cache ) {
 			try {
 
-				// Grab our account
+				// Grab our account.
 				$acct_data = $this->cc()->accountService->getAccountInfo( $this->get_api_token() );
 
-				// Make sure we got a response before trying to save our transient
+				// Make sure we got a response before trying to save our transient.
 				if ( $acct_data ) {
-					// Save our data to a transient for a day
+					// Save our data to a transient for a day.
 					set_transient( 'constant_contact_acct_info', $acct_data, 1 * DAY_IN_SECONDS );
 				}
 			} catch ( CtctException $ex ) {
@@ -118,27 +124,28 @@ class ConstantContact_API {
 			}
 		}
 
-		// Return our account data
+		// Return our account data.
 		return $acct_data;
 	}
 
 	/**
-	 * Contacts of the connected CTCT account
+	 * Contacts of the connected CTCT account.
 	 *
-	 * @since  1.0.0
-	 * @return array current connect ctct account contacts
+	 * @since 1.0.0
+	 *
+	 * @return array Current connect ctct account contacts.
 	 */
 	public function get_contacts() {
 
-		// Verify we're connected
+		// Verify we're connected.
 		if ( ! $this->is_connected() ) {
 			return array();
 		}
 
-		// first, check our saved transient for a value
+		// First, check our saved transient for a value.
 		$contacts = get_transient( 'ctct_contact' );
 
-		// If we didn't get anything, then re-do the API call
+		// If we didn't get anything, then re-do the API call.
 		if ( false === $contacts ) {
 			try {
 				$contacts = $this->cc()->contactService->getContacts( $this->get_api_token() );
@@ -154,34 +161,36 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Lists of the connected CTCT account
+	 * Lists of the connected CTCT account.
 	 *
-	 * @since  1.0.0
-	 * @return array current connect ctct lists
+	 * @since 1.0.0
+	 *
+	 * @param bool $force_skip_cache Whether or not to skip cache.
+	 * @return array Current connect ctct lists.
 	 */
 	public function get_lists( $force_skip_cache = false ) {
 
-		// Verify we're connected
+		// Verify we're connected.
 		if ( ! $this->is_connected() ) {
 			return array();
 		}
 
-		// first, check our saved transient for a value
+		// First, check our saved transient for a value.
 		$lists = get_transient( 'ctct_lists' );
 
-		// If we passed in our force skip cache flag, we hit the API directly
+		// If we passed in our force skip cache flag, we hit the API directly.
 		if ( $force_skip_cache ) {
 			$lists = false;
 		}
 
-		// If we didn't get anything, then re-do the API call
+		// If we didn't get anything, then re-do the API call.
 		if ( false === $lists ) {
 			try {
 
-				// Get our lists
+				// Get our lists.
 				$lists = $this->cc()->listService->getLists( $this->get_api_token() );
 
-				// If its an array, then set our transient and return it
+				// If its an array, then set our transient and return it.
 				if ( is_array( $lists ) ) {
 					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
 					return $lists;
@@ -196,23 +205,23 @@ class ConstantContact_API {
 
 	public function get_list( $id ) {
 
-		// Clean our id
+		// Clean our id.
 		$id = esc_attr( $id );
 
-		// Sanity check that
+		// Sanity check that.
 		if ( ! $id ) {
 			return;
 		}
 
-		// Verify we're connected
+		// Verify we're connected.
 		if ( ! $this->is_connected() ) {
 			return array();
 		}
 
-		// first, check our saved transient for a value
+		// First, check our saved transient for a value.
 		$list = get_transient( 'ctct_list_' . $id );
 
-		// If we didn't get anything, then re-do the API call
+		// If we didn't get anything, then re-do the API call.
 		if ( false === $list ) {
 			try {
 				$list = $this->cc()->listService->getList( $this->get_api_token(), $id );
@@ -228,27 +237,28 @@ class ConstantContact_API {
 
 
 	/**
-	 * Add List to the connected CTCT account
+	 * Add List to the connected CTCT account.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param array $new_list api data for new list.
 	 * @return array current connect ctct lists
 	 */
 	public function add_list( $new_list = array() ) {
 
-		// Bail out early if we don't have the data we need
+		// Bail out early if we don't have the data we need.
 		if ( empty( $new_list ) || ! isset( $new_list['id'] ) ) {
 			return;
 		}
 
-		// Set our return list to empty array
+		// Set our return list to empty array.
 		$return_list = array();
 
 		try {
-			// Try to get the list from the API
+			// Try to get the list from the API.
 			$list = $this->cc()->listService->getList( $this->get_api_token(), esc_attr( $new_list['id'] ) );
 		} catch ( CtctException $ex ) {
-			// If we get an error, bail out
+			// If we get an error, bail out.
 			$this->log_errors( $ex->getErrors() );
 		}
 
@@ -259,37 +269,38 @@ class ConstantContact_API {
 
 		try {
 
-			// Generate a new list
+			// Generate a new list.
 			$list = new ContactList();
 
-			// name it our passed in list
+			// Name it our passed in list.
 			$list->name = isset( $new_list['name'] ) ? esc_attr( $new_list['name'] ) : '';
 
-			// Set status to hidden
+			// Set status to hidden.
 			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
-			// Push list to API
+			// Push list to API.
 			$return_list = $this->cc()->listService->addList( $this->get_api_token(), $list );
 
 		} catch ( CtctException $ex ) {
-			// Log an error we get
+			// Log an error we get.
 			$this->log_errors( $ex->getErrors() );
 		}
 
-		// This will either have our data, or be an empty array
+		// This will either have our data, or be an empty array.
 		return $return_list;
 	}
 
 	/**
-	 * Update List from the connected CTCT account
+	 * Update List from the connected CTCT account.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param array $updated_list api data for list.
 	 * @return array current connect ctct list
 	 */
 	public function update_list( $updated_list = array() ) {
 
-		// set our var to do things with
+		// Set our var to do things with.
 		$return_list = false;
 
 		try {
@@ -310,59 +321,55 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Delete List from the connected CTCT account
+	 * Delete List from the connected CTCT account.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param array $updated_list api data for list.
-	 * @return array current connect ctct list
+	 * @return array Current connect ctct list.
 	 */
 	public function delete_list( $updated_list = array() ) {
 
-		// bail early
 		if ( ! isset( $updated_list['id'] ) ) {
 			return;
 		}
 
-		// Set up our potential return var
 		$list = false;
 
-		// Attempt deletion
+		// Attempt deletion.
 		try {
 			$list = $this->cc()->listService->deleteList( $this->get_api_token(), $updated_list['id'] );
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
 		}
 
-		// Send back the list
 		return $list;
 	}
 
 	/**
-	 * Add constact to the connected CTCT account
+	 * Add constact to the connected CTCT account.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param array $new_contact New contact data.
-	 * @return array current connect ctct lists
+	 * @return array Current connect ctct lists.
 	 */
 	public function add_contact( $new_contact = array() ) {
 
-		// Make sure we're passed a full set of data
+		// Make sure we're passed a full set of data.
 		if ( empty( $new_contact ) ) {
 			return;
 		}
 
-		// If we don't get an email, it does us no good
+		// If we don't get an email, it does us no good.
 		if ( ! isset( $new_contact['email'] ) ) {
 			return;
 		}
 
-		// Set our API Token
 		$api_token = $this->get_api_token();
-
-		// Clean our email address.
 		$email = sanitize_email( $new_contact['email'] );
 
-		// Set our list data. If we didn't get passed a list and got this far, just generate a random ID
+		// Set our list data. If we didn't get passed a list and got this far, just generate a random ID.
 		$list = isset( $new_contact['list'] ) ? esc_attr( $new_contact['list'] ) : 'cc_' . wp_generate_password( 15, false );
 
 		$return_contact = false;
@@ -389,29 +396,28 @@ class ConstantContact_API {
 
 
 	/**
-	 * Helper method to creat contact
+	 * Helper method to creat contact.
 	 *
-	 * @since  1.0.0
-	 * @param  array  $response  response from api call
-	 * @param  string $api_token token
-	 * @param  string $list      list name
-	 * @param  string $email      email address
-	 * @param  string $f_name    first name
-	 * @param  string $l_name    last name
-	 * @return mixed             response from api
+	 * @since 1.0.0
+	 *
+	 * @param string $api_token Token.
+	 * @param string $list      List name.
+	 * @param string $email     Email address.
+	 * @param string $user_data User data.
+	 * @return mixed Response from api.
 	 */
 	public function _create_contact( $api_token, $list, $email, $user_data ) {
 
-		// Get a new instance of our contact
+		// Get a new instance of our contact.
 		$contact = new Contact();
 
-		// Set our email
+		// Set our email.
 		$contact->addEmail( sanitize_text_field( $email ) );
 
-		// Set our list
+		// Set our list.
 		$contact->addList( esc_attr( $list ) );
 
-		// Map the rest of our properties to
+		// Map the rest of our properties to.
 		$contact = $this->set_contact_properties( $contact, $user_data );
 
 		/*
@@ -426,32 +432,34 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Helper method to update contact
+	 * Helper method to update contact.
 	 *
-	 * @since  1.0.0
-	 * @param  array  $response  response from api call
-	 * @param  string $api_token token
-	 * @param  string $list      list name
-	 * @param  string $f_name    first name
-	 * @param  string $l_name    last name
-	 * @return mixed             response from api
+	 * @since 1.0.0
+	 *
+	 * @throws CtctException API exception.
+	 *
+	 * @param array  $response  Response from api call.
+	 * @param string $api_token Token.
+	 * @param string $list      List name.
+	 * @param string $user_data User data.
+	 * @return mixed Response from api.
 	 */
 	public function _update_contact( $response, $api_token, $list, $user_data ) {
 
-		// Sanity checks on our response
+		// Sanity checks on our response.
 		if (
 			isset( $response->results ) &&
 			isset( $response->results[0] ) &&
 			( $response->results[0] instanceof Contact )
 		) {
 
-			// set our returned contact
+			// Set our returned contact.
 			$contact = $response->results[0];
 
-			// Attach our list
+			// Attach our list.
 			$contact->addList( esc_attr( $list ) );
 
-			// set the rest of our properties
+			// Set the rest of our properties.
 			$contact = $this->set_contact_properties( $contact, $user_data );
 
 		    /*
@@ -473,18 +481,18 @@ class ConstantContact_API {
 	 * Helper method to push as much data from a form as we can into the
 	 * Constant Contact contact thats in a list
 	 *
-	 * @param  object $contact    Contact object
-	 * @param  array  $user_data   bunch of user data
-	 * @return object             Contact object, with new properties
+	 * @param object $contact   Contact object.
+	 * @param array  $user_data Bunch of user data.
+	 * @return object Contact object, with new properties.
 	 */
 	public function set_contact_properties( $contact, $user_data ) {
 
-		// First, verify we have what we need
+		// First, verify we have what we need.
 		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
 			return;
 		}
 
-		// Remove some values we don't need
+		// Remove some values we don't need.
 		unset( $user_data['list'] );
 
 		$address  = null;
@@ -493,11 +501,11 @@ class ConstantContact_API {
 		// Loop through each of our values and set it as a property.
 		foreach ( $user_data as $original => $value ) {
 
-			// Set our key and value to our value's actual key/value
+			// Set our key and value to our value's actual key/value.
 			$key   = sanitize_text_field( isset( $value['key'] ) ? $value['key'] : false );
 			$value = sanitize_text_field( isset( $value['val'] ) ? $value['val'] : false );
 
-			// If for some reason, we don't have those, then we'll just skip this one
+			// If for some reason, we don't have those, then we'll just skip this one.
 			if ( ! $key || ! $value ) {
 				continue;
 			}
@@ -597,8 +605,9 @@ class ConstantContact_API {
 	/**
 	 * Pushes all error to api_error_message
 	 *
-	 * @since  1.0.0
-	 * @param  array $errors  errors from api
+	 * @since 1.0.0
+	 *
+	 * @param array $errors Errors from API.
 	 * @return void
 	 */
 	public function log_errors( $errors ) {
@@ -611,10 +620,10 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Process api error response
+	 * Process api error response.
 	 *
-	 * @since  1.0.0
-	 * @param  array $error api error repsonse.
+	 * @since 1.0.0
+	 * @param array $error API error repsonse.
 	 * @return mixed
 	 */
 	private function api_error_message( $error ) {
@@ -657,7 +666,7 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Make sure we don't over-do API requests, helper method to check if we're connected
+	 * Make sure we don't over-do API requests, helper method to check if we're connected.
 	 *
 	 * @return boolean if connected
 	 */
