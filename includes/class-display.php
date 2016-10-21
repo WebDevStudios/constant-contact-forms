@@ -690,7 +690,6 @@ class ConstantContact_Display {
 			'type'   => 'submit',
 			'name'   => 'ctct-submitted',
 			'map_to' => 'ctct-submitted',
-
 			'value'  => $button_text,
 		) );
 	}
