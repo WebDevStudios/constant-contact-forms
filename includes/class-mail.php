@@ -211,7 +211,7 @@ class ConstantContact_Mail {
 
 		$mail_status = wp_mail(
 			$destination_email,
-			__( 'New submission' ),
+			__( 'Great News: You just captured a new visitor submission', 'constant-contact-forms' ),
 			$content
 		);
 
