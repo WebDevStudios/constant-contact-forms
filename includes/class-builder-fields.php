@@ -83,12 +83,12 @@ class ConstantContact_Builder_Fields {
 		 * Initiate the $description_metabox
 		 */
 		$description_metabox = new_cmb2_box( array(
-			'id'			=> 'ctct_0_description_metabox',
-			'title'		 	=> __( 'Form Description', 'constant-contact-forms' ),
-			'object_types'  => array( 'ctct_forms' ),
-			'context'	   	=> 'normal',
-			'priority'	  	=> 'high',
-			'show_names'	=> true,
+			'id'           => 'ctct_0_description_metabox',
+			'title'        => __( 'Form Description', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'normal',
+			'priority'     => 'high',
+			'show_names'   => true,
 		) );
 
 		$description_metabox->add_field( array(
@@ -118,12 +118,12 @@ class ConstantContact_Builder_Fields {
 		 */
 		if ( constant_contact()->api->is_connected() ) {
 			$options_metabox = new_cmb2_box( array(
-				'id'			=> 'ctct_1_optin_metabox',
-				'title'		 	=> __( 'Form Options', 'constant-contact-forms' ),
-				'object_types'  => array( 'ctct_forms' ),
-				'context'	   	=> 'normal',
-				'priority'	  	=> 'high',
-				'show_names'	=> true,
+				'id'           => 'ctct_1_optin_metabox',
+				'title'        => __( 'Form Options', 'constant-contact-forms' ),
+				'object_types' => array( 'ctct_forms' ),
+				'context'      => 'normal',
+				'priority'     => 'high',
+				'show_names'   => true,
 			) );
 
 			$this->show_optin_connected_fields( $options_metabox );
@@ -243,12 +243,12 @@ class ConstantContact_Builder_Fields {
 		 * Initiate the $fields_metabox
 		 */
 		$fields_metabox = new_cmb2_box( array(
-			'id'			=> 'ctct_2_fields_metabox',
-			'title'		 	=> __( 'Form Fields', 'constant-contact-forms' ),
-			'object_types'  => array( 'ctct_forms' ),
-			'context'	   	=> 'normal',
-			'priority'	  	=> 'low',
-			'show_names'	=> true,
+			'id'           => 'ctct_2_fields_metabox',
+			'title'        => __( 'Form Fields', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'normal',
+			'priority'     => 'low',
+			'show_names'   => true,
 		) );
 
 		// Custom CMB2 fields.
