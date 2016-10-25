@@ -1,5 +1,7 @@
 <?php
 /**
+ * Builder fields.
+ *
  * @package ConstantContact
  * @subpackage BuilderFields
  * @author Constant Contact
@@ -20,16 +22,16 @@ class ConstantContact_Builder_Fields {
 	protected $plugin = null;
 
 	/**
-	 * Prefix for our meta fields / boxes
-	 * @var  string
+	 * Prefix for our meta fields / boxes.
+	 *
+	 * @var string
 	 */
 	public $prefix = '_ctct_';
 
 	/**
 	 * Constructor
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -53,13 +55,13 @@ class ConstantContact_Builder_Fields {
 	public function hooks() {
 		global $pagenow;
 
-		// Allow filtering the pages to load form build actions
+		// Allow filtering the pages to load form build actions.
 		$form_builder_pages = apply_filters(
 			'constant_contact_form_builder_pages',
 			array( 'post-new.php', 'post.php' )
 		);
 
-		// Only load the cmb2 fields on our specified pages
+		// Only load the cmb2 fields on our specified pages.
 		if ( $pagenow && in_array( $pagenow, $form_builder_pages, true ) ) {
 
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
@@ -141,13 +143,13 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function show_optin_connected_fields( $options_metabox ) {
 
-		// Get our lists
+		// Get our lists.
 		$lists = $this->plugin->builder->get_lists();
 
 		// Add field if conncted to API.
 		if ( $lists ) {
 
-			// Allow choosing a list to add to
+			// Allow choosing a list to add to.
 			$options_metabox->add_field( array(
 				'name'             => __( 'Add subscribers to', 'constant-contact-forms' ),
 				'id'               => $this->prefix . 'list',
@@ -158,10 +160,10 @@ class ConstantContact_Builder_Fields {
 			) );
 		}
 
-		// Show our show/hide checkbox field
+		// Show our show/hide checkbox field.
 		$this->show_enable_show_checkbox_field( $options_metabox );
 
-		// Show our affirmation textbox field
+		// Show our affirmation textbox field.
 		$this->show_affirmation_field( $options_metabox );
 	}
 
@@ -184,7 +186,7 @@ class ConstantContact_Builder_Fields {
 			),
 		) );
 
-		// Show our affirmation textbox field
+		// Show our affirmation textbox field.
 		$this->show_affirmation_field( $options_metabox );
 	}
 
@@ -212,13 +214,12 @@ class ConstantContact_Builder_Fields {
 	/**
 	 * Helper method to show our affirmation textarea field
 	 *
-	 * @since   1.0.0
-	 * @param   object  $options_metabox  CMB2 options metabox object
-	 * @return  void
+	 * @since 1.0.0
+	 * @param object $options_metabox CMB2 options metabox object.
 	 */
 	public function show_affirmation_field( $options_metabox ) {
 
-		// Get our site name, and if we don't have it, then use a placeholder
+		// Get our site name, and if we don't have it, then use a placeholder.
 		$business_name = get_bloginfo( 'name' );
 		$business_name ? $business_name : __( 'Your Business Name', 'constant-contact-forms' );
 
@@ -233,7 +234,7 @@ class ConstantContact_Builder_Fields {
 	/**
 	 * Fields builder CMB2 metabox
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 * @return void
 	 */
 	public function fields_metabox() {
@@ -264,7 +265,7 @@ class ConstantContact_Builder_Fields {
 			'type'        => 'title',
 		) );
 
-		// Form builder repeater
+		// Form builder repeater.
 		$custom_group = $fields_metabox->add_field( array(
 			'id'         => 'custom_fields_group',
 			'type'       => 'group',
@@ -277,7 +278,7 @@ class ConstantContact_Builder_Fields {
 			),
 		) );
 
-		// Add a field label
+		// Add a field label.
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'    => __( 'Field Label', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'field_label',
@@ -285,7 +286,7 @@ class ConstantContact_Builder_Fields {
 			'default' => __( 'Email', 'constant-contact-forms' ),
 		) );
 
-		// Add our field description
+		// Add our field description.
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'    => __( 'Field Description', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'field_desc',
@@ -313,7 +314,7 @@ class ConstantContact_Builder_Fields {
 			'custom_text_area' => __( 'Custom Text Area', 'constant-contact-forms' ),
 		) );
 
-		// Choose which field
+		// Choose which field.
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'             => __( 'Select a Field', 'constant-contact-forms' ),
 			'id'               => $this->prefix . 'map_select',
@@ -324,7 +325,7 @@ class ConstantContact_Builder_Fields {
 			'options'          => $default_fields,
 		) );
 
-		// Allow toggling of required fields
+		// Allow toggling of required fields.
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'        => __( 'Required', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'required_field',
