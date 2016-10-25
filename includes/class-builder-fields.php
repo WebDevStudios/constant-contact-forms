@@ -110,22 +110,23 @@ class ConstantContact_Builder_Fields {
 	 * @return void
 	 */
 	public function opt_ins_metabox() {
-		/**
-		 * Only connected users will get the Form Options. This may change
-		 * in the future, leaving the old code here for posterity.
-		 * @todo
-		 * @since 1.0.2
-		 */
-		if ( constant_contact()->api->is_connected() ) {
-			$options_metabox = new_cmb2_box( array(
-				'id'           => 'ctct_1_optin_metabox',
-				'title'        => __( 'Form Options', 'constant-contact-forms' ),
-				'object_types' => array( 'ctct_forms' ),
-				'context'      => 'normal',
-				'priority'     => 'high',
-				'show_names'   => true,
-			) );
 
+		$options_metabox = new_cmb2_box( array(
+			'id'           => 'ctct_1_optin_metabox',
+			'title'        => __( 'Form Options', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'normal',
+			'priority'     => 'high',
+			'show_names'   => true,
+		) );
+
+		$options_metabox->add_field( array(
+				'name'    => __( 'Button text', 'constant-contact-forms' ),
+				'id'      => $this->prefix . 'button_text',
+				'type'    => 'text_medium',
+		) );
+
+		if ( constant_contact()->api->is_connected() ) {
 			$this->show_optin_connected_fields( $options_metabox );
 		}/**
 		  * Same as the block above.
