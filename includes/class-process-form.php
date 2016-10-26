@@ -265,7 +265,7 @@ class ConstantContact_Process_Form {
 			// when we find it, break out.
 			if ( isset( $value['key'] ) && isset( $value['value'] ) ) {
 
-				// Ff we match our form ID, perfect.
+				// If we match our form ID, perfect.
 				if ( 'ctct-id' === $value['key'] ) {
 
 					// Set our form id, unset, and break out.
