@@ -36,8 +36,10 @@ class ConstantContact_Display {
 	 * Scripts
 	 *
 	 * @since 1.0.0
+	 * @param bool  $enqueue Set true to enqueue the scripts after registering.
+	 * @since next
 	 */
-	public function scripts() {
+	public function scripts( $enqueue = false ) {
 
 		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ? true : false;
 		$suffix = ( true === $debug ) ? '' : '.min';
@@ -49,6 +51,29 @@ class ConstantContact_Display {
 			constant_contact()->version,
 			true
 		);
+
+		if ( $enqueue ) {
+			wp_enqueue_script( 'ctct_frontend_forms' );
+		}
+	}
+
+	/**
+	 * Register and (maybe) enqueue styles.
+	 *
+	 * @since next
+	 * @param bool  $enqueue Set true to enqueue the scripts after registering.
+	 */
+	public function styles( $enqueue = false ) {
+		wp_register_style(
+			'ctct_form_styles',
+			constant_contact()->url() . 'assets/css/style.css',
+			array(),
+			constant_contact()->version
+		);
+
+		if ( $enqueue ) {
+			wp_enqueue_style( 'ctct_form_styles' );
+		}
 	}
 
 	/**
@@ -60,20 +85,12 @@ class ConstantContact_Display {
 	 */
 	public function form( $form_data, $form_id = '', $skip_styles = false ) {
 
-		// Also enqueue our scripts.
-		$this->scripts();
-
+		// Enqueue some things.
 		if ( ! $skip_styles ) {
-
-			wp_enqueue_style(
-				'ctct_form_styles',
-				constant_contact()->url() . 'assets/css/style.css',
-				array(),
-				constant_contact()->version
-			);
-
-			// Enqueued script.
-			wp_enqueue_script( 'ctct_frontend_forms' );
+			$this->styles( true );
+			$this->scripts( true );
+		} else {
+			$this->scripts();
 		}
 
 		$return           = '';
