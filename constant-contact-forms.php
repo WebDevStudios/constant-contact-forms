@@ -385,6 +385,9 @@ class Constant_Contact {
 		// Only load this if we have the WDS Shortcodes class.
 		if ( class_exists( 'WDS_Shortcodes' ) ) {
 
+			if ( $this->is_ctct_editor_screen() ) {
+				return;
+			}
 			// Set up our base WDS_Shortcodes class.
 			$this->shortcode       = new ConstantContact_Shortcode();
 
@@ -524,6 +527,37 @@ class Constant_Contact {
 		}
 
 		return file_get_contents( $license );
+	}
+
+	/**
+	 * Check if we are editing a Constant Contact post type post.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param int $post_id Post ID to check for.
+	 * @return bool
+	 */
+	public function is_ctct_editor_screen( $post_id = 0 ) {
+
+		if ( empty( $post_id ) ) {
+			if ( ! empty( $_GET ) && isset( $_GET['post'] ) ) {
+				$post_id = absint( $_GET['post'] );
+			}
+		}
+
+		if ( empty( $_GET ) ) {
+			return false;
+		}
+
+		if ( isset( $_GET['post_type'] ) && 'ctct_forms' === (string) $_GET['post_type'] ) {
+			return true;
+		}
+
+		if ( 'ctct_forms' === get_post_type( $post_id ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
