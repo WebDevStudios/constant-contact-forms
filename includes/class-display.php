@@ -137,7 +137,7 @@ class ConstantContact_Display {
 		$return .= $this->add_verify_fields( $form_data );
 
 		// Add our submit field.
-		$return .= $this->submit();
+		$return .= $this->submit( $form_id );
 
 		// Nonce the field too.
 		$return .= wp_nonce_field( 'ctct_submit_form', 'ctct_form', true, false );
@@ -666,15 +666,32 @@ class ConstantContact_Display {
 	 * Helper method for submit button.
 	 *
 	 * @since 1.0.0
+	 * @since 1.1.0 Added form ID parameter.
 	 *
+	 * @param int $form_id Rendered form ID.
 	 * @return string HTML markup.
 	 */
-	public function submit() {
+	public function submit( $form_id = 0 ) {
+		$button_text = get_post_meta( $form_id, '_ctct_button_text', true );
+		$button_text =
+		( ! empty( $button_text ) ) ?
+			$button_text :
+			/**
+			 * Filters the text that appears on the submit button.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param string $value Submit button text.
+			 */
+			apply_filters( 'constant_contact_submit_text', __( 'Send', 'constant-contact-forms' )
+		);
+
 		return $this->field( array(
 			'type'   => 'submit',
 			'name'   => 'ctct-submitted',
 			'map_to' => 'ctct-submitted',
-			'value'  => __( 'Send', 'constant-contact-forms' ),
+
+			'value'  => $button_text,
 		) );
 	}
 
