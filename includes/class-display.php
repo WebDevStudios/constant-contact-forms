@@ -802,9 +802,10 @@ class ConstantContact_Display {
 		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
 		$return .= '  <input ' . $req . 'type="text" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
 		$return .= ' </div>';
+		// Address Line 2 is not required, note the missing $req inclusion.
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-2" id="input_2_1_2_container">';
 		$return .= '  <label for="line_2_' . esc_attr( $f_id ) . '">' . esc_attr( $line_2 ) . '</label>';
-		$return .= '  <input ' . $req . 'type="text" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
+		$return .= '  <input type="text" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-city" id="input_2_1_3_container">';
 		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . '</label>';
