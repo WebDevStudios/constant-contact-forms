@@ -280,6 +280,7 @@ class Constant_Contact {
 		// Hook in our older includes and our init method.
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'includes' ), 5 );
+		add_action( 'widgets_init', array( $this, 'widgets' ) );
 
 		// Our vendor files will do a check for ISSSL, so we want to set it to be that.
 		// See Guzzle for more info and usage of this.
@@ -398,6 +399,12 @@ class Constant_Contact {
 			// Launch it.
 			$this->shortcode_admin->hooks();
 		}
+
+	}
+
+	public function widgets() {
+		require_once constant_contact()->path . 'includes/widgets/contact-form-select.php';
+		register_widget( 'ConstantContactWidget' );
 	}
 
 	/**
