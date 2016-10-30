@@ -67,6 +67,8 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'opt_ins_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'generated_shortcode' ) );
+			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 		}
 
 	}
@@ -332,6 +334,31 @@ class ConstantContact_Builder_Fields {
 			'id'          => $this->prefix . 'required_field',
 			'type'        => 'checkbox',
 			'row_classes' => 'required',
+		) );
+
+	}
+
+	/**
+	 * Show a metabox rendering our shortcode.
+	 *
+	 * @since 1.1.0
+	 */
+	public function generated_shortcode() {
+		$generated = new_cmb2_box( array(
+			'id'           => 'ctct_2_generated_metabox',
+			'title'        => __( 'Shortcode', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'side',
+			'priority'     => 'low',
+			'show_names'   => false,
+		) );
+
+		$generated->add_field( array(
+			'name'    => 'Shortcode to use',
+			'id'      => $this->prefix . 'generated_shortcode',
+			'type'    => 'text_medium',
+			'desc'    => 'Shortcode to embed',
+			'default' => '[ctct form="' . $generated->object_id . '"]',
 		) );
 
 	}
