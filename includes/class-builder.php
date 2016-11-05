@@ -53,7 +53,7 @@ class ConstantContact_Builder {
 	public function hooks() {
 		global $pagenow;
 
-		// Allow filtering the pages to load form build actions
+		/** This filter is documented in includes/class-buider-fields.php */
 		$form_builder_pages = apply_filters(
 			'constant_contact_form_builder_pages',
 			array( 'post-new.php', 'post.php' )

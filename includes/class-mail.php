@@ -58,12 +58,13 @@ class ConstantContact_Mail {
 
 		// If a user opted-in and we're still connected, push their data to CC.
 		if ( $add_to_opt_in && constant_contact()->api->is_connected() ) {
+
 			/**
-			 * Delay the scheduling of the opt-in e-mail event.
+			 * Filters the delay between scheduling of the opt-in e-mail event.
 			 *
-			 * @since  1.0.2
-			 * @param  int   $schedule_delay The time to add to `time()` for the event.
-			 * @return int
+			 * @since 1.0.2
+			 *
+			 * @param int $schedule_delay The time to add to `time()` for the event.
 			 */
 			$schedule_delay = apply_filters( 'constant_contact_opt_in_delay', MINUTE_IN_SECONDS );
 			wp_schedule_single_event( time() + absint( $schedule_delay ), 'ctct_schedule_form_opt_in', array( $values ) );

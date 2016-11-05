@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.0.3
+ * Version:     1.1.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com
  * License:     GPLv3
@@ -77,7 +77,7 @@ class Constant_Contact {
 	 * @var  string
 	 * @since  1.0.0
 	 */
-	const VERSION = '1.0.3';
+	const VERSION = '1.1.0';
 
 	/**
 	 * URL of plugin directory
@@ -280,6 +280,7 @@ class Constant_Contact {
 		// Hook in our older includes and our init method.
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'includes' ), 5 );
+		add_action( 'widgets_init', array( $this, 'widgets' ) );
 
 		// Our vendor files will do a check for ISSSL, so we want to set it to be that.
 		// See Guzzle for more info and usage of this.
@@ -385,6 +386,9 @@ class Constant_Contact {
 		// Only load this if we have the WDS Shortcodes class.
 		if ( class_exists( 'WDS_Shortcodes' ) ) {
 
+			if ( $this->is_ctct_editor_screen() ) {
+				return;
+			}
 			// Set up our base WDS_Shortcodes class.
 			$this->shortcode       = new ConstantContact_Shortcode();
 
@@ -398,6 +402,12 @@ class Constant_Contact {
 			// Launch it.
 			$this->shortcode_admin->hooks();
 		}
+
+	}
+
+	public function widgets() {
+		require_once constant_contact()->path . 'includes/widgets/contact-form-select.php';
+		register_widget( 'ConstantContactWidget' );
 	}
 
 	/**
@@ -524,6 +534,37 @@ class Constant_Contact {
 		}
 
 		return file_get_contents( $license );
+	}
+
+	/**
+	 * Check if we are editing a Constant Contact post type post.
+	 *
+	 * @since 1.1.0
+	 *
+	 * @param int $post_id Post ID to check for.
+	 * @return bool
+	 */
+	public function is_ctct_editor_screen( $post_id = 0 ) {
+
+		if ( empty( $post_id ) ) {
+			if ( ! empty( $_GET ) && isset( $_GET['post'] ) ) {
+				$post_id = absint( $_GET['post'] );
+			}
+		}
+
+		if ( empty( $_GET ) ) {
+			return false;
+		}
+
+		if ( isset( $_GET['post_type'] ) && 'ctct_forms' === (string) $_GET['post_type'] ) {
+			return true;
+		}
+
+		if ( 'ctct_forms' === get_post_type( $post_id ) ) {
+			return true;
+		}
+
+		return false;
 	}
 }
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );

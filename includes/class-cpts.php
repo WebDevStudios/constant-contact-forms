@@ -79,8 +79,8 @@ class ConstantContact_CPTS {
 			'update_item'           => __( 'Update Form', 'constant-contact-forms' ),
 			'view_item'             => __( 'View Form', 'constant-contact-forms' ),
 			'search_items'          => __( 'Search Form', 'constant-contact-forms' ),
-			'not_found'             => __( 'Not found', 'constant-contact-forms' ),
-			'not_found_in_trash'    => __( 'Not found in Trash', 'constant-contact-forms' ),
+			'not_found'             => __( 'No forms found', 'constant-contact-forms' ),
+			'not_found_in_trash'    => __( 'No forms found in Trash', 'constant-contact-forms' ),
 			'featured_image'        => __( 'Featured Image', 'constant-contact-forms' ),
 			'set_featured_image'    => __( 'Set featured image', 'constant-contact-forms' ),
 			'remove_featured_image' => __( 'Remove featured image', 'constant-contact-forms' ),
@@ -261,7 +261,14 @@ class ConstantContact_CPTS {
 
 		$forms = get_transient( 'constant_contact_shortcode_form_list' );
 
-		// Allow bypassing transient check.
+
+		/**
+		 * Filters whether or not to bypass transient checks.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool $value Whether or not to bypass.
+		 */
 		$bypass_forms = apply_filters( 'constant_contact_bypass_shotcode_forms', false );
 
 		// If we dont have a transient or we bypass, go through the motions.

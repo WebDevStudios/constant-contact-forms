@@ -75,7 +75,13 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function get_help_texts() {
 
-		// Grab our help text. This can be filtered elsewhere, as well.
+		/**
+		 * Filters our default help texts.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of arrays with title/content values
+		 */
 		return apply_filters( 'constant_contact_help_texts', array(
 			array(
 				'title' => __( 'This is a sample help header', 'constant-contact-forms' ),
@@ -96,7 +102,13 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function get_faq_texts() {
 
-		// Get our FAQ texts. This can be filtered.
+		/**
+		 * Filters our FAQ text for the help page.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of arrays for help text.
+		 */
 		return apply_filters( 'constant_contact_faq_texts', array(
 			array(
 				'title' => __( 'Is this a sample question?', 'constant-contact-forms' ),

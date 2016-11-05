@@ -177,16 +177,16 @@ class ConstantContact_Process_Form {
 			);
 		}
 
+		// Allow ignoring of certain keys, like our nonce.
+		$ignored_keys = apply_filters( 'constant_contact_ignored_post_form_values', array(
+			'ctct-submitted',
+			'ctct_form',
+			'_wp_http_referer',
+			'ctct-verify',
+		) );
+
 		// If the submit button is clicked, send the email.
 		foreach ( $data as $key => $value ) {
-
-			// Allow ignoring of certain keys, like our nonce.
-			$ignored_keys = apply_filters( 'constant_contact_ignored_post_form_values', array(
-				'ctct-submitted',
-				'ctct_form',
-				'_wp_http_referer',
-				'ctct-verify',
-			) );
 
 			// If our key we're processing is in our array, ignore it.
 			if ( in_array( $key, $ignored_keys, true ) ) {
@@ -447,7 +447,8 @@ class ConstantContact_Process_Form {
 			if (
 				isset( $value['orig']['required'] ) &&
 				$value['orig']['required'] &&
-				$value['orig']['required']
+				// Skip Address Line 2.
+				'line_2' !== $value['orig']['_ctct_map_select']
 			) {
 				// If it was required, check for a value.
 				if ( ! $value['post'] ) {

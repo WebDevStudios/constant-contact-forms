@@ -28,6 +28,16 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+		$this->hooks();
+	}
+
+	/**
+	 * Hooks.
+	 *
+	 * @since next
+	 */
+	public function hooks() {
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_display_styles' ) );
 	}
 
 	/**
@@ -252,5 +262,14 @@ class ConstantContact_Display_Shortcode {
 		}
 
 		return '';
+	}
+
+	/**
+	 * Call the method to enqueue styles for display.
+	 *
+	 * @since next
+	 */
+	public function enqueue_display_styles() {
+		constant_contact()->display->styles( true );
 	}
 }
