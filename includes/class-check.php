@@ -60,7 +60,13 @@ class ConstantContact_Check {
 	 */
 	public function get_checks_to_make() {
 
-		// All the functions, classes, etc that we want to check on the server.
+		/**
+		 * Filters the functions, classes, etc that we want to check on to be considered valid.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of things to check for.
+		 */
 		return apply_filters( 'constant_contact_server_checks', array(
 			'functions' => array(
 				'openssl_encrypt',

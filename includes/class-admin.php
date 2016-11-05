@@ -135,6 +135,11 @@ class ConstantContact_Admin {
 	 */
 	public function admin_page_display() {
 
+		/**
+		 * Fires before the Constant Contact admin page display.
+		 *
+		 * @since 1.0.0
+		 */
 		do_action( 'constant_contact_admin_before' );
 
 		?>
@@ -175,6 +180,12 @@ class ConstantContact_Admin {
 			</div>
 		</div>
 		<?php
+
+		/**
+		 * Fires after the Constant Contact admin page display.
+		 *
+		 * @since 1.0.0
+		 */
 		do_action( 'constant_contact_admin_after' );
 	}
 
@@ -279,6 +290,13 @@ class ConstantContact_Admin {
 		$add_links[] = $this->get_admin_link( __( 'About', 'constant-contact-forms' ), 'about' );
 		$add_links[] = $this->get_admin_link( __( 'License', 'constant-contact-forms' ), 'license' );
 
+		/**
+		 * Filters the Constant Contact base url used for social links.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value Social URL base.
+		 */
 		$site_link = apply_filters( 'constant_contact_social_base_url' , 'https://constantcontact.com/' );
 
 		// Start our social share links.
@@ -287,7 +305,13 @@ class ConstantContact_Admin {
 		$add_links[] = '<a title="' . $social_share . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" class="dashicons-before dashicons-twitter"></a>';
 		$add_links[] = '<a title="' . $social_share . '" href="https://plus.google.com/share?url=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>';
 
-		// Allow filtering our links.
+		/**
+		 * Filters the final custom social links.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $add_links Array of social links with HTML markup.
+		 */
 		$add_links = apply_filters( 'constant_contact_social_links', $add_links );
 
 		return array_merge( $links, $add_links );
@@ -342,6 +366,13 @@ class ConstantContact_Admin {
 		wp_localize_script(
 			'ctct_form',
 			'ctct_texts',
+			/**
+			 * Filters the text used as part of the ctct_form javascript object.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param array $value Array of strings to be used with javascript calls.
+			 */
 			apply_filters( 'constant_contact_localized_js_texts', array(
 				'leavewarning' => __( 'You have unsaved changes.', 'constant-contact-forms' ),
 				'move_up'      => __( 'move up', 'constant-contact-forms' ),
@@ -349,7 +380,13 @@ class ConstantContact_Admin {
 			) )
 		);
 
-		// Allow filtering of allowed pages that we load scripts on.
+		/**
+		 * Filters the allowed pages to enqueue the ctct_form script on.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of WP Admin base files to conditionally load on.
+		 */
 		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', array( 'post.php', 'post-new.php' ) );
 
 		if ( $pagenow && in_array( $pagenow, $allowed_pages, true ) ) {

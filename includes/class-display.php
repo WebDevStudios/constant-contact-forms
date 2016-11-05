@@ -36,8 +36,10 @@ class ConstantContact_Display {
 	 * Scripts
 	 *
 	 * @since 1.0.0
+	 * @param bool  $enqueue Set true to enqueue the scripts after registering.
+	 * @since next
 	 */
-	public function scripts() {
+	public function scripts( $enqueue = false ) {
 
 		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ? true : false;
 		$suffix = ( true === $debug ) ? '' : '.min';
@@ -49,6 +51,29 @@ class ConstantContact_Display {
 			constant_contact()->version,
 			true
 		);
+
+		if ( $enqueue ) {
+			wp_enqueue_script( 'ctct_frontend_forms' );
+		}
+	}
+
+	/**
+	 * Register and (maybe) enqueue styles.
+	 *
+	 * @since next
+	 * @param bool  $enqueue Set true to enqueue the scripts after registering.
+	 */
+	public function styles( $enqueue = false ) {
+		wp_register_style(
+			'ctct_form_styles',
+			constant_contact()->url() . 'assets/css/style.css',
+			array(),
+			constant_contact()->version
+		);
+
+		if ( $enqueue ) {
+			wp_enqueue_style( 'ctct_form_styles' );
+		}
 	}
 
 	/**
@@ -60,20 +85,12 @@ class ConstantContact_Display {
 	 */
 	public function form( $form_data, $form_id = '', $skip_styles = false ) {
 
-		// Also enqueue our scripts.
-		$this->scripts();
-
+		// Enqueue some things.
 		if ( ! $skip_styles ) {
-
-			wp_enqueue_style(
-				'ctct_form_styles',
-				constant_contact()->url() . 'assets/css/style.css',
-				array(),
-				constant_contact()->version
-			);
-
-			// Enqueued script.
-			wp_enqueue_script( 'ctct_frontend_forms' );
+			$this->styles( true );
+			$this->scripts( true );
+		} else {
+			$this->scripts();
 		}
 
 		$return           = '';
@@ -137,7 +154,7 @@ class ConstantContact_Display {
 		$return .= $this->add_verify_fields( $form_data );
 
 		// Add our submit field.
-		$return .= $this->submit();
+		$return .= $this->submit( $form_id );
 
 		// Nonce the field too.
 		$return .= wp_nonce_field( 'ctct_submit_form', 'ctct_form', true, false );
@@ -522,6 +539,14 @@ class ConstantContact_Display {
 
 		// If this is required, we output the HMTL5 required att.
 		if ( $req ) {
+
+			/**
+			 * Filters the markup used for the required indicator.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+			 */
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
@@ -666,15 +691,31 @@ class ConstantContact_Display {
 	 * Helper method for submit button.
 	 *
 	 * @since 1.0.0
+	 * @since 1.1.0 Added form ID parameter.
 	 *
+	 * @param int $form_id Rendered form ID.
 	 * @return string HTML markup.
 	 */
-	public function submit() {
+	public function submit( $form_id = 0 ) {
+		$button_text = get_post_meta( $form_id, '_ctct_button_text', true );
+		$button_text =
+		( ! empty( $button_text ) ) ?
+			$button_text :
+			/**
+			 * Filters the text that appears on the submit button.
+			 *
+			 * @since 1.1.0
+			 *
+			 * @param string $value Submit button text.
+			 */
+			apply_filters( 'constant_contact_submit_text', __( 'Send', 'constant-contact-forms' )
+		);
+
 		return $this->field( array(
 			'type'   => 'submit',
 			'name'   => 'ctct-submitted',
 			'map_to' => 'ctct-submitted',
-			'value'  => __( 'Send', 'constant-contact-forms' ),
+			'value'  => $button_text,
 		) );
 	}
 
@@ -802,9 +843,10 @@ class ConstantContact_Display {
 		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
 		$return .= '  <input ' . $req . 'type="text" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
 		$return .= ' </div>';
+		// Address Line 2 is not required, note the missing $req inclusion.
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-2" id="input_2_1_2_container">';
 		$return .= '  <label for="line_2_' . esc_attr( $f_id ) . '">' . esc_attr( $line_2 ) . '</label>';
-		$return .= '  <input ' . $req . 'type="text" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
+		$return .= '  <input type="text" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-city" id="input_2_1_3_container">';
 		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . '</label>';
@@ -942,9 +984,25 @@ class ConstantContact_Display {
 		// Based on $type, we'll send back an array of either days, months, or years.
 		switch ( $type ) {
 			case 'day':
+
+				/**
+				 * Filters the array of numbers used to indicate day of the month in numerals.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param array $value Array of numbers ranging from 1 to 31.
+				 */
 				$return = apply_filters( 'constant_contact_dates_day', $this->get_days() );
 				break;
 			case 'month':
+
+				/**
+				 * Filters the array of months used for dropdown.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param array $value Array of months from calendar.
+				 */
 				$return = apply_filters( 'constant_contact_dates_month', array(
 					'january'   => __( 'January', 'contantcontact' ),
 					'february'  => __( 'February', 'contantcontact' ),
@@ -961,6 +1019,14 @@ class ConstantContact_Display {
 				) );
 				break;
 			case 'year':
+
+				/**
+				 * Filters the array of years, starting from 1910 to present.
+				 *
+				 * @since 1.0.0
+				 *
+				 * @param array $value Array of years.
+				 */
 				$return = apply_filters( 'constant_contact_dates_year', $this->get_years() );
 				break;
 		}
@@ -1026,6 +1092,14 @@ class ConstantContact_Display {
 		// If required, get our label.
 		$req_label = '';
 		if ( $req ) {
+
+			/**
+			 * Filters the markup used for the required indicator.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+			 */
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
@@ -1077,6 +1151,14 @@ class ConstantContact_Display {
 	 * @return string HTML markup.
 	 */
 	public function get_disclose_text() {
+
+		/**
+		 * Filters the content used to display the disclose text.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value HTML and disclose text.
+		 */
 		return apply_filters( 'constant_contact_disclose', '<hr><sub>' . $this->get_inner_disclose_text() . '</sub>' );
 	}
 

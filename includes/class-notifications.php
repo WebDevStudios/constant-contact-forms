@@ -51,7 +51,13 @@ class ConstantContact_Notifications {
 	 */
 	public function get_notifications() {
 
-		// Return all our notifications.
+		/**
+		 * Filters our notifications.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of notification details.
+		 */
 		return apply_filters( 'constant_contact_notifications', array(
 			array(
 				'ID'         => 'activation',

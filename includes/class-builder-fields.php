@@ -55,7 +55,13 @@ class ConstantContact_Builder_Fields {
 	public function hooks() {
 		global $pagenow;
 
-		// Allow filtering the pages to load form build actions.
+		/**
+		 * Filters the pages to add our form builder content to.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of WP admin pages to load builder on.
+		 */
 		$form_builder_pages = apply_filters(
 			'constant_contact_form_builder_pages',
 			array( 'post-new.php', 'post.php' )
@@ -67,6 +73,8 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'opt_ins_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'generated_shortcode' ) );
+			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 		}
 
 	}
@@ -110,22 +118,23 @@ class ConstantContact_Builder_Fields {
 	 * @return void
 	 */
 	public function opt_ins_metabox() {
-		/**
-		 * Only connected users will get the Form Options. This may change
-		 * in the future, leaving the old code here for posterity.
-		 * @todo
-		 * @since 1.0.2
-		 */
-		if ( constant_contact()->api->is_connected() ) {
-			$options_metabox = new_cmb2_box( array(
-				'id'           => 'ctct_1_optin_metabox',
-				'title'        => __( 'Form Options', 'constant-contact-forms' ),
-				'object_types' => array( 'ctct_forms' ),
-				'context'      => 'normal',
-				'priority'     => 'high',
-				'show_names'   => true,
-			) );
 
+		$options_metabox = new_cmb2_box( array(
+			'id'           => 'ctct_1_optin_metabox',
+			'title'        => __( 'Form Options', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'normal',
+			'priority'     => 'high',
+			'show_names'   => true,
+		) );
+
+		$options_metabox->add_field( array(
+				'name'    => __( 'Button text', 'constant-contact-forms' ),
+				'id'      => $this->prefix . 'button_text',
+				'type'    => 'text_medium',
+		) );
+
+		if ( constant_contact()->api->is_connected() ) {
 			$this->show_optin_connected_fields( $options_metabox );
 		}/**
 		  * Same as the block above.
@@ -294,6 +303,13 @@ class ConstantContact_Builder_Fields {
 			'default' => 'Ex: Enter email address',
 		) );
 
+		/**
+		 * Filters the Constant Contact field types to display as an option.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of field types.
+		 */
 		$default_fields = apply_filters( 'constant_contact_field_types', array(
 			'email'            => __( 'Email (required)', 'constant-contact-forms' ),
 			'first_name'       => __( 'First Name', 'constant-contact-forms' ),
@@ -331,6 +347,34 @@ class ConstantContact_Builder_Fields {
 			'id'          => $this->prefix . 'required_field',
 			'type'        => 'checkbox',
 			'row_classes' => 'required',
+		) );
+
+	}
+
+	/**
+	 * Show a metabox rendering our shortcode.
+	 *
+	 * @since 1.1.0
+	 */
+	public function generated_shortcode() {
+		$generated = new_cmb2_box( array(
+			'id'           => 'ctct_2_generated_metabox',
+			'title'        => __( 'Shortcode', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'side',
+			'priority'     => 'low',
+			'show_names'   => false,
+		) );
+
+		$generated->add_field( array(
+			'name'       => 'Shortcode to use',
+			'id'         => $this->prefix . 'generated_shortcode',
+			'type'       => 'text_medium',
+			'desc'       => __( 'Shortcode to embed - <em><small>You can copy and paste this in a post to display your form.</small></em>', 'constant-contact-forms' ),
+			'default'    => '[ctct form="' . $generated->object_id . '"]',
+			'attributes' => array(
+				'readonly' => 'readonly',
+			),
 		) );
 
 	}

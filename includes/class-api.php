@@ -104,7 +104,13 @@ class ConstantContact_API {
 		// Get our saved account info.
 		$acct_data = get_transient( 'constant_contact_acct_info' );
 
-		// Allow bypassing transient with a filter.
+		/**
+		 * Filters whether or not to bypass transient with a filter.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param bool $value Whether or not to bypass.
+		 */
 		$bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', false );
 
 		// If we dont' have a transient, or we want to bypass, hit our API.
@@ -275,7 +281,13 @@ class ConstantContact_API {
 			// Name it our passed in list.
 			$list->name = isset( $new_list['name'] ) ? esc_attr( $new_list['name'] ) : '';
 
-			// Set status to hidden.
+			/**
+			 * Filters the list status to use when adding a list.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $value List status to use.
+			 */
 			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
 			// Push list to API.
@@ -309,6 +321,14 @@ class ConstantContact_API {
 
 			$list->id = isset( $updated_list['id'] ) ? esc_attr( $updated_list['id'] ) : '';
 			$list->name = isset( $updated_list['name'] ) ? esc_attr( $updated_list['name'] ) : '';
+
+			/**
+			 * Filters the list status to use when updating a list.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $value List status to use.
+			 */
 			$list->status = $list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
 			$return_list = $this->cc()->listService->updateList( $this->get_api_token(), $list );

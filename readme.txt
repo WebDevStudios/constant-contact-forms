@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags:
 Requires at least: 4.0.0
 Tested up to:      4.6.1
-Stable tag:        1.0.3
+Stable tag:        1.1.0
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,16 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 4. Basic Form
 
 == Changelog ==
+
+= 1.1.0 =
+* Added: Widget that allows you to select a form to display.
+* Added: Small metabox in form editor showing shortcode to use for current form.
+* Added: Field and filter for text shown on the rendered submit button.
+* Added: Developers: Inline documentation of actions and filters.
+* Fixed: Loading position of Constant Contact stylesheet. Should now load in `<head>`.
+* Fixed: Removed redundant "Add form" button on Constant Contact form editor TinyMCE.
+* Fixed: Removed required attribute for Address line 2 when line 1 is required.
+* Updated: Labels in Constant Contact Form list around none available and none in trash.
 
 = 1.0.3 =
 * Fixed: Improperly placed content for Constant Contact API requests for phone and website fields.
