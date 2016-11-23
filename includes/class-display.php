@@ -583,8 +583,8 @@ class ConstantContact_Display {
 		$markup = '';
 		if ( ! empty( $name ) && ! empty( $field_label ) ) {
 			$markup .= $this->get_label( $name, $field_label );
-			;
 		}
+
 		// Finish building our markup.
 		return $markup . '</p>';
 	}
@@ -630,14 +630,31 @@ class ConstantContact_Display {
 		// Start our markup.
 		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
 
+		// Provide some CSS class(es).
+		$classes = array( 'ctct-' . esc_attr( $type ) );
+
+		/**
+		 * Filter to add classes for the rendering input.
+		 *
+		 * @since  1.2.0
+		 * @param  array  $classes Array of classes to apply to the field.
+		 * @param  string $type    The field type being rendered.
+		 * @return arrray
+		 */
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
+
 		// Set our field as as seprate var, because we allow for only returning that.
 		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" placeholder="' . $label . '"';
 
 		// If we have an error.
 		if ( $field_error ) {
-
 			// Tack that sucker on to the end of our input.
-			$field .= 'class="ctct-invalid"';
+			$classes[] = 'class="ctct-invalid"';
+		}
+
+		// Append classes to our field.
+		if ( count( $classes ) ) {
+			$field .= 'class="' . implode( ' ', $classes ) . '"';
 		}
 
 		// Finish the markup for our field itself.
@@ -679,6 +696,21 @@ class ConstantContact_Display {
 		$value = sanitize_text_field( $value );
 		$label = esc_attr( $label );
 		$type = 'checkbox';
+
+		// Provide some CSS class(es).
+		$classes = array( 'ctct-' . esc_attr( $type ) );
+
+		/**
+		 * Filter to add classes for the rendering input.
+		 *
+		 * @since 1.2.0
+		 * @todo  Can we abstract this to use $this->input?
+		 *
+		 * @param  array  $classes Array of classes to apply to the field.
+		 * @param  string $type    The field type being rendered.
+		 * @return arrray
+		 */
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
 
 		$markup = $this->field_top( $type, $name, $f_id, $label, false, false );
 		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" />';
@@ -799,7 +831,7 @@ class ConstantContact_Display {
 		$checked = $show ? '' : 'checked';
 
 		$markup = $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
-		$markup .= '<input type="checkbox" ' . $checked . ' name="ctct-opt-in" id="ctct-opt-in" value="' . $value . '" />';
+		$markup .= '<input type="checkbox" ' . $checked . ' name="ctct-opt-in" id="ctct-opt-in" class="ctct-checkbox ctct-opt-in" value="' . $value . '" />';
 		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . wp_kses_post( $label ) ) . '</div>';
 
 		return $markup;
@@ -841,24 +873,24 @@ class ConstantContact_Display {
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1">';
 		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
-		$return .= '  <input ' . $req . 'type="text" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
+		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-street" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
 		$return .= ' </div>';
 		// Address Line 2 is not required, note the missing $req inclusion.
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-2" id="input_2_1_2_container">';
 		$return .= '  <label for="line_2_' . esc_attr( $f_id ) . '">' . esc_attr( $line_2 ) . '</label>';
-		$return .= '  <input type="text" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
+		$return .= '  <input type="text" class="ctct-text ctct-address-line-2" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-city" id="input_2_1_3_container">';
 		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . '</label>';
-		$return .= '  <input ' . $req . 'type="text" name="city_' . esc_attr( $f_id ) . '" id="city_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_city ) . '">';
+		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-city" name="city_' . esc_attr( $f_id ) . '" id="city_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_city ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-state" id="input_2_1_4_container">';
 		$return .= '  <label for="state_' . esc_attr( $f_id ) . '">' . esc_attr( $state ) . '</label>';
-		$return .= '  <input ' . $req . 'type="text" name="state_' . esc_attr( $f_id ) . '" id="state_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_state ) . '">';
+		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-state" name="state_' . esc_attr( $f_id ) . '" id="state_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_state ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-zip" id="input_2_1_5_container">';
 		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . '</label>';
-		$return .= '  <input ' . $req . 'type="text" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
+		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-zip" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
 		$return .= ' </div>';
 		$return .= '</fieldset></p>';
 
@@ -1103,7 +1135,8 @@ class ConstantContact_Display {
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
-		$return  = '<p><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label><textarea ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '">' . esc_html( $value ) . '</textarea>';
+		$return  = '<p><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label>';
+		$return .= '<textarea class="ctct-textarea" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '">' . esc_html( $value ) . '</textarea>';
 
 		if ( $field_error ) {
 			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $map ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constant-contact-forms' ) ) . '</label></span>';
