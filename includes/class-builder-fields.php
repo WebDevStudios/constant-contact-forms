@@ -371,7 +371,7 @@ class ConstantContact_Builder_Fields {
 			'id'         => $this->prefix . 'generated_shortcode',
 			'type'       => 'text_medium',
 			'desc'       => __( 'Shortcode to embed - <em><small>You can copy and paste this in a post to display your form.</small></em>', 'constant-contact-forms' ),
-			'default'    => '[ctct form="' . $generated->object_id . '"]',
+			'default'    => ( $generated->object_id > 0 ) ? '[ctct form="' . $generated->object_id . '"]' : '',
 			'attributes' => array(
 				'readonly' => 'readonly',
 			),

@@ -57,3 +57,15 @@ function constant_contact_display_form( $form_id ) {
 function constant_contact_get_forms() {
 	return constant_contact()->cpts->get_forms( false, true );
 }
+
+/**
+ * Render a shortcode for display, not for parsing.
+ *
+ * @since 1.2.0
+ *
+ * @param $form_id Form ID to provide in the output.
+ * @return string Non-parsed shortcode.
+ */
+function constant_contact_display_shortcode( $form_id ) {
+	return sprintf( '[ctct form="%s"]', $form_id );
+}

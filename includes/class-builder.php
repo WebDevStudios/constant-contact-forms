@@ -206,7 +206,7 @@ class ConstantContact_Builder {
 					if ( ! get_option( 'ctct_first_form_modal_dismissed', false ) ) {
 
 						// Show our modal
-						$this->output_not_connected_modal();
+						$this->output_not_connected_modal( $post->ID );
 					}
 				}
 			}
@@ -271,14 +271,16 @@ class ConstantContact_Builder {
 	}
 
 	/**
-	 * Displays our not connected modal to the user
+	 * Displays our not connected modal to the user.
 	 *
-	 * @since   1.0.0
-	 * @return  void
+	 * @since 1.0.0
+	 * @since 1.2.0 Added post_id parameter.
+	 *
+	 * @return void
 	 */
-	public function output_not_connected_modal() {
+	public function output_not_connected_modal( $post_id = 0 ) {
 
-		// output markup of non connected modal here ?>
+		// Output markup of non connected modal here. ?>
 		<div class="ctct-modal ctct-modal-open">
 
 			<?php // modal header ?>
@@ -286,12 +288,19 @@ class ConstantContact_Builder {
 				<div class="ctct-modal-content">
 					<div class="ctct-modal-header">
 						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
-						<h2><?php esc_attr_e( 'Your first form is ready!', 'constant-contact-forms' ); ?></h2>
+						<h2><?php esc_html_e( 'Your first form is ready!', 'constant-contact-forms' ); ?></h2>
 						<p>
-						<?php esc_html_e( 'Now, how would you like to manage the information you collect?', 'constant-contact-forms' ); ?>
+							<?php
+							printf(
+								esc_html__( 'Paste shortcode %s into a post or page editor.', 'constant-contact-forms' ),
+								'<span class="displayed-shortcode">' . constant_contact_display_shortcode( $post_id ) . '</span>'
+							); ?>
 						</p>
 					</div>
 					<div class="ctct-modal-body">
+						<p class="now-what">
+							<?php esc_html_e( 'Now, how would you like to manage the information you collect?', 'constant-contact-forms' ); ?>
+						</p>
 						<div class="ctct-modal-left">
 							<img
 								class="ctct-modal-flare"

@@ -89,9 +89,13 @@
 }
 
 .ctct-modal .ctct-modal-content .ctct-modal-header p {
-  color: #333333;
+  color: #fff;
   font-size: 16px;
   margin-bottom: 0;
+}
+
+.ctct-modal .ctct-modal-content .ctct-modal-header p .displayed-shortcode {
+  color: #333333;
 }
 
 .ctct-modal .ctct-modal-content .ctct-modal-header .ctct-modal-close {
@@ -188,6 +192,10 @@
 .ctct-modal .ctct-modal-content .ctct-modal-body .ctct-modal-left small,
 .ctct-modal .ctct-modal-content .ctct-modal-body .ctct-modal-right small {
   font-style: italic;
+}
+
+.ctct-modal .ctct-modal-content .ctct-modal-body .now-what {
+  text-align: center;
 }
 
 .ctct-modal .ctct-modal-content .ctct-modal-body .ctct-modal-left {

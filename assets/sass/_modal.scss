@@ -87,9 +87,13 @@
 			text-align: center;
 
 			p {
-				color: $color-modal-header;
+				color: $color-white;
 				font-size: 16px;
 				margin-bottom: 0;
+
+			    .displayed-shortcode {
+				  color: $color-modal-header;
+				}
 			} // p
 
 			// Close "X" button.
@@ -176,7 +180,9 @@
     				font-style: italic;
     			} // small
 			} // left/right
-
+		    .now-what {
+			  text-align: center;
+			}
 			.ctct-modal-left {
 				border-right: 1px solid $color-alt-silver;
 
