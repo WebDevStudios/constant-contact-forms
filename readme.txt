@@ -33,6 +33,9 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.2.0 =
+* Added: Reveal shortcode for newly published form in admin notice and popup for non-connected accounts.
+
 = 1.1.0 =
 * Added: Widget that allows you to select a form to display.
 * Added: Small metabox in form editor showing shortcode to use for current form.
