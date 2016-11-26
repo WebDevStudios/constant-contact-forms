@@ -191,7 +191,7 @@ class ConstantContact_Display {
 
 			$curr_url = untrailingslashit( add_query_arg( '', '', home_url( $request ) ) );
 
-			// If we're not using a custom permalink strucutre, theres a chance the above
+			// If we're not using a custom permalink structure, theres a chance the above
 			// will return the home_url. so we do another check to makesure we're going
 			// to use the right thing. This check doesn't work on the homepage, but
 			// that will just get caught with our fallback check correctly anyway.
