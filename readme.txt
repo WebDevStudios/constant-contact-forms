@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags:
 Requires at least: 4.0.0
 Tested up to:      4.6.1
-Stable tag:        1.1.0
+Stable tag:        1.1.1
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,10 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 4. Basic Form
 
 == Changelog ==
+
+= 1.1.1 =
+* Fixed: Made frontend form default to an empty action attribute to take care of occasional 404 errors after submission.
+* Added: New filter on the default empty string from above, so others can provide their own redirect location if desired.
 
 = 1.1.0 =
 * Added: Widget that allows you to select a form to display.
