@@ -141,8 +141,18 @@ class ConstantContact_Display {
 		// @todo figure out another way to do this maybe?
 		$rf_id = 'ctct-form-' . mt_rand();
 
+		/**
+		 * Filters the action value to use for the contact form.
+		 *
+		 * @since 1.1.1
+		 *
+		 * @param string $value   Value to put in the form action attribute. Default empty string.
+		 * @param int    $form_id ID of the Constant Contact form being rendered.
+		 */
+		$form_action = apply_filters( 'constant_contact_front_form_action', '', $form_id );
+
 		// Build out our form.
-		$return .= '<form class="ctct-form" id=' . $rf_id . ' action="' . esc_url( $this->get_current_page() ) . '" method="post">';
+		$return .= '<form class="ctct-form" id=' . $rf_id . ' action="' . esc_attr( $form_action ) . '" method="post">';
 
 		// If we have errors, display them.
 		$return .= $form_err_display;
