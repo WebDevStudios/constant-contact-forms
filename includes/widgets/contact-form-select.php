@@ -113,7 +113,7 @@ class ConstantContactWidget extends WP_Widget {
 	public function get_forms() {
 		$args = array(
 			'post_type'      => 'ctct_forms',
-			'posts_per_page' => - 1,
+			'posts_per_page' => -1,
 			'orderby'        => 'title',
 		);
 		$forms = new WP_Query( $args );
