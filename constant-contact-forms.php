@@ -323,6 +323,17 @@ class Constant_Contact {
 	}
 
 	/**
+	 * Whether or not we meet our minimal PHP requirements.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return mixed
+	 */
+	public function meets_php_requirements() {
+		return ( version_compare( PHP_VERSION, '5.4.0', '<' ) );
+	}
+
+	/**
 	 * Init hooks
 	 *
 	 * @since  1.0.0
