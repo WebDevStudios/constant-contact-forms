@@ -526,6 +526,10 @@ class ConstantContact_Process_Form {
 	 */
 	public function process_wrapper( $form_data = array(), $form_id = '' ) {
 
+		if ( isset( $_POST['ctct-id'] ) && $form_id != absint( $_POST['ctct-id'] ) ) {
+			return false;
+		}
+
 		// Process our data, and get our response.
 		$processed = $this->process_form();
 
