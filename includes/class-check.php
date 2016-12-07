@@ -116,7 +116,7 @@ class ConstantContact_Check {
 
 		// Check to see if we can load the encryption library.
 		$crypto = $this->plugin->connect->check_crypto_class();
-		echo '<tr><td>' . esc_attr_e( 'Encrpytion Library: ', 'constant-contact-forms' ) . '</td><td>' . esc_attr( $this->exists_text( $crypto ) ) . '</td></tr>';
+		echo '<tr><td>' . esc_attr__( 'Encrpytion Library: ', 'constant-contact-forms' ) . '</td><td>' . esc_attr( $this->exists_text( $crypto ) ) . '</td></tr>';
 
 		echo '</table>';
 	}
