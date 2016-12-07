@@ -344,8 +344,10 @@ class ConstantContact_Admin {
 	 * Scripts.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param array $extra_localizations An array of arrays of `array( $handle, $name, $data )` passed to wp_localize_script.
 	 */
-	public function scripts() {
+	public function scripts( $extra_localizations = array() ) {
 
 		global $pagenow;
 
@@ -379,6 +381,18 @@ class ConstantContact_Admin {
 				'move_down'    => __( 'move down', 'constant-contact-forms' ),
 			) )
 		);
+
+		// If we have extra localizations, iterate and call with `wp_localize_script`.
+		if ( ! empty( $extra_localizations ) ) {
+			// We only have a single array, put it in another array.
+			if ( ! is_array( $extra_localizations[0] ) ) {
+				$extra_localizations = array( $extra_localizations );
+			}
+
+			foreach ( $extra_localizations as $localization_set ) {
+				call_user_func_array( 'wp_localize_script', $localization_set );
+			}
+		}
 
 		/**
 		 * Filters the allowed pages to enqueue the ctct_form script on.
