@@ -300,7 +300,9 @@ class ConstantContact_Builder_Fields {
 			'name'    => __( 'Field Description', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'field_desc',
 			'type'    => 'text',
-			'default' => 'Ex: Enter email address',
+			'attributes' => array(
+				'placeholder' => 'A brief description of this field (optional)',
+			)
 		) );
 
 		/**
