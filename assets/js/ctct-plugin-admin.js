@@ -27,7 +27,7 @@ window.CTCTBuilder = {};
 		// Inject our new labels for the up/down CMB2 buttons, so they can be properly localized.
 		// Because we're using :after, we can't use .css() to do this, we need to inject a style tag
 		$( 'head' ).append( '<style> #cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "' + ctct_texts.move_up + '" } #cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "' + ctct_texts.move_down + '" }</style>' );
-	}
+	};
 
 	// Cache all the things.
 	that.cache = function() {
@@ -38,7 +38,7 @@ window.CTCTBuilder = {};
 		};
 
 		that.isLeaveWarningBound = false;
-	}
+	};
 
 	// Triggers our leave warning if we modify things in the form
 	that.bindLeaveWarning = function() {
@@ -54,12 +54,12 @@ window.CTCTBuilder = {};
 			// Save our state
 			that.isLeaveWarningBound = true;
 		}
-	}
+	};
 
 	// Removes our binding of our leave warning
 	that.unbindLeaveWarning = function() {
 		$( window ).unbind( 'beforeunload' );
-	}
+	};
 
 	// Combine all events.
 	that.bindEvents = function() {
@@ -107,7 +107,7 @@ window.CTCTBuilder = {};
 
 		// Remove any duplicate mappings in fields
 		that.removeDuplicateMappings();
-    }
+    };
 
     // When .cmb2_select <selects> get changed, do some actions
     that.selectBinds = function() {
@@ -124,7 +124,7 @@ window.CTCTBuilder = {};
     		// Bind our leave warning
     		that.bindLeaveWarning();
     	});
-    }
+    };
 
 	// We need to manipulate our form builder a bit. We do this here.
 	that.modifyFields = function() {
@@ -143,7 +143,7 @@ window.CTCTBuilder = {};
 			var $map          = $( $field_parent ).find( '.map select option:selected' );
 			var $mapName      = $map.text();
 			var $fieldTitle   = $( this ).find( 'h3' );
-			var $labelField   = $( this ).find( "input[name*='_ctct_field_label']" )
+			var $labelField   = $( this ).find( "input[name*='_ctct_field_label']" );
 
 			// Set our field row to be the name of the selected option
 			$fieldTitle.text( $mapName );
@@ -183,7 +183,7 @@ window.CTCTBuilder = {};
 				$button.show();
 			}
 		});
-	}
+	};
 
 	// Go through all dropdowns, and remove used options
 	that.removeDuplicateMappings = function() {
@@ -213,7 +213,7 @@ window.CTCTBuilder = {};
 				$( dropdowns + ' option[value=' + value +']:not( :selected )' ).hide();
 			}
 		});
-	}
+	};
 
 	// Engage!
 	$( that.init );
@@ -227,7 +227,7 @@ window.CTCTForms = {};
 	that.init = function() {
 		that.cache();
 		that.bindEvents();
-	}
+	};
 
 	// Cache all the things.
 	that.cache = function() {
@@ -236,7 +236,7 @@ window.CTCTForms = {};
 			body: $( 'body' ),
 			disconnect: '.ctct-disconnect',
 		};
-	}
+	};
 
 	// Combine all events.
 	that.bindEvents = function() {
@@ -244,7 +244,7 @@ window.CTCTForms = {};
         $( that.$c.disconnect ).on( 'click', function(e) {
 			confirm( ctct_texts.disconnectconfirm );
 		});
-    }
+    };
 
 	// Engage!
 	$( that.init );
@@ -349,21 +349,21 @@ window.CTCT_OptIns = {};
 		} else {
 			app.$c.instruct.slideUp();
 		}
-	}
+	};
 
 	// Toggle un-needed optin fields if we're not showing the opt-in.
 	// this runs for our connected fields
 	app.toggleConnectionFields = function() {
 
 		// If checked, show them, else hide it.
-		if ( '' != app.$c.list.val() ) {
+		if ( app.$c.list.val() ) {
 			app.$c.optin.slideDown();
 			app.$c.instruct.slideDown();
 		} else {
 			app.$c.optin.slideUp();
 			app.$c.instruct.slideUp();
 		}
-	}
+	};
 
 	// Engage
 	$( app.init );
