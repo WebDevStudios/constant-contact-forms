@@ -313,54 +313,54 @@ class ConstantContact_Builder_Fields {
 			)
 		) );
 
-		// Define field configuration for labels and placeholders.
+		// Define field configuration for options and placeholders.
 		$default_fields = array(
 			'email' => array(
-				'label'       => __( 'Email (required)', 'constant-contact-forms' ),
+				'option'       => __( 'Email (required)', 'constant-contact-forms' ),
 				'placeholder' => 'c.contact@example.com',
 			),
 			'first_name' => array(
-				'label'       => __( 'First Name', 'constant-contact-forms' ),
+				'option' => __( 'First Name', 'constant-contact-forms' ),
 			),
 			'last_name' => array(
-				'label'       => __( 'Last Name', 'constant-contact-forms' ),
+				'option' => __( 'Last Name', 'constant-contact-forms' ),
 			),
 			'phone_number' => array(
-				'label'       => __( 'Phone Number', 'constant-contact-forms' ),
+				'option'       => __( 'Phone Number', 'constant-contact-forms' ),
 				'placeholder' => '(555) 272-3342',
 			),
 			'address' => array(
-				'label'       => __( 'Address', 'constant-contact-forms' ),
+				'option'       => __( 'Address', 'constant-contact-forms' ),
 				'placeholder' => '4115 S. Main Rd.',
 			),
 			'job_title' => array(
-				'label'       => __( 'Job Title', 'constant-contact-forms' ),
+				'option' => __( 'Job Title', 'constant-contact-forms' ),
 			),
 			'company' => array(
-				'label'       => __( 'Company', 'constant-contact-forms' ),
+				'option' => __( 'Company', 'constant-contact-forms' ),
 			),
 			'website' => array(
-				'label'       => __( 'Website', 'constant-contact-forms' ),
+				'option'       => __( 'Website', 'constant-contact-forms' ),
 				'placeholder' => 'http://www.example.com',
 			),
 			/**
 			 * V2 of the CC API doesn't support these fields. Hopefully this will get sorted out.
 			 * 'birthday' => array(
-			 *     'label' => __( 'Birthday', 'constant-contact-forms' ),
+			 *     'option' => __( 'Birthday', 'constant-contact-forms' ),
 			 *     'placeholder' => 'M/D/Y',
 			 * ),
 			 * 'anniversary'      => array(
-			 *     'label' => __( 'Anniversary', 'constant-contact-forms' ),
+			 *     'option' => __( 'Anniversary', 'constant-contact-forms' ),
 			 *     'placeholder' => 'M/D/Y',
 			 *     ),
 			 * @todo
 			 * @since 1.0.2
 			 */
 			'custom' => array(
-				'label'       => __( 'Custom Text Field', 'constant-contact-forms' ),
+				'option' => __( 'Custom Text Field', 'constant-contact-forms' ),
 			),
 			'custom_text_area' => array(
-				'label'       => __( 'Custom Text Area', 'constant-contact-forms' ),
+				'option' => __( 'Custom Text Area', 'constant-contact-forms' ),
 			),
 		);
 
@@ -371,14 +371,14 @@ class ConstantContact_Builder_Fields {
 		 *
 		 * @param array $value Array of field types.
 		 */
-		$filtered_labels = apply_filters( 'constant_contact_field_types', wp_list_pluck( $default_fields, 'label' ) );
+		$filtered_options = apply_filters( 'constant_contact_field_types', wp_list_pluck( $default_fields, 'option' ) );
 
 		/**
-		 * Filter the field labels and placeholders.
+		 * Filter the field placeholders.
 		 *
 		 * @since 1.2.0
 		 *
-		 * @param array $default_fields The field labels and placeholders to use as options.
+		 * @param array $default_fields The field placeholders to use for field description.
 		 */
 		$filtered_placeholders            = apply_filters( 'constant_contact_field_placeholders', wp_list_pluck( $default_fields, 'placeholder' ) );
 		$filtered_placeholders['default'] = $default_placeholder;
@@ -398,7 +398,7 @@ class ConstantContact_Builder_Fields {
 			'show_option_none' => false,
 			'default'          => 'email',
 			'row_classes'      => 'map',
-			'options'          => $filtered_labels,
+			'options'          => $filtered_options,
 		) );
 
 		// Allow toggling of required fields.

@@ -24,7 +24,7 @@ window.CTCTBuilder = {};
 		// Make description non-draggable, so we don't run into weird cmb2 issues
 		$( '#ctct_0_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
 
-		// Inject our new labels for the up/down CMB2 buttons, so they can be properly localized.
+		// Inject our new options for the up/down CMB2 buttons, so they can be properly localized.
 		// Because we're using :after, we can't use .css() to do this, we need to inject a style tag
 		$( 'head' ).append( '<style> #cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "' + ctct_texts.move_up + '" } #cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "' + ctct_texts.move_down + '" }</style>' );
 	};
