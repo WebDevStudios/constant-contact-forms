@@ -205,7 +205,7 @@ class Constant_Contact {
 		$this->url	    = plugin_dir_url( __FILE__ );
 		$this->path	    = plugin_dir_path( __FILE__ );
 
-		if ( $this->meets_php_requirements() ) {
+		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
 			return;
 		}
@@ -276,7 +276,8 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function hooks() {
-		if ( $this->meets_php_requirements() ) {
+
+		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
 			return;
 		}
@@ -334,7 +335,7 @@ class Constant_Contact {
 	 * @return mixed
 	 */
 	public function meets_php_requirements() {
-		return ( version_compare( PHP_VERSION, '5.4.0', '<' ) );
+		return ( version_compare( PHP_VERSION, '5.4.0', '>=' ) );
 	}
 
 	/**

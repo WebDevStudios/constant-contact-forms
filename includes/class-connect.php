@@ -217,7 +217,7 @@ class ConstantContact_Connect {
 						<p>
 							<?php esc_attr_e( 'Sign up for a free 60-day trial to connect with visitors beyond your website.', 'constant-contact-forms' ); ?>
 						</p>
-						<a class="button button-orange" href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
+						<a class="button button-orange" href="<?php echo esc_url_raw( add_query_arg( array( 'rmc' => 'wp_connect_try' ), constant_contact()->api->get_signup_link() ) ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
 					</div>
 					<div class="right">
 						<img
@@ -235,6 +235,8 @@ class ConstantContact_Connect {
 						// Get our middleware link.
 						$proof = constant_contact()->authserver->set_verification_option();
 						$auth_link = constant_contact()->authserver->do_connect_url( $proof );
+
+						$auth_link = add_query_arg( array( 'rmc' => 'wp_connect_connect' ), $auth_link );
 
 						// If we have a link, then display the connect button.
 						if ( $auth_link ) { ?>

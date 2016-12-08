@@ -230,6 +230,9 @@ class ConstantContact_Admin_Pages {
 			$auth_link = constant_contact()->authserver->do_connect_url( $proof );
 			$new_link  = constant_contact()->authserver->do_signup_url( $proof );
 
+			$new_link  = add_query_arg( array( 'rmc' => 'wp_about_try' ), $new_link );
+			$auth_link = add_query_arg( array( 'rmc' => 'wp_about_connect' ), $auth_link );
+
 		// @codingStandardsIgnoreStart
 		}
 		// @codingStandardsIgnoreEnd

@@ -448,6 +448,7 @@ class ConstantContact_Process_Form {
 				isset( $value['orig']['required'] ) &&
 				$value['orig']['required'] &&
 				// Skip Address Line 2.
+				isset( $value['orig']['_ctct_map_select'] ) &&
 				'line_2' !== $value['orig']['_ctct_map_select']
 			) {
 				// If it was required, check for a value.
