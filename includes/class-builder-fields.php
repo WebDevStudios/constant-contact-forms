@@ -287,8 +287,25 @@ class ConstantContact_Builder_Fields {
 			),
 		) );
 
+		// Add a field label.
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'    => __( 'Field Label', 'constant-contact-forms' ),
+			'id'      => $this->prefix . 'field_label',
+			'type'    => 'text',
+			'default' => __( 'Email', 'constant-contact-forms' ),
+		) );
+
+		// Add our field description.
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'    => __( 'Field Description', 'constant-contact-forms' ),
+			'id'      => $this->prefix . 'field_desc',
+			'type'    => 'text',
+			'default' => 'Ex: Enter email address',
+		) );
+
 		/**
 		 * Filters the Constant Contact field types to display as an option.
+		 *
 		 * @since 1.0.0
 		 *
 		 * @param array $value Array of field types.

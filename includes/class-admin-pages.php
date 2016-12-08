@@ -241,10 +241,10 @@ class ConstantContact_Admin_Pages {
 					<h1 class="about-header"><?php esc_attr_e( 'Constant Contact Forms', 'constant-contact-forms' ); ?></h1>
 					<div class="about-text">
 						<p>
-						<?php echo wp_kses_post( __( 'This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don’t have a Constant Contact account.', 'constant-contact-forms' ) ); ?>
+						<?php echo wp_kses_post( __( "This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account.", 'constant-contact-forms' ) ); ?>
 						</p>
 						<p>
-						<?php esc_attr_e( 'Whether you’re looking to collect email addresses, contact info, event sign-ups, or visitor feedback, you can customize your forms with data fields that work best for you.', 'constant-contact-forms' ); ?>
+						<?php esc_attr_e( "Whether you're looking to collect email addresses, contact info, event sign-ups, or visitor feedback, you can customize your forms with data fields that work best for you.", 'constant-contact-forms' ); ?>
 						<ul class="ctct-bonus-points">
 							<li> <?php esc_attr_e( 'Quickly create different types of forms that are clear, simple, and mobile-optimized.', 'constant-contact-forms' ); ?></li>
 							<li> <?php esc_attr_e( 'Choose forms that automatically select the theme and style of your WordPress site.', 'constant-contact-forms' ); ?></li>
@@ -252,7 +252,7 @@ class ConstantContact_Admin_Pages {
 						</ul>
 						</p>
 						<p>
-						<?php esc_attr_e( 'Using your sign-up forms to collect email addresses? Email marketing is a great way to stay connected with visitors after they’ve left your site. And with an active Constant Contact account, every new subscriber you capture will be automatically added to your selected email lists.  ', 'constant-contact-forms' ); ?>
+						<?php esc_attr_e( "Using your sign-up forms to collect email addresses? Email marketing is a great way to stay connected with visitors after they've left your site. And with an active Constant Contact account, every new subscriber you capture will be automatically added to your selected email lists.", 'constant-contact-forms' ); ?>
 						</p>
 						<?php if ( $new_link ) { // If we have a link, then display the connect button. ?>
 						<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
@@ -283,7 +283,7 @@ class ConstantContact_Admin_Pages {
 					</p>
 				</div>
 				<p class="introduction c-text">
-				<?php esc_attr_e( 'Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact Forms plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they’ve left.', 'constant-contact-forms' ); ?>
+				<?php esc_attr_e( "Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact Forms plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they've left.", 'constant-contact-forms' ); ?>
 				</p>
 				<?php
 				// Include our license link if we have it.

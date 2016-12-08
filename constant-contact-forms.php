@@ -284,6 +284,7 @@ class Constant_Contact {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'includes' ), 5 );
 		add_action( 'widgets_init', array( $this, 'widgets' ) );
+		add_filter( 'body_class', array( $this, 'body_classes' ) );
 
 		// Our vendor files will do a check for ISSSL, so we want to set it to be that.
 		// See Guzzle for more info and usage of this.
@@ -579,6 +580,13 @@ class Constant_Contact {
 		}
 
 		return false;
+	}
+
+	public function body_classes( $classes = array() ) {
+		$theme = wp_get_theme()->template;
+		$classes[] = "ctct-{$theme}"; //Prefixing for user knowledge of source
+
+		return $classes;
 	}
 }
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
