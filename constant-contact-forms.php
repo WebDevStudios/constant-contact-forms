@@ -202,8 +202,8 @@ class Constant_Contact {
 
 		// Set up some helper properties.
 		$this->basename = plugin_basename( __FILE__ );
-		$this->url	    = plugin_dir_url( __FILE__ );
-		$this->path	    = plugin_dir_path( __FILE__ );
+		$this->url      = plugin_dir_url( __FILE__ );
+		$this->path     = plugin_dir_path( __FILE__ );
 
 		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
