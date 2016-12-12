@@ -104,7 +104,6 @@ class ConstantContact_Settings {
 
 		// Comment Form.
 		add_action( 'comment_form', array( $this, 'optin_form_field_comment' ) );
-		add_action( 'comment_form_after_fields', array( $this, 'optin_form_field_comment' ) );
 
 		// Registration form.
 		add_action( 'register_form', array( $this, 'optin_form_field_registration' ) );
