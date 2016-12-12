@@ -417,10 +417,12 @@ class ConstantContact_Builder_Fields {
 
 		// Add our field description.
 		$fields_metabox->add_group_field( $custom_group, array(
-			'name'    => __( 'Field Description', 'constant-contact-forms' ),
-			'id'      => $this->prefix . 'field_desc',
-			'type'    => 'text',
-			'default' => 'Ex: Enter email address',
+			'name'       => __( 'Field Description', 'constant-contact-forms' ),
+			'id'         => $this->prefix . 'field_desc',
+			'type'       => 'text',
+			'attributes' => array(
+				'placeholder' => 'Ex: Enter email address',
+			),
 		) );
 
 		// Allow toggling of required fields.
