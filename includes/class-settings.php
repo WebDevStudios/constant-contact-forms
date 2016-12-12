@@ -103,7 +103,6 @@ class ConstantContact_Settings {
 		add_action( 'login_form', array( $this, 'optin_form_field_login' ) );
 
 		// Comment Form.
-		add_action( 'comment_form', array( $this, 'optin_form_field_comment' ) );
 		add_action( 'comment_form_after_fields', array( $this, 'optin_form_field_comment' ) );
 
 		// Registration form.
@@ -396,7 +395,6 @@ class ConstantContact_Settings {
 	        	<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
 				<?php echo esc_attr( $label ); ?>
 			</label>
-			<?php echo constant_contact()->display->get_disclose_text(); ?>
 			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin', true, true ); ?>
 	    </p><?php
 
