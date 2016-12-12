@@ -316,32 +316,36 @@ class ConstantContact_Builder_Fields {
 		// Define field configuration for options and placeholders.
 		$default_fields = array(
 			'email' => array(
-				'option'       => __( 'Email (required)', 'constant-contact-forms' ),
-				'placeholder' => 'c.contact@example.com',
+				'option'      => __( 'Email (required)', 'constant-contact-forms' ),
+				'placeholder' => __( 'c.contact@example.com', 'constant-contact-forms' ),
 			),
 			'first_name' => array(
-				'option' => __( 'First Name', 'constant-contact-forms' ),
+				'option'      => __( 'First Name', 'constant-contact-forms' ),
+				'placeholder' => __( 'John', 'constant-contact-forms' ),
 			),
 			'last_name' => array(
-				'option' => __( 'Last Name', 'constant-contact-forms' ),
+				'option'      => __( 'Last Name', 'constant-contact-forms' ),
+				'placeholder' => __( 'Smith', 'constant-contact-forms' ),
 			),
 			'phone_number' => array(
-				'option'       => __( 'Phone Number', 'constant-contact-forms' ),
-				'placeholder' => '(555) 272-3342',
+				'option'      => __( 'Phone Number', 'constant-contact-forms' ),
+				'placeholder' => __( '(555) 272-3342', 'constant-contact-forms' ),
 			),
 			'address' => array(
-				'option'       => __( 'Address', 'constant-contact-forms' ),
-				'placeholder' => '4115 S. Main Rd.',
+				'option'      => __( 'Address', 'constant-contact-forms' ),
+				'placeholder' => __( '4115 S. Main Rd.', 'constant-contact-forms' ),
 			),
 			'job_title' => array(
-				'option' => __( 'Job Title', 'constant-contact-forms' ),
+				'option'      => __( 'Job Title', 'constant-contact-forms' ),
+				'placeholder' => __( 'Project Manager', 'constant-contact-forms' ),
 			),
 			'company' => array(
-				'option' => __( 'Company', 'constant-contact-forms' ),
+				'option'      => __( 'Company', 'constant-contact-forms' ),
+				'placeholder' => __( 'Acme Manufacturing', 'constant-contact-forms' ),
 			),
 			'website' => array(
-				'option'       => __( 'Website', 'constant-contact-forms' ),
-				'placeholder' => 'http://www.example.com',
+				'option'      => __( 'Website', 'constant-contact-forms' ),
+				'placeholder' => __( 'http://www.example.com', 'constant-contact-form' ),
 			),
 			/**
 			 * V2 of the CC API doesn't support these fields. Hopefully this will get sorted out.
@@ -357,10 +361,12 @@ class ConstantContact_Builder_Fields {
 			 * @since 1.0.2
 			 */
 			'custom' => array(
-				'option' => __( 'Custom Text Field', 'constant-contact-forms' ),
+				'option'      => __( 'Custom Text Field', 'constant-contact-forms' ),
+				'placeholder' => __( 'A custom text field', 'constant-contact-forms' ),
 			),
 			'custom_text_area' => array(
-				'option' => __( 'Custom Text Area', 'constant-contact-forms' ),
+				'option'      => __( 'Custom Text Area', 'constant-contact-forms' ),
+				'placeholder' => __( 'A large custom text field', 'constant-contact-forms' ),
 			),
 		);
 
