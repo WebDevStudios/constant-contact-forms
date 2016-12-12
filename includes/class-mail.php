@@ -43,8 +43,10 @@ class ConstantContact_Mail {
 	/**
 	 * Process our form values
 	 *
-	 * @since  1.0.0
-	 * @param  array $values submitted form values
+	 * @since 1.0.0
+	 * @param array $values submitted form values
+	 *
+	 * @return bool
 	 */
 	public function submit_form_values( $values = array(), $add_to_opt_in = false ) {
 
