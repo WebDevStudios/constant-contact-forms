@@ -39,8 +39,10 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Added: Request to opt into some anonymous data tracking for Constant Contact's information usage.
 * Added: Note about no forms being available in modal popup, if none available.
 * Added: Ability to disable emails if ConstantContact account is connected and "disable email" option checked.
+* Added: Necessary disclosure text to output on comment form and login/registration form when able to do advanced opt-in for list enrollment.
 * Fixed: Possible issues with PHP 5.2 compatibility from the widget.
 * Fixed: Prevent status message from displaying multiple times if multiple forms present on the page.
+* Fixed: Ability to remove description values from various available form inputs.
 * Updated: Changed field order in admin UI for creating Constant Contact form.
 * Updated: Better compatibility with TwentyFourteen.
 
