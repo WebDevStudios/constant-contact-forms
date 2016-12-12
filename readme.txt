@@ -44,7 +44,6 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Updated: Changed field order in admin UI for creating Constant Contact form.
 * Updated: Better compatibility with TwentyFourteen.
 
-
 = 1.1.1 =
 * Fixed: Made frontend form default to an empty action attribute to take care of occasional 404 errors after submission.
 * Added: New filter on the default empty string from above, so others can provide their own redirect location if desired.
