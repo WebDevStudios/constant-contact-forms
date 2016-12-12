@@ -1202,7 +1202,7 @@ class ConstantContact_Display {
 		 *
 		 * @param string $value HTML and disclose text.
 		 */
-		return apply_filters( 'constant_contact_disclose', '<hr><sub>' . $this->get_inner_disclose_text() . '</sub>' );
+		return apply_filters( 'constant_contact_disclose', '<div class="ctct-disclosure"><hr><sub>' . $this->get_inner_disclose_text() . '</sub></div>' );
 	}
 
 	/**
