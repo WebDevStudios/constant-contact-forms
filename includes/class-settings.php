@@ -109,6 +109,7 @@ class ConstantContact_Settings {
 		// Registration form.
 		add_action( 'register_form', array( $this, 'optin_form_field_registration' ) );
 		add_action( 'signup_extra_fields', array( $this, 'optin_form_field_registration' ) );
+		add_action( 'login_head', array( $this, 'optin_form_field_login_css' ) );
 	}
 
 	/**
@@ -118,6 +119,16 @@ class ConstantContact_Settings {
 	 */
 	public function init() {
 		register_setting( $this->key, $this->key );
+	}
+
+	public function optin_form_field_login_css() {
+		?>
+		<style>
+		.login .ctct-disclosure {
+			margin: 0 0 15px;
+		}
+		</style>
+		<?php
 	}
 
 	/**
