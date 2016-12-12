@@ -293,6 +293,14 @@ class ConstantContact_Settings {
 					'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
 				) );
 			}
+
+			// Add field to disable e-mail notifications.
+			$cmb->add_field( array(
+				'name' => __( 'Disable E-mail Notifications', 'constant-contact-forms' ),
+				'desc' => __( 'This option will disable e-mail notifications when someone submits a form.', 'constant-contact-forms' ),
+				'id'   => '_ctct_disable_email_notifications',
+				'type' => 'checkbox',
+			) );
 		}
 	}
 
