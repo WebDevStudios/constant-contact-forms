@@ -143,7 +143,8 @@ window.CTCTBuilder = {};
 			var $map          = $( $field_parent ).find( '.map select option:selected' );
 			var $mapName      = $map.text();
 			var $fieldTitle   = $( this ).find( 'h3' );
-			var $labelField   = $( this ).find( "input[name*='_ctct_field_label']" )
+			var $labelField   = $( this ).find( "input[name*='_ctct_field_label']" );
+			var $descField    = $( this ).find( "input[name*='_ctct_field_desc']" );
 
 			// Set our field row to be the name of the selected option
 			$fieldTitle.text( $mapName );
@@ -182,8 +183,20 @@ window.CTCTBuilder = {};
 				// and the remove button
 				$button.show();
 			}
+
+			// Set the placeholder text if there's something to set.
+			if ( window.ctct_admin_placeholders ) {
+				var placeholder = window.ctct_admin_placeholders[ $( value ).find( 'select' ).val() ];
+
+				// If we have a valid placeholder, display it or try the fallback.
+				if ( placeholder && placeholder.length && $descField.length ) {
+					$descField.attr( 'placeholder', 'Example: ' + placeholder );
+				} else if( window.ctct_admin_placeholders.default ) {
+					$descField.attr( 'placeholder', window.ctct_admin_placeholders.default );
+				}
+			}
 		});
-	}
+	};
 
 	// Go through all dropdowns, and remove used options
 	that.removeDuplicateMappings = function() {

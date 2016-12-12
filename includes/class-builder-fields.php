@@ -295,13 +295,80 @@ class ConstantContact_Builder_Fields {
 			'default' => __( 'Email', 'constant-contact-forms' ),
 		) );
 
+		/**
+		 * The default placeholder text to use for fields without a placeholder.
+		 *
+		 * @since 1.2.0
+		 * @param string $default_placeholder The placeholder text.
+		 */
+		$default_placeholder = apply_filters( 'constant_contact_default_placeholder', __( 'A brief description of this field (optional)', 'constant-contact-forms' ) );
+
 		// Add our field description.
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'    => __( 'Field Description', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'field_desc',
 			'type'    => 'text',
-			'default' => 'Ex: Enter email address',
+			'attributes' => array(
+				'placeholder' => $default_placeholder,
+			)
 		) );
+
+		// Define field configuration for options and placeholders.
+		$default_fields = array(
+			'email' => array(
+				'option'      => __( 'Email (required)', 'constant-contact-forms' ),
+				'placeholder' => __( 'c.contact@example.com', 'constant-contact-forms' ),
+			),
+			'first_name' => array(
+				'option'      => __( 'First Name', 'constant-contact-forms' ),
+				'placeholder' => __( 'John', 'constant-contact-forms' ),
+			),
+			'last_name' => array(
+				'option'      => __( 'Last Name', 'constant-contact-forms' ),
+				'placeholder' => __( 'Smith', 'constant-contact-forms' ),
+			),
+			'phone_number' => array(
+				'option'      => __( 'Phone Number', 'constant-contact-forms' ),
+				'placeholder' => __( '(555) 272-3342', 'constant-contact-forms' ),
+			),
+			'address' => array(
+				'option'      => __( 'Address', 'constant-contact-forms' ),
+				'placeholder' => __( '4115 S. Main Rd.', 'constant-contact-forms' ),
+			),
+			'job_title' => array(
+				'option'      => __( 'Job Title', 'constant-contact-forms' ),
+				'placeholder' => __( 'Project Manager', 'constant-contact-forms' ),
+			),
+			'company' => array(
+				'option'      => __( 'Company', 'constant-contact-forms' ),
+				'placeholder' => __( 'Acme Manufacturing', 'constant-contact-forms' ),
+			),
+			'website' => array(
+				'option'      => __( 'Website', 'constant-contact-forms' ),
+				'placeholder' => __( 'http://www.example.com', 'constant-contact-form' ),
+			),
+			/**
+			 * V2 of the CC API doesn't support these fields. Hopefully this will get sorted out.
+			 * 'birthday' => array(
+			 *     'option' => __( 'Birthday', 'constant-contact-forms' ),
+			 *     'placeholder' => 'M/D/Y',
+			 * ),
+			 * 'anniversary'      => array(
+			 *     'option' => __( 'Anniversary', 'constant-contact-forms' ),
+			 *     'placeholder' => 'M/D/Y',
+			 *     ),
+			 * @todo
+			 * @since 1.0.2
+			 */
+			'custom' => array(
+				'option'      => __( 'Custom Text Field', 'constant-contact-forms' ),
+				'placeholder' => __( 'A custom text field', 'constant-contact-forms' ),
+			),
+			'custom_text_area' => array(
+				'option'      => __( 'Custom Text Area', 'constant-contact-forms' ),
+				'placeholder' => __( 'A large custom text field', 'constant-contact-forms' ),
+			),
+		);
 
 		/**
 		 * Filters the Constant Contact field types to display as an option.
@@ -310,24 +377,23 @@ class ConstantContact_Builder_Fields {
 		 *
 		 * @param array $value Array of field types.
 		 */
-		$default_fields = apply_filters( 'constant_contact_field_types', array(
-			'email'            => __( 'Email (required)', 'constant-contact-forms' ),
-			'first_name'       => __( 'First Name', 'constant-contact-forms' ),
-			'last_name'        => __( 'Last Name', 'constant-contact-forms' ),
-			'phone_number'     => __( 'Phone Number', 'constant-contact-forms' ),
-			'address'          => __( 'Address', 'constant-contact-forms' ),
-			'job_title'        => __( 'Job Title', 'constant-contact-forms' ),
-			'company'          => __( 'Company', 'constant-contact-forms' ),
-			'website'          => __( 'Website', 'constant-contact-forms' ),
-			/**
-			 * V2 of the CC API doesn't support these fields. Hopefully this will get sorted out.
-			 * 'birthday'         => __( 'Birthday', 'constant-contact-forms' ),
-			 * 'anniversary'      => __( 'Anniversary', 'constant-contact-forms' ),
-			 * @todo
-			 * @since 1.0.2
-			 */
-			'custom'           => __( 'Custom Text Field', 'constant-contact-forms' ),
-			'custom_text_area' => __( 'Custom Text Area', 'constant-contact-forms' ),
+		$filtered_options = apply_filters( 'constant_contact_field_types', wp_list_pluck( $default_fields, 'option' ) );
+
+		/**
+		 * Filter the field placeholders.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @param array $default_fields The field placeholders to use for field description.
+		 */
+		$filtered_placeholders            = apply_filters( 'constant_contact_field_placeholders', wp_list_pluck( $default_fields, 'placeholder' ) );
+		$filtered_placeholders['default'] = $default_placeholder;
+
+		// Go ahead and enqueue with our placeholder text.
+		$this->plugin->admin->scripts( array(
+			'ctct_form',
+			'ctct_admin_placeholders',
+			$filtered_placeholders,
 		) );
 
 		// Choose which field.
@@ -338,7 +404,7 @@ class ConstantContact_Builder_Fields {
 			'show_option_none' => false,
 			'default'          => 'email',
 			'row_classes'      => 'map',
-			'options'          => $default_fields,
+			'options'          => $filtered_options,
 		) );
 
 		// Add a field label.
@@ -351,10 +417,12 @@ class ConstantContact_Builder_Fields {
 
 		// Add our field description.
 		$fields_metabox->add_group_field( $custom_group, array(
-			'name'    => __( 'Field Description', 'constant-contact-forms' ),
-			'id'      => $this->prefix . 'field_desc',
-			'type'    => 'text',
-			'default' => 'Ex: Enter email address',
+			'name'       => __( 'Field Description', 'constant-contact-forms' ),
+			'id'         => $this->prefix . 'field_desc',
+			'type'       => 'text',
+			'attributes' => array(
+				'placeholder' => __( 'Ex: Enter email address', 'constant-contact-forms' ),
+			),
 		) );
 
 		// Allow toggling of required fields.
