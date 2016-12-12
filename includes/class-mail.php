@@ -79,7 +79,7 @@ class ConstantContact_Mail {
 		$email_values = $this->format_values_for_email( $values );
 
 		// Send the mail.
-		$skip_email = constant_contact()->api->is_connected() && 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' );
+		$skip_email = constant_contact()->api->is_connected() && ( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) );
 
 		/**
 		 * Clever code alert!
