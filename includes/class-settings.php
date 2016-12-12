@@ -103,11 +103,12 @@ class ConstantContact_Settings {
 		add_action( 'login_form', array( $this, 'optin_form_field_login' ) );
 
 		// Comment Form.
-		add_action( 'comment_form_after_fields', array( $this, 'optin_form_field_comment' ) );
+		add_action( 'comment_form', array( $this, 'optin_form_field_comment' ) );
 
 		// Registration form.
 		add_action( 'register_form', array( $this, 'optin_form_field_registration' ) );
 		add_action( 'signup_extra_fields', array( $this, 'optin_form_field_registration' ) );
+		add_action( 'login_head', array( $this, 'optin_form_field_login_css' ) );
 	}
 
 	/**
@@ -117,6 +118,21 @@ class ConstantContact_Settings {
 	 */
 	public function init() {
 		register_setting( $this->key, $this->key );
+	}
+
+	/**
+	 * Add some login page CSS.
+	 *
+	 * @since 1.2.0
+	 */
+	public function optin_form_field_login_css() {
+		?>
+		<style>
+		.login .ctct-disclosure {
+			margin: 0 0 15px;
+		}
+		</style>
+		<?php
 	}
 
 	/**
@@ -277,6 +293,14 @@ class ConstantContact_Settings {
 					'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
 				) );
 			}
+
+			// Add field to disable e-mail notifications.
+			$cmb->add_field( array(
+				'name' => __( 'Disable E-mail Notifications', 'constant-contact-forms' ),
+				'desc' => __( 'This option will disable e-mail notifications when someone submits a form.', 'constant-contact-forms' ),
+				'id'   => '_ctct_disable_email_notifications',
+				'type' => 'checkbox',
+			) );
 		}
 	}
 
@@ -395,6 +419,7 @@ class ConstantContact_Settings {
 	        	<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
 				<?php echo esc_attr( $label ); ?>
 			</label>
+			<?php echo constant_contact()->display->get_disclose_text(); ?>
 			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin', true, true ); ?>
 	    </p><?php
 

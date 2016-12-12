@@ -251,9 +251,15 @@ class ConstantContact_CPTS {
 	}
 
 	/**
-	 * Returns array of form ids
+	 * Returns array of form ids.
+	 *
+	 * Can return more information with `true` passed to the first parameter. Caches results, pass `true` to the second
+	 * parameter to bust the cache.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param bool $expanded_data Set `true` to process the retrieved posts.
+	 * @param bool $bust_cache    Set `true` to bust the cached forms.
 	 *
 	 * @return array
 	 */

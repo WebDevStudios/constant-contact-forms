@@ -43,8 +43,10 @@ class ConstantContact_Mail {
 	/**
 	 * Process our form values
 	 *
-	 * @since  1.0.0
-	 * @param  array $values submitted form values
+	 * @since 1.0.0
+	 * @param array $values submitted form values
+	 *
+	 * @return bool
 	 */
 	public function submit_form_values( $values = array(), $add_to_opt_in = false ) {
 
@@ -75,6 +77,11 @@ class ConstantContact_Mail {
 
 		// Format them.
 		$email_values = $this->format_values_for_email( $values );
+
+		// Skip sending e-mail if we're connected and the user has opted out of notification emails.
+		if ( constant_contact()->api->is_connected() && ( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) ) {
+			return true;
+		}
 
 		// Send the mail.
 		return $this->mail( $this->get_email(), $email_values );

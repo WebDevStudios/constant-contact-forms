@@ -65,14 +65,24 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 * @return array $fields
 		 */
 		public function fields( $fields, $button_data ) {
+			$forms = constant_contact()->cpts->get_forms( true );
 
-			$fields[] = array(
+			$args = array(
 				'name'             => __( 'Form Shortcode', 'constant-contact-forms' ),
 				'id'               => '_ctct_form',
 				'type'             => 'select',
 				'show_option_none' => false,
-				'options'          => constant_contact()->cpts->get_forms( true ),
+				'options'          => $forms,
 			);
+
+			if ( empty( $forms ) ) {
+				$args['before'] = sprintf(
+					__( '<p>No forms available. Visit your <a href="%s">forms list</a> to create one.</p>', 'constant-contact-forms' ),
+						admin_url( 'edit.php?post_type=ctct_forms' )
+				);
+			}
+
+			$fields[] = $args;
 
 			return $fields;
 		}
