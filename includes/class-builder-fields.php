@@ -421,7 +421,7 @@ class ConstantContact_Builder_Fields {
 			'id'         => $this->prefix . 'field_desc',
 			'type'       => 'text',
 			'attributes' => array(
-				'placeholder' => 'Ex: Enter email address',
+				'placeholder' => __( 'Ex: Enter email address', 'constant-contact-forms' ),
 			),
 		) );
 
