@@ -121,6 +121,11 @@ class ConstantContact_Settings {
 		register_setting( $this->key, $this->key );
 	}
 
+	/**
+	 * Add some login page CSS.
+	 *
+	 * @since 1.2.0
+	 */
 	public function optin_form_field_login_css() {
 		?>
 		<style>
