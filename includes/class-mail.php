@@ -79,7 +79,16 @@ class ConstantContact_Mail {
 		$email_values = $this->format_values_for_email( $values );
 
 		// Send the mail.
-		return $this->mail( $this->get_email(), $email_values );
+		$skip_email = constant_contact()->api->is_connected() && 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' );
+
+		/**
+		 * Clever code alert!
+		 *
+		 * Shorthand ternary style below is equivelent to saying "$a ? $a : $b"; in
+		 * this case, we're returning bool(true) if skiopping sending e-mail, otherwise
+		 * return the value of $this->mail.
+		 */
+		return $skip_email ?: $this->mail( $this->get_email(), $email_values );
 	}
 
 	/**
