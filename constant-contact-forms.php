@@ -202,10 +202,10 @@ class Constant_Contact {
 
 		// Set up some helper properties.
 		$this->basename = plugin_basename( __FILE__ );
-		$this->url	    = plugin_dir_url( __FILE__ );
-		$this->path	    = plugin_dir_path( __FILE__ );
+		$this->url      = plugin_dir_url( __FILE__ );
+		$this->path     = plugin_dir_path( __FILE__ );
 
-		if ( $this->meets_php_requirements() ) {
+		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
 			return;
 		}
@@ -276,7 +276,8 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function hooks() {
-		if ( $this->meets_php_requirements() ) {
+
+		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
 			return;
 		}
@@ -284,6 +285,7 @@ class Constant_Contact {
 		add_action( 'init', array( $this, 'init' ) );
 		add_action( 'init', array( $this, 'includes' ), 5 );
 		add_action( 'widgets_init', array( $this, 'widgets' ) );
+		add_filter( 'body_class', array( $this, 'body_classes' ) );
 
 		// Our vendor files will do a check for ISSSL, so we want to set it to be that.
 		// See Guzzle for more info and usage of this.
@@ -333,7 +335,7 @@ class Constant_Contact {
 	 * @return mixed
 	 */
 	public function meets_php_requirements() {
-		return ( version_compare( PHP_VERSION, '5.4.0', '<' ) );
+		return ( version_compare( PHP_VERSION, '5.4.0', '>=' ) );
 	}
 
 	/**
@@ -579,6 +581,13 @@ class Constant_Contact {
 		}
 
 		return false;
+	}
+
+	public function body_classes( $classes = array() ) {
+		$theme = wp_get_theme()->template;
+		$classes[] = "ctct-{$theme}"; //Prefixing for user knowledge of source
+
+		return $classes;
 	}
 }
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );

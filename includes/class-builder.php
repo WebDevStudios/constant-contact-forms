@@ -311,7 +311,7 @@ class ConstantContact_Builder {
 							<p>
 								<?php esc_attr_e( 'Import everything into Constant Contact so I can see what email marketing can do for me.', 'constant-contact-forms' ); ?>
 							</p>
-							<a href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
+							<a href="<?php echo esc_url_raw( add_query_arg( array( 'rmc' => 'wp_fmodal_try' ), constant_contact()->api->get_signup_link() ) ); ?>" target="_blank" class="button button-orange" title="Try Us Free">Try Us Free</a><br/>
 							<img
 								class="flare"
 								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-modal-logo.png' ); ?>"
@@ -328,7 +328,7 @@ class ConstantContact_Builder {
 							<p>
 								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account.', 'constant-contact-forms' ); ?>
 							</p>
-							<a href="<?php echo esc_url_raw( constant_contact()->api->get_connect_link() ); ?>" target="_blank" class="button button-blue" title="Connect Plugin">
+							<a href="<?php echo esc_url_raw( add_query_arg( array( 'rmc' => 'wp_fmodal_connect' ), constant_contact()->api->get_connect_link() ) ); ?>" target="_blank" class="button button-blue" title="Connect Plugin">
 								<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
 							</a><br/>
 							<p class="small"><small><?php esc_attr_e( 'By connecting, you authorize this

@@ -97,7 +97,7 @@ window.CTCTBuilder = {};
 		$( document ).on( 'cmb2_add_row', function( newRow ) {
 
 			// Automatically set new rows to be 'custom' field type
-			$( '#custom_fields_group_repeat .postbox' ).last().find( '.map select' ).val( 'custom' );
+			$( '#custom_fields_group_repeat .postbox' ).last().find( '.map select' ).val( 'none' );
 
 			// Trigger bind events again for our selects, as well as our field changes
 			that.modifyFields();

@@ -401,6 +401,22 @@ class ConstantContact_Builder_Fields {
 			'options'          => $filtered_options,
 		) );
 
+		// Add a field label.
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'    => __( 'Field Label', 'constant-contact-forms' ),
+			'id'      => $this->prefix . 'field_label',
+			'type'    => 'text',
+			'default' => __( 'Email', 'constant-contact-forms' ),
+		) );
+
+		// Add our field description.
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'    => __( 'Field Description', 'constant-contact-forms' ),
+			'id'      => $this->prefix . 'field_desc',
+			'type'    => 'text',
+			'default' => 'Ex: Enter email address',
+		) );
+
 		// Allow toggling of required fields.
 		$fields_metabox->add_group_field( $custom_group, array(
 			'name'        => __( 'Required', 'constant-contact-forms' ),

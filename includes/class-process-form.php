@@ -448,6 +448,7 @@ class ConstantContact_Process_Form {
 				isset( $value['orig']['required'] ) &&
 				$value['orig']['required'] &&
 				// Skip Address Line 2.
+				isset( $value['orig']['_ctct_map_select'] ) &&
 				'line_2' !== $value['orig']['_ctct_map_select']
 			) {
 				// If it was required, check for a value.
@@ -525,6 +526,10 @@ class ConstantContact_Process_Form {
 	 * @return array
 	 */
 	public function process_wrapper( $form_data = array(), $form_id = '' ) {
+
+		if ( isset( $_POST['ctct-id'] ) && $form_id != absint( $_POST['ctct-id'] ) ) {
+			return false;
+		}
 
 		// Process our data, and get our response.
 		$processed = $this->process_form();
