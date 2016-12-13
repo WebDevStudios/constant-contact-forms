@@ -1,7 +1,7 @@
 
 === Constant Contact Forms ===
 Contributors:      constantcontact
-Tags: constant contact, constant contact official, constantcontact, constant, newsletter, newsletter form, email marketing, mailing list, email list, email newsletter, contact forms, form, capture, mobile, mobile forms, lead generation, lead gen, opt-in,
+Tags: constant contact, constant contact official, constantcontact, constant, newsletter, newsletter form, email marketing, mailing list, email list, email newsletter, contact forms, form, capture, mobile, mobile forms, lead generation, lead gen, opt-in, optin form, subscribe form
 Requires at least: 4.0.0
 Tested up to:      4.7
 Stable tag:        1.2.0
