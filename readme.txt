@@ -1,6 +1,6 @@
 === Constant Contact Forms ===
 Contributors:      constantcontact
-Tags:
+Tags: Constant Contact, Constant Contact official, newsletter, email marketing, mailing list, contact forms
 Requires at least: 4.0.0
 Tested up to:      4.7
 Stable tag:        1.2.0
