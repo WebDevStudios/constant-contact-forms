@@ -349,6 +349,11 @@ class ConstantContact_Admin {
 	 */
 	public function scripts( $extra_localizations = array() ) {
 
+		// Some admin_enqueue_scripts action calls pass the pagenow string value and not an array.
+		if ( ! is_array( $extra_localizations ) ) {
+			return;
+		}
+
 		global $pagenow;
 
 		// Check if we are in debug mode. allow.
