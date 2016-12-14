@@ -210,10 +210,10 @@ class ConstantContact_Settings {
 
 			// Start our new field.
 			$cmb = new_cmb2_box( array(
-				'id'		 => $this->metabox_id,
-				'hookup'	 => false,
+				'id'         => $this->metabox_id,
+				'hookup'     => false,
 				'cmb_styles' => false,
-				'show_on'	=> array(
+				'show_on'    => array(
 					'key'   => 'options-page',
 					'value' => array( $this->key ),
 				),
@@ -239,9 +239,9 @@ class ConstantContact_Settings {
 
 			// Set our CMB2 fields.
 			$cmb->add_field( array(
-				'name' 	=> __( 'Opt-in Location', 'constant-contact-forms' ),
-				'id'   	=> '_ctct_optin_forms',
-				'type'	=> 'multicheck',
+				'name'    => __( 'Opt-in Location', 'constant-contact-forms' ),
+				'id'      => '_ctct_optin_forms',
+				'type'    => 'multicheck',
 				'options' => $this->get_optin_show_options(),
 			) );
 
@@ -249,12 +249,12 @@ class ConstantContact_Settings {
 			$lists[0] = __( 'Select a list', 'constant-contact-forms' );
 
 			$cmb->add_field( array(
-				'name' 	=> __( 'Add subscribers to', 'constant-contact-forms' ),
-				'id'   	=> '_ctct_optin_list',
-				'type'	=> 'select',
+				'name'             => __( 'Add subscribers to', 'constant-contact-forms' ),
+				'id'               => '_ctct_optin_list',
+				'type'             => 'select',
 				'show_option_none' => false,
 				'default'          => __( 'Select a list', 'constant-contact-forms' ),
-				'options'		   => $lists,
+				'options'          => $lists,
 			) );
 
 			// Get the business name and address.
@@ -270,8 +270,8 @@ class ConstantContact_Settings {
 			}
 
 			$cmb->add_field( array(
-				'name' 	  => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
-				'id'   	  => '_ctct_optin_label',
+				'name'    => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
+				'id'      => '_ctct_optin_label',
 				'type'    => 'text',
 				'default' => sprintf( __( 'Yes, I would like to receive emails from %s. Sign me up!', 'constant-contact-forms' ), $business_name ),
 			) );
@@ -293,6 +293,14 @@ class ConstantContact_Settings {
 					'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
 				) );
 			}
+
+			$cmb->add_field( array(
+				'name'    => __( 'Anonymous data tracking opt-in.', 'constant-contact-forms' ),
+				'id'      => '_ctct_data_tracking',
+				'type'    => 'checkbox',
+				'desc'    => __( 'Allow ConstantContact to track anonymous data about usage of the Constant Contact Forms plugin.<br/>See INSERT LINK our data tracking policy information about what is and is not tracked.', 'constant-contact-forms' ),
+
+			) );
 
 			// Add field to disable e-mail notifications.
 			$cmb->add_field( array(

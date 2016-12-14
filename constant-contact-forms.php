@@ -256,6 +256,7 @@ class Constant_Contact {
 		$this->notification_content = new ConstantContact_Notification_Content( $this );
 		$this->authserver           = new ConstantContact_Middleware( $this );
 		$this->updates              = new ConstantContact_Updates( $this );
+		$this->optin                = new ConstantContact_Optin( $this );
 	}
 
 	/**
@@ -588,6 +589,27 @@ class Constant_Contact {
 		$classes[] = "ctct-{$theme}"; //Prefixing for user knowledge of source
 
 		return $classes;
+	}
+
+	public function is_constant_contact() {
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return false;
+		}
+		if ( ! is_admin() || empty( $_GET ) ) {
+			return false;
+		}
+
+		if (
+			isset( $_GET['post_type'] ) &&
+			in_array(
+				$_GET['post_type'],
+				array( 'ctct_forms', 'ctct_lists' )
+			)
+		) {
+			return true;
+		}
+
+		return false;
 	}
 }
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
