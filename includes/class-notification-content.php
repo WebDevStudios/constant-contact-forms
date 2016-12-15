@@ -45,7 +45,7 @@ class ConstantContact_Notification_Content {
 		<p class="ctct-notice-intro">
 		<?php
 			printf(
-				esc_attr__( 'To take full advantage of the %s plugin, we recommend having an active Constant Contact account.', 'constant-contact-forms' ),
+				esc_attr__( 'Get the most out of the %s plugin &mdash; use it with an active Constant Contact account.', 'constant-contact-forms' ),
 				'<strong>' . esc_attr__( 'Constant Contact Forms' ) . '</strong>'
 			);
 		?>
@@ -57,6 +57,19 @@ class ConstantContact_Notification_Content {
 			<a href="<?php echo esc_url_raw( $try_url ); ?>" class="ctct-notice-button button-secondary">
 				<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>
 			</a>
+
+			<?php
+				$link_start = sprintf(
+					'<a href="%s">',
+					admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_about' )
+				);
+				printf(
+					/* translators: placeholders around "Learn More" hold html `<a>` tag. */
+					__( '%sLearn More%s about the power of email marketing.', 'constant-contact-forms' ),
+					$link_start,
+					'</a>'
+				)
+			?>
 		</p>
 		<?php
 
