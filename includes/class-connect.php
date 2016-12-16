@@ -203,47 +203,40 @@ class ConstantContact_Connect {
 			}
 			?>
 				<p class="ctct-description">
-					<?php esc_html_e( 'To take full advantage of this plugin, we recommend having an active Constant Contact account.', 'constant-contact-forms' ); ?>
+					<?php esc_html_e( "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers.", 'constant-contact-forms' ); ?>
 				</p>
 
-				<!-- Start Columns Here -->
-					<div class="left">
-						<img
-							class="flare"
-							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail-connect.png' ); ?>"
-							alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constant-contact-forms' ); ?>"
-						/>
-						<h3><?php esc_attr_e( 'Need an account?', 'constant-contact-forms' ); ?></h3>
-						<p>
-							<?php esc_attr_e( 'Sign up for a free 60-day trial to connect with visitors beyond your website.', 'constant-contact-forms' ); ?>
-						</p>
-						<a class="button button-orange" href="<?php echo esc_url_raw( add_query_arg( array( 'rmc' => 'wp_connect_try' ), constant_contact()->api->get_signup_link() ) ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
+				<div class="ctct-call-to-action">
+					<div class="ctct-call-to-action-text">
+						<h3><?php esc_html_e( 'Connect your Constant Contact account.', 'constant-contact-forms' ); ?></h3>
+						<p><?php esc_html_e( 'By connecting, you authorize this plugin to access your account.', 'constant-contact-forms' ); ?></p>
 					</div>
-					<div class="right">
-						<img
-							class="flare"
-							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login-connect.png' ); ?>"
-							alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constant-contact-forms' ); ?>"
-						/>
-						<h3><?php esc_attr_e( 'Have an account?', 'constant-contact-forms' ); ?></h3>
-						<p>
-							<?php esc_attr_e( 'Connect the plugin to log in to your Constant Contact account', 'constant-contact-forms' ); ?>
-							<em><?php esc_attr_e( '(by connecting, you authorize this plugin to access your account).', 'constant-contact-forms' ); ?></em>
-						</p>
-						<?php
+					<?php
 
-						// Get our middleware link.
-						$proof = constant_contact()->authserver->set_verification_option();
-						$auth_link = constant_contact()->authserver->do_connect_url( $proof );
+					// Get our middleware link.
+					$proof     = constant_contact()->authserver->set_verification_option();
+					$auth_link = constant_contact()->authserver->do_connect_url( $proof );
 
-						$auth_link = add_query_arg( array( 'rmc' => 'wp_connect_connect' ), $auth_link );
+					$auth_link = add_query_arg( array( 'rmc' => 'wp_connect_connect' ), $auth_link );
 
-						// If we have a link, then display the connect button.
-						if ( $auth_link ) { ?>
-							<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button button-blue ctct-connect">
-								<?php esc_html_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
-							</a>
-						<?php } ?>
+					// If we have a link, then display the connect button.
+					if ( $auth_link ) { ?>
+						<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button button-blue ctct-connect">
+							<?php esc_html_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
+						</a>
+					<?php } ?>
+				</div>
+				<div class="ctct-call-to-action">
+					<div class="ctct-call-to-action-text">
+						<h3><?php esc_html_e( 'No Constant Contact account? Try us out.', 'constant-contact-forms' ); ?></h3>
+						<p><?php esc_html_e( 'Create professional emails so you can nurture great relationships with new contacts even after they leave your website. Sign up for a free 60-day trial.', 'constant-contact-forms' ); ?></p>
+					</div>
+					<a class="button button-orange" href="<?php echo esc_url_raw( add_query_arg( array( 'rmc' => 'wp_connect_try' ), constant_contact()->api->get_signup_link() ) ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
+				</div>
+				<div class="ctct-call-to-action">
+					<div class="ctct-call-to-action-text">
+						<h3><?php esc_html_e( 'Email marketing tips delivered to your inbox.', 'constant-contact-forms' ); ?></h3>
+						<p>FILL ME IN</p>
 					</div>
 				</div>
 
