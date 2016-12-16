@@ -31,6 +31,10 @@
 		font-size: 16px;
 	} // p
 
+  	.ctct-description {
+	  text-align: left;
+	}
+
 	.ctct-body {
 		@include clearfix;
 

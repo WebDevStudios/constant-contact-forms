@@ -21,6 +21,20 @@
 		margin-left: -10px;
 	}
 
+  	.ctct-call-to-action {
+	  margin-bottom: 30px;
+	  overflow: hidden;
+	  text-align: left;
+	  width: 100%;
+	  p {
+		float: left;
+	  }
+	  a {
+		float: right;
+		text-align: center;
+	  }
+	}
+
 	img {
 		width: 100%;
 		max-width: 400px;
@@ -41,7 +55,7 @@
 
 		&.ctct-description {
 			font-size: 16px;
-			margin-bottom: 15px;
+			margin-bottom: 50px;
 			margin-top: 5px;
 		} // ctct-description
 
@@ -49,7 +63,6 @@
 			color: $color-light-silver;
 			font-size: 13.3px;
 			margin: 15px auto 0;
-			max-width: 60%;
 
 			@media screen and (max-width: 782px) {
 				max-width: 100%;
@@ -60,6 +73,14 @@
 	.ctct-body {
 		@include clearfix;
 
+	  	.ctct-call-to-action-text {
+		  float: left;
+		  width: 75%;
+
+		  h3 {
+			margin-top: 0;
+		  }
+		}
 		margin: 0 auto;
 		max-width: 75%;
 		overflow-y: hidden;
