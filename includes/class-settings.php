@@ -142,21 +142,17 @@ class ConstantContact_Settings {
 	 */
 	public function add_options_page() {
 
-		// Only show our settings page if we're connected to CC.
-		if ( constant_contact()->api->is_connected() ) {
+		$this->options_page = add_submenu_page(
+			'edit.php?post_type=ctct_forms',
+			__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
+			__( 'Settings', 'constant-contact-forms' ),
+			'manage_options',
+			$this->key,
+			array( $this, 'admin_page_display' )
+		);
 
-			$this->options_page = add_submenu_page(
-				'edit.php?post_type=ctct_forms',
-				__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
-				__( 'Settings', 'constant-contact-forms' ),
-				'manage_options',
-				$this->key,
-				array( $this, 'admin_page_display' )
-			);
-
-			// Include CMB CSS in the head to avoid FOUC.
-			add_action( "admin_print_styles-{$this->options_page}", array( 'CMB2_hookup', 'enqueue_cmb_css' ) );
-		}
+		// Include CMB CSS in the head to avoid FOUC.
+		add_action( "admin_print_styles-{$this->options_page}", array( 'CMB2_hookup', 'enqueue_cmb_css' ) );
 	}
 
 	/**
