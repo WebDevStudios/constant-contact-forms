@@ -298,7 +298,7 @@ class ConstantContact_Settings {
 				'name'    => __( 'Anonymous data tracking opt-in.', 'constant-contact-forms' ),
 				'id'      => '_ctct_data_tracking',
 				'type'    => 'checkbox',
-				'desc'    => __( 'Allow ConstantContact to track anonymous data about usage of the Constant Contact Forms plugin.<br/>See INSERT LINK our data tracking policy information about what is and is not tracked.', 'constant-contact-forms' ),
+				'desc'    => __( 'Allow ConstantContact to track anonymous data about usage of the Constant Contact Forms plugin.<br/>See <a href="https://www.constantcontact.com/legal/privacy-statement">our data tracking policy information</a> about what is and is not tracked.', 'constant-contact-forms' ),
 
 			) );
 
