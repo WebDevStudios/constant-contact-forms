@@ -32,6 +32,20 @@
   text-align: center;
 }
 
+.ctct_options_connect .ctct-call-to-action .ctct-call-to-action-text a {
+  float: none;
+}
+
+.ctct_options_connect .ctct-call-to-action #subbox {
+  height: 40px;
+  width: 50%;
+}
+
+.ctct_options_connect .ctct-call-to-action #subbutton {
+  color: #0078C3;
+  float: right;
+}
+
 .ctct_options_connect img {
   width: 100%;
   max-width: 400px;

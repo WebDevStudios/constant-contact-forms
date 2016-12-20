@@ -319,3 +319,8 @@
 .section-try-us .ctct-bonus-points {
   margin-bottom: 50px;
 }
+
+.section-marketing-tips #subbox {
+  height: 40px;
+  width: 50%;
+}
