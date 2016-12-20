@@ -288,6 +288,22 @@ class ConstantContact_Admin_Pages {
 					<hr>
 				</div>
 
+				<div class="ctct-section section-marketing-tips">
+					<?php /* @todo Move to its own function/method. */ ?>
+					<form id="subscribe" accept-charset="utf-8" action="https://a.constantcontact.com/subscriptions/coi_verify/.ashx" method="get" target="_blank">
+						<input class="button button-blue right" id="subbutton" type="submit" value="<?php esc_attr_e( 'Sign Up', 'constant-contact-forms' ); ?>">
+						<h1 class="about-header"><?php esc_html_e( 'Email marketing tips delivered to your inbox.', 'constant-contact-forms' ); ?></h1>
+						<p><?php esc_html_e( 'Ready to grow with email marketing? Subscribe now for the latest tips and industry best practices to create great-looking emails that work.', 'constant-contact-forms' ); ?></p>
+						<p><input id="subbox" maxlength="255" name="email" type="text" placeholder="<?php esc_attr_e( 'Enter your email address', 'constant-contact-forms' ); ?>">
+						</p>
+						<input name="sub" type="hidden" value="3">
+						<input name="method" type="hidden" value="JMML_WP_PLUGIN">
+
+					</form>
+					<small><?php printf( __( 'By submitting this form, you agree to receive periodic product announcements and account notifications from Constant Contact. Cancel these communications at any time by clicking the unsubscribe link in the footer of the actual email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %s', 'constant-contact-forms' ), '<a href="https://www.constantcontact.com">www.constantcontact.com</a>' ); ?></small>
+					<hr>
+				</div>
+
 				<div class="clear"></div>
 			</div>
 			<div class="headline-feature">
