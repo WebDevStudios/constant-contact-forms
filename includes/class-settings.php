@@ -237,10 +237,11 @@ class ConstantContact_Settings {
 
 		// Add field to disable e-mail notifications.
 		$cmb->add_field( array(
-			'name' => __( 'Disable E-mail Notifications', 'constant-contact-forms' ),
-			'desc' => __( 'This option will disable e-mail notifications when someone submits a form.', 'constant-contact-forms' ),
-			'id'   => '_ctct_disable_email_notifications',
-			'type' => 'checkbox',
+			'name'       => __( 'Disable E-mail Notifications', 'constant-contact-forms' ),
+			'desc'       => __( 'This option will disable e-mail notifications when someone submits a form.', 'constant-contact-forms' ),
+			'id'         => '_ctct_disable_email_notifications',
+			'type'       => 'checkbox',
+			'before_row' => '<hr/>',
 		) );
 
 		// Only show our settings page if we're connected to CC.
@@ -252,10 +253,11 @@ class ConstantContact_Settings {
 
 				// Set our CMB2 fields.
 				$cmb->add_field( array(
-					'name'    => __( 'Opt-in Location', 'constant-contact-forms' ),
-					'id'      => '_ctct_optin_forms',
-					'type'    => 'multicheck',
-					'options' => $this->get_optin_show_options(),
+					'name'       => __( 'Opt-in Location', 'constant-contact-forms' ),
+					'id'         => '_ctct_optin_forms',
+					'type'       => 'multicheck',
+					'options'    => $this->get_optin_show_options(),
+					'before_row' => '<hr/>',
 				) );
 
 				// Tack on 'select a list' to our lists array.
