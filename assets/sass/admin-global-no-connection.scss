@@ -33,6 +33,17 @@
 		float: right;
 		text-align: center;
 	  }
+	  .ctct-call-to-action-text a {
+		float: none;
+	  }
+	  #subbox {
+		height: 40px;
+	  	width: 50%;
+	  }
+	  #subbutton {
+		color: $color-prussian-blue;
+		float: right;
+	  }
 	}
 
 	img {
