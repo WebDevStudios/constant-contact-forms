@@ -232,6 +232,22 @@ class ConstantContact_Settings {
 	 */
 	public function do_lists_field( $cmb ) {
 
+		$cmb->add_field( array(
+			'name' => __( 'Anonymous data tracking opt-in.', 'constant-contact-forms' ),
+			'id'   => '_ctct_data_tracking',
+			'type' => 'checkbox',
+			'desc' => __( 'Allow ConstantContact to track anonymous data about usage of the Constant Contact Forms plugin.<br/>See <a href="https://www.constantcontact.com/legal/privacy-statement">our data tracking policy information</a> about what is and is not tracked.', 'constant-contact-forms' ),
+
+		) );
+
+		// Add field to disable e-mail notifications.
+		$cmb->add_field( array(
+			'name' => __( 'Disable E-mail Notifications', 'constant-contact-forms' ),
+			'desc' => __( 'This option will disable e-mail notifications when someone submits a form.', 'constant-contact-forms' ),
+			'id'   => '_ctct_disable_email_notifications',
+			'type' => 'checkbox',
+		) );
+
 		// Get our lists.
 		$lists = constant_contact()->builder->get_lists();
 
@@ -293,22 +309,6 @@ class ConstantContact_Settings {
 					'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
 				) );
 			}
-
-			$cmb->add_field( array(
-				'name'    => __( 'Anonymous data tracking opt-in.', 'constant-contact-forms' ),
-				'id'      => '_ctct_data_tracking',
-				'type'    => 'checkbox',
-				'desc'    => __( 'Allow ConstantContact to track anonymous data about usage of the Constant Contact Forms plugin.<br/>See <a href="https://www.constantcontact.com/legal/privacy-statement">our data tracking policy information</a> about what is and is not tracked.', 'constant-contact-forms' ),
-
-			) );
-
-			// Add field to disable e-mail notifications.
-			$cmb->add_field( array(
-				'name' => __( 'Disable E-mail Notifications', 'constant-contact-forms' ),
-				'desc' => __( 'This option will disable e-mail notifications when someone submits a form.', 'constant-contact-forms' ),
-				'id'   => '_ctct_disable_email_notifications',
-				'type' => 'checkbox',
-			) );
 		}
 	}
 
