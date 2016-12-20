@@ -368,7 +368,10 @@ class ConstantContact_Builder_Fields {
 		 *
 		 * @param array $default_fields The field placeholders to use for field description.
 		 */
-		$filtered_placeholders            = apply_filters( 'constant_contact_field_placeholders', wp_list_pluck( $default_fields, 'placeholder' ) );
+		$filtered_placeholders            = apply_filters(
+			'constant_contact_field_placeholders',
+			wp_list_pluck( $default_fields, 'placeholder' )
+		);
 		$filtered_placeholders['default'] = $default_placeholder;
 
 		// Go ahead and enqueue with our placeholder text.
