@@ -244,66 +244,69 @@ class ConstantContact_Settings {
 			'type' => 'checkbox',
 		) );
 
-		// Get our lists.
-		$lists = constant_contact()->builder->get_lists();
+		// Only show our settings page if we're connected to CC.
+		if ( constant_contact()->api->is_connected() ) {
+			// Get our lists.
+			$lists = constant_contact()->builder->get_lists();
 
-		if ( $lists && is_array( $lists ) ) {
+			if ( $lists && is_array( $lists ) ) {
 
-			// Set our CMB2 fields.
-			$cmb->add_field( array(
-				'name'    => __( 'Opt-in Location', 'constant-contact-forms' ),
-				'id'      => '_ctct_optin_forms',
-				'type'    => 'multicheck',
-				'options' => $this->get_optin_show_options(),
-			) );
-
-			// Tack on 'select a list' to our lists array.
-			$lists[0] = __( 'Select a list', 'constant-contact-forms' );
-
-			$cmb->add_field( array(
-				'name'             => __( 'Add subscribers to', 'constant-contact-forms' ),
-				'id'               => '_ctct_optin_list',
-				'type'             => 'select',
-				'show_option_none' => false,
-				'default'          => __( 'Select a list', 'constant-contact-forms' ),
-				'options'          => $lists,
-			) );
-
-			// Get the business name and address.
-			$business_name = get_bloginfo( 'name' ) ?: __( 'Business Name', 'constant-contact-forms' );
-			$business_addr = '';
-
-			// We might be able to get it from the API?
-			$disclosure_info = $this->plugin->api->get_disclosure_info( true );
-			if ( ! empty( $disclosure_info ) ) {
-				// Make sure no one can edit.
-				$business_name = $disclosure_info['name']    ?: $business_name;
-				$business_addr = isset( $disclosure_info['address'] ) ?: '';
-			}
-
-			$cmb->add_field( array(
-				'name'    => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
-				'id'      => '_ctct_optin_label',
-				'type'    => 'text',
-				'default' => sprintf( __( 'Yes, I would like to receive emails from %s. Sign me up!', 'constant-contact-forms' ), $business_name ),
-			) );
-
-			if ( empty( $disclosure_info ) ) {
+				// Set our CMB2 fields.
 				$cmb->add_field( array(
-					'name'       => __( 'Disclosure Name', 'constant-contact-forms' ),
-					'id'         => '_ctct_disclose_name',
-					'type'       => 'text',
-					'default'    => $business_name,
-					'attributes' => strlen( $business_name ) ? array( 'readonly' => 'readonly' ) : array(),
+					'name'    => __( 'Opt-in Location', 'constant-contact-forms' ),
+					'id'      => '_ctct_optin_forms',
+					'type'    => 'multicheck',
+					'options' => $this->get_optin_show_options(),
 				) );
 
+				// Tack on 'select a list' to our lists array.
+				$lists[0] = __( 'Select a list', 'constant-contact-forms' );
+
 				$cmb->add_field( array(
-					'name'       => __( 'Disclosure Address', 'constant-contact-forms' ),
-					'id'         => '_ctct_disclose_address',
-					'type'       => 'text',
-					'default'    => $business_addr,
-					'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
+					'name'             => __( 'Add subscribers to', 'constant-contact-forms' ),
+					'id'               => '_ctct_optin_list',
+					'type'             => 'select',
+					'show_option_none' => false,
+					'default'          => __( 'Select a list', 'constant-contact-forms' ),
+					'options'          => $lists,
 				) );
+
+				// Get the business name and address.
+				$business_name = get_bloginfo( 'name' ) ?: __( 'Business Name', 'constant-contact-forms' );
+				$business_addr = '';
+
+				// We might be able to get it from the API?
+				$disclosure_info = $this->plugin->api->get_disclosure_info( true );
+				if ( ! empty( $disclosure_info ) ) {
+					// Make sure no one can edit.
+					$business_name = $disclosure_info['name'] ?: $business_name;
+					$business_addr = isset( $disclosure_info['address'] ) ?: '';
+				}
+
+				$cmb->add_field( array(
+					'name'    => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
+					'id'      => '_ctct_optin_label',
+					'type'    => 'text',
+					'default' => sprintf( __( 'Yes, I would like to receive emails from %s. Sign me up!', 'constant-contact-forms' ), $business_name ),
+				) );
+
+				if ( empty( $disclosure_info ) ) {
+					$cmb->add_field( array(
+						'name'       => __( 'Disclosure Name', 'constant-contact-forms' ),
+						'id'         => '_ctct_disclose_name',
+						'type'       => 'text',
+						'default'    => $business_name,
+						'attributes' => strlen( $business_name ) ? array( 'readonly' => 'readonly' ) : array(),
+					) );
+
+					$cmb->add_field( array(
+						'name'       => __( 'Disclosure Address', 'constant-contact-forms' ),
+						'id'         => '_ctct_disclose_address',
+						'type'       => 'text',
+						'default'    => $business_addr,
+						'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
+					) );
+				}
 			}
 		}
 	}
