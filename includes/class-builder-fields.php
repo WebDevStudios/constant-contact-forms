@@ -287,14 +287,6 @@ class ConstantContact_Builder_Fields {
 			),
 		) );
 
-		// Add a field label.
-		$fields_metabox->add_group_field( $custom_group, array(
-			'name'    => __( 'Field Label', 'constant-contact-forms' ),
-			'id'      => $this->prefix . 'field_label',
-			'type'    => 'text',
-			'default' => __( 'Email', 'constant-contact-forms' ),
-		) );
-
 		/**
 		 * The default placeholder text to use for fields without a placeholder.
 		 *
@@ -302,16 +294,6 @@ class ConstantContact_Builder_Fields {
 		 * @param string $default_placeholder The placeholder text.
 		 */
 		$default_placeholder = apply_filters( 'constant_contact_default_placeholder', __( 'A brief description of this field (optional)', 'constant-contact-forms' ) );
-
-		// Add our field description.
-		$fields_metabox->add_group_field( $custom_group, array(
-			'name'    => __( 'Field Description', 'constant-contact-forms' ),
-			'id'      => $this->prefix . 'field_desc',
-			'type'    => 'text',
-			'attributes' => array(
-				'placeholder' => $default_placeholder,
-			)
-		) );
 
 		// Define field configuration for options and placeholders.
 		$default_fields = array(
