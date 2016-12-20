@@ -147,8 +147,8 @@ class ConstantContact_Settings {
 
 			$this->options_page = add_submenu_page(
 				'edit.php?post_type=ctct_forms',
-				__( 'Advanced Opt-in', 'constant-contact-forms' ),
-				__( 'Advanced Opt-in', 'constant-contact-forms' ),
+				__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
+				__( 'Settings', 'constant-contact-forms' ),
 				'manage_options',
 				$this->key,
 				array( $this, 'admin_page_display' )
