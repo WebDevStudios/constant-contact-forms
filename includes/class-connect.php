@@ -289,6 +289,14 @@ class ConstantContact_Connect {
 			// Delete access token and delete our legacy token as well.
 			delete_option( 'ctct_token' );
 			delete_option( '_ctct_token' );
+
+			// Delete the disable email setting when disconnected.
+			$saved_options = get_option( 'ctct_options_settings' );
+			if ( isset( $saved_options['_ctct_disable_email_notifications'] ) ) {
+				unset( $saved_options['_ctct_disable_email_notifications'] );
+				update_option( 'ctct_options_settings', $saved_options );
+			}
+
 		}
 	}
 
