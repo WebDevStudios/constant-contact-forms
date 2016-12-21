@@ -235,17 +235,18 @@ class ConstantContact_Settings {
 			'desc' => __( 'Allow ConstantContact to track anonymous data about usage of the Constant Contact Forms plugin.<br/>See our <a href="https://www.constantcontact.com/legal/privacy-statement"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
 		) );
 
-		// Add field to disable e-mail notifications.
-		$cmb->add_field( array(
-			'name'       => __( 'Disable E-mail Notifications', 'constant-contact-forms' ),
-			'desc'       => __( 'This option will disable e-mail notifications when someone submits a form and you have a connected Constant Contact account.', 'constant-contact-forms' ),
-			'id'         => '_ctct_disable_email_notifications',
-			'type'       => 'checkbox',
-			'before_row' => '<hr/>',
-		) );
-
 		// Only show our settings page if we're connected to CC.
 		if ( constant_contact()->api->is_connected() ) {
+
+			// Add field to disable e-mail notifications.
+			$cmb->add_field( array(
+				'name'       => __( 'Disable E-mail Notifications', 'constant-contact-forms' ),
+				'desc'       => __( 'This option will disable e-mail notifications when someone submits a form and you have a connected Constant Contact account.', 'constant-contact-forms' ),
+				'id'         => '_ctct_disable_email_notifications',
+				'type'       => 'checkbox',
+				'before_row' => '<hr/>',
+			) );
+
 			// Get our lists.
 			$lists = constant_contact()->builder->get_lists();
 
