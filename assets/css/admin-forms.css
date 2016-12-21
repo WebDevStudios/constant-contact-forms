@@ -379,3 +379,7 @@ body.post-type-ctct_forms #titlediv #title {
 #ctct_1_optin_metabox .cmb-th + .cmb-td {
   width: 70%;
 }
+
+#ctct_option_metabox_settings span.cmb2-metabox-description {
+  color: #444444;
+}

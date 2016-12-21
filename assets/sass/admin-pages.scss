@@ -195,6 +195,7 @@
 		float: right;
 		max-height: 180px;
 		max-width: 160px;
+	  	margin-left: 40px;
 
 		@media screen and (max-width: 482px) {
 			display: none;
@@ -294,6 +295,14 @@
 .section-try-us {
   .ctct-bonus-points {
 	margin-bottom: 50px;
+  }
+  a {
+	&.button {
+	  margin-right: 40px;
+	}
+	&.ctct-connect {
+	  font-weight: bold;
+	}
   }
 }
 
