@@ -109,6 +109,7 @@ class ConstantContact_Settings {
 		add_action( 'register_form', array( $this, 'optin_form_field_registration' ) );
 		add_action( 'signup_extra_fields', array( $this, 'optin_form_field_registration' ) );
 		add_action( 'login_head', array( $this, 'optin_form_field_login_css' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 	}
 
 	/**
@@ -133,6 +134,9 @@ class ConstantContact_Settings {
 		}
 		</style>
 		<?php
+	}
+	public function scripts() {
+		wp_enqueue_style( 'constant-contact-forms' );
 	}
 
 	/**
