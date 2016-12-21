@@ -256,13 +256,18 @@ class ConstantContact_Settings {
 
 			if ( $lists && is_array( $lists ) ) {
 
+				$before_optin = sprintf(
+					'<hr/><h2>%s</h2>',
+					esc_html__( 'Advanced Opt-in', 'constant-contact-forms' )
+				);
+
 				// Set our CMB2 fields.
 				$cmb->add_field( array(
 					'name'       => __( 'Opt-in Location', 'constant-contact-forms' ),
 					'id'         => '_ctct_optin_forms',
 					'type'       => 'multicheck',
 					'options'    => $this->get_optin_show_options(),
-					'before_row' => '<hr/>',
+					'before_row' => $before_optin,
 				) );
 
 				// Tack on 'select a list' to our lists array.
