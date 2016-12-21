@@ -226,6 +226,7 @@ class ConstantContact_Connect {
 						</a>
 					<?php } ?>
 				</div>
+				<hr />
 				<div class="ctct-call-to-action">
 					<div class="ctct-call-to-action-text">
 						<h3><?php esc_html_e( 'No Constant Contact account? Try us out.', 'constant-contact-forms' ); ?></h3>
@@ -233,6 +234,8 @@ class ConstantContact_Connect {
 					</div>
 					<a class="button button-orange" href="<?php echo esc_url_raw( add_query_arg( array( 'rmc' => 'wp_connect_try' ), constant_contact()->api->get_signup_link() ) ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
 				</div>
+
+				<hr />
 
 				<form id="subscribe" accept-charset="utf-8" action="https://a.constantcontact.com/subscriptions/coi_verify/.ashx" method="get" target="_blank">
 				<div class="ctct-call-to-action">
