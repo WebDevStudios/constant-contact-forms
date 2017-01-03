@@ -7,7 +7,7 @@ Stable tag:        1.2.0
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
-Add a contact form to your WordPress site and quickly capture information from visitors.
+The official Constant Contact plugin adds a contact form to your WordPress site to quickly capture information from visitors.
 
 == Description ==
 
