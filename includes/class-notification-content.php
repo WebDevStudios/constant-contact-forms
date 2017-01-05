@@ -87,6 +87,22 @@ class ConstantContact_Notification_Content {
 		return __( 'You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them.', 'constant-contact-forms' );
 	}
 
+	public static function optin_admin_notice() {
+		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
+
+		ob_start();
+		?>
+		<h4>Constant Contact Forms for WordPress data tracking opt-in</h4>
+		<input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" />
+		<p>Allow Constant Contact to track anonymous data about usage of the Constant Contact Forms plugin.<br/>
+		You can change this opt - in within the plugin's settings page at any time.</p>
+		<?php
+		$output = ob_get_clean();
+		// Be a good citizen, clean up after ourselves.
+		#remove_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
+		return $output;
+	}
+
 	/**
 	 * Sample update notification for updating to 1.0.1
 	 *
