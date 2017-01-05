@@ -69,3 +69,24 @@ function constant_contact_get_forms() {
 function constant_contact_display_shortcode( $form_id ) {
 	return sprintf( '[ctct form="%s"]', $form_id );
 }
+
+function constant_contact_maybe_display_optin_notification() {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+	/*
+
+	if ( privacy policy already accepted or declined ) {
+	return false
+	}
+
+	return true;
+	*/
+	return true;
+}
+
+function constant_contact_optin_ajax_handler() {
+	$response = $_REQUEST;
+}
+add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_optin_ajax_handler' );
