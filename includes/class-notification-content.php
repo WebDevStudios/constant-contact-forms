@@ -118,3 +118,34 @@ class ConstantContact_Notification_Content {
 	}
 }
 
+/**
+ * Filters in the input to our allowed tags for our admin notice.
+ *
+ * @since 1.2.0
+ *
+ * @param array $allowedtags Allowed HTML.
+ * @return array Allowed HTML.
+ */
+function constant_contact_filter_html_tags_for_optin( $allowedtags = array() ){
+	$allowedtags['input'] = array( 'type' => true );
+	return $allowedtags;
+}
+
+/**
+ * Adds our opt-in notification to the notification system.
+ *
+ * @since 1.2.0
+ *
+ * @param array $notifications Array of notifications pending to show.
+ * @return array Array of notifications to show.
+ */
+function constant_contact_add_optin_notification( $notifications = array() ) {
+
+	$notifications[] = array(
+		'ID' => 'optin_admin_notice',
+		'callback' => array( 'ConstantContact_Notification_Content', 'optin_admin_notice' ),
+		'require_cb' => 'constant_contact_maybe_display_optin_notification',
+	);
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_add_optin_notification' );
