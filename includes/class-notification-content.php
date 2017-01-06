@@ -92,10 +92,17 @@ class ConstantContact_Notification_Content {
 
 		ob_start();
 		?>
-		<h4>Constant Contact Forms for WordPress data tracking opt-in</h4>
-		<input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" />
-		<p>Allow Constant Contact to track anonymous data about usage of the Constant Contact Forms plugin.<br/>
-		You can change this opt - in within the plugin's settings page at any time.</p>
+
+		<div class="admin-notice-logo">
+			<img src="<?php echo constant_contact()->url; ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" />
+		</div>
+		<div class="admin-notice-message"><h4><?php esc_html_e( 'Constant Contact Forms for WordPress data tracking opt-in', 'constant-contact-forms' ); ?></h4>
+			<div><input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" />
+			</div>
+			<div>
+				<?php _e( "Allow Constant Contact to track anonymous data about usage of the Constant Contact Forms plugin.<br/>You can change this opt - in within the plugin's settings page at any time.", 'constant-contact-forms' ); ?>
+			</div>
+		</div>
 		<?php
 		$output = ob_get_clean();
 		// Be a good citizen, clean up after ourselves.
