@@ -87,6 +87,18 @@ function constant_contact_maybe_display_optin_notification() {
 }
 
 function constant_contact_optin_ajax_handler() {
+
 	$response = $_REQUEST;
+
+	if ( ! isset( $response['optin'] ) || 'on' !== $response['optin'] ) {
+		wp_send_json_success( array( 'opted-in' => 'off' ) );
+	}
+
+	$options = get_option( constant_contact()->settings->key );
+	$options['_ctct_data_tracking'] = $response['optin'];
+	update_option( constant_contact()->settings->key, $options );
+
+	wp_send_json_success( array( 'opted-in' => 'on' ) );
+	exit();
 }
 add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_optin_ajax_handler' );
