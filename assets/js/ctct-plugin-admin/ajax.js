@@ -19,10 +19,30 @@ window.CTCTAJAX = {};
 				url     : ajaxurl,
 				data    : ctct_optin_ajax,
 				dataType: 'json',
-				success : function (response) {
-					console.log(response);
-				},
+				success : function (response) {},
 				error: function(x, t, m){
+					if (window.console) {
+						console.log([t, m]);
+					}
+				}
+			});
+			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
+		});
+
+		$('#ctct-modal-footer-privacy a').on('click',function(e){
+			var ctct_privacy_ajax = {
+				'action': 'constant_contact_privacy_ajax_handler',
+				'privacy_agree' : $(this).attr('data-agree')
+			}
+
+			$.ajax({
+				url     : ajaxurl,
+				data    : ctct_privacy_ajax,
+				dataType: 'json',
+				success : function (response) {
+					$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
+				},
+				error   : function (x, t, m) {
 					if (window.console) {
 						console.log([t, m]);
 					}
