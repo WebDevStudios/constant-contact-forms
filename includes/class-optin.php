@@ -66,6 +66,10 @@ class ConstantContact_Optin {
 		if ( ! constant_contact_maybe_display_optin_notification() ) {
 			return;
 		}
+
+		if ( $this->privacy_policy_status() ) {
+			return;
+		}
 	?>
 		<div id="ctct-privacy-modal" class="ctct-modal">
 			<div class="ctct-modal-dialog" role="document">
