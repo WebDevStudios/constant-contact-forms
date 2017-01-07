@@ -72,17 +72,25 @@ function constant_contact_display_shortcode( $form_id ) {
 
 function constant_contact_maybe_display_optin_notification() {
 
+	if ( ! function_exists( 'get_current_screen' ) ) {
+		return false;
+	}
+
+	$current_screen = get_current_screen();
+	if ( ! is_object( $current_screen ) || 'dashboard' !== $current_screen->base ) {
+		return false;
+	}
+
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;
 	}
-	/*
 
-	if ( privacy policy already accepted or declined ) {
-	return false
+	$privacy = get_option( 'ctct_privacy_policy_status', '' );
+
+	if ( '' !== $privacy ) {
+		return false;
 	}
 
-	return true;
-	*/
 	return true;
 }
 
