@@ -110,3 +110,14 @@ function constant_contact_optin_ajax_handler() {
 	exit();
 }
 add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_optin_ajax_handler' );
+
+function constant_contact_privacy_ajax_handler() {
+
+	$response = $_REQUEST;
+	$agreed = sanitize_text_field( $response['privacy_agree'] );
+	update_option( 'ctct_privacy_policy_status', $agreed );
+
+	wp_send_json_success( array( 'updated' => 'true' ) );
+	exit();
+}
+add_action( 'wp_ajax_constant_contact_privacy_ajax_handler', 'constant_contact_privacy_ajax_handler' );
