@@ -3,9 +3,9 @@
  * Opt-in.
  *
  * @package ConstantContact
- * @subpackage Lists
+ * @subpackage Optin
  * @author Constant Contact
- * @since 1.0.0
+ * @since 1.2.0
  */
 
 // Exit if accessed directly
@@ -15,18 +15,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
- * Optin for usage tracking
+ * Optin for usage tracking.
  */
 class ConstantContact_Optin {
 
 	/**
 	 * Get things going.
+	 *
+	 * @since 1.2.0
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 		add_action( 'init', array( $this, 'hooks' ) );
 	}
 
+	/**
+	 * Execute our hooks, if requirements met.
+	 *
+	 * @since 1.2.0
+	 */
 	public function hooks() {
 		if ( $this->can_track() && constant_contact()->is_constant_contact() ) {
 			add_action( 'admin_footer', array( $this, 'anonymous_tracking' ) );
@@ -36,6 +43,11 @@ class ConstantContact_Optin {
 		}
 	}
 
+	/**
+	 * Outputs our Analytics tracking code to the admin footer.
+	 *
+	 * @since 1.2.0
+	 */
 	public function anonymous_tracking() {
 		?>
 		<!-- Google Analytics -->
@@ -48,6 +60,13 @@ class ConstantContact_Optin {
 		<?php
 	}
 
+	/**
+	 * Determines whether or not we have been granted permission to do some tracking.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return bool
+	 */
 	public function can_track() {
 		$can_track = false;
 
@@ -61,6 +80,13 @@ class ConstantContact_Optin {
 		return $can_track;
 	}
 
+	/**
+	 * Returns the status of our privacy policy acceptance.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return bool
+	 */
 	public function privacy_policy_status() {
 		$status = get_option( 'ctct_privacy_policy_status', '' );
 		if ( '' === $status ) {
@@ -69,6 +95,11 @@ class ConstantContact_Optin {
 		return true;
 	}
 
+	/**
+	 * Outputs the markup for the privacy policy modal popup.
+	 *
+	 * @since 1.2.0
+	 */
 	public function privacy_notice_markup() {
 		if ( ! constant_contact_maybe_display_optin_notification() ) {
 			return;
@@ -100,6 +131,13 @@ class ConstantContact_Optin {
 	<?php
 	}
 
+	/**
+	 * Returns the remote privacy policy page content for Constant Contact.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return mixed
+	 */
 	public function privacy_notice_modal_content() {
 		$policy_output = wp_remote_get( 'https://www.constantcontact.com/legal/privacy-statement' );
 		if ( ! is_wp_error( $policy_output ) && 200 === wp_remote_retrieve_response_code( $policy_output ) ) {

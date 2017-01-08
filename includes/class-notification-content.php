@@ -80,13 +80,21 @@ class ConstantContact_Notification_Content {
 	/**
 	 * Notification content for our 'too many lists' error
 	 *
-	 * @since   1.0.0
-	 * @return  string  notification text
+	 * @since 1.0.0
+	 *
+	 * @return string Notification text.
 	 */
 	public static function too_many_lists() {
 		return __( 'You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them.', 'constant-contact-forms' );
 	}
 
+	/**
+	 * Notification content for opt-in notice.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return string Notification text.
+	 */
 	public static function optin_admin_notice() {
 		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
 

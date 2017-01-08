@@ -8,40 +8,44 @@
  */
 
 /**
- * Checks to see if a user is connected to Constant Contact or not
+ * Checks to see if a user is connected to Constant Contact or not.
  *
- * @since   1.0.0
- * @return  boolean  whether or not they are connected
+ * @since 1.0.0
+ *
+ * @return boolean Whether or not they are connected
  */
 function constant_contact_is_connected() {
 	return ( constant_contact()->api->is_connected() );
 }
 
 /**
- * Checks to see if a user is not connected to Constant Contact or not
+ * Checks to see if a user is not connected to Constant Contact or not.
  *
- * @since   1.0.0
- * @return  boolean  whether or not they are NOT connected
+ * @since 1.0.0
+ *
+ * @return boolean Whether or not they are NOT connected
  */
 function constant_contact_is_not_connected() {
 	return ! ( constant_contact()->api->is_connected() );
 }
 
 /**
- * Get a form's markup without using a shortcode
+ * Get a form's markup without using a shortcode.
  *
  * @since 1.0.0
+ *
  * @param int $form_id Form post ID to grab.
- * @return  string            HTML markup
+ * @return string HTML markup
  */
 function constant_contact_get_form( $form_id ) {
 	return constant_contact()->display_shortcode->get_form( $form_id );
 }
 
 /**
- * Get a form and display it without using a shortcode
+ * Get a form and display it without using a shortcode.
  *
  * @since 1.0.0
+ *
  * @param int $form_id Form post ID to grab.
  */
 function constant_contact_display_form( $form_id ) {
@@ -49,9 +53,10 @@ function constant_contact_display_form( $form_id ) {
 }
 
 /**
- * Get an array of forms
+ * Get an array of forms.
  *
- * @since   1.0.0
+ * @since 1.0.0
+ *
  * @return array WP_Query results of forms.
  */
 function constant_contact_get_forms() {
@@ -70,6 +75,13 @@ function constant_contact_display_shortcode( $form_id ) {
 	return sprintf( '[ctct form="%s"]', $form_id );
 }
 
+/**
+ * Maybe display the opt-in notification on the dashboard.
+ *
+ * @since 1.2.0
+ *
+ * @return bool
+ */
 function constant_contact_maybe_display_optin_notification() {
 
 	if ( ! function_exists( 'get_current_screen' ) ) {
@@ -94,6 +106,11 @@ function constant_contact_maybe_display_optin_notification() {
 	return true;
 }
 
+/**
+ * Handle the optin checkbox for the admin notice.
+ *
+ * @since 1.2.0
+ */
 function constant_contact_optin_ajax_handler() {
 
 	$response = $_REQUEST;
@@ -111,6 +128,11 @@ function constant_contact_optin_ajax_handler() {
 }
 add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_optin_ajax_handler' );
 
+/**
+ * Handle the privacy policy agreement or disagreement selection.
+ *
+ * @since 1.2.0
+ */
 function constant_contact_privacy_ajax_handler() {
 
 	$response = $_REQUEST;
