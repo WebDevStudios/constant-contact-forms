@@ -29,6 +29,12 @@ window.CTCTAJAX = {};
 			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
 		});
 
+		if ( 'no' === ctct_settings.privacy_set ) {
+			$('#_ctct_data_tracking').on('click', function (e) {
+				$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
+			});
+		}
+
 		$('#ctct-modal-footer-privacy a').on('click',function(e){
 			var ctct_privacy_ajax = {
 				'action': 'constant_contact_privacy_ajax_handler',
