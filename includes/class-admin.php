@@ -381,8 +381,17 @@ class ConstantContact_Admin {
 				'move_down'    => __( 'move down', 'constant-contact-forms' ),
 			) )
 		);
+		$privacy_settings = get_option( 'ctct_privacy_policy_status', '' );
 
-		if ( constant_contact_maybe_display_optin_notification() ) {
+		wp_localize_script(
+			'ctct_form',
+			'ctct_settings',
+			array(
+				'privacy_set' => ( empty( $privacy_settings ) ) ? 'no' : 'yes',
+			)
+		);
+
+		if ( constant_contact_maybe_display_optin_notification() || ( isset( $_GET['page'] ) && 'ctct_options_settings' == $_GET['page'] ) ) {
 			wp_enqueue_script( 'ctct_form' );
 		}
 
