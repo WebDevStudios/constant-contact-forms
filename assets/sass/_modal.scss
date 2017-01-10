@@ -135,6 +135,49 @@
 				color: $color-prussian-blue;
 				text-decoration: underline;
 			} // a
+		  	&.ctct-modal-footer-privacy a {
+			  text-decoration: none;
+			}
+		  .button {
+			border-radius: 4px;
+			color: $color-white;
+			font-size: 16px;
+			font-weight: 600;
+			height: auto;
+			line-height: 1;
+			margin-bottom: 10px;
+			min-width: 180px;
+			padding: 14px 30px;
+
+			&.no-bg {
+			  border: none;
+			  box-shadow: none;
+			  color: $color-prussian-blue;
+			}
+
+			&.button-orange {
+			  background-color: $color-chrome-yellow;
+			  border: 1px solid darken($color-chrome-yellow, 10%);
+
+			  &:hover,
+			  &:focus {
+				background-color: darken($color-chrome-yellow, 10%);
+			  }
+			}
+			// button orange
+
+			&.button-blue {
+			  background-color: $color-prussian-blue;
+			  border: 1px solid darken($color-prussian-blue, 10%);
+
+			  &:hover,
+			  &:focus {
+				background-color: darken($color-prussian-blue, 10%);
+			  }
+			}
+			// button blue
+		  }
+		  // button
 		} // modal no thanks
 
 		// The modal body container.
@@ -143,6 +186,10 @@
 			padding: 15px;
 			position: relative;
 
+		  	&.ctct-privacy-modal-body {
+				overflow: scroll;
+				height: 350px;
+			}
 			.ctct-modal-left,
 			.ctct-modal-right {
 				float:left;

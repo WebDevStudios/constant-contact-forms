@@ -3,9 +3,9 @@
  * Opt-in.
  *
  * @package ConstantContact
- * @subpackage Lists
+ * @subpackage Optin
  * @author Constant Contact
- * @since 1.0.0
+ * @since 1.2.0
  */
 
 // Exit if accessed directly
@@ -15,24 +15,39 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 
 /**
- * Optin for usage tracking
+ * Optin for usage tracking.
  */
 class ConstantContact_Optin {
 
 	/**
 	 * Get things going.
+	 *
+	 * @since 1.2.0
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 		add_action( 'init', array( $this, 'hooks' ) );
 	}
 
+	/**
+	 * Execute our hooks, if requirements met.
+	 *
+	 * @since 1.2.0
+	 */
 	public function hooks() {
 		if ( $this->can_track() && constant_contact()->is_constant_contact() ) {
 			add_action( 'admin_footer', array( $this, 'anonymous_tracking' ) );
 		}
+		if ( ! $this->privacy_policy_status() ) {
+			add_action( 'admin_footer', array( $this, 'privacy_notice_markup' ) );
+		}
 	}
 
+	/**
+	 * Outputs our Analytics tracking code to the admin footer.
+	 *
+	 * @since 1.2.0
+	 */
 	public function anonymous_tracking() {
 		?>
 		<!-- Google Analytics -->
@@ -45,9 +60,91 @@ class ConstantContact_Optin {
 		<?php
 	}
 
+	/**
+	 * Determines whether or not we have been granted permission to do some tracking.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return bool
+	 */
 	public function can_track() {
+		$can_track = false;
+
 		$options = get_option( constant_contact()->settings->key );
 		$optin = ( isset( $options['_ctct_data_tracking'] ) ) ? $options['_ctct_data_tracking'] : '';
-		return ( 'on' === $optin );
+		$privacy = get_option( 'ctct_privacy_policy_status', '' );
+
+		if ( 'on' === $optin && 'true' === $privacy ) {
+			$can_track = true;
+		}
+		return $can_track;
+	}
+
+	/**
+	 * Returns the status of our privacy policy acceptance.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return bool
+	 */
+	public function privacy_policy_status() {
+		$status = get_option( 'ctct_privacy_policy_status', '' );
+		if ( '' === $status ) {
+			return false;
+		}
+		return true;
+	}
+
+	/**
+	 * Outputs the markup for the privacy policy modal popup.
+	 *
+	 * @since 1.2.0
+	 */
+	public function privacy_notice_markup() {
+		if ( ! constant_contact_maybe_display_optin_notification() ) {
+			return;
+		}
+
+		if ( $this->privacy_policy_status() ) {
+			return;
+		}
+	?>
+		<div id="ctct-privacy-modal" class="ctct-modal">
+			<div class="ctct-modal-dialog" role="document">
+				<div class="ctct-modal-content">
+					<div class="ctct-modal-header">
+						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
+						<h2><?php esc_html_e( 'Constant Contact&reg; Privacy Statement', 'constant-contact-forms' ); ?></h2>
+					</div>
+					<div class="ctct-modal-body ctct-privacy-modal-body">
+					<?php
+						echo $this->privacy_notice_modal_content();
+					?>
+					</div><!-- modal body -->
+					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">
+						<a class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Agree', 'constant-contact-forms' ); ?></a>
+						<a class="button no-bg" data-agree="false"><?php esc_html_e( 'Disagree', 'constant-contact-forms' ); ?></a>
+					</div>
+				</div><!-- .modal-content -->
+			</div><!-- .modal-dialog -->
+		</div>
+	<?php
+	}
+
+	/**
+	 * Returns the remote privacy policy page content for Constant Contact.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return mixed
+	 */
+	public function privacy_notice_modal_content() {
+		$policy_output = wp_remote_get( 'https://www.constantcontact.com/legal/privacy-statement' );
+		if ( ! is_wp_error( $policy_output ) && 200 === wp_remote_retrieve_response_code( $policy_output ) ) {
+			$content = wp_remote_retrieve_body( $policy_output );
+			preg_match( '/<body[^>]*>(.*?)<\/body>/si', $content, $match );
+			$output = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $match[1] );
+			return $output;
+		}
 	}
 }

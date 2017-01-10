@@ -80,11 +80,42 @@ class ConstantContact_Notification_Content {
 	/**
 	 * Notification content for our 'too many lists' error
 	 *
-	 * @since   1.0.0
-	 * @return  string  notification text
+	 * @since 1.0.0
+	 *
+	 * @return string Notification text.
 	 */
 	public static function too_many_lists() {
 		return __( 'You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them.', 'constant-contact-forms' );
+	}
+
+	/**
+	 * Notification content for opt-in notice.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return string Notification text.
+	 */
+	public static function optin_admin_notice() {
+		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
+
+		ob_start();
+		?>
+
+		<div class="admin-notice-logo">
+			<img src="<?php echo constant_contact()->url; ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" />
+		</div>
+		<div class="admin-notice-message"><h4><?php esc_html_e( 'Constant Contact Forms for WordPress data tracking opt-in', 'constant-contact-forms' ); ?></h4>
+			<div><input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" />
+			</div>
+			<div>
+				<?php _e( "Allow Constant Contact to track anonymous data about usage of the Constant Contact Forms plugin.<br/>You can change this opt - in within the plugin's settings page at any time.", 'constant-contact-forms' ); ?>
+			</div>
+		</div>
+		<?php
+		$output = ob_get_clean();
+		// Be a good citizen, clean up after ourselves.
+		#remove_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
+		return $output;
 	}
 
 	/**
@@ -102,3 +133,34 @@ class ConstantContact_Notification_Content {
 	}
 }
 
+/**
+ * Filters in the input to our allowed tags for our admin notice.
+ *
+ * @since 1.2.0
+ *
+ * @param array $allowedtags Allowed HTML.
+ * @return array Allowed HTML.
+ */
+function constant_contact_filter_html_tags_for_optin( $allowedtags = array() ){
+	$allowedtags['input'] = array( 'type' => true, 'id' => true, 'name' => true, 'value' => true );
+	return $allowedtags;
+}
+
+/**
+ * Adds our opt-in notification to the notification system.
+ *
+ * @since 1.2.0
+ *
+ * @param array $notifications Array of notifications pending to show.
+ * @return array Array of notifications to show.
+ */
+function constant_contact_add_optin_notification( $notifications = array() ) {
+
+	$notifications[] = array(
+		'ID' => 'optin_admin_notice',
+		'callback' => array( 'ConstantContact_Notification_Content', 'optin_admin_notice' ),
+		'require_cb' => 'constant_contact_maybe_display_optin_notification',
+	);
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_add_optin_notification' );

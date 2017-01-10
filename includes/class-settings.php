@@ -14,49 +14,50 @@
 class ConstantContact_Settings {
 
 	/**
-	 * Option key, and option page slug
+	 * Option key, and option page slug.
 	 *
 	 * @var string
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	private $key = 'ctct_options_settings';
 
 	/**
-	 * Settings page metabox id
+	 * Settings page metabox id.
 	 *
 	 * @var string
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	private $metabox_id = 'ctct_option_metabox_settings';
 
 	/**
-	 * Settings Page title
+	 * Settings Page title.
 	 *
 	 * @var string
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	protected $title = '';
 
 	/**
-	 * Settings Page hook
+	 * Settings Page hook.
 	 *
 	 * @var string
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	protected $options_page = '';
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
-	 * @var   class
-	 * @since 0.0.1
+	 * @var class
+	 * @since 1.0.0
 	 */
 	protected $plugin = null;
 
 	/**
 	 * Constructor
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param object $plugin parent plugin instance.
 	 */
 	public function __construct( $plugin ) {
@@ -65,7 +66,7 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Initiate our hooks
+	 * Initiate our hooks.
 	 *
 	 * @since 1.0.0
 	 */
@@ -93,9 +94,9 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Hook in all our form opt-in injects, decide to show or not when we are at the display point
+	 * Hook in all our form opt-in injects, decide to show or not when we are at the display point.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
 	 */
 	public function inject_optin_form_hooks() {
 
@@ -110,10 +111,14 @@ class ConstantContact_Settings {
 		add_action( 'signup_extra_fields', array( $this, 'optin_form_field_registration' ) );
 		add_action( 'login_head', array( $this, 'optin_form_field_login_css' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
+
+		if ( ! $this->privacy_policy_status() ) {
+			add_action( 'admin_footer', array( $this, 'privacy_notice_markup' ) );
+		}
 	}
 
 	/**
-	 * Register our setting to WP
+	 * Register our setting to WP.
 	 *
 	 * @since 1.0.0
 	 */
@@ -135,12 +140,18 @@ class ConstantContact_Settings {
 		</style>
 		<?php
 	}
+
+	/**
+	 * Enqueue our styles.
+	 *
+	 * @since unknown.
+	 */
 	public function scripts() {
 		wp_enqueue_style( 'constant-contact-forms' );
 	}
 
 	/**
-	 * Add menu options page
+	 * Add menu options page.
 	 *
 	 * @since 1.0.0
 	 */
@@ -160,7 +171,7 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Admin page markup. Mostly handled by CMB2
+	 * Admin page markup. Mostly handled by CMB2.
 	 *
 	 * @since 1.0.0
 	 */
@@ -183,8 +194,9 @@ class ConstantContact_Settings {
 	/**
 	 * Are we on the settings page?
 	 *
-	 * @since   1.0.0
-	 * @return  boolean  if we are on the settings page or not
+	 * @since 1.0.0
+	 *
+	 * @return boolean If we are on the settings page or not.
 	 */
 	public function on_settings_page() {
 
@@ -196,9 +208,9 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Add the options metabox to the array of metaboxes
+	 * Add the options metabox to the array of metaboxes.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	function add_options_page_metabox() {
 
@@ -225,9 +237,10 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Helper to show our lists field for settings
+	 * Helper to show our lists field for settings.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param object $cmb CMB fields object.
 	 */
 	public function do_lists_field( $cmb ) {
@@ -323,10 +336,11 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Get array of options for our 'optin show' settings
+	 * Get array of options for our 'optin show' settings.
 	 *
-	 * @since   1.0.0
-	 * @return  array  array of options
+	 * @since 1.0.0
+	 *
+	 * @return array Array of options.
 	 */
 	public function get_optin_show_options() {
 
@@ -349,9 +363,10 @@ class ConstantContact_Settings {
 	 * Based on a type of form we pass in, check if the saved option
 	 * for that form is checked or not in the admin
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param string $type Allowed values: 'login_form', 'comment_form', 'reg_form'.
-	 * @return  boolean        if should show or not
+	 * @return boolean If should show or not.
 	 */
 	public function check_if_optin_should_show( $type ) {
 
@@ -373,8 +388,7 @@ class ConstantContact_Settings {
 	 * and determine whether or not they should have been hooked in when we get
 	 * to displaying them, rather than on potentially pages we dont care about.
 	 *
-	 * @since   1.0.0
-	 * @return  void
+	 * @since 1.0.0
 	 */
 	public function optin_form_field_login() {
 
@@ -385,10 +399,9 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Potentially add our opt-in form to comment forms
+	 * Potentially add our opt-in form to comment forms.
 	 *
-	 * @since   1.0.0
-	 * @return  void
+	 * @since 1.0.0
 	 */
 	public function optin_form_field_comment() {
 
@@ -399,10 +412,9 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Potentially add our opt-in form to the registration form
+	 * Potentially add our opt-in form to the registration form.
 	 *
-	 * @since   1.0.0
-	 * @return  void
+	 * @since 1.0.0
 	 */
 	public function optin_form_field_registration() {
 
@@ -413,10 +425,9 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Opt in field checkbox
+	 * Opt in field checkbox.
 	 *
 	 * @since 1.0.0
-	 * @return void
 	 */
 	public function optin_form_field() {
 
@@ -444,11 +455,12 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Sends contact to CTCT if optin checked
+	 * Sends contact to CTCT if optin checked.
 	 *
-	 * @since  1.0.0
-	 * @param  array $comment_data comment form data.
-	 * @return array comment form data
+	 * @since 1.0.0
+	 *
+	 * @param array $comment_data comment form data.
+	 * @return array Comment form data.
 	 */
 	public function process_optin_comment_form( $comment_data ) {
 
@@ -472,11 +484,12 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Process our comment data and send to CC
+	 * Process our comment data and send to CC.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param array $comment_data Array of comment data.
-	 * @return  array                 passed in comment data
+	 * @return array Passed in comment data
 	 */
 	public function _process_comment_data_for_optin( $comment_data ) {
 
@@ -687,6 +700,72 @@ class ConstantContact_Settings {
 		}
 
 		throw new Exception( 'Invalid property: ' . $field );
+	}
+
+	/**
+	 * Returns the status of our privacy policy acceptance.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return bool
+	 */
+	public function privacy_policy_status() {
+		$status = get_option( 'ctct_privacy_policy_status', '' );
+		if ( '' === $status ) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Outputs the markup for the privacy policy modal popup.
+	 *
+	 * @since 1.2.0
+	 */
+	public function privacy_notice_markup() {
+		if ( $this->privacy_policy_status() ) {
+			return;
+		}
+		?>
+		<div id="ctct-privacy-modal" class="ctct-modal">
+			<div class="ctct-modal-dialog" role="document">
+				<div class="ctct-modal-content">
+					<div class="ctct-modal-header">
+						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
+						<h2><?php esc_html_e( 'Constant Contact&reg; Privacy Statement', 'constant-contact-forms' ); ?></h2>
+					</div>
+					<div class="ctct-modal-body ctct-privacy-modal-body">
+						<?php
+						echo $this->privacy_notice_modal_content();
+						?>
+					</div><!-- modal body -->
+					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">
+						<a class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Agree', 'constant-contact-forms' ); ?></a>
+						<a class="button no-bg" data-agree="false"><?php esc_html_e( 'Disagree', 'constant-contact-forms' ); ?></a>
+					</div>
+				</div><!-- .modal-content -->
+			</div><!-- .modal-dialog -->
+		</div>
+		<?php
+	}
+
+	/**
+	 * Returns the remote privacy policy page content for Constant Contact.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return mixed
+	 */
+	public function privacy_notice_modal_content() {
+		$policy_output = wp_remote_get( 'https://www.constantcontact.com/legal/privacy-statement' );
+		if ( ! is_wp_error( $policy_output ) && 200 === wp_remote_retrieve_response_code( $policy_output ) ) {
+			$content = wp_remote_retrieve_body( $policy_output );
+			preg_match( '/<body[^>]*>(.*?)<\/body>/si', $content, $match );
+			$output = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $match[1] );
+
+			return $output;
+		}
 	}
 }
 

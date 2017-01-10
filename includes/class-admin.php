@@ -349,11 +349,6 @@ class ConstantContact_Admin {
 	 */
 	public function scripts( $extra_localizations = array() ) {
 
-		// Some admin_enqueue_scripts action calls pass the pagenow string value and not an array.
-		if ( ! is_array( $extra_localizations ) ) {
-			return;
-		}
-
 		global $pagenow;
 
 		// Check if we are in debug mode. allow.
@@ -386,6 +381,24 @@ class ConstantContact_Admin {
 				'move_down'    => __( 'move down', 'constant-contact-forms' ),
 			) )
 		);
+		$privacy_settings = get_option( 'ctct_privacy_policy_status', '' );
+
+		wp_localize_script(
+			'ctct_form',
+			'ctct_settings',
+			array(
+				'privacy_set' => ( empty( $privacy_settings ) ) ? 'no' : 'yes',
+			)
+		);
+
+		if ( constant_contact_maybe_display_optin_notification() || ( isset( $_GET['page'] ) && 'ctct_options_settings' == $_GET['page'] ) ) {
+			wp_enqueue_script( 'ctct_form' );
+		}
+
+		// Some admin_enqueue_scripts action calls pass the pagenow string value and not an array.
+		if ( ! is_array( $extra_localizations ) ) {
+			return;
+		}
 
 		// If we have extra localizations, iterate and call with `wp_localize_script`.
 		if ( ! empty( $extra_localizations ) ) {
