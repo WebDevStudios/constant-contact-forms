@@ -98,6 +98,10 @@
   color: #333333;
 }
 
+.ctct-modal .ctct-modal-content .ctct-modal-header .ctct-logo img {
+  max-width: 75%;
+}
+
 .ctct-modal .ctct-modal-content .ctct-modal-header .ctct-modal-close {
   color: #ffffff;
   cursor: pointer;
