@@ -96,6 +96,12 @@
 				}
 			} // p
 
+		  	.ctct-logo {
+				img {
+					max-width: 75%;
+				}
+			}
+
 			// Close "X" button.
 			.ctct-modal-close {
 				@include clearfix;
