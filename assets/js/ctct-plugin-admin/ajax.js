@@ -29,11 +29,9 @@ window.CTCTAJAX = {};
 			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
 		});
 
-		if ( 'no' === ctct_settings.privacy_set ) {
-			$('#_ctct_data_tracking').on('click', function(e) {
-				$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
-			});
-		}
+		$('#_ctct_data_tracking').on('click', function(e) {
+			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
+		});
 
 		$('.ctct-modal-close').on('click', function(e){
 			if( $('#_ctct_data_tracking').is(':checked')){
