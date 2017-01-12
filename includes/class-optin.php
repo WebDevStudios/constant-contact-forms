@@ -89,7 +89,7 @@ class ConstantContact_Optin {
 	 */
 	public function privacy_policy_status() {
 		$status = get_option( 'ctct_privacy_policy_status', '' );
-		if ( '' === $status ) {
+		if ( '' === $status || 'false' === $status ) {
 			return false;
 		}
 		return true;
