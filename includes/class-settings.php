@@ -764,7 +764,6 @@ class ConstantContact_Settings {
 			preg_match( '/<body[^>]*>(.*?)<\/body>/si', $content, $match );
 			$output = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $match[1] );
 			$output = preg_replace( '@<section class=header>.*?</section>@si', '', $output );
-			$output = preg_replace( '@<h1[^>]*?>.*?</h1>@si', '', $output );
 			return $output;
 		}
 	}
