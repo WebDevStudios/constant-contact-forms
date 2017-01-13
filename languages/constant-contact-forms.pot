@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2017-01-12 14:48-0600\n"
+"POT-Creation-Date: 2017-01-13 10:35-0600\n"
 "PO-Revision-Date: 2017-01-12 14:46-0600\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Constant Contact\n"
@@ -1130,16 +1130,16 @@ msgid "Settings"
 msgstr ""
 
 #: includes/class-settings.php:249
-msgid "Google Analytics tracking opt-in."
+msgid "Google Analytics&trade; tracking opt-in."
 msgstr ""
 
 #: includes/class-settings.php:252
 msgid ""
-"Allow Constant Contact to use Google Analytics to track your usage across "
-"the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users "
-"will not be tracked. See our <a href=\"https://www.constantcontact.com/legal/"
-"privacy-statement\"> Privacy Statement</a> information about what is and is "
-"not tracked."
+"Allow Constant Contact to use Google Analytics&trade; to track your usage "
+"across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and "
+"users will not be tracked. See our <a href=\"https://www.constantcontact.com/"
+"legal/privacy-statement\"> Privacy Statement</a> information about what is "
+"and is not tracked."
 msgstr ""
 
 #: includes/class-settings.php:260
