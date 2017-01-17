@@ -108,7 +108,7 @@ class ConstantContact_Notification_Content {
 			<div><input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" />
 			</div>
 			<div>
-				<?php _e( "Allow Constant Contact to track anonymous data about usage of the Constant Contact Forms plugin.<br/>You can change this opt - in within the plugin's settings page at any time.", 'constant-contact-forms' ); ?>
+				<?php _e( "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/>You can change this opt - in within the plugin's settings page at any time.", 'constant-contact-forms' ); ?>
 			</div>
 		</div>
 		<?php
