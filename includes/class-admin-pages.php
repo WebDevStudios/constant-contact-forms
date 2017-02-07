@@ -41,7 +41,7 @@ class ConstantContact_Admin_Pages {
 	public function hooks() {
 
 		// Add our styles to the site.
-		add_action( 'admin_init', array( $this, 'styles' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'styles' ) );
 	}
 
 	/**
@@ -51,19 +51,21 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function styles() {
 
-		wp_register_style(
+		wp_enqueue_style(
 			'constant-contact-forms',
 			constant_contact()->url() . 'assets/css/admin-forms.css',
 			array(),
 			constant_contact()->version
 		);
 
-		wp_register_style(
+		wp_enqueue_style(
 			'constant_contact_admin_pages',
 			constant_contact()->url() . 'assets/css/admin-pages.css',
 			array(),
 			constant_contact()->version
 		);
+
+		wp_enqueue_script( 'ctct_form' );
 	}
 
 	/**
@@ -127,9 +129,6 @@ class ConstantContact_Admin_Pages {
 	 * @since  1.0.0
 	 */
 	public function help_page() {
-
-		wp_enqueue_script( 'ctct_form' );
-		wp_enqueue_style( 'constant_contact_admin_pages' );
 
 		?>
 		<h1>
@@ -217,8 +216,6 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function about_page() {
 
-		wp_enqueue_style( 'constant_contact_admin_pages' );
-
 		$proof = $auth_link = $new_link = '';
 
 		// @codingStandardsIgnoreStart
@@ -297,7 +294,7 @@ class ConstantContact_Admin_Pages {
 						<p><input id="subbox" maxlength="255" name="email" type="text" placeholder="<?php esc_attr_e( 'Enter your email address', 'constant-contact-forms' ); ?>">
 						</p>
 						<input name="sub" type="hidden" value="3">
-						<input name="method" type="hidden" value="JMML_WP_PLUGIN">
+						<input name="method" type="hidden" value="JMML_SUB3_wp_plugin">
 
 					</form>
 					<small><?php printf( __( 'By submitting this form, you agree to receive periodic product announcements and account notifications from Constant Contact. Cancel these communications at any time by clicking the unsubscribe link in the footer of the actual email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %s', 'constant-contact-forms' ), '<a href="https://www.constantcontact.com">www.constantcontact.com</a>' ); ?></small>
