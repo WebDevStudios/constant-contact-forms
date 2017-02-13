@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
 Tested up to:      4.7.2
-Stable tag:        1.2.0
+Stable tag:        1.2.1
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,13 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 4. Basic Form
 
 == Changelog ==
+
+= 1.2.1 =
+* Fixed: Re-show sections of "Publish" metabox incorrectly hidden for post types outside Constant Contact Forms.
+* Fixed: Issues with transparent background on frontend forms when input is valid.
+* Fixed: Fatal errors on deactivation if user is on PHP 5.3 or lower.
+* Fixed: PHP Warnings regarding missing parameters for maybe_log_mail_status().
+* Updated: Bumped Guzzle to 5.3.1 for PHP7.1 compatibility.
 
 = 1.2.0 =
 * Added: Reveal shortcode for newly published form in admin notice and popup for non-connected accounts.

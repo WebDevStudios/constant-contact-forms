@@ -299,7 +299,7 @@
   background-color: #005990;
 }
 
-.misc-pub-section.misc-pub-visibility, .misc-pub-section.misc-pub-curtime {
+.post-type-ctct_forms .misc-pub-section.misc-pub-visibility, .post-type-ctct_forms .misc-pub-section.misc-pub-curtime {
   display: none;
 }
 
