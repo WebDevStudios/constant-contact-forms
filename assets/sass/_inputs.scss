@@ -14,7 +14,7 @@
 
 			// show success!
 			&:required:valid {
-				background: url( '../images/check_circle.svg' ) no-repeat;
+				background: rgb(255,255,255) url( '../images/check_circle.svg' ) no-repeat;
 				background-position: 8px 50%;
 				background-size: 24px;
 				border-color: $color-success;
@@ -24,7 +24,7 @@
 			// show error.
 			&:required.ctct-invalid,
 			&.ctct-invalid {
-				background: url( '../images/error.svg' ) no-repeat;
+				background: rgb(255,255,255) url( '../images/error.svg' ) no-repeat;
 				background-color: fade-out($color-error, 0.98);
 				background-position: 8px 50%;
 				background-size: 24px;
@@ -41,7 +41,7 @@
 	}
 
 	input.ctct-invalid {
-		background: url( '../images/error.svg' ) no-repeat;
+		background: rgb(255,255,255) url( '../images/error.svg' ) no-repeat;
 		background-color: fade-out($color-error, 0.98);
 		background-position: 8px 50%;
 		background-size: 24px;
