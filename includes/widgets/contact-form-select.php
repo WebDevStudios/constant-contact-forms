@@ -118,12 +118,14 @@ class ConstantContactWidget extends WP_Widget {
 		);
 		$forms = new WP_Query( $args );
 		if ( $forms->have_posts() ) {
-			return array_map( function( $post ) {
-				return array( $post->ID => $post->post_title );
-			}, $forms->posts );
+			return array_map( array( $this, 'get_form_fields' ), $forms->posts );
 		}
 
 		return array();
+	}
+
+	public function get_form_fields( $post ) {
+		return array( $post->ID => $post->post_title );
 	}
 
 	/**
