@@ -175,10 +175,11 @@ class ConstantContact_Mail {
 	/**
 	 * Sends our mail out.
 	 *
-	 * @since  1.0.0
-	 * @param  string $destination_email email address
-	 * @param  array  $data              data from clean values
-	 * @return bool                    if sent
+	 * @since 1.0.0
+	 *
+	 * @param string $destination_email Intended mail address.
+	 * @param array  $content           Data from clean values.
+	 * @return bool Whether or not sent.
 	 */
 	public function mail( $destination_email, $content ) {
 
@@ -195,10 +196,17 @@ class ConstantContact_Mail {
 
 		// If we already have sent this e-mail, don't send it again.
 		if ( $last_sent === $mail_key ) {
-			$this->maybe_log_mail_status( vsprintf( __( 'Duplicate send mail for: %s and: %s' ), array(
+			$this->maybe_log_mail_status(
+				vsprintf(
+					__( 'Duplicate send mail for: %s and: %s' ),
+					array(
+						$destination_email,
+						$mail_key,
+					)
+				),
 				$destination_email,
-				$mail_key,
-			) ) );
+				$mail_key
+			);
 			return true;
 		}
 
