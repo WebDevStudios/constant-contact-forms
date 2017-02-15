@@ -160,6 +160,9 @@ class ConstantContact_Display {
 		// Output our normal form fields.
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
+		// Output a field that should not be populated, and will be visually hidden with inline CSS.
+		$return .= $this->build_honeypot_field();
+
 		// Add our hidden verification fields.
 		$return .= $this->add_verify_fields( $form_data );
 
@@ -286,6 +289,18 @@ class ConstantContact_Display {
 		if ( isset( $form_data['options'] ) ) {
 			$return .= $this->opt_in( $form_data['options'] );
 		}
+
+		return $return;
+	}
+
+	public function build_honeypot_field() {
+		$return = '';
+
+		$return .= sprintf(
+			'<!--Honeypot hidden field--><div id="ctct_usage" style="%s"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" id="ctct_usage_field" /></div>',
+			'position:absolute;overflow:hidden;clip:rect(0px,0px,0px,0px);height:1px;width:1px;margin:-1px;border:0px none;padding:0px;"',
+			esc_html__( 'Constant Contact Use.', 'constant-contact-forms' )
+		);
 
 		return $return;
 	}
