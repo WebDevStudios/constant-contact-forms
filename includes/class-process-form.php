@@ -138,6 +138,11 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
+		// Honeypot. Should be empty to proceed.
+		if ( ! empty ( $data['ctct_usage_field' ] ) ) {
+			return;
+		}
+
 		// Verify our nonce first.
 		if (
 		    ! isset( $data['ctct_form'] ) ||
