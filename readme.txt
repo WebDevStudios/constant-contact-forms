@@ -37,6 +37,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Fixed: Conflicts with other plugins using the Constant Contact PHP SDK.
 * Fixed: Added honeypot-style spam prevention on forms.
 * Fixed: Removed anonymous function usage in widget to prevent potential errors.
+* Fixed: Hardened up helper function in cases where internal function does not exist.
 
 = 1.2.1 =
 * Fixed: Re-show sections of "Publish" metabox incorrectly hidden for post types outside Constant Contact Forms.
