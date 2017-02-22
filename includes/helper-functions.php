@@ -141,11 +141,23 @@ function constant_contact_maybe_display_review_notification() {
 		return false;
 	}
 
-	// Need to get dismissed count. If count = 1
-	$first_dismissed_time = '';
-	// Check if our first dismissal is older than 14 days.
-	if ( $first_dismissed_time < $fourteen_days && true ) {
-		return true;
+	$dismissed = get_option( 'ctct-review-dismissed', array() );
+	if ( (int) 1 == $dismissed['count'] ) {
+		$fourteen_days = strtotime( '-14 days' );
+		if ( isset( $dismissed['time'] ) &&
+		     $dismissed['time'] < $fourteen_days
+		) {
+			return true;
+		}
+	}
+
+	if ( (int) 2 == $dismissed['count'] ) {
+		$thirty_days = strtotime( '-30 days' );
+		if ( isset( $dismissed['time'] ) &&
+		     $dismissed['time'] < $thirty_days
+		) {
+			return true;
+		}
 	}
 
 	// Need to get dismissed count. If count = 2
