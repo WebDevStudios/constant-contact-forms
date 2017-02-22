@@ -254,6 +254,18 @@
 				}
 			} // right
 
+			&.ctct-custom-textarea {
+			  .ctct-modal-left {
+				padding-left: 15px;
+				text-align: left;
+			  }
+			  .ctct-modal-right {
+				padding: 15px;
+				img {
+				  max-width: 100%;
+				}
+			  }
+			}
 			.button {
 				border-radius: 4px;
 				color: $color-white;
