@@ -136,8 +136,10 @@ function constant_contact_maybe_display_review_notification() {
 		return false;
 	}
 
-	$fourteen_days = strtotime( '-14 days' );
-	$thirty_days   = strtotime( '-30 days' );
+	$reviewed = get_option( 'ctct-reviewed', 'false' );
+	if ( 'true' === $reviewed ) {
+		return false;
+	}
 
 	// Need to get dismissed count. If count = 1
 	$first_dismissed_time = '';
