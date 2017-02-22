@@ -517,6 +517,7 @@ class ConstantContact_API {
 
 		$address  = null;
 		$count = 0;
+		$contact->notes = array();
 
 		// Loop through each of our values and set it as a property.
 		foreach ( $user_data as $original => $value ) {
@@ -597,6 +598,20 @@ class ConstantContact_API {
 
 					// Attach it.
 					$contact->addCustomField( $custom );
+					break;
+				case 'custom_text_area':
+					// API version 2 only allows for 1 note for a given request.
+					// Version 3 will allow multiple notes.
+					if ( $count > 1 ) {
+						break;
+					}
+					$unique_id = explode( '___', $original );
+					$contact->notes[] = array(
+						'created_date'  => date( 'Y-m-d\TH:i:s' ),
+						'id'            => $unique_id[1],
+						'modified_date' => date( 'Y-m-d\TH:i:s' ),
+						'note'          => $value,
+					);
 					break;
 				default:
 					// If we got here, try to map our field to the key.
