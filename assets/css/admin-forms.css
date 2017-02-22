@@ -269,6 +269,19 @@
   }
 }
 
+.ctct-modal .ctct-modal-content .ctct-modal-body.ctct-custom-textarea .ctct-modal-left {
+  padding-left: 15px;
+  text-align: left;
+}
+
+.ctct-modal .ctct-modal-content .ctct-modal-body.ctct-custom-textarea .ctct-modal-right {
+  padding: 15px;
+}
+
+.ctct-modal .ctct-modal-content .ctct-modal-body.ctct-custom-textarea .ctct-modal-right img {
+  max-width: 100%;
+}
+
 .ctct-modal .ctct-modal-content .ctct-modal-body .button {
   border-radius: 4px;
   color: #fff;
