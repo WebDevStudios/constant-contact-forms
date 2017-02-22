@@ -120,10 +120,6 @@ function constant_contact_maybe_display_review_notification() {
 	 *
 	 * Create new UI-hidden review option in the options table.
 	 *
-	 * Update form submission count via process_form. Make sure
-	 * it's as close to actual success as possible. Prevent false
-	 * positives as much as possible.
-	 *
 	 * Update, via ajax, if the review button has been clicked.
 	 * Update, via ajax, if the dismiss button has been clicked.
 	 *
