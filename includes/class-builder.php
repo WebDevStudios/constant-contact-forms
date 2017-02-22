@@ -381,10 +381,15 @@ class ConstantContact_Builder {
 						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
 						<h2><?php esc_html_e( 'Custom Text Area limitations.', 'constant-contact-forms' ); ?></h2>
 					</div>
-					<div class="ctct-modal-body ctct-custom-textarea-modal-body">
-						<?php echo wpautop( esc_html__( 'Unfortunately, we can only upload one "Custom Text Area" field to your Constant Contact account per form submission. The uploaded field is placed into your contact\'s "Notes" field.', 'constant-contact-forms' ) );
-							echo wpautop( esc_html__( 'Additional "Custom Text Area" fields are only submitted with the sent admin email when the form is submitted.', 'constant-contact-forms' ) );
-						?>
+					<div class="ctct-modal-body ctct-custom-textarea-modal-body ctct-custom-textarea">
+						<div class="ctct-modal-left">
+						<?php echo wpautop( __( 'Apology, at this time, we can only upload one <strong>"Custom Text Area"</strong> field to your Constant Contact account, per form submission. The uploaded field is placed into your contact\'s "Notes" field.', 'constant-contact-forms' ) );
+							echo wpautop( __( '<strong>The first listed "Custom Text Area"</strong> field is sent to Constant Contact.', 'constant-contact-forms' ) );
+							echo wpautop( esc_html__( 'Subsequent "Custom Text Area" fields are only sent with the admin email when the form is submitted, and not to your Constant Contact account.', 'constant-contact-forms' ) );
+						?></div>
+						<div class="ctct-modal-right">
+							<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/fields-image.png' ); ?>" alt="<?php echo esc_attr_x( 'screenshot regarding custom text areas', 'connect alt text', 'constant-contact-forms' ); ?>" />
+						</div>
 					</div><!-- modal body -->
 				</div><!-- .modal-content -->
 			</div><!-- .modal-dialog -->
