@@ -213,24 +213,24 @@ add_action( 'wp_ajax_constant_contact_privacy_ajax_handler', 'constant_contact_p
  */
 function constant_contact_review_ajax_handler() {
 
-	$response = $_REQUEST;
+	if ( isset( $_REQUEST['ctct-review-action'] ) ) {
+		$action = strtolower( sanitize_text_field( $_REQUEST['ctct-review-action'] ) );
 
-	if ( isset( $response['ctct-review-action'] ) &&
-	     'dismissed' == sanitize_text_field( $response['ctct-review-action'] )
-	) {
-		$dismissed = get_option(
-			'ctct-review-dismissed',
-			array( 'count' => absint( 0 ), 'time' => '' )
-		);
-		$dismissed['time'] = time();
-		$dismissed['count'] = absint( 1 );
-		update_option( 'ctct-review-dismissed', $dismissed );
-	}
+		switch ( $action ) {
+			case 'dismissed':
+				$dismissed          = get_option( 'ctct-review-dismissed', array() );
+				$dismissed['time']  = time();
+				$dismissed['count'] = 1;
+				update_option( 'ctct-review-dismissed', $dismissed );
+				break;
 
-	if ( isset( $response['ctct-review-action'] ) &&
-	     'reviewed' == sanitize_text_field( $response['ctct-review-action'] )
-	) {
-		update_option( 'ctct-reviewed', 'true' );
+			case 'reviewed':
+				update_option( 'ctct-reviewed', 'true' );
+				break;
+
+			default:
+				break;
+		}
 	}
 
 	wp_send_json_success( array( 'review-action' => 'processed' ) );
