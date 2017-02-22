@@ -78,6 +78,9 @@ class ConstantContact_Mail {
 		// Format them.
 		$email_values = $this->format_values_for_email( $values );
 
+		// Increment our counter for processed form entries.
+		constant_contact()->process_form->increment_processed_form_count();
+
 		// Skip sending e-mail if we're connected and the user has opted out of notification emails.
 		if ( constant_contact()->api->is_connected() && ( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) ) {
 			return true;
