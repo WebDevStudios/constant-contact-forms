@@ -205,3 +205,36 @@ function constant_contact_privacy_ajax_handler() {
 	exit();
 }
 add_action( 'wp_ajax_constant_contact_privacy_ajax_handler', 'constant_contact_privacy_ajax_handler' );
+
+/**
+ * Handle the ajax for the review admin notice.
+ *
+ * @since 1.2.2
+ */
+function constant_contact_review_ajax_handler() {
+
+	$response = $_REQUEST;
+
+	if ( isset( $response['ctct-review-action'] ) &&
+	     'dismissed' == sanitize_text_field( $response['ctct-review-action'] )
+	) {
+		$dismissed = get_option(
+			'ctct-review-dismissed',
+			array( 'count' => absint( 0 ), 'time' => '' )
+		);
+		$dismissed['time'] = time();
+		$dismissed['count'] = absint( 1 );
+		update_option( 'ctct-review-dismissed', $dismissed );
+	}
+
+	if ( isset( $response['ctct-review-action'] ) &&
+	     'reviewed' == sanitize_text_field( $response['ctct-review-action'] )
+	) {
+		update_option( 'ctct-reviewed', 'true' );
+	}
+
+	wp_send_json_success( array( 'review-action' => 'processed' ) );
+	exit();
+}
+
+add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_review_ajax_handler' );
