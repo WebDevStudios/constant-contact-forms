@@ -367,6 +367,11 @@ class ConstantContact_Builder {
 		</div>
 	<?php }
 
+	/**
+	 * Outputs our modal for too many custom textareas information.
+	 *
+	 * @since 1.2.2
+	 */
 	public function output_custom_textarea_modal() {
 		?>
 		<div id="ctct-custom-textarea-modal" class="ctct-modal ctct-custom-textarea-modal">
