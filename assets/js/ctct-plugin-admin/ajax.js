@@ -5,6 +5,7 @@ window.CTCTAJAX = {};
 	that.init = function() {
 		// Trigger any field modifications we need to do
 		that.handleOptinAJAX();
+		that.handleReviewAJAX();
 	}
 
 	// We need to manipulate our form builder a bit. We do this here.
@@ -66,6 +67,34 @@ window.CTCTAJAX = {};
 		});
 
 	};
+
+	that.handleReviewAJAX = function() {
+		$('#ctct-admin-notice-review_request').on('click', 'a', function (e) {
+			var ctct_action;
+			if ($(this).hasClass('ctct-review') ) {
+				ctct_action = 'reviewed';
+			} else {
+				ctct_action = 'dismissed';
+			}
+			var ctct_review_ajax = {
+				'action': 'constant_contact_review_ajax_handler',
+				'ctct-review-action': ctct_action
+			}
+
+			$.ajax({
+				url     : ajaxurl,
+				data    : ctct_review_ajax,
+				dataType: 'json',
+				success : function (response) {
+				},
+				error   : function (x, t, m) {
+					if (window.console) {
+						console.log([t, m]);
+					}
+				}
+			});
+		});
+	}
 
 	// Engage!
 	$( that.init );
