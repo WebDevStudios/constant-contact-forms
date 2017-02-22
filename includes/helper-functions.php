@@ -140,23 +140,6 @@ function constant_contact_maybe_display_review_notification() {
 		return false;
 	}
 
-	// Fetch our oldest form available, that's published.
-	$first_form = get_posts( array(
-		'posts_per_page' => 1,
-		'orderby'        => 'date',
-		'order'          => 'ASC',
-		'post_type'      => 'ctct_forms',
-		'post_status'    => 'publish',
-	) );
-
-	// No published forms.
-	if ( empty( $first_form ) ) {
-		return false;
-	}
-
-	// Get our UTC timestamps for comparison.
-	$post_date     = strtotime( $first_form[0]->post_date );
-	$seven_days    = strtotime( '-7 days' );
 	$fourteen_days = strtotime( '-14 days' );
 	$thirty_days   = strtotime( '-30 days' );
 
