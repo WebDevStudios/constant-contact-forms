@@ -107,6 +107,84 @@ function constant_contact_maybe_display_optin_notification() {
 }
 
 /**
+ * Maybe display the review request notification in the Constant Contact areas.
+ *
+ * @since 1.2.2
+ *
+ * @return bool
+ */
+function constant_contact_maybe_display_review_notification() {
+
+	/*
+	 * If clicked on review button already. Return false
+	 *
+	 * Create new UI-hidden review option in the options table.
+	 *
+	 * Update form submission count via process_form. Make sure
+	 * it's as close to actual success as possible. Prevent false
+	 * positives as much as possible.
+	 *
+	 * Update, via ajax, if the review button has been clicked.
+	 * Update, via ajax, if the dismiss button has been clicked.
+	 *
+	 * If dismissed, save an array storing a count, and the current
+	 * UTC time. If dismissed again(at 14 day mark), update time to
+	 * current UTC value, increment count by 1.
+	 */
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	if ( ! constant_contact()->is_constant_contact() ) {
+		return false;
+	}
+
+	// Fetch our oldest form available, that's published.
+	$first_form = get_posts( array(
+		'posts_per_page' => 1,
+		'orderby'        => 'date',
+		'order'          => 'ASC',
+		'post_type'      => 'ctct_forms',
+		'post_status'    => 'publish',
+	) );
+
+	// No published forms.
+	if ( empty( $first_form ) ) {
+		return false;
+	}
+
+	// Get our UTC timestamps for comparison.
+	$post_date     = strtotime( $first_form[0]->post_date );
+	$seven_days    = strtotime( '-7 days' );
+	$fourteen_days = strtotime( '-14 days' );
+	$thirty_days   = strtotime( '-30 days' );
+
+	// Need to get dismissed count. If count = 1
+	$first_dismissed_time = '';
+	// Check if our first dismissal is older than 14 days.
+	if ( $first_dismissed_time < $fourteen_days && true ) {
+		return true;
+	}
+
+	// Need to get dismissed count. If count = 2
+	$second_dismissed_time = '';
+	// Check if our second dismissal is older than 30 days.
+	if ( $second_dismissed_time < $thirty_days && true ) {
+		return true;
+	}
+
+	// Needs to run last because at some point, this will always return.
+	// Check if our post date for this form is older than 7 days.
+	// Fetch option storing submission count.
+	if ( $post_date < $seven_days && true ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Handle the optin checkbox for the admin notice.
  *
  * @since 1.2.0
