@@ -133,8 +133,8 @@ class ConstantContact_Notification_Content {
 
 			</div>
 			<p>
-				<a class="button button-secondary" target="_blank" href="https://wordpress.org/support/plugin/constant-contact-forms/reviews/">Leave a review</a>
-				<a class="button button-secondary" href="#">Dismiss</a>
+				<a class="button button-secondary ctct-review" target="_blank" href="https://wordpress.org/support/plugin/constant-contact-forms/reviews/">Leave a review</a>
+				<a class="button button-secondary ctct-review-dismiss" href="#">Dismiss</a>
 			</p>
 		</div>
 		<?php
