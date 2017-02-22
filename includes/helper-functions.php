@@ -157,13 +157,6 @@ function constant_contact_maybe_display_review_notification() {
 		return true;
 	}
 
-	// Needs to run last because at some point, this will always return.
-	// Check if our post date for this form is older than 7 days.
-	// Fetch option storing submission count.
-	if ( $post_date < $seven_days && true ) {
-		return true;
-	}
-
 	return false;
 }
 
