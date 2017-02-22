@@ -160,10 +160,8 @@ function constant_contact_maybe_display_review_notification() {
 		}
 	}
 
-	// Need to get dismissed count. If count = 2
-	$second_dismissed_time = '';
-	// Check if our second dismissal is older than 30 days.
-	if ( $second_dismissed_time < $thirty_days && true ) {
+	$count = get_option( 'ctct-processed-forms', absint( 0 ) );
+	if ( $count >= 10 ) {
 		return true;
 	}
 
