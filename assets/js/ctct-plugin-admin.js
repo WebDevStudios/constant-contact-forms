@@ -353,14 +353,18 @@ window.CTCTModal = {};
             window: $( window ),
             modalSelector: $( '.ctct-modal' ),
             modalClose: $( '.ctct-modal-close' ),
+            textareaModal: $( '#ctct-custom-textarea-modal' ),
+            textareaLink: $( '#ctct-open-textarea-info' ),
         };
     };
 
     // Combine all events
     app.bindEvents = function() {
-       app.$c.modalClose.click( function() {
+        app.$c.modalClose.click( function() {
             app.$c.modalSelector.removeClass( 'ctct-modal-open' );
-
+            if ( app.$c.modalSelector.hasClass('ctct-custom-textarea-modal') ) {
+                return;
+            }
             jQuery.ajax({
                 type : "post",
                 dataType : "json",
@@ -370,6 +374,9 @@ window.CTCTModal = {};
                     'ctct_is_dismissed' : 'true',
                 }
             });
+        });
+        app.$c.textareaLink.on('click', function(){
+           app.$c.textareaModal.addClass( 'ctct-modal-open' );
         });
     };
 
