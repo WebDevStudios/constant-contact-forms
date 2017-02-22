@@ -517,6 +517,7 @@ class ConstantContact_API {
 
 		$address  = null;
 		$count = 0;
+		$textareas = 0;
 		$contact->notes = array();
 
 		// Loop through each of our values and set it as a property.
@@ -600,9 +601,10 @@ class ConstantContact_API {
 					$contact->addCustomField( $custom );
 					break;
 				case 'custom_text_area':
+					$textareas++;
 					// API version 2 only allows for 1 note for a given request.
 					// Version 3 will allow multiple notes.
-					if ( $count > 1 ) {
+					if ( $textareas > 1 ) {
 						break;
 					}
 					$unique_id = explode( '___', $original );
