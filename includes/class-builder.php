@@ -196,6 +196,24 @@ class ConstantContact_Builder {
 				echo '</p></div>';
 			}
 
+			$custom_fields = get_post_meta( $post->ID, 'custom_fields_group', true );
+			$custom_textareas_count = (int) 0;
+			if ( ! empty( $custom_fields ) && is_array( $custom_fields) ) {
+				foreach ( $custom_fields as $field ) {
+					if ( 'custom_text_area' === $field['_ctct_map_select'] ) {
+						$custom_textareas_count++;
+					}
+				}
+				if ( $custom_textareas_count > 1 && constant_contact()->api->is_connected() ) {
+					echo '<div id="ctct-too-many-textareas" class="notice notice-warning"><p>';
+					// @todo address the lack of escaping.
+					_e( 'You have multiple <strong>Custom Text Area</strong> fields in this form. <strong>Only the first field</strong> will be sent to Constant Contact. <a id="ctct-open-textarea-info" href="#">Learn More ></a>', 'constant-contact-forms' );
+					echo '</p></div>';
+
+					$this->output_custom_textarea_modal();
+				}
+			}
+
 			// Check for our query arg
 			if ( isset( $_GET['ctct_not_connected'] ) && sanitize_text_field( wp_unslash( $_GET['ctct_not_connected'] ) ) ) { //Input var okay.
 
@@ -348,4 +366,24 @@ class ConstantContact_Builder {
 			</div><!-- .modal-dialog -->
 		</div>
 	<?php }
+
+	public function output_custom_textarea_modal() {
+		?>
+		<div id="ctct-custom-textarea-modal" class="ctct-modal ctct-custom-textarea-modal">
+			<div class="ctct-modal-dialog" role="document">
+				<div class="ctct-modal-content">
+					<div class="ctct-modal-header">
+						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
+						<h2><?php esc_html_e( 'Custom Text Area limitations.', 'constant-contact-forms' ); ?></h2>
+					</div>
+					<div class="ctct-modal-body ctct-custom-textarea-modal-body">
+						<?php echo wpautop( esc_html__( 'Unfortunately, we can only upload one "Custom Text Area" field to your Constant Contact account per form submission. The uploaded field is placed into your contact\'s "Notes" field.', 'constant-contact-forms' ) );
+							echo wpautop( esc_html__( 'Additional "Custom Text Area" fields are only submitted with the sent admin email when the form is submitted.', 'constant-contact-forms' ) );
+						?>
+					</div><!-- modal body -->
+				</div><!-- .modal-content -->
+			</div><!-- .modal-dialog -->
+		</div>
+	<?php
+	}
 }
