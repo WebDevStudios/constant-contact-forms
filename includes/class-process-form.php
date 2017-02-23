@@ -587,4 +587,15 @@ class ConstantContact_Process_Form {
 			'message' => $message,
 		);
 	}
+
+	/**
+	 * Increment a counter for processed form submissions.
+	 *
+	 * @since 1.2.2
+	 */
+	public function increment_processed_form_count() {
+		$count = get_option( 'ctct-processed-forms', absint( 0 ) );
+		$count++;
+		update_option( 'ctct-processed-forms', $count );
+	}
 }
