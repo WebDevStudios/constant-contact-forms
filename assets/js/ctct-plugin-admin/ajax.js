@@ -70,11 +70,9 @@ window.CTCTAJAX = {};
 
 	that.handleReviewAJAX = function() {
 		$('#ctct-admin-notice-review_request').on('click', 'a', function (e) {
-			var ctct_action;
-			if ($(this).hasClass('ctct-review') ) {
+			var ctct_action = 'dismissed';
+			if ( $(this).hasClass('ctct-review') ) {
 				ctct_action = 'reviewed';
-			} else {
-				ctct_action = 'dismissed';
 			}
 			var ctct_review_ajax = {
 				'action': 'constant_contact_review_ajax_handler',
@@ -85,8 +83,6 @@ window.CTCTAJAX = {};
 				url     : ajaxurl,
 				data    : ctct_review_ajax,
 				dataType: 'json',
-				success : function (response) {
-				},
 				error   : function (x, t, m) {
 					if (window.console) {
 						console.log([t, m]);
