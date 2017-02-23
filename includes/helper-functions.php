@@ -136,13 +136,12 @@ function constant_contact_maybe_display_review_notification() {
 		return false;
 	}
 
-	$reviewed = get_option( 'ctct-reviewed', 'false' );
-	if ( 'true' === $reviewed ) {
+	if ( 'true' === get_option( 'ctct-reviewed', 'false' ) ) {
 		return false;
 	}
 
 	$dismissed = get_option( 'ctct-review-dismissed', array() );
-	if ( (int) 1 == $dismissed['count'] ) {
+	if ( 1 === absint( $dismissed['count'] ) ) {
 		$fourteen_days = strtotime( '-14 days' );
 		if ( isset( $dismissed['time'] ) &&
 		     $dismissed['time'] < $fourteen_days
@@ -160,8 +159,7 @@ function constant_contact_maybe_display_review_notification() {
 		}
 	}
 
-	$count = get_option( 'ctct-processed-forms', absint( 0 ) );
-	if ( $count >= 10 ) {
+	if ( absint( get_option( 'ctct-processed-forms' ) ) >= 10 ) {
 		return true;
 	}
 
