@@ -270,11 +270,13 @@
 }
 
 .ctct-modal .ctct-modal-content .ctct-modal-body.ctct-custom-textarea .ctct-modal-left {
+  border: none;
   padding-left: 15px;
   text-align: left;
 }
 
 .ctct-modal .ctct-modal-content .ctct-modal-body.ctct-custom-textarea .ctct-modal-right {
+  border: none;
   padding: 15px;
 }
 
