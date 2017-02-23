@@ -218,7 +218,7 @@ function constant_contact_review_ajax_handler() {
 			case 'dismissed':
 				$dismissed          = get_option( 'ctct-review-dismissed', array() );
 				$dismissed['time']  = time();
-				$dismissed['count'] = 1;
+				$dismissed['count'] = ( empty( $dismissed['count'] ) ) ? 1 : $dismissed['count']++;
 				update_option( 'ctct-review-dismissed', $dismissed );
 				break;
 
