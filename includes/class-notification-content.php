@@ -118,6 +118,32 @@ class ConstantContact_Notification_Content {
 		return $output;
 	}
 
+	public static function review_request() {
+		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
+
+		ob_start();
+		?>
+
+		<div class="admin-notice-logo">
+			<img src="<?php echo constant_contact()->url; ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" />
+		</div>
+		<div class="admin-notice-message">
+			<div>
+				<?php _e( 'You have been successfully using <strong>Constant Contact Forms</strong>. Congratulations on capturing valuable site visitor information! Please consider leaving us a nice review. Reviews help fellow WordPress admins find our plugin and lets you provide us useful feedback.', 'constant-contact-forms' ); ?>
+
+			</div>
+			<p>
+				<a class="button button-secondary ctct-review" target="_blank" href="https://wordpress.org/support/plugin/constant-contact-forms/reviews/">Leave a review</a>
+				<a class="button button-secondary ctct-review-dismiss" href="#">Dismiss</a>
+			</p>
+		</div>
+		<?php
+		$output = ob_get_clean();
+		// Be a good citizen, clean up after ourselves.
+		#remove_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
+		return $output;
+	}
+
 	/**
 	 * Sample update notification for updating to 1.0.1
 	 *
@@ -164,3 +190,24 @@ function constant_contact_add_optin_notification( $notifications = array() ) {
 	return $notifications;
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_add_optin_notification' );
+
+/**
+ * Adds our opt-in notification to the notification system.
+ * @since 1.2.0
+ *
+ * @param array $notifications Array of notifications pending to show.
+ *
+ * @return array Array of notifications to show.
+ */
+function constant_contact_add_review_notification( $notifications = array() ) {
+
+	$notifications[] = array(
+		'ID'         => 'review_request',
+		'callback'   => array( 'ConstantContact_Notification_Content', 'review_request' ),
+		'require_cb' => 'constant_contact_maybe_display_review_notification',
+	);
+
+	return $notifications;
+}
+
+add_filter( 'constant_contact_notifications', 'constant_contact_add_review_notification' );

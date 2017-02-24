@@ -5,6 +5,7 @@ window.CTCTAJAX = {};
 	that.init = function() {
 		// Trigger any field modifications we need to do
 		that.handleOptinAJAX();
+		that.handleReviewAJAX();
 	}
 
 	// We need to manipulate our form builder a bit. We do this here.
@@ -66,6 +67,37 @@ window.CTCTAJAX = {};
 		});
 
 	};
+
+	that.handleReviewAJAX = function() {
+		$('#ctct-admin-notice-review_request').on('click', 'a', function (e) {
+			var ctct_action = 'dismissed';
+			if ( $(this).hasClass('ctct-review') ) {
+				ctct_action = 'reviewed';
+			}
+			var ctct_review_ajax = {
+				'action': 'constant_contact_review_ajax_handler',
+				'ctct-review-action': ctct_action
+			}
+
+			$.ajax({
+				url     : ajaxurl,
+				data    : ctct_review_ajax,
+				dataType: 'json',
+				success: function (resp) {
+					if (window.console) {
+						console.log(resp);
+					}
+					e.preventDefault();
+					$('#ctct-admin-notice-review_request').hide();
+				},
+				error   : function (x, t, m) {
+					if (window.console) {
+						console.log([t, m]);
+					}
+				}
+			});
+		});
+	}
 
 	// Engage!
 	$( that.init );
@@ -353,14 +385,18 @@ window.CTCTModal = {};
             window: $( window ),
             modalSelector: $( '.ctct-modal' ),
             modalClose: $( '.ctct-modal-close' ),
+            textareaModal: $( '#ctct-custom-textarea-modal' ),
+            textareaLink: $( '#ctct-open-textarea-info' ),
         };
     };
 
     // Combine all events
     app.bindEvents = function() {
-       app.$c.modalClose.click( function() {
+        app.$c.modalClose.click( function() {
             app.$c.modalSelector.removeClass( 'ctct-modal-open' );
-
+            if ( app.$c.modalSelector.hasClass('ctct-custom-textarea-modal') ) {
+                return;
+            }
             jQuery.ajax({
                 type : "post",
                 dataType : "json",
@@ -370,6 +406,9 @@ window.CTCTModal = {};
                     'ctct_is_dismissed' : 'true',
                 }
             });
+        });
+        app.$c.textareaLink.on('click', function(){
+           app.$c.textareaModal.addClass( 'ctct-modal-open' );
         });
     };
 

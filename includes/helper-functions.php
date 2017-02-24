@@ -68,7 +68,7 @@ function constant_contact_get_forms() {
  *
  * @since 1.2.0
  *
- * @param $form_id Form ID to provide in the output.
+ * @param string $form_id Form ID to provide in the output.
  * @return string Non-parsed shortcode.
  */
 function constant_contact_display_shortcode( $form_id ) {
@@ -101,6 +101,63 @@ function constant_contact_maybe_display_optin_notification() {
 
 	if ( '' !== $privacy ) {
 		return false;
+	}
+
+	return true;
+}
+
+/**
+ * Maybe display the review request notification in the Constant Contact areas.
+ *
+ * @since 1.2.2
+ *
+ * @return bool
+ */
+function constant_contact_maybe_display_review_notification() {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	if ( ! constant_contact()->is_constant_contact() ) {
+		return false;
+	}
+
+	if ( 'true' === get_option( 'ctct-reviewed', 'false' ) ) {
+		return false;
+	}
+
+	// @todo date_diff() comparisons.
+	//
+	$dismissed = get_option( 'ctct-review-dismissed', array() );
+	if ( isset( $dismissed['count'] ) && '1' === $dismissed['count'] ) {
+		$fourteen_days = strtotime( '-14 days' );
+		if ( isset( $dismissed['time'] ) &&
+		     $dismissed['time'] < $fourteen_days
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	if ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
+		$thirty_days = strtotime( '-30 days' );
+		if ( isset( $dismissed['time'] ) &&
+		     $dismissed['time'] < $thirty_days
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	if ( isset( $dismissed['count'] ) && '3' === $dismissed['count'] ) {
+		return false;
+	}
+
+	if ( absint( get_option( 'ctct-processed-forms' ) ) >= 10 ) {
+		return true;
 	}
 
 	return true;
@@ -143,3 +200,43 @@ function constant_contact_privacy_ajax_handler() {
 	exit();
 }
 add_action( 'wp_ajax_constant_contact_privacy_ajax_handler', 'constant_contact_privacy_ajax_handler' );
+
+/**
+ * Handle the ajax for the review admin notice.
+ *
+ * @since 1.2.2
+ */
+function constant_contact_review_ajax_handler() {
+
+	if ( isset( $_REQUEST['ctct-review-action'] ) ) {
+		$action = strtolower( sanitize_text_field( $_REQUEST['ctct-review-action'] ) );
+
+		switch ( $action ) {
+			case 'dismissed':
+				$dismissed          = get_option( 'ctct-review-dismissed', array() );
+				$dismissed['time']  = time();
+				if ( empty( $dismissed['count'] ) ) {
+					$dismissed['count'] = '1';
+				} elseif ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
+					$dismissed['count'] = '3';
+				} else {
+					$dismissed['count'] = '2';
+				}
+				update_option( 'ctct-review-dismissed', $dismissed );
+
+				break;
+
+			case 'reviewed':
+				update_option( 'ctct-reviewed', 'true' );
+				break;
+
+			default:
+				break;
+		}
+	}
+
+	wp_send_json_success( array( 'review-action' => 'processed' ) );
+	exit();
+}
+
+add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_review_ajax_handler' );

@@ -160,6 +160,9 @@ class ConstantContact_Display {
 		// Output our normal form fields.
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
+		// Output a field that should not be populated, and will be visually hidden with inline CSS.
+		$return .= $this->build_honeypot_field();
+
 		// Add our hidden verification fields.
 		$return .= $this->add_verify_fields( $form_data );
 
@@ -290,6 +293,18 @@ class ConstantContact_Display {
 		return $return;
 	}
 
+	public function build_honeypot_field() {
+		$return = '';
+
+		$return .= sprintf(
+			'<div id="ctct_usage" style="%s"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" id="ctct_usage_field" /></div>',
+			'position:absolute;overflow:hidden;clip:rect(0px,0px,0px,0px);height:1px;width:1px;margin:-1px;border:0px none;padding:0px;"',
+			esc_html__( 'Constant Contact Use.', 'constant-contact-forms' )
+		);
+
+		return $return;
+	}
+
 	/**
 	 * Wrapper for single field display.
 	 *
@@ -375,7 +390,7 @@ class ConstantContact_Display {
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			case 'custom_text_area':
-				return $this->textarea( $name, $map, $value, $desc, $req, false, $field_error );
+				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="500"' );
 				break;
 			case 'email':
 				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error );
@@ -1125,9 +1140,10 @@ class ConstantContact_Display {
 	 * @param string  $desc        Description/label of field.
 	 * @param boolean $req         If is required.
 	 * @param string  $field_error Error from field.
+	 * @param string  $extra_attrs Extra attributes to append.
 	 * @return string HTML markup.
 	 */
-	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '' ) {
+	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '' ) {
 		// Set our required text.
 		$req_text = $req ? 'required' : '';
 
@@ -1146,7 +1162,7 @@ class ConstantContact_Display {
 		}
 
 		$return  = '<p><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label>';
-		$return .= '<textarea class="ctct-textarea" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '">' . esc_html( $value ) . '</textarea>';
+		$return .= '<textarea class="ctct-textarea" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
 
 		if ( $field_error ) {
 			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $map ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constant-contact-forms' ) ) . '</label></span>';

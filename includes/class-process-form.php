@@ -138,6 +138,11 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
+		// Honeypot. Should be empty to proceed.
+		if ( ! empty ( $data['ctct_usage_field' ] ) ) {
+			return;
+		}
+
 		// Verify our nonce first.
 		if (
 		    ! isset( $data['ctct_form'] ) ||
@@ -581,5 +586,16 @@ class ConstantContact_Process_Form {
 			'status'  => $status,
 			'message' => $message,
 		);
+	}
+
+	/**
+	 * Increment a counter for processed form submissions.
+	 *
+	 * @since 1.2.2
+	 */
+	public function increment_processed_form_count() {
+		$count = absint( get_option( 'ctct-processed-forms' ) );
+		$count++;
+		update_option( 'ctct-processed-forms', $count );
 	}
 }

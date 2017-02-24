@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
 Tested up to:      4.7.2
-Stable tag:        1.2.1
+Stable tag:        1.2.2
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,14 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 4. Basic Form
 
 == Changelog ==
+
+= 1.2.2 =
+* Fixed: Conflicts with other plugins using the Constant Contact PHP SDK.
+* Fixed: Added honeypot-style spam prevention on forms.
+* Fixed: Removed anonymous function usage in widget to prevent potential errors.
+* Fixed: Hardened up helper function in cases where internal function does not exist.
+* Fixed: Issues with multiple custom textareas and the Constant Contact API. See the "Learn more" link/modal for some more information.
+* Added: Potential admin notice requesting users to review plugin if they have not already.
 
 = 1.2.1 =
 * Fixed: Re-show sections of "Publish" metabox incorrectly hidden for post types outside Constant Contact Forms.
