@@ -238,5 +238,19 @@ function constant_contact_review_ajax_handler() {
 	wp_send_json_success( array( 'review-action' => 'processed' ) );
 	exit();
 }
-
 add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_review_ajax_handler' );
+
+/**
+ * Process potential custom Constant Contact Forms action urls.
+ *
+ * @since 1.2.3
+ */
+function ctct_custom_form_action_processing() {
+	// Only run this if we have a custom action being filtered in.
+	if ( ! has_filter( 'constant_contact_front_form_action' ) ) {
+		return;
+	}
+
+	return constant_contact()->process_form->process_form();
+}
+add_action( 'wp_head', 'ctct_custom_form_action_processing' );

@@ -673,8 +673,8 @@ class ConstantContact_Display {
 
 		// If we have an error.
 		if ( $field_error ) {
-			// Tack that sucker on to the end of our input.
-			$classes[] = 'class="ctct-invalid"';
+			// Tack an error class on to the end of our classes.
+			$classes[] = 'ctct-invalid';
 		}
 
 		// Append classes to our field.
