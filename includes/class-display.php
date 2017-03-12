@@ -298,7 +298,7 @@ class ConstantContact_Display {
 
 		$return .= sprintf(
 			'<div id="ctct_usage" style="%s"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" id="ctct_usage_field" /></div>',
-			'position:absolute;overflow:hidden;clip:rect(0px,0px,0px,0px);height:1px;width:1px;margin:-1px;border:0px none;padding:0px;"',
+			'position:absolute;overflow:hidden;clip:rect(0px,0px,0px,0px);height:1px;width:1px;margin:-1px;border:0px none;padding:0px;',
 			esc_html__( 'Constant Contact Use.', 'constant-contact-forms' )
 		);
 
