@@ -664,7 +664,7 @@ class ConstantContact_Display {
 		 * @since  1.2.0
 		 * @param  array  $classes Array of classes to apply to the field.
 		 * @param  string $type    The field type being rendered.
-		 * @return arrray
+		 * @return array
 		 */
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
 
