@@ -598,13 +598,21 @@ class ConstantContact_API {
 						break;
 					}
 
+					// Retrieve our original label to send with API request.
+					$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
+					$custom_field_name = '';
+					if ( false !== strpos( $original_field_data, 'custom___' ) ) {
+						$custom_field = ( $original_field_data[ $original ] );
+						$custom_field_name .= $custom_field['name'];
+					}
+
 					// Otherwise, set up our custom field.
 					$custom = new Ctct\Components\Contacts\CustomField();
 
 					// Create, name it the way the API needs.
 					$custom = $custom->create( array(
 							'name' => 'CustomField' . $count,
-							'value' => $key . ' : ' . $value,
+							'value' => $custom_field_name . ': ' . $value,
 					) );
 
 					// Attach it.
