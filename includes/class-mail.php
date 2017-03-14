@@ -130,7 +130,7 @@ class ConstantContact_Mail {
 			$args['list'] = sanitize_text_field( $values['ctct-opt-in']['value'] );
 
 			// Send that to our API.
-			return constantcontact_api()->add_contact( $args );
+			return constantcontact_api()->add_contact( $args, $values['ctct-id']['value'] );
 		}
 	}
 
