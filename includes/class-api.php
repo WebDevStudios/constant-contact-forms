@@ -370,11 +370,13 @@ class ConstantContact_API {
 	 * Add constact to the connected CTCT account.
 	 *
 	 * @since 1.0.0
+	 * @since 1.3.0 Added $form_id parameter.
 	 *
-	 * @param array $new_contact New contact data.
+	 * @param array  $new_contact New contact data.
+	 * @param string $form_id     ID of the form being processed.
 	 * @return array Current connect ctct lists.
 	 */
-	public function add_contact( $new_contact = array() ) {
+	public function add_contact( $new_contact = array(), $form_id ) {
 
 		// Make sure we're passed a full set of data.
 		if ( empty( $new_contact ) ) {
@@ -399,13 +401,13 @@ class ConstantContact_API {
 	        $response = $this->cc()->contactService->getContacts( $api_token, array( 'email' => $email ) );
 
 	        if ( isset( $response->results ) && ! empty( $response->results ) ) {
-	        	// Update the existing contact if address already existed.
-	        	$return_contact = $this->_update_contact( $response, $api_token, $list, $new_contact );
+				// Update the existing contact if address already existed.
+				$return_contact = $this->_update_contact( $response, $api_token, $list, $new_contact, $form_id );
 
 	        } else {
 
-	        	// Create a new contact if one does not exist.
-	        	$return_contact = $this->_create_contact( $api_token, $list, $email, $new_contact );
+				// Create a new contact if one does not exist.
+				$return_contact = $this->_create_contact( $api_token, $list, $email, $new_contact, $form_id );
 	        }
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
@@ -419,14 +421,16 @@ class ConstantContact_API {
 	 * Helper method to creat contact.
 	 *
 	 * @since 1.0.0
+	 * @since 1.3.0 Added $form_id parameter.
 	 *
 	 * @param string $api_token Token.
 	 * @param string $list      List name.
 	 * @param string $email     Email address.
 	 * @param string $user_data User data.
+	 * @param string $form_id   ID of the form being processed.
 	 * @return mixed Response from api.
 	 */
-	public function _create_contact( $api_token, $list, $email, $user_data ) {
+	public function _create_contact( $api_token, $list, $email, $user_data, $form_id ) {
 
 		// Get a new instance of our contact.
 		$contact = new Contact();
@@ -438,7 +442,7 @@ class ConstantContact_API {
 		$contact->addList( esc_attr( $list ) );
 
 		// Map the rest of our properties to.
-		$contact = $this->set_contact_properties( $contact, $user_data );
+		$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
 
 		/*
 		 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
@@ -455,6 +459,7 @@ class ConstantContact_API {
 	 * Helper method to update contact.
 	 *
 	 * @since 1.0.0
+	 * @since 1.3.0 Added $form_id parameter.
 	 *
 	 * @throws CtctException API exception.
 	 *
@@ -462,9 +467,10 @@ class ConstantContact_API {
 	 * @param string $api_token Token.
 	 * @param string $list      List name.
 	 * @param string $user_data User data.
+	 * @param string $form_id   Form ID being processed.
 	 * @return mixed Response from api.
 	 */
-	public function _update_contact( $response, $api_token, $list, $user_data ) {
+	public function _update_contact( $response, $api_token, $list, $user_data, $form_id ) {
 
 		// Sanity checks on our response.
 		if (
@@ -480,7 +486,7 @@ class ConstantContact_API {
 			$contact->addList( esc_attr( $list ) );
 
 			// Set the rest of our properties.
-			$contact = $this->set_contact_properties( $contact, $user_data );
+			$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
 
 		    /*
 		     * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
@@ -501,11 +507,15 @@ class ConstantContact_API {
 	 * Helper method to push as much data from a form as we can into the
 	 * Constant Contact contact thats in a list
 	 *
+	 * @since 1.0.0
+	 * @since 1.3.0 Added $form_id parameter.
+	 *
 	 * @param object $contact   Contact object.
 	 * @param array  $user_data Bunch of user data.
+	 * @param string $form_id   Form ID being processed.
 	 * @return object Contact object, with new properties.
 	 */
-	public function set_contact_properties( $contact, $user_data ) {
+	public function set_contact_properties( $contact, $user_data, $form_id ) {
 
 		// First, verify we have what we need.
 		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
