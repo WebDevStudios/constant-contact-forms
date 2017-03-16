@@ -176,8 +176,16 @@ class ConstantContact_Mail {
 	 */
 	public function get_email() {
 
-		// Eventually we'll make this configurable.
-		return get_option( 'admin_email' );
+		$email = get_option( 'admin_email' );
+
+		/**
+		 * Filters the email to send Constant Contact Forms admin emails to.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @param string $email Email address to send to. Default admin_email option.
+		 */
+		return apply_filters( 'constant_contact_destination_email', $email );
 	}
 
 	/**
