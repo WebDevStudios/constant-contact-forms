@@ -217,6 +217,7 @@ class ConstantContact_Builder_Fields {
 			'id'          => $this->prefix . 'opt_in',
 			'description' => $description,
 			'type'        => 'checkbox',
+			'before_row'  => '<div><strong>' . esc_html__( 'Important: opt-in settings required for sending user submissions to ConstantContact.com', 'constant-contact-forms' ) . '</strong></div>',
 		) );
 	}
 
