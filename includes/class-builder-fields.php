@@ -437,7 +437,7 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$generated->add_field( array(
-			'name'       => 'Shortcode to use',
+			'name'       => __( 'Shortcode to use', 'constant-contact-forms' ),
 			'id'         => $this->prefix . 'generated_shortcode',
 			'type'       => 'text_medium',
 			'desc'       => __( 'Shortcode to embed - <em><small>You can copy and paste this in a post to display your form.</small></em>', 'constant-contact-forms' ),

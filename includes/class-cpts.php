@@ -208,7 +208,7 @@ class ConstantContact_CPTS {
 			3 => __( 'Custom field deleted.', 'constant-contact-forms' ),
 			4 => __( 'Form updated.', 'constant-contact-forms' ),
 			5 => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,  // Input var okay.
-			6 => sprintf( __( 'Success! Here\'s the shortcode: %s. Just paste it into a post or page editor to publish', 'constant-contact-forms' ), '<strong>' . constant_contact_display_shortcode( $post->ID ) . '</strong>' ),
+			6 => sprintf( __( "Success! Here's the shortcode: %s. Just paste it into a post or page editor to publish", 'constant-contact-forms' ), '<strong>' . constant_contact_display_shortcode( $post->ID ) . '</strong>' ),
 			7 => __( 'Form saved.', 'constant-contact-forms' ),
 			8 => __( 'Form submitted.', 'constant-contact-forms' ),
 			9 => __( 'Form scheduled for: <strong>%1$s</strong>.', 'constant-contact-forms' ), date_i18n( 'M j, Y @ G:i', strtotime( $post->post_date ) ),

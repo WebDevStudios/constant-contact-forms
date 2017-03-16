@@ -201,7 +201,8 @@ class ConstantContact_Mail {
 		if ( $last_sent === $mail_key ) {
 			$this->maybe_log_mail_status(
 				vsprintf(
-					__( 'Duplicate send mail for: %s and: %s' ),
+					/* translators: this is only used when some debugging is enabled */
+					__( 'Duplicate send mail for: %s and: %s', 'constant-contact-forms' ),
 					array(
 						$destination_email,
 						$mail_key,

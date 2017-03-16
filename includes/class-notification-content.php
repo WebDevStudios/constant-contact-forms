@@ -133,8 +133,8 @@ class ConstantContact_Notification_Content {
 
 			</div>
 			<p>
-				<a class="button button-secondary ctct-review" target="_blank" href="https://wordpress.org/support/plugin/constant-contact-forms/reviews/">Leave a review</a>
-				<a class="button button-secondary ctct-review-dismiss" href="#">Dismiss</a>
+				<a class="button button-secondary ctct-review" target="_blank" href="https://wordpress.org/support/plugin/constant-contact-forms/reviews/"><?php esc_html_e( 'Leave a review', 'constant-contact-forms' ); ?></a>
+				<a class="button button-secondary ctct-review-dismiss" href="#"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
 			</p>
 		</div>
 		<?php
@@ -209,5 +209,4 @@ function constant_contact_add_review_notification( $notifications = array() ) {
 
 	return $notifications;
 }
-
 add_filter( 'constant_contact_notifications', 'constant_contact_add_review_notification' );

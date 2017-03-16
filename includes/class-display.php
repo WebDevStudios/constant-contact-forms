@@ -1061,18 +1061,18 @@ class ConstantContact_Display {
 				 * @param array $value Array of months from calendar.
 				 */
 				$return = apply_filters( 'constant_contact_dates_month', array(
-					'january'   => __( 'January', 'contantcontact' ),
-					'february'  => __( 'February', 'contantcontact' ),
-					'march'     => __( 'March', 'contantcontact' ),
-					'april'     => __( 'April', 'contantcontact' ),
-					'may'       => __( 'May', 'contantcontact' ),
-					'june'      => __( 'June', 'contantcontact' ),
-					'july '     => __( 'July ', 'contantcontact' ),
-					'august'    => __( 'August', 'contantcontact' ),
-					'september' => __( 'September', 'contantcontact' ),
-					'october'   => __( 'October', 'contantcontact' ),
-					'november'  => __( 'November', 'contantcontact' ),
-					'december'  => __( 'December', 'contantcontact' ),
+					'january'   => __( 'January', 'constant-contact-forms' ),
+					'february'  => __( 'February', 'constant-contact-forms' ),
+					'march'     => __( 'March', 'constant-contact-forms' ),
+					'april'     => __( 'April', 'constant-contact-forms' ),
+					'may'       => __( 'May', 'constant-contact-forms' ),
+					'june'      => __( 'June', 'constant-contact-forms' ),
+					'july '     => __( 'July ', 'constant-contact-forms' ),
+					'august'    => __( 'August', 'constant-contact-forms' ),
+					'september' => __( 'September', 'constant-contact-forms' ),
+					'october'   => __( 'October', 'constant-contact-forms' ),
+					'november'  => __( 'November', 'constant-contact-forms' ),
+					'december'  => __( 'December', 'constant-contact-forms' ),
 				) );
 				break;
 			case 'year':
