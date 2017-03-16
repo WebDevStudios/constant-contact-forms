@@ -167,6 +167,8 @@ class Constant_Contact {
 	private $notification_content;
 	private $authserver;
 	private $updates;
+	private $optin;
+	private $customizations;
 
 	/**
 	 * License file.
@@ -257,6 +259,7 @@ class Constant_Contact {
 		$this->authserver           = new ConstantContact_Middleware( $this );
 		$this->updates              = new ConstantContact_Updates( $this );
 		$this->optin                = new ConstantContact_Optin( $this );
+		$this->customizations       = new ConstantContact_User_Customizations( $this );
 	}
 
 	/**

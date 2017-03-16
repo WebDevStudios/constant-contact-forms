@@ -134,6 +134,18 @@ class ConstantContact_Builder_Fields {
 				'type'    => 'text_medium',
 		) );
 
+		$options_metabox->add_field( array(
+			'name' => __( 'Custom form submission success text', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'form_submission_success',
+			'type' => 'text_medium',
+		) );
+
+		$options_metabox->add_field( array(
+			'name' => __( 'Redirect to', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'redirect_uri',
+			'type' => 'text_medium',
+		) );
+
 		if ( constant_contact()->api->is_connected() ) {
 			$this->show_optin_connected_fields( $options_metabox );
 		}/**

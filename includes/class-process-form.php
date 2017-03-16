@@ -554,7 +554,13 @@ class ConstantContact_Process_Form {
 		switch ( $status ) {
 
 			case 'success':
-				$message = __( 'Your information has been submitted.', 'constant-contact-forms' );
+
+				/**
+				 * Filters the message for the successful processed form.
+				 *
+				 * @since 1.3.0
+				 */
+				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id );
 				break;
 
 			// Generic error.
