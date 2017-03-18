@@ -1054,6 +1054,7 @@ class ConstantContact_Display {
 	 * @return array Array of data.
 	 */
 	public function get_date_values( $type ) {
+		$return = array();
 
 		// Based on $type, we'll send back an array of either days, months, or years.
 		switch ( $type ) {
@@ -1116,6 +1117,7 @@ class ConstantContact_Display {
 	 * @return array Years from 1910-current year.
 	 */
 	public function get_years() {
+		$years = array();
 
 		// Get all of our years.
 		$year_range = range( 1910,  date( 'Y' ) );
@@ -1138,6 +1140,7 @@ class ConstantContact_Display {
 	 * @return array Array of days.
 	 */
 	public function get_days() {
+		$days = array();
 
 		// Get all of our day.
 		$day_range = range( 1, 31 );
