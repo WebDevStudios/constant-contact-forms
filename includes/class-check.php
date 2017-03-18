@@ -10,22 +10,25 @@
 
 /**
  * Helper class to allow for checking and displaying server status.
+ *
+ * @since 1.0.0
  */
 class ConstantContact_Check {
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
+	 * @since 1.0.0
 	 * @var object
-	 * @since 0.0.1
 	 */
 	protected $plugin = null;
 
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @param object $plugin Parent plugin.
 	 */
 	public function __construct( $plugin ) {
@@ -34,9 +37,9 @@ class ConstantContact_Check {
 
 	/**
 	 * Lets you add 'ctct-debug-server-check' to the query
-	 * args of a page to load a server requirements check
+	 * args of a page to load a server requirements check.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
 	 */
 	public function maybe_display_debug_info() {
 
@@ -53,10 +56,11 @@ class ConstantContact_Check {
 
 	/**
 	 * Gets the list of functions / classes we need ot check on the server
-	 * to be considered 'valid'
+	 * to be considered 'valid'.
 	 *
-	 * @since  1.0.0
-	 * @return array nested array of functions/classes needed
+	 * @since 1.0.0
+	 *
+	 * @return array Nested array of functions/classes needed.
 	 */
 	public function get_checks_to_make() {
 
@@ -81,9 +85,9 @@ class ConstantContact_Check {
 
 
 	/**
-	 * Displays our server check
+	 * Displays our server check.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	public function display_server_checks() {
 
@@ -122,13 +126,13 @@ class ConstantContact_Check {
 	}
 
 	/**
-	 * Helper method to give us a display of something exists or not
+	 * Helper method to give us a display of something exists or not.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param string $name Function/class to check.
 	 * @param string $type Function or class.
-	 * @return string Emoji of checkmark
+	 * @return string Emoji of checkmark.
 	 */
 	public function exists_text( $name, $type = '' ) {
 		if ( 'f' === $type ) {
