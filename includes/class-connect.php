@@ -259,29 +259,31 @@ class ConstantContact_Connect {
 			<?php endif; ?>
 		</div>
 		<?php
+		return true;
 	}
 
 	/**
 	 * Disconnect from API.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @return boolean
 	 */
 	public function maybe_disconnect() {
 
 		// Make sure we ahve our nonce key.
 		if ( ! isset( $_POST['ctct-admin-disconnect'] ) ) {
-			return;
+			return false;
 		}
 
 		// Make sure we want to disconnect.
 		if ( ! isset( $_POST['ctct-disconnect'] ) ) {
-			return;
+			return false;
 		}
 
 		// Only run if logged in user can manage site options.
 		if ( ! is_admin() || ! current_user_can( 'manage_options' ) ) {
-			return;
+			return false;
 		}
 
 		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ctct-admin-disconnect'] ) ), 'ctct-admin-disconnect' ) ) {
@@ -296,8 +298,8 @@ class ConstantContact_Connect {
 				unset( $saved_options['_ctct_disable_email_notifications'] );
 				update_option( 'ctct_options_settings', $saved_options );
 			}
-
 		}
+		return true;
 	}
 
 	/**
