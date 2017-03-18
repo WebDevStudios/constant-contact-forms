@@ -44,11 +44,11 @@
  */
 
 /**
- * Autoloads files with classes when needed
+ * Autoloads files with classes when needed.
  *
- * @since  1.0.0
- * @param  string $class_name Name of the class being requested.
- * @return void
+ * @since 1.0.0
+ *
+ * @param string $class_name Name of the class being requested.
  */
 function constant_contact_autoload_classes( $class_name ) {
 	if ( 0 !== strpos( $class_name, 'ConstantContact_' ) ) {
@@ -65,86 +65,78 @@ function constant_contact_autoload_classes( $class_name ) {
 spl_autoload_register( 'constant_contact_autoload_classes' );
 
 /**
- * Main initiation class
+ * Main initiation class.
  *
- * @since  1.0.0
+ * @since 1.0.0
  */
 class Constant_Contact {
 
 	/**
-	 * Current version
+	 * Current version.
 	 *
-	 * @var  string
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 * @var string
 	 */
 	const VERSION = '1.2.3';
 
 	/**
-	 * URL of plugin directory
+	 * URL of plugin directory.
 	 *
+	 * @since 1.0.0
 	 * @var string
-	 * @since  1.0.0
 	 */
 	protected $url = '';
 
 	/**
-	 * Path of plugin directory
+	 * Path of plugin directory.
 	 *
+	 * @since 1.0.0
 	 * @var string
-	 * @since  1.0.0
 	 */
 	protected $path = '';
 
 	/**
-	 * Plugin basename
+	 * Plugin basename.
 	 *
+	 * @since 1.0.0
 	 * @var string
-	 * @since  1.0.0
 	 */
 	protected $basename = '';
 
 	/**
-	 * Plugin name
+	 * Plugin name.
 	 *
+	 * @since 1.0.0
 	 * @var string
-	 * @since  1.0.0
 	 */
 	public $plugin_name = '';
 
 	/**
-	 * Text domain
+	 * Menu Icon.
 	 *
+	 * @since 1.0.0
 	 * @var string
-	 * @since  1.0.0
-	 */
-	public $text_domain = 'constant-contact-forms';
-
-	/**
-	 * Menu Icon
-	 *
-	 * @var string
-	 * @since  1.0.0
 	 */
 	public $menu_icon = 'dashicons-megaphone';
 
 	/**
 	 * Does site support encrpytions?
 	 *
-	 * @var boolean
 	 * @since 1.0.1
+	 * @var boolean
 	 */
 	public $is_encryption_ready = false;
 
 	/**
-	 * Singleton instance of plugin
+	 * Singleton instance of plugin.
 	 *
-	 * @var WDS_Product_Plugin_Framework
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 * @var Constant_Contact
 	 */
 	protected static $single_instance = null;
 
 	/**
-	 * All our class instances
+	 * All our class instances.
 	 *
 	 * @since 1.0.1
 	 */
@@ -173,15 +165,16 @@ class Constant_Contact {
 	/**
 	 * License file.
 	 *
-	 * @var   string
 	 * @since 1.0.1
+	 * @var string
 	 */
 	const LICENSE_FILE = 'license.txt';
 
 	/**
 	 * Creates or returns an instance of this class.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @return Constant_Contact A single instance of this class.
 	 */
 	public static function get_instance() {
@@ -193,9 +186,9 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Sets up our plugin
+	 * Sets up our plugin.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	protected function __construct() {
 
@@ -237,8 +230,7 @@ class Constant_Contact {
 	/**
 	 * Attach other plugin classes to the base plugin class.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	public function plugin_classes() {
 		$this->api                  = new ConstantContact_API( $this );
@@ -263,10 +255,9 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Attach other plugin classes to the base plugin class, but only in the admin
+	 * Attach other plugin classes to the base plugin class, but only in the admin.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	public function admin_plugin_classes() {
 		$this->admin       = new ConstantContact_Admin( $this, $this->basename );
@@ -274,10 +265,9 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Add hooks and filters
+	 * Add hooks and filters.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	public function hooks() {
 
@@ -307,18 +297,16 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Activate the plugin
+	 * Activate the plugin.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	function _activate() { }
 
 	/**
-	 * Deactivate the plugin
+	 * Deactivate the plugin.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	function _deactivate() {
 
@@ -345,10 +333,9 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Init hooks
+	 * Init hooks.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	public function init() {
 
@@ -357,10 +344,9 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Load Vendor libraries
+	 * Load Vendor libraries.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	public function load_libs() {
 
@@ -427,16 +413,20 @@ class Constant_Contact {
 
 	}
 
+	/**
+	 * Load and register our Constant Contact widget.
+	 *
+	 * @since 1.1.0
+	 */
 	public function widgets() {
 		require_once constant_contact()->path . 'includes/widgets/contact-form-select.php';
 		register_widget( 'ConstantContactWidget' );
 	}
 
 	/**
-	 * Save our dismissed first form notification
+	 * Save our dismissed first form notification.
 	 *
-	 * @since   1.0.0
-	 * @return  void
+	 * @since 1.0.0
 	 */
 	public function ajax_save_clear_first_form() {
 
@@ -451,9 +441,11 @@ class Constant_Contact {
 	/**
 	 * Magic getter for our object.
 	 *
-	 * @since  1.0.0
-	 * @param string $field Field to get.
+	 * @since 1.0.0
+	 *
 	 * @throws Exception Throws an exception if the field is invalid.
+	 *
+	 * @param string $field Field to get.
 	 * @return mixed
 	 */
 	public function __get( $field ) {
@@ -490,12 +482,13 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Include a file from the classes directory
+	 * Include a file from the classes directory.
 	 *
-	 * @since  1.0.0
-	 * @param  string $filename Name of the file to be included.
-	 * @param  bool   $include_class Whether or ot to include the class.
-	 * @return bool   Result of include call.
+	 * @since 1.0.0
+	 *
+	 * @param string $filename      Name of the file to be included.
+	 * @param bool   $include_class Whether or ot to include the class.
+	 * @return bool Result of include call.
 	 */
 	public static function include_file( $filename, $include_class = true ) {
 
@@ -519,9 +512,10 @@ class Constant_Contact {
 	/**
 	 * This plugin's directory.
 	 *
-	 * @since  1.0.0
-	 * @param  string $path (optional) appended path.
-	 * @return string Directory and path
+	 * @since 1.0.0
+	 *
+	 * @param string $path Appended path. Optional.
+	 * @return string Directory and path.
 	 */
 	public static function dir( $path = '' ) {
 		static $dir;
@@ -530,11 +524,12 @@ class Constant_Contact {
 	}
 
 	/**
-	 * This plugin's url
+	 * This plugin's url.
 	 *
-	 * @since  1.0.0
-	 * @param  string $path (optional) appended path.
-	 * @return string   URL and path
+	 * @since 1.0.0
+	 *
+	 * @param string $path Appended path. Optional.
+	 * @return string URL and path
 	 */
 	public static function url( $path = '' ) {
 		static $url;
@@ -545,7 +540,8 @@ class Constant_Contact {
 	/**
 	 * Retrieve license as text.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @return string License text.
 	 */
 	public function get_license_text() {
@@ -589,6 +585,14 @@ class Constant_Contact {
 		return false;
 	}
 
+	/**
+	 * Add some custom body classes for our needs.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @param array $classes Existing body classes.
+	 * @return array Amended body classes.
+	 */
 	public function body_classes( $classes = array() ) {
 		$theme = wp_get_theme()->template;
 		$classes[] = "ctct-{$theme}"; //Prefixing for user knowledge of source
@@ -596,6 +600,13 @@ class Constant_Contact {
 		return $classes;
 	}
 
+	/**
+	 * Determine if we are in a Constant Contact area.
+	 *
+	 * @since 1.2.0
+	 *
+	 * @return bool
+	 */
 	public function is_constant_contact() {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			return false;
@@ -636,9 +647,10 @@ register_deactivation_hook( __FILE__ , array( constant_contact(), '_deactivate' 
 
 /**
  * Grab the Constant_Contact object and return it.
- * Wrapper for Constant_Contact::get_instance()
+ * Wrapper for Constant_Contact::get_instance().
  *
- * @since  1.0.0
+ * @since 1.0.0
+ *
  * @return Constant_Contact Singleton instance of plugin class.
  */
 function constant_contact() {
