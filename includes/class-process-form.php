@@ -10,21 +10,25 @@
 
 /**
  * Powers our form processing, validation, and value cleanup.
+ *
+ * @since 1.0.0
  */
 class ConstantContact_Process_Form {
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
+	 * @since 1.0.0
 	 * @var object
-	 * @since 0.0.1
 	 */
 	protected $plugin = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
+	 * @param object $plugin Parent plugin class.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -32,10 +36,9 @@ class ConstantContact_Process_Form {
 	}
 
 	/**
-	 * Do the hooks!
+	 * Do the hooks.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
 	 */
 	public function hooks() {
 		add_action( 'wp_ajax_ctct_process_form', array( $this, 'process_form_ajax_wrapper' ) );
@@ -43,13 +46,13 @@ class ConstantContact_Process_Form {
 	}
 
 	/**
-	 * A wrpper to process our form via AJAX
+	 * A wrapper to process our form via AJAX.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	public function process_form_ajax_wrapper() {
 
-		// See if we're passed in data
+		// See if we're passed in data.
 		//
 		// We set to ignore this from PHPCS, as our nonce is handled elsewhere
 		// @codingStandardsIgnoreLine
@@ -107,9 +110,12 @@ class ConstantContact_Process_Form {
 	}
 
 	/**
-	 * Process submitted form data
+	 * Process submitted form data.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param array $data    Form data.
+	 * @param bool  $is_ajax Whether or not processing via AJAX.
 	 * @return array
 	 */
 	public function process_form( $data = array(), $is_ajax = false ) {
@@ -249,11 +255,12 @@ class ConstantContact_Process_Form {
 
 
 	/**
-	 * Pretty our values up
+	 * Pretty our values up.
 	 *
-	 * @since  1.0.0
-	 * @param array $values values.
-	 * @return array         values but better
+	 * @since 1.0.0
+	 *
+	 * @param array $values Original values.
+	 * @return array Values, but better.
 	 */
 	public function pretty_values( $values = array() ) {
 
@@ -337,11 +344,12 @@ class ConstantContact_Process_Form {
 	}
 
 	/**
-	 * Gets our original field from a form id
+	 * Gets our original field from a form id.
 	 *
 	 * @since 1.0.0
-	 * @param int $form_id form id.
-	 * @return array          array of form data
+	 *
+	 * @param int $form_id Form id.
+	 * @return array Array of form data.
 	 */
 	public function get_original_fields( $form_id ) {
 
@@ -418,11 +426,13 @@ class ConstantContact_Process_Form {
 	}
 
 	/**
-	 * Get field requirement errors
+	 * Get field requirement errors.
 	 *
-	 * @since  1.0.0
-	 * @param array $values values.
-	 * @return array         return error code stuff
+	 * @since 1.0.0
+	 *
+	 * @param array $values Values.
+	 * @param bool  $is_ajax Whether or not processing via AJAX.
+	 * @return array Return error code stuff.
 	 */
 	public function get_field_errors( $values, $is_ajax = false ) {
 
@@ -483,11 +493,12 @@ class ConstantContact_Process_Form {
 
 
 	/**
-	 * Clean our values from form submission
+	 * Clean our values from form submission.
 	 *
-	 * @since  1.0.0
-	 * @param  array $values values to clean.
-	 * @return array         cleaned values
+	 * @since 1.0.0
+	 *
+	 * @param array $values Values to clean.
+	 * @return array Cleaned values.
 	 */
 	public function clean_values( $values ) {
 
@@ -528,6 +539,9 @@ class ConstantContact_Process_Form {
 	 * Form submit success/error messages.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param array      $form_data Form data to process.
+	 * @param string|int $form_id   Form ID being processed.
 	 * @return array
 	 */
 	public function process_wrapper( $form_data = array(), $form_id = '' ) {
