@@ -67,7 +67,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 */
 	public function __construct( $plugin, $basename ) {
-		$this->plugin = $plugin;
+		$this->plugin   = $plugin;
 		$this->basename = $basename;
 		$this->hooks();
 	}
