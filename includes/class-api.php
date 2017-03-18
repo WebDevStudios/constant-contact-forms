@@ -22,13 +22,21 @@ class ConstantContact_API {
 	/**
 	 * Parent plugin class.
 	 *
+	 * @since 1.0.0
 	 * @var object
-	 * @since 0.0.1
 	 */
 	protected $plugin = null;
 
 	/**
-	 * Constructor
+	 * Access token.
+	 *
+	 * @since 1.3.0
+	 * @var bool
+	 */
+	protected $access_token = false;
+
+	/**
+	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 *
@@ -43,7 +51,7 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return object ConstantContact_API
+	 * @return object ConstantContact_API.
 	 */
 	public function cc() {
 		return new ConstantContact( $this->get_api_token( 'CTCT_APIKEY' ) );
@@ -52,7 +60,7 @@ class ConstantContact_API {
 	/**
 	 * Returns API token string to access API.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 *
 	 * @param string $type api key type.
 	 * @return string API token.
@@ -209,6 +217,14 @@ class ConstantContact_API {
 		return $lists;
 	}
 
+	/**
+	 * Get an individual list by ID.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $id List ID.
+	 * @return mixed
+	 */
 	public function get_list( $id ) {
 
 		// Clean our id.
@@ -247,8 +263,8 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $new_list api data for new list.
-	 * @return array current connect ctct lists
+	 * @param array $new_list API data for new list.
+	 * @return array Current connect ctct lists.
 	 */
 	public function add_list( $new_list = array() ) {
 
@@ -345,7 +361,7 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $updated_list api data for list.
+	 * @param array $updated_list API data for list.
 	 * @return array Current connect ctct list.
 	 */
 	public function delete_list( $updated_list = array() ) {
@@ -428,7 +444,7 @@ class ConstantContact_API {
 	 * @param string $email     Email address.
 	 * @param string $user_data User data.
 	 * @param string $form_id   ID of the form being processed.
-	 * @return mixed Response from api.
+	 * @return mixed Response from API.
 	 */
 	public function _create_contact( $api_token, $list, $email, $user_data, $form_id ) {
 
@@ -468,7 +484,7 @@ class ConstantContact_API {
 	 * @param string $list      List name.
 	 * @param string $user_data User data.
 	 * @param string $form_id   Form ID being processed.
-	 * @return mixed Response from api.
+	 * @return mixed Response from API.
 	 */
 	public function _update_contact( $response, $api_token, $list, $user_data, $form_id ) {
 
@@ -505,7 +521,7 @@ class ConstantContact_API {
 
 	/**
 	 * Helper method to push as much data from a form as we can into the
-	 * Constant Contact contact thats in a list
+	 * Constant Contact contact thats in a list.
 	 *
 	 * @since 1.0.0
 	 * @since 1.3.0 Added $form_id parameter.
@@ -658,12 +674,11 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Pushes all error to api_error_message
+	 * Pushes all error to api_error_message.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param array $errors Errors from API.
-	 * @return void
 	 */
 	public function log_errors( $errors ) {
 
@@ -678,6 +693,7 @@ class ConstantContact_API {
 	 * Process api error response.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @param array $error API error repsonse.
 	 * @return mixed
 	 */
@@ -723,7 +739,7 @@ class ConstantContact_API {
 	/**
 	 * Make sure we don't over-do API requests, helper method to check if we're connected.
 	 *
-	 * @return boolean if connected
+	 * @return boolean If connected.
 	 */
 	public function is_connected() {
 
@@ -739,7 +755,7 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Helper method to output a link for our connect modal
+	 * Helper method to output a link for our connect modal.
 	 *
 	 * @since 1.0.0
 	 */
@@ -780,12 +796,12 @@ class ConstantContact_API {
 	 * Maybe get the disclosure address from the API Organization Information.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @param bool $as_parts If true return an array.
 	 * array (
 	 *     [name] => Business Name
 	 *     [address] => 555 Business Place Ln., Beverly Hills, CA, 90210
-	 * ).
-	 *
+	 * )
 	 * @return mixed
 	 */
 	public function get_disclosure_info( $as_parts = false ) {
@@ -844,6 +860,7 @@ class ConstantContact_API {
  * Helper function to get/return the ConstantContact_API object.
  *
  * @since 1.0.0
+ *
  * @return object ConstantContact_API
  */
 function constantcontact_api() {
