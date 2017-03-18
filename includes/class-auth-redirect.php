@@ -10,19 +10,21 @@
 
 /**
  * Hooks in to allow for our query args for connecting to Constant Contact, and helps with authentication to it.
+ *
+ * @since 1.0.0
  */
 class ConstantContact_Auth_Redirect {
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
+	 * @since 1.0.0
 	 * @var object
-	 * @since 0.0.1
 	 */
 	protected $plugin = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 *
@@ -37,6 +39,7 @@ class ConstantContact_Auth_Redirect {
 	 * Initiate our hooks.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @return void
 	 */
 	public function hooks() {
