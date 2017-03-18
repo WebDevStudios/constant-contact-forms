@@ -55,7 +55,7 @@ class ConstantContact_Display_Shortcode {
 
 		// Bail if we don't have a form set.
 		if ( ! isset( $atts['form'] ) ) {
-			return;
+			return '';
 		}
 
 		return $this->get_form( $atts['form'] );
@@ -74,7 +74,7 @@ class ConstantContact_Display_Shortcode {
 		// sanity check it
 		$form_id = absint( $form_id );
 		if ( ! $form_id ) {
-			return;
+			return '';
 		}
 
 		// Grab all post meta.
@@ -82,7 +82,7 @@ class ConstantContact_Display_Shortcode {
 
 		// Bail if we didn't get meta.
 		if ( ! $meta ) {
-			return;
+			return '';
 		}
 
 		// Pass our data into our field method.
@@ -122,7 +122,7 @@ class ConstantContact_Display_Shortcode {
 
 		// Bail if we don't have form meta.
 		if ( empty( $form_meta ) || ! is_array( $form_meta ) ) {
-			return false;
+			return '';
 		}
 
 		// Data verificiation for our custom fields group.
@@ -134,6 +134,7 @@ class ConstantContact_Display_Shortcode {
 			// If we passed all the checks, try to grab the data.
 			return $this->get_field_values( $form_meta['custom_fields_group'][0], $form_meta, $form_id );
 		}
+		return '';
 	}
 
 	/**
