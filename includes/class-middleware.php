@@ -47,7 +47,7 @@ class ConstantContact_Middleware {
 
 		// If we don't have that, then bail.
 		if ( ! $auth_server_link ) {
-			return;
+			return '';
 		}
 
 		// Add our query args to our middleware link, and return it.
