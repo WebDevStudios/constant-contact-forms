@@ -16,13 +16,25 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Optin for usage tracking.
+ *
+ * @since 1.2.0
  */
 class ConstantContact_Optin {
+
+	/**
+	 * Parent plugin class.
+	 *
+	 * @since 1.2.0
+	 * @var object
+	 */
+	protected $plugin;
 
 	/**
 	 * Get things going.
 	 *
 	 * @since 1.2.0
+	 *
+	 * @param object $plugin Parent plugin class.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
