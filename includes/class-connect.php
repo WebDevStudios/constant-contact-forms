@@ -130,16 +130,12 @@ class ConstantContact_Connect {
 	 */
 	public function add_options_page() {
 
+		$connect_title = esc_html__( 'Disconnect', 'constant-contact-forms' );
+		$connect_link  = 'edit.php?post_type=ctct_forms';
+
 		if ( ! constant_contact()->api->is_connected() ) {
 			// Set our default title of the connect link.
-			$connect_title = __( 'Connect Now', 'constant-contact-forms' );
-			$connect_link = 'edit.php?post_type=ctct_forms';
-
-		} else {
-
-			// If we've already been connected, then we can set it to be a disconnect button.
-			$connect_title = __( 'Disconnect', 'constant-contact-forms' );
-			$connect_link = 'edit.php?post_type=ctct_forms';
+			$connect_title = esc_html__( 'Connect Now', 'constant-contact-forms' );
 		}
 
 		// Set up our page.
