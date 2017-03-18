@@ -295,6 +295,7 @@ class ConstantContact_Builder {
 		if ( isset( $post->post_title ) ) {
 			return esc_attr( $post->post_title );
 		}
+		return '';
 	}
 
 	/**
