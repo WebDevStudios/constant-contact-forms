@@ -514,7 +514,7 @@ class ConstantContact_Connect {
 
 		try {
 			$return = false;
-			Constant_Contact::get_instance()->load_libs( true );
+			Constant_Contact::get_instance()->load_libs();
 
 			// If we have the Runtime test class.
 			if ( class_exists( 'Defuse\Crypto\RuntimeTests' ) ) {
