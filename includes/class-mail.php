@@ -1,6 +1,6 @@
 <?php
 /**
- * Mail
+ * Constant Contact Mail
  *
  * @package ConstantContact
  * @subpackage Mail
@@ -14,17 +14,19 @@
 class ConstantContact_Mail {
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
-	 * @var   class
-	 * @since 0.0.1
+	 * @since 1.0.0
+	 * @var object
 	 */
 	protected $plugin = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
+	 * @param object $plugin Parent plugin class.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -34,18 +36,19 @@ class ConstantContact_Mail {
 	/**
 	 * Fire hoosk for actions.
 	 *
-	 * @since 1.0.2
+	 * @since 1.0.0
 	 */
 	protected function hooks() {
 		add_action( 'ctct_schedule_form_opt_in', array( $this, 'opt_in_user' ) );
 	}
 
 	/**
-	 * Process our form values
+	 * Process our form values.
 	 *
 	 * @since 1.0.0
-	 * @param array $values submitted form values
 	 *
+	 * @param array $values        Submitted form values.
+	 * @param bool  $add_to_opt_in Whether or not to add to opt in.
 	 * @return bool
 	 */
 	public function submit_form_values( $values = array(), $add_to_opt_in = false ) {
@@ -96,11 +99,12 @@ class ConstantContact_Mail {
 	}
 
 	/**
-	 * Opts in a user, if requested
+	 * Opts in a user, if requested.
 	 *
-	 * @since  1.0.0
-	 * @param  array $values submitted values
-	 * @return object         response from API
+	 * @since 1.0.0
+	 *
+	 * @param array $values Submitted values.
+	 * @return object Response from API.
 	 */
 	public function opt_in_user( $values ) {
 
@@ -140,11 +144,12 @@ class ConstantContact_Mail {
 	}
 
 	/**
-	 * Formats values for email
+	 * Formats values for email.
 	 *
-	 * @since  1.0.0
-	 * @param  array $values values to format
-	 * @return string         html content for email
+	 * @since 1.0.0
+	 *
+	 * @param array $pretty_vals Values to format.
+	 * @return string HTML content for email.
 	 */
 	public function format_values_for_email( $pretty_vals ) {
 
@@ -169,10 +174,11 @@ class ConstantContact_Mail {
 	}
 
 	/**
-	 * Get the email address to send to
+	 * Get the email address to send to.
 	 *
-	 * @since  1.0.0
-	 * @return string email address to send to
+	 * @since 1.0.0
+	 *
+	 * @return string Email address to send to.
 	 */
 	public function get_email() {
 
@@ -303,22 +309,22 @@ class ConstantContact_Mail {
 	}
 
 	/**
-	 * Helper method to return 'text/html' string for actions
+	 * Helper method to return 'text/html' string for actions.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	public function set_email_type() {
 		return 'text/html';
 	}
 
 	/**
-	 * If our mail debugging is set, then log mail statuses to the error log
+	 * If our mail debugging is set, then log mail statuses to the error log.
 	 *
-	 * @since   1.0.0
-	 * @param   string  $status      status from wp_mail.
-	 * @param   string  $dest_email  destination email.
-	 * @param   string  $content     content of email.
-	 * @return  void
+	 * @since 1.0.0
+	 *
+	 * @param string $status     Status from wp_mail.
+	 * @param string $dest_email Destination email.
+	 * @param string $content    Content of email.
 	 */
 	public function maybe_log_mail_status( $status, $dest_email, $content ) {
 
