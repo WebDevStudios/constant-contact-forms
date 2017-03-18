@@ -76,9 +76,10 @@ class ConstantContact_Builder {
 	}
 
 	/**
-	 * Get lists for dropdown option
+	 * Get lists for dropdown option.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @return array array of lists
 	 */
 	public function get_lists() {
