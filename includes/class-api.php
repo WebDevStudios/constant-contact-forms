@@ -270,7 +270,7 @@ class ConstantContact_API {
 
 		// Bail out early if we don't have the data we need.
 		if ( empty( $new_list ) || ! isset( $new_list['id'] ) ) {
-			return;
+			return array();
 		}
 
 		// Set our return list to empty array.
@@ -367,7 +367,7 @@ class ConstantContact_API {
 	public function delete_list( $updated_list = array() ) {
 
 		if ( ! isset( $updated_list['id'] ) ) {
-			return;
+			return array();
 		}
 
 		$list = false;
@@ -396,12 +396,12 @@ class ConstantContact_API {
 
 		// Make sure we're passed a full set of data.
 		if ( empty( $new_contact ) ) {
-			return;
+			return array();
 		}
 
 		// If we don't get an email, it does us no good.
 		if ( ! isset( $new_contact['email'] ) ) {
-			return;
+			return array();
 		}
 
 		$api_token = $this->get_api_token();
