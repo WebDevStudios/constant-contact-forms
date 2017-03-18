@@ -14,26 +14,28 @@
 class ConstantContact_Notification_Content {
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
-	 * @var   class
-	 * @since 0.0.1
+	 * @since 1.0.0
+	 * @var object
 	 */
 	protected $plugin = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
+	 * @param object $plugin Plugin primary object.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 	}
 
 	/**
-	 * Display our notification content for our activation message
+	 * Display our notification content for our activation message.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
 	 */
 	public static function activation() {
 		$auth_url = add_query_arg( array( 'rmc' => 'wp_admin_connect' ), constant_contact()->api->get_connect_link() );
@@ -78,7 +80,7 @@ class ConstantContact_Notification_Content {
 	}
 
 	/**
-	 * Notification content for our 'too many lists' error
+	 * Notification content for our 'too many lists' error.
 	 *
 	 * @since 1.0.0
 	 *
@@ -118,6 +120,13 @@ class ConstantContact_Notification_Content {
 		return $output;
 	}
 
+	/**
+	 * Admin notice regarding review requests.
+	 *
+	 * @since 1.2.2
+	 *
+	 * @return string
+	 */
 	public static function review_request() {
 		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
 
@@ -147,7 +156,8 @@ class ConstantContact_Notification_Content {
 	/**
 	 * Sample update notification for updating to 1.0.1
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
+	 *
 	 * @return string notification text Text.
 	 */
 	public static function v1_0_1() {
@@ -193,10 +203,10 @@ add_filter( 'constant_contact_notifications', 'constant_contact_add_optin_notifi
 
 /**
  * Adds our opt-in notification to the notification system.
+ *
  * @since 1.2.0
  *
  * @param array $notifications Array of notifications pending to show.
- *
  * @return array Array of notifications to show.
  */
 function constant_contact_add_review_notification( $notifications = array() ) {
