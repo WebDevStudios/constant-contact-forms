@@ -12,7 +12,7 @@
  *
  * @since 1.0.0
  *
- * @return boolean Whether or not they are connected
+ * @return boolean Whether or not they are connected.
  */
 function constant_contact_is_connected() {
 	return ( constant_contact()->api->is_connected() );
@@ -23,7 +23,7 @@ function constant_contact_is_connected() {
  *
  * @since 1.0.0
  *
- * @return boolean Whether or not they are NOT connected
+ * @return boolean Whether or not they are NOT connected.
  */
 function constant_contact_is_not_connected() {
 	return ! ( constant_contact()->api->is_connected() );
