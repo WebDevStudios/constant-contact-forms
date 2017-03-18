@@ -159,5 +159,6 @@ class ConstantContact_Optin {
 			$output = preg_replace( '@<section class=header>.*?</section>@si', '', $output );
 			return $output;
 		}
+		return '';
 	}
 }
