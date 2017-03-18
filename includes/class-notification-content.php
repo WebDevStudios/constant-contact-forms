@@ -107,7 +107,7 @@ class ConstantContact_Notification_Content {
 			<img src="<?php echo constant_contact()->url; ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" />
 		</div>
 		<div class="admin-notice-message"><h4><?php esc_html_e( 'Constant Contact Forms for WordPress data tracking opt-in', 'constant-contact-forms' ); ?></h4>
-			<div><input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" />
+			<div><label><input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" /></label>
 			</div>
 			<div>
 				<?php _e( "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/>You can change this opt - in within the plugin's settings page at any time.", 'constant-contact-forms' ); ?>
