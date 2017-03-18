@@ -329,7 +329,7 @@ class ConstantContact_Display {
 
 		// If we don't have a name or a mapping, it will be hard to do things.
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
-			return;
+			return '';
 		}
 
 		$field = wp_parse_args( $field, array(
@@ -803,7 +803,7 @@ class ConstantContact_Display {
 
 		// Make sure we have our optin data.
 		if ( ! isset( $form_data['optin'] ) ) {
-			return;
+			return '';
 		}
 
 		// Set up our defaults.
@@ -817,6 +817,8 @@ class ConstantContact_Display {
 		if ( isset( $optin['list'] ) && $optin['list'] ) {
 			return $this->optin_display( $optin );
 		}
+
+		return '';
 	}
 
 	/**
