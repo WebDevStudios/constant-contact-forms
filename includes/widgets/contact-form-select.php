@@ -8,7 +8,7 @@
  */
 
 /**
- * Constant Contact Form Display Widget
+ * Constant Contact Form Display Widget.
  *
  * @since 1.1.0
  */
@@ -70,7 +70,7 @@ class ConstantContactWidget extends WP_Widget {
 	 *
 	 * @param array $new_instance New data.
 	 * @param array $old_instance Original data.
-	 * @return array Updated data
+	 * @return array Updated data.
 	 */
 	public function update( $new_instance, $old_instance ) {
 		$instance                 = $old_instance;
@@ -124,6 +124,14 @@ class ConstantContactWidget extends WP_Widget {
 		return array();
 	}
 
+	/**
+	 * Return an array of post ID and post title.
+	 *
+	 * @since 1.2.2
+	 *
+	 * @param WP_Post $post Post object.
+	 * @return array
+	 */
 	public function get_form_fields( $post ) {
 		return array( $post->ID => $post->post_title );
 	}
@@ -134,7 +142,6 @@ class ConstantContactWidget extends WP_Widget {
 	 * @since 1.1.0
 	 *
 	 * @param array $args Arguments for text input.
-	 * @return void
 	 */
 	public function form_input_text( $args = array() ) {
 
