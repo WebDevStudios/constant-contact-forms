@@ -650,27 +650,27 @@ class ConstantContact_Lists {
 
 		// Make sure we have a post passed in
 		if ( ! $post ) {
-			return;
+			return false;
 		}
 
 		// If we don't have a post type, bail.
 		if ( ! isset( $post->post_type ) ) {
-			return;
+			return false;
 		}
 
 		// If we don't have an ID, bail
 		if ( ! $post->ID ) {
-			return;
+			return false;
 		}
 
 		// If we're not on the list post type
 		if ( 'ctct_lists' !== $post->post_type ) {
-			return;
+			return false;
 		}
 
 		// Only fire if we got a change in status
 		if ( $new_status === $old_status ) {
-			return;
+			return false;
 		}
 
 		// If we're moving something out of the trash, re-run our add list functionality.
