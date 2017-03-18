@@ -340,7 +340,7 @@ class Constant_Contact {
 	public function init() {
 
 		// Load our textdomain.
-		load_plugin_textdomain( $this->text_domain, false, dirname( $this->basename ) . '/languages/' );
+		load_plugin_textdomain( 'constant-contact-forms', false, dirname( $this->basename ) . '/languages/' );
 	}
 
 	/**
