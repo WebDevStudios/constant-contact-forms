@@ -14,17 +14,19 @@
 class ConstantContact_Notifications {
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
-	 * @var   class
-	 * @since 0.0.1
+	 * @since 1.0.0
+	 * @var object
 	 */
 	protected $plugin = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
+	 * @param object $plugin Parent plugin class.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -35,19 +37,16 @@ class ConstantContact_Notifications {
 	 * Initiate our hooks.
 	 *
 	 * @since 1.0.0
-	 * @return void
 	 */
 	public function hooks() {
-
 		// Add activation message.
 		add_action( 'admin_notices', array( $this, 'main' ) );
-
 	}
 
 	/**
-	 * Get all our notifications that should fire
+	 * Get all our notifications that should fire.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
 	 */
 	public function get_notifications() {
 
@@ -68,19 +67,20 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Get our update notifications from our update class
+	 * Get our update notifications from our update class.
 	 *
-	 * @since   1.0.0
-	 * @return  array  update notifications we should surface
+	 * @since 1.0.0
+	 *
+	 * @return array Update notifications we should surface.
 	 */
 	public function get_update_notifications() {
 		return get_option( 'ctct_update_notifications', array() );
 	}
 
 	/**
-	 * Depending on if we should or shouldn't show our activation message, queue it up
+	 * Depending on if we should or shouldn't show our activation message, queue it up.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
 	 */
 	public function main() {
 
@@ -112,9 +112,10 @@ class ConstantContact_Notifications {
 	 * Determines whether or not a specific notification should be show, and
 	 * shows it it it should be shown.
 	 *
-	 * @since   1.0.0
-	 * @param   array  $notif  array of notification data
-	 * @return  mixed          false if not shown, nothing if shown
+	 * @since 1.0.0
+	 *
+	 * @param array $notif Array of notification data.
+	 * @return mixed False if not shown, nothing if shown.
 	 */
 	public function maybe_show_notification( $notif ) {
 
@@ -165,11 +166,12 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Call and return results of executing a callback for a notificaion
+	 * Call and return results of executing a callback for a notificaion.
 	 *
-	 * @since   1.0.0
-	 * @param mixed $require_cb valid callback.
-	 * @return  boolean               boolean results of callback
+	 * @since 1.0.0
+	 *
+	 * @param mixed $require_cb Valid callback.
+	 * @return bool Results of callback.
 	 */
 	public function check_requirements_callback_for_notif( $require_cb ) {
 
@@ -184,7 +186,8 @@ class ConstantContact_Notifications {
 	 * Checks to see if we have a dismissal nonce, and if it is valid.
 	 *
 	 * @since 1.0.0
-	 * @return  boolean  whether or not nonce is verified
+	 *
+	 * @return bool Whether or not nonce is verified.
 	 */
 	public function check_dismissal_nonce() {
 
@@ -201,10 +204,11 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Get the notice the user is attempting to dismiss
+	 * Get the notice the user is attempting to dismiss.
 	 *
-	 * @since   1.0.0
-	 * @return  mixed  false on failure, string of ID on success
+	 * @since 1.0.0
+	 *
+	 * @return mixed False on failure, string of ID on success.
 	 */
 	public function get_dismissal_id() {
 
@@ -231,10 +235,12 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Save the fact that the user dismissed our message, and don't show again
+	 * Save the fact that the user dismissed our message, and don't show again.
 	 *
-	 * @since   1.0.0
-	 * @return  boolean  if we updated correctly
+	 * @since 1.0.0
+	 *
+	 * @param string $key ID of notification.
+	 * @return bool If we updated correctly.
 	 */
 	public function save_dismissed_notification( $key ) {
 
@@ -243,11 +249,12 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Set a specific notificaion saved state to false
+	 * Set a specific notificaion saved state to false.
 	 *
-	 * @since   1.0.0
-	 * @param strin $key ID of notificaion.
-	 * @return  boolean      update succeeded?
+	 * @since 1.0.0
+	 *
+	 * @param string $key ID of notificaion.
+	 * @return bool Update succeeded?
 	 */
 	public function delete_dismissed_notification( $key ) {
 
@@ -256,33 +263,36 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Get all saved dismissial states
+	 * Get all saved dismissial states.
 	 *
-	 * @since   1.0.0
-	 * @return  array  states of dismissial notices
+	 * @since 1.0.0
+	 *
+	 * @return array States of dismissial notices.
 	 */
 	public function get_dismissed_options() {
 		return get_option( 'ctct_notices_dismissed' );
 	}
 
 	/**
-	 * Save all dismissed notices
+	 * Save all dismissed notices.
 	 *
-	 * @since   1.0.0
-	 * @param   array  $options  array of dismissial states
-	 * @return  boolean          if updated
+	 * @since 1.0.0
+	 *
+	 * @param array $options Array of dismissial states.
+	 * @return bool If updated.
 	 */
 	public function save_dismissed_options( $options ) {
 		return update_option( 'ctct_notices_dismissed', $options, true );
 	}
 
 	/**
-	 * Save a single dismissal notice state
+	 * Save a single dismissal notice state.
 	 *
-	 * @since   1.0.0
-	 * @param   string  $key    ID of notice
-	 * @param   string  $value  value to be saved to DB
-	 * @return  boolean         if saved or not
+	 * @since 1.0.0
+	 *
+	 * @param string $key   ID of notice.
+	 * @param string $value Value to be saved to DB.
+	 * @return bool If saved or not.
 	 */
 	public function save_dismissed_option( $key, $value ) {
 
@@ -302,11 +312,12 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Check to see if we've already dismissed a specific notificaion
+	 * Check to see if we've already dismissed a specific notificaion.
 	 *
-	 * @since   1.0.0
-	 * @param   string  $key  notif ID
-	 * @return  boolean       if dismissed
+	 * @since 1.0.0
+	 *
+	 * @param string $key Notification ID.
+	 * @return bool If dismissed.
 	 */
 	public function was_notification_dismissed( $key = '' ) {
 
@@ -321,11 +332,12 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Helper to get single option from our array of notif states
+	 * Helper to get single option from our array of notif states.
 	 *
-	 * @since   1.0.0
-	 * @param   string  $key  ID of notif state to get
-	 * @return  string        value in DB
+	 * @since 1.0.0
+	 *
+	 * @param string $key ID of notification state to get.
+	 * @return string Value in DB.
 	 */
 	public function get_dismissed_option( $key = '' ) {
 
@@ -344,9 +356,12 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Displays a fancy activation message to the user
+	 * Displays a fancy activation message to the user.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
+	 *
+	 * @param string $key     Notification key.
+	 * @param string $content Admin notice content.
 	 */
 	public function show_notice( $key, $content = '' ) {
 
@@ -368,9 +383,9 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Enqueue our admin notification styles
+	 * Enqueue our admin notification styles.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
 	 */
 	public function do_styles() {
 
@@ -392,10 +407,11 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Display our dismiss link for a notfication
+	 * Display our dismiss link for a notfication.
 	 *
-	 * @since   1.0.0
-	 * @param   string  $id  ID of notification
+	 * @since 1.0.0
+	 *
+	 * @param string $notif_id ID of notification.
 	 */
 	public function do_dismiss_link( $notif_id ) {
 
@@ -407,10 +423,12 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Helper method to get our dimiss activation message url
+	 * Helper method to get our dimiss activation message url.
 	 *
-	 * @since   1.0.0
-	 * @return  string  url to dismiss prompt
+	 * @since 1.0.0
+	 *
+	 * @param string $type Dismiss action type.
+	 * @return string URL to dismiss prompt.
 	 */
 	public function get_activation_dismiss_url( $type ) {
 
