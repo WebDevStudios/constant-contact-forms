@@ -1208,19 +1208,19 @@ class ConstantContact_Display {
 		$opts = isset( $form_data['options'] ) ? $form_data['options'] : false;
 
 		if ( ! $opts ) {
-			return;
+			return '';
 		}
 
 		$optin = isset( $opts['optin'] ) ? $opts['optin'] : false;
 
 		if ( ! $optin ) {
-			return false;
+			return '';
 		}
 
 		$list = isset( $optin['list'] ) ? $optin['list'] : false;
 
 		if ( ! $list ) {
-			return false;
+			return '';
 		}
 
 		return $this->get_disclose_text();
