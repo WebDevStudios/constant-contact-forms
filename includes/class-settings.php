@@ -10,55 +10,57 @@
 
 /**
  * Powers our settings and options page, as well as injecting our optins to the front-end.
+ *
+ * @since 1.0.0
  */
 class ConstantContact_Settings {
 
 	/**
 	 * Option key, and option page slug.
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	private $key = 'ctct_options_settings';
 
 	/**
 	 * Settings page metabox id.
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	private $metabox_id = 'ctct_option_metabox_settings';
 
 	/**
 	 * Settings Page title.
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	protected $title = '';
 
 	/**
 	 * Settings Page hook.
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	protected $options_page = '';
 
 	/**
 	 * Parent plugin class.
 	 *
-	 * @var class
 	 * @since 1.0.0
+	 * @var object
 	 */
 	protected $plugin = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $plugin parent plugin instance.
+	 * @param object $plugin Parent plugin instance.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -144,7 +146,7 @@ class ConstantContact_Settings {
 	/**
 	 * Enqueue our styles.
 	 *
-	 * @since unknown.
+	 * @since 1.0.0
 	 */
 	public function scripts() {
 		wp_enqueue_style( 'constant-contact-forms' );
@@ -361,7 +363,7 @@ class ConstantContact_Settings {
 
 	/**
 	 * Based on a type of form we pass in, check if the saved option
-	 * for that form is checked or not in the admin
+	 * for that form is checked or not in the admin.
 	 *
 	 * @since 1.0.0
 	 *
@@ -459,7 +461,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $comment_data comment form data.
+	 * @param array $comment_data Comment form data.
 	 * @return array Comment form data.
 	 */
 	public function process_optin_comment_form( $comment_data ) {
@@ -540,13 +542,14 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Sends contact to CTCT if optin checked
+	 * Sends contact to CTCT if optin checked.
 	 *
-	 * @since  1.0.0
-	 * @param  array  $user User.
-	 * @param  string $username login name.
-	 * @param  string $password user password.
-	 * @return object  CTCT return API for contact
+	 * @since 1.0.0
+	 *
+	 * @param array  $user User.
+	 * @param string $username Login name.
+	 * @param string $password User password.
+	 * @return object CTCT return API for contact.
 	 */
 	public function process_optin_login_form( $user, $username, $password ) {
 
@@ -575,9 +578,10 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Sends user data to CC
+	 * Sends user data to CTCT.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param object $user     WP user object.
 	 * @param string $username Username.
 	 * @return object Passed in $user object.
@@ -635,12 +639,12 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Register settings notices for display
+	 * Register settings notices for display.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @param int   $object_id Option key.
 	 * @param array $updated   Array of updated fields.
-	 * @return void
 	 */
 	public function settings_notices( $object_id, $updated ) {
 
@@ -655,25 +659,26 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Replaces get_option with get_site_option
+	 * Replaces get_option with get_site_option.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 *
 	 * @param string $test Something.
 	 * @param bool   $default Default to return.
-	 * @return mixed site option
+	 * @return mixed Site option
 	 */
 	public function get_override( $test, $default = false ) {
 		return get_site_option( $this->key, $default );
 	}
 
 	/**
-	 * Replaces update_option with update_site_option
+	 * Replaces update_option with update_site_option.
 	 *
-	 * @since  1.0.0
-	 * @param string $test Key.
+	 * @since 1.0.0
+	 *
+	 * @param string $test         Key.
 	 * @param mixed  $option_value Value to update to.
-	 * @return mixed site option
+	 * @return mixed Site option
 	 */
 	public function update_override( $test, $option_value ) {
 		return update_site_option( $this->key, $option_value );
