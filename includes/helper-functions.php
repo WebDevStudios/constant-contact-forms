@@ -248,7 +248,7 @@ add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_re
 function ctct_custom_form_action_processing() {
 	// Only run this if we have a custom action being filtered in.
 	if ( ! has_filter( 'constant_contact_front_form_action' ) ) {
-		return;
+		return false;
 	}
 
 	return constant_contact()->process_form->process_form();
