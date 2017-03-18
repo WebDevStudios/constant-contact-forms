@@ -86,6 +86,7 @@ class ConstantContact_Builder {
 
 		// Grab our lists
 		$lists = constant_contact()->lists->get_lists();
+		$get_lists = array();
 
 		// Data verification
 		if ( $lists && is_array( $lists ) ) {
