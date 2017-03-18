@@ -595,7 +595,7 @@ class Constant_Contact {
 	 */
 	public function body_classes( $classes = array() ) {
 		$theme = wp_get_theme()->template;
-		$classes[] = "ctct-{$theme}"; //Prefixing for user knowledge of source
+		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
 		return $classes;
 	}
