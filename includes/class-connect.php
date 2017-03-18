@@ -16,60 +16,65 @@ use Defuse\Crypto\Crypto;
 
 /**
  * Powers our admin connect page, as well as misc functionality around connecting to Constant Contact.
+ *
+ * @since 1.0.0
  */
 class ConstantContact_Connect {
 
 	/**
 	 * Option key, and option page slug.
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	private $key = 'ctct_options_connect';
 
 	/**
-	 * CtctOAuth2 object.
-	 *
-	 * @var object
-	 * @since 1.0.0
-	 */
-	private $oauth = '';
-
-	/**
 	 * Api Error message.
 	 *
-	 * @var string
 	 * @since 1.0.0
+	 * @var string
 	 */
 	public $error_message = '';
 
 	/**
 	 * Current page redirect Url.
 	 *
+	 * @since 1.0.0
 	 * @var string
-	 * @since  1.0.0
 	 */
 	private $redirect_url = '';
 
 	/**
 	 * Parent plugin class.
 	 *
+	 * @since 1.0.0
 	 * @var object
-	 * @since 0.0.1
 	 */
 	protected $plugin = null;
 
 	/**
 	 * Whether or not to encrypt.
 	 *
+	 * @since 1.0.0
 	 * @var bool
 	 */
 	public $should_encrypt = false;
 
 	/**
-	 * Constructor
+	 * Options page.
 	 *
 	 * @since 1.0.0
+	 * @var string
+	 */
+	public $options_page = '';
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param object $plugin Parent class.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -93,12 +98,12 @@ class ConstantContact_Connect {
 	 * Watches for our specific $_GET paramaters and if we get a connect request,
 	 * pass it to our auth server class to process.
 	 *
-	 * @since 0.0.1
+	 * @since 1.0.0
 	 */
 	public function maybe_connect() {
 
 		// If we have this get, we may be getting an connect attempt, so lets
-		// verify it and potentially process it
+		// verify it and potentially process it.
 		if ( isset( $_GET['cc_connect_attempt'] ) && is_user_logged_in() ) { // Input var okay.
 
 			// Call our access token processing.
@@ -152,6 +157,7 @@ class ConstantContact_Connect {
 	 * Admin page markup. Mostly handled by CMB2.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @return mixed page markup or false if not admin.
 	 */
 	public function admin_page_display() {
@@ -354,8 +360,8 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $check_key  Key to save to.
-	 * @param string  $data       Data to save.
+	 * @param string  $check_key Key to save to.
+	 * @param string  $data      Data to save.
 	 * @param boolean $autoload  Autoload it.
 	 * @return string
 	 */
@@ -392,7 +398,7 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string token
+	 * @return string Token.
 	 */
 	public function get_api_token() {
 
@@ -424,6 +430,7 @@ class ConstantContact_Connect {
 	 * Get our encrypt key.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @return string Key to use for encrypt.
 	 */
 	public function get_encrpyt_key() {
@@ -448,7 +455,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 *
 	 * @param boolean $first_try If first try or not.
-	 * @return object Key
+	 * @return string|object Key.
 	 */
 	public function generate_and_save_key( $first_try = true ) {
 
