@@ -121,7 +121,7 @@ class ConstantContact_Notifications {
 
 		// If our notification isn't an array, skip it.
 		if ( ! is_array( $notif ) ) {
-			return;
+			return false;
 		}
 
 		// Save our notification data to a helper var.
@@ -131,12 +131,12 @@ class ConstantContact_Notifications {
 
 		// If we don't have an ID or callback set, bail.
 		if ( ! $notif_id || ! $callback ) {
-			return;
+			return false;
 		}
 
 		// Don't show if it was dismissed.
 		if ( $this->was_notification_dismissed( $notif_id ) ) {
-			return;
+			return false;
 		}
 
 		// If we don have requirements set up for a notif, then check them.
@@ -147,7 +147,7 @@ class ConstantContact_Notifications {
 
 			// If we didnt' pass, then return.
 			if ( ! $requirements_passed ) {
-				return;
+				return false;
 			}
 		}
 
@@ -161,7 +161,7 @@ class ConstantContact_Notifications {
 
 		$this->show_notice( $notif_id, $notif_content );
 
-		return;
+		return true;
 
 	}
 
