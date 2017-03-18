@@ -55,7 +55,7 @@ class ConstantContact_Mail {
 
 		// Sanity check.
 		if ( ! is_array( $values ) ) {
-			return;
+			return false;
 		}
 
 		// Clean our values.
