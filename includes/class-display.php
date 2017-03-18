@@ -14,15 +14,15 @@
 class ConstantContact_Display {
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
+	 * @since 1.0.0
 	 * @var object
-	 * @since 0.0.1
 	 */
 	protected $plugin = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 *
@@ -33,11 +33,11 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Scripts
+	 * Scripts.
 	 *
 	 * @since 1.0.0
-	 * @param bool  $enqueue Set true to enqueue the scripts after registering.
-	 * @since next
+	 *
+	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
 	public function scripts( $enqueue = false ) {
 
@@ -60,8 +60,9 @@ class ConstantContact_Display {
 	/**
 	 * Register and (maybe) enqueue styles.
 	 *
-	 * @since next
-	 * @param bool  $enqueue Set true to enqueue the scripts after registering.
+	 * @since 1.0.0
+	 *
+	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
 	public function styles( $enqueue = false ) {
 		wp_register_style(
@@ -77,11 +78,11 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Main wrapper for getting our form display
+	 * Main wrapper for getting our form display.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string Form markup
+	 * @return string Form markup.
 	 */
 	public function form( $form_data, $form_id = '', $skip_styles = false ) {
 
@@ -189,7 +190,7 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string url of current page
+	 * @return string URL of current page.
 	 */
 	public function get_current_page() {
 
@@ -255,11 +256,13 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Build form fields for shortcode
+	 * Build form fields for shortcode.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param  array $form_data formulated cmb2 data for form.
+	 * @param array $form_data  Formulated cmb2 data for form.
+	 * @param array $old_values Original values.
+	 * @param array $req_errors Errors.
 	 * @return string
 	 */
 	public function build_form_fields( $form_data, $old_values, $req_errors ) {
@@ -293,6 +296,13 @@ class ConstantContact_Display {
 		return $return;
 	}
 
+	/**
+	 * Display a honeypot spam field.
+	 *
+	 * @since 1.2.2
+	 *
+	 * @return string
+	 */
 	public function build_honeypot_field() {
 		$return = '';
 
@@ -310,8 +320,10 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $field field data.
-	 * @return string        html markup
+	 * @param array $field      Field data.
+	 * @param array $old_values Original values.
+	 * @param array $req_errors Errors.
+	 * @return string HTML markup
 	 */
 	public function field( $field, $old_values = array(), $req_errors = array() ) {
 
@@ -419,12 +431,15 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Gets submitted values
+	 * Gets submitted values.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $field field data.
-	 * @return string        submitted value
+	 * @param string|array $value          Field value.
+	 * @param string       $map            Map value.
+	 * @param array        $field          Array of fields
+	 * @param array        $submitted_vals Array of submitted values.
+	 * @return string Submitted value.
 	 */
 	public function get_submitted_value( $value = '', $map = '', $field = array(), $submitted_vals = array() ) {
 
@@ -508,7 +523,7 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $type    Success / error / etc for class.
+	 * @param string $type    Success/error/etc for class.
 	 * @param string $message Message to display to user.
 	 * @return string HTML markup.
 	 */
@@ -731,9 +746,9 @@ class ConstantContact_Display {
 		 * @since 1.2.0
 		 * @todo  Can we abstract this to use $this->input?
 		 *
-		 * @param  array  $classes Array of classes to apply to the field.
-		 * @param  string $type    The field type being rendered.
-		 * @return arrray
+		 * @param array  $classes Array of classes to apply to the field.
+		 * @param string $type    The field type being rendered.
+		 * @return array
 		 */
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
 
@@ -841,7 +856,7 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Helper method to get optin markup
+	 * Helper method to get optin markup.
 	 *
 	 * @since 1.0.0
 	 *
@@ -863,7 +878,7 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Builds a fancy address field group
+	 * Builds a fancy address field group.
 	 *
 	 * @since 1.0.0
 	 *
@@ -923,7 +938,7 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Gets and return a 3-part date selector
+	 * Gets and return a 3-part date selector.
 	 *
 	 * @since 1.0.0
 	 *
@@ -967,7 +982,7 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Gets actual dropdowns for date selector
+	 * Gets actual dropdowns for date selector.
 	 *
 	 * @since 1.0.0
 	 *
@@ -1034,7 +1049,7 @@ class ConstantContact_Display {
 	 * @since 1.0.0
 	 *
 	 * @param string $type Day, month, or year.
-	 * @return array Array of data
+	 * @return array Array of data.
 	 */
 	public function get_date_values( $type ) {
 
@@ -1095,7 +1110,8 @@ class ConstantContact_Display {
 	 * Helper method to get all years.
 	 *
 	 * @since 1.0.0
-	 * @return array years from 1910-current year
+	 *
+	 * @return array Years from 1910-current year.
 	 */
 	public function get_years() {
 
@@ -1113,10 +1129,11 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Gets array of 1-31
+	 * Gets array of 1-31.
 	 *
 	 * @since 1.0.0
-	 * @return array array of days
+	 *
+	 * @return array Array of days.
 	 */
 	public function get_days() {
 
@@ -1132,7 +1149,9 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Displays text area field
+	 * Displays text area field.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @param string  $name        Name of field.
 	 * @param string  $map         ID of field.
@@ -1226,7 +1245,7 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string text
+	 * @return string
 	 */
 	public function get_inner_disclose_text() {
 		return sprintf( __( 'By submitting this form, you are granting: %s, permission to email you. You may unsubscribe via the link found at the bottom of every email. (See our Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) for details.) Emails are serviced by Constant Contact.', 'constant-contact-forms' ), $this->plugin->api->get_disclosure_info() );
