@@ -37,20 +37,6 @@ class ConstantContact_Lists {
 	}
 
 	/**
-	 * Returns the running object.
-	 *
-	 * @since 1.0.0
-	 * @return ConstantContact_Lists
-	 */
-	public static function get_instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new ConstantContact_Lists();
-			self::$instance->hooks();
-		}
-		return self::$instance;
-	}
-
-	/**
 	 * Initiate our hooks.
 	 *
 	 * @since 1.0.0
