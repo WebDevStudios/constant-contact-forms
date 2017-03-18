@@ -8,23 +8,26 @@
 
 /**
  * Helper class that gets called to display our stuff on the front-end via a shortcode.
+ *
+ * @since 1.0.0
  */
 class ConstantContact_Display_Shortcode {
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
-	 * @var   class
-	 * @since 0.0.1
+	 * @since 1.0.0
+	 * @var object
 	 */
 	protected $plugin = null;
 
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @since  1.0.0
-	 * @return void
+	 * @since 1.0.0
+	 *
+	 * @param object $plugin Parent plugin class.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -34,17 +37,19 @@ class ConstantContact_Display_Shortcode {
 	/**
 	 * Hooks.
 	 *
-	 * @since next
+	 * @since 1.0.0
 	 */
 	public function hooks() {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_display_styles' ) );
 	}
 
 	/**
-	 * Acts as a wrapper so our shortcode class doesnt have to do this
+	 * Acts as a wrapper so our shortcode class doesnt have to do this.
 	 *
-	 * @since   1.0.0
-	 * @param   array  $atts  shortcode attributes
+	 * @since 1.0.0
+	 *
+	 * @param array $atts Shortcode attributes.
+	 * @return mixed
 	 */
 	public function shortcode_wrapper( $atts ) {
 
@@ -57,10 +62,12 @@ class ConstantContact_Display_Shortcode {
 	}
 
 	/**
-	 * Get a form from ID
+	 * Get a form from ID.
 	 *
-	 * @since   1.0.0
-	 * @param   int  $form_id  form ID
+	 * @since 1.0.0
+	 *
+	 * @param int $form_id Form ID.
+	 * @return string
 	 */
 	public function get_form( $form_id ) {
 
@@ -89,10 +96,11 @@ class ConstantContact_Display_Shortcode {
 	}
 
 	/**
-	 * Display a form to the screen
+	 * Display a form to the screen.
 	 *
-	 * @since   1.0.0
-	 * @param   int  $form_id  form ID to display
+	 * @since 1.0.0
+	 *
+	 * @param int $form_id Form ID to display.
 	 */
 	public function display_form( $form_id ) {
 
@@ -102,11 +110,13 @@ class ConstantContact_Display_Shortcode {
 	}
 
 	/**
-	 * Proccess cmb2 options into form data array
+	 * Proccess cmb2 options into form data array.
 	 *
 	 * @since 1.0.0
-	 * @param  array $form_meta post meta.
-	 * @return array  form field data
+	 *
+	 * @param array $form_meta Post meta.
+	 * @param int   $form_id   Form ID.
+	 * @return array Form field data.
 	 */
 	public function get_field_meta( $form_meta, $form_id ) {
 
@@ -127,11 +137,14 @@ class ConstantContact_Display_Shortcode {
 	}
 
 	/**
-	 * Get custom field values from post meta data from form CPT post
+	 * Get custom field values from post meta data from form CPT post.
 	 *
-	 * @since  1.0.0
-	 * @param  array $custom_fields custom fields to parse through.
-	 * @return string                form field markup
+	 * @since 1.0.0
+	 *
+	 * @param array $custom_fields Custom fields to parse through.
+	 * @param array $full_data     Array of full data.
+	 * @param int   $form_id       Form ID.
+	 * @return string Form field markup.
 	 */
 	public function get_field_values( $custom_fields, $full_data, $form_id ) {
 
@@ -154,11 +167,12 @@ class ConstantContact_Display_Shortcode {
 	}
 
 	/**
-	 * Get all our data from our fields
+	 * Get all our data from our fields.
 	 *
-	 * @since   1.0.0
-	 * @param   array  $custom_fields  all custom fields data
-	 * @return  array                  fields array of converted data
+	 * @since 1.0.0
+	 *
+	 * @param array $custom_fields All custom fields data.
+	 * @return array Fields array of converted data.
 	 */
 	public function generate_field_values_for_fields( $custom_fields ) {
 
@@ -199,17 +213,20 @@ class ConstantContact_Display_Shortcode {
 	}
 
 	/**
-	 * Helper method to set our $fields array keys
+	 * Helper method to set our $fields array keys.
 	 *
-	 * @since   1.0.0
-	 * @param   string  $from_key       key to grab from $custom_fields
-	 * @param   string  $to_key         key to use for return $fields
-	 * @param   array  $fields         current $fields array
-	 * @param   array  $custom_fields  all $custom_fields
+	 * @since 1.0.0
+	 *
+	 * @param string $from_key      Key to grab from $custom_fields.
+	 * @param string $to_key        Key to use for return $fields.
+	 * @param string $key           Field key.
+	 * @param array  $fields        Current $fields array.
+	 * @param array  $custom_fields All $custom_fields.
+	 * @return array
 	 */
 	public function set_field( $from_key, $to_key, $key, $fields, $custom_fields ) {
 
-		// Data sanity check / verification
+		// Data sanity check / verification.
 		if (
 			is_array( $custom_fields ) &&
 			isset( $custom_fields[ $key ] ) &&
@@ -226,11 +243,12 @@ class ConstantContact_Display_Shortcode {
 	}
 
 	/**
-	 * Helper method to get our optin data
+	 * Helper method to get our optin data.
 	 *
-	 * @since   1.0.0
-	 * @param   array  $form_data  form data array
-	 * @return  array              array of opt-in data
+	 * @since 1.0.0
+	 *
+	 * @param array $form_data Form data array.
+	 * @return array Array of opt-in data.
 	 */
 	public function generate_optin_data( $form_data ) {
 
@@ -243,15 +261,17 @@ class ConstantContact_Display_Shortcode {
 	}
 
 	/**
-	 * Helper method to get opt in instructions or other text from form data
+	 * Helper method to get opt in instructions or other text from form data.
 	 *
-	 * @since   1.0.0
-	 * @param   array  $form_data  form data
-	 * @return  string              instructions
+	 * @since 1.0.0
+	 *
+	 * @param string $key       Field key.
+	 * @param array  $form_data Form data.
+	 * @return string Instructions.
 	 */
 	public function get_nested_value_from_data( $key, $form_data ) {
 
-		// Get our instructions for our opt in
+		// Get our instructions for our opt in.
 		if (
 			isset( $form_data[ $key ] ) &&
 			$form_data[ $key ] &&
@@ -267,7 +287,7 @@ class ConstantContact_Display_Shortcode {
 	/**
 	 * Call the method to enqueue styles for display.
 	 *
-	 * @since next
+	 * @since 1.0.0
 	 */
 	public function enqueue_display_styles() {
 		constant_contact()->display->styles( true );
