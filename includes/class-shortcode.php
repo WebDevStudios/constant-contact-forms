@@ -18,7 +18,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 	class ConstantContact_Shortcode extends WDS_Shortcodes {
 
 		/**
-		 * The Shortcode Tag
+		 * The Shortcode Tag.
 		 *
 		 * @since 1.0.0
 		 * @var string
@@ -34,7 +34,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		public $atts_defaults = array();
 
 		/**
-		 * Shortcode Output
+		 * Shortcode Output.
 		 *
 		 * @since 1.0.0
 		 * @return string shortcode html
@@ -49,7 +49,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		}
 
 		/**
-		 * Override for attribute getter
+		 * Override for attribute getter.
 		 *
 		 * You can use this to override specific attribute acquisition
 		 * ex. Getting attributes from options, post_meta, etc...
