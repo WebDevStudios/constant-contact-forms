@@ -77,19 +77,19 @@ class ConstantContact_Lists {
 	public function add_lists_metabox() {
 
 		$cmb = new_cmb2_box( array(
-			'id' => 'ctct_list_metabox',
-			'title' => __( 'List Information', 'constant-contact-forms' ),
-			'object_types'  => array( 'ctct_lists' ),
-			'context'	   => 'normal',
-			'priority' => 'high',
-			'show_names'	=> true,
+			'id'           => 'ctct_list_metabox',
+			'title'        => __( 'List Information', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_lists' ),
+			'context'      => 'normal',
+			'priority'     => 'high',
+			'show_names'   => true,
 		) );
 
 		$cmb->add_field( array(
-			'name' 	=> '',
-			'desc' 	=> '',
-			'id'   	=> '_ctct_list_meta',
-			'type'	=> 'constant_contact_list_information',
+			'name' => '',
+			'desc' => '',
+			'id'   => '_ctct_list_meta',
+			'type' => 'constant_contact_list_information',
 		) );
 	}
 
