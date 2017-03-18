@@ -1,6 +1,6 @@
 <?php
 /**
- * Custom Post Types
+ * Custom Post Types.
  *
  * @package ConstantContact
  * @subpackage CPTS
@@ -20,24 +20,16 @@ class ConstantContact_CPTS {
 	/**
 	 * Parent plugin class.
 	 *
-	 * @var object
 	 * @since 1.0.0
+	 * @var object
 	 */
 	protected $plugin = null;
-
-	/**
-	 * Holds an instance of the object.
-	 *
-	 * @var object ConstantContact_CPTS
-	 * @since 1.0.0
-	 */
-	private static $instance = null;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @param object $plugin this class.
+	 * @param object $plugin Parent class.
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
@@ -180,6 +172,7 @@ class ConstantContact_CPTS {
 	 * Custom post udate messages to match CPT naming.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @param array $messages Default update messages.
 	 * @return array appended update messages with custom post types.
 	 */
@@ -222,6 +215,7 @@ class ConstantContact_CPTS {
 	 * Customize the "Enter your title" placeholder text for Title field.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @param string $title Desired placeholder text.
 	 * @return string $title output string
 	 */
@@ -252,15 +246,13 @@ class ConstantContact_CPTS {
 
 	/**
 	 * Returns array of form ids.
-	 *
-	 * Can return more information with `true` passed to the first parameter. Caches results, pass `true` to the second
-	 * parameter to bust the cache.
+	 * Can return more information with `true` passed to the first parameter.
+	 * Caches results, pass `true` to the second parameter to bust the cache.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param bool $expanded_data Set `true` to process the retrieved posts.
 	 * @param bool $bust_cache    Set `true` to bust the cached forms.
-	 *
 	 * @return array
 	 */
 	public function get_forms( $expanded_data = false, $bust_cache = false ) {
