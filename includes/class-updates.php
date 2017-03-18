@@ -9,22 +9,24 @@
  */
 
 /**
- * Powers any update version-to-version functionality we need
+ * Powers any update version-to-version functionality we need.
+ *
+ * @since 1.0.0
  */
 class ConstantContact_Updates {
 
 	/**
-	 * Parent plugin class
+	 * Parent plugin class.
 	 *
+	 * @since 1.0.0
 	 * @var object
-	 * @since 0.0.1
 	 */
 	protected $plugin = null;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 *
 	 * @param object $plugin Plugin to store.
 	 */
@@ -37,6 +39,7 @@ class ConstantContact_Updates {
 	 * Initiate our hooks.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @return void
 	 */
 	public function hooks() {
@@ -51,7 +54,7 @@ class ConstantContact_Updates {
 	 * Checks our current version of the plugin and what our last installed
 	 * version was. If necessary, will fire update functions that need to fire.
 	 *
-	 * @since   1.0.0
+	 * @since 1.0.0
 	 */
 	public function check_for_update_needed() {
 
@@ -83,7 +86,7 @@ class ConstantContact_Updates {
 
 	/**
 	 * If we have an update that requires surfacing a notification to the user,
-	 * let queue it up for display later at some point
+	 * let queue it up for display later at some point.
 	 *
 	 * @since 1.0.0
 	 *

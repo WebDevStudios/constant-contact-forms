@@ -16,8 +16,8 @@ class ConstantContact_Admin_Pages {
 	/**
 	 * Parent plugin class.
 	 *
+	 * @since 1.0.0
 	 * @var object
-	 * @since 0.0.1
 	 */
 	protected $plugin = null;
 
@@ -36,7 +36,6 @@ class ConstantContact_Admin_Pages {
 	 * Initiate our hooks.
 	 *
 	 * @since 1.0.0
-	 * @return void
 	 */
 	public function hooks() {
 
@@ -45,7 +44,7 @@ class ConstantContact_Admin_Pages {
 	}
 
 	/**
-	 * Global admin style enqueue stuff
+	 * Global admin style enqueue stuff.
 	 *
 	 * @since 1.0.0
 	 */
@@ -82,7 +81,7 @@ class ConstantContact_Admin_Pages {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param array $value Array of arrays with title/content values
+		 * @param array $value Array of arrays with title/content values.
 		 */
 		return apply_filters( 'constant_contact_help_texts', array(
 			array(
@@ -99,7 +98,8 @@ class ConstantContact_Admin_Pages {
 	/**
 	 * Get faq text for help page.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
+	 *
 	 * @return array Array of all the text.
 	 */
 	public function get_faq_texts() {
@@ -124,12 +124,11 @@ class ConstantContact_Admin_Pages {
 	}
 
 	/**
-	 * Display our help page
+	 * Display our help page.
 	 *
-	 * @since  1.0.0
+	 * @since 1.0.0
 	 */
 	public function help_page() {
-
 		?>
 		<h1>
 			<?php esc_attr_e( 'Help / FAQ', 'constant-contact-forms' ); ?>
@@ -365,7 +364,7 @@ class ConstantContact_Admin_Pages {
 	/**
 	 * Display our license page.
 	 *
-	 * @since  1.0.1
+	 * @since 1.0.1
 	 */
 	public function license_page() {
 		$license_text = $this->plugin->get_license_text();

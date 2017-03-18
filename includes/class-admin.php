@@ -48,21 +48,21 @@ class ConstantContact_Admin {
 	/**
 	 * Parent plugin class.
 	 *
-	 * @var   class
-	 * @since 0.0.1
+	 * @since 1.0.0
+	 * @var object
 	 */
 	protected $plugin = null;
 
 	/**
 	 * The parent menu page slug.
 	 *
-	 * @var   string
-	 * @since 1.0.1
+	 * @since 1.0.01
+	 * @var string
 	 */
 	protected $parent_menu_slug = 'edit.php?post_type=ctct_forms';
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 */
@@ -251,6 +251,7 @@ class ConstantContact_Admin {
 	 * @internal
 	 *
 	 * @since 1.0.0
+	 *
 	 * @param string  $column  Column title.
 	 * @param integer $post_id Post id of post item.
 	 */
