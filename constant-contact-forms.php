@@ -599,27 +599,15 @@ class Constant_Contact {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			return false;
 		}
-
 		if ( ! is_admin() || empty( $_GET ) ) {
 			return false;
 		}
 
-		$ctct_types = array( 'ctct_forms', 'ctct_lists' );
 		if (
 			isset( $_GET['post_type'] ) &&
 			in_array(
 				$_GET['post_type'],
-				$ctct_types
-			)
-		) {
-			return true;
-		}
-
-		if (
-			isset( $_GET['post'] ) &&
-			in_array(
-				get_post_type( $_GET['post'] ),
-				$ctct_types
+				array( 'ctct_forms', 'ctct_lists' )
 			)
 		) {
 			return true;
