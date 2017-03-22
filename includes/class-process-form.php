@@ -143,6 +143,17 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
+		if ( isset( $data['g-recaptcha-response'] ) ) {
+			$secret = ctct_get_settings_option( '_ctct_recaptcha_secret_key' );
+			$recaptcha = new \ReCaptcha\ReCaptcha( $secret );
+
+			$resp = $recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
+
+			if ( ! $resp->isSuccess() ) {
+				return;
+			}
+		}
+
 		// Verify our nonce first.
 		if (
 		    ! isset( $data['ctct_form'] ) ||
