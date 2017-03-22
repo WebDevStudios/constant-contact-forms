@@ -706,7 +706,7 @@ class ConstantContact_Display {
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
 
 		// Set our field as as seprate var, because we allow for only returning that.
-		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" placeholder="' . $label . '"';
+		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" placeholder="' . $label . '" ';
 
 		// If we have an error.
 		if ( $field_error ) {
