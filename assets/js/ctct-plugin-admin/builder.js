@@ -76,7 +76,9 @@ window.CTCTBuilder = {};
 
 		// On cmb2 select changes, fire our leave warning function
 		$( '.cmb2-wrap input, .cmb2-wrap textarea' ).on( 'input', function() {
-			that.bindLeaveWarning();
+			if (typeof(tinyMCE) != "undefined") {
+				that.bindLeaveWarning();
+			}
 		});
 
 		// Disable email options on row change trigger.
