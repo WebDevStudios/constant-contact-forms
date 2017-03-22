@@ -333,6 +333,23 @@ class ConstantContact_Settings {
 				}
 			}
 		}
+
+		$before_recaptcha = sprintf(
+			'<hr/><h2>%s</h2>',
+			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' )
+		);
+		$cmb->add_field( array(
+			'name'    => __( 'Site Key', 'constant-contact-forms' ),
+			'id'      => '_ctct_recaptcha_site_key',
+			'type'    => 'text',
+			'before_row' => $before_recaptcha,
+		) );
+
+		$cmb->add_field( array(
+			'name'       => __( 'Secret Key', 'constant-contact-forms' ),
+			'id'         => '_ctct_recaptcha_secret_key',
+			'type'       => 'text',
+		) );
 	}
 
 	/**
