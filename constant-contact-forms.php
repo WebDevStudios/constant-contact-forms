@@ -380,6 +380,8 @@ class Constant_Contact {
 			'defuse-php-encryption/Key.php',
 			'defuse-php-encryption/KeyOrPassword.php',
 			'defuse-php-encryption/RuntimeTests.php',
+
+			'recaptcha/src/autoload.php',
 		);
 
 		// If we don't alrady have WDS_Shortcodes loaded somewhere else, load it up.
