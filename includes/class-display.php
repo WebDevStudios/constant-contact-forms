@@ -316,6 +316,32 @@ class ConstantContact_Display {
 		return $return;
 	}
 
+	public function build_recaptcha() {
+		// If we've reached this point, we know we have our keys.
+		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key' );
+
+		/**
+		 * Filters the language code to be used with Google reCAPTCHA.
+		 *
+		 * See https://developers.google.com/recaptcha/docs/language for available values.
+		 *
+		 * @since 1.2.4
+		 *
+		 * @param string $value Language code to use. Default 'en'.
+		 */
+		$recaptcha_lang = apply_filters( 'constant_contact_recaptcha_lang', 'en' );
+
+		$return = '';
+
+		$return .= sprintf(
+			'<div class="g-recaptcha" data-sitekey="%s"></div><script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=%s"></script>',
+			esc_attr( $site_key ),
+			esc_attr( $recaptcha_lang )
+		);
+
+		return $return;
+	}
+
 	/**
 	 * Wrapper for single field display.
 	 *
