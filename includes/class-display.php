@@ -161,8 +161,12 @@ class ConstantContact_Display {
 		// Output our normal form fields.
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
-		// Output a field that should not be populated, and will be visually hidden with inline CSS.
-		$return .= $this->build_honeypot_field();
+		if ( $this->plugin->settings->has_recaptcha() ) {
+			$return .= $this->build_recaptcha();
+		} else {
+			// Output a field that should not be populated, and will be visually hidden with inline CSS.
+			$return .= $this->build_honeypot_field();
+		}
 
 		// Add our hidden verification fields.
 		$return .= $this->add_verify_fields( $form_data );
@@ -310,6 +314,32 @@ class ConstantContact_Display {
 			'<div id="ctct_usage" style="%s"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" id="ctct_usage_field" /></div>',
 			'position:absolute;overflow:hidden;clip:rect(0px,0px,0px,0px);height:1px;width:1px;margin:-1px;border:0px none;padding:0px;',
 			esc_html__( 'Constant Contact Use.', 'constant-contact-forms' )
+		);
+
+		return $return;
+	}
+
+	public function build_recaptcha() {
+		// If we've reached this point, we know we have our keys.
+		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key' );
+
+		/**
+		 * Filters the language code to be used with Google reCAPTCHA.
+		 *
+		 * See https://developers.google.com/recaptcha/docs/language for available values.
+		 *
+		 * @since 1.2.4
+		 *
+		 * @param string $value Language code to use. Default 'en'.
+		 */
+		$recaptcha_lang = apply_filters( 'constant_contact_recaptcha_lang', 'en' );
+
+		$return = '';
+
+		$return .= sprintf(
+			'<div class="g-recaptcha" data-sitekey="%s"></div><script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=%s"></script>',
+			esc_attr( $site_key ),
+			esc_attr( $recaptcha_lang )
 		);
 
 		return $return;

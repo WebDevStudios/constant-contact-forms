@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.2.3
+ * Version:     1.2.4
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com
  * License:     GPLv3
@@ -77,7 +77,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.2.3';
+	const VERSION = '1.2.4';
 
 	/**
 	 * URL of plugin directory.
@@ -369,6 +369,8 @@ class Constant_Contact {
 			'defuse-php-encryption/Key.php',
 			'defuse-php-encryption/KeyOrPassword.php',
 			'defuse-php-encryption/RuntimeTests.php',
+
+			'recaptcha/src/autoload.php',
 		);
 
 		// If we don't alrady have WDS_Shortcodes loaded somewhere else, load it up.
@@ -611,27 +613,15 @@ class Constant_Contact {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			return false;
 		}
-
 		if ( ! is_admin() || empty( $_GET ) ) {
 			return false;
 		}
 
-		$ctct_types = array( 'ctct_forms', 'ctct_lists' );
 		if (
 			isset( $_GET['post_type'] ) &&
 			in_array(
 				$_GET['post_type'],
-				$ctct_types
-			)
-		) {
-			return true;
-		}
-
-		if (
-			isset( $_GET['post'] ) &&
-			in_array(
-				get_post_type( $_GET['post'] ),
-				$ctct_types
+				array( 'ctct_forms', 'ctct_lists' )
 			)
 		) {
 			return true;

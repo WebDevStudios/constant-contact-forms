@@ -335,6 +335,24 @@ class ConstantContact_Settings {
 				}
 			}
 		}
+
+		$before_recaptcha = sprintf(
+			'<hr/><h2>%s</h2>%s',
+			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
+			'<div class="discover-recaptcha">' . __( 'Learn more and get an <a href="https://www.google.com/recaptcha/intro/" target="_blank">API site key</a>', 'constant-contact-forms' ) . '</div>'
+		);
+		$cmb->add_field( array(
+			'name'    => __( 'Site Key', 'constant-contact-forms' ),
+			'id'      => '_ctct_recaptcha_site_key',
+			'type'    => 'text',
+			'before_row' => $before_recaptcha,
+		) );
+
+		$cmb->add_field( array(
+			'name'       => __( 'Secret Key', 'constant-contact-forms' ),
+			'id'         => '_ctct_recaptcha_secret_key',
+			'type'       => 'text',
+		) );
 	}
 
 	/**
@@ -772,6 +790,16 @@ class ConstantContact_Settings {
 			return $output;
 		}
 		return '';
+	}
+
+	public function has_recaptcha() {
+		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
+		$secret_key = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
+
+		if ( $site_key && $secret_key ) {
+			return true;
+		}
+		return false;
 	}
 }
 

@@ -562,6 +562,7 @@ class ConstantContact_API {
 			switch ( $key ) {
 				case 'email':
 				case 'website':
+				case 'g-recaptcha-response':
 					// Do nothing, as we already captured.
 					break;
 				case 'phone_number':

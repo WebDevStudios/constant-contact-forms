@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
 Tested up to:      4.7.2
-Stable tag:        1.2.3
+Stable tag:        1.2.4
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,12 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 4. Basic Form
 
 == Changelog ==
+
+= 1.2.4 =
+* Added: Google reCAPTCHA "I am human" checkbox support for forms. See https://www.google.com/recaptcha/intro/. Will fall back to honeypot prevention if not set up.
+* Fixed: Stray quote mark in honeypot markup.
+* Fixed: missing space after placeholder attribute for inputs.
+* Fixed: Removed unintentional "Leave page" confirmation popup when saving settings.
 
 = 1.2.3 =
 * Fixed: Attempt to process forms that have provided a custom url via filter.
