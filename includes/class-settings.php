@@ -335,8 +335,9 @@ class ConstantContact_Settings {
 		}
 
 		$before_recaptcha = sprintf(
-			'<hr/><h2>%s</h2>',
-			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' )
+			'<hr/><h2>%s</h2>%s',
+			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
+			'<div class="discover-recaptcha">' . __( 'Learn more and get an <a href="https://www.google.com/recaptcha/intro/" target="_blank">API site key</a>', 'constant-contact-forms' ) . '</div>'
 		);
 		$cmb->add_field( array(
 			'name'    => __( 'Site Key', 'constant-contact-forms' ),
