@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2017-03-22 11:49-0500\n"
+"POT-Creation-Date: 2017-03-30 16:49-0500\n"
 "PO-Revision-Date: 2017-01-12 14:46-0600\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Constant Contact\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.12\n"
+"X-Generator: Poedit 2.0\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: constant-contact-forms.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -266,7 +266,7 @@ msgstr ""
 msgid "License"
 msgstr ""
 
-#: includes/class-admin.php:204 includes/class-settings.php:670
+#: includes/class-admin.php:204 includes/class-settings.php:671
 msgid "Settings updated."
 msgstr ""
 
@@ -1119,7 +1119,7 @@ msgstr ""
 
 #: includes/class-notification-content.php:105
 #: includes/class-notification-content.php:128 includes/class-optin.php:117
-#: includes/class-settings.php:753
+#: includes/class-settings.php:754
 msgid "Constant Contact logo"
 msgstr ""
 
@@ -1142,15 +1142,23 @@ msgid ""
 "our plugin and lets you provide us useful feedback."
 msgstr ""
 
+#: includes/class-notification-content.php:171
+#, php-format
+msgid ""
+"Protect yourself from Spam &amp; Bots: New <strong>v1.2.4 Constant Contact "
+"Forms for WordPress</strong> now supports Google reCAPTCHA. Learn more and "
+"implement via <a href=\"%s\">Settings</a>"
+msgstr ""
+
 #: includes/class-notifications.php:404
 msgid "Dismiss this notice."
 msgstr ""
 
-#: includes/class-optin.php:125 includes/class-settings.php:761
+#: includes/class-optin.php:125 includes/class-settings.php:762
 msgid "Agree"
 msgstr ""
 
-#: includes/class-optin.php:126 includes/class-settings.php:762
+#: includes/class-optin.php:126 includes/class-settings.php:763
 msgid "Disagree"
 msgstr ""
 
@@ -1239,27 +1247,33 @@ msgstr ""
 msgid "Google reCAPTCHA"
 msgstr ""
 
-#: includes/class-settings.php:342
+#: includes/class-settings.php:340
+msgid ""
+"Learn more and get an <a href=\"https://www.google.com/recaptcha/intro/\" "
+"target=\"_blank\">API site key</a>"
+msgstr ""
+
+#: includes/class-settings.php:343
 msgid "Site Key"
 msgstr ""
 
-#: includes/class-settings.php:349
+#: includes/class-settings.php:350
 msgid "Secret Key"
 msgstr ""
 
-#: includes/class-settings.php:366
+#: includes/class-settings.php:367
 msgid "Add a checkbox to the comment field in your posts"
 msgstr ""
 
-#: includes/class-settings.php:367
+#: includes/class-settings.php:368
 msgid "Add a checkbox to the main WordPress login page"
 msgstr ""
 
-#: includes/class-settings.php:372
+#: includes/class-settings.php:373
 msgid "Add a checkbox to the WordPress user registration page"
 msgstr ""
 
-#: includes/class-settings.php:461
+#: includes/class-settings.php:462
 msgid "Sign up to our newsletter."
 msgstr ""
 
