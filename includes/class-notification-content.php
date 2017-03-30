@@ -157,6 +157,15 @@ class ConstantContact_Notification_Content {
 		// @codingStandardsIgnoreLine
 		// return __( 'Welcome to v1.0.1 of Constant Contact.', 'constant-contact-forms' );
 	}
+
+	public function reCAPTCHA() {
+		ob_start();
+		printf(
+			__( 'Constant Contact Forms has added Goole reCAPTCHA support to help fend off spam. Visit <a href="https://www.google.com/recaptcha/intro/" target="_blank">Google reCAPTCHA</a> to get started.<br/>Enter the generated keys on the <a href="%s">Constant Contact Forms settings page</a>.', 'constant-contact-forms' ),
+			admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings' )
+		);
+		return ob_get_clean();
+	}
 }
 
 /**
@@ -211,3 +220,23 @@ function constant_contact_add_review_notification( $notifications = array() ) {
 }
 
 add_filter( 'constant_contact_notifications', 'constant_contact_add_review_notification' );
+
+/**
+ * Adds our reCAPTCHA informational admin notice.
+ *
+ * @since 1.2.4
+ *
+ * @param array $notifications Array of notifications pending to show.
+ * @return array Array of notifications to show.
+ */
+function constant_contact_add_reCAPTCHA_notification( $notifications = array() ) {
+
+	$notifications[] = array(
+		'ID'         => 'reCAPTCHA',
+		'callback'   => array( 'ConstantContact_Notification_Content', 'reCAPTCHA' ),
+		'require_cb' => 'constant_contact_maybe_display_reCAPTCHA_notification',
+	);
+
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_add_reCAPTCHA_notification' );
