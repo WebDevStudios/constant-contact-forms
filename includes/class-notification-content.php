@@ -202,6 +202,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_add_optin_notifi
 
 /**
  * Adds our opt-in notification to the notification system.
+ *
  * @since 1.2.0
  *
  * @param array $notifications Array of notifications pending to show.
