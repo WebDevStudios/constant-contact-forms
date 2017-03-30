@@ -158,6 +158,13 @@ class ConstantContact_Notification_Content {
 		// return __( 'Welcome to v1.0.1 of Constant Contact.', 'constant-contact-forms' );
 	}
 
+	/**
+	 * Content for the reCAPTCHA information notice.
+	 *
+	 * @since 1.2.4
+	 *
+	 * @return string
+	 */
 	public function reCAPTCHA() {
 		ob_start();
 		printf(
