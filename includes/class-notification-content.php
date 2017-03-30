@@ -168,7 +168,7 @@ class ConstantContact_Notification_Content {
 	public function reCAPTCHA() {
 		ob_start();
 		printf(
-			__( 'Constant Contact Forms has added Goole reCAPTCHA support to help fend off spam. Visit <a href="https://www.google.com/recaptcha/intro/" target="_blank">Google reCAPTCHA</a> to get started.<br/>Enter the generated keys on the <a href="%s">Constant Contact Forms settings page</a>.', 'constant-contact-forms' ),
+			__( 'Constant Contact Forms has added Google reCAPTCHA support to help fend off spam. Visit <a href="https://www.google.com/recaptcha/intro/" target="_blank">Google reCAPTCHA</a> to get started.<br/>Enter the generated keys on the <a href="%s">Constant Contact Forms settings page</a>.', 'constant-contact-forms' ),
 			admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings' )
 		);
 		return ob_get_clean();
