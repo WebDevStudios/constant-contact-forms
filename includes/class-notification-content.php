@@ -175,7 +175,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @return string
 	 */
-	public function reCAPTCHA() {
+	public static function reCAPTCHA() {
 		ob_start();
 		printf(
 			__( 'Protect yourself from Spam &amp; Bots: New <strong>v1.2.4 Constant Contact Forms for WordPress</strong> now supports Google reCAPTCHA. Learn more and implement via <a href="%s">Settings</a>', 'constant-contact-forms' ),
