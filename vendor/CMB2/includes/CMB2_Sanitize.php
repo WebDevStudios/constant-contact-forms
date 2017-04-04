@@ -58,7 +58,11 @@ class CMB2_Sanitize {
 		 * is not what happens here.
 		 * @deprecated See documentation for "cmb2_sanitize_{$this->type()}".
 		 */
-		$override_value = apply_filters( "cmb2_validate_{$this->field->type()}", null, $this->value, $this->field->object_id, $this->field->args(), $this );
+		if ( function_exists( 'apply_filters_deprecated' ) ) {
+			$override_value = apply_filters_deprecated( "cmb2_validate_{$this->field->type()}", array( null, $this->value, $this->field->object_id, $this->field->args(), $this ), '2.0.0', "cmb2_sanitize_{$this->field->type()}" );
+		} else {
+			$override_value = apply_filters( "cmb2_validate_{$this->field->type()}", null, $this->value, $this->field->object_id, $this->field->args(), $this );
+		}
 
 		if ( null !== $override_value ) {
 			return $override_value;
@@ -76,11 +80,7 @@ class CMB2_Sanitize {
 			case 'taxonomy_radio_inline':
 			case 'taxonomy_multicheck':
 			case 'taxonomy_multicheck_inline':
-				if ( $this->field->args( 'taxonomy' ) ) {
-					wp_set_object_terms( $this->field->object_id, $this->value, $this->field->args( 'taxonomy' ) );
-				} else {
-					cmb2_utils()->log_if_debug( __METHOD__, __LINE__, "{$this->field->type()} {$this->field->_id()} is missing the 'taxonomy' parameter." );
-				}
+				$sanitized_value = $this->_taxonomy();
 				break;
 			case 'multicheck':
 			case 'multicheck_inline':
@@ -92,11 +92,64 @@ class CMB2_Sanitize {
 			default:
 				// Handle repeatable fields array
 				// We'll fallback to 'sanitize_text_field'
-				$sanitized_value = is_array( $this->value ) ? array_map( 'sanitize_text_field', $this->value ) : sanitize_text_field( $this->value );
+				$sanitized_value = $this->_default_sanitization();
 				break;
 		}
 
 		return $this->_is_empty_array( $sanitized_value ) ? '' : $sanitized_value;
+	}
+
+	/**
+	 * Default sanitization method, sanitize_text_field. Checks if value is array.
+	 * @since  2.2.4
+	 * @return mixed  Sanitized value.
+	 */
+	protected function _default_sanitization() {
+		// Handle repeatable fields array
+		return is_array( $this->value ) ? array_map( 'sanitize_text_field', $this->value ) : sanitize_text_field( $this->value );
+	}
+
+	/**
+	 * Sets the object terms to the object (if not options-page) and optionally returns the sanitized term values.
+	 * @since  2.2.4
+	 * @return mixed  Blank value, or sanitized term values if "cmb2_return_taxonomy_values_{$cmb_id}" is true.
+	 */
+	protected function _taxonomy() {
+		$sanitized_value = '';
+
+		if ( ! $this->field->args( 'taxonomy' ) ) {
+			CMB2_Utils::log_if_debug( __METHOD__, __LINE__, "{$this->field->type()} {$this->field->_id()} is missing the 'taxonomy' parameter." );
+		} else {
+
+			if ( 'options-page' === $this->field->object_type ) {
+				$return_values = true;
+			} else {
+				wp_set_object_terms( $this->field->object_id, $this->value, $this->field->args( 'taxonomy' ) );
+				$return_values = false;
+			}
+
+			$cmb_id = $this->field->cmb_id;
+
+			/**
+			 * Filter whether 'taxonomy_*' fields should return their value when being sanitized.
+			 *
+			 * By default, these fields do not return a value as we do not want them stored to meta
+			 * (as they are stored as terms). This allows overriding that and is used by CMB2::get_sanitized_values().
+			 *
+			 * The dynamic portion of the hook, $cmb_id, refers to the this field's CMB2 box id.
+			 *
+			 * @since 2.2.4
+			 *
+			 * @param bool          $return_values By default, this is only true for 'options-page' boxes. To enable:
+			 *                                     `add_filter( "cmb2_return_taxonomy_values_{$cmb_id}", '__return_true' );`
+			 * @param CMB2_Sanitize $sanitizer This object.
+			 */
+			if ( apply_filters( "cmb2_return_taxonomy_values_{$cmb_id}", $return_values, $this ) ) {
+				$sanitized_value = $this->_default_sanitization();
+			}
+		}
+
+		return $sanitized_value;
 	}
 
 	/**
@@ -118,10 +171,10 @@ class CMB2_Sanitize {
 		// for repeatable
 		if ( is_array( $this->value ) ) {
 			foreach ( $this->value as $key => $val ) {
-				$this->value[ $key ] = $val ? esc_url_raw( $val, $protocols ) : $this->field->args( 'default' );
+				$this->value[ $key ] = $val ? esc_url_raw( $val, $protocols ) : $this->field->get_default();
 			}
 		} else {
-			$this->value = $this->value ? esc_url_raw( $this->value, $protocols ) : $this->field->args( 'default' );
+			$this->value = $this->value ? esc_url_raw( $this->value, $protocols ) : $this->field->get_default();
 		}
 
 		return $this->value;
@@ -166,9 +219,12 @@ class CMB2_Sanitize {
 	/**
 	 * Validate money in a meta value
 	 * @since  1.0.1
-	 * @return string       Empty string or sanitized money value
+	 * @return string Empty string or sanitized money value
 	 */
 	public function text_money() {
+		if ( ! $this->value ) {
+			return '';
+		}
 
 		global $wp_locale;
 
@@ -178,7 +234,9 @@ class CMB2_Sanitize {
 		// for repeatable
 		if ( is_array( $this->value ) ) {
 			foreach ( $this->value as $key => $val ) {
-				$this->value[ $key ] = number_format_i18n( (float) str_ireplace( $search, $replace, $val ), 2 );
+				if ( $val ) {
+					$this->value[ $key ] = number_format_i18n( (float) str_ireplace( $search, $replace, $val ), 2 );
+				}
 			}
 		} else {
 			$this->value = number_format_i18n( (float) str_ireplace( $search, $replace, $this->value ), 2 );
@@ -201,7 +259,7 @@ class CMB2_Sanitize {
 	/**
 	 * Datetime to timestamp
 	 * @since  1.0.1
-	 * @return string Timestring
+	 * @return string|array Timestring
 	 */
 	public function text_datetime_timestamp( $repeat = false ) {
 
@@ -258,10 +316,10 @@ class CMB2_Sanitize {
 		}
 
 		if ( empty( $tzstring ) ) {
-			$tzstring = cmb2_utils()->timezone_string();
+			$tzstring = CMB2_Utils::timezone_string();
 		}
 
-		$offset = cmb2_utils()->timezone_offset( $tzstring );
+		$offset = CMB2_Utils::timezone_offset( $tzstring );
 
 		if ( 'UTC' === substr( $tzstring, 0, 3 ) ) {
 			$tzstring = timezone_name_from_abbr( '', $offset, 0 );
@@ -306,7 +364,7 @@ class CMB2_Sanitize {
 
 		} catch ( Exception $e ) {
 			$this->value = '';
-			cmb2_utils()->log_if_debug( __METHOD__, __LINE__, $e->getMessage() );
+			CMB2_Utils::log_if_debug( __METHOD__, __LINE__, $e->getMessage() );
 		}
 
 		return $this->value;
@@ -366,7 +424,12 @@ class CMB2_Sanitize {
 		// Check group $alldata data
 		$id_val  = isset( $alldata[ $base_id ][ $i ][ $id_key ] )
 			? absint( $alldata[ $base_id ][ $i ][ $id_key ] )
-			: 0;
+			: '';
+
+		// We don't want to save 0 to the DB for file fields.
+		if ( 0 === $id_val ) {
+			$id_val = '';
+		}
 
 		return array(
 			'value' => $this->text_url(),
@@ -389,7 +452,7 @@ class CMB2_Sanitize {
 
 		// If there is no ID saved yet, try to get it from the url
 		if ( $this->value && ! $id_val ) {
-			$id_val = cmb2_utils()->image_id_from_url( $this->value );
+			$id_val = CMB2_Utils::image_id_from_url( $this->value );
 		}
 
 		return $id_field->save_field( $id_val );
@@ -408,18 +471,9 @@ class CMB2_Sanitize {
 	 * @since  2.2.0
 	 */
 	public function _new_supporting_field( $new_field_id ) {
-		$args = $this->field->args();
-		unset( $args['_id'], $args['_name'] );
-
-		$args['id'] = $new_field_id;
-		$args['sanitization_cb'] = false;
-
-		// And get new field object
-		return new CMB2_Field( array(
-			'field_args'  => $args,
-			'group_field' => $this->field->group,
-			'object_id'   => $this->field->object_id,
-			'object_type' => $this->field->object_type,
+		return $this->field->get_field_clone( array(
+			'id' => $new_field_id,
+			'sanitization_cb' => false,
 		) );
 	}
 

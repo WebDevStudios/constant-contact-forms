@@ -2,6 +2,7 @@
 /**
  * Bootstraps the CMB2 process
  *
+ * @category  WordPress_Plugin
  * @package   CMB2
  * @author    WebDevStudios
  * @license   GPL-2.0+
@@ -52,9 +53,17 @@ function cmb2_bootstrap() {
 	 * @since  2.0.2
 	 */
 	foreach ( CMB2_Boxes::get_all() as $cmb ) {
+
 		if ( $cmb->prop( 'hookup' ) ) {
 			$hookup = new CMB2_hookup( $cmb );
+			$hookup->universal_hooks();
 		}
+
+		if ( $cmb->prop( 'show_in_rest' ) && function_exists( 'rest_get_server' ) ) {
+			$rest = new CMB2_REST( $cmb );
+			$rest->universal_hooks();
+		}
+
 	}
 
 	/**

@@ -11,14 +11,7 @@
  * @license   GPL-2.0+
  * @link      http://webdevstudios.com
  */
-class CMB2_hookup {
-
-	/**
-	 * Array of all hooks done (to be run once)
-	 * @var   array
-	 * @since 2.0.0
-	 */
-	protected static $hooks_completed = array();
+class CMB2_hookup extends CMB2_Hookup_Base {
 
 	/**
 	 * Only allow JS registration once
@@ -35,12 +28,6 @@ class CMB2_hookup {
 	protected static $css_registration_done = false;
 
 	/**
-	 * @var   CMB2 object
-	 * @since 2.0.2
-	 */
-	protected $cmb;
-
-	/**
 	 * CMB taxonomies array for term meta
 	 * @var   array
 	 * @since 2.2.0
@@ -48,19 +35,33 @@ class CMB2_hookup {
 	protected $taxonomies = array();
 
 	/**
-	 * The object type we are performing the hookup for
-	 * @var   string
-	 * @since 2.0.9
+	 * Custom field columns.
+	 * @var   array
+	 * @since 2.2.2
 	 */
-	protected $object_type = 'post';
+	protected $columns = array();
 
+	/**
+	 * Constructor
+	 * @since 2.0.0
+	 * @param CMB2 $cmb The CMB2 object to hookup
+	 */
 	public function __construct( CMB2 $cmb ) {
 		$this->cmb = $cmb;
 		$this->object_type = $this->cmb->mb_object_type();
+	}
 
-		$this->universal_hooks();
+	public function universal_hooks() {
+		foreach ( get_class_methods( 'CMB2_Show_Filters' ) as $filter ) {
+			add_filter( 'cmb2_show_on', array( 'CMB2_Show_Filters', $filter ), 10, 3 );
+		}
 
 		if ( is_admin() ) {
+			// register our scripts and styles for cmb
+			$this->once( 'admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 8 );
+			$this->once( 'admin_enqueue_scripts', array( $this, 'do_scripts' ) );
+
+			$this->maybe_enqueue_column_display_styles();
 
 			switch ( $this->object_type ) {
 				case 'post':
@@ -72,35 +73,57 @@ class CMB2_hookup {
 				case 'term':
 					return $this->term_hooks();
 			}
-
-		}
-	}
-
-	public function universal_hooks() {
-		foreach ( get_class_methods( 'CMB2_Show_Filters' ) as $filter ) {
-			add_filter( 'cmb2_show_on', array( 'CMB2_Show_Filters', $filter ), 10, 3 );
-		}
-
-		if ( is_admin() ) {
-			// register our scripts and styles for cmb
-			$this->once( 'admin_enqueue_scripts', array( __CLASS__, 'register_scripts' ), 8 );
 		}
 	}
 
 	public function post_hooks() {
-		add_action( 'add_meta_boxes', array( $this, 'add_metaboxes' ) );
+
+		// Fetch the context we set in our call.
+		$context = $this->cmb->prop( 'context' ) ? $this->cmb->prop( 'context' ) : 'normal';
+
+		// Call the proper hook based on the context provided.
+		switch ( $context ) {
+
+			case 'form_top':
+				add_action( 'edit_form_top', array( $this, 'add_context_metaboxes' ) );
+				break;
+
+			case 'before_permalink':
+				add_action( 'edit_form_before_permalink', array( $this, 'add_context_metaboxes' ) );
+				break;
+
+			case 'after_title':
+				add_action( 'edit_form_after_title', array( $this, 'add_context_metaboxes' ) );
+				break;
+
+			case 'after_editor':
+				add_action( 'edit_form_after_editor', array( $this, 'add_context_metaboxes' ) );
+				break;
+
+			default:
+				add_action( 'add_meta_boxes', array( $this, 'add_metaboxes' ) );
+		}
+
 		add_action( 'add_attachment', array( $this, 'save_post' ) );
 		add_action( 'edit_attachment', array( $this, 'save_post' ) );
 		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
 
-		$this->once( 'admin_enqueue_scripts', array( $this, 'do_scripts' ) );
+		if ( $this->cmb->has_columns ) {
+			foreach ( $this->cmb->prop( 'object_types' ) as $post_type ) {
+				add_filter( "manage_{$post_type}_posts_columns", array( $this, 'register_column_headers' ) );
+				add_action( "manage_{$post_type}_posts_custom_column", array( $this, 'column_display' ), 10, 2 );
+			}
+		}
 	}
 
 	public function comment_hooks() {
 		add_action( 'add_meta_boxes_comment', array( $this, 'add_metaboxes' ) );
 		add_action( 'edit_comment', array( $this, 'save_comment' ) );
 
-		$this->once( 'admin_enqueue_scripts', array( $this, 'do_scripts' ) );
+		if ( $this->cmb->has_columns ) {
+			add_filter( 'manage_edit-comments_columns', array( $this, 'register_column_headers' ) );
+			add_action( 'manage_comments_custom_column', array( $this, 'column_display'  ), 10, 3 );
+		}
 	}
 
 	public function user_hooks() {
@@ -113,15 +136,20 @@ class CMB2_hookup {
 		add_action( 'personal_options_update', array( $this, 'save_user' ) );
 		add_action( 'edit_user_profile_update', array( $this, 'save_user' ) );
 		add_action( 'user_register', array( $this, 'save_user' ) );
+
+		if ( $this->cmb->has_columns ) {
+			add_filter( 'manage_users_columns', array( $this, 'register_column_headers' ) );
+			add_filter( 'manage_users_custom_column', array( $this, 'return_column_display'  ), 10, 3 );
+		}
 	}
 
 	public function term_hooks() {
 		if ( ! function_exists( 'get_term_meta' ) ) {
-			wp_die( __( 'Term Metadata is a WordPress > 4.4 feature. Please upgrade your WordPress install.', 'cmb2' ) );
+			wp_die( esc_html__( 'Term Metadata is a WordPress 4.4+ feature. Please upgrade your WordPress install.', 'cmb2' ) );
 		}
 
 		if ( ! $this->cmb->prop( 'taxonomies' ) ) {
-			wp_die( __( 'Term metaboxes configuration requires a \'taxonomies\' parameter', 'cmb2' ) );
+			wp_die( esc_html__( 'Term metaboxes configuration requires a "taxonomies" parameter.', 'cmb2' ) );
 		}
 
 		$this->taxonomies = (array) $this->cmb->prop( 'taxonomies' );
@@ -143,12 +171,16 @@ class CMB2_hookup {
 				add_action( "{$taxonomy}_add_form_fields", array( $this, 'term_metabox' ), $priority, 2 );
 			}
 
+			if ( $this->cmb->has_columns ) {
+				add_filter( "manage_edit-{$taxonomy}_columns", array( $this, 'register_column_headers' ) );
+				add_filter( "manage_{$taxonomy}_custom_column", array( $this, 'return_column_display'  ), 10, 3 );
+			}
 		}
 
 		add_action( 'created_term', array( $this, 'save_term' ), 10, 3 );
 		add_action( 'edited_terms', array( $this, 'save_term' ), 10, 2 );
-
 		add_action( 'delete_term', array( $this, 'delete_term' ), 10, 3 );
+
 	}
 
 	/**
@@ -163,11 +195,12 @@ class CMB2_hookup {
 		// Only use minified files if SCRIPT_DEBUG is off
 		$min   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 		$front = is_admin() ? '' : '-front';
-		$rtl = is_rtl() ? '-rtl' : '';
+		$rtl   = is_rtl() ? '-rtl' : '';
 
 		// Filter required styles and register stylesheet
-		$styles = apply_filters( 'cmb2_style_dependencies', array() );
-		wp_register_style( 'cmb2-styles', cmb2_utils()->url( "css/cmb2{$front}{$rtl}{$min}.css" ), $styles );
+		$dependencies = apply_filters( 'cmb2_style_dependencies', array() );
+		wp_register_style( 'cmb2-styles', CMB2_Utils::url( "css/cmb2{$front}{$rtl}{$min}.css" ), $dependencies );
+		wp_register_style( 'cmb2-display-styles', CMB2_Utils::url( "css/cmb2-display{$rtl}{$min}.css" ), $dependencies );
 
 		self::$css_registration_done = true;
 	}
@@ -197,12 +230,25 @@ class CMB2_hookup {
 	}
 
 	/**
-	 * Enqueues scripts and styles for CMB2
+	 * Enqueues scripts and styles for CMB2 in admin_head.
 	 * @since  1.0.0
 	 */
 	public function do_scripts( $hook ) {
-		// only enqueue our scripts/styles on the proper pages
-		if ( in_array( $hook, array( 'post.php', 'post-new.php', 'page-new.php', 'page.php', 'comment.php' ), true ) ) {
+		$hooks = array(
+			'post.php',
+			'post-new.php',
+			'page-new.php',
+			'page.php',
+			'comment.php',
+			'edit-tags.php',
+			'term.php',
+			'user-new.php',
+			'profile.php',
+			'user-edit.php',
+		);
+		// only pre-enqueue our scripts/styles on the proper pages
+		// show_form_for_type will have us covered if we miss something here.
+		if ( in_array( $hook, $hooks, true ) ) {
 			if ( $this->cmb->prop( 'cmb_styles' ) ) {
 				self::enqueue_cmb_css();
 			}
@@ -210,6 +256,158 @@ class CMB2_hookup {
 				self::enqueue_cmb_js();
 			}
 		}
+	}
+
+	/**
+	 * Register the CMB2 field column headers.
+	 * @since 2.2.2
+	 */
+	public function register_column_headers( $columns ) {
+		$fields = $this->cmb->prop( 'fields' );
+
+		foreach ( $fields as $key => $field ) {
+			if ( ! isset( $field['column'] ) ) {
+				continue;
+			}
+
+			$column = $field['column'];
+
+			if ( false === $column['position'] ) {
+
+				$columns[ $field['id'] ] = $column['name'];
+
+			} else {
+
+				$before = array_slice( $columns, 0, absint( $column['position'] ) );
+				$before[ $field['id'] ] = $column['name'];
+				$columns = $before + $columns;
+			}
+
+			$column['field'] = $field;
+			$this->columns[ $field['id'] ] = $column;
+		}
+
+		return $columns;
+	}
+
+	/**
+	 * The CMB2 field column display output.
+	 * @since 2.2.2
+	 */
+	public function column_display( $column_name, $object_id ) {
+		if ( isset( $this->columns[ $column_name ] ) ) {
+ 			$field = new CMB2_Field( array(
+				'field_args'  => $this->columns[ $column_name ]['field'],
+				'object_type' => $this->object_type,
+				'object_id'   => $this->cmb->object_id( $object_id ),
+				'cmb_id'      => $this->cmb->cmb_id,
+			) );
+
+			$this->cmb->get_field( $field )->render_column();
+		}
+	}
+
+	/**
+	 * Returns the column display.
+	 * @since 2.2.2
+	 */
+	public function return_column_display( $empty, $custom_column, $object_id ) {
+		ob_start();
+		$this->column_display( $custom_column, $object_id );
+		$column = ob_get_clean();
+
+		return $column ? $column : $empty;
+	}
+
+	/**
+	 * Output the CMB2 box/fields in an alternate context (not in a standard metabox area).
+	 * @since 2.2.4
+	 */
+	public function add_context_metaboxes() {
+
+		if ( ! $this->show_on() ) {
+			return;
+		}
+
+		$page = get_current_screen()->id;
+
+		foreach ( $this->cmb->prop( 'object_types' ) as $object_type ) {
+			$screen = convert_to_screen( $object_type );
+
+			// If we're on the right post-type/object...
+			if ( isset( $screen->id ) && $screen->id === $page ) {
+
+				// Show the box.
+				$this->output_context_metabox();
+			}
+		}
+	}
+
+	/**
+	 * Output the CMB2 box/fields in an alternate context (not in a standard metabox area).
+	 * @since 2.2.4
+	 */
+	public function output_context_metabox() {
+		$title = $this->cmb->prop( 'title' );
+
+		/*
+		 * To keep from outputting the open/close markup, do not include
+		 * a 'title' property in your metabox registration array.
+		 *
+		 * To output the fields 'naked' (without a postbox wrapper/style), then
+		 * add a `'remove_box_wrap' => true` to your metabox registration array.
+		 */
+		$add_wrap = ! empty( $title ) || ! $this->cmb->prop( 'remove_box_wrap' );
+		$add_handle = $add_wrap && ! empty( $title );
+
+		// Open the context-box wrap.
+		$add_handle = $this->context_box_title_markup_open( $add_handle );
+
+		// Show the form fields.
+		$this->cmb->show_form();
+
+		// Close the context-box wrap.
+		$this->context_box_title_markup_close( $add_handle );
+	}
+
+	/**
+	 * Output the opening markup for a context box.
+	 * @since 2.2.4
+	 * @param $add_handle Whether to add the metabox handle and opening div for .inside
+	 */
+	public function context_box_title_markup_open( $add_handle = true ) {
+		$title = $this->cmb->prop( 'title' );
+
+		$page = get_current_screen()->id;
+		add_filter( "postbox_classes_{$page}_{$this->cmb->cmb_id}", array( $this, 'postbox_classes' ) );
+
+		echo '<div id="' . $this->cmb->cmb_id . '" class="' . postbox_classes( $this->cmb->cmb_id, $page ) . '">' . "\n";
+
+		if ( $add_handle ) {
+
+			echo '<button type="button" class="handlediv button-link" aria-expanded="true">';
+				echo '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s' ), $title ) . '</span>';
+				echo '<span class="toggle-indicator" aria-hidden="true"></span>';
+			echo '</button>';
+
+			echo '<h2 class="hndle"><span>' . esc_attr( $title ) . '</span></h2>' . "\n";
+			echo '<div class="inside">' . "\n";
+		}
+	}
+
+	/**
+	 * Output the closing markup for a context box.
+	 * @since 2.2.4
+	 * @param $add_inside_close Whether to add closing div for .inside.
+	 */
+	public function context_box_title_markup_close( $add_inside_close = true ) {
+
+		// Load the closing divs for a title box.
+		if ( $add_inside_close ) {
+			echo '</div>' . "\n"; // .inside
+		}
+
+		echo '</div>' . "\n"; // .context-box
 	}
 
 	/**
@@ -222,35 +420,89 @@ class CMB2_hookup {
 			return;
 		}
 
-		foreach ( $this->cmb->prop( 'object_types' ) as $post_type ) {
-			/**
-			 * To keep from registering an actual post-screen metabox,
-			 * omit the 'title' attribute from the metabox registration array.
-			 *
-			 * (WordPress will not display metaboxes without titles anyway)
-			 *
-			 * This is a good solution if you want to output your metaboxes
-			 * Somewhere else in the post-screen
-			 */
-			if ( $this->cmb->prop( 'title' ) ) {
+		/*
+		 * To keep from registering an actual post-screen metabox,
+		 * omit the 'title' property from the metabox registration array.
+		 *
+		 * (WordPress will not display metaboxes without titles anyway)
+		 *
+		 * This is a good solution if you want to handle outputting your
+		 * metaboxes/fields elsewhere in the post-screen.
+		 */
+		if ( ! $this->cmb->prop( 'title' ) ) {
+			return;
+		}
 
-				if ( $this->cmb->prop( 'closed' ) ) {
-					add_filter( "postbox_classes_{$post_type}_{$this->cmb->cmb_id}", array( $this, 'close_metabox_class' ) );
-				}
+		$page = get_current_screen()->id;
+		add_filter( "postbox_classes_{$page}_{$this->cmb->cmb_id}", array( $this, 'postbox_classes' ) );
 
-				add_meta_box( $this->cmb->cmb_id, $this->cmb->prop( 'title' ), array( $this, 'metabox_callback' ), $post_type, $this->cmb->prop( 'context' ), $this->cmb->prop( 'priority' ) );
+		foreach ( $this->cmb->prop( 'object_types' ) as $object_type ) {
+			if ( count( $this->cmb->tax_metaboxes_to_remove ) ) {
+				$this->remove_default_tax_metaboxes( $object_type );
 			}
+
+			add_meta_box( $this->cmb->cmb_id, $this->cmb->prop( 'title' ), array( $this, 'metabox_callback' ), $object_type, $this->cmb->prop( 'context' ), $this->cmb->prop( 'priority' ) );
 		}
 	}
 
 	/**
-	 * Add 'closed' class to metabox
-	 * @since  2.0.0
+	 * Remove the specified default taxonomy metaboxes for a post-type.
+	 * @since 2.2.3
+	 * @param string $post_type Post type to remove the metabox for.
+	 */
+	protected function remove_default_tax_metaboxes( $post_type ) {
+		foreach ( $this->cmb->tax_metaboxes_to_remove as $taxonomy ) {
+			if ( ! taxonomy_exists( $taxonomy ) ) {
+				continue;
+			}
+
+			$mb_id = is_taxonomy_hierarchical( $taxonomy ) ? "{$taxonomy}div" : "tagsdiv-{$taxonomy}";
+			remove_meta_box( $mb_id, $post_type, 'side' );
+		}
+	}
+
+	/**
+	 * Modify metabox postbox classes.
+	 * @since  2.2.4
 	 * @param  array  $classes Array of classes
 	 * @return array           Modified array of classes
 	 */
-	public function close_metabox_class( $classes ) {
-		$classes[] = 'closed';
+	public function postbox_classes( $classes ) {
+		if ( $this->cmb->prop( 'closed' ) && ! in_array( 'closed', $classes ) ) {
+			$classes[] = 'closed';
+		}
+
+		if ( $this->cmb->is_alternate_context_box() ) {
+			$classes = $this->alternate_context_postbox_classes( $classes );
+		} else {
+			$classes[] = 'cmb2-postbox';
+		}
+
+		return $classes;
+	}
+
+	/**
+	 * Modify metabox altnernate context postbox classes.
+	 * @since  2.2.4
+	 * @param  array  $classes Array of classes
+	 * @return array           Modified array of classes
+	 */
+	protected function alternate_context_postbox_classes( $classes ) {
+		$classes[] = 'context-box';
+		$classes[] = 'context-' . $this->cmb->prop( 'context' ) . '-box';
+
+		if ( in_array( $this->cmb->cmb_id, get_hidden_meta_boxes( get_current_screen() ) ) ) {
+			$classes[] = 'hide-if-js';
+		}
+
+		$add_wrap = $this->cmb->prop( 'title' ) || ! $this->cmb->prop( 'remove_box_wrap' );
+
+		if ( $add_wrap ) {
+			$classes[] = 'cmb2-postbox postbox';
+		} else {
+			$classes[] = 'cmb2-no-box-wrap';
+		}
+
 		return $classes;
 	}
 
@@ -449,6 +701,7 @@ class CMB2_hookup {
 	public function delete_term( $term_id, $tt_id, $taxonomy = '' ) {
 		if ( $this->taxonomy_can_save( $taxonomy ) ) {
 
+			$data_to_delete = array();
 			foreach ( $this->cmb->prop( 'fields' ) as $field ) {
 				$data_to_delete[ $field['id'] ] = '';
 			}
@@ -464,7 +717,7 @@ class CMB2_hookup {
 	 * @return bool          Whether object can be saved
 	 */
 	public function can_save( $type = '' ) {
-		return (
+		return apply_filters( 'cmb2_can_save', (
 			$this->cmb->prop( 'save_fields' )
 			// check nonce
 			&& isset( $_POST[ $this->cmb->nonce() ] )
@@ -473,7 +726,9 @@ class CMB2_hookup {
 			&& ! ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE )
 			// get the metabox types & compare it to this type
 			&& ( $type && in_array( $type, $this->cmb->prop( 'object_types' ) ) )
-		);
+			// Don't do updates during a switch-to-blog instance.
+			&& ! ( is_multisite() && ms_is_switched() )
+		) );
 	}
 
 	/**
@@ -483,8 +738,6 @@ class CMB2_hookup {
 	 * @return bool             Whether taxonomy is editable.
 	 */
 	public function taxonomy_can_save( $taxonomy ) {
-		$taxonomy = $taxonomy ? $taxonomy : $tt_id;
-
 		if ( empty( $this->taxonomies ) || ! in_array( $taxonomy, $this->taxonomies ) ) {
 			return false;
 		}
@@ -499,35 +752,37 @@ class CMB2_hookup {
 	}
 
 	/**
-	 * Ensures WordPress hook only gets fired once
-	 * @since  2.0.0
-	 * @param string   $action        The name of the filter to hook the $hook callback to.
-	 * @param callback $hook          The callback to be run when the filter is applied.
-	 * @param integer  $priority      Order the functions are executed
-	 * @param int      $accepted_args The number of arguments the function accepts.
+	 * Enqueues the 'cmb2-display-styles' if the conditions match (has columns, on the right page, etc).
+	 * @since  2.2.2.1
 	 */
-	public function once( $action, $hook, $priority = 10, $accepted_args = 1 ) {
-		$key = md5( serialize( func_get_args() ) );
-
-		if ( in_array( $key, self::$hooks_completed ) ) {
-			return;
+	protected function maybe_enqueue_column_display_styles() {
+		global $pagenow;
+		if (
+			$pagenow
+			&& $this->cmb->has_columns
+			&& $this->cmb->prop( 'cmb_styles' )
+			&& in_array( $pagenow, array( 'edit.php', 'users.php', 'edit-comments.php', 'edit-tags.php' ), 1 )
+			) {
+			self::enqueue_cmb_css( 'cmb2-display-styles' );
 		}
-
-		self::$hooks_completed[] = $key;
-		add_filter( $action, $hook, $priority, $accepted_args );
 	}
 
 	/**
 	 * Includes CMB2 styles
 	 * @since  2.0.0
 	 */
-	public static function enqueue_cmb_css() {
+	public static function enqueue_cmb_css( $handle = 'cmb2-styles' ) {
 		if ( ! apply_filters( 'cmb2_enqueue_css', true ) ) {
 			return false;
 		}
 
 		self::register_styles();
-		return wp_enqueue_style( 'cmb2-styles' );
+
+		/*
+		 * White list the options as this method can be used as a hook callback
+		 * and have a different argument passed.
+		 */
+		return wp_enqueue_style( 'cmb2-display-styles' === $handle ? $handle : 'cmb2-styles' );
 	}
 
 	/**
