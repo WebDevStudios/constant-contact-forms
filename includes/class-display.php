@@ -620,8 +620,16 @@ class ConstantContact_Display {
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
+		$classes = array(
+			'ctct-form-field',
+			'ctct-form-field-' . $type,
+		);
+		if ( $req ) {
+			$classes[] = 'ctct-form-field-required';
+		}
+
 		// Start building our return markup.
-		$markup = '<p class="ctct-form-field ctct-form-field-' . $type . '">';
+		$markup = '<p class="' . implode( ' ', $classes ) . '">';
 
 		// Allow skipping label, also don't show for submit buttons.
 		if ( $use_label && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
@@ -939,28 +947,29 @@ class ConstantContact_Display {
 		$v_zip    = isset( $value['zip_address'] ) ? $value['zip'] : '';
 
 		$req = $req ? ' required ' : '';
+		$req_class = $req ? ' ctct-form-field-required ' : '';
 
 		// Build our field.
 		$return  = '<p class="ctct-address"><fieldset>';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
-		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1">';
+		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1' . $req_class . '">';
 		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-street" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
 		$return .= ' </div>';
 		// Address Line 2 is not required, note the missing $req inclusion.
-		$return .= ' <div class="ctct-form-field ctct-field-full address-line-2" id="input_2_1_2_container">';
+		$return .= ' <div class="ctct-form-field ctct-field-full address-line-2' . $req_class . '" id="input_2_1_2_container">';
 		$return .= '  <label for="line_2_' . esc_attr( $f_id ) . '">' . esc_attr( $line_2 ) . '</label>';
 		$return .= '  <input type="text" class="ctct-text ctct-address-line-2" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
 		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-third address-city" id="input_2_1_3_container">';
+		$return .= ' <div class="ctct-form-field ctct-field-third address-city' . $req_class . '" id="input_2_1_3_container">';
 		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-city" name="city_' . esc_attr( $f_id ) . '" id="city_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_city ) . '">';
 		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-third address-state" id="input_2_1_4_container">';
+		$return .= ' <div class="ctct-form-field ctct-field-third address-state' . $req_class . '" id="input_2_1_4_container">';
 		$return .= '  <label for="state_' . esc_attr( $f_id ) . '">' . esc_attr( $state ) . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-state" name="state_' . esc_attr( $f_id ) . '" id="state_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_state ) . '">';
 		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-third address-zip" id="input_2_1_5_container">';
+		$return .= ' <div class="ctct-form-field ctct-field-third address-zip' . $req_class . '" id="input_2_1_5_container">';
 		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-zip" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
 		$return .= ' </div>';
@@ -995,16 +1004,18 @@ class ConstantContact_Display {
 		$v_day   = isset( $value['day'] ) ? $value['day'] : '';
 		$v_year  = isset( $value['year'] ) ? $value['year'] : '';
 
+		$req_class = $req ? ' ctct-form-field-required ' : '';
+
 		// Build our field.
 		$return  = '<p class="ctct-date"><fieldset>';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
-		$return .= ' <div class="ctct-form-field ctct-field-inline month">';
+		$return .= ' <div class="ctct-form-field ctct-field-inline month' . $req_class . '">';
 		$return .= $this->get_date_dropdown( $month, $f_id, 'month', $v_month, $req );
 		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-inline day">';
+		$return .= ' <div class="ctct-form-field ctct-field-inline day' . $req_class . '">';
 		$return .= $this->get_date_dropdown( $day, $f_id, 'day', $v_day, $req );
 		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-inline year">';
+		$return .= ' <div class="ctct-form-field ctct-field-inline year' . $req_class . '">';
 		$return .= $this->get_date_dropdown( $year, $f_id, 'year', $v_year, $req );
 		$return .= ' </div>';
 
@@ -1200,6 +1211,7 @@ class ConstantContact_Display {
 	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '' ) {
 		// Set our required text.
 		$req_text = $req ? 'required' : '';
+		$req_class = $req ? ' ctct-form-field-required ' : '';
 
 		// If required, get our label.
 		$req_label = '';
@@ -1215,7 +1227,7 @@ class ConstantContact_Display {
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
-		$return  = '<p><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label>';
+		$return  = '<p class="' . $req_class . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label>';
 		$return .= '<textarea class="ctct-textarea" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
 
 		if ( $field_error ) {
