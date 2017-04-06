@@ -33,6 +33,19 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.3.0 =
+* Added: Display associated Constant Contact list in form listing.
+* Added: Display Constant Contact list count in Constant Contact List listing.
+* Added: HTML classes on form field wrappers for required fields.
+* Added: Plenty of WordPress filters around available email fields.
+* Added: UI field to customize text used to show successful submission.
+* Added: UI field to specify URL to redirect user to, after successful submission.
+* Added: Actions and filters after processing a form entry.
+* Added: Filter email used in get_email method, which determines where to send submission notifications to.
+* Fixed: mismatched textdomain that affected internationalization.
+* Updated: Improved text sent to ConstantContact.com around custom fields. Should better reflect which field each line is related to.
+* Updated: Upgraded to the latest version of CMB2.
+
 = 1.2.4 =
 * Added: Google reCAPTCHA "I am human" checkbox support for forms. See https://www.google.com/recaptcha/intro/. Will fall back to honeypot prevention if not set up.
 * Fixed: Stray quote mark in honeypot markup.
