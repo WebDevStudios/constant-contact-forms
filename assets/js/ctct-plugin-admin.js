@@ -258,8 +258,10 @@ window.CTCTBuilder = {};
 			$fieldTitle.text( $mapName );
 
 			// If we have a blank field label, then use the name of the field to fill it in
-			if ( ( $labelField.val().length === 0 ) || $labelField.hasClass( 'ctct-label-filled' ) ) {
-				$labelField.val( $mapName ).addClass( 'ctct-label-filled' );
+			if ( $labelField.val().length === 0 ) {
+				$labelField.val($mapName).addClass('ctct-label-filled');
+			} else {
+				$labelField.addClass('ctct-label-filled');
 			}
 
 			// If we haven't yet found an email field, and this is our email field
