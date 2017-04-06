@@ -239,8 +239,10 @@ class ConstantContact_Admin {
 	 */
 	public function set_custom_columns( $columns ) {
 
-		$columns['description'] = __( 'Description', 'constant-contact-forms' );
-		$columns['shortcodes']  = __( 'Shortcode', 'constant-contact-forms' );
+		$columns['description'] = esc_html__( 'Description', 'constant-contact-forms' );
+		$columns['shortcodes']  = esc_html__( 'Shortcode', 'constant-contact-forms' );
+		$columns['ctct_list']   = esc_html__( 'Associated List', 'constant-contact-forms' );
+		$columns['ctct_total']  = esc_html__( 'Contact Count', 'constant-contact-forms' );
 
 		return $columns;
 	}
