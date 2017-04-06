@@ -231,7 +231,7 @@ class ConstantContact_Admin {
 	}
 
 	/**
-	 * Add shortcode columns to each cpt.
+	 * Add columns to Forms post type.
 	 *
 	 * @internal
 	 *
