@@ -277,7 +277,7 @@ class ConstantContact_Admin {
 				echo wp_kses_post( wpautop( get_post_meta( $post_id, '_ctct_description', true ) ) );
 			break;
 			case 'ctct_list':
-				$list = $this->get_list_title_by_id( $table_list_id );
+				$list = $this->get_associated_list_by_id( $table_list_id );
 				if ( ! empty( $list ) ) {
 					printf(
 						'<a href="%s">%s</a>',
@@ -449,7 +449,15 @@ class ConstantContact_Admin {
 		}
 	}
 
-	public function get_list_title_by_id( $list_id ) {
+	/**
+	 * Fetch Constant Contact List post type ID by Constant Contact List ID.
+	 *
+	 * @since 1.3.0
+	 *
+	 * @param string $list_id Constant Contact list ID value
+	 * @return mixed
+	 */
+	public function get_associated_list_by_id( $list_id ) {
 		global $wpdb;
 		$sql = "SELECT p.ID FROM $wpdb->posts as p INNER JOIN $wpdb->postmeta as pm on p.ID = pm.post_id WHERE pm.meta_key = '_ctct_list_id' AND pm.meta_value = '%s'";
 		$rs = $wpdb->get_results(
