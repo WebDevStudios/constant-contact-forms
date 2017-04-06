@@ -267,6 +267,8 @@ class ConstantContact_Admin {
 			return;
 		}
 
+		$table_list_id = get_post_meta( $post_id, '_ctct_list', true );
+
 		switch ( $column ) {
 			case 'shortcodes':
 				echo esc_attr( '[ctct form="' . $post_id . '"]' );
@@ -274,6 +276,23 @@ class ConstantContact_Admin {
 			case 'description':
 				echo wp_kses_post( wpautop( get_post_meta( $post_id, '_ctct_description', true ) ) );
 			break;
+			case 'ctct_list':
+				$list = $this->get_list_title_by_id( $table_list_id );
+				if ( ! empty( $list ) ) {
+					printf(
+						'<a href="%s">%s</a>',
+						get_edit_post_link( $list->ID ),
+						get_the_title( $list->ID )
+					);
+				} else {
+					echo esc_html( 'No associated form', 'constant-contact-forms' );
+				}
+			break;
+			case 'ctct_total':
+				$list_info = constant_contact()->api->get_list( esc_attr( $table_list_id ) );
+				echo ( isset( $list_info->contact_count ) ) ? $list_info->contact_count : esc_html__( 'None available', 'constant-contact-forms' );
+			break;
+
 		}
 	}
 
@@ -427,6 +446,17 @@ class ConstantContact_Admin {
 		if ( $pagenow && in_array( $pagenow, $allowed_pages, true ) ) {
 			// Enqueued script with localized data.
 			wp_enqueue_script( 'ctct_form' );
+		}
+	}
+
+	public function get_list_title_by_id( $list_id ) {
+		global $wpdb;
+		$sql = "SELECT p.ID FROM $wpdb->posts as p INNER JOIN $wpdb->postmeta as pm on p.ID = pm.post_id WHERE pm.meta_key = '_ctct_list_id' AND pm.meta_value = '%s'";
+		$rs = $wpdb->get_results(
+			$wpdb->prepare( $sql, $list_id )
+		);
+		if ( ! empty( $rs ) ) {
+			return $rs[0];
 		}
 	}
 }
