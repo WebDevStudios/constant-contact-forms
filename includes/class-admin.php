@@ -84,6 +84,9 @@ class ConstantContact_Admin {
 		add_filter( 'manage_ctct_forms_posts_columns', array( $this, 'set_custom_columns' ) );
 		add_action( 'manage_ctct_forms_posts_custom_column' , array( $this, 'custom_columns' ), 10, 2 );
 
+		add_filter( 'manage_ctct_lists_posts_columns', array( $this, 'set_custom_lists_columns' ) );
+		add_action( 'manage_ctct_lists_posts_custom_column', array( $this, 'custom_lists_columns' ), 10, 2 );
+
 		add_filter( 'plugin_action_links_' . $this->basename, array( $this, 'add_social_links' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
 	}
@@ -242,7 +245,6 @@ class ConstantContact_Admin {
 		$columns['description'] = esc_html__( 'Description', 'constant-contact-forms' );
 		$columns['shortcodes']  = esc_html__( 'Shortcode', 'constant-contact-forms' );
 		$columns['ctct_list']   = esc_html__( 'Associated List', 'constant-contact-forms' );
-		$columns['ctct_total']  = esc_html__( 'Contact Count', 'constant-contact-forms' );
 
 		return $columns;
 	}
@@ -288,11 +290,53 @@ class ConstantContact_Admin {
 					echo esc_html( 'No associated form', 'constant-contact-forms' );
 				}
 			break;
+		}
+	}
+
+	/**
+	 * Add our contact count column for ctct_lists.
+	 *
+	 * @internal
+	 * @since 1.3.0
+	 *
+	 * @param $columns
+	 * @return mixed
+	 */
+	public function set_custom_lists_columns( $columns ) {
+		$columns['ctct_total'] = esc_html__( 'Contact Count', 'constant-contact-forms' );
+
+		// No need to display the date of a sync'd list post.
+		unset( $columns['date'] );
+
+		return $columns;
+	}
+
+	/**
+	 * Content of custom post columns.
+	 *
+	 * @internal
+	 * @since 1.3.0
+	 *
+	 * @param string  $column  Column title.
+	 * @param integer $post_id Post id of post item.
+	 */
+	public function custom_lists_columns( $column, $post_id ) {
+
+		// Force our $post_id to an int.
+		$post_id = absint( $post_id );
+
+		// If its a 0 bail out.
+		if ( ! $post_id ) {
+			return;
+		}
+
+		$table_list_id = get_post_meta( $post_id, '_ctct_list_id', true );
+
+		switch ( $column ) {
 			case 'ctct_total':
 				$list_info = constant_contact()->api->get_list( esc_attr( $table_list_id ) );
 				echo ( isset( $list_info->contact_count ) ) ? $list_info->contact_count : esc_html__( 'None available', 'constant-contact-forms' );
-			break;
-
+				break;
 		}
 	}
 
