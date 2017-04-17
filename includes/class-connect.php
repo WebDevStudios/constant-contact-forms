@@ -195,19 +195,22 @@ class ConstantContact_Connect {
 						</form>
 					</div>
 
+					<?php if ( ! ctct_has_forms() ) : ?>
 					<div class="ctct-connected-next-step">
 						<h3><?php esc_html_e( 'Your account is connected! Now, add a new form.', 'constant-contact-forms' ); ?></h3>
 						<div class="ctct-video">
 							<?php echo wp_oembed_get( 'https://www.youtube.com/watch?v=MhxtAlpZzJw', array( 'width' => 400 ) ); ?>
 						</div>
-
+					</div>
+					<div class="ctct-connected-opt-in">
 						<h3><?php esc_html_e( 'Please help to improve this plugin.', 'constant-contact-forms' ); ?></h3>
-						<p><?php printf( esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %s.', 'constant-contact-forms' ), '<a href="#">' . __( 'Privacy Statement', 'constant-contact-forms' ) . '</a>' ); ?></p>
+						<p><?php printf( esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %s.', 'constant-contact-forms' ), '<a href="https://www.constantcontact.com/legal/privacy-statement">' . __( 'Privacy Statement', 'constant-contact-forms' ) . '</a>' ); ?></p>
 						<div id="ctct-connect-ga-optin" class="ctct-connect-ga-optin">
-							<a class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Allow', 'constant-contact-forms' ); ?></a>
-							<a class="button no-bg" data-agree="false"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
+							<a class="button button-blue ctct-connect" data-allow="on"><?php esc_html_e( 'Allow', 'constant-contact-forms' ); ?></a>
+							<a class="button no-bg" data-allow="off"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
 						</div>
 					</div>
+					<?php endif; ?>
 				</div>
 
 			<?php else : ?>
