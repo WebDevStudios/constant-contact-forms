@@ -235,9 +235,16 @@
 	}
 	// button
 	.ctct-connected {
+	  .ctct-connected-next-step {
+		h3 {
+		  color: $color-green;
+		}
+		margin-bottom: 40px;
+	  }
 	  .ctct-disconnect-text {
-		overflow: hidden;
 		float: left;
+		margin-bottom: 50px;
+		overflow: hidden;
 		text-align: left;
 	  }
 	  form {
@@ -251,6 +258,9 @@
 	  }
 	  .ctct-connected-next-step {
 		clear: both;
+	  }
+	  .ctct-connect-ga-optin {
+		margin-top: 15px;
 	  }
 	}
   }
