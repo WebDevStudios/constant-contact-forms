@@ -181,7 +181,7 @@ class ConstantContact_Connect {
 			<?php if ( constantcontact_api()->get_api_token() ) : ?>
 
 				<div class="ctct-connected">
-					<div class="ctct-disconnect">
+					<div class="ctct-disconnect-wrap">
 						<div class="ctct-disconnect-text">
 							<h3><?php esc_html_e( 'Account connected.', 'constant-contact-forms' ); ?></h3>
 							<p>
