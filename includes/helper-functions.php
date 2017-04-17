@@ -265,3 +265,20 @@ function ctct_custom_form_action_processing() {
 	return constant_contact()->process_form->process_form();
 }
 add_action( 'wp_head', 'ctct_custom_form_action_processing' );
+
+/**
+ * Determine if we have any Constant Contact Forms published.
+ *
+ * @since 1.2.5
+ *
+ * @return bool
+ */
+function ctct_has_forms() {
+	$args = array(
+		'post_type'      => 'ctct_forms',
+		'post_status'    => 'publish',
+		'posts_per_page' => 1
+	);
+	$forms = new WP_Query( $args );
+	return ( $forms->have_posts() );
+}
