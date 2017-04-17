@@ -247,6 +247,28 @@
   background-color: #005990;
 }
 
+.ctct_options_connect .ctct-body .ctct-connected .ctct-disconnect-text {
+  overflow: hidden;
+  float: left;
+  text-align: left;
+}
+
+.ctct_options_connect .ctct-body .ctct-connected form {
+  float: right;
+}
+
+.ctct_options_connect .ctct-body .ctct-connected .button {
+  color: #0078C3;
+}
+
+.ctct_options_connect .ctct-body .ctct-connected .button.button-blue {
+  color: #fff;
+}
+
+.ctct_options_connect .ctct-body .ctct-connected .ctct-connected-next-step {
+  clear: both;
+}
+
 .error {
   background: none !important;
   border-left: 1px solid #FF4136 !important;
