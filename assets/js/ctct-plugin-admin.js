@@ -30,6 +30,27 @@ window.CTCTAJAX = {};
 			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
 		});
 
+		$('#ctct-connect-ga-optin a').on('click', function (e) {
+			var ctct_optin_ajax = {
+				'action': 'constant_contact_optin_ajax_handler',
+				'optin' : $(this).attr('data-allow')
+			}
+
+			$.ajax({
+				url     : ajaxurl,
+				data    : ctct_optin_ajax,
+				dataType: 'json',
+				success : function (response) {
+					$('.ctct-connected-opt-in').hide();
+				},
+				error   : function (x, t, m) {
+					if (window.console) {
+						console.log([t, m]);
+					}
+				}
+			});
+		});
+
 		$('#_ctct_data_tracking').on('click', function(e) {
 			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
 		});
@@ -258,7 +279,7 @@ window.CTCTBuilder = {};
 			$fieldTitle.text( $mapName );
 
 			// If we have a blank field label, then use the name of the field to fill it in
-			if ( $labelField.val().length === 0 ) {
+			if ($labelField.val().length === 0) {
 				$labelField.val($mapName).addClass('ctct-label-filled');
 			} else {
 				$labelField.addClass('ctct-label-filled');
