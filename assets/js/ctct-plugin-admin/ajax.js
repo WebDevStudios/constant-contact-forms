@@ -30,6 +30,27 @@ window.CTCTAJAX = {};
 			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
 		});
 
+		$('#ctct-connect-ga-optin a').on('click', function (e) {
+			var ctct_optin_ajax = {
+				'action': 'constant_contact_optin_ajax_handler',
+				'optin' : $(this).attr('data-allow')
+			}
+
+			$.ajax({
+				url     : ajaxurl,
+				data    : ctct_optin_ajax,
+				dataType: 'json',
+				success : function (response) {
+					$('.ctct-connected-opt-in').hide();
+				},
+				error   : function (x, t, m) {
+					if (window.console) {
+						console.log([t, m]);
+					}
+				}
+			});
+		});
+
 		$('#_ctct_data_tracking').on('click', function(e) {
 			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
 		});
