@@ -10,6 +10,8 @@ window.CTCTAJAX = {};
 
 	// We need to manipulate our form builder a bit. We do this here.
 	that.handleOptinAJAX = function() {
+
+		// Handles GA opt-in confirmation for admin notice.
 		$('#ctct_admin_notice_tracking_optin').on('click',function(e){
 			var ctct_optin_ajax = {
 				'action': 'constant_contact_optin_ajax_handler',
@@ -30,16 +32,20 @@ window.CTCTAJAX = {};
 			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
 		});
 
+		// Opens the privacy modal once clicking on the checkbox to opt in via the admin notice.
 		$('#_ctct_data_tracking').on('click', function(e) {
 			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
 		});
 
+		// Unchecks the value if they have closed the privacy modal without agreeing/disagreeing.
+		// We won't force them to agree.
 		$('.ctct-modal-close').on('click', function(e){
 			if( $('#_ctct_data_tracking').is(':checked')){
 				$('#_ctct_data_tracking').attr('checked', false);
 			}
 		});
 
+		// Handle the agreeing or disagreeing regarding privacy modal.
 		$('#ctct-modal-footer-privacy a').on('click',function(e){
 			var ctct_privacy_ajax = {
 				'action': 'constant_contact_privacy_ajax_handler',
@@ -68,6 +74,7 @@ window.CTCTAJAX = {};
 
 	};
 
+	// Handle saving the decision regarding the review prompt admin notice.
 	that.handleReviewAJAX = function() {
 		$('#ctct-admin-notice-review_request').on('click', 'a', function (e) {
 			var ctct_action = 'dismissed';
