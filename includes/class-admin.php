@@ -65,6 +65,9 @@ class ConstantContact_Admin {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @param Constant_Contact $plugin Primary class file.
+	 * @param string $basename Primary class basename.
 	 */
 	public function __construct( $plugin, $basename ) {
 		$this->plugin   = $plugin;
