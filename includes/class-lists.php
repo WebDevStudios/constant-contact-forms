@@ -678,6 +678,7 @@ class ConstantContact_Lists {
 			return $this->_add_list( $post );
 		}
 
+		return true;
 	}
 
 	/**
