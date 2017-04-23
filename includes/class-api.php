@@ -106,7 +106,7 @@ class ConstantContact_API {
 
 		// If we're not connectd, bail out.
 		if ( ! $this->is_connected() ) {
-			return;
+			return array();
 		}
 
 		// Get our saved account info.
@@ -232,7 +232,7 @@ class ConstantContact_API {
 
 		// Sanity check that.
 		if ( ! $id ) {
-			return;
+			return array();
 		}
 
 		// Verify we're connected.
