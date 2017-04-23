@@ -427,7 +427,7 @@ class ConstantContact_Admin {
 			'ctct_form',
 			constant_contact()->url() . 'assets/js/ctct-plugin-admin' . $suffix . '.js',
 			array(),
-			constant_contact()->version,
+			Constant_Contact::VERSION,
 			true
 		);
 

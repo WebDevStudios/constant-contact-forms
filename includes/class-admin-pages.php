@@ -54,14 +54,14 @@ class ConstantContact_Admin_Pages {
 			'constant-contact-forms',
 			constant_contact()->url() . 'assets/css/admin-forms.css',
 			array(),
-			constant_contact()->version
+			Constant_Contact::VERSION
 		);
 
 		wp_enqueue_style(
 			'constant_contact_admin_pages',
 			constant_contact()->url() . 'assets/css/admin-pages.css',
 			array(),
-			constant_contact()->version
+			Constant_Contact::VERSION
 		);
 
 		wp_enqueue_script( 'ctct_form' );

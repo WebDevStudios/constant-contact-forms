@@ -399,7 +399,7 @@ class ConstantContact_Notifications {
 				'constant-contact-admin-notices',
 				constant_contact()->url() . 'assets/css/admin-notices.css',
 				array(),
-				constant_contact()->version
+				Constant_Contact::VERSION
 			);
 
 			$have_styles = true;

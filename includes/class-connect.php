@@ -162,7 +162,7 @@ class ConstantContact_Connect {
 			'constant_contact_admin_global_no_connection',
 			constant_contact()->url() . 'assets/css/admin-global-no-connection.css',
 			array(),
-			constant_contact()->version
+			Constant_Contact::VERSION
 		);
 
 		wp_enqueue_style( 'constant_contact_admin_global_no_connection' );

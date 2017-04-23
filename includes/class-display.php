@@ -48,7 +48,7 @@ class ConstantContact_Display {
 			'ctct_frontend_forms',
 			constant_contact()->url() . 'assets/js/ctct-plugin-frontend' . $suffix . '.js',
 			array(),
-			constant_contact()->version,
+			Constant_Contact::VERSION,
 			true
 		);
 
@@ -69,7 +69,7 @@ class ConstantContact_Display {
 			'ctct_form_styles',
 			constant_contact()->url() . 'assets/css/style.css',
 			array(),
-			constant_contact()->version
+			Constant_Contact::VERSION
 		);
 
 		if ( $enqueue ) {
