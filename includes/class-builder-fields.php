@@ -246,7 +246,7 @@ class ConstantContact_Builder_Fields {
 
 		// Get our site name, and if we don't have it, then use a placeholder.
 		$business_name = get_bloginfo( 'name' );
-		$business_name ? $business_name : __( 'Your Business Name', 'constant-contact-forms' );
+		$business_name ? ( $business_name ) : __( 'Your Business Name', 'constant-contact-forms' );
 
 		$options_metabox->add_field( array(
 			'name'        => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
