@@ -457,7 +457,7 @@ class ConstantContact_Display {
 			case 'anniversery':
 			case 'birthday':
 				// Need this to be month / day / year.
-				return $this->dates( $name, $map, $value, $desc, $req, false, $field_error );
+				return $this->dates( $name, $map, $value, $desc, $req, $field_error );
 				break;
 			default:
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
