@@ -513,6 +513,7 @@ class ConstantContact_Admin {
 		if ( ! empty( $rs ) ) {
 			return $rs[0];
 		}
+		return array();
 	}
 }
 
