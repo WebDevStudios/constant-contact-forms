@@ -82,6 +82,9 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @param array  $form_data   Array of form data.
+	 * @param string $form_id     Form ID.
+	 * @param bool   $skip_styles Whether or not to skip style additions.
 	 * @return string Form markup.
 	 */
 	public function form( $form_data, $form_id = '', $skip_styles = false ) {
