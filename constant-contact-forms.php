@@ -161,6 +161,8 @@ class Constant_Contact {
 	private $updates;
 	private $optin;
 	private $customizations;
+	private $shortcode;
+	private $shortcode_admin;
 
 	/**
 	 * License file.
