@@ -166,6 +166,7 @@ class ConstantContact_Notification_Content {
 		// The @codingStand.. is to suppress PHPCS warnings about commented code
 		// @codingStandardsIgnoreLine
 		// return __( 'Welcome to v1.0.1 of Constant Contact.', 'constant-contact-forms' );
+		return true;
 	}
 
 	/**
