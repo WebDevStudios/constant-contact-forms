@@ -260,6 +260,8 @@ class ConstantContact_Display {
 
 			return $return;
 		}
+
+		return false;
 	}
 
 	/**
