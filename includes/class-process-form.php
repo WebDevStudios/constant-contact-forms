@@ -277,7 +277,7 @@ class ConstantContact_Process_Form {
 
 		// Sanity check.
 		if ( ! is_array( $values ) ) {
-			return '';
+			return array();
 		}
 
 		// Loop through once to get our form ID.
@@ -301,7 +301,7 @@ class ConstantContact_Process_Form {
 
 		// If we didn't get a form ID, bail out.
 		if ( ! $form_id ) {
-			return '';
+			return array();
 		}
 
 		// Get our original fields.
@@ -309,7 +309,7 @@ class ConstantContact_Process_Form {
 
 		// If its not an array, bail out.
 		if ( ! is_array( $orig_fields ) ) {
-			return;
+			return array();
 		}
 
 		// This is what we'll use.
@@ -366,7 +366,7 @@ class ConstantContact_Process_Form {
 
 		// Sanity check.
 		if ( ! $form_id ) {
-			return false;
+			return array();
 		}
 
 		// Get our fields post meta.
@@ -374,7 +374,7 @@ class ConstantContact_Process_Form {
 
 		// Sanity check again.
 		if ( ! is_array( $fields ) ) {
-			return false;
+			return array();
 		}
 
 		// Start our return array.
