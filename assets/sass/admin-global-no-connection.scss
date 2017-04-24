@@ -262,6 +262,15 @@
 	  .ctct-connect-ga-optin {
 		margin-top: 15px;
 	  }
+	  @media screen and (max-width: 782px) {
+		.ctct-disconnect-text {
+		  float: none;
+		  text-align: center
+		}
+		form {
+		  float: none;
+		}
+	  }
 	}
   }
   // ctct-body
