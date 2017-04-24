@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
 Tested up to:      4.7.2
-Stable tag:        1.2.4
+Stable tag:        1.2.5
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -32,6 +32,11 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 4. Basic Form
 
 == Changelog ==
+
+= 1.2.5 =
+* Fixed: Customized labels no longer reset to default when adding new fields.
+* Added: Ability to bypass using WP_CRON when trying to have form entries sent to ConstantContact.com lists. If you're having trouble getting them sent, use this setting.
+* Updated: Revised content for "Disconnect" page when connected, and have not created a form yet.
 
 = 1.2.4 =
 * Added: Google reCAPTCHA "I am human" checkbox support for forms. See https://www.google.com/recaptcha/intro/. Will fall back to honeypot prevention if not set up.
