@@ -282,6 +282,16 @@
   margin-top: 15px;
 }
 
+@media screen and (max-width: 782px) {
+  .ctct_options_connect .ctct-body .ctct-connected .ctct-disconnect-text {
+    float: none;
+    text-align: center;
+  }
+  .ctct_options_connect .ctct-body .ctct-connected form {
+    float: none;
+  }
+}
+
 .error {
   background: none !important;
   border-left: 1px solid #FF4136 !important;
