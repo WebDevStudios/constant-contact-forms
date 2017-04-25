@@ -199,7 +199,9 @@ class ConstantContact_Connect {
 					<div class="ctct-connected-next-step">
 						<h3><?php esc_html_e( 'Your account is connected! Now, add a new form.', 'constant-contact-forms' ); ?></h3>
 						<div class="ctct-video">
-							<?php echo wp_oembed_get( 'https://www.youtube.com/watch?v=MhxtAlpZzJw', array( 'width' => 400 ) ); ?>
+							<script src="https://fast.wistia.com/embed/medias/xix7jf8p55.jsonp" async></script>
+							<script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
+							<div class="wistia_embed wistia_async_xix7jf8p55 seo=false" style="height:225px;width:400px;margin:0 auto;">&nbsp;</div>
 						</div>
 					</div>
 					<div class="ctct-connected-opt-in">
