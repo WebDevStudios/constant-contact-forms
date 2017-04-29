@@ -39,7 +39,7 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->hooks();
+		$this->init();
 	}
 
 	/**
