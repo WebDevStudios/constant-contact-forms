@@ -136,17 +136,26 @@ class ConstantContact_Process_Form {
 
 		// If we don't have our submitted form id, just bail out.
 		if ( ! isset( $data['ctct-id'] ) ) {
-			return;
+			return array(
+				'status' => 'named_error',
+				'error'  => __( 'No Constant Contact Forms form ID provided', 'constant-contact-forms' ),
+			);
 		}
 
 		// If we don't have our submitted form verify, just bail out.
 		if ( ! isset( $data['ctct-verify'] ) ) {
-			return;
+			return array(
+				'status' => 'named_error',
+				'error'  => __( 'No form verify value provided', 'constant-contact-forms' ),
+			);
 		}
 
 		// Honeypot. Should be empty to proceed.
 		if ( ! empty ( $data['ctct_usage_field' ] ) ) {
-			return;
+			return array(
+				'status' => 'named_error',
+				'error'  => __( 'We do no think you are human', 'constant-contact-forms' ),
+			);
 		}
 
 		if ( isset( $data['g-recaptcha-response'] ) ) {
@@ -156,7 +165,10 @@ class ConstantContact_Process_Form {
 			$resp = $recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
 
 			if ( ! $resp->isSuccess() ) {
-				return;
+				return array(
+					'status' => 'named_error',
+					'error'  => __( 'Failed reCAPTCHA check', 'constant-contact-forms' ),
+				);
 			}
 		}
 
