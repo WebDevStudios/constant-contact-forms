@@ -281,8 +281,6 @@ class ConstantContact_Process_Form {
 		return $return;
 	}
 
-
-
 	/**
 	 * Pretty our values up.
 	 *
