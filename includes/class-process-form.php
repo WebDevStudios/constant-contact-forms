@@ -573,6 +573,10 @@ class ConstantContact_Process_Form {
 	 */
 	public function process_wrapper( $form_data = array(), $form_id = 0 ) {
 
+		if ( empty( $_POST['ctct-id'] ) ) {
+			return;
+		}
+
 		// @todo Utilize $form_data.
 		if ( isset( $_POST['ctct-id'] ) && $form_id != absint( $_POST['ctct-id'] ) ) {
 			return false;
