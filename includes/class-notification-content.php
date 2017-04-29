@@ -184,22 +184,6 @@ class ConstantContact_Notification_Content {
 		);
 		return ob_get_clean();
 	}
-
-	/**
-	 * Content for the reCAPTCHA information notice.
-	 *
-	 * @since 1.2.4
-	 *
-	 * @return string
-	 */
-	public function reCAPTCHA() {
-		ob_start();
-		printf(
-			__( 'Protect yourself from Spam &amp; Bots: New <strong>v1.2.4 Constant Contact Forms for WordPress</strong> now supports Google reCAPTCHA. Learn more and implement via <a href="%s">Settings</a>', 'constant-contact-forms' ),
-			admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings' )
-		);
-		return ob_get_clean();
-	}
 }
 
 /**
