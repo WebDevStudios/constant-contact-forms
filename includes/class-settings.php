@@ -266,6 +266,15 @@ class ConstantContact_Settings {
 				'before_row' => '<hr/>',
 			) );
 
+			// Make API contact requests immediately instead of via cron.
+			$cmb->add_field( array(
+				'name'       => __( 'Bypass Constant Contact cron scheduling', 'constant-contact-forms' ),
+				'desc'       => __( 'This option will send form entries to Constant Contact right away instead of holding for one minute delay.', 'constant-contact-forms' ),
+				'id'         => '_ctct_bypass_cron',
+				'type'       => 'checkbox',
+				'before_row' => '<hr/>',
+			) );
+
 			// Get our lists.
 			$lists = constant_contact()->builder->get_lists();
 

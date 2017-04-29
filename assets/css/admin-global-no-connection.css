@@ -247,6 +247,51 @@
   background-color: #005990;
 }
 
+.ctct_options_connect .ctct-body .ctct-connected .ctct-connected-next-step {
+  margin-bottom: 40px;
+}
+
+.ctct_options_connect .ctct-body .ctct-connected .ctct-connected-next-step h3 {
+  color: #2ECC40;
+}
+
+.ctct_options_connect .ctct-body .ctct-connected .ctct-disconnect-text {
+  float: left;
+  margin-bottom: 50px;
+  overflow: hidden;
+  text-align: left;
+}
+
+.ctct_options_connect .ctct-body .ctct-connected form {
+  float: right;
+}
+
+.ctct_options_connect .ctct-body .ctct-connected .button {
+  color: #0078C3;
+}
+
+.ctct_options_connect .ctct-body .ctct-connected .button.button-blue {
+  color: #fff;
+}
+
+.ctct_options_connect .ctct-body .ctct-connected .ctct-connected-next-step {
+  clear: both;
+}
+
+.ctct_options_connect .ctct-body .ctct-connected .ctct-connect-ga-optin {
+  margin-top: 15px;
+}
+
+@media screen and (max-width: 782px) {
+  .ctct_options_connect .ctct-body .ctct-connected .ctct-disconnect-text {
+    float: none;
+    text-align: center;
+  }
+  .ctct_options_connect .ctct-body .ctct-connected form {
+    float: none;
+  }
+}
+
 .error {
   background: none !important;
   border-left: 1px solid #FF4136 !important;

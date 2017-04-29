@@ -1,9 +1,8 @@
 @import 'variables';
 @import 'mixins';
 
-
 #adminmenu .wp-submenu a[href="edit.php?post_type=ctct_forms&page=ctct_options_connect"] {
-	color: rgb(58, 209, 130);
+  color: rgb(58, 209, 130);
 }
 
 //--------------------------------------------------------------
@@ -11,230 +10,287 @@
 //--------------------------------------------------------------
 
 .ctct_options_connect {
-	box-sizing: border-box;
-	padding: 70px;
-	text-align: center;
+  box-sizing: border-box;
+  padding: 70px;
+  text-align: center;
+  width: 100%;
+
+  hr {
+	margin-bottom: 45px;
+  }
+
+  @media screen and (max-width: 782px) {
+	padding: 30px 30px 0;
+	margin-left: -10px;
+  }
+
+  .ctct-call-to-action {
+	margin-bottom: 45px;
+	overflow: hidden;
+	text-align: left;
 	width: 100%;
-
-  	hr {
-	  margin-bottom: 45px;
-	}
-
-	@media screen and (max-width: 782px) {
-		padding: 30px 30px 0;
-		margin-left: -10px;
-	}
-
-  	.ctct-call-to-action {
-	  margin-bottom: 45px;
-	  overflow: hidden;
-	  text-align: left;
-	  width: 100%;
-	  p {
-		float: left;
-		margin: 0;
-	  }
-	  a {
-		float: right;
-		text-align: center;
-		@media screen and (max-width: 782px) {
-		  float: none;
-		}
-	  }
-	  .ctct-call-to-action-text {
-		a {
-		  float: none;
-		}
-		small {
-		  line-height: 1.2px;
-		}
-	  }
-
-	  #subbox {
-		height: 40px;
-		margin: 15px 0;
-	  	width: 50%;
-	  }
-	  #subbutton {
-		color: $color-prussian-blue;
-		float: right;
-
-		@media screen and (max-width: 782px) {
-		  float: none;
-		}
-	  }
-	}
-
-	img {
-		width: 100%;
-		max-width: 400px;
-		height: auto;
-	}
-
-	h3 {
-		color: darken($color-prussian-blue,10%);
-		font-size: 20px;
-		line-height: 1.2;
-		margin-bottom: 10px;
-		margin-top: 10px;
-	} // h3
-
 	p {
-		color: $color-modal-alt-text;
-		font-size: 14.7px;
-	  	margin: 0;
+	  float: left;
+	  margin: 0;
+	}
+	a {
+	  float: right;
+	  text-align: center;
+	  @media screen and (max-width: 782px) {
+		float: none;
+	  }
+	}
+	.ctct-call-to-action-text {
+	  a {
+		float: none;
+	  }
+	  small {
+		line-height: 1.2px;
+	  }
+	}
 
-		&.ctct-description {
-			font-size: 16px;
-			margin-bottom: 50px;
-			margin-top: 5px;
-		} // ctct-description
+	#subbox {
+	  height: 40px;
+	  margin: 15px 0;
+	  width: 50%;
+	}
+	#subbutton {
+	  color: $color-prussian-blue;
+	  float: right;
 
-		&.small {
-			color: $color-light-silver;
-			font-size: 13.3px;
-			margin: 15px auto 0;
+	  @media screen and (max-width: 782px) {
+		float: none;
+	  }
+	}
+  }
 
-			@media screen and (max-width: 782px) {
-				max-width: 100%;
-			}
+  img {
+	width: 100%;
+	max-width: 400px;
+	height: auto;
+  }
+
+  h3 {
+	color: darken($color-prussian-blue, 10%);
+	font-size: 20px;
+	line-height: 1.2;
+	margin-bottom: 10px;
+	margin-top: 10px;
+  }
+  // h3
+
+  p {
+	color: $color-modal-alt-text;
+	font-size: 14.7px;
+	margin: 0;
+
+	&.ctct-description {
+	  font-size: 16px;
+	  margin-bottom: 50px;
+	  margin-top: 5px;
+	}
+	// ctct-description
+
+	&.small {
+	  color: $color-light-silver;
+	  font-size: 13.3px;
+	  margin: 15px auto 0;
+
+	  @media screen and (max-width: 782px) {
+		max-width: 100%;
+	  }
+	}
+  }
+  // p
+
+  .ctct-body {
+	@include clearfix;
+
+	.ctct-call-to-action-text {
+	  float: left;
+	  width: 75%;
+
+	  @media screen and (max-width: 782px) {
+		width: 100%;
+	  }
+
+	  h3 {
+		margin-top: 0;
+	  }
+	}
+	margin: 0 auto;
+	max-width: 75%;
+	overflow-y: hidden;
+	position: relative;
+
+	.clear {
+	  width: 100%;
+	  clear: both;
+	  height: 0;
+	}
+
+	.left,
+	.right {
+	  box-sizing: border-box;
+	  box-sizing: border-box;
+	  float: left;
+	  margin-bottom: -500px;
+	  padding: 15px 0px 520px;
+	  text-align: center;
+	  width: 50%;
+
+	  @media screen and (max-width: 782px) {
+		float: none;
+		margin-bottom: 0;
+		padding: 15px 0;
+		width: 100%;
+	  }
+
+	  img,
+	  svg {
+
+		&.flare {
+		  width: 180px;
+		  height: auto;
 		}
-	} // p
+		// flare
+	  }
+	  // img
+	}
+	// left-right
+	.left {
+	  border-right: 1px solid $color-silver;
+	  padding-right: 70px;
 
-	.ctct-body {
-		@include clearfix;
+	  @media screen and (max-width: 782px) {
+		border-bottom: 1px solid $color-silver;
+		border-right: 0;
+		padding-bottom: 30px;
+		padding-right: 0;
+	  }
 
-	  	.ctct-call-to-action-text {
-		  float: left;
-		  width: 75%;
+	  p {
+		max-width: 220px;
+		margin: 0 auto 25px;
 
-		  @media screen and (max-width: 782px) {
-			width: 100%;
-		  }
-
-		  h3 {
-			margin-top: 0;
-		  }
+		@media screen and (max-width: 782px) {
+		  max-width: 100%;
 		}
-		margin: 0 auto;
-		max-width: 75%;
-		overflow-y: hidden;
-		position: relative;
+	  }
+	  // p
+	}
+	// left
+	.right {
+	  padding-left: 70px;
 
-		.clear {
-			width: 100%;
-			clear: both;
-			height: 0;
+	  @media screen and (max-width: 782px) {
+		padding-left: 0;
+		padding-top: 30px;
+	  }
+
+	  p {
+		display: block;
+		max-width: 350px;
+		margin: 0 auto 25px;
+
+		@media screen and (max-width: 782px) {
+		  max-width: 100%;
 		}
+	  }
+	  // p
+	}
+	// right
+	.button {
+	  border-radius: 4px;
+	  color: $color-white;
+	  font-size: 16px;
+	  font-weight: 600;
+	  height: auto;
+	  line-height: 1;
+	  margin-bottom: 10px;
+	  min-width: 180px;
+	  padding: 14px 30px;
 
-		.left,
-		.right {
-			box-sizing: border-box;
-			box-sizing: border-box;
-			float:left;
-			margin-bottom: -500px;
-			padding: 15px 0px 520px;
-			text-align: center;
-			width: 50%;
+	  &.button-orange {
+		background-color: $color-chrome-yellow;
+		border: 1px solid darken($color-chrome-yellow, 10%);
 
-			@media screen and (max-width: 782px) {
-				float: none;
-				margin-bottom: 0;
-				padding: 15px 0;
-				width: 100%;
-			}
+		&:hover,
+		&:focus {
+		  background-color: darken($color-chrome-yellow, 10%);
+		}
+	  }
+	  // button orange
 
-			img,
-			svg {
+	  &.button-blue {
+		background-color: $color-prussian-blue;
+		border: 1px solid darken($color-prussian-blue, 10%);
 
-				&.flare {
-					width: 180px;
-					height: auto;
-				} // flare
-			} // img
-		} // left-right
-		.left {
-			border-right: 1px solid $color-silver;
-			padding-right: 70px;
+		&:hover,
+		&:focus {
+		  background-color: darken($color-prussian-blue, 10%);
+		}
+	  }
+	  // button blue
+	}
+	// button
+	.ctct-connected {
+	  .ctct-connected-next-step {
+		h3 {
+		  color: $color-green;
+		}
+		margin-bottom: 40px;
+	  }
+	  .ctct-disconnect-text {
+		float: left;
+		margin-bottom: 50px;
+		overflow: hidden;
+		text-align: left;
+	  }
+	  form {
+		float: right;
+	  }
+	  .button {
+		color: $color-prussian-blue;
+		&.button-blue {
+		  color: $color-white;
+		}
+	  }
+	  .ctct-connected-next-step {
+		clear: both;
+	  }
+	  .ctct-connect-ga-optin {
+		margin-top: 15px;
+	  }
+	  @media screen and (max-width: 782px) {
+		.ctct-disconnect-text {
+		  float: none;
+		  text-align: center
+		}
+		form {
+		  float: none;
+		}
+	  }
+	}
+  }
+  // ctct-body
+}
 
-			@media screen and (max-width: 782px) {
-				border-bottom: 1px solid $color-silver;
-				border-right: 0;
-				padding-bottom: 30px;
-				padding-right: 0;
-			}
-
-			p {
-				max-width: 220px;
-				margin: 0 auto 25px;
-
-				@media screen and (max-width: 782px) {
-					max-width: 100%;
-				}
-			} // p
-		} // left
-		.right {
-			padding-left: 70px;
-
-			@media screen and (max-width: 782px) {
-				padding-left: 0;
-				padding-top: 30px;
-			}
-
-			p {
-				display: block;
-				max-width: 350px;
-				margin: 0 auto 25px;
-
-				@media screen and (max-width: 782px) {
-					max-width: 100%;
-				}
-			} // p
-		} // right
-		.button {
-			border-radius: 4px;
-			color: $color-white;
-			font-size: 16px;
-			font-weight: 600;
-			height: auto;
-			line-height: 1;
-			margin-bottom: 10px;
-			min-width: 180px;
-			padding: 14px 30px;
-
-			&.button-orange {
-				background-color: $color-chrome-yellow;
-				border: 1px solid darken($color-chrome-yellow, 10%);
-
-				&:hover,
-				&:focus {
-					background-color: darken($color-chrome-yellow, 10%);
-				}
-			} // button orange
-
-			&.button-blue {
-				background-color: $color-prussian-blue;
-				border: 1px solid darken($color-prussian-blue, 10%);
-
-				&:hover,
-				&:focus {
-					background-color: darken($color-prussian-blue, 10%);
-				}
-			} // button blue
-		} // button
-	} // ctct-body
-} // ctct_options_connect
+// ctct_options_connect
 
 .error {
-	background: none !important;
-	border-left: 1px solid $color-red !important;
-	border-radius: 3px;
-	border: 1px solid $color-red;
-	box-shadow: none !important;
-	display: inline-block;
-	margin: 0 0 20px 0 !important;
+  background: none !important;
+  border-left: 1px solid $color-red !important;
+  border-radius: 3px;
+  border: 1px solid $color-red;
+  box-shadow: none !important;
+  display: inline-block;
+  margin: 0 0 20px 0 !important;
 
-	p {
-		color: $color-red !important;
-	} // p
-} // error
+  p {
+	color: $color-red !important;
+  }
+  // p
+}
+
+// error

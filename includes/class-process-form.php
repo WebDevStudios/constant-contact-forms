@@ -259,6 +259,12 @@ class ConstantContact_Process_Form {
 			constant_contact()->mail->submit_form_values( $return['values'], true );
 		}
 
+		// No need to check for opt in status because we would have returned early by now if false.
+		$maybe_bypass = ctct_get_settings_option( '_ctct_bypass_cron', '' );
+		if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
+			constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
+		}
+
 		$return['status'] = 'success';
 		return $return;
 	}

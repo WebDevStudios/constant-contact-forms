@@ -181,17 +181,41 @@ class ConstantContact_Connect {
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>">
 			<div class="ctct-body">
 			<?php if ( constantcontact_api()->get_api_token() ) : ?>
-				<div class="message notice">
-					<p>
-						<?php esc_html_e( 'Plugin connected to Constant Contact.', 'constant-contact-forms' ); ?>
-					</p>
-				</div>
 
-				<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
-					<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
-					<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
-					<input type="submit" class="button button-orange ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constant-contact-forms' ); ?>">
-				</form>
+				<div class="ctct-connected">
+					<div class="ctct-disconnect-wrap">
+						<div class="ctct-disconnect-text">
+							<h3><?php esc_html_e( 'Account connected.', 'constant-contact-forms' ); ?></h3>
+							<p>
+								<?php esc_html_e( 'Plugin connected to Constant Contact.', 'constant-contact-forms' ); ?>
+							</p>
+						</div>
+						<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
+							<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
+							<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
+							<input type="submit" class="button ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constant-contact-forms' ); ?>">
+						</form>
+					</div>
+
+					<?php if ( ! ctct_has_forms() ) : ?>
+					<div class="ctct-connected-next-step">
+						<h3><?php esc_html_e( 'Your account is connected! Now, add a new form.', 'constant-contact-forms' ); ?></h3>
+						<div class="ctct-video">
+							<script src="https://fast.wistia.com/embed/medias/xix7jf8p55.jsonp" async></script>
+							<script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
+							<div class="wistia_embed wistia_async_xix7jf8p55 seo=false" style="height:225px;width:400px;margin:0 auto;">&nbsp;</div>
+						</div>
+					</div>
+					<div class="ctct-connected-opt-in">
+						<h3><?php esc_html_e( 'Please help to improve this plugin.', 'constant-contact-forms' ); ?></h3>
+						<p><?php printf( esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %s.', 'constant-contact-forms' ), '<a href="https://www.constantcontact.com/legal/privacy-statement">' . __( 'Privacy Statement', 'constant-contact-forms' ) . '</a>' ); ?></p>
+						<div id="ctct-connect-ga-optin" class="ctct-connect-ga-optin">
+							<a class="button button-blue ctct-connect" data-allow="on"><?php esc_html_e( 'Allow', 'constant-contact-forms' ); ?></a>
+							<a class="button no-bg" data-allow="off"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
+						</div>
+					</div>
+					<?php endif; ?>
+				</div>
 
 			<?php else : ?>
 
