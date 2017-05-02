@@ -43,6 +43,8 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Added: Actions and filters after processing a form entry.
 * Added: Filter email used in get_email method, which determines where to send submission notifications to.
 * Added: Force a cursor pointer for submit buttons on frontend.
+* Added: Debugging information around WP_CRON on settings page when "ctct-debug-server-check" GET parameter present.
+* Added: Easily create a new form via the "New" menu area in the admin bar.
 * Fixed: mismatched textdomain that affected internationalization.
 * Fixed: Resolved issue with field builder when Constant Contact Forms is network activated.
 * Fixed: Prevent potential fatal errors for constant_contact function call.
