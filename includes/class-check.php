@@ -49,6 +49,13 @@ class ConstantContact_Check {
 			<div class="ctct-server-requirements">
 				<h4><?php esc_attr_e( 'Server Check', 'constant-contact-forms' ); ?></h4>
 				<?php $this->display_server_checks(); ?>
+
+				<h4><?php esc_attr_e( 'Cron Check', 'constant-contact-forms' ); ?></h4>
+
+				<p><?php
+					// Check our cron status.
+					esc_html_e( $this->cron_spawn() ); ?>
+				</p>
 			</div>
 			<?php
 		}
@@ -148,5 +155,45 @@ class ConstantContact_Check {
 		}
 
 		return '🚫';
+	}
+
+	public function cron_spawn() {
+		global $wp_version;
+
+		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
+			return sprintf( __( 'The DISABLE_WP_CRON constant is set to true as of %s. WP-Cron is disabled and will not run.', 'constant-contact-forms' ), current_time( 'm/d/Y g:i:s a' ) );
+		}
+
+		if ( defined( 'ALTERNATE_WP_CRON' ) && ALTERNATE_WP_CRON ) {
+			return sprintf( __( 'The ALTERNATE_WP_CRON constant is set to true as of %s.  This plugin cannot determine the status of your WP-Cron system.', 'constant-contact-forms' ), current_time( 'm/d/Y g:i:s a' ) );
+		}
+
+		$sslverify     = version_compare( $wp_version, 4.0, '<' );
+		$doing_wp_cron = sprintf( '%.22F', microtime( true ) );
+
+		$cron_request = apply_filters( 'cron_request', array(
+			'url'  => site_url( 'wp-cron.php?doing_wp_cron=' . $doing_wp_cron ),
+			'key'  => $doing_wp_cron,
+			'args' => array(
+				'timeout'   => 3,
+				'blocking'  => true,
+				'sslverify' => apply_filters( 'https_local_ssl_verify', $sslverify ),
+			),
+		) );
+
+		$cron_request['args']['blocking'] = true;
+
+		$result = wp_remote_post( $cron_request['url'], $cron_request['args'] );
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		} else if ( wp_remote_retrieve_response_code( $result ) >= 300 ) {
+			return sprintf(
+				__( 'Unexpected HTTP response code: %s', 'constant-contact-forms' ),
+				intval( wp_remote_retrieve_response_code( $result ) )
+			);
+		}
+
+		return __( 'Cron spawn ok', 'constant-contact-forms' );
 	}
 }
