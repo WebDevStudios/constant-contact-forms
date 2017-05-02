@@ -166,10 +166,10 @@ class ConstantContact_Display {
 
 		if ( $this->plugin->settings->has_recaptcha() ) {
 			$return .= $this->build_recaptcha();
-		} else {
-			// Output a field that should not be populated, and will be visually hidden with inline CSS.
-			$return .= $this->build_honeypot_field();
 		}
+
+		// Output a field that should not be populated, and will be visually hidden with inline CSS.
+		$return .= $this->build_honeypot_field();
 
 		// Add our hidden verification fields.
 		$return .= $this->add_verify_fields( $form_data );
