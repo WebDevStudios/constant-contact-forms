@@ -47,6 +47,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Fixed: Resolved issue with field builder when Constant Contact Forms is network activated.
 * Fixed: Prevent potential fatal errors for constant_contact function call.
 * Fixed: Append determined classes for the checkbox field.
+* Updated: Output honeypot field regardless of reCAPTCHA status. Previously we did only reCAPTCHA if keys available. Else was honeypot.
 * Updated: Improved text sent to ConstantContact.com around custom fields. Should better reflect which field each line is related to.
 * Updated: Improved return messages for submission failures.
 * Updated: Upgraded to the latest version of CMB2.
