@@ -479,6 +479,8 @@ class Constant_Contact {
 			case 'notification_content':
 			case 'authserver':
 			case 'updates':
+			case 'shortcode':
+			case 'shortcode_admin':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
