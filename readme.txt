@@ -2,7 +2,7 @@
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
-Tested up to:      4.7.2
+Tested up to:      4.7.4
 Stable tag:        1.2.5
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
@@ -34,6 +34,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 == Changelog ==
 
 = 1.3.0 =
+* Added: Per-form AJAX submission support.
 * Added: Display associated Constant Contact list in form listing.
 * Added: Display Constant Contact list count in Constant Contact List listing.
 * Added: HTML classes on form field wrappers for required fields.
