@@ -66,40 +66,41 @@ window.CTCTSupport = {};
 
 	// Combine all events.
 	that.bindEvents = function() {
-		$( that.$c.form ).on( 'click', 'input[type=submit]', function() {
+		$( that.$c.form ).on( 'click', 'input[type=submit]', function(e) {
+			if ('on' === $('.ctct-form').attr('data-doajax')) {
+				e.preventDefault();
+				clearTimeout(that.timeout);
 
-			clearTimeout( that.timeout );
+				that.timeout = setTimeout(function () {
+					$.post(
+						ajaxurl,
+						{
+							'action': 'ctct_process_form',
+							'data'  : $(that.$c.form).serialize(),
+						},
+						function (response) {
 
-			that.timeout = setTimeout( function() {
-				$.post(
-				    ajaxurl,
-				    {
-				        'action': 'ctct_process_form',
-				        'data':   $( that.$c.form ).serialize(),
-				    },
-				    function( response ) {
+							// Make sure we got the 'status' attribut in our response
+							if (typeof( response.status ) !== 'undefined') {
 
-				    	// Make sure we got the 'status' attribut in our response
-				    	if ( typeof( response.status ) !== 'undefined' ) {
+								if ('success' == response.status) {
+									$('.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
+								} else {
+									// Here we'll want to disable the submit button and
+									// add some error classes
+									if (typeof( response.errors ) !== 'undefined') {
+										that.setAllInputsValid();
+										response.errors.forEach(that.processError);
+									}
 
-				    		if ( 'success' == response.status ) {
-				    			// Do nothing, we're golden
-				    		} else {
-				    			// Here we'll want to disable the submit button and
-				    			// add some error classes
-				    			if ( typeof( response.errors ) !== 'undefined' ) {
-				    				that.setAllInputsValid();
-				    				response.errors.forEach( that.processError );
-				    			}
-
-				    		}
-				    	}
-				    }
-				);
-			}, 500 )
-		})
+								}
+							}
+						}
+					);
+				}, 500)
+			}
+		});
     }
-
 
 	// Engage!
 	$( that.init );

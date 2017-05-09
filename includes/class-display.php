@@ -153,10 +153,12 @@ class ConstantContact_Display {
 		 * @param string $value   Value to put in the form action attribute. Default empty string.
 		 * @param int    $form_id ID of the Constant Contact form being rendered.
 		 */
-		$form_action = apply_filters( 'constant_contact_front_form_action', '', $form_id );
+		$form_action    = apply_filters( 'constant_contact_front_form_action', '', $form_id );
+		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
+		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 
 		// Build out our form.
-		$return .= '<form class="ctct-form" id=' . $rf_id . ' action="' . esc_attr( $form_action ) . '" method="post">';
+		$return .= '<form class="ctct-form" id=' . $rf_id . ' data-doajax="' . esc_attr( $do_ajax ) . '" action="' . esc_attr( $form_action ) . '" method="post">';
 
 		// If we have errors, display them.
 		$return .= $form_err_display;

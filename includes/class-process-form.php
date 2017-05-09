@@ -101,8 +101,51 @@ class ConstantContact_Process_Form {
 				unset( $response['values'] );
 			}
 
+			// Default to no status.
+			$status = false;
+
+			// If we got a status back, check that in our list of returns.
+			if ( isset( $response['status'] ) && $response['status'] ) {
+				$status = $response['status'];
+			}
+
+			// Switch based on our status code.
+			switch ( $status ) {
+
+				case 'success':
+					$message = __( 'Your information has been submitted.', 'constant-contact-forms' );
+					break;
+
+				// Generic error.
+				case 'error':
+					$message = $default_error;
+					break;
+
+				// Named error from our process.
+				case 'named_error':
+					$message = isset( $processed['error'] ) ? $processed['error'] : $default_error;
+					break;
+
+				// Required field errors.
+				case 'req_error':
+					return array(
+						'status'  => 'error',
+						'message' => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
+						'errors'  => isset( $processed['errors'] ) ? $processed['errors'] : '',
+						'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
+					);
+
+				// All else fails, then we'll just use the default.
+				default:
+					$message = __( 'There was an error sending your form.', 'constant-contact-forms' );
+					break;
+			}
+
 			// Send back our response.
-			wp_send_json( $response );
+			wp_send_json( array(
+				'status'  => $status,
+				'message' => $message,
+			) );
 
 			// Die out of the ajax request.
 			wp_die();
@@ -252,29 +295,18 @@ class ConstantContact_Process_Form {
 			);
 		}
 
-		// If we're not processing the opt-in stuff, we can just return our data here.
 		if ( ! isset( $data['ctct-opt-in'] ) ) {
+			constant_contact()->mail->submit_form_values( $return['values'] );
+		} else {
 
-			if ( ! $is_ajax ) {
-
-				// At this point we can process all of our submitted values.
-				constant_contact()->mail->submit_form_values( $return['values'] );
+			// No need to check for opt in status because we would have returned early by now if false.
+			$maybe_bypass = ctct_get_settings_option( '_ctct_bypass_cron', '' );
+			if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
+				constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
+				constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
+			} else {
+				constant_contact()->mail->submit_form_values( $return['values'], true );
 			}
-
-			$return['status'] = 'success';
-			return $return;
-		}
-
-		if ( ! $is_ajax ) {
-
-			// At this point we can process all of our submitted values.
-			constant_contact()->mail->submit_form_values( $return['values'], true );
-		}
-
-		// No need to check for opt in status because we would have returned early by now if false.
-		$maybe_bypass = ctct_get_settings_option( '_ctct_bypass_cron', '' );
-		if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
-			constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
 		}
 
 		$return['status'] = 'success';

@@ -131,9 +131,16 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
-				'name'    => __( 'Button text', 'constant-contact-forms' ),
-				'id'      => $this->prefix . 'button_text',
-				'type'    => 'text_medium',
+			'name' => __( 'Button text', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'button_text',
+			'type' => 'text_medium',
+		) );
+
+		$options_metabox->add_field( array(
+			'name'        => __( 'Submit via AJAX', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'do_ajax',
+			'type'        => 'checkbox',
+			'description' => __( 'Enables form submissions without triggering a page refresh. Overrides and prevents "Redirect to" value usage.', 'constant-contact-forms' ),
 		) );
 
 		$options_metabox->add_field( array(
