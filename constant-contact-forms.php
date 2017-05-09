@@ -210,11 +210,7 @@ class Constant_Contact {
 		// Load our plugin and our libraries.
 		$this->plugin_classes();
 		$this->load_libs();
-
-		// If we're in the admin, also load up the admin classes.
-		if ( is_admin() ) {
-			$this->admin_plugin_classes();
-		}
+		$this->admin_plugin_classes();
 
 		// Include our helper functions function for end-users.
 		Constant_Contact::include_file( 'helper-functions', false );
