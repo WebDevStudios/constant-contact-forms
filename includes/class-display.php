@@ -798,7 +798,7 @@ class ConstantContact_Display {
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
 
 		$markup = $this->field_top( $type, $name, $f_id, $label, false, false );
-		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" class="' . $classes . '" />';
+		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" class="' . implode( ' ', $classes ) . '" />';
 		$markup .= $this->field_bottom( $name, ' ' . $label );
 
 		return $markup;
