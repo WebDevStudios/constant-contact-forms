@@ -37,7 +37,7 @@ class ConstantContact_Builder {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->hooks();
+		$this->init();
 	}
 
 	/**
