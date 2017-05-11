@@ -19,7 +19,7 @@ namespace Ctct;
  * @author Fabien Potencier <fabien.potencier@symfony-project.org>
  */
 
-class CTCTSplClassLoader
+class CTCTOfficialSplClassLoader
 {
     private $fileExtension = '.php';
     private $namespace;
