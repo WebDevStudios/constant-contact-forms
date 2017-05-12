@@ -141,3 +141,6 @@ https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18539-WordPress
 
 #### cURL error 60: SSL certificate problem
 https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18159-WordPress-Error-60
+
+#### Add Google reCAPTCHA to Constant Contact Forms
+http://knowledgebase.constantcontact.com/articles/KnowledgeBase/17880
