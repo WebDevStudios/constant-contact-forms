@@ -127,3 +127,17 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 = 1.0.0 =
 * Initial Release
+
+== Frequently Asked Questions ==
+
+#### Constant Contact Forms Options
+http://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options
+
+#### Frequently Asked Questions
+https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18491-WordPress-Frequently-Asked-Questions
+
+#### Constant Contact List Addition Issues
+https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18539-WordPress-Constant-Contact-List-Addition-Issues
+
+#### cURL error 60: SSL certificate problem
+https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18159-WordPress-Error-60
