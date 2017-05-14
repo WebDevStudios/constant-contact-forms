@@ -85,12 +85,12 @@ class ConstantContact_Admin_Pages {
 		 */
 		return apply_filters( 'constant_contact_help_texts', array(
 			array(
-				'title' => __( 'This is a sample help header', 'constant-contact-forms' ),
-				'content' => __( 'This is some sample help text.', 'constant-contact-forms' ),
+				'title'   => esc_html__( 'This is a sample help header', 'constant-contact-forms' ),
+				'content' => esc_html__( 'This is some sample help text.', 'constant-contact-forms' ),
 			),
 			array(
-				'title' => __( 'This is another sample header', 'constant-contact-forms' ),
-				'content' => __( 'This is also some sample help text.', 'constant-contact-forms' ),
+				'title'   => esc_html__( 'This is another sample header', 'constant-contact-forms' ),
+				'content' => esc_html__( 'This is also some sample help text.', 'constant-contact-forms' ),
 			),
 		) );
 	}
@@ -113,12 +113,12 @@ class ConstantContact_Admin_Pages {
 		 */
 		return apply_filters( 'constant_contact_faq_texts', array(
 			array(
-				'title' => __( 'Is this a sample question?', 'constant-contact-forms' ),
-				'content' => __( 'This is a sample answer', 'constant-contact-forms' ),
+				'title'   => esc_html__( 'Is this a sample question?', 'constant-contact-forms' ),
+				'content' => esc_html__( 'This is a sample answer', 'constant-contact-forms' ),
 			),
 			array(
-				'title' => __( 'This is also a sample question', 'constant-contact-forms' ),
-				'content' => __( 'This is another sample answer', 'constant-contact-forms' ),
+				'title'   => esc_html__( 'This is also a sample question', 'constant-contact-forms' ),
+				'content' => esc_html__( 'This is another sample answer', 'constant-contact-forms' ),
 			),
 		) );
 	}
