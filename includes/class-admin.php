@@ -460,7 +460,7 @@ class ConstantContact_Admin {
 			)
 		);
 
-		if ( constant_contact_maybe_display_optin_notification() || ( isset( $_GET['page'] ) && 'ctct_options_settings' == $_GET['page'] ) ) {
+		if ( constant_contact_maybe_display_optin_notification() || ( isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ) ) {
 			wp_enqueue_script( 'ctct_form' );
 		}
 
