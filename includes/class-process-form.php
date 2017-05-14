@@ -196,7 +196,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// Honeypot. Should be empty to proceed.
-		if ( ! empty ( $data['ctct_usage_field' ] ) ) {
+		if ( ! empty( $data['ctct_usage_field'] ) ) {
 			return array(
 				'status' => 'named_error',
 				'error'  => __( 'We do no think you are human', 'constant-contact-forms' ),
