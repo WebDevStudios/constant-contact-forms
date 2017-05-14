@@ -222,7 +222,6 @@ class ConstantContact_CPTS {
 	public function change_default_title( $title ) {
 	    global $post;
 
-
 	    if ( ! isset( $post ) ) {
 	    	return $title;
 	    }
@@ -258,7 +257,6 @@ class ConstantContact_CPTS {
 	public function get_forms( $expanded_data = false, $bust_cache = false ) {
 
 		$forms = get_transient( 'constant_contact_shortcode_form_list' );
-
 
 		/**
 		 * Filters whether or not to bypass transient checks.
