@@ -20,7 +20,7 @@ class ConstantContactWidget extends WP_Widget {
 	public function __construct() {
 		$widget_ops = array(
 			'classname'   => '',
-		    'description' => __( 'Display a Constant Contact form.', 'constant-contact-forms' ),
+		    'description' => esc_html__( 'Display a Constant Contact form.', 'constant-contact-forms' ),
 		);
 		parent::__construct(
 			'ctct_form',
@@ -95,7 +95,7 @@ class ConstantContactWidget extends WP_Widget {
 		echo $args['before_widget'];
 
 		if ( $title ) {
-			echo $args['before_title'] . $title . $args['after_title'];
+			echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
 		}
 
 		echo do_shortcode( sprintf( '[ctct form="%s"]', $form_id ) );
