@@ -313,7 +313,8 @@ class ConstantContact_Admin_Pages {
 				</p>
 				<?php
 				// Include our license link if we have it.
-				if ( $license_link = $this->plugin->admin->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' ) ) { ?>
+				$license_link = $this->plugin->admin->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
+				if ( $license_link ) { ?>
 					<p class="c-text">
 						<?php
 						echo wp_kses_post( sprintf( __( 'This software is released under a modified %s.', 'constant-contact-forms' ), $license_link ) );
