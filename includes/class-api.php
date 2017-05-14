@@ -345,7 +345,7 @@ class ConstantContact_API {
 			 *
 			 * @param string $value List status to use.
 			 */
-			$list->status = $list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
+			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
 			$return_list = $this->cc()->listService->updateList( $this->get_api_token(), $list );
 
