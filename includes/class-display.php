@@ -142,7 +142,6 @@ class ConstantContact_Display {
 		}
 
 		// Force uniqueness of an id for the form.
-		// @todo figure out another way to do this maybe?
 		$rf_id = 'ctct-form-' . mt_rand();
 
 		/**
