@@ -197,7 +197,7 @@ class ConstantContact_Notification_Content {
  * @param array $allowedtags Allowed HTML.
  * @return array Allowed HTML.
  */
-function constant_contact_filter_html_tags_for_optin( $allowedtags = array() ){
+function constant_contact_filter_html_tags_for_optin( $allowedtags = array() ) {
 	$allowedtags['input'] = array( 'type' => true, 'id' => true, 'name' => true, 'value' => true );
 	return $allowedtags;
 }
