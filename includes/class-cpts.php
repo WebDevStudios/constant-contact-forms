@@ -313,7 +313,8 @@ class ConstantContact_CPTS {
 
 					// Build up our title for the shortcode form admin.
 					$title = sprintf(
-						esc_html__( '%s (last modified %s ago)', 'constant-contact-forms' ),
+						// translators: Placeholders will be form title and then last modified date.
+						esc_html__( '%1$s (last modified %2$s ago)', 'constant-contact-forms' ),
 						$title,
 						$last_modified
 					);

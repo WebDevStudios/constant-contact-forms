@@ -47,6 +47,8 @@ class ConstantContact_Notification_Content {
 		<p class="ctct-notice-intro">
 		<?php
 			printf(
+
+				// translators: Placeholder will hold "Constan Contact Forms" with <strong> tags.
 				esc_attr__( 'Get the most out of the %s plugin &mdash; use it with an active Constant Contact account.', 'constant-contact-forms' ),
 				'<strong>' . esc_attr__( 'Constant Contact Forms' ) . '</strong>'
 			);
@@ -179,6 +181,7 @@ class ConstantContact_Notification_Content {
 	public static function reCAPTCHA() {
 		ob_start();
 		printf(
+			// translators: Placeholder iwll hold url to Constant Contact Forms settings page.
 			__( 'Protect yourself from Spam &amp; Bots: New <strong>v1.2.4 Constant Contact Forms for WordPress</strong> now supports Google reCAPTCHA. Learn more and implement via <a href="%s">Settings</a>', 'constant-contact-forms' ),
 			admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings' )
 		);

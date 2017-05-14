@@ -320,6 +320,7 @@ class ConstantContact_Builder {
 						<p>
 							<?php
 							printf(
+								// translators: placeholder will hold an example shortcode for a newly created form.
 								esc_html__( 'Paste shortcode %s into a post or page editor.', 'constant-contact-forms' ),
 								'<span class="displayed-shortcode">' . constant_contact_display_shortcode( $post_id ) . '</span>'
 							); ?>

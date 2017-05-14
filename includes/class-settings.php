@@ -322,6 +322,7 @@ class ConstantContact_Settings {
 					'name'    => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
 					'id'      => '_ctct_optin_label',
 					'type'    => 'text',
+					// translators: placeholder will hold site owner's business name.
 					'default' => sprintf( __( 'Yes, I would like to receive emails from %s. Sign me up!', 'constant-contact-forms' ), $business_name ),
 				) );
 

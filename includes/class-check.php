@@ -161,10 +161,12 @@ class ConstantContact_Check {
 		global $wp_version;
 
 		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
+			// translators: placeholder will be a timestamp for the current time.
 			return sprintf( __( 'The DISABLE_WP_CRON constant is set to true as of %s. WP-Cron is disabled and will not run.', 'constant-contact-forms' ), current_time( 'm/d/Y g:i:s a' ) );
 		}
 
 		if ( defined( 'ALTERNATE_WP_CRON' ) && ALTERNATE_WP_CRON ) {
+			// translators: placeholder will be a timestamp for the current time.
 			return sprintf( __( 'The ALTERNATE_WP_CRON constant is set to true as of %s.  This plugin cannot determine the status of your WP-Cron system.', 'constant-contact-forms' ), current_time( 'm/d/Y g:i:s a' ) );
 		}
 
@@ -189,6 +191,7 @@ class ConstantContact_Check {
 			return $result;
 		} else if ( wp_remote_retrieve_response_code( $result ) >= 300 ) {
 			return sprintf(
+				// translators: placeholder iwll have an HTTP response code value.
 				__( 'Unexpected HTTP response code: %s', 'constant-contact-forms' ),
 				intval( wp_remote_retrieve_response_code( $result ) )
 			);

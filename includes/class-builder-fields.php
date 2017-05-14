@@ -259,6 +259,7 @@ class ConstantContact_Builder_Fields {
 			'name'        => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'opt_in_instructions',
 			'type'        => 'textarea_small',
+			// translators: placeholder has a business name from Constant Contact.
 			'default'     => sprintf( __( 'Example: Yes, I would like to receive emails from %s. (You can unsubscribe anytime)', 'constant-contact-forms' ), $business_name ),
 		) );
 	}

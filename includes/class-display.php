@@ -1302,6 +1302,7 @@ class ConstantContact_Display {
 	 * @return string
 	 */
 	public function get_inner_disclose_text() {
+		// translators: placeholder will hold company info for site owner.
 		return sprintf( __( 'By submitting this form, you are granting: %s, permission to email you. You may unsubscribe via the link found at the bottom of every email. (See our Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) for details.) Emails are serviced by Constant Contact.', 'constant-contact-forms' ), $this->plugin->api->get_disclosure_info() );
 	}
 }

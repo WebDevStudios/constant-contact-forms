@@ -208,7 +208,9 @@ class ConstantContact_Connect {
 					</div>
 					<div class="ctct-connected-opt-in">
 						<h3><?php esc_html_e( 'Please help to improve this plugin.', 'constant-contact-forms' ); ?></h3>
-						<p><?php printf( esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %s.', 'constant-contact-forms' ), '<a href="https://www.constantcontact.com/legal/privacy-statement">' . __( 'Privacy Statement', 'constant-contact-forms' ) . '</a>' ); ?></p>
+						<p><?php
+							// translators: placeholder will hold link to Constant Contact privacy statement.
+							printf( esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %s.', 'constant-contact-forms' ), '<a href="https://www.constantcontact.com/legal/privacy-statement">' . __( 'Privacy Statement', 'constant-contact-forms' ) . '</a>' ); ?></p>
 						<div id="ctct-connect-ga-optin" class="ctct-connect-ga-optin">
 							<a class="button button-blue ctct-connect" data-allow="on"><?php esc_html_e( 'Allow', 'constant-contact-forms' ); ?></a>
 							<a class="button no-bg" data-allow="off"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
@@ -270,7 +272,9 @@ class ConstantContact_Connect {
 						<input name="sub" type="hidden" value="3">
 						<input name="method" type="hidden" value="JMML_SUB3_wp_plugin">
 
-						<p><small><?php printf( __( 'By submitting this form, you agree to receive periodic product announcements and account notifications from Constant Contact. Cancel these communications at any time by clicking the unsubscribe link in the footer of the actual email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %s', 'constant-contact-forms' ), '<a href="https://www.constantcontact.com">www.constantcontact.com</a>' ); ?></small>
+						<p><small><?php
+								// translators: placeholder will hold ConstantContact.com link.
+								printf( __( 'By submitting this form, you agree to receive periodic product announcements and account notifications from Constant Contact. Cancel these communications at any time by clicking the unsubscribe link in the footer of the actual email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %s', 'constant-contact-forms' ), '<a href="https://www.constantcontact.com">www.constantcontact.com</a>' ); ?></small>
 						</p>
 					</div>
 					<input class="button" id="subbutton" type="submit" value="<?php esc_attr_e( 'Sign Up', 'constant-contact-forms' ); ?>">
