@@ -106,7 +106,7 @@ class ConstantContact_Notification_Content {
 		?>
 
 		<div class="admin-notice-logo">
-			<img src="<?php echo constant_contact()->url; ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" />
+			<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" />
 		</div>
 		<div class="admin-notice-message"><h4><?php esc_html_e( 'Constant Contact Forms for WordPress data tracking opt-in', 'constant-contact-forms' ); ?></h4>
 			<div><label><input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" /></label>
@@ -136,7 +136,7 @@ class ConstantContact_Notification_Content {
 		?>
 
 		<div class="admin-notice-logo">
-			<img src="<?php echo constant_contact()->url; ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" />
+			<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" />
 		</div>
 		<div class="admin-notice-message">
 			<div>
@@ -183,7 +183,7 @@ class ConstantContact_Notification_Content {
 		printf(
 			// translators: Placeholder iwll hold url to Constant Contact Forms settings page.
 			__( 'Protect yourself from Spam &amp; Bots: New <strong>v1.2.4 Constant Contact Forms for WordPress</strong> now supports Google reCAPTCHA. Learn more and implement via <a href="%s">Settings</a>', 'constant-contact-forms' ),
-			admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings' )
+			esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings' ) )
 		);
 		return ob_get_clean();
 	}
