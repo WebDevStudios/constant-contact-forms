@@ -84,7 +84,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				$args['before'] = sprintf(
 					// translators: placeholder will store url for forms list page.
 					__( '<p>No forms available. Visit your <a href="%s">forms list</a> to create one.</p>', 'constant-contact-forms' ),
-						admin_url( 'edit.php?post_type=ctct_forms' )
+						esc_url( admin_url( 'edit.php?post_type=ctct_forms' ) )
 				);
 			}
 
