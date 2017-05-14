@@ -49,7 +49,7 @@ class ConstantContact_User_Customizations {
 	 * @param int    $form_id Form ID.
 	 * @return mixed
 	 */
-	public function process_form_success( $content = '', $form_id  = 0 ) {
+	public function process_form_success( $content = '', $form_id = 0 ) {
 		$custom = get_post_meta( $form_id, '_ctct_form_submission_success', true );
 		if ( empty( $custom ) ) {
 			return $content;
