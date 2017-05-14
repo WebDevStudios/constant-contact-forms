@@ -217,9 +217,7 @@ class ConstantContact_Admin_Pages {
 
 		$proof = $auth_link = $new_link = '';
 
-		// @codingStandardsIgnoreStart
 		if ( ! constant_contact()->api->is_connected() ) {
-		// @codingStandardsIgnoreEnd
 
 			// Get our middleware link.
 			$proof     = constant_contact()->authserver->set_verification_option();
@@ -229,9 +227,7 @@ class ConstantContact_Admin_Pages {
 			$new_link  = add_query_arg( array( 'rmc' => 'wp_about_try' ), $new_link );
 			$auth_link = add_query_arg( array( 'rmc' => 'wp_about_connect' ), $auth_link );
 
-		// @codingStandardsIgnoreStart
 		}
-		// @codingStandardsIgnoreEnd
 
 		?>
 		<div class="wrap about-wrap constant-contact-about">
