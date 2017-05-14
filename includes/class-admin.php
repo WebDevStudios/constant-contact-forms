@@ -96,7 +96,7 @@ class ConstantContact_Admin {
 
 
 	/**
-	 * Register our setting to WP.
+	 * Register our setting to WordPress.
 	 *
 	 * @since 1.0.0
 	 */
