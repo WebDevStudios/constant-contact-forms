@@ -619,7 +619,8 @@ class Constant_Contact {
 			isset( $_GET['post_type'] ) &&
 			in_array(
 				$_GET['post_type'],
-				$ctct_types
+				$ctct_types,
+				true
 			)
 		) {
 			return true;
@@ -629,7 +630,8 @@ class Constant_Contact {
 			isset( $_GET['post'] ) &&
 			in_array(
 				get_post_type( $_GET['post'] ),
-				$ctct_types
+				$ctct_types,
+				true
 			)
 		) {
 			return true;
