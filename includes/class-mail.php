@@ -203,7 +203,7 @@ class ConstantContact_Mail {
 	 * @since 1.0.0
 	 *
 	 * @param string $destination_email  Intended mail address.
-	 * @param array  $content            Data from clean values.
+	 * @param string $content            Data from clean values.
 	 * @param array  $submission_details Details for submission to process.
 	 * @return bool Whether or not sent.
 	 */
