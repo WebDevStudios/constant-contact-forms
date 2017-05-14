@@ -149,7 +149,7 @@ class ConstantContact_Process_Form {
 
 			// Die out of the ajax request.
 			wp_die();
-		}
+		} // End if().
 	}
 
 	/**
@@ -479,7 +479,7 @@ class ConstantContact_Process_Form {
 					$return[ $field['_ctct_map_select'] . '___' . md5( serialize( $field_key ) ) ] = $field_key;
 					break;
 			}
-		}
+		} // End foreach().
 
 		return $return;
 	}
@@ -544,7 +544,7 @@ class ConstantContact_Process_Form {
 					);
 				}
 			}
-		}
+		} // End foreach().
 
 		return $err_returns;
 	}
@@ -664,7 +664,7 @@ class ConstantContact_Process_Form {
 			default:
 				$message = '';
 				break;
-		}
+		} // End switch().
 
 		return array(
 			'status'  => $status,

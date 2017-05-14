@@ -362,8 +362,8 @@ class ConstantContact_Lists {
 					// Update with our list id.
 					update_post_meta( $post, '_ctct_list_id', $list_id );
 				}
-			}
-		}
+			} // End foreach().
+		} // End if().
 
 		// Loop through each of the lists we didn't touch with the update/insert
 		// and double check them, then delete.
@@ -538,7 +538,7 @@ class ConstantContact_Lists {
 			if ( is_object( $list ) && isset( $list->id ) ) {
 				return true;
 			}
-		}
+		} // End if().
 
 		return false;
 	}

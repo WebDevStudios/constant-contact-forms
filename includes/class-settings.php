@@ -343,8 +343,8 @@ class ConstantContact_Settings {
 						'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
 					) );
 				}
-			}
-		}
+			} // End if().
+		} // End if().
 
 		$before_recaptcha = sprintf(
 			'<hr/><h2>%s</h2>%s',
@@ -563,7 +563,7 @@ class ConstantContact_Settings {
 
 			// Add the contact, based on our whitelist of information we have from above.
 			constantcontact_api()->add_contact( $args );
-		}
+		} // End if().
 
 		// Send back original comment data.
 		return $comment_data;

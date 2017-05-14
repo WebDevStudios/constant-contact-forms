@@ -545,12 +545,10 @@ class ConstantContact_Display {
 					// We also flag PHPCS to ignore this line, as we get
 					// a nonce verification error, but we process the nonce
 					// quite a bit earlier than this
-					//
-					// @codingStandardsIgnoreLine
-					return sanitize_text_field( wp_unslash( $_POST[ esc_attr( $map ) ] ) ); // Input var okay.
-				}
-			}
-		}
+					return sanitize_text_field( wp_unslash( $_POST[ esc_attr( $map ) ] ) );
+				} // End if().
+			} // End if().
+		} // End foreach().
 
 		return $return;
 	}
@@ -1152,7 +1150,7 @@ class ConstantContact_Display {
 				 */
 				$return = apply_filters( 'constant_contact_dates_year', $this->get_years() );
 				break;
-		}
+		} // End switch().
 
 		return $return;
 	}

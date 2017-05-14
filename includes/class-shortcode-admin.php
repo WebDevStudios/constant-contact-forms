@@ -127,4 +127,4 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			delete_transient( 'constant_contact_shortcode_form_list' );
 		}
 	}
-}
+} // End if().

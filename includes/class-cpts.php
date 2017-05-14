@@ -325,7 +325,7 @@ class ConstantContact_CPTS {
 			}
 
 			set_transient( 'constant_contact_shortcode_form_list', $forms, 1 * HOUR_IN_SECONDS );
-		}
+		} // End if().
 
 		return $forms;
 	}

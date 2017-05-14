@@ -66,5 +66,4 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			return $current_value;
 		}
 	}
-
-}
+} // End if().

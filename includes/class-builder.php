@@ -233,7 +233,7 @@ class ConstantContact_Builder {
 					}
 				}
 			}
-		}
+		} // End if().
 	}
 
 	/**
