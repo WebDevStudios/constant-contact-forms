@@ -104,6 +104,8 @@ class ConstantContact_Process_Form {
 			// Default to no status.
 			$status = false;
 
+			$default_error = __( 'There was an error sending your form.', 'constant-contact-forms' );
+
 			// If we got a status back, check that in our list of returns.
 			if ( isset( $response['status'] ) && $response['status'] ) {
 				$status = $response['status'];
@@ -137,7 +139,7 @@ class ConstantContact_Process_Form {
 
 				// All else fails, then we'll just use the default.
 				default:
-					$message = __( 'There was an error sending your form.', 'constant-contact-forms' );
+					$message = $default_error;
 					break;
 			}
 
