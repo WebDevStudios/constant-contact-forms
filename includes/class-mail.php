@@ -225,7 +225,7 @@ class ConstantContact_Mail {
 			$this->maybe_log_mail_status(
 				vsprintf(
 					/* translators: this is only used when some debugging is enabled */
-					__( 'Duplicate send mail for: %s and: %s', 'constant-contact-forms' ),
+					__( 'Duplicate send mail for: %1$s and: %2$s', 'constant-contact-forms' ),
 					array(
 						$destination_email,
 						$mail_key,
