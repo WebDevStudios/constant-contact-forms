@@ -379,4 +379,3 @@ class ConstantContact_Admin_Pages {
 		<?php
 	}
 }
-
