@@ -529,15 +529,12 @@ class ConstantContact_Display {
 							$return[ esc_attr( $addr_key[0] ) ] = $post_key;
 						}
 					}
-
+				} elseif ( $post['key'] === $map && isset( $_POST[ esc_attr( $map ) ] ) ) {
 					// Otherwise make sure we have a value.
 					//
 					// We also flag PHPCS to ignore this line, as we get
 					// a nonce verification error, but we process the nonce
-					// quite a bit earlier than this
-					//
-					// @codingStandardsIgnoreLine
-				} elseif ( $post['key'] === $map && isset( $_POST[ esc_attr( $map ) ] ) ) { // Input var okay.
+					// quite a bit earlier than this.
 
 					// Clean and return.
 					//
