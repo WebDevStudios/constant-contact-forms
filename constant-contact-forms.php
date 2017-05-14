@@ -324,7 +324,7 @@ class Constant_Contact {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return mixed
+	 * @return bool
 	 */
 	public function meets_php_requirements() {
 		return ( version_compare( PHP_VERSION, '5.4.0', '>=' ) );
@@ -336,7 +336,6 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 */
 	public function init() {
-
 		// Load our textdomain.
 		load_plugin_textdomain( 'constant-contact-forms', false, dirname( $this->basename ) . '/languages/' );
 	}
@@ -378,7 +377,6 @@ class Constant_Contact {
 
 		// Loop through our vendor libraries and load them.
 		foreach ( $libs as $lib ) {
-
 			// Require_once our file.
 			require_once( $this->dir( "vendor/{$lib}" ) );
 		}
@@ -407,7 +405,6 @@ class Constant_Contact {
 				$this->shortcode->atts_defaults
 			);
 
-			// Launch it.
 			$this->shortcode_admin->hooks();
 		}
 
@@ -430,8 +427,7 @@ class Constant_Contact {
 	 */
 	public function ajax_save_clear_first_form() {
 
-		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' === $_POST['action'] ) { // Input var okay.
-
+		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' === $_POST['action'] ) {
 			// Save our dismiss for the first form modal.
 			update_option( 'ctct_first_form_modal_dismissed', time() );
 		}
