@@ -277,7 +277,7 @@ function ctct_has_forms() {
 	$args = array(
 		'post_type'      => 'ctct_forms',
 		'post_status'    => 'publish',
-		'posts_per_page' => 1
+		'posts_per_page' => 1,
 	);
 	$forms = new WP_Query( $args );
 	return ( $forms->have_posts() );
