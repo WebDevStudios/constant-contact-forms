@@ -203,7 +203,7 @@ class ConstantContact_Builder {
 
 			$custom_fields = get_post_meta( $post->ID, 'custom_fields_group', true );
 			$custom_textareas_count = (int) 0;
-			if ( ! empty( $custom_fields ) && is_array( $custom_fields) ) {
+			if ( ! empty( $custom_fields ) && is_array( $custom_fields ) ) {
 				foreach ( $custom_fields as $field ) {
 					if ( 'custom_text_area' === $field['_ctct_map_select'] ) {
 						$custom_textareas_count++;
