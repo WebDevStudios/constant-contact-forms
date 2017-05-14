@@ -54,7 +54,7 @@ class ConstantContact_Check {
 
 				<p><?php
 					// Check our cron status.
-					esc_html_e( $this->cron_spawn() ); ?>
+					esc_html( $this->cron_spawn() ); ?>
 				</p>
 			</div>
 			<?php
