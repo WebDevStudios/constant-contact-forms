@@ -66,6 +66,7 @@ class ConstantContact_API {
 	 * @return string API token.
 	 */
 	public function get_api_token( $type = '' ) {
+		$url = '';
 
 		 // Depending on our request, we'll try to grab a defined value
 		 // otherwise we'll grab it from our options.
@@ -76,8 +77,7 @@ class ConstantContact_API {
 					return CTCT_APIKEY;
 				}
 
-				return constant_contact()->connect->e_get( '_ctct_api_key' );
-
+				$url .= constant_contact()->connect->e_get( '_ctct_api_key' );
 			break;
 			case 'CTCT_SECRETKEY':
 
@@ -85,14 +85,14 @@ class ConstantContact_API {
 					return CTCT_SECRETKEY;
 				}
 
-				return constant_contact()->connect->e_get( '_ctct_api_secret' );
-
+				$url .= constant_contact()->connect->e_get( '_ctct_api_secret' );
 			break;
+
 			default;
-				return constant_contact()->connect->get_api_token();
+				$url .= constant_contact()->connect->get_api_token();
 			break;
 		}
-
+		return $url;
 	}
 
 	/**
