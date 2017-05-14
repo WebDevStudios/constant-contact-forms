@@ -274,7 +274,6 @@ class ConstantContact_Mail {
 
 		$mail_status = wp_mail(
 			$destination_email,
-
 			/**
 			 * Filters the email subject to be sent to an admin.
 			 *
