@@ -69,7 +69,7 @@ class ConstantContact_Notification_Content {
 				);
 				printf(
 					/* translators: placeholders around "Learn More" hold html `<a>` tag. */
-					__( '%sLearn More%s about the power of email marketing.', 'constant-contact-forms' ),
+					__( '%1$sLearn More%2$s about the power of email marketing.', 'constant-contact-forms' ),
 					$link_start,
 					'</a>'
 				)
