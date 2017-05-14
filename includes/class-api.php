@@ -654,17 +654,17 @@ class ConstantContact_API {
 					// If we got here, try to map our field to the key.
 					try {
 						$contact->$key = $value;
-					} catch (Exception $e) {
+					} catch ( Exception $e ) {
 						// @todo Log the exception.
 						break;
 					}
 
 					// Otherwise break anyway.
 					break;
-			}
+			} // End switch().
 
 			$count = $count + 1;
-		}
+		} // End foreach().
 
 		// If we did set address properties, then push it to our contact.
 		if ( ! is_null( $address ) ) {
