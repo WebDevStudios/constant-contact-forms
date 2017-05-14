@@ -116,7 +116,7 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @param array $form_meta Post meta.
 	 * @param int   $form_id   Form ID.
-	 * @return array Form field data.
+	 * @return string Form field data.
 	 */
 	public function get_field_meta( $form_meta, $form_id ) {
 
