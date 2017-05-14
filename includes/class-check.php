@@ -189,7 +189,7 @@ class ConstantContact_Check {
 
 		if ( is_wp_error( $result ) ) {
 			return $result;
-		} else if ( wp_remote_retrieve_response_code( $result ) >= 300 ) {
+		} elseif ( wp_remote_retrieve_response_code( $result ) >= 300 ) {
 			return sprintf(
 				// translators: placeholder iwll have an HTTP response code value.
 				__( 'Unexpected HTTP response code: %s', 'constant-contact-forms' ),
