@@ -542,7 +542,7 @@ class ConstantContact_API {
 		unset( $user_data['list'] );
 
 		$address  = null;
-		$count = 0;
+		$count = 1;
 		$textareas = 0;
 		$contact->notes = array();
 
@@ -634,6 +634,7 @@ class ConstantContact_API {
 
 					// Attach it.
 					$contact->addCustomField( $custom );
+					$count = $count + 1;
 					break;
 				case 'custom_text_area':
 					$textareas++;
@@ -662,8 +663,6 @@ class ConstantContact_API {
 					// Otherwise break anyway.
 					break;
 			} // End switch().
-
-			$count = $count + 1;
 		} // End foreach().
 
 		// If we did set address properties, then push it to our contact.
