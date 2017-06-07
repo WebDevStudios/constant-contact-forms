@@ -618,7 +618,7 @@ class ConstantContact_API {
 					// Retrieve our original label to send with API request.
 					$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
 					$custom_field_name = '';
-					if ( false !== strpos( $original_field_data, 'custom___' ) ) {
+					if ( false !== strpos( $original, 'custom___' ) ) {
 						$custom_field = ( $original_field_data[ $original ] );
 						$custom_field_name .= $custom_field['name'];
 					}
