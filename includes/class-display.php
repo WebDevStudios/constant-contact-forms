@@ -722,8 +722,20 @@ class ConstantContact_Display {
 		 */
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
 
+		/**
+		 * Filters whether or not to remove characters from potential maxlength attribute value.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @param bool $value Whether or not to truncate. Default false.
+		 */
+		$truncate_max_length = apply_filters( 'constant_contact_truncate_max_length', false );
+		$max_length = '';
+		if ( false !== strpos( $id, 'custom___' ) ) {
+			$max_length = ( $truncate_max_length ) ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
+		}
 		// Set our field as as seprate var, because we allow for only returning that.
-		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" placeholder="' . $label . '" ';
+		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" ' . $max_length . ' placeholder="' . $label . '" ';
 
 		// If we have an error.
 		if ( $field_error ) {
@@ -1298,6 +1310,18 @@ class ConstantContact_Display {
 	public function get_inner_disclose_text() {
 		// translators: placeholder will hold company info for site owner.
 		return sprintf( __( 'By submitting this form, you are granting: %s, permission to email you. You may unsubscribe via the link found at the bottom of every email. (See our Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) for details.) Emails are serviced by Constant Contact.', 'constant-contact-forms' ), $this->plugin->api->get_disclosure_info() );
+	}
+
+	public function get_max_length_attr( $optional_label = '' ) {
+		$length       = 50;
+		$label_length = 0;
+		if ( ! empty( $optional_label ) ) {
+			$label_length = mb_strlen( $optional_label );
+		}
+		if ( absint( $label_length ) > 0 ) {
+			$length = $length - $label_length;
+		}
+		return 'maxlength="' . $length . '"';
 	}
 }
 
