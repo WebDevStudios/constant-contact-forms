@@ -52,7 +52,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Fixed: Append determined classes for the checkbox field.
 * Fixed: Increased the width for some settings text fields for better readability of content stored.
 * Updated: Output honeypot field regardless of reCAPTCHA status. Previously we did only reCAPTCHA if keys available. Else was honeypot.
-* Updated: Improved text sent to ConstantContact.com around custom fields. Should better reflect which field each line is related to.
+* Updated: Improved text sent to ConstantContact.com around custom fields. Should better reflect which field each line is related to. See Frequently Asked Questions regarding some limits to this feature and how to enable.
 * Updated: Improved return messages for submission failures.
 * Updated: Upgraded to the latest version of CMB2.
 
