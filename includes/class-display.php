@@ -729,7 +729,7 @@ class ConstantContact_Display {
 		 *
 		 * @param bool $value Whether or not to truncate. Default false.
 		 */
-		$truncate_max_length = apply_filters( 'constant_contact_truncate_max_length', false );
+		$truncate_max_length = apply_filters( 'constant_contact_include_custom_field_label', false );
 		$max_length = '';
 		if ( false !== strpos( $id, 'custom___' ) ) {
 			$max_length = ( $truncate_max_length ) ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
