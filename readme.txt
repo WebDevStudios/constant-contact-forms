@@ -2,7 +2,7 @@
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
-Tested up to:      4.7.4
+Tested up to:      4.8.0
 Stable tag:        1.3.0
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
@@ -26,10 +26,11 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 **Constant Contact Forms** requires a PHP version of 5.4 or higher. You will not be able to use if on a lower version. Talk to your system administrator or hosting company if you are not sure what version you are on.
 
 == Screenshots ==
-1. Adding a New form
+1. Adding a New form when connected to Constant Contact account.
 2. Viewing All Forms
 3. Lists Page
-4. Basic Form
+4. Settings page
+5. Basic Form
 
 == Changelog ==
 
