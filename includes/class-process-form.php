@@ -210,6 +210,7 @@ class ConstantContact_Process_Form {
 			$resp = $recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
 
 			if ( ! $resp->isSuccess() ) {
+				// @todo Utilize the error message(s) that come back from Google, if any.
 				return array(
 					'status' => 'named_error',
 					'error'  => __( 'Failed reCAPTCHA check', 'constant-contact-forms' ),
