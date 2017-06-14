@@ -258,7 +258,7 @@ add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_re
  */
 function ctct_custom_form_action_processing() {
 	// Only run this if we have a custom action being filtered in.
-	if ( ! has_filter( 'constant_contact_front_form_action' ) ) {
+	if ( ! constant_contact_has_redirect_uri( absint( $_POST['ctct-id'] ) ) ) {
 		return false;
 	}
 
@@ -281,4 +281,18 @@ function ctct_has_forms() {
 	);
 	$forms = new WP_Query( $args );
 	return ( $forms->have_posts() );
+}
+
+/**
+ * Whether or not there is a redirect URI meta value set for a form.
+ *
+ * @since 1.3.0
+ *
+ * @param int $form_id Form ID to check.
+ * @return bool
+ */
+function constant_contact_has_redirect_uri( $form_id = 0 ) {
+	$maybe_redirect_uri = get_post_meta( $form_id, '_ctct_redirect_uri', true );
+
+	return empty( $maybe_redirect_uri ) ? false : true;
 }
