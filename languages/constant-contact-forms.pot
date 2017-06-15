@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2017-06-15 13:59-0500\n"
+"POT-Creation-Date: 2017-06-15 14:30-0500\n"
 "PO-Revision-Date: 2017-01-12 14:46-0600\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Constant Contact\n"
@@ -314,7 +314,7 @@ msgstr ""
 msgid "Contact type not returned"
 msgstr ""
 
-#: includes/class-api.php:717
+#: includes/class-api.php:718
 msgid ""
 "Your API access token is invalid. Reconnect to Constant Contact to receive a "
 "new token."
