@@ -47,11 +47,13 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Added: Force a cursor pointer for submit buttons on frontend.
 * Added: Debugging information around WP_CRON on settings page when "ctct-debug-server-check" GET parameter present.
 * Added: Easily create a new form via the "New" menu area in the admin bar.
+* Added: maxlength attribute to custom field inputs to match Constant Contact API restrictions.
 * Fixed: mismatched textdomain that affected internationalization.
 * Fixed: Resolved issue with field builder when Constant Contact Forms is network activated.
 * Fixed: Prevent potential fatal errors for constant_contact function call.
 * Fixed: Append determined classes for the checkbox field.
 * Fixed: Increased the width for some settings text fields for better readability of content stored.
+* Fixed: Possible API failures if custom field listed first.
 * Updated: Output honeypot field regardless of reCAPTCHA status. Previously we did only reCAPTCHA if keys available. Else was honeypot.
 * Updated: Improved text sent to ConstantContact.com around custom fields. Should better reflect which field each line is related to. See Frequently Asked Questions regarding some limits to this feature and how to enable.
 * Updated: Improved return messages for submission failures.
