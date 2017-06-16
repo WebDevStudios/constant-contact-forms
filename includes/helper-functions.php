@@ -257,6 +257,9 @@ add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_re
  * @since 1.2.3
  */
 function ctct_custom_form_action_processing() {
+	if ( empty( $_POST ) || ! isset( $_POST['ctc-id'] ) ) {
+		return false;
+	}
 	// Only run this if we have a custom action being filtered in.
 	if ( ! constant_contact_has_redirect_uri( absint( $_POST['ctct-id'] ) ) ) {
 		return false;
