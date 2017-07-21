@@ -175,6 +175,8 @@ class ConstantContact_Display {
 		// Add our hidden verification fields.
 		$return .= $this->add_verify_fields( $form_data );
 
+		$return .= $this->build_timestamp();
+
 		// Add our submit field.
 		$return .= $this->submit( $form_id );
 
@@ -349,6 +351,10 @@ class ConstantContact_Display {
 		);
 
 		return $return;
+	}
+
+	public function build_timestamp() {
+		return '<input type="hidden" name="ctct_time" value="' . time() . '" />';
 	}
 
 	/**
