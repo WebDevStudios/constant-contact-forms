@@ -968,7 +968,7 @@ class ConstantContact_Display {
 		$req_class = $req ? ' ctct-form-field-required ' : '';
 
 		// Build our field.
-		$return  = '<p class="ctct-address"><fieldset>';
+		$return  = '<fieldset class="ctct-address">';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1' . $req_class . '">';
 		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
@@ -991,7 +991,7 @@ class ConstantContact_Display {
 		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-zip" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
 		$return .= ' </div>';
-		$return .= '</fieldset></p>';
+		$return .= '</fieldset>';
 
 		return $return;
 	}
