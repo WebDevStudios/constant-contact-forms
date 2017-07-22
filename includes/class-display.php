@@ -1227,9 +1227,13 @@ class ConstantContact_Display {
 	 * @return string HTML markup.
 	 */
 	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '' ) {
+
+		$classes = array( 'ctct-form-field' );
 		// Set our required text.
 		$req_text = $req ? 'required' : '';
-		$req_class = $req ? ' ctct-form-field-required ' : '';
+		if ( $req ) {
+			$classes[] = 'ctct-form-field-required';
+		}
 
 		// If required, get our label.
 		$req_label = '';
@@ -1245,7 +1249,7 @@ class ConstantContact_Display {
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
-		$return  = '<p class="' . $req_class . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label>';
+		$return  = '<p class="' . implode( ' ', $classes ) . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label>';
 		$return .= '<textarea class="ctct-textarea" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
 
 		if ( $field_error ) {
