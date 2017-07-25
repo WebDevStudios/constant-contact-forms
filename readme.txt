@@ -34,6 +34,13 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.3.2 =
+* Added: More spam-preventive measures via timestamp comparison. Less than 5 seconds to fill in form and submit is rather bot-like.
+* Updated: touched up markup around frontend form output. Fieldsets don't go in paragraph tags.
+* Updated: Moved some inline styles away from honeypot and into frontend stylesheet.
+* Fixed: Potential issues with API requests due to honeypot field.
+* Fixed: HTML class output missing for textareas.
+
 = 1.3.1 =
 * Fixed: undefined index notice from helper-functions file.
 
