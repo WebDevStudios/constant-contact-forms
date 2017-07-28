@@ -48,4 +48,15 @@
 		border-color: $color-error;
 		padding-left: 40px;
 	}
+
+	#ctct_usage {
+		position: absolute;
+		overflow: hidden;
+		clip: rect(0px, 0px, 0px, 0px);
+		height: 1px;
+		width: 1px;
+		margin: -1px;
+		border: 0px none;
+		padding: 0px;
+	}
 }

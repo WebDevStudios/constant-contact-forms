@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
 Tested up to:      4.8.0
-Stable tag:        1.3.1
+Stable tag:        1.3.3
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,16 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
+= 1.3.3 =
+* Fixed: Issue with failed list additions in relation to spam prevention measures in 1.3.2. Sorry everyone.
+
+= 1.3.2 =
+* Added: More spam-preventive measures via timestamp comparison. Less than 5 seconds to fill in form and submit is rather bot-like.
+* Updated: touched up markup around frontend form output. Fieldsets don't go in paragraph tags.
+* Updated: Moved some inline styles away from honeypot and into frontend stylesheet.
+* Fixed: Potential issues with API requests due to honeypot field.
+* Fixed: HTML class output missing for textareas.
 
 = 1.3.1 =
 * Fixed: undefined index notice from helper-functions file.

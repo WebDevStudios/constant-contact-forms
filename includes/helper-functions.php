@@ -299,3 +299,22 @@ function constant_contact_has_redirect_uri( $form_id = 0 ) {
 
 	return empty( $maybe_redirect_uri ) ? false : true;
 }
+
+/**
+ * Compare timestamps for rendered time vs current time.
+ *
+ * @since 1.3.2
+ *
+ * @param bool  $maybe_spam Whether or not an entry has been determined as spam.
+ * @param array $data       Submitted form data.
+ * @return bool
+ */
+function constant_contact_check_timestamps( $maybe_spam, $data ) {
+	$current = time();
+	$difference = $current - $data['ctct_time'];
+	if ( $difference <= 5 ) {
+		return true;
+	}
+	return $maybe_spam;
+}
+add_filter( 'constant_contact_maybe_spam', 'constant_contact_check_timestamps', 10, 2 );

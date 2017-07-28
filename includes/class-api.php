@@ -563,6 +563,8 @@ class ConstantContact_API {
 				case 'email':
 				case 'website':
 				case 'g-recaptcha-response':
+				case 'ctct_usage_field':
+				case 'ctct_time':
 					// Do nothing, as we already captured.
 					break;
 				case 'phone_number':

@@ -218,6 +218,21 @@ class ConstantContact_Process_Form {
 			}
 		}
 
+		/**
+		 * Filters whether or not we think an entry is spam.
+		 *
+		 * @since 1.3.2
+		 *
+		 * @param bool  $value Whether or not we thing an entry is spam. Default not spam.
+		 * @param array $data  Submitted form data.
+		 */
+		if ( true === apply_filters( 'constant_contact_maybe_spam', false, $data ) ) {
+			return array(
+				'status' => 'named_error',
+				'error'  => __( 'We do no think you are human', 'constant-contact-forms' ),
+			);
+		}
+
 		// Verify our nonce first.
 		if (
 		    ! isset( $data['ctct_form'] ) ||

@@ -175,6 +175,8 @@ class ConstantContact_Display {
 		// Add our hidden verification fields.
 		$return .= $this->add_verify_fields( $form_data );
 
+		$return .= $this->build_timestamp();
+
 		// Add our submit field.
 		$return .= $this->submit( $form_id );
 
@@ -317,8 +319,7 @@ class ConstantContact_Display {
 		$return = '';
 
 		$return .= sprintf(
-			'<div id="ctct_usage" style="%s"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" id="ctct_usage_field" /></div>',
-			'position:absolute;overflow:hidden;clip:rect(0px,0px,0px,0px);height:1px;width:1px;margin:-1px;border:0px none;padding:0px;',
+			'<div id="ctct_usage"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" id="ctct_usage_field" /></div>',
 			esc_html__( 'Constant Contact Use.', 'constant-contact-forms' )
 		);
 
@@ -349,6 +350,10 @@ class ConstantContact_Display {
 		);
 
 		return $return;
+	}
+
+	public function build_timestamp() {
+		return '<input type="hidden" name="ctct_time" value="' . time() . '" />';
 	}
 
 	/**
@@ -963,7 +968,7 @@ class ConstantContact_Display {
 		$req_class = $req ? ' ctct-form-field-required ' : '';
 
 		// Build our field.
-		$return  = '<p class="ctct-address"><fieldset>';
+		$return  = '<fieldset class="ctct-address">';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1' . $req_class . '">';
 		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
@@ -986,7 +991,7 @@ class ConstantContact_Display {
 		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-zip" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
 		$return .= ' </div>';
-		$return .= '</fieldset></p>';
+		$return .= '</fieldset>';
 
 		return $return;
 	}
@@ -1222,9 +1227,13 @@ class ConstantContact_Display {
 	 * @return string HTML markup.
 	 */
 	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '' ) {
+
+		$classes = array( 'ctct-form-field' );
 		// Set our required text.
 		$req_text = $req ? 'required' : '';
-		$req_class = $req ? ' ctct-form-field-required ' : '';
+		if ( $req ) {
+			$classes[] = 'ctct-form-field-required';
+		}
 
 		// If required, get our label.
 		$req_label = '';
@@ -1240,7 +1249,7 @@ class ConstantContact_Display {
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
-		$return  = '<p class="' . $req_class . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label>';
+		$return  = '<p class="' . implode( ' ', $classes ) . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label>';
 		$return .= '<textarea class="ctct-textarea" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
 
 		if ( $field_error ) {
