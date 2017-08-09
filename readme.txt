@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
 Tested up to:      4.8.0
-Stable tag:        1.3.3
+Stable tag:        1.3.4
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -33,6 +33,9 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
+= 1.3.4 =
+* Fixed: Typo in code variable. Typo prevented forms with custom redirects from properly processing submission.
 
 = 1.3.3 =
 * Fixed: Issue with failed list additions in relation to spam prevention measures in 1.3.2. Sorry everyone.
