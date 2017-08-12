@@ -68,6 +68,16 @@ window.CTCTSupport = {};
 	that.bindEvents = function() {
 		$( that.$c.form ).on( 'click', 'input[type=submit]', function(e) {
 			if ('on' === $('.ctct-form').attr('data-doajax')) {
+				var doProcess = true;
+				$.each($('.ctct-form [required]'), function (i, field) {
+					if (field.checkValidity() === false) {
+						doProcess = false;
+					}
+				});
+				if (false === doProcess) {
+					return;
+				}
+
 				e.preventDefault();
 				clearTimeout(that.timeout);
 
