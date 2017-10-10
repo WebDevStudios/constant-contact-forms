@@ -283,6 +283,10 @@ class ConstantContact_Process_Form {
 		// If the submit button is clicked, send the email.
 		foreach ( $data as $key => $value ) {
 
+			if ( ! is_string( $value ) ) {
+				continue;
+			}
+
 			// If our key we're processing is in our array, ignore it.
 			if ( in_array( $key, $ignored_keys, true ) ) {
 				continue;
