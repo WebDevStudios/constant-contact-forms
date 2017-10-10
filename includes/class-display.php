@@ -647,7 +647,7 @@ class ConstantContact_Display {
 		// If we're not on submit or hidden, but still doing label on bottom,
 		// then output a container div.
 		if ( ! $use_label ) {
-			$markup .= '<div class="ctct-input-container">';
+			$markup .= '<span class="ctct-input-container">';
 		}
 
 		return $markup;
@@ -657,16 +657,22 @@ class ConstantContact_Display {
 	 * Bottom of field markup.
 	 *
 	 * @since 1.0.0
+	 * @since 1.3.5 Added $use_label
 	 *
 	 * @param string $name        Field name.
 	 * @param string $field_label Field label.
+	 * @param bool   $use_label   Whether or not to include label markup.
 	 * @return string HTML markup
 	 */
-	public function field_bottom( $name = '', $field_label = '' ) {
+	public function field_bottom( $name = '', $field_label = '', $use_label = true ) {
 
 		$markup = '';
 		if ( ! empty( $name ) && ! empty( $field_label ) ) {
 			$markup .= $this->get_label( $name, $field_label );
+		}
+
+		if ( ! $use_label ) {
+			$markup .= '</span>';
 		}
 
 		// Finish building our markup.
@@ -930,7 +936,7 @@ class ConstantContact_Display {
 
 		$markup = $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
 		$markup .= '<input type="checkbox" ' . $checked . ' name="ctct-opt-in" id="ctct-opt-in" class="ctct-checkbox ctct-opt-in" value="' . $value . '" />';
-		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . wp_kses_post( $label ) ) . '</div>';
+		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . wp_kses_post( $label ), false );
 
 		return $markup;
 	}
