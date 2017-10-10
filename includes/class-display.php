@@ -157,7 +157,7 @@ class ConstantContact_Display {
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 
 		// Build out our form.
-		$return .= '<form class="ctct-form" id=' . $rf_id . ' data-doajax="' . esc_attr( $do_ajax ) . '" action="' . esc_attr( $form_action ) . '" method="post">';
+		$return .= '<form class="ctct-form ctct-form-' . $form_id . '" id="' . $rf_id . '" data-doajax="' . esc_attr( $do_ajax ) . '" action="' . esc_attr( $form_action ) . '" method="post">';
 
 		// If we have errors, display them.
 		$return .= $form_err_display;
