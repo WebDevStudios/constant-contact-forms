@@ -506,7 +506,7 @@ class ConstantContact_Admin {
 	 */
 	public function get_associated_list_by_id( $list_id ) {
 		global $wpdb;
-		$sql = "SELECT p.ID FROM $wpdb->posts as p INNER JOIN $wpdb->postmeta as pm on p.ID = pm.post_id WHERE pm.meta_key = '_ctct_list_id' AND pm.meta_value = '%s'";
+		$sql = "SELECT p.ID FROM $wpdb->posts as p INNER JOIN $wpdb->postmeta as pm on p.ID = pm.post_id WHERE pm.meta_key = '_ctct_list_id' AND pm.meta_value = %s";
 		$rs = $wpdb->get_results(
 			$wpdb->prepare( $sql, $list_id )
 		);
