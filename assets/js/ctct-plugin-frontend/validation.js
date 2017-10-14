@@ -54,6 +54,7 @@ window.CTCTSupport = {};
 				}
 
 				e.preventDefault();
+				var form_id = $(this).closest('.ctct-form-wrapper').attr('id');
 				clearTimeout(that.timeout);
 
 				that.timeout = setTimeout(function () {
@@ -69,7 +70,7 @@ window.CTCTSupport = {};
 							if (typeof( response.status ) !== 'undefined') {
 
 								if ('success' == response.status) {
-									$('.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
+									$( form_id+'.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
 								} else {
 									// Here we'll want to disable the submit button and
 									// add some error classes
