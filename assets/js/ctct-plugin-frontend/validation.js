@@ -43,8 +43,9 @@ window.CTCTSupport = {};
 	that.bindEvents = function() {
 		$( that.$c.form ).on( 'click', 'input[type=submit]', function(e) {
 			if ('on' === $('.ctct-form').attr('data-doajax')) {
+				var form_id = $(this).closest('.ctct-form-wrapper').attr('id');
 				var doProcess = true;
-				$.each($('.ctct-form [required]'), function (i, field) {
+				$.each($(form_id+'.ctct-form [required]'), function (i, field) {
 					if (field.checkValidity() === false) {
 						doProcess = false;
 					}
@@ -54,7 +55,6 @@ window.CTCTSupport = {};
 				}
 
 				e.preventDefault();
-				var form_id = $(this).closest('.ctct-form-wrapper').attr('id');
 				clearTimeout(that.timeout);
 
 				that.timeout = setTimeout(function () {
