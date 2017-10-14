@@ -68,8 +68,13 @@ window.CTCTSupport = {};
 	that.bindEvents = function() {
 		$( that.$c.form ).on( 'click', 'input[type=submit]', function(e) {
 			if ('on' === $('.ctct-form').attr('data-doajax')) {
+				var $form_id = $(this).closest('.ctct-form-wrapper').attr('id');
+				var form_id_selector = '';
+				if ( $form_id != '' ) {
+					form_id_selector = '#'+ $form_id +' ';
+				}
 				var doProcess = true;
-				$.each($('.ctct-form [required]'), function (i, field) {
+				$.each($(form_id_selector+'.ctct-form [required]'), function (i, field) {
 					if (field.checkValidity() === false) {
 						doProcess = false;
 					}
@@ -79,7 +84,6 @@ window.CTCTSupport = {};
 				}
 
 				e.preventDefault();
-				var form_id = $(this).closest('.ctct-form-wrapper').attr('id');
 				clearTimeout(that.timeout);
 
 				that.timeout = setTimeout(function () {
@@ -95,7 +99,7 @@ window.CTCTSupport = {};
 							if (typeof( response.status ) !== 'undefined') {
 
 								if ('success' == response.status) {
-									$( form_id+'.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
+									$(form_id_selector+'.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
 								} else {
 									// Here we'll want to disable the submit button and
 									// add some error classes
