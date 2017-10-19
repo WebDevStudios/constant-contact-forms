@@ -156,6 +156,9 @@ class ConstantContact_Builder_Fields {
 			'id'   => $this->prefix . 'redirect_uri',
 			'type' => 'text_medium',
 			'description' => esc_html__( 'URL to send the user to, after successful submission.', 'constant-contact-forms' ),
+			'attributes' => array(
+				'placeholder' => get_bloginfo( 'url' ) . '/thank-you/',
+			)
 		) );
 
 		if ( constant_contact()->api->is_connected() ) {
