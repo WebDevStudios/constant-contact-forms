@@ -134,6 +134,7 @@ class ConstantContact_Builder_Fields {
 			'name' => __( 'Button text', 'constant-contact-forms' ),
 			'id'   => $this->prefix . 'button_text',
 			'type' => 'text_medium',
+			'default' => esc_attr__( 'Sign up', 'constant-contact-forms' ),
 		) );
 
 		$options_metabox->add_field( array(
