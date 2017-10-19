@@ -145,9 +145,10 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
-			'name' => __( 'Custom form submission success text', 'constant-contact-forms' ),
-			'id'   => $this->prefix . 'form_submission_success',
-			'type' => 'text_medium',
+			'name'    => __( 'Custom form submission success text', 'constant-contact-forms' ),
+			'id'      => $this->prefix . 'form_submission_success',
+			'type'    => 'text_medium',
+			'default' => esc_attr__( 'Your information has been submitted', 'constant-contact-forms' ),
 		) );
 
 		$options_metabox->add_field( array(
