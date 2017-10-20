@@ -66,7 +66,7 @@ window.CTCTSupport = {};
 						ajaxurl,
 						{
 							'action': 'ctct_process_form',
-							'data'  : $(that.$c.form).serialize(),
+							'data'  : $(form_id_selector + 'form').serialize(),
 						},
 						function (response) {
 
