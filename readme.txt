@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
 Tested up to:      4.8.2
-Stable tag:        1.3.4
+Stable tag:        1.3.5
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -43,8 +43,6 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Updated: Provided updated default values for button text, success message.
 * Updated: Changed "Redirect to" field text to "URL to redirect user to" to help clarify purpose.
 * Updated: Added form's unique ID to form markup output for styling options and specific targeting.
-
-
 
 = 1.3.4 =
 * Fixed: Typo in code variable. Typo prevented forms with custom redirects from properly processing submission.
