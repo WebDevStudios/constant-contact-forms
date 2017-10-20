@@ -34,6 +34,18 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.3.5 =
+* Fixed: Prevent submission status message from displaying on all forms with multiple forms on same page.
+* Fixed: Properly prevent submission via AJAX when required fields are not met.
+* Fixed: Adjusted database query in Constant Contact Form lists display in conjunction with WordPress 4.8.2.
+* Fixed: Invalid markup with form display and checkbox items.
+* Fixed: Prevent possible issues with $_POST globals not being strings.
+* Updated: Provided updated default values for button text, success message.
+* Updated: Changed "Redirect to" field text to "URL to redirect user to" to help clarify purpose.
+* Updated: Added form's unique ID to form markup output for styling options and specific targeting.
+
+
+
 = 1.3.4 =
 * Fixed: Typo in code variable. Typo prevented forms with custom redirects from properly processing submission.
 
