@@ -174,11 +174,18 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
-			'name' => __( 'URL to redirect user to', 'constant-contact-forms' ),
-			'id'   => $this->prefix . 'redirect_uri',
-			'type' => 'text_medium',
+			'name' => esc_html__( 'Submission behavior', 'constant-contact-forms' ),
+			'type' => 'title',
+			'id'   => 'submission_behavior_title',
+			'after' => '<hr/>',
+		) );
+
+		$options_metabox->add_field( array(
+			'name'        => __( 'URL to redirect user to', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'redirect_uri',
+			'type'        => 'text',
 			'description' => esc_html__( 'URL to send the user to, after successful submission.', 'constant-contact-forms' ),
-			'attributes' => array(
+			'attributes'  => array(
 				'placeholder' => get_bloginfo( 'url' ) . '/thank-you/',
 			)
 		) );
@@ -210,22 +217,25 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function show_optin_connected_fields( $options_metabox ) {
 
-		// Get our lists.
-		$lists = $this->plugin->builder->get_lists();
+		$overall_description = sprintf(
+			'<hr/><p>%s %s</p>',
+			esc_html__(
+				'Enabling this option will require visitors to check a box to be added to your list. If this option is not enabled, visitors will be added to your selected list automatically on submitting.',
+				'constant-contact-forms'
+			),
+			sprintf(
+				'<a href="%s">%s</a>',
+				'#',
+				esc_html__( 'Learn more', 'constant-contact-forms' )
+			)
+		);
 
-		// Add field if conncted to API.
-		if ( $lists ) {
-
-			// Allow choosing a list to add to.
-			$options_metabox->add_field( array(
-				'name'             => __( 'Add subscribers to', 'constant-contact-forms' ),
-				'id'               => $this->prefix . 'list',
-				'type'             => 'select',
-				'show_option_none' => __( 'No List Selected', 'constant-contact-forms' ),
-				'default'          => 'none',
-				'options'          => $lists,
-			) );
-		}
+		$options_metabox->add_field( array(
+			'name'  => esc_html__( 'Email opt-in', 'constant-contact-forms' ),
+			'type'  => 'title',
+			'id'    => 'email-optin-title',
+			'after' => $overall_description,
+		) );
 
 		// Show our show/hide checkbox field.
 		$this->show_enable_show_checkbox_field( $options_metabox );
@@ -266,16 +276,15 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function show_enable_show_checkbox_field( $options_metabox ) {
 
-		$description = __( 'Show opt-in checkbox to allow visitors to opt-in to your email list.', 'constant-contact-forms' );
+		$description = esc_html__( 'Add a checkbox so visitors can opt-in to your email list.', 'constant-contact-forms' );
 		$description .= '<br>';
-		$description .= __( '(usually used with a Contact Us type form)', 'constant-contact-forms' );
+		$description .= esc_html__( '(For use with Contact Us form)', 'constant-contact-forms' );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Show Opt-in checkbox', 'constant-contact-forms' ),
+			'name'        => __( 'Opt-in checkbox', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'opt_in',
 			'description' => $description,
 			'type'        => 'checkbox',
-			'before_row'  => '<div><strong>' . esc_html__( 'Important: opt-in settings required for sending user submissions to ConstantContact.com', 'constant-contact-forms' ) . '</strong></div>',
 		) );
 	}
 
