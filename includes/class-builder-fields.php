@@ -85,30 +85,33 @@ class ConstantContact_Builder_Fields {
 	}
 
 	public function constant_contact_list_metabox() {
-		$list_metabox = new_cmb2_box( array(
-			'id'           => 'ctct_0_list_metabox',
-			'title'        => __( 'Constant Contact List', 'constant-contact-forms' ),
-			'object_types' => array( 'ctct_forms' ),
-			'context'      => 'normal',
-			'priority'     => 'high',
-			'show_names'   => true,
-		) );
 
-		// Get our lists.
-		$lists = $this->plugin->builder->get_lists();
-
-		// Add field if conncted to API.
-		if ( $lists ) {
-
-			// Allow choosing a list to add to.
-			$list_metabox->add_field( array(
-				'name'             => __( 'Add subscribers to', 'constant-contact-forms' ),
-				'id'               => $this->prefix . 'list',
-				'type'             => 'select',
-				'show_option_none' => __( 'No List Selected', 'constant-contact-forms' ),
-				'default'          => 'none',
-				'options'          => $lists,
+		if ( constant_contact()->api->is_connected() ) {
+			$list_metabox = new_cmb2_box( array(
+				'id'           => 'ctct_0_list_metabox',
+				'title'        => __( 'Constant Contact List', 'constant-contact-forms' ),
+				'object_types' => array( 'ctct_forms' ),
+				'context'      => 'normal',
+				'priority'     => 'high',
+				'show_names'   => true,
 			) );
+
+			// Get our lists.
+			$lists = $this->plugin->builder->get_lists();
+
+			// Add field if conncted to API.
+			if ( $lists ) {
+
+				// Allow choosing a list to add to.
+				$list_metabox->add_field( array(
+					'name'             => __( 'Add subscribers to', 'constant-contact-forms' ),
+					'id'               => $this->prefix . 'list',
+					'type'             => 'select',
+					'show_option_none' => __( 'No List Selected', 'constant-contact-forms' ),
+					'default'          => 'none',
+					'options'          => $lists,
+				) );
+			}
 		}
 	}
 
