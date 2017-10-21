@@ -11,7 +11,7 @@ window.CTCT_OptIns = {};
 	app.cache = function() {
 		app.$c = {
 			optin_no_conn : $( '#cmb2-metabox-ctct_1_optin_metabox #_ctct_opt_in_not_connected' ),
-			list          : $( '#cmb2-metabox-ctct_1_optin_metabox #_ctct_list' ),
+			list          : $( '#cmb2-metabox-ctct_0_list_metabox #_ctct_list' ),
 
 			optin         : $( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in' ),
 			instruct      : $( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in-instructions' ),
