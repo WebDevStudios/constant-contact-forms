@@ -167,13 +167,6 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Submit via AJAX', 'constant-contact-forms' ),
-			'id'          => $this->prefix . 'do_ajax',
-			'type'        => 'checkbox',
-			'description' => __( 'Enables form submissions without triggering a page refresh. Overrides and prevents "Redirect to" value usage.', 'constant-contact-forms' ),
-		) );
-
-		$options_metabox->add_field( array(
 			'name'    => __( 'Custom form submission success text', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'form_submission_success',
 			'type'    => 'text',
@@ -189,6 +182,15 @@ class ConstantContact_Builder_Fields {
 				'placeholder' => get_bloginfo( 'url' ) . '/thank-you/',
 			)
 		) );
+
+		$options_metabox->add_field( array(
+			'name'        => __( 'Submit with no refresh', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'do_ajax',
+			'type'        => 'checkbox',
+			'description' => __( 'Enables form submissions without triggering a page refresh. This option overrides the redirect choice above.', 'constant-contact-forms' ),
+		) );
+
+
 
 		if ( constant_contact()->api->is_connected() ) {
 			$this->show_optin_connected_fields( $options_metabox );
