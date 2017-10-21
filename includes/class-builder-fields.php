@@ -201,11 +201,7 @@ class ConstantContact_Builder_Fields {
 
 		if ( constant_contact()->api->is_connected() ) {
 			$this->show_optin_connected_fields( $options_metabox );
-		}/**
-		  * Same as the block above.
-		else {
-			$this->show_optin_not_connected_fields( $options_metabox );
-		}*/
+		}
 	}
 
 	/**
