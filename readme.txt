@@ -1,3 +1,4 @@
+
 === Constant Contact Forms ===
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
@@ -37,7 +38,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 = 1.3.5 =
 * Fixed: Prevent submission status message from displaying on all forms with multiple forms on same page.
 * Fixed: Properly prevent submission via AJAX when required fields are not met.
-* Fixed: Properly prevent AJAX submissions from collecting data from all forms on page.
+* Fixed: Properly prevent AJAX submissions from incorrectly collecting data from all forms on a page that displays multiple Constant Contact forms.
 * Fixed: Adjusted database query in Constant Contact Form lists display in conjunction with WordPress 4.8.2.
 * Fixed: Invalid markup with form display and checkbox items.
 * Fixed: Prevent possible issues with $_POST globals not being strings.
