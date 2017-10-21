@@ -162,7 +162,7 @@ class ConstantContact_Builder_Fields {
 		$options_metabox->add_field( array(
 			'name'    => __( 'Button text', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'button_text',
-			'type'    => 'text_medium',
+			'type'    => 'text',
 			'default' => esc_attr__( 'Sign up', 'constant-contact-forms' ),
 		) );
 
@@ -176,7 +176,7 @@ class ConstantContact_Builder_Fields {
 		$options_metabox->add_field( array(
 			'name'    => __( 'Custom form submission success text', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'form_submission_success',
-			'type'    => 'text_medium',
+			'type'    => 'text',
 			'default' => esc_attr__( 'Your information has been submitted', 'constant-contact-forms' ),
 		) );
 
