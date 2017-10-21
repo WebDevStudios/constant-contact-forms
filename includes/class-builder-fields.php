@@ -75,12 +75,41 @@ class ConstantContact_Builder_Fields {
 		if ( $pagenow && in_array( $pagenow, $form_builder_pages, true ) ) {
 
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'constant_contact_list_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'opt_ins_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'generated_shortcode' ) );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 		}
 
+	}
+
+	public function constant_contact_list_metabox() {
+		$list_metabox = new_cmb2_box( array(
+			'id'           => 'ctct_0_list_metabox',
+			'title'        => __( 'Constant Contact List', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'normal',
+			'priority'     => 'high',
+			'show_names'   => true,
+		) );
+
+		// Get our lists.
+		$lists = $this->plugin->builder->get_lists();
+
+		// Add field if conncted to API.
+		if ( $lists ) {
+
+			// Allow choosing a list to add to.
+			$list_metabox->add_field( array(
+				'name'             => __( 'Add subscribers to', 'constant-contact-forms' ),
+				'id'               => $this->prefix . 'list',
+				'type'             => 'select',
+				'show_option_none' => __( 'No List Selected', 'constant-contact-forms' ),
+				'default'          => 'none',
+				'options'          => $lists,
+			) );
+		}
 	}
 
 	/**
