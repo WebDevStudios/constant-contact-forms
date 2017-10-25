@@ -170,7 +170,7 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
-			'name'    => __( 'Custom form submission success text', 'constant-contact-forms' ),
+			'name'    => __( 'Success message', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'form_submission_success',
 			'type'    => 'text',
 			'default' => esc_attr__( 'Your information has been submitted', 'constant-contact-forms' ),
@@ -184,7 +184,7 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'URL to redirect user to', 'constant-contact-forms' ),
+			'name'        => __( 'Redirect to URL', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'redirect_uri',
 			'type'        => 'text',
 			'description' => esc_html__( 'URL to send the user to, after successful submission.', 'constant-contact-forms' ),
