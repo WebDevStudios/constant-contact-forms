@@ -224,7 +224,7 @@ class ConstantContact_Builder_Fields {
 			),
 			sprintf(
 				'<a href="%s">%s</a>',
-				'#',
+				'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options',
 				esc_html__( 'Learn more', 'constant-contact-forms' )
 			)
 		);
