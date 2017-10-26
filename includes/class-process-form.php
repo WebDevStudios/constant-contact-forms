@@ -203,6 +203,13 @@ class ConstantContact_Process_Form {
 			);
 		}
 
+		if ( ! $this->has_all_required_fields( $data['ctct-id'], $data ) ) {
+			return array(
+				'status' => 'named_error',
+				'error' => __( 'Please properly fill out all required fields', 'constant-contact-forms' ),
+			);
+		}
+
 		if ( isset( $data['g-recaptcha-response'] ) ) {
 			$secret = ctct_get_settings_option( '_ctct_recaptcha_secret_key' );
 			$recaptcha = new \ReCaptcha\ReCaptcha( $secret );
@@ -703,5 +710,22 @@ class ConstantContact_Process_Form {
 		$count = absint( get_option( 'ctct-processed-forms' ) );
 		$count++;
 		update_option( 'ctct-processed-forms', $count );
+	}
+
+	public function has_all_required_fields( $form_id, $form_data ) {
+		$original = $this->get_original_fields( $form_id );
+
+		$has_all = true;
+		foreach( $original as $key => $value ) {
+			if (
+				isset( $form_data[ $key ] ) &&
+				true === $value['required'] &&
+				empty( $form_data[ $key ] )
+			) {
+				$has_all = false;
+				break; // No need to process any further.
+			}
+		}
+		return $has_all;
 	}
 }
