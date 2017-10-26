@@ -125,7 +125,7 @@ class ConstantContact_Process_Form {
 
 				// Named error from our process.
 				case 'named_error':
-					$message = isset( $processed['error'] ) ? $processed['error'] : $default_error;
+					$message = isset( $response['error'] ) ? $response['error'] : $default_error;
 					break;
 
 				// Required field errors.
@@ -133,8 +133,8 @@ class ConstantContact_Process_Form {
 					return array(
 						'status'  => 'error',
 						'message' => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
-						'errors'  => isset( $processed['errors'] ) ? $processed['errors'] : '',
-						'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
+						'errors'  => isset( $response['errors'] ) ? $response['errors'] : '',
+						'values'  => isset( $response['values'] ) ? $response['values'] : '',
 					);
 
 				// All else fails, then we'll just use the default.
