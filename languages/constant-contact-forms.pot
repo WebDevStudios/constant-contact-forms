@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2017-10-19 23:25-0500\n"
+"POT-Creation-Date: 2017-10-26 12:13-0500\n"
 "PO-Revision-Date: 2017-01-12 14:46-0600\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Constant Contact\n"
@@ -274,7 +274,7 @@ msgstr ""
 msgid "Description"
 msgstr ""
 
-#: includes/class-admin.php:249 includes/class-builder-fields.php:459
+#: includes/class-admin.php:249 includes/class-builder-fields.php:495
 msgid "Shortcode"
 msgstr ""
 
@@ -320,11 +320,23 @@ msgid ""
 "new token."
 msgstr ""
 
-#: includes/class-builder-fields.php:98
+#: includes/class-builder-fields.php:92
+msgid "Constant Contact List"
+msgstr ""
+
+#: includes/class-builder-fields.php:107 includes/class-settings.php:301
+msgid "Add subscribers to"
+msgstr ""
+
+#: includes/class-builder-fields.php:110
+msgid "No List Selected"
+msgstr ""
+
+#: includes/class-builder-fields.php:130
 msgid "Form Description"
 msgstr ""
 
-#: includes/class-builder-fields.php:106
+#: includes/class-builder-fields.php:138
 msgid ""
 "This message will display above the form fields, so use it as an opportunity "
 "to pitch your email list. Tell visitors why they should subscribe to your "
@@ -332,232 +344,237 @@ msgid ""
 "coupons, and more."
 msgstr ""
 
-#: includes/class-builder-fields.php:126
+#: includes/class-builder-fields.php:158
 msgid "Form Options"
 msgstr ""
 
-#: includes/class-builder-fields.php:134
+#: includes/class-builder-fields.php:166
 msgid "Button text"
 msgstr ""
 
-#: includes/class-builder-fields.php:137
+#: includes/class-builder-fields.php:169
 msgid "Sign up"
 msgstr ""
 
-#: includes/class-builder-fields.php:141
-msgid "Submit via AJAX"
+#: includes/class-builder-fields.php:173
+msgid "Success message"
 msgstr ""
 
-#: includes/class-builder-fields.php:144
-msgid ""
-"Enables form submissions without triggering a page refresh. Overrides and "
-"prevents \"Redirect to\" value usage."
-msgstr ""
-
-#: includes/class-builder-fields.php:148
-msgid "Custom form submission success text"
-msgstr ""
-
-#: includes/class-builder-fields.php:151
+#: includes/class-builder-fields.php:176
 msgid "Your information has been submitted"
 msgstr ""
 
-#: includes/class-builder-fields.php:155
-msgid "URL to redirect user to"
+#: includes/class-builder-fields.php:180
+msgid "Submission behavior"
 msgstr ""
 
-#: includes/class-builder-fields.php:158
+#: includes/class-builder-fields.php:187
+msgid "Redirect to URL"
+msgstr ""
+
+#: includes/class-builder-fields.php:190
 msgid "URL to send the user to, after successful submission."
 msgstr ""
 
-#: includes/class-builder-fields.php:190 includes/class-settings.php:301
-msgid "Add subscribers to"
+#: includes/class-builder-fields.php:194
+msgid "Submit with no refresh"
 msgstr ""
 
-#: includes/class-builder-fields.php:193
-msgid "No List Selected"
+#: includes/class-builder-fields.php:197
+msgid ""
+"Enables form submissions without triggering a page refresh. This option "
+"overrides the redirect choice above."
 msgstr ""
 
-#: includes/class-builder-fields.php:216
+#: includes/class-builder-fields.php:219
+msgid ""
+"Enabling this option will require visitors to check a box to be added to "
+"your list. If this option is not enabled, visitors will be added to your "
+"selected list automatically on submitting."
+msgstr ""
+
+#: includes/class-builder-fields.php:225
+msgid "Learn more"
+msgstr ""
+
+#: includes/class-builder-fields.php:230
+msgid "Email opt-in"
+msgstr ""
+
+#: includes/class-builder-fields.php:253
 msgid "Enable email subscriber opt-in"
 msgstr ""
 
-#: includes/class-builder-fields.php:218
+#: includes/class-builder-fields.php:255
 msgid "Adds an opt-in to the bottom of your form."
 msgstr ""
 
-#: includes/class-builder-fields.php:238
-msgid "Show opt-in checkbox to allow visitors to opt-in to your email list."
+#: includes/class-builder-fields.php:275
+msgid "Add a checkbox so visitors can opt-in to your email list."
 msgstr ""
 
-#: includes/class-builder-fields.php:240
-msgid "(usually used with a Contact Us type form)"
+#: includes/class-builder-fields.php:277
+msgid "(For use with Contact Us form)"
 msgstr ""
 
-#: includes/class-builder-fields.php:243
-msgid "Show Opt-in checkbox"
+#: includes/class-builder-fields.php:280
+msgid "Opt-in checkbox"
 msgstr ""
 
-#: includes/class-builder-fields.php:247
-msgid ""
-"Important: opt-in settings required for sending user submissions to "
-"ConstantContact.com"
-msgstr ""
-
-#: includes/class-builder-fields.php:262
+#: includes/class-builder-fields.php:298
 msgid "Your Business Name"
 msgstr ""
 
-#: includes/class-builder-fields.php:265 includes/class-settings.php:322
+#: includes/class-builder-fields.php:301 includes/class-settings.php:322
 msgid "Opt-in Affirmation"
 msgstr ""
 
-#: includes/class-builder-fields.php:269
+#: includes/class-builder-fields.php:305
 #, php-format
 msgid ""
 "Example: Yes, I would like to receive emails from %s. (You can unsubscribe "
 "anytime)"
 msgstr ""
 
-#: includes/class-builder-fields.php:285
+#: includes/class-builder-fields.php:321
 msgid "Form Fields"
 msgstr ""
 
-#: includes/class-builder-fields.php:294
+#: includes/class-builder-fields.php:330
 msgid "Add Fields"
 msgstr ""
 
-#: includes/class-builder-fields.php:300
+#: includes/class-builder-fields.php:336
 msgid ""
 "Create a field for each piece of information you want to collect. Good "
 "basics include email address, first name, and last name."
 msgstr ""
 
-#: includes/class-builder-fields.php:311
+#: includes/class-builder-fields.php:347
 msgid "Field {#}"
 msgstr ""
 
-#: includes/class-builder-fields.php:312
+#: includes/class-builder-fields.php:348
 msgid "Add Another Field"
 msgstr ""
 
-#: includes/class-builder-fields.php:313
+#: includes/class-builder-fields.php:349
 msgid "Remove Field"
 msgstr ""
 
-#: includes/class-builder-fields.php:325
+#: includes/class-builder-fields.php:361
 msgid "A brief description of this field (optional)"
 msgstr ""
 
-#: includes/class-builder-fields.php:330
+#: includes/class-builder-fields.php:366
 msgid "Email (required)"
 msgstr ""
 
-#: includes/class-builder-fields.php:331
+#: includes/class-builder-fields.php:367
 msgid "c.contact@example.com"
 msgstr ""
 
-#: includes/class-builder-fields.php:334
+#: includes/class-builder-fields.php:370
 msgid "First Name"
 msgstr ""
 
-#: includes/class-builder-fields.php:335
+#: includes/class-builder-fields.php:371
 msgid "John"
 msgstr ""
 
-#: includes/class-builder-fields.php:338
+#: includes/class-builder-fields.php:374
 msgid "Last Name"
 msgstr ""
 
-#: includes/class-builder-fields.php:339
+#: includes/class-builder-fields.php:375
 msgid "Smith"
 msgstr ""
 
-#: includes/class-builder-fields.php:342
+#: includes/class-builder-fields.php:378
 msgid "Phone Number"
 msgstr ""
 
-#: includes/class-builder-fields.php:343
+#: includes/class-builder-fields.php:379
 msgid "(555) 272-3342"
 msgstr ""
 
-#: includes/class-builder-fields.php:346
+#: includes/class-builder-fields.php:382
 msgid "Address"
 msgstr ""
 
-#: includes/class-builder-fields.php:347
+#: includes/class-builder-fields.php:383
 msgid "4115 S. Main Rd."
 msgstr ""
 
-#: includes/class-builder-fields.php:350
+#: includes/class-builder-fields.php:386
 msgid "Job Title"
 msgstr ""
 
-#: includes/class-builder-fields.php:351
+#: includes/class-builder-fields.php:387
 msgid "Project Manager"
 msgstr ""
 
-#: includes/class-builder-fields.php:354
+#: includes/class-builder-fields.php:390
 msgid "Company"
 msgstr ""
 
-#: includes/class-builder-fields.php:355
+#: includes/class-builder-fields.php:391
 msgid "Acme Manufacturing"
 msgstr ""
 
-#: includes/class-builder-fields.php:358
+#: includes/class-builder-fields.php:394
 msgid "Website"
 msgstr ""
 
-#: includes/class-builder-fields.php:359
+#: includes/class-builder-fields.php:395
 msgid "http://www.example.com"
 msgstr ""
 
-#: includes/class-builder-fields.php:374
+#: includes/class-builder-fields.php:410
 msgid "Custom Text Field"
 msgstr ""
 
-#: includes/class-builder-fields.php:375
+#: includes/class-builder-fields.php:411
 msgid "A custom text field"
 msgstr ""
 
-#: includes/class-builder-fields.php:378
+#: includes/class-builder-fields.php:414
 msgid "Custom Text Area"
 msgstr ""
 
-#: includes/class-builder-fields.php:379
+#: includes/class-builder-fields.php:415
 msgid "A large custom text field"
 msgstr ""
 
-#: includes/class-builder-fields.php:414
+#: includes/class-builder-fields.php:450
 msgid "Select a Field"
 msgstr ""
 
-#: includes/class-builder-fields.php:425
+#: includes/class-builder-fields.php:461
 msgid "Field Label"
 msgstr ""
 
-#: includes/class-builder-fields.php:428
+#: includes/class-builder-fields.php:464
 msgid "Email"
 msgstr ""
 
-#: includes/class-builder-fields.php:433
+#: includes/class-builder-fields.php:469
 msgid "Field Description"
 msgstr ""
 
-#: includes/class-builder-fields.php:437
+#: includes/class-builder-fields.php:473
 msgid "Ex: Enter email address"
 msgstr ""
 
-#: includes/class-builder-fields.php:443
+#: includes/class-builder-fields.php:479
 msgid "Required"
 msgstr ""
 
-#: includes/class-builder-fields.php:467
+#: includes/class-builder-fields.php:503
 msgid "Shortcode to use"
 msgstr ""
 
-#: includes/class-builder-fields.php:470
+#: includes/class-builder-fields.php:506
 msgid ""
 "Shortcode to embed - <em><small>You can copy and paste this in a post to "
 "display your form.</small></em>"
@@ -1272,16 +1289,16 @@ msgstr ""
 msgid "Disagree"
 msgstr ""
 
-#: includes/class-process-form.php:107 includes/class-process-form.php:643
+#: includes/class-process-form.php:107 includes/class-process-form.php:650
 msgid "There was an error sending your form."
 msgstr ""
 
-#: includes/class-process-form.php:118 includes/class-process-form.php:663
+#: includes/class-process-form.php:118 includes/class-process-form.php:670
 msgid "Your information has been submitted."
 msgstr ""
 
-#: includes/class-process-form.php:135 includes/class-process-form.php:244
-#: includes/class-process-form.php:680
+#: includes/class-process-form.php:135 includes/class-process-form.php:251
+#: includes/class-process-form.php:687
 msgid ""
 "We had trouble processing your submission. Please review your entries and "
 "try again."
@@ -1295,16 +1312,20 @@ msgstr ""
 msgid "No form verify value provided"
 msgstr ""
 
-#: includes/class-process-form.php:202 includes/class-process-form.php:232
+#: includes/class-process-form.php:202 includes/class-process-form.php:239
 msgid "We do no think you are human"
 msgstr ""
 
-#: includes/class-process-form.php:216
+#: includes/class-process-form.php:209
+msgid "Please properly fill out all required fields"
+msgstr ""
+
+#: includes/class-process-form.php:223
 msgid "Failed reCAPTCHA check"
 msgstr ""
 
-#: includes/class-process-form.php:253 includes/class-process-form.php:262
-#: includes/class-process-form.php:271
+#: includes/class-process-form.php:260 includes/class-process-form.php:269
+#: includes/class-process-form.php:278
 msgid ""
 "We had trouble processing your submission. Make sure you haven't changed the "
 "required Form ID and try again."
