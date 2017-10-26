@@ -106,6 +106,8 @@ window.CTCTSupport = {};
 									if (typeof( response.errors ) !== 'undefined') {
 										that.setAllInputsValid();
 										response.errors.forEach(that.processError);
+									} else {
+										$(form_id_selector + '.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
 									}
 
 								}
