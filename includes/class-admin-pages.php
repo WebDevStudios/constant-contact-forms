@@ -241,7 +241,7 @@ class ConstantContact_Admin_Pages {
 						<?php echo wp_kses_post( __( "This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account.", 'constant-contact-forms' ) ); ?>
 					</p>
 					<p>
-						<?php esc_attr_e( "Whether you're looking to collect email addresses, contact info, event sign-ups, or visitor feedback, you can customize your forms with data fields that work best for you.", 'constant-contact-forms' ); ?>
+						<?php esc_attr_e( "Whether you're looking to collect email addresses, contact info, or visitor feedback, you can customize your forms with data fields that work best for you.", 'constant-contact-forms' ); ?>
 					</p>
 					<ul class="ctct-bonus-points">
 						<li> <?php esc_attr_e( 'Quickly create different types of forms that are clear, simple, and mobile-optimized.', 'constant-contact-forms' ); ?></li>
