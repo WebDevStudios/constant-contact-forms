@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2017-10-26 12:13-0500\n"
+"POT-Creation-Date: 2017-10-30 12:30-0500\n"
 "PO-Revision-Date: 2017-01-12 14:46-0600\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Constant Contact\n"
@@ -97,9 +97,9 @@ msgstr ""
 
 #: includes/class-admin-pages.php:244
 msgid ""
-"Whether you're looking to collect email addresses, contact info, event sign-"
-"ups, or visitor feedback, you can customize your forms with data fields that "
-"work best for you."
+"Whether you're looking to collect email addresses, contact info, or visitor "
+"feedback, you can customize your forms with data fields that work best for "
+"you."
 msgstr ""
 
 #: includes/class-admin-pages.php:247
@@ -1289,16 +1289,16 @@ msgstr ""
 msgid "Disagree"
 msgstr ""
 
-#: includes/class-process-form.php:107 includes/class-process-form.php:650
+#: includes/class-process-form.php:107 includes/class-process-form.php:654
 msgid "There was an error sending your form."
 msgstr ""
 
-#: includes/class-process-form.php:118 includes/class-process-form.php:670
+#: includes/class-process-form.php:118 includes/class-process-form.php:674
 msgid "Your information has been submitted."
 msgstr ""
 
-#: includes/class-process-form.php:135 includes/class-process-form.php:251
-#: includes/class-process-form.php:687
+#: includes/class-process-form.php:135 includes/class-process-form.php:255
+#: includes/class-process-form.php:691
 msgid ""
 "We had trouble processing your submission. Please review your entries and "
 "try again."
@@ -1312,7 +1312,7 @@ msgstr ""
 msgid "No form verify value provided"
 msgstr ""
 
-#: includes/class-process-form.php:202 includes/class-process-form.php:239
+#: includes/class-process-form.php:202 includes/class-process-form.php:243
 msgid "We do no think you are human"
 msgstr ""
 
@@ -1320,12 +1320,12 @@ msgstr ""
 msgid "Please properly fill out all required fields"
 msgstr ""
 
-#: includes/class-process-form.php:223
+#: includes/class-process-form.php:227
 msgid "Failed reCAPTCHA check"
 msgstr ""
 
-#: includes/class-process-form.php:260 includes/class-process-form.php:269
-#: includes/class-process-form.php:278
+#: includes/class-process-form.php:264 includes/class-process-form.php:273
+#: includes/class-process-form.php:282
 msgid ""
 "We had trouble processing your submission. Make sure you haven't changed the "
 "required Form ID and try again."
