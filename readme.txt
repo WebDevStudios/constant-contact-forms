@@ -42,7 +42,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Fixed: Adjusted database query in Constant Contact Form lists display in conjunction with WordPress 4.8.2.
 * Fixed: Invalid markup with form display and checkbox items.
 * Fixed: Prevent possible issues with $_POST globals not being strings.
-* Fixed: Addressed issues with Google reCAPTCHA validation and verification of submitting users.
+* Fixed: Addressed issues with Google reCAPTCHA validation and verification of submitting users via allow_url_fopen.
 * Updated: Provided updated default values for button text, success message.
 * Updated: Changed "Redirect to" field text to "URL to redirect user to" to help clarify purpose.
 * Updated: Added form's unique ID to form markup output for styling options and specific targeting.
