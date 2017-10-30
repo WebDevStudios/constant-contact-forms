@@ -91,7 +91,7 @@ class ConstantContact_Display_Shortcode {
 		// Return our markup.
 		$form = constant_contact()->display->form( $form_data, $form_id );
 
-		return '<div class="ctct-form-wrapper">' . $form . '</div><!-- .ctct-form-wrapper -->';
+		return '<div id="ctct-form-' . $form_id . '" class="ctct-form-wrapper">' . $form . '</div><!-- .ctct-form-wrapper -->';
 
 	}
 

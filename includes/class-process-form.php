@@ -125,7 +125,7 @@ class ConstantContact_Process_Form {
 
 				// Named error from our process.
 				case 'named_error':
-					$message = isset( $processed['error'] ) ? $processed['error'] : $default_error;
+					$message = isset( $response['error'] ) ? $response['error'] : $default_error;
 					break;
 
 				// Required field errors.
@@ -133,8 +133,8 @@ class ConstantContact_Process_Form {
 					return array(
 						'status'  => 'error',
 						'message' => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
-						'errors'  => isset( $processed['errors'] ) ? $processed['errors'] : '',
-						'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
+						'errors'  => isset( $response['errors'] ) ? $response['errors'] : '',
+						'values'  => isset( $response['values'] ) ? $response['values'] : '',
 					);
 
 				// All else fails, then we'll just use the default.
@@ -203,9 +203,20 @@ class ConstantContact_Process_Form {
 			);
 		}
 
+		if ( ! $this->has_all_required_fields( $data['ctct-id'], $data ) ) {
+			return array(
+				'status' => 'named_error',
+				'error' => __( 'Please properly fill out all required fields', 'constant-contact-forms' ),
+			);
+		}
+
 		if ( isset( $data['g-recaptcha-response'] ) ) {
 			$secret = ctct_get_settings_option( '_ctct_recaptcha_secret_key' );
-			$recaptcha = new \ReCaptcha\ReCaptcha( $secret );
+			$method = null;
+			if ( ! ini_get( 'allow_url_fopen' ) ) {
+				$method = new \ReCaptcha\RequestMethod\CurlPost();
+			}
+			$recaptcha = new \ReCaptcha\ReCaptcha( $secret, $method );
 
 			$resp = $recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
 
@@ -282,6 +293,10 @@ class ConstantContact_Process_Form {
 
 		// If the submit button is clicked, send the email.
 		foreach ( $data as $key => $value ) {
+
+			if ( ! is_string( $value ) ) {
+				continue;
+			}
 
 			// If our key we're processing is in our array, ignore it.
 			if ( in_array( $key, $ignored_keys, true ) ) {
@@ -699,5 +714,22 @@ class ConstantContact_Process_Form {
 		$count = absint( get_option( 'ctct-processed-forms' ) );
 		$count++;
 		update_option( 'ctct-processed-forms', $count );
+	}
+
+	public function has_all_required_fields( $form_id, $form_data ) {
+		$original = $this->get_original_fields( $form_id );
+
+		$has_all = true;
+		foreach( $original as $key => $value ) {
+			if (
+				isset( $form_data[ $key ] ) &&
+				true === $value['required'] &&
+				empty( $form_data[ $key ] )
+			) {
+				$has_all = false;
+				break; // No need to process any further.
+			}
+		}
+		return $has_all;
 	}
 }

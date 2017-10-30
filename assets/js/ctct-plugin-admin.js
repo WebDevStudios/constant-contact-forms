@@ -525,8 +525,9 @@ window.CTCT_OptIns = {};
 	app.cache = function() {
 		app.$c = {
 			optin_no_conn : $( '#cmb2-metabox-ctct_1_optin_metabox #_ctct_opt_in_not_connected' ),
-			list          : $( '#cmb2-metabox-ctct_1_optin_metabox #_ctct_list' ),
+			list          : $( '#cmb2-metabox-ctct_0_list_metabox #_ctct_list' ),
 
+			title         : $( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id-email-optin-title' ),
 			optin         : $( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in' ),
 			instruct      : $( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in-instructions' ),
 		};
@@ -578,9 +579,11 @@ window.CTCT_OptIns = {};
 
 		// If checked, show them, else hide it.
 		if ( '' != app.$c.list.val() ) {
+			app.$c.title.slideDown();
 			app.$c.optin.slideDown();
 			app.$c.instruct.slideDown();
 		} else {
+			app.$c.title.slideUp();
 			app.$c.optin.slideUp();
 			app.$c.instruct.slideUp();
 		}

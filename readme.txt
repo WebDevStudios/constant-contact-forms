@@ -2,8 +2,13 @@
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
+<<<<<<< HEAD
 Tested up to:      4.8.0
 Stable tag:        1.3.4
+=======
+Tested up to:      4.8.2
+Stable tag:        1.3.5
+>>>>>>> release135
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -11,7 +16,7 @@ The official Constant Contact plugin adds a contact form to your WordPress site 
 
 == Description ==
 
-**Constant Contact Forms** makes it fast and easy to capture visitor information right from your WordPress site. Whether you’re looking to collect email addresses, contact info, event sign-ups, or visitor feedback, you can customize your forms with data fields that work best for you. Best of all, this plugin is available to all WordPress users, even if you don’t have a Constant Contact account.
+**Constant Contact Forms** makes it fast and easy to capture visitor information right from your WordPress site. Whether you’re looking to collect email addresses, contact info, or visitor feedback, you can customize your forms with data fields that work best for you. Best of all, this plugin is available to all WordPress users, even if you don’t have a Constant Contact account.
 
 https://www.youtube.com/watch?v=MhxtAlpZzJw
 
@@ -34,6 +39,21 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+<<<<<<< HEAD
+=======
+= 1.3.5 =
+* Fixed: Prevent submission status message from displaying on all forms with multiple forms on same page.
+* Fixed: Properly prevent submission via AJAX when required fields are not met.
+* Fixed: Properly prevent AJAX submissions from incorrectly collecting data from all forms on a page that displays multiple Constant Contact forms.
+* Fixed: Adjusted database query in Constant Contact Form lists display in conjunction with WordPress 4.8.2.
+* Fixed: Invalid markup with form display and checkbox items.
+* Fixed: Prevent possible issues with $_POST globals not being strings.
+* Fixed: Addressed issues with Google reCAPTCHA validation and verification of submitting users via allow_url_fopen.
+* Updated: Provided updated default values for button text, success message.
+* Updated: Rearranged and updated lables form builder fields to provide better clarity.
+* Updated: Added form's unique ID to form markup output for styling options and specific targeting.
+
+>>>>>>> release135
 = 1.3.4 =
 * Fixed: Typo in code variable. Typo prevented forms with custom redirects from properly processing submission.
 
