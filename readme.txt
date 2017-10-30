@@ -1,4 +1,3 @@
-
 === Constant Contact Forms ===
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
@@ -44,7 +43,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Fixed: Prevent possible issues with $_POST globals not being strings.
 * Fixed: Addressed issues with Google reCAPTCHA validation and verification of submitting users via allow_url_fopen.
 * Updated: Provided updated default values for button text, success message.
-* Updated: Changed "Redirect to" field text to "URL to redirect user to" to help clarify purpose.
+* Updated: Rearranged and updated lables form builder fields to provide better clarity.
 * Updated: Added form's unique ID to form markup output for styling options and specific targeting.
 
 = 1.3.4 =
