@@ -78,6 +78,8 @@ class ConstantContact_Mail {
 			}
 		}
 
+		$opt_in_details = $values['ctct-opt-in'];
+
 		// Preserve form ID for mail() method. Lost in pretty_values() pass.
 		$submission_details                    = array();
 		$submission_details['form_id']         = $values['ctct-id']['value'];
@@ -88,17 +90,25 @@ class ConstantContact_Mail {
 
 		// Format them.
 		$email_values = $this->format_values_for_email( $values );
+		$was_forced = false; // Set a value regardless of status.
 
 		// Increment our counter for processed form entries.
 		constant_contact()->process_form->increment_processed_form_count();
 
-		// Skip sending e-mail if we're connected and the user has opted out of notification emails.
-		if ( constant_contact()->api->is_connected() && ( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) ) {
+		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in
+		if ( constant_contact()->api->is_connected() && ( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) && $add_to_opt_in ) { // If we have $add_to_opt_in, we should already have a list.
 			return true;
+		} else {
+			if (
+				( ! constant_contact()->api->is_connected() || empty( $opt_in_details['value'] ) ) &&
+				( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
+			) { // If we're not connected or have no list set AND we've disabled. Override.
+				$was_forced = true;
+			}
 		}
 
 		// Send the mail.
-		return $this->mail( $this->get_email(), $email_values, $submission_details );
+		return $this->mail( $this->get_email(), $email_values, $submission_details, $was_forced );
 	}
 
 	/**
