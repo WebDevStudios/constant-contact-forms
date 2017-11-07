@@ -211,13 +211,15 @@ class ConstantContact_Mail {
 	 * Sends our mail out.
 	 *
 	 * @since 1.0.0
+	 * @since 1.3.6 Added $was_forced.
 	 *
 	 * @param string $destination_email  Intended mail address.
 	 * @param string $content            Data from clean values.
 	 * @param array  $submission_details Details for submission to process.
+	 * @param bool   $was_forced         Whether or not we are force sending. Default false.
 	 * @return bool Whether or not sent.
 	 */
-	public function mail( $destination_email, $content, $submission_details ) {
+	public function mail( $destination_email, $content, $submission_details, $was_forced = false ) {
 
 		// Define a mail key for the cache.
 		static $last_sent = false;
