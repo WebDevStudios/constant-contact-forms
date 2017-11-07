@@ -258,7 +258,14 @@ class ConstantContact_Mail {
 		// Filter to allow sending HTML for our message body.
 		add_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
 
+		$content_notice = '';
+		if ( $was_forced ) {
+			$content_notice = '<p>' . esc_html__( 'You are receiving this email because the submitting user did not opt in to be added to the selected list and you have disabled admin emails. We did not want the submission lost.', 'constant-contact-forms' ) . '</p>';
+		}
+
 		$content_before = __( 'Congratulations! Your Constant Contact Forms plugin has successfully captured new information:', 'constant-contact-forms' );
+
+		$content_before = $content_notice . $content_before;
 
 		$content_after = __( "Don't forget: Email marketing is a great way to stay connected and engage with visitors after they've left your site. When you connect to a Constant Contact account, all new subscribers are automatically synced so you can keep the interaction going through emails and more. Sign up for a Free Trial on the Connect page in the Plugin console view.", 'constant-contact-forms' );
 
