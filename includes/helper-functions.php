@@ -318,3 +318,24 @@ function constant_contact_check_timestamps( $maybe_spam, $data ) {
 	return $maybe_spam;
 }
 add_filter( 'constant_contact_maybe_spam', 'constant_contact_check_timestamps', 10, 2 );
+
+/**
+ * Clean and correctly protocol an given URL.
+ *
+ * @since 1.3.6
+ *
+ * @param string $url
+ * @return string
+ */
+function constant_contact_clean_url( $url = '' ) {
+	// Reject and return untouched if not provided a string.
+	if ( ! is_string( $url ) ) {
+		return $url;
+	}
+
+	$clean_url = esc_url( $url );
+	if ( is_ssl() && 'http' === parse_url( $clean_url, PHP_URL_SCHEME ) ) {
+		$clean_url = str_replace( 'http', 'https', $clean_url );
+	}
+	return $clean_url;
+}
