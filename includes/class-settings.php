@@ -259,8 +259,8 @@ class ConstantContact_Settings {
 
 			// Add field to disable e-mail notifications.
 			$cmb->add_field( array(
-				'name'       => __( 'Disable E-mail Notifications', 'constant-contact-forms' ),
-				'desc'       => __( 'This option will disable e-mail notifications when someone submits a form and you have a connected Constant Contact account.', 'constant-contact-forms' ),
+				'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
+				'desc'       => sprintf( esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ), '<br/>' ),
 				'id'         => '_ctct_disable_email_notifications',
 				'type'       => 'checkbox',
 				'before_row' => '<hr/>',
