@@ -184,10 +184,11 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Redirect to URL', 'constant-contact-forms' ),
-			'id'          => $this->prefix . 'redirect_uri',
-			'type'        => 'text',
-			'description' => esc_html__( 'URL to send the user to, after successful submission.', 'constant-contact-forms' ),
+			'name'            => __( 'Redirect to URL', 'constant-contact-forms' ),
+			'id'              => $this->prefix . 'redirect_uri',
+			'type'            => 'text',
+			'description'     => esc_html__( 'URL to send the user to, after successful submission.', 'constant-contact-forms' ),
+			'sanitization_cb' => 'constant_contact_clean_url',
 		) );
 
 		$options_metabox->add_field( array(
