@@ -73,6 +73,6 @@ class ConstantContact_User_Customizations {
 			return $url;
 		}
 
-		return $custom;
+		return constant_contact_clean_url( $custom );
 	}
 }
