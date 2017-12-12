@@ -54,7 +54,7 @@ class ConstantContact_Check {
 
 				<p><?php
 					// Check our cron status.
-					esc_html( $this->cron_spawn() ); ?>
+					echo esc_html( $this->cron_spawn() ); ?>
 				</p>
 			</div>
 			<?php
@@ -188,7 +188,7 @@ class ConstantContact_Check {
 		$result = wp_remote_post( $cron_request['url'], $cron_request['args'] );
 
 		if ( is_wp_error( $result ) ) {
-			return $result;
+			return $result->get_error_message();
 		} elseif ( wp_remote_retrieve_response_code( $result ) >= 300 ) {
 			return sprintf(
 				// translators: placeholder iwll have an HTTP response code value.
