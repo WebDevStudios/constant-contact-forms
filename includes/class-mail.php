@@ -260,7 +260,7 @@ class ConstantContact_Mail {
 
 		$content_notice = '';
 		if ( $was_forced ) {
-			$content_notice = '<p>' . esc_html__( 'You are receiving this email because the submitting user did not opt in to be added to the selected list and you have disabled admin emails. We did not want the submission lost.', 'constant-contact-forms' ) . '</p>';
+			$content_notice = '<p><strong>' . esc_html__( 'You are receiving this email because the submitting user did not opt in to be added to the selected list and you have disabled admin emails. We did not want the submission lost.', 'constant-contact-forms' ) . '</strong></p>';
 		}
 
 		$content_before = __( 'Congratulations! Your Constant Contact Forms plugin has successfully captured new information:', 'constant-contact-forms' );
