@@ -34,6 +34,11 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.3.6 =
+* Fixed: Validate and potentially create full urls for values passed into custom "redirect to url" values. Prevents unintended destinations from partial urls.
+* Updated: Wording for "Disable email" setting to clarify its purpose and intent.
+* Added: Send email notification in cases where emails are disabled and no Constant Contact list has been set for a given form. Prevents possible lost submissions.
+
 = 1.3.5 =
 * Fixed: Prevent submission status message from displaying on all forms with multiple forms on same page.
 * Fixed: Properly prevent submission via AJAX when required fields are not met.
