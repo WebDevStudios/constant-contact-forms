@@ -99,10 +99,20 @@ class ConstantContact_Mail {
 		if ( constant_contact()->api->is_connected() && ( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) && $add_to_opt_in ) { // If we have $add_to_opt_in, we should already have a list.
 			return true;
 		} else {
+
+			// Checks if we have a list
 			if (
 				( ! constant_contact()->api->is_connected() || empty( $opt_in_details['value'] ) ) &&
 				( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
 			) { // If we're not connected or have no list set AND we've disabled. Override.
+
+				$submission_details['list-available'] = 'no';
+				$was_forced = true;
+			}
+
+			// Extra checks for if no opt in, without FORCING the $was_forced value to be set.
+			if ( ! $add_to_opt_in ) {
+				$submission_details['opted-in'] = 'no';
 				$was_forced = true;
 			}
 		}
