@@ -14,7 +14,7 @@
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
  * Version:     1.3.6
  * Author:      Constant Contact
- * Author URI:  https://www.constantcontact.com
+ * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
  * Text Domain: constant-contact-forms
  * Domain Path: /languages
