@@ -69,6 +69,7 @@ class ConstantContact_Mail {
 			if ( 'on' !== $maybe_bypass ) {
 				/**
 				 * Filters the delay between scheduling of the opt-in e-mail event.
+				 *
 				 * @since 1.0.2
 				 *
 				 * @param int $schedule_delay The time to add to `time()` for the event.
