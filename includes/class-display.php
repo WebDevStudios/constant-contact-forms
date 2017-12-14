@@ -186,6 +186,8 @@ class ConstantContact_Display {
 		// Add our disclose notice maybe.
 		$return .= wp_kses_post( $this->maybe_add_disclose_note( $form_data ) );
 
+		$return .= $this->must_opt_in( $form_data );
+
 		$return .= '</form>';
 
 		$return .= '<script type="text/javascript">';
@@ -354,6 +356,22 @@ class ConstantContact_Display {
 
 	public function build_timestamp() {
 		return '<input type="hidden" name="ctct_time" value="' . time() . '" />';
+	}
+
+	/**
+	 * Use a hidden field to denote needing to opt in.
+	 *
+	 * @since 1.3.6
+	 *
+	 * @param array $form_data
+	 * @return string
+	 */
+	public function must_opt_in( array $form_data ) {
+		if ( empty( $form_data['options']['optin']['show'] ) ) {
+			return '';
+		}
+
+		return '<input type="hidden" name="ctct_must_opt_in" value="yes" />';
 	}
 
 	/**
