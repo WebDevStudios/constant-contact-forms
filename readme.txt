@@ -2,7 +2,7 @@
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
-Tested up to:      4.9.0
+Tested up to:      4.9.1
 Stable tag:        1.3.6
 License:           GPLv2
 License URI:       http://www.gnu.org/licenses/gpl-2.0.html
