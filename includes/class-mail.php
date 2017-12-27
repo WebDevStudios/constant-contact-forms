@@ -414,10 +414,10 @@ class ConstantContact_Mail {
 		if ( isset( $submission_details['list-available'] ) || isset( $submission_details['opted-in'] ) ) {
 			$content_notice .= '<ol>';
 
-			if ( 'no' === $submission_details['list-available'] ) {
+			if ( isset( $submission_details['list-available'] ) && 'no' === $submission_details['list-available'] ) {
 				$content_notice .= '<li>' . esc_html__( 'Constant Contact list not selected for form.', 'constant-contact-forms' ) . '</li>';
 			}
-			if ( 'no' === $submission_details['opted-in'] ) {
+			if ( isset( $submission_details['opted-in'] ) && 'no' === $submission_details['opted-in'] ) {
 				$content_notice .= '<li>' . esc_html__( 'User did not check the Email Opt-in Checkbox', 'constant-contact-forms' ) . '</li>';
 			}
 
