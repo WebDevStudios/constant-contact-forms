@@ -79,7 +79,7 @@ class ConstantContact_Mail {
 			}
 		}
 
-		$opt_in_details = $values['ctct-opt-in'];
+		$opt_in_details = ( isset( $values['ctct-opt-in'] ) ) ? $values['ctct-opt-in'] : array();
 
 		// Preserve form ID for mail() method. Lost in pretty_values() pass.
 		$submission_details                    = array();
