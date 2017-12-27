@@ -99,27 +99,29 @@ class ConstantContact_Mail {
 		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in
 		if ( constant_contact()->api->is_connected() && ( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) && $add_to_opt_in ) { // If we have $add_to_opt_in, we should already have a list.
 			return true;
-		} else {
-			// @todo This needs to be broken out into two elseif sections instead of a nested else.
-			// This would allow for setting each sections error and also allow for returning early again for cases
-			// like having a list, but not needing to opt in.
-			$has_list         = get_post_meta( $submission_details['form_id'], '_ctct_list', true );
+		}
 
-			// Checks if we have a list
-			if (
-				( ! constant_contact()->api->is_connected() || empty( $has_list ) ) &&
-				( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
-			) { // If we're not connected or have no list set AND we've disabled. Override.
+		// This would allow for setting each sections error and also allow for returning early again for cases
+		// like having a list, but not needing to opt in.
+		$has_list = get_post_meta( $submission_details['form_id'], '_ctct_list', true );
 
-				$submission_details['list-available'] = 'no';
-				$was_forced                           = true;
-			}
+		// Checks if we have a list
+		if (
+			( ! constant_contact()->api->is_connected() || empty( $has_list ) ) &&
+			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
+		) { // If we're not connected or have no list set AND we've disabled. Override.
 
-			// NOT WORKING.YET.
-			if ( ! empty( $_POST['ctct_must_opt_in'] ) && empty( $opt_in_details ) ) {
-				$submission_details['opted-in'] = 'no';
-				$was_forced                     = true;
-			}
+			$submission_details['list-available'] = 'no';
+			$was_forced                           = true;
+		}
+
+		if (
+			! empty( $_POST['ctct_must_opt_in'] ) &&
+			empty( $opt_in_details ) &&
+			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
+		) {
+			$submission_details['opted-in'] = 'no';
+			$was_forced                     = true;
 		}
 
 		// Send the mail.
