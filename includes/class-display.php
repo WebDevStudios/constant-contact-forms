@@ -89,6 +89,10 @@ class ConstantContact_Display {
 	 */
 	public function form( $form_data, $form_id = '', $skip_styles = false ) {
 
+		if ( 'publish' !== get_post_status( $form_id ) ) {
+			return '';
+		}
+
 		// Enqueue some things.
 		if ( ! $skip_styles ) {
 			$this->styles( true );
