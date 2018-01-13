@@ -721,6 +721,10 @@ class ConstantContact_Process_Form {
 
 		$has_all = true;
 		foreach( $original as $key => $value ) {
+			if ( 'line_2' === $value['_ctct_map_select'] ) {
+				continue;
+			}
+
 			if (
 				isset( $form_data[ $key ] ) &&
 				true === $value['required'] &&
