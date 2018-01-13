@@ -721,7 +721,7 @@ class ConstantContact_Process_Form {
 
 		$has_all = true;
 		foreach( $original as $key => $value ) {
-			if ( 'line_2' === $value['_ctct_map_select'] ) {
+			if ( isset( $value['_ctct_map_select'] ) && 'line_2' === $value['_ctct_map_select'] ) {
 				continue;
 			}
 
