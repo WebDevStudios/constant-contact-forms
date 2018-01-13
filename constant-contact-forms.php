@@ -209,7 +209,6 @@ class Constant_Contact {
 
 		// Load our plugin and our libraries.
 		$this->plugin_classes();
-		$this->load_libs();
 		$this->admin_plugin_classes();
 
 		// Include our helper functions function for end-users.
@@ -278,6 +277,7 @@ class Constant_Contact {
 		add_action( 'init', array( $this, 'includes' ), 5 );
 		add_action( 'widgets_init', array( $this, 'widgets' ) );
 		add_filter( 'body_class', array( $this, 'body_classes' ) );
+		$this->load_libs();
 
 		// Our vendor files will do a check for ISSSL, so we want to set it to be that.
 		// See Guzzle for more info and usage of this.
