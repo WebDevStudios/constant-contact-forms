@@ -282,7 +282,7 @@ class ConstantContact_Mail {
 
 		$content_before = $content_notice_note . $content_before . $content_notice_reasons;
 
-		$content_title = '<strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] );
+		$content_title = '<strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
 		$content_title .= '<strong>' . esc_html__( 'Form information: ', 'constant-contact-forms' ) . '</strong>';
 
 		$content = $content_title . $content;
@@ -431,15 +431,18 @@ class ConstantContact_Mail {
 			return '';
 		}
 
-		$content_notice = '<strong>' . esc_html__( 'Submitted to Constant Contact:', 'constant-contact-forms' ) . '</strong>';
+		$content_notice = '<p><strong>' . esc_html__( 'Submitted to Constant Contact: ', 'constant-contact-forms' ) . '</strong></p>';
 
 		if ( isset( $submission_details['list-available'] ) || isset( $submission_details['opted-in'] ) ) {
 			if ( isset( $submission_details['list-available'] ) && 'no' === $submission_details['list-available'] ) {
 				$content_notice .= '<p>' . esc_html__( 'NO (Constant Contact list not selected for this form)', 'constant-contact-forms' ) . '</p>';
 			}
 			if ( isset( $submission_details['opted-in'] ) && 'no' === $submission_details['opted-in'] ) {
-				$content_notice .= '<p>' . esc_html__( 'NO (User did not select the Email Opt-in checkbox)', 'constant-contact-forms' ) . '</p>';
-				$content_notice .= '<p>' . esc_html__( "You can disable this under Form options. Email Opt-in isn't required to add subscribers into your account", 'constant-contact-forms' ) . '</p>';
+				$content_notice .= '<p>';
+				$content_notice .= esc_html__( 'NO (User did not select the Email Opt-in checkbox)', 'constant-contact-forms' );
+				$content_notice .= '<br/>';
+				$content_notice .= esc_html__( "You can disable this under Form options. Email Opt-in isn't required to add subscribers into your account", 'constant-contact-forms' );
+				$content_notice .= '</p>';
 			}
 		}
 
