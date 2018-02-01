@@ -324,8 +324,9 @@ class ConstantContact_Mail {
 			 * @since 1.3.0
 			 *
 			 * @param string $value Constructed email subject.
+			 * @param string $value Constant Contact Form ID.
 			 */
-			apply_filters( 'constant_contact_email_subject', __( 'Constant Contact Forms Notification', 'constant-contact-forms' ) ),
+			apply_filters( 'constant_contact_email_subject', __( 'Constant Contact Forms Notification', 'constant-contact-forms' ), $submission_details['form_id'] ),
 			$content
 		);
 
