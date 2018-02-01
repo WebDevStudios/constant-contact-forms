@@ -282,8 +282,8 @@ class ConstantContact_Mail {
 
 		$content_before = $content_notice_note . $content_before . $content_notice_reasons;
 
-		$content_title = '<strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
-		$content_title .= '<strong>' . esc_html__( 'Form information: ', 'constant-contact-forms' ) . '</strong>';
+		$content_title = '<p><strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
+		$content_title .= '<strong>' . esc_html__( 'Form information: ', 'constant-contact-forms' ) . '</strong></p>';
 
 		$content = $content_title . $content;
 
