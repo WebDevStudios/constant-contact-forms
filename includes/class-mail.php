@@ -325,7 +325,7 @@ class ConstantContact_Mail {
 			 *
 			 * @param string $value Constructed email subject.
 			 */
-			apply_filters( 'constant_contact_email_subject', __( 'Great News: You just captured a new visitor submission', 'constant-contact-forms' ) ),
+			apply_filters( 'constant_contact_email_subject', __( 'Constant Contact Forms Notification', 'constant-contact-forms' ) ),
 			$content
 		);
 
