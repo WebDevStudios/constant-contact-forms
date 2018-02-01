@@ -278,7 +278,7 @@ class ConstantContact_Mail {
 		$content_notice_note = $this->maybe_append_forced_email_notice_note( $was_forced );
 		$content_notice_reasons = $this->maybe_append_forced_email_notice_reasons( $was_forced, $submission_details );
 
-		$content_before = esc_html__( 'Your Constant Contact Forms plugin has successfully captured new information.', 'constant-contact-forms' );
+		$content_before = esc_html__( 'Your Constant Contact Forms plugin has captured new information.', 'constant-contact-forms' );
 
 		$content_before = $content_notice_note . $content_before . $content_notice_reasons;
 
