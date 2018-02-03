@@ -36,8 +36,15 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 = 1.3.6 =
 * Fixed: Validate and potentially create full urls for values passed into custom "redirect to url" values. Prevents unintended destinations from partial urls.
+* Fixed: Error display for cron debugging was not showing correctly.
+* Fixed: Added required indicators to all appropriate fields in address fieldset on frontend.
+* Fixed: No form will be displayed if the form is not published.
+* Added: Address line 2 is no longer considered a required field.
+* Added: Plugin will now send email notifications if notifications are disabled but no Constant Contact list has been set for a form or opt-in is required but user does not opt in. Prevents possible lost submissions.
 * Updated: Wording for "Disable email" setting to clarify its purpose and intent.
-* Added: Send email notification in cases where emails are disabled and no Constant Contact list has been set for a given form. Prevents possible lost submissions.
+* Updated: Wording around some form builder fields.
+* Updated: Reworded emails and conditionally added messages regarding issues with form that required sending the email.
+* Updated: Adjusted plugin load order slightly to prevent conflicts with other plugins using GuzzleHTTP.
 
 = 1.3.5 =
 * Fixed: Prevent submission status message from displaying on all forms with multiple forms on same page.
