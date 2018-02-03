@@ -403,6 +403,14 @@ class ConstantContact_Mail {
 		}
 	}
 
+	/**
+	 * Potentially add initial note for why we are emailing the site owner.
+	 *
+	 * @since 1.3.6
+	 *
+	 * @param  bool   $was_forced Whether or not we have to force send an email.
+	 * @return string $value      Message to explain why an email was received.
+	 */
 	public function maybe_append_forced_email_notice_note( $was_forced = false ) {
 
 		if ( ! $was_forced ) {
