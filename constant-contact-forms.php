@@ -136,32 +136,187 @@ class Constant_Contact {
 	protected static $single_instance = null;
 
 	/**
-	 * All our class instances.
+	 * An instance of the ConstantContact_API Class.
 	 *
 	 * @since 1.0.1
+	 * @var ConstantContact_API
+	 */
+	private $api;
+
+	/**
+	 * An instance of the ConstantContact_Builder Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Builder
+	 */
+	private $builder;
+
+	/**
+	 * An instance of the ConstantContact_Builder_Fields Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Builder_Fields
+	 */
+	private $builder_fields;
+
+	/**
+	 * An instance of the ConstantContact_Check Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Check
+	 */
+	private $check;
+
+	/**
+	 * An instance of the ConstantContact_CPTS Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_CPTS
+	 */
+	private $cpts;
+
+	/**
+	 * An instance of the ConstantContact_Display Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Display
+	 */
+	private $display;
+
+	/**
+	 * An instance of the ConstantContact_Display_Shortcode Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Display_Shortcode
+	 */
+	private $display_shortcode;
+
+	/**
+	 * An instance of the ConstantContact_Lists Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Lists
+	 */
+	private $lists;
+
+	/**
+	 * An instance of the ConstantContact_Process_Form Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Process_Form
+	 */
+	private $process_form;
+
+	/**
+	 * An instance of the ConstantContact_Settings Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Settings
+	 */
+	private $settings;
+
+	/**
+	 * An instance of the ConstantContact_Auth_Redirect Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Auth_Redirect
+	 */
+	private $auth_redirect;
+
+	/**
+	 * An instance of the ConstantContact_Connect Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Connect
+	 */
+	private $connect;
+
+	/**
+	 * An instance of the ConstantContact_Mail Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Mail
+	 */
+	private $mail;
+
+	/**
+	 * An instance of the ConstantContact_Notifications Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Notifications
+	 */
+	private $notifications;
+
+	/**
+	 * An instance of the ConstantContact_Notification_Content Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Notification_Content
+	 */
+	private $notification_content;
+
+	/**
+	 * An instance of the ConstantContact_Middleware Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Middleware
+	 */
+	private $authserver;
+
+	/**
+	 * An instance of the ConstantContact_Updates Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Updates
+	 */
+	private $updates;
+
+	/**
+	 * An instance of the ConstantContact_Optin Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Optin
+	 */
+	private $optin;
+
+	/**
+	 * An instance of the ConstantContact_User_Customizations Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_User_Customizations
+	 */
+	private $customizations;
+
+	/**
+	 * An instance of the ConstantContact_Admin Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Admin
 	 */
 	private $admin;
+
+	/**
+	 * An instance of the ConstantContact_Admin_Pages class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Admin_Pages
+	 */
 	private $admin_pages;
-	private $auth_redirect;
-	private $api;
-	private $builder;
-	private $builder_fields;
-	private $check;
-	private $connect;
-	private $cpts;
-	private $display;
-	private $display_shortcode;
-	private $lists;
-	private $process_form;
-	private $settings;
-	private $mail;
-	private $notifications;
-	private $notification_content;
-	private $authserver;
-	private $updates;
-	private $optin;
-	private $customizations;
+
+	/**
+	 * An instance of the ConstantContact_Shortcode class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Shortcode
+	 */
 	private $shortcode;
+
+	/**
+	 * An instance of the ConstantContact_Shortcode_Admin class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Shortcode_Admin
+	 */
 	private $shortcode_admin;
 
 	/**
