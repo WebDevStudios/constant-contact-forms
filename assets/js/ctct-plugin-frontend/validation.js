@@ -24,11 +24,15 @@ window.CTCTSupport = {};
 			form: '.ctct-form-wrapper form',
 		};
 		that.timeout = null;
-	}
+	};
 
 	that.setAllInputsValid = function() {
 		$( that.$c.form + ' .ctct-invalid' ).removeClass( 'ctct-invalid' );
-	}
+	};
+
+	that.clearFormInputs = function() {
+		$( that.$c.form )[0].reset();
+	};
 
 	that.processError = function( error ) {
 
@@ -37,7 +41,7 @@ window.CTCTSupport = {};
 			$( '#' + error.id ).addClass( 'ctct-invalid' );
 		}
 
-	}
+	};
 
 	// Combine all events.
 	that.bindEvents = function() {
@@ -70,11 +74,14 @@ window.CTCTSupport = {};
 						},
 						function (response) {
 
-							// Make sure we got the 'status' attribut in our response
+							// Make sure we got the 'status' attribute in our response
 							if (typeof( response.status ) !== 'undefined') {
 
-								if ('success' == response.status) {
+								if ( 'success' == response.status ) {
 									$(form_id_selector+'.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
+
+									// Clear the form fields to allow for a new submission.
+									that.clearFormInputs();
 								} else {
 									// Here we'll want to disable the submit button and
 									// add some error classes
@@ -92,7 +99,7 @@ window.CTCTSupport = {};
 				}, 500)
 			}
 		});
-    }
+    };
 
 	// Engage!
 	$( that.init );
