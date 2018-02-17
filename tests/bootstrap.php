@@ -28,7 +28,7 @@ if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
 } elseif ( file_exists( '/tmp/wordpress-tests-lib/includes/bootstrap.php' ) ) {
 	$test_root = '/tmp/wordpress-tests-lib';
 }
-require_once $test_root . 'includes/functions.php';
+require_once $test_root . '/includes/functions.php';
 
 function _test_constant_contact_manually_load_plugin() {
 
