@@ -213,7 +213,10 @@ class Constant_Contact {
 		$this->admin_plugin_classes();
 
 		// Include our helper functions function for end-users.
-		Constant_Contact::include_file( 'helper-functions', false );
+		self::include_file( 'helper-functions', false );
+
+		// Include compatibility fixes to address conflicts with other plug-ins.
+		self::include_file( 'compatibility', false );
 	}
 
 	/**
@@ -293,8 +296,6 @@ class Constant_Contact {
 			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
 		}
 
-		// If the WordPress Calls to Action plug-in is installed, exclude our post type to conflict.
-		add_filter( 'cta_excluded_post_types', array( $this, 'exclude_ctct_forms' ) );
 	}
 
 	/**
@@ -599,20 +600,6 @@ class Constant_Contact {
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
 		return $classes;
-	}
-
-
-	/**
-	 * Add the Constant Contact post type to an array of excluded post types.
-	 *
-	 * @since NEXT
-	 *
-	 * @param array $excluded The post types to exclude.
-	 * @return array
-	 */
-	public function exclude_ctct_forms( $excluded ) {
-		$excluded[] = 'ctct_forms';
-		return $excluded;
 	}
 
 	/**
