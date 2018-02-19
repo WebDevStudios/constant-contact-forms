@@ -51,8 +51,6 @@ window.CTCTSupport = {};
 			submitButton: $( '.ctct-form-wrapper form input[type=submit]' )
 		};
 
-		console.log( that.$c.submitButton );
-
 		that.timeout = null;
 	};
 
