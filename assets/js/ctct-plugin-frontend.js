@@ -31,7 +31,7 @@ window.CTCTSupport = {};
 		that.cache();
 		that.bindEvents();
 		that.removePlaceholder();
-	}
+	};
 
 	that.removePlaceholder = function() {
 		$( '.ctct-form-field input,textarea' ).focus( function() {
@@ -39,7 +39,7 @@ window.CTCTSupport = {};
 		}).blur( function() {
 			$( this ).attr( 'placeholder', $( this ).data( 'placeholder' ) );
 		});
-	}
+	};
 
 	// Cache all the things.
 	that.cache = function() {
@@ -55,8 +55,10 @@ window.CTCTSupport = {};
 		$( that.$c.form + ' .ctct-invalid' ).removeClass( 'ctct-invalid' );
 	};
 
-	that.clearFormInputs = function() {
-		$( that.$c.form )[0].reset();
+	that.clearFormInputs = function( form_id_selector ) {
+		var submitted_form = $( form_id_selector + ' form' );
+		// jQuery doesn't have a native reset function so the [0] will convert to a JavaScript object.
+		submitted_form[0].reset();
 	};
 
 	that.processError = function( error ) {
@@ -106,7 +108,9 @@ window.CTCTSupport = {};
 									$(form_id_selector+'.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
 
 									// Clear the form fields to allow for a new submission.
-									that.clearFormInputs();
+									if ( '' !== form_id_selector ) {
+										that.clearFormInputs( form_id_selector );
+									}
 								} else {
 									// Here we'll want to disable the submit button and
 									// add some error classes
