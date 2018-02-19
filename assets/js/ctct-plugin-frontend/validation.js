@@ -55,7 +55,7 @@ window.CTCTSupport = {};
 		if( honeypot_length > 0 ) {
 			that.$c.submitButton.attr( 'disabled', 'disabled' );
 		} else {
-			that.$c.submitButton.removeAttr( 'disabled' );
+			that.$c.submitButton.attr( 'disabled', false );
 		}
 	};
 
