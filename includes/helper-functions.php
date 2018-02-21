@@ -318,3 +318,120 @@ function constant_contact_check_timestamps( $maybe_spam, $data ) {
 	return $maybe_spam;
 }
 add_filter( 'constant_contact_maybe_spam', 'constant_contact_check_timestamps', 10, 2 );
+
+/**
+ * Check spam through Akismet.
+ * It will build Akismet query string and call Akismet API.
+ * Akismet response return 'true' for spam submission.
+ *
+ * @since NEXT
+ *
+ * @param bool  $is_spam Current status of the submission.
+ * @param array $data    Array of submission data.
+ * @return bool
+ */
+function constant_contact_akismet( $is_spam, $data ) {
+
+	// Bail out, If spam.
+	if ( $is_spam ) {
+		return $is_spam;
+	}
+
+	$email = false;
+	$fname = $lname = $name = '';
+	foreach( $data as $key => $value ) {
+		if ( 'email' === substr( $key, 0, 5 ) ) {
+			$email = $value;
+		}
+		if ( 'first_name' === substr( $key, 0, 10 ) ) {
+			$fname = $value;
+		}
+		if ( 'last_name' === substr( $key, 0, 9 ) ) {
+			$lname = $value;
+		}
+	}
+
+	if ( $fname ) {
+		$name = $fname;
+	}
+	if ( $lname ) {
+		$name .= ' ' . $lname;
+	}
+
+	// Bail out, if Akismet key not exist.
+	if ( ! constant_contact_check_akismet_key() ) {
+		return $is_spam;
+	}
+
+	// Build args array.
+	$args = array();
+
+	$args['comment_author']       = $name;
+	$args['comment_author_email'] = $email;
+	$args['blog']                 = get_option( 'home' );
+	$args['blog_lang']            = get_locale();
+	$args['blog_charset']         = get_option( 'blog_charset' );
+	$args['user_ip']              = $_SERVER['REMOTE_ADDR'];
+	$args['user_agent']           = $_SERVER['HTTP_USER_AGENT'];
+	$args['referrer']             = $_SERVER['HTTP_REFERER'];
+	$args['comment_type']         = 'contact-form';
+
+	$ignore = array( 'HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW' );
+
+	foreach ( $_SERVER as $key => $value ) {
+		if ( ! in_array( $key, (array) $ignore ) ) {
+			$args["$key"] = $value;
+		}
+	}
+
+	// It will return Akismet spam detect API response.
+	$is_spam = constant_contact_akismet_spam_check( $args );
+
+	return $is_spam;
+}
+add_filter( 'constant_contact_maybe_spam', 'constant_contact_akismet', 10, 2 );
+
+/**
+ * Check Akismet API Key.
+ *
+ * @return bool
+ */
+function constant_contact_check_akismet_key() {
+	if ( is_callable( array( 'Akismet', 'get_api_key' ) ) ) { // Akismet v3.0
+		return (bool) Akismet::get_api_key();
+	}
+
+	if ( function_exists( 'akismet_get_key' ) ) {
+		return (bool) akismet_get_key();
+	}
+
+	return false;
+}
+
+/**
+ * Detect spam through Akismet Comment API.
+ *
+ * @param array $args
+ *
+ * @return bool|mixed
+ */
+function constant_contact_akismet_spam_check( $args ) {
+	global $akismet_api_host, $akismet_api_port;
+
+	$spam         = false;
+	$query_string = http_build_query( $args );
+
+	if ( is_callable( array( 'Akismet', 'http_post' ) ) ) { // Akismet v3.0
+		$response = Akismet::http_post( $query_string, 'comment-check' );
+	} else {
+		$response = akismet_http_post( $query_string, $akismet_api_host,
+			'/1.1/comment-check', $akismet_api_port );
+	}
+
+	// It's spam if response status is true.
+	if ( 'true' === $response[1] ) {
+		$spam = true;
+	}
+
+	return $spam;
+}
