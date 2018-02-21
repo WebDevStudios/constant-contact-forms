@@ -324,6 +324,8 @@ add_filter( 'constant_contact_maybe_spam', 'constant_contact_check_timestamps', 
  * It will build Akismet query string and call Akismet API.
  * Akismet response return 'true' for spam submission.
  *
+ * Akismet integration props to GiveWP. We appreciate the initial work.
+ *
  * @since NEXT
  *
  * @param bool  $is_spam Current status of the submission.
@@ -412,7 +414,6 @@ function constant_contact_check_akismet_key() {
  * Detect spam through Akismet Comment API.
  *
  * @param array $args
- *
  * @return bool|mixed
  */
 function constant_contact_akismet_spam_check( $args ) {
