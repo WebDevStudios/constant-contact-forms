@@ -89,6 +89,10 @@ class ConstantContact_Display {
 	 */
 	public function form( $form_data, $form_id = '', $skip_styles = false ) {
 
+		if ( 'publish' !== get_post_status( $form_id ) ) {
+			return '';
+		}
+
 		// Enqueue some things.
 		if ( ! $skip_styles ) {
 			$this->styles( true );
@@ -185,6 +189,8 @@ class ConstantContact_Display {
 
 		// Add our disclose notice maybe.
 		$return .= wp_kses_post( $this->maybe_add_disclose_note( $form_data ) );
+
+		$return .= $this->must_opt_in( $form_data );
 
 		$return .= '</form>';
 
@@ -354,6 +360,22 @@ class ConstantContact_Display {
 
 	public function build_timestamp() {
 		return '<input type="hidden" name="ctct_time" value="' . time() . '" />';
+	}
+
+	/**
+	 * Use a hidden field to denote needing to opt in.
+	 *
+	 * @since 1.3.6
+	 *
+	 * @param array $form_data
+	 * @return string
+	 */
+	public function must_opt_in( array $form_data ) {
+		if ( empty( $form_data['options']['optin']['show'] ) ) {
+			return '';
+		}
+
+		return '<input type="hidden" name="ctct_must_opt_in" value="yes" />';
 	}
 
 	/**
@@ -970,14 +992,22 @@ class ConstantContact_Display {
 		$v_state  = isset( $value['state_address'] ) ? $value['state_address'] : '';
 		$v_zip    = isset( $value['zip_address'] ) ? $value['zip'] : '';
 
-		$req = $req ? ' required ' : '';
+		/**
+		 * Filters the markup used for the required indicator.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+		 */
+		$req_label = $req ? ' ' . apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' ) : '';
 		$req_class = $req ? ' ctct-form-field-required ' : '';
+		$req = $req ? ' required ' : '';
 
 		// Build our field.
 		$return  = '<fieldset class="ctct-address">';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1' . $req_class . '">';
-		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
+		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . $req_label . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-street" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
 		$return .= ' </div>';
 		// Address Line 2 is not required, note the missing $req inclusion.
@@ -986,15 +1016,15 @@ class ConstantContact_Display {
 		$return .= '  <input type="text" class="ctct-text ctct-address-line-2" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-city' . $req_class . '" id="input_2_1_3_container">';
-		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . '</label>';
+		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . $req_label . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-city" name="city_' . esc_attr( $f_id ) . '" id="city_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_city ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-state' . $req_class . '" id="input_2_1_4_container">';
-		$return .= '  <label for="state_' . esc_attr( $f_id ) . '">' . esc_attr( $state ) . '</label>';
+		$return .= '  <label for="state_' . esc_attr( $f_id ) . '">' . esc_attr( $state ) . $req_label . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-state" name="state_' . esc_attr( $f_id ) . '" id="state_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_state ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-zip' . $req_class . '" id="input_2_1_5_container">';
-		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . '</label>';
+		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . $req_label . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-zip" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
 		$return .= ' </div>';
 		$return .= '</fieldset>';

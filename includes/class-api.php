@@ -442,7 +442,7 @@ class ConstantContact_API {
 	 * @param string $api_token Token.
 	 * @param string $list      List name.
 	 * @param string $email     Email address.
-	 * @param string $user_data User data.
+	 * @param array  $user_data User data.
 	 * @param string $form_id   ID of the form being processed.
 	 * @return mixed Response from API.
 	 */
@@ -482,7 +482,7 @@ class ConstantContact_API {
 	 * @param array  $response  Response from api call.
 	 * @param string $api_token Token.
 	 * @param string $list      List name.
-	 * @param string $user_data User data.
+	 * @param array  $user_data User data.
 	 * @param string $form_id   Form ID being processed.
 	 * @return mixed Response from API.
 	 */
@@ -565,6 +565,7 @@ class ConstantContact_API {
 				case 'g-recaptcha-response':
 				case 'ctct_usage_field':
 				case 'ctct_time':
+				case 'ctct_must_opt_in':
 					// Do nothing, as we already captured.
 					break;
 				case 'phone_number':

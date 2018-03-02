@@ -184,17 +184,18 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Redirect to URL', 'constant-contact-forms' ),
-			'id'          => $this->prefix . 'redirect_uri',
-			'type'        => 'text',
-			'description' => esc_html__( 'URL to send the user to, after successful submission.', 'constant-contact-forms' ),
+			'name'            => __( 'Redirect URL', 'constant-contact-forms' ),
+			'id'              => $this->prefix . 'redirect_uri',
+			'type'            => 'text',
+			'description'     => esc_html__( 'Leave blank to keep users on the current page.', 'constant-contact-forms' ),
+			'sanitization_cb' => 'constant_contact_clean_url',
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Submit with no refresh', 'constant-contact-forms' ),
+			'name'        => __( 'No page refresh', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'do_ajax',
 			'type'        => 'checkbox',
-			'description' => __( 'Enables form submissions without triggering a page refresh. This option overrides the redirect choice above.', 'constant-contact-forms' ),
+			'description' => __( 'Enable form submission without a page refresh. This option overrides the Redirect URL choice above.', 'constant-contact-forms' ),
 		) );
 
 
@@ -216,11 +217,11 @@ class ConstantContact_Builder_Fields {
 		$overall_description = sprintf(
 			'<hr/><p>%s %s</p>',
 			esc_html__(
-				'Enabling this option will require visitors to check a box to be added to your list. If this option is not enabled, visitors will be added to your selected list automatically on submitting.',
+				'Enabling this option will require users to check a box to be added to your list.',
 				'constant-contact-forms'
 			),
 			sprintf(
-				'<a href="%s">%s</a>',
+				'<a href="%s" target="_blank">%s</a>',
 				'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options',
 				esc_html__( 'Learn more', 'constant-contact-forms' )
 			)
@@ -272,7 +273,7 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function show_enable_show_checkbox_field( $options_metabox ) {
 
-		$description = esc_html__( 'Add a checkbox so visitors can opt-in to your email list.', 'constant-contact-forms' );
+		$description = esc_html__( 'Add a checkbox so subscribers can opt-in to your email list.', 'constant-contact-forms' );
 		$description .= '<br>';
 		$description .= esc_html__( '(For use with Contact Us form)', 'constant-contact-forms' );
 

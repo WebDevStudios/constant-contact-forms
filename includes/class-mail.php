@@ -69,6 +69,7 @@ class ConstantContact_Mail {
 			if ( 'on' !== $maybe_bypass ) {
 				/**
 				 * Filters the delay between scheduling of the opt-in e-mail event.
+				 *
 				 * @since 1.0.2
 				 *
 				 * @param int $schedule_delay The time to add to `time()` for the event.
@@ -77,6 +78,8 @@ class ConstantContact_Mail {
 				wp_schedule_single_event( time() + absint( $schedule_delay ), 'ctct_schedule_form_opt_in', array( $values ) );
 			}
 		}
+
+		$opt_in_details = ( isset( $values['ctct-opt-in'] ) ) ? $values['ctct-opt-in'] : array();
 
 		// Preserve form ID for mail() method. Lost in pretty_values() pass.
 		$submission_details                    = array();
@@ -88,17 +91,41 @@ class ConstantContact_Mail {
 
 		// Format them.
 		$email_values = $this->format_values_for_email( $values );
+		$was_forced = false; // Set a value regardless of status.
 
 		// Increment our counter for processed form entries.
 		constant_contact()->process_form->increment_processed_form_count();
 
-		// Skip sending e-mail if we're connected and the user has opted out of notification emails.
-		if ( constant_contact()->api->is_connected() && ( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) ) {
+		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in
+		if ( constant_contact()->api->is_connected() && ( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) && $add_to_opt_in ) { // If we have $add_to_opt_in, we should already have a list.
 			return true;
 		}
 
+		// This would allow for setting each sections error and also allow for returning early again for cases
+		// like having a list, but not needing to opt in.
+		$has_list = get_post_meta( $submission_details['form_id'], '_ctct_list', true );
+
+		// Checks if we have a list
+		if (
+			( ! constant_contact()->api->is_connected() || empty( $has_list ) ) &&
+			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
+		) { // If we're not connected or have no list set AND we've disabled. Override.
+
+			$submission_details['list-available'] = 'no';
+			$was_forced                           = true;
+		}
+
+		if (
+			! empty( $_POST['ctct_must_opt_in'] ) &&
+			empty( $opt_in_details ) &&
+			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
+		) {
+			$submission_details['opted-in'] = 'no';
+			$was_forced                     = true;
+		}
+
 		// Send the mail.
-		return $this->mail( $this->get_email(), $email_values, $submission_details );
+		return $this->mail( $this->get_email(), $email_values, $submission_details, $was_forced );
 	}
 
 	/**
@@ -201,13 +228,15 @@ class ConstantContact_Mail {
 	 * Sends our mail out.
 	 *
 	 * @since 1.0.0
+	 * @since 1.3.6 Added $was_forced.
 	 *
 	 * @param string $destination_email  Intended mail address.
 	 * @param string $content            Data from clean values.
 	 * @param array  $submission_details Details for submission to process.
+	 * @param bool   $was_forced         Whether or not we are force sending. Default false.
 	 * @return bool Whether or not sent.
 	 */
-	public function mail( $destination_email, $content, $submission_details ) {
+	public function mail( $destination_email, $content, $submission_details, $was_forced = false ) {
 
 		// Define a mail key for the cache.
 		static $last_sent = false;
@@ -246,9 +275,24 @@ class ConstantContact_Mail {
 		// Filter to allow sending HTML for our message body.
 		add_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
 
-		$content_before = __( 'Congratulations! Your Constant Contact Forms plugin has successfully captured new information:', 'constant-contact-forms' );
+		$content_notice_note = $this->maybe_append_forced_email_notice_note( $was_forced );
+		$content_notice_reasons = $this->maybe_append_forced_email_notice_reasons( $was_forced, $submission_details );
 
-		$content_after = __( "Don't forget: Email marketing is a great way to stay connected and engage with visitors after they've left your site. When you connect to a Constant Contact account, all new subscribers are automatically synced so you can keep the interaction going through emails and more. Sign up for a Free Trial on the Connect page in the Plugin console view.", 'constant-contact-forms' );
+		$content_before = esc_html__( 'Your Constant Contact Forms plugin has captured new information.', 'constant-contact-forms' );
+
+		$content_before = $content_notice_note . $content_before . $content_notice_reasons;
+
+		$content_title = '<p><strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
+		$content_title .= '<strong>' . esc_html__( 'Form information: ', 'constant-contact-forms' ) . '</strong></p>';
+
+		$content = $content_title . $content;
+
+
+		$content_after = sprintf(
+			esc_html__( "Email marketing is a great way to stay connected and engage with visitors after they've left your site. Visit %shttps://www.constantcontact.com/index?pn=miwordpress%s to sign up for a Free Trial.", 'constant-contact-forms' ),
+				'<a href="https://www.constantcontact.com/index?pn=miwordpress">',
+				'</a>'
+			);
 
 		/**
 		 * Filters the final constructed email content to be sent to an admin.
@@ -280,8 +324,9 @@ class ConstantContact_Mail {
 			 * @since 1.3.0
 			 *
 			 * @param string $value Constructed email subject.
+			 * @param string $value Constant Contact Form ID.
 			 */
-			apply_filters( 'constant_contact_email_subject', __( 'Great News: You just captured a new visitor submission', 'constant-contact-forms' ) ),
+			apply_filters( 'constant_contact_email_subject', __( 'Constant Contact Forms Notification', 'constant-contact-forms' ), $submission_details['form_id'] ),
 			$content
 		);
 
@@ -356,5 +401,64 @@ class ConstantContact_Mail {
 			}
 			return $value['value'];
 		}
+	}
+
+	/**
+	 * Potentially add initial note for why we are emailing the site owner.
+	 *
+	 * @since 1.3.6
+	 *
+	 * @param  bool   $was_forced Whether or not we have to force send an email.
+	 * @return string $value      Message to explain why an email was received.
+	 */
+	public function maybe_append_forced_email_notice_note( $was_forced = false ) {
+
+		if ( ! $was_forced ) {
+			return '';
+		}
+
+		return sprintf(
+			'<p>' . esc_html__( '%sNote:%s You have disabled admin email notifications under the plugin settings, but are receiving this email because of the following reason.', 'constant-contact-forms' ) . '</p>',
+			'<strong>*',
+			'</strong>'
+		);
+
+	}
+
+	/**
+	 * Potentially add email content regarding reason we're emailing the site owner.
+	 *
+	 * @since 1.3.6
+	 *
+	 * @param bool  $was_forced         Whether or not we have to force send an email.
+	 * @param array $submission_details Array of submission details that we tack reasons to send email in.
+	 * @return string
+	 */
+	public function maybe_append_forced_email_notice_reasons( $was_forced = false, $submission_details = array() ) {
+
+		if ( ! $was_forced ) {
+			return '';
+		}
+
+		$content_notice = '';
+		$template = '<p><strong>' . esc_html__( 'Submitted to Constant Contact:', 'constant-contact-forms' ) . '</strong> %s</p>';
+
+		if ( isset( $submission_details['list-available'] ) || isset( $submission_details['opted-in'] ) ) {
+			if ( isset( $submission_details['list-available'] ) && 'no' === $submission_details['list-available'] ) {
+				$content_notice .= sprintf(
+					$template,
+					esc_html__( 'NO (Constant Contact list not selected for this form)', 'constant-contact-forms' )
+				);
+			}
+			if ( isset( $submission_details['opted-in'] ) && 'no' === $submission_details['opted-in'] ) {
+				$content_notice .= sprintf(
+					$template,
+					esc_html__( 'NO (User did not select the Email Opt-in checkbox)', 'constant-contact-forms' ) . '<br/>' . esc_html__( "You can disable this under Form options. Email Opt-in isn't required to add subscribers into your account", 'constant-contact-forms' )
+
+				);
+			}
+		}
+
+		return $content_notice;
 	}
 }
