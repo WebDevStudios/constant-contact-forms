@@ -287,6 +287,7 @@ class ConstantContact_Display {
 
 		// Start our wrapper return var.
 		$return = '';
+		$form_id = 0;
 
 		// Check to see if we have a form ID for the form, and display our description.
 		if ( isset( $form_data['options'] ) && isset( $form_data['options']['form_id'] ) ) {
@@ -303,7 +304,7 @@ class ConstantContact_Display {
 
 		// Loop through each of our form fields and output it.
 		foreach ( $form_data['fields'] as $key => $value ) {
-			$return .= $this->field( $value, $old_values, $req_errors );
+			$return .= $this->field( $value, $old_values, $req_errors, $form_id );
 		}
 
 		// Check to see if we have an opt-in for the form, and display it.
@@ -386,9 +387,10 @@ class ConstantContact_Display {
 	 * @param array $field      Field data.
 	 * @param array $old_values Original values.
 	 * @param array $req_errors Errors.
+	 * @param int   $form_id    Current form ID.
 	 * @return string HTML markup
 	 */
-	public function field( $field, $old_values = array(), $req_errors = array() ) {
+	public function field( $field, $old_values = array(), $req_errors = array(), $form_id = 0 ) {
 
 		// If we don't have a name or a mapping, it will be hard to do things.
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
@@ -462,7 +464,7 @@ class ConstantContact_Display {
 			case 'company':
 			case 'website':
 			case 'text_field':
-				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
+				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id );
 				break;
 			case 'custom_text_area':
 				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="500"' );
@@ -727,9 +729,10 @@ class ConstantContact_Display {
 	 * @param boolean $req         If field required.
 	 * @param boolean $f_only      If we only return the field itself, with no label.
 	 * @param boolean $field_error Field error.
+	 * @param int     $form_id     Current form ID.
 	 * @return string HTML markup for field.
 	 */
-	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false ) {
+	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0 ) {
 
 		// Sanitize our stuff / set values.
 		$name  = sanitize_text_field( $name );
@@ -762,7 +765,7 @@ class ConstantContact_Display {
 		 *
 		 * @param bool $value Whether or not to truncate. Default false.
 		 */
-		$truncate_max_length = apply_filters( 'constant_contact_include_custom_field_label', false );
+		$truncate_max_length = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 		$max_length = '';
 		if ( false !== strpos( $id, 'custom___' ) ) {
 			$max_length = ( $truncate_max_length ) ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
