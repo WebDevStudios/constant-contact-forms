@@ -134,7 +134,7 @@ class ConstantContact_Mail {
 	 * @since 1.0.0
 	 *
 	 * @param array $values Submitted values.
-	 * @return object Response from API.
+	 * @return object|null Response from API.
 	 */
 	public function opt_in_user( $values ) {
 
