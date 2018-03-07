@@ -10,7 +10,6 @@
 
 use Ctct\ConstantContact;
 use Ctct\Components\Contacts\Contact;
-use Ctct\Components\Contacts\Contacts;
 use Ctct\Components\Contacts\ContactList;
 use Ctct\Exceptions\CtctException;
 
