@@ -712,8 +712,8 @@ class ConstantContact_API {
 
 		// If we have our debugging turned on, push that error to the error log.
 		if ( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) {
-			$logger = new Logger( 'ConstantContact_API' );
-			$logger->pushHandler( new StreamHandler( WP_CONTENT_DIR . '/ctct-logs/errors.txt', Logger::NOTICE ) );
+			$logger = new Logger( 'API' );
+			$logger->pushHandler( new StreamHandler( constant_contact()->logger_location, Logger::NOTICE ) );
 			$logger->error( $error->error_key . ': ' . $error->error_message );
 			$logger->addDebug( print_r( $error, true ) );
 		}
