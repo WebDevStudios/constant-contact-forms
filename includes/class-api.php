@@ -8,8 +8,6 @@
  * @since 1.0.0
  */
 
-require_once constant_contact()->path . '/vendor/autoload.php';
-
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
