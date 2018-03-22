@@ -119,6 +119,8 @@ class Constant_Contact {
 	 */
 	public $menu_icon = 'dashicons-megaphone';
 
+	public $logger_location = WP_CONTENT_DIR . '/ctct-logs/errors.txt';
+
 	/**
 	 * Does site support encrpytions?
 	 *
