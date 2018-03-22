@@ -506,6 +506,7 @@ class Constant_Contact {
 
 		// Set an array of libraries we need to load.
 		$libs = array(
+			'monolog/monolog/vendor/autoload.php',
 			'CMB2/init.php',
 			'constantcontact/autoload.php',
 			'constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php',
