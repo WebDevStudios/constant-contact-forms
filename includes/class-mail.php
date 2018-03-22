@@ -383,8 +383,8 @@ class ConstantContact_Mail {
 
 		if ( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) {
 
-			$logger = new Logger( 'ConstantContact_Mail' );
-			$logger->pushHandler( new StreamHandler( WP_CONTENT_DIR . '/ctct-logs/errors.txt', Logger::NOTICE ) );
+			$logger = new Logger( 'Mail' );
+			$logger->pushHandler( new StreamHandler( constant_contact()->logger_location, Logger::NOTICE ) );
 			// Log status of mail.
 			$logger->addInfo( 'mail attempted for ' . $dest_email . ': ' . $status );
 			// Log content too just in case.
