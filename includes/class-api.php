@@ -8,6 +8,11 @@
  * @since 1.0.0
  */
 
+require_once constant_contact()->path . '/vendor/autoload.php';
+
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 use Ctct\ConstantContact;
 use Ctct\Components\Contacts\Contact;
 use Ctct\Components\Contacts\Contacts;
@@ -710,8 +715,10 @@ class ConstantContact_API {
 
 		// If we have our debugging turned on, push that error to the error log.
 		if ( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) {
-			error_log( $error->error_key . ': ' . $error->error_message );
-			error_log( serialize( debug_backtrace() ) );
+			$logger = new Logger( 'ConstantContact_API' );
+			$logger->pushHandler( new StreamHandler( WP_CONTENT_DIR . '/ctct-logs/errors.txt', Logger::NOTICE ) );
+			$logger->error( $error->error_key . ': ' . $error->error_message );
+			$logger->addDebug( print_r( $error, true ) );
 		}
 
 		// Otherwise work through our list of error keys we know.

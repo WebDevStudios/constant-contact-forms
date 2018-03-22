@@ -8,6 +8,11 @@
  * @since 1.0.2
  */
 
+require_once constant_contact()->path . '/vendor/autoload.php';
+
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 /**
  * Wrapper functions for mailing successful contact forms to the user.
  */
@@ -372,16 +377,18 @@ class ConstantContact_Mail {
 	 * @param string $status     Status from wp_mail.
 	 * @param string $dest_email Destination email.
 	 * @param string $content    Content of email.
+	 * @return void
 	 */
 	public function maybe_log_mail_status( $status, $dest_email, $content ) {
 
 		if ( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) {
 
+			$logger = new Logger( 'ConstantContact_Mail' );
+			$logger->pushHandler( new StreamHandler( WP_CONTENT_DIR . '/ctct-logs/errors.txt', Logger::NOTICE ) );
 			// Log status of mail.
-			error_log( 'mail attempted for ' . $dest_email . ': ' . $status );
-
+			$logger->addInfo( 'mail attempted for ' . $dest_email . ': ' . $status );
 			// Log content too just in case.
-			error_log( print_r( $content, true ) );
+			$logger->addDebug( print_r( $content, true ) );
 		}
 
 	}
