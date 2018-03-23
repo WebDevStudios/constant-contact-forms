@@ -121,13 +121,13 @@ class ConstantContact_Logging {
                 ?>
                 <textarea style="height: 400px; width: 100%; resize: vertical;" name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea>
                 <?php
-                if ( is_wp_error( $log_content ) ) {
-                ?>
-                <p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the link below.', 'constant-contact-forms' ); ?></p>
-                <?php
-                }
 
                 if ( file_exists( constant_contact()->logger_location ) ) {
+	                if ( is_wp_error( $log_content ) ) {
+		                ?>
+		                <p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the link below.', 'constant-contact-forms' ); ?></p>
+		                <?php
+	                }
 	                ?>
 	                <p>
 		                <a href="<?php echo esc_attr( $log_location ); ?>" download>
