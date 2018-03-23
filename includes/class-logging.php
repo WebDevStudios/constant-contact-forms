@@ -119,7 +119,7 @@ class ConstantContact_Logging {
                 <?php
                 }
                 ?>
-                <p><a href="<?php echo esc_attr( $log_location ); ?>" download><?php esc_html_e( 'Download error log to use as attachment.', 'constant-contact-forms' ); ?></a></p>
+                <p><a href="<?php echo esc_attr( $log_location ); ?>" download><?php esc_html_e( 'Download error log to use as attachment', 'constant-contact-forms' ); ?></a></p>
 
                 <?php
                 // @TODO create log deletion methods.
