@@ -95,7 +95,8 @@ class ConstantContact_Logging {
 			<div class="ctct-body">
                 <?php
                 $log_location = content_url() . '/ctct-logs/constant-contact-errors.txt';
-                $log_content = wp_remote_get( $log_location );
+                $log_content  = wp_remote_get( $log_location );
+                $contents     = '';
 
                 if ( is_wp_error( $log_content ) ) {
                     $contents = sprintf(
@@ -104,6 +105,8 @@ class ConstantContact_Logging {
                         ),
                         $log_content->get_error_message()
                     );
+                } else {
+                    $contents = wp_remote_retrieve_body( $log_content );
                 }
                 ?>
                 <textarea style="height: 400px; width: 100%; resize: vertical;" name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea>
