@@ -104,7 +104,7 @@ class ConstantContact_Logging {
                 $log_content  = wp_remote_get( $log_location );
                 $contents     = '';
 
-                if ( ! file_exists( $log_location ) ) {
+                if ( ! file_exists( constant_contact()->logger_location ) ) {
                     $contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
                 } elseif ( is_wp_error( $log_content ) ) {
                     $contents .= sprintf(
@@ -125,7 +125,7 @@ class ConstantContact_Logging {
                 <?php
                 }
 
-                if ( file_exists( $log_location ) ) {
+                if ( file_exists( constant_contact()->logger_location ) ) {
 	                ?>
 	                <p>
 		                <a href="<?php echo esc_attr( $log_location ); ?>" download>
