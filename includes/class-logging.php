@@ -139,6 +139,7 @@ class ConstantContact_Logging {
                 // @TODO create log deletion methods.
                 // @TODO Remind to turn off debugging setting when not needed.
                 // @TODO phpcs linting.
+	            // @TODO test out constant_contact_log_it() in helper functions
                 ?>
             </div>
 		</div>
