@@ -290,6 +290,14 @@ class Constant_Contact {
 	private $customizations;
 
 	/**
+	 * An instance of the ConstantContact_Logging Class.
+	 *
+	 * @since NEXT
+	 * @var ConstantContact_Logging
+	 */
+	private $logging;
+
+	/**
 	 * An instance of the ConstantContact_Admin Class.
 	 *
 	 * @since 1.0.1
@@ -405,6 +413,7 @@ class Constant_Contact {
 		$this->authserver           = new ConstantContact_Middleware( $this );
 		$this->updates              = new ConstantContact_Updates( $this );
 		$this->optin                = new ConstantContact_Optin( $this );
+		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
 	}
 
