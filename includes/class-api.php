@@ -710,8 +710,13 @@ class ConstantContact_API {
 			return false;
 		}
 
+		$debugging_enabled = ctct_get_settings_option( '_ctct_logging' );
+
 		// If we have our debugging turned on, push that error to the error log.
-		if ( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) {
+		if (
+			( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) ||
+			'on' === $debugging_enabled
+		) {
 			$logger = new Logger( 'API' );
 			$logger->pushHandler( new StreamHandler( constant_contact()->logger_location, Logger::NOTICE ) );
 			$logger->error( $error->error_key . ': ' . $error->error_message );
