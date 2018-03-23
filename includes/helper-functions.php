@@ -339,3 +339,12 @@ function constant_contact_clean_url( $url = '' ) {
 	}
 	return $clean_url;
 }
+
+function constant_contact_log_it( $log_name, $error, $extra_data ) {
+	$logger = new Logger( $log_name );
+	$logger->pushHandler( new StreamHandler( constant_contact()->logger_location, Logger::NOTICE ) );
+	// Log status of mail.
+	$logger->addInfo( $error );
+	// Log content too just in case.
+	$logger->addDebug( print_r( $extra_data, true ) );
+}
