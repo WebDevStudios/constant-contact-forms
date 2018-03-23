@@ -136,6 +136,7 @@ class ConstantContact_Logging {
                 // @TODO create log deletion methods.
                 // @TODO Remind to turn off debugging setting when not needed.
                 // @TODO hide menu item if debugging not enabled.
+                // @TODO phpcs linting.
                 ?>
             </div>
 		</div>
