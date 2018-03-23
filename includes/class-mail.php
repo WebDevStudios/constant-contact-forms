@@ -380,8 +380,13 @@ class ConstantContact_Mail {
 	 * @return void
 	 */
 	public function maybe_log_mail_status( $status, $dest_email, $content ) {
+		$debugging_enabled = ctct_get_settings_option( '_ctct_logging' );
 
-		if ( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) {
+		if (
+			( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) ||
+			'on' === $debugging_enabled
+		)
+		{
 
 			$logger = new Logger( 'Mail' );
 			$logger->pushHandler( new StreamHandler( constant_contact()->logger_location, Logger::NOTICE ) );
