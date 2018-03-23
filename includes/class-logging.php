@@ -93,8 +93,8 @@ class ConstantContact_Logging {
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>">
 			<div class="ctct-body">
-                <h3></h3><?php
-                $log_location = content_url() . '/ctct-logs/errors.txt';
+                <?php
+                $log_location = content_url() . '/ctct-logs/constant-contact-errors.txt';
                 $log_content = wp_remote_get( $log_location );
 
                 if ( is_wp_error( $log_content ) ) {
