@@ -118,10 +118,16 @@ class ConstantContact_Logging {
                 <p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the link below.', 'constant-contact-forms' ); ?></p>
                 <?php
                 }
-                ?>
-                <p><a href="<?php echo esc_attr( $log_location ); ?>" download><?php esc_html_e( 'Download error log to use as attachment', 'constant-contact-forms' ); ?></a></p>
 
-                <?php
+                if ( file_exists( $log_location ) ) {
+	                ?>
+	                <p>
+		                <a href="<?php echo esc_attr( $log_location ); ?>" download>
+			                <?php esc_html_e( 'Download error log to use as attachment', 'constant-contact-forms' ); ?>
+		                </a>
+	                </p>
+	                <?php
+                }
                 // @TODO create log deletion methods.
                 // @TODO Remind to turn off debugging setting when not needed.
                 // @TODO hide menu item if debugging not enabled.
