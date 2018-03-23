@@ -64,6 +64,12 @@ class ConstantContact_Logging {
 	 */
 	public function add_options_page() {
 
+		$debugging_enabled = ctct_get_settings_option( '_ctct_logging' );
+
+		if ( 'on' !== $debugging_enabled ) {
+			return;
+		}
+
 		$connect_title = esc_html__( 'Debug logs', 'constant-contact-forms' );
 		$connect_link  = 'edit.php?post_type=ctct_forms';
 
