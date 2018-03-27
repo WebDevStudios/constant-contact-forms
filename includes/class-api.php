@@ -659,7 +659,7 @@ class ConstantContact_API {
 					try {
 						$contact->$key = $value;
 					} catch ( Exception $e ) {
-						// @todo Log the exception.
+						$this->log_errors( $e->getErrors() );
 						break;
 					}
 
