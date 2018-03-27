@@ -707,19 +707,11 @@ class ConstantContact_API {
 			return false;
 		}
 
-		$debugging_enabled = ctct_get_settings_option( '_ctct_logging' );
-
-		// If we have our debugging turned on, push that error to the error log.
-		if (
-			( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) ||
-			'on' === $debugging_enabled
-		) {
-			constant_contact_maybe_log_it(
-				'API',
-				$error->error_key . ': ' . $error->error_message,
-				var_dump( $error )
-			);
-		}
+		constant_contact_maybe_log_it(
+			'API',
+			$error->error_key . ': ' . $error->error_message,
+			var_dump( $error )
+		);
 
 		// Otherwise work through our list of error keys we know.
 		switch ( $error->error_key ) {
