@@ -387,13 +387,11 @@ class ConstantContact_Mail {
 			'on' === $debugging_enabled
 		)
 		{
-
-			$logger = new Logger( 'Mail' );
-			$logger->pushHandler( new StreamHandler( constant_contact()->logger_location, Logger::NOTICE ) );
-			// Log status of mail.
-			$logger->addInfo( 'mail attempted for ' . $dest_email . ': ' . $status );
-			// Log content too just in case.
-			$logger->addDebug( print_r( $content, true ) );
+			constant_contact_maybe_log_it(
+				'Mail',
+				'mail attempted for ' . $dest_email . ': ' . $status,
+				var_dump( $content )
+			);
 		}
 
 	}
