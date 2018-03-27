@@ -8,9 +8,6 @@
  * @since 1.0.0
  */
 
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-
 use Ctct\ConstantContact;
 use Ctct\Components\Contacts\Contact;
 use Ctct\Components\Contacts\ContactList;
