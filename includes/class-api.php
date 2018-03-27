@@ -717,10 +717,11 @@ class ConstantContact_API {
 			( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) ||
 			'on' === $debugging_enabled
 		) {
-			$logger = new Logger( 'API' );
-			$logger->pushHandler( new StreamHandler( constant_contact()->logger_location, Logger::NOTICE ) );
-			$logger->error( $error->error_key . ': ' . $error->error_message );
-			$logger->addDebug( print_r( $error, true ) );
+			constant_contact_maybe_log_it(
+				'API',
+				$error->error_key . ': ' . $error->error_message,
+				var_dump( $error )
+			);
 		}
 
 		// Otherwise work through our list of error keys we know.
