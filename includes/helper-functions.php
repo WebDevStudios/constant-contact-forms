@@ -7,6 +7,9 @@
  * @since 1.0.0
  */
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 /**
  * Checks to see if a user is connected to Constant Contact or not.
  *
@@ -340,11 +343,43 @@ function constant_contact_clean_url( $url = '' ) {
 	return $clean_url;
 }
 
-function constant_contact_log_it( $log_name, $error, $extra_data ) {
+/**
+ * Checks if we have our new debugging option enabled.
+ *
+ * @since 1.3.7
+ *
+ * @return bool
+ */
+function constant_contact_debugging_enabled() {
+	$debugging_enabled = ctct_get_settings_option( '_ctct_logging' );
+
+	return (
+		( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) ||
+		'on' === $debugging_enabled
+	);
+}
+
+/**
+ * Potentially add an item to our custom error log.
+ *
+ * @since 1.3.7
+ *
+ * @param        $log_name   Component that the log item is for.
+ * @param        $error      The error to log.
+ * @param string $extra_data Any extra data to add to the log.
+ */
+function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
+	if ( ! constant_contact_debugging_enabled() ) {
+		return;
+	}
+
 	$logger = new Logger( $log_name );
 	$logger->pushHandler( new StreamHandler( constant_contact()->logger_location, Logger::NOTICE ) );
 	// Log status of mail.
-	$logger->addInfo( $error );
-	// Log content too just in case.
-	$logger->addDebug( print_r( $extra_data, true ) );
+	$logger->error( $error );
+
+	if ( $extra_data ) {
+		// Log content too just in case.
+		$logger->addDebug( var_dump( $extra_data ) );
+	}
 }
