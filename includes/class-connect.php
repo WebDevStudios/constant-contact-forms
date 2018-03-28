@@ -106,8 +106,6 @@ class ConstantContact_Connect {
 		// verify it and potentially process it.
 		if ( isset( $_GET['cc_connect_attempt'] ) && is_user_logged_in() ) { // Input var okay.
 
-			constant_contact_maybe_log_it( 'Authentication', 'Attempting to connect and authenticate.' );
-
 			// Call our access token processing.
 			$verified = constant_contact()->authserver->verify_and_save_access_token_return();
 
@@ -117,7 +115,6 @@ class ConstantContact_Connect {
 			);
 
 			if ( ! $verified ) {
-				constant_contact_maybe_log_it( 'Authentication', 'Failed to verify with authserver.' );
 				$redirect_args['ctct_connect_error'] = 'true';
 			}
 
@@ -317,8 +314,6 @@ class ConstantContact_Connect {
 			return false;
 		}
 
-		constant_contact_maybe_log_it( 'Authentication', 'Attempting to disconnect.' );
-
 		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ctct-admin-disconnect'] ) ), 'ctct-admin-disconnect' ) ) {
 
 			// Delete access token and delete our legacy token as well.
@@ -328,8 +323,6 @@ class ConstantContact_Connect {
 			// Delete the disable email setting when disconnected.
 			$saved_options = get_option( 'ctct_options_settings' );
 			if ( isset( $saved_options['_ctct_disable_email_notifications'] ) ) {
-				constant_contact_maybe_log_it( 'Authentication', 'Website disconnected' );
-
 				unset( $saved_options['_ctct_disable_email_notifications'] );
 				update_option( 'ctct_options_settings', $saved_options );
 			}
