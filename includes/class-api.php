@@ -416,11 +416,12 @@ class ConstantContact_API {
 	        $response = $this->cc()->contactService->getContacts( $api_token, array( 'email' => $email ) );
 
 	        if ( isset( $response->results ) && ! empty( $response->results ) ) {
+				constant_contact_maybe_log_it( 'API', 'Contact set to be updated', array( 'form' => get_the_title( $form_id ) ) );
 				// Update the existing contact if address already existed.
 				$return_contact = $this->_update_contact( $response, $api_token, $list, $new_contact, $form_id );
 
 	        } else {
-
+				constant_contact_maybe_log_it( 'API', 'Contact set to be created', array( 'form' => get_the_title( $form_id ) ) );
 				// Create a new contact if one does not exist.
 				$return_contact = $this->_create_contact( $api_token, $list, $email, $new_contact, $form_id );
 	        }
