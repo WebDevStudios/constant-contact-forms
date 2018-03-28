@@ -380,6 +380,6 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 
 	if ( $extra_data ) {
 		// Log content too just in case.
-		$logger->addDebug( var_dump( $extra_data ) );
+		$logger->addDebug( print_r( array( 'extra_info' => $extra_data ), true ) );
 	}
 }
