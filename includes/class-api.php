@@ -722,7 +722,7 @@ class ConstantContact_API {
 		constant_contact_maybe_log_it(
 			'API',
 			$error->error_key . ': ' . $error->error_message,
-			var_dump( $error )
+			$error
 		);
 
 		// Otherwise work through our list of error keys we know.
