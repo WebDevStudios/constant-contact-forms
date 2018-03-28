@@ -434,7 +434,7 @@ class ConstantContact_API {
 
 
 	/**
-	 * Helper method to creat contact.
+	 * Helper method to create contact.
 	 *
 	 * @since 1.0.0
 	 * @since 1.3.0 Added $form_id parameter.
@@ -458,7 +458,11 @@ class ConstantContact_API {
 		$contact->addList( esc_attr( $list ) );
 
 		// Map the rest of our properties to.
-		$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
+		try {
+			$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
+		} catch ( CtctException $ex ) {
+			$this->log_errors( $ex->getErrors() );
+		}
 
 		/*
 		 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
@@ -502,7 +506,11 @@ class ConstantContact_API {
 			$contact->addList( esc_attr( $list ) );
 
 			// Set the rest of our properties.
-			$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
+			try {
+				$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
+			} catch ( CtctException $ex ) {
+				$this->log_errors( $ex->getErrors() );
+			}
 
 		    /*
 		     * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
@@ -529,13 +537,16 @@ class ConstantContact_API {
 	 * @param object $contact   Contact object.
 	 * @param array  $user_data Bunch of user data.
 	 * @param string $form_id   Form ID being processed.
+	 * @throws CtctException $error An exception error.
 	 * @return object Contact object, with new properties.
 	 */
 	public function set_contact_properties( $contact, $user_data, $form_id ) {
 
 		// First, verify we have what we need.
 		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
-			return;
+			$error = new CtctException();
+			$error->setErrors( array( 'type', __( 'Not a valid contact to set properties to.', 'constant-contact-forms' ) ) );
+			throw $error;
 		}
 
 		// Remove some values we don't need.
