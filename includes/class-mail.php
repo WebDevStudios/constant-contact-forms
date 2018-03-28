@@ -253,6 +253,7 @@ class ConstantContact_Mail {
 		}
 
 		$mail_key = md5( "{$destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
+		$partial_email = $this->get_email_part( $destination_email );
 
 		// If we already have sent this e-mail, don't send it again.
 		if ( $last_sent === $mail_key ) {
@@ -261,11 +262,11 @@ class ConstantContact_Mail {
 					/* translators: this is only used when some debugging is enabled */
 					__( 'Duplicate send mail for: %1$s and: %2$s', 'constant-contact-forms' ),
 					array(
-						$destination_email,
+						$partial_email,
 						$mail_key,
 					)
 				),
-				$destination_email,
+				$partial_email,
 				$mail_key
 			);
 			return true;
@@ -347,7 +348,9 @@ class ConstantContact_Mail {
 		 */
 		do_action( 'constant_contact_after_email_send', $submission_details['form_id'], $submission_details['submitted_email'], $destination_email, $content );
 
-		$this->maybe_log_mail_status( $mail_status, $destination_email, $content );
+		// Only log part of email for privacy reasons.
+		$partial_email = $this->get_email_part( $destination_email );
+		$this->maybe_log_mail_status( $mail_status, $partial_email, $content );
 
 		// Clean up, remove the filter we had set.
 		remove_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
@@ -470,5 +473,27 @@ class ConstantContact_Mail {
 		}
 
 		return $content_notice;
+	}
+
+	/**
+	 * Parse out just the first part of an email address.
+	 *
+	 * This method is meant to protect privacy with potential logging of email addresses.
+	 * Instead of logging ALL of a given email address, we will just log everything before the `@`
+	 *
+	 * @since 1.3.7
+	 *
+	 * @param string $email Email address to parse.
+	 * @return mixed Part of a provided email.
+	 */
+	public function get_email_part( $email ) {
+		if ( ! is_email( $email ) ) {
+			return $email;
+		}
+
+		$new_email = explode( '@', sanitize_email( $email ) );
+		if ( ! empty( $new_email ) ) {
+			return $new_email[0];
+		}
 	}
 }
