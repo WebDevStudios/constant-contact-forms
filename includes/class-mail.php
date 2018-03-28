@@ -390,7 +390,7 @@ class ConstantContact_Mail {
 			constant_contact_maybe_log_it(
 				'Mail',
 				'mail attempted for ' . $dest_email . ': ' . $status,
-				var_dump( $content )
+				$content
 			);
 		}
 
