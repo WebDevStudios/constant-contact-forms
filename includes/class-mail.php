@@ -383,19 +383,12 @@ class ConstantContact_Mail {
 	 * @return void
 	 */
 	public function maybe_log_mail_status( $status, $dest_email, $content ) {
-		$debugging_enabled = ctct_get_settings_option( '_ctct_logging' );
 
-		if (
-			( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) ||
-			'on' === $debugging_enabled
-		)
-		{
-			constant_contact_maybe_log_it(
-				'Mail',
-				'mail attempted for ' . $dest_email . ': ' . $status,
-				$content
-			);
-		}
+		constant_contact_maybe_log_it(
+			'Mail',
+			'mail attempted for ' . $dest_email . ': ' . $status,
+			$content
+		);
 
 	}
 
