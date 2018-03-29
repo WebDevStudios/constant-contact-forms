@@ -545,7 +545,7 @@ class ConstantContact_API {
 		// First, verify we have what we need.
 		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
 			$error = new CtctException();
-			$error->setErrors( array( 'type', __( 'Not a valid contact to set properties to.', 'constant-contact-forms' ) ) );
+			$error->setErrors( array( 'type', esc_html__( 'Not a valid contact to set properties to.', 'constant-contact-forms' ) ) );
 			throw $error;
 		}
 
