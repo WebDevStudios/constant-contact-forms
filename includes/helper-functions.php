@@ -374,12 +374,11 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 	}
 
 	$logger = new Logger( $log_name );
-	$logger->pushHandler( new StreamHandler( constant_contact()->logger_location, Logger::NOTICE ) );
-	// Log status of mail.
-	$logger->error( $error );
+	$logger->pushHandler( new StreamHandler( constant_contact()->logger_location ) );
+	// Log status of error.
+	$logger->addInfo( $error, array( 'context' => 'context' ) );
 
 	if ( $extra_data ) {
-		// Log content too just in case.
-		$logger->addDebug( print_r( array( 'extra_info' => $extra_data ), true ) );
+		$logger->addInfo( 'Extra information', array( $extra_data ) );
 	}
 }
