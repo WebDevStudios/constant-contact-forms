@@ -488,5 +488,7 @@ class ConstantContact_Mail {
 		if ( ! empty( $new_email ) ) {
 			return $new_email[0];
 		}
+
+		return $email;
 	}
 }
