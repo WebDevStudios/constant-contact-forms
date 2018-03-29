@@ -119,7 +119,7 @@ class ConstantContact_Logging {
 	                }
                 }
                 ?>
-                <textarea style="height: 400px; width: 100%; resize: vertical;" name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea>
+                <textarea name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea>
                 <?php
 
                 if ( file_exists( constant_contact()->logger_location ) ) {
