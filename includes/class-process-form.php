@@ -290,6 +290,10 @@ class ConstantContact_Process_Form {
 			'ctct_form',
 			'_wp_http_referer',
 			'ctct-verify',
+			'ctct_time',
+			'ctct_usage_field',
+			'g-recaptcha-response',
+			'ctct_must_opt_in',
 		) );
 
 		// If the submit button is clicked, send the email.
