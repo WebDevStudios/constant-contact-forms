@@ -85,7 +85,7 @@ class ConstantContact_Logging {
 	}
 
 	/**
-	 * Admin page markup. Mostly handled by CMB2.
+	 * Admin page markup.
 	 *
 	 * @since 1.0.0
 	 *
@@ -96,7 +96,7 @@ class ConstantContact_Logging {
 		wp_enqueue_style( 'constant-contact-oath', constant_contact()->url() . 'assets/css/oath.css' );
 
 		?>
-		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
+		<div class="wrap <?php echo esc_attr( $this->key ); ?>">
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>">
 			<div class="ctct-body">
                 <?php
