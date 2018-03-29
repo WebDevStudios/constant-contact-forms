@@ -140,11 +140,17 @@ class ConstantContact_Logging {
 					<?php
 				}
 				// @TODO create log deletion methods.
+				// https://codex.wordpress.org/WordPress_Nonces
 				// @TODO Remind to turn off debugging setting when not needed.
 				?>
 			</div>
 		</div>
 		<?php
 		return true;
+	}
+
+	public function delete_log_file() {
+		$log_file = constant_contact()->logger_location;
+		return file_exists( $log_file ) ? unlink( $log_file ) : false;
 	}
 }
