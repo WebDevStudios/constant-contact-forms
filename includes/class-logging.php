@@ -110,7 +110,8 @@ class ConstantContact_Logging {
                     if ( is_wp_error( $log_content ) ) {
 		                $contents .= sprintf(
 			                esc_html__(
-				                'Log display error: %s'
+				                'Log display error: %s',
+				                'constant-contact-forms'
 			                ),
 			                $log_content->get_error_message()
 		                );
