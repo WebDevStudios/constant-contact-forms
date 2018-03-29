@@ -130,7 +130,7 @@ class ConstantContact_API {
 				// Make sure we got a response before trying to save our transient.
 				if ( $acct_data ) {
 					// Save our data to a transient for a day.
-					set_transient( 'constant_contact_acct_info', $acct_data, 1 * DAY_IN_SECONDS );
+					set_transient( 'constant_contact_acct_info', $acct_data, 1 * HOUR_IN_SECONDS );
 				}
 			} catch ( CtctException $ex ) {
 				$this->log_errors( $ex->getErrors() );
