@@ -292,7 +292,7 @@ class Constant_Contact {
 	/**
 	 * An instance of the ConstantContact_Logging Class.
 	 *
-	 * @since NEXT
+	 * @since 1.3.7
 	 * @var ConstantContact_Logging
 	 */
 	private $logging;

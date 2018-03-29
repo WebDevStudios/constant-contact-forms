@@ -5,7 +5,7 @@
  * @package ConstantContact
  * @subpackage Logging
  * @author Constant Contact
- * @since NEXT
+ * @since 1.3.7
  */
 
 
@@ -14,7 +14,7 @@ class ConstantContact_Logging {
 	/**
 	 * Option key, and option page slug.
 	 *
-	 * @since NEXT
+	 * @since 1.3.7
 	 * @var string
 	 */
 	private $key = 'ctct_options_logging';
