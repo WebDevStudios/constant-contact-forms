@@ -769,7 +769,7 @@ class ConstantContact_Settings {
 	 * @since 1.2.0
 	 */
 	public function privacy_notice_markup() {
-		if ( $this->privacy_policy_status() ) {
+		if ( $this->privacy_policy_status() || ! constant_contact()->is_constant_contact() ) {
 			return;
 		}
 		?>
