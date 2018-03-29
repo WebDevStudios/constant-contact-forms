@@ -364,9 +364,9 @@ function constant_contact_debugging_enabled() {
  *
  * @since 1.3.7
  *
- * @param        $log_name   Component that the log item is for.
- * @param        $error      The error to log.
- * @param string $extra_data Any extra data to add to the log.
+ * @param strint       $log_name   Component that the log item is for.
+ * @param string       $error      The error to log.
+ * @param mixed|string $extra_data Any extra data to add to the log.
  */
 function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 	if ( ! constant_contact_debugging_enabled() ) {
