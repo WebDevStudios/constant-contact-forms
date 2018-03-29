@@ -348,10 +348,6 @@ class ConstantContact_Mail {
 		 */
 		do_action( 'constant_contact_after_email_send', $submission_details['form_id'], $submission_details['submitted_email'], $destination_email, $content );
 
-		// Only log part of email for privacy reasons.
-		$partial_email = $this->get_email_part( $destination_email );
-		$this->maybe_log_mail_status( $mail_status, $partial_email, $content );
-
 		// Clean up, remove the filter we had set.
 		remove_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
 
