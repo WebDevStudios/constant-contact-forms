@@ -119,7 +119,7 @@ class Constant_Contact {
 	 */
 	public $menu_icon = 'dashicons-megaphone';
 
-	public $logger_location = WP_CONTENT_DIR . '/ctct-logs/constant-contact-errors.log';
+	public $logger_location = '';
 
 	/**
 	 * Does site support encrpytions?
@@ -363,9 +363,10 @@ class Constant_Contact {
 		$this->plugin_name = __( 'Constant Contact', 'constant-contact-forms' );
 
 		// Set up some helper properties.
-		$this->basename = plugin_basename( __FILE__ );
-		$this->url      = plugin_dir_url( __FILE__ );
-		$this->path     = plugin_dir_path( __FILE__ );
+		$this->basename        = plugin_basename( __FILE__ );
+		$this->url             = plugin_dir_url( __FILE__ );
+		$this->path            = plugin_dir_path( __FILE__ );
+		$this->logger_location = WP_CONTENT_DIR . '/ctct-logs/constant-contact-errors.log';
 
 		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
