@@ -105,7 +105,8 @@ class ConstantContact_Logging {
                 if ( ! file_exists( constant_contact()->logger_location ) ) {
                     $contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
                 } else {
-                    $log_location = content_url() . '/ctct-logs/constant-contact-errors.txt';
+                    // logger location from primary class is server path and not URL path. Thus we go this route for moment.
+                    $log_location = content_url() . '/ctct-logs/constant-contact-errors.log';
                     $log_content  = wp_remote_get( $log_location );
                     if ( is_wp_error( $log_content ) ) {
 		                $contents .= sprintf(
