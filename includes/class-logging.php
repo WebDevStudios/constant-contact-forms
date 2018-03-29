@@ -99,51 +99,50 @@ class ConstantContact_Logging {
 		<div class="wrap <?php echo esc_attr( $this->key ); ?>">
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>">
 			<div class="ctct-body">
-                <?php
-                $contents     = '';
+				<?php
+				$contents = '';
 
-                if ( ! file_exists( constant_contact()->logger_location ) ) {
-                    $contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
-                } else {
-                    // logger location from primary class is server path and not URL path. Thus we go this route for moment.
-                    $log_location = content_url() . '/ctct-logs/constant-contact-errors.log';
-                    $log_content  = wp_remote_get( $log_location );
-                    if ( is_wp_error( $log_content ) ) {
-		                $contents .= sprintf(
-			                esc_html__(
-				                'Log display error: %s',
-				                'constant-contact-forms'
-			                ),
-			                $log_content->get_error_message()
-		                );
-	                } else {
-		                $contents .= wp_remote_retrieve_body( $log_content );
-	                }
-                }
-                ?>
-                <textarea name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea>
-                <?php
+				if ( ! file_exists( constant_contact()->logger_location ) ) {
+					$contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
+				} else {
+					// logger location from primary class is server path and not URL path. Thus we go this route for moment.
+					$log_location = content_url() . '/ctct-logs/constant-contact-errors.log';
+					$log_content  = wp_remote_get( $log_location );
+					if ( is_wp_error( $log_content ) ) {
+						$contents .= sprintf(
+							// translators: placeholder wil have error message.
+							esc_html__(
+								'Log display error: %s',
+								'constant-contact-forms'
+							),
+							$log_content->get_error_message()
+						);
+					} else {
+						$contents .= wp_remote_retrieve_body( $log_content );
+					}
+				}
+				?>
+				<label><textarea name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea></label>
+				<?php
 
-                if ( file_exists( constant_contact()->logger_location ) ) {
-	                if ( is_wp_error( $log_content ) ) {
-		                ?>
-		                <p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the link below.', 'constant-contact-forms' ); ?></p>
-		                <?php
-	                }
-	                ?>
-	                <p>
-		                <a href="<?php echo esc_attr( $log_location ); ?>" download>
-			                <?php esc_html_e( 'Download error log to use as attachment', 'constant-contact-forms' ); ?>
-		                </a>
-	                </p>
-	                <?php
-                }
-                // @TODO create log deletion methods.
-                // @TODO Remind to turn off debugging setting when not needed.
-                // @TODO phpcs linting.
-	            // @TODO test out constant_contact_log_it() in helper functions
-                ?>
-            </div>
+				if ( file_exists( constant_contact()->logger_location ) ) {
+					if ( ! empty( $log_content ) && is_wp_error( $log_content ) ) {
+						?>
+						<p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the link below.', 'constant-contact-forms' ); ?></p>
+						<?php
+					}
+					?>
+					<p>
+						<a href="<?php echo esc_attr( $log_location ); ?>" download>
+							<?php esc_html_e( 'Download error log to use as attachment', 'constant-contact-forms' ); ?>
+						</a>
+					</p>
+					<?php
+				}
+				// @TODO create log deletion methods.
+				// @TODO Remind to turn off debugging setting when not needed.
+				?>
+			</div>
 		</div>
 		<?php
 		return true;
