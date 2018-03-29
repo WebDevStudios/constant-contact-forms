@@ -178,7 +178,7 @@ class ConstantContact_Connect {
 		wp_enqueue_script( 'ctct_form' );
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>">
+			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>">
 			<div class="ctct-body">
 			<?php if ( constantcontact_api()->get_api_token() ) : ?>
 
