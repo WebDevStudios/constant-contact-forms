@@ -1361,7 +1361,7 @@ class ConstantContact_Display {
 	}
 
 	public function get_max_length_attr( $optional_label = '' ) {
-		$length       = 50;
+		$length       = 48; // Two less than 50char custom field limit for ": "
 		$label_length = 0;
 		if ( ! empty( $optional_label ) ) {
 			$label_length = mb_strlen( $optional_label );
