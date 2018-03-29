@@ -761,7 +761,7 @@ class Constant_Contact {
 	 * @return array Amended body classes.
 	 */
 	public function body_classes( $classes = array() ) {
-		$theme = wp_get_theme()->template;
+		$theme     = wp_get_theme()->template;
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
 		return $classes;
@@ -811,8 +811,8 @@ class Constant_Contact {
 }
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
 
-register_activation_hook( __FILE__ , array( constant_contact(), '_activate' ) );
-register_deactivation_hook( __FILE__ , array( constant_contact(), '_deactivate' ) );
+register_activation_hook( __FILE__, array( constant_contact(), '_activate' ) );
+register_deactivation_hook( __FILE__, array( constant_contact(), '_deactivate' ) );
 
 /**
  * Grab the Constant_Contact object and return it.
