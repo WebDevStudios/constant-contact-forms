@@ -132,25 +132,37 @@ class ConstantContact_Logging {
 					}
 				}
 				?>
+				<p><?php esc_html_e( 'Error log below can be used with support requests to help identify issues with Constant Contact Forms.', 'constant-contact-forms' ); ?></p>
+				<p><?php esc_html_e( 'You can share information by copying and pasting the content in the textarea, or by using the "Download logs" link at the end. Logs can be cleared by using he "Delete logs" link.', 'constant-contact-forms' ); ?></p>
 				<label><textarea name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea></label>
 				<?php
 
 				if ( file_exists( constant_contact()->logger_location ) ) {
 					if ( ! empty( $log_content ) && is_wp_error( $log_content ) ) {
 						?>
-						<p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the link below.', 'constant-contact-forms' ); ?></p>
+						<p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the download link below.', 'constant-contact-forms' ); ?></p>
 						<?php
 					}
 					?>
 					<p>
-						<a href="<?php echo esc_attr( $log_location ); ?>" download>
-							<?php esc_html_e( 'Download error log to use as attachment', 'constant-contact-forms' ); ?>
-						</a>
+						<?php
+							printf(
+								'<p><a class="button-primary" href="%s" download>%s</a></p><p><a href="%s">%s</a></p>',
+								esc_attr( $log_location ),
+								esc_html__( 'Download logs', 'constant-contact-forms' ),
+								esc_attr(
+									wp_nonce_url(
+										$this->options_url,
+										'ctct_delete_log',
+										'ctct_delete_log'
+									)
+								),
+								esc_html__( 'Delete logs', 'constant-contact-forms' )
+							);
+						?>
 					</p>
 					<?php
 				}
-				// @TODO create log deletion methods.
-				// https://codex.wordpress.org/WordPress_Nonces
 				// @TODO Remind to turn off debugging setting when not needed.
 				?>
 			</div>
