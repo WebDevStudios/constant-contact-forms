@@ -63,6 +63,7 @@ class ConstantContact_Logging {
 	 */
 	public function hooks() {
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
+		add_action( 'admin_init', array( $this, 'delete_log_file' ) );
 	}
 
 	/**
@@ -157,8 +158,32 @@ class ConstantContact_Logging {
 		return true;
 	}
 
+	/**
+	 * Delete existing log files.
+	 *
+	 * @since 1.3.7
+	 */
 	public function delete_log_file() {
+		if ( ! constant_contact()->is_constant_contact() ) {
+			return;
+		}
+
+		if ( empty( $_GET['page'] ) || 'ctct_options_logging' !== $_GET['page'] ) {
+			return;
+		}
+
+		if ( ! isset( $_GET['ctct_delete_log'] ) ) {
+			return;
+		}
+
+		check_admin_referer( 'ctct_delete_log', 'ctct_delete_log' );
+
 		$log_file = constant_contact()->logger_location;
-		return file_exists( $log_file ) ? unlink( $log_file ) : false;
+		if ( file_exists( $log_file ) ) {
+			unlink( $log_file );
+		}
+
+		wp_redirect( $this->options_url );
+		exit();
 	}
 }
