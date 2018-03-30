@@ -22,7 +22,7 @@ class ConstantContact_Logging {
 	/**
 	 * Parent plugin class.
 	 *
-	 * @since 1.0.0
+	 * @since 1.3.7
 	 * @var object
 	 */
 	protected $plugin = null;
@@ -31,7 +31,7 @@ class ConstantContact_Logging {
 	/**
 	 * Options page.
 	 *
-	 * @since 1.0.0
+	 * @since 1.3.7
 	 * @var string
 	 */
 	public $options_page = '';
@@ -39,7 +39,7 @@ class ConstantContact_Logging {
 	/**
 	 * Constructor.
 	 *
-	 * @since 1.0.0
+	 * @since 1.3.7
 	 *
 	 * @param object $plugin Parent class.
 	 */
@@ -51,7 +51,7 @@ class ConstantContact_Logging {
 	/**
 	 * Initiate our hooks.
 	 *
-	 * @since 1.0.0
+	 * @since 1.3.7
 	 */
 	public function hooks() {
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
@@ -60,7 +60,7 @@ class ConstantContact_Logging {
 	/**
 	 * Add menu options page.
 	 *
-	 * @since 1.0.0
+	 * @since 1.3.7
 	 */
 	public function add_options_page() {
 
@@ -87,7 +87,7 @@ class ConstantContact_Logging {
 	/**
 	 * Admin page markup.
 	 *
-	 * @since 1.0.0
+	 * @since 1.3.7
 	 *
 	 * @return mixed page markup or false if not admin.
 	 */
