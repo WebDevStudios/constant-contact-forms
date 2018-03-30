@@ -27,6 +27,13 @@ class ConstantContact_Logging {
 	 */
 	protected $plugin = null;
 
+	/**
+	 * Logging admin page URL.
+	 *
+	 * @since 1.3.7
+	 * @var string
+	 */
+	public $options_url = '';
 
 	/**
 	 * Options page.
@@ -45,6 +52,7 @@ class ConstantContact_Logging {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
 		$this->hooks();
 	}
 
