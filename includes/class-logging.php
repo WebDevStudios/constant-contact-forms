@@ -109,7 +109,8 @@ class ConstantContact_Logging {
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>">
 			<div class="ctct-body">
 				<?php
-				$contents = '';
+				$contents     = '';
+				$log_location = '#';
 
 				if ( ! file_exists( constant_contact()->logger_location ) ) {
 					$contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
