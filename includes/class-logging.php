@@ -147,7 +147,7 @@ class ConstantContact_Logging {
 					<p>
 						<?php
 							printf(
-								'<p><a class="button-primary" href="%s" download>%s</a></p><p><a href="%s">%s</a></p>',
+								'<p><a href="%s" download>%s</a></p><p><a href="%s">%s</a></p>',
 								esc_attr( $log_location ),
 								esc_html__( 'Download logs', 'constant-contact-forms' ),
 								esc_attr(
