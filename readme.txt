@@ -34,6 +34,15 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+= 1.3.7 =
+* Added: Logging functionality to help aid with debugging and the plugin not working as needed or expected.
+* Added: Passed form ID to filters related to including labels for custom fields.
+* Fixed: Made sure some Constant Contact markup was only added to the page when in a Constant Contact area.
+* Fixed: Issue with submitted custom field lengths when also including the original labels. Users were able to still go above 50 character limit.
+* Updated: CMB2 library to version 2.3.0.
+* Updated: Guzzle library to version 5.3.2.
+* Updated: Code quality regarding translated text, namespaces, and returned value consistency.
+* Updated: Added minimum PHP version to plugin readme for use on WordPress.org.
 
 = 1.3.6 =
 * Fixed: Validate and potentially create full urls for values passed into custom "redirect to url" values. Prevents unintended destinations from partial urls.
