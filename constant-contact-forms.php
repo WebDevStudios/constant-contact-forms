@@ -367,7 +367,10 @@ class Constant_Contact {
 		$this->admin_plugin_classes();
 
 		// Include our helper functions function for end-users.
-		Constant_Contact::include_file( 'helper-functions', false );
+		self::include_file( 'helper-functions', false );
+
+		// Include compatibility fixes to address conflicts with other plug-ins.
+		self::include_file( 'compatibility', false );
 	}
 
 	/**
@@ -447,6 +450,7 @@ class Constant_Contact {
 			add_action( 'wp_ajax_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
 			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
 		}
+
 	}
 
 	/**
