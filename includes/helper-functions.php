@@ -375,10 +375,11 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 
 	$logger = new Logger( $log_name );
 	$logger->pushHandler( new StreamHandler( constant_contact()->logger_location ) );
-	// Log status of error.
-	$logger->addInfo( $error, array( 'context' => 'context' ) );
+	$extra = [];
 
 	if ( $extra_data ) {
-		$logger->addInfo( 'Extra information', array( $extra_data ) );
+		$extra = [ 'Extra information', [ $extra_data ] ];
 	}
+	// Log status of error.
+	$logger->addInfo( $error, $extra );
 }
