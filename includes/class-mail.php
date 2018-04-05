@@ -102,8 +102,14 @@ class ConstantContact_Mail {
 		constant_contact()->process_form->increment_processed_form_count();
 
 		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in
-		if ( constant_contact()->api->is_connected() && ( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) && $add_to_opt_in ) { // If we have $add_to_opt_in, we should already have a list.
-			return true;
+		if ( constant_contact()->api->is_connected() && 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) {
+			if ( $add_to_opt_in ) {
+				return true;
+			}
+
+			if ( empty( $_POST['ctct_must_opt_in'] ) || ! empty( $_POST['ctct-opt-in'] ) ) {
+				return true;
+			}
 		}
 
 		// This would allow for setting each sections error and also allow for returning early again for cases
