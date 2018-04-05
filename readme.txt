@@ -39,6 +39,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Added: Passed form ID to filters related to including labels for custom fields.
 * Fixed: Made sure some Constant Contact markup was only added to the page when in a Constant Contact area.
 * Fixed: Issue with submitted custom field lengths when also including the original labels. Users were able to still go above 50 character limit.
+* Fixed: Addressed issue with email bypassing when not needing to opt in.
 * Updated: CMB2 library to version 2.3.0.
 * Updated: Guzzle library to version 5.3.2.
 * Updated: Code quality regarding translated text, namespaces, and returned value consistency.
