@@ -45,6 +45,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Updated: Code quality regarding translated text, namespaces, and returned value consistency.
 * Updated: Added minimum PHP version to plugin readme for use on WordPress.org.
 * Updated: Reduced cache time for account information so changes reflect in WP admin more quickly.
+* Updated: Revised disclosure message on the form to be more GDPR compliant.
 
 = 1.3.6 =
 * Fixed: Validate and potentially create full urls for values passed into custom "redirect to url" values. Prevents unintended destinations from partial urls.
