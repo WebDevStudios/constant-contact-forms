@@ -1357,7 +1357,17 @@ class ConstantContact_Display {
 	 */
 	public function get_inner_disclose_text() {
 		// translators: placeholder will hold company info for site owner.
-		return sprintf( __( 'By submitting this form, you are granting: %s, permission to email you. You may unsubscribe via the link found at the bottom of every email. (See our Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) for details.) Emails are serviced by Constant Contact.', 'constant-contact-forms' ), $this->plugin->api->get_disclosure_info() );
+		return sprintf(
+			__(
+				'By submitting this form, you are consenting to receive marketing emails from: %s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %s', 'constant-contact-forms'
+			),
+			$this->plugin->api->get_disclosure_info(),
+			sprintf(
+				'<a href="%s" target="_blank">%s</a>',
+				esc_url( 'https://www.constantcontact.com/legal/service-provider' ),
+				esc_html__( 'Emails are serviced by Constant Contact', 'constant-contact-forms' )
+			)
+		);
 	}
 
 	public function get_max_length_attr( $optional_label = '' ) {
