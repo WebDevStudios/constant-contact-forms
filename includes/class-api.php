@@ -861,6 +861,10 @@ class ConstantContact_API {
 			unset( $disclosure['address'] );
 		}
 
+		if ( ! empty( $account_info->website ) ) {
+			$disclosure['website'] = $account_info->website;
+		}
+
 		return $as_parts ? $disclosure : implode( ', ', array_values( $disclosure ) );
 	}
 }
