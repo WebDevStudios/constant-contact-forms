@@ -64,6 +64,27 @@ class ConstantContact_Logging {
 	public function hooks() {
 		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 		add_action( 'admin_init', array( $this, 'delete_log_file' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
+		add_action( 'admin_footer', array( $this, 'dialog' ) );
+	}
+
+	/**
+	 * Add our jQuery UI elements for dialog confirmation.
+	 *
+	 * @since 1.3.7
+	 */
+	public function scripts() {
+		wp_enqueue_script( 'jquery-ui-core' );
+		wp_enqueue_script( 'jquery-ui-dialog' );
+		wp_enqueue_style( 'wp-jquery-ui-dialog' );
+	}
+
+	public function dialog() {
+	?>
+		<div id="confirmdelete" style="display:none;">
+			<?php esc_html_e( 'Are you sure you want to delete current logs?', 'constant-contact-forms' ); ?>
+		</div>
+	<?php
 	}
 
 	/**
@@ -147,7 +168,7 @@ class ConstantContact_Logging {
 					<p>
 						<?php
 							printf(
-								'<p><a href="%s" download>%s</a></p><p><a href="%s">%s</a></p>',
+								'<p><a href="%s" download>%s</a></p><p><a href="%s" id="deletelog">%s</a></p>',
 								esc_attr( $log_location ),
 								esc_html__( 'Download logs', 'constant-contact-forms' ),
 								esc_attr(

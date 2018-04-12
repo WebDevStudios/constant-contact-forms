@@ -541,7 +541,6 @@ class ConstantContact_API {
 	 * @return object Contact object, with new properties.
 	 */
 	public function set_contact_properties( $contact, $user_data, $form_id ) {
-
 		// First, verify we have what we need.
 		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
 			$error = new CtctException();
