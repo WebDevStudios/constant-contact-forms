@@ -18,11 +18,11 @@ window.CTCTNewsletter = {};
 				ctctNewsForm = $(".ctct-body #subscribe")[0];
 
 			var ctctEmailField = $(".ctct-call-to-action input[type='text']")[0],
-			aprimoEndpoint = event.target.action;
+			subscribeEndpoint = event.target.action;
 
 			if (ctctEmailField.validity.valid === true) {
 				$("<iframe>", {
-					"src"   : aprimoEndpoint + "?" + $(ctctNewsForm).serialize(),
+					"src"   : subscribeEndpoint + "?" + $(ctctNewsForm).serialize(),
 					"height": 0,
 					"width" : 0,
 					"style" : "display: none;"
@@ -43,11 +43,11 @@ window.CTCTNewsletter = {};
 				ctctNewsForm = $(".ctct-section #subscribe")[0];
 
 			var ctctEmailField = $(".ctct-section #subscribe input[type='text']")[0],
-				aprimoEndpoint = event.target.action;
+				subscribeEndpoint = event.target.action;
 
 			if (ctctEmailField.validity.valid === true) {
 				$("<iframe>", {
-					"src"   : aprimoEndpoint + "?" + $(ctctNewsForm).serialize(),
+					"src"   : subscribeEndpoint + "?" + $(ctctNewsForm).serialize(),
 					"height": 0,
 					"width" : 0,
 					"style" : "display: none;"
