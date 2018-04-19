@@ -13,7 +13,7 @@ window.CTCTNewsletter = {};
 		// Connect page.
 		$('.ctct-body #subscribe').on('submit', function (event) {
 			event.preventDefault();
-console.log('connect');
+
 			var $ctctNewsWrapper = $("#subscribe .ctct-call-to-action"),
 				ctctNewsForm = $(".ctct-body #subscribe")[0];
 
