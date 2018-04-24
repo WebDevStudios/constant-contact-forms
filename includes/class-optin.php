@@ -117,7 +117,7 @@ class ConstantContact_Optin {
 			return;
 		}
 
-		if ( $this->privacy_policy_status() ) {
+		if ( $this->privacy_policy_status() || ! constant_contact()->is_constant_contact() ) {
 			return;
 		}
 	?>

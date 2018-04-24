@@ -178,7 +178,7 @@ class ConstantContact_Connect {
 		wp_enqueue_script( 'ctct_form' );
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>">
+			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>">
 			<div class="ctct-body">
 			<?php if ( constantcontact_api()->get_api_token() ) : ?>
 
@@ -263,14 +263,15 @@ class ConstantContact_Connect {
 					<a class="button button-orange" href="<?php echo esc_url_raw( add_query_arg( array( 'rmc' => 'wp_connect_try' ), constant_contact()->api->get_signup_link() ) ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
 				</div>
 
-				<form id="subscribe" accept-charset="utf-8" action="https://a.constantcontact.com/subscriptions/coi_verify/.ashx" method="get" target="_blank">
+				<form id="subscribe" accept-charset="utf-8" action="https://cloud.c.constantcontact.com/jmmlsubscriptions/coi_verify" method="get" target="_blank">
 				<div class="ctct-call-to-action">
 					<div class="ctct-call-to-action-text">
 						<h3><?php esc_html_e( 'Email marketing tips delivered to your inbox.', 'constant-contact-forms' ); ?></h3>
 						<p><?php esc_html_e( 'Ready to grow with email marketing? Subscribe now for the latest tips and industry best practices to create great-looking emails that work.', 'constant-contact-forms' ); ?></p>
 						<input id="subbox" maxlength="255" name="email" type="text" placeholder="<?php esc_attr_e( 'Enter your email address', 'constant-contact-forms' ); ?>">
-						<input name="sub" type="hidden" value="3">
-						<input name="method" type="hidden" value="JMML_SUB3_wp_plugin">
+						<input name="sub" type="hidden" value="3" />
+						<input name="method" type="hidden" value="JMML" />
+						<input name="page" type="hidden" value="Sub3_Prospect" />
 
 						<p><small><?php
 								// translators: placeholder will hold ConstantContact.com link.

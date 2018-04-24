@@ -221,6 +221,7 @@ class ConstantContact_Process_Form {
 			$resp = $recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
 
 			if ( ! $resp->isSuccess() ) {
+				constant_contact_maybe_log_it( 'reCAPTCHA', 'Failed to verify with Google reCAPTCHA', array( $resp->getErrorCodes() ) );
 				// @todo Utilize the error message(s) that come back from Google, if any.
 				return array(
 					'status' => 'named_error',
@@ -289,6 +290,10 @@ class ConstantContact_Process_Form {
 			'ctct_form',
 			'_wp_http_referer',
 			'ctct-verify',
+			'ctct_time',
+			'ctct_usage_field',
+			'g-recaptcha-response',
+			'ctct_must_opt_in',
 		) );
 
 		// If the submit button is clicked, send the email.
@@ -334,6 +339,7 @@ class ConstantContact_Process_Form {
 
 			// No need to check for opt in status because we would have returned early by now if false.
 			$maybe_bypass = ctct_get_settings_option( '_ctct_bypass_cron', '' );
+
 			if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
 				constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
 				constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );

@@ -10,7 +10,6 @@
 
 use Ctct\ConstantContact;
 use Ctct\Components\Contacts\Contact;
-use Ctct\Components\Contacts\Contacts;
 use Ctct\Components\Contacts\ContactList;
 use Ctct\Exceptions\CtctException;
 
@@ -131,7 +130,7 @@ class ConstantContact_API {
 				// Make sure we got a response before trying to save our transient.
 				if ( $acct_data ) {
 					// Save our data to a transient for a day.
-					set_transient( 'constant_contact_acct_info', $acct_data, 1 * DAY_IN_SECONDS );
+					set_transient( 'constant_contact_acct_info', $acct_data, 1 * HOUR_IN_SECONDS );
 				}
 			} catch ( CtctException $ex ) {
 				$this->log_errors( $ex->getErrors() );
@@ -417,11 +416,12 @@ class ConstantContact_API {
 	        $response = $this->cc()->contactService->getContacts( $api_token, array( 'email' => $email ) );
 
 	        if ( isset( $response->results ) && ! empty( $response->results ) ) {
+				constant_contact_maybe_log_it( 'API', 'Contact set to be updated', array( 'form' => get_the_title( $form_id ) ) );
 				// Update the existing contact if address already existed.
 				$return_contact = $this->_update_contact( $response, $api_token, $list, $new_contact, $form_id );
 
 	        } else {
-
+				constant_contact_maybe_log_it( 'API', 'Contact set to be created', array( 'form' => get_the_title( $form_id ) ) );
 				// Create a new contact if one does not exist.
 				$return_contact = $this->_create_contact( $api_token, $list, $email, $new_contact, $form_id );
 	        }
@@ -434,7 +434,7 @@ class ConstantContact_API {
 
 
 	/**
-	 * Helper method to creat contact.
+	 * Helper method to create contact.
 	 *
 	 * @since 1.0.0
 	 * @since 1.3.0 Added $form_id parameter.
@@ -458,7 +458,11 @@ class ConstantContact_API {
 		$contact->addList( esc_attr( $list ) );
 
 		// Map the rest of our properties to.
-		$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
+		try {
+			$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
+		} catch ( CtctException $ex ) {
+			$this->log_errors( $ex->getErrors() );
+		}
 
 		/*
 		 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
@@ -502,7 +506,11 @@ class ConstantContact_API {
 			$contact->addList( esc_attr( $list ) );
 
 			// Set the rest of our properties.
-			$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
+			try {
+				$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
+			} catch ( CtctException $ex ) {
+				$this->log_errors( $ex->getErrors() );
+			}
 
 		    /*
 		     * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
@@ -529,13 +537,15 @@ class ConstantContact_API {
 	 * @param object $contact   Contact object.
 	 * @param array  $user_data Bunch of user data.
 	 * @param string $form_id   Form ID being processed.
+	 * @throws CtctException $error An exception error.
 	 * @return object Contact object, with new properties.
 	 */
 	public function set_contact_properties( $contact, $user_data, $form_id ) {
-
 		// First, verify we have what we need.
 		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
-			return;
+			$error = new CtctException();
+			$error->setErrors( array( 'type', esc_html__( 'Not a valid contact to set properties to.', 'constant-contact-forms' ) ) );
+			throw $error;
 		}
 
 		// Remove some values we don't need.
@@ -562,10 +572,6 @@ class ConstantContact_API {
 			switch ( $key ) {
 				case 'email':
 				case 'website':
-				case 'g-recaptcha-response':
-				case 'ctct_usage_field':
-				case 'ctct_time':
-				case 'ctct_must_opt_in':
 					// Do nothing, as we already captured.
 					break;
 				case 'phone_number':
@@ -621,7 +627,7 @@ class ConstantContact_API {
 					// Retrieve our original label to send with API request.
 					$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
 					$custom_field_name = '';
-					$should_include = apply_filters( 'constant_contact_include_custom_field_label', false );
+					$should_include = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
 						$custom_field = ( $original_field_data[ $original ] );
 						$custom_field_name .= $custom_field['name'] . ': ';
@@ -660,7 +666,7 @@ class ConstantContact_API {
 					try {
 						$contact->$key = $value;
 					} catch ( Exception $e ) {
-						// @todo Log the exception.
+						$this->log_errors( $e->getErrors() );
 						break;
 					}
 
@@ -708,11 +714,11 @@ class ConstantContact_API {
 			return false;
 		}
 
-		// If we have our debugging turned on, push that error to the error log.
-		if ( defined( 'CONSTANT_CONTACT_DEBUG' ) && CONSTANT_CONTACT_DEBUG ) {
-			error_log( $error->error_key . ': ' . $error->error_message );
-			error_log( serialize( debug_backtrace() ) );
-		}
+		constant_contact_maybe_log_it(
+			'API',
+			$error->error_key . ': ' . $error->error_message,
+			$error
+		);
 
 		// Otherwise work through our list of error keys we know.
 		switch ( $error->error_key ) {
@@ -853,6 +859,10 @@ class ConstantContact_API {
 		} elseif ( empty( $disclosure['address'] ) ) {
 			// Remove the address so we don't get a disclosure like "Business Name, ".
 			unset( $disclosure['address'] );
+		}
+
+		if ( ! empty( $account_info->website ) ) {
+			$disclosure['website'] = $account_info->website;
 		}
 
 		return $as_parts ? $disclosure : implode( ', ', array_values( $disclosure ) );
