@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2018-04-12 21:16-0500\n"
+"POT-Creation-Date: 2018-05-01 16:12-0500\n"
 "PO-Revision-Date: 2017-01-12 14:46-0600\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Constant Contact\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 2.0.7\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: constant-contact-forms.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -166,7 +166,7 @@ msgid ""
 "emailed to your site admin."
 msgstr ""
 
-#: includes/class-admin-pages.php:286 includes/class-connect.php:280
+#: includes/class-admin-pages.php:286 includes/class-connect.php:281
 msgid "Sign Up"
 msgstr ""
 
@@ -184,7 +184,7 @@ msgstr ""
 msgid "Enter your email address"
 msgstr ""
 
-#: includes/class-admin-pages.php:295 includes/class-connect.php:277
+#: includes/class-admin-pages.php:296 includes/class-connect.php:278
 #, php-format
 msgid ""
 "By submitting this form, you agree to receive periodic product announcements "
@@ -193,15 +193,15 @@ msgid ""
 "email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %s"
 msgstr ""
 
-#: includes/class-admin-pages.php:305
+#: includes/class-admin-pages.php:306
 msgid "Powerful Email Marketing, Made Simple."
 msgstr ""
 
-#: includes/class-admin-pages.php:308
+#: includes/class-admin-pages.php:309
 msgid "Create professional emails that bring customers to your door"
 msgstr ""
 
-#: includes/class-admin-pages.php:312
+#: includes/class-admin-pages.php:313
 msgid ""
 "Email marketing is good for your business.  $44-back-for-every-$1-spent kind "
 "of good.*  And with the Constant Contact for WordPress plugin, you can "
@@ -209,50 +209,50 @@ msgid ""
 "visitors long after they've left."
 msgstr ""
 
-#: includes/class-admin-pages.php:316
+#: includes/class-admin-pages.php:317
 msgid "GPLv3 license"
 msgstr ""
 
-#: includes/class-admin-pages.php:320
+#: includes/class-admin-pages.php:321
 #, php-format
 msgid "This software is released under a modified %s."
 msgstr ""
 
-#: includes/class-admin-pages.php:326
+#: includes/class-admin-pages.php:327
 msgid "*Direct Marketing Association 2013 Statistical Fact Book"
 msgstr ""
 
-#: includes/class-admin-pages.php:334
+#: includes/class-admin-pages.php:335
 msgid "Easily Add Forms"
 msgstr ""
 
-#: includes/class-admin-pages.php:337
+#: includes/class-admin-pages.php:338
 msgctxt "add forms alt text"
 msgid "add forms screenshot"
 msgstr ""
 
-#: includes/class-admin-pages.php:340
+#: includes/class-admin-pages.php:341
 msgid ""
 "Create forms that automatically select the theme and styling of your "
 "WordPress site for a perfect match. "
 msgstr ""
 
-#: includes/class-admin-pages.php:346
+#: includes/class-admin-pages.php:347
 msgid "Stay Connected With Your WordPress Visitors"
 msgstr ""
 
-#: includes/class-admin-pages.php:349
+#: includes/class-admin-pages.php:350
 msgctxt "stay connected alt text"
 msgid "stay connected screenshot"
 msgstr ""
 
-#: includes/class-admin-pages.php:352
+#: includes/class-admin-pages.php:353
 msgid ""
 "Form completions from site visitors are conveniently added to your Constant "
 "Contact email list."
 msgstr ""
 
-#: includes/class-admin-pages.php:372
+#: includes/class-admin-pages.php:373
 msgid "Constant Contact Forms - License"
 msgstr ""
 
@@ -811,11 +811,11 @@ msgid ""
 "contacts even after they leave your website. Sign up for a free 60-day trial."
 msgstr ""
 
-#: includes/class-connect.php:285
+#: includes/class-connect.php:286
 msgid "NOTE: "
 msgstr ""
 
-#: includes/class-connect.php:285
+#: includes/class-connect.php:286
 msgid ""
 "It's possible to use the plugin without connecting to a Constant Contact "
 "account. In this case, all information collected by the forms will be "
