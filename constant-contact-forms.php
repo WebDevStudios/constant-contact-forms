@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.3.6
+ * Version:     1.3.7
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
@@ -77,7 +77,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.3.6';
+	const VERSION = '1.3.7';
 
 	/**
 	 * URL of plugin directory.
@@ -118,6 +118,8 @@ class Constant_Contact {
 	 * @var string
 	 */
 	public $menu_icon = 'dashicons-megaphone';
+
+	public $logger_location = '';
 
 	/**
 	 * Does site support encrpytions?
@@ -288,6 +290,14 @@ class Constant_Contact {
 	private $customizations;
 
 	/**
+	 * An instance of the ConstantContact_Logging Class.
+	 *
+	 * @since 1.3.7
+	 * @var ConstantContact_Logging
+	 */
+	private $logging;
+
+	/**
 	 * An instance of the ConstantContact_Admin Class.
 	 *
 	 * @since 1.0.1
@@ -353,9 +363,10 @@ class Constant_Contact {
 		$this->plugin_name = __( 'Constant Contact', 'constant-contact-forms' );
 
 		// Set up some helper properties.
-		$this->basename = plugin_basename( __FILE__ );
-		$this->url      = plugin_dir_url( __FILE__ );
-		$this->path     = plugin_dir_path( __FILE__ );
+		$this->basename        = plugin_basename( __FILE__ );
+		$this->url             = plugin_dir_url( __FILE__ );
+		$this->path            = plugin_dir_path( __FILE__ );
+		$this->logger_location = WP_CONTENT_DIR . '/ctct-logs/constant-contact-errors.log';
 
 		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
@@ -367,7 +378,7 @@ class Constant_Contact {
 		$this->admin_plugin_classes();
 
 		// Include our helper functions function for end-users.
-		Constant_Contact::include_file( 'helper-functions', false );
+		self::include_file( 'helper-functions', false );
 	}
 
 	/**
@@ -403,6 +414,7 @@ class Constant_Contact {
 		$this->authserver           = new ConstantContact_Middleware( $this );
 		$this->updates              = new ConstantContact_Updates( $this );
 		$this->optin                = new ConstantContact_Optin( $this );
+		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
 	}
 
@@ -504,6 +516,8 @@ class Constant_Contact {
 
 		// Set an array of libraries we need to load.
 		$libs = array(
+			'psr/log/vendor/autoload.php',
+			'monolog/monolog/vendor/autoload.php',
 			'CMB2/init.php',
 			'constantcontact/autoload.php',
 			'constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php',
@@ -747,7 +761,7 @@ class Constant_Contact {
 	 * @return array Amended body classes.
 	 */
 	public function body_classes( $classes = array() ) {
-		$theme = wp_get_theme()->template;
+		$theme     = wp_get_theme()->template;
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
 		return $classes;
@@ -797,8 +811,8 @@ class Constant_Contact {
 }
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
 
-register_activation_hook( __FILE__ , array( constant_contact(), '_activate' ) );
-register_deactivation_hook( __FILE__ , array( constant_contact(), '_deactivate' ) );
+register_activation_hook( __FILE__, array( constant_contact(), '_activate' ) );
+register_deactivation_hook( __FILE__, array( constant_contact(), '_deactivate' ) );
 
 /**
  * Grab the Constant_Contact object and return it.

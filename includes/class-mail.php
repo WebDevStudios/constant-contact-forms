@@ -8,6 +8,11 @@
  * @since 1.0.2
  */
 
+#require_once constant_contact()->path . '/vendor/autoload.php';
+
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 /**
  * Wrapper functions for mailing successful contact forms to the user.
  */
@@ -97,8 +102,14 @@ class ConstantContact_Mail {
 		constant_contact()->process_form->increment_processed_form_count();
 
 		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in
-		if ( constant_contact()->api->is_connected() && ( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) && $add_to_opt_in ) { // If we have $add_to_opt_in, we should already have a list.
-			return true;
+		if ( constant_contact()->api->is_connected() && 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) {
+			if ( $add_to_opt_in ) {
+				return true;
+			}
+
+			if ( empty( $_POST['ctct_must_opt_in'] ) || ! empty( $_POST['ctct-opt-in'] ) ) {
+				return true;
+			}
 		}
 
 		// This would allow for setting each sections error and also allow for returning early again for cases
@@ -134,7 +145,7 @@ class ConstantContact_Mail {
 	 * @since 1.0.0
 	 *
 	 * @param array $values Submitted values.
-	 * @return object Response from API.
+	 * @return object|null Response from API.
 	 */
 	public function opt_in_user( $values ) {
 
@@ -248,6 +259,7 @@ class ConstantContact_Mail {
 		}
 
 		$mail_key = md5( "{$destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
+		$partial_email = $this->get_email_part( $destination_email );
 
 		// If we already have sent this e-mail, don't send it again.
 		if ( $last_sent === $mail_key ) {
@@ -256,11 +268,11 @@ class ConstantContact_Mail {
 					/* translators: this is only used when some debugging is enabled */
 					__( 'Duplicate send mail for: %1$s and: %2$s', 'constant-contact-forms' ),
 					array(
-						$destination_email,
+						$partial_email,
 						$mail_key,
 					)
 				),
-				$destination_email,
+				$partial_email,
 				$mail_key
 			);
 			return true;
@@ -342,8 +354,6 @@ class ConstantContact_Mail {
 		 */
 		do_action( 'constant_contact_after_email_send', $submission_details['form_id'], $submission_details['submitted_email'], $destination_email, $content );
 
-		$this->maybe_log_mail_status( $mail_status, $destination_email, $content );
-
 		// Clean up, remove the filter we had set.
 		remove_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
 
@@ -372,17 +382,15 @@ class ConstantContact_Mail {
 	 * @param string $status     Status from wp_mail.
 	 * @param string $dest_email Destination email.
 	 * @param string $content    Content of email.
+	 * @return void
 	 */
 	public function maybe_log_mail_status( $status, $dest_email, $content ) {
 
-		if ( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) {
-
-			// Log status of mail.
-			error_log( 'mail attempted for ' . $dest_email . ': ' . $status );
-
-			// Log content too just in case.
-			error_log( print_r( $content, true ) );
-		}
+		constant_contact_maybe_log_it(
+			'Mail',
+			'mail attempted for ' . $dest_email . ': ' . $status,
+			$content
+		);
 
 	}
 
@@ -460,5 +468,29 @@ class ConstantContact_Mail {
 		}
 
 		return $content_notice;
+	}
+
+	/**
+	 * Parse out just the first part of an email address.
+	 *
+	 * This method is meant to protect privacy with potential logging of email addresses.
+	 * Instead of logging ALL of a given email address, we will just log everything before the `@`
+	 *
+	 * @since 1.3.7
+	 *
+	 * @param string $email Email address to parse.
+	 * @return mixed Part of a provided email.
+	 */
+	public function get_email_part( $email ) {
+		if ( ! is_email( $email ) ) {
+			return $email;
+		}
+
+		$new_email = explode( '@', sanitize_email( $email ) );
+		if ( ! empty( $new_email ) ) {
+			return $new_email[0];
+		}
+
+		return $email;
 	}
 }

@@ -317,3 +317,19 @@
 	width: 500px;
   }
 }
+.cmb2-options-page {
+  #ctct_option_metabox_settings {
+    .cmb2-metabox > .cmb-row {
+      background: transparent;
+      border: none;
+      box-shadow: none;
+    }
+  }
+}
+.ctct-body {
+  #ctct_error_logs {
+    height: 400px;
+    resize: vertical;
+    width: 100%;
+  }
+}

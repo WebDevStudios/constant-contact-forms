@@ -145,13 +145,17 @@ class ConstantContact_Middleware {
 
 		// If we're missing any piece of data, we failed.
 		if ( ! $proof || ! $token || ! $key ) {
+			constant_contact_maybe_log_it( 'Authentication', 'Proof, token, or key missing for access verification.' );
 			return false;
 		}
 
 		// We'll want to verify our proof before we continue.
 		if ( ! $this->verify_proof( $proof ) ) {
+			constant_contact_maybe_log_it( 'Authentication', 'Authorization verification failed.' );
 			return false;
 		}
+
+		constant_contact_maybe_log_it( 'Authentication', 'Authorization verification succeeded.' );
 
 		// Save our token / key into the DB.
 	 	constant_contact()->connect->update_token( sanitize_text_field( $token ) );

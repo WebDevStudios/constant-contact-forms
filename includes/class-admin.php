@@ -290,7 +290,7 @@ class ConstantContact_Admin {
 						get_the_title( $list->ID )
 					);
 				} else {
-					echo esc_html( 'No associated form', 'constant-contact-forms' );
+					esc_html_e( 'No associated form', 'constant-contact-forms' );
 				}
 			break;
 		}

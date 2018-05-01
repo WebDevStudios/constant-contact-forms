@@ -363,6 +363,18 @@ class ConstantContact_Settings {
 			'id'         => '_ctct_recaptcha_secret_key',
 			'type'       => 'text',
 		) );
+
+		$before_debugging = sprintf(
+			'<hr/><h2>%s</h2>',
+			esc_html__( 'Support', 'constant-contact-forms' )
+		);
+		$cmb->add_field( array(
+			'name'       => esc_html__( 'Enable logging for debugging purposes.', 'constant-contact-forms' ),
+			'desc'       => esc_html__( 'This option will turn on some logging functionality that can be used to deduce sources of issues with the use of Constant Contact Forms plugin.', 'constant-contact-forms' ),
+			'id'         => '_ctct_logging',
+			'type'       => 'checkbox',
+			'before_row' => $before_debugging,
+		) );
 	}
 
 	/**
@@ -757,7 +769,7 @@ class ConstantContact_Settings {
 	 * @since 1.2.0
 	 */
 	public function privacy_notice_markup() {
-		if ( $this->privacy_policy_status() ) {
+		if ( $this->privacy_policy_status() || ! constant_contact()->is_constant_contact() ) {
 			return;
 		}
 		?>

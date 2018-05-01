@@ -15,6 +15,7 @@ window.CTCTModal = {};
             modalClose: $( '.ctct-modal-close' ),
             textareaModal: $( '#ctct-custom-textarea-modal' ),
             textareaLink: $( '#ctct-open-textarea-info' ),
+            deleteLogLink: $( '#deletelog' )
         };
     };
 
@@ -38,6 +39,28 @@ window.CTCTModal = {};
         app.$c.textareaLink.on('click', function(){
            app.$c.textareaModal.addClass( 'ctct-modal-open' );
         });
+        app.$c.deleteLogLink.on( 'click', function( event ) {
+			event.preventDefault();
+
+            // Get the link that was clicked on so we can redirect to it if the user confirms.
+            var delete_log_link = jQuery( this ).attr( 'href' );
+
+            jQuery( "#confirmdelete" ).dialog({
+				resizable: false,
+				height   : "auto",
+				width    : 400,
+				modal    : true,
+				buttons  : {
+					"Yes": function () {
+					    // If the user confirms the action, redirect them to the deletion page.
+						window.location.replace( delete_log_link );
+					},
+					Cancel: function () {
+						jQuery( this ).dialog( "close" );
+					}
+				}
+            });
+        } );
     };
 
     // Engage
