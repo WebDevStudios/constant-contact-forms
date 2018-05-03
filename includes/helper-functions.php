@@ -326,7 +326,7 @@ add_filter( 'constant_contact_maybe_spam', 'constant_contact_check_timestamps', 
  *
  * Akismet integration props to GiveWP. We appreciate the initial work.
  *
- * @since NEXT
+ * @since 1.4.0
  *
  * @param bool  $is_spam Current status of the submission.
  * @param array $data    Array of submission data.
@@ -341,7 +341,7 @@ function constant_contact_akismet( $is_spam, $data ) {
 
 	$email = false;
 	$fname = $lname = $name = '';
-	foreach( $data as $key => $value ) {
+	foreach ( $data as $key => $value ) {
 		if ( 'email' === substr( $key, 0, 5 ) ) {
 			$email = $value;
 		}
@@ -382,7 +382,7 @@ function constant_contact_akismet( $is_spam, $data ) {
 
 	foreach ( $_SERVER as $key => $value ) {
 		if ( ! in_array( $key, (array) $ignore ) ) {
-			$args["$key"] = $value;
+			$args[ "{$key}" ] = $value;
 		}
 	}
 
@@ -395,6 +395,8 @@ add_filter( 'constant_contact_maybe_spam', 'constant_contact_akismet', 10, 2 );
 
 /**
  * Check Akismet API Key.
+ *
+ * @since 1.4.0
  *
  * @return bool
  */
@@ -412,6 +414,8 @@ function constant_contact_check_akismet_key() {
 
 /**
  * Detect spam through Akismet Comment API.
+ *
+ * @since 1.4.0
  *
  * @param array $args
  * @return bool|mixed
