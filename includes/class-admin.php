@@ -352,6 +352,13 @@ class ConstantContact_Admin {
 	 * @return array
 	 */
 	public function add_social_links( $links ) {
+
+		// No code beyond this point can account for a non-array value for this passed parameter,
+		// so let's just return early.
+		if ( ! is_array( $links ) ) {
+			return $links;
+		}
+
 		// Get Twitter share link.
 		$twitter_cta = __( 'Check out the official WordPress plugin from @constantcontact :', 'constant-contact-forms' );
 
