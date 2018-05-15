@@ -115,6 +115,8 @@ class ConstantContact_Process_Form {
 			switch ( $status ) {
 
 				case 'success':
+
+					/** This filter is documented in includes/class-process-form.php */
 					$message = apply_filters( 'ctct_process_form_success',
 						__( 'Your information has been submitted.', 'constant-contact-forms' ),
 						intval( $json_data['ctct-id'] ) );
@@ -678,6 +680,9 @@ class ConstantContact_Process_Form {
 				 * Filters the message for the successful processed form.
 				 *
 				 * @since 1.3.0
+				 *
+				 * @param string     $value Success message.
+				 * @param string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
 				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id );
 				break;
