@@ -115,7 +115,8 @@ class ConstantContact_Process_Form {
 			switch ( $status ) {
 
 				case 'success':
-					$message = __( 'Your information has been submitted.', 'constant-contact-forms' );
+					$message = apply_filters( 'ctct_process_form_success',
+						__( 'Your information has been submitted.', 'constant-contact-forms' ) );
 					break;
 
 				// Generic error.
