@@ -847,7 +847,7 @@ function ctct_get_settings_option( $key = '', $default = null ) {
 
 	if ( 'all' === $key ) {
 		$val = $opts;
-	} elseif ( array_key_exists( $key, $opts ) && false !== $opts[ $key ] ) {
+	} elseif ( is_array( $opts ) && array_key_exists( $key, $opts ) && false !== $opts[ $key ] ) {
 		$val = $opts[ $key ];
 	}
 
