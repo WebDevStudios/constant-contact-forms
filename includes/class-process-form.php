@@ -116,7 +116,8 @@ class ConstantContact_Process_Form {
 
 				case 'success':
 					$message = apply_filters( 'ctct_process_form_success',
-						__( 'Your information has been submitted.', 'constant-contact-forms' ) );
+						__( 'Your information has been submitted.', 'constant-contact-forms' ),
+						intval( $json_data['ctct-id'] ) );
 					break;
 
 				// Generic error.
