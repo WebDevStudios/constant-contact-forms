@@ -163,12 +163,19 @@ class ConstantContact_Display {
 		if ( get_post_meta( $form_id, '_ctct_form_custom_classes', true ) ) :
 			$form_classes .= ' ' . get_post_meta( $form_id, '_ctct_form_custom_classes', true );
 		endif;
+		$form_custom_styles         = array();
+		$form_custom_styles_display = '';
+		if ( get_post_meta( $form_id, '_ctct_form_padding', true ) ) :
+			$form_custom_styles[] = 'padding: ' . get_post_meta( $form_id, '_ctct_form_padding', true ) . ';';
+		endif;
 
 		// Build out our form.
 		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
 		$return .= 'data-doajax="' . esc_attr( $do_ajax ) . '" ';
 		$return .= 'class="' . esc_attr( $form_classes ) . '" ';
-		$return .= 'action="' . esc_attr( $form_action ) . '" method="post">';
+		$return .= 'action="' . esc_attr( $form_action ) . '" ';
+		$return .= 'style="' . esc_attr( implode( ' ', $form_custom_styles ) ) . '" ';
+		$return .= 'method="post">';
 
 		// If we have errors, display them.
 		$return .= $form_err_display;
