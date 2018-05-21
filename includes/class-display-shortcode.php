@@ -71,7 +71,7 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function get_form( $form_id ) {
 
-		// sanity check it
+		// Sanity check it.
 		$form_id = absint( $form_id );
 		if ( ! $form_id ) {
 			return '';

@@ -120,7 +120,7 @@ class ConstantContact_Display {
 		// Check to see if we got a response, and if it has the fields we expect.
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
-			// If we were succesful, then display success message.
+			// If we were successful, then display success message.
 			if ( 'success' === $response['status'] ) {
 
 				// If we were successful, we'll return here so we don't display the entire form again.
@@ -129,9 +129,9 @@ class ConstantContact_Display {
 			} else {
 
 				// If we didn't get a success message, then we want to error.
-				// We already checked for a messsage response, but we'll force the
+				// We already checked for a message response, but we'll force the
 				// status to error if we're not here.
-				$status = 'error';
+				$status        = 'error';
 				$error_message = trim( $response['message'] );
 			}
 		}
@@ -159,6 +159,19 @@ class ConstantContact_Display {
 		$form_action    = apply_filters( 'constant_contact_front_form_action', '', $form_id );
 		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
+
+		// Add action before form for custom actions.
+		ob_start();
+		/**
+		 * Fires before the start of the form tag.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param int $form_id Current form ID.
+		 */
+		do_action( 'ctct_before_form', $form_id );
+		$return .= ob_get_contents();
+		ob_end_clean();
 
 		// Build out our form.
 		$return .= '<form class="ctct-form ctct-form-' . $form_id . '" id="' . $rf_id . '" data-doajax="' . esc_attr( $do_ajax ) . '" action="' . esc_attr( $form_action ) . '" method="post">';
@@ -193,6 +206,18 @@ class ConstantContact_Display {
 		$return .= $this->must_opt_in( $form_data );
 
 		$return .= '</form>';
+
+		ob_start();
+		/**
+		 * Fires after the end of the form tag.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param int $form_id Current form ID.
+		 */
+		do_action( 'ctct_after_form', $form_id );
+		$return .= ob_get_contents();
+		ob_end_clean();
 
 		$return .= '<script type="text/javascript">';
 		$return .= 'var ajaxurl = "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '";';
