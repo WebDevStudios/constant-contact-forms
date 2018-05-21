@@ -74,7 +74,16 @@ window.CTCTSupport = {};
 							if (typeof( response.status ) !== 'undefined') {
 
 								if ('success' == response.status) {
-									$(form_id_selector+'.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
+									// Add a timestamp to the message so that we only remove this message and not all at once.
+									var time_class = 'message-time-' + $.now();
+
+									var message_class = 'ctct-message ' + response.status + ' ' + time_class;
+									$(form_id_selector+'.ctct-form').before('<p class="' + message_class + '">' + response.message + '</p>');
+
+									// Set a 5 second timeout to remove the added success message.
+									setTimeout( function() {
+										$( '.' + time_class ).remove();
+									}, 5000 );
 								} else {
 									// Here we'll want to disable the submit button and
 									// add some error classes
