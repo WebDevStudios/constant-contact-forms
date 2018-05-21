@@ -183,6 +183,16 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
+			'name'        => __( 'Background Color', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'form_background_color',
+			'type'        => 'colorpicker',
+			'description' => esc_html__(
+				'Choose a background color for the form.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$options_metabox->add_field( array(
 			'name'        => __( 'Form Padding', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'form_padding',
 			'type'        => 'text',

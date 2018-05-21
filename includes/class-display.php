@@ -168,6 +168,9 @@ class ConstantContact_Display {
 		if ( get_post_meta( $form_id, '_ctct_form_padding', true ) ) :
 			$form_custom_styles[] = 'padding: ' . get_post_meta( $form_id, '_ctct_form_padding', true ) . ';';
 		endif;
+		if ( get_post_meta( $form_id, '_ctct_form_background_color', true ) ) :
+			$form_custom_styles[] = 'background-color: ' . get_post_meta( $form_id, '_ctct_form_background_color', true ) . ';';
+		endif;
 
 		// Build out our form.
 		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
