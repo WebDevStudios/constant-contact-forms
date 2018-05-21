@@ -158,7 +158,14 @@ class ConstantContact_Display {
 
 		// Add action before form for custom actions.
 		ob_start();
-		do_action( 'ctct_before_form' );
+		/**
+		 * Fires before the start of the form tag.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param int $form_id Current form ID.
+		 */
+		do_action( 'ctct_before_form', $form_id );
 		$return .= ob_get_contents();
 		ob_end_clean();
 
@@ -194,9 +201,15 @@ class ConstantContact_Display {
 
 		$return .= '</form>';
 
-		// Add action after form for custom actions.
 		ob_start();
-		do_action( 'ctct_after_form' );
+		/**
+		 * Fires after the end of the form tag.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param int $form_id Current form ID.
+		 */
+		do_action( 'ctct_after_form', $form_id );
 		$return .= ob_get_contents();
 		ob_end_clean();
 
