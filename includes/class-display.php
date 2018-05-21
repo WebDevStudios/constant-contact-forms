@@ -156,15 +156,16 @@ class ConstantContact_Display {
 		 * @param string $value   Value to put in the form action attribute. Default empty string.
 		 * @param int    $form_id ID of the Constant Contact form being rendered.
 		 */
-		$form_action    = apply_filters( 'constant_contact_front_form_action', '', $form_id );
-		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
-		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
-		$form_classes   = 'ctct-form ctct-form-' . $form_id;
+		$form_action        = apply_filters( 'constant_contact_front_form_action', '', $form_id );
+		$should_do_ajax     = get_post_meta( $form_id, '_ctct_do_ajax', true );
+		$do_ajax            = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
+		$form_classes       = 'ctct-form ctct-form-' . $form_id;
+		$form_custom_styles = array();
+
 		if ( get_post_meta( $form_id, '_ctct_form_custom_classes', true ) ) :
 			$form_classes .= ' ' . get_post_meta( $form_id, '_ctct_form_custom_classes', true );
 		endif;
-		$form_custom_styles         = array();
-		$form_custom_styles_display = '';
+
 		if ( get_post_meta( $form_id, '_ctct_form_padding', true ) ) :
 			$form_custom_styles[] = 'padding: ' . get_post_meta( $form_id, '_ctct_form_padding', true ) . ';';
 		endif;
@@ -274,14 +275,14 @@ class ConstantContact_Display {
 			}
 
 			// Add hidden field with our form id in it.
-			$return = $this->input( 'hidden', 'ctct-id', 'ctct-id', $form_id, '', '', true );
+			$return = $this->input( 'hidden', 'ctct-id', 'ctct-id', '', $form_id, '', '', true );
 
 			// If we have saved a verify value, add that to our field as well. this is to double-check
 			// that we have the correct form id for processing later.
 			$verify_key = get_post_meta( $form_id, '_ctct_verify_key', true );
 
 			if ( $verify_key ) {
-				$return .= $this->input( 'hidden', 'ctct-verify', 'ctct-verify', $verify_key, '', '', true );
+				$return .= $this->input( 'hidden', 'ctct-verify', 'ctct-verify', '', $verify_key, '', '', true );
 			}
 
 			return $return;
@@ -415,20 +416,22 @@ class ConstantContact_Display {
 		}
 
 		$field = wp_parse_args( $field, array(
-			'name'        => '',
-			'map_to'      => '',
-			'type'        => '',
-			'description' => '',
-			'required'    => false,
+			'name'               => '',
+			'map_to'             => '',
+			'type'               => '',
+			'description'        => '',
+			'field_custom_class' => array(),
+			'required'           => false,
 		) );
 
 		// Check all our data points.
-		$name   = sanitize_text_field( $field['name'] );
-		$map    = sanitize_text_field( $field['map_to'] );
-		$desc   = sanitize_text_field( isset( $field['description'] ) ? $field['description'] : '' );
-		$type   = sanitize_text_field( isset( $field['type'] ) ? $field['type'] : 'text_field' );
-		$value  = sanitize_text_field( isset( $field['value'] ) ? $field['value'] : false );
-		$req    = isset( $field['required'] ) ? $field['required'] : false;
+		$name               = sanitize_text_field( $field['name'] );
+		$map                = sanitize_text_field( $field['map_to'] );
+		$desc               = sanitize_text_field( isset( $field['description'] ) ? $field['description'] : '' );
+		$field_custom_class = ! empty( $field['field_custom_class'] ) ? explode( ' ', sanitize_text_field( $field['field_custom_class'] ) ) : array();
+		$type               = sanitize_text_field( isset( $field['type'] ) ? $field['type'] : 'text_field' );
+		$value              = sanitize_text_field( isset( $field['value'] ) ? $field['value'] : false );
+		$req                = isset( $field['required'] ) ? $field['required'] : false;
 
 		// We may have more than one of the same field in our array.
 		// this makes sure we keep them unique when processing them.
@@ -481,22 +484,22 @@ class ConstantContact_Display {
 			case 'company':
 			case 'website':
 			case 'text_field':
-				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id );
+				return $this->input( 'text', $name, $map, $field_custom_class, $value, $desc, $req, false, $field_error, $form_id );
 				break;
 			case 'custom_text_area':
-				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="500"' );
+				return $this->textarea( $name, $map, $field_custom_class, $value, $desc, $req, $field_error, 'maxlength="500"' );
 				break;
 			case 'email':
 				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			case 'hidden':
-				return $this->input( 'hidden', $name, $map, $value, $desc, $req );
+				return $this->input( 'hidden', $name, '', $map, $value, $desc, $req );
 				break;
 			case 'checkbox':
 				return $this->checkbox( $name, $map, $value, $desc );
 				break;
 			case 'submit':
-				return $this->input( 'submit', $name, $map, $value, $desc, $req, false, $field_error );
+				return $this->input( 'submit', $name, $field_custom_class, $map, $value, $desc, $req, false, $field_error );
 				break;
 			case 'address':
 				return $this->address( $name, $map, $value, $desc, $req, $field_error );
@@ -507,7 +510,7 @@ class ConstantContact_Display {
 				return $this->dates( $name, $map, $value, $desc, $req, $field_error );
 				break;
 			default:
-				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
+				return $this->input( 'text', $name, $field_custom_class, $map, $value, $desc, $req, false, $field_error );
 				break;
 		}
 	}
@@ -738,32 +741,34 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $type        Type of form field.
-	 * @param string  $name        ID of form field.
-	 * @param string  $id          ID attribute value.
-	 * @param string  $value       pre-filled value.
-	 * @param string  $label       label text for inpug.
-	 * @param boolean $req         If field required.
-	 * @param boolean $f_only      If we only return the field itself, with no label.
-	 * @param boolean $field_error Field error.
-	 * @param int     $form_id     Current form ID.
+	 * @param string  $type                 Type of form field.
+	 * @param string  $name                 ID of form field.
+	 * @param string  $id                   ID attribute value.
+	 * @param array   $field_custom_class   Custom classes set to the field.
+	 * @param string  $value                pre-filled value.
+	 * @param string  $label                label text for input.
+	 * @param boolean $req                  If field required.
+	 * @param boolean $f_only               If we only return the field itself, with no label.
+	 * @param boolean $field_error          Field error.
+	 * @param int     $form_id              Current form ID.
 	 * @return string HTML markup for field.
 	 */
-	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0 ) {
+	public function input( $type = 'text', $name = '', $id = '', $field_custom_class = array(), $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0 ) {
 
 		// Sanitize our stuff / set values.
-		$name  = sanitize_text_field( $name );
-		$f_id  = sanitize_title( $id );
-		$type  = sanitize_text_field( $type );
-		$value = sanitize_text_field( $value );
-		$label = sanitize_text_field( $label );
-		$req_text = $req ? 'required' : '';
+		$name               = sanitize_text_field( $name );
+		$f_id               = sanitize_title( $id );
+		$field_custom_class = sanitize_text_field( implode( ' ', $field_custom_class ) );
+		$type               = sanitize_text_field( $type );
+		$value              = sanitize_text_field( $value );
+		$label              = sanitize_text_field( $label );
+		$req_text           = $req ? 'required' : '';
 
 		// Start our markup.
 		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
 
 		// Provide some CSS class(es).
-		$classes = array( 'ctct-' . esc_attr( $type ) );
+		$classes = array_merge( array( 'ctct-' . esc_attr( $type ), $field_custom_class ) );
 
 		/**
 		 * Filter to add classes for the rendering input.
@@ -1282,9 +1287,10 @@ class ConstantContact_Display {
 	 * @param string  $extra_attrs Extra attributes to append.
 	 * @return string HTML markup.
 	 */
-	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '' ) {
+	public function textarea( $name = '', $map = '', $field_custom_class = array(), $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '' ) {
 
 		$classes = array( 'ctct-form-field' );
+
 		// Set our required text.
 		$req_text = $req ? 'required' : '';
 		if ( $req ) {
@@ -1305,8 +1311,10 @@ class ConstantContact_Display {
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
+		$textarea_classes = array_merge( array( esc_attr( 'ctct-textarea' ) ), $field_custom_class );
+
 		$return  = '<p class="' . implode( ' ', $classes ) . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label>';
-		$return .= '<textarea class="ctct-textarea" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
+		$return .= '<textarea class="' . esc_attr( implode( ' ', $textarea_classes ) ) . '" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
 
 		if ( $field_error ) {
 			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $map ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constant-contact-forms' ) ) . '</label></span>';

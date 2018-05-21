@@ -145,11 +145,11 @@ class ConstantContact_Display_Shortcode {
 	 * @param array $custom_fields Custom fields to parse through.
 	 * @param array $full_data     Array of full data.
 	 * @param int   $form_id       Form ID.
-	 * @return string Form field markup.
+	 * @return array Form field markup.
 	 */
 	public function get_field_values( $custom_fields, $full_data, $form_id ) {
 
-		// Get all our data from our fields, while we unserialize them
+		// Get all our data from our fields, while we unserialize them.
 		$fields = $this->generate_field_values_for_fields( maybe_unserialize( $custom_fields ) );
 
 		// Now that we've finished checking all of our form fields, we'll
@@ -158,10 +158,10 @@ class ConstantContact_Display_Shortcode {
 			$fields['options']['form_id'] = $form_id;
 		}
 
-		// add in our form description, if we have one
+		// add in our form description, if we have one.
 		$fields['options']['description'] = $this->get_nested_value_from_data( '_ctct_description', $full_data );
 
-		// Get our optin data
+		// Get our optin data.
 		$fields['options']['optin'] = $this->generate_optin_data( $full_data );
 
 		return $fields;
@@ -203,7 +203,10 @@ class ConstantContact_Display_Shortcode {
 			// Set our field description, if we can.
 			$fields = $this->set_field( '_ctct_field_desc', 'description', $key, $fields, $custom_fields );
 
-			// Set our field requirement, if we can. We do this by casting the results of our two checks to a boolean
+			// See if a custom CSS class was set.
+			$fields = $this->set_field( '_ctct_field_custom_class', 'field_custom_class', $key, $fields, $custom_fields );
+
+			// Set our field requirement, if we can. We do this by casting the results of our two checks to a boolean.
 			$fields['fields'][ $key ]['required'] = (
 				isset( $custom_fields[ $key ]['_ctct_required_field'] ) &&
 				'on' === $custom_fields[ $key ]['_ctct_required_field']

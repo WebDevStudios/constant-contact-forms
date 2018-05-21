@@ -509,6 +509,16 @@ class ConstantContact_Builder_Fields {
 			'row_classes' => 'required',
 		) );
 
+		// Allow customization of the CSS for a field.
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'        => __( 'Custom Class(es)', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'field_custom_class',
+			'type'        => 'text',
+			'description' => esc_html__(
+				'Set custom CSS class(es) for this form field.',
+				'constant-contact-forms' ),
+		) );
+
 	}
 
 	/**
