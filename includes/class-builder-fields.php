@@ -177,6 +177,12 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
+			'name' => __( 'Custom Class(es)', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'form_custom_classes',
+			'type' => 'text',
+		) );
+
+		$options_metabox->add_field( array(
 			'name' => esc_html__( 'Submission behavior', 'constant-contact-forms' ),
 			'type' => 'title',
 			'id'   => 'submission_behavior_title',

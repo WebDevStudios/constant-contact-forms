@@ -159,9 +159,16 @@ class ConstantContact_Display {
 		$form_action    = apply_filters( 'constant_contact_front_form_action', '', $form_id );
 		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
+		$form_classes   = 'ctct-form ctct-form-' . $form_id;
+		if ( get_post_meta( $form_id, '_ctct_form_custom_classes', true ) ) :
+			$form_classes .= ' ' . get_post_meta( $form_id, '_ctct_form_custom_classes', true );
+		endif;
 
 		// Build out our form.
-		$return .= '<form class="ctct-form ctct-form-' . $form_id . '" id="' . $rf_id . '" data-doajax="' . esc_attr( $do_ajax ) . '" action="' . esc_attr( $form_action ) . '" method="post">';
+		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
+		$return .= 'data-doajax="' . esc_attr( $do_ajax ) . '" ';
+		$return .= 'class="' . esc_attr( $form_classes ) . '" ';
+		$return .= 'action="' . esc_attr( $form_action ) . '" method="post">';
 
 		// If we have errors, display them.
 		$return .= $form_err_display;
