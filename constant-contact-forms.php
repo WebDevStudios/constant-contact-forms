@@ -602,7 +602,7 @@ class Constant_Contact {
 
 		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' === $_POST['action'] ) {
 			// Save our dismiss for the first form modal.
-			update_option( 'ctct_first_form_modal_dismissed', time() );
+			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) );
 		}
 		wp_die();
 	}
