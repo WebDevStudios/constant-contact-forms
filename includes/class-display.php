@@ -169,10 +169,23 @@ class ConstantContact_Display {
 		// Apply any user-set custom CSS for forms.
 		$form_custom_styles = array();
 
-		$form_padding = get_post_meta( $form_id, '_ctct_form_padding', true );
-		if ( $form_padding ) {
-			$form_custom_styles[] = 'padding: ' . $form_padding . ';';
+		$form_padding_top    = get_post_meta( $form_id, '_ctct_top_form_padding', true );
+		$form_padding_right  = get_post_meta( $form_id, '_ctct_right_form_padding', true );
+		$form_padding_bottom = get_post_meta( $form_id, '_ctct_bottom_form_padding', true );
+		$form_padding_left   = get_post_meta( $form_id, '_ctct_left_form_padding', true );
+		if ( $form_padding_top ) {
+			$form_custom_styles[] = 'padding-top: ' . $form_padding_top . 'px;';
 		}
+		if ( $form_padding_right ) {
+			$form_custom_styles[] = 'padding-right: ' . $form_padding_right . 'px;';
+		}
+		if ( $form_padding_bottom ) {
+			$form_custom_styles[] = 'padding-bottom: ' . $form_padding_bottom . 'px;';
+		}
+		if ( $form_padding_left ) {
+			$form_custom_styles[] = 'padding-left: ' . $form_padding_left . 'px;';
+		}
+
 		$form_background_color = get_post_meta( $form_id, '_ctct_form_background_color', true );
 		if ( $form_background_color ) {
 			$form_custom_styles[] = 'background-color: ' . $form_background_color . ';';
