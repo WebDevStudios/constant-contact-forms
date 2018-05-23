@@ -121,3 +121,15 @@ body.post-type-ctct_forms #titlediv #title {
 	color: rgb(68, 68, 68);
   }
 }
+#ctct_1_custom_css_metabox {
+  div.cmb-row {
+	border: none;
+	padding: 0 !important;
+	.cmb-th {
+	  padding-bottom: 0;
+	}
+	p.cmb2-metabox-description {
+	  padding-bottom: 0;
+	}
+  }
+}
