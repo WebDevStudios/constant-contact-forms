@@ -156,25 +156,26 @@ class ConstantContact_Display {
 		 * @param string $value   Value to put in the form action attribute. Default empty string.
 		 * @param int    $form_id ID of the Constant Contact form being rendered.
 		 */
-		$form_action        = apply_filters( 'constant_contact_front_form_action', '', $form_id );
-		$should_do_ajax     = get_post_meta( $form_id, '_ctct_do_ajax', true );
-		$do_ajax            = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
-		$form_classes       = 'ctct-form ctct-form-' . $form_id;
+		$form_action    = apply_filters( 'constant_contact_front_form_action', '', $form_id );
+		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
+		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
+		$form_classes   = 'ctct-form ctct-form-' . $form_id;
 
-		if ( get_post_meta( $form_id, '_ctct_form_custom_classes', true ) ) :
-			$form_classes .= ' ' . get_post_meta( $form_id, '_ctct_form_custom_classes', true );
-		endif;
+		$user_form_classes = get_post_meta( $form_id, '_ctct_form_custom_classes', true );
+		if ( $user_form_classes ) {
+			$form_classes .= ' ' . $user_form_classes;
+		}
 
 		// Apply any user-set custom CSS for forms.
 		$form_custom_styles = array();
 
 		$form_padding = get_post_meta( $form_id, '_ctct_form_padding', true );
 		if ( $form_padding ) {
-			$form_custom_styles[] = 'padding: ' . get_post_meta( $form_id, '_ctct_form_padding', true ) . ';';
+			$form_custom_styles[] = 'padding: ' . $form_padding . ';';
 		}
 		$form_background_color = get_post_meta( $form_id, '_ctct_form_background_color', true );
 		if ( $form_background_color ) {
-			$form_custom_styles[] = 'background-color: ' . get_post_meta( $form_id, '_ctct_form_background_color', true ) . ';';
+			$form_custom_styles[] = 'background-color: ' . $form_background_color . ';';
 		}
 
 		// Build out our form.
