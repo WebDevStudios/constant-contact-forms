@@ -122,6 +122,7 @@ body.post-type-ctct_forms #titlediv #title {
   }
 }
 #ctct_1_custom_css_metabox {
+  overflow: hidden;
   div.cmb-row {
 	border: none;
 	padding: 0 !important;
@@ -131,5 +132,8 @@ body.post-type-ctct_forms #titlediv #title {
 	p.cmb2-metabox-description {
 	  padding-bottom: 0;
 	}
+  }
+  div.cmb-type-text-small {
+	float: left;
   }
 }
