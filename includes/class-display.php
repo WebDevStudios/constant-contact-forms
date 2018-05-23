@@ -160,18 +160,22 @@ class ConstantContact_Display {
 		$should_do_ajax     = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax            = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$form_classes       = 'ctct-form ctct-form-' . $form_id;
-		$form_custom_styles = array();
 
 		if ( get_post_meta( $form_id, '_ctct_form_custom_classes', true ) ) :
 			$form_classes .= ' ' . get_post_meta( $form_id, '_ctct_form_custom_classes', true );
 		endif;
 
-		if ( get_post_meta( $form_id, '_ctct_form_padding', true ) ) :
+		// Apply any user-set custom CSS for forms.
+		$form_custom_styles = array();
+
+		$form_padding = get_post_meta( $form_id, '_ctct_form_padding', true );
+		if ( $form_padding ) {
 			$form_custom_styles[] = 'padding: ' . get_post_meta( $form_id, '_ctct_form_padding', true ) . ';';
-		endif;
-		if ( get_post_meta( $form_id, '_ctct_form_background_color', true ) ) :
+		}
+		$form_background_color = get_post_meta( $form_id, '_ctct_form_background_color', true );
+		if ( $form_background_color ) {
 			$form_custom_styles[] = 'background-color: ' . get_post_meta( $form_id, '_ctct_form_background_color', true ) . ';';
-		endif;
+		}
 
 		// Build out our form.
 		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
@@ -490,7 +494,7 @@ class ConstantContact_Display {
 				return $this->textarea( $name, $map, $field_custom_class, $value, $desc, $req, $field_error, 'maxlength="500"' );
 				break;
 			case 'email':
-				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error );
+				return $this->input( 'email', $name, $map, $field_custom_class, $value, $desc, $req, false, $field_error );
 				break;
 			case 'hidden':
 				return $this->input( 'hidden', $name, '', $map, $value, $desc, $req );
