@@ -239,9 +239,10 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name' => esc_html__( 'Form Padding', 'constant-contact-forms' ),
-			'type' => 'title',
-			'id'   => 'form-padding-title',
+			'name'        => esc_html__( 'Form Padding', 'constant-contact-forms' ),
+			'type'        => 'title',
+			'id'          => 'form-padding-title',
+			'description' => esc_html__( 'Enter padding in number of pixels.', 'constant-contact-form' ),
 		) );
 
 		$custom_css_metabox->add_field( array(
