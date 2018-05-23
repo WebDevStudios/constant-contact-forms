@@ -188,7 +188,7 @@ class ConstantContact_Display_Shortcode {
 		// Loop through each of our fields.
 		foreach ( $custom_fields as $key => $value ) {
 
-			// Make sure we have the parts of our array that we expect
+			// Make sure we have the parts of our array that we expect.
 			if ( ! isset( $custom_fields ) || ! isset( $custom_fields[ $key ] ) ) {
 				continue;
 			}
