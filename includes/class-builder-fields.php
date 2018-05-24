@@ -79,6 +79,7 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', array( $this, 'opt_ins_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'generated_shortcode' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'email_destination' ) );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 		}
 
@@ -509,6 +510,30 @@ class ConstantContact_Builder_Fields {
 			'attributes' => array(
 				'readonly' => 'readonly',
 			),
+		) );
+	}
+
+	/**
+	 * Add a metabox for customizing destination email for a given form.
+	 *
+	 * @since 1.4.0
+	 */
+	public function email_destination() {
+
+		$email_destination = new_cmb2_box( array(
+			'id'           => 'email_destination',
+			'title'        => __( 'Email settings', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'side',
+			'priority'     => 'low',
+			'show_names'   => false,
+		) );
+
+		$email_destination->add_field( array(
+			'name'        => __( 'Email destination', 'constant-contact-forms' ),
+			'desc' => __( 'Who should receive email notifications for this form. Separate multiple emails by a comma. Leave blank to default to admin email.', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'email_destination',
+			'type' => 'text_medium',
 		) );
 	}
 }
