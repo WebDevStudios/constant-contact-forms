@@ -351,7 +351,7 @@ function constant_contact_clean_url( $url = '' ) {
  * @return bool
  */
 function constant_contact_debugging_enabled() {
-	$debugging_enabled = ctct_get_settings_option( '_ctct_logging' );
+	$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
 
 	return (
 		( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) ||

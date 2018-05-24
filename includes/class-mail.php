@@ -102,7 +102,7 @@ class ConstantContact_Mail {
 		constant_contact()->process_form->increment_processed_form_count();
 
 		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in
-		if ( constant_contact()->api->is_connected() && 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) {
+		if ( constant_contact()->api->is_connected() && 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications', '' ) ) {
 			if ( $add_to_opt_in ) {
 				return true;
 			}
@@ -119,7 +119,7 @@ class ConstantContact_Mail {
 		// Checks if we have a list
 		if (
 			( ! constant_contact()->api->is_connected() || empty( $has_list ) ) &&
-			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
+			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications', '' ) )
 		) { // If we're not connected or have no list set AND we've disabled. Override.
 
 			$submission_details['list-available'] = 'no';
@@ -129,7 +129,7 @@ class ConstantContact_Mail {
 		if (
 			! empty( $_POST['ctct_must_opt_in'] ) &&
 			empty( $opt_in_details ) &&
-			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
+			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications', '' ) )
 		) {
 			$submission_details['opted-in'] = 'no';
 			$was_forced                     = true;
