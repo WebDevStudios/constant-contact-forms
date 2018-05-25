@@ -95,7 +95,7 @@ class ConstantContact_Mail {
 		$values = constant_contact()->process_form->pretty_values( $values );
 
 		// Format them.
-		$email_values = $this->format_values_for_email( $values );
+		$email_values = $this->format_values_for_email( $values, $submission_details['form_id'] );
 		$was_forced = false; // Set a value regardless of status.
 
 		// Increment our counter for processed form entries.
