@@ -234,9 +234,8 @@ class ConstantContact_Mail {
 		 * @since 1.3.0
 		 * @since 1.4.0 Added form ID parameter.
 		 *
-		 * @param string $form_id Current form ID being submitted to.
-		 *
 		 * @param string $email Email address to send to. Default admin_email option.
+		 * @param string $form_id Current form ID being submitted to.
 		 */
 		return apply_filters( 'constant_contact_destination_email', $email, $form_id );
 	}
