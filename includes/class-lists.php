@@ -51,9 +51,6 @@ class ConstantContact_Lists {
 		add_action( 'save_post_ctct_lists', array( $this, 'save_or_update_list' ), 10, 1 );
 		add_action( 'transition_post_status', array( $this, 'post_status_transition' ), 11, 3 );
 
-		// Show duplicate notices for lists.
-		add_action( 'admin_notices', array( $this, 'show_duplicate_list_message' ) );
-
 		// On deletion, verify the list is handled correctly.
 		add_action( 'wp_trash_post', array( $this, 'delete_list' ) );
 
@@ -67,6 +64,8 @@ class ConstantContact_Lists {
 
 		// Remove quick edit.
 		add_filter( 'post_row_actions', array( $this, 'remove_quick_edit_from_lists' ) );
+
+		add_action( 'admin_init', array( $this, 'maybe_display_duplicate_list_error' ) );
 	}
 
 	/**
@@ -206,7 +205,7 @@ class ConstantContact_Lists {
 		//
 		// Currently, the rate limit for this is a refresh every 2 minutes. This can be filtered to be
 		// less or more time.
-		$last_synced = get_option( 'constant_contact_lists_last_synced', time() - DAY_IN_SECONDS );
+		$last_synced = get_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) - DAY_IN_SECONDS );
 
 		/**
 		 * Filters the rate limit to use for syncing lists.
@@ -220,7 +219,7 @@ class ConstantContact_Lists {
 		// If our last synced time plus our rate limit is less than or equal to right now,
 		// then we don't want to refresh. If we refreshed less than 15 minutes ago, we do not want to
 		// redo it. Also allow forcing a bypass of this check.
-		if ( ( ! $force ) && ( $last_synced + $sync_rate_limit_time ) >= time() ) {
+		if ( ( ! $force ) && ( $last_synced + $sync_rate_limit_time ) >= current_time( 'timestamp' ) ) {
 			return;
 		}
 
@@ -383,7 +382,7 @@ class ConstantContact_Lists {
 		}
 
 		// Update our last synced option to prevent doing this too often.
-		update_option( 'constant_contact_lists_last_synced', time() );
+		update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) );
 
 		/**
 		 * Hook when a ctct list is updated.
@@ -476,7 +475,7 @@ class ConstantContact_Lists {
 		$this->sync_lists( true );
 
 		// Set our last synced time to now, so we don't re-add our new/removed list right away.
-		update_option( 'constant_contact_lists_last_synced', time() );
+		update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) );
 
 		return $return;
 
@@ -803,12 +802,11 @@ class ConstantContact_Lists {
 	}
 
 	/**
-	 * Hooked into admin_notices, show our duplicate list message if we have one.
+	 * Maybe show some information about duplicate list errors.
 	 *
-	 * @since 1.0.0
+	 * @since 1.4.0
 	 */
-	public function show_duplicate_list_message() {
-
+	public function maybe_display_duplicate_list_error() {
 		// Make sure we're on the correct page.
 		global $pagenow, $post;
 		if ( $pagenow || ( ! in_array( $pagenow, array( 'post.php' ), true ) ) ) {
@@ -825,14 +823,20 @@ class ConstantContact_Lists {
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
 
-			// Add our output ( I know, gross inline CSS )
-			// @todo Remove inline CSS.
-			?>
-			<div class="notice notice-error">
-				<p><?php esc_attr_e( 'You already have a list with that name.', 'constant-contact-forms' ); ?></p>
-			</div>
-			<style>
-			#title {
+			add_action( 'admin_head', array( $this, 'list_css' ) );
+			add_action( 'admin_notices', array( $this, 'show_duplicate_list_message' ) );
+		}
+	}
+
+	/**
+	 * Output some embedded CSS for our error.
+	 *
+	 * @since 1.4.0
+	 */
+	public function list_css() {
+		?>
+		<style>
+			.post-type-ctct_lists #titlediv #title {
 				background: url( "<?php echo esc_url_raw( $this->plugin->url . 'assets/images/error.svg' ); ?>" ) no-repeat;
 				background-color: fade-out( #FF4136, 0.98);
 				background-position: 8px 50%;
@@ -840,9 +844,21 @@ class ConstantContact_Lists {
 				border-color: #FF4136;
 				padding-left: 40px;
 			}
-			</style>
-			<?php
-		}
+		</style>
+		<?php
+	}
+
+	/**
+	 * Hooked into admin_notices, show our duplicate list message if we have one.
+	 *
+	 * @since 1.0.0
+	 */
+	public function show_duplicate_list_message() {
+		?>
+		<div class="notice notice-error">
+				<p><?php esc_attr_e( 'You already have a list with that name.', 'constant-contact-forms' ); ?></p>
+		</div>
+	<?php
 	}
 
 	/**
@@ -879,7 +895,7 @@ class ConstantContact_Lists {
 			current_user_can( 'manage_options' )
 		) {
 			// Force our last updated time to be in the past, so we trigger the auto-refresh
-			update_option( 'constant_contact_lists_last_synced', time() - HOUR_IN_SECONDS );
+			update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) - HOUR_IN_SECONDS );
 
 			// Get our url with our custom query args removed
 			$url = remove_query_arg( array( 'ctct_resyncing', 'ctct_list_sync' ) );

@@ -228,7 +228,7 @@ function constant_contact_review_ajax_handler() {
 		switch ( $action ) {
 			case 'dismissed':
 				$dismissed          = get_option( 'ctct-review-dismissed', array() );
-				$dismissed['time']  = time();
+				$dismissed['time']  = current_time( 'timestamp' );
 				if ( empty( $dismissed['count'] ) ) {
 					$dismissed['count'] = '1';
 				} elseif ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
@@ -313,7 +313,7 @@ function constant_contact_has_redirect_uri( $form_id = 0 ) {
  * @return bool
  */
 function constant_contact_check_timestamps( $maybe_spam, $data ) {
-	$current = time();
+	$current = current_time( 'timestamp' );
 	$difference = $current - $data['ctct_time'];
 	if ( $difference <= 5 ) {
 		return true;
@@ -351,7 +351,7 @@ function constant_contact_clean_url( $url = '' ) {
  * @return bool
  */
 function constant_contact_debugging_enabled() {
-	$debugging_enabled = ctct_get_settings_option( '_ctct_logging' );
+	$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
 
 	return (
 		( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) ||

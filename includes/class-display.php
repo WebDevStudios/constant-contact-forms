@@ -360,7 +360,7 @@ class ConstantContact_Display {
 
 	public function build_recaptcha() {
 		// If we've reached this point, we know we have our keys.
-		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key' );
+		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
 
 		/**
 		 * Filters the language code to be used with Google reCAPTCHA.
@@ -385,7 +385,7 @@ class ConstantContact_Display {
 	}
 
 	public function build_timestamp() {
-		return '<input type="hidden" name="ctct_time" value="' . time() . '" />';
+		return '<input type="hidden" name="ctct_time" value="' . current_time( 'timestamp' ) . '" />';
 	}
 
 	/**
