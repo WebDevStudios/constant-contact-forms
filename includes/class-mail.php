@@ -102,7 +102,7 @@ class ConstantContact_Mail {
 		constant_contact()->process_form->increment_processed_form_count();
 
 		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in
-		if ( constant_contact()->api->is_connected() && 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) {
+		if ( constant_contact()->api->is_connected() && 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications', '' ) ) {
 			if ( $add_to_opt_in ) {
 				return true;
 			}
@@ -119,7 +119,7 @@ class ConstantContact_Mail {
 		// Checks if we have a list
 		if (
 			( ! constant_contact()->api->is_connected() || empty( $has_list ) ) &&
-			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
+			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications', '' ) )
 		) { // If we're not connected or have no list set AND we've disabled. Override.
 
 			$submission_details['list-available'] = 'no';
@@ -129,14 +129,14 @@ class ConstantContact_Mail {
 		if (
 			! empty( $_POST['ctct_must_opt_in'] ) &&
 			empty( $opt_in_details ) &&
-			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
+			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications', '' ) )
 		) {
 			$submission_details['opted-in'] = 'no';
 			$was_forced                     = true;
 		}
 
 		// Send the mail.
-		return $this->mail( $this->get_email(), $email_values, $submission_details, $was_forced );
+		return $this->mail( $this->get_email( $submission_details['form_id'] ), $email_values, $submission_details, $was_forced );
 	}
 
 	/**
@@ -218,10 +218,13 @@ class ConstantContact_Mail {
 	 * Get the email address to send to.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Added form ID parameter.
+	 *
+	 * @param string $form_id Current form ID being submitted to.
 	 *
 	 * @return string Email address to send to.
 	 */
-	public function get_email() {
+	public function get_email( $form_id ) {
 
 		$email = get_option( 'admin_email' );
 
@@ -229,10 +232,13 @@ class ConstantContact_Mail {
 		 * Filters the email to send Constant Contact Forms admin emails to.
 		 *
 		 * @since 1.3.0
+		 * @since 1.4.0 Added form ID parameter.
+		 *
+		 * @param string $form_id Current form ID being submitted to.
 		 *
 		 * @param string $email Email address to send to. Default admin_email option.
 		 */
-		return apply_filters( 'constant_contact_destination_email', $email );
+		return apply_filters( 'constant_contact_destination_email', $email, $form_id );
 	}
 
 	/**
