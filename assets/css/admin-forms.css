@@ -447,3 +447,24 @@ body.post-type-ctct_forms #titlediv #title {
 #ctct_option_metabox_settings span.cmb2-metabox-description {
   color: #444444;
 }
+
+#ctct_1_custom_css_metabox {
+  overflow: hidden;
+}
+
+#ctct_1_custom_css_metabox div.cmb-row {
+  border: none;
+  padding: 0 !important;
+}
+
+#ctct_1_custom_css_metabox div.cmb-row .cmb-th {
+  padding-bottom: 0;
+}
+
+#ctct_1_custom_css_metabox div.cmb-row p.cmb2-metabox-description {
+  padding-bottom: 0;
+}
+
+#ctct_1_custom_css_metabox div.cmb-type-text-small {
+  float: left;
+}

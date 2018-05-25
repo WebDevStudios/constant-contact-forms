@@ -136,7 +136,7 @@ class ConstantContact_Mail {
 		}
 
 		// Send the mail.
-		return $this->mail( $this->get_email(), $email_values, $submission_details, $was_forced );
+		return $this->mail( $this->get_email( $submission_details['form_id'] ), $email_values, $submission_details, $was_forced );
 	}
 
 	/**
@@ -218,10 +218,13 @@ class ConstantContact_Mail {
 	 * Get the email address to send to.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Added form ID parameter.
+	 *
+	 * @param string $form_id Current form ID being submitted to.
 	 *
 	 * @return string Email address to send to.
 	 */
-	public function get_email() {
+	public function get_email( $form_id ) {
 
 		$email = get_option( 'admin_email' );
 
@@ -229,10 +232,12 @@ class ConstantContact_Mail {
 		 * Filters the email to send Constant Contact Forms admin emails to.
 		 *
 		 * @since 1.3.0
+		 * @since 1.4.0 Added form ID parameter.
 		 *
 		 * @param string $email Email address to send to. Default admin_email option.
+		 * @param string $form_id Current form ID being submitted to.
 		 */
-		return apply_filters( 'constant_contact_destination_email', $email );
+		return apply_filters( 'constant_contact_destination_email', $email, $form_id );
 	}
 
 	/**
