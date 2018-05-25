@@ -205,7 +205,7 @@ class ConstantContact_Lists {
 		//
 		// Currently, the rate limit for this is a refresh every 2 minutes. This can be filtered to be
 		// less or more time.
-		$last_synced = get_option( 'constant_contact_lists_last_synced', time() - DAY_IN_SECONDS );
+		$last_synced = get_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) - DAY_IN_SECONDS );
 
 		/**
 		 * Filters the rate limit to use for syncing lists.
@@ -219,7 +219,7 @@ class ConstantContact_Lists {
 		// If our last synced time plus our rate limit is less than or equal to right now,
 		// then we don't want to refresh. If we refreshed less than 15 minutes ago, we do not want to
 		// redo it. Also allow forcing a bypass of this check.
-		if ( ( ! $force ) && ( $last_synced + $sync_rate_limit_time ) >= time() ) {
+		if ( ( ! $force ) && ( $last_synced + $sync_rate_limit_time ) >= current_time( 'timestamp' ) ) {
 			return;
 		}
 
@@ -382,7 +382,7 @@ class ConstantContact_Lists {
 		}
 
 		// Update our last synced option to prevent doing this too often.
-		update_option( 'constant_contact_lists_last_synced', time() );
+		update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) );
 
 		/**
 		 * Hook when a ctct list is updated.
@@ -475,7 +475,7 @@ class ConstantContact_Lists {
 		$this->sync_lists( true );
 
 		// Set our last synced time to now, so we don't re-add our new/removed list right away.
-		update_option( 'constant_contact_lists_last_synced', time() );
+		update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) );
 
 		return $return;
 
@@ -895,7 +895,7 @@ class ConstantContact_Lists {
 			current_user_can( 'manage_options' )
 		) {
 			// Force our last updated time to be in the past, so we trigger the auto-refresh
-			update_option( 'constant_contact_lists_last_synced', time() - HOUR_IN_SECONDS );
+			update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) - HOUR_IN_SECONDS );
 
 			// Get our url with our custom query args removed
 			$url = remove_query_arg( array( 'ctct_resyncing', 'ctct_list_sync' ) );

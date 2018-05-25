@@ -385,7 +385,7 @@ class ConstantContact_Display {
 	}
 
 	public function build_timestamp() {
-		return '<input type="hidden" name="ctct_time" value="' . time() . '" />';
+		return '<input type="hidden" name="ctct_time" value="' . current_time( 'timestamp' ) . '" />';
 	}
 
 	/**
