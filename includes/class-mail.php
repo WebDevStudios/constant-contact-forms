@@ -188,23 +188,36 @@ class ConstantContact_Mail {
 	 * Formats values for email.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Added form_id parameter.
 	 *
-	 * @param array $pretty_vals Values to format.
+	 * @param array  $pretty_vals Values to format.
+	 * @param string $form_id Form ID being submitted to.
 	 * @return string HTML content for email.
 	 */
-	public function format_values_for_email( $pretty_vals ) {
+	public function format_values_for_email( $pretty_vals, $form_id ) {
 
 		$return = '';
+
+		// Retrieve our original label to send with API request.
+		$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
 		foreach ( $pretty_vals as $val ) {
 
 			$label = isset( $val['orig_key'] ) ? $val['orig_key'] : false;
 
-			if ( $label ) {
+			$custom_field_name = '';
+			if ( false !== strpos( $label, 'custom___' ) ) {
+				$custom_field = ( $original_field_data[ $val['orig_key'] ] );
+				$custom_field_name .= $custom_field['name'];
+			}
+
+			if ( $label && empty( $custom_field_name ) ) {
 				// Break out our unique key.
 				$label = explode( '___', $label );
 
 				// Uppercase and format to be human readable.
 				$label = ucwords( str_replace( '_', ' ', $label[0] ) );
+			} else {
+				$label = $custom_field_name;
 			}
 			$value = isset( $val['post'] ) ? $val['post'] : '&nbsp;';
 
