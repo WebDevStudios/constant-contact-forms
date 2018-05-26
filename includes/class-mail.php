@@ -276,8 +276,28 @@ class ConstantContact_Mail {
 			$screen = get_current_screen();
 		}
 
-		$mail_key = md5( "{$destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
-		$partial_email = $this->get_email_part( $destination_email );
+		if ( is_array( $destination_email ) ) {
+			$temp_destination_email = implode( ',', $destination_email );
+		} else {
+			$temp_destination_email = $destination_email;
+		}
+		// Implode for the sake of $mail_key and md5 usage.
+		$mail_key = md5( "{$temp_destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
+
+		if ( is_array( $destination_email ) ) {
+			$partial_email = array_map( array( $this, 'get_email_part' ), $destination_email );
+			$partial_email = implode( ',', $partial_email );
+		} else {
+			if ( false !== strpos( $destination_email, ',' ) ) {
+				// Use trim to handle cases of ", "
+				$partials = array_map( 'trim', explode( ',', $destination_email ) );
+				// Collect our parts and re-implode.
+				$partial_email = array_map( array( $this, 'get_email_part' ), $partials );
+				$partial_email = implode( ',', $partial_email );
+			} else {
+				$partial_email = $this->get_email_part( $destination_email );
+			}
+		}
 
 		// If we already have sent this e-mail, don't send it again.
 		if ( $last_sent === $mail_key ) {
@@ -296,10 +316,18 @@ class ConstantContact_Mail {
 			return true;
 		}
 
-		// If we didn't get passed in a sanitized email, we know something is
-		// wonky here, so bail out.
-		if ( sanitize_email( $destination_email ) !== $destination_email ) {
-			return false;
+		if ( is_array( $destination_email ) ) {
+			$destination_email = array_map( 'sanitize_email', $destination_email );
+			$destination_email = implode( ',', $destination_email );
+		} else {
+			if ( false !== strpos( $destination_email, ',' ) ) {
+				// Use trim to handle cases of ", "
+				$partials = array_map( 'trim', explode( ',', $destination_email ) );
+				$partials = array_map( 'sanitize_email', $partials );
+				$destination_email = implode( ',', $partials );
+			} else {
+				$destination_email = sanitize_email( $destination_email );
+			}
 		}
 
 		// Filter to allow sending HTML for our message body.
