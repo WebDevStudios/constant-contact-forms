@@ -68,6 +68,7 @@ window.CTCTSupport = {};
 				clearTimeout(that.timeout);
 
 				that.timeout = setTimeout(function () {
+					$('#ctct-submitted').prop('disabled', true);
 					$.post(
 						ajaxurl,
 						{
@@ -75,7 +76,7 @@ window.CTCTSupport = {};
 							'data'  : $(form_id_selector + 'form').serialize()
 						},
 						function (response) {
-
+							$('#ctct-submitted').prop('disabled', false);
 							// Make sure we got the 'status' attribute in our response
 							if (typeof( response.status ) !== 'undefined') {
 
