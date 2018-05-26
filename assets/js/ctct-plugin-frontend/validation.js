@@ -80,7 +80,7 @@ window.CTCTSupport = {};
 							// Make sure we got the 'status' attribute in our response
 							if (typeof( response.status ) !== 'undefined') {
 
-								if ( 'success' == response.status ) {
+								if ( 'success' === response.status ) {
 									// Add a timestamp to the message so that we only remove this message and not all at once.
 									var time_class = 'message-time-' + $.now();
 
