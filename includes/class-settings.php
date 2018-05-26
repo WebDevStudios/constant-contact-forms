@@ -149,7 +149,7 @@ class ConstantContact_Settings {
 	 * @since 1.0.0
 	 */
 	public function scripts() {
-		wp_enqueue_style( 'constant-contact-forms' );
+		wp_enqueue_style( 'constant-contact-forms-admin' );
 	}
 
 	/**

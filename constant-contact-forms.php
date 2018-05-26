@@ -458,6 +458,8 @@ class Constant_Contact {
 		// Allow shortcodes in widgets for our plugin.
 		add_filter( 'widget_text', 'do_shortcode' );
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_assets' ), 1 );
+
 		if ( is_admin() ) {
 			add_action( 'wp_ajax_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
 			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
@@ -769,6 +771,22 @@ class Constant_Contact {
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
 		return $classes;
+	}
+
+	public function register_assets() {
+		wp_register_style(
+			'constant-contact-forms-admin',
+			$this->url() . 'assets/css/admin-style.css',
+			array(),
+			self::VERSION
+		);
+
+		wp_register_style(
+			'ctct_form_styles',
+			$this->url() . 'assets/css/style.css',
+			array(),
+			self::VERSION
+		);
 	}
 
 	/**

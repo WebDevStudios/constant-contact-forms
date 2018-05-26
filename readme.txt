@@ -34,6 +34,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
 = 1.4.0 =
 * Added: Initial Akismet integration to help aid with spam submissions.
 * Added: Clear form fields after successful AJAX-based form submissions.

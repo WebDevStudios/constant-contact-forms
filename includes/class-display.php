@@ -65,13 +65,6 @@ class ConstantContact_Display {
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
 	public function styles( $enqueue = false ) {
-		wp_register_style(
-			'ctct_form_styles',
-			constant_contact()->url() . 'assets/css/style.css',
-			array(),
-			Constant_Contact::VERSION
-		);
-
 		if ( $enqueue ) {
 			wp_enqueue_style( 'ctct_form_styles' );
 		}

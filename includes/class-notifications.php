@@ -395,12 +395,7 @@ class ConstantContact_Notifications {
 		// If we haven't shown styles yet, enqueue em.
 		if ( ! $have_styles ) {
 
-			wp_enqueue_style(
-				'constant-contact-admin-notices',
-				constant_contact()->url() . 'assets/css/admin-notices.css',
-				array(),
-				Constant_Contact::VERSION
-			);
+			wp_enqueue_style( 'constant-contact-forms-admin' );
 
 			$have_styles = true;
 		}
