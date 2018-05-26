@@ -320,9 +320,11 @@ class ConstantContact_Display {
 			$return .= $this->description( $desc, $form_id );
 		}
 
-		// Loop through each of our form fields and output it.
-		foreach ( $form_data['fields'] as $key => $value ) {
-			$return .= $this->field( $value, $old_values, $req_errors, $form_id );
+		if ( isset( $form_data['fields'] ) && is_array( $form_data['fields'] ) ) {
+			// Loop through each of our form fields and output it.
+			foreach ( $form_data['fields'] as $key => $value ) {
+				$return .= $this->field( $value, $old_values, $req_errors, $form_id );
+			}
 		}
 
 		// Check to see if we have an opt-in for the form, and display it.
