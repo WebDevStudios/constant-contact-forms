@@ -21,7 +21,7 @@ window.CTCTSupport = {};
 		that.$c = {
 			window: $( window ),
 			body: $( 'body' ),
-			form: '.ctct-form-wrapper form',
+			form: '.ctct-form-wrapper form'
 		};
 		that.timeout = null;
 	};
@@ -72,7 +72,7 @@ window.CTCTSupport = {};
 						ajaxurl,
 						{
 							'action': 'ctct_process_form',
-							'data'  : $(form_id_selector + 'form').serialize(),
+							'data'  : $(form_id_selector + 'form').serialize()
 						},
 						function (response) {
 
