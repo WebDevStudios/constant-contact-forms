@@ -38,6 +38,7 @@ class ConstantContact_Display {
 	 * Scripts.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Deprecated parameter.
 	 *
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
@@ -54,22 +55,19 @@ class ConstantContact_Display {
 			true
 		);
 
-		if ( $enqueue ) {
-			wp_enqueue_script( 'ctct_frontend_forms' );
-		}
+		wp_enqueue_script( 'ctct_frontend_forms' );
 	}
 
 	/**
-	 * Register and (maybe) enqueue styles.
+	 * Enqueue styles.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Deprecated parameter.
 	 *
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
 	public function styles( $enqueue = false ) {
-		if ( $enqueue ) {
-			wp_enqueue_style( 'ctct_form_styles' );
-		}
+		wp_enqueue_style( 'ctct_form_styles' );
 	}
 
 	/**
@@ -86,14 +84,6 @@ class ConstantContact_Display {
 
 		if ( 'publish' !== get_post_status( $form_id ) ) {
 			return '';
-		}
-
-		// Enqueue some things.
-		if ( ! $skip_styles ) {
-			$this->styles( true );
-			$this->scripts( true );
-		} else {
-			$this->scripts();
 		}
 
 		$return           = '';
