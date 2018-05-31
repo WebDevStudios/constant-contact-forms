@@ -79,7 +79,7 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', array( $this, 'opt_ins_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'generated_shortcode' ) );
-			add_action( 'cmb2_admin_init', array( $this, 'email_destination' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'email_settings' ) );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 		}
 
@@ -518,22 +518,28 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.4.0
 	 */
-	public function email_destination() {
+	public function email_settings() {
 
-		$email_destination = new_cmb2_box( array(
-			'id'           => 'email_destination',
-			'title'        => __( 'Email settings', 'constant-contact-forms' ),
+		$email_settings = new_cmb2_box( array(
+			'id'           => 'email_settings',
+			'title'        => esc_html__( 'Email settings', 'constant-contact-forms' ),
 			'object_types' => array( 'ctct_forms' ),
 			'context'      => 'side',
 			'priority'     => 'low',
-			'show_names'   => false,
 		) );
 
-		$email_destination->add_field( array(
-			'name'        => __( 'Email destination', 'constant-contact-forms' ),
-			'desc' => __( 'Who should receive email notifications for this form. Separate multiple emails by a comma. Leave blank to default to admin email.', 'constant-contact-forms' ),
-			'id'   => $this->prefix . 'email_destination',
+		$email_settings->add_field( array(
+			'name' => esc_html__( 'Email destination', 'constant-contact-forms' ),
+			'desc' => esc_html__( 'Who should receive email notifications for this form. Separate multiple emails by a comma. Leave blank to default to admin email.', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'email_settings',
 			'type' => 'text_medium',
+		) );
+
+		$email_settings->add_field( array(
+			'name' => esc_html__( 'Disable email notifications for this form?', 'constant-contact-forms' ),
+			'desc' => esc_html__( 'Check this option to disable emails for this Constant Contact Forms form.', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'disable_emails_for_form',
+			'type' => 'checkbox',
 		) );
 	}
 }
