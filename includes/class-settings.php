@@ -364,6 +364,67 @@ class ConstantContact_Settings {
 			'type'       => 'text',
 		) );
 
+		$before_global_css = sprintf(
+			'<hr /><h2>%s</h2>',
+			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
+		);
+
+		$cmb->add_field( array(
+			'name'        => esc_html__( 'Background Color' ),
+			'id'          => '_ctct_form_background_color',
+			'type'        => 'colorpicker',
+			'description' => esc_html__( 'Choose a default background color for all forms.', 'constant-contact-forms' ),
+			'before_row'  => $before_global_css,
+		) );
+
+		$cmb->add_field( array(
+			'name'        => esc_html__( 'Form Padding', 'constant-contact-forms' ),
+			'type'        => 'title',
+			'id'          => '_ctct_form-padding-title',
+			'description' => esc_html__( 'Enter padding in number of pixels.', 'constant-contact-form' ),
+		) );
+
+		$cmb->add_field( array(
+			'name'       => __( 'Top', 'constant-contact-forms' ),
+			'id'         => '_ctct_top_form_padding',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+		) );
+
+		$cmb->add_field( array(
+			'name'       => __( 'Right', 'constant-contact-forms' ),
+			'id'         => '_ctct_right_form_padding',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+		) );
+
+		$cmb->add_field( array(
+			'name'       => __( 'Bottom', 'constant-contact-forms' ),
+			'id'         => '_ctct_bottom_form_padding',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+		) );
+
+		$cmb->add_field( array(
+			'name'       => __( 'Left', 'constant-contact-forms' ),
+			'id'         => '_ctct_left_form_padding',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+			'after_row'  => '<div class="clear"></div>',
+		) );
+
 		$before_debugging = sprintf(
 			'<hr/><h2>%s</h2>',
 			esc_html__( 'Support', 'constant-contact-forms' )

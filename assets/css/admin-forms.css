@@ -448,6 +448,19 @@ body.post-type-ctct_forms #titlediv #title {
   color: #444444;
 }
 
+#cmb2-metabox-ctct_option_metabox_settings .cmb-type-text-small {
+  float: left;
+}
+
+#cmb2-metabox-ctct_option_metabox_settings .cmb-type-text-small .cmb-th {
+  width: auto;
+}
+
+#cmb2-metabox-ctct_option_metabox_settings .cmb-type-text-small .cmb-td {
+  margin-left: 0;
+  padding-left: 0;
+}
+
 #ctct_1_custom_css_metabox {
   overflow: hidden;
 }

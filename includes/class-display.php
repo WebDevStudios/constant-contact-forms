@@ -72,9 +72,66 @@ class ConstantContact_Display {
 			Constant_Contact::VERSION
 		);
 
+		// Get any global form styles set in the options.
+		$global_form_styles = $this->get_global_form_css();
+
+		if ( ! empty( $global_form_styles ) ) {
+			wp_add_inline_style( 'ctct_form_styles', $global_form_styles );
+		}
+
 		if ( $enqueue ) {
 			wp_enqueue_style( 'ctct_form_styles' );
 		}
+	}
+
+	/**
+	 * Output the styles set globally for forms.
+	 *
+	 * @since 1.4.0
+	 *
+	 * @return string
+	 */
+	public function get_global_form_css() {
+		$global_form_css = array();
+
+		$form_background_color = ctct_get_settings_option( '_ctct_form_background_color' );
+		if ( $form_background_color ) {
+			$global_form_css[] = "background-color: {$form_background_color};";
+		} // end of if.
+
+		$form_top_padding = ctct_get_settings_option( '_ctct_top_form_padding' );
+		if ( $form_top_padding ) {
+			$global_form_css[] = "padding-top: {$form_top_padding}px;";
+		} // end of if.
+
+		$form_right_padding = ctct_get_settings_option( '_ctct_right_form_padding' );
+		if ( $form_right_padding ) {
+			$global_form_css[] = "padding-right: {$form_right_padding}px;";
+		} // end of if.
+
+		$form_bottom_padding = ctct_get_settings_option( '_ctct_bottom_form_padding' );
+		if ( $form_bottom_padding ) {
+			$global_form_css[] = "padding-bottom: {$form_bottom_padding}px;";
+		} // end of if.
+
+		$form_left_padding = ctct_get_settings_option( '_ctct_left_form_padding' );
+		if ( $form_left_padding ) {
+			$global_form_css[] = "padding-left: {$form_left_padding}px;";
+		} // end of if.
+
+		// If no custom CSS is set, we don't need to proceed further.
+		if ( empty( $global_form_css ) ) {
+			return '';
+		} // end of if.
+
+		$global_form_styles = '.ctct-form {' . PHP_EOL;
+		foreach ( $global_form_css as $global_form_style ) {
+			$global_form_styles .= $global_form_style . PHP_EOL;
+		} // end of foreach.
+		$global_form_styles .= '}' . PHP_EOL;
+
+		return $global_form_styles;
+
 	}
 
 	/**
