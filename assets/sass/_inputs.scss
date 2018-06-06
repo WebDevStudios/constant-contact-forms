@@ -59,4 +59,8 @@
 		border: 0px none;
 		padding: 0px;
 	}
+	#ctct-submitted:disabled {
+		opacity: 0.3;
+		cursor: wait;
+	}
 }
