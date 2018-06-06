@@ -176,7 +176,7 @@ class ConstantContact_Lists {
 	 * @since 1.0.0
 	 */
 	public function add_form_css() {
-		wp_enqueue_style( 'constant-contact-forms' );
+		wp_enqueue_style( 'constant-contact-forms-admin' );
 	}
 
 	/**

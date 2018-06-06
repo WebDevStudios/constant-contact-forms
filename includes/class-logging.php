@@ -123,7 +123,7 @@ class ConstantContact_Logging {
 	 */
 	public function admin_page_display() {
 
-		wp_enqueue_style( 'constant-contact-oath', constant_contact()->url() . 'assets/css/oath.css' );
+		wp_enqueue_style( 'constant-contact-forms-admin' );
 
 		?>
 		<div class="wrap <?php echo esc_attr( $this->key ); ?>">

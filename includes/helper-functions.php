@@ -505,3 +505,40 @@ function constant_contact_akismet_spam_check( $args ) {
 
 	return $spam;
 }
+
+/**
+ * Check whether or not emails should be disabled.
+ *
+ * @since 1.4.0
+ *
+ * @param int $form_id Current form ID being submitted to.
+ *
+ * @return mixed|void
+ */
+function constant_contact_emails_disabled( $form_id = 0 ) {
+
+	// Assume we can.
+	$disabled = false;
+
+	// Check for a setting for the form itself.
+	$form_disabled = get_post_meta( $form_id, '_ctct_disable_emails_for_form', true );
+	if ( 'on' === $form_disabled ) {
+		$disabled = true;
+	}
+
+	// Check for our global setting.
+	$global_form_disabled = ctct_get_settings_option( '_ctct_disable_email_notifications', '' );
+	if ( 'on' === $global_form_disabled ) {
+		$disabled = true;
+	}
+
+	/**
+	 * Filters whether or not emails should be disabled.
+	 *
+	 * @since 1.4.0
+	 *
+	 * @param bool $disabled Whether or not emails are disabled.
+	 * @param int  $form_id  Form ID being submitted to.
+	 */
+	return apply_filters( 'constant_contact_emails_disabled', $disabled, $form_id );
+}

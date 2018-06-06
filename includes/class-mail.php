@@ -102,7 +102,7 @@ class ConstantContact_Mail {
 		constant_contact()->process_form->increment_processed_form_count();
 
 		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in
-		if ( constant_contact()->api->is_connected() && 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications', '' ) ) {
+		if ( constant_contact()->api->is_connected() && constant_contact_emails_disabled( $submission_details['form_id'] ) ) {
 			if ( $add_to_opt_in ) {
 				return true;
 			}
@@ -119,7 +119,7 @@ class ConstantContact_Mail {
 		// Checks if we have a list
 		if (
 			( ! constant_contact()->api->is_connected() || empty( $has_list ) ) &&
-			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications', '' ) )
+			( constant_contact_emails_disabled( $submission_details['form_id'] ) )
 		) { // If we're not connected or have no list set AND we've disabled. Override.
 
 			$submission_details['list-available'] = 'no';
@@ -129,7 +129,7 @@ class ConstantContact_Mail {
 		if (
 			! empty( $_POST['ctct_must_opt_in'] ) &&
 			empty( $opt_in_details ) &&
-			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications', '' ) )
+			( constant_contact_emails_disabled( $submission_details['form_id'] ) )
 		) {
 			$submission_details['opted-in'] = 'no';
 			$was_forced                     = true;
@@ -276,8 +276,28 @@ class ConstantContact_Mail {
 			$screen = get_current_screen();
 		}
 
-		$mail_key = md5( "{$destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
-		$partial_email = $this->get_email_part( $destination_email );
+		if ( is_array( $destination_email ) ) {
+			$temp_destination_email = implode( ',', $destination_email );
+		} else {
+			$temp_destination_email = $destination_email;
+		}
+		// Implode for the sake of $mail_key and md5 usage.
+		$mail_key = md5( "{$temp_destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
+
+		if ( is_array( $destination_email ) ) {
+			$partial_email = array_map( array( $this, 'get_email_part' ), $destination_email );
+			$partial_email = implode( ',', $partial_email );
+		} else {
+			if ( false !== strpos( $destination_email, ',' ) ) {
+				// Use trim to handle cases of ", "
+				$partials = array_map( 'trim', explode( ',', $destination_email ) );
+				// Collect our parts and re-implode.
+				$partial_email = array_map( array( $this, 'get_email_part' ), $partials );
+				$partial_email = implode( ',', $partial_email );
+			} else {
+				$partial_email = $this->get_email_part( $destination_email );
+			}
+		}
 
 		// If we already have sent this e-mail, don't send it again.
 		if ( $last_sent === $mail_key ) {
@@ -296,10 +316,18 @@ class ConstantContact_Mail {
 			return true;
 		}
 
-		// If we didn't get passed in a sanitized email, we know something is
-		// wonky here, so bail out.
-		if ( sanitize_email( $destination_email ) !== $destination_email ) {
-			return false;
+		if ( is_array( $destination_email ) ) {
+			$destination_email = array_map( 'sanitize_email', $destination_email );
+			$destination_email = implode( ',', $destination_email );
+		} else {
+			if ( false !== strpos( $destination_email, ',' ) ) {
+				// Use trim to handle cases of ", "
+				$partials = array_map( 'trim', explode( ',', $destination_email ) );
+				$partials = array_map( 'sanitize_email', $partials );
+				$destination_email = implode( ',', $partials );
+			} else {
+				$destination_email = sanitize_email( $destination_email );
+			}
 		}
 
 		// Filter to allow sending HTML for our message body.

@@ -30,12 +30,15 @@ class ConstantContact_Display {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+		add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'styles' ) );
 	}
 
 	/**
 	 * Scripts.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Deprecated parameter.
 	 *
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
@@ -52,29 +55,19 @@ class ConstantContact_Display {
 			true
 		);
 
-		if ( $enqueue ) {
-			wp_enqueue_script( 'ctct_frontend_forms' );
-		}
+		wp_enqueue_script( 'ctct_frontend_forms' );
 	}
 
 	/**
-	 * Register and (maybe) enqueue styles.
+	 * Enqueue styles.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Deprecated parameter.
 	 *
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
 	public function styles( $enqueue = false ) {
-		wp_register_style(
-			'ctct_form_styles',
-			constant_contact()->url() . 'assets/css/style.css',
-			array(),
-			Constant_Contact::VERSION
-		);
-
-		if ( $enqueue ) {
-			wp_enqueue_style( 'ctct_form_styles' );
-		}
+		wp_enqueue_style( 'ctct_form_styles' );
 	}
 
 	/**
@@ -91,14 +84,6 @@ class ConstantContact_Display {
 
 		if ( 'publish' !== get_post_status( $form_id ) ) {
 			return '';
-		}
-
-		// Enqueue some things.
-		if ( ! $skip_styles ) {
-			$this->styles( true );
-			$this->scripts( true );
-		} else {
-			$this->scripts();
 		}
 
 		$return           = '';
@@ -327,9 +312,11 @@ class ConstantContact_Display {
 			$return .= $this->description( $desc, $form_id );
 		}
 
-		// Loop through each of our form fields and output it.
-		foreach ( $form_data['fields'] as $key => $value ) {
-			$return .= $this->field( $value, $old_values, $req_errors, $form_id );
+		if ( isset( $form_data['fields'] ) && is_array( $form_data['fields'] ) ) {
+			// Loop through each of our form fields and output it.
+			foreach ( $form_data['fields'] as $key => $value ) {
+				$return .= $this->field( $value, $old_values, $req_errors, $form_id );
+			}
 		}
 
 		// Check to see if we have an opt-in for the form, and display it.

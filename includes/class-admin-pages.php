@@ -49,21 +49,7 @@ class ConstantContact_Admin_Pages {
 	 * @since 1.0.0
 	 */
 	public function styles() {
-
-		wp_enqueue_style(
-			'constant-contact-forms',
-			constant_contact()->url() . 'assets/css/admin-forms.css',
-			array(),
-			Constant_Contact::VERSION
-		);
-
-		wp_enqueue_style(
-			'constant_contact_admin_pages',
-			constant_contact()->url() . 'assets/css/admin-pages.css',
-			array(),
-			Constant_Contact::VERSION
-		);
-
+		wp_enqueue_style( 'constant-contact-forms-admin' );
 		wp_enqueue_script( 'ctct_form' );
 	}
 
