@@ -212,18 +212,18 @@ class ConstantContact_Builder_Fields {
 	public function custom_css_metabox() {
 		$custom_css_metabox = new_cmb2_box( array(
 			'id'           => 'ctct_1_custom_css_metabox',
-			'title'        => __( 'Custom CSS', 'constant-contact-forms' ),
+			'title'        => __( 'Design', 'constant-contact-forms' ),
 			'object_types' => array( 'ctct_forms' ),
 			'context'      => 'side',
 			'priority'     => 'low',
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'        => __( 'Custom Class(es)', 'constant-contact-forms' ),
+			'name'        => __( 'Custom Classes', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'form_custom_classes',
 			'type'        => 'text',
 			'description' => esc_html__(
-				'Enter custom classes for the form, separated by spaces.',
+				'Set custom CSS class(es) for the form. Separate multiple classes with spaces.',
 				'constant-contact-forms'
 			),
 		) );
@@ -242,7 +242,9 @@ class ConstantContact_Builder_Fields {
 			'name'        => esc_html__( 'Form Padding', 'constant-contact-forms' ),
 			'type'        => 'title',
 			'id'          => 'form-padding-title',
-			'description' => esc_html__( 'Enter padding in number of pixels.', 'constant-contact-form' ),
+			'description' => esc_html__(
+				'Enter padding in number of pixels. Padding will be applied to all inputs in the form.',
+				'constant-contact-form' ),
 		) );
 
 		$custom_css_metabox->add_field( array(
@@ -564,15 +566,35 @@ class ConstantContact_Builder_Fields {
 			'row_classes' => 'required',
 		) );
 
+		// Add a title as a divider for the custom CSS options.
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'      => 'Design',
+			'type'      => 'title',
+			'id'        => 'field_design_title',
+			'after_row' => '<hr />',
+		) );
+
 		// Allow customization of the CSS for a field.
 		$fields_metabox->add_group_field( $custom_group, array(
-			'name'        => __( 'Custom Class(es)', 'constant-contact-forms' ),
+			'name'        => __( 'CSS Classes', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'field_custom_class',
 			'type'        => 'text',
 			'description' => esc_html__(
-				'Set custom CSS class(es) for this form field.',
+				'Set custom CSS class(es) for this field. Separate multiple classes with spaces.',
 				'constant-contact-forms' ),
 		) );
+
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'             => __( 'Label Placement', 'constant-contact-forms' ),
+			'id'               => $this->prefix . 'field_label_placement',
+			'type'             => 'select',
+			'show_option_none' => 'Global',
+			'description'      => esc_html__(
+				'Set custom CSS class(es) for this field. Separate multiple classes with spaces.',
+				'constant-contact-forms' ),
+		) );
+
+
 
 	}
 
