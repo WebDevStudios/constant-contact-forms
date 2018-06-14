@@ -30,6 +30,17 @@ body.post-type-ctct_forms #titlediv #title {
 
 }
 
+#ctct_0_list_metabox {
+	.cmb-row {
+		padding-bottom: 0;
+	}
+}
+#cmb2-metabox-ctct_2_fields_metabox {
+	.cmb2-id--ctct-title {
+		padding: .8em 0 1em;
+	}
+}
+
 #ctct_0_description_metabox,
 #ctct_1_optin_metabox,
 #ctct_2_fields_metabox {
@@ -104,6 +115,7 @@ body.post-type-ctct_forms #titlediv #title {
 
 	.cmb-row {
 		border-bottom: none;
+		padding: .5em 0px;
 	}
 
 	.cmb2-id--ctct-list {
@@ -123,4 +135,11 @@ body.post-type-ctct_forms #titlediv #title {
   span.cmb2-metabox-description {
 	color: rgb(68, 68, 68);
   }
+}
+
+#cmb2-metabox-email_settings,
+#cmb2-metabox-ctct_2_generated_metabox {
+	.cmb-row {
+		padding-bottom: 0px !important;
+	}
 }
