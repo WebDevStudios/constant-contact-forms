@@ -30,12 +30,15 @@ class ConstantContact_Display {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+		add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'styles' ) );
 	}
 
 	/**
 	 * Scripts.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Deprecated parameter.
 	 *
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
@@ -52,29 +55,19 @@ class ConstantContact_Display {
 			true
 		);
 
-		if ( $enqueue ) {
-			wp_enqueue_script( 'ctct_frontend_forms' );
-		}
+		wp_enqueue_script( 'ctct_frontend_forms' );
 	}
 
 	/**
-	 * Register and (maybe) enqueue styles.
+	 * Enqueue styles.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Deprecated parameter.
 	 *
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
 	public function styles( $enqueue = false ) {
-		wp_register_style(
-			'ctct_form_styles',
-			constant_contact()->url() . 'assets/css/style.css',
-			array(),
-			Constant_Contact::VERSION
-		);
-
-		if ( $enqueue ) {
-			wp_enqueue_style( 'ctct_form_styles' );
-		}
+		wp_enqueue_style( 'ctct_form_styles' );
 	}
 
 	/**
@@ -91,14 +84,6 @@ class ConstantContact_Display {
 
 		if ( 'publish' !== get_post_status( $form_id ) ) {
 			return '';
-		}
-
-		// Enqueue some things.
-		if ( ! $skip_styles ) {
-			$this->styles( true );
-			$this->scripts( true );
-		} else {
-			$this->scripts();
 		}
 
 		$return           = '';
@@ -120,7 +105,7 @@ class ConstantContact_Display {
 		// Check to see if we got a response, and if it has the fields we expect.
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
-			// If we were succesful, then display success message.
+			// If we were successful, then display success message.
 			if ( 'success' === $response['status'] ) {
 
 				// If we were successful, we'll return here so we don't display the entire form again.
@@ -129,9 +114,9 @@ class ConstantContact_Display {
 			} else {
 
 				// If we didn't get a success message, then we want to error.
-				// We already checked for a messsage response, but we'll force the
+				// We already checked for a message response, but we'll force the
 				// status to error if we're not here.
-				$status = 'error';
+				$status        = 'error';
 				$error_message = trim( $response['message'] );
 			}
 		}
@@ -159,6 +144,19 @@ class ConstantContact_Display {
 		$form_action    = apply_filters( 'constant_contact_front_form_action', '', $form_id );
 		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
+
+		// Add action before form for custom actions.
+		ob_start();
+		/**
+		 * Fires before the start of the form tag.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param int $form_id Current form ID.
+		 */
+		do_action( 'ctct_before_form', $form_id );
+		$return .= ob_get_contents();
+		ob_end_clean();
 
 		// Build out our form.
 		$return .= '<form class="ctct-form ctct-form-' . $form_id . '" id="' . $rf_id . '" data-doajax="' . esc_attr( $do_ajax ) . '" action="' . esc_attr( $form_action ) . '" method="post">';
@@ -193,6 +191,18 @@ class ConstantContact_Display {
 		$return .= $this->must_opt_in( $form_data );
 
 		$return .= '</form>';
+
+		ob_start();
+		/**
+		 * Fires after the end of the form tag.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param int $form_id Current form ID.
+		 */
+		do_action( 'ctct_after_form', $form_id );
+		$return .= ob_get_contents();
+		ob_end_clean();
 
 		$return .= '<script type="text/javascript">';
 		$return .= 'var ajaxurl = "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '";';
@@ -302,9 +312,11 @@ class ConstantContact_Display {
 			$return .= $this->description( $desc, $form_id );
 		}
 
-		// Loop through each of our form fields and output it.
-		foreach ( $form_data['fields'] as $key => $value ) {
-			$return .= $this->field( $value, $old_values, $req_errors, $form_id );
+		if ( isset( $form_data['fields'] ) && is_array( $form_data['fields'] ) ) {
+			// Loop through each of our form fields and output it.
+			foreach ( $form_data['fields'] as $key => $value ) {
+				$return .= $this->field( $value, $old_values, $req_errors, $form_id );
+			}
 		}
 
 		// Check to see if we have an opt-in for the form, and display it.
@@ -335,7 +347,7 @@ class ConstantContact_Display {
 
 	public function build_recaptcha() {
 		// If we've reached this point, we know we have our keys.
-		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key' );
+		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
 
 		/**
 		 * Filters the language code to be used with Google reCAPTCHA.
@@ -360,7 +372,7 @@ class ConstantContact_Display {
 	}
 
 	public function build_timestamp() {
-		return '<input type="hidden" name="ctct_time" value="' . time() . '" />';
+		return '<input type="hidden" name="ctct_time" value="' . current_time( 'timestamp' ) . '" />';
 	}
 
 	/**

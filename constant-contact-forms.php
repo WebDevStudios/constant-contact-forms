@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.3.7
+ * Version:     1.4.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
@@ -77,7 +77,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.3.7';
+	const VERSION = '1.4.0';
 
 	/**
 	 * URL of plugin directory.
@@ -379,6 +379,9 @@ class Constant_Contact {
 
 		// Include our helper functions function for end-users.
 		self::include_file( 'helper-functions', false );
+
+		// Include compatibility fixes to address conflicts with other plug-ins.
+		self::include_file( 'compatibility', false );
 	}
 
 	/**
@@ -455,10 +458,14 @@ class Constant_Contact {
 		// Allow shortcodes in widgets for our plugin.
 		add_filter( 'widget_text', 'do_shortcode' );
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 1 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_front_assets' ), 1 );
+
 		if ( is_admin() ) {
 			add_action( 'wp_ajax_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
 			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
 		}
+
 	}
 
 	/**
@@ -598,7 +605,7 @@ class Constant_Contact {
 
 		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' === $_POST['action'] ) {
 			// Save our dismiss for the first form modal.
-			update_option( 'ctct_first_form_modal_dismissed', time() );
+			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) );
 		}
 		wp_die();
 	}
@@ -765,6 +772,34 @@ class Constant_Contact {
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
 		return $classes;
+	}
+
+	/**
+	 * Register our admin styles.
+	 *
+	 * @since 1.4.0
+	 */
+	public function register_admin_assets() {
+		wp_register_style(
+			'constant-contact-forms-admin',
+			$this->url() . 'assets/css/admin-style.css',
+			array(),
+			self::VERSION
+		);
+	}
+
+	/**
+	 * Register our frontend styles.
+	 *
+	 * @since 1.4.0
+	 */
+	public function register_front_assets() {
+		wp_register_style(
+			'ctct_form_styles',
+			$this->url() . 'assets/css/style.css',
+			array(),
+			self::VERSION
+		);
 	}
 
 	/**

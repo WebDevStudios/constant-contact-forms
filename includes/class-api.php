@@ -827,8 +827,8 @@ class ConstantContact_API {
 		}
 
 		$disclosure = array(
-			'name'    => empty( $account_info->organization_name ) ? ctct_get_settings_option( '_ctct_disclose_name' ) : $account_info->organization_name,
-			'address' => ctct_get_settings_option( '_ctct_disclose_address' ),
+			'name'    => empty( $account_info->organization_name ) ? ctct_get_settings_option( '_ctct_disclose_name', '' ) : $account_info->organization_name,
+			'address' => ctct_get_settings_option( '_ctct_disclose_address', '' ),
 		);
 
 		// Bail if we don't have a name.

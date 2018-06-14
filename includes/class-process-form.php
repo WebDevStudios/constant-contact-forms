@@ -115,7 +115,11 @@ class ConstantContact_Process_Form {
 			switch ( $status ) {
 
 				case 'success':
-					$message = __( 'Your information has been submitted.', 'constant-contact-forms' );
+
+					/** This filter is documented in includes/class-process-form.php */
+					$message = apply_filters( 'ctct_process_form_success',
+						__( 'Your information has been submitted.', 'constant-contact-forms' ),
+						intval( $json_data['ctct-id'] ) );
 					break;
 
 				// Generic error.
@@ -211,7 +215,7 @@ class ConstantContact_Process_Form {
 		}
 
 		if ( isset( $data['g-recaptcha-response'] ) ) {
-			$secret = ctct_get_settings_option( '_ctct_recaptcha_secret_key' );
+			$secret = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
 			$method = null;
 			if ( ! ini_get( 'allow_url_fopen' ) ) {
 				$method = new \ReCaptcha\RequestMethod\CurlPost();
@@ -676,6 +680,9 @@ class ConstantContact_Process_Form {
 				 * Filters the message for the successful processed form.
 				 *
 				 * @since 1.3.0
+				 *
+				 * @param string     $value Success message.
+				 * @param string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
 				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id );
 				break;
