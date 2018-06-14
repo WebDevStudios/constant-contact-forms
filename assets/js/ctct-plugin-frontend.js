@@ -46,8 +46,11 @@ window.CTCTSupport = {};
 		that.$c = {
 			window: $( window ),
 			body: $( 'body' ),
-			form: '.ctct-form-wrapper form'
+			form: '.ctct-form-wrapper form',
+			honeypot: $( '#ctct_usage_field' ),
+			submitButton: $( '.ctct-form-wrapper form input[type=submit]' )
 		};
+
 		that.timeout = null;
 	};
 
@@ -70,9 +73,25 @@ window.CTCTSupport = {};
 
 	};
 
+	/**
+	 * Check the value of the hidden honeypot field.
+	 * If there is anything in it, disable the form submission button.
+	 */
+	that.checkHoneypot = function() {
+		var honeypot_length = that.$c.honeypot.val().length;
+
+		// If there is text in the honeypot, disable the submit button
+		if( honeypot_length > 0 ) {
+			that.$c.submitButton.attr( 'disabled', 'disabled' );
+		} else {
+			that.$c.submitButton.attr( 'disabled', false );
+		}
+	};
+
 	// Combine all events.
 	that.bindEvents = function() {
 		$( that.$c.form ).on( 'click', 'input[type=submit]', function(e) {
+
 			if ('on' === $('.ctct-form').attr('data-doajax')) {
 				var $form_id = $(this).closest('.ctct-form-wrapper').attr('id');
 				var form_id_selector = '';
@@ -135,6 +154,11 @@ window.CTCTSupport = {};
 					);
 				}, 500)
 			}
+		});
+
+		// Look for any changes on the honeypot input field.
+		$( that.$c.honeypot ).on( 'change keyup', function( e ) {
+			that.checkHoneypot();
 		});
     };
 
