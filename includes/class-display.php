@@ -30,12 +30,15 @@ class ConstantContact_Display {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+		add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'styles' ) );
 	}
 
 	/**
 	 * Scripts.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Deprecated parameter.
 	 *
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
@@ -52,29 +55,19 @@ class ConstantContact_Display {
 			true
 		);
 
-		if ( $enqueue ) {
-			wp_enqueue_script( 'ctct_frontend_forms' );
-		}
+		wp_enqueue_script( 'ctct_frontend_forms' );
 	}
 
 	/**
-	 * Register and (maybe) enqueue styles.
+	 * Enqueue styles.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Deprecated parameter.
 	 *
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
 	public function styles( $enqueue = false ) {
-		wp_register_style(
-			'ctct_form_styles',
-			constant_contact()->url() . 'assets/css/style.css',
-			array(),
-			Constant_Contact::VERSION
-		);
-
-		if ( $enqueue ) {
-			wp_enqueue_style( 'ctct_form_styles' );
-		}
+		wp_enqueue_style( 'ctct_form_styles' );
 	}
 
 	/**
@@ -89,12 +82,8 @@ class ConstantContact_Display {
 	 */
 	public function form( $form_data, $form_id = '', $skip_styles = false ) {
 
-		// Enqueue some things.
-		if ( ! $skip_styles ) {
-			$this->styles( true );
-			$this->scripts( true );
-		} else {
-			$this->scripts();
+		if ( 'publish' !== get_post_status( $form_id ) ) {
+			return '';
 		}
 
 		$return           = '';
@@ -116,7 +105,7 @@ class ConstantContact_Display {
 		// Check to see if we got a response, and if it has the fields we expect.
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
-			// If we were succesful, then display success message.
+			// If we were successful, then display success message.
 			if ( 'success' === $response['status'] ) {
 
 				// If we were successful, we'll return here so we don't display the entire form again.
@@ -125,9 +114,9 @@ class ConstantContact_Display {
 			} else {
 
 				// If we didn't get a success message, then we want to error.
-				// We already checked for a messsage response, but we'll force the
+				// We already checked for a message response, but we'll force the
 				// status to error if we're not here.
-				$status = 'error';
+				$status        = 'error';
 				$error_message = trim( $response['message'] );
 			}
 		}
@@ -155,6 +144,19 @@ class ConstantContact_Display {
 		$form_action    = apply_filters( 'constant_contact_front_form_action', '', $form_id );
 		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
+
+		// Add action before form for custom actions.
+		ob_start();
+		/**
+		 * Fires before the start of the form tag.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param int $form_id Current form ID.
+		 */
+		do_action( 'ctct_before_form', $form_id );
+		$return .= ob_get_contents();
+		ob_end_clean();
 
 		// Build out our form.
 		$return .= '<form class="ctct-form ctct-form-' . $form_id . '" id="' . $rf_id . '" data-doajax="' . esc_attr( $do_ajax ) . '" action="' . esc_attr( $form_action ) . '" method="post">';
@@ -186,7 +188,21 @@ class ConstantContact_Display {
 		// Add our disclose notice maybe.
 		$return .= wp_kses_post( $this->maybe_add_disclose_note( $form_data ) );
 
+		$return .= $this->must_opt_in( $form_data );
+
 		$return .= '</form>';
+
+		ob_start();
+		/**
+		 * Fires after the end of the form tag.
+		 *
+		 * @since 1.4.0
+		 *
+		 * @param int $form_id Current form ID.
+		 */
+		do_action( 'ctct_after_form', $form_id );
+		$return .= ob_get_contents();
+		ob_end_clean();
 
 		$return .= '<script type="text/javascript">';
 		$return .= 'var ajaxurl = "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '";';
@@ -281,6 +297,7 @@ class ConstantContact_Display {
 
 		// Start our wrapper return var.
 		$return = '';
+		$form_id = 0;
 
 		// Check to see if we have a form ID for the form, and display our description.
 		if ( isset( $form_data['options'] ) && isset( $form_data['options']['form_id'] ) ) {
@@ -295,9 +312,11 @@ class ConstantContact_Display {
 			$return .= $this->description( $desc, $form_id );
 		}
 
-		// Loop through each of our form fields and output it.
-		foreach ( $form_data['fields'] as $key => $value ) {
-			$return .= $this->field( $value, $old_values, $req_errors );
+		if ( isset( $form_data['fields'] ) && is_array( $form_data['fields'] ) ) {
+			// Loop through each of our form fields and output it.
+			foreach ( $form_data['fields'] as $key => $value ) {
+				$return .= $this->field( $value, $old_values, $req_errors, $form_id );
+			}
 		}
 
 		// Check to see if we have an opt-in for the form, and display it.
@@ -328,7 +347,7 @@ class ConstantContact_Display {
 
 	public function build_recaptcha() {
 		// If we've reached this point, we know we have our keys.
-		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key' );
+		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
 
 		/**
 		 * Filters the language code to be used with Google reCAPTCHA.
@@ -353,7 +372,23 @@ class ConstantContact_Display {
 	}
 
 	public function build_timestamp() {
-		return '<input type="hidden" name="ctct_time" value="' . time() . '" />';
+		return '<input type="hidden" name="ctct_time" value="' . current_time( 'timestamp' ) . '" />';
+	}
+
+	/**
+	 * Use a hidden field to denote needing to opt in.
+	 *
+	 * @since 1.3.6
+	 *
+	 * @param array $form_data
+	 * @return string
+	 */
+	public function must_opt_in( array $form_data ) {
+		if ( empty( $form_data['options']['optin']['show'] ) ) {
+			return '';
+		}
+
+		return '<input type="hidden" name="ctct_must_opt_in" value="yes" />';
 	}
 
 	/**
@@ -364,9 +399,10 @@ class ConstantContact_Display {
 	 * @param array $field      Field data.
 	 * @param array $old_values Original values.
 	 * @param array $req_errors Errors.
+	 * @param int   $form_id    Current form ID.
 	 * @return string HTML markup
 	 */
-	public function field( $field, $old_values = array(), $req_errors = array() ) {
+	public function field( $field, $old_values = array(), $req_errors = array(), $form_id = 0 ) {
 
 		// If we don't have a name or a mapping, it will be hard to do things.
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
@@ -440,7 +476,7 @@ class ConstantContact_Display {
 			case 'company':
 			case 'website':
 			case 'text_field':
-				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
+				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id );
 				break;
 			case 'custom_text_area':
 				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="500"' );
@@ -705,9 +741,10 @@ class ConstantContact_Display {
 	 * @param boolean $req         If field required.
 	 * @param boolean $f_only      If we only return the field itself, with no label.
 	 * @param boolean $field_error Field error.
+	 * @param int     $form_id     Current form ID.
 	 * @return string HTML markup for field.
 	 */
-	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false ) {
+	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0 ) {
 
 		// Sanitize our stuff / set values.
 		$name  = sanitize_text_field( $name );
@@ -740,7 +777,7 @@ class ConstantContact_Display {
 		 *
 		 * @param bool $value Whether or not to truncate. Default false.
 		 */
-		$truncate_max_length = apply_filters( 'constant_contact_include_custom_field_label', false );
+		$truncate_max_length = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 		$max_length = '';
 		if ( false !== strpos( $id, 'custom___' ) ) {
 			$max_length = ( $truncate_max_length ) ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
@@ -970,14 +1007,22 @@ class ConstantContact_Display {
 		$v_state  = isset( $value['state_address'] ) ? $value['state_address'] : '';
 		$v_zip    = isset( $value['zip_address'] ) ? $value['zip'] : '';
 
-		$req = $req ? ' required ' : '';
+		/**
+		 * Filters the markup used for the required indicator.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+		 */
+		$req_label = $req ? ' ' . apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' ) : '';
 		$req_class = $req ? ' ctct-form-field-required ' : '';
+		$req = $req ? ' required ' : '';
 
 		// Build our field.
 		$return  = '<fieldset class="ctct-address">';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1' . $req_class . '">';
-		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . '</label>';
+		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . $req_label . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-street" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
 		$return .= ' </div>';
 		// Address Line 2 is not required, note the missing $req inclusion.
@@ -986,15 +1031,15 @@ class ConstantContact_Display {
 		$return .= '  <input type="text" class="ctct-text ctct-address-line-2" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-city' . $req_class . '" id="input_2_1_3_container">';
-		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . '</label>';
+		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . $req_label . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-city" name="city_' . esc_attr( $f_id ) . '" id="city_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_city ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-state' . $req_class . '" id="input_2_1_4_container">';
-		$return .= '  <label for="state_' . esc_attr( $f_id ) . '">' . esc_attr( $state ) . '</label>';
+		$return .= '  <label for="state_' . esc_attr( $f_id ) . '">' . esc_attr( $state ) . $req_label . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-state" name="state_' . esc_attr( $f_id ) . '" id="state_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_state ) . '">';
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-third address-zip' . $req_class . '" id="input_2_1_5_container">';
-		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . '</label>';
+		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . $req_label . '</label>';
 		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-zip" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
 		$return .= ' </div>';
 		$return .= '</fieldset>';
@@ -1324,11 +1369,21 @@ class ConstantContact_Display {
 	 */
 	public function get_inner_disclose_text() {
 		// translators: placeholder will hold company info for site owner.
-		return sprintf( __( 'By submitting this form, you are granting: %s, permission to email you. You may unsubscribe via the link found at the bottom of every email. (See our Email Privacy Policy (http://constantcontact.com/legal/privacy-statement) for details.) Emails are serviced by Constant Contact.', 'constant-contact-forms' ), $this->plugin->api->get_disclosure_info() );
+		return sprintf(
+			__(
+				'By submitting this form, you are consenting to receive marketing emails from: %s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %s', 'constant-contact-forms'
+			),
+			$this->plugin->api->get_disclosure_info(),
+			sprintf(
+				'<a href="%s" target="_blank">%s</a>',
+				esc_url( 'https://www.constantcontact.com/legal/service-provider' ),
+				esc_html__( 'Emails are serviced by Constant Contact', 'constant-contact-forms' )
+			)
+		);
 	}
 
 	public function get_max_length_attr( $optional_label = '' ) {
-		$length       = 50;
+		$length       = 48; // Two less than 50char custom field limit for ": "
 		$label_length = 0;
 		if ( ! empty( $optional_label ) ) {
 			$label_length = mb_strlen( $optional_label );

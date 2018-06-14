@@ -419,6 +419,7 @@ window.CTCTModal = {};
             modalClose: $( '.ctct-modal-close' ),
             textareaModal: $( '#ctct-custom-textarea-modal' ),
             textareaLink: $( '#ctct-open-textarea-info' ),
+            deleteLogLink: $( '#deletelog' )
         };
     };
 
@@ -442,6 +443,28 @@ window.CTCTModal = {};
         app.$c.textareaLink.on('click', function(){
            app.$c.textareaModal.addClass( 'ctct-modal-open' );
         });
+        app.$c.deleteLogLink.on( 'click', function( event ) {
+			event.preventDefault();
+
+            // Get the link that was clicked on so we can redirect to it if the user confirms.
+            var delete_log_link = jQuery( this ).attr( 'href' );
+
+            jQuery( "#confirmdelete" ).dialog({
+				resizable: false,
+				height   : "auto",
+				width    : 400,
+				modal    : true,
+				buttons  : {
+					"Yes": function () {
+					    // If the user confirms the action, redirect them to the deletion page.
+						window.location.replace( delete_log_link );
+					},
+					Cancel: function () {
+						jQuery( this ).dialog( "close" );
+					}
+				}
+            });
+        } );
     };
 
     // Engage
@@ -464,16 +487,16 @@ window.CTCTNewsletter = {};
 		// Connect page.
 		$('.ctct-body #subscribe').on('submit', function (event) {
 			event.preventDefault();
-console.log('connect');
+
 			var $ctctNewsWrapper = $("#subscribe .ctct-call-to-action"),
 				ctctNewsForm = $(".ctct-body #subscribe")[0];
 
 			var ctctEmailField = $(".ctct-call-to-action input[type='text']")[0],
-			aprimoEndpoint = event.target.action;
+			subscribeEndpoint = event.target.action;
 
 			if (ctctEmailField.validity.valid === true) {
 				$("<iframe>", {
-					"src"   : aprimoEndpoint + "?" + $(ctctNewsForm).serialize(),
+					"src"   : subscribeEndpoint + "?" + $(ctctNewsForm).serialize(),
 					"height": 0,
 					"width" : 0,
 					"style" : "display: none;"
@@ -494,11 +517,11 @@ console.log('connect');
 				ctctNewsForm = $(".ctct-section #subscribe")[0];
 
 			var ctctEmailField = $(".ctct-section #subscribe input[type='text']")[0],
-				aprimoEndpoint = event.target.action;
+				subscribeEndpoint = event.target.action;
 
 			if (ctctEmailField.validity.valid === true) {
 				$("<iframe>", {
-					"src"   : aprimoEndpoint + "?" + $(ctctNewsForm).serialize(),
+					"src"   : subscribeEndpoint + "?" + $(ctctNewsForm).serialize(),
 					"height": 0,
 					"width" : 0,
 					"style" : "display: none;"

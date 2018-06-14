@@ -115,7 +115,11 @@ class ConstantContact_Process_Form {
 			switch ( $status ) {
 
 				case 'success':
-					$message = __( 'Your information has been submitted.', 'constant-contact-forms' );
+
+					/** This filter is documented in includes/class-process-form.php */
+					$message = apply_filters( 'ctct_process_form_success',
+						__( 'Your information has been submitted.', 'constant-contact-forms' ),
+						intval( $json_data['ctct-id'] ) );
 					break;
 
 				// Generic error.
@@ -211,7 +215,7 @@ class ConstantContact_Process_Form {
 		}
 
 		if ( isset( $data['g-recaptcha-response'] ) ) {
-			$secret = ctct_get_settings_option( '_ctct_recaptcha_secret_key' );
+			$secret = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
 			$method = null;
 			if ( ! ini_get( 'allow_url_fopen' ) ) {
 				$method = new \ReCaptcha\RequestMethod\CurlPost();
@@ -221,6 +225,7 @@ class ConstantContact_Process_Form {
 			$resp = $recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
 
 			if ( ! $resp->isSuccess() ) {
+				constant_contact_maybe_log_it( 'reCAPTCHA', 'Failed to verify with Google reCAPTCHA', array( $resp->getErrorCodes() ) );
 				// @todo Utilize the error message(s) that come back from Google, if any.
 				return array(
 					'status' => 'named_error',
@@ -289,6 +294,10 @@ class ConstantContact_Process_Form {
 			'ctct_form',
 			'_wp_http_referer',
 			'ctct-verify',
+			'ctct_time',
+			'ctct_usage_field',
+			'g-recaptcha-response',
+			'ctct_must_opt_in',
 		) );
 
 		// If the submit button is clicked, send the email.
@@ -334,6 +343,7 @@ class ConstantContact_Process_Form {
 
 			// No need to check for opt in status because we would have returned early by now if false.
 			$maybe_bypass = ctct_get_settings_option( '_ctct_bypass_cron', '' );
+
 			if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
 				constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
 				constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
@@ -670,6 +680,9 @@ class ConstantContact_Process_Form {
 				 * Filters the message for the successful processed form.
 				 *
 				 * @since 1.3.0
+				 *
+				 * @param string     $value Success message.
+				 * @param string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
 				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id );
 				break;
@@ -721,6 +734,10 @@ class ConstantContact_Process_Form {
 
 		$has_all = true;
 		foreach( $original as $key => $value ) {
+			if ( isset( $value['_ctct_map_select'] ) && 'line_2' === $value['_ctct_map_select'] ) {
+				continue;
+			}
+
 			if (
 				isset( $form_data[ $key ] ) &&
 				true === $value['required'] &&

@@ -2,10 +2,11 @@
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
-Tested up to:      4.8.2
-Stable tag:        1.3.5
-License:           GPLv2
-License URI:       http://www.gnu.org/licenses/gpl-2.0.html
+Tested up to:      4.9.6
+Stable tag:        1.4.0
+License:           GPLv3
+License URI:       http://www.gnu.org/licenses/gpl-3.0.html
+Requires PHP:      5.4
 
 The official Constant Contact plugin adds a contact form to your WordPress site to quickly capture information from visitors.
 
@@ -21,7 +22,7 @@ https://www.youtube.com/watch?v=MhxtAlpZzJw
 * Choose forms that automatically select the theme and style of your WordPress site.
 * Customize data fields, so you can tailor the type of information you collect.
 
-BONUS: If you have a Constant Contact account, all new email addresses that you capture will be automatically added to the Constant Contact email lists of your choosing. Not a Constant Contact customer? Sign up for a Free Trial right from the plugin.
+BONUS: If you have a Constant Contact account, all new email addresses that you capture will be automatically added to the Constant Contact email lists of your choosing. Not a Constant Contact customer? Sign up for a [Free Trial](http://www.constantcontact.com/index?pn=miwordpress) right from the plugin.
 
 **Constant Contact Forms** requires a PHP version of 5.4 or higher. You will not be able to use if on a lower version. Talk to your system administrator or hosting company if you are not sure what version you are on.
 
@@ -34,6 +35,48 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.4.0 =
+* Added: Initial Akismet integration to help aid with spam submissions.
+* Added: Clear form fields after successful AJAX-based form submissions.
+* Added: Clear success/error message after small delay, for AJAX-based form submissions.
+* Added: WordPress action hooks before and after form output. Useful to add your own output for a given form.
+* Added: Compatibility with "Call To Action" plugin.
+* Added: Custom field labels to email notifications.
+* Added: Ability to customize who receives email notifications, per form.
+* Fixed: Consistently applied ctct_process_form_success filter to AJAX form submission success messages.
+* Fixed: Prevent errors with Constant Contact social links and array_merge issues.
+* Fixed: Prevent errors with array_key_exists() and the ctct_get_settings_option function.
+* Fixed: Wording around associated lists for a form, in the WordPress admin.
+* Fixed: Removed .gitignore files from /vendor folders.
+* Fixed: Prevent potential PHP warnings and notices in various areas.
+* Updated: Better support for emailing notifications to multiple recipiants.
+* Updated: Better disabling of submit button during AJAX-based submissions.
+
+= 1.3.7 =
+* Added: Logging functionality to help aid with debugging and the plugin not working as needed or expected.
+* Added: Passed form ID to filters related to including labels for custom fields.
+* Fixed: Made sure some Constant Contact markup was only added to the page when in a Constant Contact area.
+* Fixed: Issue with submitted custom field lengths when also including the original labels. Users were able to still go above 50 character limit.
+* Fixed: Addressed issue with email bypassing when not needing to opt in.
+* Updated: CMB2 library to version 2.3.0.
+* Updated: Guzzle library to version 5.3.2.
+* Updated: Code quality regarding translated text, namespaces, and returned value consistency.
+* Updated: Added minimum PHP version to plugin readme for use on WordPress.org.
+* Updated: Reduced cache time for account information so changes reflect in WP admin more quickly.
+* Updated: Revised disclosure message on the form to be more GDPR compliant.
+
+= 1.3.6 =
+* Fixed: Validate and potentially create full urls for values passed into custom "redirect to url" values. Prevents unintended destinations from partial urls.
+* Fixed: Error display for cron debugging was not showing correctly.
+* Fixed: Added required indicators to all appropriate fields in address fieldset on frontend.
+* Fixed: No form will be displayed if the form is not published.
+* Added: Address line 2 is no longer considered a required field.
+* Added: Plugin will now send email notifications if notifications are disabled but no Constant Contact list has been set for a form or opt-in is required but user does not opt in. Prevents possible lost submissions.
+* Updated: Wording for "Disable email" setting to clarify its purpose and intent.
+* Updated: Wording around some form builder fields.
+* Updated: Reworded emails and conditionally added messages regarding issues with form that required sending the email.
+* Updated: Adjusted plugin load order slightly to prevent conflicts with other plugins using GuzzleHTTP.
+
 = 1.3.5 =
 * Fixed: Prevent submission status message from displaying on all forms with multiple forms on same page.
 * Fixed: Properly prevent submission via AJAX when required fields are not met.
@@ -43,7 +86,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Fixed: Prevent possible issues with $_POST globals not being strings.
 * Fixed: Addressed issues with Google reCAPTCHA validation and verification of submitting users via allow_url_fopen.
 * Updated: Provided updated default values for button text, success message.
-* Updated: Rearranged and updated lables form builder fields to provide better clarity.
+* Updated: Rearranged and updated labels form builder fields to provide better clarity.
 * Updated: Added form's unique ID to form markup output for styling options and specific targeting.
 
 = 1.3.4 =

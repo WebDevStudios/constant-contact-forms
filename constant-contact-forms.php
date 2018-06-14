@@ -12,9 +12,9 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.3.5
+ * Version:     1.4.0
  * Author:      Constant Contact
- * Author URI:  https://www.constantcontact.com
+ * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
  * Text Domain: constant-contact-forms
  * Domain Path: /languages
@@ -77,7 +77,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.3.5';
+	const VERSION = '1.4.0';
 
 	/**
 	 * URL of plugin directory.
@@ -119,6 +119,8 @@ class Constant_Contact {
 	 */
 	public $menu_icon = 'dashicons-megaphone';
 
+	public $logger_location = '';
+
 	/**
 	 * Does site support encrpytions?
 	 *
@@ -136,32 +138,195 @@ class Constant_Contact {
 	protected static $single_instance = null;
 
 	/**
-	 * All our class instances.
+	 * An instance of the ConstantContact_API Class.
 	 *
 	 * @since 1.0.1
+	 * @var ConstantContact_API
+	 */
+	private $api;
+
+	/**
+	 * An instance of the ConstantContact_Builder Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Builder
+	 */
+	private $builder;
+
+	/**
+	 * An instance of the ConstantContact_Builder_Fields Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Builder_Fields
+	 */
+	private $builder_fields;
+
+	/**
+	 * An instance of the ConstantContact_Check Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Check
+	 */
+	private $check;
+
+	/**
+	 * An instance of the ConstantContact_CPTS Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_CPTS
+	 */
+	private $cpts;
+
+	/**
+	 * An instance of the ConstantContact_Display Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Display
+	 */
+	private $display;
+
+	/**
+	 * An instance of the ConstantContact_Display_Shortcode Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Display_Shortcode
+	 */
+	private $display_shortcode;
+
+	/**
+	 * An instance of the ConstantContact_Lists Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Lists
+	 */
+	private $lists;
+
+	/**
+	 * An instance of the ConstantContact_Process_Form Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Process_Form
+	 */
+	private $process_form;
+
+	/**
+	 * An instance of the ConstantContact_Settings Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Settings
+	 */
+	private $settings;
+
+	/**
+	 * An instance of the ConstantContact_Auth_Redirect Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Auth_Redirect
+	 */
+	private $auth_redirect;
+
+	/**
+	 * An instance of the ConstantContact_Connect Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Connect
+	 */
+	private $connect;
+
+	/**
+	 * An instance of the ConstantContact_Mail Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Mail
+	 */
+	private $mail;
+
+	/**
+	 * An instance of the ConstantContact_Notifications Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Notifications
+	 */
+	private $notifications;
+
+	/**
+	 * An instance of the ConstantContact_Notification_Content Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Notification_Content
+	 */
+	private $notification_content;
+
+	/**
+	 * An instance of the ConstantContact_Middleware Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Middleware
+	 */
+	private $authserver;
+
+	/**
+	 * An instance of the ConstantContact_Updates Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Updates
+	 */
+	private $updates;
+
+	/**
+	 * An instance of the ConstantContact_Optin Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Optin
+	 */
+	private $optin;
+
+	/**
+	 * An instance of the ConstantContact_User_Customizations Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_User_Customizations
+	 */
+	private $customizations;
+
+	/**
+	 * An instance of the ConstantContact_Logging Class.
+	 *
+	 * @since 1.3.7
+	 * @var ConstantContact_Logging
+	 */
+	private $logging;
+
+	/**
+	 * An instance of the ConstantContact_Admin Class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Admin
 	 */
 	private $admin;
+
+	/**
+	 * An instance of the ConstantContact_Admin_Pages class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Admin_Pages
+	 */
 	private $admin_pages;
-	private $auth_redirect;
-	private $api;
-	private $builder;
-	private $builder_fields;
-	private $check;
-	private $connect;
-	private $cpts;
-	private $display;
-	private $display_shortcode;
-	private $lists;
-	private $process_form;
-	private $settings;
-	private $mail;
-	private $notifications;
-	private $notification_content;
-	private $authserver;
-	private $updates;
-	private $optin;
-	private $customizations;
+
+	/**
+	 * An instance of the ConstantContact_Shortcode class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Shortcode
+	 */
 	private $shortcode;
+
+	/**
+	 * An instance of the ConstantContact_Shortcode_Admin class.
+	 *
+	 * @since 1.0.1
+	 * @var ConstantContact_Shortcode_Admin
+	 */
 	private $shortcode_admin;
 
 	/**
@@ -198,9 +363,10 @@ class Constant_Contact {
 		$this->plugin_name = __( 'Constant Contact', 'constant-contact-forms' );
 
 		// Set up some helper properties.
-		$this->basename = plugin_basename( __FILE__ );
-		$this->url      = plugin_dir_url( __FILE__ );
-		$this->path     = plugin_dir_path( __FILE__ );
+		$this->basename        = plugin_basename( __FILE__ );
+		$this->url             = plugin_dir_url( __FILE__ );
+		$this->path            = plugin_dir_path( __FILE__ );
+		$this->logger_location = WP_CONTENT_DIR . '/ctct-logs/constant-contact-errors.log';
 
 		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
@@ -209,11 +375,13 @@ class Constant_Contact {
 
 		// Load our plugin and our libraries.
 		$this->plugin_classes();
-		$this->load_libs();
 		$this->admin_plugin_classes();
 
 		// Include our helper functions function for end-users.
-		Constant_Contact::include_file( 'helper-functions', false );
+		self::include_file( 'helper-functions', false );
+
+		// Include compatibility fixes to address conflicts with other plug-ins.
+		self::include_file( 'compatibility', false );
 	}
 
 	/**
@@ -249,6 +417,7 @@ class Constant_Contact {
 		$this->authserver           = new ConstantContact_Middleware( $this );
 		$this->updates              = new ConstantContact_Updates( $this );
 		$this->optin                = new ConstantContact_Optin( $this );
+		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
 	}
 
@@ -278,6 +447,7 @@ class Constant_Contact {
 		add_action( 'init', array( $this, 'includes' ), 5 );
 		add_action( 'widgets_init', array( $this, 'widgets' ) );
 		add_filter( 'body_class', array( $this, 'body_classes' ) );
+		$this->load_libs();
 
 		// Our vendor files will do a check for ISSSL, so we want to set it to be that.
 		// See Guzzle for more info and usage of this.
@@ -288,10 +458,14 @@ class Constant_Contact {
 		// Allow shortcodes in widgets for our plugin.
 		add_filter( 'widget_text', 'do_shortcode' );
 
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 1 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_front_assets' ), 1 );
+
 		if ( is_admin() ) {
 			add_action( 'wp_ajax_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
 			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
 		}
+
 	}
 
 	/**
@@ -349,6 +523,8 @@ class Constant_Contact {
 
 		// Set an array of libraries we need to load.
 		$libs = array(
+			'psr/log/vendor/autoload.php',
+			'monolog/monolog/vendor/autoload.php',
 			'CMB2/init.php',
 			'constantcontact/autoload.php',
 			'constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php',
@@ -429,7 +605,7 @@ class Constant_Contact {
 
 		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' === $_POST['action'] ) {
 			// Save our dismiss for the first form modal.
-			update_option( 'ctct_first_form_modal_dismissed', time() );
+			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) );
 		}
 		wp_die();
 	}
@@ -592,10 +768,38 @@ class Constant_Contact {
 	 * @return array Amended body classes.
 	 */
 	public function body_classes( $classes = array() ) {
-		$theme = wp_get_theme()->template;
+		$theme     = wp_get_theme()->template;
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
 		return $classes;
+	}
+
+	/**
+	 * Register our admin styles.
+	 *
+	 * @since 1.4.0
+	 */
+	public function register_admin_assets() {
+		wp_register_style(
+			'constant-contact-forms-admin',
+			$this->url() . 'assets/css/admin-style.css',
+			array(),
+			self::VERSION
+		);
+	}
+
+	/**
+	 * Register our frontend styles.
+	 *
+	 * @since 1.4.0
+	 */
+	public function register_front_assets() {
+		wp_register_style(
+			'ctct_form_styles',
+			$this->url() . 'assets/css/style.css',
+			array(),
+			self::VERSION
+		);
 	}
 
 	/**
@@ -642,8 +846,8 @@ class Constant_Contact {
 }
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
 
-register_activation_hook( __FILE__ , array( constant_contact(), '_activate' ) );
-register_deactivation_hook( __FILE__ , array( constant_contact(), '_deactivate' ) );
+register_activation_hook( __FILE__, array( constant_contact(), '_activate' ) );
+register_deactivation_hook( __FILE__, array( constant_contact(), '_deactivate' ) );
 
 /**
  * Grab the Constant_Contact object and return it.

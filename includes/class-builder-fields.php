@@ -79,6 +79,7 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', array( $this, 'opt_ins_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'generated_shortcode' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'email_settings' ) );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 		}
 
@@ -184,17 +185,18 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Redirect to URL', 'constant-contact-forms' ),
-			'id'          => $this->prefix . 'redirect_uri',
-			'type'        => 'text',
-			'description' => esc_html__( 'URL to send the user to, after successful submission.', 'constant-contact-forms' ),
+			'name'            => __( 'Redirect URL', 'constant-contact-forms' ),
+			'id'              => $this->prefix . 'redirect_uri',
+			'type'            => 'text',
+			'description'     => esc_html__( 'Leave blank to keep users on the current page.', 'constant-contact-forms' ),
+			'sanitization_cb' => 'constant_contact_clean_url',
 		) );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Submit with no refresh', 'constant-contact-forms' ),
+			'name'        => __( 'No page refresh', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'do_ajax',
 			'type'        => 'checkbox',
-			'description' => __( 'Enables form submissions without triggering a page refresh. This option overrides the redirect choice above.', 'constant-contact-forms' ),
+			'description' => __( 'Enable form submission without a page refresh. This option overrides the Redirect URL choice above.', 'constant-contact-forms' ),
 		) );
 
 
@@ -216,11 +218,11 @@ class ConstantContact_Builder_Fields {
 		$overall_description = sprintf(
 			'<hr/><p>%s %s</p>',
 			esc_html__(
-				'Enabling this option will require visitors to check a box to be added to your list. If this option is not enabled, visitors will be added to your selected list automatically on submitting.',
+				'Enabling this option will require users to check a box to be added to your list.',
 				'constant-contact-forms'
 			),
 			sprintf(
-				'<a href="%s">%s</a>',
+				'<a href="%s" target="_blank">%s</a>',
 				'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options',
 				esc_html__( 'Learn more', 'constant-contact-forms' )
 			)
@@ -272,7 +274,7 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function show_enable_show_checkbox_field( $options_metabox ) {
 
-		$description = esc_html__( 'Add a checkbox so visitors can opt-in to your email list.', 'constant-contact-forms' );
+		$description = esc_html__( 'Add a checkbox so subscribers can opt-in to your email list.', 'constant-contact-forms' );
 		$description .= '<br>';
 		$description .= esc_html__( '(For use with Contact Us form)', 'constant-contact-forms' );
 
@@ -508,6 +510,36 @@ class ConstantContact_Builder_Fields {
 			'attributes' => array(
 				'readonly' => 'readonly',
 			),
+		) );
+	}
+
+	/**
+	 * Add a metabox for customizing destination email for a given form.
+	 *
+	 * @since 1.4.0
+	 */
+	public function email_settings() {
+
+		$email_settings = new_cmb2_box( array(
+			'id'           => 'email_settings',
+			'title'        => esc_html__( 'Email settings', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'side',
+			'priority'     => 'low',
+		) );
+
+		$email_settings->add_field( array(
+			'name' => esc_html__( 'Email destination', 'constant-contact-forms' ),
+			'desc' => esc_html__( 'Who should receive email notifications for this form. Separate multiple emails by a comma. Leave blank to default to admin email.', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'email_settings',
+			'type' => 'text_medium',
+		) );
+
+		$email_settings->add_field( array(
+			'name' => esc_html__( 'Disable email notifications for this form?', 'constant-contact-forms' ),
+			'desc' => esc_html__( 'Check this option to disable emails for this Constant Contact Forms form.', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'disable_emails_for_form',
+			'type' => 'checkbox',
 		) );
 	}
 }

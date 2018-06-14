@@ -7,6 +7,9 @@
  * @since 1.0.0
  */
 
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+
 /**
  * Checks to see if a user is connected to Constant Contact or not.
  *
@@ -225,7 +228,7 @@ function constant_contact_review_ajax_handler() {
 		switch ( $action ) {
 			case 'dismissed':
 				$dismissed          = get_option( 'ctct-review-dismissed', array() );
-				$dismissed['time']  = time();
+				$dismissed['time']  = current_time( 'timestamp' );
 				if ( empty( $dismissed['count'] ) ) {
 					$dismissed['count'] = '1';
 				} elseif ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
@@ -310,7 +313,7 @@ function constant_contact_has_redirect_uri( $form_id = 0 ) {
  * @return bool
  */
 function constant_contact_check_timestamps( $maybe_spam, $data ) {
-	$current = time();
+	$current = current_time( 'timestamp' );
 	$difference = $current - $data['ctct_time'];
 	if ( $difference <= 5 ) {
 		return true;
@@ -318,3 +321,224 @@ function constant_contact_check_timestamps( $maybe_spam, $data ) {
 	return $maybe_spam;
 }
 add_filter( 'constant_contact_maybe_spam', 'constant_contact_check_timestamps', 10, 2 );
+
+/**
+ * Clean and correctly protocol an given URL.
+ *
+ * @since 1.3.6
+ *
+ * @param string $url
+ * @return string
+ */
+function constant_contact_clean_url( $url = '' ) {
+	// Reject and return untouched if not provided a string.
+	if ( ! is_string( $url ) ) {
+		return $url;
+	}
+
+	$clean_url = esc_url( $url );
+	if ( is_ssl() && 'http' === parse_url( $clean_url, PHP_URL_SCHEME ) ) {
+		$clean_url = str_replace( 'http', 'https', $clean_url );
+	}
+	return $clean_url;
+}
+
+/**
+ * Checks if we have our new debugging option enabled.
+ *
+ * @since 1.3.7
+ *
+ * @return bool
+ */
+function constant_contact_debugging_enabled() {
+	$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
+
+	return (
+		( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) ||
+		'on' === $debugging_enabled
+	);
+}
+
+/**
+ * Potentially add an item to our custom error log.
+ *
+ * @since 1.3.7
+ *
+ * @param strint       $log_name   Component that the log item is for.
+ * @param string       $error      The error to log.
+ * @param mixed|string $extra_data Any extra data to add to the log.
+ */
+function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
+	if ( ! constant_contact_debugging_enabled() ) {
+		return;
+	}
+
+	$logger = new Logger( $log_name );
+	$logger->pushHandler( new StreamHandler( constant_contact()->logger_location ) );
+	$extra = [];
+
+	if ( $extra_data ) {
+		$extra = [ 'Extra information', [ $extra_data ] ];
+	}
+	// Log status of error.
+	$logger->addInfo( $error, $extra );
+}
+
+/**
+ * Check spam through Akismet.
+ * It will build Akismet query string and call Akismet API.
+ * Akismet response return 'true' for spam submission.
+ *
+ * Akismet integration props to GiveWP. We appreciate the initial work.
+ *
+ * @since 1.4.0
+ *
+ * @param bool  $is_spam Current status of the submission.
+ * @param array $data    Array of submission data.
+ * @return bool
+ */
+function constant_contact_akismet( $is_spam, $data ) {
+
+	// Bail out, If spam.
+	if ( $is_spam ) {
+		return $is_spam;
+	}
+
+	$email = false;
+	$fname = $lname = $name = '';
+	foreach ( $data as $key => $value ) {
+		if ( 'email' === substr( $key, 0, 5 ) ) {
+			$email = $value;
+		}
+		if ( 'first_name' === substr( $key, 0, 10 ) ) {
+			$fname = $value;
+		}
+		if ( 'last_name' === substr( $key, 0, 9 ) ) {
+			$lname = $value;
+		}
+	}
+
+	if ( $fname ) {
+		$name = $fname;
+	}
+	if ( $lname ) {
+		$name .= ' ' . $lname;
+	}
+
+	// Bail out, if Akismet key not exist.
+	if ( ! constant_contact_check_akismet_key() ) {
+		return $is_spam;
+	}
+
+	// Build args array.
+	$args = array();
+
+	$args['comment_author']       = $name;
+	$args['comment_author_email'] = $email;
+	$args['blog']                 = get_option( 'home' );
+	$args['blog_lang']            = get_locale();
+	$args['blog_charset']         = get_option( 'blog_charset' );
+	$args['user_ip']              = $_SERVER['REMOTE_ADDR'];
+	$args['user_agent']           = $_SERVER['HTTP_USER_AGENT'];
+	$args['referrer']             = $_SERVER['HTTP_REFERER'];
+	$args['comment_type']         = 'contact-form';
+
+	$ignore = array( 'HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW' );
+
+	foreach ( $_SERVER as $key => $value ) {
+		if ( ! in_array( $key, (array) $ignore ) ) {
+			$args[ "{$key}" ] = $value;
+		}
+	}
+
+	// It will return Akismet spam detect API response.
+	$is_spam = constant_contact_akismet_spam_check( $args );
+
+	return $is_spam;
+}
+add_filter( 'constant_contact_maybe_spam', 'constant_contact_akismet', 10, 2 );
+
+/**
+ * Check Akismet API Key.
+ *
+ * @since 1.4.0
+ *
+ * @return bool
+ */
+function constant_contact_check_akismet_key() {
+	if ( is_callable( array( 'Akismet', 'get_api_key' ) ) ) { // Akismet v3.0
+		return (bool) Akismet::get_api_key();
+	}
+
+	if ( function_exists( 'akismet_get_key' ) ) {
+		return (bool) akismet_get_key();
+	}
+
+	return false;
+}
+
+/**
+ * Detect spam through Akismet Comment API.
+ *
+ * @since 1.4.0
+ *
+ * @param array $args
+ * @return bool|mixed
+ */
+function constant_contact_akismet_spam_check( $args ) {
+	global $akismet_api_host, $akismet_api_port;
+
+	$spam         = false;
+	$query_string = http_build_query( $args );
+
+	if ( is_callable( array( 'Akismet', 'http_post' ) ) ) { // Akismet v3.0
+		$response = Akismet::http_post( $query_string, 'comment-check' );
+	} else {
+		$response = akismet_http_post( $query_string, $akismet_api_host,
+			'/1.1/comment-check', $akismet_api_port );
+	}
+
+	// It's spam if response status is true.
+	if ( 'true' === $response[1] ) {
+		$spam = true;
+	}
+
+	return $spam;
+}
+
+/**
+ * Check whether or not emails should be disabled.
+ *
+ * @since 1.4.0
+ *
+ * @param int $form_id Current form ID being submitted to.
+ *
+ * @return mixed|void
+ */
+function constant_contact_emails_disabled( $form_id = 0 ) {
+
+	// Assume we can.
+	$disabled = false;
+
+	// Check for a setting for the form itself.
+	$form_disabled = get_post_meta( $form_id, '_ctct_disable_emails_for_form', true );
+	if ( 'on' === $form_disabled ) {
+		$disabled = true;
+	}
+
+	// Check for our global setting.
+	$global_form_disabled = ctct_get_settings_option( '_ctct_disable_email_notifications', '' );
+	if ( 'on' === $global_form_disabled ) {
+		$disabled = true;
+	}
+
+	/**
+	 * Filters whether or not emails should be disabled.
+	 *
+	 * @since 1.4.0
+	 *
+	 * @param bool $disabled Whether or not emails are disabled.
+	 * @param int  $form_id  Form ID being submitted to.
+	 */
+	return apply_filters( 'constant_contact_emails_disabled', $disabled, $form_id );
+}

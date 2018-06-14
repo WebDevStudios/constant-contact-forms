@@ -38,6 +38,7 @@ class ConstantContact_User_Customizations {
 	public function hooks() {
 		add_filter( 'ctct_process_form_success', array( $this, 'process_form_success' ), 10, 2 );
 		add_filter( 'constant_contact_front_form_action', array( $this, 'custom_redirect' ), 10, 2 );
+		add_filter( 'constant_contact_destination_email', array( $this, 'custom_email' ), 10, 2 );
 	}
 
 	/**
@@ -73,6 +74,34 @@ class ConstantContact_User_Customizations {
 			return $url;
 		}
 
-		return $custom;
+		return constant_contact_clean_url( $custom );
+	}
+
+	/**
+	 * Conditionally return a custom email destination value to our mail filter.
+	 *
+	 * @since 1.4.0
+	 *
+	 * @param $form_id
+	 * @return mixed|string
+	 */
+	public function custom_email( $destination_email, $form_id ) {
+		$custom_email = get_post_meta( $form_id, '_ctct_email_destination', true );
+
+		if ( empty( $custom_email ) ) {
+			return $destination_email;
+		}
+
+		// @todo Potentially using this type of code in many places in 1.4.0. Worthy of a helper function.
+		if ( false !== strpos( $custom_email, ',' ) ) {
+			// Use trim to handle cases of ", "
+			$partials     = array_map( 'trim', explode( ',', $custom_email ) );
+			$partials     = array_map( 'sanitize_email', $partials );
+			$custom_email = implode( ',', $partials );
+		} else {
+			$custom_email = sanitize_email( $custom_email );
+		}
+
+		return $custom_email;
 	}
 }

@@ -10,7 +10,7 @@ window.CTCTSupport = {};
 
 	that.removePlaceholder = function() {
 		$( '.ctct-form-field input,textarea' ).focus( function() {
-			$( this ).data( 'placeholder', $( this ).attr( 'placeholder' ) ).attr( 'placeholder','' );
+			$( this ).data( 'placeholder', $( this ).attr( 'placeholder' ) ).attr( 'placeholder', '' );
 		}).blur( function() {
 			$( this ).attr( 'placeholder', $( this ).data( 'placeholder' ) );
 		});
@@ -31,6 +31,12 @@ window.CTCTSupport = {};
 
 	that.setAllInputsValid = function() {
 		$( that.$c.form + ' .ctct-invalid' ).removeClass( 'ctct-invalid' );
+	};
+
+	that.clearFormInputs = function (form_id_selector) {
+		var submitted_form = $(form_id_selector + ' form');
+		// jQuery doesn't have a native reset function so the [0] will convert to a JavaScript object.
+		submitted_form[0].reset();
 	};
 
 	that.processError = function( error ) {
@@ -81,19 +87,32 @@ window.CTCTSupport = {};
 				clearTimeout(that.timeout);
 
 				that.timeout = setTimeout(function () {
+					$('#ctct-submitted').prop('disabled', true);
 					$.post(
 						ajaxurl,
 						{
 							'action': 'ctct_process_form',
-							'data'  : $(form_id_selector + 'form').serialize(),
+							'data'  : $(form_id_selector + 'form').serialize()
 						},
 						function (response) {
-
-							// Make sure we got the 'status' attribut in our response
+							$('#ctct-submitted').prop('disabled', false);
+							// Make sure we got the 'status' attribute in our response
 							if (typeof( response.status ) !== 'undefined') {
 
-								if ('success' == response.status) {
-									$(form_id_selector+'.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
+								if ( 'success' === response.status ) {
+									// Add a timestamp to the message so that we only remove this message and not all at once.
+									var time_class = 'message-time-' + $.now();
+
+									var message_class = 'ctct-message ' + response.status + ' ' + time_class;
+									$(form_id_selector+'.ctct-form').before('<p class="' + message_class + '">' + response.message + '</p>');
+
+									if ( '' !== form_id_selector ) {
+										that.clearFormInputs( form_id_selector );
+									}
+									// Set a 5 second timeout to remove the added success message.
+									setTimeout( function() {
+										$( '.' + time_class ).fadeOut('slow');
+									}, 5000 );
 								} else {
 									// Here we'll want to disable the submit button and
 									// add some error classes
