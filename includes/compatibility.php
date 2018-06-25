@@ -15,10 +15,10 @@
  * @param array $excluded The post types to exclude.
  * @return array
  */
-function exclude_ctct_forms( $excluded ) {
+function constant_contact_exclude_ctct_forms( $excluded ) {
 	$excluded[] = 'ctct_forms';
 	return $excluded;
 }
 
 // If the WordPress Calls to Action plug-in is installed, exclude our post type to conflict.
-add_filter( 'cta_excluded_post_types', 'exclude_ctct_forms' );
+add_filter( 'cta_excluded_post_types', 'constant_contact_exclude_ctct_forms' );
