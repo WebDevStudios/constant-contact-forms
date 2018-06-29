@@ -523,6 +523,7 @@ function constant_contact_process_custom_inline_styles( $styles ) {
 	// Run through the styles.
 	foreach( $styles as $style_key => $style_value ) {
 		if ( array_key_exists( $style_key, $accepted_styles ) ) {
+
 			echo $accepted_styles[$style_key] . ': ';
 			echo $style_key . ': ' . $style_value . '<br />';
 		}

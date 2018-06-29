@@ -767,12 +767,11 @@ class ConstantContact_Display {
 	 * @param string  $name           Name / id of field.
 	 * @param string  $f_id           Field ID.
 	 * @param string  $label          Label text for field.
-	 * @param string  $label_position Label text for field.
 	 * @param boolean $req            If this field required.
 	 * @param boolean $use_label      Whether or not to use label.
 	 * @return string HTML markup.
 	 */
-	public function field_top( $type = '', $name = '', $f_id = '', $label = '', $label_position = 'global', $req = false, $use_label = true ) {
+	public function field_top( $type = '', $name = '', $f_id = '', $label = '', $req = false, $use_label = true ) {
 
 		// Set blank defaults for required info.
 		$req_label = '';
@@ -793,7 +792,6 @@ class ConstantContact_Display {
 		$classes = array(
 			'ctct-form-field',
 			'ctct-form-field-' . $type,
-			'ctct-label-position-' . $label_position,
 		);
 		if ( $req ) {
 			$classes[] = 'ctct-form-field-required';
@@ -887,14 +885,13 @@ class ConstantContact_Display {
 			$field_custom_class = array();
 		}
 
-		$type           = sanitize_text_field( $type );
-		$value          = sanitize_text_field( $value );
-		$label          = sanitize_text_field( $label );
-		$label_position = sanitize_text_field( $field_custom_css['field_label_placement'] );
-		$req_text       = $req ? 'required' : '';
+		$type     = sanitize_text_field( $type );
+		$value    = sanitize_text_field( $value );
+		$label    = sanitize_text_field( $label );
+		$req_text = $req ? 'required' : '';
 
 		// Start our markup.
-		$markup = $this->field_top( $type, $name, $f_id, $label, $label_position, $req );
+		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
 
 		// Provide some CSS class(es).
 		$classes = array_merge( array( 'ctct-' . esc_attr( $type ), $field_custom_class ) );
