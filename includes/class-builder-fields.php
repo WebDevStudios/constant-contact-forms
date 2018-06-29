@@ -77,7 +77,8 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'constant_contact_list_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'opt_ins_metabox' ) );
-			add_action( 'cmb2_admin_init', array( $this, 'custom_css_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'custom_form_css_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'custom_input_css_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'generated_shortcode' ) );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
@@ -209,10 +210,10 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.4.0
 	 */
-	public function custom_css_metabox() {
+	public function custom_form_css_metabox() {
 		$custom_css_metabox = new_cmb2_box( array(
-			'id'           => 'ctct_1_custom_css_metabox',
-			'title'        => __( 'Design', 'constant-contact-forms' ),
+			'id'           => 'ctct_1_custom_form_css_metabox',
+			'title'        => __( 'Form Design', 'constant-contact-forms' ),
 			'object_types' => array( 'ctct_forms' ),
 			'context'      => 'side',
 			'priority'     => 'low',
@@ -226,6 +227,53 @@ class ConstantContact_Builder_Fields {
 				'Choose a background color for the form.',
 				'constant-contact-forms'
 			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'             => __( 'Title Font Size', 'constant-contact-forms' ),
+			'id'               => $this->prefix . 'form_title_font_size',
+			'type'             => 'select',
+			'show_option_none' => 'Default',
+			'options'          => array(
+				'12' => '12',
+				'13' => '13',
+				'14' => '14',
+				'15' => '15',
+				'16' => '16',
+				'17' => '17',
+				'18' => '18',
+				'19' => '19',
+				'20' => '20',
+			),
+			'description'      => esc_html__(
+				'Choose a font size for the form title in pixels.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'        => __( 'Title Color', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'form_title_color',
+			'type'        => 'colorpicker',
+			'description' => esc_html__(
+				'Choose a color for the form title.',
+				'constant-contact-forms'
+			),
+		) );
+	}
+
+	/**
+	 * Metabox for user to set custom CSS for a form.
+	 *
+	 * @since 1.4.0
+	 */
+	public function custom_input_css_metabox() {
+		$custom_css_metabox = new_cmb2_box( array(
+			'id'           => 'ctct_1_custom_input_css_metabox',
+			'title'        => __( 'Input Design', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'side',
+			'priority'     => 'low',
 		) );
 
 		$custom_css_metabox->add_field( array(

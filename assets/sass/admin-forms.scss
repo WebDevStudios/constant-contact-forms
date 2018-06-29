@@ -139,7 +139,23 @@ body.post-type-ctct_forms #titlediv #title {
 	} // .cmb-type-text-small
 } // #cmb2-metabox-ctct_option_metabox_settings
 
-#ctct_1_custom_css_metabox {
+#cmb2-metabox-ctct_1_custom_form_css_metabox {
+
+	.cmb-row {
+		border: none;
+		padding: 0 !important;
+
+		.cmb-th {
+			padding-bottom: 0;
+		} // .cmb-th
+
+		p.cmb2-metabox-description {
+			padding-bottom: 0;
+		} // p.cmb2-metabox-description
+	} // .cmb-row
+} // #cmb2-metabox-ctct_1_custom_form_css_metabox
+
+#ctct_1_custom_input_css_metabox {
 
 	overflow: hidden;
 
@@ -154,7 +170,7 @@ body.post-type-ctct_forms #titlediv #title {
 		p.cmb2-metabox-description {
 			padding-bottom: 0;
 		} // p.cmb2-metabox-description
-	}
+	} // div.cmb-row
 
 	div.cmb-type-text-small {
 		float: left;

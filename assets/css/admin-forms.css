@@ -461,23 +461,36 @@ body.post-type-ctct_forms #titlediv #title {
   padding-left: 0;
 }
 
-#ctct_1_custom_css_metabox {
-  overflow: hidden;
-}
-
-#ctct_1_custom_css_metabox div.cmb-row {
+#cmb2-metabox-ctct_1_custom_form_css_metabox .cmb-row {
   border: none;
   padding: 0 !important;
 }
 
-#ctct_1_custom_css_metabox div.cmb-row .cmb-th {
+#cmb2-metabox-ctct_1_custom_form_css_metabox .cmb-row .cmb-th {
   padding-bottom: 0;
 }
 
-#ctct_1_custom_css_metabox div.cmb-row p.cmb2-metabox-description {
+#cmb2-metabox-ctct_1_custom_form_css_metabox .cmb-row p.cmb2-metabox-description {
   padding-bottom: 0;
 }
 
-#ctct_1_custom_css_metabox div.cmb-type-text-small {
+#ctct_1_custom_input_css_metabox {
+  overflow: hidden;
+}
+
+#ctct_1_custom_input_css_metabox div.cmb-row {
+  border: none;
+  padding: 0 !important;
+}
+
+#ctct_1_custom_input_css_metabox div.cmb-row .cmb-th {
+  padding-bottom: 0;
+}
+
+#ctct_1_custom_input_css_metabox div.cmb-row p.cmb2-metabox-description {
+  padding-bottom: 0;
+}
+
+#ctct_1_custom_input_css_metabox div.cmb-type-text-small {
   float: left;
 }
