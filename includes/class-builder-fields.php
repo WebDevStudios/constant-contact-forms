@@ -219,16 +219,6 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'        => __( 'Custom Classes', 'constant-contact-forms' ),
-			'id'          => $this->prefix . 'form_custom_classes',
-			'type'        => 'text',
-			'description' => esc_html__(
-				'Set custom CSS class(es) for the form. Separate multiple classes with spaces.',
-				'constant-contact-forms'
-			),
-		) );
-
-		$custom_css_metabox->add_field( array(
 			'name'        => __( 'Background Color', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'form_background_color',
 			'type'        => 'colorpicker',
@@ -284,6 +274,33 @@ class ConstantContact_Builder_Fields {
 			'show_names' => true,
 			'attributes' => array(
 				'type' => 'number',
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'        => __( 'Custom Classes', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'form_custom_classes',
+			'type'        => 'text',
+			'description' => esc_html__(
+				'Set custom CSS class(es) for inputs. Separate multiple classes with spaces.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'             => __( 'Label Placement', 'constant-contact-forms' ),
+			'id'               => $this->prefix . 'form_label_placement',
+			'type'             => 'select',
+			'show_option_none' => 'Global',
+			'options'          => array(
+				'top'    => 'Top',
+				'left'   => 'Left',
+				'bottom' => 'Bottom',
+				'right'  => 'Right',
+			),
+			'description'      => esc_html__(
+				'Set the position for labels for inputs.',
+				'constant-contact-forms'
 			),
 		) );
 	}
@@ -565,7 +582,7 @@ class ConstantContact_Builder_Fields {
 			'type'        => 'checkbox',
 			'row_classes' => 'required',
 		) );
-		
+
 	}
 
 	/**
