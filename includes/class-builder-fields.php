@@ -382,11 +382,11 @@ class ConstantContact_Builder_Fields {
 		$business_name ? ( $business_name ) : __( 'Your Business Name', 'constant-contact-forms' );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
-			'id'          => $this->prefix . 'opt_in_instructions',
-			'type'        => 'textarea_small',
+			'name'    => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
+			'id'      => $this->prefix . 'opt_in_instructions',
+			'type'    => 'textarea_small',
 			// translators: placeholder has a business name from Constant Contact.
-			'default'     => sprintf( __( 'Example: Yes, I would like to receive emails from %s. (You can unsubscribe anytime)', 'constant-contact-forms' ), $business_name ),
+			'default' => sprintf( __( 'Example: Yes, I would like to receive emails from %s. (You can unsubscribe anytime)', 'constant-contact-forms' ), $business_name ),
 		) );
 	}
 
@@ -600,7 +600,45 @@ class ConstantContact_Builder_Fields {
 				'constant-contact-forms' ),
 		) );
 
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'       => __( 'Top Padding', 'constant-contact-forms' ),
+			'id'         => $this->prefix . 'field_input_padding_top',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+		) );
 
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'       => __( 'Right Padding', 'constant-contact-forms' ),
+			'id'         => $this->prefix . 'field_input_padding_right',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+		) );
+
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'       => __( 'Bottom Padding', 'constant-contact-forms' ),
+			'id'         => $this->prefix . 'field_input_padding_bottom',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+		) );
+
+		$fields_metabox->add_group_field( $custom_group, array(
+			'name'       => __( 'Left Padding', 'constant-contact-forms' ),
+			'id'         => $this->prefix . 'field_input_padding_left',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+		) );
 
 	}
 

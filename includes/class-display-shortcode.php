@@ -206,6 +206,10 @@ class ConstantContact_Display_Shortcode {
 			// See if a custom CSS was set.
 			$fields = $this->set_field( '_ctct_field_custom_class', 'field_custom_class', $key, $fields, $custom_fields );
 			$fields = $this->set_field( '_ctct_field_label_placement', 'field_label_placement', $key, $fields, $custom_fields );
+			$fields = $this->set_field( '_ctct_field_input_padding_top', 'field_input_padding_top', $key, $fields, $custom_fields );
+			$fields = $this->set_field( '_ctct_field_input_padding_right', 'field_input_padding_right', $key, $fields, $custom_fields );
+			$fields = $this->set_field( '_ctct_field_input_padding_bottom', 'field_input_padding_bottom', $key, $fields, $custom_fields );
+			$fields = $this->set_field( '_ctct_field_input_padding_left', 'field_input_padding_left', $key, $fields, $custom_fields );
 
 			// Set our field requirement, if we can. We do this by casting the results of our two checks to a boolean.
 			$fields['fields'][ $key ]['required'] = (

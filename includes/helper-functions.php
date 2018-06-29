@@ -505,3 +505,28 @@ function constant_contact_akismet_spam_check( $args ) {
 
 	return $spam;
 }
+
+function constant_contact_process_custom_inline_styles( $styles ) {
+	$filtered_styles = array();
+
+	if ( ! is_array( $styles ) || empty( $styles ) ) {
+		return $filtered_styles;
+	}
+
+	$accepted_styles = array(
+		'field_input_padding_top'    => 'padding-top: ',
+		'field_input_padding_right'  => 'padding-right: ',
+		'field_input_padding_bottom' => 'padding-bottom: ',
+		'field_input_padding_left'   => 'padding-left: ',
+	);
+
+	// Run through the styles.
+	foreach( $styles as $style_key => $style_value ) {
+		if ( array_key_exists( $style_key, $accepted_styles ) ) {
+			echo $accepted_styles[$style_key] . ': ';
+			echo $style_key . ': ' . $style_value . '<br />';
+		}
+	}
+
+	return $filtered_styles;
+}

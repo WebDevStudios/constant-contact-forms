@@ -516,24 +516,32 @@ class ConstantContact_Display {
 		}
 
 		$field = wp_parse_args( $field, array(
-			'name'                  => '',
-			'map_to'                => '',
-			'type'                  => '',
-			'description'           => '',
-			'field_custom_class'    => array(),
-			'field_label_placement' => 'global',
-			'required'              => false,
+			'name'                       => '',
+			'map_to'                     => '',
+			'type'                       => '',
+			'description'                => '',
+			'field_custom_class'         => array(),
+			'field_label_placement'      => 'global',
+			'field_input_padding_top'    => '',
+			'field_input_padding_right'  => '',
+			'field_input_padding_bottom' => '',
+			'field_input_padding_left'   => '',
+			'required'                   => false,
 		) );
 
 		// Check all our data points.
-		$name                  = sanitize_text_field( $field['name'] );
-		$map                   = sanitize_text_field( $field['map_to'] );
-		$desc                  = sanitize_text_field( isset( $field['description'] ) ? $field['description'] : '' );
-		$field_custom_class    = ! empty( $field['field_custom_class'] ) ? explode( ' ', sanitize_text_field( $field['field_custom_class'] ) ) : array();
-		$field_label_placement = sanitize_text_field( isset( $field['field_label_placement'] ) ? $field['field_label_placement'] : 'global' );
-		$type                  = sanitize_text_field( isset( $field['type'] ) ? $field['type'] : 'text_field' );
-		$value                 = sanitize_text_field( isset( $field['value'] ) ? $field['value'] : false );
-		$req                   = isset( $field['required'] ) ? $field['required'] : false;
+		$name                       = sanitize_text_field( $field['name'] );
+		$map                        = sanitize_text_field( $field['map_to'] );
+		$desc                       = sanitize_text_field( isset( $field['description'] ) ? $field['description'] : '' );
+		$field_custom_class         = ! empty( $field['field_custom_class'] ) ? explode( ' ', sanitize_text_field( $field['field_custom_class'] ) ) : array();
+		$field_label_placement      = sanitize_text_field( isset( $field['field_label_placement'] ) ? $field['field_label_placement'] : 'global' );
+		$field_input_padding_top    = sanitize_text_field( $field['field_input_padding_top'] );
+		$field_input_padding_right  = sanitize_text_field( $field['field_input_padding_right'] );
+		$field_input_padding_bottom = sanitize_text_field( $field['field_input_padding_bottom'] );
+		$field_input_padding_left   = sanitize_text_field( $field['field_input_padding_left'] );
+		$type                       = sanitize_text_field( isset( $field['type'] ) ? $field['type'] : 'text_field' );
+		$value                      = sanitize_text_field( isset( $field['value'] ) ? $field['value'] : false );
+		$req                        = isset( $field['required'] ) ? $field['required'] : false;
 
 		// We may have more than one of the same field in our array.
 		// this makes sure we keep them unique when processing them.
@@ -578,8 +586,12 @@ class ConstantContact_Display {
 
 		// Package up custom CSS.
 		$field_custom_css = array(
-			'field_custom_class'   => $field_custom_class,
-			'field_label_placement' => $field_label_placement,
+			'field_custom_class'         => $field_custom_class,
+			'field_label_placement'      => $field_label_placement,
+			'field_input_padding_top'    => $field_input_padding_top,
+			'field_input_padding_right'  => $field_input_padding_right,
+			'field_input_padding_bottom' => $field_input_padding_bottom,
+			'field_input_padding_left'   => $field_input_padding_left,
 		);
 
 		// Based on our type, output different things.
@@ -865,8 +877,9 @@ class ConstantContact_Display {
 	public function input( $type = 'text', $name = '', $id = '', $field_custom_css = array(), $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0 ) {
 
 		// Sanitize our stuff / set values.
-		$name = sanitize_text_field( $name );
-		$f_id = sanitize_title( $id );
+		$name          = sanitize_text_field( $name );
+		$f_id          = sanitize_title( $id );
+		$custom_styles = array();
 
 		if ( ! empty( $field_custom_css['field_custom_class'] ) && is_array( $field_custom_css['field_custom_class'] ) ) {
 			$field_custom_class = sanitize_text_field( implode( ' ', $field_custom_css['field_custom_class'] ) );
@@ -895,6 +908,9 @@ class ConstantContact_Display {
 		 * @return array
 		 */
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
+
+		// Add custom inline styles.
+		$styles = constant_contact_process_custom_inline_styles( $field_custom_css );
 
 		/**
 		 * Filters whether or not to remove characters from potential maxlength attribute value.
