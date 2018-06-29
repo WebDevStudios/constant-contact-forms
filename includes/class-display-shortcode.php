@@ -44,7 +44,7 @@ class ConstantContact_Display_Shortcode {
 	}
 
 	/**
-	 * Acts as a wrapper so our shortcode class doesnt have to do this.
+	 * Acts as a wrapper so our shortcode class doesn't have to do this.
 	 *
 	 * @since 1.0.0
 	 *
@@ -203,8 +203,9 @@ class ConstantContact_Display_Shortcode {
 			// Set our field description, if we can.
 			$fields = $this->set_field( '_ctct_field_desc', 'description', $key, $fields, $custom_fields );
 
-			// See if a custom CSS class was set.
+			// See if a custom CSS was set.
 			$fields = $this->set_field( '_ctct_field_custom_class', 'field_custom_class', $key, $fields, $custom_fields );
+			$fields = $this->set_field( '_ctct_field_label_placement', 'field_label_placement', $key, $fields, $custom_fields );
 
 			// Set our field requirement, if we can. We do this by casting the results of our two checks to a boolean.
 			$fields['fields'][ $key ]['required'] = (

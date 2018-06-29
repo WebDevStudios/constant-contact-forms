@@ -580,7 +580,7 @@ class ConstantContact_Builder_Fields {
 			'id'          => $this->prefix . 'field_custom_class',
 			'type'        => 'text',
 			'description' => esc_html__(
-				'Set custom CSS class(es) for this field. Separate multiple classes with spaces.',
+				'Set custom CSS class(es) for this field. Separate multiple classes with spaces',
 				'constant-contact-forms' ),
 		) );
 
@@ -589,6 +589,12 @@ class ConstantContact_Builder_Fields {
 			'id'               => $this->prefix . 'field_label_placement',
 			'type'             => 'select',
 			'show_option_none' => 'Global',
+			'options'          => array(
+				'top'    => __( 'Top', 'constant-contact-forms' ),
+				'right'  => __( 'Right', 'constant-contact-forms' ),
+				'bottom' => __( 'Bottom', 'constant-contact-forms' ),
+				'left'   => __( 'Left', 'constant-contact-forms' ),
+			),
 			'description'      => esc_html__(
 				'Set custom CSS class(es) for this field. Separate multiple classes with spaces.',
 				'constant-contact-forms' ),
