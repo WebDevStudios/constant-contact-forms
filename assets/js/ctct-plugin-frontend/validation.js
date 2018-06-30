@@ -10,7 +10,7 @@ window.CTCTSupport = {};
 
 	that.removePlaceholder = function() {
 		$( '.ctct-form-field input,textarea' ).focus( function() {
-			$( this ).data( 'placeholder', $( this ).attr( 'placeholder' ) ).attr( 'placeholder','' );
+			$( this ).data( 'placeholder', $( this ).attr( 'placeholder' ) ).attr( 'placeholder', '' );
 		}).blur( function() {
 			$( this ).attr( 'placeholder', $( this ).data( 'placeholder' ) );
 		});
@@ -21,7 +21,7 @@ window.CTCTSupport = {};
 		that.$c = {
 			window: $( window ),
 			body: $( 'body' ),
-			form: '.ctct-form-wrapper form',
+			form: '.ctct-form-wrapper form'
 		};
 		that.timeout = null;
 	};
@@ -68,18 +68,19 @@ window.CTCTSupport = {};
 				clearTimeout(that.timeout);
 
 				that.timeout = setTimeout(function () {
+					$('#ctct-submitted').prop('disabled', true);
 					$.post(
 						ajaxurl,
 						{
 							'action': 'ctct_process_form',
-							'data'  : $(form_id_selector + 'form').serialize(),
+							'data'  : $(form_id_selector + 'form').serialize()
 						},
 						function (response) {
-
+							$('#ctct-submitted').prop('disabled', false);
 							// Make sure we got the 'status' attribute in our response
 							if (typeof( response.status ) !== 'undefined') {
 
-								if ( 'success' == response.status ) {
+								if ( 'success' === response.status ) {
 									// Add a timestamp to the message so that we only remove this message and not all at once.
 									var time_class = 'message-time-' + $.now();
 

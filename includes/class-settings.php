@@ -149,7 +149,7 @@ class ConstantContact_Settings {
 	 * @since 1.0.0
 	 */
 	public function scripts() {
-		wp_enqueue_style( 'constant-contact-forms' );
+		wp_enqueue_style( 'constant-contact-forms-admin' );
 	}
 
 	/**
@@ -474,7 +474,7 @@ class ConstantContact_Settings {
 	public function check_if_optin_should_show( $type ) {
 
 		// Get all our settings.
-		$available_areas = ctct_get_settings_option( '_ctct_optin_forms' );
+		$available_areas = ctct_get_settings_option( '_ctct_optin_forms', [] );
 
 		// If our settings aren't an array, bail out.
 		if ( ! is_array( $available_areas ) ) {
@@ -540,8 +540,8 @@ class ConstantContact_Settings {
 		}
 
 		// Get our label, based on our settings if they're available.
-		$saved_label = ctct_get_settings_option( '_ctct_optin_label' );
-		$list = ctct_get_settings_option( '_ctct_optin_list' );
+		$saved_label = ctct_get_settings_option( '_ctct_optin_label', '' );
+		$list = ctct_get_settings_option( '_ctct_optin_list', '' );
 
 		// Otherwise, use our default.
 		$label = $saved_label ? $saved_label : esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );

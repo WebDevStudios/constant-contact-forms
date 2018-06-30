@@ -158,20 +158,11 @@ class ConstantContact_Connect {
 	 */
 	public function admin_page_display() {
 
-		wp_register_style(
-			'constant_contact_admin_global_no_connection',
-			constant_contact()->url() . 'assets/css/admin-global-no-connection.css',
-			array(),
-			Constant_Contact::VERSION
-		);
-
-		wp_enqueue_style( 'constant_contact_admin_global_no_connection' );
-
 		if ( ! current_user_can( 'manage_options' ) ) {
 			return false;
 		}
 
-		wp_enqueue_style( 'constant-contact-oath', constant_contact()->url() . 'assets/css/oath.css' );
+		wp_enqueue_style( 'constant-contact-forms-admin' );
 
 		wp_localize_script( 'ctct_form', 'ctct_texts', array( 'disconnectconfirm' => __( 'Are you sure you want to disconnect?', 'constant-contact-forms' ) ) );
 

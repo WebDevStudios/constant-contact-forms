@@ -228,7 +228,7 @@ function constant_contact_review_ajax_handler() {
 		switch ( $action ) {
 			case 'dismissed':
 				$dismissed          = get_option( 'ctct-review-dismissed', array() );
-				$dismissed['time']  = time();
+				$dismissed['time']  = current_time( 'timestamp' );
 				if ( empty( $dismissed['count'] ) ) {
 					$dismissed['count'] = '1';
 				} elseif ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
@@ -313,7 +313,7 @@ function constant_contact_has_redirect_uri( $form_id = 0 ) {
  * @return bool
  */
 function constant_contact_check_timestamps( $maybe_spam, $data ) {
-	$current = time();
+	$current = current_time( 'timestamp' );
 	$difference = $current - $data['ctct_time'];
 	if ( $difference <= 5 ) {
 		return true;
@@ -351,7 +351,7 @@ function constant_contact_clean_url( $url = '' ) {
  * @return bool
  */
 function constant_contact_debugging_enabled() {
-	$debugging_enabled = ctct_get_settings_option( '_ctct_logging' );
+	$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
 
 	return (
 		( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) ||
@@ -521,13 +521,50 @@ function constant_contact_process_custom_inline_styles( $styles ) {
 	);
 
 	// Run through the styles.
-	foreach( $styles as $style_key => $style_value ) {
+	foreach ( $styles as $style_key => $style_value ) {
 		if ( array_key_exists( $style_key, $accepted_styles ) ) {
 
-			echo $accepted_styles[$style_key] . ': ';
+			echo $accepted_styles[ $style_key ] . ': ';
 			echo $style_key . ': ' . $style_value . '<br />';
 		}
 	}
 
 	return $filtered_styles;
+}
+
+/**
+ * Check whether or not emails should be disabled.
+ *
+ * @since 1.4.0
+ *
+ * @param int $form_id Current form ID being submitted to.
+ *
+ * @return mixed|void
+ */
+function constant_contact_emails_disabled( $form_id = 0 ) {
+
+	// Assume we can.
+	$disabled = false;
+
+	// Check for a setting for the form itself.
+	$form_disabled = get_post_meta( $form_id, '_ctct_disable_emails_for_form', true );
+	if ( 'on' === $form_disabled ) {
+		$disabled = true;
+	}
+
+	// Check for our global setting.
+	$global_form_disabled = ctct_get_settings_option( '_ctct_disable_email_notifications', '' );
+	if ( 'on' === $global_form_disabled ) {
+		$disabled = true;
+	}
+
+	/**
+	 * Filters whether or not emails should be disabled.
+	 *
+	 * @since 1.4.0
+	 *
+	 * @param bool $disabled Whether or not emails are disabled.
+	 * @param int  $form_id  Form ID being submitted to.
+	 */
+	return apply_filters( 'constant_contact_emails_disabled', $disabled, $form_id );
 }
