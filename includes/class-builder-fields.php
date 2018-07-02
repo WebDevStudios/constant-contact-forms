@@ -287,7 +287,7 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field( array(
 			'name'       => __( 'Top', 'constant-contact-forms' ),
-			'id'         => $this->prefix . 'top_form_padding',
+			'id'         => $this->prefix . 'input_padding_top',
 			'type'       => 'text_small',
 			'show_names' => true,
 			'attributes' => array(
@@ -297,7 +297,7 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field( array(
 			'name'       => __( 'Right', 'constant-contact-forms' ),
-			'id'         => $this->prefix . 'right_form_padding',
+			'id'         => $this->prefix . 'input_padding_right',
 			'type'       => 'text_small',
 			'show_names' => true,
 			'attributes' => array(
@@ -307,7 +307,7 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field( array(
 			'name'       => __( 'Bottom', 'constant-contact-forms' ),
-			'id'         => $this->prefix . 'bottom_form_padding',
+			'id'         => $this->prefix . 'input_padding_bottom',
 			'type'       => 'text_small',
 			'show_names' => true,
 			'attributes' => array(
@@ -317,7 +317,7 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field( array(
 			'name'       => __( 'Left', 'constant-contact-forms' ),
-			'id'         => $this->prefix . 'left_form_padding',
+			'id'         => $this->prefix . 'input_padding_left',
 			'type'       => 'text_small',
 			'show_names' => true,
 			'attributes' => array(

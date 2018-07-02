@@ -218,31 +218,8 @@ class ConstantContact_Display {
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$form_classes   = 'ctct-form ctct-form-' . $form_id;
 
-		$user_form_classes = get_post_meta( $form_id, '_ctct_form_custom_classes', true );
-		if ( $user_form_classes ) {
-			$form_classes .= ' ' . $user_form_classes;
-		}
-
-		// Apply any user-set custom CSS for forms.
-		$form_custom_styles = array();
-
-		$form_padding_top    = get_post_meta( $form_id, '_ctct_top_form_padding', true );
-		$form_padding_right  = get_post_meta( $form_id, '_ctct_right_form_padding', true );
-		$form_padding_bottom = get_post_meta( $form_id, '_ctct_bottom_form_padding', true );
-		$form_padding_left   = get_post_meta( $form_id, '_ctct_left_form_padding', true );
-		if ( $form_padding_top ) {
-			$form_custom_styles[] = 'padding-top: ' . $form_padding_top . 'px;';
-		}
-		if ( $form_padding_right ) {
-			$form_custom_styles[] = 'padding-right: ' . $form_padding_right . 'px;';
-		}
-		if ( $form_padding_bottom ) {
-			$form_custom_styles[] = 'padding-bottom: ' . $form_padding_bottom . 'px;';
-		}
-		if ( $form_padding_left ) {
-			$form_custom_styles[] = 'padding-left: ' . $form_padding_left . 'px;';
-		}
-
+		// Set any custom styles set for the form.
+		$form_custom_styles    = array();
 		$form_background_color = get_post_meta( $form_id, '_ctct_form_background_color', true );
 		if ( $form_background_color ) {
 			$form_custom_styles[] = 'background-color: ' . $form_background_color . ';';
@@ -516,32 +493,21 @@ class ConstantContact_Display {
 		}
 
 		$field = wp_parse_args( $field, array(
-			'name'                       => '',
-			'map_to'                     => '',
-			'type'                       => '',
-			'description'                => '',
-			'field_custom_class'         => array(),
-			'field_label_placement'      => 'global',
-			'field_input_padding_top'    => '',
-			'field_input_padding_right'  => '',
-			'field_input_padding_bottom' => '',
-			'field_input_padding_left'   => '',
-			'required'                   => false,
+			'name'             => '',
+			'map_to'           => '',
+			'type'             => '',
+			'description'      => '',
+			'field_custom_css' => array(),
+			'required'         => false,
 		) );
 
 		// Check all our data points.
-		$name                       = sanitize_text_field( $field['name'] );
-		$map                        = sanitize_text_field( $field['map_to'] );
-		$desc                       = sanitize_text_field( isset( $field['description'] ) ? $field['description'] : '' );
-		$field_custom_class         = ! empty( $field['field_custom_class'] ) ? explode( ' ', sanitize_text_field( $field['field_custom_class'] ) ) : array();
-		$field_label_placement      = sanitize_text_field( isset( $field['field_label_placement'] ) ? $field['field_label_placement'] : 'global' );
-		$field_input_padding_top    = sanitize_text_field( $field['field_input_padding_top'] );
-		$field_input_padding_right  = sanitize_text_field( $field['field_input_padding_right'] );
-		$field_input_padding_bottom = sanitize_text_field( $field['field_input_padding_bottom'] );
-		$field_input_padding_left   = sanitize_text_field( $field['field_input_padding_left'] );
-		$type                       = sanitize_text_field( isset( $field['type'] ) ? $field['type'] : 'text_field' );
-		$value                      = sanitize_text_field( isset( $field['value'] ) ? $field['value'] : false );
-		$req                        = isset( $field['required'] ) ? $field['required'] : false;
+		$name  = sanitize_text_field( $field['name'] );
+		$map   = sanitize_text_field( $field['map_to'] );
+		$desc  = sanitize_text_field( isset( $field['description'] ) ? $field['description'] : '' );
+		$type  = sanitize_text_field( isset( $field['type'] ) ? $field['type'] : 'text_field' );
+		$value = sanitize_text_field( isset( $field['value'] ) ? $field['value'] : false );
+		$req   = isset( $field['required'] ) ? $field['required'] : false;
 
 		// We may have more than one of the same field in our array.
 		// this makes sure we keep them unique when processing them.
@@ -584,16 +550,6 @@ class ConstantContact_Display {
 		// Potentially replace value with submitted value.
 		$value = $this->get_submitted_value( $value, $map, $field, $old_values );
 
-		// Package up custom CSS.
-		$field_custom_css = array(
-			'field_custom_class'         => $field_custom_class,
-			'field_label_placement'      => $field_label_placement,
-			'field_input_padding_top'    => $field_input_padding_top,
-			'field_input_padding_right'  => $field_input_padding_right,
-			'field_input_padding_bottom' => $field_input_padding_bottom,
-			'field_input_padding_left'   => $field_input_padding_left,
-		);
-
 		// Based on our type, output different things.
 		switch ( $type ) {
 			case 'custom':
@@ -604,12 +560,12 @@ class ConstantContact_Display {
 			case 'company':
 			case 'website':
 			case 'text_field':
-				return $this->input( 'text', $name, $map, $field_custom_css, $value, $desc, $req, false, $field_error, $form_id );
+				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id );
 			case 'custom_text_area':
-				return $this->textarea( $name, $map, $field_custom_css, $value, $desc, $req, $field_error, 'maxlength="500"' );
+				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="500"' );
 				break;
 			case 'email':
-				return $this->input( 'email', $name, $map, $field_custom_css, $value, $desc, $req, false, $field_error );
+				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			case 'hidden':
 				return $this->input( 'hidden', $name, '', $map, $value, $desc, $req );
@@ -618,7 +574,7 @@ class ConstantContact_Display {
 				return $this->checkbox( $name, $map, $value, $desc );
 				break;
 			case 'submit':
-				return $this->input( 'submit', $name, $field_custom_css, $map, $value, $desc, $req, false, $field_error );
+				return $this->input( 'submit', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			case 'address':
 				return $this->address( $name, $map, $value, $desc, $req, $field_error );
@@ -629,7 +585,7 @@ class ConstantContact_Display {
 				return $this->dates( $name, $map, $value, $desc, $req, $field_error );
 				break;
 			default:
-				return $this->input( 'text', $name, $field_custom_css, $map, $value, $desc, $req, false, $field_error );
+				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 		}
 	}
@@ -863,7 +819,6 @@ class ConstantContact_Display {
 	 * @param string  $type                 Type of form field.
 	 * @param string  $name                 ID of form field.
 	 * @param string  $id                   ID attribute value.
-	 * @param array   $field_custom_css     Custom CSS information set for the field.
 	 * @param string  $value                pre-filled value.
 	 * @param string  $label                label text for input.
 	 * @param boolean $req                  If field required.
@@ -872,18 +827,11 @@ class ConstantContact_Display {
 	 * @param int     $form_id              Current form ID.
 	 * @return string HTML markup for field.
 	 */
-	public function input( $type = 'text', $name = '', $id = '', $field_custom_css = array(), $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0 ) {
+	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0 ) {
 
 		// Sanitize our stuff / set values.
-		$name          = sanitize_text_field( $name );
-		$f_id          = sanitize_title( $id );
-		$custom_styles = array();
-
-		if ( ! empty( $field_custom_css['field_custom_class'] ) && is_array( $field_custom_css['field_custom_class'] ) ) {
-			$field_custom_class = sanitize_text_field( implode( ' ', $field_custom_css['field_custom_class'] ) );
-		} else {
-			$field_custom_class = array();
-		}
+		$name = sanitize_text_field( $name );
+		$f_id = sanitize_title( $id );
 
 		$type     = sanitize_text_field( $type );
 		$value    = sanitize_text_field( $value );
@@ -894,7 +842,7 @@ class ConstantContact_Display {
 		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
 
 		// Provide some CSS class(es).
-		$classes = array_merge( array( 'ctct-' . esc_attr( $type ), $field_custom_class ) );
+		$classes = array( 'ctct-' . esc_attr( $type ) );
 
 		/**
 		 * Filter to add classes for the rendering input.
@@ -905,9 +853,6 @@ class ConstantContact_Display {
 		 * @return array
 		 */
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
-
-		// Add custom inline styles.
-		$styles = constant_contact_process_custom_inline_styles( $field_custom_css );
 
 		/**
 		 * Filters whether or not to remove characters from potential maxlength attribute value.
@@ -1534,6 +1479,17 @@ class ConstantContact_Display {
 			$length = $length - $label_length;
 		}
 		return 'maxlength="' . $length . '"';
+	}
+
+	public function package_field_inline_styles( $field ) {
+		$field_custom_css['field_custom_class']    = ! empty( $field['field_custom_class'] ) ? explode( ' ', sanitize_text_field( $field['field_custom_class'] ) ) : array();
+		$field_custom_css['field_label_placement'] = sanitize_text_field( isset( $field['field_label_placement'] ) ? $field['field_label_placement'] : 'global' );
+		$field_custom_css['padding_top'] = sanitize_text_field( isset( $field['input_padding_top'] ) ? $field['input_padding_top'] : 'inherit' );
+		$field_custom_css['padding_right']         = sanitize_text_field( isset( $field['input_padding_right'] ) ? $field['input_padding_right'] : 'inherit' );
+		$field_custom_css['padding_bottom']        = sanitize_text_field( isset( $field['input_padding_bottom'] ) ? $field['input_padding_bottom'] : 'inherit' );
+		$field_custom_css['padding_left']          = sanitize_text_field( isset( $field['input_padding_left'] ) ? $field['input_padding_left'] : 'inherit' );
+
+		return $field_custom_css;
 	}
 }
 

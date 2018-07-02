@@ -88,6 +88,9 @@ class ConstantContact_Display_Shortcode {
 		// Pass our data into our field method.
 		$form_data = $this->get_field_meta( $meta, $form_id );
 
+		// Get any custom CSS set for the field.
+		// $custom_styles = $this->get_form_styles( $meta, $form_id );
+
 		// Return our markup.
 		$form = constant_contact()->display->form( $form_data, $form_id );
 
@@ -202,14 +205,6 @@ class ConstantContact_Display_Shortcode {
 
 			// Set our field description, if we can.
 			$fields = $this->set_field( '_ctct_field_desc', 'description', $key, $fields, $custom_fields );
-
-			// See if a custom CSS was set.
-			$fields = $this->set_field( '_ctct_field_custom_class', 'field_custom_class', $key, $fields, $custom_fields );
-			$fields = $this->set_field( '_ctct_field_label_placement', 'field_label_placement', $key, $fields, $custom_fields );
-			$fields = $this->set_field( '_ctct_field_input_padding_top', 'field_input_padding_top', $key, $fields, $custom_fields );
-			$fields = $this->set_field( '_ctct_field_input_padding_right', 'field_input_padding_right', $key, $fields, $custom_fields );
-			$fields = $this->set_field( '_ctct_field_input_padding_bottom', 'field_input_padding_bottom', $key, $fields, $custom_fields );
-			$fields = $this->set_field( '_ctct_field_input_padding_left', 'field_input_padding_left', $key, $fields, $custom_fields );
 
 			// Set our field requirement, if we can. We do this by casting the results of our two checks to a boolean.
 			$fields['fields'][ $key ]['required'] = (
