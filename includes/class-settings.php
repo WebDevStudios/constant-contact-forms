@@ -370,134 +370,32 @@ class ConstantContact_Settings {
 		);
 
 		$cmb->add_field( array(
-			'name'        => esc_html__( 'Background Color' ),
-			'id'          => '_ctct_form_background_color',
-			'type'        => 'colorpicker',
-			'description' => esc_html__( 'Choose a default background color for all forms.', 'constant-contact-forms' ),
+			'name'        => esc_html__( 'CSS Classes', 'constant-contact_forms' ),
+			'id'          => '_ctct_form_custom_classes',
+			'type'        => 'text',
+			'description' => esc_html__(
+					'Provide custom classes for the form separated by a single space.',
+					'constant-contact-forms'
+			),
 			'before_row'  => $before_global_css,
 		) );
 
 		$cmb->add_field( array(
-			'name'        => esc_html__( 'Form Padding', 'constant-contact-forms' ),
-			'type'        => 'title',
-			'id'          => '_ctct_form-padding-title',
-			'description' => esc_html__(
-					'Enter padding in number of pixels. Padding will affect each field in the form, not the form itself.',
-					'constant-contact-form' ),
-		) );
-
-		$cmb->add_field( array(
-			'name'       => __( 'Top', 'constant-contact-forms' ),
-			'id'         => '_ctct_top_form_padding',
-			'type'       => 'text_small',
-			'show_names' => true,
-			'attributes' => array(
-				'type' => 'number',
-			),
-		) );
-
-		$cmb->add_field( array(
-			'name'       => __( 'Right', 'constant-contact-forms' ),
-			'id'         => '_ctct_right_form_padding',
-			'type'       => 'text_small',
-			'show_names' => true,
-			'attributes' => array(
-				'type' => 'number',
-			),
-		) );
-
-		$cmb->add_field( array(
-			'name'       => __( 'Bottom', 'constant-contact-forms' ),
-			'id'         => '_ctct_bottom_form_padding',
-			'type'       => 'text_small',
-			'show_names' => true,
-			'attributes' => array(
-				'type' => 'number',
-			),
-		) );
-
-		$cmb->add_field( array(
-			'name'       => __( 'Left', 'constant-contact-forms' ),
-			'id'         => '_ctct_left_form_padding',
-			'type'       => 'text_small',
-			'show_names' => true,
-			'attributes' => array(
-				'type' => 'number',
-			),
-			'after_row'  => '<div class="clear"></div>',
-		) );
-
-		$cmb->add_field( array(
-			'name' => esc_html__( 'Form Title', 'constant-contact-forms' ),
-			'type' => 'title',
-			'id'   => '_ctct_form-title-title',
-		) );
-
-		$cmb->add_field( array(
-			'name'             => esc_html__( 'Font Size', 'constant-contact-forms' ),
+			'name'             => esc_html__( 'Label Placement' ),
+			'id'               => 'ctct_form_label_placement',
 			'type'             => 'select',
-			'id'               => '_ctct_form-title-font-size',
-			'show_option_none' => 'Inherit',
-			'options'          => $this->font_size_choices(),
-			'description'      => esc_html__( 'Choose font size in number of pixels.', 'constant-contact-form' ),
-		) );
-
-		$cmb->add_field( array(
-			'name'        => esc_html__( 'Title Color' ),
-			'id'          => '_ctct_form_title_color',
-			'type'        => 'colorpicker',
-			'description' => esc_html__( 'Choose a color for the title.', 'constant-contact-forms' ),
-		) );
-
-		$cmb->add_field( array(
-			'name' => esc_html__( 'Form Description', 'constant-contact-forms' ),
-			'type' => 'title',
-			'id'   => '_ctct_form-description-title',
-		) );
-
-		$cmb->add_field( array(
-			'name'             => esc_html__( 'Font Size', 'constant-contact-forms' ),
-			'type'             => 'select',
-			'id'               => '_ctct_form-description-font-size',
-			'show_option_none' => 'Inherit',
-			'options'          => $this->font_size_choices(),
-			'description'      => esc_html__( 'Choose font size in number of pixels.', 'constant-contact-form' ),
-		) );
-
-		$cmb->add_field( array(
-			'name'        => esc_html__( 'Description Color' ),
-			'id'          => '_ctct_form_description_color',
-			'type'        => 'colorpicker',
-			'description' => esc_html__( 'Choose a color for the description.', 'constant-contact-forms' ),
-		) );
-
-		$cmb->add_field( array(
-			'name' => esc_html__( 'Form Submit Button', 'constant-contact-forms' ),
-			'type' => 'title',
-			'id'   => '_ctct_form-submit-button',
-		) );
-
-		$cmb->add_field( array(
-			'name'             => esc_html__( 'Font Size', 'constant-contact-forms' ),
-			'type'             => 'select',
-			'id'               => '_ctct_form_submit_button_font_size',
-			'show_option_none' => 'Inherit',
-			'options'          => $this->font_size_choices(),
-			'description'      => esc_html__( 'Choose font size in number of pixels.', 'constant-contact-form' ),
-		) );
-
-		$cmb->add_field( array(
-			'name'        => esc_html__( 'Text Color' ),
-			'id'          => '_ctct_form_submit_text_color',
-			'type'        => 'colorpicker',
-			'description' => esc_html__( "Choose a color for the submit button's text.", 'constant-contact-forms' ),
-		) );
-
-		$cmb->add_field( array(
-			'name'        => esc_html__( 'Background Color' ),
-			'id'          => '_ctct_form_submit_background_color',
-			'type'        => 'colorpicker',
-			'description' => esc_html__( "Choose a color for the submit button's background.", 'constant-contact-forms' ),
+			'default'          => 'top',
+			'show_option_none' => false,
+			'options'          => array(
+				'top'    => 'Top',
+				'left'   => 'Left',
+				'right'  => 'Right',
+				'hidden' => 'Hidden',
+			),
+			'description'      => esc_html__(
+				'Choose the position for the labels of the form elements.',
+				'constant-contact-forms'
+			),
 		) );
 
 		$before_debugging = sprintf(
@@ -958,25 +856,6 @@ class ConstantContact_Settings {
 			return true;
 		}
 		return false;
-	}
-
-	/**
-	 * Generate a list of font sizes to use for font size dropdowns.
-	 *
-	 * @since 1.4.0
-	 *
-	 * @return array
-	 */
-	public function font_size_choices() {
-		return array(
-			'12' => __( '12 Pixels', 'constant-contact-forms' ),
-			'13' => __( '13 Pixels', 'constant-contact-forms' ),
-			'14' => __( '14 Pixels', 'constant-contact-forms' ),
-			'15' => __( '15 Pixels', 'constant-contact-forms' ),
-			'16' => __( '16 Pixels', 'constant-contact-forms' ),
-			'17' => __( '17 Pixels', 'constant-contact-forms' ),
-			'18' => __( '18 Pixels', 'constant-contact-forms' ),
-		);
 	}
 }
 

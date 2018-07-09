@@ -1452,15 +1452,6 @@ class ConstantContact_Display {
 		return 'maxlength="' . $length . '"';
 	}
 
-	public function package_field_inline_styles( $field ) {
-		$field_custom_css['field_custom_class']    = ! empty( $field['field_custom_class'] ) ? explode( ' ', sanitize_text_field( $field['field_custom_class'] ) ) : array();
-		$field_custom_css['field_label_placement'] = sanitize_text_field( isset( $field['field_label_placement'] ) ? $field['field_label_placement'] : 'global' );
-		$field_custom_css['padding_top'] = sanitize_text_field( isset( $field['input_padding_top'] ) ? $field['input_padding_top'] : 'inherit' );
-		$field_custom_css['padding_right']         = sanitize_text_field( isset( $field['input_padding_right'] ) ? $field['input_padding_right'] : 'inherit' );
-		$field_custom_css['padding_bottom']        = sanitize_text_field( isset( $field['input_padding_bottom'] ) ? $field['input_padding_bottom'] : 'inherit' );
-		$field_custom_css['padding_left']          = sanitize_text_field( isset( $field['input_padding_left'] ) ? $field['input_padding_left'] : 'inherit' );
 
-		return $field_custom_css;
-	}
 }
 

@@ -542,3 +542,24 @@ function constant_contact_emails_disabled( $form_id = 0 ) {
 	 */
 	return apply_filters( 'constant_contact_emails_disabled', $disabled, $form_id );
 }
+
+/**
+ * Get a list of font sizes to use in a dropdown menu for user customization.
+ *
+ * @since 1.4.0
+ *
+ * @return array The font sizes to use in a dropdown.
+ */
+function constant_contact_get_font_dropdown_sizes() {
+	return array(
+		'12px' => '12 pixels',
+		'13px' => '13 pixels',
+		'14px' => '14 pixels',
+		'15px' => '15 pixels',
+		'16px' => '16 pixels',
+		'17px' => '17 pixels',
+		'18px' => '18 pixels',
+		'19px' => '19 pixels',
+		'20px' => '20 pixels',
+	);
+}

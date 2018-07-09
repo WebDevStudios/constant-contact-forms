@@ -221,7 +221,7 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'        => __( 'Background Color', 'constant-contact-forms' ),
+			'name'        => __( 'Form Background Color', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'form_background_color',
 			'type'        => 'colorpicker',
 			'description' => esc_html__(
@@ -231,21 +231,17 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
+			'name' => esc_html__( 'Form Title', 'constant-contact-forms' ),
+			'type' => 'title',
+			'id'   => 'form-title-title',
+		) );
+
+		$custom_css_metabox->add_field( array(
 			'name'             => __( 'Title Font Size', 'constant-contact-forms' ),
 			'id'               => $this->prefix . 'form_title_font_size',
 			'type'             => 'select',
 			'show_option_none' => 'Default',
-			'options'          => array(
-				'12' => '12',
-				'13' => '13',
-				'14' => '14',
-				'15' => '15',
-				'16' => '16',
-				'17' => '17',
-				'18' => '18',
-				'19' => '19',
-				'20' => '20',
-			),
+			'options'          => constant_contact_get_font_dropdown_sizes(),
 			'description'      => esc_html__(
 				'Choose a font size for the form title in pixels.',
 				'constant-contact-forms'
@@ -253,11 +249,89 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'        => __( 'Title Color', 'constant-contact-forms' ),
+			'name'        => __( 'Title Font Color', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'form_title_color',
 			'type'        => 'colorpicker',
 			'description' => esc_html__(
 				'Choose a color for the form title.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'             => __( 'Title Font Size', 'constant-contact-forms' ),
+			'id'               => $this->prefix . 'form_title_font_size',
+			'type'             => 'select',
+			'show_option_none' => 'Default',
+			'options'          => constant_contact_get_font_dropdown_sizes(),
+			'description'      => esc_html__(
+				'Choose a font size for the form title in pixels.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name' => esc_html__( 'Form Description', 'constant-contact-forms' ),
+			'type' => 'title',
+			'id'   => 'form-description-title',
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'             => __( 'Description Font Size', 'constant-contact-forms' ),
+			'id'               => $this->prefix . 'form_description_font_size',
+			'type'             => 'select',
+			'show_option_none' => 'Default',
+			'options'          => constant_contact_get_font_dropdown_sizes(),
+			'description'      => esc_html__(
+				'Choose a font size for the form description in pixels.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'        => __( 'Description Font Color', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'form_description_color',
+			'type'        => 'colorpicker',
+			'description' => esc_html__(
+				'Choose a color for the description text.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name' => esc_html__( 'Form Submit Button', 'constant-contact-forms' ),
+			'type' => 'title',
+			'id'   => 'form-submit-button-title',
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'             => __( 'Submit Button Font Size', 'constant-contact-forms' ),
+			'id'               => $this->prefix . 'form_submit_button_font_size',
+			'type'             => 'select',
+			'show_option_none' => 'Default',
+			'options'          => constant_contact_get_font_dropdown_sizes(),
+			'description'      => esc_html__(
+				'Choose a font size for the submit button in pixels.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'        => __( 'Submit Button Font Color', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'form_submit_button_text_color',
+			'type'        => 'colorpicker',
+			'description' => esc_html__(
+				'Choose a color for the submit button text.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'        => __( 'Submit Button Background Color', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'form_submit_button_background_color',
+			'type'        => 'colorpicker',
+			'description' => esc_html__(
+				'Choose a color for the submit button background.',
 				'constant-contact-forms'
 			),
 		) );
