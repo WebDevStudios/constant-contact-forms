@@ -290,7 +290,7 @@ class ConstantContact_Admin {
 						get_the_title( $list->ID )
 					);
 				} else {
-					esc_html_e( 'No associated form', 'constant-contact-forms' );
+					esc_html_e( 'No associated list', 'constant-contact-forms' );
 				}
 			break;
 		}
@@ -508,12 +508,13 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param string $list_id Constant Contact list ID value
+	 * @param string $list_id Constant Contact list ID value.
 	 * @return mixed
 	 */
 	public function get_associated_list_by_id( $list_id ) {
 		global $wpdb;
 		$sql = "SELECT p.ID FROM $wpdb->posts as p INNER JOIN $wpdb->postmeta as pm on p.ID = pm.post_id WHERE pm.meta_key = '_ctct_list_id' AND pm.meta_value = %s";
+
 		$rs = $wpdb->get_results(
 			$wpdb->prepare( $sql, $list_id )
 		);

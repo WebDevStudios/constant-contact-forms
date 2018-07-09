@@ -80,7 +80,7 @@ class ConstantContact_Mail {
 				 * @param int $schedule_delay The time to add to `time()` for the event.
 				 */
 				$schedule_delay = apply_filters( 'constant_contact_opt_in_delay', MINUTE_IN_SECONDS );
-				wp_schedule_single_event( time() + absint( $schedule_delay ), 'ctct_schedule_form_opt_in', array( $values ) );
+				wp_schedule_single_event( current_time( 'timestamp' ) + absint( $schedule_delay ), 'ctct_schedule_form_opt_in', array( $values ) );
 			}
 		}
 
@@ -95,14 +95,14 @@ class ConstantContact_Mail {
 		$values = constant_contact()->process_form->pretty_values( $values );
 
 		// Format them.
-		$email_values = $this->format_values_for_email( $values );
+		$email_values = $this->format_values_for_email( $values, $submission_details['form_id'] );
 		$was_forced = false; // Set a value regardless of status.
 
 		// Increment our counter for processed form entries.
 		constant_contact()->process_form->increment_processed_form_count();
 
 		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in
-		if ( constant_contact()->api->is_connected() && 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) ) {
+		if ( constant_contact()->api->is_connected() && constant_contact_emails_disabled( $submission_details['form_id'] ) ) {
 			if ( $add_to_opt_in ) {
 				return true;
 			}
@@ -119,7 +119,7 @@ class ConstantContact_Mail {
 		// Checks if we have a list
 		if (
 			( ! constant_contact()->api->is_connected() || empty( $has_list ) ) &&
-			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
+			( constant_contact_emails_disabled( $submission_details['form_id'] ) )
 		) { // If we're not connected or have no list set AND we've disabled. Override.
 
 			$submission_details['list-available'] = 'no';
@@ -129,14 +129,14 @@ class ConstantContact_Mail {
 		if (
 			! empty( $_POST['ctct_must_opt_in'] ) &&
 			empty( $opt_in_details ) &&
-			( 'on' === ctct_get_settings_option( '_ctct_disable_email_notifications' ) )
+			( constant_contact_emails_disabled( $submission_details['form_id'] ) )
 		) {
 			$submission_details['opted-in'] = 'no';
 			$was_forced                     = true;
 		}
 
 		// Send the mail.
-		return $this->mail( $this->get_email(), $email_values, $submission_details, $was_forced );
+		return $this->mail( $this->get_email( $submission_details['form_id'] ), $email_values, $submission_details, $was_forced );
 	}
 
 	/**
@@ -188,23 +188,36 @@ class ConstantContact_Mail {
 	 * Formats values for email.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Added form_id parameter.
 	 *
-	 * @param array $pretty_vals Values to format.
+	 * @param array  $pretty_vals Values to format.
+	 * @param string $form_id Form ID being submitted to.
 	 * @return string HTML content for email.
 	 */
-	public function format_values_for_email( $pretty_vals ) {
+	public function format_values_for_email( $pretty_vals, $form_id ) {
 
 		$return = '';
+
+		// Retrieve our original label to send with API request.
+		$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
 		foreach ( $pretty_vals as $val ) {
 
 			$label = isset( $val['orig_key'] ) ? $val['orig_key'] : false;
 
-			if ( $label ) {
+			$custom_field_name = '';
+			if ( false !== strpos( $label, 'custom___' ) ) {
+				$custom_field = ( $original_field_data[ $val['orig_key'] ] );
+				$custom_field_name .= $custom_field['name'];
+			}
+
+			if ( $label && empty( $custom_field_name ) ) {
 				// Break out our unique key.
 				$label = explode( '___', $label );
 
 				// Uppercase and format to be human readable.
 				$label = ucwords( str_replace( '_', ' ', $label[0] ) );
+			} else {
+				$label = $custom_field_name;
 			}
 			$value = isset( $val['post'] ) ? $val['post'] : '&nbsp;';
 
@@ -218,10 +231,13 @@ class ConstantContact_Mail {
 	 * Get the email address to send to.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Added form ID parameter.
+	 *
+	 * @param string $form_id Current form ID being submitted to.
 	 *
 	 * @return string Email address to send to.
 	 */
-	public function get_email() {
+	public function get_email( $form_id ) {
 
 		$email = get_option( 'admin_email' );
 
@@ -229,10 +245,12 @@ class ConstantContact_Mail {
 		 * Filters the email to send Constant Contact Forms admin emails to.
 		 *
 		 * @since 1.3.0
+		 * @since 1.4.0 Added form ID parameter.
 		 *
 		 * @param string $email Email address to send to. Default admin_email option.
+		 * @param string $form_id Current form ID being submitted to.
 		 */
-		return apply_filters( 'constant_contact_destination_email', $email );
+		return apply_filters( 'constant_contact_destination_email', $email, $form_id );
 	}
 
 	/**
@@ -258,8 +276,28 @@ class ConstantContact_Mail {
 			$screen = get_current_screen();
 		}
 
-		$mail_key = md5( "{$destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
-		$partial_email = $this->get_email_part( $destination_email );
+		if ( is_array( $destination_email ) ) {
+			$temp_destination_email = implode( ',', $destination_email );
+		} else {
+			$temp_destination_email = $destination_email;
+		}
+		// Implode for the sake of $mail_key and md5 usage.
+		$mail_key = md5( "{$temp_destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
+
+		if ( is_array( $destination_email ) ) {
+			$partial_email = array_map( array( $this, 'get_email_part' ), $destination_email );
+			$partial_email = implode( ',', $partial_email );
+		} else {
+			if ( false !== strpos( $destination_email, ',' ) ) {
+				// Use trim to handle cases of ", "
+				$partials = array_map( 'trim', explode( ',', $destination_email ) );
+				// Collect our parts and re-implode.
+				$partial_email = array_map( array( $this, 'get_email_part' ), $partials );
+				$partial_email = implode( ',', $partial_email );
+			} else {
+				$partial_email = $this->get_email_part( $destination_email );
+			}
+		}
 
 		// If we already have sent this e-mail, don't send it again.
 		if ( $last_sent === $mail_key ) {
@@ -278,10 +316,18 @@ class ConstantContact_Mail {
 			return true;
 		}
 
-		// If we didn't get passed in a sanitized email, we know something is
-		// wonky here, so bail out.
-		if ( sanitize_email( $destination_email ) !== $destination_email ) {
-			return false;
+		if ( is_array( $destination_email ) ) {
+			$destination_email = array_map( 'sanitize_email', $destination_email );
+			$destination_email = implode( ',', $destination_email );
+		} else {
+			if ( false !== strpos( $destination_email, ',' ) ) {
+				// Use trim to handle cases of ", "
+				$partials = array_map( 'trim', explode( ',', $destination_email ) );
+				$partials = array_map( 'sanitize_email', $partials );
+				$destination_email = implode( ',', $partials );
+			} else {
+				$destination_email = sanitize_email( $destination_email );
+			}
 		}
 
 		// Filter to allow sending HTML for our message body.

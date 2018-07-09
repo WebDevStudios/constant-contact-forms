@@ -94,7 +94,7 @@ class ConstantContact_Logging {
 	 */
 	public function add_options_page() {
 
-		$debugging_enabled = ctct_get_settings_option( '_ctct_logging' );
+		$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
 
 		if ( 'on' !== $debugging_enabled ) {
 			return;
@@ -123,7 +123,7 @@ class ConstantContact_Logging {
 	 */
 	public function admin_page_display() {
 
-		wp_enqueue_style( 'constant-contact-oath', constant_contact()->url() . 'assets/css/oath.css' );
+		wp_enqueue_style( 'constant-contact-forms-admin' );
 
 		?>
 		<div class="wrap <?php echo esc_attr( $this->key ); ?>">
