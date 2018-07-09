@@ -88,9 +88,6 @@ class ConstantContact_Display_Shortcode {
 		// Pass our data into our field method.
 		$form_data = $this->get_field_meta( $meta, $form_id );
 
-		// Get any custom CSS set for the field.
-		// $custom_styles = $this->get_form_styles( $meta, $form_id );
-
 		// Return our markup.
 		$form = constant_contact()->display->form( $form_data, $form_id );
 

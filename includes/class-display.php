@@ -196,13 +196,6 @@ class ConstantContact_Display {
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$form_classes   = 'ctct-form ctct-form-' . $form_id;
 
-		// Set any custom styles set for the form.
-		$form_custom_styles    = array();
-		$form_background_color = get_post_meta( $form_id, '_ctct_form_background_color', true );
-		if ( $form_background_color ) {
-			$form_custom_styles[] = 'background-color: ' . $form_background_color . ';';
-		}
-
 		// Add action before form for custom actions.
 		ob_start();
 		/**
@@ -221,7 +214,6 @@ class ConstantContact_Display {
 		$return .= 'data-doajax="' . esc_attr( $do_ajax ) . '" ';
 		$return .= 'class="' . esc_attr( $form_classes ) . '" ';
 		$return .= 'action="' . esc_attr( $form_action ) . '" ';
-		$return .= 'style="' . esc_attr( implode( ' ', $form_custom_styles ) ) . '" ';
 		$return .= 'method="post">';
 
 		// If we have errors, display them.
@@ -330,14 +322,14 @@ class ConstantContact_Display {
 			}
 
 			// Add hidden field with our form id in it.
-			$return = $this->input( 'hidden', 'ctct-id', 'ctct-id', '', $form_id, '', '', true );
+			$return = $this->input( 'hidden', 'ctct-id', 'ctct-id', $form_id, '', '', true );
 
 			// If we have saved a verify value, add that to our field as well. this is to double-check
 			// that we have the correct form id for processing later.
 			$verify_key = get_post_meta( $form_id, '_ctct_verify_key', true );
 
 			if ( $verify_key ) {
-				$return .= $this->input( 'hidden', 'ctct-verify', 'ctct-verify', '', $verify_key, '', '', true );
+				$return .= $this->input( 'hidden', 'ctct-verify', 'ctct-verify', $verify_key, '', '', true );
 			}
 
 			return $return;
@@ -541,6 +533,7 @@ class ConstantContact_Display {
 			case 'website':
 			case 'text_field':
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id );
+				break;
 			case 'custom_text_area':
 				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="500"' );
 				break;
@@ -548,7 +541,7 @@ class ConstantContact_Display {
 				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			case 'hidden':
-				return $this->input( 'hidden', $name, '', $map, $value, $desc, $req );
+				return $this->input( 'hidden', $name, $map, $value, $desc, $req );
 				break;
 			case 'checkbox':
 				return $this->checkbox( $name, $map, $value, $desc );
@@ -577,7 +570,7 @@ class ConstantContact_Display {
 	 *
 	 * @param string|array $value          Field value.
 	 * @param string       $map            Map value.
-	 * @param array        $field          Array of fields
+	 * @param array        $field          Array of fields.
 	 * @param array        $submitted_vals Array of submitted values.
 	 * @return string Submitted value.
 	 */
@@ -915,7 +908,7 @@ class ConstantContact_Display {
 		 */
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
 
-		$markup  = $this->field_top( $type, $name, $f_id, $label, '', false, false );
+		$markup  = $this->field_top( $type, $name, $f_id, $label, false, false );
 		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" class="' . implode( ' ', $classes ) . '" />';
 		$markup .= $this->field_bottom( $name, ' ' . $label );
 
@@ -1035,7 +1028,7 @@ class ConstantContact_Display {
 		// If we aren't showing the field, then we default our checkbox to checked.
 		$checked = $show ? '' : 'checked';
 
-		$markup  = $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, '', false, false );
+		$markup  = $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
 		$markup .= '<input type="checkbox" ' . $checked . ' name="ctct-opt-in" id="ctct-opt-in" class="ctct-checkbox ctct-opt-in" value="' . $value . '" />';
 		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . wp_kses_post( $label ), false );
 
@@ -1341,7 +1334,7 @@ class ConstantContact_Display {
 	 * @param string  $extra_attrs Extra attributes to append.
 	 * @return string HTML markup.
 	 */
-	public function textarea( $name = '', $map = '', $field_custom_class = array(), $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '' ) {
+	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '' ) {
 
 		$classes = array( 'ctct-form-field' );
 
@@ -1365,10 +1358,8 @@ class ConstantContact_Display {
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
-		$textarea_classes = array_merge( array( esc_attr( 'ctct-textarea' ) ), $field_custom_class );
-
 		$return  = '<p class="' . implode( ' ', $classes ) . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label>';
-		$return .= '<textarea class="' . esc_attr( implode( ' ', $textarea_classes ) ) . '" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
+		$return .= '<textarea class="ctct-textarea" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
 
 		if ( $field_error ) {
 			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $map ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constant-contact-forms' ) ) . '</label></span>';
