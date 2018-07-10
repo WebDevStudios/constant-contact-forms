@@ -338,11 +338,17 @@ body.post-type-ctct_forms #titlediv #title {
   display: none;
 }
 
-#ctct_0_list_metabox .cmb-row {
+#ctct_0_list_metabox .cmb-row,
+#ctct_1_custom_form_css_metabox .cmb-row,
+#ctct_1_custom_input_css_metabox .cmb-row {
   padding-bottom: 0;
 }
 
 #cmb2-metabox-ctct_2_fields_metabox .cmb2-id--ctct-title {
+  padding: .8em 0 1em;
+}
+
+#ctct_1_custom_form_css_metabox .cmb2-id-form-title-title {
   padding: .8em 0 1em;
 }
 
