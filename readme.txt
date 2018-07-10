@@ -43,6 +43,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Added: Compatibility with "Call To Action" plugin.
 * Added: Custom field labels to email notifications.
 * Added: Ability to customize who receives email notifications, per form.
+* Added: Frontend form submit button disabled if hidden honeypot field is touched.
 * Fixed: Consistently applied ctct_process_form_success filter to AJAX form submission success messages.
 * Fixed: Prevent errors with Constant Contact social links and array_merge issues.
 * Fixed: Prevent errors with array_key_exists() and the ctct_get_settings_option function.
@@ -51,6 +52,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Fixed: Prevent potential PHP warnings and notices in various areas.
 * Updated: Better support for emailing notifications to multiple recipiants.
 * Updated: Better disabling of submit button during AJAX-based submissions.
+* Updated: Tightened up form builder screen to not use so much space.
 
 = 1.3.7 =
 * Added: Logging functionality to help aid with debugging and the plugin not working as needed or expected.

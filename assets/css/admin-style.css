@@ -338,6 +338,14 @@ body.post-type-ctct_forms #titlediv #title {
   display: none;
 }
 
+#ctct_0_list_metabox .cmb-row {
+  padding-bottom: 0;
+}
+
+#cmb2-metabox-ctct_2_fields_metabox .cmb2-id--ctct-title {
+  padding: .8em 0 1em;
+}
+
 #ctct_0_description_metabox #custom_fields_group_repeat .cmb-field-list .cmb-row:not(:last-of-type),
 #ctct_1_optin_metabox #custom_fields_group_repeat .cmb-field-list .cmb-row:not(:last-of-type),
 #ctct_2_fields_metabox #custom_fields_group_repeat .cmb-field-list .cmb-row:not(:last-of-type) {
@@ -425,6 +433,7 @@ body.post-type-ctct_forms #titlediv #title {
 
 #ctct_1_optin_metabox .cmb-row {
   border-bottom: none;
+  padding: .5em 0px;
 }
 
 #ctct_1_optin_metabox .cmb2-id--ctct-list {
@@ -487,6 +496,11 @@ body.post-type-ctct_forms #titlediv #title {
 
 #side-sortables #ctct_1_custom_input_css_metabox .cmb-type-text-small .cmb-th {
   padding-bottom: 0;
+}
+
+#cmb2-metabox-email_settings .cmb-row,
+#cmb2-metabox-ctct_2_generated_metabox .cmb-row {
+  padding-bottom: 0px !important;
 }
 
 #adminmenu .wp-submenu a[href="edit.php?post_type=ctct_forms&page=ctct_options_connect"] {
