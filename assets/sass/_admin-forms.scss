@@ -30,7 +30,9 @@ body.post-type-ctct_forms #titlediv #title {
 
 }
 
-#ctct_0_list_metabox {
+#ctct_0_list_metabox,
+#ctct_1_custom_form_css_metabox,
+#ctct_1_custom_input_css_metabox {
 	.cmb-row {
 		padding-bottom: 0;
 	}
@@ -39,6 +41,12 @@ body.post-type-ctct_forms #titlediv #title {
 	.cmb2-id--ctct-title {
 		padding: .8em 0 1em;
 	}
+}
+
+#ctct_1_custom_form_css_metabox {
+  .cmb2-id-form-title-title {
+	padding: .8em 0 1em;
+  }
 }
 
 #ctct_0_description_metabox,
