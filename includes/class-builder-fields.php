@@ -248,22 +248,6 @@ class ConstantContact_Builder_Fields {
 			'name'        => __( 'Font Color', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'form_title_color',
 			'type'        => 'colorpicker',
-			'description' => esc_html__(
-				'Choose a color for the form title.',
-				'constant-contact-forms'
-			),
-		) );
-
-		$custom_css_metabox->add_field( array(
-			'name'             => __( 'Title Font Size', 'constant-contact-forms' ),
-			'id'               => $this->prefix . 'form_title_font_size',
-			'type'             => 'select',
-			'show_option_none' => 'Default',
-			'options'          => constant_contact_get_font_dropdown_sizes(),
-			'description'      => esc_html__(
-				'Choose a font size for the form title in pixels.',
-				'constant-contact-forms'
-			),
 		) );
 
 		$custom_css_metabox->add_field( array(
