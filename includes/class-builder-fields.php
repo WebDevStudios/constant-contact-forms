@@ -221,11 +221,11 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'        => __( 'Form Background Color', 'constant-contact-forms' ),
+			'name'        => __( 'Background Color', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'form_background_color',
 			'type'        => 'colorpicker',
 			'description' => esc_html__(
-				'Choose a background color for the form.',
+				'Applies to the whole form.',
 				'constant-contact-forms'
 			),
 		) );
@@ -237,7 +237,7 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'             => __( 'Title Font Size', 'constant-contact-forms' ),
+			'name'             => __( 'Font Size', 'constant-contact-forms' ),
 			'id'               => $this->prefix . 'form_title_font_size',
 			'type'             => 'select',
 			'show_option_none' => 'Default',
@@ -249,7 +249,7 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'        => __( 'Title Font Color', 'constant-contact-forms' ),
+			'name'        => __( 'Font Color', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'form_title_color',
 			'type'        => 'colorpicker',
 			'description' => esc_html__(
@@ -277,7 +277,7 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'             => __( 'Description Font Size', 'constant-contact-forms' ),
+			'name'             => __( 'Font Size', 'constant-contact-forms' ),
 			'id'               => $this->prefix . 'form_description_font_size',
 			'type'             => 'select',
 			'show_option_none' => 'Default',
@@ -289,13 +289,9 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'        => __( 'Description Font Color', 'constant-contact-forms' ),
+			'name'        => __( 'Font Color', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'form_description_color',
 			'type'        => 'colorpicker',
-			'description' => esc_html__(
-				'Choose a color for the description text.',
-				'constant-contact-forms'
-			),
 		) );
 
 		$custom_css_metabox->add_field( array(
@@ -305,7 +301,7 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'             => __( 'Submit Button Font Size', 'constant-contact-forms' ),
+			'name'             => __( 'Font Size', 'constant-contact-forms' ),
 			'id'               => $this->prefix . 'form_submit_button_font_size',
 			'type'             => 'select',
 			'show_option_none' => 'Default',
@@ -317,7 +313,7 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'        => __( 'Submit Button Font Color', 'constant-contact-forms' ),
+			'name'        => __( 'Font Color', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'form_submit_button_text_color',
 			'type'        => 'colorpicker',
 			'description' => esc_html__(
@@ -327,7 +323,7 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'        => __( 'Submit Button Background Color', 'constant-contact-forms' ),
+			'name'        => __( 'Background Color', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'form_submit_button_background_color',
 			'type'        => 'colorpicker',
 			'description' => esc_html__(
