@@ -728,6 +728,15 @@ class ConstantContact_Process_Form {
 		update_option( 'ctct-processed-forms', $count );
 	}
 
+	/**
+	 * Check if we have all the required fields for a given form.
+	 *
+	 * @since 1.3.5
+	 *
+	 * @param int   $form_id
+	 * @param array $form_data
+	 * @return bool
+	 */
 	public function has_all_required_fields( $form_id, $form_data ) {
 		$original = $this->get_original_fields( $form_id );
 
