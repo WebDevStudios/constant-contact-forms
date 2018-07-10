@@ -226,7 +226,6 @@ class ConstantContact_Process_Form {
 
 			if ( ! $resp->isSuccess() ) {
 				constant_contact_maybe_log_it( 'reCAPTCHA', 'Failed to verify with Google reCAPTCHA', array( $resp->getErrorCodes() ) );
-				// @todo Utilize the error message(s) that come back from Google, if any.
 				return array(
 					'status' => 'named_error',
 					'error'  => __( 'Failed reCAPTCHA check', 'constant-contact-forms' ),
