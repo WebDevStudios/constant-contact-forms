@@ -22,6 +22,14 @@ class ConstantContact_Display {
 	protected $plugin = null;
 
 	/**
+	 * The global custom styles.
+	 *
+	 * @since 1.4.0
+	 * @var array
+	 */
+	protected $global_form_styles = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -44,7 +52,7 @@ class ConstantContact_Display {
 	 */
 	public function scripts( $enqueue = false ) {
 
-		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ? true : false;
+		$debug  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ? true : false;
 		$suffix = ( true === $debug ) ? '' : '.min';
 
 		wp_register_script(
@@ -73,50 +81,29 @@ class ConstantContact_Display {
 	/**
 	 * Output the styles set globally for forms.
 	 *
-	 * @since 1.4.0
-	 *
-	 * @return string
+	 * @since  1.4.0
+	 * @author Scott Tirrell
 	 */
 	public function get_global_form_css() {
+
+		$defaults = array(
+			'global_form_classes'    => '',
+			'global_label_placement' => '',
+		);
+
 		$global_form_css = array();
 
-		$form_background_color = ctct_get_settings_option( '_ctct_form_background_color' );
-		if ( $form_background_color ) {
-			$global_form_css[] = "background-color: {$form_background_color};";
-		} // end of if.
+		$global_form_classes = ctct_get_settings_option( '_ctct_form_custom_classes' );
+		if ( $global_form_classes ) {
+			$global_form_css['global_form_classes'] = $global_form_classes;
+		}
 
-		$form_top_padding = ctct_get_settings_option( '_ctct_top_form_padding' );
-		if ( $form_top_padding ) {
-			$global_form_css[] = "padding-top: {$form_top_padding}px;";
-		} // end of if.
+		$global_label_placement = ctct_get_settings_option( 'ctct_form_label_placement' );
+		if ( $global_label_placement ) {
+			$global_form_css['global_label_placement'] = $global_label_placement;
+		}
 
-		$form_right_padding = ctct_get_settings_option( '_ctct_right_form_padding' );
-		if ( $form_right_padding ) {
-			$global_form_css[] = "padding-right: {$form_right_padding}px;";
-		} // end of if.
-
-		$form_bottom_padding = ctct_get_settings_option( '_ctct_bottom_form_padding' );
-		if ( $form_bottom_padding ) {
-			$global_form_css[] = "padding-bottom: {$form_bottom_padding}px;";
-		} // end of if.
-
-		$form_left_padding = ctct_get_settings_option( '_ctct_left_form_padding' );
-		if ( $form_left_padding ) {
-			$global_form_css[] = "padding-left: {$form_left_padding}px;";
-		} // end of if.
-
-		// If no custom CSS is set, we don't need to proceed further.
-		if ( empty( $global_form_css ) ) {
-			return '';
-		} // end of if.
-
-		$global_form_styles = '.ctct-form {' . PHP_EOL;
-		foreach ( $global_form_css as $global_form_style ) {
-			$global_form_styles .= $global_form_style . PHP_EOL;
-		} // end of foreach.
-		$global_form_styles .= '}' . PHP_EOL;
-
-		return $global_form_styles;
+		$this->global_form_styles = wp_parse_args( $global_form_css, $defaults );
 
 	}
 
@@ -136,6 +123,7 @@ class ConstantContact_Display {
 			return '';
 		}
 
+		$this->get_global_form_css();
 		$return           = '';
 		$form_err_display = '';
 		$error_message    = false;
@@ -195,6 +183,12 @@ class ConstantContact_Display {
 		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$form_classes   = 'ctct-form ctct-form-' . $form_id;
+		if ( ! empty( $this->global_form_styles['global_form_classes'] ) ) {
+			$form_classes .= ' ' . esc_attr( $this->global_form_styles['global_form_classes'] );
+		}
+		if ( ! empty( $this->global_form_styles['global_label_placement'] ) ) {
+			$form_classes .= ' label-' . esc_attr( $this->global_form_styles['global_label_placement'] );
+		}
 
 		// Add action before form for custom actions.
 		ob_start();
