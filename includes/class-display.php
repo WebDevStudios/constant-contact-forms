@@ -30,6 +30,14 @@ class ConstantContact_Display {
 	protected $global_form_styles = array();
 
 	/**
+	 * Styles set for a particular form.
+	 *
+	 * @since 1.4.0
+	 * @var array
+	 */
+	protected $specific_form_styles = array();
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -79,12 +87,12 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Output the styles set globally for forms.
+	 * Retrieve the styles set globally for forms.
 	 *
 	 * @since  1.4.0
 	 * @author Scott Tirrell
 	 */
-	public function get_global_form_css() {
+	public function set_global_form_css() {
 
 		$defaults = array(
 			'global_form_classes'    => '',
@@ -108,6 +116,71 @@ class ConstantContact_Display {
 	}
 
 	/**
+	 * Retrieve the styles set for a specific form.
+	 *
+	 * @param int $form_id The id of the form.
+	 *
+	 * @since  1.4.0
+	 * @author Scott Tirrell
+	 */
+	public function set_specific_form_css( $form_id ) {
+		$defaults = array(
+			'form_background_color'               => '',
+			'form_title_font_size'                => '',
+			'form_title_color'                    => '',
+			'form_description_font_size'          => '',
+			'form_description_color'              => '',
+			'form_submit_button_font_size'        => '',
+			'form_submit_button_text_color'       => '',
+			'form_submit_button_background_color' => '',
+		);
+
+		$specific_form_css = array();
+
+		$ctct_form_background_color = get_post_meta( $form_id, '_ctct_form_background_color', true );
+		if ( ! empty( $ctct_form_background_color ) ) {
+			$specific_form_css['form_background_color'] = "background-color: {$ctct_form_background_color};";
+		}
+
+		$ctct_form_title_font_size = get_post_meta( $form_id, '_ctct_form_title_font_size', true );
+		if ( ! empty( $ctct_form_title_font_size ) ) {
+			$specific_form_css['form_title_font_size'] = "font-size: {$ctct_form_title_font_size};";
+		}
+
+		$ctct_form_title_color = get_post_meta( $form_id, '_ctct_form_title_color', true );
+		if ( ! empty( $ctct_form_title_color ) ) {
+			$specific_form_css['form_title_color'] = "font-color: {$ctct_form_title_color};";
+		}
+
+		$ctct_form_description_font_size = get_post_meta( $form_id, '_ctct_form_description_font_size', true );
+		if ( ! empty( $ctct_form_description_font_size ) ) {
+			$specific_form_css['form_description_font_size'] = "font-color: {$ctct_form_description_font_size};";
+		}
+
+		$ctct_form_description_color = get_post_meta( $form_id, '_ctct_form_description_color', true );
+		if ( ! empty( $ctct_form_description_color ) ) {
+			$specific_form_css['form_description_color'] = "font-color: {$ctct_form_description_color};";
+		}
+
+		$ctct_form_submit_button_font_size = get_post_meta( $form_id, '_ctct_form_submit_button_font_size', true );
+		if ( ! empty( $ctct_form_submit_button_font_size ) ) {
+			$specific_form_css['form_submit_button_font_size'] = "font-size: {$ctct_form_submit_button_font_size};";
+		}
+
+		$ctct_form_submit_button_text_color = get_post_meta( $form_id, '_ctct_form_submit_button_text_color', true );
+		if ( ! empty( $ctct_form_submit_button_text_color ) ) {
+			$specific_form_css['form_submit_button_text_color'] = "font-size: {$ctct_form_submit_button_text_color};";
+		}
+
+		$ctct_form_submit_button_background_color = get_post_meta( $form_id, '_ctct_form_submit_button_background_color', true );
+		if ( ! empty( $ctct_form_submit_button_background_color ) ) {
+			$specific_form_css['form_submit_button_background_color'] = "font-size: {$ctct_form_submit_button_background_color};";
+		}
+
+		$this->specific_form_styles = wp_parse_args( $specific_form_css, $defaults );
+	}
+
+	/**
 	 * Main wrapper for getting our form display.
 	 *
 	 * @since 1.0.0
@@ -123,7 +196,8 @@ class ConstantContact_Display {
 			return '';
 		}
 
-		$this->get_global_form_css();
+		$this->set_global_form_css();
+		$this->set_specific_form_css( $form_id );
 		$return           = '';
 		$form_err_display = '';
 		$error_message    = false;
