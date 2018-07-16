@@ -263,6 +263,10 @@ class ConstantContact_Display {
 		if ( ! empty( $this->global_form_styles['global_label_placement'] ) ) {
 			$form_classes .= ' label-' . esc_attr( $this->global_form_styles['global_label_placement'] );
 		}
+		$form_styles = '';
+		if ( ! empty( $this->specific_form_styles['form_background_color'] ) ) {
+			$form_styles = $this->specific_form_styles['form_background_color'];
+		}
 
 		// Add action before form for custom actions.
 		ob_start();
@@ -281,6 +285,7 @@ class ConstantContact_Display {
 		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
 		$return .= 'data-doajax="' . esc_attr( $do_ajax ) . '" ';
 		$return .= 'class="' . esc_attr( $form_classes ) . '" ';
+		$return .= 'style="' . esc_attr( $form_styles ) . '" ';
 		$return .= 'action="' . esc_attr( $form_action ) . '" ';
 		$return .= 'method="post">';
 
