@@ -370,7 +370,7 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field( array(
 			'name'        => __( 'Custom Classes', 'constant-contact-forms' ),
-			'id'          => $this->prefix . 'form_custom_classes',
+			'id'          => $this->prefix . 'input_custom_classes',
 			'type'        => 'text',
 			'description' => esc_html__(
 				'Set custom CSS class(es) for inputs. Separate multiple classes with spaces.',

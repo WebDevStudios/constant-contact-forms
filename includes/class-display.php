@@ -133,10 +133,11 @@ class ConstantContact_Display {
 			'form_submit_button_font_size'        => '',
 			'form_submit_button_text_color'       => '',
 			'form_submit_button_background_color' => '',
-			'input_margin_top'                   => '',
-			'input_margin_right'                 => '',
-			'input_margin_bottom'                => '',
-			'input_margin_left'                  => '',
+			'input_margin_top'                    => '',
+			'input_margin_right'                  => '',
+			'input_margin_bottom'                 => '',
+			'input_margin_left'                   => '',
+			'input_custom_classes'                => '',
 		);
 
 		$specific_form_css = array();
@@ -199,6 +200,11 @@ class ConstantContact_Display {
 		$ctct_input_margin_left = get_post_meta( $form_id, '_ctct_input_margin_left', true );
 		if ( ! empty( $ctct_input_margin_left ) ) {
 			$specific_form_css['input_margin_left'] = "margin-left: {$ctct_input_margin_left}px;";
+		}
+
+		$ctct_input_custom_classes = get_post_meta( $form_id, '_ctct_input_custom_classes', true );
+		if ( ! empty( $ctct_input_custom_classes ) ) {
+			$specific_form_css['input_custom_classes'] = esc_attr( $ctct_input_custom_classes );
 		}
 
 		$this->specific_form_styles = wp_parse_args( $specific_form_css, $defaults );
@@ -448,8 +454,8 @@ class ConstantContact_Display {
 	public function build_form_fields( $form_data, $old_values, $req_errors ) {
 
 		// Start our wrapper return var.
-		$return       = '';
-		$form_id      = 0;
+		$return  = '';
+		$form_id = 0;
 
 		// Check to see if we have a form ID for the form, and display our description.
 		if ( isset( $form_data['options'] ) && isset( $form_data['options']['form_id'] ) ) {
@@ -1004,9 +1010,15 @@ class ConstantContact_Display {
 	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0 ) {
 
 		// Sanitize our stuff / set values.
-		$name                = sanitize_text_field( $name );
-		$f_id                = sanitize_title( $id );
-		$input_inline_styles = $this->get_input_inline_styles();
+		$name                 = sanitize_text_field( $name );
+		$f_id                 = sanitize_title( $id );
+		$input_inline_styles  = $this->get_input_inline_styles();
+		$specific_form_styles = $this->specific_form_styles;
+
+		print "<pre>";
+		print_r($specific_form_styles);
+		print "</pre>";
+
 
 		// Use different styles for submit button.
 		if ( 'submit' === $type ) {
@@ -1023,6 +1035,10 @@ class ConstantContact_Display {
 
 		// Provide some CSS class(es).
 		$classes = array( 'ctct-' . esc_attr( $type ) );
+		if ( ! empty( $specific_form_styles['input_custom_classes'] ) ) {
+			$custom_input_classes = explode( ' ', $specific_form_styles['input_custom_classes'] );
+			$classes              = array_merge( $classes, $custom_input_classes );
+		}
 
 		/**
 		 * Filter to add classes for the rendering input.
