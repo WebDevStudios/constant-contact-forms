@@ -158,7 +158,7 @@ class ConstantContact_Display {
 
 		$ctct_form_description_font_size = get_post_meta( $form_id, '_ctct_form_description_font_size', true );
 		if ( ! empty( $ctct_form_description_font_size ) ) {
-			$specific_form_css['form_description_font_size'] = "color: {$ctct_form_description_font_size};";
+			$specific_form_css['form_description_font_size'] = "font-size: {$ctct_form_description_font_size};";
 		}
 
 		$ctct_form_description_color = get_post_meta( $form_id, '_ctct_form_description_color', true );
@@ -772,12 +772,12 @@ class ConstantContact_Display {
 		// Set any custom CSS for the form description.
 		$specific_form_styles = $this->specific_form_styles;
 
-		if ( ! empty( $specific_form_styles['form_title_font_size'] ) ) {
-			$styles[] = $specific_form_styles['form_title_font_size'];
+		if ( ! empty( $specific_form_styles['form_description_font_size'] ) ) {
+			$styles[] = $specific_form_styles['form_description_font_size'];
 		}
 
-		if ( ! empty( $specific_form_styles['form_title_color'] ) ) {
-			$styles[] = $specific_form_styles['form_title_color'];
+		if ( ! empty( $specific_form_styles['form_description_color'] ) ) {
+			$styles[] = $specific_form_styles['form_description_color'];
 		}
 
 		if ( ! empty( $styles ) ) {
