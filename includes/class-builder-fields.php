@@ -77,10 +77,10 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'constant_contact_list_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'opt_ins_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'generated_shortcode' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'custom_form_css_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'custom_input_css_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
-			add_action( 'cmb2_admin_init', array( $this, 'generated_shortcode' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'email_settings' ) );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 		}
