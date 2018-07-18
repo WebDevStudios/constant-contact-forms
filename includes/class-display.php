@@ -149,17 +149,17 @@ class ConstantContact_Display {
 
 		$ctct_form_title_color = get_post_meta( $form_id, '_ctct_form_title_color', true );
 		if ( ! empty( $ctct_form_title_color ) ) {
-			$specific_form_css['form_title_color'] = "font-color: {$ctct_form_title_color};";
+			$specific_form_css['form_title_color'] = "color: {$ctct_form_title_color};";
 		}
 
 		$ctct_form_description_font_size = get_post_meta( $form_id, '_ctct_form_description_font_size', true );
 		if ( ! empty( $ctct_form_description_font_size ) ) {
-			$specific_form_css['form_description_font_size'] = "font-color: {$ctct_form_description_font_size};";
+			$specific_form_css['form_description_font_size'] = "color: {$ctct_form_description_font_size};";
 		}
 
 		$ctct_form_description_color = get_post_meta( $form_id, '_ctct_form_description_color', true );
 		if ( ! empty( $ctct_form_description_color ) ) {
-			$specific_form_css['form_description_color'] = "font-color: {$ctct_form_description_color};";
+			$specific_form_css['form_description_color'] = "color: {$ctct_form_description_color};";
 		}
 
 		$ctct_form_submit_button_font_size = get_post_meta( $form_id, '_ctct_form_submit_button_font_size', true );
@@ -424,8 +424,8 @@ class ConstantContact_Display {
 	public function build_form_fields( $form_data, $old_values, $req_errors ) {
 
 		// Start our wrapper return var.
-		$return  = '';
-		$form_id = 0;
+		$return       = '';
+		$form_id      = 0;
 
 		// Check to see if we have a form ID for the form, and display our description.
 		if ( isset( $form_data['options'] ) && isset( $form_data['options']['form_id'] ) ) {
@@ -436,8 +436,9 @@ class ConstantContact_Display {
 			// Clean our form ID.
 			$form_id = absint( $form_data['options']['form_id'] );
 
-			// Add in our Description.
+			// Get our Description.
 			$return .= $this->description( $desc, $form_id );
+
 		}
 
 		if ( isset( $form_data['fields'] ) && is_array( $form_data['fields'] ) ) {
@@ -733,6 +734,36 @@ class ConstantContact_Display {
 	}
 
 	/**
+	 * Get an inline style tag to use for the form's description.
+	 *
+	 * @author Scott Tirrell
+	 * @since  1.4.0
+	 *
+	 * @return string The inline style tag for the form's description.
+	 */
+	public function get_description_inline_styles() {
+		$inline_style = '';
+		$styles       = array();
+
+		// Set any custom CSS for the form description.
+		$specific_form_styles = $this->specific_form_styles;
+
+		if ( ! empty( $specific_form_styles['form_title_font_size'] ) ) {
+			$styles[] = $specific_form_styles['form_title_font_size'];
+		}
+
+		if ( ! empty( $specific_form_styles['form_title_color'] ) ) {
+			$styles[] = $specific_form_styles['form_title_color'];
+		}
+
+		if ( ! empty( $styles ) ) {
+			$inline_style = 'style="' . esc_attr( implode( ' ', $styles ) ) . '"';
+		}
+
+		return $inline_style;
+	}
+
+	/**
 	 * Helper method to display form description.
 	 *
 	 * @since 1.0.0
@@ -743,7 +774,8 @@ class ConstantContact_Display {
 	 */
 	public function description( $desc = '', $form_id = false ) {
 
-		$display = '';
+		$display      = '';
+		$inline_style = $this->get_description_inline_styles();
 
 		// If we have the permissions, also display an edit link.
 		if ( current_user_can( 'edit_posts' ) && $form_id ) {
@@ -757,7 +789,7 @@ class ConstantContact_Display {
 			}
 		}
 
-		return '<span class="ctct-form-description">' . wpautop( wp_kses_post( $desc ) ) . '</span>' . $display;
+		return '<span class="ctct-form-description" ' . $inline_style . '>' . wpautop( wp_kses_post( $desc ) ) . '</span>' . $display;
 	}
 
 	/**
@@ -1442,7 +1474,7 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Maybe display the disclourse notice.
+	 * Maybe display the disclosure notice.
 	 *
 	 * @since 1.0.0
 	 *
