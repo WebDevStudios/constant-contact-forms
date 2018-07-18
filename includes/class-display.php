@@ -133,6 +133,10 @@ class ConstantContact_Display {
 			'form_submit_button_font_size'        => '',
 			'form_submit_button_text_color'       => '',
 			'form_submit_button_background_color' => '',
+			'input_padding_top'                   => '',
+			'input_padding_right'                 => '',
+			'input_padding_bottom'                => '',
+			'input_padding_left'                  => '',
 		);
 
 		$specific_form_css = array();
@@ -175,6 +179,26 @@ class ConstantContact_Display {
 		$ctct_form_submit_button_background_color = get_post_meta( $form_id, '_ctct_form_submit_button_background_color', true );
 		if ( ! empty( $ctct_form_submit_button_background_color ) ) {
 			$specific_form_css['form_submit_button_background_color'] = "font-size: {$ctct_form_submit_button_background_color};";
+		}
+
+		$ctct_input_padding_top = get_post_meta( $form_id, '_ctct_input_padding_top', true );
+		if ( ! empty( $ctct_input_padding_top ) ) {
+			$specific_form_css['input_padding_top'] = "padding-top: {$ctct_input_padding_top}px;";
+		}
+
+		$ctct_input_padding_right = get_post_meta( $form_id, '_ctct_input_padding_right', true );
+		if ( ! empty( $ctct_input_padding_right ) ) {
+			$specific_form_css['input_padding_right'] = "padding-right: {$ctct_input_padding_right}px;";
+		}
+
+		$ctct_input_padding_bottom = get_post_meta( $form_id, '_ctct_input_padding_bottom', true );
+		if ( ! empty( $ctct_input_padding_bottom ) ) {
+			$specific_form_css['input_padding_bottom'] = "padding-bottom: {$ctct_input_padding_bottom}px;";
+		}
+
+		$ctct_input_padding_left = get_post_meta( $form_id, '_ctct_input_padding_left', true );
+		if ( ! empty( $ctct_input_padding_left ) ) {
+			$specific_form_css['input_padding_left'] = "padding-left: {$ctct_input_padding_left}px;";
 		}
 
 		$this->specific_form_styles = wp_parse_args( $specific_form_css, $defaults );
@@ -877,6 +901,44 @@ class ConstantContact_Display {
 	}
 
 	/**
+	 * Get the custom styles set for a form's input.
+	 *
+	 * @since 1.4.0
+	 * @author Scott Tirrell
+	 *
+	 * @return string
+	 */
+	public function get_input_inline_styles() {
+		$inline_style = '';
+		$styles       = array();
+
+		// Set any custom CSS for the form description.
+		$specific_form_styles = $this->specific_form_styles;
+
+		if ( ! empty( $specific_form_styles['input_padding_top'] ) ) {
+			$styles[] = $specific_form_styles['input_padding_top'];
+		}
+
+		if ( ! empty( $specific_form_styles['input_padding_right'] ) ) {
+			$styles[] = $specific_form_styles['input_padding_right'];
+		}
+
+		if ( ! empty( $specific_form_styles['input_padding_bottom'] ) ) {
+			$styles[] = $specific_form_styles['input_padding_bottom'];
+		}
+
+		if ( ! empty( $specific_form_styles['input_padding_left'] ) ) {
+			$styles[] = $specific_form_styles['input_padding_left'];
+		}
+
+		if ( ! empty( $styles ) ) {
+			$inline_style = 'style="' . esc_attr( implode( ' ', $styles ) ) . '"';
+		}
+
+		return $inline_style;
+	}
+
+	/**
 	 * Helper method to get form label.
 	 *
 	 * @since 1.0.0
@@ -908,8 +970,14 @@ class ConstantContact_Display {
 	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0 ) {
 
 		// Sanitize our stuff / set values.
-		$name = sanitize_text_field( $name );
-		$f_id = sanitize_title( $id );
+		$name                = sanitize_text_field( $name );
+		$f_id                = sanitize_title( $id );
+		$input_inline_styles = '';
+
+		// Don't add custom input styling to the submit button.
+		if ( 'submit' !== $type ) {
+			$input_inline_styles = $this->get_input_inline_styles();
+		}
 
 		$type     = sanitize_text_field( $type );
 		$value    = sanitize_text_field( $value );
@@ -945,7 +1013,7 @@ class ConstantContact_Display {
 			$max_length = ( $truncate_max_length ) ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
 		}
 		// Set our field as as separate var, because we allow for only returning that.
-		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" ' . $max_length . ' placeholder="' . $label . '" ';
+		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '"' . $input_inline_styles . '" value="' . $value . '" ' . $max_length . ' placeholder="' . $label . '" ';
 
 		// If we have an error.
 		if ( $field_error ) {
