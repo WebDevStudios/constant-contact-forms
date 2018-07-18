@@ -1015,11 +1015,6 @@ class ConstantContact_Display {
 		$input_inline_styles  = $this->get_input_inline_styles();
 		$specific_form_styles = $this->specific_form_styles;
 
-		print "<pre>";
-		print_r($specific_form_styles);
-		print "</pre>";
-
-
 		// Use different styles for submit button.
 		if ( 'submit' === $type ) {
 			$input_inline_styles = $this->get_submit_inline_styles();
