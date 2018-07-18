@@ -133,10 +133,10 @@ class ConstantContact_Display {
 			'form_submit_button_font_size'        => '',
 			'form_submit_button_text_color'       => '',
 			'form_submit_button_background_color' => '',
-			'input_padding_top'                   => '',
-			'input_padding_right'                 => '',
-			'input_padding_bottom'                => '',
-			'input_padding_left'                  => '',
+			'input_margin_top'                   => '',
+			'input_margin_right'                 => '',
+			'input_margin_bottom'                => '',
+			'input_margin_left'                  => '',
 		);
 
 		$specific_form_css = array();
@@ -181,24 +181,24 @@ class ConstantContact_Display {
 			$specific_form_css['form_submit_button_background_color'] = "background-color: {$ctct_form_submit_button_background_color};";
 		}
 
-		$ctct_input_padding_top = get_post_meta( $form_id, '_ctct_input_padding_top', true );
-		if ( ! empty( $ctct_input_padding_top ) ) {
-			$specific_form_css['input_padding_top'] = "padding-top: {$ctct_input_padding_top}px;";
+		$ctct_input_margin_top = get_post_meta( $form_id, '_ctct_input_margin_top', true );
+		if ( ! empty( $ctct_input_margin_top ) ) {
+			$specific_form_css['input_margin_top'] = "margin-top: {$ctct_input_margin_top}px;";
 		}
 
-		$ctct_input_padding_right = get_post_meta( $form_id, '_ctct_input_padding_right', true );
-		if ( ! empty( $ctct_input_padding_right ) ) {
-			$specific_form_css['input_padding_right'] = "padding-right: {$ctct_input_padding_right}px;";
+		$ctct_input_margin_right = get_post_meta( $form_id, '_ctct_input_margin_right', true );
+		if ( ! empty( $ctct_input_margin_right ) ) {
+			$specific_form_css['input_margin_right'] = "margin-right: {$ctct_input_margin_right}px;";
 		}
 
-		$ctct_input_padding_bottom = get_post_meta( $form_id, '_ctct_input_padding_bottom', true );
-		if ( ! empty( $ctct_input_padding_bottom ) ) {
-			$specific_form_css['input_padding_bottom'] = "padding-bottom: {$ctct_input_padding_bottom}px;";
+		$ctct_input_margin_bottom = get_post_meta( $form_id, '_ctct_input_margin_bottom', true );
+		if ( ! empty( $ctct_input_margin_bottom ) ) {
+			$specific_form_css['input_margin_bottom'] = "margin-bottom: {$ctct_input_margin_bottom}px;";
 		}
 
-		$ctct_input_padding_left = get_post_meta( $form_id, '_ctct_input_padding_left', true );
-		if ( ! empty( $ctct_input_padding_left ) ) {
-			$specific_form_css['input_padding_left'] = "padding-left: {$ctct_input_padding_left}px;";
+		$ctct_input_margin_left = get_post_meta( $form_id, '_ctct_input_margin_left', true );
+		if ( ! empty( $ctct_input_margin_left ) ) {
+			$specific_form_css['input_margin_left'] = "margin-left: {$ctct_input_margin_left}px;";
 		}
 
 		$this->specific_form_styles = wp_parse_args( $specific_form_css, $defaults );
@@ -915,20 +915,20 @@ class ConstantContact_Display {
 		// Set any custom CSS for the form description.
 		$specific_form_styles = $this->specific_form_styles;
 
-		if ( ! empty( $specific_form_styles['input_padding_top'] ) ) {
-			$styles[] = $specific_form_styles['input_padding_top'];
+		if ( ! empty( $specific_form_styles['input_margin_top'] ) ) {
+			$styles[] = $specific_form_styles['input_margin_top'];
 		}
 
-		if ( ! empty( $specific_form_styles['input_padding_right'] ) ) {
-			$styles[] = $specific_form_styles['input_padding_right'];
+		if ( ! empty( $specific_form_styles['input_margin_right'] ) ) {
+			$styles[] = $specific_form_styles['input_margin_right'];
 		}
 
-		if ( ! empty( $specific_form_styles['input_padding_bottom'] ) ) {
-			$styles[] = $specific_form_styles['input_padding_bottom'];
+		if ( ! empty( $specific_form_styles['input_margin_bottom'] ) ) {
+			$styles[] = $specific_form_styles['input_margin_bottom'];
 		}
 
-		if ( ! empty( $specific_form_styles['input_padding_left'] ) ) {
-			$styles[] = $specific_form_styles['input_padding_left'];
+		if ( ! empty( $specific_form_styles['input_margin_left'] ) ) {
+			$styles[] = $specific_form_styles['input_margin_left'];
 		}
 
 		if ( ! empty( $styles ) ) {

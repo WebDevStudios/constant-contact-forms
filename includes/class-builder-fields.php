@@ -320,17 +320,17 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'        => esc_html__( 'Form Padding', 'constant-contact-forms' ),
+			'name'        => esc_html__( 'Form Input Margins', 'constant-contact-forms' ),
 			'type'        => 'title',
-			'id'          => 'form-padding-title',
+			'id'          => 'form-margin-title',
 			'description' => esc_html__(
-				'Enter padding in number of pixels. Padding will be applied to all inputs in the form.',
+				'Enter margins in number of pixels. Margins will be applied to all inputs in the form.',
 				'constant-contact-form' ),
 		) );
 
 		$custom_css_metabox->add_field( array(
 			'name'       => __( 'Top', 'constant-contact-forms' ),
-			'id'         => $this->prefix . 'input_padding_top',
+			'id'         => $this->prefix . 'input_margin_top',
 			'type'       => 'text_small',
 			'show_names' => true,
 			'attributes' => array(
@@ -340,7 +340,7 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field( array(
 			'name'       => __( 'Right', 'constant-contact-forms' ),
-			'id'         => $this->prefix . 'input_padding_right',
+			'id'         => $this->prefix . 'input_margin_right',
 			'type'       => 'text_small',
 			'show_names' => true,
 			'attributes' => array(
@@ -350,7 +350,7 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field( array(
 			'name'       => __( 'Bottom', 'constant-contact-forms' ),
-			'id'         => $this->prefix . 'input_padding_bottom',
+			'id'         => $this->prefix . 'input_margin_bottom',
 			'type'       => 'text_small',
 			'show_names' => true,
 			'attributes' => array(
@@ -360,7 +360,7 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field( array(
 			'name'       => __( 'Left', 'constant-contact-forms' ),
-			'id'         => $this->prefix . 'input_padding_left',
+			'id'         => $this->prefix . 'input_margin_left',
 			'type'       => 'text_small',
 			'show_names' => true,
 			'attributes' => array(
