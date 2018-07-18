@@ -173,12 +173,12 @@ class ConstantContact_Display {
 
 		$ctct_form_submit_button_text_color = get_post_meta( $form_id, '_ctct_form_submit_button_text_color', true );
 		if ( ! empty( $ctct_form_submit_button_text_color ) ) {
-			$specific_form_css['form_submit_button_text_color'] = "font-size: {$ctct_form_submit_button_text_color};";
+			$specific_form_css['form_submit_button_text_color'] = "color: {$ctct_form_submit_button_text_color};";
 		}
 
 		$ctct_form_submit_button_background_color = get_post_meta( $form_id, '_ctct_form_submit_button_background_color', true );
 		if ( ! empty( $ctct_form_submit_button_background_color ) ) {
-			$specific_form_css['form_submit_button_background_color'] = "font-size: {$ctct_form_submit_button_background_color};";
+			$specific_form_css['form_submit_button_background_color'] = "background-color: {$ctct_form_submit_button_background_color};";
 		}
 
 		$ctct_input_padding_top = get_post_meta( $form_id, '_ctct_input_padding_top', true );
@@ -939,6 +939,40 @@ class ConstantContact_Display {
 	}
 
 	/**
+	 * Get inline styles for the form's submit button.
+	 *
+	 * @since 1.4.0
+	 * @author Scott Tirrell
+	 *
+	 * @return string
+	 */
+	public function get_submit_inline_styles() {
+		$inline_style = '';
+		$styles       = array();
+
+		// Set any custom CSS for the form submit button.
+		$specific_form_styles = $this->specific_form_styles;
+
+		if ( ! empty( $specific_form_styles['form_submit_button_font_size'] ) ) {
+			$styles[] = $specific_form_styles['form_submit_button_font_size'];
+		}
+
+		if ( ! empty( $specific_form_styles['form_submit_button_text_color'] ) ) {
+			$styles[] = $specific_form_styles['form_submit_button_text_color'];
+		}
+
+		if ( ! empty( $specific_form_styles['form_submit_button_background_color'] ) ) {
+			$styles[] = $specific_form_styles['form_submit_button_background_color'];
+		}
+
+		if ( ! empty( $styles ) ) {
+			$inline_style = 'style="' . esc_attr( implode( ' ', $styles ) ) . '"';
+		}
+
+		return $inline_style;
+	}
+
+	/**
 	 * Helper method to get form label.
 	 *
 	 * @since 1.0.0
@@ -972,11 +1006,11 @@ class ConstantContact_Display {
 		// Sanitize our stuff / set values.
 		$name                = sanitize_text_field( $name );
 		$f_id                = sanitize_title( $id );
-		$input_inline_styles = '';
+		$input_inline_styles = $this->get_input_inline_styles();
 
-		// Don't add custom input styling to the submit button.
-		if ( 'submit' !== $type ) {
-			$input_inline_styles = $this->get_input_inline_styles();
+		// Use different styles for submit button.
+		if ( 'submit' === $type ) {
+			$input_inline_styles = $this->get_submit_inline_styles();
 		}
 
 		$type     = sanitize_text_field( $type );
