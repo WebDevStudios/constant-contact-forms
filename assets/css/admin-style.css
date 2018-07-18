@@ -481,8 +481,8 @@ body.post-type-ctct_forms #titlediv #title {
   padding-bottom: 0;
 }
 
-#side-sortables #ctct_1_custom_input_css_metabox .cmb2-id--ctct-input-padding-top,
-#side-sortables #ctct_1_custom_input_css_metabox .cmb2-id--ctct-input-padding-right {
+#side-sortables #ctct_1_custom_input_css_metabox .cmb2-id--ctct-input-margin-top,
+#side-sortables #ctct_1_custom_input_css_metabox .cmb2-id--ctct-input-margin-right {
   margin-bottom: 0;
   margin-top: 0;
   padding-bottom: 0;
