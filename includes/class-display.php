@@ -275,9 +275,8 @@ class ConstantContact_Display {
 		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$form_classes   = 'ctct-form ctct-form-' . $form_id;
-		if ( ! empty( $this->global_form_styles['global_form_classes'] ) ) {
-			$form_classes .= ' ' . esc_attr( $this->global_form_styles['global_form_classes'] );
-		}
+		$form_classes   .= $this->build_custom_form_classes();
+
 		if ( ! empty( $this->global_form_styles['global_label_placement'] ) ) {
 			$form_classes .= ' label-' . esc_attr( $this->global_form_styles['global_label_placement'] );
 		}
@@ -520,6 +519,18 @@ class ConstantContact_Display {
 
 	public function build_timestamp() {
 		return '<input type="hidden" name="ctct_time" value="' . current_time( 'timestamp' ) . '" />';
+	}
+
+	public function build_custom_form_classes() {
+		$custom = '';
+		if ( ! empty( $this->global_form_styles['global_form_classes'] ) ) {
+			$custom .= ' ' . esc_attr( $this->global_form_styles['global_form_classes'] );
+		}
+		if ( ! empty( $this->specific_form_styles['input_custom_classes'] ) ) {
+			$custom .= ' ' . esc_attr( $this->specific_form_styles['input_custom_classes'] );
+		}
+
+		return $custom;
 	}
 
 	/**
