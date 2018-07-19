@@ -126,8 +126,6 @@ class ConstantContact_Display {
 	public function set_specific_form_css( $form_id ) {
 		$defaults = array(
 			'form_background_color'               => '',
-			'form_title_font_size'                => '',
-			'form_title_color'                    => '',
 			'form_description_font_size'          => '',
 			'form_description_color'              => '',
 			'form_submit_button_font_size'        => '',
@@ -145,16 +143,6 @@ class ConstantContact_Display {
 		$ctct_form_background_color = get_post_meta( $form_id, '_ctct_form_background_color', true );
 		if ( ! empty( $ctct_form_background_color ) ) {
 			$specific_form_css['form_background_color'] = "background-color: {$ctct_form_background_color};";
-		}
-
-		$ctct_form_title_font_size = get_post_meta( $form_id, '_ctct_form_title_font_size', true );
-		if ( ! empty( $ctct_form_title_font_size ) ) {
-			$specific_form_css['form_title_font_size'] = "font-size: {$ctct_form_title_font_size};";
-		}
-
-		$ctct_form_title_color = get_post_meta( $form_id, '_ctct_form_title_color', true );
-		if ( ! empty( $ctct_form_title_color ) ) {
-			$specific_form_css['form_title_color'] = "color: {$ctct_form_title_color};";
 		}
 
 		$ctct_form_description_font_size = get_post_meta( $form_id, '_ctct_form_description_font_size', true );

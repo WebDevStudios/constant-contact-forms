@@ -231,26 +231,6 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name' => esc_html__( 'Form Title', 'constant-contact-forms' ),
-			'type' => 'title',
-			'id'   => 'form-title-title',
-		) );
-
-		$custom_css_metabox->add_field( array(
-			'name'             => __( 'Font Size', 'constant-contact-forms' ),
-			'id'               => $this->prefix . 'form_title_font_size',
-			'type'             => 'select',
-			'show_option_none' => 'Default',
-			'options_cb'       => 'constant_contact_get_font_dropdown_sizes',
-		) );
-
-		$custom_css_metabox->add_field( array(
-			'name'        => __( 'Font Color', 'constant-contact-forms' ),
-			'id'          => $this->prefix . 'form_title_color',
-			'type'        => 'colorpicker',
-		) );
-
-		$custom_css_metabox->add_field( array(
 			'name' => esc_html__( 'Form Description', 'constant-contact-forms' ),
 			'type' => 'title',
 			'id'   => 'form-description-title',
