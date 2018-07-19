@@ -563,3 +563,30 @@ function constant_contact_get_font_dropdown_sizes() {
 		'20px' => '20 pixels',
 	);
 }
+
+/**
+ * Retrieve a CSS customization setting for a given form.
+ *
+ * Provide the post meta key or global setting key to retrieve.
+ *
+ * @since 1.4.0
+ *
+ * @param int    $form_id           Form ID to fetch data for.
+ * @param string $customization_key Key to fetch value for.
+ * @return string.
+ */
+function constant_contact_get_css_customization( $form_id, $customization_key = '' ) {
+
+	$form_id  = absint( $form_id );
+	$form_css = get_post_meta( $form_id );
+
+	if ( is_array( $form_css ) && array_key_exists( $customization_key, $form_css ) ) {
+		if ( ! empty( $form_css[ $customization_key ][0] ) ) {
+			return $form_css[ $customization_key ][0];
+		}
+	}
+
+	$global_setting = ctct_get_settings_option( $customization_key );
+
+	return ( ! empty( $global_setting ) ) ? $global_setting : '';
+}
