@@ -382,7 +382,7 @@ class ConstantContact_Settings {
 
 		$cmb->add_field( array(
 			'name'             => esc_html__( 'Label Placement' ),
-			'id'               => 'ctct_form_label_placement',
+			'id'               => '_ctct_form_label_placement',
 			'type'             => 'select',
 			'default'          => 'top',
 			'show_option_none' => false,
