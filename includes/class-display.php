@@ -1068,7 +1068,7 @@ class ConstantContact_Display {
 		}
 
 		// Finish the markup for our field itself.
-		$field = '<input %s type="%s" name="%s" id="%s" %s value="%s" %s placehlder="%s" %s />';
+		$field = '<input %s type="%s" name="%s" id="%s" %s value="%s" %s placeholder="%s" %s />';
 		$markup .= sprintf(
 			$field,
 			$req_text,
