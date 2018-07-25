@@ -985,11 +985,11 @@ class ConstantContact_Display {
 	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '' ) {
 
 		// Sanitize our stuff / set values.
-		$name                   = sanitize_text_field( $name );
-		$f_id                   = sanitize_title( $id );
-		$input_inline_styles    = $this->get_input_inline_styles();
-		$label_placement_class  = 'ctct-label-' . $label_placement;
-		$specific_form_styles   = $this->specific_form_styles;
+		$name                  = sanitize_text_field( $name );
+		$f_id                  = sanitize_title( $id );
+		$input_inline_styles   = $this->get_input_inline_styles();
+		$label_placement_class = 'ctct-label-' . $label_placement;
+		$specific_form_styles  = $this->specific_form_styles;
 
 		// Use different styles for submit button.
 		if ( 'submit' === $type ) {
@@ -1018,7 +1018,7 @@ class ConstantContact_Display {
 			 */
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
-		if ( ( 'top' === $label_placement || 'left' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
+		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
 			$markup .= '<span class="' . $label_placement_class . '">';
 			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
@@ -1325,14 +1325,11 @@ class ConstantContact_Display {
 		);
 
 		$input_street1_whole = '';
-		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
 			$input_street1_whole = $label_street1 . $input_street1;
 		}
 		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
 			$input_street1_whole = $input_street1 . $label_street1;
-		}
-		if ( 'hidden' === $label_placement ) {
-			$input_street1_whole = $input_street1;
 		}
 
 		$label_street2 = sprintf(
@@ -1351,14 +1348,11 @@ class ConstantContact_Display {
 		);
 
 		$input_street2_whole = '';
-		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
 			$input_street2_whole = $label_street2 . $input_street2;
 		}
 		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
 			$input_street2_whole = $input_street2 . $label_street2;
-		}
-		if ( 'hidden' === $label_placement ) {
-			$input_street2_whole = $input_street2;
 		}
 
 		$label_city = sprintf(
@@ -1377,14 +1371,11 @@ class ConstantContact_Display {
 		);
 
 		$input_city_whole = '';
-		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
 			$input_city_whole = $label_city . $input_city;
 		}
 		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
 			$input_city_whole = $input_city . $label_city;
-		}
-		if ( 'hidden' === $label_placement ) {
-			$input_city_whole = $input_city;
 		}
 
 		$label_state = sprintf(
@@ -1403,14 +1394,11 @@ class ConstantContact_Display {
 		);
 
 		$input_state_whole = '';
-		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
 			$input_state_whole = $label_state . $input_state;
 		}
 		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
 			$input_state_whole = $input_state . $label_state;
-		}
-		if ( 'hidden' === $label_placement ) {
-			$input_state_whole = $input_state;
 		}
 
 		$label_zip = sprintf(
@@ -1429,14 +1417,11 @@ class ConstantContact_Display {
 		);
 
 		$input_zip_whole = '';
-		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
 			$input_zip_whole = $label_zip . $input_zip;
 		}
 		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
 			$input_zip_whole = $input_zip . $label_zip;
-		}
-		if ( 'hidden' === $label_placement ) {
-			$input_zip_whole = $input_zip;
 		}
 
 		// Build our field.
@@ -1726,7 +1711,7 @@ class ConstantContact_Display {
 		$label    = '<span class="' . $label_placement_class . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label></span>';
 		$textarea = '<textarea class="' . esc_attr( implode( ' ', $textarea_classes ) ) . '" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
 
-		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
 			$return .= $label . $textarea;
 		}
 		if ( 'right' === $label_placement || 'bottom' === $label_placement ) {

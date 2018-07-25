@@ -73,6 +73,12 @@
 		width: 20%;
 	} // span.ctct-label-right
 
+	span.ctct-label-hidden {
+		left: -9999px !important;
+		position: absolute !important;
+		top: -9999px !important;
+	} // span.ctct-label-hidden
+
 	#ctct_usage {
 		position: absolute;
 		overflow: hidden;
