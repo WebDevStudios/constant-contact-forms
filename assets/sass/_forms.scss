@@ -6,9 +6,14 @@
 	.ctct-form {
 		@include clearfix;
 
-		label {
-
-		} // <label>
+		.ctct-label-top label,
+		.ctct-label-bottom label {
+			display: block;
+		}
+		.ctct-label-left label,
+		.ctct-label-right label {
+			display: inline-block;
+		}
 
 		abbr {
 		    border: none;

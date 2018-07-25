@@ -442,7 +442,7 @@ class ConstantContact_Display {
 
 		// Start our wrapper return var.
 		$return  = '';
-		$form_id = 0;
+		$form_id = absint( $form_data['options']['form_id'] );
 
 		// Check to see if we have a form ID for the form, and display our description.
 		if ( isset( $form_data['options'] ) && isset( $form_data['options']['form_id'] ) ) {
@@ -450,18 +450,17 @@ class ConstantContact_Display {
 			// Get our description.
 			$desc = isset( $form_data['options']['description'] ) ? $form_data['options']['description'] : '';
 
-			// Clean our form ID.
-			$form_id = absint( $form_data['options']['form_id'] );
-
 			// Get our Description.
 			$return .= $this->description( $desc, $form_id );
 
 		}
 
+		$label_placement = constant_contact_get_css_customization( $form_id, '_ctct_form_label_placement' );
+
 		if ( isset( $form_data['fields'] ) && is_array( $form_data['fields'] ) ) {
 			// Loop through each of our form fields and output it.
 			foreach ( $form_data['fields'] as $key => $value ) {
-				$return .= $this->field( $value, $old_values, $req_errors, $form_id );
+				$return .= $this->field( $value, $old_values, $req_errors, $form_id, $label_placement );
 			}
 		}
 
@@ -553,14 +552,16 @@ class ConstantContact_Display {
 	 * Wrapper for single field display.
 	 *
 	 * @since 1.0.0
+	 * @since 1.4.0 Added label placement parameter.
 	 *
-	 * @param array $field      Field data.
-	 * @param array $old_values Original values.
-	 * @param array $req_errors Errors.
-	 * @param int   $form_id    Current form ID.
+	 * @param array  $field           Field data.
+	 * @param array  $old_values      Original values.
+	 * @param array  $req_errors      Errors.
+	 * @param int    $form_id         Current form ID.
+	 * @param string $label_placement Label placement location.
 	 * @return string HTML markup
 	 */
-	public function field( $field, $old_values = array(), $req_errors = array(), $form_id = 0 ) {
+	public function field( $field, $old_values = array(), $req_errors = array(), $form_id = 0, $label_placement = 'top' ) {
 
 		// If we don't have a name or a mapping, it will be hard to do things.
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
@@ -635,13 +636,13 @@ class ConstantContact_Display {
 			case 'company':
 			case 'website':
 			case 'text_field':
-				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id );
+				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement );
 				break;
 			case 'custom_text_area':
-				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="500"' );
+				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="500"', $label_placement );
 				break;
 			case 'email':
-				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error );
+				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement );
 				break;
 			case 'hidden':
 				return $this->input( 'hidden', $name, $map, $value, $desc, $req );
@@ -653,7 +654,7 @@ class ConstantContact_Display {
 				return $this->input( 'submit', $name, $map, $value, $desc, $req, false, $field_error );
 				break;
 			case 'address':
-				return $this->address( $name, $map, $value, $desc, $req, $field_error );
+				return $this->address( $name, $map, $value, $desc, $req, $field_error, $label_placement );
 				break;
 			case 'anniversery':
 			case 'birthday':
@@ -836,22 +837,6 @@ class ConstantContact_Display {
 	 */
 	public function field_top( $type = '', $name = '', $f_id = '', $label = '', $req = false, $use_label = true ) {
 
-		// Set blank defaults for required info.
-		$req_label = '';
-
-		// If this is required, we output the HMTL5 required att.
-		if ( $req ) {
-
-			/**
-			 * Filters the markup used for the required indicator.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
-			 */
-			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
-		}
-
 		$classes = array(
 			'ctct-form-field',
 			'ctct-form-field-' . $type,
@@ -862,13 +847,6 @@ class ConstantContact_Display {
 
 		// Start building our return markup.
 		$markup = '<p class="' . implode( ' ', $classes ) . '">';
-
-		// Allow skipping label, also don't show for submit buttons.
-		if ( $use_label && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
-
-			// Our field label will be the form name + required asterisk + our label.
-			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
-		}
 
 		// If we're not on submit or hidden, but still doing label on bottom,
 		// then output a container div.
@@ -1004,15 +982,17 @@ class ConstantContact_Display {
 	 * @param boolean $f_only               If we only return the field itself, with no label.
 	 * @param boolean $field_error          Field error.
 	 * @param int     $form_id              Current form ID.
+	 * @param string  $label_placement      Where to place the label.
 	 * @return string HTML markup for field.
 	 */
-	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0 ) {
+	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '' ) {
 
 		// Sanitize our stuff / set values.
-		$name                 = sanitize_text_field( $name );
-		$f_id                 = sanitize_title( $id );
-		$input_inline_styles  = $this->get_input_inline_styles();
-		$specific_form_styles = $this->specific_form_styles;
+		$name                  = sanitize_text_field( $name );
+		$f_id                  = sanitize_title( $id );
+		$input_inline_styles   = $this->get_input_inline_styles();
+		$specific_form_styles  = $this->specific_form_styles;
+		$label_placement_class = 'ctct-label-' . $label_placement;
 
 		// Use different styles for submit button.
 		if ( 'submit' === $type ) {
@@ -1026,6 +1006,26 @@ class ConstantContact_Display {
 
 		// Start our markup.
 		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
+
+		// Set blank defaults for required info.
+		$req_label = '';
+		// If this is required, we output the HMTL5 required att.
+		if ( $req ) {
+
+			/**
+			 * Filters the markup used for the required indicator.
+			 *
+			 * @since 1.0.0
+			 *
+			 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+			 */
+			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+		}
+		if ( ( 'top' === $label_placement || 'left' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
+			$markup .= '<span class="' . $label_placement_class . '">';
+			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
+			$markup .= '</span>';
+		}
 
 		// Provide some CSS class(es).
 		$classes = array( 'ctct-' . esc_attr( $type ) );
@@ -1056,8 +1056,6 @@ class ConstantContact_Display {
 		if ( false !== strpos( $id, 'custom___' ) ) {
 			$max_length = ( $truncate_max_length ) ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
 		}
-		// Set our field as as separate var, because we allow for only returning that.
-		$field = '<input ' . $req_text . ' type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '"' . $input_inline_styles . '" value="' . $value . '" ' . $max_length . ' placeholder="' . $label . '" ';
 
 		// If we have an error.
 		if ( $field_error ) {
@@ -1065,16 +1063,35 @@ class ConstantContact_Display {
 			$classes[] = 'ctct-invalid';
 		}
 
+		$class_attr = '';
 		// Append classes to our field.
 		if ( count( $classes ) ) {
-			$field .= 'class="' . implode( ' ', $classes ) . '"';
+			$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 		}
 
 		// Finish the markup for our field itself.
-		$field .= '/>';
+		$field = '<input %s type="%s" name="%s" id="%s" %s value="%s" %s placehlder="%s" %s />';
+		$markup .= sprintf(
+			$field,
+			$req_text,
+			$type,
+			$f_id,
+			$f_id,
+			$input_inline_styles,
+			$value,
+			$max_length,
+			$label,
+			$class_attr
+		);
+		// Reassign because if we want "field only", like for hidden inputs, we need to
+		// still pass a value that went through sprintf().
+		$field = $markup;
 
-		// Add our field to our markup.
-		$markup .= $field;
+		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
+			$markup .= '<span class="' . $label_placement_class . '">';
+			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
+			$markup .= '</span>';
+		}
 
 		// If we got an error, add it to the bottom label.
 		if ( $field_error ) {
@@ -1257,15 +1274,16 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $name        Name of fields.
-	 * @param string  $f_id        Form ID name.
-	 * @param array   $value       Values of each field.
-	 * @param string  $desc        Label of field.
-	 * @param boolean $req         Whether or not required.
-	 * @param string  $field_error Field error value.
+	 * @param string  $name            Name of fields.
+	 * @param string  $f_id            Form ID name.
+	 * @param array   $value           Values of each field.
+	 * @param string  $desc            Label of field.
+	 * @param boolean $req             Whether or not required.
+	 * @param string  $field_error     Field error value.
+	 * @param string  $label_placement Where to put the label.
 	 * @return string field HTML markup.
 	 */
-	public function address( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '' ) {
+	public function address( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '', $label_placement = 'top' ) {
 
 		// Set up our text strings.
 		$street = __( 'Street Address', 'constant-contact-forms' );
@@ -1291,34 +1309,141 @@ class ConstantContact_Display {
 		$req_label = $req ? ' ' . apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' ) : '';
 		$req_class = $req ? ' ctct-form-field-required ' : '';
 		$req = $req ? ' required ' : '';
+		$label_placement_class = 'ctct-label-' . $label_placement;
+
+		$label_street1 = sprintf(
+			'<span class="%s"><label for="street_%s">%s</label></span>',
+			$label_placement_class,
+			esc_attr( $f_id ),
+			esc_attr( $street ) . $req_label
+		);
+		$input_street1 = sprintf(
+			'<input %stype="text" class="ctct-text ctct-address-street" name="street_%s" id="street_%s" value="%s">',
+			$req,
+			esc_attr( $f_id ),
+			esc_attr( $f_id ),
+			esc_attr( $v_street )
+		);
+
+		$input_street1_whole = '';
+		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+			$input_street1_whole = $label_street1 . $input_street1;
+		}
+		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
+			$input_street1_whole = $input_street1 . $label_street1;
+		}
+
+		$label_street2 = sprintf(
+			'<span class="%s"><label for="line_2_%s">%s</label></span>',
+			$label_placement_class,
+			esc_attr( $f_id ),
+			esc_attr( $line_2 )
+		);
+		// Address Line 2 is not required, note the missing $req inclusion.
+		$input_street2 = sprintf(
+			'<input type="text" class="ctct-text ctct-address-line-2" name="line_2_%s" id="line_2_%s" value="%s">',
+			esc_attr( $f_id ),
+			esc_attr( $f_id ),
+			esc_attr( $v_line_2 )
+		);
+
+		$input_street2_whole = '';
+		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+			$input_street2_whole = $label_street2 . $input_street2;
+		}
+		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
+			$input_street2_whole = $input_street2 . $label_street2;
+		}
+
+		$label_city = sprintf(
+			'<span class="%s"><label for="city_%s">%s</label></span>',
+			$label_placement_class,
+			esc_attr( $f_id ),
+			esc_attr( $city ) . $req_label
+		);
+		$input_city = sprintf(
+			'<input %stype="text" class="ctct-text ctct-address-city" name="city_%s" id="city_%s" value="%s">',
+			$req,
+			esc_attr( $f_id ),
+			esc_attr( $f_id ),
+			esc_attr( $v_city )
+		);
+
+		$input_city_whole = '';
+		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+			$input_city_whole = $label_city . $input_city;
+		}
+		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
+			$input_city_whole = $input_city . $label_city;
+		}
+
+		$label_state = sprintf(
+			'<span class="%s"><label for="state_%s">%s</label></span>',
+			$label_placement_class,
+			esc_attr( $f_id ),
+			esc_attr( $state ) . $req_label
+		);
+		$input_state = sprintf(
+			'<input %stype="text" class="ctct-text ctct-address-state" name="state_%s" id="state_%s" value="%s">',
+			$req,
+			esc_attr( $f_id ),
+			esc_attr( $f_id ),
+			esc_attr( $v_state )
+		);
+
+		$input_state_whole = '';
+		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+			$input_state_whole = $label_state . $input_state;
+		}
+		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
+			$input_state_whole = $input_state . $label_state;
+		}
+
+		$label_zip = sprintf(
+			'<span class="%s"><label for="zip_%s">%s</label></span>',
+			$label_placement_class,
+			esc_attr( $f_id ),
+			esc_attr( $zip ) . $req_label
+		);
+		$input_zip = sprintf(
+			'<input %stype="text" class="ctct-text ctct-address-zip" name="zip_%s" id="zip_%s" value="%s">',
+			$req,
+			esc_attr( $f_id ),
+			esc_attr( $f_id ),
+			esc_attr( $v_zip )
+		);
+
+		$input_zip_whole = '';
+		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+			$input_zip_whole = $label_zip . $input_zip;
+		}
+		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
+			$input_zip_whole = $input_zip . $label_zip;
+		}
 
 		// Build our field.
-		$return  = '<fieldset class="ctct-address">';
-		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
-		$return .= ' <div class="ctct-form-field ctct-field-full address-line-1' . $req_class . '">';
-		$return .= '  <label for="street_' . esc_attr( $f_id ) . '">' . esc_attr( $street ) . $req_label . '</label>';
-		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-street" name="street_' . esc_attr( $f_id ) . '" id="street_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_street ) . '">';
-		$return .= ' </div>';
-		// Address Line 2 is not required, note the missing $req inclusion.
-		$return .= ' <div class="ctct-form-field ctct-field-full address-line-2' . $req_class . '" id="input_2_1_2_container">';
-		$return .= '  <label for="line_2_' . esc_attr( $f_id ) . '">' . esc_attr( $line_2 ) . '</label>';
-		$return .= '  <input type="text" class="ctct-text ctct-address-line-2" name="line_2_' . esc_attr( $f_id ) . '" id="line_2_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_line_2 ) . '">';
-		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-third address-city' . $req_class . '" id="input_2_1_3_container">';
-		$return .= '  <label for="city_' . esc_attr( $f_id ) . '">' . esc_attr( $city ) . $req_label . '</label>';
-		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-city" name="city_' . esc_attr( $f_id ) . '" id="city_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_city ) . '">';
-		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-third address-state' . $req_class . '" id="input_2_1_4_container">';
-		$return .= '  <label for="state_' . esc_attr( $f_id ) . '">' . esc_attr( $state ) . $req_label . '</label>';
-		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-state" name="state_' . esc_attr( $f_id ) . '" id="state_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_state ) . '">';
-		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-third address-zip' . $req_class . '" id="input_2_1_5_container">';
-		$return .= '  <label for="zip_' . esc_attr( $f_id ) . '">' . esc_attr( $zip ) . $req_label . '</label>';
-		$return .= '  <input ' . $req . 'type="text" class="ctct-text ctct-address-zip" name="zip_' . esc_attr( $f_id ) . '" id="zip_' . esc_attr( $f_id ) . '" value="' . esc_attr( $v_zip ) . '">';
-		$return .= ' </div>';
+		$return  = '<fieldset class="ctct-address"><legend>%s</legend>';
+		$return .= '<div class="ctct-form-field ctct-field-full address-line-1%s">%s</div>';
+		$return .= '<div class="ctct-form-field ctct-field-full address-line-2%s" id="input_2_1_2_container">%s</div>';
+		$return .= '<div class="ctct-form-field ctct-field-third address-city%s" id="input_2_1_3_container">%s</div>';
+		$return .= '<div class="ctct-form-field ctct-field-third address-state%s" id="input_2_1_4_container">%s</div>';
+		$return .= '<div class="ctct-form-field ctct-field-third address-zip%s" id="input_2_1_5_container">%s</div>';
 		$return .= '</fieldset>';
 
-		return $return;
+		return sprintf(
+			$return,
+			esc_html( $name ),
+			$req_class,
+			$input_street1_whole,
+			$req_class,
+			$input_street2_whole,
+			$req_class,
+			$input_city_whole,
+			$req_class,
+			$input_state_whole,
+			$req_class,
+			$input_zip_whole
+		);
 	}
 
 	/**
@@ -1542,16 +1667,17 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $name        Name of field.
-	 * @param string  $map         ID of field.
-	 * @param string  $value       Previous value of field.
-	 * @param string  $desc        Description/label of field.
-	 * @param boolean $req         If is required.
-	 * @param string  $field_error Error from field.
-	 * @param string  $extra_attrs Extra attributes to append.
+	 * @param string  $name            Name of field.
+	 * @param string  $map             ID of field.
+	 * @param string  $value           Previous value of field.
+	 * @param string  $desc            Description/label of field.
+	 * @param boolean $req             If is required.
+	 * @param string  $field_error     Error from field.
+	 * @param string  $extra_attrs     Extra attributes to append.
+	 * @param string  $label_placement Where to place the label.
 	 * @return string HTML markup.
 	 */
-	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '' ) {
+	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '', $label_placement = 'top' ) {
 
 		$classes = array( 'ctct-form-field' );
 
@@ -1560,6 +1686,7 @@ class ConstantContact_Display {
 		if ( $req ) {
 			$classes[] = 'ctct-form-field-required';
 		}
+		$label_placement_class = 'ctct-label-' . $label_placement;
 
 		// If required, get our label.
 		$req_label = '';
@@ -1575,9 +1702,16 @@ class ConstantContact_Display {
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 
-		$return  = '<p class="' . implode( ' ', $classes ) . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label>';
-		$return .= '<textarea class="ctct-textarea" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
+		$return   = '<p class="' . implode( ' ', $classes ) . '">';
+		$label    = '<span class="' . $label_placement_class . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label></span>';
+		$textarea = '<textarea class="ctct-textarea" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
 
+		if ( 'top' === $label_placement || 'left' === $label_placement ) {
+			$return .= $label . $textarea;
+		}
+		if ( 'right' === $label_placement || 'bottom' === $label_placement ) {
+			$return .= $textarea . $label;
+		}
 		if ( $field_error ) {
 			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $map ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constant-contact-forms' ) ) . '</label></span>';
 		}
