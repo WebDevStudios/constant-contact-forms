@@ -277,9 +277,6 @@ class ConstantContact_Display {
 		$form_classes   = 'ctct-form ctct-form-' . $form_id;
 		$form_classes   .= $this->build_custom_form_classes();
 
-		if ( ! empty( $this->global_form_styles['global_label_placement'] ) ) {
-			$form_classes .= ' label-' . esc_attr( $this->global_form_styles['global_label_placement'] );
-		}
 		$form_styles = '';
 		if ( ! empty( $this->specific_form_styles['form_background_color'] ) ) {
 			$form_styles = $this->specific_form_styles['form_background_color'];
