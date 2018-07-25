@@ -275,7 +275,7 @@ class ConstantContact_Display {
 		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$form_classes   = 'ctct-form ctct-form-' . $form_id;
-		$form_classes   .= $this->build_custom_form_classes();
+		$form_classes  .= $this->build_custom_form_classes();
 
 		$form_styles = '';
 		if ( ! empty( $this->specific_form_styles['form_background_color'] ) ) {
@@ -985,11 +985,11 @@ class ConstantContact_Display {
 	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '' ) {
 
 		// Sanitize our stuff / set values.
-		$name                  = sanitize_text_field( $name );
-		$f_id                  = sanitize_title( $id );
-		$input_inline_styles   = $this->get_input_inline_styles();
-		$specific_form_styles  = $this->specific_form_styles;
-		$label_placement_class = 'ctct-label-' . $label_placement;
+		$name                   = sanitize_text_field( $name );
+		$f_id                   = sanitize_title( $id );
+		$input_inline_styles    = $this->get_input_inline_styles();
+		$label_placement_class  = 'ctct-label-' . $label_placement;
+		$specific_form_styles   = $this->specific_form_styles;
 
 		// Use different styles for submit button.
 		if ( 'submit' === $type ) {
@@ -1025,7 +1025,8 @@ class ConstantContact_Display {
 		}
 
 		// Provide some CSS class(es).
-		$classes = array( 'ctct-' . esc_attr( $type ) );
+		$classes   = array( 'ctct-' . esc_attr( $type ) );
+		$classes[] = $label_placement_class;
 		if ( ! empty( $specific_form_styles['input_custom_classes'] ) ) {
 			$custom_input_classes = explode( ' ', $specific_form_styles['input_custom_classes'] );
 			$classes              = array_merge( $classes, $custom_input_classes );
@@ -1303,20 +1304,21 @@ class ConstantContact_Display {
 		 *
 		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
 		 */
-		$req_label = $req ? ' ' . apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' ) : '';
-		$req_class = $req ? ' ctct-form-field-required ' : '';
-		$req = $req ? ' required ' : '';
+		$req_label             = $req ? ' ' . apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' ) : '';
+		$req_class             = $req ? ' ctct-form-field-required ' : '';
+		$req                   = $req ? ' required ' : '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 
 		$label_street1 = sprintf(
 			'<span class="%s"><label for="street_%s">%s</label></span>',
-			$label_placement_class,
+			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
 			esc_attr( $street ) . $req_label
 		);
 		$input_street1 = sprintf(
-			'<input %stype="text" class="ctct-text ctct-address-street" name="street_%s" id="street_%s" value="%s">',
+			'<input %stype="text" class="ctct-text ctct-address-street %s" name="street_%s" id="street_%s" value="%s">',
 			$req,
+			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
 			esc_attr( $f_id ),
 			esc_attr( $v_street )
@@ -1338,7 +1340,8 @@ class ConstantContact_Display {
 		);
 		// Address Line 2 is not required, note the missing $req inclusion.
 		$input_street2 = sprintf(
-			'<input type="text" class="ctct-text ctct-address-line-2" name="line_2_%s" id="line_2_%s" value="%s">',
+			'<input type="text" class="ctct-text ctct-address-line-2 %s" name="line_2_%s" id="line_2_%s" value="%s">',
+			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
 			esc_attr( $f_id ),
 			esc_attr( $v_line_2 )
@@ -1359,8 +1362,9 @@ class ConstantContact_Display {
 			esc_attr( $city ) . $req_label
 		);
 		$input_city = sprintf(
-			'<input %stype="text" class="ctct-text ctct-address-city" name="city_%s" id="city_%s" value="%s">',
+			'<input %stype="text" class="ctct-text ctct-address-city %s" name="city_%s" id="city_%s" value="%s">',
 			$req,
+			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
 			esc_attr( $f_id ),
 			esc_attr( $v_city )
@@ -1381,8 +1385,9 @@ class ConstantContact_Display {
 			esc_attr( $state ) . $req_label
 		);
 		$input_state = sprintf(
-			'<input %stype="text" class="ctct-text ctct-address-state" name="state_%s" id="state_%s" value="%s">',
+			'<input %stype="text" class="ctct-text ctct-address-state %s" name="state_%s" id="state_%s" value="%s">',
 			$req,
+			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
 			esc_attr( $f_id ),
 			esc_attr( $v_state )
@@ -1403,8 +1408,9 @@ class ConstantContact_Display {
 			esc_attr( $zip ) . $req_label
 		);
 		$input_zip = sprintf(
-			'<input %stype="text" class="ctct-text ctct-address-zip" name="zip_%s" id="zip_%s" value="%s">',
+			'<input %stype="text" class="ctct-text ctct-address-zip %s" name="zip_%s" id="zip_%s" value="%s">',
 			$req,
+			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
 			esc_attr( $f_id ),
 			esc_attr( $v_zip )
@@ -1676,7 +1682,8 @@ class ConstantContact_Display {
 	 */
 	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '', $label_placement = 'top' ) {
 
-		$classes = array( 'ctct-form-field' );
+		$classes          = array( 'ctct-form-field' );
+		$textarea_classes = array( 'ctct-textarea' );
 
 		// Set our required text.
 		$req_text = $req ? 'required' : '';
@@ -1684,6 +1691,7 @@ class ConstantContact_Display {
 			$classes[] = 'ctct-form-field-required';
 		}
 		$label_placement_class = 'ctct-label-' . $label_placement;
+		$textarea_classes[]    = $label_placement_class;
 
 		// If required, get our label.
 		$req_label = '';
@@ -1701,7 +1709,7 @@ class ConstantContact_Display {
 
 		$return   = '<p class="' . implode( ' ', $classes ) . '">';
 		$label    = '<span class="' . $label_placement_class . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label></span>';
-		$textarea = '<textarea class="ctct-textarea" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
+		$textarea = '<textarea class="' . esc_attr( implode( ' ', $textarea_classes ) ) . '" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
 
 		if ( 'top' === $label_placement || 'left' === $label_placement ) {
 			$return .= $label . $textarea;
