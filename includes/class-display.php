@@ -1331,6 +1331,9 @@ class ConstantContact_Display {
 		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
 			$input_street1_whole = $input_street1 . $label_street1;
 		}
+		if ( 'hidden' === $label_placement ) {
+			$input_street1_whole = $input_street1;
+		}
 
 		$label_street2 = sprintf(
 			'<span class="%s"><label for="line_2_%s">%s</label></span>',
@@ -1353,6 +1356,9 @@ class ConstantContact_Display {
 		}
 		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
 			$input_street2_whole = $input_street2 . $label_street2;
+		}
+		if ( 'hidden' === $label_placement ) {
+			$input_street2_whole = $input_street2;
 		}
 
 		$label_city = sprintf(
@@ -1377,6 +1383,9 @@ class ConstantContact_Display {
 		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
 			$input_city_whole = $input_city . $label_city;
 		}
+		if ( 'hidden' === $label_placement ) {
+			$input_city_whole = $input_city;
+		}
 
 		$label_state = sprintf(
 			'<span class="%s"><label for="state_%s">%s</label></span>',
@@ -1400,6 +1409,9 @@ class ConstantContact_Display {
 		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
 			$input_state_whole = $input_state . $label_state;
 		}
+		if ( 'hidden' === $label_placement ) {
+			$input_state_whole = $input_state;
+		}
 
 		$label_zip = sprintf(
 			'<span class="%s"><label for="zip_%s">%s</label></span>',
@@ -1422,6 +1434,9 @@ class ConstantContact_Display {
 		}
 		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
 			$input_zip_whole = $input_zip . $label_zip;
+		}
+		if ( 'hidden' === $label_placement ) {
+			$input_zip_whole = $input_zip;
 		}
 
 		// Build our field.

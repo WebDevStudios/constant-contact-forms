@@ -49,6 +49,30 @@
 		padding-left: 40px;
 	}
 
+	input.ctct-label-left,
+	textarea.ctct-label-left {
+		display: inline-block;
+		width: 75%;
+	} // input.ctct-label-left, textarea.ctct-label-left
+
+	span.ctct-label-left {
+		display: inline-block;
+		margin-right: 5%;
+		width: 20%;
+	} // span.ctct-label-left
+
+	input.ctct-label-right,
+	textarea.ctct-label-right {
+		display: inline-block;
+		margin-right: 5%;
+		width: 75%;
+	} // input.ctct-label-right, textarea.ctct-label-right
+
+	span.ctct-label-right {
+		display: inline-block;
+		width: 20%;
+	} // span.ctct-label-right
+
 	#ctct_usage {
 		position: absolute;
 		overflow: hidden;
