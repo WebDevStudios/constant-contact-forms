@@ -453,6 +453,9 @@ class ConstantContact_Display {
 		}
 
 		$label_placement = constant_contact_get_css_customization( $form_id, '_ctct_form_label_placement' );
+		if ( empty( $label_placement ) ) {
+			$label_placement = 'top';
+		}
 
 		if ( isset( $form_data['fields'] ) && is_array( $form_data['fields'] ) ) {
 			// Loop through each of our form fields and output it.
