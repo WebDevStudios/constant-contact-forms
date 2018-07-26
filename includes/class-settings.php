@@ -352,16 +352,50 @@ class ConstantContact_Settings {
 			'<div class="discover-recaptcha">' . __( 'Learn more and get an <a href="https://www.google.com/recaptcha/intro/" target="_blank">API site key</a>', 'constant-contact-forms' ) . '</div>'
 		);
 		$cmb->add_field( array(
-			'name'    => esc_html__( 'Site Key', 'constant-contact-forms' ),
-			'id'      => '_ctct_recaptcha_site_key',
-			'type'    => 'text',
+			'name'       => esc_html__( 'Site Key', 'constant-contact-forms' ),
+			'id'         => '_ctct_recaptcha_site_key',
+			'type'       => 'text',
 			'before_row' => $before_recaptcha,
 		) );
 
 		$cmb->add_field( array(
-			'name'       => esc_html__( 'Secret Key', 'constant-contact-forms' ),
-			'id'         => '_ctct_recaptcha_secret_key',
-			'type'       => 'text',
+			'name' => esc_html__( 'Secret Key', 'constant-contact-forms' ),
+			'id'   => '_ctct_recaptcha_secret_key',
+			'type' => 'text',
+		) );
+
+		$before_global_css = sprintf(
+			'<hr /><h2>%s</h2>',
+			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
+		);
+
+		$cmb->add_field( array(
+			'name'        => esc_html__( 'CSS Classes', 'constant-contact_forms' ),
+			'id'          => '_ctct_form_custom_classes',
+			'type'        => 'text',
+			'description' => esc_html__(
+					'Provide custom classes for the form separated by a single space.',
+					'constant-contact-forms'
+			),
+			'before_row'  => $before_global_css,
+		) );
+
+		$cmb->add_field( array(
+			'name'             => esc_html__( 'Label Placement' ),
+			'id'               => '_ctct_form_label_placement',
+			'type'             => 'select',
+			'default'          => 'top',
+			'show_option_none' => false,
+			'options'          => array(
+				'top'    => 'Top',
+				'left'   => 'Left',
+				'right'  => 'Right',
+				'hidden' => 'Hidden',
+			),
+			'description'      => esc_html__(
+				'Choose the position for the labels of the form elements.',
+				'constant-contact-forms'
+			),
 		) );
 
 		$before_debugging = sprintf(

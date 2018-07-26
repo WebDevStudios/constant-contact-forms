@@ -542,3 +542,51 @@ function constant_contact_emails_disabled( $form_id = 0 ) {
 	 */
 	return apply_filters( 'constant_contact_emails_disabled', $disabled, $form_id );
 }
+
+/**
+ * Get a list of font sizes to use in a dropdown menu for user customization.
+ *
+ * @since 1.4.0
+ *
+ * @return array The font sizes to use in a dropdown.
+ */
+function constant_contact_get_font_dropdown_sizes() {
+	return array(
+		'12px' => '12 pixels',
+		'13px' => '13 pixels',
+		'14px' => '14 pixels',
+		'15px' => '15 pixels',
+		'16px' => '16 pixels',
+		'17px' => '17 pixels',
+		'18px' => '18 pixels',
+		'19px' => '19 pixels',
+		'20px' => '20 pixels',
+	);
+}
+
+/**
+ * Retrieve a CSS customization setting for a given form.
+ *
+ * Provide the post meta key or global setting key to retrieve.
+ *
+ * @since 1.4.0
+ *
+ * @param int    $form_id           Form ID to fetch data for.
+ * @param string $customization_key Key to fetch value for.
+ * @return string.
+ */
+function constant_contact_get_css_customization( $form_id, $customization_key = '' ) {
+
+	$form_id  = absint( $form_id );
+	$form_css = get_post_meta( $form_id );
+
+	if ( is_array( $form_css ) && array_key_exists( $customization_key, $form_css ) ) {
+		if ( ! empty( $form_css[ $customization_key ][0] ) ) {
+			return $form_css[ $customization_key ][0];
+		}
+	}
+
+	$global_setting = ctct_get_settings_option( $customization_key );
+
+	return ( ! empty( $global_setting ) ) ? $global_setting : '';
+}

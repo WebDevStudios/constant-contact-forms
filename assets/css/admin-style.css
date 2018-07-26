@@ -338,11 +338,17 @@ body.post-type-ctct_forms #titlediv #title {
   display: none;
 }
 
-#ctct_0_list_metabox .cmb-row {
+#ctct_0_list_metabox .cmb-row,
+#ctct_1_custom_form_css_metabox .cmb-row,
+#ctct_1_custom_input_css_metabox .cmb-row {
   padding-bottom: 0;
 }
 
 #cmb2-metabox-ctct_2_fields_metabox .cmb2-id--ctct-title {
+  padding: .8em 0 1em;
+}
+
+#ctct_1_custom_form_css_metabox .cmb2-id-form-title-title {
   padding: .8em 0 1em;
 }
 
@@ -453,8 +459,55 @@ body.post-type-ctct_forms #titlediv #title {
 }
 
 #cmb2-metabox-email_settings .cmb-row,
-#cmb2-metabox-ctct_2_generated_metabox .cmb-row {
+#cmb2-metabox-ctct_2_generated_metabox .cmb-row,
+#cmb2-metabox-ctct_1_custom_input_css_metabox .cmb-row {
   padding-bottom: 0px !important;
+}
+
+#side-sortables #ctct_1_custom_form_css_metabox .cmb-row {
+  padding: 0.5em 0 0 0;
+}
+
+#side-sortables #ctct_1_custom_form_css_metabox .cmb-th {
+  padding-bottom: 0;
+}
+
+#side-sortables #ctct_1_custom_form_css_metabox .cmb-type-title {
+  border-bottom: none;
+}
+
+#side-sortables #ctct_1_custom_form_css_metabox .cmb2-id--ctct-form-title-font-size,
+#side-sortables #ctct_1_custom_form_css_metabox .cmb2-id--ctct-form-description-font-size {
+  border-bottom: none;
+  margin-bottom: 0;
+}
+
+#side-sortables #ctct_1_custom_input_css_metabox .cmb2-id-form-padding-title {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+#side-sortables #ctct_1_custom_input_css_metabox .cmb2-id--ctct-input-margin-top,
+#side-sortables #ctct_1_custom_input_css_metabox .cmb2-id--ctct-input-margin-right {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-bottom: 0;
+  padding-top: 0;
+}
+
+#side-sortables #ctct_1_custom_input_css_metabox .cmb2-id--ctct-form-label-placement {
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+#side-sortables #ctct_1_custom_input_css_metabox .cmb-type-text-small {
+  border-bottom: none;
+  float: left;
+  width: 50%;
+}
+
+#side-sortables #ctct_1_custom_input_css_metabox .cmb-type-text-small .cmb-th {
+  padding-bottom: 0;
 }
 
 #adminmenu .wp-submenu a[href="edit.php?post_type=ctct_forms&page=ctct_options_connect"] {
