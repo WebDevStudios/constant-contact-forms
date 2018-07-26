@@ -2,7 +2,7 @@
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
-Tested up to:      4.9.6
+Tested up to:      4.9.7
 Stable tag:        1.4.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -36,14 +36,15 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 == Changelog ==
 
 = 1.4.0 =
+* Added: Various styling options during the form building process.
 * Added: Initial Akismet integration to help aid with spam submissions.
 * Added: Clear form fields after successful AJAX-based form submissions.
 * Added: Clear success/error message after small delay, for AJAX-based form submissions.
 * Added: WordPress action hooks before and after form output. Useful to add your own output for a given form.
 * Added: Compatibility with "Call To Action" plugin.
-* Added: Custom field labels to email notifications.
+* Added: Include custom field labels in email notifications.
 * Added: Ability to customize who receives email notifications, per form.
-* Added: Frontend form submit button disabled if hidden honeypot field is touched.
+* Added: Frontend form submit button disabled if hidden honeypot field has changed.
 * Fixed: Consistently applied ctct_process_form_success filter to AJAX form submission success messages.
 * Fixed: Prevent errors with Constant Contact social links and array_merge issues.
 * Fixed: Prevent errors with array_key_exists() and the ctct_get_settings_option function.
