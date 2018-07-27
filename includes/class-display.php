@@ -131,10 +131,10 @@ class ConstantContact_Display {
 			'form_submit_button_font_size'        => '',
 			'form_submit_button_text_color'       => '',
 			'form_submit_button_background_color' => '',
-			'input_margin_top'                    => '',
-			'input_margin_right'                  => '',
-			'input_margin_bottom'                 => '',
-			'input_margin_left'                   => '',
+			'form_padding_top'                    => '',
+			'form_padding_right'                  => '',
+			'form_padding_bottom'                 => '',
+			'form_padding_left'                   => '',
 			'input_custom_classes'                => '',
 		);
 
@@ -170,24 +170,24 @@ class ConstantContact_Display {
 			$specific_form_css['form_submit_button_background_color'] = "background-color: {$ctct_form_submit_button_background_color};";
 		}
 
-		$ctct_input_margin_top = get_post_meta( $form_id, '_ctct_input_margin_top', true );
-		if ( ! empty( $ctct_input_margin_top ) ) {
-			$specific_form_css['input_margin_top'] = "margin-top: {$ctct_input_margin_top}px;";
+		$ctct_form_padding_top = get_post_meta( $form_id, '_ctct_form_padding_top', true );
+		if ( ! empty( $ctct_form_padding_top ) ) {
+			$specific_form_css['form_padding_top'] = "padding-top: {$ctct_form_padding_top}px;";
 		}
 
-		$ctct_input_margin_right = get_post_meta( $form_id, '_ctct_input_margin_right', true );
-		if ( ! empty( $ctct_input_margin_right ) ) {
-			$specific_form_css['input_margin_right'] = "margin-right: {$ctct_input_margin_right}px;";
+		$ctct_form_padding_right = get_post_meta( $form_id, '_ctct_form_padding_right', true );
+		if ( ! empty( $ctct_form_padding_right ) ) {
+			$specific_form_css['form_padding_right'] = "padding-right: {$ctct_form_padding_right}px;";
 		}
 
-		$ctct_input_margin_bottom = get_post_meta( $form_id, '_ctct_input_margin_bottom', true );
-		if ( ! empty( $ctct_input_margin_bottom ) ) {
-			$specific_form_css['input_margin_bottom'] = "margin-bottom: {$ctct_input_margin_bottom}px;";
+		$ctct_form_padding_bottom = get_post_meta( $form_id, '_ctct_form_padding_bottom', true );
+		if ( ! empty( $ctct_form_padding_bottom ) ) {
+			$specific_form_css['form_padding_bottom'] = "padding-bottom: {$ctct_form_padding_bottom}px;";
 		}
 
-		$ctct_input_margin_left = get_post_meta( $form_id, '_ctct_input_margin_left', true );
-		if ( ! empty( $ctct_input_margin_left ) ) {
-			$specific_form_css['input_margin_left'] = "margin-left: {$ctct_input_margin_left}px;";
+		$ctct_form_padding_left = get_post_meta( $form_id, '_ctct_form_padding_left', true );
+		if ( ! empty( $ctct_form_padding_left ) ) {
+			$specific_form_css['form_padding_left'] = "padding-left: {$ctct_form_padding_left}px;";
 		}
 
 		$ctct_input_custom_classes = get_post_meta( $form_id, '_ctct_input_custom_classes', true );
@@ -280,6 +280,10 @@ class ConstantContact_Display {
 		$form_styles = '';
 		if ( ! empty( $this->specific_form_styles['form_background_color'] ) ) {
 			$form_styles = $this->specific_form_styles['form_background_color'];
+		}
+
+		foreach( ['bottom','left','right','top'] as $pos ) {
+			$form_styles .= $this->specific_form_styles[ 'form_padding_' . $pos ];
 		}
 
 		// Add action before form for custom actions.
@@ -883,44 +887,6 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Get the custom styles set for a form's input.
-	 *
-	 * @since 1.4.0
-	 * @author Scott Tirrell
-	 *
-	 * @return string
-	 */
-	public function get_input_inline_styles() {
-		$inline_style = '';
-		$styles       = array();
-
-		// Set any custom CSS for the form description.
-		$specific_form_styles = $this->specific_form_styles;
-
-		if ( ! empty( $specific_form_styles['input_margin_top'] ) ) {
-			$styles[] = $specific_form_styles['input_margin_top'];
-		}
-
-		if ( ! empty( $specific_form_styles['input_margin_right'] ) ) {
-			$styles[] = $specific_form_styles['input_margin_right'];
-		}
-
-		if ( ! empty( $specific_form_styles['input_margin_bottom'] ) ) {
-			$styles[] = $specific_form_styles['input_margin_bottom'];
-		}
-
-		if ( ! empty( $specific_form_styles['input_margin_left'] ) ) {
-			$styles[] = $specific_form_styles['input_margin_left'];
-		}
-
-		if ( ! empty( $styles ) ) {
-			$inline_style = 'style="' . esc_attr( implode( ' ', $styles ) ) . '"';
-		}
-
-		return $inline_style;
-	}
-
-	/**
 	 * Get inline styles for the form's submit button.
 	 *
 	 * @since 1.4.0
@@ -989,7 +955,7 @@ class ConstantContact_Display {
 		// Sanitize our stuff / set values.
 		$name                  = sanitize_text_field( $name );
 		$f_id                  = sanitize_title( $id );
-		$input_inline_styles   = $this->get_input_inline_styles();
+		$input_inline_styles   = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
 
