@@ -11,12 +11,6 @@
  * @link      https://cmb2.io
  */
 class CMB2_Type_Taxonomy_Multicheck_Hierarchical extends CMB2_Type_Taxonomy_Multicheck {
-
-	/**
-	 * Parent term ID when looping hierarchical terms.
-	 *
-	 * @var integer
-	 */
 	protected $parent = 0;
 
 	public function render() {
@@ -37,6 +31,16 @@ class CMB2_Type_Taxonomy_Multicheck_Hierarchical extends CMB2_Type_Taxonomy_Mult
 		}
 
 		return $options;
+	}
+
+	public function get_terms() {
+		return CMB2_Utils::wp_at_least( '4.5.0' )
+			? get_terms( wp_parse_args( $this->field->prop( 'query_args', array() ), array(
+				'taxonomy'   => $this->field->args( 'taxonomy' ),
+				'hide_empty' => false,
+				'parent'     => $this->parent,
+			) ) )
+			: get_terms( $this->field->args( 'taxonomy' ), 'hide_empty=0&parent=0' );
 	}
 
 }

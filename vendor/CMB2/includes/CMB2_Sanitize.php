@@ -57,18 +57,17 @@ class CMB2_Sanitize {
 	 * @since  1.0.2
 	 */
 	public function default_sanitization() {
-		$field_type = $this->field->type();
 
 		/**
 		 * This exists for back-compatibility, but validation
 		 * is not what happens here.
 		 *
-		 * @deprecated See documentation for "cmb2_sanitize_{$field_type}".
+		 * @deprecated See documentation for "cmb2_sanitize_{$this->type()}".
 		 */
 		if ( function_exists( 'apply_filters_deprecated' ) ) {
-			$override_value = apply_filters_deprecated( "cmb2_validate_{$field_type}", array( null, $this->value, $this->field->object_id, $this->field->args(), $this ), '2.0.0', "cmb2_sanitize_{$field_type}" );
+			$override_value = apply_filters_deprecated( "cmb2_validate_{$this->field->type()}", array( null, $this->value, $this->field->object_id, $this->field->args(), $this ), '2.0.0', "cmb2_sanitize_{$this->field->type()}" );
 		} else {
-			$override_value = apply_filters( "cmb2_validate_{$field_type}", null, $this->value, $this->field->object_id, $this->field->args(), $this );
+			$override_value = apply_filters( "cmb2_validate_{$this->field->type()}", null, $this->value, $this->field->object_id, $this->field->args(), $this );
 		}
 
 		if ( null !== $override_value ) {
@@ -76,7 +75,7 @@ class CMB2_Sanitize {
 		}
 
 		$sanitized_value = '';
-		switch ( $field_type ) {
+		switch ( $this->field->type() ) {
 			case 'wysiwyg':
 			case 'textarea_small':
 			case 'oembed':
@@ -132,7 +131,7 @@ class CMB2_Sanitize {
 			CMB2_Utils::log_if_debug( __METHOD__, __LINE__, "{$this->field->type()} {$this->field->_id()} is missing the 'taxonomy' parameter." );
 		} else {
 
-			if ( in_array( $this->field->object_type, array( 'options-page', 'term' ), true ) ) {
+			if ( 'options-page' === $this->field->object_type ) {
 				$return_values = true;
 			} else {
 				wp_set_object_terms( $this->field->object_id, $this->value, $this->field->args( 'taxonomy' ) );

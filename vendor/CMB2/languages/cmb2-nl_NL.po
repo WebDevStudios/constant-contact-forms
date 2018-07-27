@@ -57,11 +57,11 @@ msgstr "Veldomschrijving (optioneel)"
 
 #: example-functions.php:143
 msgid "Test Text Small"
-msgstr "Test tekst klein"
+msgstr "Test Tekst Klein"
 
 #: example-functions.php:156
 msgid "Test Text Medium"
-msgstr "Test tekst medium"
+msgstr ""
 
 #: example-functions.php:164
 msgid "Custom Rendered Field"
@@ -73,7 +73,7 @@ msgstr ""
 
 #: example-functions.php:181
 msgid "Test Text Email"
-msgstr "Test tekst e-mail"
+msgstr ""
 
 #: example-functions.php:189
 msgid "Test Time"
@@ -93,7 +93,7 @@ msgstr "Test Datumprikker (UNIX timestamp)"
 
 #: example-functions.php:220
 msgid "Test Date/Time Picker Combo (UNIX timestamp)"
-msgstr "Test datum/tijdprikker combinatie (Unix timestamp)"
+msgstr ""
 
 #: example-functions.php:237
 msgid "Test Money"
@@ -105,27 +105,27 @@ msgstr "Test Kleurenkiezer"
 
 #: example-functions.php:259
 msgid "Test Text Area"
-msgstr "Test tekst gebied"
+msgstr ""
 
 #: example-functions.php:266
 msgid "Test Text Area Small"
-msgstr "Test tekst gebied klein"
+msgstr ""
 
 #: example-functions.php:273
 msgid "Test Text Area for Code"
-msgstr "Test tekst gebied voor code"
+msgstr ""
 
 #: example-functions.php:280
 msgid "Test Title Weeeee"
-msgstr "Test titel Weeee"
+msgstr ""
 
 #: example-functions.php:281
 msgid "This is a title description"
-msgstr "Dit is een titel beschrijving"
+msgstr ""
 
 #: example-functions.php:287
 msgid "Test Select"
-msgstr "Test selectie"
+msgstr ""
 
 #: example-functions.php:293 example-functions.php:306
 #: example-functions.php:318
@@ -144,11 +144,11 @@ msgstr "Keuze Drie"
 
 #: example-functions.php:300
 msgid "Test Radio inline"
-msgstr "Test radio inline"
+msgstr ""
 
 #: example-functions.php:313
 msgid "Test Radio"
-msgstr "TEst radio"
+msgstr ""
 
 #: example-functions.php:325
 msgid "Test Taxonomy Radio"
@@ -160,7 +160,7 @@ msgstr ""
 
 #: example-functions.php:342
 msgid "Test Taxonomy Multi Checkbox"
-msgstr "Test Taxonomy multi checkbox"
+msgstr ""
 
 #: example-functions.php:351
 msgid "Test Checkbox"
@@ -172,15 +172,15 @@ msgstr ""
 
 #: example-functions.php:364 tests/test-cmb-field.php:272
 msgid "Check One"
-msgstr "Check een"
+msgstr ""
 
 #: example-functions.php:365 tests/test-cmb-field.php:273
 msgid "Check Two"
-msgstr "Check twee"
+msgstr ""
 
 #: example-functions.php:366 tests/test-cmb-field.php:274
 msgid "Check Three"
-msgstr "Check drie"
+msgstr ""
 
 #: example-functions.php:372
 msgid "Test wysiwyg"
@@ -200,7 +200,7 @@ msgstr "Meerdere Bestanden"
 
 #: example-functions.php:388
 msgid "Upload or add multiple images/attachments."
-msgstr "Uplaod of voeg meerdere beelden/bijlagen toe."
+msgstr ""
 
 #: example-functions.php:395
 msgid "oEmbed"
@@ -214,31 +214,31 @@ msgstr ""
 
 #: example-functions.php:427
 msgid "About Page Metabox"
-msgstr "Over pagina Metabox"
+msgstr ""
 
 #: example-functions.php:456
 msgid "Repeating Field Group"
-msgstr "Veldgroep herhalen"
+msgstr ""
 
 #: example-functions.php:464
 msgid "Generates reusable form entries"
-msgstr "Genereer herbruikbare formulier toevoegingen"
+msgstr ""
 
 #: example-functions.php:466
 msgid "Entry {#}"
-msgstr "Bericht {#}"
+msgstr ""
 
 #: example-functions.php:467
 msgid "Add Another Entry"
-msgstr "Voeg nog een bericht toe"
+msgstr ""
 
 #: example-functions.php:468
 msgid "Remove Entry"
-msgstr "Verwijder bericht"
+msgstr ""
 
 #: example-functions.php:481
 msgid "Entry Title"
-msgstr "Bericht titel"
+msgstr ""
 
 #: example-functions.php:488
 msgid "Description"
@@ -246,11 +246,11 @@ msgstr "Omschrijving"
 
 #: example-functions.php:489
 msgid "Write a short description for this entry"
-msgstr "Schrijf een korte beschrijving voor dit bericht"
+msgstr ""
 
 #: example-functions.php:495
 msgid "Entry Image"
-msgstr "Bericht afbeelding"
+msgstr ""
 
 #: example-functions.php:501
 msgid "Image Caption"
@@ -290,11 +290,11 @@ msgstr "Gebruiker Veld"
 
 #: example-functions.php:590
 msgid "Category Metabox"
-msgstr "Categorie Metabox"
+msgstr ""
 
 #: example-functions.php:605
 msgid "Term Image"
-msgstr "Term afbeelding"
+msgstr ""
 
 #: example-functions.php:612
 msgid "Arbitrary Term Field"
@@ -326,7 +326,7 @@ msgstr "Verwijder Embed"
 
 #: includes/CMB2_Ajax.php:177 tests/cmb-tests-base.php:64
 msgid "No oEmbed Results Found for %s. View more info at"
-msgstr "Geen oEmbeds gevonden voor %s. Bekijk meer info over"
+msgstr ""
 
 #: includes/CMB2_Field.php:1186
 msgid "Add Group"
@@ -343,7 +343,7 @@ msgstr "Geen"
 
 #: includes/CMB2_Field.php:1269
 msgid "Sorry, this field does not have a cmb_id specified."
-msgstr "Sorry, dit veld heeft geen cmg_id."
+msgstr ""
 
 #: includes/CMB2_Field_Display.php:408 includes/CMB2_JS.php:139
 #: includes/types/CMB2_Type_File_Base.php:75 tests/test-cmb-types-base.php:143
@@ -407,7 +407,7 @@ msgstr "Klaar"
 
 #: includes/CMB2_JS.php:122
 msgid "Choose Time"
-msgstr "Kies een tijd"
+msgstr ""
 
 #: includes/CMB2_JS.php:123
 msgid "Time"
@@ -423,11 +423,11 @@ msgstr "Minuut"
 
 #: includes/CMB2_JS.php:126
 msgid "Second"
-msgstr "Seconde"
+msgstr ""
 
 #: includes/CMB2_JS.php:127
 msgid "Now"
-msgstr "Nu"
+msgstr ""
 
 #: includes/CMB2_JS.php:135
 msgid "Use this file"
@@ -435,7 +435,7 @@ msgstr "Gebruik dit bestand"
 
 #: includes/CMB2_JS.php:136
 msgid "Use these files"
-msgstr "Gebruik deze bestanden"
+msgstr ""
 
 #: includes/CMB2_JS.php:137 includes/types/CMB2_Type_File_Base.php:61
 msgid "Remove Image"
@@ -465,8 +465,7 @@ msgstr "Voeg Rij Toe"
 msgid ""
 "Term Metadata is a WordPress > 4.4 feature. Please upgrade your WordPress "
 "install."
-msgstr "Term Metadata is een Wordpress > 4.4 optie. Upgrade je WordPress alstublieft"
-"installeren."
+msgstr ""
 
 #: includes/CMB2_hookup.php:149
 msgid "Term metaboxes configuration requires a 'taxonomies' parameter"
@@ -474,7 +473,7 @@ msgstr ""
 
 #: includes/helper-functions.php:93
 msgid "No oEmbed Results Found for %s. View more info at %s"
-msgstr "Geen oEmbeds gevonden voor %s. Bekijk meer info over %s"
+msgstr ""
 
 #: includes/helper-functions.php:279
 msgid "Save"
@@ -483,12 +482,12 @@ msgstr "Opslaan"
 #: includes/types/CMB2_Type_File.php:36 tests/test-cmb-types.php:683
 #: tests/test-cmb-types.php:701
 msgid "Add or Upload File"
-msgstr "Voeg toe of upload bestand"
+msgstr ""
 
 #: includes/types/CMB2_Type_File_List.php:36 tests/test-cmb-types.php:639
 #: tests/test-cmb-types.php:663
 msgid "Add or Upload Files"
-msgstr "Voeg toe of upload bestanden"
+msgstr ""
 
 #: includes/types/CMB2_Type_Taxonomy_Multicheck.php:27
 #: includes/types/CMB2_Type_Taxonomy_Radio.php:25
@@ -507,7 +506,7 @@ msgstr ""
 msgid ""
 "CMB2 will create metaboxes and forms with custom fields that will blow your "
 "mind."
-msgstr "CMB2 maakt te gekke metaboxen en formulieren met extra velden."
+msgstr ""
 
 #. Author of the plugin/theme
 msgid "WebDevStudios"
