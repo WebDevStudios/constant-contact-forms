@@ -298,7 +298,6 @@ class ConstantContact_Display {
 		// Build out our form.
 		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
 		$return .= 'data-doajax="' . esc_attr( $do_ajax ) . '" ';
-		$return .= 'class="' . esc_attr( $form_classes ) . '" ';
 		$return .= 'style="' . esc_attr( $form_styles ) . '" ';
 		$return .= 'action="' . esc_attr( $form_action ) . '" ';
 		$return .= 'method="post">';
