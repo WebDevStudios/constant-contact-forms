@@ -77,8 +77,6 @@ class ConstantContact_Settings {
 		// Kick it off / register our settings.
 		add_action( 'admin_init', array( $this, 'init' ) );
 
-		// Add our options menu + options page.
-		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'add_options_page_metabox' ) );
 
 		// Override CMB's getter.
@@ -150,47 +148,6 @@ class ConstantContact_Settings {
 	 */
 	public function scripts() {
 		wp_enqueue_style( 'constant-contact-forms-admin' );
-	}
-
-	/**
-	 * Add menu options page.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_options_page() {
-
-		$this->options_page = add_submenu_page(
-			'edit.php?post_type=ctct_forms',
-			esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
-			esc_html__( 'Settings', 'constant-contact-forms' ),
-			'manage_options',
-			$this->key,
-			array( $this, 'admin_page_display' )
-		);
-
-		// Include CMB CSS in the head to avoid FOUC.
-		add_action( "admin_print_styles-{$this->options_page}", array( 'CMB2_hookup', 'enqueue_cmb_css' ) );
-	}
-
-	/**
-	 * Admin page markup. Mostly handled by CMB2.
-	 *
-	 * @since 1.0.0
-	 */
-	public function admin_page_display() {
-		?>
-		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php echo get_admin_page_title(); ?></h2>
-			<?php
-			if ( function_exists( 'cmb2_metabox_form' ) ) {
-				cmb2_metabox_form( $this->metabox_id, $this->key );
-			}
-
-			// Add 'ctct-debug-server-check' to query args to display server debug.
-			$this->plugin->check->maybe_display_debug_info();
-			?>
-		</div>
-		<?php
 	}
 
 	/**
