@@ -162,7 +162,7 @@ class ConstantContact_Settings {
 		// Get our current page.
 		global $pagenow;
 
-		// Check if we're on edit.php, and if we're on our options page, cast to bool and return
+		// Check if we're on edit.php, and if we're on our options page, cast to bool and return.
 		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ); // Input var okay.
 	}
 
@@ -171,7 +171,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	function add_options_page_metabox() {
+	public function add_options_page_metabox() {
 
 		// Hook in our save notices.
 		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", array( $this, 'settings_notices' ), 10, 2 );
