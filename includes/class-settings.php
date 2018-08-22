@@ -32,22 +32,6 @@ class ConstantContact_Settings {
 	private $metabox_id = 'ctct_option_metabox_settings';
 
 	/**
-	 * Settings Page title.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	protected $title = '';
-
-	/**
-	 * Settings Page hook.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	protected $options_page = '';
-
-	/**
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
@@ -73,9 +57,6 @@ class ConstantContact_Settings {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-
-		// Kick it off / register our settings.
-		add_action( 'admin_init', array( $this, 'init' ) );
 
 		add_action( 'cmb2_admin_init', array( $this, 'add_options_page_metabox' ) );
 
@@ -118,15 +99,6 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Register our setting to WP.
-	 *
-	 * @since 1.0.0
-	 */
-	public function init() {
-		register_setting( $this->key, $this->key );
-	}
-
-	/**
 	 * Add some login page CSS.
 	 *
 	 * @since 1.2.0
@@ -148,22 +120,6 @@ class ConstantContact_Settings {
 	 */
 	public function scripts() {
 		wp_enqueue_style( 'constant-contact-forms-admin' );
-	}
-
-	/**
-	 * Are we on the settings page?
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return boolean If we are on the settings page or not.
-	 */
-	public function on_settings_page() {
-
-		// Get our current page.
-		global $pagenow;
-
-		// Check if we're on edit.php, and if we're on our options page, cast to bool and return.
-		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ); // Input var okay.
 	}
 
 	/**
@@ -722,7 +678,7 @@ class ConstantContact_Settings {
 	 */
 	public function __get( $field ) {
 		// Allowed fields to retrieve.
-		if ( in_array( $field, array( 'key', 'metabox_id', 'title', 'options_page' ), true ) ) {
+		if ( in_array( $field, array( 'key', 'metabox_id' ), true ) ) {
 			if ( isset( $this->{$field} ) ) {
 				return $this->{$field};
 			} else {
