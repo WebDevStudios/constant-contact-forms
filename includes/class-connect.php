@@ -215,7 +215,7 @@ class ConstantContact_Connect {
 			<?php
 			if ( isset( $_GET['ctct_connect_error'] ) ) { // Input var okay.
 			?>
-				<div id="message" class="error"><p>
+				<div id="message" class="ctct-error"><p>
 				<?php esc_html_e( 'There was an error connecting your account. Please try again.', 'constant-contact-forms' ); ?>
 				</p></div>
 			<?php
