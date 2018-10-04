@@ -802,7 +802,7 @@ body.post-type-ctct_forms #titlediv #title {
   }
 }
 
-.error {
+.ctct-error {
   background: none !important;
   border-left: 1px solid #FF4136 !important;
   border-radius: 3px;
@@ -812,7 +812,7 @@ body.post-type-ctct_forms #titlediv #title {
   margin: 0 0 20px 0 !important;
 }
 
-.error p {
+.ctct-error p {
   color: #FF4136 !important;
 }
 
