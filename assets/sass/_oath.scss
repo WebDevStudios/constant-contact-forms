@@ -1,0 +1,84 @@
+//--------------------------------------------------------------
+// Disconnect Page
+//--------------------------------------------------------------
+
+.ctct-logo {
+	max-width: 400px;
+}
+
+.ctct_options_connect {
+	box-sizing: border-box;
+	padding: 70px;
+	text-align: center;
+	width: 100%;
+
+	@media screen and (max-width: 782px) {
+		padding: 30px 30px 0;
+		margin-left: -10px;
+	}
+
+	img {
+		width: 100%;
+		max-width: 400px;
+		height: auto;
+	}
+
+	p {
+		color: $color-modal-alt-text;
+		font-size: 16px;
+	} // p
+
+  	.ctct-description {
+	  text-align: left;
+	}
+
+	.ctct-body {
+		@include clearfix;
+
+		margin: 0 auto;
+		max-width: 75%;
+		overflow-y: hidden;
+		padding: 0 15px;
+		position: relative;
+
+		.notice {
+			background: none;
+		    border-left: none;
+		    box-shadow: none;
+		    margin: 0 0 20px 0;
+		    padding: 0;
+		} // notice
+
+		.button {
+			border-radius: 4px;
+			color: $color-white;
+			font-size: 16px;
+			font-weight: 600;
+			height: auto;
+			line-height: 1;
+			margin-bottom: 10px;
+			min-width: 180px;
+			padding: 14px 30px;
+
+			&.button-orange {
+				background-color: $color-chrome-yellow;
+				border: 1px solid darken($color-chrome-yellow, 10%);
+
+				&:hover,
+				&:focus {
+					background-color: darken($color-chrome-yellow, 10%);
+				}
+			} // button orange
+
+			&.button-blue {
+				background-color: $color-prussian-blue;
+				border: 1px solid darken($color-prussian-blue, 10%);
+
+				&:hover,
+				&:focus {
+					background-color: darken($color-prussian-blue, 10%);
+				}
+			} // button blue
+		} // button
+	} // ctct-body
+} // ctct_options_connect

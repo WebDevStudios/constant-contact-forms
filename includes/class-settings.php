@@ -149,7 +149,7 @@ class ConstantContact_Settings {
 	 * @since 1.0.0
 	 */
 	public function scripts() {
-		wp_enqueue_style( 'constant-contact-forms' );
+		wp_enqueue_style( 'constant-contact-forms-admin' );
 	}
 
 	/**
@@ -352,16 +352,50 @@ class ConstantContact_Settings {
 			'<div class="discover-recaptcha">' . __( 'Learn more and get an <a href="https://www.google.com/recaptcha/intro/" target="_blank">API site key</a>', 'constant-contact-forms' ) . '</div>'
 		);
 		$cmb->add_field( array(
-			'name'    => esc_html__( 'Site Key', 'constant-contact-forms' ),
-			'id'      => '_ctct_recaptcha_site_key',
-			'type'    => 'text',
+			'name'       => esc_html__( 'Site Key', 'constant-contact-forms' ),
+			'id'         => '_ctct_recaptcha_site_key',
+			'type'       => 'text',
 			'before_row' => $before_recaptcha,
 		) );
 
 		$cmb->add_field( array(
-			'name'       => esc_html__( 'Secret Key', 'constant-contact-forms' ),
-			'id'         => '_ctct_recaptcha_secret_key',
-			'type'       => 'text',
+			'name' => esc_html__( 'Secret Key', 'constant-contact-forms' ),
+			'id'   => '_ctct_recaptcha_secret_key',
+			'type' => 'text',
+		) );
+
+		$before_global_css = sprintf(
+			'<hr /><h2>%s</h2>',
+			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
+		);
+
+		$cmb->add_field( array(
+			'name'        => esc_html__( 'CSS Classes', 'constant-contact_forms' ),
+			'id'          => '_ctct_form_custom_classes',
+			'type'        => 'text',
+			'description' => esc_html__(
+					'Provide custom classes for the form separated by a single space.',
+					'constant-contact-forms'
+			),
+			'before_row'  => $before_global_css,
+		) );
+
+		$cmb->add_field( array(
+			'name'             => esc_html__( 'Label Placement' ),
+			'id'               => '_ctct_form_label_placement',
+			'type'             => 'select',
+			'default'          => 'top',
+			'show_option_none' => false,
+			'options'          => array(
+				'top'    => 'Top',
+				'left'   => 'Left',
+				'right'  => 'Right',
+				'hidden' => 'Hidden',
+			),
+			'description'      => esc_html__(
+				'Choose the position for the labels of the form elements.',
+				'constant-contact-forms'
+			),
 		) );
 
 		$before_debugging = sprintf(
@@ -413,7 +447,7 @@ class ConstantContact_Settings {
 	public function check_if_optin_should_show( $type ) {
 
 		// Get all our settings.
-		$available_areas = ctct_get_settings_option( '_ctct_optin_forms' );
+		$available_areas = ctct_get_settings_option( '_ctct_optin_forms', [] );
 
 		// If our settings aren't an array, bail out.
 		if ( ! is_array( $available_areas ) ) {
@@ -479,8 +513,8 @@ class ConstantContact_Settings {
 		}
 
 		// Get our label, based on our settings if they're available.
-		$saved_label = ctct_get_settings_option( '_ctct_optin_label' );
-		$list = ctct_get_settings_option( '_ctct_optin_list' );
+		$saved_label = ctct_get_settings_option( '_ctct_optin_label', '' );
+		$list = ctct_get_settings_option( '_ctct_optin_list', '' );
 
 		// Otherwise, use our default.
 		$label = $saved_label ? $saved_label : esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
@@ -847,7 +881,7 @@ function ctct_get_settings_option( $key = '', $default = null ) {
 
 	if ( 'all' === $key ) {
 		$val = $opts;
-	} elseif ( array_key_exists( $key, $opts ) && false !== $opts[ $key ] ) {
+	} elseif ( is_array( $opts ) && array_key_exists( $key, $opts ) && false !== $opts[ $key ] ) {
 		$val = $opts[ $key ];
 	}
 

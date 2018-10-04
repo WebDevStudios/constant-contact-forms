@@ -115,7 +115,11 @@ class ConstantContact_Process_Form {
 			switch ( $status ) {
 
 				case 'success':
-					$message = __( 'Your information has been submitted.', 'constant-contact-forms' );
+
+					/** This filter is documented in includes/class-process-form.php */
+					$message = apply_filters( 'ctct_process_form_success',
+						__( 'Your information has been submitted.', 'constant-contact-forms' ),
+						intval( $json_data['ctct-id'] ) );
 					break;
 
 				// Generic error.
@@ -211,7 +215,7 @@ class ConstantContact_Process_Form {
 		}
 
 		if ( isset( $data['g-recaptcha-response'] ) ) {
-			$secret = ctct_get_settings_option( '_ctct_recaptcha_secret_key' );
+			$secret = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
 			$method = null;
 			if ( ! ini_get( 'allow_url_fopen' ) ) {
 				$method = new \ReCaptcha\RequestMethod\CurlPost();
@@ -222,7 +226,6 @@ class ConstantContact_Process_Form {
 
 			if ( ! $resp->isSuccess() ) {
 				constant_contact_maybe_log_it( 'reCAPTCHA', 'Failed to verify with Google reCAPTCHA', array( $resp->getErrorCodes() ) );
-				// @todo Utilize the error message(s) that come back from Google, if any.
 				return array(
 					'status' => 'named_error',
 					'error'  => __( 'Failed reCAPTCHA check', 'constant-contact-forms' ),
@@ -676,6 +679,9 @@ class ConstantContact_Process_Form {
 				 * Filters the message for the successful processed form.
 				 *
 				 * @since 1.3.0
+				 *
+				 * @param string     $value Success message.
+				 * @param string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
 				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id );
 				break;
@@ -722,6 +728,15 @@ class ConstantContact_Process_Form {
 		update_option( 'ctct-processed-forms', $count );
 	}
 
+	/**
+	 * Check if we have all the required fields for a given form.
+	 *
+	 * @since 1.3.5
+	 *
+	 * @param int   $form_id
+	 * @param array $form_data
+	 * @return bool
+	 */
 	public function has_all_required_fields( $form_id, $form_data ) {
 		$original = $this->get_original_fields( $form_id );
 

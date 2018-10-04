@@ -307,7 +307,7 @@ class ConstantContact_CPTS {
 					$title = ( $form->post_title ) ? $form->post_title : __( 'No title', 'constant-contact-forms' );
 
 					// Get the last modified time in human text.
-					$last_modified = human_time_diff( strtotime( $form->post_modified ), time() );
+					$last_modified = human_time_diff( strtotime( $form->post_modified ), current_time( 'timestamp' ) );
 
 					// Build up our title for the shortcode form admin.
 					$title = sprintf(

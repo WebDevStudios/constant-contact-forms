@@ -77,8 +77,11 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', array( $this, 'description_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'constant_contact_list_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'opt_ins_metabox' ) );
-			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'generated_shortcode' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'email_settings' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'custom_form_css_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'custom_input_css_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 		}
 
@@ -177,9 +180,9 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$options_metabox->add_field( array(
-			'name' => esc_html__( 'Submission behavior', 'constant-contact-forms' ),
-			'type' => 'title',
-			'id'   => 'submission_behavior_title',
+			'name'  => esc_html__( 'Submission behavior', 'constant-contact-forms' ),
+			'type'  => 'title',
+			'id'    => 'submission_behavior_title',
 			'after' => '<hr/>',
 		) );
 
@@ -198,11 +201,179 @@ class ConstantContact_Builder_Fields {
 			'description' => __( 'Enable form submission without a page refresh. This option overrides the Redirect URL choice above.', 'constant-contact-forms' ),
 		) );
 
-
-
 		if ( constant_contact()->api->is_connected() ) {
 			$this->show_optin_connected_fields( $options_metabox );
 		}
+	}
+
+	/**
+	 * Metabox for user to set custom CSS for a form.
+	 *
+	 * @since 1.4.0
+	 */
+	public function custom_form_css_metabox() {
+		$custom_css_metabox = new_cmb2_box( array(
+			'id'           => 'ctct_1_custom_form_css_metabox',
+			'title'        => __( 'Form Design', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'side',
+			'priority'     => 'low',
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'        => __( 'Background Color', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'form_background_color',
+			'type'        => 'colorpicker',
+			'description' => esc_html__(
+				'Applies to the whole form.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name' => esc_html__( 'Form Description', 'constant-contact-forms' ),
+			'type' => 'title',
+			'id'   => 'form-description-title',
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'             => __( 'Font Size', 'constant-contact-forms' ),
+			'id'               => $this->prefix . 'form_description_font_size',
+			'type'             => 'select',
+			'show_option_none' => 'Default',
+			'options_cb'       => 'constant_contact_get_font_dropdown_sizes',
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'        => __( 'Font Color', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'form_description_color',
+			'type'        => 'colorpicker',
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name' => esc_html__( 'Form Submit Button', 'constant-contact-forms' ),
+			'type' => 'title',
+			'id'   => 'form-submit-button-title',
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'             => __( 'Font Size', 'constant-contact-forms' ),
+			'id'               => $this->prefix . 'form_submit_button_font_size',
+			'type'             => 'select',
+			'show_option_none' => 'Default',
+			'options_cb'       => 'constant_contact_get_font_dropdown_sizes',
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'        => __( 'Font Color', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'form_submit_button_text_color',
+			'type'        => 'colorpicker',
+			'description' => esc_html__(
+				'Choose a color for the submit button text.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'        => __( 'Background Color', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'form_submit_button_background_color',
+			'type'        => 'colorpicker',
+			'description' => esc_html__(
+				'Choose a color for the submit button background.',
+				'constant-contact-forms'
+			),
+		) );
+	}
+
+	/**
+	 * Metabox for user to set custom CSS for a form.
+	 *
+	 * @since 1.4.0
+	 */
+	public function custom_input_css_metabox() {
+		$custom_css_metabox = new_cmb2_box( array(
+			'id'           => 'ctct_1_custom_input_css_metabox',
+			'title'        => __( 'Input Design', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'side',
+			'priority'     => 'low',
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'        => esc_html__( 'Form Padding', 'constant-contact-forms' ),
+			'type'        => 'title',
+			'id'          => 'form-padding-title',
+			'description' => esc_html__(
+				'Enter padding values in number of pixels. Padding will be applied to four sides of the form.',
+				'constant-contact-form' ),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'       => __( 'Top', 'constant-contact-forms' ),
+			'id'         => $this->prefix . 'form_padding_top',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'       => __( 'Right', 'constant-contact-forms' ),
+			'id'         => $this->prefix . 'form_padding_right',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'       => __( 'Bottom', 'constant-contact-forms' ),
+			'id'         => $this->prefix . 'form_padding_bottom',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'       => __( 'Left', 'constant-contact-forms' ),
+			'id'         => $this->prefix . 'form_padding_left',
+			'type'       => 'text_small',
+			'show_names' => true,
+			'attributes' => array(
+				'type' => 'number',
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'        => __( 'Custom Classes', 'constant-contact-forms' ),
+			'id'          => $this->prefix . 'input_custom_classes',
+			'type'        => 'text',
+			'description' => esc_html__(
+				'Set custom CSS class(es) for inputs. Separate multiple classes with spaces.',
+				'constant-contact-forms'
+			),
+		) );
+
+		$custom_css_metabox->add_field( array(
+			'name'             => __( 'Label Placement', 'constant-contact-forms' ),
+			'id'               => $this->prefix . 'form_label_placement',
+			'type'             => 'select',
+			'show_option_none' => 'Global',
+			'options'          => array(
+				'top'    => 'Top',
+				'left'   => 'Left',
+				'bottom' => 'Bottom',
+				'right'  => 'Right',
+			),
+			'description'      => esc_html__(
+				'Set the position for labels for inputs.',
+				'constant-contact-forms'
+			),
+		) );
 	}
 
 	/**
@@ -299,11 +470,11 @@ class ConstantContact_Builder_Fields {
 		$business_name ? ( $business_name ) : __( 'Your Business Name', 'constant-contact-forms' );
 
 		$options_metabox->add_field( array(
-			'name'        => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
-			'id'          => $this->prefix . 'opt_in_instructions',
-			'type'        => 'textarea_small',
+			'name'    => __( 'Opt-in Affirmation', 'constant-contact-forms' ),
+			'id'      => $this->prefix . 'opt_in_instructions',
+			'type'    => 'textarea_small',
 			// translators: placeholder has a business name from Constant Contact.
-			'default'     => sprintf( __( 'Example: Yes, I would like to receive emails from %s. (You can unsubscribe anytime)', 'constant-contact-forms' ), $business_name ),
+			'default' => sprintf( __( 'Example: Yes, I would like to receive emails from %s. (You can unsubscribe anytime)', 'constant-contact-forms' ), $business_name ),
 		) );
 	}
 
@@ -509,6 +680,36 @@ class ConstantContact_Builder_Fields {
 			'attributes' => array(
 				'readonly' => 'readonly',
 			),
+		) );
+	}
+
+	/**
+	 * Add a metabox for customizing destination email for a given form.
+	 *
+	 * @since 1.4.0
+	 */
+	public function email_settings() {
+
+		$email_settings = new_cmb2_box( array(
+			'id'           => 'email_settings',
+			'title'        => esc_html__( 'Email settings', 'constant-contact-forms' ),
+			'object_types' => array( 'ctct_forms' ),
+			'context'      => 'side',
+			'priority'     => 'low',
+		) );
+
+		$email_settings->add_field( array(
+			'name' => esc_html__( 'Email destination', 'constant-contact-forms' ),
+			'desc' => esc_html__( 'Who should receive email notifications for this form. Separate multiple emails by a comma. Leave blank to default to admin email.', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'email_settings',
+			'type' => 'text_medium',
+		) );
+
+		$email_settings->add_field( array(
+			'name' => esc_html__( 'Disable email notifications for this form?', 'constant-contact-forms' ),
+			'desc' => esc_html__( 'Check this option to disable emails for this Constant Contact Forms form.', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'disable_emails_for_form',
+			'type' => 'checkbox',
 		) );
 	}
 }
