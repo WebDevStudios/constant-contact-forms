@@ -591,7 +591,9 @@ class ConstantContact_Display {
 		// We may have more than one of the same field in our array.
 		// this makes sure we keep them unique when processing them.
 		if ( 'submit' !== $type ) {
-			$map = $map . '___' . md5( serialize( $field ) );
+			$temp_field = $field;
+			unset( $temp_field['field_custom_css'] );
+			$map = $map . '___' . md5( serialize( $temp_field ) );
 		}
 
 		// Default error status.
