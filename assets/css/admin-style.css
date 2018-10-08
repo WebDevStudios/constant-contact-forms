@@ -75,7 +75,6 @@
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.4);
-  outline: 0;
   padding: rem(10);
   position: relative;
 }
@@ -109,7 +108,6 @@
   height: 16px;
   line-height: 0;
   margin: 0;
-  outline: none;
   padding: 0;
   padding: 0;
   position: absolute;
@@ -804,7 +802,7 @@ body.post-type-ctct_forms #titlediv #title {
   }
 }
 
-.error {
+.ctct-error {
   background: none !important;
   border-left: 1px solid #FF4136 !important;
   border-radius: 3px;
@@ -814,7 +812,7 @@ body.post-type-ctct_forms #titlediv #title {
   margin: 0 0 20px 0 !important;
 }
 
-.error p {
+.ctct-error p {
   color: #FF4136 !important;
 }
 
