@@ -391,7 +391,7 @@ class ConstantContact_API {
 	 * @param string $form_id     ID of the form being processed.
 	 * @return array Current connect ctct lists.
 	 */
-	public function add_contact( $new_contact = array(), $form_id ) {
+	public function add_contact( $new_contact = array(), $form_id = 0 ) {
 
 		// Make sure we're passed a full set of data.
 		if ( empty( $new_contact ) ) {
