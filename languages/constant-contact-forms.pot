@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2018-07-27 11:19-0500\n"
+"POT-Creation-Date: 2018-10-08 09:25-0500\n"
 "PO-Revision-Date: 2017-01-12 14:46-0600\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Constant Contact\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.7\n"
+"X-Generator: Poedit 2.2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: constant-contact-forms.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -958,7 +958,7 @@ msgstr ""
 msgid "New Form"
 msgstr ""
 
-#: includes/class-cpts.php:70 includes/class-display.php:821
+#: includes/class-cpts.php:70 includes/class-display.php:823
 msgid "Edit Form"
 msgstr ""
 
@@ -1193,99 +1193,99 @@ msgstr ""
 msgid "Constant Contact Use."
 msgstr ""
 
-#: includes/class-display.php:617 includes/class-display.php:1689
+#: includes/class-display.php:619 includes/class-display.php:1691
 msgid "Error: Please correct your entry."
 msgstr ""
 
-#: includes/class-display.php:619
+#: includes/class-display.php:621
 msgid " Error: Please fill out this field."
 msgstr ""
 
-#: includes/class-display.php:1139
+#: includes/class-display.php:1141
 msgid "Send"
 msgstr ""
 
-#: includes/class-display.php:1255
+#: includes/class-display.php:1257
 msgid "Street Address"
 msgstr ""
 
-#: includes/class-display.php:1256
+#: includes/class-display.php:1258
 msgid "Address Line 2"
 msgstr ""
 
-#: includes/class-display.php:1257
+#: includes/class-display.php:1259
 msgid "City"
 msgstr ""
 
-#: includes/class-display.php:1258
+#: includes/class-display.php:1260
 msgid "State"
 msgstr ""
 
-#: includes/class-display.php:1259
+#: includes/class-display.php:1261
 msgid "ZIP Code"
 msgstr ""
 
-#: includes/class-display.php:1436
+#: includes/class-display.php:1438
 msgid "Month"
 msgstr ""
 
-#: includes/class-display.php:1437
+#: includes/class-display.php:1439
 msgid "Day"
 msgstr ""
 
-#: includes/class-display.php:1438
+#: includes/class-display.php:1440
 msgid "Year"
 msgstr ""
 
-#: includes/class-display.php:1562
+#: includes/class-display.php:1564
 msgid "January"
 msgstr ""
 
-#: includes/class-display.php:1563
+#: includes/class-display.php:1565
 msgid "February"
 msgstr ""
 
-#: includes/class-display.php:1564
+#: includes/class-display.php:1566
 msgid "March"
 msgstr ""
 
-#: includes/class-display.php:1565
+#: includes/class-display.php:1567
 msgid "April"
 msgstr ""
 
-#: includes/class-display.php:1566
+#: includes/class-display.php:1568
 msgid "May"
 msgstr ""
 
-#: includes/class-display.php:1567
+#: includes/class-display.php:1569
 msgid "June"
 msgstr ""
 
-#: includes/class-display.php:1568
+#: includes/class-display.php:1570
 msgid "July "
 msgstr ""
 
-#: includes/class-display.php:1569
+#: includes/class-display.php:1571
 msgid "August"
 msgstr ""
 
-#: includes/class-display.php:1570
+#: includes/class-display.php:1572
 msgid "September"
 msgstr ""
 
-#: includes/class-display.php:1571
+#: includes/class-display.php:1573
 msgid "October"
 msgstr ""
 
-#: includes/class-display.php:1572
+#: includes/class-display.php:1574
 msgid "November"
 msgstr ""
 
-#: includes/class-display.php:1573
+#: includes/class-display.php:1575
 msgid "December"
 msgstr ""
 
-#: includes/class-display.php:1756
+#: includes/class-display.php:1758
 #, php-format
 msgid ""
 "By submitting this form, you are consenting to receive marketing emails "
@@ -1293,7 +1293,7 @@ msgid ""
 "the SafeUnsubscribe&reg; link, found at the bottom of every email. %s"
 msgstr ""
 
-#: includes/class-display.php:1762
+#: includes/class-display.php:1764
 msgid "Emails are serviced by Constant Contact"
 msgstr ""
 
