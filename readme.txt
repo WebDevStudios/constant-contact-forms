@@ -35,6 +35,12 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.4.1 =
+* Fixed: Issue with generic CSS selector causing other WordPress admin UI to be revealed unintentionally.
+* Fixed: Issue with emails losing submitted information due to newly mismatched md5 hash values for each field.
+* Updated: Re-added outlines styles in a couple of places in admin area for accessibility sake.
+* Updated: Made form ID optional during contact addition method for site owners using plugin for comment/login page signups.
+
 = 1.4.0 =
 * Added: Various styling options during the form building process.
 * Added: Initial Akismet integration to help aid with spam submissions.
@@ -189,22 +195,6 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Fixed: Removed redundant "Add form" button on Constant Contact form editor TinyMCE.
 * Fixed: Removed required attribute for Address line 2 when line 1 is required.
 * Updated: Labels in Constant Contact Form list around none available and none in trash.
-
-= 1.0.3 =
-* Fixed: Improperly placed content for Constant Contact API requests for phone and website fields.
-* Updated: Default text for admin email subject line and email footer copy.
-
-= 1.0.2 =
-* Update copyright information.
-* Remove Form Options for users who aren't connected to Constant Contact.
-* Clean up API fields.
-
-= 1.0.1 =
-* Fixed: issue with PHP 5.5+ syntax when we need 5.4+
-* Added: Prevention of plugin loading for users below PHP version 5.4 to avoid incompatibility issues.
-
-= 1.0.0 =
-* Initial Release
 
 == Frequently Asked Questions ==
 
