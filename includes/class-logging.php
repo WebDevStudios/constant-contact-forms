@@ -55,7 +55,7 @@ class ConstantContact_Logging {
 	 * @param object $plugin Parent class.
 	 */
 	public function __construct( $plugin ) {
-		$this->plugin = $plugin;
+		$this->plugin      = $plugin;
 		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
 		$this->hooks();
 	}
@@ -83,6 +83,11 @@ class ConstantContact_Logging {
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 	}
 
+	/**
+	 * Add our dialog message to confirm deletion of error logs.
+	 *
+	 * @since 1.3.7
+	 */
 	public function dialog() {
 	?>
 		<div id="confirmdelete" style="display:none;">
@@ -95,6 +100,8 @@ class ConstantContact_Logging {
 	 * Add menu options page.
 	 *
 	 * @since 1.3.7
+	 *
+	 * @return null
 	 */
 	public function add_options_page() {
 
@@ -206,6 +213,8 @@ class ConstantContact_Logging {
 	 * Delete existing log files.
 	 *
 	 * @since 1.3.7
+	 *
+	 * @return null
 	 */
 	public function delete_log_file() {
 		if ( ! constant_contact()->is_constant_contact() ) {
