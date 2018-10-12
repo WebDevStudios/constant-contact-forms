@@ -177,10 +177,10 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function generate_field_values_for_fields( $custom_fields ) {
 
-		// Set up our base fields value
+		// Set up our base fields value.
 		$fields = array();
 
-		// Sanity check
+		// Sanity check.
 		if ( ! is_array( $custom_fields ) ) {
 			return $fields;
 		}
@@ -235,11 +235,11 @@ class ConstantContact_Display_Shortcode {
 			isset( $custom_fields[ $key ][ $from_key ] ) &&
 			$custom_fields[ $key ][ $from_key ]
 		) {
-			// Set our data to the correct key
+			// Set our data to the correct key.
 			$fields['fields'][ $key ][ $to_key ] = $custom_fields[ $key ][ $from_key ];
 		}
 
-		// Send it all back
+		// Send it all back.
 		return $fields;
 	}
 
@@ -253,10 +253,10 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function generate_optin_data( $form_data ) {
 
-		// Return our data for our optin
+		// Return our data for our optin.
 		return array(
-			'list' => $this->get_nested_value_from_data( '_ctct_list', $form_data ),
-			'show' => $this->get_nested_value_from_data( '_ctct_opt_in', $form_data ),
+			'list'         => $this->get_nested_value_from_data( '_ctct_list', $form_data ),
+			'show'         => $this->get_nested_value_from_data( '_ctct_opt_in', $form_data ),
 			'instructions' => $this->get_nested_value_from_data( '_ctct_opt_in_instructions', $form_data ),
 		);
 	}
