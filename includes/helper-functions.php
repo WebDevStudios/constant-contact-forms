@@ -135,8 +135,7 @@ function constant_contact_maybe_display_review_notification() {
 	$dismissed = get_option( 'ctct-review-dismissed', array() );
 	if ( isset( $dismissed['count'] ) && '1' === $dismissed['count'] ) {
 		$fourteen_days = strtotime( '-14 days' );
-		if ( isset( $dismissed['time'] ) &&
-		     $dismissed['time'] < $fourteen_days
+		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $fourteen_days
 		) {
 			return true;
 		} else {
@@ -146,8 +145,7 @@ function constant_contact_maybe_display_review_notification() {
 
 	if ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
 		$thirty_days = strtotime( '-30 days' );
-		if ( isset( $dismissed['time'] ) &&
-		     $dismissed['time'] < $thirty_days
+		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $thirty_days
 		) {
 			return true;
 		} else {
@@ -190,7 +188,7 @@ function constant_contact_optin_ajax_handler() {
 		wp_send_json_success( array( 'opted-in' => 'off' ) );
 	}
 
-	$options = get_option( constant_contact()->settings->key );
+	$options                        = get_option( constant_contact()->settings->key );
 	$options['_ctct_data_tracking'] = $response['optin'];
 	update_option( constant_contact()->settings->key, $options );
 
@@ -207,7 +205,7 @@ add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_opt
 function constant_contact_privacy_ajax_handler() {
 
 	$response = $_REQUEST;
-	$agreed = sanitize_text_field( $response['privacy_agree'] );
+	$agreed   = sanitize_text_field( $response['privacy_agree'] );
 	update_option( 'ctct_privacy_policy_status', $agreed );
 
 	wp_send_json_success( array( 'updated' => 'true' ) );
@@ -227,8 +225,8 @@ function constant_contact_review_ajax_handler() {
 
 		switch ( $action ) {
 			case 'dismissed':
-				$dismissed          = get_option( 'ctct-review-dismissed', array() );
-				$dismissed['time']  = current_time( 'timestamp' );
+				$dismissed         = get_option( 'ctct-review-dismissed', array() );
+				$dismissed['time'] = current_time( 'timestamp' );
 				if ( empty( $dismissed['count'] ) ) {
 					$dismissed['count'] = '1';
 				} elseif ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
@@ -258,6 +256,8 @@ add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_re
  * Process potential custom Constant Contact Forms action urls.
  *
  * @since 1.2.3
+ *
+ * @return bool|array
  */
 function ctct_custom_form_action_processing() {
 	if ( empty( $_POST ) || ! isset( $_POST['ctct-id'] ) ) {
@@ -280,7 +280,7 @@ add_action( 'wp_head', 'ctct_custom_form_action_processing' );
  * @return bool
  */
 function ctct_has_forms() {
-	$args = array(
+	$args  = array(
 		'post_type'      => 'ctct_forms',
 		'post_status'    => 'publish',
 		'posts_per_page' => 1,
@@ -313,7 +313,7 @@ function constant_contact_has_redirect_uri( $form_id = 0 ) {
  * @return bool
  */
 function constant_contact_check_timestamps( $maybe_spam, $data ) {
-	$current = current_time( 'timestamp' );
+	$current    = current_time( 'timestamp' );
 	$difference = $current - $data['ctct_time'];
 	if ( $difference <= 5 ) {
 		return true;
@@ -327,7 +327,7 @@ add_filter( 'constant_contact_maybe_spam', 'constant_contact_check_timestamps', 
  *
  * @since 1.3.6
  *
- * @param string $url
+ * @param string $url URL to tidy.
  * @return string
  */
 function constant_contact_clean_url( $url = '' ) {
@@ -364,9 +364,12 @@ function constant_contact_debugging_enabled() {
  *
  * @since 1.3.7
  *
- * @param strint       $log_name   Component that the log item is for.
+ * @throws Exception Exception.
+ *
+ * @param string       $log_name   Component that the log item is for.
  * @param string       $error      The error to log.
  * @param mixed|string $extra_data Any extra data to add to the log.
+ * @return null
  */
 function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 	if ( ! constant_contact_debugging_enabled() ) {
@@ -470,7 +473,7 @@ add_filter( 'constant_contact_maybe_spam', 'constant_contact_akismet', 10, 2 );
  * @return bool
  */
 function constant_contact_check_akismet_key() {
-	if ( is_callable( array( 'Akismet', 'get_api_key' ) ) ) { // Akismet v3.0
+	if ( is_callable( array( 'Akismet', 'get_api_key' ) ) ) { // Akismet v3.0.
 		return (bool) Akismet::get_api_key();
 	}
 
@@ -486,7 +489,7 @@ function constant_contact_check_akismet_key() {
  *
  * @since 1.4.0
  *
- * @param array $args
+ * @param array $args Array of arguments.
  * @return bool|mixed
  */
 function constant_contact_akismet_spam_check( $args ) {
@@ -495,7 +498,7 @@ function constant_contact_akismet_spam_check( $args ) {
 	$spam         = false;
 	$query_string = http_build_query( $args );
 
-	if ( is_callable( array( 'Akismet', 'http_post' ) ) ) { // Akismet v3.0
+	if ( is_callable( array( 'Akismet', 'http_post' ) ) ) { // Akismet v3.0.
 		$response = Akismet::http_post( $query_string, 'comment-check' );
 	} else {
 		$response = akismet_http_post( $query_string, $akismet_api_host,
@@ -517,7 +520,7 @@ function constant_contact_akismet_spam_check( $args ) {
  *
  * @param int $form_id Current form ID being submitted to.
  *
- * @return mixed|void
+ * @return mixed
  */
 function constant_contact_emails_disabled( $form_id = 0 ) {
 
