@@ -549,7 +549,7 @@ class ConstantContact_Connect {
 
 				// If we have our Crpyto class, we'll run the included
 				// runtime tests and see if we get the correct response.
-				$tests  = new Defuse\Crypto\RuntimeTests;
+				$tests  = new Defuse\Crypto\RuntimeTests();
 				$tests  = $tests->runtimeTest();
 				$return = true;
 			}
