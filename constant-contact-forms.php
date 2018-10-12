@@ -119,6 +119,12 @@ class Constant_Contact {
 	 */
 	public $menu_icon = 'dashicons-megaphone';
 
+	/**
+	 * Log location.
+	 *
+	 * @since 1.3.7
+	 * @var string
+	 */
 	public $logger_location = '';
 
 	/**
