@@ -373,6 +373,10 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 		return;
 	}
 
+	if ( ! is_writable( constant_contact()->logger_location ) ) {
+		return;
+	}
+
 	$logger = new Logger( $log_name );
 	$logger->pushHandler( new StreamHandler( constant_contact()->logger_location ) );
 	$extra = [];
