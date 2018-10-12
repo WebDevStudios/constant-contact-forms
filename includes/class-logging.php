@@ -8,7 +8,11 @@
  * @since 1.3.7
  */
 
-
+/**
+ * Class ConstantContact_Logging
+ *
+ * @since 1.3.7
+ */
 class ConstantContact_Logging {
 
 	/**
