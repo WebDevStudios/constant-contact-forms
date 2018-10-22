@@ -86,7 +86,7 @@ class ConstantContact_User_Customizations {
 	 * @return mixed|string
 	 */
 	public function custom_email( $destination_email, $form_id ) {
-		$custom_email = get_post_meta( $form_id, '_ctct_email_destination', true );
+		$custom_email = get_post_meta( $form_id, '_ctct_email_settings', true );
 
 		if ( empty( $custom_email ) ) {
 			return $destination_email;
