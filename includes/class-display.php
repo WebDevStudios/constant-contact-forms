@@ -275,6 +275,7 @@ class ConstantContact_Display {
 		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$form_classes   = 'ctct-form ctct-form-' . $form_id;
+		$form_classes   .= ( $this->plugin->settings->has_recaptcha() ) ? ' has-recaptcha' : ' no-recaptcha';
 		$form_classes  .= $this->build_custom_form_classes();
 
 		$form_styles = '';
