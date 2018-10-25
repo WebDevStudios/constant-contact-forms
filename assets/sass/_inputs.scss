@@ -97,4 +97,7 @@
 		cursor: wait;
 		opacity: 0.3;
 	}
+	.has-recaptcha #ctct-submitted:disabled {
+	  cursor: not-allowed;
+	}
 }
