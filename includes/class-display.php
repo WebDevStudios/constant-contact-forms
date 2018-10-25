@@ -511,11 +511,13 @@ class ConstantContact_Display {
 
 		$return = '';
 
-		$return .= '<script>function ctctEnableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", false ); }</script>';
+		$return .= '<script>function ctctEnableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", false ); }function ctctDisableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", "disabled" ); }
+</script>';
 		$return .= sprintf(
-			'<div class="g-recaptcha" data-sitekey="%s" data-callback="%s"></div><script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=%s"></script>',
+			'<div class="g-recaptcha" data-sitekey="%s" data-callback="%s" data-expired-callback="%s"></div><script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=%s"></script>',
 			esc_attr( $site_key ),
 			'ctctEnableBtn',
+			'ctctDisableBtn',
 			esc_attr( $recaptcha_lang )
 		);
 
