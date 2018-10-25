@@ -89,7 +89,7 @@
 		border: 0px none;
 		padding: 0px;
 	}
-	#ctct-submitted:disabled {
+	.no-recaptcha #ctct-submitted:disabled {
 		background-image: url('../images/oval.min.svg');
 		background-position: center;
 		background-repeat: no-repeat;
