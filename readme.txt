@@ -38,6 +38,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 = 1.4.2 =
 * Fixed: Issue with mismatched meta key for per-form destination email address.
 * Fixed: Ability to successfully submit a form with Google reCAPTCHA enabled, but when not validated, with a custom redirect URL is set.
+* Fixed: Prevent errors if Debug Log location is not writeable by the plugin.
 
 = 1.4.1 =
 * Fixed: Issue with generic CSS selector causing other WordPress admin UI to be revealed unintentionally.
