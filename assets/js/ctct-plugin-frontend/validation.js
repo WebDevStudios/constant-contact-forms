@@ -23,7 +23,8 @@ window.CTCTSupport = {};
 			body: $( 'body' ),
 			form: '.ctct-form-wrapper form',
 			honeypot: $( '#ctct_usage_field' ),
-			submitButton: $( '.ctct-form-wrapper form input[type=submit]' )
+			submitButton: $( '.ctct-form-wrapper form input[type=submit]' ),
+			recaptcha: $('.g-recaptcha')
 		};
 
 		that.timeout = null;
@@ -135,6 +136,10 @@ window.CTCTSupport = {};
 		$( that.$c.honeypot ).on( 'change keyup', function( e ) {
 			that.checkHoneypot();
 		});
+
+		if ( that.$c.recaptcha.length > 0 ) {
+			that.$c.submitButton.attr('disabled', 'disabled');
+		}
     };
 
 	// Engage!

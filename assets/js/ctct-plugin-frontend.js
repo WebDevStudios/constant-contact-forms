@@ -6,14 +6,14 @@
 	 * Temporarily prevent the submit button from being clicked.
 	 */
 	$( document ).ready( function() {
-		$( '#ctct-submitted' ).on( 'click', function() { 
+		$( '#ctct-submitted' ).on( 'click', function() {
 			setTimeout( function() {
 				disable_send_button();
 				setTimeout( enable_send_button, 3000 );
 			}, 100 );
 		} );
 	} );
-	
+
 	function disable_send_button() {
 		return $( '#ctct-submitted' ).attr( 'disabled', 'disabled' );
 	}
@@ -48,7 +48,8 @@ window.CTCTSupport = {};
 			body: $( 'body' ),
 			form: '.ctct-form-wrapper form',
 			honeypot: $( '#ctct_usage_field' ),
-			submitButton: $( '.ctct-form-wrapper form input[type=submit]' )
+			submitButton: $( '.ctct-form-wrapper form input[type=submit]' ),
+			recaptcha: $( '.g-recaptcha' )
 		};
 
 		that.timeout = null;
@@ -160,6 +161,10 @@ window.CTCTSupport = {};
 		$( that.$c.honeypot ).on( 'change keyup', function( e ) {
 			that.checkHoneypot();
 		});
+
+		if ( that.$c.recaptcha.length > 0 ) {
+			that.$c.submitButton.attr('disabled', 'disabled');
+		}
     };
 
 	// Engage!
