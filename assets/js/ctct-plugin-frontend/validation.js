@@ -24,7 +24,7 @@ window.CTCTSupport = {};
 			form: '.ctct-form-wrapper form',
 			honeypot: $( '#ctct_usage_field' ),
 			submitButton: $( '.ctct-form-wrapper form input[type=submit]' ),
-			recaptcha: $('.g-recaptcha')
+			recaptcha: $( '.g-recaptcha' )
 		};
 
 		that.timeout = null;
