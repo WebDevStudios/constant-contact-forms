@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2018-10-08 09:25-0500\n"
+"POT-Creation-Date: 2018-10-30 11:27-0500\n"
 "PO-Revision-Date: 2017-01-12 14:46-0600\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Constant Contact\n"
@@ -24,18 +24,18 @@ msgstr ""
 "X-Poedit-SearchPathExcluded-3: node_modules\n"
 
 #. Author of the plugin/theme
-#: constant-contact-forms.php:363 includes/class-builder.php:347
+#: constant-contact-forms.php:372 includes/class-builder.php:347
 #: includes/class-cpts.php:87 includes/class-cpts.php:145
 msgid "Constant Contact"
 msgstr ""
 
-#: constant-contact-forms.php:393
+#: constant-contact-forms.php:402
 msgid ""
 "Constant Contact Forms requires PHP 5.4 or higher. Your hosting provider or "
 "website administrator should be able to assist in updating your PHP version."
 msgstr ""
 
-#: constant-contact-forms.php:725
+#: constant-contact-forms.php:734
 msgid "Error loading license."
 msgstr ""
 
@@ -841,7 +841,7 @@ msgstr ""
 msgid "Are you sure you want to disconnect?"
 msgstr ""
 
-#: includes/class-connect.php:172 includes/class-logging.php:130
+#: includes/class-connect.php:172 includes/class-logging.php:141
 #: includes/class-notification-content.php:109
 #: includes/class-notification-content.php:139 includes/class-optin.php:129
 #: includes/class-settings.php:815
@@ -958,7 +958,7 @@ msgstr ""
 msgid "New Form"
 msgstr ""
 
-#: includes/class-cpts.php:70 includes/class-display.php:823
+#: includes/class-cpts.php:70 includes/class-display.php:828
 msgid "Edit Form"
 msgstr ""
 
@@ -1189,103 +1189,103 @@ msgstr ""
 msgid "%1$s (last modified %2$s ago)"
 msgstr ""
 
-#: includes/class-display.php:490
+#: includes/class-display.php:491
 msgid "Constant Contact Use."
 msgstr ""
 
-#: includes/class-display.php:619 includes/class-display.php:1691
+#: includes/class-display.php:624 includes/class-display.php:1696
 msgid "Error: Please correct your entry."
 msgstr ""
 
-#: includes/class-display.php:621
+#: includes/class-display.php:626
 msgid " Error: Please fill out this field."
 msgstr ""
 
-#: includes/class-display.php:1141
+#: includes/class-display.php:1146
 msgid "Send"
 msgstr ""
 
-#: includes/class-display.php:1257
+#: includes/class-display.php:1262
 msgid "Street Address"
 msgstr ""
 
-#: includes/class-display.php:1258
+#: includes/class-display.php:1263
 msgid "Address Line 2"
 msgstr ""
 
-#: includes/class-display.php:1259
+#: includes/class-display.php:1264
 msgid "City"
 msgstr ""
 
-#: includes/class-display.php:1260
+#: includes/class-display.php:1265
 msgid "State"
 msgstr ""
 
-#: includes/class-display.php:1261
+#: includes/class-display.php:1266
 msgid "ZIP Code"
 msgstr ""
 
-#: includes/class-display.php:1438
+#: includes/class-display.php:1443
 msgid "Month"
 msgstr ""
 
-#: includes/class-display.php:1439
+#: includes/class-display.php:1444
 msgid "Day"
 msgstr ""
 
-#: includes/class-display.php:1440
+#: includes/class-display.php:1445
 msgid "Year"
 msgstr ""
 
-#: includes/class-display.php:1564
+#: includes/class-display.php:1569
 msgid "January"
 msgstr ""
 
-#: includes/class-display.php:1565
+#: includes/class-display.php:1570
 msgid "February"
 msgstr ""
 
-#: includes/class-display.php:1566
+#: includes/class-display.php:1571
 msgid "March"
 msgstr ""
 
-#: includes/class-display.php:1567
+#: includes/class-display.php:1572
 msgid "April"
 msgstr ""
 
-#: includes/class-display.php:1568
+#: includes/class-display.php:1573
 msgid "May"
 msgstr ""
 
-#: includes/class-display.php:1569
+#: includes/class-display.php:1574
 msgid "June"
 msgstr ""
 
-#: includes/class-display.php:1570
+#: includes/class-display.php:1575
 msgid "July "
 msgstr ""
 
-#: includes/class-display.php:1571
+#: includes/class-display.php:1576
 msgid "August"
 msgstr ""
 
-#: includes/class-display.php:1572
+#: includes/class-display.php:1577
 msgid "September"
 msgstr ""
 
-#: includes/class-display.php:1573
+#: includes/class-display.php:1578
 msgid "October"
 msgstr ""
 
-#: includes/class-display.php:1574
+#: includes/class-display.php:1579
 msgid "November"
 msgstr ""
 
-#: includes/class-display.php:1575
+#: includes/class-display.php:1580
 msgid "December"
 msgstr ""
 
-#: includes/class-display.php:1758
+#: includes/class-display.php:1763
 #, php-format
 msgid ""
 "By submitting this form, you are consenting to receive marketing emails "
@@ -1293,7 +1293,7 @@ msgid ""
 "the SafeUnsubscribe&reg; link, found at the bottom of every email. %s"
 msgstr ""
 
-#: includes/class-display.php:1764
+#: includes/class-display.php:1769
 msgid "Emails are serviced by Constant Contact"
 msgstr ""
 
@@ -1313,68 +1313,73 @@ msgstr ""
 msgid "Sync Lists with Constant Contact"
 msgstr ""
 
-#: includes/class-logging.php:85
+#: includes/class-logging.php:94
 msgid "Are you sure you want to delete current logs?"
 msgstr ""
 
-#: includes/class-logging.php:103
+#: includes/class-logging.php:114
 msgid "Debug logs"
 msgstr ""
 
-#: includes/class-logging.php:137
+#: includes/class-logging.php:148
 msgid "No error log exists"
 msgstr ""
 
-#: includes/class-logging.php:146
+#: includes/class-logging.php:152
+#, php-format
+msgid "We are not able to write to the %s file."
+msgstr ""
+
+#: includes/class-logging.php:163
 #, php-format
 msgid "Log display error: %s"
 msgstr ""
 
-#: includes/class-logging.php:156
+#: includes/class-logging.php:173
 msgid ""
 "Error log below can be used with support requests to help identify issues "
 "with Constant Contact Forms."
 msgstr ""
 
-#: includes/class-logging.php:157
+#: includes/class-logging.php:174
 msgid ""
 "When available, you can share information by copying and pasting the content "
 "in the textarea, or by using the \"Download logs\" link at the end. Logs can "
 "be cleared by using the \"Delete logs\" link."
 msgstr ""
 
-#: includes/class-logging.php:164
+#: includes/class-logging.php:181
 msgid ""
 "Error log may still have content, even if an error is shown above. Please "
 "use the download link below."
 msgstr ""
 
-#: includes/class-logging.php:173
+#: includes/class-logging.php:190
 msgid "Download logs"
 msgstr ""
 
-#: includes/class-logging.php:181
+#: includes/class-logging.php:198
 msgid "Delete logs"
 msgstr ""
 
-#: includes/class-mail.php:307
+#: includes/class-mail.php:309
 #, php-format
 msgid "Duplicate send mail for: %1$s and: %2$s"
 msgstr ""
 
-#: includes/class-mail.php:339
+#: includes/class-mail.php:341
 msgid "Your Constant Contact Forms plugin has captured new information."
 msgstr ""
 
-#: includes/class-mail.php:343
+#: includes/class-mail.php:345
 msgid "Form title: "
 msgstr ""
 
-#: includes/class-mail.php:344
+#: includes/class-mail.php:346
 msgid "Form information: "
 msgstr ""
 
-#: includes/class-mail.php:350
+#: includes/class-mail.php:353
 #, php-format
 msgid ""
 "Email marketing is a great way to stay connected and engage with visitors "
@@ -1382,30 +1387,30 @@ msgid ""
 "pn=miwordpress%s to sign up for a Free Trial."
 msgstr ""
 
-#: includes/class-mail.php:387
+#: includes/class-mail.php:390
 msgid "Constant Contact Forms Notification"
 msgstr ""
 
-#: includes/class-mail.php:475
+#: includes/class-mail.php:480
 #, php-format
 msgid ""
 "%sNote:%s You have disabled admin email notifications under the plugin "
 "settings, but are receiving this email because of the following reason."
 msgstr ""
 
-#: includes/class-mail.php:498
+#: includes/class-mail.php:503
 msgid "Submitted to Constant Contact:"
 msgstr ""
 
-#: includes/class-mail.php:504
+#: includes/class-mail.php:509
 msgid "NO (Constant Contact list not selected for this form)"
 msgstr ""
 
-#: includes/class-mail.php:510
+#: includes/class-mail.php:515
 msgid "NO (User did not select the Email Opt-in checkbox)"
 msgstr ""
 
-#: includes/class-mail.php:510
+#: includes/class-mail.php:515
 msgid ""
 "You can disable this under Form options. Email Opt-in isn't required to add "
 "subscribers into your account"
