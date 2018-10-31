@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
 Tested up to:      4.9.8
-Stable tag:        1.4.1
+Stable tag:        1.4.2
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.4
@@ -34,6 +34,11 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
+= 1.4.2 =
+* Fixed: Issue with mismatched meta key for per-form destination email address.
+* Fixed: Ability to successfully submit a form with Google reCAPTCHA enabled, but when not validated, with a custom redirect URL is set.
+* Fixed: Prevent errors if Debug Log location is not writeable by the plugin.
 
 = 1.4.1 =
 * Fixed: Issue with generic CSS selector causing other WordPress admin UI to be revealed unintentionally.

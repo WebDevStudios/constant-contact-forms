@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.4.1
+ * Version:     1.4.2
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
@@ -49,6 +49,7 @@
  * @since 1.0.0
  *
  * @param string $class_name Name of the class being requested.
+ * @return null
  */
 function constant_contact_autoload_classes( $class_name ) {
 	if ( 0 !== strpos( $class_name, 'ConstantContact_' ) ) {
@@ -77,7 +78,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.4.1';
+	const VERSION = '1.4.2';
 
 	/**
 	 * URL of plugin directory.
@@ -119,6 +120,12 @@ class Constant_Contact {
 	 */
 	public $menu_icon = 'dashicons-megaphone';
 
+	/**
+	 * Log location.
+	 *
+	 * @since 1.3.7
+	 * @var string
+	 */
 	public $logger_location = '';
 
 	/**
@@ -356,6 +363,8 @@ class Constant_Contact {
 	 * Sets up our plugin.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return null
 	 */
 	protected function __construct() {
 
@@ -473,14 +482,14 @@ class Constant_Contact {
 	 *
 	 * @since 1.0.0
 	 */
-	function _activate() { }
+	public function activate() { }
 
 	/**
 	 * Deactivate the plugin.
 	 *
 	 * @since 1.0.0
 	 */
-	function _deactivate() {
+	public function deactivate() {
 
 		// Should be nothing to delete for non-met users, since it never ran in the first place.
 		if ( $this->meets_php_requirements() ) {
@@ -846,8 +855,8 @@ class Constant_Contact {
 }
 add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
 
-register_activation_hook( __FILE__, array( constant_contact(), '_activate' ) );
-register_deactivation_hook( __FILE__, array( constant_contact(), '_deactivate' ) );
+register_activation_hook( __FILE__, array( constant_contact(), 'activate' ) );
+register_deactivation_hook( __FILE__, array( constant_contact(), 'deactivate' ) );
 
 /**
  * Grab the Constant_Contact object and return it.

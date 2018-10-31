@@ -8,7 +8,11 @@
  * @since 1.3.7
  */
 
-
+/**
+ * Class ConstantContact_Logging
+ *
+ * @since 1.3.7
+ */
 class ConstantContact_Logging {
 
 	/**
@@ -51,7 +55,7 @@ class ConstantContact_Logging {
 	 * @param object $plugin Parent class.
 	 */
 	public function __construct( $plugin ) {
-		$this->plugin = $plugin;
+		$this->plugin      = $plugin;
 		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
 		$this->hooks();
 	}
@@ -79,6 +83,11 @@ class ConstantContact_Logging {
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );
 	}
 
+	/**
+	 * Add our dialog message to confirm deletion of error logs.
+	 *
+	 * @since 1.3.7
+	 */
 	public function dialog() {
 	?>
 		<div id="confirmdelete" style="display:none;">
@@ -91,6 +100,8 @@ class ConstantContact_Logging {
 	 * Add menu options page.
 	 *
 	 * @since 1.3.7
+	 *
+	 * @return null
 	 */
 	public function add_options_page() {
 
@@ -135,6 +146,12 @@ class ConstantContact_Logging {
 
 				if ( ! file_exists( constant_contact()->logger_location ) ) {
 					$contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
+				} elseif ( ! is_writable( constant_contact()->logger_location ) ) {
+					$contents .= sprintf(
+						/* Translators: placeholder holds the log location. */
+						esc_html__( 'We are not able to write to the %s file.', 'constant-contact-forms' ),
+						constant_contact()->logger_location
+					);
 				} else {
 					// logger location from primary class is server path and not URL path. Thus we go this route for moment.
 					$log_location = content_url() . '/ctct-logs/constant-contact-errors.log';
@@ -196,6 +213,8 @@ class ConstantContact_Logging {
 	 * Delete existing log files.
 	 *
 	 * @since 1.3.7
+	 *
+	 * @return null
 	 */
 	public function delete_log_file() {
 		if ( ! constant_contact()->is_constant_contact() ) {
