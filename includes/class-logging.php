@@ -145,7 +145,16 @@ class ConstantContact_Logging {
 				$log_location = '#';
 
 				if ( ! file_exists( constant_contact()->logger_location ) ) {
-					$contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
+
+					if ( ! is_writable( constant_contact()->logger_location ) ) {
+						$contents .= sprintf(
+						/* Translators: placeholder holds the log location. */
+							esc_html__( 'We are not able to write to the %s file.', 'constant-contact-forms' ),
+							constant_contact()->logger_location
+						);
+					} else {
+						$contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
+					}
 				} elseif ( ! is_writable( constant_contact()->logger_location ) ) {
 					$contents .= sprintf(
 						/* Translators: placeholder holds the log location. */
