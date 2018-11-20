@@ -142,23 +142,4 @@ class ConstantContact_Optin {
 		</div>
 	<?php
 	}
-
-	/**
-	 * Returns the remote privacy policy page content for Constant Contact.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @return mixed
-	 */
-	public function privacy_notice_modal_content() {
-		$policy_output = wp_remote_get( 'https://www.endurance.com/privacy' );
-		if ( ! is_wp_error( $policy_output ) && 200 === wp_remote_retrieve_response_code( $policy_output ) ) {
-			$content = wp_remote_retrieve_body( $policy_output );
-			preg_match( '/<body[^>]*>(.*?)<\/body>/si', $content, $match );
-			$output = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $match[1] );
-			$output = preg_replace( '@<section class=header>.*?</section>@si', '', $output );
-			return $output;
-		}
-		return '';
-	}
 }
