@@ -816,7 +816,7 @@ class ConstantContact_Settings {
 					</div>
 					<div class="ctct-modal-body ctct-privacy-modal-body">
 						<?php
-						echo $this->privacy_notice_modal_content();
+						echo constant_contact_privacy_policy_content();
 						?>
 					</div><!-- modal body -->
 					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">
