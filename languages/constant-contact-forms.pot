@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2018-10-30 11:27-0500\n"
+"POT-Creation-Date: 2018-11-20 09:30-0600\n"
 "PO-Revision-Date: 2017-01-12 14:46-0600\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Constant Contact\n"
@@ -1321,44 +1321,44 @@ msgstr ""
 msgid "Debug logs"
 msgstr ""
 
-#: includes/class-logging.php:148
-msgid "No error log exists"
-msgstr ""
-
-#: includes/class-logging.php:152
+#: includes/class-logging.php:152 includes/class-logging.php:161
 #, php-format
 msgid "We are not able to write to the %s file."
 msgstr ""
 
-#: includes/class-logging.php:163
+#: includes/class-logging.php:156
+msgid "No error log exists"
+msgstr ""
+
+#: includes/class-logging.php:172
 #, php-format
 msgid "Log display error: %s"
 msgstr ""
 
-#: includes/class-logging.php:173
+#: includes/class-logging.php:182
 msgid ""
 "Error log below can be used with support requests to help identify issues "
 "with Constant Contact Forms."
 msgstr ""
 
-#: includes/class-logging.php:174
+#: includes/class-logging.php:183
 msgid ""
 "When available, you can share information by copying and pasting the content "
 "in the textarea, or by using the \"Download logs\" link at the end. Logs can "
 "be cleared by using the \"Delete logs\" link."
 msgstr ""
 
-#: includes/class-logging.php:181
+#: includes/class-logging.php:190
 msgid ""
 "Error log may still have content, even if an error is shown above. Please "
 "use the download link below."
 msgstr ""
 
-#: includes/class-logging.php:190
+#: includes/class-logging.php:199
 msgid "Download logs"
 msgstr ""
 
-#: includes/class-logging.php:198
+#: includes/class-logging.php:207
 msgid "Delete logs"
 msgstr ""
 

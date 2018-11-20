@@ -38,6 +38,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 = 1.4.3 =
 * Fixed: Persistent spinner on Constant Contact Forms submit button when Google reCAPTCHA is anywhere on the page.
 * Fixed: Better messaging around debug logging when unable to write to the intended log file.
+* Updated: Changed the modal popup content for when we need to display Endurance Privacy Policy information.
 
 = 1.4.2 =
 * Fixed: Issue with mismatched meta key for per-form destination email address.
