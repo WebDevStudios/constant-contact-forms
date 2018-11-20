@@ -837,7 +837,7 @@ class ConstantContact_Settings {
 	 * @return mixed
 	 */
 	public function privacy_notice_modal_content() {
-		$policy_output = wp_remote_get( 'https://www.constantcontact.com/legal/privacy-statement' );
+		$policy_output = wp_remote_get( 'https://www.endurance.com/privacy' );
 		if ( ! is_wp_error( $policy_output ) && 200 === wp_remote_retrieve_response_code( $policy_output ) ) {
 			$content = wp_remote_retrieve_body( $policy_output );
 			preg_match( '/<body[^>]*>(.*?)<\/body>/si', $content, $match );
