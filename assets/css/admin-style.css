@@ -312,6 +312,10 @@
   background-color: #005990;
 }
 
+.ctct-modal .ctct-modal-content .ctct-modal-body .privacy-center-container a.button {
+  color: #555;
+}
+
 .post-type-ctct_forms .misc-pub-section.misc-pub-visibility, .post-type-ctct_forms .misc-pub-section.misc-pub-curtime {
   display: none;
 }
