@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
 Tested up to:      4.9.8
-Stable tag:        1.4.2
+Stable tag:        1.4.3
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.4
@@ -34,6 +34,11 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
+= 1.4.3 =
+* Fixed: Persistent spinner on Constant Contact Forms submit button when Google reCAPTCHA is anywhere on the page.
+* Fixed: Better messaging around debug logging when unable to write to the intended log file.
+* Updated: Changed the modal popup content for when we need to display Endurance Privacy Policy information.
 
 = 1.4.2 =
 * Fixed: Issue with mismatched meta key for per-form destination email address.
