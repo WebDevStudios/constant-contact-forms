@@ -816,7 +816,7 @@ class ConstantContact_Settings {
 					</div>
 					<div class="ctct-modal-body ctct-privacy-modal-body">
 						<?php
-						echo $this->privacy_notice_modal_content();
+						echo constant_contact_privacy_policy_content();
 						?>
 					</div><!-- modal body -->
 					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">
@@ -827,25 +827,6 @@ class ConstantContact_Settings {
 			</div><!-- .modal-dialog -->
 		</div>
 		<?php
-	}
-
-	/**
-	 * Returns the remote privacy policy page content for Constant Contact.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @return mixed
-	 */
-	public function privacy_notice_modal_content() {
-		$policy_output = wp_remote_get( 'https://www.constantcontact.com/legal/privacy-statement' );
-		if ( ! is_wp_error( $policy_output ) && 200 === wp_remote_retrieve_response_code( $policy_output ) ) {
-			$content = wp_remote_retrieve_body( $policy_output );
-			preg_match( '/<body[^>]*>(.*?)<\/body>/si', $content, $match );
-			$output = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $match[1] );
-			$output = preg_replace( '@<section class=header>.*?</section>@si', '', $output );
-			return $output;
-		}
-		return '';
 	}
 
 	public function has_recaptcha() {

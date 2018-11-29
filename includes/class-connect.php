@@ -215,7 +215,7 @@ class ConstantContact_Connect {
 			<?php
 			if ( isset( $_GET['ctct_connect_error'] ) ) { // Input var okay.
 			?>
-				<div id="message" class="error"><p>
+				<div id="message" class="ctct-error"><p>
 				<?php esc_html_e( 'There was an error connecting your account. Please try again.', 'constant-contact-forms' ); ?>
 				</p></div>
 			<?php
@@ -378,6 +378,8 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception Exception.
+	 *
 	 * @param string  $check_key Key to save to.
 	 * @param string  $data      Data to save.
 	 * @param boolean $autoload  Autoload it.
@@ -403,6 +405,8 @@ class ConstantContact_Connect {
 	 * Secure API access token.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @throws Exception Exception.
 	 *
 	 * @param string $access_token API access token.
 	 * @return string
@@ -449,6 +453,8 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception Exception.
+	 *
 	 * @return string Key to use for encrypt.
 	 */
 	public function get_encrpyt_key() {
@@ -471,6 +477,8 @@ class ConstantContact_Connect {
 	 * Generates and saves a new key.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @throws Exception Exception.
 	 *
 	 * @param boolean $first_try If first try or not.
 	 * @return string|object Key.
@@ -541,7 +549,7 @@ class ConstantContact_Connect {
 
 				// If we have our Crpyto class, we'll run the included
 				// runtime tests and see if we get the correct response.
-				$tests  = new Defuse\Crypto\RuntimeTests;
+				$tests  = new Defuse\Crypto\RuntimeTests();
 				$tests  = $tests->runtimeTest();
 				$return = true;
 			}
