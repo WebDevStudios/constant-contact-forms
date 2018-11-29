@@ -87,7 +87,7 @@ class ConstantContact_Process_Form {
 					// Sanity check.
 					if ( isset( $exp_fields[0] ) && $exp_fields[0] ) {
 						// Set up our data structure if we have the data.
-						$value = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
+						$value                                    = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
 						$json_data[  esc_attr( $exp_fields[0] ) ] = sanitize_text_field( $value );
 					}
 				}
@@ -115,7 +115,6 @@ class ConstantContact_Process_Form {
 			switch ( $status ) {
 
 				case 'success':
-
 					/** This filter is documented in includes/class-process-form.php */
 					$message = apply_filters( 'ctct_process_form_success',
 						__( 'Your information has been submitted.', 'constant-contact-forms' ),
@@ -155,7 +154,7 @@ class ConstantContact_Process_Form {
 
 			// Die out of the ajax request.
 			wp_die();
-		} // End if().
+		}
 	}
 
 	/**
@@ -165,7 +164,7 @@ class ConstantContact_Process_Form {
 	 *
 	 * @param array $data    Form data.
 	 * @param bool  $is_ajax Whether or not processing via AJAX.
-	 * @return array
+	 * @return mixed
 	 */
 	public function process_form( $data = array(), $is_ajax = false ) {
 
@@ -210,7 +209,7 @@ class ConstantContact_Process_Form {
 		if ( ! $this->has_all_required_fields( $data['ctct-id'], $data ) ) {
 			return array(
 				'status' => 'named_error',
-				'error' => __( 'Please properly fill out all required fields', 'constant-contact-forms' ),
+				'error'  => __( 'Please properly fill out all required fields', 'constant-contact-forms' ),
 			);
 		}
 
@@ -250,8 +249,8 @@ class ConstantContact_Process_Form {
 
 		// Verify our nonce first.
 		if (
-		    ! isset( $data['ctct_form'] ) ||
-		    ! wp_verify_nonce( $data['ctct_form'], 'ctct_submit_form' )
+			! isset( $data['ctct_form'] ) ||
+			! wp_verify_nonce( $data['ctct_form'], 'ctct_submit_form' )
 		) {
 			constant_contact_maybe_log_it( 'Nonces', 'ctct_submit_form nonce failed to verify.' );
 			// Figure out a way to pass errors back.
@@ -331,9 +330,9 @@ class ConstantContact_Process_Form {
 
 			// Send back an error status, a message, the errors we found, and all orig values.
 			return array(
-				'status'   => 'req_error',
-				'errors'   => $field_errors,
-				'values'   => $return['values'],
+				'status' => 'req_error',
+				'errors' => $field_errors,
+				'values' => $return['values'],
 			);
 		}
 
@@ -490,31 +489,31 @@ class ConstantContact_Process_Form {
 
 			switch ( $field['_ctct_map_select'] ) {
 				case 'address':
-					$return[ 'street_address___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'street_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
 					$return[ 'street_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'street';
 
-					$return[ 'line_2_address___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'line_2_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
 					$return[ 'line_2_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'line_2';
 
-					$return[ 'city_address___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'city_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
 					$return[ 'city_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'city';
 
-					$return[ 'state_address___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'state_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
 					$return[ 'state_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'state';
 
-					$return[ 'zip_address___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'zip_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
 					$return[ 'zip_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'zip';
 
 					break;
 				case 'anniversery':
 				case 'birthday':
-					$return[ 'month___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'month___' . md5( serialize( $field_key ) ) ]                     = $field_key;
 					$return[ 'month___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'month';
 
-					$return[ 'day___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'day___' . md5( serialize( $field_key ) ) ]                     = $field_key;
 					$return[ 'day___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'day';
 
-					$return[ 'year___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ 'year___' . md5( serialize( $field_key ) ) ]                     = $field_key;
 					$return[ 'year___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'year';
 
 					break;
@@ -522,7 +521,7 @@ class ConstantContact_Process_Form {
 					$return[ $field['_ctct_map_select'] . '___' . md5( serialize( $field_key ) ) ] = $field_key;
 					break;
 			}
-		} // End foreach().
+		}
 
 		return $return;
 	}
@@ -587,7 +586,7 @@ class ConstantContact_Process_Form {
 					);
 				}
 			}
-		} // End foreach().
+		}
 
 		return $err_returns;
 	}
@@ -620,7 +619,7 @@ class ConstantContact_Process_Form {
 			}
 
 			// We made our fields look like first_name___435fajiosdf to force unique.
-			$key_break = explode( '___',  $value['key'] );
+			$key_break = explode( '___', $value['key'] );
 
 			// Make sure we actually got something for that.
 			if ( ! isset( $key_break[0] ) || ! $key_break[0] ) {
@@ -675,7 +674,6 @@ class ConstantContact_Process_Form {
 		switch ( $status ) {
 
 			case 'success':
-
 				/**
 				 * Filters the message for the successful processed form.
 				 *
@@ -734,15 +732,15 @@ class ConstantContact_Process_Form {
 	 *
 	 * @since 1.3.5
 	 *
-	 * @param int   $form_id
-	 * @param array $form_data
+	 * @param int   $form_id   ID of form to verify.
+	 * @param array $form_data Form data to verify.
 	 * @return bool
 	 */
 	public function has_all_required_fields( $form_id, $form_data ) {
 		$original = $this->get_original_fields( $form_id );
 
 		$has_all = true;
-		foreach( $original as $key => $value ) {
+		foreach ( $original as $key => $value ) {
 			if ( isset( $value['_ctct_map_select'] ) && 'line_2' === $value['_ctct_map_select'] ) {
 				continue;
 			}

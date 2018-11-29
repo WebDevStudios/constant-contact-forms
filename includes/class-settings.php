@@ -205,7 +205,7 @@ class ConstantContact_Settings {
 		// Get our current page.
 		global $pagenow;
 
-		// Check if we're on edit.php, and if we're on our options page, cast to bool and return
+		// Check if we're on edit.php, and if we're on our options page, cast to bool and return.
 		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ); // Input var okay.
 	}
 
@@ -214,7 +214,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	function add_options_page_metabox() {
+	public function add_options_page_metabox() {
 
 		// Hook in our save notices.
 		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", array( $this, 'settings_notices' ), 10, 2 );
@@ -343,8 +343,8 @@ class ConstantContact_Settings {
 						'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
 					) );
 				}
-			} // End if().
-		} // End if().
+			}
+		}
 
 		$before_recaptcha = sprintf(
 			'<hr/><h2>%s</h2>%s',
@@ -504,6 +504,7 @@ class ConstantContact_Settings {
 	 * Opt in field checkbox.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function optin_form_field() {
 
@@ -514,19 +515,21 @@ class ConstantContact_Settings {
 
 		// Get our label, based on our settings if they're available.
 		$saved_label = ctct_get_settings_option( '_ctct_optin_label', '' );
-		$list = ctct_get_settings_option( '_ctct_optin_list', '' );
+		$list        = ctct_get_settings_option( '_ctct_optin_list', '' );
 
 		// Otherwise, use our default.
 		$label = $saved_label ? $saved_label : esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 
-		?><p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
-	        <label for="ctct_optin">
-	        	<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
+		?>
+		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
+			<label for="ctct_optin">
+				<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
 				<?php echo esc_attr( $label ); ?>
 			</label>
 			<?php echo constant_contact()->display->get_disclose_text(); ?>
 			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin', true, true ); ?>
-	    </p><?php
+		</p>
+		<?php
 
 	}
 
@@ -624,7 +627,7 @@ class ConstantContact_Settings {
 	 * @param array  $user User.
 	 * @param string $username Login name.
 	 * @param string $password User password.
-	 * @return object CTCT return API for contact.
+	 * @return object|array CTCT return API for contact or original $user array.
 	 */
 	public function process_optin_login_form( $user, $username, $password ) {
 
@@ -721,10 +724,11 @@ class ConstantContact_Settings {
 	 *
 	 * @param int   $object_id Option key.
 	 * @param array $updated   Array of updated fields.
+	 * @return void
 	 */
 	public function settings_notices( $object_id, $updated ) {
 
-		// Sanity checking
+		// Sanity checking.
 		if ( $object_id !== $this->key || empty( $updated ) ) {
 			return;
 		}
@@ -803,6 +807,7 @@ class ConstantContact_Settings {
 	 * Outputs the markup for the privacy policy modal popup.
 	 *
 	 * @since 1.2.0
+	 * @return void
 	 */
 	public function privacy_notice_markup() {
 		if ( $this->privacy_policy_status() || ! constant_contact()->is_constant_contact() ) {
@@ -831,8 +836,14 @@ class ConstantContact_Settings {
 		<?php
 	}
 
+	/**
+	 * Check if we have reCAPTCHA settings available to use with Google reCAPTCHA.
+	 *
+	 * @since 1.2.4
+	 * @return bool
+	 */
 	public function has_recaptcha() {
-		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
+		$site_key   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
 		$secret_key = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
 
 		if ( $site_key && $secret_key ) {
@@ -859,7 +870,6 @@ function ctct_get_settings_option( $key = '', $default = null ) {
 
 	// Fallback to get_option if CMB2 is not loaded yet.
 	$opts = get_option( constant_contact()->settings->key, $key, $default );
-
 	$val  = $default;
 
 	if ( 'all' === $key ) {
