@@ -8,6 +8,11 @@
  * @since      1.3.0
  */
 
+/**
+ * Class ConstantContact_User_Customizations
+ *
+ * @since 1.3.0
+ */
 class ConstantContact_User_Customizations {
 
 	/**

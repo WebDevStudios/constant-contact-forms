@@ -598,6 +598,13 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
 	return ( ! empty( $global_setting ) ) ? $global_setting : '';
 }
 
+/**
+ * Fetch an return the content of our Endurance privacy policy.
+ *
+ * @since 1.4.3
+ *
+ * @return string
+ */
 function constant_contact_privacy_policy_content() {
 	$policy_output = wp_remote_get( 'https://www.endurance.com/privacy' );
 	if ( ! is_wp_error( $policy_output ) && 200 === wp_remote_retrieve_response_code( $policy_output ) ) {
