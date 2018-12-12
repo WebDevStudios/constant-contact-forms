@@ -32,22 +32,6 @@ class ConstantContact_Settings {
 	private $metabox_id = 'ctct_option_metabox_settings';
 
 	/**
-	 * Settings Page title.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	protected $title = '';
-
-	/**
-	 * Settings Page hook.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	protected $options_page = '';
-
-	/**
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
@@ -74,11 +58,6 @@ class ConstantContact_Settings {
 	 */
 	public function hooks() {
 
-		// Kick it off / register our settings.
-		add_action( 'admin_init', array( $this, 'init' ) );
-
-		// Add our options menu + options page.
-		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
 		add_action( 'cmb2_admin_init', array( $this, 'add_options_page_metabox' ) );
 
 		// Override CMB's getter.
@@ -117,15 +96,6 @@ class ConstantContact_Settings {
 		if ( ! $this->privacy_policy_status() ) {
 			add_action( 'admin_footer', array( $this, 'privacy_notice_markup' ) );
 		}
-	}
-
-	/**
-	 * Register our setting to WP.
-	 *
-	 * @since 1.0.0
-	 */
-	public function init() {
-		register_setting( $this->key, $this->key );
 	}
 
 	/**
@@ -219,23 +189,18 @@ class ConstantContact_Settings {
 		// Hook in our save notices.
 		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", array( $this, 'settings_notices' ), 10, 2 );
 
-		// Only do the settings fields if we're on the options settings page of edit.php.
-		if ( $this->on_settings_page() ) {
+		// Start our new field.
+		$cmb = new_cmb2_box( [
+			'id'           => $this->metabox_id,
+			'title'        => esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
+			'object_types' => [ 'options-page' ],
+			'option_key'   => 'ctct_options_settings',
+			'menu_title'   => esc_html__( 'Settings', 'constant-contact-forms' ),
+			'parent_slug'  => 'edit.php?post_type=ctct_forms',
+		] );
 
-			// Start our new field.
-			$cmb = new_cmb2_box( array(
-				'id'         => $this->metabox_id,
-				'hookup'     => false,
-				'cmb_styles' => false,
-				'show_on'    => array(
-					'key'   => 'options-page',
-					'value' => array( $this->key ),
-				),
-			) );
-
-			// Get our lists fields.
-			$this->do_lists_field( $cmb );
-		}
+		// Get our lists fields.
+		$this->do_lists_field( $cmb );
 	}
 
 	/**
@@ -776,7 +741,7 @@ class ConstantContact_Settings {
 	 */
 	public function __get( $field ) {
 		// Allowed fields to retrieve.
-		if ( in_array( $field, array( 'key', 'metabox_id', 'title', 'options_page' ), true ) ) {
+		if ( in_array( $field, array( 'key', 'metabox_id' ), true ) ) {
 			if ( isset( $this->{$field} ) ) {
 				return $this->{$field};
 			} else {
