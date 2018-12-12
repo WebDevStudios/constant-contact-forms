@@ -1783,6 +1783,22 @@ class ConstantContact_Display {
 		return 'maxlength="' . $length . '"';
 	}
 
+	/**
+	 * Get our disclose text.
+	 *
+	 * @since 1.4.3
+	 *
+	 * @return string
+	 */
+	private function get_inline_font_color() {
+		$inline_font_styles = '';
+		if ( ! empty( $this->specific_form_styles['form_description_color'] ) ) {
+			$inline_font_styles = $this->specific_form_styles['form_description_color'];
+		}
+
+		return $inline_font_styles;
+	}
+
 
 }
 
