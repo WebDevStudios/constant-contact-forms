@@ -966,6 +966,8 @@ class ConstantContact_Display {
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
 
+		$inline_font_styles = $this->get_inline_font_color();
+
 		// Use different styles for submit button.
 		if ( 'submit' === $type ) {
 			$input_inline_styles = $this->get_submit_inline_styles();
@@ -994,7 +996,12 @@ class ConstantContact_Display {
 			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 		}
 		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
-			$markup .= '<span class="' . $label_placement_class . '">';
+			if ( $inline_font_styles ) {
+				$markup .= '<span class="' . $label_placement_class . '"  style="' . $inline_font_styles . '">';
+			} else {
+				$markup .= '<span class="' . $label_placement_class . '">';
+			}
+
 			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
 		}
@@ -1284,10 +1291,13 @@ class ConstantContact_Display {
 		$req                   = $req ? ' required ' : '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 
+		$inline_font_styles = $this->get_inline_font_color();
+
 		$label_street1 = sprintf(
-			'<span class="%s"><label for="street_%s">%s</label></span>',
+			'<span class="%s"><label for="street_%s" style="%s">%s</label></span>',
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
+			esc_attr( $inline_font_styles ),
 			esc_attr( $street ) . $req_label
 		);
 		$input_street1 = sprintf(
@@ -1308,9 +1318,10 @@ class ConstantContact_Display {
 		}
 
 		$label_street2 = sprintf(
-			'<span class="%s"><label for="line_2_%s">%s</label></span>',
+			'<span class="%s"><label for="line_2_%s" style="%s">%s</label></span>',
 			$label_placement_class,
 			esc_attr( $f_id ),
+			esc_attr( $inline_font_styles ),
 			esc_attr( $line_2 )
 		);
 		// Address Line 2 is not required, note the missing $req inclusion.
@@ -1331,9 +1342,10 @@ class ConstantContact_Display {
 		}
 
 		$label_city = sprintf(
-			'<span class="%s"><label for="city_%s">%s</label></span>',
+			'<span class="%s"><label for="city_%s" style="%s">%s</label></span>',
 			$label_placement_class,
 			esc_attr( $f_id ),
+			esc_attr( $inline_font_styles ),
 			esc_attr( $city ) . $req_label
 		);
 		$input_city = sprintf(
@@ -1354,9 +1366,10 @@ class ConstantContact_Display {
 		}
 
 		$label_state = sprintf(
-			'<span class="%s"><label for="state_%s">%s</label></span>',
+			'<span class="%s"><label for="state_%s" style="%s">%s</label></span>',
 			$label_placement_class,
 			esc_attr( $f_id ),
+			esc_attr( $inline_font_styles ),
 			esc_attr( $state ) . $req_label
 		);
 		$input_state = sprintf(
@@ -1377,9 +1390,10 @@ class ConstantContact_Display {
 		}
 
 		$label_zip = sprintf(
-			'<span class="%s"><label for="zip_%s">%s</label></span>',
+			'<span class="%s"><label for="zip_%s" style="%s">%s</label></span>',
 			$label_placement_class,
 			esc_attr( $f_id ),
+			esc_attr( $inline_font_styles ),
 			esc_attr( $zip ) . $req_label
 		);
 		$input_zip = sprintf(
@@ -1400,7 +1414,7 @@ class ConstantContact_Display {
 		}
 
 		// Build our field.
-		$return  = '<fieldset class="ctct-address"><legend>%s</legend>';
+		$return  = '<fieldset class="ctct-address"><legend style="%s">%s</legend>';
 		$return .= '<div class="ctct-form-field ctct-field-full address-line-1%s">%s</div>';
 		$return .= '<div class="ctct-form-field ctct-field-full address-line-2%s" id="input_2_1_2_container">%s</div>';
 		$return .= '<div class="ctct-form-field ctct-field-third address-city%s" id="input_2_1_3_container">%s</div>';
@@ -1410,6 +1424,7 @@ class ConstantContact_Display {
 
 		return sprintf(
 			$return,
+			esc_attr( $inline_font_styles ),
 			esc_html( $name ),
 			$req_class,
 			$input_street1_whole,
