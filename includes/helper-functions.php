@@ -336,6 +336,7 @@ function constant_contact_clean_url( $url = '' ) {
 		return $url;
 	}
 
+	/* @todo Consideration: non-ssl based external websites. Just cause the user's site may be SSL, doesn't mean redirect url wi for sure be. Perhaps add check for home_url as part of consideration. */
 	$clean_url = esc_url( $url );
 	if ( is_ssl() && 'http' === wp_parse_url( $clean_url, PHP_URL_SCHEME ) ) {
 		$clean_url = str_replace( 'http', 'https', $clean_url );
