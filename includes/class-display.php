@@ -1804,7 +1804,7 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Get our disclose text.
+	 * Get the inline font color.
 	 *
 	 * @since 1.4.3
 	 *
