@@ -965,8 +965,7 @@ class ConstantContact_Display {
 		$input_inline_styles   = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
-
-		$inline_font_styles = $this->get_inline_font_color();
+		$inline_font_styles    = $this->get_inline_font_color();
 
 		// Use different styles for submit button.
 		if ( 'submit' === $type ) {
@@ -1290,8 +1289,7 @@ class ConstantContact_Display {
 		$req_class             = $req ? ' ctct-form-field-required ' : '';
 		$req                   = $req ? ' required ' : '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
-
-		$inline_font_styles = $this->get_inline_font_color();
+		$inline_font_styles    = $this->get_inline_font_color();
 
 		$label_street1 = sprintf(
 			'<span class="%s"><label for="street_%s" style="%s">%s</label></span>',
