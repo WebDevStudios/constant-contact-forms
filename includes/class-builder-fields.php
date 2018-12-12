@@ -231,9 +231,13 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name' => esc_html__( 'Form Description', 'constant-contact-forms' ),
-			'type' => 'title',
-			'id'   => 'form-description-title',
+			'name'        => esc_html__( 'Form Fonts', 'constant-contact-forms' ),
+			'type'        => 'title',
+			'id'          => 'form-description-title',
+			'description' => esc_html__(
+			'These styles apply to the form description, labels, and disclosure text.',
+			'constant-contact-forms'
+			),
 		) );
 
 		$custom_css_metabox->add_field( array(
