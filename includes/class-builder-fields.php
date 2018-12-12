@@ -249,9 +249,9 @@ class ConstantContact_Builder_Fields {
 		) );
 
 		$custom_css_metabox->add_field( array(
-			'name'        => __( 'Font Color', 'constant-contact-forms' ),
-			'id'          => $this->prefix . 'form_description_color',
-			'type'        => 'colorpicker',
+			'name' => __( 'Font Color', 'constant-contact-forms' ),
+			'id'   => $this->prefix . 'form_description_color',
+			'type' => 'colorpicker',
 		) );
 
 		$custom_css_metabox->add_field( array(
