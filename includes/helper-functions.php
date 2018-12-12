@@ -337,7 +337,7 @@ function constant_contact_clean_url( $url = '' ) {
 	}
 
 	$clean_url = esc_url( $url );
-	if ( is_ssl() && 'http' === parse_url( $clean_url, PHP_URL_SCHEME ) ) {
+	if ( is_ssl() && 'http' === wp_parse_url( $clean_url, PHP_URL_SCHEME ) ) {
 		$clean_url = str_replace( 'http', 'https', $clean_url );
 	}
 	return $clean_url;
