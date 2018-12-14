@@ -70,12 +70,21 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		public function fields( $fields, $button_data ) {
 			$forms = constant_contact()->cpts->get_forms( true );
 
-			$args = array(
+			$args = array();
+
+			$args[] = array(
 				'name'             => __( 'Form Shortcode', 'constant-contact-forms' ),
 				'id'               => '_ctct_form',
 				'type'             => 'select',
 				'show_option_none' => false,
 				'options'          => $forms,
+			);
+
+			$args[] = array(
+				'name'        => __( 'Show Title', 'constant-contact-forms' ),
+				'id'          => '_ctct_show_title',
+				'description' => __( 'Show the form title.', 'constant-contact-forms' ),
+				'type'        => 'checkbox',
 			);
 
 			if ( empty( $forms ) ) {
@@ -86,7 +95,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				);
 			}
 
-			$fields[] = $args;
+			$fields = $args;
 
 			return $fields;
 		}
@@ -109,6 +118,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 
 			if ( isset( $fields['_ctct_form'] ) ) {
 				$filtered_fields['form'] = $fields['_ctct_form'];
+				$filtered_fields['show_title'] = $fields['_ctct_show_title'];
 			}
 
 			return $filtered_fields;
