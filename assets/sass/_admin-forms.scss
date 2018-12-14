@@ -208,3 +208,15 @@ body.post-type-ctct_forms #titlediv #title {
 		} // .cmb-type-text-small
 	} // #ctct_1_custom_input_css_metabox
 } // #side-sortables
+
+//--------------------------------------------------------------
+// TinyMCE Tweaks
+//--------------------------------------------------------------
+.ui-dialog .cmb-type-checkbox {
+
+	&.cmb2-id--ctct-show-title {
+		.cmb-th {
+			width: 90px;
+		} // .cmb-th
+	} // &.cmb2-id--ctct-show-title
+} // .ui-dialog .cmb-type-checkbox
