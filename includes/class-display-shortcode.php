@@ -89,14 +89,35 @@ class ConstantContact_Display_Shortcode {
 			return '';
 		}
 
+		// Set the form title.
+		$title = $this->set_form_title( $show_title, $form_id );
+
 		// Pass our data into our field method.
 		$form_data = $this->get_field_meta( $meta, $form_id );
 
 		// Return our markup.
 		$form = constant_contact()->display->form( $form_data, $form_id );
 
-		return '<div id="ctct-form-' . $form_id . '" class="ctct-form-wrapper">' . $form . '</div><!-- .ctct-form-wrapper -->';
+		return '<div id="ctct-form-' . $form_id . '" class="ctct-form-wrapper">' . $title . $form . '</div><!-- .ctct-form-wrapper -->';
 
+	}
+
+	/**
+	 * Generate the form title.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param bool $show_title If true, create title markup.
+	 * @param int  $form_id The form id.
+	 * @return string The form title.
+	 */
+	private function set_form_title( $show_title, $form_id ) {
+
+		if ( ! $show_title ) {
+			return '';
+		}
+
+		return '<h3>' . esc_html( get_the_title( $form_id ) ) . '</h3>';
 	}
 
 	/**
