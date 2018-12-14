@@ -83,7 +83,6 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			$args[] = array(
 				'name'        => __( 'Show Title', 'constant-contact-forms' ),
 				'id'          => '_ctct_show_title',
-				'description' => __( 'Show the form title.', 'constant-contact-forms' ),
 				'type'        => 'checkbox',
 			);
 
@@ -117,7 +116,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			$filtered_fields = array();
 
 			if ( isset( $fields['_ctct_form'] ) ) {
-				$filtered_fields['form'] = $fields['_ctct_form'];
+				$filtered_fields['form']       = $fields['_ctct_form'];
 				$filtered_fields['show_title'] = $fields['_ctct_show_title'];
 			}
 
