@@ -32,3 +32,5 @@ lib
 *.sass-cache
 
 *.swp
+
+/vendor
