@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f81a23408fe61198b76239069700b8df",
+    "content-hash": "bc68eadfc52f651cf1b436edb601ef98",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -1549,20 +1549,20 @@
         },
         {
             "name": "webdevstudios/wds-shortcodes",
-            "version": "v1.0.7",
+            "version": "v0.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WebDevStudios/WDS-Shortcodes.git",
-                "reference": "69b52b65d1120790e15303fff61f9749ac151e7f"
+                "reference": "48a1b987fbabef99af49605051ea5ae70a144b89"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WebDevStudios/WDS-Shortcodes/zipball/69b52b65d1120790e15303fff61f9749ac151e7f",
-                "reference": "69b52b65d1120790e15303fff61f9749ac151e7f",
+                "url": "https://api.github.com/repos/WebDevStudios/WDS-Shortcodes/zipball/48a1b987fbabef99af49605051ea5ae70a144b89",
+                "reference": "48a1b987fbabef99af49605051ea5ae70a144b89",
                 "shasum": ""
             },
             "require": {
-                "jtsternberg/shortcode-button": "^v1.0.7",
+                "jtsternberg/shortcode-button": "^v1.0.1",
                 "php": ">5.2",
                 "tgmpa/tgm-plugin-activation": "2.5.2"
             },
@@ -1595,7 +1595,7 @@
                 "wordpress",
                 "wp-api"
             ],
-            "time": "2017-06-07T16:02:24+00:00"
+            "time": "2016-03-28T01:49:15+00:00"
         }
     ],
     "packages-dev": [
