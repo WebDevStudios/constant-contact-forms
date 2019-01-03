@@ -512,6 +512,10 @@ body.post-type-ctct_forms #titlediv #title {
   padding-bottom: 0;
 }
 
+#side-sortables .cmb2-id--ctct-generated-shortcode > .cmb-th {
+  display: none;
+}
+
 .ui-dialog .cmb-type-checkbox.cmb2-id--ctct-show-title .cmb-th {
   width: 90px;
 }

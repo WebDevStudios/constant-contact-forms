@@ -207,6 +207,12 @@ body.post-type-ctct_forms #titlediv #title {
 			} // .cmb-th
 		} // .cmb-type-text-small
 	} // #ctct_1_custom_input_css_metabox
+
+	.cmb2-id--ctct-generated-shortcode {
+		> .cmb-th {
+			display: none;
+		} // > .cmb-th
+	} // .cmb2-id--ctct-generated-shortcode
 } // #side-sortables
 
 //--------------------------------------------------------------
