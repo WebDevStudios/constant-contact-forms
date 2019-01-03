@@ -59,7 +59,7 @@ class ConstantContact_Display_Shortcode {
 		}
 
 		// Show the title or not.
-		$show_title = ( isset( $atts['show_title'] ) && true === $atts['show_title'] ) ? true : false;
+		$show_title = ( isset( $atts['show_title'] ) && 'true' === $atts['show_title'] ) ? true : false;
 
 		return $this->get_form( $atts['form'], $show_title );
 	}
