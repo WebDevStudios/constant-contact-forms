@@ -428,6 +428,7 @@ class ConstantContact_API {
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
 		}
+		constant_contact_maybe_log_it( 'API', 'Submitted contact data', $new_contact );
 
 		return $return_contact;
 	}
