@@ -345,23 +345,24 @@ class ConstantContact_Settings {
 			'before_row'  => $before_global_css,
 		) );
 
-		$cmb->add_field( array(
-			'name'             => esc_html__( 'Label Placement' ),
+		$cmb->add_field( [
+			'name'             => esc_html__( 'Label Placement', 'constant-contact-forms' ),
 			'id'               => '_ctct_form_label_placement',
 			'type'             => 'select',
 			'default'          => 'top',
 			'show_option_none' => false,
-			'options'          => array(
-				'top'    => 'Top',
-				'left'   => 'Left',
-				'right'  => 'Right',
-				'hidden' => 'Hidden',
-			),
+			'options'          => [
+				'top'    => esc_html__( 'Top', 'constant-contact-forms' ),
+				'left'   => esc_html__( 'Left', 'constant-contact-forms' ),
+				'right'  => esc_html__( 'Right', 'constant-contact-forms' ),
+				'bottom' => esc_html__( 'Bottom', 'constant-contact-forms' ),
+				'hidden' => esc_html__( 'Hidden', 'constant-contact-forms' ),
+			],
 			'description'      => esc_html__(
 				'Choose the position for the labels of the form elements.',
 				'constant-contact-forms'
 			),
-		) );
+		] );
 
 		$before_debugging = sprintf(
 			'<hr/><h2>%s</h2>',
