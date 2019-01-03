@@ -676,7 +676,7 @@ class ConstantContact_Builder_Fields {
 			'object_types' => array( 'ctct_forms' ),
 			'context'      => 'side',
 			'priority'     => 'low',
-			'show_names'   => false,
+			'show_names'   => true,
 		) );
 
 		$generated->add_field( array(
@@ -685,6 +685,16 @@ class ConstantContact_Builder_Fields {
 			'type'       => 'text_medium',
 			'desc'       => __( 'Shortcode to embed - <em><small>You can copy and paste this in a post to display your form.</small></em>', 'constant-contact-forms' ),
 			'default'    => ( $generated->object_id > 0 ) ? '[ctct form="' . $generated->object_id . '"]' : '',
+			'attributes' => array(
+				'readonly' => 'readonly',
+			),
+		) );
+
+		$generated->add_field( array(
+			'name'       => __( 'With form title', 'constant-contact-forms' ),
+			'id'         => $this->prefix . 'generated_shortcode_with_title',
+			'type'       => 'text_medium',
+			'default'    => ( $generated->object_id > 0 ) ? '[ctct form="' . $generated->object_id . '" show_title="true"]' : '',
 			'attributes' => array(
 				'readonly' => 'readonly',
 			),
