@@ -73,7 +73,7 @@ class ConstantContact_Display_Shortcode {
 	 * @param bool $show_title If true, show the form title.
 	 * @return string
 	 */
-	public function get_form( $form_id, $show_title = true ) {
+	public function get_form( $form_id, $show_title = false ) {
 
 		// Sanity check it.
 		$form_id = absint( $form_id );
