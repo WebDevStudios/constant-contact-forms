@@ -128,7 +128,7 @@ class ConstantContact_Display_Shortcode {
 	 * @param int  $form_id Form ID to display.
 	 * @param bool $show_title If true, show the title.
 	 */
-	public function display_form( $form_id, $show_title ) {
+	public function display_form( $form_id, $show_title = false ) {
 
 		// @codingStandardsIgnoreStart
 		echo $this->get_form( absint( $form_id ), $show_title );
