@@ -205,10 +205,9 @@ class ConstantContact_Display {
 	 *
 	 * @param array  $form_data   Array of form data.
 	 * @param string $form_id     Form ID.
-	 * @param bool   $skip_styles Whether or not to skip style additions.
 	 * @return string Form markup.
 	 */
-	public function form( $form_data, $form_id = '', $skip_styles = false ) {
+	public function form( $form_data, $form_id = '' ) {
 
 		if ( 'publish' !== get_post_status( $form_id ) ) {
 			return '';
