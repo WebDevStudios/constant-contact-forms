@@ -199,6 +199,23 @@ class ConstantContact_Display {
 	}
 
 	/**
+	 * Set inline title styles.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @return string $title_styles The title styles.
+	 */
+	private function set_title_styles() {
+		$title_styles = '';
+
+		if ( ! empty( $this->specific_form_styles['form_description_color'] ) ) {
+			$title_styles .= ' style="' . esc_attr( $this->specific_form_styles['form_description_color'] ) . '"';
+		}
+
+		return $title_styles;
+	}
+
+	/**
 	 * Generate the form title.
 	 *
 	 * @since 1.5.0
@@ -213,7 +230,9 @@ class ConstantContact_Display {
 			return '';
 		}
 
-		return '<h3>' . esc_html( get_the_title( $form_id ) ) . '</h3>';
+		$title_styles = $this->set_title_styles();
+
+		return '<h3' . $title_styles . '>' . esc_html( get_the_title( $form_id ) ) . '</h3>';
 	}
 
 	/**
