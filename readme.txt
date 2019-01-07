@@ -35,6 +35,9 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.4.4 =
+* Fixed: Hardened reCAPTCHA and form processing from possible AJAX bypass.
+
 = 1.4.3 =
 * Fixed: Persistent spinner on Constant Contact Forms submit button when Google reCAPTCHA is anywhere on the page.
 * Fixed: Better messaging around debug logging when unable to write to the intended log file.
