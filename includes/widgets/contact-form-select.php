@@ -41,7 +41,7 @@ class ConstantContactWidget extends WP_Widget {
 		$defaults = array(
 			'ctct_title'      => '',
 			'ctct_form_id'    => 0,
-			'ctct_form_title' => '0',
+			'ctct_form_title' => 'false',
 		);
 		$instance = wp_parse_args( (array) $instance, $defaults );
 
@@ -99,16 +99,17 @@ class ConstantContactWidget extends WP_Widget {
 	 * @param array $instance Widget instance.
 	 */
 	public function widget( $args, $instance ) {
-		$title   = trim( strip_tags( $instance['ctct_title'] ) );
-		$form_id = absint( $instance['ctct_form_id'] );
+		$title           = trim( strip_tags( $instance['ctct_title'] ) );
+		$form_id         = absint( $instance['ctct_form_id'] );
+		$show_form_title = $instance['ctct_form_title'] ? 'true' : 'false';
 
 		echo $args['before_widget'];
 
-		if ( $title ) {
+		if ( $title ) { // Widget title.
 			echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
 		}
 
-		echo do_shortcode( sprintf( '[ctct form="%s"]', $form_id ) );
+		echo do_shortcode( sprintf( '[ctct form="%s" show_title="%s"]', $form_id, $show_form_title ) );
 
 		echo $args['after_widget'];
 	}
