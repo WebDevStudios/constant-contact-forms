@@ -145,6 +145,7 @@ class ConstantContact_Logging {
 				$log_location = '#';
 
 				if ( ! file_exists( constant_contact()->logger_location ) ) {
+
 					if ( ! is_writable( constant_contact()->logger_location ) ) {
 						$contents .= sprintf(
 						/* Translators: placeholder holds the log location. */

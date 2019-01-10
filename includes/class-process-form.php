@@ -233,6 +233,13 @@ class ConstantContact_Process_Form {
 			}
 		}
 
+		if ( $this->plugin->settings->has_recaptcha() && empty( $data['g-recaptcha-response'] ) ) {
+			return array(
+				'status' => 'named_error',
+				'error'  => __( 'We do no think you are human', 'constant-contact-forms' ),
+			);
+		}
+
 		/**
 		 * Filters whether or not we think an entry is spam.
 		 *
