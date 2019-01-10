@@ -197,10 +197,83 @@ class ConstantContact_Settings {
 			'option_key'   => 'ctct_options_settings',
 			'menu_title'   => esc_html__( 'Settings', 'constant-contact-forms' ),
 			'parent_slug'  => 'edit.php?post_type=ctct_forms',
+			'tab_group'    => 'ctct_options_settings',
+			'tab_title'    => esc_html__( 'Main Settings', 'constant-contact-forms' ),
 		] );
 
 		// Get our lists fields.
 		$this->do_lists_field( $cmb );
+		$this->do_google_settings();
+		$this->do_debugging_settings();
+	}
+
+	public function do_google_settings() {
+		$cmb = new_cmb2_box( [
+			'id'           => $this->metabox_id . '_google',
+			'title'        => esc_html__( 'Constant Contact Forms Google Settings', 'constant-contact-forms' ),
+			'object_types' => [ 'options-page' ],
+			'option_key'   => 'ctct_options_google_settings',
+			'menu_title'   => esc_html__( 'Google Settings', 'constant-contact-forms' ),
+			'parent_slug'  => 'edit.php?post_type=ctct_forms',
+			'tab_group'    => 'ctct_options_settings',
+			'tab_title'    => esc_html__( 'Google Settings', 'constant-contact-forms' ),
+		] );
+
+		$cmb->add_field( [
+			'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
+			'id'   => '_ctct_data_tracking',
+			'type' => 'checkbox',
+			'desc' => __( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.endurance.com/privacy"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
+		] );
+
+		$before_recaptcha = sprintf(
+			'<hr/><h2>%s</h2>%s',
+			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
+			'<div class="discover-recaptcha">' . __( 'Learn more and get an <a href="https://www.google.com/recaptcha/intro/" target="_blank">API site key</a>', 'constant-contact-forms' ) . '</div>'
+		);
+		$cmb->add_field( [
+			'name'       => esc_html__( 'Site Key', 'constant-contact-forms' ),
+			'id'         => '_ctct_recaptcha_site_key',
+			'type'       => 'text',
+			'before_row' => $before_recaptcha,
+		] );
+
+		$cmb->add_field( [
+			'name' => esc_html__( 'Secret Key', 'constant-contact-forms' ),
+			'id'   => '_ctct_recaptcha_secret_key',
+			'type' => 'text',
+		] );
+	}
+
+	public function do_debugging_settings() {
+		$cmb = new_cmb2_box( [
+			'id'           => $this->metabox_id . '_debugging',
+			'title'        => esc_html__( 'Constant Contact Forms Support and Debugging Settings', 'constant-contact-forms' ),
+			'object_types' => [ 'options-page' ],
+			'option_key'   => 'ctct_options_debugging_settings',
+			'menu_title'   => esc_html__( 'Support and Debugging Settings', 'constant-contact-forms' ),
+			'parent_slug'  => 'edit.php?post_type=ctct_forms',
+			'tab_group'    => 'ctct_options_settings',
+			'tab_title'    => esc_html__( 'Support/Debugging', 'constant-contact-forms' ),
+		] );
+
+		$cmb->add_field( [
+			'name'       => esc_html__( 'Enable logging for debugging purposes.', 'constant-contact-forms' ),
+			'desc'       => esc_html__( 'This option will turn on some logging functionality that can be used to deduce sources of issues with the use of Constant Contact Forms plugin.', 'constant-contact-forms' ),
+			'id'         => '_ctct_logging',
+			'type'       => 'checkbox',
+			'before_row' => '<hr/>',
+		] );
+
+		if ( constant_contact()->api->is_connected() ) {
+			// Make API contact requests immediately instead of via cron.
+			$cmb->add_field( [
+				'name'       => esc_html__( 'Bypass Constant Contact cron scheduling', 'constant-contact-forms' ),
+				'desc'       => esc_html__( 'This option will send form entries to Constant Contact right away instead of holding for one minute delay.', 'constant-contact-forms' ),
+				'id'         => '_ctct_bypass_cron',
+				'type'       => 'checkbox',
+			] );
+		}
 	}
 
 	/**
@@ -212,13 +285,6 @@ class ConstantContact_Settings {
 	 */
 	public function do_lists_field( $cmb ) {
 
-		$cmb->add_field( array(
-			'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
-			'id'   => '_ctct_data_tracking',
-			'type' => 'checkbox',
-			'desc' => __( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.endurance.com/privacy"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
-		) );
-
 		// Only show our settings page if we're connected to CC.
 		if ( constant_contact()->api->is_connected() ) {
 
@@ -227,15 +293,6 @@ class ConstantContact_Settings {
 				'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
 				'desc'       => sprintf( esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ), '<br/>' ),
 				'id'         => '_ctct_disable_email_notifications',
-				'type'       => 'checkbox',
-				'before_row' => '<hr/>',
-			) );
-
-			// Make API contact requests immediately instead of via cron.
-			$cmb->add_field( array(
-				'name'       => esc_html__( 'Bypass Constant Contact cron scheduling', 'constant-contact-forms' ),
-				'desc'       => esc_html__( 'This option will send form entries to Constant Contact right away instead of holding for one minute delay.', 'constant-contact-forms' ),
-				'id'         => '_ctct_bypass_cron',
 				'type'       => 'checkbox',
 				'before_row' => '<hr/>',
 			) );
@@ -311,24 +368,6 @@ class ConstantContact_Settings {
 			}
 		}
 
-		$before_recaptcha = sprintf(
-			'<hr/><h2>%s</h2>%s',
-			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
-			'<div class="discover-recaptcha">' . __( 'Learn more and get an <a href="https://www.google.com/recaptcha/intro/" target="_blank">API site key</a>', 'constant-contact-forms' ) . '</div>'
-		);
-		$cmb->add_field( array(
-			'name'       => esc_html__( 'Site Key', 'constant-contact-forms' ),
-			'id'         => '_ctct_recaptcha_site_key',
-			'type'       => 'text',
-			'before_row' => $before_recaptcha,
-		) );
-
-		$cmb->add_field( array(
-			'name' => esc_html__( 'Secret Key', 'constant-contact-forms' ),
-			'id'   => '_ctct_recaptcha_secret_key',
-			'type' => 'text',
-		) );
-
 		$before_global_css = sprintf(
 			'<hr /><h2>%s</h2>',
 			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
@@ -363,18 +402,6 @@ class ConstantContact_Settings {
 				'constant-contact-forms'
 			),
 		] );
-
-		$before_debugging = sprintf(
-			'<hr/><h2>%s</h2>',
-			esc_html__( 'Support', 'constant-contact-forms' )
-		);
-		$cmb->add_field( array(
-			'name'       => esc_html__( 'Enable logging for debugging purposes.', 'constant-contact-forms' ),
-			'desc'       => esc_html__( 'This option will turn on some logging functionality that can be used to deduce sources of issues with the use of Constant Contact Forms plugin.', 'constant-contact-forms' ),
-			'id'         => '_ctct_logging',
-			'type'       => 'checkbox',
-			'before_row' => $before_debugging,
-		) );
 	}
 
 	/**
