@@ -873,3 +873,9 @@ function ctct_get_settings_option( $key = '', $default = null ) {
 
 	return $val;
 }
+
+function ctct_remove_tab_submenu_pages() {
+	remove_submenu_page( 'edit.php?post_type=ctct_forms', 'ctct_options_google_settings' );
+	remove_submenu_page( 'edit.php?post_type=ctct_forms', 'ctct_options_debugging_settings' );
+}
+add_action( 'admin_menu', 'ctct_remove_tab_submenu_pages', 999 );
