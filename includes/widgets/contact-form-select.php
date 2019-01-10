@@ -56,12 +56,6 @@ class ConstantContactWidget extends WP_Widget {
 			'value'      => $title,
 		) );
 
-		$this->form_input_checkbox( array(
-			'label_text' => __( 'Display form title', 'constant-contact-forms' ),
-			'name'       => $this->get_field_name( 'ctct_form_title' ),
-			'id'         => $this->get_field_id( 'ctct_form_title' ),
-			'value'      => $show_form_title,
-		) );
 
 		$this->form_input_select( array(
 			'label_text' => __( 'Form', 'constant-contact-forms' ),
@@ -69,6 +63,13 @@ class ConstantContactWidget extends WP_Widget {
 			'id'         => $this->get_field_id( 'ctct_form_id' ),
 			'options'    => $this->get_forms(),
 			'value'      => $form_id,
+		) );
+
+		$this->form_input_checkbox( array(
+			'label_text' => __( 'Display form title', 'constant-contact-forms' ),
+			'name'       => $this->get_field_name( 'ctct_form_title' ),
+			'id'         => $this->get_field_id( 'ctct_form_title' ),
+			'value'      => $show_form_title,
 		) );
 	}
 
