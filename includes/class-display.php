@@ -991,15 +991,7 @@ class ConstantContact_Display {
 		$req_label = '';
 		// If this is required, we output the HMTL5 required att.
 		if ( $req ) {
-
-			/**
-			 * Filters the markup used for the required indicator.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
-			 */
-			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+			$req_label = $this->display_required_indicator();
 		}
 		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
 			if ( $inline_font_styles ) {
@@ -1285,18 +1277,10 @@ class ConstantContact_Display {
 		$v_state  = isset( $value['state_address'] ) ? $value['state_address'] : '';
 		$v_zip    = isset( $value['zip_address'] ) ? $value['zip'] : '';
 
-		/**
-		 * Filters the markup used for the required indicator.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
-		 */
-		$req_label             = $req ? ' ' . apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' ) : '';
+		$req_label             = $req ? ' ' . $this->display_required_indicator() : '';
 		$req_class             = $req ? ' ctct-form-field-required ' : '';
 		$req                   = $req ? ' required ' : '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
-
 		$inline_font_styles    = $this->get_inline_font_color();
 
 		$label_street1 = sprintf(
@@ -1692,15 +1676,7 @@ class ConstantContact_Display {
 		// If required, get our label.
 		$req_label = '';
 		if ( $req ) {
-
-			/**
-			 * Filters the markup used for the required indicator.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
-			 */
-			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+			$req_label = $this->display_required_indicator();
 		}
 
 		$return   = '<p class="' . implode( ' ', $classes ) . '">';
@@ -1825,5 +1801,21 @@ class ConstantContact_Display {
 		return $inline_font_styles;
 	}
 
+	/**
+	 * Display the markup for the required indicator.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string The required indicator markup.
+	 */
+	public function display_required_indicator() {
+		/**
+		 * Filters the markup used for the required indicator.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+		 */
+		return apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+	}
 }
-
