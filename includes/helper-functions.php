@@ -312,7 +312,7 @@ function constant_contact_has_redirect_uri( $form_id = 0 ) {
  * @return bool True, if a valid url.
  */
 function constant_contact_is_valid_url( $url ) {
-	return ! empty( $url ) && filter_var( $url, FILTER_VALIDATE_URL );
+	return ( ! empty( $url ) && filter_var( $url, FILTER_VALIDATE_URL ) );
 }
 
 /**
