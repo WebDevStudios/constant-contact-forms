@@ -1809,6 +1809,13 @@ class ConstantContact_Display {
 	 * @return string The required indicator markup.
 	 */
 	public function display_required_indicator() {
+		/**
+		 * Filters the markup used for the required indicator.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+		 */
 		return apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
 	}
 }
