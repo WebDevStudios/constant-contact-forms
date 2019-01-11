@@ -991,7 +991,7 @@ class ConstantContact_Display {
 		$req_label = '';
 		// If this is required, we output the HMTL5 required att.
 		if ( $req ) {
-			$this->display_required_indicator();
+			$req_label = $this->display_required_indicator();
 		}
 		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
 			if ( $inline_font_styles ) {
@@ -1676,7 +1676,7 @@ class ConstantContact_Display {
 		// If required, get our label.
 		$req_label = '';
 		if ( $req ) {
-			$this->display_required_indicator();
+			$req_label = $this->display_required_indicator();
 		}
 
 		$return   = '<p class="' . implode( ' ', $classes ) . '">';
