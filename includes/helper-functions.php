@@ -300,7 +300,7 @@ function ctct_has_forms() {
 function constant_contact_has_redirect_uri( $form_id = 0 ) {
 	$maybe_redirect_uri = get_post_meta( $form_id, '_ctct_redirect_uri', true );
 
-	return empty( $maybe_redirect_uri ) ? false : true;
+	return empty( $maybe_redirect_uri ) || ! filter_var( $maybe_redirect_uri, FILTER_VALIDATE_URL ) ? false : true;
 }
 
 /**
