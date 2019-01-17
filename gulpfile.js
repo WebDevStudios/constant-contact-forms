@@ -1,22 +1,21 @@
-var gulp = require('gulp');
-
-var autoprefixer = require('autoprefixer');
-var cssnano = require('gulp-cssnano');
-var del = require('del');
-var fs = require('fs'); // node file system manipulation 
-var gulp = require('gulp');
-var gutil = require('gulp-util');
-var mqpacker = require('css-mqpacker');
-var notify = require('gulp-notify');
-var path = require('path'); // node path module
-var plumber = require('gulp-plumber');
-var postcss = require('gulp-postcss');
-var rename = require('gulp-rename');
-var sass = require('gulp-sass');
-var sourcemaps = require('gulp-sourcemaps');
-
+const autoprefixer = require('autoprefixer');
+const browserSync = require('browser-sync');
+const cssnano = require('gulp-cssnano');
+const del = require('del');
+const fs = require('fs'); // node file system manipulation
+const gulp = require('gulp');
+const gutil = require('gulp-util');
+const mqpacker = require('css-mqpacker');
+const notify = require('gulp-notify');
+const path = require('path'); // node path module
+const plumber = require('gulp-plumber');
+const postcss = require('gulp-postcss');
+const rename = require('gulp-rename');
+const sass = require('gulp-sass');
+const sourcemaps = require('gulp-sourcemaps');
 const webpack = require( 'webpack' );
 const webpackStream = require( 'webpack-stream' );
+
 const webpackConfig = require( './webpack.config' );
 
 /**
