@@ -18,8 +18,9 @@ var sort = require('gulp-sort');
 var sourcemaps = require('gulp-sourcemaps');
 var uglify = require('gulp-uglify');
 
-// Set variable for paths
-var scriptsPath = 'assets/js';
+const webpack = require( 'webpack' );
+const webpackStream = require( 'webpack-stream' );
+const webpackConfig = require( './webpack.config' );
 
 /**
 * Handle errors and alert the user.
@@ -50,29 +51,12 @@ function getFolders(dir) {
 }
 
 /**
- * Get folder names in /assets/js/, and map to filename
- * based on foldername, concatenate all scripts in folder, 
- * and minify, e.g. 
- * assets/js/wp-admin/*.js -> assets/js/wp-admin.js and assets/js/wp-admin.min.js
+ * Use webpack to transpile and bundle scripts.
  */
 gulp.task('scripts', function() {
-   var folders = getFolders(scriptsPath);
-
-   var tasks = folders.map(function(folder) {
-      return gulp.src(path.join(scriptsPath, folder, '/**/*.js'))
-        // concat into foldername.js
-        .pipe(concat(folder + '.js'))
-        // write to output
-        .pipe(gulp.dest(scriptsPath)) 
-        // minify
-        .pipe(uglify())    
-        // rename to folder.min.js
-        .pipe(rename(folder + '.min.js')) 
-        // write to output again
-        .pipe(gulp.dest(scriptsPath));    
-   });
-   
-   return tasks;
+	gulp.src( [ './assets/js/ctct-plugin-frontend/index.js', './assets/js/ctct-plugin-admin/index.js' ] )
+		.pipe( webpackStream( webpackConfig ), webpack )
+		.pipe( gulp.dest( './assets/js' ) );
 });
 
 /**
