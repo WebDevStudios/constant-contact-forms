@@ -27,7 +27,8 @@
     "webpack-stream": "^5.2.1"
   },
   "scripts": {
-    "build": "NODE_ENV=production gulp"
+    "build": "NODE_ENV=production gulp",
+    "dev": "gulp"
   },
   "repository": {
     "type": "git",
