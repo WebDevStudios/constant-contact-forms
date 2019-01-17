@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 
 var autoprefixer = require('autoprefixer');
-var concat = require('gulp-concat');
 var cssnano = require('gulp-cssnano');
 var del = require('del');
 var fs = require('fs'); // node file system manipulation 
@@ -14,9 +13,7 @@ var plumber = require('gulp-plumber');
 var postcss = require('gulp-postcss');
 var rename = require('gulp-rename');
 var sass = require('gulp-sass');
-var sort = require('gulp-sort');
 var sourcemaps = require('gulp-sourcemaps');
-var uglify = require('gulp-uglify');
 
 const webpack = require( 'webpack' );
 const webpackStream = require( 'webpack-stream' );
