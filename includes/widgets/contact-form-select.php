@@ -47,7 +47,7 @@ class ConstantContactWidget extends WP_Widget {
 
 		$title           = strip_tags( $instance['ctct_title'] );
 		$form_id         = absint( $instance['ctct_form_id'] );
-		$show_form_title = isset( $instance['ctct_form_title'] ) ? (bool) $instance['ctct_form_title'] : false;
+		$show_form_title = ( 'on' === $instance['ctct_form_title'] ) ? $instance['ctct_form_title'] : '';
 
 		$this->form_input_text( array(
 			'label_text' => __( 'Title', 'constant-contact-forms' ),
