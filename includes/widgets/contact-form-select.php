@@ -107,7 +107,7 @@ class ConstantContactWidget extends WP_Widget {
 	public function widget( $args, $instance ) {
 		$title           = trim( strip_tags( $instance['ctct_title'] ) );
 		$form_id         = absint( $instance['ctct_form_id'] );
-		$show_form_title = $instance['ctct_form_title'] ? 'true' : 'false';
+		$show_form_title = ( ! empty( $instance['ctct_form_title'] ) ) ? 'true' : 'false';
 
 		echo $args['before_widget'];
 
