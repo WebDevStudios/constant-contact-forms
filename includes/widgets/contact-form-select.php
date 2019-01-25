@@ -86,7 +86,12 @@ class ConstantContactWidget extends WP_Widget {
 		$instance                    = $old_instance;
 		$instance['ctct_title']      = trim( strip_tags( $new_instance['ctct_title'] ) );
 		$instance['ctct_form_id']    = trim( strip_tags( $new_instance['ctct_form_id'] ) );
-		$instance['ctct_form_title'] = trim( strip_tags( $new_instance['ctct_form_title'] ) );
+
+		if ( empty( $new_instance['ctct_form_title'] ) ) {
+			$instance['ctct_form_title'] = '';
+		} else {
+			$instance['ctct_form_title'] = trim( strip_tags( $new_instance['ctct_form_title'] ) );
+		}
 
 		return $instance;
 	}
