@@ -41,7 +41,7 @@ class ConstantContactWidget extends WP_Widget {
 		$defaults = array(
 			'ctct_title'      => '',
 			'ctct_form_id'    => 0,
-			'ctct_form_title' => 'false',
+			'ctct_form_title' => '',
 		);
 		$instance = wp_parse_args( (array) $instance, $defaults );
 
