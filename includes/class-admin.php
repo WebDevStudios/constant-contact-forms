@@ -441,6 +441,14 @@ class ConstantContact_Admin {
 			true
 		);
 
+		wp_register_script(
+			'ctct_gutenberg',
+			constant_contact()->url() . 'assets/js/ctct-plugin-gutenberg' . $suffix . '.js',
+			array(),
+			Constant_Contact::VERSION,
+			true
+		);
+
 		wp_localize_script(
 			'ctct_form',
 			'ctct_texts',
@@ -500,6 +508,7 @@ class ConstantContact_Admin {
 		if ( $pagenow && in_array( $pagenow, $allowed_pages, true ) ) {
 			// Enqueued script with localized data.
 			wp_enqueue_script( 'ctct_form' );
+			wp_enqueue_script( 'ctct_gutenberg' );
 		}
 	}
 
