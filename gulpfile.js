@@ -16,6 +16,7 @@ const sourcemaps = require('gulp-sourcemaps');
 const webpack = require( 'webpack' );
 const webpackStream = require( 'webpack-stream' );
 
+const pluginConfig = require('./plugin-config');
 const webpackConfig = require( './webpack.config' );
 
 /**
@@ -140,14 +141,24 @@ gulp.task('cssnano', ['postcss'], function() {
 * Define default Gulp watch task
 */
 gulp.task('watch', function() {
-	gulp.watch('./assets/sass/*.scss', ['cssnano']);
-	gulp.watch('./assets/js/**/*.js', ['scripts']);
+
+	browserSync( {
+		open: false,
+		injectChanges: true,
+		proxy: pluginConfig.localURL
+	});
+
+	gulp.watch('./assets/sass/**/*.scss', ['cssnano']);
+	gulp.watch( './assets/js/ctct-plugin-admin/**/*.js', ['scripts']);
+	gulp.watch( './assets/js/ctct-plugin-frontend/**/*.js', ['scripts']);
+	gulp.watch( './assets/sass/**/*.scss' ).on( 'change', browserSync.reload );
+	gulp.watch( './assets/js/ctct-plugin-admin.js' ).on( 'change', browserSync.reload );
+	gulp.watch( './assets/js/ctct-plugin-frontend/**/*.js' ).on( 'change', browserSync.reload );
 });
 
 /**
 * Create individual tasks.
 */
-//gulp.task('scripts', ['scripts']);
 gulp.task('js', ['scripts']);
 gulp.task('styles', ['cssnano']);
 gulp.task('default', ['styles', 'js']);
