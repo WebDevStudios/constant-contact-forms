@@ -7,7 +7,7 @@
     "@babel/core": "^7.2.2",
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
-    "autoprefixer": "^6.7.7",
+    "autoprefixer": "^9.4.7",
     "babel-loader": "^8.0.5",
     "browser-sync": "^2.26.3",
     "css-mqpacker": "^4.0.0",
