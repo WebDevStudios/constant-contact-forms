@@ -50,10 +50,11 @@ function getFolders(dir) {
 /**
  * Use webpack to transpile and bundle scripts.
  */
-gulp.task('scripts', function() {
+gulp.task('scripts', function(done) {
 	gulp.src( [ './assets/js/ctct-plugin-frontend/index.js', './assets/js/ctct-plugin-admin/index.js' ] )
 		.pipe( webpackStream( webpackConfig ), webpack )
 		.pipe( gulp.dest( './assets/js' ) );
+	done();
 });
 
 /**
@@ -90,7 +91,7 @@ gulp.task('sass', function() {
 * https://www.npmjs.com/package/gulp-autoprefixer
 * https://www.npmjs.com/package/css-mqpacker
 */
-gulp.task('postcss', ['sass'], function() {
+gulp.task('postcss', gulp.series('sass', function() {
 	return gulp.src('assets/css/style.css')
 
 	// Wrap tasks in a sourcemap.
@@ -114,15 +115,15 @@ gulp.task('postcss', ['sass'], function() {
 
 	// Create style.css.
 	.pipe(gulp.dest('./assets/css'))
-});
+}));
 
 /**
 * Minify and optimize style.css.
 *
 * https://www.npmjs.com/package/gulp-cssnano
 */
-gulp.task('cssnano', ['postcss'], function() {
-	return gulp.src('assets/css/style.css')
+gulp.task('cssnano', gulp.series('postcss', function(done) {
+	gulp.src('assets/css/style.css')
 
 	// handle any errors
 	.pipe(plumber({ errorHandler: handleErrors }))
@@ -134,8 +135,10 @@ gulp.task('cssnano', ['postcss'], function() {
 	// rename file from style.css to style.min.css
 	.pipe(rename('style.min.css'))
 
-	.pipe(gulp.dest('./assets/css'))
-});
+	.pipe(gulp.dest('./assets/css'));
+
+	done();
+}));
 
 /**
 * Define default Gulp watch task
@@ -148,9 +151,9 @@ gulp.task('watch', function() {
 		proxy: pluginConfig.localURL
 	});
 
-	gulp.watch('./assets/sass/**/*.scss', ['cssnano']);
-	gulp.watch( './assets/js/ctct-plugin-admin/**/*.js', ['scripts']);
-	gulp.watch( './assets/js/ctct-plugin-frontend/**/*.js', ['scripts']);
+	gulp.watch('./assets/sass/**/*.scss', gulp.series('cssnano'));
+	gulp.watch( './assets/js/ctct-plugin-admin/**/*.js', gulp.series('scripts'));
+	gulp.watch( './assets/js/ctct-plugin-frontend/**/*.js', gulp.series('scripts'));
 	gulp.watch( './assets/sass/**/*.scss' ).on( 'change', browserSync.reload );
 	gulp.watch( './assets/js/ctct-plugin-admin.js' ).on( 'change', browserSync.reload );
 	gulp.watch( './assets/js/ctct-plugin-frontend/**/*.js' ).on( 'change', browserSync.reload );
@@ -159,6 +162,6 @@ gulp.task('watch', function() {
 /**
 * Create individual tasks.
 */
-gulp.task('js', ['scripts']);
-gulp.task('styles', ['cssnano']);
-gulp.task('default', ['styles', 'js']);
+gulp.task('js', gulp.series('scripts'));
+gulp.task('styles', gulp.series('cssnano'));
+gulp.task('default', gulp.parallel('styles', 'js'));
