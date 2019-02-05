@@ -77,11 +77,11 @@
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
 /******/
 /******/ 	// __webpack_public_path__
-/******/ 	__webpack_require__.p = "https://localhost:3000/wp-content/plugins/constant-contact-forms/assets/js/";
+/******/ 	__webpack_require__.p = "http://localhost:3000/wp-content/plugins/constant-contact-forms/assets/js/";
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 1);
+/******/ 	return __webpack_require__(__webpack_require__.s = 2);
 /******/ })
 /************************************************************************/
 /******/ ({
@@ -3296,7 +3296,7 @@ eval("var g;\n\n// This works in non-strict mode\ng = (function() {\n\treturn th
 
 /***/ }),
 
-/***/ 1:
+/***/ 2:
 /*!***********************************************************************!*\
   !*** multi @babel/polyfill ./assets/js/ctct-plugin-frontend/index.js ***!
   \***********************************************************************/
