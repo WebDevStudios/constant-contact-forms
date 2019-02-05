@@ -10,7 +10,7 @@ const host = isProduction ? pluginConfig.localURL : pluginConfig.watchURL;
 const config = {
 	mode: isProduction ? 'production' : 'development',
 	entry: {
-		'ctct-plugin-admin': [ '@babel/polyfill', './assets/js/ctct-plugin-admin/index.js' ],
+		'ctct-plugin-admin': [ './assets/js/ctct-plugin-admin/index.js' ],
 		'ctct-plugin-frontend': [ '@babel/polyfill', './assets/js/ctct-plugin-frontend/index.js' ]
 	},
 	output: {
