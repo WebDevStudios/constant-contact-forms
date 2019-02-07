@@ -1,18 +1,18 @@
 # Dev Notes
 
-## New Tooling Overview
+## Tooling Overview
 Since we want to add in support for Gutenberg,  webpack has been integrated into the workflow. It is now
-responsible for all JavaScript files. 
+responsible for transpiling and bundling all JavaScript files. You can also write `JSX` out of the box! 
 
 ## EntryPoints
 - `ctct-plugin-admin` - Contains all the original JavaScript for the admin area.
 - `ctct-plugin-admin` - Contains all original JavaScript for the frontend.
-- `ctct-plugin-gutenberg` - Contains all related Gutenberg JavaScript. Note that both this JS and the `admin` JS only
+- `ctct-plugin-gutenberg` - Contains all related Gutenberg JavaScript. Note that both the `gutenberg` and `admin` JS only
 load on new page/post pages in the admin.
 
 ## Getting Started
 1. Edit `plugin-config.js` to match your local environment.
-    - `localURl` - this should match your local development URL.
+    - `localURL` - this should match your local development URL.
     - `watchURL` - should either be `https://localhost:3000` or `http://localhost:3000` depending on whether you have
     SSL running or not.
     - `publicJS` - this is just the public JS path and should not need updated.
