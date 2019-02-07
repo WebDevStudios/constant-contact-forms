@@ -93,7 +93,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("console.log('hi from goots');//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9hc3NldHMvanMvY3RjdC1wbHVnaW4tZ3V0ZW5iZXJnL2luZGV4LmpzLmpzIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vYXNzZXRzL2pzL2N0Y3QtcGx1Z2luLWd1dGVuYmVyZy9pbmRleC5qcz9lMzYwIl0sInNvdXJjZXNDb250ZW50IjpbImNvbnNvbGUubG9nKCdoaSBmcm9tIGdvb3RzJyk7Il0sIm1hcHBpbmdzIjoiQUFBQSIsInNvdXJjZVJvb3QiOiIifQ==\n//# sourceURL=webpack-internal:///./assets/js/ctct-plugin-gutenberg/index.js\n");
+eval("// This is the entry point for Gutenberg JS.\n// Add JavaScript imports here.//# sourceURL=[module]\n//# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiLi9hc3NldHMvanMvY3RjdC1wbHVnaW4tZ3V0ZW5iZXJnL2luZGV4LmpzLmpzIiwic291cmNlcyI6WyJ3ZWJwYWNrOi8vLy4vYXNzZXRzL2pzL2N0Y3QtcGx1Z2luLWd1dGVuYmVyZy9pbmRleC5qcz9lMzYwIl0sInNvdXJjZXNDb250ZW50IjpbIi8vIFRoaXMgaXMgdGhlIGVudHJ5IHBvaW50IGZvciBHdXRlbmJlcmcgSlMuXG4vLyBBZGQgSmF2YVNjcmlwdCBpbXBvcnRzIGhlcmUuXG4iXSwibWFwcGluZ3MiOiJBQUFBO0FBQ0EiLCJzb3VyY2VSb290IjoiIn0=\n//# sourceURL=webpack-internal:///./assets/js/ctct-plugin-gutenberg/index.js\n");
 
 /***/ }),
 
