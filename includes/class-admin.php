@@ -444,7 +444,7 @@ class ConstantContact_Admin {
 		wp_register_script(
 			'ctct_gutenberg',
 			constant_contact()->url() . 'assets/js/ctct-plugin-gutenberg' . $suffix . '.js',
-			array( 'wp-blocks', 'wp-element' ),
+			array( 'wp-blocks', 'wp-element', 'wp-i18n' ),
 			Constant_Contact::VERSION,
 			true
 		);
