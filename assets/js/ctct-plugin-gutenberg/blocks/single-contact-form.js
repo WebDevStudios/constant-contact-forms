@@ -14,11 +14,5 @@ export default registerBlockType( 'constant-contact/single-contact-form', {
 			</div>
 		)
 	},
-	save: () => {
-		return (
-			<div>
-				<h1>{ __( 'Hello, from SAVE', 'constant-contact' ) }</h1>
-			</div>
-		)
-	}
+	save: () => null
 });
