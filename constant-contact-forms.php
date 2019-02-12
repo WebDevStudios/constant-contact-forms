@@ -337,6 +337,14 @@ class Constant_Contact {
 	private $shortcode_admin;
 
 	/**
+	 * An instance of the ConstantContact_Gutenberg class.
+	 *
+	 * @since 1.5.0
+	 * @var ConstantContact_Gutenberg
+	 */
+	private $gutenberg;
+
+	/**
 	 * License file.
 	 *
 	 * @since 1.0.1
@@ -438,6 +446,7 @@ class Constant_Contact {
 	public function admin_plugin_classes() {
 		$this->admin       = new ConstantContact_Admin( $this, $this->basename );
 		$this->admin_pages = new ConstantContact_Admin_Pages( $this );
+		$this->gutenberg   = new ConstantContact_Gutenberg( $this );
 	}
 
 	/**
