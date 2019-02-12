@@ -33,6 +33,30 @@ class ConstantContact_Gutenberg {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
+		$this->register_blocks();
+	}
+
+	/**
+	 * Register Gutenberg blocks.
+	 *
+	 * @author Eric Fuller
+	 * @since 1.5.0
+	 */
+	public function register_blocks() {
+		register_block_type( 'constant-contact/single-contact-form', array(
+			'render_callback' => array( $this, 'display_single_contact_form' ),
+		));
+	}
+
+	/**
+	 * Display the single contact form block.
+	 *
+	 * @author Eric Fuller
+	 * @since 1.5.0
+	 * @return string
+	 */
+	public function display_single_contact_form() {
+		return 'Hello from PHP Rendering';
 	}
 
 	/**
