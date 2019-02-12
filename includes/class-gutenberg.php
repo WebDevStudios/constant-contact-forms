@@ -44,6 +44,5 @@ class ConstantContact_Gutenberg {
 	 */
 	public function hooks() {
 		// Hooks go here.
-		echo('oh hay');
 	}
 }
