@@ -105,7 +105,7 @@ class ConstantContact_API {
 
 		// If we're not connectd, bail out.
 		if ( ! $this->is_connected() ) {
-			return array();
+			return [];
 		}
 
 		// Get our saved account info.
@@ -152,7 +152,7 @@ class ConstantContact_API {
 
 		// Verify we're connected.
 		if ( ! $this->is_connected() ) {
-			return array();
+			return [];
 		}
 
 		// First, check our saved transient for a value.
@@ -185,7 +185,7 @@ class ConstantContact_API {
 
 		// Verify we're connected.
 		if ( ! $this->is_connected() ) {
-			return array();
+			return [];
 		}
 
 		// First, check our saved transient for a value.
@@ -231,12 +231,12 @@ class ConstantContact_API {
 
 		// Sanity check that.
 		if ( ! $id ) {
-			return array();
+			return [];
 		}
 
 		// Verify we're connected.
 		if ( ! $this->is_connected() ) {
-			return array();
+			return [];
 		}
 
 		// First, check our saved transient for a value.
@@ -269,11 +269,11 @@ class ConstantContact_API {
 
 		// Bail out early if we don't have the data we need.
 		if ( empty( $new_list ) || ! isset( $new_list['id'] ) ) {
-			return array();
+			return [];
 		}
 
 		// Set our return list to empty array.
-		$return_list = array();
+		$return_list = [];
 
 		try {
 			// Try to get the list from the API.
@@ -366,7 +366,7 @@ class ConstantContact_API {
 	public function delete_list( $updated_list = array() ) {
 
 		if ( ! isset( $updated_list['id'] ) ) {
-			return array();
+			return [];
 		}
 
 		$list = false;
@@ -395,12 +395,12 @@ class ConstantContact_API {
 
 		// Make sure we're passed a full set of data.
 		if ( empty( $new_contact ) ) {
-			return array();
+			return [];
 		}
 
 		// If we don't get an email, it does us no good.
 		if ( ! isset( $new_contact['email'] ) ) {
-			return array();
+			return [];
 		}
 
 		$api_token = $this->get_api_token();
@@ -413,15 +413,15 @@ class ConstantContact_API {
 
 		try {
 	        // Check to see if a contact with the email address already exists in the account.
-	        $response = $this->cc()->contactService->getContacts( $api_token, array( 'email' => $email ) );
+	        $response = $this->cc()->contactService->getContacts( $api_token, [ 'email' => $email ] );
 
 	        if ( isset( $response->results ) && ! empty( $response->results ) ) {
-				constant_contact_maybe_log_it( 'API', 'Contact set to be updated', array( 'form' => get_the_title( $form_id ) ) );
+				constant_contact_maybe_log_it( 'API', 'Contact set to be updated', [ 'form' => get_the_title( $form_id ) ] );
 				// Update the existing contact if address already existed.
 				$return_contact = $this->_update_contact( $response, $api_token, $list, $new_contact, $form_id );
 
 	        } else {
-				constant_contact_maybe_log_it( 'API', 'Contact set to be created', array( 'form' => get_the_title( $form_id ) ) );
+				constant_contact_maybe_log_it( 'API', 'Contact set to be created', [ 'form' => get_the_title( $form_id ) ] );
 				// Create a new contact if one does not exist.
 				$return_contact = $this->_create_contact( $api_token, $list, $email, $new_contact, $form_id );
 	        }
@@ -470,7 +470,7 @@ class ConstantContact_API {
 		return $this->cc()->contactService->addContact(
 			$api_token,
 			$contact,
-			array( 'action_by' => 'ACTION_BY_VISITOR' )
+			[ 'action_by' => 'ACTION_BY_VISITOR' ]
 		);
 
 	}
@@ -515,15 +515,15 @@ class ConstantContact_API {
 		    /*
 		     * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
 		     */
-		    return $this->cc()->contactService->updateContact(
-		    	$api_token,
-		    	$contact,
-		    	array( 'action_by' => 'ACTION_BY_VISITOR' )
-		    );
+			return $this->cc()->contactService->updateContact(
+				$api_token,
+				$contact,
+				[ 'action_by' => 'ACTION_BY_VISITOR' ]
+			);
 		} else {
-		    $error = new CtctException();
-		    $error->setErrors( array( 'type', __( 'Contact type not returned', 'constant-contact-forms' ) ) );
-		    throw $error;
+			$error = new CtctException();
+			$error->setErrors( [ 'type', __( 'Contact type not returned', 'constant-contact-forms' ) ] );
+			throw $error;
 		}
 	}
 
@@ -590,7 +590,6 @@ class ConstantContact_API {
 				case 'city_address':
 				case 'state_address':
 				case 'zip_address':
-
 					// Set our global address so we can append more data.
 					if ( is_null( $address ) ) {
 						$address = new Ctct\Components\Contacts\Address();
@@ -776,6 +775,7 @@ class ConstantContact_API {
 	 * Helper method to output a link for our connect modal.
 	 *
 	 * @since 1.0.0
+	 * @return string Connect URL.
 	 */
 	public function get_connect_link() {
 
@@ -795,6 +795,8 @@ class ConstantContact_API {
 	 * Helper method to output a link for our connect modal.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return string Signup URL.
 	 */
 	public function get_signup_link() {
 
@@ -816,33 +818,35 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 *
 	 * @param bool $as_parts If true return an array.
-	 * array (
-	 *     [name] => Business Name
-	 *     [address] => 555 Business Place Ln., Beverly Hills, CA, 90210
-	 * )
 	 * @return mixed
 	 */
 	public function get_disclosure_info( $as_parts = false ) {
+		/*
+		 * array (
+		 *     [name] => Business Name
+		 *     [address] => 555 Business Place Ln., Beverly Hills, CA, 90210
+		 * )
+		 */
 
 		// These fields are used to try and buld the full address.
-		static $address_fields = array( 'line1', 'city', 'state_code', 'postal_code' );
+		static $address_fields = [ 'line1', 'city', 'state_code', 'postal_code' ];
 
 		// Grab disclosure info from the API.
 		$account_info = $this->get_account_info();
 
 		// Bail on empty.
 		if ( empty( $account_info ) ) {
-			return $as_parts ? array() : '';
+			return $as_parts ? [] : '';
 		}
 
-		$disclosure = array(
+		$disclosure = [
 			'name'    => empty( $account_info->organization_name ) ? ctct_get_settings_option( '_ctct_disclose_name', '' ) : $account_info->organization_name,
 			'address' => ctct_get_settings_option( '_ctct_disclose_address', '' ),
-		);
+		];
 
 		// Bail if we don't have a name.
 		if ( empty( $disclosure['name'] ) ) {
-			return $as_parts ? array() : '';
+			return $as_parts ? [] : '';
 		}
 
 		// Determine the address to use for disclosure from the API.
@@ -852,7 +856,7 @@ class ConstantContact_API {
 		) {
 			// Assume the first address.
 			$organization_address = array_shift( $account_info->organization_addresses );
-			$disclosure_address   = array();
+			$disclosure_address   = [];
 
 			// Add in our disclouse address.
 			if ( is_array( $address_fields ) ) {
