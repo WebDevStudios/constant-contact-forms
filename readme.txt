@@ -2,8 +2,8 @@
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
-Tested up to:      5.0.2
-Stable tag:        1.4.4
+Tested up to:      5.0.3
+Stable tag:        1.4.5
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.4
