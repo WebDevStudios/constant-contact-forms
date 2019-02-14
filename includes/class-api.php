@@ -556,7 +556,10 @@ class ConstantContact_API {
 		$address  = null;
 		$count = 1;
 		$textareas = 0;
-		$contact->notes = array();
+		if ( ! $updated ) {
+			// Only initiate an empty array if we are not updating.
+			$contact->notes = [];
+		}
 
 		// Loop through each of our values and set it as a property.
 		foreach ( $user_data as $original => $value ) {
