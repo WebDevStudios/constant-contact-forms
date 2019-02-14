@@ -35,6 +35,9 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.4.5 =
+* Fixed: Conflicts with custom textareas and notes inside of Constant Contact account when updating an existing contact.
+
 = 1.4.4 =
 * Fixed: Hardened reCAPTCHA and form processing from possible AJAX bypass.
 
