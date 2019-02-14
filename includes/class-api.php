@@ -658,13 +658,17 @@ class ConstantContact_API {
 					if ( $textareas > 1 ) {
 						break;
 					}
-					$unique_id = explode( '___', $original );
-					$contact->notes[] = array(
-						'created_date'  => date( 'Y-m-d\TH:i:s' ),
-						'id'            => $unique_id[1],
-						'modified_date' => date( 'Y-m-d\TH:i:s' ),
-						'note'          => $value,
-					);
+					if ( ! $updated ) {
+						$unique_id        = explode( '___', $original );
+						$contact->notes[] = [
+							'created_date'  => date( 'Y-m-d\TH:i:s' ),
+							'id'            => $unique_id[1],
+							'modified_date' => date( 'Y-m-d\TH:i:s' ),
+							'note'          => $value,
+						];
+					} else {
+						$contact->notes[0]->note = $value;
+					}
 					break;
 				default:
 					// If we got here, try to map our field to the key.
