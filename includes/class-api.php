@@ -546,7 +546,7 @@ class ConstantContact_API {
 		// First, verify we have what we need.
 		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
 			$error = new CtctException();
-			$error->setErrors( array( 'type', esc_html__( 'Not a valid contact to set properties to.', 'constant-contact-forms' ) ) );
+			$error->setErrors( [ 'type', esc_html__( 'Not a valid contact to set properties to.', 'constant-contact-forms' ) ] );
 			throw $error;
 		}
 
@@ -639,10 +639,10 @@ class ConstantContact_API {
 					$custom = new Ctct\Components\Contacts\CustomField();
 
 					// Create, name it the way the API needs.
-					$custom = $custom->create( array(
+					$custom = $custom->create( [
 							'name' => 'CustomField' . $count,
 							'value' => $custom_field_name . $value,
-					) );
+					] );
 
 					// Attach it.
 					$contact->addCustomField( $custom );
