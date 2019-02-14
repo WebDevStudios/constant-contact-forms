@@ -459,7 +459,7 @@ class ConstantContact_API {
 
 		// Map the rest of our properties to.
 		try {
-			$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
+			$contact = $this->set_contact_properties( $contact, $user_data, $form_id, false );
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
 		}
@@ -507,7 +507,7 @@ class ConstantContact_API {
 
 			// Set the rest of our properties.
 			try {
-				$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
+				$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
 			} catch ( CtctException $ex ) {
 				$this->log_errors( $ex->getErrors() );
 			}
@@ -533,14 +533,16 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 * @since 1.3.0 Added $form_id parameter.
+	 * @since 1.4.5 Added $updated paramater.
 	 *
 	 * @param object $contact   Contact object.
 	 * @param array  $user_data Bunch of user data.
 	 * @param string $form_id   Form ID being processed.
+	 * @param bool   $updated   Whether or not we are updating a contact. Default false.
 	 * @throws CtctException $error An exception error.
 	 * @return object Contact object, with new properties.
 	 */
-	public function set_contact_properties( $contact, $user_data, $form_id ) {
+	public function set_contact_properties( $contact, $user_data, $form_id, $updated = false ) {
 		// First, verify we have what we need.
 		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
 			$error = new CtctException();
