@@ -551,6 +551,11 @@ class Constant_Contact {
 			}
 			// Set up our base WDS_Shortcodes class.
 			$this->shortcode = new ConstantContact_Shortcode();
+			$this->shortcode->hooks();
+			$this->shortcode->atts_defaults = [
+				'form'       => '0',
+				'show_title' => 'false',
+			];
 
 			// Set our custom shortcode with correct version and data.
 			$this->shortcode_admin = new ConstantContact_Shortcode_Admin(
