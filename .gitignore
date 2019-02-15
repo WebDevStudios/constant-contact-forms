@@ -13,15 +13,14 @@
 Network Trash Folder
 Temporary Items
 .apdisk
-docs
+/docs
 
 
 # Logs
-logs
+/logs
 *.log
 
-node_modules
-node_modules/**
+/node_modules/
 build
 lib
 
@@ -33,4 +32,4 @@ lib
 
 *.swp
 
-/vendor
+/vendor/
