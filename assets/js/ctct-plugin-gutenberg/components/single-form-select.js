@@ -28,7 +28,6 @@ class SingleFormSelect extends Component {
 
 	render() {
 		let { selectedForm } = this.props.attributes;
-		selectedForm = undefined !== selectedForm ? selectedForm : __( 'Select a form' );
 
 		return <SelectControl
 				value={ selectedForm }
