@@ -13,10 +13,14 @@ class SingleFormSelect extends Component {
 	}
 
 	async componentDidMount() {
-		const results = await apiFetch( { path: '/wp-json/wp/v2/ctct_forms' } );
 
-		const forms = results.map( result => ( { label: result.title.rendered, value: result.id } ) );
-		this.setState({ forms })
+		try {
+			const results = await apiFetch( { path: '/wp-json/wp/v2/ctct_forms' } );
+			const forms = results.map( result => ( { label: result.title.rendered, value: result.id } ) );
+			this.setState( { forms } );
+		} catch ( e ) {
+			console.error('ERROR', e.message );
+		}
 	}
 
 	render() {
