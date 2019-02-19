@@ -44,6 +44,11 @@ class ConstantContact_Gutenberg {
 	 */
 	public function register_blocks() {
 		register_block_type( 'constant-contact/single-contact-form', array(
+			'attributes'      => array(
+				'selectedForm' => array(
+					'type' => 'number',
+				),
+			),
 			'render_callback' => array( $this, 'display_single_contact_form' ),
 		));
 	}
@@ -53,10 +58,18 @@ class ConstantContact_Gutenberg {
 	 *
 	 * @author Eric Fuller
 	 * @since 1.5.0
+	 *
+	 * @param array $attributes The block attributes.
 	 * @return string
 	 */
-	public function display_single_contact_form() {
-		return 'Hello from PHP Rendering';
+	public function display_single_contact_form( $attributes ) {
+		if ( empty( $attributes['selectedForm'] ) ) {
+			return '';
+		}
+
+		ob_start();
+		echo constant_contact_get_form( absint( $attributes['selectedForm'] ) ); // WPCS: XSS OK.
+		return ob_get_clean();
 	}
 
 	/**
