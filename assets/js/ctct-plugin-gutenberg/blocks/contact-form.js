@@ -3,16 +3,17 @@ const {
 	registerBlockType,
 } = wp.blocks;
 
+import SingleFormSelect from '../components/single-form-select';
+
 export default registerBlockType( 'constant-contact/single-contact-form', {
 	title: __( 'Constant Contact: Single Form', 'constant-contact' ),
 	icon: 'index-card',
 	category: 'layout',
-	edit: () => {
-		return (
-			<div>
-				<h1>{ __( 'Hello, from EDIT', 'constant-contact' ) }</h1>
-			</div>
-		)
+	attributes: {
+		selectedForm: {
+			type: 'string',
+		}
 	},
+	edit: SingleFormSelect,
 	save: () => null
 });
