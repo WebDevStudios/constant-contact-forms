@@ -19,7 +19,7 @@ class SingleFormSelect extends Component {
 			const forms = results.map( result => ( { label: result.title.rendered, value: result.id } ) );
 			this.setState( { forms } );
 		} catch ( e ) {
-			console.error('ERROR', e.message );
+			console.error('ERROR: ', e.message );
 		}
 	}
 
