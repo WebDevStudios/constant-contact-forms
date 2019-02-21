@@ -732,13 +732,14 @@ class Constant_Contact {
 	 * @return string License text.
 	 */
 	public function get_license_text() {
-		$license = $this->dir( self::LICENSE_FILE );
+		$license = $this->url( self::LICENSE_FILE );
+		$license_content = wp_remote_get( $license );
 
-		if ( ! is_readable( $license ) ) {
-			return __( 'Error loading license.', 'constant-contact-forms' );
+		if ( 200 === wp_remote_retrieve_response_code( $license_content ) ) {
+			return wp_remote_retrieve_body( $license_content );
 		}
 
-		return file_get_contents( $license );
+		return __( 'Error loading license.', 'constant-contact-forms' );
 	}
 
 	/**
