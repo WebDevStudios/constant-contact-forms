@@ -770,7 +770,13 @@ class ConstantContact_Display {
 	 * @return string HTML markup.
 	 */
 	public function message( $type, $message ) {
-		return '<p class="ctct-message ' . esc_attr( $type ) . '">' . esc_attr( $message ) . '</p>';
+		$role = ( 'error' === $type ) ? ' role="alert"' : '';
+		return sprintf(
+			'<p class="ctct-message %s"%s>%s</p>',
+			esc_attr( $type ),
+			$role,
+			esc_html( $message )
+		);
 	}
 
 	/**
