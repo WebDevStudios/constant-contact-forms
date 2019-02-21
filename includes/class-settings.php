@@ -251,7 +251,7 @@ class ConstantContact_Settings {
 			'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
 			'id'   => '_ctct_data_tracking',
 			'type' => 'checkbox',
-			'desc' => __( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.constantcontact.com/legal/privacy-statement"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
+			'desc' => __( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.endurance.com/privacy"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
 		) );
 
 		// Only show our settings page if we're connected to CC.
