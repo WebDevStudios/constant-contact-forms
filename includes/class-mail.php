@@ -15,6 +15,8 @@ use Monolog\Handler\StreamHandler;
 
 /**
  * Wrapper functions for mailing successful contact forms to the user.
+ *
+ * @since 1.0.0
  */
 class ConstantContact_Mail {
 
@@ -96,12 +98,12 @@ class ConstantContact_Mail {
 
 		// Format them.
 		$email_values = $this->format_values_for_email( $values, $submission_details['form_id'] );
-		$was_forced = false; // Set a value regardless of status.
+		$was_forced   = false; // Set a value regardless of status.
 
 		// Increment our counter for processed form entries.
 		constant_contact()->process_form->increment_processed_form_count();
 
-		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in
+		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in.
 		if ( constant_contact()->api->is_connected() && constant_contact_emails_disabled( $submission_details['form_id'] ) ) {
 			if ( $add_to_opt_in ) {
 				return true;
@@ -116,7 +118,7 @@ class ConstantContact_Mail {
 		// like having a list, but not needing to opt in.
 		$has_list = get_post_meta( $submission_details['form_id'], '_ctct_list', true );
 
-		// Checks if we have a list
+		// Checks if we have a list.
 		if (
 			( ! constant_contact()->api->is_connected() || empty( $has_list ) ) &&
 			( constant_contact_emails_disabled( $submission_details['form_id'] ) )
@@ -206,7 +208,7 @@ class ConstantContact_Mail {
 
 			$custom_field_name = '';
 			if ( false !== strpos( $label, 'custom___' ) ) {
-				$custom_field = ( $original_field_data[ $val['orig_key'] ] );
+				$custom_field       = ( $original_field_data[ $val['orig_key'] ] );
 				$custom_field_name .= $custom_field['name'];
 			}
 
@@ -289,7 +291,7 @@ class ConstantContact_Mail {
 			$partial_email = implode( ',', $partial_email );
 		} else {
 			if ( false !== strpos( $destination_email, ',' ) ) {
-				// Use trim to handle cases of ", "
+				// Use trim to handle cases of ", ".
 				$partials = array_map( 'trim', explode( ',', $destination_email ) );
 				// Collect our parts and re-implode.
 				$partial_email = array_map( array( $this, 'get_email_part' ), $partials );
@@ -321,9 +323,9 @@ class ConstantContact_Mail {
 			$destination_email = implode( ',', $destination_email );
 		} else {
 			if ( false !== strpos( $destination_email, ',' ) ) {
-				// Use trim to handle cases of ", "
-				$partials = array_map( 'trim', explode( ',', $destination_email ) );
-				$partials = array_map( 'sanitize_email', $partials );
+				// Use trim to handle cases of ", ".
+				$partials          = array_map( 'trim', explode( ',', $destination_email ) );
+				$partials          = array_map( 'sanitize_email', $partials );
 				$destination_email = implode( ',', $partials );
 			} else {
 				$destination_email = sanitize_email( $destination_email );
@@ -333,20 +335,21 @@ class ConstantContact_Mail {
 		// Filter to allow sending HTML for our message body.
 		add_filter( 'wp_mail_content_type', array( $this, 'set_email_type' ) );
 
-		$content_notice_note = $this->maybe_append_forced_email_notice_note( $was_forced );
+		$content_notice_note    = $this->maybe_append_forced_email_notice_note( $was_forced );
 		$content_notice_reasons = $this->maybe_append_forced_email_notice_reasons( $was_forced, $submission_details );
 
 		$content_before = esc_html__( 'Your Constant Contact Forms plugin has captured new information.', 'constant-contact-forms' );
 
 		$content_before = $content_notice_note . $content_before . $content_notice_reasons;
 
-		$content_title = '<p><strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
+		$content_title  = '<p><strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
 		$content_title .= '<strong>' . esc_html__( 'Form information: ', 'constant-contact-forms' ) . '</strong></p>';
 
 		$content = $content_title . $content;
 
 
 		$content_after = sprintf(
+			/* Translators: placeholders provide Constant Contact link information. */
 			esc_html__( "Email marketing is a great way to stay connected and engage with visitors after they've left your site. Visit %shttps://www.constantcontact.com/index?pn=miwordpress%s to sign up for a Free Trial.", 'constant-contact-forms' ),
 				'<a href="https://www.constantcontact.com/index?pn=miwordpress">',
 				'</a>'
@@ -415,6 +418,8 @@ class ConstantContact_Mail {
 	 * Helper method to return 'text/html' string for actions.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return string
 	 */
 	public function set_email_type() {
 		return 'text/html';
@@ -428,7 +433,6 @@ class ConstantContact_Mail {
 	 * @param string $status     Status from wp_mail.
 	 * @param string $dest_email Destination email.
 	 * @param string $content    Content of email.
-	 * @return void
 	 */
 	public function maybe_log_mail_status( $status, $dest_email, $content ) {
 
@@ -462,7 +466,7 @@ class ConstantContact_Mail {
 	 *
 	 * @since 1.3.6
 	 *
-	 * @param  bool   $was_forced Whether or not we have to force send an email.
+	 * @param  bool $was_forced Whether or not we have to force send an email.
 	 * @return string $value      Message to explain why an email was received.
 	 */
 	public function maybe_append_forced_email_notice_note( $was_forced = false ) {
@@ -472,6 +476,7 @@ class ConstantContact_Mail {
 		}
 
 		return sprintf(
+			/* Translators: placeholders simply meant for `<strong>` html tags */
 			'<p>' . esc_html__( '%sNote:%s You have disabled admin email notifications under the plugin settings, but are receiving this email because of the following reason.', 'constant-contact-forms' ) . '</p>',
 			'<strong>*',
 			'</strong>'
@@ -495,7 +500,7 @@ class ConstantContact_Mail {
 		}
 
 		$content_notice = '';
-		$template = '<p><strong>' . esc_html__( 'Submitted to Constant Contact:', 'constant-contact-forms' ) . '</strong> %s</p>';
+		$template       = '<p><strong>' . esc_html__( 'Submitted to Constant Contact:', 'constant-contact-forms' ) . '</strong> %s</p>';
 
 		if ( isset( $submission_details['list-available'] ) || isset( $submission_details['opted-in'] ) ) {
 			if ( isset( $submission_details['list-available'] ) && 'no' === $submission_details['list-available'] ) {
@@ -508,7 +513,6 @@ class ConstantContact_Mail {
 				$content_notice .= sprintf(
 					$template,
 					esc_html__( 'NO (User did not select the Email Opt-in checkbox)', 'constant-contact-forms' ) . '<br/>' . esc_html__( "You can disable this under Form options. Email Opt-in isn't required to add subscribers into your account", 'constant-contact-forms' )
-
 				);
 			}
 		}

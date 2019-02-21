@@ -64,7 +64,7 @@ class ConstantContact_User_Customizations {
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param string $url     Current URI to redirect user to on form submission
+	 * @param string $url     Current URI to redirect user to on form submission.
 	 * @param int    $form_id Form ID.
 	 * @return mixed
 	 */
@@ -82,11 +82,12 @@ class ConstantContact_User_Customizations {
 	 *
 	 * @since 1.4.0
 	 *
-	 * @param $form_id
+	 * @param string     $destination_email Current set destination email.
+	 * @param string|int $form_id           ID of the form we're checking.
 	 * @return mixed|string
 	 */
 	public function custom_email( $destination_email, $form_id ) {
-		$custom_email = get_post_meta( $form_id, '_ctct_email_destination', true );
+		$custom_email = get_post_meta( $form_id, '_ctct_email_settings', true );
 
 		if ( empty( $custom_email ) ) {
 			return $destination_email;
@@ -94,7 +95,7 @@ class ConstantContact_User_Customizations {
 
 		// @todo Potentially using this type of code in many places in 1.4.0. Worthy of a helper function.
 		if ( false !== strpos( $custom_email, ',' ) ) {
-			// Use trim to handle cases of ", "
+			// Use trim to handle cases of ", ".
 			$partials     = array_map( 'trim', explode( ',', $custom_email ) );
 			$partials     = array_map( 'sanitize_email', $partials );
 			$custom_email = implode( ',', $partials );

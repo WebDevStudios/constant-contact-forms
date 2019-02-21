@@ -275,6 +275,7 @@ class ConstantContact_Display {
 		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$form_classes   = 'ctct-form ctct-form-' . $form_id;
+		$form_classes  .= ( $this->plugin->settings->has_recaptcha() ) ? ' has-recaptcha' : ' no-recaptcha';
 		$form_classes  .= $this->build_custom_form_classes();
 
 		$form_styles = '';
@@ -510,9 +511,13 @@ class ConstantContact_Display {
 
 		$return = '';
 
+		$return .= '<script>function ctctEnableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", false ); }function ctctDisableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", "disabled" ); }
+</script>';
 		$return .= sprintf(
-			'<div class="g-recaptcha" data-sitekey="%s"></div><script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=%s"></script>',
+			'<div class="g-recaptcha" data-sitekey="%s" data-callback="%s" data-expired-callback="%s"></div><script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=%s"></script>',
 			esc_attr( $site_key ),
+			'ctctEnableBtn',
+			'ctctDisableBtn',
 			esc_attr( $recaptcha_lang )
 		);
 
@@ -591,7 +596,9 @@ class ConstantContact_Display {
 		// We may have more than one of the same field in our array.
 		// this makes sure we keep them unique when processing them.
 		if ( 'submit' !== $type ) {
-			$map = $map . '___' . md5( serialize( $field ) );
+			$temp_field = $field;
+			unset( $temp_field['field_custom_css'] );
+			$map = $map . '___' . md5( serialize( $temp_field ) );
 		}
 
 		// Default error status.
