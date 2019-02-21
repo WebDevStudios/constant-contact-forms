@@ -633,7 +633,7 @@ class ConstantContact_Builder_Fields {
 			'name'    => __( 'Field Label', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'field_label',
 			'type'    => 'text',
-			'default' => __( 'Email', 'constant-contact-forms' ),
+			'default' => '',
 		) );
 
 		// Add our field description.
