@@ -366,22 +366,23 @@ class ConstantContact_Builder_Fields {
 			),
 		) );
 
-		$custom_css_metabox->add_field( array(
+		$custom_css_metabox->add_field( [
 			'name'             => __( 'Label Placement', 'constant-contact-forms' ),
 			'id'               => $this->prefix . 'form_label_placement',
 			'type'             => 'select',
-			'show_option_none' => 'Global',
-			'options'          => array(
-				'top'    => 'Top',
-				'left'   => 'Left',
-				'bottom' => 'Bottom',
-				'right'  => 'Right',
-			),
+			'show_option_none' => esc_html__( 'Global', 'constant-contact-forms' ),
+			'options'          => [
+				'top'    => esc_html__( 'Top', 'constant-contact-forms' ),
+				'left'   => esc_html__( 'Left', 'constant-contact-forms' ),
+				'bottom' => esc_html__( 'Bottom', 'constant-contact-forms' ),
+				'right'  => esc_html__( 'Right', 'constant-contact-forms' ),
+				'hidden' => esc_html__( 'Hidden', 'constant-contact-forms' ),
+			],
 			'description'      => esc_html__(
 				'Set the position for labels for inputs.',
 				'constant-contact-forms'
 			),
-		) );
+		] );
 	}
 
 	/**
