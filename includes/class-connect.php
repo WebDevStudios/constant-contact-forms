@@ -318,6 +318,8 @@ class ConstantContact_Connect {
 				unset( $saved_options['_ctct_disable_email_notifications'] );
 				update_option( 'ctct_options_settings', $saved_options );
 			}
+		} else {
+			constant_contact_maybe_log_it( 'Nonces', 'Account disconnection nonce failed to verify.' );
 		}
 		return true;
 	}

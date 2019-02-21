@@ -552,6 +552,7 @@ class ConstantContact_Settings {
 
 		// Check our nonce.
 		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ct_ct_optin'] ) ), 'ct_ct_add_to_optin' ) ) { // Input var okay.
+			constant_contact_maybe_log_it( 'Nonces', 'process_optin_comment_form() nonce failed to verify.' );
 			return $comment_data;
 		}
 
@@ -639,6 +640,7 @@ class ConstantContact_Settings {
 
 		// Check our nonce.
 		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ct_ct_optin'] ) ), 'ct_ct_add_to_optin' ) ) { // Input var okay.
+			constant_contact_maybe_log_it( 'Nonces', 'process_optin_login_form() nonce failed to verify.' );
 			return $user;
 		}
 
