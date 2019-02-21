@@ -297,7 +297,7 @@ class ConstantContact_Process_Form {
 			'ctct_usage_field',
 			'g-recaptcha-response',
 			'ctct_must_opt_in',
-		) );
+		), $orig_form_id );
 
 		// If the submit button is clicked, send the email.
 		foreach ( $data as $key => $value ) {
