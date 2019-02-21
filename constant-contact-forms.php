@@ -444,6 +444,8 @@ class Constant_Contact {
 	 * Add hooks and filters.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return null
 	 */
 	public function hooks() {
 
@@ -571,6 +573,8 @@ class Constant_Contact {
 	 * Load includes.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return null
 	 */
 	public function includes() {
 
