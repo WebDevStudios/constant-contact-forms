@@ -14,6 +14,8 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 	 * Extends WDS_Shortcodes to easily build up our shortcode.
 	 *
 	 * Sets up shortcode
+	 *
+	 * @since 1.0.0
 	 */
 	class ConstantContact_Shortcode extends WDS_Shortcodes {
 
@@ -66,4 +68,4 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			return $current_value;
 		}
 	}
-} // End if().
+}

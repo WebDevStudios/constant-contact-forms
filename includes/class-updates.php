@@ -39,8 +39,6 @@ class ConstantContact_Updates {
 	 * Initiate our hooks.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return void
 	 */
 	public function hooks() {
 
@@ -60,7 +58,7 @@ class ConstantContact_Updates {
 
 		// Grab what our current version in the DB is saved as.
 		$installed = get_option( 'ctct_plugin_version', '0.0.0' );
-		$current = esc_attr( $this->plugin->version );
+		$current   = esc_attr( $this->plugin->version );
 
 		if ( ! version_compare( $current, $installed, '<' ) ) {
 
@@ -70,7 +68,7 @@ class ConstantContact_Updates {
 			// Convert our installed / current version to something we can use
 			// in a function name.
 			$installed = sanitize_title( str_replace( '.', '_', $installed ) );
-			$current = sanitize_title( str_replace( '.', '_', $current ) );
+			$current   = sanitize_title( str_replace( '.', '_', $current ) );
 
 			// Build up an update method function to call if we need it
 			// this will create something like: run_update_v0_0_0_to_v1_0_1
