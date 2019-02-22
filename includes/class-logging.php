@@ -149,7 +149,7 @@ class ConstantContact_Logging {
 			$connect_title,
 			'manage_options',
 			$this->key,
-			array( $this, 'admin_page_display' )
+			[ $this, 'admin_page_display' ]
 		);
 	}
 
