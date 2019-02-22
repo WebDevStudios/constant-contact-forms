@@ -93,10 +93,11 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 */
 	public function hooks() {
-		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
-		add_action( 'admin_init', array( $this, 'delete_log_file' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
-		add_action( 'admin_footer', array( $this, 'dialog' ) );
+		add_action( 'admin_menu', [ $this, 'add_options_page' ] );
+		add_action( 'admin_init', [ $this, 'delete_log_file' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
+		add_action( 'admin_footer', [ $this, 'dialog' ] );
+		add_action( 'admin_init', [ $this, 'set_file_system' ] );
 	}
 
 	/**
