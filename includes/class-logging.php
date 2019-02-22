@@ -176,7 +176,7 @@ class ConstantContact_Logging {
 			<div class="ctct-body">
 				<?php
 				$contents     = '';
-				$log_location = '#';
+				$log_location = $this->log_location_url;
 
 				if ( ! file_exists( constant_contact()->logger_location ) ) {
 
@@ -196,21 +196,7 @@ class ConstantContact_Logging {
 						constant_contact()->logger_location
 					);
 				} else {
-					// logger location from primary class is server path and not URL path. Thus we go this route for moment.
-					$log_location = content_url() . '/ctct-logs/constant-contact-errors.log';
-					$log_content  = wp_remote_get( $log_location );
-					if ( is_wp_error( $log_content ) ) {
-						$contents .= sprintf(
-							// translators: placeholder wil have error message.
-							esc_html__(
-								'Log display error: %s',
-								'constant-contact-forms'
-							),
-							$log_content->get_error_message()
-						);
-					} else {
-						$contents .= wp_remote_retrieve_body( $log_content );
-					}
+					$contents .= $this->get_log_contents();
 				}
 				?>
 				<p><?php esc_html_e( 'Error log below can be used with support requests to help identify issues with Constant Contact Forms.', 'constant-contact-forms' ); ?></p>
@@ -274,7 +260,7 @@ class ConstantContact_Logging {
 
 		check_admin_referer( 'ctct_delete_log', 'ctct_delete_log' );
 
-		$log_file = constant_contact()->logger_location;
+		$log_file = $this->log_location_dir;
 		if ( file_exists( $log_file ) ) {
 			unlink( $log_file );
 		}
