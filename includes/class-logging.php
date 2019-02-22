@@ -48,6 +48,30 @@ class ConstantContact_Logging {
 	public $options_page = '';
 
 	/**
+	 * Log location, URL path.
+	 *
+	 * @since 1.4.5
+	 * @var string
+	 */
+	protected $log_location_url = '';
+
+	/**
+	 * Log location, server path.
+	 *
+	 * @since 1.4.5
+	 * @var string
+	 */
+	protected $log_location_dir = '';
+
+	/**
+	 * WP_Filesystem
+	 *
+	 * @since 1.4.5
+	 * @var null
+	 */
+	protected $file_system = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.3.7
@@ -57,6 +81,9 @@ class ConstantContact_Logging {
 	public function __construct( $plugin ) {
 		$this->plugin      = $plugin;
 		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
+		$this->log_location_url = content_url() . '/ctct-logs/constant-contact-errors.log';
+		$this->log_location_dir = WP_CONTENT_DIR . '/ctct-logs/constant-contact-errors.log';
+
 		$this->hooks();
 	}
 
@@ -123,6 +150,12 @@ class ConstantContact_Logging {
 			$this->key,
 			array( $this, 'admin_page_display' )
 		);
+	}
+
+	public function set_file_system() {
+		global $wp_filesystem;
+		WP_Filesystem();
+		$this->file_system = $wp_filesystem;
 	}
 
 	/**
