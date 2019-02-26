@@ -34,7 +34,6 @@ class ConstantContact_Gutenberg {
 		$this->plugin = $plugin;
 
 		if ( $this->meets_requirements() ) {
-			$this->hooks();
 			$this->register_blocks();
 		}
 	}
@@ -87,16 +86,5 @@ class ConstantContact_Gutenberg {
 		ob_start();
 		echo constant_contact_get_form( absint( $attributes['selectedForm'] ) ); // WPCS: XSS OK.
 		return ob_get_clean();
-	}
-
-	/**
-	 * Initiate our hooks.
-	 *
-	 * @since 1.5.0
-	 *
-	 * @return void
-	 */
-	public function hooks() {
-		// Hooks go here.
 	}
 }
