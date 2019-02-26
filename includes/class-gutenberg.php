@@ -32,8 +32,25 @@ class ConstantContact_Gutenberg {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->hooks();
-		$this->register_blocks();
+
+		if ( $this->meets_requirements() ) {
+			$this->hooks();
+			$this->register_blocks();
+		}
+	}
+
+	/**
+	 * Check requirements.
+	 *
+	 * @author Eric Fuller
+	 * @since  1.5.0
+	 * @return bool
+	 */
+	private function meets_requirements() {
+		global $wp_version;
+
+		// Gutenberg is part of core as of WP Version 5.0.
+		return version_compare( $wp_version, '5.0' ) >= 0;
 	}
 
 	/**
