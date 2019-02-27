@@ -2,7 +2,7 @@
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 4.0.0
-Tested up to:      5.0.3
+Tested up to:      5.1.0
 Stable tag:        1.4.5
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -37,6 +37,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 = 1.4.5 =
 * Fixed: Conflicts with custom textareas and notes inside of Constant Contact account when updating an existing contact.
+* Fixed: Potential issues around reading Constant Contact Forms error logs when log file is potentially not readable.
 
 = 1.4.4 =
 * Fixed: Hardened reCAPTCHA and form processing from possible AJAX bypass.
