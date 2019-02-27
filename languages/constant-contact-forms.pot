@@ -3,14 +3,14 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2018-11-20 09:30-0600\n"
+"POT-Creation-Date: 2019-02-27 13:25-0600\n"
 "PO-Revision-Date: 2017-01-12 14:46-0600\n"
 "Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
 "Language-Team: Constant Contact\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.2\n"
+"X-Generator: Poedit 2.2.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: constant-contact-forms.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -318,11 +318,11 @@ msgstr ""
 msgid "Contact type not returned"
 msgstr ""
 
-#: includes/class-api.php:547
+#: includes/class-api.php:549
 msgid "Not a valid contact to set properties to."
 msgstr ""
 
-#: includes/class-api.php:727
+#: includes/class-api.php:735
 msgid ""
 "Your API access token is invalid. Reconnect to Constant Contact to receive a "
 "new token."
@@ -841,7 +841,7 @@ msgstr ""
 msgid "Are you sure you want to disconnect?"
 msgstr ""
 
-#: includes/class-connect.php:172 includes/class-logging.php:141
+#: includes/class-connect.php:172 includes/class-logging.php:175
 #: includes/class-notification-content.php:109
 #: includes/class-notification-content.php:139 includes/class-optin.php:129
 #: includes/class-settings.php:815
@@ -1313,53 +1313,53 @@ msgstr ""
 msgid "Sync Lists with Constant Contact"
 msgstr ""
 
-#: includes/class-logging.php:94
+#: includes/class-logging.php:122
 msgid "Are you sure you want to delete current logs?"
 msgstr ""
 
-#: includes/class-logging.php:114
+#: includes/class-logging.php:142
 msgid "Debug logs"
 msgstr ""
 
-#: includes/class-logging.php:152 includes/class-logging.php:161
+#: includes/class-logging.php:186 includes/class-logging.php:195
 #, php-format
 msgid "We are not able to write to the %s file."
 msgstr ""
 
-#: includes/class-logging.php:156
+#: includes/class-logging.php:190
 msgid "No error log exists"
 msgstr ""
 
-#: includes/class-logging.php:172
-#, php-format
-msgid "Log display error: %s"
-msgstr ""
-
-#: includes/class-logging.php:182
+#: includes/class-logging.php:202
 msgid ""
 "Error log below can be used with support requests to help identify issues "
 "with Constant Contact Forms."
 msgstr ""
 
-#: includes/class-logging.php:183
+#: includes/class-logging.php:203
 msgid ""
 "When available, you can share information by copying and pasting the content "
 "in the textarea, or by using the \"Download logs\" link at the end. Logs can "
 "be cleared by using the \"Delete logs\" link."
 msgstr ""
 
-#: includes/class-logging.php:190
+#: includes/class-logging.php:210
 msgid ""
 "Error log may still have content, even if an error is shown above. Please "
 "use the download link below."
 msgstr ""
 
-#: includes/class-logging.php:199
+#: includes/class-logging.php:219
 msgid "Download logs"
 msgstr ""
 
-#: includes/class-logging.php:207
+#: includes/class-logging.php:227
 msgid "Delete logs"
+msgstr ""
+
+#: includes/class-logging.php:286
+#, php-format
+msgid "Log display error: %s"
 msgstr ""
 
 #: includes/class-mail.php:309
@@ -1481,16 +1481,16 @@ msgstr ""
 msgid "Disagree"
 msgstr ""
 
-#: includes/class-process-form.php:107 includes/class-process-form.php:663
+#: includes/class-process-form.php:107 includes/class-process-form.php:670
 msgid "There was an error sending your form."
 msgstr ""
 
-#: includes/class-process-form.php:121 includes/class-process-form.php:686
+#: includes/class-process-form.php:121 includes/class-process-form.php:693
 msgid "Your information has been submitted."
 msgstr ""
 
-#: includes/class-process-form.php:139 includes/class-process-form.php:259
-#: includes/class-process-form.php:703
+#: includes/class-process-form.php:139 includes/class-process-form.php:266
+#: includes/class-process-form.php:710
 msgid ""
 "We had trouble processing your submission. Please review your entries and "
 "try again."
@@ -1504,7 +1504,8 @@ msgstr ""
 msgid "No form verify value provided"
 msgstr ""
 
-#: includes/class-process-form.php:206 includes/class-process-form.php:247
+#: includes/class-process-form.php:206 includes/class-process-form.php:239
+#: includes/class-process-form.php:254
 msgid "We do no think you are human"
 msgstr ""
 
@@ -1516,8 +1517,8 @@ msgstr ""
 msgid "Failed reCAPTCHA check"
 msgstr ""
 
-#: includes/class-process-form.php:268 includes/class-process-form.php:277
-#: includes/class-process-form.php:286
+#: includes/class-process-form.php:275 includes/class-process-form.php:284
+#: includes/class-process-form.php:293
 msgid ""
 "We had trouble processing your submission. Make sure you haven't changed the "
 "required Form ID and try again."
