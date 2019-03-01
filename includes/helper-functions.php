@@ -300,7 +300,19 @@ function ctct_has_forms() {
 function constant_contact_has_redirect_uri( $form_id = 0 ) {
 	$maybe_redirect_uri = get_post_meta( $form_id, '_ctct_redirect_uri', true );
 
-	return empty( $maybe_redirect_uri ) ? false : true;
+	return constant_contact_is_valid_url( $maybe_redirect_uri ) ? true : false;
+}
+
+/**
+ * Check if a string is a valid URL.
+ *
+ * @since 1.5.0
+ *
+ * @param string $url The string URL to validate.
+ * @return bool Whether or not the provided value is a valid URL.
+ */
+function constant_contact_is_valid_url( $url = '' ) {
+	return ( ! empty( $url ) && filter_var( $url, FILTER_VALIDATE_URL ) );
 }
 
 /**

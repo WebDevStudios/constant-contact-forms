@@ -75,7 +75,7 @@ class ConstantContact_User_Customizations {
 	 */
 	public function custom_redirect( $url, $form_id ) {
 		$custom = get_post_meta( $form_id, '_ctct_redirect_uri', true );
-		if ( empty( $custom ) ) {
+		if ( ! constant_contact_is_valid_url( $custom ) ) {
 			return $url;
 		}
 
