@@ -29,10 +29,14 @@ class SingleFormSelect extends Component {
 	render() {
 		let { selectedForm } = this.props.attributes;
 
-		return <SelectControl
+		return (
+			<div>
+			<h4 className="ctct-block-title">{ __( 'Constant Contact Forms' ) }</h4>
+			<SelectControl
 				value={ selectedForm }
 				options={ this.state.forms }
-				onChange={ value => this.props.setAttributes( { selectedForm: value } ) } />
+				onChange={ value => this.props.setAttributes( { selectedForm: value } ) } /></div>
+		)
 	}
 }
 
