@@ -10,7 +10,7 @@ class SingleFormSelect extends Component {
 
 		this.state = {
 			forms: [
-				{ label: __( 'Select a form' ), value: 0 }
+				{ label: __( 'Select a form', 'constant-contact' ), value: 0 }
 			]
 		}
 	}
@@ -31,7 +31,7 @@ class SingleFormSelect extends Component {
 
 		return (
 			<div>
-			<h4 className="ctct-block-title">{ __( 'Constant Contact Forms' ) }</h4>
+			<h4 className="ctct-block-title">{ __( 'Constant Contact Forms', 'constant-contact' ) }</h4>
 			<SelectControl
 				value={ selectedForm }
 				options={ this.state.forms }
