@@ -94,7 +94,7 @@ class ConstantContact_Settings {
 		add_filter( 'preprocess_comment', array( $this, 'process_optin_comment_form' ) );
 		add_filter( 'authenticate', array( $this, 'process_optin_login_form' ), 10, 3 );
 
-		add_filter( 'ctct_custom_non_human_message', array( $this, 'get_non_human_error_message' ), 10, 2 );
+		add_filter( 'ctct_custom_spam_message', array( $this, 'get_spam_error_message' ), 10, 2 );
 	}
 
 	/**
@@ -412,7 +412,7 @@ class ConstantContact_Settings {
 			'before_row' => $before_debugging,
 		) );
 
-		$this->add_non_human_error_fields( $cmb );
+		$this->add_spam_error_fields( $cmb );
 	}
 
 	/**
@@ -844,16 +844,16 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Adds a fieldset for controlling the "non-human" error.
+	 * Adds a fieldset for controlling the spam error.
 	 *
 	 * @since NEXT
 	 * @author Zach Owen <zach@webdevstudios>
 	 * @param object $cmb An instance of the CMB2 object.
 	 */
-	private function add_non_human_error_fields( $cmb ) {
+	private function add_spam_error_fields( $cmb ) {
 		$description  = '<div class="description">';
-		$description .= __( 'This message displays when the plugin thinks a non-human (i.e. a bot) is trying to submit data.', 'constant-contact-forms' );
-		$description .= __( 'Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' );
+		$description .= esc_html__( 'This message displays when the plugin detects spam data.', 'constant-contact-forms' );
+		$description .= esc_html__( 'Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' );
 		$description .= '</div>';
 
 		$before_message = sprintf(
@@ -865,16 +865,16 @@ class ConstantContact_Settings {
 		$cmb->add_field(
 			array(
 				'name'       => esc_html__( 'Error Message', 'constant-contact-forms' ),
-				'id'         => '_ctct_non_human_error',
+				'id'         => '_ctct_spam_error',
 				'type'       => 'text',
 				'before_row' => $before_message,
-				'default'    => __( 'We do not think you are human', 'constant-contact-forms' ),
+				'default'    => $this->get_default_spam_error(),
 			)
 		);
 	}
 
 	/**
-	 * Get the error message displayed to suspected non-humans.
+	 * Get the error message displayed to suspected spam input.
 	 *
 	 * @since NEXT
 	 * @author Zach Owen <zach@webdevstudios>
@@ -882,23 +882,30 @@ class ConstantContact_Settings {
 	 * @param mixed  $post_id The post ID of the current post, if any.
 	 * @return string
 	 */
-	public function get_non_human_error_message( $message, $post_id ) {
-		$post_error = get_post_meta( $post_id, '_ctct_non_human_error', true );
+	public function get_spam_error_message( $message, $post_id ) {
+		$post_error = get_post_meta( $post_id, '_ctct_spam_error', true );
 
 		if ( ! empty( $post_error ) ) {
 			return $post_error;
 		}
 
-		$option_error = cmb2_get_option( '_ctct_non_human_error', '' );
+		$option_error = cmb2_get_option( '_ctct_spam_error', '' );
 
 		if ( ! empty( $option_error ) ) {
 			return $option_error;
 		}
 
-		return $this->get_default_non_human_error();
+		return $this->get_default_spam_error();
 	}
 
-	private function get_default_non_human_error() {
+	/**
+	 * Get the default spam error message.
+	 *
+	 * @since NEXT
+	 * @author Zach Owen <zach@webdevstudios>
+	 * @return string
+	 */
+	private function get_default_spam_error() {
 		return __( 'We do not think you are human', 'constant-contact-forms' );
 	}
 }
