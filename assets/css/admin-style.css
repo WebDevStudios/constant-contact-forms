@@ -1307,3 +1307,7 @@ a.ctct-notice-dismiss {
 .ctct_options_connect .ctct-body .button.button-blue:hover, .ctct_options_connect .ctct-body .button.button-blue:focus {
   background-color: #005990;
 }
+
+.ctct-block-title {
+  margin-bottom: 0;
+}
