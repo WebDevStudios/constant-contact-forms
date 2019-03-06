@@ -847,7 +847,6 @@ class ConstantContact_Settings {
 	 * Adds a fieldset for controlling the spam error.
 	 *
 	 * @since NEXT
-	 * @author Zach Owen <zach@webdevstudios>
 	 * @param object $cmb An instance of the CMB2 object.
 	 */
 	private function add_spam_error_fields( $cmb ) {
@@ -877,7 +876,6 @@ class ConstantContact_Settings {
 	 * Get the error message displayed to suspected spam input.
 	 *
 	 * @since NEXT
-	 * @author Zach Owen <zach@webdevstudios>
 	 * @param string $message The error message to filter.
 	 * @param mixed  $post_id The post ID of the current post, if any.
 	 * @return string
@@ -902,7 +900,6 @@ class ConstantContact_Settings {
 	 * Get the default spam error message.
 	 *
 	 * @since NEXT
-	 * @author Zach Owen <zach@webdevstudios>
 	 * @return string
 	 */
 	private function get_default_spam_error() {

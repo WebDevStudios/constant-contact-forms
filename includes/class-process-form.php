@@ -769,7 +769,6 @@ class ConstantContact_Process_Form {
 	 * Gets the non-human error messeage dispalyed when we think there's a bot.
 	 *
 	 * @since NEXT
-	 * @author Zach Owen <zach@webdevstudios>
 	 * @param int $post_id The ID of the current post.
 	 * @return string
 	 */
@@ -780,7 +779,6 @@ class ConstantContact_Process_Form {
 		 * Filter the error message displayed for suspected non-humans.
 		 *
 		 * @since NEXT
-		 * @author Zach Owen <zach@webdevstudios>
 		 * @param string $error The error message dispalyed.
 		 * @param mixed  $post_id The ID of the current post.
 		 * @return string
