@@ -272,7 +272,7 @@ class ConstantContact_Process_Form {
 		if ( ! $orig_form_id ) {
 			return array(
 				'status' => 'named_error',
-				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constant-contact-forms' ),
+				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required form ID and try again.", 'constant-contact-forms' ),
 			);
 		}
 
