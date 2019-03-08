@@ -8,11 +8,6 @@
  * @since 1.0.2
  */
 
-#require_once constant_contact()->path . '/vendor/autoload.php';
-
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
-
 /**
  * Wrapper functions for mailing successful contact forms to the user.
  *
@@ -347,10 +342,9 @@ class ConstantContact_Mail {
 
 		$content = $content_title . $content;
 
-
 		$content_after = sprintf(
 			/* Translators: placeholders provide Constant Contact link information. */
-			esc_html__( "Email marketing is a great way to stay connected and engage with visitors after they've left your site. Visit %shttps://www.constantcontact.com/index?pn=miwordpress%s to sign up for a Free Trial.", 'constant-contact-forms' ),
+			esc_html__( "Email marketing is a great way to stay connected and engage with visitors after they've left your site. Visit %1\$shttps://www.constantcontact.com/index?pn=miwordpress%2\$s to sign up for a Free Trial.", 'constant-contact-forms' ),
 				'<a href="https://www.constantcontact.com/index?pn=miwordpress">',
 				'</a>'
 			);
@@ -430,6 +424,8 @@ class ConstantContact_Mail {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception Exception.
+	 *
 	 * @param string $status     Status from wp_mail.
 	 * @param string $dest_email Destination email.
 	 * @param string $content    Content of email.
@@ -477,7 +473,7 @@ class ConstantContact_Mail {
 
 		return sprintf(
 			/* Translators: placeholders simply meant for `<strong>` html tags */
-			'<p>' . esc_html__( '%sNote:%s You have disabled admin email notifications under the plugin settings, but are receiving this email because of the following reason.', 'constant-contact-forms' ) . '</p>',
+			'<p>' . esc_html__( '%1\$sNote:%2\$s You have disabled admin email notifications under the plugin settings, but are receiving this email because of the following reason.', 'constant-contact-forms' ) . '</p>',
 			'<strong>*',
 			'</strong>'
 		);

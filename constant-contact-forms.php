@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.4.3
+ * Version:     1.5.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
@@ -78,7 +78,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.4.3';
+	const VERSION = '1.5.0';
 
 	/**
 	 * URL of plugin directory.
@@ -444,6 +444,8 @@ class Constant_Contact {
 	 * Add hooks and filters.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return null
 	 */
 	public function hooks() {
 
@@ -571,6 +573,8 @@ class Constant_Contact {
 	 * Load includes.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return null
 	 */
 	public function includes() {
 
@@ -728,13 +732,14 @@ class Constant_Contact {
 	 * @return string License text.
 	 */
 	public function get_license_text() {
-		$license = $this->dir( self::LICENSE_FILE );
+		$license = $this->url( self::LICENSE_FILE );
+		$license_content = wp_remote_get( $license );
 
-		if ( ! is_readable( $license ) ) {
-			return __( 'Error loading license.', 'constant-contact-forms' );
+		if ( 200 === wp_remote_retrieve_response_code( $license_content ) ) {
+			return wp_remote_retrieve_body( $license_content );
 		}
 
-		return file_get_contents( $license );
+		return __( 'Error loading license.', 'constant-contact-forms' );
 	}
 
 	/**

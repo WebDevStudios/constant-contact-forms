@@ -304,14 +304,14 @@ function constant_contact_has_redirect_uri( $form_id = 0 ) {
 }
 
 /**
- * Check if a string is a valid url.
+ * Check if a string is a valid URL.
  *
  * @since 1.5.0
  *
- * @param string $url The string to validate.
- * @return bool True, if a valid url.
+ * @param string $url The string URL to validate.
+ * @return bool Whether or not the provided value is a valid URL.
  */
-function constant_contact_is_valid_url( $url ) {
+function constant_contact_is_valid_url( $url = '' ) {
 	return ( ! empty( $url ) && filter_var( $url, FILTER_VALIDATE_URL ) );
 }
 
