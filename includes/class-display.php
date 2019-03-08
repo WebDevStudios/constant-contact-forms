@@ -1285,8 +1285,6 @@ class ConstantContact_Display {
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$inline_font_styles    = $this->get_inline_font_color();
 
-		$inline_font_styles    = $this->get_inline_font_color();
-
 		$label_street1 = sprintf(
 			'<span class="%s"><label for="street_%s" style="%s">%s</label></span>',
 			esc_attr( $label_placement_class ),
