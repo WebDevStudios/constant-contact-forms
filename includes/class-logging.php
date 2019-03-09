@@ -48,6 +48,30 @@ class ConstantContact_Logging {
 	public $options_page = '';
 
 	/**
+	 * Log location, URL path.
+	 *
+	 * @since 1.4.5
+	 * @var string
+	 */
+	protected $log_location_url = '';
+
+	/**
+	 * Log location, server path.
+	 *
+	 * @since 1.4.5
+	 * @var string
+	 */
+	protected $log_location_dir = '';
+
+	/**
+	 * WP_Filesystem
+	 *
+	 * @since 1.4.5
+	 * @var null
+	 */
+	protected $file_system = null;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.3.7
@@ -57,6 +81,9 @@ class ConstantContact_Logging {
 	public function __construct( $plugin ) {
 		$this->plugin      = $plugin;
 		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
+		$this->log_location_url = content_url() . '/ctct-logs/constant-contact-errors.log';
+		$this->log_location_dir = WP_CONTENT_DIR . '/ctct-logs/constant-contact-errors.log';
+
 		$this->hooks();
 	}
 
@@ -66,10 +93,11 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 */
 	public function hooks() {
-		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
-		add_action( 'admin_init', array( $this, 'delete_log_file' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
-		add_action( 'admin_footer', array( $this, 'dialog' ) );
+		add_action( 'admin_menu', [ $this, 'add_options_page' ] );
+		add_action( 'admin_init', [ $this, 'delete_log_file' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
+		add_action( 'admin_footer', [ $this, 'dialog' ] );
+		add_action( 'admin_init', [ $this, 'set_file_system' ] );
 	}
 
 	/**
@@ -121,8 +149,14 @@ class ConstantContact_Logging {
 			$connect_title,
 			'manage_options',
 			$this->key,
-			array( $this, 'admin_page_display' )
+			[ $this, 'admin_page_display' ]
 		);
+	}
+
+	public function set_file_system() {
+		global $wp_filesystem;
+		WP_Filesystem();
+		$this->file_system = $wp_filesystem;
 	}
 
 	/**
@@ -142,7 +176,7 @@ class ConstantContact_Logging {
 			<div class="ctct-body">
 				<?php
 				$contents     = '';
-				$log_location = '#';
+				$log_location = $this->log_location_url;
 
 				if ( ! file_exists( constant_contact()->logger_location ) ) {
 
@@ -167,16 +201,21 @@ class ConstantContact_Logging {
 					$log_content  = wp_remote_get( $log_location );
 					if ( is_wp_error( $log_content ) ) {
 						$contents .= sprintf(
-							// translators: placeholder wil have error message.
-							esc_html__(
-								'Log display error: %s',
-								'constant-contact-forms'
-							),
-							$log_content->get_error_message()
+						/* Translators: placeholder holds the log location. */
+							esc_html__( 'We are not able to write to the %s file.', 'constant-contact-forms' ),
+							constant_contact()->logger_location
 						);
 					} else {
-						$contents .= wp_remote_retrieve_body( $log_content );
+						$contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
 					}
+				} elseif ( ! is_writable( constant_contact()->logger_location ) ) {
+					$contents .= sprintf(
+						/* Translators: placeholder holds the log location. */
+						esc_html__( 'We are not able to write to the %s file.', 'constant-contact-forms' ),
+						constant_contact()->logger_location
+					);
+				} else {
+					$contents .= $this->get_log_contents();
 				}
 				?>
 				<p><?php esc_html_e( 'Error log below can be used with support requests to help identify issues with Constant Contact Forms.', 'constant-contact-forms' ); ?></p>
@@ -240,12 +279,45 @@ class ConstantContact_Logging {
 
 		check_admin_referer( 'ctct_delete_log', 'ctct_delete_log' );
 
-		$log_file = constant_contact()->logger_location;
+		$log_file = $this->log_location_dir;
 		if ( file_exists( $log_file ) ) {
 			unlink( $log_file );
 		}
 
 		wp_redirect( $this->options_url );
 		exit();
+	}
+
+	/**
+	 * Get our log content.
+	 *
+	 * @since 1.4.5
+	 *
+	 * @return string
+	 */
+	protected function get_log_contents() {
+		// Attempt URL version first.
+		$log_content_url  = wp_remote_get( $this->log_location_url );
+		if ( is_wp_error( $log_content_url ) ) {
+			return sprintf(
+			// translators: placeholder wil have error message.
+				esc_html__(
+					'Log display error: %s',
+					'constant-contact-forms'
+				),
+				$log_content_url->get_error_message()
+			);
+		}
+
+		// If we have data from a successful request.
+		if ( 200 === wp_remote_retrieve_response_code( $log_content_url ) ) {
+			return wp_remote_retrieve_body( $log_content_url );
+		}
+
+		// If we have anything BUT 200 status from the url, let's attempt a file system read.
+		$log_content_dir = $this->file_system->get_contents( $this->log_location_dir );
+		if ( ! empty( $log_content_dir ) && is_string( $log_content_dir ) ) {
+			return $log_content_dir;
+		}
 	}
 }

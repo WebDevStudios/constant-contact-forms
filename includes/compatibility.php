@@ -4,13 +4,21 @@
  *
  * @package ConstantContact
  * @author  Constant Contact
+<<<<<<< HEAD
  * @since   1.4.0
+=======
+ * @since   NEXT
+>>>>>>> release145
  */
 
 /**
  * Add the Constant Contact post type to an array of excluded post types.
  *
+<<<<<<< HEAD
  * @since 1.4.0
+=======
+ * @since NEXT
+>>>>>>> release145
  *
  * @param array $excluded The post types to exclude.
  * @return array

@@ -612,7 +612,7 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
 }
 
 /**
- * Fetch an return the content of our Endurance privacy policy.
+ * Fetch and return the content of our Endurance privacy policy.
  *
  * @since 1.4.3
  *

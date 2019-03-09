@@ -973,7 +973,6 @@ class ConstantContact_Display {
 		$input_inline_styles   = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
-
 		$inline_font_styles    = $this->get_inline_font_color();
 
 		// Use different styles for submit button.
@@ -1001,7 +1000,6 @@ class ConstantContact_Display {
 			} else {
 				$markup .= '<span class="' . $label_placement_class . '">';
 			}
-
 			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
 		}

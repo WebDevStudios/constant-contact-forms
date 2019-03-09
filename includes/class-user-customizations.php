@@ -87,8 +87,12 @@ class ConstantContact_User_Customizations {
 	 *
 	 * @since 1.4.0
 	 *
+<<<<<<< HEAD
 	 * @param string     $destination_email Current set destination email.
 	 * @param string|int $form_id           ID of the form we're checking.
+=======
+	 * @param $form_id
+>>>>>>> release145
 	 * @return mixed|string
 	 */
 	public function custom_email( $destination_email, $form_id ) {
