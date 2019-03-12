@@ -82,6 +82,7 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', array( $this, 'custom_form_css_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'custom_input_css_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'add_css_reset_metabox' ) );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 			add_action( 'cmb2_render_reset_css_button', array( $this, 'render_reset_css_button' ) );
 		}
@@ -309,8 +310,6 @@ class ConstantContact_Builder_Fields {
 	 * @since 1.4.0
 	 */
 	public function custom_input_css_metabox() {
-		$this->add_css_reset_metabox();
-
 		$custom_css_metabox = new_cmb2_box( array(
 			'id'           => 'ctct_1_custom_input_css_metabox',
 			'title'        => __( 'Input Design', 'constant-contact-forms' ),
@@ -739,7 +738,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.5.0
 	 */
-	private function add_css_reset_metabox() {
+	public function add_css_reset_metabox() {
 		$reset_css_metabox = new_cmb2_box(
 			array(
 				'id'           => 'ctct_3_reset_css_metabox',
