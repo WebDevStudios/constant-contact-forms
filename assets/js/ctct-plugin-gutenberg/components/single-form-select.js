@@ -1,7 +1,7 @@
 import { SelectControl } from '@wordpress/components';
 import apiFetch from '@wordpress/api-fetch';
 
-const { Component, Fragment } = wp.element;
+const { Component } = wp.element;
 const { __ } = wp.i18n;
 
 class SingleFormSelect extends Component {
@@ -42,14 +42,14 @@ class SingleFormSelect extends Component {
 		let { selectedForm } = this.props.attributes;
 
 		return (
-			<Fragment>
+			<div className="ctct-block-container">
 				<h4 className="ctct-block-title">{ __( 'Constant Contact Forms', 'constant-contact' ) }</h4>
 				<small>{ __( 'Choose the form to display with the dropdown below.', 'constant-contact' ) }</small>
 				<SelectControl
 					value={ selectedForm }
 					options={ this.state.forms }
 					onChange={ value => this.props.setAttributes( { selectedForm: value } ) } />
-			</Fragment>
+			</div>
 		)
 	}
 }
