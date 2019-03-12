@@ -202,7 +202,7 @@ class ConstantContact_Process_Form {
 		if ( ! empty( $data['ctct_usage_field'] ) ) {
 			return array(
 				'status' => 'named_error',
-				'error'  => __( 'We do no think you are human', 'constant-contact-forms' ),
+				'error'  => $this->get_spam_message( $data['ctct-id'] ),
 			);
 		}
 
@@ -235,7 +235,7 @@ class ConstantContact_Process_Form {
 		if ( $this->plugin->settings->has_recaptcha() && ( empty( $data['g-recaptcha-response'] ) ) ) {
 			return array(
 				'status' => 'named_error',
-				'error'  => __( 'We do no think you are human', 'constant-contact-forms' ),
+				'error'  => $this->get_spam_message( $data['ctct-id'] ),
 			);
 		}
 
@@ -250,7 +250,7 @@ class ConstantContact_Process_Form {
 		if ( true === apply_filters( 'constant_contact_maybe_spam', false, $data ) ) {
 			return array(
 				'status' => 'named_error',
-				'error'  => __( 'We do no think you are human', 'constant-contact-forms' ),
+				'error'  => $this->get_spam_message( $data['ctct-id'] ),
 			);
 		}
 
@@ -762,5 +762,26 @@ class ConstantContact_Process_Form {
 			}
 		}
 		return $has_all;
+	}
+
+	/**
+	 * Gets the non-human error messeage dispalyed when we think there's a bot.
+	 *
+	 * @since 1.5.0
+	 * @param int $post_id The ID of the current post.
+	 * @return string
+	 */
+	private function get_spam_message( $post_id ) {
+		$error = esc_html__( 'We do no think you are human', 'constant-contact-forms' );
+
+		/**
+		 * Filter the error message displayed for suspected non-humans.
+		 *
+		 * @since 1.5.0
+		 * @param string $error The error message dispalyed.
+		 * @param mixed  $post_id The ID of the current post.
+		 * @return string
+		 */
+		return apply_filters( 'ctct_custom_spam_message', $error, $post_id );
 	}
 }
