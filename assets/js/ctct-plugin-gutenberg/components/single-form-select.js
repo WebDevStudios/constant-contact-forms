@@ -32,6 +32,7 @@ class SingleFormSelect extends Component {
 		return (
 			<div>
 			<h4 className="ctct-block-title">{ __( 'Constant Contact Forms', 'constant-contact' ) }</h4>
+			<small>{ __( 'Choose the form to display with the dropdown below.', 'constant-contact' ) }</small>
 			<SelectControl
 				value={ selectedForm }
 				options={ this.state.forms }
