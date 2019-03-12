@@ -109,6 +109,37 @@ window.CTCTBuilder = {};
 
 		// Remove any duplicate mappings in fields
 		that.removeDuplicateMappings();
+
+		$( '#ctct-reset-css' ).on( 'click', function( event ) {
+			event.preventDefault();
+			let selectFields = [
+				'#_ctct_form_description_font_size',
+				'#_ctct_form_submit_button_font_size',
+				'#_ctct_form_label_placement',
+			];
+
+			let textFields = [
+				'#_ctct_form_padding_top',
+				'#_ctct_form_padding_bottom',
+				'#_ctct_form_padding_left',
+				'#_ctct_form_padding_right',
+				'#_ctct_input_custom_classes',
+			];
+
+			// Reset color pickers.
+			$( '.wp-picker-clear' ).each( function() {
+				$(this).click();
+			} );
+
+			for ( var i = selectFields.length; i--; ) {
+				var firstOption = $(selectFields[i]).children('option').first();
+				$(selectFields[i]).val(firstOption.val());
+			}
+
+			for ( var i = textFields.length; i--; ) {
+				$(textFields[i]).val('');
+			}
+		} );
     }
 
     // When .cmb2_select <selects> get changed, do some actions
