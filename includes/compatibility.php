@@ -37,3 +37,54 @@ function constant_contact_exclude_pum( $ignored ) {
 	return $ignored;
 }
 add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_exclude_pum' );
+
+/**
+ * Filter out fields we do not want in our form.
+ *
+ * Function originally coded specifically to handle WP-SpamShield $_POST values.
+ *
+ * @since 1.5.0
+ *
+ * @param array $ignored_keys Keys to ignore for API requests.
+ * @param int   $form_id      Current form ID being processed.
+ *
+ * @return array
+ */
+function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_id = 0 ) {
+	/*
+	 * Standard form name insertion into array will not work with WP-SpamShield because
+	 * those values change periodically, from my experiences and support time. This solution
+	 * is a little bit of a hammer, but it appears to be working.
+	 *
+	 * May also prove to be a way forward to only ever having to deal with our intended values
+	 * instead of having to manually ignore. Something that should have been done from the start.
+	 */
+
+	if ( ! defined( 'WPSS_VERSION' ) ) {
+		return $ignored_keys;
+	}
+
+	// Need to assign a value so that the strings are associative keys.
+	$misc_keys = [
+		'ctct-opt-in' => [],
+		'ctct-id'     => [],
+	];
+
+	// Grab all the original fields from our form.
+	$original_fields = constant_contact()->process_form->get_original_fields( $form_id );
+
+	// This will merge our two misc keys above with our original fields, and
+	// then return just their keys.
+	$good_keys = array_keys( array_merge( $misc_keys, $original_fields ) );
+
+	// This will grab all of the keys from the global $_POST, and then assign
+	// the difference between that and our intended keys.
+	$bad_keys = array_diff( array_keys( $_POST ), $good_keys ); // WPCS: CSRF ok.
+
+	// This will merge the passed ignored keys with our newly found bad keys,
+	// and then return all the unique values for our return value.
+	$new_ignore_keys = array_unique( array_merge( $ignored_keys, $bad_keys ) );
+
+	return $new_ignore_keys;
+}
+add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_wpspamshield_compatibility', 10, 2 );

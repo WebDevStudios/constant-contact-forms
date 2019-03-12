@@ -232,6 +232,13 @@ class ConstantContact_Process_Form {
 			}
 		}
 
+		if ( $this->plugin->settings->has_recaptcha() && ( empty( $data['g-recaptcha-response'] ) ) ) {
+			return array(
+				'status' => 'named_error',
+				'error'  => __( 'We do no think you are human', 'constant-contact-forms' ),
+			);
+		}
+
 		/**
 		 * Filters whether or not we think an entry is spam.
 		 *
@@ -283,7 +290,7 @@ class ConstantContact_Process_Form {
 		if ( $orig_verify !== $form_verify ) {
 			return array(
 				'status' => 'named_error',
-				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constant-contact-forms' ),
+				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required form ID and try again.", 'constant-contact-forms' ),
 			);
 		}
 
@@ -297,7 +304,7 @@ class ConstantContact_Process_Form {
 			'ctct_usage_field',
 			'g-recaptcha-response',
 			'ctct_must_opt_in',
-		) );
+		), $orig_form_id );
 
 		// If the submit button is clicked, send the email.
 		foreach ( $data as $key => $value ) {
