@@ -301,4 +301,47 @@ class ConstantContact_Logging {
 			return $log_content_dir;
 		}
 	}
+
+	/**
+	 * Delete the log index protection file when logging is disabled.
+	 *
+	 * @since 1.5.0
+	 * @return void
+	 */
+	public function delete_log_index_file() {
+		if ( constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		$index_file = dirname( $this->log_location_dir ) . '/index.php';
+		if ( file_exists( $index_file ) ) {
+			unlink( $index_file );
+		}
+	}
+
+	/**
+	 * Protect the log folder with an `index.php` file.
+	 *
+	 * @since 1.5.0
+	 * @return void
+	 */
+	public function create_log_index_file() {
+		if ( ! constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		$log_dir = dirname( $this->logger_location );
+
+		if ( ! is_writable( $log_dir ) ) {
+			return;
+		}
+
+		$index_file = "{$log_dir}/index.php";
+
+		if ( file_exists( $index_file ) ) {
+			return;
+		}
+
+		touch( $index_file );
+	}
 }

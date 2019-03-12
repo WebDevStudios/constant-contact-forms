@@ -72,6 +72,8 @@ class ConstantContact_Settings {
 		// Process our opt-ins.
 		add_filter( 'preprocess_comment', array( $this, 'process_optin_comment_form' ) );
 		add_filter( 'authenticate', array( $this, 'process_optin_login_form' ), 10, 3 );
+
+		add_action( 'cmb2_save_field__ctct_logging', array( $this, 'maybe_protect_logs' ), 10, 2 );
 	}
 
 	/**
@@ -816,6 +818,21 @@ class ConstantContact_Settings {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Attempts to add the index file for protecting the log directory.
+	 *
+	 * @since 1.5.0
+	 * @return void
+	 */
+	public function maybe_protect_logs( $updated, $action ) {
+		if ( 'updated' !== $action ) {
+			$this->plugin->logging->delete_log_index_file();
+			return;
+		}
+
+		$this->plugin->logging->create_log_index_file();
 	}
 }
 
