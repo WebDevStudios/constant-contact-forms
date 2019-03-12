@@ -112,13 +112,13 @@ window.CTCTBuilder = {};
 
 		$( '#ctct-reset-css' ).on( 'click', function( event ) {
 			event.preventDefault();
-			let selectFields = [
+			var selectFields = [
 				'#_ctct_form_description_font_size',
 				'#_ctct_form_submit_button_font_size',
 				'#_ctct_form_label_placement',
 			];
 
-			let textFields = [
+			var textFields = [
 				'#_ctct_form_padding_top',
 				'#_ctct_form_padding_bottom',
 				'#_ctct_form_padding_left',
