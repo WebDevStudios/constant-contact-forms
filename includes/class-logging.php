@@ -58,10 +58,28 @@ class ConstantContact_Logging {
 	/**
 	 * Log location, server path.
 	 *
+	 * Prior to 1.5.0 this was `$log_location_dir`.
+	 *
+	 * @since 1.5.0
+	 * @var string
+	 */
+	protected $log_location_file = '';
+
+	/**
+	 * Log directory location, server path.
+	 *
 	 * @since 1.4.5
 	 * @var string
 	 */
 	protected $log_location_dir = '';
+
+	/**
+	 * The location of the log folder's index file.
+	 *
+	 * @since 1.5.0
+	 * @var string
+	 */
+	protected $log_index_file = '';
 
 	/**
 	 * WP_Filesystem
@@ -79,10 +97,12 @@ class ConstantContact_Logging {
 	 * @param object $plugin Parent class.
 	 */
 	public function __construct( $plugin ) {
-		$this->plugin      = $plugin;
-		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
-		$this->log_location_url = content_url() . '/ctct-logs/constant-contact-errors.log';
-		$this->log_location_dir = WP_CONTENT_DIR . '/ctct-logs/constant-contact-errors.log';
+		$this->plugin            = $plugin;
+		$this->options_url       = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
+		$this->log_location_url  = content_url() . '/ctct-logs/constant-contact-errors.log';
+		$this->log_location_dir  = WP_CONTENT_DIR . '/ctct-logs';
+		$this->log_location_file = "{$this->log_location_dir}/constant-contact-errors.log";
+		$this->log_index_file    = "{$this->log_location_dir}/index.php";
 
 		$this->hooks();
 	}
@@ -260,7 +280,7 @@ class ConstantContact_Logging {
 
 		check_admin_referer( 'ctct_delete_log', 'ctct_delete_log' );
 
-		$log_file = $this->log_location_dir;
+		$log_file = $this->log_location_file;
 		if ( file_exists( $log_file ) ) {
 			unlink( $log_file );
 		}
@@ -296,7 +316,7 @@ class ConstantContact_Logging {
 		}
 
 		// If we have anything BUT 200 status from the url, let's attempt a file system read.
-		$log_content_dir = $this->file_system->get_contents( $this->log_location_dir );
+		$log_content_dir = $this->file_system->get_contents( $this->log_location_file );
 		if ( ! empty( $log_content_dir ) && is_string( $log_content_dir ) ) {
 			return $log_content_dir;
 		}
@@ -313,9 +333,8 @@ class ConstantContact_Logging {
 			return;
 		}
 
-		$index_file = dirname( $this->log_location_dir ) . '/index.php';
-		if ( file_exists( $index_file ) ) {
-			unlink( $index_file );
+		if ( file_exists( $this->log_index_file ) ) {
+			unlink( $this->log_index_file );
 		}
 	}
 
@@ -330,18 +349,14 @@ class ConstantContact_Logging {
 			return;
 		}
 
-		$log_dir = dirname( $this->logger_location );
-
-		if ( ! is_writable( $log_dir ) ) {
+		if ( ! is_writable( $this->log_location_dir ) ) {
 			return;
 		}
 
-		$index_file = "{$log_dir}/index.php";
-
-		if ( file_exists( $index_file ) ) {
+		if ( file_exists( $this->log_index_file ) ) {
 			return;
 		}
 
-		touch( $index_file );
+		touch( $this->log_index_file );
 	}
 }
