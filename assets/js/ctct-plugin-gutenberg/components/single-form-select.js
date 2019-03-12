@@ -5,9 +5,14 @@ const { Component, Fragment } = wp.element;
 const { __ } = wp.i18n;
 
 class SingleFormSelect extends Component {
+	/**
+	 * Constructor
+	 * @param props
+	 */
 	constructor( props ) {
 		super( props );
 
+		// Set the initial state of the component.
 		this.state = {
 			forms: [
 				{ label: __( 'Select a form', 'constant-contact' ), value: 0 }
@@ -15,6 +20,9 @@ class SingleFormSelect extends Component {
 		}
 	}
 
+	/**
+	 * After the component mounts, retrieve the forms and add them to the local component state.
+	 */
 	async componentDidMount() {
 
 		try {
@@ -26,7 +34,11 @@ class SingleFormSelect extends Component {
 		}
 	}
 
+	/**
+	 * Render the Gutenberg block in the admin area.
+	 */
 	render() {
+		// Destructure the selectedFrom from props.
 		let { selectedForm } = this.props.attributes;
 
 		return (

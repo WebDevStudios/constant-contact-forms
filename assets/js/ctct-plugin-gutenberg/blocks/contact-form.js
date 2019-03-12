@@ -5,6 +5,9 @@ const {
 
 import SingleFormSelect from '../components/single-form-select';
 
+/**
+ * Register the block.
+ */
 export default registerBlockType( 'constant-contact/single-contact-form', {
 	title: __( 'Constant Contact: Single Form', 'constant-contact' ),
 	icon: 'index-card',
@@ -15,5 +18,5 @@ export default registerBlockType( 'constant-contact/single-contact-form', {
 		}
 	},
 	edit: SingleFormSelect,
-	save: () => null
+	save: () => null // PHP will be used to render the block on the frontend.
 });
