@@ -828,7 +828,6 @@ class ConstantContact_Settings {
 	 */
 	public function maybe_protect_logs( $updated, $action ) {
 		if ( 'updated' !== $action ) {
-			$this->plugin->logging->delete_log_index_file();
 			return;
 		}
 
