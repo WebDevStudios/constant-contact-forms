@@ -285,6 +285,8 @@ class ConstantContact_Logging {
 			unlink( $log_file );
 		}
 
+		$this->create_log_file();
+
 		wp_redirect( $this->options_url );
 		exit();
 	}
