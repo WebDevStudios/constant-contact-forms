@@ -73,6 +73,7 @@ class ConstantContact_Settings {
 		add_filter( 'preprocess_comment', array( $this, 'process_optin_comment_form' ) );
 		add_filter( 'authenticate', array( $this, 'process_optin_login_form' ), 10, 3 );
 
+		add_action( 'cmb2_save_field__ctct_logging', array( $this, 'maybe_init_logs' ), 10, 2 );
 		add_filter( 'ctct_custom_spam_message', array( $this, 'get_spam_error_message' ), 10, 2 );
 	}
 
@@ -823,6 +824,22 @@ class ConstantContact_Settings {
 	}
 
 	/**
+	 * Attempts to add the index file for protecting the log directory.
+	 *
+	 * @since 1.5.0
+	 * @return void
+	 */
+	public function maybe_init_logs( $updated, $action ) {
+		if ( 'updated' !== $action ) {
+			return;
+		}
+
+		$this->plugin->logging->create_log_folder();
+		$this->plugin->logging->create_log_index_file();
+		$this->plugin->logging->create_log_file();
+  }
+
+  /*
 	 * Adds a fieldset for controlling the spam error.
 	 *
 	 * @since 1.5.0
