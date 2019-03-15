@@ -339,7 +339,22 @@ class ConstantContact_Logging {
 	}
 
 	/**
-	 * Protect the log folder with an `index.php` file.
+	 * Create the log folder.
+	 *
+	 * @since 1.5.0
+	 * @return void
+	 */
+	public function create_log_folder() {
+		if ( ! constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		mkdir( $this->log_location_dir );
+		chmod( $this->log_location_dir, 0755 );
+	}
+
+	/**
+	 * Create the log folder with an `index.php` file.
 	 *
 	 * @since 1.5.0
 	 * @return void
@@ -358,5 +373,27 @@ class ConstantContact_Logging {
 		}
 
 		touch( $this->log_index_file );
+	}
+
+	/**
+	 * Create the log file itself.
+	 *
+	 * @since 1.5.0
+	 * @return void
+	 */
+	public function create_log_file() {
+		if ( ! constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		if ( ! is_writable( $this->log_location_dir ) ) {
+			return;
+		}
+
+		if ( file_exists( $this->log_location_file ) ) {
+			return;
+		}
+
+		touch( $this->log_location_file );
 	}
 }
