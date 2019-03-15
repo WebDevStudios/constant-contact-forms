@@ -210,6 +210,20 @@ class ConstantContact_Builder_Fields {
 			) );
 		}
 
+		$options_metabox->add_field( array(
+			'name'  => esc_html__( 'Spam notice', 'constant-contact-forms' ),
+			'type'  => 'title',
+			'id'    => 'spam_notice_title',
+			'after' => '<hr/>',
+		) );
+
+		$options_metabox->add_field( array(
+			'name'            => __( 'Spam Error Message', 'constant-contact-forms' ),
+			'id'              => $this->prefix . 'spam_error',
+			'type'            => 'text',
+			'description'     => esc_html__( 'Set the spam error message displayed for this form.', 'constant-contact-forms' ),
+		) );
+
 		if ( constant_contact()->api->is_connected() ) {
 			$this->show_optin_connected_fields( $options_metabox );
 		}
