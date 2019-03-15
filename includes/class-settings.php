@@ -73,7 +73,7 @@ class ConstantContact_Settings {
 		add_filter( 'preprocess_comment', array( $this, 'process_optin_comment_form' ) );
 		add_filter( 'authenticate', array( $this, 'process_optin_login_form' ), 10, 3 );
 
-		add_action( 'cmb2_save_field__ctct_logging', array( $this, 'maybe_protect_logs' ), 10, 2 );
+		add_action( 'cmb2_save_field__ctct_logging', array( $this, 'maybe_init_logs' ), 10, 2 );
 	}
 
 	/**
@@ -826,12 +826,14 @@ class ConstantContact_Settings {
 	 * @since 1.5.0
 	 * @return void
 	 */
-	public function maybe_protect_logs( $updated, $action ) {
+	public function maybe_init_logs( $updated, $action ) {
 		if ( 'updated' !== $action ) {
 			return;
 		}
 
+		$this->plugin->logging->create_log_folder();
 		$this->plugin->logging->create_log_index_file();
+		$this->plugin->logging->create_log_file();
 	}
 }
 
