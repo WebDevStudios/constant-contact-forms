@@ -767,7 +767,7 @@ class ConstantContact_Builder_Fields {
 			array(
 				'id'          => $this->prefix . 'reset_styles',
 				'type'        => 'reset_css_button',
-				'title'       => 'Reset',
+				'title'       => esc_html__( 'Reset', 'constant-contact-forms' ),
 				'description' => esc_html__(
 					'Reset the styles for this Form.',
 					'constant-contact-forms'
