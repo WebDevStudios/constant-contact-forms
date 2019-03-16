@@ -49,7 +49,7 @@ class ConstantContact_Gutenberg {
 		global $wp_version;
 
 		// Gutenberg is part of core as of WP Version 5.0.
-		return version_compare( $wp_version, '5.0' ) >= 0;
+		return version_compare( $wp_version, '5.0.0' ) >= 0;
 	}
 
 	/**
