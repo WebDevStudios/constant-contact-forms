@@ -789,7 +789,7 @@ class ConstantContact_Builder_Fields {
 </button>
 <p>
 <em>
-	<?php esc_html_e( $field->args['description'] ); ?>
+	<?php echo esc_html( $field->args['description'] ); ?>
 </em>
 </p>
 <?php
