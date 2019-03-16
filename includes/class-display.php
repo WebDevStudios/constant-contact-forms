@@ -90,7 +90,6 @@ class ConstantContact_Display {
 	 * Retrieve the styles set globally for forms.
 	 *
 	 * @since  1.4.0
-	 * @author Scott Tirrell
 	 */
 	public function set_global_form_css() {
 
@@ -121,7 +120,6 @@ class ConstantContact_Display {
 	 * @param int $form_id The id of the form.
 	 *
 	 * @since  1.4.0
-	 * @author Scott Tirrell
 	 */
 	public function set_specific_form_css( $form_id ) {
 		$defaults = array(
@@ -784,7 +782,6 @@ class ConstantContact_Display {
 	/**
 	 * Get an inline style tag to use for the form's description.
 	 *
-	 * @author Scott Tirrell
 	 * @since  1.4.0
 	 *
 	 * @return string The inline style tag for the form's description.
@@ -905,7 +902,6 @@ class ConstantContact_Display {
 	 * Get inline styles for the form's submit button.
 	 *
 	 * @since 1.4.0
-	 * @author Scott Tirrell
 	 *
 	 * @return string
 	 */

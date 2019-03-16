@@ -659,6 +659,7 @@ class Constant_Contact {
 			case 'display':
 			case 'display_shortcode':
 			case 'lists':
+			case 'logging':
 			case 'path':
 			case 'plugin_name':
 			case 'process_form':

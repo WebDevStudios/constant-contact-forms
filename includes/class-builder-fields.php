@@ -82,7 +82,9 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', array( $this, 'custom_form_css_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'custom_input_css_metabox' ) );
 			add_action( 'cmb2_admin_init', array( $this, 'fields_metabox' ) );
+			add_action( 'cmb2_admin_init', array( $this, 'add_css_reset_metabox' ) );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
+			add_action( 'cmb2_render_reset_css_button', array( $this, 'render_reset_css_button' ) );
 		}
 
 	}
@@ -209,6 +211,20 @@ class ConstantContact_Builder_Fields {
 				'description' => __( "Checking will disable Google's reCAPTCHA output for this form.", 'constant-contact-forms' ),
 			) );
 		}
+
+		$options_metabox->add_field( array(
+			'name'  => esc_html__( 'Spam notice', 'constant-contact-forms' ),
+			'type'  => 'title',
+			'id'    => 'spam_notice_title',
+			'after' => '<hr/>',
+		) );
+
+		$options_metabox->add_field( array(
+			'name'            => __( 'Spam Error Message', 'constant-contact-forms' ),
+			'id'              => $this->prefix . 'spam_error',
+			'type'            => 'text',
+			'description'     => esc_html__( 'Set the spam error message displayed for this form.', 'constant-contact-forms' ),
+		) );
 
 		if ( constant_contact()->api->is_connected() ) {
 			$this->show_optin_connected_fields( $options_metabox );
@@ -729,5 +745,53 @@ class ConstantContact_Builder_Fields {
 			'id'   => $this->prefix . 'disable_emails_for_form',
 			'type' => 'checkbox',
 		) );
+	}
+
+	/**
+	 * Render the metabox for resetting style fields.
+	 *
+	 * @since 1.5.0
+	 */
+	public function add_css_reset_metabox() {
+		$reset_css_metabox = new_cmb2_box(
+			array(
+				'id'           => 'ctct_3_reset_css_metabox',
+				'title'        => __( 'Reset Styles', 'constant-contact-forms' ),
+				'object_types' => array( 'ctct_forms' ),
+				'context'      => 'side',
+				'priority'     => 'low',
+			)
+		);
+
+		$reset_css_metabox->add_field(
+			array(
+				'id'          => $this->prefix . 'reset_styles',
+				'type'        => 'reset_css_button',
+				'title'       => esc_html__( 'Reset', 'constant-contact-forms' ),
+				'description' => esc_html__(
+					'Reset the styles for this Form.',
+					'constant-contact-forms'
+				),
+			)
+		);
+	}
+
+	/**
+	 * Render the Reset Style button.
+	 *
+	 * @since 1.5.0
+	 * @param object $field The CMB2 field object.
+	 */
+	public function render_reset_css_button( $field ) {
+?>
+<button type="button" id="ctct-reset-css" class="button">
+	<?php esc_html_e( 'Reset', 'constant-contact-forms' ); ?>
+</button>
+<p>
+<em>
+	<?php echo esc_html( $field->args['description'] ); ?>
+</em>
+</p>
+<?php
 	}
 }

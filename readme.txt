@@ -35,6 +35,18 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.5.0 =
+* Added: Gutenberg block. Easier to get a form set up on a Gutenberg powered post or page.
+* Added: Ability to customize "We do not think you are human" spam messaging.
+* Added: Ability to conditionally output a reCAPTCHA field for each form.
+* Added: Better compatibility with WP-SpamShield plugin.
+* Fixed: Added missing label placement options in settings page and per-form dropdown options.
+* Updated: Ensure we have valid URLs when taking custom redirect values.
+* Updated: Append custom textarea content to existing notes for updated contacts.
+* Updated: Added some "alert" roles for better accessibility.
+* Updated: Added logging of API request parameters before the request is made.
+* Updated: Added logging around valid requests verifications when submitting a form.
+
 = 1.4.5 =
 * Fixed: Conflicts with custom textareas and notes inside of Constant Contact account when updating an existing contact.
 * Fixed: Potential issues around reading Constant Contact Forms error logs when log file is potentially not readable.
