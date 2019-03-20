@@ -468,7 +468,7 @@ function constant_contact_akismet( $is_spam, $data ) {
 	$ignore = array( 'HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW' );
 
 	foreach ( $_SERVER as $key => $value ) {
-		if ( ! in_array( $key, (array) $ignore ) ) {
+		if ( ! in_array( $key, (array) $ignore, true ) ) {
 			$args[ "{$key}" ] = $value;
 		}
 	}
