@@ -75,7 +75,7 @@
   background-color: #ffffff;
   border-radius: 8px;
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.4);
-  padding: rem(10);
+  padding: 0;
   position: relative;
 }
 
@@ -108,7 +108,6 @@
   height: 16px;
   line-height: 0;
   margin: 0;
-  padding: 0;
   padding: 0;
   position: absolute;
   right: 10px;
@@ -441,7 +440,7 @@ body.post-type-ctct_forms #titlediv #title {
 
 #ctct_1_optin_metabox .cmb-row {
   border-bottom: none;
-  padding: .5em 0px;
+  padding: .5em 0;
 }
 
 #ctct_1_optin_metabox .cmb2-id--ctct-list {
@@ -463,7 +462,7 @@ body.post-type-ctct_forms #titlediv #title {
 #cmb2-metabox-email_settings .cmb-row,
 #cmb2-metabox-ctct_2_generated_metabox .cmb-row,
 #cmb2-metabox-ctct_1_custom_input_css_metabox .cmb-row {
-  padding-bottom: 0px !important;
+  padding-bottom: 0 !important;
 }
 
 #side-sortables #ctct_1_custom_form_css_metabox .cmb-row {
@@ -665,10 +664,9 @@ body.post-type-ctct_forms #titlediv #title {
 .ctct_options_connect .ctct-body .left,
 .ctct_options_connect .ctct-body .right {
   box-sizing: border-box;
-  box-sizing: border-box;
   float: left;
   margin-bottom: -500px;
-  padding: 15px 0px 520px;
+  padding: 15px 0 520px;
   text-align: center;
   width: 50%;
 }
@@ -816,7 +814,6 @@ body.post-type-ctct_forms #titlediv #title {
 
 .ctct-error {
   background: none !important;
-  border-left: 1px solid #FF4136 !important;
   border-radius: 3px;
   border: 1px solid #FF4136;
   box-shadow: none !important;
@@ -952,7 +949,7 @@ a.ctct-notice-dismiss {
 
 @media screen and (max-width: 482px) {
   .constant-contact-about .about-text {
-    margiun: 0;
+    margin: 0;
   }
 }
 
