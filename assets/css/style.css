@@ -27,6 +27,39 @@
   display: inline-block;
 }
 
+@media (min-width: 992px) {
+  .ctct-form-wrapper .ctct-field-half {
+    float: left;
+    margin-right: 2%;
+    width: 48%;
+  }
+  .ctct-form-wrapper .ctct-field-half:last-of-type {
+    margin-right: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .ctct-form-wrapper .ctct-field-third {
+    float: left;
+    margin-right: 2%;
+    width: 32%;
+  }
+  .ctct-form-wrapper .ctct-field-third:last-of-type {
+    margin-right: 0;
+  }
+}
+
+@media (min-width: 992px) {
+  .ctct-form-wrapper .ctct-field-fourth {
+    float: left;
+    margin-right: 2%;
+    width: 24%;
+  }
+  .ctct-form-wrapper .ctct-field-fourth:last-of-type {
+    margin-right: 0;
+  }
+}
+
 .ctct-form-wrapper input[type="text"]:required:valid, .ctct-form-wrapper input[type="email"]:required:valid, .ctct-form-wrapper input[type="password"]:required:valid, .ctct-form-wrapper input[type="tel"]:required:valid, .ctct-form-wrapper input[type="number"]:required:valid {
   background-image: url("../images/check_circle.svg");
   background-position: 8px 50%;

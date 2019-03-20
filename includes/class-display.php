@@ -197,16 +197,53 @@ class ConstantContact_Display {
 	}
 
 	/**
+	 * Set inline title styles.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @return string $title_styles The title styles.
+	 */
+	private function set_title_styles() {
+		$title_styles = '';
+
+		if ( ! empty( $this->specific_form_styles['form_description_color'] ) ) {
+			$title_styles .= ' style="' . esc_attr( $this->specific_form_styles['form_description_color'] ) . '"';
+		}
+
+		return $title_styles;
+	}
+
+	/**
+	 * Generate the form title.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param bool $show_title If true, create title markup.
+	 * @param int  $form_id The form id.
+	 * @return string The form title.
+	 */
+	private function set_form_title( $show_title, $form_id ) {
+
+		if ( ! $show_title ) {
+			return '';
+		}
+
+		$title_styles = $this->set_title_styles();
+
+		return '<h3' . $title_styles . '>' . esc_html( get_the_title( $form_id ) ) . '</h3>';
+	}
+
+	/**
 	 * Main wrapper for getting our form display.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param array  $form_data   Array of form data.
 	 * @param string $form_id     Form ID.
-	 * @param bool   $skip_styles Whether or not to skip style additions.
+	 * @param bool   $show_title  Show title if true.
 	 * @return string Form markup.
 	 */
-	public function form( $form_data, $form_id = '', $skip_styles = false ) {
+	public function form( $form_data, $form_id = '', $show_title = false ) {
 
 		if ( 'publish' !== get_post_status( $form_id ) ) {
 			return '';
@@ -218,6 +255,7 @@ class ConstantContact_Display {
 		$form_err_display = '';
 		$error_message    = false;
 		$status           = false;
+		$form_title       = $this->set_form_title( $show_title, $form_id );
 
 		// Get a potential response from our processing wrapper
 		// This returns an array that has 'status' and 'message keys'
@@ -260,6 +298,9 @@ class ConstantContact_Display {
 
 		// Force uniqueness of an id for the form.
 		$rf_id = 'ctct-form-' . mt_rand();
+
+		// Append form title markup.
+		$return .= $form_title;
 
 		/**
 		 * Filters the action value to use for the contact form.

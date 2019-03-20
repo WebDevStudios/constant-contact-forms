@@ -43,8 +43,13 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function shortcode() {
 
+			$custom_atts = array(
+				'form'       => '',
+				'show_title' => true,
+			);
+
 			// Attributes.
-			$atts = shortcode_atts( array( 'form' => '' ), $this->shortcode_object->atts );
+			$atts = shortcode_atts( $custom_atts, $this->shortcode_object->atts );
 
 			// Use our helper class to display the shortcode.
 			return constant_contact()->display_shortcode->shortcode_wrapper( $atts );

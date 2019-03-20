@@ -37,11 +37,12 @@ function constant_contact_is_not_connected() {
  *
  * @since 1.0.0
  *
- * @param int $form_id Form post ID to grab.
+ * @param int  $form_id Form post ID to grab.
+ * @param bool $show_title If true, show the title.
  * @return string HTML markup
  */
-function constant_contact_get_form( $form_id ) {
-	return constant_contact()->display_shortcode->get_form( $form_id );
+function constant_contact_get_form( $form_id, $show_title = false ) {
+	return constant_contact()->display_shortcode->get_form( $form_id, $show_title );
 }
 
 /**
@@ -49,10 +50,11 @@ function constant_contact_get_form( $form_id ) {
  *
  * @since 1.0.0
  *
- * @param int $form_id Form post ID to grab.
+ * @param int  $form_id Form post ID to grab.
+ * @param bool $show_title If true, show the title.
  */
-function constant_contact_display_form( $form_id ) {
-	constant_contact()->display_shortcode->display_form( $form_id );
+function constant_contact_display_form( $form_id, $show_title = false ) {
+	constant_contact()->display_shortcode->display_form( $form_id, $show_title );
 }
 
 /**

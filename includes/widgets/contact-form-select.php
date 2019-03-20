@@ -39,13 +39,15 @@ class ConstantContactWidget extends WP_Widget {
 	 */
 	public function form( $instance ) {
 		$defaults = array(
-			'ctct_title'   => '',
-			'ctct_form_id' => 0,
+			'ctct_title'      => '',
+			'ctct_form_id'    => 0,
+			'ctct_form_title' => '',
 		);
 		$instance = wp_parse_args( (array) $instance, $defaults );
 
-		$title   = strip_tags( $instance['ctct_title'] );
-		$form_id = absint( $instance['ctct_form_id'] );
+		$title           = strip_tags( $instance['ctct_title'] );
+		$form_id         = absint( $instance['ctct_form_id'] );
+		$show_form_title = ( 'on' === $instance['ctct_form_title'] ) ? $instance['ctct_form_title'] : '';
 
 		$this->form_input_text( array(
 			'label_text' => __( 'Title', 'constant-contact-forms' ),
@@ -54,12 +56,20 @@ class ConstantContactWidget extends WP_Widget {
 			'value'      => $title,
 		) );
 
+
 		$this->form_input_select( array(
 			'label_text' => __( 'Form', 'constant-contact-forms' ),
 			'name'       => $this->get_field_name( 'ctct_form_id' ),
 			'id'         => $this->get_field_id( 'ctct_form_id' ),
 			'options'    => $this->get_forms(),
 			'value'      => $form_id,
+		) );
+
+		$this->form_input_checkbox( array(
+			'label_text' => __( 'Display form title', 'constant-contact-forms' ),
+			'name'       => $this->get_field_name( 'ctct_form_title' ),
+			'id'         => $this->get_field_id( 'ctct_form_title' ),
+			'value'      => $show_form_title,
 		) );
 	}
 
@@ -73,9 +83,15 @@ class ConstantContactWidget extends WP_Widget {
 	 * @return array Updated data.
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance                 = $old_instance;
-		$instance['ctct_title']   = trim( strip_tags( $new_instance['ctct_title'] ) );
-		$instance['ctct_form_id'] = trim( strip_tags( $new_instance['ctct_form_id'] ) );
+		$instance                    = $old_instance;
+		$instance['ctct_title']      = trim( strip_tags( $new_instance['ctct_title'] ) );
+		$instance['ctct_form_id']    = trim( strip_tags( $new_instance['ctct_form_id'] ) );
+
+		if ( empty( $new_instance['ctct_form_title'] ) ) {
+			$instance['ctct_form_title'] = '';
+		} else {
+			$instance['ctct_form_title'] = trim( strip_tags( $new_instance['ctct_form_title'] ) );
+		}
 
 		return $instance;
 	}
@@ -89,16 +105,17 @@ class ConstantContactWidget extends WP_Widget {
 	 * @param array $instance Widget instance.
 	 */
 	public function widget( $args, $instance ) {
-		$title   = trim( strip_tags( $instance['ctct_title'] ) );
-		$form_id = absint( $instance['ctct_form_id'] );
+		$title           = trim( strip_tags( $instance['ctct_title'] ) );
+		$form_id         = absint( $instance['ctct_form_id'] );
+		$show_form_title = ( ! empty( $instance['ctct_form_title'] ) ) ? 'true' : 'false';
 
 		echo $args['before_widget'];
 
-		if ( $title ) {
+		if ( $title ) { // Widget title.
 			echo $args['before_title'] . esc_html( $title ) . $args['after_title'];
 		}
 
-		echo do_shortcode( sprintf( '[ctct form="%s"]', $form_id ) );
+		echo do_shortcode( sprintf( '[ctct form="%s" show_title="%s"]', $form_id, $show_form_title ) );
 
 		echo $args['after_widget'];
 	}
@@ -134,6 +151,32 @@ class ConstantContactWidget extends WP_Widget {
 	 */
 	public function get_form_fields( $post ) {
 		return array( $post->ID => $post->post_title );
+	}
+
+	/**
+	 * Return a checkbox.
+	 *
+	 * @since 1.5.0
+	 *
+	 * @param array $args Arguments for checkbox.
+	 */
+	public function form_input_checkbox( $args = array() ) {
+
+		if ( ! empty( $args ) ) {
+			$label_text = esc_attr( $args['label_text'] );
+			$name       = esc_attr( $args['name'] );
+			$id         = esc_attr( $args['id'] );
+			$value      = esc_attr( $args['value'] );
+
+			printf(
+				'<p><input type="checkbox" class="checkbox" name="%s" id="%s" %s/><label for="%s">%s</label></p>',
+				$name,
+				$id,
+				checked( ! empty( $value ), true, false ),
+				$id,
+				$label_text
+			);
+		}
 	}
 
 	/**
