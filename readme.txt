@@ -41,6 +41,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Added: Ability to conditionally output a reCAPTCHA field for each form.
 * Added: Better compatibility with WP-SpamShield plugin.
 * Added: Quick button to reset a form's style customization selections.
+* Added: Option to display form title with Constant Contact Forms output.
 * Fixed: Added missing label placement options in settings page and per-form dropdown options.
 * Updated: Ensure we have valid URLs when taking custom redirect values.
 * Updated: Append custom textarea content to existing notes for updated contacts.
