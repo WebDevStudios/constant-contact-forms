@@ -90,7 +90,6 @@
 		border: 0px none;
 		padding: 0px;
 	}
-
 	.no-recaptcha #ctct-submitted:disabled {
 		background-image: url('../images/oval.min.svg');
 		background-position: center;
@@ -99,7 +98,6 @@
 		cursor: wait;
 		opacity: 0.3;
 	}
-
 	.has-recaptcha #ctct-submitted:disabled {
 	  cursor: not-allowed;
 	}

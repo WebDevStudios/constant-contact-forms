@@ -66,7 +66,7 @@ class ConstantContact_Display {
 		wp_register_script(
 			'ctct_frontend_forms',
 			constant_contact()->url() . 'assets/js/ctct-plugin-frontend' . $suffix . '.js',
-			array(),
+			array( 'jquery' ),
 			Constant_Contact::VERSION,
 			true
 		);
@@ -90,7 +90,6 @@ class ConstantContact_Display {
 	 * Retrieve the styles set globally for forms.
 	 *
 	 * @since  1.4.0
-	 * @author Scott Tirrell
 	 */
 	public function set_global_form_css() {
 
@@ -121,7 +120,6 @@ class ConstantContact_Display {
 	 * @param int $form_id The id of the form.
 	 *
 	 * @since  1.4.0
-	 * @author Scott Tirrell
 	 */
 	public function set_specific_form_css( $form_id ) {
 		$defaults = array(
@@ -312,12 +310,14 @@ class ConstantContact_Display {
 		 * @param string $value   Value to put in the form action attribute. Default empty string.
 		 * @param int    $form_id ID of the Constant Contact form being rendered.
 		 */
-		$form_action    = apply_filters( 'constant_contact_front_form_action', '', $form_id );
-		$should_do_ajax = get_post_meta( $form_id, '_ctct_do_ajax', true );
-		$do_ajax        = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
-		$form_classes   = 'ctct-form ctct-form-' . $form_id;
-		$form_classes  .= ( $this->plugin->settings->has_recaptcha() ) ? ' has-recaptcha' : ' no-recaptcha';
-		$form_classes  .= $this->build_custom_form_classes();
+		$form_action              = apply_filters( 'constant_contact_front_form_action', '', $form_id );
+		$should_do_ajax           = get_post_meta( $form_id, '_ctct_do_ajax', true );
+		$do_ajax                  = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
+		$should_disable_recaptcha = get_post_meta( $form_id, '_ctct_disable_recaptcha', true );
+		$disable_recaptcha        = ( 'on' === $should_disable_recaptcha );
+		$form_classes             = 'ctct-form ctct-form-' . $form_id;
+		$form_classes             .= ( $this->plugin->settings->has_recaptcha() ) ? ' has-recaptcha' : ' no-recaptcha';
+		$form_classes             .= $this->build_custom_form_classes();
 
 		$form_styles = '';
 		if ( ! empty( $this->specific_form_styles['form_background_color'] ) ) {
@@ -354,7 +354,7 @@ class ConstantContact_Display {
 		// Output our normal form fields.
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
-		if ( $this->plugin->settings->has_recaptcha() ) {
+		if ( $this->plugin->settings->has_recaptcha() && ! $disable_recaptcha ) {
 			$return .= $this->build_recaptcha();
 		}
 
@@ -811,13 +811,18 @@ class ConstantContact_Display {
 	 * @return string HTML markup.
 	 */
 	public function message( $type, $message ) {
-		return '<p class="ctct-message ' . esc_attr( $type ) . '">' . esc_attr( $message ) . '</p>';
+		$role = ( 'error' === $type ) ? ' role="alert"' : '';
+		return sprintf(
+			'<p class="ctct-message %s"%s>%s</p>',
+			esc_attr( $type ),
+			$role,
+			esc_html( $message )
+		);
 	}
 
 	/**
 	 * Get an inline style tag to use for the form's description.
 	 *
-	 * @author Scott Tirrell
 	 * @since  1.4.0
 	 *
 	 * @return string The inline style tag for the form's description.
@@ -938,7 +943,6 @@ class ConstantContact_Display {
 	 * Get inline styles for the form's submit button.
 	 *
 	 * @since 1.4.0
-	 * @author Scott Tirrell
 	 *
 	 * @return string
 	 */
@@ -1006,7 +1010,6 @@ class ConstantContact_Display {
 		$input_inline_styles   = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
-
 		$inline_font_styles    = $this->get_inline_font_color();
 
 		// Use different styles for submit button.
@@ -1026,15 +1029,7 @@ class ConstantContact_Display {
 		$req_label = '';
 		// If this is required, we output the HMTL5 required att.
 		if ( $req ) {
-
-			/**
-			 * Filters the markup used for the required indicator.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
-			 */
-			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+			$req_label = $this->display_required_indicator();
 		}
 		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
 			if ( $inline_font_styles ) {
@@ -1042,7 +1037,6 @@ class ConstantContact_Display {
 			} else {
 				$markup .= '<span class="' . $label_placement_class . '">';
 			}
-
 			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
 		}
@@ -1320,18 +1314,10 @@ class ConstantContact_Display {
 		$v_state  = isset( $value['state_address'] ) ? $value['state_address'] : '';
 		$v_zip    = isset( $value['zip_address'] ) ? $value['zip'] : '';
 
-		/**
-		 * Filters the markup used for the required indicator.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
-		 */
-		$req_label             = $req ? ' ' . apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' ) : '';
+		$req_label             = $req ? ' ' . $this->display_required_indicator() : '';
 		$req_class             = $req ? ' ctct-form-field-required ' : '';
 		$req                   = $req ? ' required ' : '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
-
 		$inline_font_styles    = $this->get_inline_font_color();
 
 		$label_street1 = sprintf(
@@ -1727,15 +1713,7 @@ class ConstantContact_Display {
 		// If required, get our label.
 		$req_label = '';
 		if ( $req ) {
-
-			/**
-			 * Filters the markup used for the required indicator.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
-			 */
-			$req_label = apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+			$req_label = $this->display_required_indicator();
 		}
 
 		$return   = '<p class="' . implode( ' ', $classes ) . '">';
@@ -1860,5 +1838,21 @@ class ConstantContact_Display {
 		return $inline_font_styles;
 	}
 
+	/**
+	 * Display the markup for the required indicator.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string The required indicator markup.
+	 */
+	public function display_required_indicator() {
+		/**
+		 * Filters the markup used for the required indicator.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+		 */
+		return apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+	}
 }
-

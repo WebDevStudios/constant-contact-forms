@@ -1315,3 +1315,12 @@ a.ctct-notice-dismiss {
 .ctct_options_connect .ctct-body .button.button-blue:hover, .ctct_options_connect .ctct-body .button.button-blue:focus {
   background-color: #005990;
 }
+
+.ctct-block-title {
+  margin: 0;
+}
+
+.ctct-block-container {
+  padding-bottom: 20px;
+  padding-top: 15px;
+}
