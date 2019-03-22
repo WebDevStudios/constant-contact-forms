@@ -541,41 +541,10 @@ class Constant_Contact {
 	 */
 	public function load_libs() {
 
-		// Set an array of libraries we need to load.
-		$libs = array(
-			'psr/log/vendor/autoload.php',
-			'monolog/monolog/vendor/autoload.php',
-			'CMB2/init.php',
-			'constantcontact/autoload.php',
-			'constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php',
+		// Load what we can, automagically.
+		require_once $this->dir( 'vendor/autoload.php' );
 
-			'defuse-php-encryption/Exception/CryptoException.php',
-			'defuse-php-encryption/Exception/BadFormatException.php',
-			'defuse-php-encryption/Exception/EnvironmentIsBrokenException.php',
-			'defuse-php-encryption/Exception/IOException.php',
-			'defuse-php-encryption/Exception/WrongKeyOrModifiedCiphertextException.php',
-
-			'defuse-php-encryption/Core.php',
-			'defuse-php-encryption/Crypto.php',
-			'defuse-php-encryption/DerivedKeys.php',
-			'defuse-php-encryption/Encoding.php',
-			'defuse-php-encryption/Key.php',
-			'defuse-php-encryption/KeyOrPassword.php',
-			'defuse-php-encryption/RuntimeTests.php',
-
-			'recaptcha/src/autoload.php',
-		);
-
-		// If we don't alrady have WDS_Shortcodes loaded somewhere else, load it up.
-		if ( ! function_exists( 'wds_shortcodes' ) ) {
-			$libs[] = 'WDS-Shortcodes/wds-shortcodes.php';
-		}
-
-		// Loop through our vendor libraries and load them.
-		foreach ( $libs as $lib ) {
-			// Require_once our file.
-			require_once( $this->dir( "vendor/{$lib}" ) );
-		}
+		require_once( $this->dir( 'vendor/cmb2/cmb2/init.php' ) );
 	}
 
 	/**
@@ -595,6 +564,11 @@ class Constant_Contact {
 			}
 			// Set up our base WDS_Shortcodes class.
 			$this->shortcode = new ConstantContact_Shortcode();
+			$this->shortcode->hooks();
+			$this->shortcode->atts_defaults = [
+				'form'       => '0',
+				'show_title' => 'false',
+			];
 
 			// Set our custom shortcode with correct version and data.
 			$this->shortcode_admin = new ConstantContact_Shortcode_Admin(
