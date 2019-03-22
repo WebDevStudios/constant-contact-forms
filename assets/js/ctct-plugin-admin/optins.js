@@ -1,13 +1,13 @@
 window.CTCT_OptIns = {};
 ( function( window, $, app ) {
 
-	// Constructor
-	app.init = function() {
+	// Constructor.
+	app.init = function () {
 		app.cache();
 		app.bindEvents();
 	};
 
-	// Cache all the things
+	// Cache all the things.
 	app.cache = function() {
 		app.$c = {
 			optin_no_conn : $( '#cmb2-metabox-ctct_1_optin_metabox #_ctct_opt_in_not_connected' ),
@@ -19,28 +19,28 @@ window.CTCT_OptIns = {};
 		};
 	};
 
-	// Combine all events
+	// Combine all events.
 	app.bindEvents = function() {
 
-		// Only fire show/hide if we have the normal checkbox
+		// Only fire show/hide if we have the normal checkbox.
 		if ( app.$c.optin_no_conn.length ) {
 
-			// Fire once to get our loaded state set up
+			// Fire once to get our loaded state set up.
 			app.toggleNoConnectionFields();
 
-			// Bind to fire when needed
+			// Bind to fire when needed.
 			app.$c.optin_no_conn.change( function() {
 				app.toggleNoConnectionFields();
 			});
 		}
 
-		// Only fire show/hide if we have the normal checkbox
+		// Only fire show/hide if we have the normal checkbox.
 		if ( app.$c.list.length ) {
 
-			// Fire once to get our loaded state set up
+			// Fire once to get our loaded state set up.
 			app.toggleConnectionFields();
 
-			// Bind to fire when needed
+			// Bind to fire when needed.
 			app.$c.list.change( function() {
 				app.toggleConnectionFields();
 			});
@@ -48,19 +48,19 @@ window.CTCT_OptIns = {};
 	};
 
 	// Toggle un-needed optin fields if we're not showing the opt-in.
-	// this runs for the not-connected fields
-	app.toggleNoConnectionFields = function() {
+	// this runs for the not-connected fields.
+	app.toggleNoConnectionFields = function () {
 
 		// If checked, show them, else hide it.
-		if ( app.$c.optin_no_conn.prop( 'checked' ) ) {
+		if (app.$c.optin_no_conn.prop( 'checked' )) {
 			app.$c.instruct.slideDown();
 		} else {
 			app.$c.instruct.slideUp();
 		}
-	}
+	};
 
 	// Toggle un-needed optin fields if we're not showing the opt-in.
-	// this runs for our connected fields
+	// this runs for our connected fields.
 	app.toggleConnectionFields = function() {
 
 		// If checked, show them, else hide it.
@@ -73,9 +73,9 @@ window.CTCT_OptIns = {};
 			app.$c.optin.slideUp();
 			app.$c.instruct.slideUp();
 		}
-	}
+	};
 
-	// Engage
+	// Engage.
 	$( app.init );
 
 })( window, jQuery, window.CTCT_OptIns );

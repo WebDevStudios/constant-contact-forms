@@ -41,8 +41,8 @@ class ConstantContact_Process_Form {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-		add_action( 'wp_ajax_ctct_process_form', array( $this, 'process_form_ajax_wrapper' ) );
-		add_action( 'wp_ajax_nopriv_ctct_process_form', array( $this, 'process_form_ajax_wrapper' ) );
+		add_action( 'wp_ajax_ctct_process_form', [ $this, 'process_form_ajax_wrapper' ] );
+		add_action( 'wp_ajax_nopriv_ctct_process_form', [ $this, 'process_form_ajax_wrapper' ] );
 	}
 
 	/**
@@ -65,7 +65,7 @@ class ConstantContact_Process_Form {
 			$data = explode( '&', $_POST['data'] );
 
 			// Finish converting that ajax data to something we can use.
-			$json_data = array();
+			$json_data = [];
 
 			// Make sure we have an array of data.
 			if ( is_array( $data ) ) {
@@ -104,7 +104,7 @@ class ConstantContact_Process_Form {
 			// Default to no status.
 			$status = false;
 
-			$default_error = __( 'There was an error sending your form.', 'constant-contact-forms' );
+			$default_error = esc_html__( 'There was an error sending your form.', 'constant-contact-forms' );
 
 			// If we got a status back, check that in our list of returns.
 			if ( isset( $response['status'] ) && $response['status'] ) {
@@ -133,12 +133,12 @@ class ConstantContact_Process_Form {
 
 				// Required field errors.
 				case 'req_error':
-					return array(
+					return [
 						'status'  => 'error',
 						'message' => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
 						'errors'  => isset( $response['errors'] ) ? $response['errors'] : '',
 						'values'  => isset( $response['values'] ) ? $response['values'] : '',
-					);
+					];
 
 				// All else fails, then we'll just use the default.
 				default:
@@ -147,10 +147,10 @@ class ConstantContact_Process_Form {
 			}
 
 			// Send back our response.
-			wp_send_json( array(
+			wp_send_json( [
 				'status'  => $status,
 				'message' => $message,
-			) );
+			] );
 
 			// Die out of the ajax request.
 			wp_die();
@@ -184,33 +184,33 @@ class ConstantContact_Process_Form {
 
 		// If we don't have our submitted form id, just bail out.
 		if ( ! isset( $data['ctct-id'] ) ) {
-			return array(
+			return [
 				'status' => 'named_error',
 				'error'  => __( 'No Constant Contact Forms form ID provided', 'constant-contact-forms' ),
-			);
+			];
 		}
 
 		// If we don't have our submitted form verify, just bail out.
 		if ( ! isset( $data['ctct-verify'] ) ) {
-			return array(
+			return [
 				'status' => 'named_error',
 				'error'  => __( 'No form verify value provided', 'constant-contact-forms' ),
-			);
+			];
 		}
 
 		// Honeypot. Should be empty to proceed.
 		if ( ! empty( $data['ctct_usage_field'] ) ) {
-			return array(
+			return [
 				'status' => 'named_error',
-				'error'  => __( 'We do no think you are human', 'constant-contact-forms' ),
-			);
+				'error'  => $this->get_spam_message( $data['ctct-id'] ),
+			];
 		}
 
 		if ( ! $this->has_all_required_fields( $data['ctct-id'], $data ) ) {
-			return array(
+			return [
 				'status' => 'named_error',
 				'error'  => __( 'Please properly fill out all required fields', 'constant-contact-forms' ),
-			);
+			];
 		}
 
 		if ( isset( $data['g-recaptcha-response'] ) ) {
@@ -224,12 +224,19 @@ class ConstantContact_Process_Form {
 			$resp = $recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
 
 			if ( ! $resp->isSuccess() ) {
-				constant_contact_maybe_log_it( 'reCAPTCHA', 'Failed to verify with Google reCAPTCHA', array( $resp->getErrorCodes() ) );
-				return array(
+				constant_contact_maybe_log_it( 'reCAPTCHA', 'Failed to verify with Google reCAPTCHA', [ $resp->getErrorCodes() ] );
+				return [
 					'status' => 'named_error',
 					'error'  => __( 'Failed reCAPTCHA check', 'constant-contact-forms' ),
-				);
+				];
 			}
+		}
+
+		if ( $this->plugin->settings->has_recaptcha() && ( empty( $data['g-recaptcha-response'] ) ) ) {
+			return [
+				'status' => 'named_error',
+				'error'  => $this->get_spam_message( $data['ctct-id'] ),
+			];
 		}
 
 		/**
@@ -241,10 +248,10 @@ class ConstantContact_Process_Form {
 		 * @param array $data  Submitted form data.
 		 */
 		if ( true === apply_filters( 'constant_contact_maybe_spam', false, $data ) ) {
-			return array(
+			return [
 				'status' => 'named_error',
-				'error'  => __( 'We do no think you are human', 'constant-contact-forms' ),
-			);
+				'error'  => $this->get_spam_message( $data['ctct-id'] ),
+			];
 		}
 
 		// Verify our nonce first.
@@ -254,41 +261,41 @@ class ConstantContact_Process_Form {
 		) {
 			constant_contact_maybe_log_it( 'Nonces', 'ctct_submit_form nonce failed to verify.' );
 			// Figure out a way to pass errors back.
-			return array(
+			return [
 				'status' => 'named_error',
 				'error'  => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
-			);
+			];
 		}
 
 		// Make sure we have an original form id.
 		$orig_form_id = absint( $data['ctct-id'] );
 		if ( ! $orig_form_id ) {
-			return array(
+			return [
 				'status' => 'named_error',
-				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constant-contact-forms' ),
-			);
+				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required form ID and try again.", 'constant-contact-forms' ),
+			];
 		}
 
 		// Make sure we have a verify value.
 		$form_verify = esc_attr( $data['ctct-verify'] );
 		if ( ! $form_verify ) {
-			return array(
+			return [
 				'status' => 'named_error',
 				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constant-contact-forms' ),
-			);
+			];
 		}
 
 		// Make sure our verify key matches our saved one.
 		$orig_verify = get_post_meta( $orig_form_id, '_ctct_verify_key', true );
 		if ( $orig_verify !== $form_verify ) {
-			return array(
+			return [
 				'status' => 'named_error',
-				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again.", 'constant-contact-forms' ),
-			);
+				'error'  => __( "We had trouble processing your submission. Make sure you haven't changed the required form ID and try again.", 'constant-contact-forms' ),
+			];
 		}
 
 		// Allow ignoring of certain keys, like our nonce.
-		$ignored_keys = apply_filters( 'constant_contact_ignored_post_form_values', array(
+		$ignored_keys = apply_filters( 'constant_contact_ignored_post_form_values', [
 			'ctct-submitted',
 			'ctct_form',
 			'_wp_http_referer',
@@ -297,7 +304,7 @@ class ConstantContact_Process_Form {
 			'ctct_usage_field',
 			'g-recaptcha-response',
 			'ctct_must_opt_in',
-		) );
+		], $orig_form_id );
 
 		// If the submit button is clicked, send the email.
 		foreach ( $data as $key => $value ) {
@@ -312,10 +319,10 @@ class ConstantContact_Process_Form {
 			}
 
 			// Add our responses to a form we can deal with shortly.
-			$return['values'][] = array(
+			$return['values'][] = [
 				'key'   => sanitize_text_field( $key ),
 				'value' => sanitize_text_field( $value ),
-			);
+			];
 		}
 
 		if ( ! isset( $return['values'] ) || ! is_array( $return['values'] ) ) {
@@ -329,11 +336,11 @@ class ConstantContact_Process_Form {
 		if ( is_array( $field_errors ) && ! empty( $field_errors ) ) {
 
 			// Send back an error status, a message, the errors we found, and all orig values.
-			return array(
+			return [
 				'status' => 'req_error',
 				'errors' => $field_errors,
 				'values' => $return['values'],
-			);
+			];
 		}
 
 		if ( ! isset( $data['ctct-opt-in'] ) ) {
@@ -367,7 +374,7 @@ class ConstantContact_Process_Form {
 
 		// Sanity check.
 		if ( ! is_array( $values ) ) {
-			return array();
+			return [];
 		}
 
 		// Loop through once to get our form ID.
@@ -391,7 +398,7 @@ class ConstantContact_Process_Form {
 
 		// If we didn't get a form ID, bail out.
 		if ( ! $form_id ) {
-			return array();
+			return [];
 		}
 
 		// Get our original fields.
@@ -399,11 +406,11 @@ class ConstantContact_Process_Form {
 
 		// If its not an array, bail out.
 		if ( ! is_array( $orig_fields ) ) {
-			return array();
+			return [];
 		}
 
 		// This is what we'll use.
-		$pretty_values = array();
+		$pretty_values = [];
 
 		// Loop through each field again.
 		foreach ( $values as $key => $value ) {
@@ -432,11 +439,11 @@ class ConstantContact_Process_Form {
 			$value['value'] = isset( $value['value'] ) ? $value['value'] : '';
 
 			// Send back our data.
-			$pretty_values[] = array(
+			$pretty_values[] = [
 				'orig'     => $orig_fields[ $key ],
 				'post'     => $value['value'],
 				'orig_key' => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
-			);
+			];
 
 		}
 
@@ -456,7 +463,7 @@ class ConstantContact_Process_Form {
 
 		// Sanity check.
 		if ( ! $form_id ) {
-			return array();
+			return [];
 		}
 
 		// Get our fields post meta.
@@ -464,11 +471,11 @@ class ConstantContact_Process_Form {
 
 		// Sanity check again.
 		if ( ! is_array( $fields ) ) {
-			return array();
+			return [];
 		}
 
 		// Start our return array.
-		$return = array();
+		$return = [];
 
 		// Loop through fields to expand some multi-field groups.
 		foreach ( $fields as $field ) {
@@ -479,13 +486,13 @@ class ConstantContact_Process_Form {
 			}
 
 			// Set our key field thing.
-			$field_key = array(
+			$field_key = [
 				'name'        => isset( $field['_ctct_field_label'] ) ? $field['_ctct_field_label'] : '',
 				'map_to'      => isset( $field['_ctct_map_select'] ) ? $field['_ctct_map_select'] : '',
 				'type'        => isset( $field['_ctct_map_select'] ) ? $field['_ctct_map_select'] : '',
 				'description' => isset( $field['_ctct_field_desc'] ) ? $field['_ctct_field_desc'] : '',
 				'required'    => ( isset( $field['_ctct_required_field'] ) && $field['_ctct_required_field'] ) ? true : false,
-			);
+			];
 
 			switch ( $field['_ctct_map_select'] ) {
 				case 'address':
@@ -542,11 +549,11 @@ class ConstantContact_Process_Form {
 
 		// Sanity check.
 		if ( ! is_array( $values ) ) {
-			return array();
+			return [];
 		}
 
 		// Set up an array to populate with errors.
-		$err_returns = array();
+		$err_returns = [];
 
 		// Loop through each value.
 		foreach ( $values as $value ) {
@@ -569,29 +576,27 @@ class ConstantContact_Process_Form {
 			) {
 				// If it was required, check for a value.
 				if ( ! $value['post'] ) {
-					$err_returns[] = array(
+					$err_returns[] = [
 						'map'   => $value['orig']['map_to'],
 						'id'    => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
 						'error' => 'required',
-					);
+					];
 				}
 			}
 
 			if ( 'email' === $value['orig']['map_to'] ) {
 				if ( sanitize_email( $value['post'] ) !== $value['post'] ) {
-					$err_returns[] = array(
+					$err_returns[] = [
 						'map'   => $value['orig']['map_to'],
 						'id'    => isset( $value['orig_key'] ) ? $value['orig_key'] : '',
 						'error' => 'invalid',
-					);
+					];
 				}
 			}
 		}
 
 		return $err_returns;
 	}
-
-
 
 	/**
 	 * Clean our values from form submission.
@@ -608,7 +613,7 @@ class ConstantContact_Process_Form {
 			return $values;
 		}
 
-		$return_values = array();
+		$return_values = [];
 
 		// Loop through each of our values.
 		foreach ( $values as $value ) {
@@ -626,11 +631,11 @@ class ConstantContact_Process_Form {
 				continue;
 			}
 
-			$return_values[ sanitize_text_field( $value['key'] ) ] = array(
+			$return_values[ sanitize_text_field( $value['key'] ) ] = [
 				'key'      => sanitize_text_field( $key_break[0] ),
 				'value'    => sanitize_text_field( $value['value'] ),
 				'orig_key' => $value['key'],
-			);
+			];
 		}
 
 		return $return_values;
@@ -643,7 +648,7 @@ class ConstantContact_Process_Form {
 	 *
 	 * @param array      $form_data Form data to process.
 	 * @param string|int $form_id   Form ID being processed.
-	 * @return array
+	 * @return false|array
 	 */
 	public function process_wrapper( $form_data = array(), $form_id = 0 ) {
 
@@ -652,7 +657,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// @todo Utilize $form_data.
-		if ( isset( $_POST['ctct-id'] ) && $form_id != absint( $_POST['ctct-id'] ) ) {
+		if ( isset( $_POST['ctct-id'] ) && $form_id !== absint( $_POST['ctct-id'] ) ) {
 			return false;
 		}
 
@@ -660,7 +665,7 @@ class ConstantContact_Process_Form {
 		$processed = $this->process_form();
 
 		// Set up our default error.
-		$default_error = __( 'There was an error sending your form.', 'constant-contact-forms' );
+		$default_error = esc_html__( 'There was an error sending your form.', 'constant-contact-forms' );
 
 		// Default to no status.
 		$status = false;
@@ -697,23 +702,23 @@ class ConstantContact_Process_Form {
 
 			// Required field errors.
 			case 'req_error':
-				return array(
+				return [
 					'status'  => 'error',
-					'message' => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
+					'message' => esc_html__( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
 					'errors'  => isset( $processed['errors'] ) ? $processed['errors'] : '',
 					'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
-				);
+				];
 
 			// All else fails, then we'll just use the default.
 			default:
 				$message = '';
 				break;
-		} // End switch().
+		} // End switch.
 
-		return array(
+		return [
 			'status'  => $status,
 			'message' => $message,
-		);
+		];
 	}
 
 	/**
@@ -755,5 +760,26 @@ class ConstantContact_Process_Form {
 			}
 		}
 		return $has_all;
+	}
+
+	/**
+	 * Gets the non-human error messeage dispalyed when we think there's a bot.
+	 *
+	 * @since 1.5.0
+	 * @param int $post_id The ID of the current post.
+	 * @return string
+	 */
+	private function get_spam_message( $post_id ) {
+		$error = esc_html__( 'We do no think you are human', 'constant-contact-forms' );
+
+		/**
+		 * Filter the error message displayed for suspected non-humans.
+		 *
+		 * @since 1.5.0
+		 * @param string $error The error message dispalyed.
+		 * @param mixed  $post_id The ID of the current post.
+		 * @return string
+		 */
+		return apply_filters( 'ctct_custom_spam_message', $error, $post_id );
 	}
 }
