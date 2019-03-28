@@ -46,7 +46,7 @@ class ConstantContact_Builder {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		add_action( 'init', array( $this, 'hooks' ) );
+		add_action( 'init', [ $this, 'hooks' ] );
 	}
 
 	/**
@@ -60,17 +60,17 @@ class ConstantContact_Builder {
 		/** This filter is documented in includes/class-buider-fields.php */
 		$form_builder_pages = apply_filters(
 			'constant_contact_form_builder_pages',
-			array( 'post-new.php', 'post.php' )
+			[ 'post-new.php', 'post.php' ]
 		);
 
-		// Only load the cmb2 fields on our specified pages
+		// Only load the cmb2 fields on our specified pages.
 		if ( in_array( $pagenow, $form_builder_pages, true ) ) {
 
-			add_action( 'cmb2_after_post_form_ctct_0_description_metabox', array( $this, 'add_form_css' ) );
+			add_action( 'cmb2_after_post_form_ctct_0_description_metabox', [ $this, 'add_form_css' ] );
 
-			add_action( 'cmb2_save_field', array( $this, 'override_save' ), 10, 4 );
-			add_action( 'admin_notices', array( $this, 'admin_notice' ) );
-			add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
+			add_action( 'cmb2_save_field', [ $this, 'override_save' ], 10, 4 );
+			add_action( 'admin_notices', [ $this, 'admin_notice' ] );
+			add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
 		}
 
 	}
@@ -84,29 +84,26 @@ class ConstantContact_Builder {
 	 */
 	public function get_lists() {
 
-		// Grab our lists
-		$lists = constant_contact()->lists->get_lists();
-		$get_lists = array();
+		// Grab our lists.
+		$lists     = constant_contact()->lists->get_lists();
+		$get_lists = [];
 
-		// Data verification
+		// Data verification.
 		if ( $lists && is_array( $lists ) ) {
 
-			// Loop though our lists
+			// Loop though our lists.
 			foreach ( $lists as $list => $value ) {
 
 				// Make sure we have something to use as a key and a value,
-				// and that we don't overwrite our 'new' value we set before
+				// and that we don't overwrite our 'new' value we set before.
 				if ( ! empty( $list ) && ! empty( $value ) && 'new' !== $list ) {
 					$get_lists[ $list ] = $value;
 				}
 			}
-
-			// Return those lists
-			return $get_lists;
 		}
 
-		// If we got this far, we didn't get any lists
-		return array();
+		// Return those lists.
+		return $get_lists;
 	}
 
 	/**
@@ -116,7 +113,7 @@ class ConstantContact_Builder {
 	 */
 	public function add_form_css() {
 
-		// Let's style this thing
+		// Let's style this thing.
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 	}
 
@@ -159,7 +156,7 @@ class ConstantContact_Builder {
 			// Loop through all of our custom fields group fields.
 			foreach ( $cmbobj->data_to_save['custom_fields_group'] as $data ) {
 
-				// If we have a an email field set in our map select:
+				// If we have a an email field set in our map select.
 				if ( ( isset( $data['_ctct_map_select'] ) && 'email' === $data['_ctct_map_select'] ) || ! isset( $data['_ctct_map_select'] ) ) {
 
 					// Update our post meta to mark that we have email.
@@ -201,7 +198,7 @@ class ConstantContact_Builder {
 				echo '</p></div>';
 			}
 
-			$custom_fields = get_post_meta( $post->ID, 'custom_fields_group', true );
+			$custom_fields          = get_post_meta( $post->ID, 'custom_fields_group', true );
 			$custom_textareas_count = (int) 0;
 			if ( ! empty( $custom_fields ) && is_array( $custom_fields ) ) {
 				foreach ( $custom_fields as $field ) {
@@ -258,7 +255,7 @@ class ConstantContact_Builder {
 			! constant_contact()->api->is_connected()
 		) {
 			// Inject in a query arg that we can read later.
-			add_filter( 'redirect_post_location', array( $this, 'add_not_conn_query_arg' ), 99 );
+			add_filter( 'redirect_post_location', [ $this, 'add_not_conn_query_arg' ], 99 );
 		}
 	}
 
@@ -273,10 +270,10 @@ class ConstantContact_Builder {
 	public function add_not_conn_query_arg( $location ) {
 
 		// Remove our filter that we added before.
-		remove_filter( 'redirect_post_location', array( $this, 'add_notice_query_var' ), 99 );
+		remove_filter( 'redirect_post_location', [ $this, 'add_notice_query_var' ], 99 );
 
 		// Inject in our query arg.
-		return add_query_arg( array( 'ctct_not_connected' => 'true' ), $location );
+		return add_query_arg( [ 'ctct_not_connected' => 'true' ], $location );
 	}
 
 	/**
@@ -340,7 +337,7 @@ class ConstantContact_Builder {
 							<p>
 								<?php esc_attr_e( 'Import everything into Constant Contact so I can see what email marketing can do for me.', 'constant-contact-forms' ); ?>
 							</p>
-							<a href="<?php echo esc_url_raw( add_query_arg( array( 'rmc' => 'wp_fmodal_try' ), constant_contact()->api->get_signup_link() ) ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>"><?php esc_html_e( 'Try Us Free', 'constant-contact-forms' ); ?></a><br/>
+							<a href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_fmodal_try' ], constant_contact()->api->get_signup_link() ) ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>"><?php esc_html_e( 'Try Us Free', 'constant-contact-forms' ); ?></a><br/>
 							<img
 								class="flare"
 								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-modal-logo.png' ); ?>"
@@ -357,7 +354,7 @@ class ConstantContact_Builder {
 							<p>
 								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account.', 'constant-contact-forms' ); ?>
 							</p>
-							<a href="<?php echo esc_url_raw( add_query_arg( array( 'rmc' => 'wp_fmodal_connect' ), constant_contact()->api->get_connect_link() ) ); ?>" target="_blank" class="button button-blue" title="<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>">
+							<a href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_fmodal_connect' ], constant_contact()->api->get_connect_link() ) ); ?>" target="_blank" class="button button-blue" title="<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>">
 								<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
 							</a><br/>
 							<p class="small"><small><?php esc_attr_e( 'By connecting, you authorize this

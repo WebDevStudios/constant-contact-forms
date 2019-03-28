@@ -59,14 +59,14 @@ class ConstantContact_Gutenberg {
 	 * @since 1.5.0
 	 */
 	public function register_blocks() {
-		register_block_type( 'constant-contact/single-contact-form', array(
-			'attributes'      => array(
-				'selectedForm' => array(
+		register_block_type( 'constant-contact/single-contact-form', [
+			'attributes'      => [
+				'selectedForm' => [
 					'type' => 'number',
-				),
-			),
-			'render_callback' => array( $this, 'display_single_contact_form' ),
-		));
+				],
+			],
+			'render_callback' => [ $this, 'display_single_contact_form' ],
+		] );
 	}
 
 	/**

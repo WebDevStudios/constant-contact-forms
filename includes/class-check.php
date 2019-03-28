@@ -78,16 +78,16 @@ class ConstantContact_Check {
 		 *
 		 * @param array $value Array of things to check for.
 		 */
-		return apply_filters( 'constant_contact_server_checks', array(
-			'functions' => array(
+		return apply_filters( 'constant_contact_server_checks', [
+			'functions' => [
 				'openssl_encrypt',
 				'openssl_decrypt',
-			),
-			'classes' => array(
+			],
+			'classes'   => [
 				'CMB2',
 				'WDS_Shortcodes',
-			),
-		) );
+			],
+		] );
 	}
 
 
@@ -173,15 +173,15 @@ class ConstantContact_Check {
 		$sslverify     = version_compare( $wp_version, 4.0, '<' );
 		$doing_wp_cron = sprintf( '%.22F', microtime( true ) );
 
-		$cron_request = apply_filters( 'cron_request', array(
+		$cron_request = apply_filters( 'cron_request', [
 			'url'  => site_url( 'wp-cron.php?doing_wp_cron=' . $doing_wp_cron ),
 			'key'  => $doing_wp_cron,
-			'args' => array(
+			'args' => [
 				'timeout'   => 3,
 				'blocking'  => true,
 				'sslverify' => apply_filters( 'https_local_ssl_verify', $sslverify ),
-			),
-		) );
+			],
+		] );
 
 		$cron_request['args']['blocking'] = true;
 
