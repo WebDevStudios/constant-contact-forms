@@ -26,7 +26,7 @@ class SingleFormSelect extends Component {
 	async componentDidMount() {
 
 		try {
-			const results = await apiFetch( { path: '/wp-json/wp/v2/ctct_forms' } );
+			const results = await apiFetch( { path: '/?rest_route=/wp/v2/ctct_forms' } );
 			const forms = results.map( result => ( { label: result.title.rendered, value: result.id } ) );
 			this.setState( { forms: [...this.state.forms, ...forms ] } );
 		} catch ( e ) {
