@@ -88,10 +88,10 @@ class ConstantContact_Connect {
 	 */
 	public function hooks() {
 
-		add_action( 'init', array( $this, 'maybe_connect' ) );
+		add_action( 'init', [ $this, 'maybe_connect' ] );
 
-		add_action( 'plugins_loaded', array( $this, 'maybe_disconnect' ) );
-		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
+		add_action( 'plugins_loaded', [ $this, 'maybe_disconnect' ] );
+		add_action( 'admin_menu', [ $this, 'add_options_page' ] );
 	}
 
 	/**
@@ -109,10 +109,10 @@ class ConstantContact_Connect {
 			// Call our access token processing.
 			$verified = constant_contact()->authserver->verify_and_save_access_token_return();
 
-			$redirect_args = array(
+			$redirect_args = [
 				'post_type' => 'ctct_forms',
 				'page'      => 'ctct_options_connect',
-			);
+			];
 
 			if ( ! $verified ) {
 				$redirect_args['ctct_connect_error'] = 'true';
@@ -145,7 +145,7 @@ class ConstantContact_Connect {
 			$connect_title,
 			'manage_options',
 			$this->key,
-			array( $this, 'admin_page_display' )
+			[ $this, 'admin_page_display' ]
 		);
 	}
 
@@ -164,7 +164,7 @@ class ConstantContact_Connect {
 
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 
-		wp_localize_script( 'ctct_form', 'ctct_texts', array( 'disconnectconfirm' => __( 'Are you sure you want to disconnect?', 'constant-contact-forms' ) ) );
+		wp_localize_script( 'ctct_form', 'ctct_texts', [ 'disconnectconfirm' => __( 'Are you sure you want to disconnect?', 'constant-contact-forms' ) ] );
 
 		wp_enqueue_script( 'ctct_form' );
 		?>
@@ -236,7 +236,7 @@ class ConstantContact_Connect {
 					$proof     = constant_contact()->authserver->set_verification_option();
 					$auth_link = constant_contact()->authserver->do_connect_url( $proof );
 
-					$auth_link = add_query_arg( array( 'rmc' => 'wp_connect_connect' ), $auth_link );
+					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
 
 					// If we have a link, then display the connect button.
 					if ( $auth_link ) { ?>
@@ -251,7 +251,7 @@ class ConstantContact_Connect {
 						<h3><?php esc_html_e( 'No Constant Contact account? Try us out.', 'constant-contact-forms' ); ?></h3>
 						<p><?php esc_html_e( 'Create professional emails so you can nurture great relationships with new contacts even after they leave your website. Sign up for a free 60-day trial.', 'constant-contact-forms' ); ?></p>
 					</div>
-					<a class="button button-orange" href="<?php echo esc_url_raw( add_query_arg( array( 'rmc' => 'wp_connect_try' ), constant_contact()->api->get_signup_link() ) ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
+					<a class="button button-orange" href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_connect_try' ], constant_contact()->api->get_signup_link() ) ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
 				</div>
 
 				<form id="subscribe" accept-charset="utf-8" action="https://cloud.c.constantcontact.com/jmmlsubscriptions/coi_verify" method="get" target="_blank">

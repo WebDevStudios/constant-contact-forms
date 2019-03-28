@@ -33,7 +33,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 * @since 1.0.0
 		 * @var array
 		 */
-		public $atts_defaults = array();
+		public $atts_defaults = [];
 
 		/**
 		 * Shortcode Output.
@@ -43,10 +43,10 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function shortcode() {
 
-			$custom_atts = array(
+			$custom_atts = [
 				'form'       => '',
 				'show_title' => true,
-			);
+			];
 
 			// Attributes.
 			$atts = shortcode_atts( $custom_atts, $this->shortcode_object->atts );

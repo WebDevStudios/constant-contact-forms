@@ -44,7 +44,7 @@ class ConstantContact_Updates {
 
 		// Check to make sure we don't need to run any update functionality, but only in the admin.
 		if ( is_admin() ) {
-			add_action( 'plugins_loaded', array( $this, 'check_for_update_needed' ) );
+			add_action( 'plugins_loaded', [ $this, 'check_for_update_needed' ] );
 		}
 	}
 
@@ -73,11 +73,11 @@ class ConstantContact_Updates {
 			// Build up an update method function to call if we need it
 			// this will create something like: run_update_v0_0_0_to_v1_0_1
 			// which will then get run if it needs to.
-			$method_to_call = array( $this, esc_attr( 'run_update_v' . $installed . '_to_v' . $current ) );
+			$method_to_call = [ $this, esc_attr( 'run_update_v' . $installed . '_to_v' . $current ) ];
 
 			// If we can call our update function, then call it, passing in 'v1_0_0' as argument.
 			if ( is_callable( $method_to_call ) ) {
-				call_user_func_array( $method_to_call, array( 'v' . $current ) );
+				call_user_func_array( $method_to_call, [ 'v' . $current ] );
 			}
 		}
 	}
@@ -98,17 +98,17 @@ class ConstantContact_Updates {
 
 		// If its not an array, cast it as one.
 		if ( ! is_array( $current_notifs ) ) {
-			$current_notifs = array();
+			$current_notifs = [];
 		}
 
 		// Set up our update notif ID to use.
 		$notif_id = 'update-' . str_replace( '_', '-', esc_attr( $update_id ) );
 
 		// Tack on our new update notifications.
-		$current_notifs[ $notif_id ] = array(
+		$current_notifs[ $notif_id ] = [
 			'ID'       => $notif_id,
-			'callback' => array( 'ConstantContact_Notification_Content', esc_attr( $update_id ) ),
-		);
+			'callback' => [ 'ConstantContact_Notification_Content', esc_attr( $update_id ) ],
+		];
 
 		// Re-save it if we actually did add one.
 		if ( $compare_notifs !== $current_notifs ) {

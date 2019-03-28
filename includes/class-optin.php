@@ -38,7 +38,7 @@ class ConstantContact_Optin {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		add_action( 'init', array( $this, 'hooks' ) );
+		add_action( 'init', [ $this, 'hooks' ] );
 	}
 
 	/**
@@ -48,10 +48,10 @@ class ConstantContact_Optin {
 	 */
 	public function hooks() {
 		if ( $this->can_track() && constant_contact()->is_constant_contact() ) {
-			add_action( 'admin_footer', array( $this, 'anonymous_tracking' ) );
+			add_action( 'admin_footer', [ $this, 'anonymous_tracking' ] );
 		}
 		if ( ! $this->privacy_policy_status() ) {
-			add_action( 'admin_footer', array( $this, 'privacy_notice_markup' ) );
+			add_action( 'admin_footer', [ $this, 'privacy_notice_markup' ] );
 		}
 	}
 

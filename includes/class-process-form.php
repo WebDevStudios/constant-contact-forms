@@ -166,7 +166,7 @@ class ConstantContact_Process_Form {
 	 * @param bool  $is_ajax Whether or not processing via AJAX.
 	 * @return mixed
 	 */
-	public function process_form( $data = array(), $is_ajax = false ) {
+	public function process_form( $data = [], $is_ajax = false ) {
 
 		// Set our data var to $_POST if we dont get it passed in.
 		if ( empty( $data ) ) {
@@ -370,7 +370,7 @@ class ConstantContact_Process_Form {
 	 * @param array $values Original values.
 	 * @return array Values, but better.
 	 */
-	public function pretty_values( $values = array() ) {
+	public function pretty_values( $values = [] ) {
 
 		// Sanity check.
 		if ( ! is_array( $values ) ) {
@@ -650,7 +650,7 @@ class ConstantContact_Process_Form {
 	 * @param string|int $form_id   Form ID being processed.
 	 * @return false|array
 	 */
-	public function process_wrapper( $form_data = array(), $form_id = 0 ) {
+	public function process_wrapper( $form_data = [], $form_id = 0 ) {
 
 		if ( empty( $_POST['ctct-id'] ) ) {
 			return false;

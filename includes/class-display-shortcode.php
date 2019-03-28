@@ -40,7 +40,7 @@ class ConstantContact_Display_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_display_styles' ) );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_display_styles' ] );
 	}
 
 	/**
@@ -183,7 +183,7 @@ class ConstantContact_Display_Shortcode {
 	public function generate_field_values_for_fields( $custom_fields ) {
 
 		// Set up our base fields value.
-		$fields = array();
+		$fields = [];
 
 		// Sanity check.
 		if ( ! is_array( $custom_fields ) ) {
@@ -259,11 +259,11 @@ class ConstantContact_Display_Shortcode {
 	public function generate_optin_data( $form_data ) {
 
 		// Return our data for our optin.
-		return array(
+		return [
 			'list'         => $this->get_nested_value_from_data( '_ctct_list', $form_data ),
 			'show'         => $this->get_nested_value_from_data( '_ctct_opt_in', $form_data ),
 			'instructions' => $this->get_nested_value_from_data( '_ctct_opt_in_instructions', $form_data ),
-		);
+		];
 	}
 
 	/**

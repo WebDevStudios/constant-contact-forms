@@ -25,10 +25,10 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 * @since 1.0.0
 		 */
 		public function hooks() {
-			add_filter( $this->shortcode . '_shortcode_fields', array( $this, 'filter_shortcode_field' ), 10, 2 );
+			add_filter( $this->shortcode . '_shortcode_fields', [ $this, 'filter_shortcode_field' ], 10, 2 );
 			parent::hooks();
 
-			add_action( 'save_post', array( $this, 'clear_saved_form_list_transient' ) );
+			add_action( 'save_post', [ $this, 'clear_saved_form_list_transient' ] );
 		}
 
 		/**
@@ -47,7 +47,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			 *
 			 * @param array $value Array of properties to use with shortcode popup.
 			 */
-			return apply_filters( 'constant_contact_shortcode_button_settings', array(
+			return apply_filters( 'constant_contact_shortcode_button_settings', [
 				'qt_button_text' => __( 'Add Constant Contact Form', 'constant-contact-forms' ),
 				'button_tooltip' => __( 'Add Constant Contact Form', 'constant-contact-forms' ),
 				'icon'           => 'dashicons-feedback',
@@ -55,7 +55,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				'modalClass'     => 'ctct',
 				'modalHeight'    => 'auto',
 				'modalWidth'     => 500,
-			) );
+			] );
 		}
 
 		/**
@@ -70,21 +70,21 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		public function fields( $fields, $button_data ) {
 			$forms = constant_contact()->cpts->get_forms( true );
 
-			$args = array();
+			$args = [];
 
-			$args[] = array(
+			$args[] = [
 				'name'             => __( 'Form Shortcode', 'constant-contact-forms' ),
 				'id'               => '_ctct_form',
 				'type'             => 'select',
 				'show_option_none' => false,
 				'options'          => $forms,
-			);
+			];
 
-			$args[] = array(
+			$args[] = [
 				'name'        => __( 'Show Title', 'constant-contact-forms' ),
 				'id'          => '_ctct_show_title',
 				'type'        => 'checkbox',
-			);
+			];
 
 			if ( empty( $forms ) ) {
 				$args['before'] = sprintf(
@@ -113,7 +113,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 				return $fields;
 			}
 
-			$filtered_fields = array();
+			$filtered_fields = [];
 
 			if ( isset( $fields['_ctct_form'] ) ) {
 				$filtered_fields['form']       = $fields['_ctct_form'];

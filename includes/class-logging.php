@@ -300,7 +300,7 @@ class ConstantContact_Logging {
 	 */
 	protected function get_log_contents() {
 		// Attempt URL version first.
-		$log_content_url  = wp_remote_get( $this->log_location_url );
+		$log_content_url = wp_remote_get( $this->log_location_url );
 		if ( is_wp_error( $log_content_url ) ) {
 			return sprintf(
 			// translators: placeholder wil have error message.

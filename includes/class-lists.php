@@ -44,28 +44,28 @@ class ConstantContact_Lists {
 	public function hooks() {
 
 		// Hook in our CMB2 fields / functionality.
-		add_action( 'cmb2_admin_init', array( $this, 'sync_lists' ) );
-		add_action( 'cmb2_admin_init', array( $this, 'add_lists_metabox' ) );
+		add_action( 'cmb2_admin_init', [ $this, 'sync_lists' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'add_lists_metabox' ] );
 
 		// On save, process a list.
-		add_action( 'save_post_ctct_lists', array( $this, 'save_or_update_list' ), 10, 1 );
-		add_action( 'transition_post_status', array( $this, 'post_status_transition' ), 11, 3 );
+		add_action( 'save_post_ctct_lists', [ $this, 'save_or_update_list' ], 10, 1 );
+		add_action( 'transition_post_status', [ $this, 'post_status_transition' ], 11, 3 );
 
 		// On deletion, verify the list is handled correctly.
-		add_action( 'wp_trash_post', array( $this, 'delete_list' ) );
+		add_action( 'wp_trash_post', [ $this, 'delete_list' ] );
 
 		// Add some CMB2 goodness.
-		add_action( 'cmb2_after_post_form_ctct_list_metabox', array( $this, 'add_form_css' ) );
-		add_action( 'cmb2_render_constant_contact_list_information', array( $this, 'list_info_metabox' ), 10, 5 );
+		add_action( 'cmb2_after_post_form_ctct_list_metabox', [ $this, 'add_form_css' ] );
+		add_action( 'cmb2_render_constant_contact_list_information', [ $this, 'list_info_metabox' ], 10, 5 );
 
 		// Add a force sync button to the admin.
-		add_filter( 'views_edit-ctct_lists', array( $this, 'add_force_sync_button' ) );
-		add_action( 'admin_init', array( $this, 'check_for_list_sync_request' ) );
+		add_filter( 'views_edit-ctct_lists', [ $this, 'add_force_sync_button' ] );
+		add_action( 'admin_init', [ $this, 'check_for_list_sync_request' ] );
 
 		// Remove quick edit.
-		add_filter( 'post_row_actions', array( $this, 'remove_quick_edit_from_lists' ) );
+		add_filter( 'post_row_actions', [ $this, 'remove_quick_edit_from_lists' ] );
 
-		add_action( 'admin_init', array( $this, 'maybe_display_duplicate_list_error' ) );
+		add_action( 'admin_init', [ $this, 'maybe_display_duplicate_list_error' ] );
 	}
 
 	/**
@@ -75,21 +75,21 @@ class ConstantContact_Lists {
 	 */
 	public function add_lists_metabox() {
 
-		$cmb = new_cmb2_box( array(
+		$cmb = new_cmb2_box( [
 			'id'           => 'ctct_list_metabox',
 			'title'        => __( 'List Information', 'constant-contact-forms' ),
-			'object_types' => array( 'ctct_lists' ),
+			'object_types' => [ 'ctct_lists' ],
 			'context'      => 'normal',
 			'priority'     => 'high',
 			'show_names'   => true,
-		) );
+		] );
 
-		$cmb->add_field( array(
+		$cmb->add_field( [
 			'name' => '',
 			'desc' => '',
 			'id'   => '_ctct_list_meta',
 			'type' => 'constant_contact_list_information',
-		) );
+		] );
 	}
 
 	/**
@@ -190,7 +190,7 @@ class ConstantContact_Lists {
 
 		// Make sure we're on the correct page.
 		global $pagenow;
-		if ( ! $pagenow || ( ! in_array( $pagenow, array( 'edit.php' ), true ) ) ) {
+		if ( ! $pagenow || ( ! in_array( $pagenow, [ 'edit.php' ], true ) ) ) {
 			return;
 		}
 
@@ -250,13 +250,13 @@ class ConstantContact_Lists {
 		 *
 		 * @param array $value Array of WP_Query arguments.
 		 */
-		$query = new WP_Query( apply_filters( 'constant_contact_lists_query_for_sync', array(
-			'post_type'	             => 'ctct_lists',
+		$query = new WP_Query( apply_filters( 'constant_contact_lists_query_for_sync', [
+			'post_type'              => 'ctct_lists',
 			'posts_per_page'         => 150,
 			'no_found_rows'          => true,
 			'update_post_term_cache' => false,
 			'fields'                 => 'ids',
-		) ) );
+		] ) );
 
 		// Grab our posts.
 		$potentially_remove_list = $query->get_posts();
@@ -267,7 +267,7 @@ class ConstantContact_Lists {
 		}
 
 		// Make our lists to delete array.
-		$lists_to_delete = array();
+		$lists_to_delete = [];
 
 		// Loop through each of our lists.
 		foreach ( $potentially_remove_list as $post_id ) {
@@ -327,13 +327,13 @@ class ConstantContact_Lists {
 				 *
 				 * @param array $value Array of arguments for a new list to be inserted into database.
 				 */
-				$new_post = apply_filters( 'constant_contact_list_insert_args', array(
-					  'post_title'  => isset( $list->name ) ? esc_attr( $list->name ) : '',
-					  'post_status' => 'publish',
-					  'post_type'   => 'ctct_lists',
-				) );
+				$new_post = apply_filters( 'constant_contact_list_insert_args', [
+					'post_title'  => isset( $list->name ) ? esc_attr( $list->name ) : '',
+					'post_status' => 'publish',
+					'post_type'   => 'ctct_lists',
+				] );
 
-				// By default, we'll attempt to update post meta for everything
+				// By default, we'll attempt to update post meta for everything.
 				$update_meta = true;
 
 				// If our list that we want to insert is in our delete array,
@@ -361,8 +361,8 @@ class ConstantContact_Lists {
 					// Update with our list id.
 					update_post_meta( $post, '_ctct_list_id', $list_id );
 				}
-			} // End foreach().
-		} // End if().
+			} // End foreach.
+		} // End if.
 
 		// Loop through each of the lists we didn't touch with the update/insert
 		// and double check them, then delete.
@@ -408,7 +408,7 @@ class ConstantContact_Lists {
 		global $pagenow;
 
 		// Verify we're on the correct page.
-		if ( ! $pagenow || ( ! in_array( $pagenow, array( 'post.php', 'post-new.php' ), true ) ) ) {
+		if ( ! $pagenow || ( ! in_array( $pagenow, [ 'post.php', 'post-new.php' ], true ) ) ) {
 			return false;
 		}
 		// If we can't edit posts, get out of here.
@@ -451,10 +451,10 @@ class ConstantContact_Lists {
 			add_post_meta( $ctct_list->ID, 'ctct_duplicate_list', true );
 
 			if ( 'draft' !== $ctct_list->post_status ) {
-				$return = wp_update_post( array(
+				$return = wp_update_post( [
 					'ID'          => absint( $ctct_list->ID ),
 					'post_status' => 'draft',
-				) );
+				] );
 			}
 		} else {
 			// Try to grab our list id from our post meta.
@@ -491,7 +491,7 @@ class ConstantContact_Lists {
 	 */
 	public function _add_list( $ctct_list ) {
 
-		// Make sure we have all the data we want to use
+		// Make sure we have all the data we want to use.
 		if (
 			isset( $ctct_list ) &&
 			$ctct_list &&
@@ -501,22 +501,22 @@ class ConstantContact_Lists {
 			$ctct_list->post_title
 		) {
 
-			// Make sure we get a unique list name for our list
+			// Make sure we get a unique list name for our list.
 			$name = $this->set_unique_list_name( $ctct_list->ID, $ctct_list->post_title );
 
 			// Push our list into the API. For the list ID, we append a string of random numbers
 			// to make sure its unique.
 			$list = constantcontact_api()->add_list(
-				array(
-					'id' => absint( $ctct_list->ID ) . wp_rand( 0, 1000 ),
+				[
+					'id'   => absint( $ctct_list->ID ) . wp_rand( 0, 1000 ),
 					'name' => esc_attr( $name ),
-				)
+				]
 			);
 
-			// Set placeholder return var
+			// Set placeholder return var.
 			$list_id = false;
 
-			// If we got a list ID back, make sure we add that to post meta
+			// If we got a list ID back, make sure we add that to post meta.
 			if ( isset( $list->id ) && $list->id ) {
 				add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list->id ) );
 				$list_id = $list->id;
@@ -533,11 +533,11 @@ class ConstantContact_Lists {
 			 */
 			do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
 
-			// check to make sure our api request was good
+			// check to make sure our api request was good.
 			if ( is_object( $list ) && isset( $list->id ) ) {
 				return true;
 			}
-		} // End if().
+		} // End if.
 
 		return false;
 	}
@@ -553,52 +553,50 @@ class ConstantContact_Lists {
 	 */
 	public function set_unique_list_name( $id, $title = '' ) {
 
-		// Keep track of our original title, so we can compare later
+		// Keep track of our original title, so we can compare later.
 		$original_title = $title;
 
-		// Grab all our lists
+		// Grab all our lists.
 		$lists = $this->get_lists( true );
 
-		// Start by assuming our list title will exist, so we can kick off the loop
+		// Start by assuming our list title will exist, so we can kick off the loop.
 		$list_title_exists = true;
 
-		// Set our unique increment to start with
+		// Set our unique increment to start with.
 		$increment = 0;
 
-		// Keep checking + modifying title until we find a list title that is unique
+		// Keep checking + modifying title until we find a list title that is unique.
 		while ( $list_title_exists ) {
 
-			// CC doesn't allow duplicate list titles, so we want to rename one of them
+			// CC doesn't allow duplicate list titles, so we want to rename one of them.
 			$list_title_exists = $this->check_if_list_exists_by_title( $title, $lists );
 
-			// If we did get a unique name, then break out
+			// If we did get a unique name, then break out.
 			if ( ! $list_title_exists ) {
 				break;
 			}
 
 			// If our string contains what we tacked on previously,
-			// just remove it
+			// just remove it.
 			if ( strpos( $title, ' (' . $increment . ')' ) !== false ) {
-			    $title = str_replace( ' (' . $increment . ')', '', $title );
+				$title = str_replace( ' (' . $increment . ')', '', $title );
 			}
 
-			// Increase our increment count, and add it into the title
 			$increment = $increment + 1;
-			$title = $title . ' (' . $increment . ')';
+			$title     = $title . ' (' . $increment . ')';
 		}
 
-		// If we did modify our list title, update the WP side of things
+		// If we did modify our list title, update the WP side of things.
 		if ( $title !== $original_title ) {
 
 			// Update our list post type to make sure we have
-			// the new title, so that it matches
-			wp_update_post( array(
+			// the new title, so that it matches.
+			wp_update_post( [
 				'ID'         => absint( $id ),
 				'post_title' => $title,
-			) );
+			] );
 		}
 
-		// Send back our title
 		return $title;
 
 	}
@@ -613,24 +611,24 @@ class ConstantContact_Lists {
 	 * @param array  $lists Lists to search in.
 	 * @return bool If exists.
 	 */
-	public function check_if_list_exists_by_title( $title, $lists = array() ) {
+	public function check_if_list_exists_by_title( $title, $lists = [] ) {
 
-		// If we didn't get passed in a list array, then grab them all
+		// If we didn't get passed in a list array, then grab them all.
 		if ( empty( $lists ) ) {
 			$lists = $this->get_lists();
 		}
 
-		// Loop through each of our lists
+		// Loop through each of our lists.
 		foreach ( $lists as $list ) {
 
 			// If we come across one that matches, then return true,
-			// as a list with that title exists
+			// as a list with that title exists.
 			if ( $title === $list ) {
 				return true;
 			}
 		}
 
-		// If we made it through, then return false
+		// If we made it through, then return false.
 		return false;
 	}
 
@@ -640,14 +638,14 @@ class ConstantContact_Lists {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $new_status  Transitioned to status.
-	 * @param string  $old_status  Transitioned from status.
-	 * @param object $post        Post object.
+	 * @param string $new_status Transitioned to status.
+	 * @param string $old_status Transitioned from status.
+	 * @param object $post       Post object.
 	 * @return bool
 	 */
 	public function post_status_transition( $new_status, $old_status, $post ) {
 
-		// Make sure we have a post passed in
+		// Make sure we have a post passed in.
 		if ( ! $post ) {
 			return false;
 		}
@@ -657,17 +655,15 @@ class ConstantContact_Lists {
 			return false;
 		}
 
-		// If we don't have an ID, bail
 		if ( ! $post->ID ) {
 			return false;
 		}
 
-		// If we're not on the list post type
 		if ( 'ctct_lists' !== $post->post_type ) {
 			return false;
 		}
 
-		// Only fire if we got a change in status
+		// Only fire if we got a change in status.
 		if ( $new_status === $old_status ) {
 			return false;
 		}
@@ -691,19 +687,19 @@ class ConstantContact_Lists {
 	 */
 	public function _update_list( $ctct_list, $list_id ) {
 
-		// Make sure we have all the data we want to use
+		// Make sure we have all the data we want to use.
 		if (
 			isset( $ctct_list ) &&
 			isset( $ctct_list->ID ) &&
 			isset( $ctct_list->post_title ) &&
 			! empty( $list_id )
 		) {
-			// Update the list via the API
+			// Update the list via the API.
 			$list = constantcontact_api()->update_list(
-				array(
-					'id' => esc_attr( $list_id ),
+				[
+					'id'   => esc_attr( $list_id ),
 					'name' => esc_attr( $ctct_list->post_title ),
-				)
+				]
 			);
 
 			/**
@@ -716,7 +712,7 @@ class ConstantContact_Lists {
 			 */
 			do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
 
-			// check to make sure our api request was good
+			// Check to make sure our api request was good.
 			if ( is_object( $list ) && isset( $list->id ) ) {
 				return true;
 			}
@@ -735,27 +731,22 @@ class ConstantContact_Lists {
 	 */
 	public function delete_list( $post_id ) {
 
-		// type cast our post id
 		$post_id = absint( $post_id );
 
-		// bail out if we can't get it
 		if ( ! $post_id ) {
 			return false;
 		}
 
-		// try to grab our list id
 		$list_id = get_post_meta( $post_id, '_ctct_list_id', true );
 
-		// Make sure we got a list ID to delete with
 		if ( ! $list_id ) {
 			return false;
 		}
 
-		// delete via the api
 		$list = constantcontact_api()->delete_list(
-			array(
+			[
 				'id' => esc_attr( $list_id ),
-			)
+			]
 		);
 
 		/**
@@ -781,17 +772,14 @@ class ConstantContact_Lists {
 	 */
 	public function get_lists( $skip_cache = false ) {
 
-		$get_lists = array();
+		$get_lists = [];
 
-		// Grab our lists, potentiall forcing a bypass of the cache
+		// Grab our lists, potentiall forcing a bypass of the cache.
 		$lists = constantcontact_api()->get_lists( $skip_cache );
 
-		// make sure we have an array to loop through
 		if ( $lists && is_array( $lists ) ) {
 
 			foreach ( $lists as $list ) {
-
-				// make sure we have the right data before setting it to our array
 				if ( isset( $list->id ) && isset( $list->name ) ) {
 					$get_lists[ esc_attr( $list->id ) ] = esc_attr( $list->name );
 				}
@@ -809,7 +797,7 @@ class ConstantContact_Lists {
 	public function maybe_display_duplicate_list_error() {
 		// Make sure we're on the correct page.
 		global $pagenow, $post;
-		if ( $pagenow || ( ! in_array( $pagenow, array( 'post.php' ), true ) ) ) {
+		if ( $pagenow || ( ! in_array( $pagenow, [ 'post.php' ], true ) ) ) {
 			return;
 		}
 
@@ -823,8 +811,8 @@ class ConstantContact_Lists {
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
 
-			add_action( 'admin_head', array( $this, 'list_css' ) );
-			add_action( 'admin_notices', array( $this, 'show_duplicate_list_message' ) );
+			add_action( 'admin_head', [ $this, 'list_css' ] );
+			add_action( 'admin_notices', [ $this, 'show_duplicate_list_message' ] );
 		}
 	}
 
@@ -872,7 +860,7 @@ class ConstantContact_Lists {
 	public function add_force_sync_button( $views ) {
 
 		// Build up our nonced url.
-		$link = wp_nonce_url( add_query_arg( array( 'ctct_list_sync' => 'true' ) ), 'ctct_reysncing', 'ctct_resyncing' );
+		$link = wp_nonce_url( add_query_arg( [ 'ctct_list_sync' => 'true' ] ), 'ctct_reysncing', 'ctct_resyncing' );
 
 		// Add a view to our list.
 		$views['sync'] = '<strong><a href="' . $link . '">' . __( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
@@ -894,13 +882,13 @@ class ConstantContact_Lists {
 			is_admin() &&
 			current_user_can( 'manage_options' )
 		) {
-			// Force our last updated time to be in the past, so we trigger the auto-refresh
+			// Force our last updated time to be in the past, so we trigger the auto-refresh.
 			update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) - HOUR_IN_SECONDS );
 
-			// Get our url with our custom query args removed
-			$url = remove_query_arg( array( 'ctct_resyncing', 'ctct_list_sync' ) );
+			// Get our url with our custom query args removed.
+			$url = remove_query_arg( [ 'ctct_resyncing', 'ctct_list_sync' ] );
 
-			// Send user back to the page they were on after refreshing
+			// Send user back to the page they were on after refreshing.
 			wp_safe_redirect( $url );
 			die;
 		}

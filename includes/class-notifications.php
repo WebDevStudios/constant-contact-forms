@@ -40,7 +40,7 @@ class ConstantContact_Notifications {
 	 */
 	public function hooks() {
 		// Add activation message.
-		add_action( 'admin_notices', array( $this, 'main' ) );
+		add_action( 'admin_notices', [ $this, 'main' ] );
 	}
 
 	/**
@@ -57,13 +57,13 @@ class ConstantContact_Notifications {
 		 *
 		 * @param array $value Array of notification details.
 		 */
-		return apply_filters( 'constant_contact_notifications', array(
-			array(
+		return apply_filters( 'constant_contact_notifications', [
+			[
 				'ID'         => 'activation',
-				'callback'   => array( 'ConstantContact_Notification_Content', 'activation' ),
+				'callback'   => [ 'ConstantContact_Notification_Content', 'activation' ],
 				'require_cb' => 'constant_contact_is_not_connected',
-			),
-		) );
+			],
+		] );
 	}
 
 	/**
@@ -74,7 +74,7 @@ class ConstantContact_Notifications {
 	 * @return array Update notifications we should surface.
 	 */
 	public function get_update_notifications() {
-		return get_option( 'ctct_update_notifications', array() );
+		return get_option( 'ctct_update_notifications', [] );
 	}
 
 	/**
@@ -301,7 +301,7 @@ class ConstantContact_Notifications {
 
 		// If for some reason, we didn't get an array, then clear it out.
 		if ( ! is_array( $options ) ) {
-			$options = array();
+			$options = [];
 		}
 
 		// Save our keyed notification to be saved.
@@ -428,7 +428,7 @@ class ConstantContact_Notifications {
 	public function get_activation_dismiss_url( $type ) {
 
 		// Set a link with our current url and desired action.
-		$link = add_query_arg( array( 'ctct-dismiss-action' => esc_attr( $type ) ) );
+		$link = add_query_arg( [ 'ctct-dismiss-action' => esc_attr( $type ) ] );
 
 		return wp_nonce_url( $link, 'ctct-user-is-dismissing', 'ctct-dismiss' );
 	}

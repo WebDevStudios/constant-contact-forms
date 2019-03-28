@@ -27,7 +27,7 @@ class ConstantContact_Display {
 	 * @since 1.4.0
 	 * @var array
 	 */
-	protected $global_form_styles = array();
+	protected $global_form_styles = [];
 
 	/**
 	 * Styles set for a particular form.
@@ -35,7 +35,7 @@ class ConstantContact_Display {
 	 * @since 1.4.0
 	 * @var array
 	 */
-	protected $specific_form_styles = array();
+	protected $specific_form_styles = [];
 
 	/**
 	 * Constructor.
@@ -46,8 +46,8 @@ class ConstantContact_Display {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
-		add_action( 'wp_enqueue_scripts', array( $this, 'styles' ) );
+		add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ] );
+		add_action( 'wp_enqueue_scripts', [ $this, 'styles' ] );
 	}
 
 	/**
@@ -66,7 +66,7 @@ class ConstantContact_Display {
 		wp_register_script(
 			'ctct_frontend_forms',
 			constant_contact()->url() . 'assets/js/ctct-plugin-frontend' . $suffix . '.js',
-			array( 'jquery' ),
+			[ 'jquery' ],
 			Constant_Contact::VERSION,
 			true
 		);
@@ -93,12 +93,12 @@ class ConstantContact_Display {
 	 */
 	public function set_global_form_css() {
 
-		$defaults = array(
+		$defaults = [
 			'global_form_classes'    => '',
 			'global_label_placement' => '',
-		);
+		];
 
-		$global_form_css = array();
+		$global_form_css = [];
 
 		$global_form_classes = ctct_get_settings_option( '_ctct_form_custom_classes' );
 		if ( $global_form_classes ) {
@@ -122,7 +122,7 @@ class ConstantContact_Display {
 	 * @since  1.4.0
 	 */
 	public function set_specific_form_css( $form_id ) {
-		$defaults = array(
+		$defaults = [
 			'form_background_color'               => '',
 			'form_description_font_size'          => '',
 			'form_description_color'              => '',
@@ -134,9 +134,9 @@ class ConstantContact_Display {
 			'form_padding_bottom'                 => '',
 			'form_padding_left'                   => '',
 			'input_custom_classes'                => '',
-		);
+		];
 
-		$specific_form_css = array();
+		$specific_form_css = [];
 
 		$ctct_form_background_color = get_post_meta( $form_id, '_ctct_form_background_color', true );
 		if ( ! empty( $ctct_form_background_color ) ) {
@@ -316,15 +316,15 @@ class ConstantContact_Display {
 		$should_disable_recaptcha = get_post_meta( $form_id, '_ctct_disable_recaptcha', true );
 		$disable_recaptcha        = ( 'on' === $should_disable_recaptcha );
 		$form_classes             = 'ctct-form ctct-form-' . $form_id;
-		$form_classes             .= ( $this->plugin->settings->has_recaptcha() ) ? ' has-recaptcha' : ' no-recaptcha';
-		$form_classes             .= $this->build_custom_form_classes();
+		$form_classes            .= ( $this->plugin->settings->has_recaptcha() ) ? ' has-recaptcha' : ' no-recaptcha';
+		$form_classes            .= $this->build_custom_form_classes();
 
 		$form_styles = '';
 		if ( ! empty( $this->specific_form_styles['form_background_color'] ) ) {
 			$form_styles = $this->specific_form_styles['form_background_color'];
 		}
 
-		foreach( ['bottom','left','right','top'] as $pos ) {
+		foreach ( [ 'bottom', 'left', 'right', 'top' ] as $pos ) {
 			$form_styles .= $this->specific_form_styles[ 'form_padding_' . $pos ];
 		}
 
@@ -428,7 +428,7 @@ class ConstantContact_Display {
 		}
 
 		// Otherwise, we'll default to just using add_query_arg, which may throw errors.
-		return untrailingslashit( home_url( add_query_arg( array( '' => '' ) ) ) );
+		return untrailingslashit( home_url( add_query_arg( [ '' => '' ] ) ) );
 	}
 
 	/**
@@ -436,7 +436,7 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $form_data html markup.
+	 * @param array $form_data Form data for the current form.
 	 * @return mixed.
 	 */
 	public function add_verify_fields( $form_data ) {
@@ -610,21 +610,21 @@ class ConstantContact_Display {
 	 * @param string $label_placement Label placement location.
 	 * @return string HTML markup
 	 */
-	public function field( $field, $old_values = array(), $req_errors = array(), $form_id = 0, $label_placement = 'top' ) {
+	public function field( $field, $old_values = [], $req_errors = [], $form_id = 0, $label_placement = 'top' ) {
 
 		// If we don't have a name or a mapping, it will be hard to do things.
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
 			return '';
 		}
 
-		$field = wp_parse_args( $field, array(
+		$field = wp_parse_args( $field, [
 			'name'             => '',
 			'map_to'           => '',
 			'type'             => '',
 			'description'      => '',
-			'field_custom_css' => array(),
+			'field_custom_css' => [],
 			'required'         => false,
-		) );
+		] );
 
 		// Check all our data points.
 		$name  = sanitize_text_field( $field['name'] );
@@ -729,7 +729,7 @@ class ConstantContact_Display {
 	 * @param array        $submitted_vals Array of submitted values.
 	 * @return string Submitted value.
 	 */
-	public function get_submitted_value( $value = '', $map = '', $field = array(), $submitted_vals = array() ) {
+	public function get_submitted_value( $value = '', $map = '', $field = [], $submitted_vals = [] ) {
 
 		if ( $value ) {
 			return $value;
@@ -739,7 +739,7 @@ class ConstantContact_Display {
 			return '';
 		}
 
-		$return = array();
+		$return = [];
 
 		foreach ( $submitted_vals as $post ) {
 
@@ -787,16 +787,16 @@ class ConstantContact_Display {
 					// We also flag PHPCS to ignore this line, as we get
 					// a nonce verification error, but we process the nonce
 					// quite a bit earlier than this.
-
+					//
 					// Clean and return.
 					//
 					// We also flag PHPCS to ignore this line, as we get
 					// a nonce verification error, but we process the nonce
-					// quite a bit earlier than this
+					// quite a bit earlier than this.
 					return sanitize_text_field( wp_unslash( $_POST[ esc_attr( $map ) ] ) );
-				} // End if().
-			} // End if().
-		} // End foreach().
+				} // End if.
+			} // End if.
+		} // End foreach.
 
 		return $return;
 	}
@@ -829,7 +829,7 @@ class ConstantContact_Display {
 	 */
 	public function get_description_inline_styles() {
 		$inline_style = '';
-		$styles       = array();
+		$styles       = [];
 
 		// Set any custom CSS for the form description.
 		$specific_form_styles = $this->specific_form_styles;
@@ -893,10 +893,10 @@ class ConstantContact_Display {
 	 */
 	public function field_top( $type = '', $name = '', $f_id = '', $label = '', $req = false, $use_label = true ) {
 
-		$classes = array(
+		$classes = [
 			'ctct-form-field',
 			'ctct-form-field-' . $type,
-		);
+		];
 		if ( $req ) {
 			$classes[] = 'ctct-form-field-required';
 		}
@@ -948,7 +948,7 @@ class ConstantContact_Display {
 	 */
 	public function get_submit_inline_styles() {
 		$inline_style = '';
-		$styles       = array();
+		$styles       = [];
 
 		// Set any custom CSS for the form submit button.
 		$specific_form_styles = $this->specific_form_styles;
@@ -1042,7 +1042,7 @@ class ConstantContact_Display {
 		}
 
 		// Provide some CSS class(es).
-		$classes   = array( 'ctct-' . esc_attr( $type ) );
+		$classes   = [ 'ctct-' . esc_attr( $type ) ];
 		$classes[] = $label_placement_class;
 		if ( ! empty( $specific_form_styles['input_custom_classes'] ) ) {
 			$custom_input_classes = explode( ' ', $specific_form_styles['input_custom_classes'] );
@@ -1085,7 +1085,7 @@ class ConstantContact_Display {
 		}
 
 		// Finish the markup for our field itself.
-		$field = '<input %s type="%s" name="%s" id="%s" %s value="%s" %s placeholder="%s" %s />';
+		$field   = '<input %s type="%s" name="%s" id="%s" %s value="%s" %s placeholder="%s" %s />';
 		$markup .= sprintf(
 			$field,
 			$req_text,
@@ -1140,10 +1140,10 @@ class ConstantContact_Display {
 		$f_id  = sanitize_title( $f_id );
 		$value = sanitize_text_field( $value );
 		$label = esc_attr( $label );
-		$type = 'checkbox';
+		$type  = 'checkbox';
 
 		// Provide some CSS class(es).
-		$classes = array( 'ctct-' . esc_attr( $type ) );
+		$classes = [ 'ctct-' . esc_attr( $type ) ];
 
 		/**
 		 * Filter to add classes for the rendering input.
@@ -1188,12 +1188,12 @@ class ConstantContact_Display {
 			apply_filters( 'constant_contact_submit_text', __( 'Send', 'constant-contact-forms' )
 		);
 
-		return $this->field( array(
+		return $this->field( [
 			'type'   => 'submit',
 			'name'   => 'ctct-submitted',
 			'map_to' => 'ctct-submitted',
 			'value'  => $button_text,
-		) );
+		] );
 	}
 
 	/**
@@ -1212,11 +1212,11 @@ class ConstantContact_Display {
 		}
 
 		// Set up our defaults.
-		$optin = wp_parse_args( $form_data['optin'], array(
+		$optin = wp_parse_args( $form_data['optin'], [
 			'list'         => false,
 			'show'         => false,
 			'instructions' => '',
-		) );
+		] );
 
 		// Make sure we have our opt in set, as well as an associated list.
 		if ( isset( $optin['list'] ) && $optin['list'] ) {
@@ -1236,8 +1236,8 @@ class ConstantContact_Display {
 	 */
 	public function optin_display( $optin ) {
 
-		$label   = sanitize_text_field( isset( $optin['instructions'] ) ? $optin['instructions'] : '' );
-		$value   = sanitize_text_field( isset( $optin['list'] ) ? $optin['list'] : '' );
+		$label = sanitize_text_field( isset( $optin['instructions'] ) ? $optin['instructions'] : '' );
+		$value = sanitize_text_field( isset( $optin['list'] ) ? $optin['list'] : '' );
 
 		$show = false;
 		if ( isset( $optin['show'] ) && 'on' === $optin['show'] ) {
@@ -1298,7 +1298,7 @@ class ConstantContact_Display {
 	 * @param string  $label_placement Where to put the label.
 	 * @return string field HTML markup.
 	 */
-	public function address( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '', $label_placement = 'top' ) {
+	public function address( $name = '', $f_id = '', $value = [], $desc = '', $req = false, $field_error = '', $label_placement = 'top' ) {
 
 		// Set up our text strings.
 		$street = __( 'Street Address', 'constant-contact-forms' );
@@ -1479,7 +1479,7 @@ class ConstantContact_Display {
 	 * @param string  $field_error Field error text.
 	 * @return string Fields HTML markup.
 	 */
-	public function dates( $name = '', $f_id = '', $value = array(), $desc = '', $req = false, $field_error = '' ) {
+	public function dates( $name = '', $f_id = '', $value = [], $desc = '', $req = false, $field_error = '' ) {
 
 		// Set our field lables.
 		$month = __( 'Month', 'constant-contact-forms' );
@@ -1554,7 +1554,7 @@ class ConstantContact_Display {
 	 * @param array  $prev_selected_values Previous selected values.
 	 * @return string HTML markup.
 	 */
-	public function get_date_options( $text = '', $values = array(), $prev_selected_values = array() ) {
+	public function get_date_options( $text = '', $values = [], $prev_selected_values = [] ) {
 
 		$return = '<option value="">' . sanitize_text_field( $text ) . '</option>';
 
@@ -1583,12 +1583,11 @@ class ConstantContact_Display {
 	 * @return array Array of data.
 	 */
 	public function get_date_values( $type ) {
-		$return = array();
+		$return = [];
 
 		// Based on $type, we'll send back an array of either days, months, or years.
 		switch ( $type ) {
 			case 'day':
-
 				/**
 				 * Filters the array of numbers used to indicate day of the month in numerals.
 				 *
@@ -1599,7 +1598,6 @@ class ConstantContact_Display {
 				$return = apply_filters( 'constant_contact_dates_day', $this->get_days() );
 				break;
 			case 'month':
-
 				/**
 				 * Filters the array of months used for dropdown.
 				 *
@@ -1607,7 +1605,7 @@ class ConstantContact_Display {
 				 *
 				 * @param array $value Array of months from calendar.
 				 */
-				$return = apply_filters( 'constant_contact_dates_month', array(
+				$return = apply_filters( 'constant_contact_dates_month', [
 					'january'   => __( 'January', 'constant-contact-forms' ),
 					'february'  => __( 'February', 'constant-contact-forms' ),
 					'march'     => __( 'March', 'constant-contact-forms' ),
@@ -1620,10 +1618,9 @@ class ConstantContact_Display {
 					'october'   => __( 'October', 'constant-contact-forms' ),
 					'november'  => __( 'November', 'constant-contact-forms' ),
 					'december'  => __( 'December', 'constant-contact-forms' ),
-				) );
+				] );
 				break;
 			case 'year':
-
 				/**
 				 * Filters the array of years, starting from 1910 to present.
 				 *
@@ -1633,7 +1630,7 @@ class ConstantContact_Display {
 				 */
 				$return = apply_filters( 'constant_contact_dates_year', $this->get_years() );
 				break;
-		} // End switch().
+		} // End switch.
 
 		return $return;
 	}
@@ -1646,10 +1643,10 @@ class ConstantContact_Display {
 	 * @return array Years from 1910-current year.
 	 */
 	public function get_years() {
-		$years = array();
+		$years = [];
 
 		// Get all of our years.
-		$year_range = range( 1910,  date( 'Y' ) );
+		$year_range = range( 1910, date( 'Y' ) );
 
 		$year_range = array_reverse( $year_range );
 
@@ -1669,7 +1666,7 @@ class ConstantContact_Display {
 	 * @return array Array of days.
 	 */
 	public function get_days() {
-		$days = array();
+		$days = [];
 
 		// Get all of our day.
 		$day_range = range( 1, 31 );
@@ -1699,8 +1696,8 @@ class ConstantContact_Display {
 	 */
 	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '', $label_placement = 'top' ) {
 
-		$classes          = array( 'ctct-form-field' );
-		$textarea_classes = array( 'ctct-textarea' );
+		$classes          = [ 'ctct-form-field' ];
+		$textarea_classes = [ 'ctct-textarea' ];
 
 		// Set our required text.
 		$req_text = $req ? 'required' : '';
@@ -1811,7 +1808,7 @@ class ConstantContact_Display {
 	}
 
 	public function get_max_length_attr( $optional_label = '' ) {
-		$length       = 48; // Two less than 50char custom field limit for ": "
+		$length       = 48; // Two less than 50char custom field limit for ": ".
 		$label_length = 0;
 		if ( ! empty( $optional_label ) ) {
 			$label_length = mb_strlen( $optional_label );
