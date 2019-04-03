@@ -795,34 +795,4 @@ class ConstantContact_Builder_Fields {
 </p>
 <?php
 	}
-
-	/**
-	 * Add a metabox for customizing destination email for a given form.
-	 *
-	 * @since 1.4.0
-	 */
-	public function email_settings() {
-
-		$email_settings = new_cmb2_box( array(
-			'id'           => 'email_settings',
-			'title'        => esc_html__( 'Email settings', 'constant-contact-forms' ),
-			'object_types' => array( 'ctct_forms' ),
-			'context'      => 'side',
-			'priority'     => 'low',
-		) );
-
-		$email_settings->add_field( array(
-			'name' => esc_html__( 'Email destination', 'constant-contact-forms' ),
-			'desc' => esc_html__( 'Who should receive email notifications for this form. Separate multiple emails by a comma. Leave blank to default to admin email.', 'constant-contact-forms' ),
-			'id'   => $this->prefix . 'email_settings',
-			'type' => 'text_medium',
-		) );
-
-		$email_settings->add_field( array(
-			'name' => esc_html__( 'Disable email notifications for this form?', 'constant-contact-forms' ),
-			'desc' => esc_html__( 'Check this option to disable emails for this Constant Contact Forms form.', 'constant-contact-forms' ),
-			'id'   => $this->prefix . 'disable_emails_for_form',
-			'type' => 'checkbox',
-		) );
-	}
 }

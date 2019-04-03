@@ -850,36 +850,6 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Get an inline style tag to use for the form's description.
-	 *
-	 * @author Scott Tirrell
-	 * @since  1.4.0
-	 *
-	 * @return string The inline style tag for the form's description.
-	 */
-	public function get_description_inline_styles() {
-		$inline_style = '';
-		$styles       = array();
-
-		// Set any custom CSS for the form description.
-		$specific_form_styles = $this->specific_form_styles;
-
-		if ( ! empty( $specific_form_styles['form_description_font_size'] ) ) {
-			$styles[] = $specific_form_styles['form_description_font_size'];
-		}
-
-		if ( ! empty( $specific_form_styles['form_description_color'] ) ) {
-			$styles[] = $specific_form_styles['form_description_color'];
-		}
-
-		if ( ! empty( $styles ) ) {
-			$inline_style = 'style="' . esc_attr( implode( ' ', $styles ) ) . '"';
-		}
-
-		return $inline_style;
-	}
-
-	/**
 	 * Helper method to display form description.
 	 *
 	 * @since 1.0.0
