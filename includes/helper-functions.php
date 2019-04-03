@@ -37,11 +37,12 @@ function constant_contact_is_not_connected() {
  *
  * @since 1.0.0
  *
- * @param int $form_id Form post ID to grab.
+ * @param int  $form_id Form post ID to grab.
+ * @param bool $show_title If true, show the title.
  * @return string HTML markup
  */
-function constant_contact_get_form( $form_id ) {
-	return constant_contact()->display_shortcode->get_form( $form_id );
+function constant_contact_get_form( $form_id, $show_title = false ) {
+	return constant_contact()->display_shortcode->get_form( $form_id, $show_title );
 }
 
 /**
@@ -49,10 +50,11 @@ function constant_contact_get_form( $form_id ) {
  *
  * @since 1.0.0
  *
- * @param int $form_id Form post ID to grab.
+ * @param int  $form_id Form post ID to grab.
+ * @param bool $show_title If true, show the title.
  */
-function constant_contact_display_form( $form_id ) {
-	constant_contact()->display_shortcode->display_form( $form_id );
+function constant_contact_display_form( $form_id, $show_title = false ) {
+	constant_contact()->display_shortcode->display_form( $form_id, $show_title );
 }
 
 /**
@@ -132,7 +134,7 @@ function constant_contact_maybe_display_review_notification() {
 
 	// @todo date_diff() comparisons.
 	//
-	$dismissed = get_option( 'ctct-review-dismissed', array() );
+	$dismissed = get_option( 'ctct-review-dismissed', [] );
 	if ( isset( $dismissed['count'] ) && '1' === $dismissed['count'] ) {
 		$fourteen_days = strtotime( '-14 days' );
 		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $fourteen_days
@@ -185,14 +187,14 @@ function constant_contact_optin_ajax_handler() {
 	$response = $_REQUEST;
 
 	if ( ! isset( $response['optin'] ) || 'on' !== $response['optin'] ) {
-		wp_send_json_success( array( 'opted-in' => 'off' ) );
+		wp_send_json_success( [ 'opted-in' => 'off' ] );
 	}
 
 	$options                        = get_option( constant_contact()->settings->key );
 	$options['_ctct_data_tracking'] = $response['optin'];
 	update_option( constant_contact()->settings->key, $options );
 
-	wp_send_json_success( array( 'opted-in' => 'on' ) );
+	wp_send_json_success( [ 'opted-in' => 'on' ] );
 	exit();
 }
 add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_optin_ajax_handler' );
@@ -208,7 +210,7 @@ function constant_contact_privacy_ajax_handler() {
 	$agreed   = sanitize_text_field( $response['privacy_agree'] );
 	update_option( 'ctct_privacy_policy_status', $agreed );
 
-	wp_send_json_success( array( 'updated' => 'true' ) );
+	wp_send_json_success( [ 'updated' => 'true' ] );
 	exit();
 }
 add_action( 'wp_ajax_constant_contact_privacy_ajax_handler', 'constant_contact_privacy_ajax_handler' );
@@ -225,7 +227,7 @@ function constant_contact_review_ajax_handler() {
 
 		switch ( $action ) {
 			case 'dismissed':
-				$dismissed         = get_option( 'ctct-review-dismissed', array() );
+				$dismissed         = get_option( 'ctct-review-dismissed', [] );
 				$dismissed['time'] = current_time( 'timestamp' );
 				if ( empty( $dismissed['count'] ) ) {
 					$dismissed['count'] = '1';
@@ -247,7 +249,7 @@ function constant_contact_review_ajax_handler() {
 		}
 	}
 
-	wp_send_json_success( array( 'review-action' => 'processed' ) );
+	wp_send_json_success( [ 'review-action' => 'processed' ] );
 	exit();
 }
 add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_review_ajax_handler' );
@@ -280,11 +282,11 @@ add_action( 'wp_head', 'ctct_custom_form_action_processing' );
  * @return bool
  */
 function ctct_has_forms() {
-	$args  = array(
+	$args  = [
 		'post_type'      => 'ctct_forms',
 		'post_status'    => 'publish',
 		'posts_per_page' => 1,
-	);
+	];
 	$forms = new WP_Query( $args );
 	return ( $forms->have_posts() );
 }
@@ -300,7 +302,19 @@ function ctct_has_forms() {
 function constant_contact_has_redirect_uri( $form_id = 0 ) {
 	$maybe_redirect_uri = get_post_meta( $form_id, '_ctct_redirect_uri', true );
 
-	return empty( $maybe_redirect_uri ) ? false : true;
+	return constant_contact_is_valid_url( $maybe_redirect_uri ) ? true : false;
+}
+
+/**
+ * Check if a string is a valid URL.
+ *
+ * @since 1.5.0
+ *
+ * @param string $url The string URL to validate.
+ * @return bool Whether or not the provided value is a valid URL.
+ */
+function constant_contact_is_valid_url( $url = '' ) {
+	return ( ! empty( $url ) && filter_var( $url, FILTER_VALIDATE_URL ) );
 }
 
 /**
@@ -336,8 +350,9 @@ function constant_contact_clean_url( $url = '' ) {
 		return $url;
 	}
 
+	/* @todo Consideration: non-ssl based external websites. Just cause the user's site may be SSL, doesn't mean redirect url wi for sure be. Perhaps add check for home_url as part of consideration. */
 	$clean_url = esc_url( $url );
-	if ( is_ssl() && 'http' === parse_url( $clean_url, PHP_URL_SCHEME ) ) {
+	if ( is_ssl() && 'http' === wp_parse_url( $clean_url, PHP_URL_SCHEME ) ) {
 		$clean_url = str_replace( 'http', 'https', $clean_url );
 	}
 	return $clean_url;
@@ -438,7 +453,7 @@ function constant_contact_akismet( $is_spam, $data ) {
 	}
 
 	// Build args array.
-	$args = array();
+	$args = [];
 
 	$args['comment_author']       = $name;
 	$args['comment_author_email'] = $email;
@@ -450,10 +465,10 @@ function constant_contact_akismet( $is_spam, $data ) {
 	$args['referrer']             = $_SERVER['HTTP_REFERER'];
 	$args['comment_type']         = 'contact-form';
 
-	$ignore = array( 'HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW' );
+	$ignore = [ 'HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW' ];
 
 	foreach ( $_SERVER as $key => $value ) {
-		if ( ! in_array( $key, (array) $ignore ) ) {
+		if ( ! in_array( $key, (array) $ignore, true ) ) {
 			$args[ "{$key}" ] = $value;
 		}
 	}
@@ -473,7 +488,7 @@ add_filter( 'constant_contact_maybe_spam', 'constant_contact_akismet', 10, 2 );
  * @return bool
  */
 function constant_contact_check_akismet_key() {
-	if ( is_callable( array( 'Akismet', 'get_api_key' ) ) ) { // Akismet v3.0.
+	if ( is_callable( [ 'Akismet', 'get_api_key' ] ) ) { // Akismet v3.0.
 		return (bool) Akismet::get_api_key();
 	}
 
@@ -498,7 +513,7 @@ function constant_contact_akismet_spam_check( $args ) {
 	$spam         = false;
 	$query_string = http_build_query( $args );
 
-	if ( is_callable( array( 'Akismet', 'http_post' ) ) ) { // Akismet v3.0.
+	if ( is_callable( [ 'Akismet', 'http_post' ] ) ) { // Akismet v3.0.
 		$response = Akismet::http_post( $query_string, 'comment-check' );
 	} else {
 		$response = akismet_http_post( $query_string, $akismet_api_host,
@@ -558,7 +573,7 @@ function constant_contact_emails_disabled( $form_id = 0 ) {
  * @return array The font sizes to use in a dropdown.
  */
 function constant_contact_get_font_dropdown_sizes() {
-	return array(
+	return [
 		'12px' => '12 pixels',
 		'13px' => '13 pixels',
 		'14px' => '14 pixels',
@@ -568,7 +583,7 @@ function constant_contact_get_font_dropdown_sizes() {
 		'18px' => '18 pixels',
 		'19px' => '19 pixels',
 		'20px' => '20 pixels',
-	);
+	];
 }
 
 /**
@@ -598,6 +613,13 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
 	return ( ! empty( $global_setting ) ) ? $global_setting : '';
 }
 
+/**
+ * Fetch and return the content of our Endurance privacy policy.
+ *
+ * @since 1.4.3
+ *
+ * @return string
+ */
 function constant_contact_privacy_policy_content() {
 	$policy_output = wp_remote_get( 'https://www.endurance.com/privacy' );
 	if ( ! is_wp_error( $policy_output ) && 200 === wp_remote_retrieve_response_code( $policy_output ) ) {

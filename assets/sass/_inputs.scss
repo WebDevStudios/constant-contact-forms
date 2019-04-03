@@ -14,11 +14,12 @@
 
 			// show success!
 			&:required:valid {
-				background: rgb(255,255,255) url( '../images/check_circle.svg' ) no-repeat;
+				background-image: url( '../images/check_circle.svg' );
 				background-position: 8px 50%;
-				background-size: 24px;
+				background-repeat: no-repeat;
+				background-size: 18px;
 				border-color: $color-success;
-				padding-left: 40px;
+				padding-left: 32px;
 			}
 
 			// show error.
@@ -86,8 +87,19 @@
 		height: 1px;
 		width: 1px;
 		margin: -1px;
-		border: 0px none;
-		padding: 0px;
+		border: 0 none;
+		padding: 0;
+	}
+	.no-recaptcha #ctct-submitted:disabled {
+		background-image: url('../images/oval.min.svg');
+		background-position: center;
+		background-repeat: no-repeat;
+		color: transparent;
+		cursor: wait;
+		opacity: 0.3;
+	}
+	.has-recaptcha #ctct-submitted:disabled {
+	  cursor: not-allowed;
 	}
 	.no-recaptcha #ctct-submitted:disabled {
 		background-image: url('../images/oval.min.svg');

@@ -1,6 +1,7 @@
 <?php
 /**
  * @package ConstantContact
+ *
  * @subpackage DisplayShortcode
  * @author Constant Contact
  * @since 1.0.0
@@ -40,7 +41,7 @@ class ConstantContact_Display_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_display_styles' ) );
+		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_display_styles' ] );
 	}
 
 	/**
@@ -58,7 +59,10 @@ class ConstantContact_Display_Shortcode {
 			return '';
 		}
 
-		return $this->get_form( $atts['form'] );
+		// Show the title or not.
+		$show_title = ( isset( $atts['show_title'] ) && 'true' === $atts['show_title'] ) ? true : false;
+
+		return $this->get_form( $atts['form'], $show_title );
 	}
 
 	/**
@@ -66,10 +70,11 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $form_id Form ID.
+	 * @param int  $form_id Form ID.
+	 * @param bool $show_title If true, show the form title.
 	 * @return string
 	 */
-	public function get_form( $form_id ) {
+	public function get_form( $form_id, $show_title = false ) {
 
 		// Sanity check it.
 		$form_id = absint( $form_id );
@@ -89,7 +94,7 @@ class ConstantContact_Display_Shortcode {
 		$form_data = $this->get_field_meta( $meta, $form_id );
 
 		// Return our markup.
-		$form = constant_contact()->display->form( $form_data, $form_id );
+		$form = constant_contact()->display->form( $form_data, $form_id, $show_title );
 
 		return '<div id="ctct-form-' . $form_id . '" class="ctct-form-wrapper">' . $form . '</div><!-- .ctct-form-wrapper -->';
 
@@ -100,12 +105,13 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int $form_id Form ID to display.
+	 * @param int  $form_id Form ID to display.
+	 * @param bool $show_title If true, show the title.
 	 */
-	public function display_form( $form_id ) {
+	public function display_form( $form_id, $show_title = false ) {
 
 		// @codingStandardsIgnoreStart
-		echo $this->get_form( absint( $form_id ) );
+		echo $this->get_form( absint( $form_id ), $show_title );
 		// @codingStandardsIgnoreEnd
 	}
 
@@ -178,7 +184,7 @@ class ConstantContact_Display_Shortcode {
 	public function generate_field_values_for_fields( $custom_fields ) {
 
 		// Set up our base fields value.
-		$fields = array();
+		$fields = [];
 
 		// Sanity check.
 		if ( ! is_array( $custom_fields ) ) {
@@ -254,11 +260,11 @@ class ConstantContact_Display_Shortcode {
 	public function generate_optin_data( $form_data ) {
 
 		// Return our data for our optin.
-		return array(
+		return [
 			'list'         => $this->get_nested_value_from_data( '_ctct_list', $form_data ),
 			'show'         => $this->get_nested_value_from_data( '_ctct_opt_in', $form_data ),
 			'instructions' => $this->get_nested_value_from_data( '_ctct_opt_in_instructions', $form_data ),
-		);
+		];
 	}
 
 	/**

@@ -40,7 +40,7 @@ class ConstantContact_Middleware {
 	 * @param array  $extra_args Array of extra arguements.
 	 * @return string Auth server link.
 	 */
-	public function do_connect_url( $proof = '', $extra_args = array() ) {
+	public function do_connect_url( $proof = '', $extra_args = [] ) {
 
 		// Get our main link.
 		$auth_server_link = $this->get_auth_server_link();
@@ -65,7 +65,7 @@ class ConstantContact_Middleware {
 	public function do_signup_url( $proof = '' ) {
 
 		// Just a wrapper for the connect url, but with the signup param we'll be passing.
-		return $this->do_connect_url( $proof, array( 'new_signup' => true ) );
+		return $this->do_connect_url( $proof, [ 'new_signup' => true ] );
 	}
 
 	/**
@@ -78,13 +78,15 @@ class ConstantContact_Middleware {
 	 * @param array  $extra_args Array of extra args to append.
 	 * @return string
 	 */
-	public function add_query_args_to_link( $link, $proof, $extra_args = array() ) {
-		$return = add_query_arg( array(
+	public function add_query_args_to_link( $link, $proof, $extra_args = [] ) {
+		$return = add_query_arg(
+		[
 			'ctct-auth'  => 'auth',
 			'ctct-proof' => esc_attr( $proof ),
 			'ctct-site'  => get_site_url(),
-			),
-		$link );
+		],
+		$link
+		);
 
 		// If got passed other args, tack them on as query args to the link that we were going to be using.
 		if ( ! empty( $extra_args ) ) {

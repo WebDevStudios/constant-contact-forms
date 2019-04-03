@@ -58,10 +58,28 @@ class ConstantContact_Logging {
 	/**
 	 * Log location, server path.
 	 *
+	 * Prior to 1.5.0 this was `$log_location_dir`.
+	 *
+	 * @since 1.5.0
+	 * @var string
+	 */
+	protected $log_location_file = '';
+
+	/**
+	 * Log directory location, server path.
+	 *
 	 * @since 1.4.5
 	 * @var string
 	 */
 	protected $log_location_dir = '';
+
+	/**
+	 * The location of the log folder's index file.
+	 *
+	 * @since 1.5.0
+	 * @var string
+	 */
+	protected $log_index_file = '';
 
 	/**
 	 * WP_Filesystem
@@ -79,10 +97,12 @@ class ConstantContact_Logging {
 	 * @param object $plugin Parent class.
 	 */
 	public function __construct( $plugin ) {
-		$this->plugin      = $plugin;
-		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
-		$this->log_location_url = content_url() . '/ctct-logs/constant-contact-errors.log';
-		$this->log_location_dir = WP_CONTENT_DIR . '/ctct-logs/constant-contact-errors.log';
+		$this->plugin            = $plugin;
+		$this->options_url       = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
+		$this->log_location_url  = content_url() . '/ctct-logs/constant-contact-errors.log';
+		$this->log_location_dir  = WP_CONTENT_DIR . '/ctct-logs';
+		$this->log_location_file = "{$this->log_location_dir}/constant-contact-errors.log";
+		$this->log_index_file    = "{$this->log_location_dir}/index.php";
 
 		$this->hooks();
 	}
@@ -260,10 +280,12 @@ class ConstantContact_Logging {
 
 		check_admin_referer( 'ctct_delete_log', 'ctct_delete_log' );
 
-		$log_file = $this->log_location_dir;
+		$log_file = $this->log_location_file;
 		if ( file_exists( $log_file ) ) {
 			unlink( $log_file );
 		}
+
+		$this->create_log_file();
 
 		wp_redirect( $this->options_url );
 		exit();
@@ -278,7 +300,7 @@ class ConstantContact_Logging {
 	 */
 	protected function get_log_contents() {
 		// Attempt URL version first.
-		$log_content_url  = wp_remote_get( $this->log_location_url );
+		$log_content_url = wp_remote_get( $this->log_location_url );
 		if ( is_wp_error( $log_content_url ) ) {
 			return sprintf(
 			// translators: placeholder wil have error message.
@@ -296,9 +318,84 @@ class ConstantContact_Logging {
 		}
 
 		// If we have anything BUT 200 status from the url, let's attempt a file system read.
-		$log_content_dir = $this->file_system->get_contents( $this->log_location_dir );
+		$log_content_dir = $this->file_system->get_contents( $this->log_location_file );
 		if ( ! empty( $log_content_dir ) && is_string( $log_content_dir ) ) {
 			return $log_content_dir;
 		}
+	}
+
+	/**
+	 * Delete the log index protection file when logging is disabled.
+	 *
+	 * @since 1.5.0
+	 * @return void
+	 */
+	public function delete_log_index_file() {
+		if ( constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		if ( file_exists( $this->log_index_file ) ) {
+			unlink( $this->log_index_file );
+		}
+	}
+
+	/**
+	 * Create the log folder.
+	 *
+	 * @since 1.5.0
+	 * @return void
+	 */
+	public function create_log_folder() {
+		if ( ! constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		mkdir( $this->log_location_dir );
+		chmod( $this->log_location_dir, 0755 );
+	}
+
+	/**
+	 * Create the log folder with an `index.php` file.
+	 *
+	 * @since 1.5.0
+	 * @return void
+	 */
+	public function create_log_index_file() {
+		if ( ! constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		if ( ! is_writable( $this->log_location_dir ) ) {
+			return;
+		}
+
+		if ( file_exists( $this->log_index_file ) ) {
+			return;
+		}
+
+		touch( $this->log_index_file );
+	}
+
+	/**
+	 * Create the log file itself.
+	 *
+	 * @since 1.5.0
+	 * @return void
+	 */
+	public function create_log_file() {
+		if ( ! constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		if ( ! is_writable( $this->log_location_dir ) ) {
+			return;
+		}
+
+		if ( file_exists( $this->log_location_file ) ) {
+			return;
+		}
+
+		touch( $this->log_location_file );
 	}
 }

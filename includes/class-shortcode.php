@@ -14,6 +14,8 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 	 * Extends WDS_Shortcodes to easily build up our shortcode.
 	 *
 	 * Sets up shortcode
+	 *
+	 * @since 1.0.0
 	 */
 	class ConstantContact_Shortcode extends WDS_Shortcodes {
 
@@ -31,7 +33,7 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 * @since 1.0.0
 		 * @var array
 		 */
-		public $atts_defaults = array();
+		public $atts_defaults = [];
 
 		/**
 		 * Shortcode Output.
@@ -41,8 +43,13 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 		 */
 		public function shortcode() {
 
+			$custom_atts = [
+				'form'       => '',
+				'show_title' => true,
+			];
+
 			// Attributes.
-			$atts = shortcode_atts( array( 'form' => '' ), $this->shortcode_object->atts );
+			$atts = shortcode_atts( $custom_atts, $this->shortcode_object->atts );
 
 			// Use our helper class to display the shortcode.
 			return constant_contact()->display_shortcode->shortcode_wrapper( $atts );
@@ -66,4 +73,4 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			return $current_value;
 		}
 	}
-} // End if().
+}

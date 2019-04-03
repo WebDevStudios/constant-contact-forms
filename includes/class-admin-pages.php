@@ -40,7 +40,7 @@ class ConstantContact_Admin_Pages {
 	public function hooks() {
 
 		// Add our styles to the site.
-		add_action( 'admin_enqueue_scripts', array( $this, 'styles' ) );
+		add_action( 'admin_enqueue_scripts', [ $this, 'styles' ] );
 	}
 
 	/**
@@ -69,16 +69,16 @@ class ConstantContact_Admin_Pages {
 		 *
 		 * @param array $value Array of arrays with title/content values.
 		 */
-		return apply_filters( 'constant_contact_help_texts', array(
-			array(
+		return apply_filters( 'constant_contact_help_texts', [
+			[
 				'title'   => esc_html__( 'This is a sample help header', 'constant-contact-forms' ),
 				'content' => esc_html__( 'This is some sample help text.', 'constant-contact-forms' ),
-			),
-			array(
+			],
+			[
 				'title'   => esc_html__( 'This is another sample header', 'constant-contact-forms' ),
 				'content' => esc_html__( 'This is also some sample help text.', 'constant-contact-forms' ),
-			),
-		) );
+			],
+		] );
 	}
 
 	/**
@@ -97,16 +97,16 @@ class ConstantContact_Admin_Pages {
 		 *
 		 * @param array $value Array of arrays for help text.
 		 */
-		return apply_filters( 'constant_contact_faq_texts', array(
-			array(
+		return apply_filters( 'constant_contact_faq_texts', [
+			[
 				'title'   => esc_html__( 'Is this a sample question?', 'constant-contact-forms' ),
 				'content' => esc_html__( 'This is a sample answer', 'constant-contact-forms' ),
-			),
-			array(
+			],
+			[
 				'title'   => esc_html__( 'This is also a sample question', 'constant-contact-forms' ),
 				'content' => esc_html__( 'This is another sample answer', 'constant-contact-forms' ),
-			),
-		) );
+			],
+		] );
 	}
 
 	/**
@@ -210,8 +210,8 @@ class ConstantContact_Admin_Pages {
 			$auth_link = constant_contact()->authserver->do_connect_url( $proof );
 			$new_link  = constant_contact()->authserver->do_signup_url( $proof );
 
-			$new_link  = add_query_arg( array( 'rmc' => 'wp_about_try' ), $new_link );
-			$auth_link = add_query_arg( array( 'rmc' => 'wp_about_connect' ), $auth_link );
+			$new_link  = add_query_arg( [ 'rmc' => 'wp_about_try' ], $new_link );
+			$auth_link = add_query_arg( [ 'rmc' => 'wp_about_connect' ], $auth_link );
 
 		}
 
@@ -220,7 +220,7 @@ class ConstantContact_Admin_Pages {
 			<div class="hide-overflow">
 				<div class="ctct-section section-about">
 					<span class="plugin-badge">
-						<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/icon.jpg' ); ?>">
+						<img alt="" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/icon.jpg' ); ?>">
 					</span>
 					<h1 class="about-header"><?php esc_attr_e( 'Constant Contact Forms', 'constant-contact-forms' ); ?></h1>
 					<p>
@@ -237,7 +237,7 @@ class ConstantContact_Admin_Pages {
 				</div>
 
 				<div class="ctct-section section-try-us">
-					<div style="float: right;" class="ctct-video"><?php echo wp_oembed_get( 'https://www.youtube.com/watch?v=MhxtAlpZzJw', array( 'width' => 400 ) ); ?></div>
+					<div style="float: right;" class="ctct-video"><?php echo wp_oembed_get( 'https://www.youtube.com/watch?v=MhxtAlpZzJw', [ 'width' => 400 ] ); ?></div>
 					<h1 class="about-header">
 						<?php esc_html_e( 'Collecting email addresses with the plugin?', 'constant-contact-forms' ); ?>
 						<br /><?php esc_html_e( 'Turn those contacts into customers.', 'constant-contact-forms' ); ?>
@@ -287,12 +287,12 @@ class ConstantContact_Admin_Pages {
 			</div>
 			<div class="headline-feature">
 				<div class="featured-image">
-					<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/coffee-hero.jpg' ); ?>">
+					<img alt="" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/coffee-hero.jpg' ); ?>">
 					<p class="featured-title c-text">
 						<?php esc_attr_e( 'Powerful Email Marketing, Made Simple.', 'constant-contact-forms' ); ?>
 					</p>
 					<p class="featured-introduction c-text">
-						<?php esc_attr_e( 'Create professional emails that bring customers to your door', 'constant-contact-forms' ) ?>
+						<?php esc_attr_e( 'Create professional emails that bring customers to your door', 'constant-contact-forms' ); ?>
 					</p>
 				</div>
 				<p class="introduction c-text">

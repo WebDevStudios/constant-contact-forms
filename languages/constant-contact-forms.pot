@@ -3,39 +3,41 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2019-02-27 13:32-0600\n"
-"PO-Revision-Date: 2017-01-12 14:46-0600\n"
-"Last-Translator: Michael Beckwith <michael.d.beckwith@gmail.com>\n"
-"Language-Team: Constant Contact\n"
+"POT-Creation-Date: 2019-04-02 23:44-0500\n"
+"PO-Revision-Date: 2019-04-02 23:42-0500\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 2.2.1\n"
 "X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: constant-contact-forms.php\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
 "esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
 "_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPath-1: assets\n"
+"X-Poedit-SearchPath-2: vendor\n"
+"X-Poedit-SearchPath-3: tests\n"
+"X-Poedit-SearchPath-4: node_modules\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
-"X-Poedit-SearchPathExcluded-1: vendor\n"
-"X-Poedit-SearchPathExcluded-2: tests\n"
-"X-Poedit-SearchPathExcluded-3: node_modules\n"
 
 #. Author of the plugin/theme
-#: constant-contact-forms.php:372 includes/class-builder.php:347
-#: includes/class-cpts.php:87 includes/class-cpts.php:145
+#: constant-contact-forms.php:380 includes/class-builder.php:343
+#: includes/class-cpts.php:87 includes/class-cpts.php:146
 msgid "Constant Contact"
 msgstr ""
 
-#: constant-contact-forms.php:402
+#: constant-contact-forms.php:410
 msgid ""
 "Constant Contact Forms requires PHP 5.4 or higher. Your hosting provider or "
 "website administrator should be able to assist in updating your PHP version."
 msgstr ""
 
-#: constant-contact-forms.php:734
+#: constant-contact-forms.php:726
 msgid "Error loading license."
 msgstr ""
 
@@ -184,6 +186,7 @@ msgstr ""
 msgid "Enter your email address"
 msgstr ""
 
+#. translators: placeholder will hold ConstantContact.com link.
 #: includes/class-admin-pages.php:282 includes/class-connect.php:269
 #, php-format
 msgid ""
@@ -256,95 +259,96 @@ msgstr ""
 msgid "Constant Contact Forms - License"
 msgstr ""
 
-#: includes/class-admin.php:116 includes/class-admin.php:117
-#: includes/class-admin.php:366
+#: includes/class-admin.php:124 includes/class-admin.php:125
+#: includes/class-admin.php:373
 msgid "About"
 msgstr ""
 
-#: includes/class-admin.php:125 includes/class-admin.php:126
-#: includes/class-admin.php:367
+#: includes/class-admin.php:133 includes/class-admin.php:134
+#: includes/class-admin.php:374
 msgid "License"
 msgstr ""
 
-#: includes/class-admin.php:210 includes/class-settings.php:731
+#: includes/class-admin.php:217 includes/class-settings.php:709
+#: vendor/cmb2/cmb2/includes/CMB2_Options_Hookup.php:143
 msgid "Settings updated."
 msgstr ""
 
-#: includes/class-admin.php:248
+#: includes/class-admin.php:255 vendor/cmb2/cmb2/example-functions.php:542
 msgid "Description"
 msgstr ""
 
-#: includes/class-admin.php:249 includes/class-builder-fields.php:667
+#: includes/class-admin.php:256 includes/class-builder-fields.php:702
 msgid "Shortcode"
 msgstr ""
 
-#: includes/class-admin.php:250
+#: includes/class-admin.php:257
 msgid "Associated List"
 msgstr ""
 
-#: includes/class-admin.php:293
+#: includes/class-admin.php:300
 msgid "No associated list"
 msgstr ""
 
-#: includes/class-admin.php:309
+#: includes/class-admin.php:316
 msgid "Contact Count"
 msgstr ""
 
-#: includes/class-admin.php:341
+#: includes/class-admin.php:348
 msgid "None available"
 msgstr ""
 
-#: includes/class-admin.php:363
+#: includes/class-admin.php:370
 msgid "Check out the official WordPress plugin from @constantcontact :"
 msgstr ""
 
-#: includes/class-admin.php:379
+#: includes/class-admin.php:386
 msgid "Spread the word!"
 msgstr ""
 
-#: includes/class-admin.php:455
+#: includes/class-admin.php:470
 msgid "You have unsaved changes."
 msgstr ""
 
-#: includes/class-admin.php:456
+#: includes/class-admin.php:471
 msgid "move up"
 msgstr ""
 
-#: includes/class-admin.php:457
+#: includes/class-admin.php:472
 msgid "move down"
 msgstr ""
 
-#: includes/class-api.php:525
+#: includes/class-api.php:523
 msgid "Contact type not returned"
 msgstr ""
 
-#: includes/class-api.php:549
+#: includes/class-api.php:547
 msgid "Not a valid contact to set properties to."
 msgstr ""
 
-#: includes/class-api.php:735
+#: includes/class-api.php:733
 msgid ""
 "Your API access token is invalid. Reconnect to Constant Contact to receive a "
 "new token."
 msgstr ""
 
-#: includes/class-builder-fields.php:95
+#: includes/class-builder-fields.php:96
 msgid "Constant Contact List"
 msgstr ""
 
-#: includes/class-builder-fields.php:110 includes/class-settings.php:301
+#: includes/class-builder-fields.php:111 includes/class-settings.php:269
 msgid "Add subscribers to"
 msgstr ""
 
-#: includes/class-builder-fields.php:113
+#: includes/class-builder-fields.php:114
 msgid "No List Selected"
 msgstr ""
 
-#: includes/class-builder-fields.php:133 includes/class-builder-fields.php:234
+#: includes/class-builder-fields.php:134
 msgid "Form Description"
 msgstr ""
 
-#: includes/class-builder-fields.php:141
+#: includes/class-builder-fields.php:142
 msgid ""
 "This message will display above the form fields, so use it as an opportunity "
 "to pitch your email list. Tell visitors why they should subscribe to your "
@@ -352,444 +356,500 @@ msgid ""
 "coupons, and more."
 msgstr ""
 
-#: includes/class-builder-fields.php:161
+#: includes/class-builder-fields.php:162
 msgid "Form Options"
 msgstr ""
 
-#: includes/class-builder-fields.php:169
+#: includes/class-builder-fields.php:170
 msgid "Button text"
 msgstr ""
 
-#: includes/class-builder-fields.php:172
+#: includes/class-builder-fields.php:173
 msgid "Sign up"
 msgstr ""
 
-#: includes/class-builder-fields.php:176
+#: includes/class-builder-fields.php:177
 msgid "Success message"
 msgstr ""
 
-#: includes/class-builder-fields.php:179
+#: includes/class-builder-fields.php:180
 msgid "Your information has been submitted"
 msgstr ""
 
-#: includes/class-builder-fields.php:183
+#: includes/class-builder-fields.php:184
 msgid "Submission behavior"
 msgstr ""
 
-#: includes/class-builder-fields.php:190
+#: includes/class-builder-fields.php:191
 msgid "Redirect URL"
 msgstr ""
 
-#: includes/class-builder-fields.php:193
+#: includes/class-builder-fields.php:194
 msgid "Leave blank to keep users on the current page."
 msgstr ""
 
-#: includes/class-builder-fields.php:198
+#: includes/class-builder-fields.php:199
 msgid "No page refresh"
 msgstr ""
 
-#: includes/class-builder-fields.php:201
+#: includes/class-builder-fields.php:202
 msgid ""
 "Enable form submission without a page refresh. This option overrides the "
 "Redirect URL choice above."
 msgstr ""
 
-#: includes/class-builder-fields.php:217
+#: includes/class-builder-fields.php:207
+msgid "Disable Google reCAPTCHA for this form?"
+msgstr ""
+
+#: includes/class-builder-fields.php:210
+msgid "Checking will disable Google's reCAPTCHA output for this form."
+msgstr ""
+
+#: includes/class-builder-fields.php:215
+msgid "Spam notice"
+msgstr ""
+
+#: includes/class-builder-fields.php:222
+msgid "Spam Error Message"
+msgstr ""
+
+#: includes/class-builder-fields.php:225
+msgid "Set the spam error message displayed for this form."
+msgstr ""
+
+#: includes/class-builder-fields.php:241
 msgid "Form Design"
 msgstr ""
 
-#: includes/class-builder-fields.php:224 includes/class-builder-fields.php:278
+#: includes/class-builder-fields.php:248 includes/class-builder-fields.php:310
 msgid "Background Color"
 msgstr ""
 
-#: includes/class-builder-fields.php:228
+#: includes/class-builder-fields.php:252
 msgid "Applies to the whole form."
 msgstr ""
 
-#: includes/class-builder-fields.php:240 includes/class-builder-fields.php:260
+#: includes/class-builder-fields.php:258
+msgid "Form Fonts"
+msgstr ""
+
+#: includes/class-builder-fields.php:264 includes/class-builder-fields.php:292
 msgid "Font Size"
 msgstr ""
 
-#: includes/class-builder-fields.php:248 includes/class-builder-fields.php:268
+#: includes/class-builder-fields.php:270
+msgid "Only applies to the form description."
+msgstr ""
+
+#: includes/class-builder-fields.php:276 includes/class-builder-fields.php:300
 msgid "Font Color"
 msgstr ""
 
-#: includes/class-builder-fields.php:254
+#: includes/class-builder-fields.php:280
+msgid "Applies to the form description, input labels, and disclosure text."
+msgstr ""
+
+#: includes/class-builder-fields.php:286
 msgid "Form Submit Button"
 msgstr ""
 
-#: includes/class-builder-fields.php:272
+#: includes/class-builder-fields.php:304
 msgid "Choose a color for the submit button text."
 msgstr ""
 
-#: includes/class-builder-fields.php:282
+#: includes/class-builder-fields.php:314
 msgid "Choose a color for the submit button background."
 msgstr ""
 
-#: includes/class-builder-fields.php:296
+#: includes/class-builder-fields.php:328
 msgid "Input Design"
 msgstr ""
 
-#: includes/class-builder-fields.php:303
+#: includes/class-builder-fields.php:335
 msgid "Form Padding"
 msgstr ""
 
-#: includes/class-builder-fields.php:307
+#: includes/class-builder-fields.php:339
 msgid ""
 "Enter padding values in number of pixels. Padding will be applied to four "
 "sides of the form."
 msgstr ""
 
-#: includes/class-builder-fields.php:312
+#: includes/class-builder-fields.php:344 includes/class-builder-fields.php:399
+#: includes/class-settings.php:359
 msgid "Top"
 msgstr ""
 
-#: includes/class-builder-fields.php:322
+#: includes/class-builder-fields.php:354 includes/class-builder-fields.php:402
+#: includes/class-settings.php:361
 msgid "Right"
 msgstr ""
 
-#: includes/class-builder-fields.php:332
+#: includes/class-builder-fields.php:364 includes/class-builder-fields.php:401
+#: includes/class-settings.php:362
 msgid "Bottom"
 msgstr ""
 
-#: includes/class-builder-fields.php:342
+#: includes/class-builder-fields.php:374 includes/class-builder-fields.php:400
+#: includes/class-settings.php:360
 msgid "Left"
 msgstr ""
 
-#: includes/class-builder-fields.php:352
+#: includes/class-builder-fields.php:384
 msgid "Custom Classes"
 msgstr ""
 
-#: includes/class-builder-fields.php:356
+#: includes/class-builder-fields.php:388
 msgid ""
 "Set custom CSS class(es) for inputs. Separate multiple classes with spaces."
 msgstr ""
 
-#: includes/class-builder-fields.php:362 includes/class-settings.php:384
+#: includes/class-builder-fields.php:394 includes/class-settings.php:353
 msgid "Label Placement"
 msgstr ""
 
-#: includes/class-builder-fields.php:373
+#: includes/class-builder-fields.php:397
+msgid "Global"
+msgstr ""
+
+#: includes/class-builder-fields.php:403 includes/class-settings.php:363
+msgid "Hidden"
+msgstr ""
+
+#: includes/class-builder-fields.php:406
 msgid "Set the position for labels for inputs."
 msgstr ""
 
-#: includes/class-builder-fields.php:391
+#: includes/class-builder-fields.php:424
 msgid ""
 "Enabling this option will require users to check a box to be added to your "
 "list."
 msgstr ""
 
-#: includes/class-builder-fields.php:397
+#: includes/class-builder-fields.php:430
 msgid "Learn more"
 msgstr ""
 
-#: includes/class-builder-fields.php:402
+#: includes/class-builder-fields.php:435
 msgid "Email opt-in"
 msgstr ""
 
-#: includes/class-builder-fields.php:425
+#: includes/class-builder-fields.php:458
 msgid "Enable email subscriber opt-in"
 msgstr ""
 
-#: includes/class-builder-fields.php:427
+#: includes/class-builder-fields.php:460
 msgid "Adds an opt-in to the bottom of your form."
 msgstr ""
 
-#: includes/class-builder-fields.php:447
+#: includes/class-builder-fields.php:480
 msgid "Add a checkbox so subscribers can opt-in to your email list."
 msgstr ""
 
-#: includes/class-builder-fields.php:449
+#: includes/class-builder-fields.php:482
 msgid "(For use with Contact Us form)"
 msgstr ""
 
-#: includes/class-builder-fields.php:452
+#: includes/class-builder-fields.php:485
 msgid "Opt-in checkbox"
 msgstr ""
 
-#: includes/class-builder-fields.php:470
+#: includes/class-builder-fields.php:503
 msgid "Your Business Name"
 msgstr ""
 
-#: includes/class-builder-fields.php:473 includes/class-settings.php:322
+#: includes/class-builder-fields.php:506 includes/class-settings.php:290
 msgid "Opt-in Affirmation"
 msgstr ""
 
-#: includes/class-builder-fields.php:477
+#. translators: placeholder has a business name from Constant Contact.
+#: includes/class-builder-fields.php:510
 #, php-format
 msgid ""
 "Example: Yes, I would like to receive emails from %s. (You can unsubscribe "
 "anytime)"
 msgstr ""
 
-#: includes/class-builder-fields.php:493
+#: includes/class-builder-fields.php:526
 msgid "Form Fields"
 msgstr ""
 
-#: includes/class-builder-fields.php:502
+#: includes/class-builder-fields.php:535
 msgid "Add Fields"
 msgstr ""
 
-#: includes/class-builder-fields.php:508
+#: includes/class-builder-fields.php:542
 msgid ""
 "Create a field for each piece of information you want to collect. Good "
 "basics include email address, first name, and last name."
 msgstr ""
 
-#: includes/class-builder-fields.php:519
+#: includes/class-builder-fields.php:553
 msgid "Field {#}"
 msgstr ""
 
-#: includes/class-builder-fields.php:520
+#: includes/class-builder-fields.php:554
 msgid "Add Another Field"
 msgstr ""
 
-#: includes/class-builder-fields.php:521
+#: includes/class-builder-fields.php:555
 msgid "Remove Field"
 msgstr ""
 
-#: includes/class-builder-fields.php:533
+#: includes/class-builder-fields.php:567
 msgid "A brief description of this field (optional)"
 msgstr ""
 
-#: includes/class-builder-fields.php:538
+#: includes/class-builder-fields.php:572
 msgid "Email (required)"
 msgstr ""
 
-#: includes/class-builder-fields.php:539
+#: includes/class-builder-fields.php:573
 msgid "c.contact@example.com"
 msgstr ""
 
-#: includes/class-builder-fields.php:542
+#: includes/class-builder-fields.php:576
 msgid "First Name"
 msgstr ""
 
-#: includes/class-builder-fields.php:543
+#: includes/class-builder-fields.php:577
 msgid "John"
 msgstr ""
 
-#: includes/class-builder-fields.php:546
+#: includes/class-builder-fields.php:580
 msgid "Last Name"
 msgstr ""
 
-#: includes/class-builder-fields.php:547
+#: includes/class-builder-fields.php:581
 msgid "Smith"
 msgstr ""
 
-#: includes/class-builder-fields.php:550
+#: includes/class-builder-fields.php:584
 msgid "Phone Number"
 msgstr ""
 
-#: includes/class-builder-fields.php:551
+#: includes/class-builder-fields.php:585
 msgid "(555) 272-3342"
 msgstr ""
 
-#: includes/class-builder-fields.php:554
+#: includes/class-builder-fields.php:588
 msgid "Address"
 msgstr ""
 
-#: includes/class-builder-fields.php:555
+#: includes/class-builder-fields.php:589
 msgid "4115 S. Main Rd."
 msgstr ""
 
-#: includes/class-builder-fields.php:558
+#: includes/class-builder-fields.php:592
 msgid "Job Title"
 msgstr ""
 
-#: includes/class-builder-fields.php:559
+#: includes/class-builder-fields.php:593
 msgid "Project Manager"
 msgstr ""
 
-#: includes/class-builder-fields.php:562
+#: includes/class-builder-fields.php:596
 msgid "Company"
 msgstr ""
 
-#: includes/class-builder-fields.php:563
+#: includes/class-builder-fields.php:597
 msgid "Acme Manufacturing"
 msgstr ""
 
-#: includes/class-builder-fields.php:566
+#: includes/class-builder-fields.php:600
 msgid "Website"
 msgstr ""
 
-#: includes/class-builder-fields.php:567
+#: includes/class-builder-fields.php:601
 msgid "http://www.example.com"
 msgstr ""
 
-#: includes/class-builder-fields.php:582
+#: includes/class-builder-fields.php:617
 msgid "Custom Text Field"
 msgstr ""
 
-#: includes/class-builder-fields.php:583
+#: includes/class-builder-fields.php:618
 msgid "A custom text field"
 msgstr ""
 
-#: includes/class-builder-fields.php:586
+#: includes/class-builder-fields.php:621
 msgid "Custom Text Area"
 msgstr ""
 
-#: includes/class-builder-fields.php:587
+#: includes/class-builder-fields.php:622
 msgid "A large custom text field"
 msgstr ""
 
-#: includes/class-builder-fields.php:622
+#: includes/class-builder-fields.php:657
 msgid "Select a Field"
 msgstr ""
 
-#: includes/class-builder-fields.php:633
+#: includes/class-builder-fields.php:668
 msgid "Field Label"
 msgstr ""
 
-#: includes/class-builder-fields.php:636
-msgid "Email"
-msgstr ""
-
-#: includes/class-builder-fields.php:641
+#: includes/class-builder-fields.php:676
 msgid "Field Description"
 msgstr ""
 
-#: includes/class-builder-fields.php:645
+#: includes/class-builder-fields.php:680
 msgid "Ex: Enter email address"
 msgstr ""
 
-#: includes/class-builder-fields.php:651
+#: includes/class-builder-fields.php:686
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2167
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2167
 msgid "Required"
 msgstr ""
 
-#: includes/class-builder-fields.php:675
+#: includes/class-builder-fields.php:710
 msgid "Shortcode to use"
 msgstr ""
 
-#: includes/class-builder-fields.php:678
+#: includes/class-builder-fields.php:713
 msgid ""
 "Shortcode to embed - <em><small>You can copy and paste this in a post to "
 "display your form.</small></em>"
 msgstr ""
 
-#: includes/class-builder-fields.php:695
+#: includes/class-builder-fields.php:730 includes/class-builder-fields.php:808
 msgid "Email settings"
 msgstr ""
 
-#: includes/class-builder-fields.php:702
+#: includes/class-builder-fields.php:737 includes/class-builder-fields.php:815
 msgid "Email destination"
 msgstr ""
 
-#: includes/class-builder-fields.php:703
+#: includes/class-builder-fields.php:738 includes/class-builder-fields.php:816
 msgid ""
 "Who should receive email notifications for this form. Separate multiple "
 "emails by a comma. Leave blank to default to admin email."
 msgstr ""
 
-#: includes/class-builder-fields.php:709
+#: includes/class-builder-fields.php:744 includes/class-builder-fields.php:822
 msgid "Disable email notifications for this form?"
 msgstr ""
 
-#: includes/class-builder-fields.php:710
+#: includes/class-builder-fields.php:745 includes/class-builder-fields.php:823
 msgid ""
 "Check this option to disable emails for this Constant Contact Forms form."
 msgstr ""
 
-#: includes/class-builder.php:200
+#: includes/class-builder-fields.php:760
+msgid "Reset Styles"
+msgstr ""
+
+#: includes/class-builder-fields.php:771 includes/class-builder-fields.php:789
+msgid "Reset"
+msgstr ""
+
+#: includes/class-builder-fields.php:773
+msgid "Reset the styles for this Form."
+msgstr ""
+
+#: includes/class-builder.php:196
 msgid "Please add an email field to continue."
 msgstr ""
 
-#: includes/class-builder.php:215
+#: includes/class-builder.php:211
 msgid ""
 "You have multiple <strong>Custom Text Area</strong> fields in this form. "
 "<strong>Only the first field</strong> will be sent to Constant Contact. <a "
 "id=\"ctct-open-textarea-info\" href=\"#\">Learn More ></a>"
 msgstr ""
 
-#: includes/class-builder.php:319
+#: includes/class-builder.php:315
 msgid "Your first form is ready!"
 msgstr ""
 
-#: includes/class-builder.php:324
+#. translators: placeholder will hold an example shortcode for a newly created form.
+#: includes/class-builder.php:320
 #, php-format
 msgid "Paste shortcode %s into a post or page editor."
 msgstr ""
 
-#: includes/class-builder.php:331
+#: includes/class-builder.php:327
 msgid "Now, how would you like to manage the information you collect?"
 msgstr ""
 
-#: includes/class-builder.php:337
+#: includes/class-builder.php:333
 msgctxt "email marketing alt text"
 msgid "? mail"
 msgstr ""
 
-#: includes/class-builder.php:339
+#: includes/class-builder.php:335
 msgid "Try email marketing."
 msgstr ""
 
-#: includes/class-builder.php:341
+#: includes/class-builder.php:337
 msgid ""
 "Import everything into Constant Contact so I can see what email marketing "
 "can do for me."
 msgstr ""
 
-#: includes/class-builder.php:343 includes/class-notification-content.php:62
+#: includes/class-builder.php:339 includes/class-notification-content.php:62
 msgid "Try Us Free"
 msgstr ""
 
-#: includes/class-builder.php:354
+#: includes/class-builder.php:350
 msgctxt "connect alt text"
 msgid "hand holding phone"
 msgstr ""
 
-#: includes/class-builder.php:356
+#: includes/class-builder.php:352
 msgid "Connect my account."
 msgstr ""
 
-#: includes/class-builder.php:358
+#: includes/class-builder.php:354
 msgid ""
 "Automatically add collected information to contacts in my Constant Contact "
 "account."
 msgstr ""
 
-#: includes/class-builder.php:360 includes/class-builder.php:361
+#: includes/class-builder.php:356 includes/class-builder.php:357
 #: includes/class-connect.php:244
 msgid "Connect Plugin"
 msgstr ""
 
-#: includes/class-builder.php:363
+#: includes/class-builder.php:359
 msgid ""
 "By connecting, you authorize this\n"
 "\t\t\t\t\t\t\tplugin to access your account."
 msgstr ""
 
-#: includes/class-builder.php:371
+#: includes/class-builder.php:367
 msgid "I'm all set"
 msgstr ""
 
-#: includes/class-builder.php:372
+#: includes/class-builder.php:368
 msgid "I'll manage the information on my own for now."
 msgstr ""
 
-#: includes/class-builder.php:393
+#: includes/class-builder.php:389
 msgid "Custom Text Area limitations."
 msgstr ""
 
-#: includes/class-builder.php:397
+#: includes/class-builder.php:393
 msgid ""
 "Apology, at this time, we can only upload one <strong>\"Custom Text Area\"</"
 "strong> field to your Constant Contact account, per form submission. The "
 "uploaded field is placed into your contact's \"Notes\" field."
 msgstr ""
 
-#: includes/class-builder.php:398
+#: includes/class-builder.php:394
 msgid ""
 "<strong>The first listed \"Custom Text Area\"</strong> field is sent to "
 "Constant Contact."
 msgstr ""
 
-#: includes/class-builder.php:399
+#: includes/class-builder.php:395
 msgid ""
 "Subsequent \"Custom Text Area\" fields are only sent with the admin email "
 "when the form is submitted, and not to your Constant Contact account."
 msgstr ""
 
-#: includes/class-builder.php:402
+#: includes/class-builder.php:398
 msgctxt "connect alt text"
 msgid "screenshot regarding custom text areas"
 msgstr ""
@@ -806,6 +866,7 @@ msgstr ""
 msgid "Encrpytion Library: "
 msgstr ""
 
+#. translators: placeholder will be a timestamp for the current time.
 #: includes/class-check.php:165
 #, php-format
 msgid ""
@@ -813,6 +874,7 @@ msgid ""
 "and will not run."
 msgstr ""
 
+#. translators: placeholder will be a timestamp for the current time.
 #: includes/class-check.php:170
 #, php-format
 msgid ""
@@ -820,6 +882,7 @@ msgid ""
 "determine the status of your WP-Cron system."
 msgstr ""
 
+#. translators: placeholder iwll have an HTTP response code value.
 #: includes/class-check.php:195
 #, php-format
 msgid "Unexpected HTTP response code: %s"
@@ -841,10 +904,10 @@ msgstr ""
 msgid "Are you sure you want to disconnect?"
 msgstr ""
 
-#: includes/class-connect.php:172 includes/class-logging.php:175
+#: includes/class-connect.php:172 includes/class-logging.php:195
 #: includes/class-notification-content.php:109
-#: includes/class-notification-content.php:139 includes/class-optin.php:129
-#: includes/class-settings.php:815
+#: includes/class-notification-content.php:139 includes/class-optin.php:131
+#: includes/class-settings.php:794
 msgid "Constant Contact logo"
 msgstr ""
 
@@ -864,6 +927,7 @@ msgstr ""
 msgid "Please help to improve this plugin."
 msgstr ""
 
+#. translators: placeholder will hold link to Constant Contact privacy statement.
 #: includes/class-connect.php:204
 #, php-format
 msgid ""
@@ -958,7 +1022,7 @@ msgstr ""
 msgid "New Form"
 msgstr ""
 
-#: includes/class-cpts.php:70 includes/class-display.php:828
+#: includes/class-cpts.php:70 includes/class-display.php:904
 msgid "Edit Form"
 msgstr ""
 
@@ -982,19 +1046,19 @@ msgstr ""
 msgid "No forms found in Trash"
 msgstr ""
 
-#: includes/class-cpts.php:76 includes/class-cpts.php:134
+#: includes/class-cpts.php:76 includes/class-cpts.php:135
 msgid "Featured Image"
 msgstr ""
 
-#: includes/class-cpts.php:77 includes/class-cpts.php:135
+#: includes/class-cpts.php:77 includes/class-cpts.php:136
 msgid "Set featured image"
 msgstr ""
 
-#: includes/class-cpts.php:78 includes/class-cpts.php:136
+#: includes/class-cpts.php:78 includes/class-cpts.php:137
 msgid "Remove featured image"
 msgstr ""
 
-#: includes/class-cpts.php:79 includes/class-cpts.php:137
+#: includes/class-cpts.php:79 includes/class-cpts.php:138
 msgid "Use as featured image"
 msgstr ""
 
@@ -1022,270 +1086,271 @@ msgstr ""
 msgid "Constant Contact forms."
 msgstr ""
 
-#: includes/class-cpts.php:118
+#: includes/class-cpts.php:119
 msgctxt "Post Type General Name"
 msgid "Lists"
 msgstr ""
 
-#: includes/class-cpts.php:119
+#: includes/class-cpts.php:120
 msgctxt "Post Type Singular Name"
 msgid "List"
 msgstr ""
 
-#: includes/class-cpts.php:120 includes/class-cpts.php:121
-#: includes/class-cpts.php:124
+#: includes/class-cpts.php:121 includes/class-cpts.php:122
+#: includes/class-cpts.php:125
 msgid "Lists"
 msgstr ""
 
-#: includes/class-cpts.php:122
+#: includes/class-cpts.php:123
 msgid "List Archives"
 msgstr ""
 
-#: includes/class-cpts.php:123
+#: includes/class-cpts.php:124
 msgid "Parent List:"
 msgstr ""
 
-#: includes/class-cpts.php:125 includes/class-cpts.php:126
+#: includes/class-cpts.php:126 includes/class-cpts.php:127
 msgid "Add New List"
 msgstr ""
 
-#: includes/class-cpts.php:127
+#: includes/class-cpts.php:128
 msgid "New List"
 msgstr ""
 
-#: includes/class-cpts.php:128
+#: includes/class-cpts.php:129
 msgid "Edit List"
 msgstr ""
 
-#: includes/class-cpts.php:129
+#: includes/class-cpts.php:130
 msgid "Update List"
 msgstr ""
 
-#: includes/class-cpts.php:130
+#: includes/class-cpts.php:131
 msgid "View List"
 msgstr ""
 
-#: includes/class-cpts.php:131
+#: includes/class-cpts.php:132
 msgid "Search List"
 msgstr ""
 
-#: includes/class-cpts.php:132
+#: includes/class-cpts.php:133
 msgid "Not found"
 msgstr ""
 
-#: includes/class-cpts.php:133
+#: includes/class-cpts.php:134
 msgid "Not found in Trash"
 msgstr ""
 
-#: includes/class-cpts.php:138
+#: includes/class-cpts.php:139
 msgid "Insert into List"
 msgstr ""
 
-#: includes/class-cpts.php:139
+#: includes/class-cpts.php:140
 msgid "Uploaded to this List"
 msgstr ""
 
-#: includes/class-cpts.php:140
+#: includes/class-cpts.php:141
 msgid "Lists list"
 msgstr ""
 
-#: includes/class-cpts.php:141
+#: includes/class-cpts.php:142
 msgid "Lists list navigation"
 msgstr ""
 
-#: includes/class-cpts.php:142
+#: includes/class-cpts.php:143
 msgid "Filter lists list"
 msgstr ""
 
-#: includes/class-cpts.php:146
+#: includes/class-cpts.php:147
 msgid "Constant Contact lists."
 msgstr ""
 
-#: includes/class-cpts.php:185 includes/class-cpts.php:188
+#: includes/class-cpts.php:186 includes/class-cpts.php:189
 msgid "List updated."
 msgstr ""
 
-#: includes/class-cpts.php:186 includes/class-cpts.php:200
+#: includes/class-cpts.php:187 includes/class-cpts.php:202
 msgid "Custom field updated."
 msgstr ""
 
-#: includes/class-cpts.php:187 includes/class-cpts.php:201
+#: includes/class-cpts.php:188 includes/class-cpts.php:203
 msgid "Custom field deleted."
 msgstr ""
 
-#: includes/class-cpts.php:189
+#: includes/class-cpts.php:190
 #, php-format
 msgid "List restored to revision from %s"
 msgstr ""
 
-#: includes/class-cpts.php:190
+#: includes/class-cpts.php:191
 msgid "List published."
 msgstr ""
 
-#: includes/class-cpts.php:191
+#: includes/class-cpts.php:192
 msgid "List saved."
 msgstr ""
 
-#: includes/class-cpts.php:192
+#: includes/class-cpts.php:193
 msgid "List submitted."
 msgstr ""
 
-#: includes/class-cpts.php:193
+#: includes/class-cpts.php:194
 #, php-format
 msgid "List scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
-#: includes/class-cpts.php:194
+#: includes/class-cpts.php:196
 msgid "List draft updated."
 msgstr ""
 
-#: includes/class-cpts.php:199 includes/class-cpts.php:202
+#: includes/class-cpts.php:201 includes/class-cpts.php:204
 msgid "Form updated."
 msgstr ""
 
-#: includes/class-cpts.php:203
+#: includes/class-cpts.php:205
 #, php-format
 msgid "Form restored to revision from %s"
 msgstr ""
 
-#: includes/class-cpts.php:204
+#: includes/class-cpts.php:206
 #, php-format
 msgid ""
 "Success! Here's the shortcode: %s. Just paste it into a post or page editor "
 "to publish"
 msgstr ""
 
-#: includes/class-cpts.php:205
+#: includes/class-cpts.php:207
 msgid "Form saved."
 msgstr ""
 
-#: includes/class-cpts.php:206
+#: includes/class-cpts.php:208
 msgid "Form submitted."
 msgstr ""
 
-#: includes/class-cpts.php:207
+#: includes/class-cpts.php:209
 #, php-format
 msgid "Form scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
-#: includes/class-cpts.php:208
+#: includes/class-cpts.php:211
 msgid "Form draft updated."
 msgstr ""
 
-#: includes/class-cpts.php:237
+#: includes/class-cpts.php:240
 msgid "Enter a form name"
 msgstr ""
 
-#: includes/class-cpts.php:238
+#: includes/class-cpts.php:241
 msgid "(Examples: Join Our Email List, Contact Us)"
 msgstr ""
 
-#: includes/class-cpts.php:307
+#: includes/class-cpts.php:310
 msgid "No title"
 msgstr ""
 
-#: includes/class-cpts.php:315
+#. translators: Placeholders will be form title and then last modified date.
+#: includes/class-cpts.php:318
 #, php-format
 msgid "%1$s (last modified %2$s ago)"
 msgstr ""
 
-#: includes/class-display.php:491
+#: includes/class-display.php:532
 msgid "Constant Contact Use."
 msgstr ""
 
-#: includes/class-display.php:624 includes/class-display.php:1696
+#: includes/class-display.php:665 includes/class-display.php:1757
 msgid "Error: Please correct your entry."
 msgstr ""
 
-#: includes/class-display.php:626
+#: includes/class-display.php:667
 msgid " Error: Please fill out this field."
 msgstr ""
 
-#: includes/class-display.php:1146
+#: includes/class-display.php:1218
 msgid "Send"
 msgstr ""
 
-#: includes/class-display.php:1262
+#: includes/class-display.php:1334
 msgid "Street Address"
 msgstr ""
 
-#: includes/class-display.php:1263
+#: includes/class-display.php:1335
 msgid "Address Line 2"
 msgstr ""
 
-#: includes/class-display.php:1264
+#: includes/class-display.php:1336
 msgid "City"
 msgstr ""
 
-#: includes/class-display.php:1265
+#: includes/class-display.php:1337
 msgid "State"
 msgstr ""
 
-#: includes/class-display.php:1266
+#: includes/class-display.php:1338
 msgid "ZIP Code"
 msgstr ""
 
-#: includes/class-display.php:1443
+#: includes/class-display.php:1515
 msgid "Month"
 msgstr ""
 
-#: includes/class-display.php:1444
+#: includes/class-display.php:1516
 msgid "Day"
 msgstr ""
 
-#: includes/class-display.php:1445
+#: includes/class-display.php:1517
 msgid "Year"
 msgstr ""
 
-#: includes/class-display.php:1569
+#: includes/class-display.php:1639
 msgid "January"
 msgstr ""
 
-#: includes/class-display.php:1570
+#: includes/class-display.php:1640
 msgid "February"
 msgstr ""
 
-#: includes/class-display.php:1571
+#: includes/class-display.php:1641
 msgid "March"
 msgstr ""
 
-#: includes/class-display.php:1572
+#: includes/class-display.php:1642
 msgid "April"
 msgstr ""
 
-#: includes/class-display.php:1573
+#: includes/class-display.php:1643
 msgid "May"
 msgstr ""
 
-#: includes/class-display.php:1574
+#: includes/class-display.php:1644
 msgid "June"
 msgstr ""
 
-#: includes/class-display.php:1575
+#: includes/class-display.php:1645
 msgid "July "
 msgstr ""
 
-#: includes/class-display.php:1576
+#: includes/class-display.php:1646
 msgid "August"
 msgstr ""
 
-#: includes/class-display.php:1577
+#: includes/class-display.php:1647
 msgid "September"
 msgstr ""
 
-#: includes/class-display.php:1578
+#: includes/class-display.php:1648
 msgid "October"
 msgstr ""
 
-#: includes/class-display.php:1579
+#: includes/class-display.php:1649
 msgid "November"
 msgstr ""
 
-#: includes/class-display.php:1580
+#: includes/class-display.php:1650
 msgid "December"
 msgstr ""
 
-#: includes/class-display.php:1763
+#: includes/class-display.php:1829
 #, php-format
 msgid ""
 "By submitting this form, you are consenting to receive marketing emails "
@@ -1293,7 +1358,7 @@ msgid ""
 "the SafeUnsubscribe&reg; link, found at the bottom of every email. %s"
 msgstr ""
 
-#: includes/class-display.php:1769
+#: includes/class-display.php:1835
 msgid "Emails are serviced by Constant Contact"
 msgstr ""
 
@@ -1305,117 +1370,119 @@ msgstr ""
 msgid "List information will populate upon saving."
 msgstr ""
 
-#: includes/class-lists.php:859
+#: includes/class-lists.php:846
 msgid "You already have a list with that name."
 msgstr ""
 
-#: includes/class-lists.php:878
+#: includes/class-lists.php:865
 msgid "Sync Lists with Constant Contact"
 msgstr ""
 
-#: includes/class-logging.php:122
+#: includes/class-logging.php:142
 msgid "Are you sure you want to delete current logs?"
 msgstr ""
 
-#: includes/class-logging.php:142
+#: includes/class-logging.php:162
 msgid "Debug logs"
 msgstr ""
 
-#: includes/class-logging.php:186 includes/class-logging.php:195
+#: includes/class-logging.php:206 includes/class-logging.php:215
 #, php-format
 msgid "We are not able to write to the %s file."
 msgstr ""
 
-#: includes/class-logging.php:190
+#: includes/class-logging.php:210
 msgid "No error log exists"
 msgstr ""
 
-#: includes/class-logging.php:202
+#: includes/class-logging.php:222
 msgid ""
 "Error log below can be used with support requests to help identify issues "
 "with Constant Contact Forms."
 msgstr ""
 
-#: includes/class-logging.php:203
+#: includes/class-logging.php:223
 msgid ""
 "When available, you can share information by copying and pasting the content "
 "in the textarea, or by using the \"Download logs\" link at the end. Logs can "
 "be cleared by using the \"Delete logs\" link."
 msgstr ""
 
-#: includes/class-logging.php:210
+#: includes/class-logging.php:230
 msgid ""
 "Error log may still have content, even if an error is shown above. Please "
 "use the download link below."
 msgstr ""
 
-#: includes/class-logging.php:219
+#: includes/class-logging.php:239
 msgid "Download logs"
 msgstr ""
 
-#: includes/class-logging.php:227
+#: includes/class-logging.php:247
 msgid "Delete logs"
 msgstr ""
 
-#: includes/class-logging.php:286
+#: includes/class-logging.php:308
 #, php-format
 msgid "Log display error: %s"
 msgstr ""
 
-#: includes/class-mail.php:309
+#. translators: this is only used when some debugging is enabled
+#: includes/class-mail.php:304
 #, php-format
 msgid "Duplicate send mail for: %1$s and: %2$s"
 msgstr ""
 
-#: includes/class-mail.php:341
+#: includes/class-mail.php:336
 msgid "Your Constant Contact Forms plugin has captured new information."
 msgstr ""
 
-#: includes/class-mail.php:345
+#: includes/class-mail.php:340
 msgid "Form title: "
 msgstr ""
 
-#: includes/class-mail.php:346
+#: includes/class-mail.php:341
 msgid "Form information: "
 msgstr ""
 
-#: includes/class-mail.php:353
+#: includes/class-mail.php:347
 #, php-format
 msgid ""
 "Email marketing is a great way to stay connected and engage with visitors "
-"after they've left your site. Visit %shttps://www.constantcontact.com/index?"
-"pn=miwordpress%s to sign up for a Free Trial."
+"after they've left your site. Visit %1$shttps://www.constantcontact.com/"
+"index?pn=miwordpress%2$s to sign up for a Free Trial."
 msgstr ""
 
-#: includes/class-mail.php:390
+#: includes/class-mail.php:384
 msgid "Constant Contact Forms Notification"
 msgstr ""
 
-#: includes/class-mail.php:480
-#, php-format
+#: includes/class-mail.php:476
 msgid ""
-"%sNote:%s You have disabled admin email notifications under the plugin "
-"settings, but are receiving this email because of the following reason."
+"%1\\$sNote:%2\\$s You have disabled admin email notifications under the "
+"plugin settings, but are receiving this email because of the following "
+"reason."
 msgstr ""
 
-#: includes/class-mail.php:503
+#: includes/class-mail.php:499
 msgid "Submitted to Constant Contact:"
 msgstr ""
 
-#: includes/class-mail.php:509
+#: includes/class-mail.php:505
 msgid "NO (Constant Contact list not selected for this form)"
 msgstr ""
 
-#: includes/class-mail.php:515
+#: includes/class-mail.php:511
 msgid "NO (User did not select the Email Opt-in checkbox)"
 msgstr ""
 
-#: includes/class-mail.php:515
+#: includes/class-mail.php:511
 msgid ""
 "You can disable this under Form options. Email Opt-in isn't required to add "
 "subscribers into your account"
 msgstr ""
 
+#. translators: Placeholder will hold "Constan Contact Forms" with <strong> tags.
 #: includes/class-notification-content.php:52
 #, php-format
 msgid ""
@@ -1427,6 +1494,7 @@ msgstr ""
 msgid "Connect your account"
 msgstr ""
 
+#. translators: placeholders around "Learn More" hold html `<a>` tag.
 #: includes/class-notification-content.php:72
 #, php-format
 msgid "%1$sLearn More%2$s about the power of email marketing."
@@ -1461,6 +1529,7 @@ msgstr ""
 msgid "Leave a review"
 msgstr ""
 
+#. translators: Placeholder iwll hold url to Constant Contact Forms settings page.
 #: includes/class-notification-content.php:185
 #, php-format
 msgid ""
@@ -1473,83 +1542,87 @@ msgstr ""
 msgid "Dismiss this notice."
 msgstr ""
 
-#: includes/class-optin.php:137 includes/class-settings.php:823
+#: includes/class-optin.php:139 includes/class-settings.php:802
 msgid "Agree"
 msgstr ""
 
-#: includes/class-optin.php:138 includes/class-settings.php:824
+#: includes/class-optin.php:140 includes/class-settings.php:803
 msgid "Disagree"
 msgstr ""
 
-#: includes/class-process-form.php:107 includes/class-process-form.php:670
+#: includes/class-process-form.php:107 includes/class-process-form.php:668
 msgid "There was an error sending your form."
 msgstr ""
 
-#: includes/class-process-form.php:121 includes/class-process-form.php:693
+#: includes/class-process-form.php:120 includes/class-process-form.php:690
 msgid "Your information has been submitted."
 msgstr ""
 
-#: includes/class-process-form.php:139 includes/class-process-form.php:266
-#: includes/class-process-form.php:710
+#: includes/class-process-form.php:138 includes/class-process-form.php:266
+#: includes/class-process-form.php:707
 msgid ""
 "We had trouble processing your submission. Please review your entries and "
 "try again."
 msgstr ""
 
-#: includes/class-process-form.php:190
+#: includes/class-process-form.php:189
 msgid "No Constant Contact Forms form ID provided"
 msgstr ""
 
-#: includes/class-process-form.php:198
+#: includes/class-process-form.php:197
 msgid "No form verify value provided"
 msgstr ""
 
-#: includes/class-process-form.php:206 includes/class-process-form.php:239
-#: includes/class-process-form.php:254
-msgid "We do no think you are human"
-msgstr ""
-
-#: includes/class-process-form.php:213
+#: includes/class-process-form.php:212
 msgid "Please properly fill out all required fields"
 msgstr ""
 
-#: includes/class-process-form.php:231
+#: includes/class-process-form.php:230
 msgid "Failed reCAPTCHA check"
 msgstr ""
 
-#: includes/class-process-form.php:275 includes/class-process-form.php:284
-#: includes/class-process-form.php:293
+#: includes/class-process-form.php:275 includes/class-process-form.php:293
+msgid ""
+"We had trouble processing your submission. Make sure you haven't changed the "
+"required form ID and try again."
+msgstr ""
+
+#: includes/class-process-form.php:284
 msgid ""
 "We had trouble processing your submission. Make sure you haven't changed the "
 "required Form ID and try again."
 msgstr ""
 
-#: includes/class-settings.php:164
+#: includes/class-process-form.php:773
+msgid "We do no think you are human"
+msgstr ""
+
+#: includes/class-settings.php:137 includes/class-settings.php:198
 msgid "Constant Contact Forms Settings"
 msgstr ""
 
-#: includes/class-settings.php:165
+#: includes/class-settings.php:138 includes/class-settings.php:201
 msgid "Settings"
 msgstr ""
 
-#: includes/class-settings.php:251
+#: includes/class-settings.php:219
 msgid "Google Analytics&trade; tracking opt-in."
 msgstr ""
 
-#: includes/class-settings.php:254
+#: includes/class-settings.php:222
 msgid ""
 "Allow Constant Contact to use Google Analytics&trade; to track your usage "
 "across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and "
-"users will not be tracked. See our <a href=\"https://www.constantcontact.com/"
-"legal/privacy-statement\"> Privacy Statement</a> information about what is "
-"and is not tracked."
+"users will not be tracked. See our <a href=\"https://www.endurance.com/"
+"privacy\"> Privacy Statement</a> information about what is and is not "
+"tracked."
 msgstr ""
 
-#: includes/class-settings.php:262
+#: includes/class-settings.php:230
 msgid "Disable E-mail Notifications"
 msgstr ""
 
-#: includes/class-settings.php:263
+#: includes/class-settings.php:231
 #, php-format
 msgid ""
 "This option will disable e-mail notifications for forms with a selected list "
@@ -1557,110 +1630,131 @@ msgid ""
 "email address listed under Wordpress \"General Settings\"."
 msgstr ""
 
-#: includes/class-settings.php:271
+#: includes/class-settings.php:239
 msgid "Bypass Constant Contact cron scheduling"
 msgstr ""
 
-#: includes/class-settings.php:272
+#: includes/class-settings.php:240
 msgid ""
 "This option will send form entries to Constant Contact right away instead of "
 "holding for one minute delay."
 msgstr ""
 
-#: includes/class-settings.php:285
+#: includes/class-settings.php:253
 msgid "Advanced Opt-in"
 msgstr ""
 
-#: includes/class-settings.php:290
+#: includes/class-settings.php:258
 msgid "Opt-in Location"
 msgstr ""
 
-#: includes/class-settings.php:298 includes/class-settings.php:305
+#: includes/class-settings.php:266 includes/class-settings.php:273
 msgid "Select a list"
 msgstr ""
 
-#: includes/class-settings.php:310
+#: includes/class-settings.php:278
 msgid "Business Name"
 msgstr ""
 
-#: includes/class-settings.php:326
+#. translators: placeholder will hold site owner's business name.
+#: includes/class-settings.php:294
 #, php-format
 msgid "Yes, I would like to receive emails from %s. Sign me up!"
 msgstr ""
 
-#: includes/class-settings.php:331
+#: includes/class-settings.php:299
 msgid "Disclosure Name"
 msgstr ""
 
-#: includes/class-settings.php:339
+#: includes/class-settings.php:307
 msgid "Disclosure Address"
 msgstr ""
 
-#: includes/class-settings.php:351
+#: includes/class-settings.php:319
 msgid "Google reCAPTCHA"
 msgstr ""
 
-#: includes/class-settings.php:352
+#: includes/class-settings.php:320
 msgid ""
 "Learn more and get an <a href=\"https://www.google.com/recaptcha/intro/\" "
 "target=\"_blank\">API site key</a>"
 msgstr ""
 
-#: includes/class-settings.php:355
+#: includes/class-settings.php:324
 msgid "Site Key"
 msgstr ""
 
-#: includes/class-settings.php:362
+#: includes/class-settings.php:331
 msgid "Secret Key"
 msgstr ""
 
-#: includes/class-settings.php:369
+#: includes/class-settings.php:338
 msgid "Global Form CSS Settings"
 msgstr ""
 
-#: includes/class-settings.php:373
+#: includes/class-settings.php:342
 msgid "CSS Classes"
 msgstr ""
 
-#: includes/class-settings.php:377
+#: includes/class-settings.php:346
 msgid "Provide custom classes for the form separated by a single space."
 msgstr ""
 
-#: includes/class-settings.php:396
+#: includes/class-settings.php:366
 msgid "Choose the position for the labels of the form elements."
 msgstr ""
 
-#: includes/class-settings.php:403
+#: includes/class-settings.php:373
 msgid "Support"
 msgstr ""
 
-#: includes/class-settings.php:406
+#: includes/class-settings.php:376
 msgid "Enable logging for debugging purposes."
 msgstr ""
 
-#: includes/class-settings.php:407
+#: includes/class-settings.php:377
 msgid ""
 "This option will turn on some logging functionality that can be used to "
 "deduce sources of issues with the use of Constant Contact Forms plugin."
 msgstr ""
 
-#: includes/class-settings.php:425
+#: includes/class-settings.php:397
 msgid "Add a checkbox to the comment field in your posts"
 msgstr ""
 
-#: includes/class-settings.php:426
+#: includes/class-settings.php:398
 msgid "Add a checkbox to the main WordPress login page"
 msgstr ""
 
-#: includes/class-settings.php:431
+#: includes/class-settings.php:403
 msgid "Add a checkbox to the WordPress user registration page"
 msgstr ""
 
-#: includes/class-settings.php:520
+#: includes/class-settings.php:493
 msgid "Sign up to our newsletter."
 msgstr ""
 
-#: includes/class-shortcode-admin.php:53 includes/class-shortcode-admin.php:54
+#: includes/class-settings.php:851
+msgid "This message displays when the plugin detects spam data."
+msgstr ""
+
+#: includes/class-settings.php:852
+msgid "Note that this message may be overriden on a per-post basis."
+msgstr ""
+
+#: includes/class-settings.php:857
+msgid "Suspected Bot Error Message"
+msgstr ""
+
+#: includes/class-settings.php:863
+msgid "Error Message"
+msgstr ""
+
+#: includes/class-settings.php:903
+msgid "We do not think you are human"
+msgstr ""
+
+#: includes/class-shortcode-admin.php:51 includes/class-shortcode-admin.php:52
 msgid "Add Constant Contact Form"
 msgstr ""
 
@@ -1668,27 +1762,1436 @@ msgstr ""
 msgid "Form Shortcode"
 msgstr ""
 
-#: includes/class-shortcode-admin.php:86
+#: includes/class-shortcode-admin.php:84
+msgid "Show Title"
+msgstr ""
+
+#. translators: placeholder will store url for forms list page.
+#: includes/class-shortcode-admin.php:92
 #, php-format
 msgid ""
 "<p>No forms available. Visit your <a href=\"%s\">forms list</a> to create "
 "one.</p>"
 msgstr ""
 
-#: includes/widgets/contact-form-select.php:23
+#: includes/widgets/contact-form-select.php:25
 msgid "Display a Constant Contact form."
 msgstr ""
 
-#: includes/widgets/contact-form-select.php:27
+#: includes/widgets/contact-form-select.php:29
 msgid "Constant Contact Form"
 msgstr ""
 
-#: includes/widgets/contact-form-select.php:51
+#: includes/widgets/contact-form-select.php:54
 msgid "Title"
 msgstr ""
 
-#: includes/widgets/contact-form-select.php:58
+#: includes/widgets/contact-form-select.php:61
 msgid "Form"
+msgstr ""
+
+#: includes/widgets/contact-form-select.php:69
+msgid "Display form title"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:117
+msgid "Test Metabox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:150
+#: vendor/cmb2/cmb2/example-functions.php:490
+msgid "Test Text"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:151
+#: vendor/cmb2/cmb2/example-functions.php:164
+#: vendor/cmb2/cmb2/example-functions.php:177
+#: vendor/cmb2/cmb2/example-functions.php:184
+#: vendor/cmb2/cmb2/example-functions.php:197
+#: vendor/cmb2/cmb2/example-functions.php:205
+#: vendor/cmb2/cmb2/example-functions.php:214
+#: vendor/cmb2/cmb2/example-functions.php:222
+#: vendor/cmb2/cmb2/example-functions.php:237
+#: vendor/cmb2/cmb2/example-functions.php:245
+#: vendor/cmb2/cmb2/example-functions.php:253
+#: vendor/cmb2/cmb2/example-functions.php:270
+#: vendor/cmb2/cmb2/example-functions.php:279
+#: vendor/cmb2/cmb2/example-functions.php:295
+#: vendor/cmb2/cmb2/example-functions.php:302
+#: vendor/cmb2/cmb2/example-functions.php:309
+#: vendor/cmb2/cmb2/example-functions.php:334
+#: vendor/cmb2/cmb2/example-functions.php:347
+#: vendor/cmb2/cmb2/example-functions.php:360
+#: vendor/cmb2/cmb2/example-functions.php:372
+#: vendor/cmb2/cmb2/example-functions.php:381
+#: vendor/cmb2/cmb2/example-functions.php:389
+#: vendor/cmb2/cmb2/example-functions.php:398
+#: vendor/cmb2/cmb2/example-functions.php:405
+#: vendor/cmb2/cmb2/example-functions.php:419
+#: vendor/cmb2/cmb2/example-functions.php:491
+#: vendor/cmb2/cmb2/example-functions.php:582
+#: vendor/cmb2/cmb2/example-functions.php:590
+#: vendor/cmb2/cmb2/example-functions.php:597
+#: vendor/cmb2/cmb2/example-functions.php:604
+#: vendor/cmb2/cmb2/example-functions.php:611
+#: vendor/cmb2/cmb2/example-functions.php:618
+#: vendor/cmb2/cmb2/example-functions.php:625
+#: vendor/cmb2/cmb2/example-functions.php:652
+#: vendor/cmb2/cmb2/example-functions.php:660
+#: vendor/cmb2/cmb2/example-functions.php:667
+#: vendor/cmb2/cmb2/example-functions.php:716
+msgid "field description (optional)"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:163
+msgid "Test Text Small"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:176
+msgid "Test Text Medium"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:183
+msgid "Read-only Disabled Field"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:187
+msgid "Hey there, I'm a read-only field"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:196
+msgid "Custom Rendered Field"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:204
+msgid "Website URL"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:213
+msgid "Test Text Email"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:221
+msgid "Test Time"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:229
+#: vendor/cmb2/cmb2/example-functions.php:230
+msgid "Time zone"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:236
+msgid "Test Date Picker"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:244
+msgid "Test Date Picker (UNIX timestamp)"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:252
+msgid "Test Date/Time Picker Combo (UNIX timestamp)"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:269
+msgid "Test Money"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:278
+msgid "Test Color Picker"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:294
+msgid "Test Text Area"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:301
+msgid "Test Text Area Small"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:308
+msgid "Test Text Area for Code"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:326
+msgid "Test Title Weeeee"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:327
+msgid "This is a title description"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:333
+msgid "Test Select"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:339
+#: vendor/cmb2/cmb2/example-functions.php:352
+#: vendor/cmb2/cmb2/example-functions.php:364
+msgid "Option One"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:340
+#: vendor/cmb2/cmb2/example-functions.php:353
+#: vendor/cmb2/cmb2/example-functions.php:365
+msgid "Option Two"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:341
+#: vendor/cmb2/cmb2/example-functions.php:354
+#: vendor/cmb2/cmb2/example-functions.php:366
+msgid "Option Three"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:346
+msgid "Test Radio inline"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:359
+msgid "Test Radio"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:371
+msgid "Test Taxonomy Radio"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:380
+msgid "Test Taxonomy Select"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:388
+msgid "Test Taxonomy Multi Checkbox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:397
+msgid "Test Checkbox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:404
+msgid "Test Multi Checkbox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:410
+msgid "Check One"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:411
+msgid "Check Two"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:412
+msgid "Check Three"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:418
+msgid "Test wysiwyg"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:428
+msgid "Test Image"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:429
+msgid "Upload an image or enter a URL."
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:435
+msgid "Multiple Files"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:436
+msgid "Upload or add multiple images/attachments."
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:443
+msgid "oEmbed"
+msgstr ""
+
+#. translators: %s: link to codex.wordpress.org/Embeds
+#: vendor/cmb2/cmb2/example-functions.php:446
+#, php-format
+msgid ""
+"Enter a youtube, twitter, or instagram URL. Supports services listed at %s."
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:479
+msgid "About Page Metabox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:510
+msgid "Repeating Field Group"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:518
+msgid "Generates reusable form entries"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:520
+msgid "Entry {#}"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:521
+msgid "Add Another Entry"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:522
+msgid "Remove Entry"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:535
+msgid "Entry Title"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:543
+msgid "Write a short description for this entry"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:549
+msgid "Entry Image"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:555
+msgid "Image Caption"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:574
+msgid "User Profile Metabox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:581
+#: vendor/cmb2/cmb2/example-functions.php:651
+msgid "Extra Info"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:589
+msgid "Avatar"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:596
+msgid "Facebook URL"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:603
+msgid "Twitter URL"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:610
+msgid "Google+ URL"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:617
+msgid "Linkedin URL"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:624
+msgid "User Field"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:644
+msgid "Category Metabox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:659
+msgid "Term Image"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:666
+msgid "Arbitrary Term Field"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:685
+msgid "Theme Options"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:715
+msgid "Site Background Color"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:752
+#, php-format
+msgid "%s &mdash; Updated!"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:786
+msgid "REST Test Box"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:795
+msgid "REST Test Text"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:796
+msgid "Will show in the REST API for this box and for pages."
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:802
+msgid "REST Editable Test Text"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:803
+msgid "Will show in REST API \"editable\" contexts only (`POST` requests)."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2.php:199
+msgid "Metabox configuration is required to have an ID parameter."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2.php:601
+msgid "Click to toggle"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Ajax.php:75
+msgid "Please Try Again"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Ajax.php:181
+msgid "Remove Embed"
+msgstr ""
+
+#. translators: 1: results for. 2: link to codex.wordpress.org/Embeds
+#: vendor/cmb2/cmb2/includes/CMB2_Ajax.php:189
+#: vendor/cmb2/cmb2/includes/helper-functions.php:107
+#, php-format
+msgid "No oEmbed Results Found for %1$s. View more info at %2$s."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:422
+#, php-format
+msgid ""
+"The \"%1$s\" field parameter has been deprecated in favor of the \"%2$s\" "
+"parameter."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:426
+#, php-format
+msgid ""
+"Using the \"%1$s\" field parameter as a callback has been deprecated in "
+"favor of the \"%2$s\" parameter."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:456
+#, php-format
+msgid ""
+"%1$s was called with a parameter that is <strong>deprecated</strong> since "
+"version %2$s! %3$s"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:458
+#, php-format
+msgid ""
+"%1$s was called with a parameter that is <strong>deprecated</strong> since "
+"version %2$s with no alternative available."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:491
+#: vendor/cmb2/cmb2/includes/CMB2_Hookup_Base.php:102
+#: vendor/cmb2/cmb2/includes/CMB2_Options_Hookup.php:357
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_Base.php:173
+#, php-format
+msgid "Invalid %1$s property: %2$s"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:509
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_Base.php:157
+#, php-format
+msgid "Invalid %1$s method: %2$s"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Field.php:1348
+msgid "Add Group"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Field.php:1349
+msgid "Remove Group"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Field.php:1380
+#: vendor/cmb2/cmb2/includes/CMB2_Field.php:1384
+msgid "None"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Field.php:1495
+msgid "Sorry, this field does not have a cmb_id specified."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Field_Display.php:432
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:230
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File_Base.php:79
+msgid "File:"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Hookup_Base.php:44
+#, php-format
+msgid "%1$s should be implemented by the extended class."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:165
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:210
+msgid "Clear"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:166
+msgid "Default"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:167
+msgid "Select Color"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:168
+msgid "Current Color"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:200
+msgctxt "Valid formatDate string for jquery-ui datepicker"
+msgid "mm/dd/yy"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:201
+msgid "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:202
+msgid "Su, Mo, Tu, We, Th, Fr, Sa"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:203
+msgid "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:204
+msgid ""
+"January, February, March, April, May, June, July, August, September, "
+"October, November, December"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:205
+msgid "Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:206
+msgid "Next"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:207
+msgid "Prev"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:208
+msgid "Today"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:209
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:219
+msgid "Done"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:213
+msgid "Choose Time"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:214
+msgid "Time"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:215
+msgid "Hour"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:216
+msgid "Minute"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:217
+msgid "Second"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:218
+msgid "Now"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:220
+msgctxt ""
+"Valid formatting string, as per http://trentrichardson.com/examples/"
+"timepicker/"
+msgid "hh:mm TT"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:226
+msgid "Use this file"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:227
+msgid "Use these files"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:228
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File_Base.php:64
+msgid "Remove Image"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:229
+#: vendor/cmb2/cmb2/includes/CMB2_Types.php:413
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File_Base.php:84
+msgid "Remove"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:231
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File_Base.php:82
+msgid "Download"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:232
+msgid "Select / Deselect All"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Options_Hookup.php:139
+msgid "Nothing to update."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Types.php:232
+msgid "Custom CMB2 field type classes must extend CMB2_Type_Base."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Types.php:350
+msgid "Add Row"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Types.php:413
+msgid "Remove Row"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_hookup.php:182
+msgid ""
+"Term Metadata is a WordPress 4.4+ feature. Please upgrade your WordPress "
+"install."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_hookup.php:186
+msgid "Term metaboxes configuration requires a \"taxonomies\" parameter."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_hookup.php:466
+#, php-format
+msgid "Toggle panel: %s"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/helper-functions.php:307
+msgid "Save"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:257
+msgid "This box does not have read permissions."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:277
+msgid "This box does not have write permissions."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:300
+msgid ""
+"No box found by that id. A box needs to be registered with the \"show_in_rest"
+"\" parameter configured."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:378
+msgid "A human-readable description of the object."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:385
+msgid "The id for the object."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:392
+msgid "The title for the object."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Boxes.php:51
+msgid "Includes the registered fields for the box in the response."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Boxes.php:72
+msgid ""
+"Includes the fully rendered attributes, 'form_open', 'form_close', as well "
+"as the enqueued 'js_dependencies' script handles, and 'css_dependencies' "
+"stylesheet handles."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Boxes.php:122
+msgid "No boxes found."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:27
+msgid ""
+"Includes the box object which the fields are registered to in the response."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:30
+msgid ""
+"When the '_rendered' argument is passed, the renderable field attributes "
+"will be returned fully rendered. By default, the names of the callback "
+"handers for the renderable attributes will be returned."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:33
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:36
+msgid ""
+"To view or modify the field's value, the 'object_id' and 'object_type' "
+"arguments are required."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:236
+msgid ""
+"CMB2 Field value cannot be updated without the value parameter specified."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:297
+msgid ""
+"CMB2 Field value cannot be modified without the object_id and object_type "
+"parameters specified."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:312
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:341
+msgid "No field found by that id."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:415
+#, php-format
+msgid "Value Error for %s"
+msgstr ""
+
+#. translators: %s: register_routes()
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:25
+#, php-format
+msgid "Method '%s' must be overridden."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:35
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:47
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:59
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:71
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:83
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:95
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:107
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:119
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:131
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:143
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:155
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:168
+#, php-format
+msgid "Method '%s' not implemented. Must be overridden in subclass."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:273
+msgid "Current page of the collection."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:281
+msgid "Maximum number of items to be returned in result set."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:290
+msgid "Limit results to those matching a string."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:308
+msgid ""
+"Scope under which the request is made; determines fields present in response."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File.php:76
+msgid "Add or Upload File"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File_List.php:41
+msgid "Add or Upload Files"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_Taxonomy_Base.php:115
+msgid "No terms"
+msgstr ""
+
+#: vendor/jtsternberg/shortcode-button/shortcode-button.php:48
+#: vendor/webdevstudios/wds-shortcodes/includes/shortcode-admin.php:62
+#: vendor/webdevstudios/wds-shortcodes/vendor/jtsternberg/shortcode-button/shortcode-button.php:48
+msgid "Cancel"
+msgstr ""
+
+#: vendor/jtsternberg/shortcode-button/shortcode-button.php:49
+#: vendor/webdevstudios/wds-shortcodes/includes/shortcode-admin.php:63
+#: vendor/webdevstudios/wds-shortcodes/vendor/jtsternberg/shortcode-button/shortcode-button.php:49
+msgid "Insert Shortcode"
+msgstr ""
+
+#: vendor/jtsternberg/shortcode-button/shortcode-button.php:50
+#: vendor/webdevstudios/wds-shortcodes/vendor/jtsternberg/shortcode-button/shortcode-button.php:50
+msgid "Update Shortcode"
+msgstr ""
+
+#: vendor/jtsternberg/shortcode-button/shortcode-button.php:302
+#: vendor/webdevstudios/wds-shortcodes/vendor/jtsternberg/shortcode-button/shortcode-button.php:302
+msgid "failed verification"
+msgstr ""
+
+#: vendor/jtsternberg/shortcode-button/shortcode-button.php:380
+#: vendor/webdevstudios/wds-shortcodes/vendor/jtsternberg/shortcode-button/shortcode-button.php:380
+msgid "No items found."
+msgstr ""
+
+#: vendor/jtsternberg/shortcode-button/templates/modal.php:6
+#: vendor/jtsternberg/shortcode-button/templates/modal.php:9
+#: vendor/webdevstudios/wds-shortcodes/vendor/jtsternberg/shortcode-button/templates/modal.php:6
+#: vendor/webdevstudios/wds-shortcodes/vendor/jtsternberg/shortcode-button/templates/modal.php:9
+msgid "Close"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:333
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:333
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:159
+msgid "Install Required Plugins"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:334
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:334
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:160
+msgid "Install Plugins"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:335
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:335
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:161
+#, php-format
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:336
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:336
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:163
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:338
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:338
+#, php-format
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:343
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:343
+#, php-format
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:348
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:348
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to install the %1$s "
+"plugin."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to install the %1$s "
+"plugins."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:353
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:353
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:358
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:358
+#, php-format
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:363
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:363
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to update the %1$s plugin."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to update the %1$s "
+"plugins."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:368
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:368
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:170
+#, php-format
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:373
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:373
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:172
+#, php-format
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:378
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:378
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to activate the %1$s "
+"plugin."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to activate the %1$s "
+"plugins."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:383
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:383
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:180
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:388
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:388
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:393
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:393
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:397
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:397
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:182
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:398
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:398
+msgid "Return to the dashboard"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:399
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3029
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:399
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3029
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:183
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:400
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2832
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:400
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2832
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:401
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:401
+#, php-format
+msgid "No action taken. Plugin %1$s was already active."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:402
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:402
+#, php-format
+msgid ""
+"Plugin not activated. A higher version of %s is needed for this theme. "
+"Please update the plugin."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:403
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:403
+#, php-format
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:404
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:404
+msgid "Dismiss this notice"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:405
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:405
+msgid "Please contact the administrator of this site for help."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:520
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:520
+msgid "This plugin needs to be updated to be compatible with your theme."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:521
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:521
+msgid "Update Required"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:635
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:635
+msgid "Set the parent_slug config variable instead."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:828
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3438
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:828
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3438
+msgid "Return to the Dashboard"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:935
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:935
+msgid ""
+"The remote plugin package does not contain a folder with the desired slug "
+"and renaming did not work."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:935
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:938
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:935
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:938
+msgid ""
+"Please contact the plugin provider and ask them to package their plugin "
+"according to the WordPress guidelines."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:938
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:938
+msgid ""
+"The remote plugin package consists of more than one file, but the files are "
+"not packaged in a folder."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:1116
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2828
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:1116
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2828
+msgctxt "plugin A *and* plugin B"
+msgid "and"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:1881
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:1881
+#, php-format
+msgctxt "%s = version number"
+msgid "TGMPA v%s"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2170
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2170
+msgid "Recommended"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2186
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2186
+msgid "WordPress Repository"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2189
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2189
+msgid "External Source"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2192
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2192
+msgid "Pre-Packaged"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2209
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2209
+msgid "Not Installed"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2213
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2213
+msgid "Installed But Not Activated"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2215
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2215
+msgid "Active"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2221
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2221
+msgid "Required Update not Available"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2224
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2224
+msgid "Requires Update"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2227
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2227
+msgid "Update recommended"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2235
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2235
+#, php-format
+msgctxt "%1$s = install status, %2$s = update status"
+msgid "%1$s, %2$s"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2280
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2280
+#, php-format
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2283
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2283
+#, php-format
+msgid "To Install <span class=\"count\">(%s)</span>"
+msgid_plural "To Install <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2286
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2286
+#, php-format
+msgid "Update Available <span class=\"count\">(%s)</span>"
+msgid_plural "Update Available <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2289
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2289
+#, php-format
+msgid "To Activate <span class=\"count\">(%s)</span>"
+msgid_plural "To Activate <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2371
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2371
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2379
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2379
+msgid "Installed version:"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2387
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2387
+msgid "Minimum required version:"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2399
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2399
+msgid "Available version:"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2422
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2422
+#, php-format
+msgid ""
+"No plugins to install, update or activate. <a href=\"%1$s\">Return to the "
+"Dashboard</a>"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2436
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2436
+msgid "Plugin"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2437
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2437
+msgid "Source"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2438
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2438
+msgid "Type"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2442
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2442
+msgid "Version"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2443
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2443
+msgid "Status"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2491
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2491
+#, php-format
+msgctxt "%2$s = plugin name in screen reader markup"
+msgid "Install %2$s"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2495
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2495
+#, php-format
+msgctxt "%2$s = plugin name in screen reader markup"
+msgid "Update %2$s"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2500
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2500
+#, php-format
+msgctxt "%2$s = plugin name in screen reader markup"
+msgid "Activate %2$s"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2570
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2570
+msgid "Upgrade message from the plugin author:"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2603
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2603
+msgid "Install"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2609
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2609
+msgid "Update"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2612
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2612
+msgid "Activate"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2643
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2643
+msgid "No plugins were selected to be installed. No action taken."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2645
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2645
+msgid "No plugins were selected to be updated. No action taken."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2681
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2681
+msgid "No plugins are available to be installed at this time."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2683
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2683
+msgid "No plugins are available to be updated at this time."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2788
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2788
+msgid "No plugins were selected to be activated. No action taken."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2814
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:2814
+msgid "No plugins are available to be activated at this time."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3028
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3028
+msgid "Plugin activation failed."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3362
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3362
+#, php-format
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3364
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3364
+#, php-format
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3365
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3365
+#, php-format
+msgid "The installation of %1$s failed."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3369
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3369
+msgid ""
+"The installation and activation process is starting. This process may take a "
+"while on some hosts, so please be patient."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3370
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3370
+#, php-format
+msgid "%1$s installed and activated successfully."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3370
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3376
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3370
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3376
+msgid "Show Details"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3370
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3376
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3370
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3376
+msgid "Hide Details"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3371
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3371
+msgid "All installations and activations have been completed."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3372
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3372
+#, php-format
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3375
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3375
+msgid ""
+"The installation process is starting. This process may take a while on some "
+"hosts, so please be patient."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3376
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3376
+#, php-format
+msgid "%1$s installed successfully."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3377
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3377
+msgid "All installations have been completed."
+msgstr ""
+
+#: vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3378
+#: vendor/webdevstudios/wds-shortcodes/vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php:3378
+#, php-format
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: vendor/webdevstudios/wds-shortcodes/tests/includes/testing-shortcode-admin.php:19
+msgid "Image"
+msgstr ""
+
+#: vendor/webdevstudios/wds-shortcodes/tests/includes/testing-shortcode-admin.php:25
+msgid "Image Display Options"
+msgstr ""
+
+#: vendor/webdevstudios/wds-shortcodes/tests/includes/testing-shortcode-admin.php:29
+msgid "Full Bleed"
+msgstr ""
+
+#: vendor/webdevstudios/wds-shortcodes/tests/includes/testing-shortcode-admin.php:30
+msgid "Text Box on Left"
+msgstr ""
+
+#: vendor/webdevstudios/wds-shortcodes/tests/includes/testing-shortcode-admin.php:31
+msgid "Text Box on Right"
+msgstr ""
+
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:164
+#, php-format
+msgid "The \"WDS Shortcodes\" plugin requires the following plugin: %1$s."
+msgid_plural "This plugin requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:166
+#, php-format
+msgid "This plugin recommends the following plugin: %1$s."
+msgid_plural "This plugin recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:168
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to install the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"installed."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to install the %s "
+"plugins. Contact the administrator of this site for help on getting the "
+"plugins installed."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:174
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to activate the %s "
+"plugin. Contact the administrator of this site for help on getting the "
+"plugin activated."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to activate the %s "
+"plugins. Contact the administrator of this site for help on getting the "
+"plugins activated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:176
+#, php-format
+msgid ""
+"The following plugin needs to be updated to its latest version to ensure "
+"maximum compatibility with this plugin: %1$s."
+msgid_plural ""
+"The following plugins need to be updated to their latest version to ensure "
+"maximum compatibility with this plugin: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:178
+#, php-format
+msgid ""
+"Sorry, but you do not have the correct permissions to update the %s plugin. "
+"Contact the administrator of this site for help on getting the plugin "
+"updated."
+msgid_plural ""
+"Sorry, but you do not have the correct permissions to update the %s plugins. "
+"Contact the administrator of this site for help on getting the plugins "
+"updated."
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:181
+msgid "Activate installed plugin"
+msgid_plural "Activate installed plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: vendor/webdevstudios/wds-shortcodes/wds-shortcodes.php:184
+#, php-format
+msgid "All plugins installed and activated successfully. %s"
 msgstr ""
 
 #. Plugin Name of the plugin/theme

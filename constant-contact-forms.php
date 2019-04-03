@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.4.5
+ * Version:     1.5.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
@@ -78,7 +78,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.4.5';
+	const VERSION = '1.5.0';
 
 	/**
 	 * URL of plugin directory.
@@ -337,6 +337,14 @@ class Constant_Contact {
 	private $shortcode_admin;
 
 	/**
+	 * An instance of the ConstantContact_Gutenberg class.
+	 *
+	 * @since 1.5.0
+	 * @var ConstantContact_Gutenberg
+	 */
+	private $gutenberg;
+
+	/**
 	 * License file.
 	 *
 	 * @since 1.0.1
@@ -438,12 +446,15 @@ class Constant_Contact {
 	public function admin_plugin_classes() {
 		$this->admin       = new ConstantContact_Admin( $this, $this->basename );
 		$this->admin_pages = new ConstantContact_Admin_Pages( $this );
+		$this->gutenberg   = new ConstantContact_Gutenberg( $this );
 	}
 
 	/**
 	 * Add hooks and filters.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return null
 	 */
 	public function hooks() {
 
@@ -530,47 +541,18 @@ class Constant_Contact {
 	 */
 	public function load_libs() {
 
-		// Set an array of libraries we need to load.
-		$libs = array(
-			'psr/log/vendor/autoload.php',
-			'monolog/monolog/vendor/autoload.php',
-			'CMB2/init.php',
-			'constantcontact/autoload.php',
-			'constantcontact/constantcontact/constantcontact/src/Ctct/autoload.php',
+		// Load what we can, automagically.
+		require_once $this->dir( 'vendor/autoload.php' );
 
-			'defuse-php-encryption/Exception/CryptoException.php',
-			'defuse-php-encryption/Exception/BadFormatException.php',
-			'defuse-php-encryption/Exception/EnvironmentIsBrokenException.php',
-			'defuse-php-encryption/Exception/IOException.php',
-			'defuse-php-encryption/Exception/WrongKeyOrModifiedCiphertextException.php',
-
-			'defuse-php-encryption/Core.php',
-			'defuse-php-encryption/Crypto.php',
-			'defuse-php-encryption/DerivedKeys.php',
-			'defuse-php-encryption/Encoding.php',
-			'defuse-php-encryption/Key.php',
-			'defuse-php-encryption/KeyOrPassword.php',
-			'defuse-php-encryption/RuntimeTests.php',
-
-			'recaptcha/src/autoload.php',
-		);
-
-		// If we don't alrady have WDS_Shortcodes loaded somewhere else, load it up.
-		if ( ! function_exists( 'wds_shortcodes' ) ) {
-			$libs[] = 'WDS-Shortcodes/wds-shortcodes.php';
-		}
-
-		// Loop through our vendor libraries and load them.
-		foreach ( $libs as $lib ) {
-			// Require_once our file.
-			require_once( $this->dir( "vendor/{$lib}" ) );
-		}
+		require_once( $this->dir( 'vendor/cmb2/cmb2/init.php' ) );
 	}
 
 	/**
 	 * Load includes.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return null
 	 */
 	public function includes() {
 
@@ -582,6 +564,11 @@ class Constant_Contact {
 			}
 			// Set up our base WDS_Shortcodes class.
 			$this->shortcode = new ConstantContact_Shortcode();
+			$this->shortcode->hooks();
+			$this->shortcode->atts_defaults = [
+				'form'       => '0',
+				'show_title' => 'false',
+			];
 
 			// Set our custom shortcode with correct version and data.
 			$this->shortcode_admin = new ConstantContact_Shortcode_Admin(
@@ -646,6 +633,7 @@ class Constant_Contact {
 			case 'display':
 			case 'display_shortcode':
 			case 'lists':
+			case 'logging':
 			case 'path':
 			case 'plugin_name':
 			case 'process_form':
@@ -728,13 +716,14 @@ class Constant_Contact {
 	 * @return string License text.
 	 */
 	public function get_license_text() {
-		$license = $this->dir( self::LICENSE_FILE );
+		$license = $this->url( self::LICENSE_FILE );
+		$license_content = wp_remote_get( $license );
 
-		if ( ! is_readable( $license ) ) {
-			return __( 'Error loading license.', 'constant-contact-forms' );
+		if ( 200 === wp_remote_retrieve_response_code( $license_content ) ) {
+			return wp_remote_retrieve_body( $license_content );
 		}
 
-		return file_get_contents( $license );
+		return __( 'Error loading license.', 'constant-contact-forms' );
 	}
 
 	/**

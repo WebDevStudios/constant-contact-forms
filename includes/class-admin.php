@@ -54,9 +54,17 @@ class ConstantContact_Admin {
 	protected $plugin = null;
 
 	/**
+	 * Parent plugin class.
+	 *
+	 * @since 1.0.0
+	 * @var object
+	 */
+	protected $basename = null;
+
+	/**
 	 * The parent menu page slug.
 	 *
-	 * @since 1.0.01
+	 * @since 1.0.1
 	 * @var string
 	 */
 	protected $parent_menu_slug = 'edit.php?post_type=ctct_forms';
@@ -67,7 +75,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 *
 	 * @param Constant_Contact $plugin Primary class file.
-	 * @param string $basename Primary class basename.
+	 * @param string           $basename Primary class basename.
 	 */
 	public function __construct( $plugin, $basename ) {
 		$this->plugin   = $plugin;
@@ -81,17 +89,17 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-		add_action( 'admin_init', array( $this, 'init' ) );
-		add_action( 'admin_menu', array( $this, 'add_options_page' ), 999 );
+		add_action( 'admin_init', [ $this, 'init' ] );
+		add_action( 'admin_menu', [ $this, 'add_options_page' ], 999 );
 
-		add_filter( 'manage_ctct_forms_posts_columns', array( $this, 'set_custom_columns' ) );
-		add_action( 'manage_ctct_forms_posts_custom_column' , array( $this, 'custom_columns' ), 10, 2 );
+		add_filter( 'manage_ctct_forms_posts_columns', [ $this, 'set_custom_columns' ] );
+		add_action( 'manage_ctct_forms_posts_custom_column', [ $this, 'custom_columns' ], 10, 2 );
 
-		add_filter( 'manage_ctct_lists_posts_columns', array( $this, 'set_custom_lists_columns' ) );
-		add_action( 'manage_ctct_lists_posts_custom_column', array( $this, 'custom_lists_columns' ), 10, 2 );
+		add_filter( 'manage_ctct_lists_posts_columns', [ $this, 'set_custom_lists_columns' ] );
+		add_action( 'manage_ctct_lists_posts_custom_column', [ $this, 'custom_lists_columns' ], 10, 2 );
 
-		add_filter( 'plugin_action_links_' . $this->basename, array( $this, 'add_social_links' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
+		add_filter( 'plugin_action_links_' . $this->basename, [ $this, 'add_social_links' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
 	}
 
 
@@ -117,7 +125,7 @@ class ConstantContact_Admin {
 			__( 'About', 'constant-contact-forms' ),
 			'manage_options',
 			$this->key . '_about',
-			array( $this, 'admin_page_display' )
+			[ $this, 'admin_page_display' ]
 		);
 
 		add_submenu_page(
@@ -126,12 +134,12 @@ class ConstantContact_Admin {
 			__( 'License', 'constant-contact-forms' ),
 			'manage_options',
 			$this->key . '_license',
-			array( $this, 'admin_page_display' )
+			[ $this, 'admin_page_display' ]
 		);
 
 		remove_submenu_page( $this->parent_menu_slug, $this->key . '_license' );
 		// Include CMB CSS in the head to avoid FOUC.
-		add_action( "admin_print_styles-{$this->options_page}", array( 'CMB2_hookup', 'enqueue_cmb_css' ) );
+		add_action( "admin_print_styles-{$this->options_page}", [ 'CMB2_hookup', 'enqueue_cmb_css' ] );
 	}
 
 	/**
@@ -154,14 +162,13 @@ class ConstantContact_Admin {
 			<div id="options-wrap">
 				<?php
 
+				$page = [];
 				// If we have a page get var set, let's try to pull out the page we're looking for.
 				if ( isset( $_GET['page'] ) ) {
 
 					$page_key = sanitize_text_field( wp_unslash( $_GET['page'] ) );
 
 					$page = explode( $this->key . '_', $page_key );
-				} else {
-					$page = array();
 				}
 
 				// If we have a second element set, let's check out what it should be.
@@ -226,7 +233,7 @@ class ConstantContact_Admin {
 		$field = esc_attr( $field );
 
 		// Allowed fields to retrieve.
-		if ( in_array( $field, array( 'key', 'metabox_id', 'title', 'options_page' ), true ) ) {
+		if ( in_array( $field, [ 'key', 'metabox_id', 'title', 'options_page' ], true ) ) {
 			return $this->{$field};
 		} else {
 			return constant_contact()->{$field};
@@ -277,10 +284,10 @@ class ConstantContact_Admin {
 		switch ( $column ) {
 			case 'shortcodes':
 				echo esc_attr( '[ctct form="' . $post_id . '"]' );
-			break;
+				break;
 			case 'description':
 				echo wp_kses_post( wpautop( get_post_meta( $post_id, '_ctct_description', true ) ) );
-			break;
+				break;
 			case 'ctct_list':
 				$list = $this->get_associated_list_by_id( $table_list_id );
 				if ( ! empty( $list ) ) {
@@ -292,7 +299,7 @@ class ConstantContact_Admin {
 				} else {
 					esc_html_e( 'No associated list', 'constant-contact-forms' );
 				}
-			break;
+				break;
 		}
 	}
 
@@ -302,7 +309,7 @@ class ConstantContact_Admin {
 	 * @internal
 	 * @since 1.3.0
 	 *
-	 * @param $columns
+	 * @param array $columns WP_List_Table columns.
 	 * @return mixed
 	 */
 	public function set_custom_lists_columns( $columns ) {
@@ -373,13 +380,13 @@ class ConstantContact_Admin {
 		 *
 		 * @param string $value Social URL base.
 		 */
-		$site_link = apply_filters( 'constant_contact_social_base_url' , 'https://constantcontact.com/' );
+		$site_link = apply_filters( 'constant_contact_social_base_url', 'https://constantcontact.com/' );
 
 		// Start our social share links.
 		$social_share = __( 'Spread the word!', 'constant-contact-forms' );
-		$add_links[] = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>';
-		$add_links[] = '<a title="' . $social_share . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" class="dashicons-before dashicons-twitter"></a>';
-		$add_links[] = '<a title="' . $social_share . '" href="https://plus.google.com/share?url=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>';
+		$add_links[]  = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>';
+		$add_links[]  = '<a title="' . $social_share . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" class="dashicons-before dashicons-twitter"></a>';
+		$add_links[]  = '<a title="' . $social_share . '" href="https://plus.google.com/share?url=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>';
 
 		/**
 		 * Filters the final custom social links.
@@ -406,13 +413,13 @@ class ConstantContact_Admin {
 
 		// Resuse these.
 		static $link_template = '<a title="%1$s" href="%2$s" target="_blank">%1$s</a>';
-		static $link_args = array(
+		static $link_args = [
 			'post_type' => 'ctct_forms',
 			'page'      => '',
-		);
+		];
 
 		$link_args['page'] = 'ctct_options_' . $link_slug;
-		$link = add_query_arg( $link_args, admin_url( 'edit.php' ) );
+		$link              = add_query_arg( $link_args, admin_url( 'edit.php' ) );
 		return sprintf( $link_template, $text, $link );
 	}
 
@@ -421,9 +428,9 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $extra_localizations An array of arrays of `array( $handle, $name, $data )` passed to wp_localize_script.
+	 * @param array $extra_localizations An array of arrays of `[ $handle, $name, $data ]` passed to wp_localize_script.
 	 */
-	public function scripts( $extra_localizations = array() ) {
+	public function scripts( $extra_localizations = [] ) {
 
 		global $pagenow;
 
@@ -436,7 +443,15 @@ class ConstantContact_Admin {
 		wp_register_script(
 			'ctct_form',
 			constant_contact()->url() . 'assets/js/ctct-plugin-admin' . $suffix . '.js',
-			array(),
+			[],
+			Constant_Contact::VERSION,
+			true
+		);
+
+		wp_register_script(
+			'ctct_gutenberg',
+			constant_contact()->url() . 'assets/js/ctct-plugin-gutenberg' . $suffix . '.js',
+			[ 'wp-blocks', 'wp-element', 'wp-i18n' ],
 			Constant_Contact::VERSION,
 			true
 		);
@@ -451,20 +466,20 @@ class ConstantContact_Admin {
 			 *
 			 * @param array $value Array of strings to be used with javascript calls.
 			 */
-			apply_filters( 'constant_contact_localized_js_texts', array(
+			apply_filters( 'constant_contact_localized_js_texts', [
 				'leavewarning' => __( 'You have unsaved changes.', 'constant-contact-forms' ),
 				'move_up'      => __( 'move up', 'constant-contact-forms' ),
 				'move_down'    => __( 'move down', 'constant-contact-forms' ),
-			) )
+			] )
 		);
 		$privacy_settings = get_option( 'ctct_privacy_policy_status', '' );
 
 		wp_localize_script(
 			'ctct_form',
 			'ctct_settings',
-			array(
+			[
 				'privacy_set' => ( empty( $privacy_settings ) ) ? 'no' : 'yes',
-			)
+			]
 		);
 
 		if ( constant_contact_maybe_display_optin_notification() || ( isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ) ) {
@@ -480,7 +495,7 @@ class ConstantContact_Admin {
 		if ( ! empty( $extra_localizations ) ) {
 			// We only have a single array, put it in another array.
 			if ( ! is_array( $extra_localizations[0] ) ) {
-				$extra_localizations = array( $extra_localizations );
+				$extra_localizations = [ $extra_localizations ];
 			}
 
 			foreach ( $extra_localizations as $localization_set ) {
@@ -495,11 +510,12 @@ class ConstantContact_Admin {
 		 *
 		 * @param array $value Array of WP Admin base files to conditionally load on.
 		 */
-		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', array( 'post.php', 'post-new.php' ) );
+		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', [ 'post.php', 'post-new.php' ] );
 
 		if ( $pagenow && in_array( $pagenow, $allowed_pages, true ) ) {
 			// Enqueued script with localized data.
 			wp_enqueue_script( 'ctct_form' );
+			wp_enqueue_script( 'ctct_gutenberg' );
 		}
 	}
 
@@ -521,7 +537,7 @@ class ConstantContact_Admin {
 		if ( ! empty( $rs ) ) {
 			return $rs[0];
 		}
-		return array();
+		return [];
 	}
 }
 

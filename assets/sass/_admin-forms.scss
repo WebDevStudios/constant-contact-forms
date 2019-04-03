@@ -124,7 +124,7 @@ body.post-type-ctct_forms #titlediv #title {
 
 	.cmb-row {
 		border-bottom: none;
-		padding: .5em 0px;
+		padding: .5em 0;
 	}
 
 	.cmb2-id--ctct-list {
@@ -150,7 +150,7 @@ body.post-type-ctct_forms #titlediv #title {
 #cmb2-metabox-ctct_2_generated_metabox,
 #cmb2-metabox-ctct_1_custom_input_css_metabox {
 	.cmb-row {
-		padding-bottom: 0px !important;
+		padding-bottom: 0 !important;
 	}
 }
 
@@ -207,4 +207,22 @@ body.post-type-ctct_forms #titlediv #title {
 			} // .cmb-th
 		} // .cmb-type-text-small
 	} // #ctct_1_custom_input_css_metabox
+
+	.cmb2-id--ctct-generated-shortcode {
+		> .cmb-th {
+			display: none;
+		} // > .cmb-th
+	} // .cmb2-id--ctct-generated-shortcode
 } // #side-sortables
+
+//--------------------------------------------------------------
+// TinyMCE Tweaks
+//--------------------------------------------------------------
+.ui-dialog .cmb-type-checkbox {
+
+	&.cmb2-id--ctct-show-title {
+		.cmb-th {
+			width: 90px;
+		} // .cmb-th
+	} // &.cmb2-id--ctct-show-title
+} // .ui-dialog .cmb-type-checkbox

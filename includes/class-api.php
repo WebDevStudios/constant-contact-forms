@@ -67,29 +67,27 @@ class ConstantContact_API {
 	public function get_api_token( $type = '' ) {
 		$url = '';
 
-		 // Depending on our request, we'll try to grab a defined value
-		 // otherwise we'll grab it from our options.
+		// Depending on our request, we'll try to grab a defined value
+		// otherwise we'll grab it from our options.
 		switch ( $type ) {
 			case 'CTCT_APIKEY':
-
 				if ( defined( 'CTCT_APIKEY' ) && CTCT_APIKEY ) {
 					return CTCT_APIKEY;
 				}
 
 				$url .= constant_contact()->connect->e_get( '_ctct_api_key' );
-			break;
+				break;
 			case 'CTCT_SECRETKEY':
-
 				if ( defined( 'CTCT_SECRETKEY' ) && CTCT_SECRETKEY ) {
 					return CTCT_SECRETKEY;
 				}
 
 				$url .= constant_contact()->connect->e_get( '_ctct_api_secret' );
-			break;
+				break;
 
-			default;
+			default:
 				$url .= constant_contact()->connect->get_api_token();
-			break;
+				break;
 		}
 		return $url;
 	}
@@ -265,7 +263,7 @@ class ConstantContact_API {
 	 * @param array $new_list API data for new list.
 	 * @return array Current connect ctct lists.
 	 */
-	public function add_list( $new_list = array() ) {
+	public function add_list( $new_list = [] ) {
 
 		// Bail out early if we don't have the data we need.
 		if ( empty( $new_list ) || ! isset( $new_list['id'] ) ) {
@@ -325,7 +323,7 @@ class ConstantContact_API {
 	 * @param array $updated_list api data for list.
 	 * @return array current connect ctct list
 	 */
-	public function update_list( $updated_list = array() ) {
+	public function update_list( $updated_list = [] ) {
 
 		// Set our var to do things with.
 		$return_list = false;
@@ -334,7 +332,7 @@ class ConstantContact_API {
 
 			$list = new ContactList();
 
-			$list->id = isset( $updated_list['id'] ) ? esc_attr( $updated_list['id'] ) : '';
+			$list->id   = isset( $updated_list['id'] ) ? esc_attr( $updated_list['id'] ) : '';
 			$list->name = isset( $updated_list['name'] ) ? esc_attr( $updated_list['name'] ) : '';
 
 			/**
@@ -363,7 +361,7 @@ class ConstantContact_API {
 	 * @param array $updated_list API data for list.
 	 * @return array Current connect ctct list.
 	 */
-	public function delete_list( $updated_list = array() ) {
+	public function delete_list( $updated_list = [] ) {
 
 		if ( ! isset( $updated_list['id'] ) ) {
 			return [];
@@ -391,7 +389,7 @@ class ConstantContact_API {
 	 * @param string $form_id     ID of the form being processed.
 	 * @return array Current connect ctct lists.
 	 */
-	public function add_contact( $new_contact = array(), $form_id = 0 ) {
+	public function add_contact( $new_contact = [], $form_id = 0 ) {
 
 		// Make sure we're passed a full set of data.
 		if ( empty( $new_contact ) ) {
@@ -404,7 +402,7 @@ class ConstantContact_API {
 		}
 
 		$api_token = $this->get_api_token();
-		$email = sanitize_email( $new_contact['email'] );
+		$email     = sanitize_email( $new_contact['email'] );
 
 		// Set our list data. If we didn't get passed a list and got this far, just generate a random ID.
 		$list = isset( $new_contact['list'] ) ? esc_attr( $new_contact['list'] ) : 'cc_' . wp_generate_password( 15, false );
@@ -412,22 +410,22 @@ class ConstantContact_API {
 		$return_contact = false;
 
 		try {
-	        // Check to see if a contact with the email address already exists in the account.
-	        $response = $this->cc()->contactService->getContacts( $api_token, [ 'email' => $email ] );
+			// Check to see if a contact with the email address already exists in the account.
+			$response = $this->cc()->contactService->getContacts( $api_token, [ 'email' => $email ] );
 
-	        if ( isset( $response->results ) && ! empty( $response->results ) ) {
+			if ( isset( $response->results ) && ! empty( $response->results ) ) {
 				constant_contact_maybe_log_it( 'API', 'Contact set to be updated', [ 'form' => get_the_title( $form_id ) ] );
 				// Update the existing contact if address already existed.
 				$return_contact = $this->_update_contact( $response, $api_token, $list, $new_contact, $form_id );
-
-	        } else {
+			} else {
 				constant_contact_maybe_log_it( 'API', 'Contact set to be created', [ 'form' => get_the_title( $form_id ) ] );
 				// Create a new contact if one does not exist.
 				$return_contact = $this->_create_contact( $api_token, $list, $email, $new_contact, $form_id );
-	        }
+			}
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
 		}
+		constant_contact_maybe_log_it( 'API', 'Submitted contact data', $new_contact );
 
 		return $return_contact;
 	}
@@ -512,9 +510,9 @@ class ConstantContact_API {
 				$this->log_errors( $ex->getErrors() );
 			}
 
-		    /*
-		     * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
-		     */
+			/*
+			 * See: http://developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
+			 */
 			return $this->cc()->contactService->updateContact(
 				$api_token,
 				$contact,
@@ -553,8 +551,8 @@ class ConstantContact_API {
 		// Remove some values we don't need.
 		unset( $user_data['list'] );
 
-		$address  = null;
-		$count = 1;
+		$address   = null;
+		$count     = 1;
 		$textareas = 0;
 		if ( ! $updated ) {
 			// Only initiate an empty array if we are not updating.
@@ -599,7 +597,7 @@ class ConstantContact_API {
 					switch ( $key ) {
 						case 'street_address':
 							$address->address_type = 'PERSONAL';
-							$address->line1 = $value;
+							$address->line1        = $value;
 							break;
 						case 'line_2_address':
 							$address->line2 = $value;
@@ -608,7 +606,7 @@ class ConstantContact_API {
 							$address->city = $value;
 							break;
 						case 'state_address':
-							$address->state = $value;
+							$address->state        = $value;
 							$address->country_code = 'us';
 							break;
 						case 'zip_address':
@@ -630,10 +628,10 @@ class ConstantContact_API {
 
 					// Retrieve our original label to send with API request.
 					$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
-					$custom_field_name = '';
-					$should_include = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
+					$custom_field_name   = '';
+					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
-						$custom_field = ( $original_field_data[ $original ] );
+						$custom_field       = ( $original_field_data[ $original ] );
 						$custom_field_name .= $custom_field['name'] . ': ';
 					}
 
@@ -642,8 +640,8 @@ class ConstantContact_API {
 
 					// Create, name it the way the API needs.
 					$custom = $custom->create( [
-							'name' => 'CustomField' . $count,
-							'value' => $custom_field_name . $value,
+						'name'  => 'CustomField' . $count,
+						'value' => $custom_field_name . $value,
 					] );
 
 					// Attach it.
@@ -666,7 +664,7 @@ class ConstantContact_API {
 							'note'          => $value,
 						];
 					} else {
-						$contact->notes[0]->note = $value;
+						$contact->notes[0]->note .= ' ' . $value;
 					}
 					break;
 				default:
@@ -680,8 +678,8 @@ class ConstantContact_API {
 
 					// Otherwise break anyway.
 					break;
-			} // End switch().
-		} // End foreach().
+			} // End switch.
+		} // End foreach.
 
 		// If we did set address properties, then push it to our contact.
 		if ( ! is_null( $address ) ) {
@@ -822,10 +820,10 @@ class ConstantContact_API {
 	 */
 	public function get_disclosure_info( $as_parts = false ) {
 		/*
-		 * array (
+		 * [
 		 *     [name] => Business Name
 		 *     [address] => 555 Business Place Ln., Beverly Hills, CA, 90210
-		 * )
+		 * ]
 		 */
 
 		// These fields are used to try and buld the full address.

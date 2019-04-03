@@ -32,22 +32,6 @@ class ConstantContact_Settings {
 	private $metabox_id = 'ctct_option_metabox_settings';
 
 	/**
-	 * Settings Page title.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	protected $title = '';
-
-	/**
-	 * Settings Page hook.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	protected $options_page = '';
-
-	/**
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
@@ -74,25 +58,23 @@ class ConstantContact_Settings {
 	 */
 	public function hooks() {
 
-		// Kick it off / register our settings.
-		add_action( 'admin_init', array( $this, 'init' ) );
-
-		// Add our options menu + options page.
-		add_action( 'admin_menu', array( $this, 'add_options_page' ) );
-		add_action( 'cmb2_admin_init', array( $this, 'add_options_page_metabox' ) );
+		add_action( 'cmb2_admin_init', [ $this, 'add_options_page_metabox' ] );
 
 		// Override CMB's getter.
-		add_filter( 'cmb2_override_option_get_' . $this->key, array( $this, 'get_override' ), 10, 2 );
+		add_filter( 'cmb2_override_option_get_' . $this->key, [ $this, 'get_override' ], 10, 2 );
 
 		// Override CMB's setter.
-		add_filter( 'cmb2_override_option_save_' . $this->key, array( $this, 'update_override' ), 10, 2 );
+		add_filter( 'cmb2_override_option_save_' . $this->key, [ $this, 'update_override' ], 10, 2 );
 
 		// Hook in all our form opt-in injects, decide to show or not when we are at the display point.
 		$this->inject_optin_form_hooks();
 
 		// Process our opt-ins.
-		add_filter( 'preprocess_comment', array( $this, 'process_optin_comment_form' ) );
-		add_filter( 'authenticate', array( $this, 'process_optin_login_form' ), 10, 3 );
+		add_filter( 'preprocess_comment', [ $this, 'process_optin_comment_form' ] );
+		add_filter( 'authenticate', [ $this, 'process_optin_login_form' ], 10, 3 );
+
+		add_action( 'cmb2_save_field__ctct_logging', [ $this, 'maybe_init_logs' ], 10, 2 );
+		add_filter( 'ctct_custom_spam_message', [ $this, 'get_spam_error_message' ], 10, 2 );
 	}
 
 	/**
@@ -103,29 +85,20 @@ class ConstantContact_Settings {
 	public function inject_optin_form_hooks() {
 
 		// Login form.
-		add_action( 'login_form', array( $this, 'optin_form_field_login' ) );
+		add_action( 'login_form', [ $this, 'optin_form_field_login' ] );
 
 		// Comment Form.
-		add_action( 'comment_form', array( $this, 'optin_form_field_comment' ) );
+		add_action( 'comment_form', [ $this, 'optin_form_field_comment' ] );
 
 		// Registration form.
-		add_action( 'register_form', array( $this, 'optin_form_field_registration' ) );
-		add_action( 'signup_extra_fields', array( $this, 'optin_form_field_registration' ) );
-		add_action( 'login_head', array( $this, 'optin_form_field_login_css' ) );
-		add_action( 'admin_enqueue_scripts', array( $this, 'scripts' ) );
+		add_action( 'register_form', [ $this, 'optin_form_field_registration' ] );
+		add_action( 'signup_extra_fields', [ $this, 'optin_form_field_registration' ] );
+		add_action( 'login_head', [ $this, 'optin_form_field_login_css' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
 
 		if ( ! $this->privacy_policy_status() ) {
-			add_action( 'admin_footer', array( $this, 'privacy_notice_markup' ) );
+			add_action( 'admin_footer', [ $this, 'privacy_notice_markup' ] );
 		}
-	}
-
-	/**
-	 * Register our setting to WP.
-	 *
-	 * @since 1.0.0
-	 */
-	public function init() {
-		register_setting( $this->key, $this->key );
 	}
 
 	/**
@@ -165,11 +138,11 @@ class ConstantContact_Settings {
 			esc_html__( 'Settings', 'constant-contact-forms' ),
 			'manage_options',
 			$this->key,
-			array( $this, 'admin_page_display' )
+			[ $this, 'admin_page_display' ]
 		);
 
 		// Include CMB CSS in the head to avoid FOUC.
-		add_action( "admin_print_styles-{$this->options_page}", array( 'CMB2_hookup', 'enqueue_cmb_css' ) );
+		add_action( "admin_print_styles-{$this->options_page}", [ 'CMB2_hookup', 'enqueue_cmb_css' ] );
 	}
 
 	/**
@@ -205,7 +178,7 @@ class ConstantContact_Settings {
 		// Get our current page.
 		global $pagenow;
 
-		// Check if we're on edit.php, and if we're on our options page, cast to bool and return
+		// Check if we're on edit.php, and if we're on our options page, cast to bool and return.
 		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ); // Input var okay.
 	}
 
@@ -214,28 +187,23 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	function add_options_page_metabox() {
+	public function add_options_page_metabox() {
 
 		// Hook in our save notices.
-		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", array( $this, 'settings_notices' ), 10, 2 );
+		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", [ $this, 'settings_notices' ], 10, 2 );
 
-		// Only do the settings fields if we're on the options settings page of edit.php.
-		if ( $this->on_settings_page() ) {
+		// Start our new field.
+		$cmb = new_cmb2_box( [
+			'id'           => $this->metabox_id,
+			'title'        => esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
+			'object_types' => [ 'options-page' ],
+			'option_key'   => 'ctct_options_settings',
+			'menu_title'   => esc_html__( 'Settings', 'constant-contact-forms' ),
+			'parent_slug'  => 'edit.php?post_type=ctct_forms',
+		] );
 
-			// Start our new field.
-			$cmb = new_cmb2_box( array(
-				'id'         => $this->metabox_id,
-				'hookup'     => false,
-				'cmb_styles' => false,
-				'show_on'    => array(
-					'key'   => 'options-page',
-					'value' => array( $this->key ),
-				),
-			) );
-
-			// Get our lists fields.
-			$this->do_lists_field( $cmb );
-		}
+		// Get our lists fields.
+		$this->do_lists_field( $cmb );
 	}
 
 	/**
@@ -247,33 +215,33 @@ class ConstantContact_Settings {
 	 */
 	public function do_lists_field( $cmb ) {
 
-		$cmb->add_field( array(
+		$cmb->add_field( [
 			'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
 			'id'   => '_ctct_data_tracking',
 			'type' => 'checkbox',
-			'desc' => __( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.constantcontact.com/legal/privacy-statement"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
-		) );
+			'desc' => __( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.endurance.com/privacy"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
+		] );
 
 		// Only show our settings page if we're connected to CC.
 		if ( constant_contact()->api->is_connected() ) {
 
 			// Add field to disable e-mail notifications.
-			$cmb->add_field( array(
+			$cmb->add_field( [
 				'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
 				'desc'       => sprintf( esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ), '<br/>' ),
 				'id'         => '_ctct_disable_email_notifications',
 				'type'       => 'checkbox',
 				'before_row' => '<hr/>',
-			) );
+			] );
 
 			// Make API contact requests immediately instead of via cron.
-			$cmb->add_field( array(
+			$cmb->add_field( [
 				'name'       => esc_html__( 'Bypass Constant Contact cron scheduling', 'constant-contact-forms' ),
 				'desc'       => esc_html__( 'This option will send form entries to Constant Contact right away instead of holding for one minute delay.', 'constant-contact-forms' ),
 				'id'         => '_ctct_bypass_cron',
 				'type'       => 'checkbox',
 				'before_row' => '<hr/>',
-			) );
+			] );
 
 			// Get our lists.
 			$lists = constant_contact()->builder->get_lists();
@@ -286,25 +254,25 @@ class ConstantContact_Settings {
 				);
 
 				// Set our CMB2 fields.
-				$cmb->add_field( array(
+				$cmb->add_field( [
 					'name'       => esc_html__( 'Opt-in Location', 'constant-contact-forms' ),
 					'id'         => '_ctct_optin_forms',
 					'type'       => 'multicheck',
 					'options'    => $this->get_optin_show_options(),
 					'before_row' => $before_optin,
-				) );
+				] );
 
 				// Tack on 'select a list' to our lists array.
 				$lists[0] = esc_html__( 'Select a list', 'constant-contact-forms' );
 
-				$cmb->add_field( array(
+				$cmb->add_field( [
 					'name'             => esc_html__( 'Add subscribers to', 'constant-contact-forms' ),
 					'id'               => '_ctct_optin_list',
 					'type'             => 'select',
 					'show_option_none' => false,
 					'default'          => esc_html__( 'Select a list', 'constant-contact-forms' ),
 					'options'          => $lists,
-				) );
+				] );
 
 				// Get the business name and address.
 				$business_name = get_bloginfo( 'name' ) ?: esc_html__( 'Business Name', 'constant-contact-forms' );
@@ -318,58 +286,59 @@ class ConstantContact_Settings {
 					$business_addr = isset( $disclosure_info['address'] ) ?: '';
 				}
 
-				$cmb->add_field( array(
+				$cmb->add_field( [
 					'name'    => esc_html__( 'Opt-in Affirmation', 'constant-contact-forms' ),
 					'id'      => '_ctct_optin_label',
 					'type'    => 'text',
 					// translators: placeholder will hold site owner's business name.
 					'default' => sprintf( esc_html__( 'Yes, I would like to receive emails from %s. Sign me up!', 'constant-contact-forms' ), $business_name ),
-				) );
+				] );
 
 				if ( empty( $disclosure_info ) ) {
-					$cmb->add_field( array(
+					$cmb->add_field( [
 						'name'       => esc_html__( 'Disclosure Name', 'constant-contact-forms' ),
 						'id'         => '_ctct_disclose_name',
 						'type'       => 'text',
 						'default'    => $business_name,
-						'attributes' => strlen( $business_name ) ? array( 'readonly' => 'readonly' ) : array(),
-					) );
+						'attributes' => strlen( $business_name ) ? [ 'readonly' => 'readonly' ] : [],
+					] );
 
-					$cmb->add_field( array(
+					$cmb->add_field( [
 						'name'       => esc_html__( 'Disclosure Address', 'constant-contact-forms' ),
 						'id'         => '_ctct_disclose_address',
 						'type'       => 'text',
 						'default'    => $business_addr,
-						'attributes' => strlen( $business_addr ) ? array( 'readonly' => 'readonly' ) : array(),
-					) );
+						'attributes' => strlen( $business_addr ) ? [ 'readonly' => 'readonly' ] : [],
+					] );
 				}
-			} // End if().
-		} // End if().
+			}
+		}
 
 		$before_recaptcha = sprintf(
 			'<hr/><h2>%s</h2>%s',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
 			'<div class="discover-recaptcha">' . __( 'Learn more and get an <a href="https://www.google.com/recaptcha/intro/" target="_blank">API site key</a>', 'constant-contact-forms' ) . '</div>'
 		);
-		$cmb->add_field( array(
+
+		$cmb->add_field( [
 			'name'       => esc_html__( 'Site Key', 'constant-contact-forms' ),
 			'id'         => '_ctct_recaptcha_site_key',
 			'type'       => 'text',
 			'before_row' => $before_recaptcha,
-		) );
+		] );
 
-		$cmb->add_field( array(
+		$cmb->add_field( [
 			'name' => esc_html__( 'Secret Key', 'constant-contact-forms' ),
 			'id'   => '_ctct_recaptcha_secret_key',
 			'type' => 'text',
-		) );
+		] );
 
 		$before_global_css = sprintf(
 			'<hr /><h2>%s</h2>',
 			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
 		);
 
-		$cmb->add_field( array(
+		$cmb->add_field( [
 			'name'        => esc_html__( 'CSS Classes', 'constant-contact_forms' ),
 			'id'          => '_ctct_form_custom_classes',
 			'type'        => 'text',
@@ -378,37 +347,40 @@ class ConstantContact_Settings {
 					'constant-contact-forms'
 			),
 			'before_row'  => $before_global_css,
-		) );
+		] );
 
-		$cmb->add_field( array(
-			'name'             => esc_html__( 'Label Placement' ),
+		$cmb->add_field( [
+			'name'             => esc_html__( 'Label Placement', 'constant-contact-forms' ),
 			'id'               => '_ctct_form_label_placement',
 			'type'             => 'select',
 			'default'          => 'top',
 			'show_option_none' => false,
-			'options'          => array(
-				'top'    => 'Top',
-				'left'   => 'Left',
-				'right'  => 'Right',
-				'hidden' => 'Hidden',
-			),
+			'options'          => [
+				'top'    => esc_html__( 'Top', 'constant-contact-forms' ),
+				'left'   => esc_html__( 'Left', 'constant-contact-forms' ),
+				'right'  => esc_html__( 'Right', 'constant-contact-forms' ),
+				'bottom' => esc_html__( 'Bottom', 'constant-contact-forms' ),
+				'hidden' => esc_html__( 'Hidden', 'constant-contact-forms' ),
+			],
 			'description'      => esc_html__(
 				'Choose the position for the labels of the form elements.',
 				'constant-contact-forms'
 			),
-		) );
+		] );
 
 		$before_debugging = sprintf(
 			'<hr/><h2>%s</h2>',
 			esc_html__( 'Support', 'constant-contact-forms' )
 		);
-		$cmb->add_field( array(
+		$cmb->add_field( [
 			'name'       => esc_html__( 'Enable logging for debugging purposes.', 'constant-contact-forms' ),
 			'desc'       => esc_html__( 'This option will turn on some logging functionality that can be used to deduce sources of issues with the use of Constant Contact Forms plugin.', 'constant-contact-forms' ),
 			'id'         => '_ctct_logging',
 			'type'       => 'checkbox',
 			'before_row' => $before_debugging,
-		) );
+		] );
+
+		$this->add_spam_error_fields( $cmb );
 	}
 
 	/**
@@ -421,10 +393,10 @@ class ConstantContact_Settings {
 	public function get_optin_show_options() {
 
 		// Set up our default options.
-		$optin_options = array(
+		$optin_options = [
 			'comment_form' => esc_html__( 'Add a checkbox to the comment field in your posts', 'constant-contact-forms' ),
 			'login_form'   => esc_html__( 'Add a checkbox to the main WordPress login page', 'constant-contact-forms' ),
-		);
+		];
 
 		// If users can register, then allow this option as well.
 		if ( get_option( 'users_can_register' ) ) {
@@ -504,6 +476,7 @@ class ConstantContact_Settings {
 	 * Opt in field checkbox.
 	 *
 	 * @since 1.0.0
+	 * @return void
 	 */
 	public function optin_form_field() {
 
@@ -514,19 +487,21 @@ class ConstantContact_Settings {
 
 		// Get our label, based on our settings if they're available.
 		$saved_label = ctct_get_settings_option( '_ctct_optin_label', '' );
-		$list = ctct_get_settings_option( '_ctct_optin_list', '' );
+		$list        = ctct_get_settings_option( '_ctct_optin_list', '' );
 
 		// Otherwise, use our default.
 		$label = $saved_label ? $saved_label : esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 
-		?><p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
-	        <label for="ctct_optin">
-	        	<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
+		?>
+		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
+			<label for="ctct_optin">
+				<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
 				<?php echo esc_attr( $label ); ?>
 			</label>
 			<?php echo constant_contact()->display->get_disclose_text(); ?>
 			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin', true, true ); ?>
-	    </p><?php
+		</p>
+		<?php
 
 	}
 
@@ -552,6 +527,7 @@ class ConstantContact_Settings {
 
 		// Check our nonce.
 		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ct_ct_optin'] ) ), 'ct_ct_add_to_optin' ) ) { // Input var okay.
+			constant_contact_maybe_log_it( 'Nonces', 'process_optin_comment_form() nonce failed to verify.' );
 			return $comment_data;
 		}
 
@@ -599,13 +575,13 @@ class ConstantContact_Settings {
 			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // Input var okay.
 
 			// Build up our data array.
-			$args = array(
+			$args = [
 				'list'       => $list,
 				'email'      => sanitize_email( $comment_data['comment_author_email'] ),
 				'first_name' => sanitize_text_field( $name ),
 				'last_name'  => '',
 				'website'    => sanitize_text_field( $website ),
-			);
+			];
 
 			// Add the contact, based on our whitelist of information we have from above.
 			constantcontact_api()->add_contact( $args );
@@ -623,7 +599,7 @@ class ConstantContact_Settings {
 	 * @param array  $user User.
 	 * @param string $username Login name.
 	 * @param string $password User password.
-	 * @return object CTCT return API for contact.
+	 * @return object|array CTCT return API for contact or original $user array.
 	 */
 	public function process_optin_login_form( $user, $username, $password ) {
 
@@ -639,6 +615,7 @@ class ConstantContact_Settings {
 
 		// Check our nonce.
 		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ct_ct_optin'] ) ), 'ct_ct_add_to_optin' ) ) { // Input var okay.
+			constant_contact_maybe_log_it( 'Nonces', 'process_optin_login_form() nonce failed to verify.' );
 			return $user;
 		}
 
@@ -697,12 +674,12 @@ class ConstantContact_Settings {
 
 		// If we have one or the other, try it.
 		if ( $email ) {
-			$args = array(
+			$args = [
 				'email'      => $email,
 				'list'       => $list,
 				'first_name' => $name,
 				'last_name'  => '',
-			);
+			];
 
 			// Add the contact!
 			constantcontact_api()->add_contact( $args );
@@ -719,10 +696,11 @@ class ConstantContact_Settings {
 	 *
 	 * @param int   $object_id Option key.
 	 * @param array $updated   Array of updated fields.
+	 * @return void
 	 */
 	public function settings_notices( $object_id, $updated ) {
 
-		// Sanity checking
+		// Sanity checking.
 		if ( $object_id !== $this->key || empty( $updated ) ) {
 			return;
 		}
@@ -770,7 +748,7 @@ class ConstantContact_Settings {
 	 */
 	public function __get( $field ) {
 		// Allowed fields to retrieve.
-		if ( in_array( $field, array( 'key', 'metabox_id', 'title', 'options_page' ), true ) ) {
+		if ( in_array( $field, [ 'key', 'metabox_id' ], true ) ) {
 			if ( isset( $this->{$field} ) ) {
 				return $this->{$field};
 			} else {
@@ -801,6 +779,7 @@ class ConstantContact_Settings {
 	 * Outputs the markup for the privacy policy modal popup.
 	 *
 	 * @since 1.2.0
+	 * @return void
 	 */
 	public function privacy_notice_markup() {
 		if ( $this->privacy_policy_status() || ! constant_contact()->is_constant_contact() ) {
@@ -829,14 +808,99 @@ class ConstantContact_Settings {
 		<?php
 	}
 
+	/**
+	 * Check if we have reCAPTCHA settings available to use with Google reCAPTCHA.
+	 *
+	 * @since 1.2.4
+	 * @return bool
+	 */
 	public function has_recaptcha() {
-		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
+		$site_key   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
 		$secret_key = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
 
 		if ( $site_key && $secret_key ) {
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 * Attempts to add the index file for protecting the log directory.
+	 *
+	 * @since 1.5.0
+	 * @return void
+	 */
+	public function maybe_init_logs( $updated, $action ) {
+		if ( 'updated' !== $action ) {
+			return;
+		}
+
+		$this->plugin->logging->create_log_folder();
+		$this->plugin->logging->create_log_index_file();
+		$this->plugin->logging->create_log_file();
+  }
+
+  /*
+	 * Adds a fieldset for controlling the spam error.
+	 *
+	 * @since 1.5.0
+	 * @param object $cmb An instance of the CMB2 object.
+	 */
+	private function add_spam_error_fields( $cmb ) {
+		$description  = '<div class="description">';
+		$description .= esc_html__( 'This message displays when the plugin detects spam data.', 'constant-contact-forms' );
+		$description .= esc_html__( 'Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' );
+		$description .= '</div>';
+
+		$before_message = sprintf(
+			'<hr/><h2>%s</h2>%s',
+			__( 'Suspected Bot Error Message', 'constant-contact-forms' ),
+			$description
+		);
+
+		$cmb->add_field(
+			[
+				'name'       => esc_html__( 'Error Message', 'constant-contact-forms' ),
+				'id'         => '_ctct_spam_error',
+				'type'       => 'text',
+				'before_row' => $before_message,
+				'default'    => $this->get_default_spam_error(),
+			]
+		);
+	}
+
+	/**
+	 * Get the error message displayed to suspected spam input.
+	 *
+	 * @since 1.5.0
+	 * @param string $message The error message to filter.
+	 * @param mixed  $post_id The post ID of the current post, if any.
+	 * @return string
+	 */
+	public function get_spam_error_message( $message, $post_id ) {
+		$post_error = get_post_meta( $post_id, '_ctct_spam_error', true );
+
+		if ( ! empty( $post_error ) ) {
+			return $post_error;
+		}
+
+		$option_error = cmb2_get_option( '_ctct_spam_error', '' );
+
+		if ( ! empty( $option_error ) ) {
+			return $option_error;
+		}
+
+		return $this->get_default_spam_error();
+	}
+
+	/**
+	 * Get the default spam error message.
+	 *
+	 * @since 1.5.0
+	 * @return string
+	 */
+	private function get_default_spam_error() {
+		return __( 'We do not think you are human', 'constant-contact-forms' );
 	}
 }
 
@@ -857,7 +921,6 @@ function ctct_get_settings_option( $key = '', $default = null ) {
 
 	// Fallback to get_option if CMB2 is not loaded yet.
 	$opts = get_option( constant_contact()->settings->key, $key, $default );
-
 	$val  = $default;
 
 	if ( 'all' === $key ) {

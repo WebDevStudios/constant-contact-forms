@@ -38,7 +38,7 @@ class ConstantContact_Optin {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		add_action( 'init', array( $this, 'hooks' ) );
+		add_action( 'init', [ $this, 'hooks' ] );
 	}
 
 	/**
@@ -48,10 +48,10 @@ class ConstantContact_Optin {
 	 */
 	public function hooks() {
 		if ( $this->can_track() && constant_contact()->is_constant_contact() ) {
-			add_action( 'admin_footer', array( $this, 'anonymous_tracking' ) );
+			add_action( 'admin_footer', [ $this, 'anonymous_tracking' ] );
 		}
 		if ( ! $this->privacy_policy_status() ) {
-			add_action( 'admin_footer', array( $this, 'privacy_notice_markup' ) );
+			add_action( 'admin_footer', [ $this, 'privacy_notice_markup' ] );
 		}
 	}
 
@@ -83,7 +83,7 @@ class ConstantContact_Optin {
 		$can_track = false;
 
 		$options = get_option( constant_contact()->settings->key );
-		$optin = ( isset( $options['_ctct_data_tracking'] ) ) ? $options['_ctct_data_tracking'] : '';
+		$optin   = ( isset( $options['_ctct_data_tracking'] ) ) ? $options['_ctct_data_tracking'] : '';
 		$privacy = get_option( 'ctct_privacy_policy_status', '' );
 
 		if ( 'on' === $optin && 'true' === $privacy ) {
@@ -111,6 +111,8 @@ class ConstantContact_Optin {
 	 * Outputs the markup for the privacy policy modal popup.
 	 *
 	 * @since 1.2.0
+	 *
+	 * @return void
 	 */
 	public function privacy_notice_markup() {
 		if ( ! constant_contact_maybe_display_optin_notification() ) {

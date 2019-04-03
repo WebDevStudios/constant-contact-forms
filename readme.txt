@@ -1,9 +1,9 @@
 === Constant Contact Forms ===
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
-Requires at least: 4.0.0
-Tested up to:      5.1.0
-Stable tag:        1.4.5
+Requires at least: 5.0.0
+Tested up to:      5.1.1
+Stable tag:        1.5.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.4
@@ -34,6 +34,20 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
+= 1.5.0 =
+* Added: Gutenberg block. Easier to get a form set up on a Gutenberg powered post or page.
+* Added: Ability to customize "We do not think you are human" spam messaging.
+* Added: Ability to conditionally output a reCAPTCHA field for each form.
+* Added: Better compatibility with WP-SpamShield plugin.
+* Added: Quick button to reset a form's style customization selections.
+* Added: Option to display form title with Constant Contact Forms output.
+* Fixed: Added missing label placement options in settings page and per-form dropdown options.
+* Updated: Ensure we have valid URLs when taking custom redirect values.
+* Updated: Append custom textarea content to existing notes for updated contacts.
+* Updated: Added some "alert" roles for better accessibility.
+* Updated: Added logging of API request parameters before the request is made.
+* Updated: Added logging around valid requests verifications when submitting a form.
 
 = 1.4.5 =
 * Fixed: Conflicts with custom textareas and notes inside of Constant Contact account when updating an existing contact.

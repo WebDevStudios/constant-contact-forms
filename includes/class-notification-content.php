@@ -38,8 +38,8 @@ class ConstantContact_Notification_Content {
 	 * @since 1.0.0
 	 */
 	public static function activation() {
-		$auth_url = add_query_arg( array( 'rmc' => 'wp_admin_connect' ), constant_contact()->api->get_connect_link() );
-		$try_url  = add_query_arg( array( 'rmc' => 'wp_admin_try' ), constant_contact()->api->get_signup_link() );
+		$auth_url = add_query_arg( [ 'rmc' => 'wp_admin_connect' ], constant_contact()->api->get_connect_link() );
+		$try_url  = add_query_arg( [ 'rmc' => 'wp_admin_try' ], constant_contact()->api->get_signup_link() );
 
 		ob_start();
 
@@ -197,8 +197,8 @@ class ConstantContact_Notification_Content {
  * @param array $allowedtags Allowed HTML.
  * @return array Allowed HTML.
  */
-function constant_contact_filter_html_tags_for_optin( $allowedtags = array() ) {
-	$allowedtags['input'] = array( 'type' => true, 'id' => true, 'name' => true, 'value' => true );
+function constant_contact_filter_html_tags_for_optin( $allowedtags = [] ) {
+	$allowedtags['input'] = [ 'type' => true, 'id' => true, 'name' => true, 'value' => true ];
 	return $allowedtags;
 }
 
@@ -210,13 +210,13 @@ function constant_contact_filter_html_tags_for_optin( $allowedtags = array() ) {
  * @param array $notifications Array of notifications pending to show.
  * @return array Array of notifications to show.
  */
-function constant_contact_add_optin_notification( $notifications = array() ) {
+function constant_contact_add_optin_notification( $notifications = [] ) {
 
-	$notifications[] = array(
-		'ID' => 'optin_admin_notice',
-		'callback' => array( 'ConstantContact_Notification_Content', 'optin_admin_notice' ),
+	$notifications[] = [
+		'ID'         => 'optin_admin_notice',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'optin_admin_notice' ],
 		'require_cb' => 'constant_contact_maybe_display_optin_notification',
-	);
+	];
 	return $notifications;
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_add_optin_notification' );
@@ -229,13 +229,13 @@ add_filter( 'constant_contact_notifications', 'constant_contact_add_optin_notifi
  * @param array $notifications Array of notifications pending to show.
  * @return array Array of notifications to show.
  */
-function constant_contact_add_review_notification( $notifications = array() ) {
+function constant_contact_add_review_notification( $notifications = [] ) {
 
-	$notifications[] = array(
+	$notifications[] = [
 		'ID'         => 'review_request',
-		'callback'   => array( 'ConstantContact_Notification_Content', 'review_request' ),
+		'callback'   => [ 'ConstantContact_Notification_Content', 'review_request' ],
 		'require_cb' => 'constant_contact_maybe_display_review_notification',
-	);
+	];
 
 	return $notifications;
 }
@@ -249,13 +249,13 @@ add_filter( 'constant_contact_notifications', 'constant_contact_add_review_notif
  * @param array $notifications Array of notifications pending to show.
  * @return array Array of notifications to show.
  */
-function constant_contact_add_reCAPTCHA_notification( $notifications = array() ) {
+function constant_contact_add_reCAPTCHA_notification( $notifications = [] ) {
 
-	$notifications[] = array(
+	$notifications[] = [
 		'ID'         => 'reCAPTCHA',
-		'callback'   => array( 'ConstantContact_Notification_Content', 'reCAPTCHA' ),
+		'callback'   => [ 'ConstantContact_Notification_Content', 'reCAPTCHA' ],
 		'require_cb' => 'constant_contact_maybe_display_reCAPTCHA_notification',
-	);
+	];
 
 	return $notifications;
 }
