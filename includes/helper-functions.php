@@ -633,3 +633,23 @@ function constant_contact_privacy_policy_content() {
 
 	return '';
 }
+
+/**
+ * Potentially output a message about not having any forms yet, in our TinyMCE modal.
+ *
+ * @since 1.5.1
+ *
+ * @param string $object_id Current edited object ID. Options page in our case.
+ * @param CMB2   $cmb2      CMB2 instance.
+ */
+function constant_contact_tinymce_no_forms_message( $object_id, $cmb2 ) {
+	$forms = constant_contact()->cpts->get_forms( true );
+	if ( empty( $forms ) ) {
+		printf(
+			// translators: placeholder will store url for forms list page.
+			__( '<p>No forms available. Visit your <a href="%s">forms list</a> to create one.</p>', 'constant-contact-forms' ),
+			esc_url( admin_url( 'edit.php?post_type=ctct_forms' ) )
+		);
+	}
+}
+add_action( 'cmb2_before_options-page_form_shortcode_ctct', 'constant_contact_tinymce_no_forms_message', 10, 2 );
