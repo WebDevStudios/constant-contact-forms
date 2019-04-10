@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.0.0
 Tested up to:      5.1.1
-Stable tag:        1.5.0
+Stable tag:        1.5.1
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.4
@@ -34,6 +34,10 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
+= 1.5.1 =
+* Fixed: Issues with editor screen when no forms have been created yet.
+* Fixed: Missed endpoint change for wp-json details with Contant Contact Gutenberg integration.
 
 = 1.5.0 =
 * Added: Gutenberg block. Easier to get a form set up on a Gutenberg powered post or page.

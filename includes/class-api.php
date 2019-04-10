@@ -417,6 +417,7 @@ class ConstantContact_API {
 				constant_contact_maybe_log_it( 'API', 'Contact set to be updated', [ 'form' => get_the_title( $form_id ) ] );
 				// Update the existing contact if address already existed.
 				$return_contact = $this->_update_contact( $response, $api_token, $list, $new_contact, $form_id );
+
 			} else {
 				constant_contact_maybe_log_it( 'API', 'Contact set to be created', [ 'form' => get_the_title( $form_id ) ] );
 				// Create a new contact if one does not exist.

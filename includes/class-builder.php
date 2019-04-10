@@ -112,6 +112,7 @@ class ConstantContact_Builder {
 	 * @since 1.0.0
 	 */
 	public function add_form_css() {
+
 		// Let's style this thing.
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 	}

@@ -101,15 +101,4 @@
 	.has-recaptcha #ctct-submitted:disabled {
 	  cursor: not-allowed;
 	}
-	.no-recaptcha #ctct-submitted:disabled {
-		background-image: url('../images/oval.min.svg');
-		background-position: center;
-		background-repeat: no-repeat;
-		color: transparent;
-		cursor: wait;
-		opacity: 0.3;
-	}
-	.has-recaptcha #ctct-submitted:disabled {
-	  cursor: not-allowed;
-	}
 }
