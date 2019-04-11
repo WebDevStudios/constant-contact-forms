@@ -47,7 +47,8 @@ const config = {
 	externals: {
 		$: 'jQuery',
 		jQuery: 'jQuery',
-		jquery: 'jQuery'
+		jquery: 'jQuery',
+		lodash: 'lodash'
 	}
 };
 
