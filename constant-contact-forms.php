@@ -38,6 +38,7 @@
 /**
  * Autoloads files with classes when needed.
  *
+ * @author Michael Beckwith <michael@webdevstudios.com>
  * @since 1.0.0
  *
  * @param string $class_name Name of the class being requested.
@@ -347,6 +348,7 @@ class Constant_Contact {
 	/**
 	 * Creates or returns an instance of this class.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @return Constant_Contact A single instance of this class.
@@ -362,6 +364,7 @@ class Constant_Contact {
 	/**
 	 * Sets up our plugin.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @return null
@@ -396,6 +399,7 @@ class Constant_Contact {
 	/**
 	 * Display an admin notice for users on less than PHP 5.4.x.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.1
 	 */
 	public function minimum_version() {
@@ -405,6 +409,7 @@ class Constant_Contact {
 	/**
 	 * Attach other plugin classes to the base plugin class.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 */
 	public function plugin_classes() {
@@ -433,6 +438,7 @@ class Constant_Contact {
 	/**
 	 * Attach other plugin classes to the base plugin class, but only in the admin.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 */
 	public function admin_plugin_classes() {
@@ -444,6 +450,7 @@ class Constant_Contact {
 	/**
 	 * Add hooks and filters.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @return null
@@ -483,6 +490,7 @@ class Constant_Contact {
 	/**
 	 * Activate the plugin.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 */
 	public function activate() { }
@@ -490,6 +498,7 @@ class Constant_Contact {
 	/**
 	 * Deactivate the plugin.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 */
 	public function deactivate() {
@@ -508,6 +517,7 @@ class Constant_Contact {
 	/**
 	 * Whether or not we meet our minimal PHP requirements.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.2.0
 	 *
 	 * @return bool
@@ -519,6 +529,7 @@ class Constant_Contact {
 	/**
 	 * Init hooks.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 */
 	public function init() {
@@ -529,6 +540,7 @@ class Constant_Contact {
 	/**
 	 * Load Vendor libraries.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 */
 	public function load_libs() {
@@ -542,6 +554,7 @@ class Constant_Contact {
 	/**
 	 * Load includes.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @return null
@@ -577,6 +590,7 @@ class Constant_Contact {
 	/**
 	 * Load and register our Constant Contact widget.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.1.0
 	 */
 	public function widgets() {
@@ -587,6 +601,7 @@ class Constant_Contact {
 	/**
 	 * Save our dismissed first form notification.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 */
 	public function ajax_save_clear_first_form() {
@@ -602,6 +617,7 @@ class Constant_Contact {
 	/**
 	 * Magic getter for our object.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @throws Exception Throws an exception if the field is invalid.
@@ -648,6 +664,7 @@ class Constant_Contact {
 	/**
 	 * Include a file from the classes directory.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param string $filename      Name of the file to be included.
@@ -676,6 +693,7 @@ class Constant_Contact {
 	/**
 	 * This plugin's directory.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param string $path Appended path. Optional.
@@ -690,6 +708,7 @@ class Constant_Contact {
 	/**
 	 * This plugin's url.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param string $path Appended path. Optional.
@@ -704,6 +723,7 @@ class Constant_Contact {
 	/**
 	 * Retrieve license as text.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @return string License text.
@@ -722,6 +742,7 @@ class Constant_Contact {
 	/**
 	 * Check if we are editing a Constant Contact post type post.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.1.0
 	 *
 	 * @param int $post_id Post ID to check for.
@@ -747,6 +768,7 @@ class Constant_Contact {
 	/**
 	 * Add some custom body classes for our needs.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.2.0
 	 *
 	 * @param array $classes Existing body classes.
@@ -762,6 +784,7 @@ class Constant_Contact {
 	/**
 	 * Register our admin styles.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.4.0
 	 */
 	public function register_admin_assets() {
@@ -776,6 +799,7 @@ class Constant_Contact {
 	/**
 	 * Register our frontend styles.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.4.0
 	 */
 	public function register_front_assets() {
@@ -790,6 +814,7 @@ class Constant_Contact {
 	/**
 	 * Determine if we are in a Constant Contact area.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.2.0
 	 *
 	 * @return bool
@@ -838,6 +863,7 @@ register_deactivation_hook( __FILE__, array( constant_contact(), 'deactivate' ) 
  * Grab the Constant_Contact object and return it.
  * Wrapper for Constant_Contact::get_instance().
  *
+ * @author Michael Beckwith <michael@webdevstudios.com>
  * @since 1.0.0
  *
  * @return Constant_Contact Singleton instance of plugin class.
