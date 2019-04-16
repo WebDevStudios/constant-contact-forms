@@ -2,6 +2,7 @@
 .AppleDouble
 .LSOverride
 .gitmodules
+plugin-config.js
 
 # Files that might appear on external disk
 .Spotlight-V100
@@ -15,11 +16,9 @@ Temporary Items
 .apdisk
 /docs
 
-
 # Logs
 /logs
 *.log
-
 /node_modules/
 build
 lib
