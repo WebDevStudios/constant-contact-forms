@@ -179,6 +179,9 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Frequently Asked Questions ==
 
+#### Installation and Setup
+https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integration-with-Constant-Contact
+
 #### Constant Contact Forms Options
 http://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options
 
