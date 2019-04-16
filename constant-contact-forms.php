@@ -548,7 +548,7 @@ class Constant_Contact {
 		// Load what we can, automagically.
 		require_once $this->dir( 'vendor/autoload.php' );
 
-		require_once( $this->dir( 'vendor/cmb2/cmb2/init.php' ) );
+		require_once $this->dir( 'vendor/cmb2/cmb2/init.php' );
 	}
 
 	/**
@@ -683,7 +683,7 @@ class Constant_Contact {
 
 		// If its there, include it.
 		if ( file_exists( $file ) ) {
-			return include_once( $file );
+			return include_once $file;
 		}
 
 		// Wasn't there.
@@ -729,7 +729,7 @@ class Constant_Contact {
 	 * @return string License text.
 	 */
 	public function get_license_text() {
-		$license = $this->url( self::LICENSE_FILE );
+		$license         = $this->url( self::LICENSE_FILE );
 		$license_content = wp_remote_get( $license );
 
 		if ( 200 === wp_remote_retrieve_response_code( $license_content ) ) {
@@ -824,30 +824,19 @@ class Constant_Contact {
 			return false;
 		}
 
-		if ( ! is_admin() || empty( $_GET ) ) {
+		if ( ! is_admin() ) {
 			return false;
 		}
 
 		$ctct_types = array( 'ctct_forms', 'ctct_lists' );
-		if (
-			isset( $_GET['post_type'] ) &&
-			in_array(
-				$_GET['post_type'],
-				$ctct_types,
-				true
-			)
-		) {
+		$post_type  = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+		$post       = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+
+		if ( in_array( $post_type, $ctct_types, true ) ) {
 			return true;
 		}
 
-		if (
-			isset( $_GET['post'] ) &&
-			in_array(
-				get_post_type( $_GET['post'] ),
-				$ctct_types,
-				true
-			)
-		) {
+		if ( in_array( get_post_type( $post ), $ctct_types, true ) ) {
 			return true;
 		}
 
