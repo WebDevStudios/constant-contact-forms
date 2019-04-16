@@ -735,7 +735,7 @@ class Constant_Contact {
 			$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 		}
 
-		if ( 'ctct_forms' === filter_input( INPUT_GET, 'post_type', SANITIZE_STRING ) ) {
+		if ( 'ctct_forms' === filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING ) ) {
 			return true;
 		}
 
