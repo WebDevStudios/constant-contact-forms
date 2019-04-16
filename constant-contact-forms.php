@@ -18,15 +18,7 @@
  * License:     GPLv3
  * Text Domain: constant-contact-forms
  * Domain Path: /languages
- */
-
-/**
- * Looking to extend this plugin at all? There are a series of helper
- * functions in includes/helper-functions.php for you to use. There are also
- * filters throughout the plugin, to customize most areas.
- */
-
-/**
+ *
  * Copyright (c) 2016 Constant Contact (email : legal@constantcontact.com)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -599,10 +591,11 @@ class Constant_Contact {
 	 */
 	public function ajax_save_clear_first_form() {
 
-		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' === $_POST['action'] ) {
+		if ( 'ctct_dismiss_first_modal' === filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING ) ) {
 			// Save our dismiss for the first form modal.
 			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) );
 		}
+
 		wp_die();
 	}
 
@@ -736,17 +729,11 @@ class Constant_Contact {
 	 */
 	public function is_ctct_editor_screen( $post_id = 0 ) {
 
-		if ( empty( $post_id ) ) {
-			if ( ! empty( $_GET ) && isset( $_GET['post'] ) ) {
-				$post_id = absint( $_GET['post'] );
-			}
+		if ( 0 === $post_id ) {
+			$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 		}
 
-		if ( empty( $_GET ) ) {
-			return false;
-		}
-
-		if ( isset( $_GET['post_type'] ) && 'ctct_forms' === (string) $_GET['post_type'] ) {
+		if ( 'ctct_forms' === filter_input( INPUT_GET, 'post_type', SANITIZE_STRING ) ) {
 			return true;
 		}
 
