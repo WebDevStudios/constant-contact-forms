@@ -18,15 +18,9 @@
  * License:     GPLv3
  * Text Domain: constant-contact-forms
  * Domain Path: /languages
- */
-
-/**
- * Looking to extend this plugin at all? There are a series of helper
- * functions in includes/helper-functions.php for you to use. There are also
- * filters throughout the plugin, to customize most areas.
- */
-
-/**
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor
+ *
  * Copyright (c) 2016 Constant Contact (email : legal@constantcontact.com)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -544,7 +538,7 @@ class Constant_Contact {
 		// Load what we can, automagically.
 		require_once $this->dir( 'vendor/autoload.php' );
 
-		require_once( $this->dir( 'vendor/cmb2/cmb2/init.php' ) );
+		require_once $this->dir( 'vendor/cmb2/cmb2/init.php' );
 	}
 
 	/**
@@ -599,10 +593,11 @@ class Constant_Contact {
 	 */
 	public function ajax_save_clear_first_form() {
 
-		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' === $_POST['action'] ) {
+		if ( 'ctct_dismiss_first_modal' === filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING ) ) {
 			// Save our dismiss for the first form modal.
 			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) );
 		}
+
 		wp_die();
 	}
 
@@ -673,7 +668,7 @@ class Constant_Contact {
 
 		// If its there, include it.
 		if ( file_exists( $file ) ) {
-			return include_once( $file );
+			return include_once $file;
 		}
 
 		// Wasn't there.
@@ -716,7 +711,7 @@ class Constant_Contact {
 	 * @return string License text.
 	 */
 	public function get_license_text() {
-		$license = $this->url( self::LICENSE_FILE );
+		$license         = $this->url( self::LICENSE_FILE );
 		$license_content = wp_remote_get( $license );
 
 		if ( 200 === wp_remote_retrieve_response_code( $license_content ) ) {
@@ -736,17 +731,11 @@ class Constant_Contact {
 	 */
 	public function is_ctct_editor_screen( $post_id = 0 ) {
 
-		if ( empty( $post_id ) ) {
-			if ( ! empty( $_GET ) && isset( $_GET['post'] ) ) {
-				$post_id = absint( $_GET['post'] );
-			}
+		if ( 0 === $post_id ) {
+			$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 		}
 
-		if ( empty( $_GET ) ) {
-			return false;
-		}
-
-		if ( isset( $_GET['post_type'] ) && 'ctct_forms' === (string) $_GET['post_type'] ) {
+		if ( 'ctct_forms' === filter_input( INPUT_GET, 'post_type', SANITIZE_STRING ) ) {
 			return true;
 		}
 
@@ -812,30 +801,19 @@ class Constant_Contact {
 			return false;
 		}
 
-		if ( ! is_admin() || empty( $_GET ) ) {
+		if ( ! is_admin() ) {
 			return false;
 		}
 
 		$ctct_types = array( 'ctct_forms', 'ctct_lists' );
-		if (
-			isset( $_GET['post_type'] ) &&
-			in_array(
-				$_GET['post_type'],
-				$ctct_types,
-				true
-			)
-		) {
+		$post_type  = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+		$post       = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+
+		if ( in_array( $post_type, $ctct_types, true ) ) {
 			return true;
 		}
 
-		if (
-			isset( $_GET['post'] ) &&
-			in_array(
-				get_post_type( $_GET['post'] ),
-				$ctct_types,
-				true
-			)
-		) {
+		if ( in_array( get_post_type( $post ), $ctct_types, true ) ) {
 			return true;
 		}
 
