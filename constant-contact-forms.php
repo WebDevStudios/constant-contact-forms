@@ -19,7 +19,7 @@
  * Text Domain: constant-contact-forms
  * Domain Path: /languages
  *
- * phpcs:disable WebDevStudios.All.RequireAuthor
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  *
  * Copyright (c) 2016 Constant Contact (email : legal@constantcontact.com)
  *

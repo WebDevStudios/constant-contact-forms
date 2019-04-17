@@ -178,7 +178,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @return string
 	 */
-	public static function reCAPTCHA() {
+	public static function recaptcha() {
 		ob_start();
 		printf(
 			// translators: Placeholder iwll hold url to Constant Contact Forms settings page.
@@ -249,14 +249,14 @@ add_filter( 'constant_contact_notifications', 'constant_contact_add_review_notif
  * @param array $notifications Array of notifications pending to show.
  * @return array Array of notifications to show.
  */
-function constant_contact_add_reCAPTCHA_notification( $notifications = [] ) {
+function constant_contact_add_recaptcha_notification( $notifications = [] ) {
 
 	$notifications[] = [
 		'ID'         => 'reCAPTCHA',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'reCAPTCHA' ],
-		'require_cb' => 'constant_contact_maybe_display_reCAPTCHA_notification',
+		'require_cb' => 'constant_contact_maybe_display_recaptcha_notification',
 	];
 
 	return $notifications;
 }
-add_filter( 'constant_contact_notifications', 'constant_contact_add_reCAPTCHA_notification' );
+add_filter( 'constant_contact_notifications', 'constant_contact_add_recaptcha_notification' );

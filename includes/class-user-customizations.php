@@ -6,6 +6,8 @@
  * @subpackage User Customizations
  * @author     Constant Contact
  * @since      1.3.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
