@@ -5,6 +5,8 @@
  * @package ConstantContact
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 use Monolog\Logger;
@@ -173,7 +175,7 @@ function constant_contact_maybe_display_review_notification() {
  *
  * @return bool
  */
-function constant_contact_maybe_display_reCAPTCHA_notification() {
+function constant_contact_maybe_display_recaptcha_notification() {
 	return true;
 }
 
@@ -184,14 +186,14 @@ function constant_contact_maybe_display_reCAPTCHA_notification() {
  */
 function constant_contact_optin_ajax_handler() {
 
-	$response = $_REQUEST;
+	$optin = filter_var( $_REQUEST['optin'], FILTER_SANITIZE_STRING );
 
-	if ( ! isset( $response['optin'] ) || 'on' !== $response['optin'] ) {
+	if ( 'on' !== $optin ) {
 		wp_send_json_success( [ 'opted-in' => 'off' ] );
 	}
 
 	$options                        = get_option( constant_contact()->settings->key );
-	$options['_ctct_data_tracking'] = $response['optin'];
+	$options['_ctct_data_tracking'] = $optin;
 	update_option( constant_contact()->settings->key, $options );
 
 	wp_send_json_success( [ 'opted-in' => 'on' ] );
@@ -206,8 +208,7 @@ add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_opt
  */
 function constant_contact_privacy_ajax_handler() {
 
-	$response = $_REQUEST;
-	$agreed   = sanitize_text_field( $response['privacy_agree'] );
+	$agreed = filter_var( $_REQUEST['privacy_agree'], FILTER_SANITIZE_STRING );
 	update_option( 'ctct_privacy_policy_status', $agreed );
 
 	wp_send_json_success( [ 'updated' => 'true' ] );
@@ -222,8 +223,10 @@ add_action( 'wp_ajax_constant_contact_privacy_ajax_handler', 'constant_contact_p
  */
 function constant_contact_review_ajax_handler() {
 
+	//  phpcs:disable WordPress.Security.NonceVerification -- OK accessing of $_REQUEST.
 	if ( isset( $_REQUEST['ctct-review-action'] ) ) {
 		$action = strtolower( sanitize_text_field( $_REQUEST['ctct-review-action'] ) );
+		// phpcs:enable WordPress.Security.NonceVerification
 
 		switch ( $action ) {
 			case 'dismissed':
@@ -262,11 +265,15 @@ add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_re
  * @return bool|array
  */
 function ctct_custom_form_action_processing() {
-	if ( empty( $_POST ) || ! isset( $_POST['ctct-id'] ) ) {
+
+	$ctct_id = filter_input( INPUT_POST, 'ctct-id', FILTER_VALIDATE_INT );
+
+	if ( false === $ctct_id ) {
 		return false;
 	}
+
 	// Only run this if we have a custom action being filtered in.
-	if ( ! constant_contact_has_redirect_uri( absint( $_POST['ctct-id'] ) ) ) {
+	if ( ! constant_contact_has_redirect_uri( $ctct_id ) ) {
 		return false;
 	}
 
@@ -646,9 +653,12 @@ function constant_contact_tinymce_no_forms_message( $object_id, $cmb2 ) {
 	$forms = constant_contact()->cpts->get_forms( true );
 	if ( empty( $forms ) ) {
 		printf(
-			// translators: placeholder will store url for forms list page.
-			__( '<p>No forms available. Visit your <a href="%s">forms list</a> to create one.</p>', 'constant-contact-forms' ),
-			esc_url( admin_url( 'edit.php?post_type=ctct_forms' ) )
+			// Translators: Placeholders will store texts for this admin message and a URL to the forms list page.
+			'<p>%1$s <a href="%2$s">%3$s</a> %4$s.</p>',
+			esc_html__( 'No forms available. Visit your', 'constant-contact-forms' ),
+			esc_url( admin_url( 'edit.php?post_type=ctct_forms' ) ),
+			esc_html__( 'forms list', 'constant-contact-forms' ),
+			esc_html__( 'to create one', 'constant-contact-forms' )
 		);
 	}
 }
