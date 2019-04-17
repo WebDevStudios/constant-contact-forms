@@ -650,15 +650,14 @@ function constant_contact_privacy_policy_content() {
  * @param CMB2   $cmb2      CMB2 instance.
  */
 function constant_contact_tinymce_no_forms_message( $object_id, $cmb2 ) {
+
 	$forms = constant_contact()->cpts->get_forms( true );
+
 	if ( empty( $forms ) ) {
 		printf(
-			// Translators: Placeholders will store texts for this admin message and a URL to the forms list page.
-			'<p>%1$s <a href="%2$s">%3$s</a> %4$s.</p>',
-			esc_html__( 'No forms available. Visit your', 'constant-contact-forms' ),
-			esc_url( admin_url( 'edit.php?post_type=ctct_forms' ) ),
-			esc_html__( 'forms list', 'constant-contact-forms' ),
-			esc_html__( 'to create one', 'constant-contact-forms' )
+			// translators: placeholder will store url for forms list page.
+			__( '<p>No forms available. Visit your <a href="%s">forms list</a> to create one.</p>', 'constant-contact-forms' ),
+			esc_url( admin_url( 'edit.php?post_type=ctct_forms' ) )
 		);
 	}
 }
