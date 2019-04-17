@@ -6,6 +6,8 @@
  * @subpackage Mail
  * @author Constant Contact
  * @since 1.0.2
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
@@ -104,33 +106,33 @@ class ConstantContact_Mail {
 				return true;
 			}
 
+			// phpcs:disable WordPress.Security.NonceVerification -- OK checking of $_POST values.
 			if ( empty( $_POST['ctct_must_opt_in'] ) || ! empty( $_POST['ctct-opt-in'] ) ) {
 				return true;
 			}
+			// phpcs:enable WordPress.Security.NonceVerification
 		}
 
 		// This would allow for setting each sections error and also allow for returning early again for cases
 		// like having a list, but not needing to opt in.
 		$has_list = get_post_meta( $submission_details['form_id'], '_ctct_list', true );
 
-		// Checks if we have a list.
-		if (
-			( ! constant_contact()->api->is_connected() || empty( $has_list ) ) &&
-			( constant_contact_emails_disabled( $submission_details['form_id'] ) )
-		) { // If we're not connected or have no list set AND we've disabled. Override.
+		$emails_disabled = constant_contact_emails_disabled( $submission_details['form_id'] );
 
+		// Checks if we have a list.
+		if ( ( ! constant_contact()->api->is_connected() || empty( $has_list ) ) && $emails_disabled ) {
+
+			// If we're not connected or have no list set AND we've disabled. Override.
 			$submission_details['list-available'] = 'no';
 			$was_forced                           = true;
 		}
 
-		if (
-			! empty( $_POST['ctct_must_opt_in'] ) &&
-			empty( $opt_in_details ) &&
-			( constant_contact_emails_disabled( $submission_details['form_id'] ) )
-		) {
+		// phpcs:disable WordPress.Security.NonceVerification -- OK checking of $_POST values.
+		if ( ! empty( $_POST['ctct_must_opt_in'] ) && empty( $opt_in_details ) && $emails_disabled ) {
 			$submission_details['opted-in'] = 'no';
 			$was_forced                     = true;
 		}
+		// phpcs:enable WordPress.Security.NonceVerification
 
 		// Send the mail.
 		return $this->mail( $this->get_email( $submission_details['form_id'] ), $email_values, $submission_details, $was_forced );
