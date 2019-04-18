@@ -6,13 +6,14 @@
  * @subpackage Optin
  * @author Constant Contact
  * @since 1.2.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tags in docblocks.
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 /**
  * Optin for usage tracking.
@@ -132,7 +133,7 @@ class ConstantContact_Optin {
 					</div>
 					<div class="ctct-modal-body ctct-privacy-modal-body">
 					<?php
-						echo constant_contact_privacy_policy_content();
+						echo wp_kses_post( constant_contact_privacy_policy_content() );
 					?>
 					</div><!-- modal body -->
 					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">

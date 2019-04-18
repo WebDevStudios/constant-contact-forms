@@ -6,10 +6,14 @@
  * @subpackage Notifications
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tags in docblocks.
  */
 
 /**
  * Powers admin pages and activation message.
+ *
+ * @since 1.0.0
  */
 class ConstantContact_Notifications {
 
@@ -47,6 +51,8 @@ class ConstantContact_Notifications {
 	 * Get all our notifications that should fire.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return array
 	 */
 	public function get_notifications() {
 
@@ -96,7 +102,7 @@ class ConstantContact_Notifications {
 		}
 
 		// Get all our notifications.
-		$notifications = $this->get_notifications();
+		$notifications        = $this->get_notifications();
 		$update_notifications = $this->get_update_notifications();
 
 		if ( is_array( $notifications ) && is_array( $update_notifications ) ) {
@@ -125,9 +131,9 @@ class ConstantContact_Notifications {
 		}
 
 		// Save our notification data to a helper var.
-		$notif_id     = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
-		$callback     = isset( $notif['callback'] ) ? $notif['callback'] : false;
-		$require_cb   = isset( $notif['require_cb'] ) ? $notif['require_cb'] : false;
+		$notif_id   = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
+		$callback   = isset( $notif['callback'] ) ? $notif['callback'] : false;
+		$require_cb = isset( $notif['require_cb'] ) ? $notif['require_cb'] : false;
 
 		// If we don't have an ID or callback set, bail.
 		if ( ! $notif_id || ! $callback ) {
@@ -191,16 +197,16 @@ class ConstantContact_Notifications {
 	 */
 	public function check_dismissal_nonce() {
 
-		// Double check that we have our nonce that we'll use
-		if ( ! isset( $_GET['ctct-dismiss'] ) ) { // Input var okay.
+		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
+		if ( ! isset( $_GET['ctct-dismiss'] ) ) {
 			return false;
 		}
 
-		// Save our nonce
-		$nonce = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss'] ) );  // Input var okay.
+		$nonce = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss'] ) );
+		// phpcs:enable WordPress.Security.NonceVerification
 
 		// If our nonce fails, then we don't want to dismiss it.
-		return ( wp_verify_nonce( $nonce, 'ctct-user-is-dismissing' ) );
+		return wp_verify_nonce( $nonce, 'ctct-user-is-dismissing' );
 	}
 
 	/**
@@ -212,25 +218,18 @@ class ConstantContact_Notifications {
 	 */
 	public function get_dismissal_id() {
 
-		// If we don't have our nonce action, bail
-		if ( ! isset( $_GET['ctct-dismiss'] ) ) { // Input var okay.
+		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
+		if ( ! isset( $_GET['ctct-dismiss'] ) || ! isset( $_GET['ctct-dismiss-action'] ) ) {
 			return false;
 		}
 
-		// If we don't have our dismiss query arg, bail.
-		if ( ! isset( $_GET['ctct-dismiss-action'] ) ) { // Input var okay.
-			return false;
-		}
+		$dismissing_notif = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss-action'] ) );
+		// phpcs:enable WordPress.Security.NonceVerification
 
-		// Get what notification we're attempting to dismiss.
-		$dismissing_notif = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss-action'] ) );  // Input var okay.
-
-		// If we don't have an action set for our dismiss action, bail.
 		if ( ! $dismissing_notif ) {
 			return false;
 		}
 
-		// Send back our notification type.
 		return $dismissing_notif;
 	}
 
@@ -362,6 +361,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @param string $key     Notification key.
 	 * @param string $content Admin notice content.
+	 * @return void
 	 */
 	public function show_notice( $key, $content = '' ) {
 
