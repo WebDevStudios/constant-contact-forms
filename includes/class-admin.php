@@ -6,10 +6,14 @@
  * @subpackage Admin
  * @author Constant Contact
  * @since 1.0.1
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
  * Powers admin options pages, customized display for plugin listing, and admin scripts.
+ *
+ * @since 1.0.1
  */
 class ConstantContact_Admin {
 
@@ -121,8 +125,8 @@ class ConstantContact_Admin {
 
 		add_submenu_page(
 			$this->parent_menu_slug,
-			__( 'About', 'constant-contact-forms' ),
-			__( 'About', 'constant-contact-forms' ),
+			esc_html__( 'About', 'constant-contact-forms' ),
+			esc_html__( 'About', 'constant-contact-forms' ),
 			'manage_options',
 			$this->key . '_about',
 			[ $this, 'admin_page_display' ]
@@ -130,14 +134,15 @@ class ConstantContact_Admin {
 
 		add_submenu_page(
 			$this->parent_menu_slug,
-			__( 'License', 'constant-contact-forms' ),
-			__( 'License', 'constant-contact-forms' ),
+			esc_html__( 'License', 'constant-contact-forms' ),
+			esc_html__( 'License', 'constant-contact-forms' ),
 			'manage_options',
 			$this->key . '_license',
 			[ $this, 'admin_page_display' ]
 		);
 
 		remove_submenu_page( $this->parent_menu_slug, $this->key . '_license' );
+
 		// Include CMB CSS in the head to avoid FOUC.
 		add_action( "admin_print_styles-{$this->options_page}", [ 'CMB2_hookup', 'enqueue_cmb_css' ] );
 	}
@@ -164,12 +169,12 @@ class ConstantContact_Admin {
 
 				$page = [];
 				// If we have a page get var set, let's try to pull out the page we're looking for.
+				// phpcs:disable WordPress.Security.NonceVerification -- OK accessing of $_GET values.
 				if ( isset( $_GET['page'] ) ) {
-
 					$page_key = sanitize_text_field( wp_unslash( $_GET['page'] ) );
-
-					$page = explode( $this->key . '_', $page_key );
+					$page     = explode( $this->key . '_', $page_key );
 				}
+				// phpcs:enable WordPress.Security.NonceVerification
 
 				// If we have a second element set, let's check out what it should be.
 				if ( isset( $page[1] ) && $page[1] ) {
@@ -209,12 +214,16 @@ class ConstantContact_Admin {
 	 *
 	 * @param int   $object_id Option key.
 	 * @param array $updated   Array of updated fields.
+	 *
+	 * @return void
 	 */
 	public function settings_notices( $object_id, $updated ) {
+
 		if ( $object_id !== $this->key || empty( $updated ) ) {
 			return;
 		}
-		add_settings_error( $this->key . '-notices', '', __( 'Settings updated.', 'constant-contact-forms' ), 'updated' );
+
+		add_settings_error( $this->key . '-notices', '', esc_html__( 'Settings updated.', 'constant-contact-forms' ), 'updated' );
 		settings_errors( $this->key . '-notices' );
 	}
 
@@ -268,6 +277,8 @@ class ConstantContact_Admin {
 	 *
 	 * @param string  $column  Column title.
 	 * @param integer $post_id Post id of post item.
+	 *
+	 * @return void
 	 */
 	public function custom_columns( $column, $post_id ) {
 
@@ -293,8 +304,8 @@ class ConstantContact_Admin {
 				if ( ! empty( $list ) ) {
 					printf(
 						'<a href="%s">%s</a>',
-						get_edit_post_link( $list->ID ),
-						get_the_title( $list->ID )
+						esc_url( get_edit_post_link( $list->ID ) ),
+						esc_html( get_the_title( $list->ID ) )
 					);
 				} else {
 					esc_html_e( 'No associated list', 'constant-contact-forms' );
@@ -329,6 +340,8 @@ class ConstantContact_Admin {
 	 *
 	 * @param string  $column  Column title.
 	 * @param integer $post_id Post id of post item.
+	 *
+	 * @return void
 	 */
 	public function custom_lists_columns( $column, $post_id ) {
 
@@ -345,7 +358,13 @@ class ConstantContact_Admin {
 		switch ( $column ) {
 			case 'ctct_total':
 				$list_info = constant_contact()->api->get_list( esc_attr( $table_list_id ) );
-				echo ( isset( $list_info->contact_count ) ) ? $list_info->contact_count : esc_html__( 'None available', 'constant-contact-forms' );
+
+				if ( isset( $list_info->contact_count ) ) {
+					echo esc_html( $list_info->contact_count );
+				} else {
+					esc_html_e( 'None available', 'constant-contact-forms' );
+				}
+
 				break;
 		}
 	}
@@ -360,18 +379,16 @@ class ConstantContact_Admin {
 	 */
 	public function add_social_links( $links ) {
 
-		// No code beyond this point can account for a non-array value for this passed parameter,
-		// so let's just return early.
 		if ( ! is_array( $links ) ) {
 			return $links;
 		}
 
 		// Get Twitter share link.
-		$twitter_cta = __( 'Check out the official WordPress plugin from @constantcontact :', 'constant-contact-forms' );
+		$twitter_cta = esc_html__( 'Check out the official WordPress plugin from @constantcontact:', 'constant-contact-forms' );
 
 		// Add about page.
-		$add_links[] = $this->get_admin_link( __( 'About', 'constant-contact-forms' ), 'about' );
-		$add_links[] = $this->get_admin_link( __( 'License', 'constant-contact-forms' ), 'license' );
+		$add_links[] = $this->get_admin_link( esc_html__( 'About', 'constant-contact-forms' ), 'about' );
+		$add_links[] = $this->get_admin_link( esc_html__( 'License', 'constant-contact-forms' ), 'license' );
 
 		/**
 		 * Filters the Constant Contact base url used for social links.
@@ -383,10 +400,10 @@ class ConstantContact_Admin {
 		$site_link = apply_filters( 'constant_contact_social_base_url', 'https://constantcontact.com/' );
 
 		// Start our social share links.
-		$social_share = __( 'Spread the word!', 'constant-contact-forms' );
-		$add_links[]  = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>';
+		$social_share = esc_html__( 'Spread the word!', 'constant-contact-forms' );
+		$add_links[]  = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>';
 		$add_links[]  = '<a title="' . $social_share . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" class="dashicons-before dashicons-twitter"></a>';
-		$add_links[]  = '<a title="' . $social_share . '" href="https://plus.google.com/share?url=' . urlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>';
+		$add_links[]  = '<a title="' . $social_share . '" href="https://plus.google.com/share?url=' . rawurlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>';
 
 		/**
 		 * Filters the final custom social links.
@@ -411,15 +428,15 @@ class ConstantContact_Admin {
 	 */
 	public function get_admin_link( $text, $link_slug ) {
 
-		// Resuse these.
 		static $link_template = '<a title="%1$s" href="%2$s" target="_blank">%1$s</a>';
-		static $link_args = [
+		static $link_args     = [
 			'post_type' => 'ctct_forms',
 			'page'      => '',
 		];
 
 		$link_args['page'] = 'ctct_options_' . $link_slug;
 		$link              = add_query_arg( $link_args, admin_url( 'edit.php' ) );
+
 		return sprintf( $link_template, $text, $link );
 	}
 
@@ -429,6 +446,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 *
 	 * @param array $extra_localizations An array of arrays of `[ $handle, $name, $data ]` passed to wp_localize_script.
+	 * @return void
 	 */
 	public function scripts( $extra_localizations = [] ) {
 
@@ -467,9 +485,9 @@ class ConstantContact_Admin {
 			 * @param array $value Array of strings to be used with javascript calls.
 			 */
 			apply_filters( 'constant_contact_localized_js_texts', [
-				'leavewarning' => __( 'You have unsaved changes.', 'constant-contact-forms' ),
-				'move_up'      => __( 'move up', 'constant-contact-forms' ),
-				'move_down'    => __( 'move down', 'constant-contact-forms' ),
+				'leavewarning' => esc_html__( 'You have unsaved changes.', 'constant-contact-forms' ),
+				'move_up'      => esc_html__( 'move up', 'constant-contact-forms' ),
+				'move_down'    => esc_html__( 'move down', 'constant-contact-forms' ),
 			] )
 		);
 		$privacy_settings = get_option( 'ctct_privacy_policy_status', '' );
@@ -478,11 +496,14 @@ class ConstantContact_Admin {
 			'ctct_form',
 			'ctct_settings',
 			[
-				'privacy_set' => ( empty( $privacy_settings ) ) ? 'no' : 'yes',
+				'privacy_set' => empty( $privacy_settings ) ? 'no' : 'yes',
 			]
 		);
 
-		if ( constant_contact_maybe_display_optin_notification() || ( isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ) ) {
+		if (
+			constant_contact_maybe_display_optin_notification() ||
+			'ctct_options_settings' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING )
+		) {
 			wp_enqueue_script( 'ctct_form' );
 		}
 
@@ -529,14 +550,22 @@ class ConstantContact_Admin {
 	 */
 	public function get_associated_list_by_id( $list_id ) {
 		global $wpdb;
-		$sql = "SELECT p.ID FROM $wpdb->posts as p INNER JOIN $wpdb->postmeta as pm on p.ID = pm.post_id WHERE pm.meta_key = '_ctct_list_id' AND pm.meta_value = %s";
 
 		$rs = $wpdb->get_results(
-			$wpdb->prepare( $sql, $list_id )
+			$wpdb->prepare(
+				"SELECT p.ID
+				FROM $wpdb->posts as p
+				INNER JOIN $wpdb->postmeta as pm on p.ID = pm.post_id
+				WHERE pm.meta_key = '_ctct_list_id'
+				AND pm.meta_value = %s",
+				$list_id
+			)
 		);
+
 		if ( ! empty( $rs ) ) {
 			return $rs[0];
 		}
+
 		return [];
 	}
 }

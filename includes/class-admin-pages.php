@@ -6,10 +6,14 @@
  * @subpackage AdminPages
  * @author Constant Contact
  * @since 1.0.1
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
  * Powers admin pages and activation message.
+ *
+ * @since 1.0.1
  */
 class ConstantContact_Admin_Pages {
 
@@ -237,7 +241,9 @@ class ConstantContact_Admin_Pages {
 				</div>
 
 				<div class="ctct-section section-try-us">
+					<?php // phpcs:disable WordPress.Security.EscapeOutput -- OK instance of echoing without escaping.  ?>
 					<div style="float: right;" class="ctct-video"><?php echo wp_oembed_get( 'https://www.youtube.com/watch?v=MhxtAlpZzJw', [ 'width' => 400 ] ); ?></div>
+					<?php // phpcs:enable WordPress.Security.EscapeOutput ?>
 					<h1 class="about-header">
 						<?php esc_html_e( 'Collecting email addresses with the plugin?', 'constant-contact-forms' ); ?>
 						<br /><?php esc_html_e( 'Turn those contacts into customers.', 'constant-contact-forms' ); ?>
@@ -279,7 +285,15 @@ class ConstantContact_Admin_Pages {
 						<input name="page" type="hidden" value="Sub3_Prospect" />
 
 					</form>
-					<small><?php printf( __( 'By submitting this form, you agree to receive periodic product announcements and account notifications from Constant Contact. Cancel these communications at any time by clicking the unsubscribe link in the footer of the actual email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %s', 'constant-contact-forms' ), '<a href="https://www.constantcontact.com">www.constantcontact.com</a>' ); ?></small>
+					<small>
+						<?php
+							printf(
+								/* Translators: Placholder is a link to Constant Contact homepage. */
+								esc_html__( 'By submitting this form, you agree to receive periodic product announcements and account notifications from Constant Contact. Cancel these communications at any time by clicking the unsubscribe link in the footer of the actual email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %1$s', 'constant-contact-forms' ),
+								'<a href="https://www.constantcontact.com">www.constantcontact.com</a>'
+							);
+						?>
+					</small>
 					<hr>
 				</div>
 
@@ -299,16 +313,17 @@ class ConstantContact_Admin_Pages {
 				<?php esc_attr_e( "Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact for WordPress plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they've left.", 'constant-contact-forms' ); ?>
 				</p>
 				<?php
-				// Include our license link if we have it.
-				$license_link = $this->plugin->admin->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
-				if ( $license_link ) { ?>
+					$license_link = $this->plugin->admin->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
+					if ( $license_link ) :
+				?>
 					<p class="c-text">
-						<?php
-						echo wp_kses_post( sprintf( __( 'This software is released under a modified %s.', 'constant-contact-forms' ), $license_link ) );
-						?>
-					</p>
 					<?php
-				} ?>
+						/* Translators: Placholder here is a link to the license. */
+						$license_message = sprintf( __( 'This software is released under a modified %s.', 'constant-contact-forms' ), $license_link );
+						echo wp_kses_post( $license_message );
+					?>
+					</p>
+				<?php endif; ?>
 				<h5>
 					<?php esc_attr_e( '*Direct Marketing Association 2013 Statistical Fact Book', 'constant-contact-forms' ); ?>
 				</h5>
@@ -358,7 +373,7 @@ class ConstantContact_Admin_Pages {
 				<div class="left-side">
 					<h1 class="license-header"><?php esc_attr_e( 'Constant Contact Forms - License', 'constant-contact-forms' ); ?></h1>
 					<div class="license-text">
-					<pre><?php echo $license_text; ?></pre>
+					<pre><?php echo wp_kses_post( $license_text ); ?></pre>
 					</div>
 				</div>
 			</div>
