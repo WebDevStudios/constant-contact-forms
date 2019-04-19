@@ -453,7 +453,7 @@ class ConstantContact_Admin {
 		global $pagenow;
 
 		// Check if we are in debug mode. allow.
-		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ? true : false;
+		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 
 		// Based on our debug mode, potentially add a min prefix.
 		$suffix = ( true === $debug ) ? '' : '.min';
