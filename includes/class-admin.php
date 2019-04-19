@@ -294,7 +294,7 @@ class ConstantContact_Admin {
 
 		switch ( $column ) {
 			case 'shortcodes':
-				echo esc_attr( '[ctct form="' . $post_id . '"]' );
+				echo esc_html( '[ctct form="' . $post_id . '" show_title="false"]' );
 				break;
 			case 'description':
 				echo wp_kses_post( wpautop( get_post_meta( $post_id, '_ctct_description', true ) ) );
