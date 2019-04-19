@@ -55,7 +55,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Parent plugin class.
@@ -63,7 +63,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $basename = null;
+	protected $basename;
 
 	/**
 	 * The parent menu page slug.
