@@ -83,9 +83,9 @@ if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact
 			];
 
 			$args[] = [
-				'name'        => __( 'Show Title', 'constant-contact-forms' ),
-				'id'          => '_ctct_show_title',
-				'type'        => 'checkbox',
+				'name' => __( 'Show Title', 'constant-contact-forms' ),
+				'id'   => '_ctct_show_title',
+				'type' => 'checkbox',
 			];
 
 			$fields = $args;
