@@ -12,6 +12,8 @@
 
 /**
  * Holds notification content for easy manipulation
+ *
+ * @since 1.0.0
  */
 class ConstantContact_Notification_Content {
 
@@ -38,49 +40,47 @@ class ConstantContact_Notification_Content {
 	 * Display our notification content for our activation message.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return string
 	 */
 	public static function activation() {
 		$auth_url = add_query_arg( [ 'rmc' => 'wp_admin_connect' ], constant_contact()->api->get_connect_link() );
 		$try_url  = add_query_arg( [ 'rmc' => 'wp_admin_try' ], constant_contact()->api->get_signup_link() );
 
 		ob_start();
+	?>
+			<p class="ctct-notice-intro">
+				<?php
+					printf(
 
-		?>
-		<p class="ctct-notice-intro">
-		<?php
-			printf(
+						// translators: Placeholder will hold "Constan Contact Forms" with <strong> tags.
+						esc_attr__( 'Get the most out of the %s plugin &mdash; use it with an active Constant Contact account.', 'constant-contact-forms' ),
+						'<strong>' . esc_attr__( 'Constant Contact Forms' ) . '</strong>'
+					);
+				?>
+			</p>
 
-				// translators: Placeholder will hold "Constan Contact Forms" with <strong> tags.
-				esc_attr__( 'Get the most out of the %s plugin &mdash; use it with an active Constant Contact account.', 'constant-contact-forms' ),
-				'<strong>' . esc_attr__( 'Constant Contact Forms' ) . '</strong>'
-			);
-		?>
-		</p>
-		<p>
-			<a href="<?php echo esc_url_raw( $auth_url ); ?>" class="ctct-notice-button button-primary">
-				<?php esc_attr_e( 'Connect your account', 'constant-contact-forms' ); ?>
-			</a>
-			<a href="<?php echo esc_url_raw( $try_url ); ?>" class="ctct-notice-button button-secondary">
-				<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>
-			</a>
+			<p>
+				<a href="<?php echo esc_url_raw( $auth_url ); ?>" class="ctct-notice-button button-primary">
+					<?php esc_attr_e( 'Connect your account', 'constant-contact-forms' ); ?>
+				</a>
+				<a href="<?php echo esc_url_raw( $try_url ); ?>" class="ctct-notice-button button-secondary">
+					<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>
+				</a>
 
-			<?php
-				$link_start = sprintf(
-					'<a href="%s">',
-					admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_about' )
-				);
-				printf(
-					/* translators: placeholders around "Learn More" hold html `<a>` tag. */
-					__( '%1$sLearn More%2$s about the power of email marketing.', 'constant-contact-forms' ),
-					$link_start,
-					'</a>'
-				)
-			?>
-		</p>
-		<?php
+				<?php
+					$link_start = sprintf( '<a href="%1$s">', admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_about' ) );
 
-		$output = ob_get_clean();
-		return $output;
+					printf(
+						/* Translators: Placeholders around "Learn More" hold html `<a>` tag. */
+						esc_html__( '%1$sLearn More%2$s about the power of email marketing.', 'constant-contact-forms' ),
+						sprintf( '<a href="%1$s">', esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_about' ) ) ),
+						'</a>'
+					)
+				?>
+			</p>
+	<?php
+		return ob_get_clean();
 	}
 
 	/**
@@ -91,7 +91,7 @@ class ConstantContact_Notification_Content {
 	 * @return string Notification text.
 	 */
 	public static function too_many_lists() {
-		return __( 'You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them.', 'constant-contact-forms' );
+		return esc_html__( 'You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them.', 'constant-contact-forms' );
 	}
 
 	/**
@@ -105,11 +105,12 @@ class ConstantContact_Notification_Content {
 		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
 
 		ob_start();
-		?>
+	?>
 
 		<div class="admin-notice-logo">
 			<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" />
 		</div>
+
 		<div class="admin-notice-message"><h4><?php esc_html_e( 'Constant Contact Forms for WordPress data tracking opt-in', 'constant-contact-forms' ); ?></h4>
 			<div><label><input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" /></label>
 			</div>
@@ -117,11 +118,9 @@ class ConstantContact_Notification_Content {
 				<?php _e( "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/>You can change this opt - in within the plugin's settings page at any time.", 'constant-contact-forms' ); ?>
 			</div>
 		</div>
-		<?php
-		$output = ob_get_clean();
-		// Be a good citizen, clean up after ourselves.
-		#remove_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
-		return $output;
+
+	<?php
+		return ob_get_clean();
 	}
 
 	/**
@@ -135,11 +134,12 @@ class ConstantContact_Notification_Content {
 		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
 
 		ob_start();
-		?>
+	?>
 
 		<div class="admin-notice-logo">
 			<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" />
 		</div>
+
 		<div class="admin-notice-message">
 			<div>
 				<?php _e( 'You have been successfully using <strong>Constant Contact Forms</strong>. Congratulations on capturing valuable site visitor information! Please consider leaving us a nice review. Reviews help fellow WordPress admins find our plugin and lets you provide us useful feedback.', 'constant-contact-forms' ); ?>
@@ -150,27 +150,9 @@ class ConstantContact_Notification_Content {
 				<a class="button button-secondary ctct-review-dismiss" href="#"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
 			</p>
 		</div>
-		<?php
-		$output = ob_get_clean();
-		// Be a good citizen, clean up after ourselves.
-		#remove_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
-		return $output;
-	}
 
-	/**
-	 * Sample update notification for updating to 1.0.1
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string notification text Text.
-	 */
-	public static function v1_0_1() {
-
-		// This is an example of outputting the text for a notification.
-		// The @codingStand.. is to suppress PHPCS warnings about commented code
-		// @codingStandardsIgnoreLine
-		// return __( 'Welcome to v1.0.1 of Constant Contact.', 'constant-contact-forms' );
-		return true;
+	<?php
+		return ob_get_clean();
 	}
 
 	/**
@@ -200,7 +182,14 @@ class ConstantContact_Notification_Content {
  * @return array Allowed HTML.
  */
 function constant_contact_filter_html_tags_for_optin( $allowedtags = [] ) {
-	$allowedtags['input'] = [ 'type' => true, 'id' => true, 'name' => true, 'value' => true ];
+
+	$allowedtags['input'] = [
+		'type'  => true,
+		'id'    => true,
+		'name'  => true,
+		'value' => true,
+	];
+
 	return $allowedtags;
 }
 
