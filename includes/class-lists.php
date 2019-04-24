@@ -260,7 +260,7 @@ class ConstantContact_Lists {
 		 */
 		$query = new WP_Query( apply_filters( 'constant_contact_lists_query_for_sync', [
 			'post_type'              => 'ctct_lists',
-			'posts_per_page'         => 150,
+			'posts_per_page'         => 100,
 			'no_found_rows'          => true,
 			'update_post_term_cache' => false,
 			'fields'                 => 'ids',
@@ -470,9 +470,9 @@ class ConstantContact_Lists {
 
 			// If we got a list id, let's update that list, other wise add it.
 			if ( ! empty( $list_id ) ) {
-				$return = $this->_update_list( $ctct_list, $list_id );
+				$return = $this->update_list( $ctct_list, $list_id );
 			} else {
-				$return = $this->_add_list( $ctct_list );
+				$return = $this->add_list( $ctct_list );
 			}
 		}
 
@@ -497,55 +497,61 @@ class ConstantContact_Lists {
 	 * @param object $ctct_list WP Post object.
 	 * @return bool
 	 */
-	public function _add_list( $ctct_list ) {
+	public function add_list( $ctct_list ) {
 
 		// Make sure we have all the data we want to use.
-		if (
-			isset( $ctct_list ) &&
-			$ctct_list &&
-			isset( $ctct_list->ID ) &&
-			$ctct_list->ID &&
-			isset( $ctct_list->post_title ) &&
-			$ctct_list->post_title
-		) {
+		if ( ! isset( $ctct_list ) || empty( $ctct_list ) ) {
+			return false;
+		}
 
-			// Make sure we get a unique list name for our list.
-			$name = $this->set_unique_list_name( $ctct_list->ID, $ctct_list->post_title );
+		if ( ! isset( $ctct_list ) || empty( $ctct_list ) ) {
+			return false;
+		}
 
-			// Push our list into the API. For the list ID, we append a string of random numbers
-			// to make sure its unique.
-			$list = constantcontact_api()->add_list(
-				[
-					'id'   => absint( $ctct_list->ID ) . wp_rand( 0, 1000 ),
-					'name' => esc_attr( $name ),
-				]
-			);
+		if ( ! isset( $ctct_list->ID ) || 0 >= $ctct_list->ID ) {
+			return false;
+		}
 
-			// Set placeholder return var.
-			$list_id = false;
+		if ( ! isset( $ctct_list->post_title ) || empty( $ctct_list->post_title ) ) {
+			return false;
+		}
 
-			// If we got a list ID back, make sure we add that to post meta.
-			if ( isset( $list->id ) && $list->id ) {
-				add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list->id ) );
-				$list_id = $list->id;
-			}
+		// Make sure we get a unique list name for our list.
+		$name = $this->set_unique_list_name( $ctct_list->ID, $ctct_list->post_title );
 
-			/**
-			 * Hook when a ctct list is saved.
-			 *
-			 * @since 1.0.0
-			 *
-			 * @param integer $post_id CPT post id.
-			 * @param integer $list_id Ctct list id.
-			 * @param array   $list    Ctct returned list data.
-			 */
-			do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
+		// Push our list into the API. For the list ID, we append a string of random numbers
+		// to make sure its unique.
+		$list = constantcontact_api()->add_list(
+			[
+				'id'   => absint( $ctct_list->ID ) . wp_rand( 0, 1000 ),
+				'name' => esc_attr( $name ),
+			]
+		);
 
-			// check to make sure our api request was good.
-			if ( is_object( $list ) && isset( $list->id ) ) {
-				return true;
-			}
-		} // End if.
+		// Set placeholder return var.
+		$list_id = false;
+
+		// If we got a list ID back, make sure we add that to post meta.
+		if ( isset( $list->id ) && $list->id ) {
+			add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list->id ) );
+			$list_id = $list->id;
+		}
+
+		/**
+		 * Hook when a ctct list is saved.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param integer $post_id CPT post id.
+		 * @param integer $list_id Ctct list id.
+		 * @param array   $list    Ctct returned list data.
+		 */
+		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
+
+		// check to make sure our api request was good.
+		if ( is_object( $list ) && isset( $list->id ) ) {
+			return true;
+		}
 
 		return false;
 	}
@@ -678,7 +684,7 @@ class ConstantContact_Lists {
 
 		// If we're moving something out of the trash, re-run our add list functionality.
 		if ( 'trash' === $old_status ) {
-			return $this->_add_list( $post );
+			return $this->add_list( $post );
 		}
 
 		return true;
@@ -693,37 +699,38 @@ class ConstantContact_Lists {
 	 * @param integer $list_id Current list id.
 	 * @return bool
 	 */
-	public function _update_list( $ctct_list, $list_id ) {
+	public function update_list( $ctct_list, $list_id ) {
 
 		// Make sure we have all the data we want to use.
-		if (
-			isset( $ctct_list ) &&
-			isset( $ctct_list->ID ) &&
-			isset( $ctct_list->post_title ) &&
-			! empty( $list_id )
-		) {
-			// Update the list via the API.
-			$list = constantcontact_api()->update_list(
-				[
-					'id'   => esc_attr( $list_id ),
-					'name' => esc_attr( $ctct_list->post_title ),
-				]
-			);
+		if ( ! isset( $ctct_list ) || 0 >= $ctct_list->ID || empty( $list_id ) ) {
+			return false;
+		}
 
-			/**
-			 * Hook when a ctct list is updated.
-			 *
-			 * @since 1.0.0
-			 * @param integer $post_id CPT post id.
-			 * @param integer $list_id Ctct list id.
-			 * @param array   $list    Ctct returned list data.
-			 */
-			do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
+		if ( ! isset( $post_title ) ) {
+			return false;
+		}
 
-			// Check to make sure our api request was good.
-			if ( is_object( $list ) && isset( $list->id ) ) {
-				return true;
-			}
+		// Update the list via the API.
+		$list = constantcontact_api()->update_list(
+			[
+				'id'   => esc_attr( $list_id ),
+				'name' => esc_attr( $ctct_list->post_title ),
+			]
+		);
+
+		/**
+		 * Hook when a ctct list is updated.
+		 *
+		 * @since 1.0.0
+		 * @param integer $post_id CPT post id.
+		 * @param integer $list_id Ctct list id.
+		 * @param array   $list    Ctct returned list data.
+		 */
+		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
+
+		// Check to make sure our api request was good.
+		if ( is_object( $list ) && isset( $list->id ) ) {
+			return true;
 		}
 
 		return false;
