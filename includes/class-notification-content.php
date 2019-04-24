@@ -99,7 +99,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @since 1.2.0
 	 *
-	 * @return string Notification text.
+	 * @return string
 	 */
 	public static function optin_admin_notice() {
 		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
@@ -111,11 +111,21 @@ class ConstantContact_Notification_Content {
 			<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" />
 		</div>
 
-		<div class="admin-notice-message"><h4><?php esc_html_e( 'Constant Contact Forms for WordPress data tracking opt-in', 'constant-contact-forms' ); ?></h4>
-			<div><label><input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" /></label>
+		<div class="admin-notice-message">
+			<h4><?php esc_html_e( 'Constant Contact Forms for WordPress data tracking opt-in', 'constant-contact-forms' ); ?></h4>
+			<div>
+				<label>
+					<input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" />
+				</label>
 			</div>
 			<div>
-				<?php _e( "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/>You can change this opt - in within the plugin's settings page at any time.", 'constant-contact-forms' ); ?>
+				<?php
+					printf(
+						/* Translators: Placeholder here is a `<br />` HTML tag for formatting. */
+						esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. %1$s You can change this opt-in within the plugin\'s settings page at any time.', 'constant-contact-forms' ),
+						'<br />'
+					);
+				?>
 			</div>
 		</div>
 
@@ -142,8 +152,14 @@ class ConstantContact_Notification_Content {
 
 		<div class="admin-notice-message">
 			<div>
-				<?php _e( 'You have been successfully using <strong>Constant Contact Forms</strong>. Congratulations on capturing valuable site visitor information! Please consider leaving us a nice review. Reviews help fellow WordPress admins find our plugin and lets you provide us useful feedback.', 'constant-contact-forms' ); ?>
-
+				<?php
+					printf(
+						/* Translators: Placeholders here are for `<strong>` HTML tags. */
+						esc_html__( 'You have been successfully using %1$sConstant Contact Forms%2$s to capture valuable site visitor information! Please consider leaving us a nice review. Reviews help fellow WordPress admins find our plugin and lets you provide us useful feedback.', 'constant-contact-forms' ),
+						'<strong>',
+						'</strong>'
+					);
+				?>
 			</div>
 			<p>
 				<a class="button button-secondary ctct-review" target="_blank" href="https://wordpress.org/support/plugin/constant-contact-forms/reviews/"><?php esc_html_e( 'Leave a review', 'constant-contact-forms' ); ?></a>
@@ -163,13 +179,17 @@ class ConstantContact_Notification_Content {
 	 * @return string
 	 */
 	public static function recaptcha() {
-		ob_start();
-		printf(
-			// translators: Placeholder iwll hold url to Constant Contact Forms settings page.
-			__( 'Protect yourself from Spam &amp; Bots: New <strong>v1.2.4 Constant Contact Forms for WordPress</strong> now supports Google reCAPTCHA. Learn more and implement via <a href="%s">Settings</a>', 'constant-contact-forms' ),
-			esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings' ) )
+
+		$settings_page_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings' );
+
+		return sprintf(
+			/* Translators: Placeholders will hold HTML `<strong>` tags and `<a>` tags linking to Constant Contact Forms settings page. */
+			esc_html__( '%1$sProtect yourself from spam and bots:%2$s Constant Contact Forms for WordPress now supports Google reCAPTCHA. %3$sSet up reCAPTCHA%4$s in the plugin settings.', 'constant-contact-forms' ),
+			'<strong>',
+			'</strong>',
+			sprintf( '<a href="%1$s">', esc_url( $settings_page_url ) ),
+			'</a>'
 		);
-		return ob_get_clean();
 	}
 }
 
@@ -179,7 +199,7 @@ class ConstantContact_Notification_Content {
  * @since 1.2.0
  *
  * @param array $allowedtags Allowed HTML.
- * @return array Allowed HTML.
+ * @return array
  */
 function constant_contact_filter_html_tags_for_optin( $allowedtags = [] ) {
 
@@ -208,8 +228,10 @@ function constant_contact_add_optin_notification( $notifications = [] ) {
 		'callback'   => [ 'ConstantContact_Notification_Content', 'optin_admin_notice' ],
 		'require_cb' => 'constant_contact_maybe_display_optin_notification',
 	];
+
 	return $notifications;
 }
+
 add_filter( 'constant_contact_notifications', 'constant_contact_add_optin_notification' );
 
 /**
@@ -230,6 +252,7 @@ function constant_contact_add_review_notification( $notifications = [] ) {
 
 	return $notifications;
 }
+
 add_filter( 'constant_contact_notifications', 'constant_contact_add_review_notification' );
 
 /**
@@ -250,4 +273,5 @@ function constant_contact_add_recaptcha_notification( $notifications = [] ) {
 
 	return $notifications;
 }
+
 add_filter( 'constant_contact_notifications', 'constant_contact_add_recaptcha_notification' );

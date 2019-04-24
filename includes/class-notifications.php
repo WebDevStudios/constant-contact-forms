@@ -26,6 +26,33 @@ class ConstantContact_Notifications {
 	protected $plugin = null;
 
 	/**
+	 * Option name where dismissed notices are logged.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var string
+	 */
+	public static $dismissed_notices_option = 'ctct_notices_dismissed';
+
+	/**
+	 * Option name where the "Leave a Review" notice is dismissed.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var string
+	 */
+	public static $review_dismissed_option = 'ctct-review-dismissed';
+
+	/**
+	 * Option name for when the "Leave a Review" button has been clicked (we assume the user has left a review).
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var string
+	 */
+	public static $reviewed_option = 'ctct-reviewed';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -269,7 +296,7 @@ class ConstantContact_Notifications {
 	 * @return array States of dismissial notices.
 	 */
 	public function get_dismissed_options() {
-		return get_option( 'ctct_notices_dismissed' );
+		return get_option( self::$dismissed_notices_option );
 	}
 
 	/**
@@ -281,7 +308,7 @@ class ConstantContact_Notifications {
 	 * @return bool If updated.
 	 */
 	public function save_dismissed_options( $options ) {
-		return update_option( 'ctct_notices_dismissed', $options, true );
+		return update_option( self::$dismissed_notices_option, $options, true );
 	}
 
 	/**
