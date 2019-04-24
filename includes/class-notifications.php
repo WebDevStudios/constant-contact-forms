@@ -152,22 +152,18 @@ class ConstantContact_Notifications {
 	 */
 	public function maybe_show_notification( $notif ) {
 
-		// If our notification isn't an array, skip it.
 		if ( ! is_array( $notif ) ) {
 			return false;
 		}
 
-		// Save our notification data to a helper var.
 		$notif_id   = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
 		$callback   = isset( $notif['callback'] ) ? $notif['callback'] : false;
 		$require_cb = isset( $notif['require_cb'] ) ? $notif['require_cb'] : false;
 
-		// If we don't have an ID or callback set, bail.
 		if ( ! $notif_id || ! $callback ) {
 			return false;
 		}
 
-		// Don't show if it was dismissed.
 		if ( $this->was_notification_dismissed( $notif_id ) ) {
 			return false;
 		}
@@ -175,21 +171,17 @@ class ConstantContact_Notifications {
 		// If we don have requirements set up for a notif, then check them.
 		if ( $require_cb ) {
 
-			// Check to make sure the requirements defined for a notification evalulate to true.
 			$requirements_passed = ( $this->check_requirements_callback_for_notif( $require_cb ) );
 
-			// If we didnt' pass, then return.
 			if ( ! $requirements_passed ) {
 				return false;
 			}
 		}
 
-		// If we cant call our notification callback, bail.
 		if ( ! is_callable( $callback ) ) {
 			return false;
 		}
 
-		// Get our notifictaion content from our callback.
 		$notif_content = call_user_func( $callback );
 
 		$this->show_notice( $notif_id, $notif_content );
@@ -400,13 +392,12 @@ class ConstantContact_Notifications {
 		// Show our styles.
 		$this->do_styles();
 
-		// Wrap our content in our markup.
-		?>
+	?>
 		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
 			<?php echo wp_kses_post( $content ); ?>
 			<?php constant_contact()->notifications->do_dismiss_link( esc_attr( $key ) ); ?>
 		</div>
-		<?php
+	<?php
 	}
 
 	/**
@@ -419,7 +410,6 @@ class ConstantContact_Notifications {
 		// Set our flag about notice being shown, so we don't re-enqueue styles.
 		static $have_styles = false;
 
-		// If we haven't shown styles yet, enqueue em.
 		if ( ! $have_styles ) {
 
 			wp_enqueue_style( 'constant-contact-forms-admin' );
@@ -437,11 +427,11 @@ class ConstantContact_Notifications {
 	 */
 	public function do_dismiss_link( $notif_id ) {
 
-		?>
+	?>
 		<a class="ctct-notice-dismiss notice-dismiss" href="<?php echo esc_url_raw( $this->get_activation_dismiss_url( esc_attr( $notif_id ) ) ); ?>">
 			<span class="screen-reader-text"><?php esc_attr_e( 'Dismiss this notice.', 'constant-contact-forms' ); ?></span>
 		</a>
-		<?php
+	<?php
 	}
 
 	/**

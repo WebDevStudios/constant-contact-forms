@@ -135,6 +135,12 @@ function constant_contact_maybe_display_review_notification() {
 		return false;
 	}
 
+	$activated_time = get_option( Constant_Contact::$activated_date_option );
+
+	if ( ! $activated_time || time() < strtotime( '+14 days', $activated_time ) ) {
+		return false;
+	}
+
 	$dismissed = get_option( ConstantContact_Notifications::$review_dismissed_option, [] );
 
 	if ( isset( $dismissed['count'] ) && '1' === $dismissed['count'] ) {

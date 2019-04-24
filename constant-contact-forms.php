@@ -339,6 +339,15 @@ class Constant_Contact {
 	private $gutenberg;
 
 	/**
+	 * Option name for where we store the timestamp of when the plugin was activated.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var string
+	 */
+	public static $activated_date_option = 'ctct_plugin_activated_date';
+
+	/**
 	 * License file.
 	 *
 	 * @since 1.0.1
@@ -371,7 +380,7 @@ class Constant_Contact {
 	protected function __construct() {
 
 		// Set up our plugin name.
-		$this->plugin_name = __( 'Constant Contact', 'constant-contact-forms' );
+		$this->plugin_name = esc_html__( 'Constant Contact', 'constant-contact-forms' );
 
 		// Set up some helper properties.
 		$this->basename        = plugin_basename( __FILE__ );
@@ -472,12 +481,12 @@ class Constant_Contact {
 		// Allow shortcodes in widgets for our plugin.
 		add_filter( 'widget_text', 'do_shortcode' );
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 1 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_front_assets' ), 1 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_assets' ], 1 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'register_front_assets' ], 1 );
 
 		if ( is_admin() ) {
-			add_action( 'wp_ajax_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
-			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
+			add_action( 'wp_ajax_ctct_dismiss_first_modal', [ $this, 'ajax_save_clear_first_form' ] );
+			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', [ $this, 'ajax_save_clear_first_form' ] );
 		}
 
 	}
@@ -487,24 +496,27 @@ class Constant_Contact {
 	 *
 	 * @since 1.0.0
 	 */
-	public function activate() { }
+	public function activate() {
+		update_option( self::$activated_date_option, time() );
+	}
 
 	/**
 	 * Deactivate the plugin.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function deactivate() {
 
-		// Should be nothing to delete for non-met users, since it never ran in the first place.
-		if ( $this->meets_php_requirements() ) {
-			// If we deactivate the plugin, remove our saved dismiss state for the activation
-			// admin notice that pops up, so we can re-prompt the user to connect.
-			$this->notifications->delete_dismissed_notification( 'activation' );
-
-			// Remove our saved transients for our lists, so we force a refresh on re-connection.
-			delete_transient( 'ctct_lists' );
+		if ( ! $this->meets_php_requirements() ) {
+			return;
 		}
+
+		$this->notifications->delete_dismissed_notification( 'activation' );
+
+		delete_transient( 'ctct_lists' );
+		delete_option( self::$activated_date_option );
 	}
 
 	/**
@@ -524,7 +536,6 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		// Load our textdomain.
 		load_plugin_textdomain( 'constant-contact-forms', false, dirname( $this->basename ) . '/languages/' );
 	}
 
@@ -718,7 +729,7 @@ class Constant_Contact {
 			return wp_remote_retrieve_body( $license_content );
 		}
 
-		return __( 'Error loading license.', 'constant-contact-forms' );
+		return esc_html__( 'Error loading license.', 'constant-contact-forms' );
 	}
 
 	/**
@@ -770,7 +781,7 @@ class Constant_Contact {
 		wp_register_style(
 			'constant-contact-forms-admin',
 			$this->url() . 'assets/css/admin-style.css',
-			array(),
+			[],
 			self::VERSION
 		);
 	}
@@ -784,7 +795,7 @@ class Constant_Contact {
 		wp_register_style(
 			'ctct_form_styles',
 			$this->url() . 'assets/css/style.css',
-			array(),
+			[],
 			self::VERSION
 		);
 	}
@@ -805,7 +816,7 @@ class Constant_Contact {
 			return false;
 		}
 
-		$ctct_types = array( 'ctct_forms', 'ctct_lists' );
+		$ctct_types = [ 'ctct_forms', 'ctct_lists' ];
 		$post_type  = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
 		$post       = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 
@@ -820,10 +831,10 @@ class Constant_Contact {
 		return false;
 	}
 }
-add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
+add_action( 'plugins_loaded', [ constant_contact(), 'hooks' ] );
 
-register_activation_hook( __FILE__, array( constant_contact(), 'activate' ) );
-register_deactivation_hook( __FILE__, array( constant_contact(), 'deactivate' ) );
+register_activation_hook( __FILE__, [ constant_contact(), 'activate' ] );
+register_deactivation_hook( __FILE__, [ constant_contact(), 'deactivate' ] );
 
 /**
  * Grab the Constant_Contact object and return it.
