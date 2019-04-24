@@ -224,9 +224,9 @@ class ConstantContact_Admin_Pages {
 			<div class="hide-overflow">
 				<div class="ctct-section section-about">
 					<span class="plugin-badge">
-						<img alt="" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/icon.jpg' ); ?>">
+						<img alt="<?php echo esc_attr_x( 'Constant Contact Logo', 'img alt text', 'constant-contact-forms' ); ?>" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/icon.jpg' ); ?>">
 					</span>
-					<h1 class="about-header"><?php esc_attr_e( 'Constant Contact Forms', 'constant-contact-forms' ); ?></h1>
+					<h1 class="about-header"><?php esc_html_e( 'Constant Contact Forms', 'constant-contact-forms' ); ?></h1>
 					<p>
 						<?php echo wp_kses_post( __( "This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account.", 'constant-contact-forms' ) ); ?>
 					</p>
@@ -301,6 +301,7 @@ class ConstantContact_Admin_Pages {
 			</div>
 			<div class="headline-feature">
 				<div class="featured-image">
+					<?php // Empty alt tag OK; decorative image. ?>
 					<img alt="" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/coffee-hero.jpg' ); ?>">
 					<p class="featured-title c-text">
 						<?php esc_attr_e( 'Powerful Email Marketing, Made Simple.', 'constant-contact-forms' ); ?>
@@ -336,7 +337,7 @@ class ConstantContact_Admin_Pages {
 						<h3><?php esc_html_e( 'Easily Add Forms', 'constant-contact-forms' ); ?></h3>
 						<img
 							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/add-forms.png' ); ?>"
-							alt="<?php echo esc_attr_x( 'add forms screenshot', 'add forms alt text', 'constant-contact-forms' ); ?>"
+							alt="<?php echo esc_attr_x( 'Example embedded Constant Contact form', 'img alt text', 'constant-contact-forms' ); ?>"
 						/>
 						<p>
 							<?php esc_html_e( 'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. ', 'constant-contact-forms' ); ?>
@@ -348,7 +349,7 @@ class ConstantContact_Admin_Pages {
 						<h3><?php esc_html_e( 'Stay Connected With Your WordPress Visitors', 'constant-contact-forms' ); ?></h3>
 						<img
 							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/stay-connected.png' ); ?>"
-							alt="<?php echo esc_attr_x( 'stay connected screenshot', 'stay connected alt text', 'constant-contact-forms' ); ?>"
+							alt="<?php echo esc_attr_x( 'Constant Contact list management UI', 'img alt text', 'constant-contact-forms' ); ?>"
 						/>
 						<p>
 							<?php esc_html_e( 'Form completions from site visitors are conveniently added to your Constant Contact email list.', 'constant-contact-forms' ); ?>
