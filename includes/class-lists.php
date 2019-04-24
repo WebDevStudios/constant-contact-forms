@@ -6,6 +6,8 @@
  * @subpackage Lists
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 use Ctct\ConstantContact;
@@ -13,6 +15,8 @@ use Ctct\Exceptions\CtctException;
 
 /**
  * Powers Lists functionality, creation, deletion, syncing, and more.
+ *
+ * @since 1.0.0
  */
 class ConstantContact_Lists {
 
@@ -101,7 +105,8 @@ class ConstantContact_Lists {
 	 * @param string $escaped_value     Something.
 	 * @param int    $object_id         Current object ID.
 	 * @param string $object_type       Current object type.
-	 * @param string $field_type_object Field type objec.
+	 * @param string $field_type_object Field type object.
+	 * @return void
 	 */
 	public function list_info_metabox( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
 
@@ -185,6 +190,7 @@ class ConstantContact_Lists {
 	 * @since 1.0.0
 	 *
 	 * @param bool $force Whether or not to force syncing.
+	 * @return void
 	 */
 	public function sync_lists( $force = false ) {
 
@@ -233,13 +239,15 @@ class ConstantContact_Lists {
 			return;
 		}
 
+		$post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+
 		// Make sure we're on the edit page.
-		if ( ! isset( $_GET['post_type'] ) ) {
+		if ( ! isset( $post_type ) ) {
 			return;
 		}
 
 		// Make sure we're on our cpt page.
-		if ( 'ctct_lists' !== esc_attr( sanitize_text_field( wp_unslash( $_GET['post_type'] ) ) ) ) {
+		if ( 'ctct_lists' !== esc_attr( sanitize_text_field( wp_unslash( $post_type ) ) ) ) {
 			return;
 		}
 
@@ -582,7 +590,7 @@ class ConstantContact_Lists {
 				$title = str_replace( ' (' . $increment . ')', '', $title );
 			}
 
-			$increment = $increment + 1;
+			$increment = $increment++;
 			$title     = $title . ' (' . $increment . ')';
 		}
 
@@ -793,6 +801,8 @@ class ConstantContact_Lists {
 	 * Maybe show some information about duplicate list errors.
 	 *
 	 * @since 1.4.0
+	 *
+	 * @return void
 	 */
 	public function maybe_display_duplicate_list_error() {
 		// Make sure we're on the correct page.
@@ -871,16 +881,23 @@ class ConstantContact_Lists {
 	 * Watch for our request to re-sync lists, and do it.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function check_for_list_sync_request() {
 
 		// Only run if we have our request, and we are capable of it.
-		if (
-			isset( $_GET['ctct_resyncing'] ) && // Input var okay.
-			sanitize_text_field( wp_unslash( $_GET['ctct_resyncing'] ) ) && // Input var okay.
-			is_admin() &&
-			current_user_can( 'manage_options' )
-		) {
+		$ctct_resyncing = filter_input( INPUT_GET, 'ctct_resyncing', FILTER_SANITIZE_STRING );
+
+		if ( ! isset( $ctct_resyncing ) || ! is_admin() ) {
+			return;
+		}
+
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		if ( sanitize_text_field( wp_unslash( $ctct_resyncing ) ) ) {
 			// Force our last updated time to be in the past, so we trigger the auto-refresh.
 			update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) - HOUR_IN_SECONDS );
 
