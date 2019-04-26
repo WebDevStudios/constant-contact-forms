@@ -21,12 +21,15 @@ class ConstantContact_Builder_Fields {
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var object
 	 */
 	protected $plugin = null;
 
 	/**
 	 * Prefix for our meta fields/boxes.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -91,6 +94,11 @@ class ConstantContact_Builder_Fields {
 
 	}
 
+	/**
+	 * Adds CTCT lists to the metabox.
+	 *
+	 * @since 1.0.0
+	 */
 	public function constant_contact_list_metabox() {
 
 		if ( constant_contact()->api->is_connected() ) {
@@ -129,9 +137,6 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function description_metabox() {
 
-		/**
-		 * Initiate the $description_metabox.
-		 */
 		$description_metabox = new_cmb2_box( [
 			'id'           => 'ctct_0_description_metabox',
 			'title'        => __( 'Form Description', 'constant-contact-forms' ),
@@ -521,9 +526,6 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function fields_metabox() {
 
-		/**
-		 * Initiate the $fields_metabox.
-		 */
 		$fields_metabox = new_cmb2_box( [
 			'id'           => 'ctct_2_fields_metabox',
 			'title'        => __( 'Form Fields', 'constant-contact-forms' ),
