@@ -1,5 +1,7 @@
 <?php
 /**
+ * Main class for dealing with our form builder functionality.
+ *
  * @package ConstantContact
  * @subpackage Builder
  * @author Constant Contact
@@ -19,12 +21,15 @@ class ConstantContact_Builder {
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var object
 	 */
 	protected $plugin = null;
 
 	/**
 	 * Prefix for our meta fields/boxes.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @var string
 	 */
@@ -59,13 +64,8 @@ class ConstantContact_Builder {
 	public function hooks() {
 		global $pagenow;
 
-		/** This filter is documented in includes/class-buider-fields.php */
-		$form_builder_pages = apply_filters(
-			'constant_contact_form_builder_pages',
-			[ 'post-new.php', 'post.php' ]
-		);
+		$form_builder_pages = apply_filters( 'constant_contact_form_builder_pages', [ 'post-new.php', 'post.php' ] );
 
-		// Only load the cmb2 fields on our specified pages.
 		if ( in_array( $pagenow, $form_builder_pages, true ) ) {
 
 			add_action( 'cmb2_after_post_form_ctct_0_description_metabox', [ $this, 'add_form_css' ] );
@@ -86,25 +86,19 @@ class ConstantContact_Builder {
 	 */
 	public function get_lists() {
 
-		// Grab our lists.
 		$lists     = constant_contact()->lists->get_lists();
 		$get_lists = [];
 
-		// Data verification.
 		if ( $lists && is_array( $lists ) ) {
 
-			// Loop though our lists.
 			foreach ( $lists as $list => $value ) {
 
-				// Make sure we have something to use as a key and a value,
-				// and that we don't overwrite our 'new' value we set before.
 				if ( ! empty( $list ) && ! empty( $value ) && 'new' !== $list ) {
 					$get_lists[ $list ] = $value;
 				}
 			}
 		}
 
-		// Return those lists.
 		return $get_lists;
 	}
 
@@ -114,8 +108,6 @@ class ConstantContact_Builder {
 	 * @since 1.0.0
 	 */
 	public function add_form_css() {
-
-		// Let's style this thing.
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 	}
 
@@ -125,16 +117,15 @@ class ConstantContact_Builder {
 	 * @since 1.0.0
 	 *
 	 * @param string $field_id CMB2 Field id.
-	 * @param object $updated
-	 * @param string $action
-	 * @param object $cmbobj   CMB2 field object
+	 * @param object $updated CMB2 object representation of the updated data.
+	 * @param string $action CMB2 action calling this.
+	 * @param object $cmbobj CMB2 field object.
+	 * @return void
 	 */
 	public function override_save( $field_id, $updated, $action, $cmbobj ) {
 
-		// Hey $post nice to see you.
 		global $post;
 
-		// Do all our existence checks.
 		if (
 			isset( $post->ID ) &&
 			$post->ID &&
@@ -147,7 +138,6 @@ class ConstantContact_Builder {
 			is_array( $cmbobj->data_to_save['custom_fields_group'] )
 		) {
 
-			// Save post meta with a random key that we can verify later.
 			update_post_meta( $post->ID, '_ctct_verify_key', wp_generate_password( 25, false ) );
 
 			// We want to set our meta to false, as we'll want to loop through
@@ -155,17 +145,12 @@ class ConstantContact_Builder {
 			// of the time.
 			update_post_meta( $post->ID, '_ctct_has_email_field', 'false' );
 
-			// Loop through all of our custom fields group fields.
 			foreach ( $cmbobj->data_to_save['custom_fields_group'] as $data ) {
 
 				// If we have a an email field set in our map select.
 				if ( ( isset( $data['_ctct_map_select'] ) && 'email' === $data['_ctct_map_select'] ) || ! isset( $data['_ctct_map_select'] ) ) {
-
-					// Update our post meta to mark that we have email.
 					update_post_meta( $post->ID, '_ctct_has_email_field', 'true' );
-
-					// Bail out, more than one email fields are fine, but we know we have at least one.
-					break;
+					return;
 				}
 			}
 		}
@@ -180,7 +165,6 @@ class ConstantContact_Builder {
 
 		global $post;
 
-		// Data verification.
 		if (
 			$post &&
 			isset( $post->ID ) &&
@@ -189,50 +173,59 @@ class ConstantContact_Builder {
 			isset( $post->post_status ) &&
 			'auto-draft' !== $post->post_status
 		) {
-
-			// Check to see if we have an email set on our field.
 			$has_email = get_post_meta( $post->ID, '_ctct_has_email_field', true );
 
-			// If we don't have an email, then display our admin notice to the user.
-			if ( ! $has_email || 'false' === $has_email ) {
-				echo '<div id="ctct-no-email-error" class="notice notice-error ctct-no-email-error"><p>';
-				esc_attr_e( 'Please add an email field to continue.', 'constant-contact-forms' );
-				echo '</p></div>';
-			}
+			if ( ! $has_email || 'false' === $has_email ) :
+				?>
+					<div id="ctct-no-email-error" class="notice notice-error ctct-no-email-error">
+						<p><?php esc_html_e( 'Please add an email field to continue.', 'constant-contact-forms' ); ?></p>
+					</div>
+				<?php
+			endif;
 
 			$custom_fields          = get_post_meta( $post->ID, 'custom_fields_group', true );
 			$custom_textareas_count = (int) 0;
+
 			if ( ! empty( $custom_fields ) && is_array( $custom_fields ) ) {
+
 				foreach ( $custom_fields as $field ) {
 					if ( 'custom_text_area' === $field['_ctct_map_select'] ) {
 						$custom_textareas_count++;
 					}
 				}
-				if ( $custom_textareas_count > 1 && constant_contact()->api->is_connected() ) {
-					echo '<div id="ctct-too-many-textareas" class="notice notice-warning"><p>';
-					// @todo address the lack of escaping.
-					_e( 'You have multiple <strong>Custom Text Area</strong> fields in this form. <strong>Only the first field</strong> will be sent to Constant Contact. <a id="ctct-open-textarea-info" href="#">Learn More ></a>', 'constant-contact-forms' );
-					echo '</p></div>';
 
-					$this->output_custom_textarea_modal();
-				}
+				if ( $custom_textareas_count > 1 && constant_contact()->api->is_connected() ) :
+					?>
+						<div id="ctct-too-many-textareas" class="notice notice-warning">
+							<p>
+								<?php
+									printf(
+										/* Translators: Placeholders here are for `<strong>` and `<a>` HTML tags. */
+										esc_html__( 'You have multiple %1$sCustom Text Area%2$s fields in this form. %1$sOnly the first field%2$s will be sent to Constant Contact. %3$sLearn More%4$s', 'constant-contact-forms' ),
+										'<strong>',
+										'</strong>',
+										'<a id="ctct-open-textarea-info" href="#">',
+										'</a>'
+									);
+								?>
+							</p>
+						</div>
+					<?php
+						$this->output_custom_textarea_modal();
+				endif;
 			}
 
-			// Check for our query arg.
-			if ( isset( $_GET['ctct_not_connected'] ) && sanitize_text_field( wp_unslash( $_GET['ctct_not_connected'] ) ) ) { // Input var okay.
-
-				// Double check that we're not connected.
+			// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
+			if ( isset( $_GET['ctct_not_connected'] ) && sanitize_text_field( wp_unslash( $_GET['ctct_not_connected'] ) ) ) {
 				if ( ! constant_contact()->api->is_connected() ) {
 
-					// See if we dismissed the modal, if not, show it.
 					if ( ! get_option( 'ctct_first_form_modal_dismissed', false ) ) {
-
-						// Show our modal.
 						$this->output_not_connected_modal( $post->ID );
 					}
 				}
 			}
-		} // End if().
+			// phpcs:enable WordPress.Security.NonceVerification
+		}
 	}
 
 	/**
@@ -306,81 +299,84 @@ class ConstantContact_Builder {
 	 * @param int $post_id Post ID.
 	 */
 	public function output_not_connected_modal( $post_id = 0 ) {
+		?>
+			<div class="ctct-modal ctct-modal-open">
 
-		// Output markup of non connected modal here. ?>
-		<div class="ctct-modal ctct-modal-open">
-
-			<?php // Modal header. ?>
-			<div class="ctct-modal-dialog" role="document">
-				<div class="ctct-modal-content">
-					<div class="ctct-modal-header">
-						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
-						<h2><?php esc_html_e( 'Your first form is ready!', 'constant-contact-forms' ); ?></h2>
-						<p>
-							<?php
-							printf(
-								// translators: placeholder will hold an example shortcode for a newly created form.
-								esc_html__( 'Paste shortcode %s into a post or page editor.', 'constant-contact-forms' ),
-								'<span class="displayed-shortcode">' . constant_contact_display_shortcode( $post_id ) . '</span>'
-							); ?>
-						</p>
-					</div>
-					<div class="ctct-modal-body">
-						<p class="now-what">
-							<?php esc_html_e( 'Now, how would you like to manage the information you collect?', 'constant-contact-forms' ); ?>
-						</p>
-						<div class="ctct-modal-left">
-
-							<?php // Empty alt tag OK; decorative image. ?>
-							<img
-								class="ctct-modal-flare"
-								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail.png' ); ?>"
-								alt=""
-							/>
-							<h3><?php esc_attr_e( 'Try email marketing.', 'constant-contact-forms' ); ?></h3>
+				<div class="ctct-modal-dialog" role="document">
+					<div class="ctct-modal-content">
+						<div class="ctct-modal-header">
+							<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
+							<h2><?php esc_html_e( 'Your first form is ready!', 'constant-contact-forms' ); ?></h2>
 							<p>
-								<?php esc_attr_e( 'Import everything into Constant Contact so I can see what email marketing can do for me.', 'constant-contact-forms' ); ?>
+								<?php
+									printf(
+										/* Translators: Placeholder will hold an example shortcode for a newly-created form. */
+										esc_html__( 'Paste shortcode %1$s into a post or page editor.', 'constant-contact-forms' ),
+										'<span class="displayed-shortcode">' . wp_kses_post( constant_contact_display_shortcode( $post_id ) ) . '</span>'
+									);
+								?>
 							</p>
-							<a href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_fmodal_try' ], constant_contact()->api->get_signup_link() ) ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>"><?php esc_html_e( 'Try Us Free', 'constant-contact-forms' ); ?></a><br/>
-
-							<?php // Empty alt tag OK; decorative image. ?>
-							<img
-								class="flare"
-								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-modal-logo.png' ); ?>"
-								alt=""
-							/>
 						</div>
-						<div class="ctct-modal-right">
+						<div class="ctct-modal-body">
+							<p class="now-what">
+								<?php esc_html_e( 'Now, how would you like to manage the information you collect?', 'constant-contact-forms' ); ?>
+							</p>
+							<div class="ctct-modal-left">
 
-							<?php // Empty alt tag OK; decorative image. ?>
-							<img
-								class="ctct-modal-flare"
-								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login.png' ); ?>"
-								alt=""
-							/>
-							<h3><?php esc_attr_e( 'Connect my account.', 'constant-contact-forms' ); ?></h3>
+								<?php // Empty alt tag OK; decorative image. ?>
+								<img
+									class="ctct-modal-flare"
+									src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail.png' ); ?>"
+									alt=""
+								/>
+								<h3><?php esc_attr_e( 'Try email marketing.', 'constant-contact-forms' ); ?></h3>
+								<p>
+									<?php esc_attr_e( 'Import everything into Constant Contact so I can see what email marketing can do for me.', 'constant-contact-forms' ); ?>
+								</p>
+								<a href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_fmodal_try' ], constant_contact()->api->get_signup_link() ) ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>"><?php esc_html_e( 'Try Us Free', 'constant-contact-forms' ); ?></a><br/>
+
+								<?php // Empty alt tag OK; decorative image. ?>
+								<img
+									class="flare"
+									src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-modal-logo.png' ); ?>"
+									alt=""
+								/>
+							</div>
+							<div class="ctct-modal-right">
+
+								<?php // Empty alt tag OK; decorative image. ?>
+								<img
+									class="ctct-modal-flare"
+									src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login.png' ); ?>"
+									alt=""
+								/>
+								<h3><?php esc_attr_e( 'Connect my account.', 'constant-contact-forms' ); ?></h3>
+								<p>
+									<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account.', 'constant-contact-forms' ); ?>
+								</p>
+								<a href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_fmodal_connect' ], constant_contact()->api->get_connect_link() ) ); ?>" target="_blank" class="button button-blue" title="<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>">
+									<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
+								</a><br/>
+								<p class="small"><small><?php esc_attr_e( 'By connecting, you authorize this plugin to access your account.', 'constant-contact-forms' ); ?></small></p>
+							</div>
+						</div><!-- modal body -->
+
+						<div class="ctct-modal-footer">
 							<p>
-								<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account.', 'constant-contact-forms' ); ?>
+								<?php
+									printf( '<a class="ctct-modal-close" href="#">%1$s</a>. %2$s',
+										esc_attr__( 'I\'m all set', 'constant-contact-forms' ),
+										esc_attr__( 'I\'ll manage the information on my own for now.', 'constant-contact-forms' )
+									);
+								?>
 							</p>
-							<a href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_fmodal_connect' ], constant_contact()->api->get_connect_link() ) ); ?>" target="_blank" class="button button-blue" title="<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>">
-								<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
-							</a><br/>
-							<p class="small"><small><?php esc_attr_e( 'By connecting, you authorize this plugin to access your account.', 'constant-contact-forms' ); ?></small></p>
 						</div>
-					</div><!-- modal body -->
-					<div class="ctct-modal-footer">
-						<p><?php
-							printf( '<a class="ctct-modal-close" href="%s">%s</a>. %s',
-								'#',
-								esc_attr__( "I'm all set", 'constant-contact-forms' ),
-								esc_attr__( "I'll manage the information on my own for now.", 'constant-contact-forms' )
-							);
-						?></p>
-					</div>
-				</div><!-- .modal-content -->
-			</div><!-- .modal-dialog -->
-		</div>
-	<?php }
+
+					</div><!-- .modal-content -->
+				</div><!-- .modal-dialog -->
+			</div>
+		<?php
+	}
 
 	/**
 	 * Outputs our modal for too many custom textareas information.
@@ -389,27 +385,63 @@ class ConstantContact_Builder {
 	 */
 	public function output_custom_textarea_modal() {
 		?>
-		<div id="ctct-custom-textarea-modal" class="ctct-modal ctct-custom-textarea-modal">
-			<div class="ctct-modal-dialog" role="document">
-				<div class="ctct-modal-content">
-					<div class="ctct-modal-header">
-						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
-						<h2><?php esc_html_e( 'Custom Text Area limitations.', 'constant-contact-forms' ); ?></h2>
-					</div>
-					<div class="ctct-modal-body ctct-custom-textarea-modal-body ctct-custom-textarea">
-						<div class="ctct-modal-left">
-						<?php echo wpautop( __( 'Apology, at this time, we can only upload one <strong>"Custom Text Area"</strong> field to your Constant Contact account, per form submission. The uploaded field is placed into your contact\'s "Notes" field.', 'constant-contact-forms' ) );
-							echo wpautop( __( '<strong>The first listed "Custom Text Area"</strong> field is sent to Constant Contact.', 'constant-contact-forms' ) );
-							echo wpautop( esc_html__( 'Subsequent "Custom Text Area" fields are only sent with the admin email when the form is submitted, and not to your Constant Contact account.', 'constant-contact-forms' ) );
-						?></div>
-						<div class="ctct-modal-right">
-							<?php // Empty alt tag OK; decorative image. ?>
-							<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/fields-image.png' ); ?>" alt="" />
+			<div id="ctct-custom-textarea-modal" class="ctct-modal ctct-custom-textarea-modal">
+				<div class="ctct-modal-dialog" role="document">
+					<div class="ctct-modal-content">
+
+						<div class="ctct-modal-header">
+							<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
+							<h2><?php esc_html_e( 'Custom Text Area limitations.', 'constant-contact-forms' ); ?></h2>
 						</div>
-					</div><!-- modal body -->
-				</div><!-- .modal-content -->
-			</div><!-- .modal-dialog -->
-		</div>
-	<?php
+
+						<div class="ctct-modal-body ctct-custom-textarea-modal-body ctct-custom-textarea">
+
+							<div class="ctct-modal-left">
+								<p>
+									<?php
+										printf(
+											/* Translators: Placeholders here are for `<strong>` and `<em>` HTML tags. */
+											esc_html__( 'Apologies&mdash;at this time, we can only upload %1$sone %2$sCustom Text Area%3$s field%4$s to your Constant Contact account per form submission. The uploaded field is placed into your contact\'s %1$sNotes%4$s field.', 'constant-contact-forms' ),
+											'<strong>',
+											'<em>',
+											'</em>',
+											'</strong>'
+										);
+									?>
+								</p>
+
+								<p>
+									<?php
+										printf(
+											/* Translators: Placeholders here are for `<strong>` HTML tags. */
+											esc_html__( 'The first listed %1$sCustom Text Area%2$s field is sent to Constant Contact.', 'constant-contact-forms' ),
+											'<strong>',
+											'</strong>'
+										);
+									?>
+								</p>
+
+								<p>
+									<?php
+										printf(
+											/* Translators: Placeholders here are for `<strong>` HTML tags. */
+											esc_html__( 'Subsequent %1$sCustom Text Area%2$s fields are only sent with the admin email when the form is submitted, and not to your Constant Contact account.', 'constant-contact-forms' ),
+											'<strong>',
+											'</strong>'
+										);
+									?>
+								</p>
+							</div>
+
+							<div class="ctct-modal-right">
+								<?php // Empty alt tag OK; decorative image. ?>
+								<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/fields-image.png' ); ?>" alt="" />
+							</div>
+
+						</div><!-- modal body -->
+					</div><!-- .modal-content -->
+				</div><!-- .modal-dialog -->
+			</div>
+		<?php
 	}
 }
