@@ -26,6 +26,7 @@ class ConstantContactWidget extends WP_Widget {
 			'classname'   => '',
 			'description' => esc_html__( 'Display a Constant Contact form.', 'constant-contact-forms' ),
 		];
+
 		parent::__construct(
 			'ctct_form',
 			esc_html__( 'Constant Contact Form', 'constant-contact-forms' ),
@@ -46,6 +47,7 @@ class ConstantContactWidget extends WP_Widget {
 			'ctct_form_id'    => 0,
 			'ctct_form_title' => '',
 		];
+
 		$instance = wp_parse_args( (array) $instance, $defaults );
 
 		$title           = wp_strip_all_tags( $instance['ctct_title'] );
@@ -53,14 +55,14 @@ class ConstantContactWidget extends WP_Widget {
 		$show_form_title = ( 'on' === $instance['ctct_form_title'] ) ? $instance['ctct_form_title'] : '';
 
 		$this->form_input_text( [
-			'label_text' => __( 'Title', 'constant-contact-forms' ),
+			'label_text' => esc_html__( 'Title', 'constant-contact-forms' ),
 			'name'       => $this->get_field_name( 'ctct_title' ),
 			'id'         => $this->get_field_id( 'ctct_title' ),
 			'value'      => $title,
 		] );
 
 		$this->form_input_select( [
-			'label_text' => __( 'Form', 'constant-contact-forms' ),
+			'label_text' => esc_html__( 'Form', 'constant-contact-forms' ),
 			'name'       => $this->get_field_name( 'ctct_form_id' ),
 			'id'         => $this->get_field_id( 'ctct_form_id' ),
 			'options'    => $this->get_forms(),
@@ -68,7 +70,7 @@ class ConstantContactWidget extends WP_Widget {
 		] );
 
 		$this->form_input_checkbox( [
-			'label_text' => __( 'Display form title', 'constant-contact-forms' ),
+			'label_text' => esc_html__( 'Display form title', 'constant-contact-forms' ),
 			'name'       => $this->get_field_name( 'ctct_form_title' ),
 			'id'         => $this->get_field_id( 'ctct_form_title' ),
 			'value'      => $show_form_title,
@@ -130,12 +132,15 @@ class ConstantContactWidget extends WP_Widget {
 	 * @return array
 	 */
 	public function get_forms() {
-		$args  = [
+
+		$args = [
 			'post_type'      => 'ctct_forms',
 			'posts_per_page' => -1,
 			'orderby'        => 'title',
 		];
+
 		$forms = new WP_Query( $args );
+
 		if ( $forms->have_posts() ) {
 			return array_map( [ $this, 'get_form_fields' ], $forms->posts );
 		}
