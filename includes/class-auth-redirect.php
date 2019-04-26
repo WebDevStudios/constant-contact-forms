@@ -6,6 +6,8 @@
  * @subpackage AuthRedirect
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
