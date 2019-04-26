@@ -129,7 +129,7 @@ class ConstantContact_Optin {
 				<div class="ctct-modal-content">
 					<div class="ctct-modal-header">
 						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
-						<h2 class="ctct-logo"><img src="<?php echo esc_url( constant_contact()->url ) . '/assets/images/constant-contact-logo.png'; ?>" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" /></h2>
+						<h2 class="ctct-logo"><img src="<?php echo esc_url( constant_contact()->url ) . '/assets/images/constant-contact-logo.png'; ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" /></h2>
 					</div>
 					<div class="ctct-modal-body ctct-privacy-modal-body">
 					<?php
