@@ -118,34 +118,4 @@ class ConstantContact_Updates {
 		}
 	}
 
-
-	/**
-	 * Sample update scaffolding for 1.0.0 -> 1.0.1 update.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $version Version updating to.
-	 */
-	public function run_update_v1_0_0_to_v1_0_1( $version ) {
-
-		// If we need a notification, then we add it in this way.
-		// Example of adding a notification to an update. The @codingStand.. line
-		// can be removed as this is to suppress commented code warnings in PHPCS
-		// @codingStandardsIgnoreLine
-		// $this->add_notification( $version );
-		// Here we would run any other necessary update code.
-	}
-
-	/**
-	 * For 0.0.0 to 1.0.1, we just run our 1.0.0 to 1.0.1.
-	 * We currently need this in place for the above method, as a user
-	 * doesn't always update 0.0.0->1.0.0->1.0.1, might be 0.0.0->1.0.1
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $version Version updating to.
-	 */
-	public function run_update_v0_0_0_to_v1_0_1( $version ) {
-		$this->run_update_v1_0_0_to_v1_0_1( $version );
-	}
 }
