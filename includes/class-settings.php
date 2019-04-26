@@ -495,7 +495,7 @@ class ConstantContact_Settings {
 		?>
 		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
 			<label for="ctct_optin">
-				<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
+				<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" aria-role="checkbox" aria-checked="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
 				<?php echo esc_attr( $label ); ?>
 			</label>
 			<?php echo constant_contact()->display->get_disclose_text(); ?>
