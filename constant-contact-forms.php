@@ -778,12 +778,15 @@ class Constant_Contact {
 	 * @since 1.4.0
 	 */
 	public function register_admin_assets() {
+
 		wp_register_style(
 			'constant-contact-forms-admin',
 			$this->url() . 'assets/css/admin-style.css',
 			[],
 			self::VERSION
 		);
+
+		do_action( 'ctct_enqueue_admin_assets' );
 	}
 
 	/**
