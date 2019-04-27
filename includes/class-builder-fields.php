@@ -35,7 +35,22 @@ class ConstantContact_Builder_Fields {
 	 */
 	public $prefix = '_ctct_';
 
+	/**
+	 * Default option and placeholder values for the fields.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var array
+	 */
 	protected $defaults = [];
+
+	/**
+	 * The default option and placeholder values for the fields after being run through filters.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var array
+	 */
 	protected $filtered = [];
 
 	/**
@@ -48,7 +63,7 @@ class ConstantContact_Builder_Fields {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 		$this->init();
-		$this->init_field_options();
+		$this->init_field_defaults();
 	}
 
 	/**
@@ -82,8 +97,6 @@ class ConstantContact_Builder_Fields {
 
 		// Only load the cmb2 fields on our specified pages.
 		if ( $pagenow && in_array( $pagenow, $form_builder_pages, true ) ) {
-
-			add_action( 'admin_enqueue_scripts', [ $this, 'add_placeholders_to_js' ] );
 			add_action( 'cmb2_admin_init', [ $this, 'description_metabox' ] );
 			add_action( 'cmb2_admin_init', [ $this, 'constant_contact_list_metabox' ] );
 			add_action( 'cmb2_admin_init', [ $this, 'opt_ins_metabox' ] );
@@ -95,80 +108,62 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', [ $this, 'add_css_reset_metabox' ] );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 			add_action( 'cmb2_render_reset_css_button', [ $this, 'render_reset_css_button' ] );
+			add_action( 'admin_enqueue_scripts', [ $this, 'add_placeholders_to_js' ] );
 		}
 
 	}
+	/**
+	 * Init default placeholder text and field types for fields.
+	 *
+	 * @since 1.6.0
+	 */
+	public function init_field_defaults() {
 
-	public function init_field_options() {
-
-		/**
-		 * The default placeholder text to use for fields without a placeholder.
-		 *
-		 * @since 1.2.0
-		 *
-		 * @param string $default_placeholder The placeholder text.
-		 */
-		$this->defaults['placeholder'] = apply_filters( 'constant_contact_default_placeholder', __( 'A brief description of this field (optional)', 'constant-contact-forms' ) );
-
-		// Define field configuration for options and placeholders.
 		$this->defaults['fields'] = [
 			'email'            => [
-				'option'      => __( 'Email (required)', 'constant-contact-forms' ),
-				'placeholder' => __( 'c.contact@example.com', 'constant-contact-forms' ),
+				'option'      => esc_html__( 'Email (required)', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'c.contact@example.com', 'constant-contact-forms' ),
 			],
 			'first_name'       => [
-				'option'      => __( 'First Name', 'constant-contact-forms' ),
-				'placeholder' => __( 'John', 'constant-contact-forms' ),
+				'option'      => esc_html__( 'First Name', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'John', 'constant-contact-forms' ),
 			],
 			'last_name'        => [
-				'option'      => __( 'Last Name', 'constant-contact-forms' ),
-				'placeholder' => __( 'Smith', 'constant-contact-forms' ),
+				'option'      => esc_html__( 'Last Name', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'Smith', 'constant-contact-forms' ),
 			],
 			'phone_number'     => [
-				'option'      => __( 'Phone Number', 'constant-contact-forms' ),
-				'placeholder' => __( '(555) 272-3342', 'constant-contact-forms' ),
+				'option'      => esc_html__( 'Phone Number', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( '(555) 272-3342', 'constant-contact-forms' ),
 			],
 			'address'          => [
-				'option'      => __( 'Address', 'constant-contact-forms' ),
-				'placeholder' => __( '4115 S. Main Rd.', 'constant-contact-forms' ),
+				'option'      => esc_html__( 'Address', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( '4115 S. Main Rd.', 'constant-contact-forms' ),
 			],
 			'job_title'        => [
-				'option'      => __( 'Job Title', 'constant-contact-forms' ),
-				'placeholder' => __( 'Project Manager', 'constant-contact-forms' ),
+				'option'      => esc_html__( 'Job Title', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'Project Manager', 'constant-contact-forms' ),
 			],
 			'company'          => [
-				'option'      => __( 'Company', 'constant-contact-forms' ),
-				'placeholder' => __( 'Acme Manufacturing', 'constant-contact-forms' ),
+				'option'      => esc_html__( 'Company', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'Acme Manufacturing', 'constant-contact-forms' ),
 			],
 			'website'          => [
-				'option'      => __( 'Website', 'constant-contact-forms' ),
-				'placeholder' => __( 'http://www.example.com', 'constant-contact-form' ),
+				'option'      => esc_html__( 'Website', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'http://www.example.com', 'constant-contact-form' ),
 			],
-			/**
-			 * V2 of the CC API doesn't support these fields. Hopefully this will get sorted out.
-			 * 'birthday' => array(
-			 *     'option' => __( 'Birthday', 'constant-contact-forms' ),
-			 *     'placeholder' => 'M/D/Y',
-			 * ),
-			 * 'anniversary'      => array(
-			 *     'option' => __( 'Anniversary', 'constant-contact-forms' ),
-			 *     'placeholder' => 'M/D/Y',
-			 *     ),
-			 *
-			 * @since 1.0.2
-			 */
 			'custom'           => [
-				'option'      => __( 'Custom Text Field', 'constant-contact-forms' ),
-				'placeholder' => __( 'A custom text field', 'constant-contact-forms' ),
+				'option'      => esc_html__( 'Custom Text Field', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'A custom text field', 'constant-contact-forms' ),
 			],
 			'custom_text_area' => [
-				'option'      => __( 'Custom Text Area', 'constant-contact-forms' ),
-				'placeholder' => __( 'A large custom text field', 'constant-contact-forms' ),
+				'option'      => esc_html__( 'Custom Text Area', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'A large custom text field', 'constant-contact-forms' ),
 			],
 		];
 
 		/**
-		 * Filters the Constant Contact field types to display as an option.
+		 * Allows filtering the Constant Contact field types to display as an option.
 		 *
 		 * @since 1.0.0
 		 *
@@ -177,7 +172,7 @@ class ConstantContact_Builder_Fields {
 		$this->filtered['options'] = apply_filters( 'constant_contact_field_types', wp_list_pluck( $this->defaults['fields'], 'option' ) );
 
 		/**
-		 * Filter the field placeholders.
+		 * Allows filtering of all field placeholders.
 		 *
 		 * @since 1.2.0
 		 *
@@ -185,11 +180,18 @@ class ConstantContact_Builder_Fields {
 		 */
 		$this->filtered['placeholders'] = apply_filters( 'constant_contact_field_placeholders', wp_list_pluck( $this->defaults['fields'], 'placeholder' ) );
 
-		$this->filtered['placeholders']['default'] = $this->defaults['placeholder'];
+		/**
+		 * Allows filtering the default placeholder text to use for fields without a placeholder.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @param string $default_placeholder The placeholder text.
+		 */
+		$this->filtered['placeholders']['default'] = apply_filters( 'constant_contact_default_placeholder', esc_html__( 'A brief description of this field (optional)', 'constant-contact-forms' ) );
 	}
 
 	/**
-	 * Make our default placeholder text available to the ctct_form JavaScript.
+	 * Make placeholder text available to the ctct_form JavaScript.
 	 *
 	 * @since 1.6.0
 	 */

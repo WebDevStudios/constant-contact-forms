@@ -785,8 +785,6 @@ class Constant_Contact {
 			[],
 			self::VERSION
 		);
-
-		do_action( 'ctct_enqueue_admin_assets' );
 	}
 
 	/**
