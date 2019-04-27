@@ -1,24 +1,47 @@
-window.CTCTSupport = {};
-( function( window, $, that ) {
+/**
+ * Front-end form validation.
+ *
+ * @since 1.0.0
+ */
 
-	// Constructor.
-	that.init = function() {
-		that.cache();
-		that.bindEvents();
-		that.removePlaceholder();
+ window.CTCTSupport = {};
+
+( function( window, $, app ) {
+
+	/**
+	 * @constructor
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	app.init = function() {
+		app.cache();
+		app.bindEvents();
+		app.removePlaceholder();
 	};
 
-	that.removePlaceholder = function() {
+	/**
+	 * Remove placeholder text values.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	app.removePlaceholder = function() {
 		$( '.ctct-form-field input,textarea' ).focus( function() {
 			$( this ).data( 'placeholder', $( this ).attr( 'placeholder' ) ).attr( 'placeholder', '' );
-		}).blur( function() {
+		} ).blur( function() {
 			$( this ).attr( 'placeholder', $( this ).data( 'placeholder' ) );
-		});
+		} );
 	};
 
-	// Cache all the things.
-	that.cache = function() {
-		that.$c = {
+	/**
+	 * Cache DOM elements.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	app.cache = function() {
+		app.$c = {
 			window: $( window ),
 			body: $( 'body' ),
 			form: '.ctct-form-wrapper form',
@@ -27,122 +50,167 @@ window.CTCTSupport = {};
 			recaptcha: $( '.ctct-form-wrapper form .g-recaptcha' )
 		};
 
-		that.timeout = null;
+		app.timeout = null;
 	};
 
-	that.setAllInputsValid = function() {
-		$( that.$c.form + ' .ctct-invalid' ).removeClass( 'ctct-invalid' );
+	/**
+	 * Remove the ctct-invalid class from elements that have it.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	app.setAllInputsValid = function() {
+		$( app.$c.form + ' .ctct-invalid' ).removeClass( 'ctct-invalid' );
 	};
 
-	that.clearFormInputs = function (form_id_selector) {
-		var submitted_form = $(form_id_selector + ' form');
+	/**
+	 * Clears form inputs of current values.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	app.clearFormInputs = function( form_id_selector ) {
+		var submitted_form = $( form_id_selector + ' form' );
+
 		// jQuery doesn't have a native reset function so the [0] will convert to a JavaScript object.
 		submitted_form[0].reset();
 	};
 
-	that.processError = function( error ) {
+	/**
+	 * Adds .ctct-invalid HTML class to inputs whose values are invalid.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	app.processError = function( error ) {
 
-		// If we have an id property set
-		if ( typeof( error.id ) !== 'undefined' ) {
+		// If we have an id property set.
+		if ( 'undefined' !== typeof( error.id ) ) {
 			$( '#' + error.id ).addClass( 'ctct-invalid' );
 		}
-
 	};
 
 	/**
-	 * Check the value of the hidden honeypot field.
-	 * If there is anything in it, disable the form submission button.
+	 * Check the value of the hidden honeypot field; disable form submission button if anything in it.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
 	 */
-	that.checkHoneypot = function() {
-		var honeypot_length = that.$c.honeypot.val().length;
+	app.checkHoneypot = function() {
+		var honeypot_length = app.$c.honeypot.val().length;
 
 		// If there is text in the honeypot, disable the submit button
-		if( honeypot_length > 0 ) {
-			that.$c.submitButton.attr( 'disabled', 'disabled' );
+		if ( 0 < honeypot_length ) {
+			app.$c.submitButton.attr( 'disabled', 'disabled' );
 		} else {
-			that.$c.submitButton.attr( 'disabled', false );
+			app.$c.submitButton.attr( 'disabled', false );
 		}
 	};
 
-	// Combine all events.
-	that.bindEvents = function() {
-		$( that.$c.form ).on( 'click', 'input[type=submit]', function(e) {
+	/**
+	 * Set up event bindings and callbacks.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	app.bindEvents = function() {
+		$( app.$c.form ).on( 'click', 'input[type=submit]', function( e ) {
 
-			if ('on' === $('.ctct-form').attr('data-doajax')) {
-				var $form_id = $(this).closest('.ctct-form-wrapper').attr('id');
+			if ( 'on' === $( '.ctct-form' ).attr( 'data-doajax' ) ) {
+
+				var $form_id         = $( this ).closest( '.ctct-form-wrapper' ).attr( 'id' );
 				var form_id_selector = '';
-				if ( $form_id != '' ) {
-					form_id_selector = '#'+ $form_id +' ';
+
+				if ( '' !== $form_id ) {
+					form_id_selector = '#' + $form_id + ' ';
 				}
+
 				var doProcess = true;
-				$.each($(form_id_selector+'.ctct-form [required]'), function (i, field) {
-					if (field.checkValidity() === false) {
+
+				$.each( $( form_id_selector + '.ctct-form [required]' ), function( i, field ) {
+					if ( false === field.checkValidity() ) {
 						doProcess = false;
 					}
-				});
-				if (false === doProcess) {
+				} );
+
+				if ( false === doProcess ) {
 					return;
 				}
 
 				e.preventDefault();
-				clearTimeout(that.timeout);
 
-				that.timeout = setTimeout(function () {
-					$('#ctct-submitted').prop('disabled', true);
+				clearTimeout( app.timeout );
+
+				app.timeout = setTimeout( function() {
+					$( '#ctct-submitted' ).prop( 'disabled', true );
 					$.post(
 						ajaxurl,
 						{
 							'action': 'ctct_process_form',
-							'data'  : $(form_id_selector + 'form').serialize()
+							'data': $( form_id_selector + 'form' ).serialize()
 						},
-						function (response) {
-							$('#ctct-submitted').prop('disabled', false);
-							// Make sure we got the 'status' attribute in our response
-							if (typeof( response.status ) !== 'undefined') {
+						function( response ) {
+							$( '#ctct-submitted' ).prop( 'disabled', false );
+
+							// Make sure we got the 'status' attribute in our response.
+							if ( 'undefined' !== typeof( response.status ) ) {
 
 								if ( 'success' === response.status ) {
+
 									// Add a timestamp to the message so that we only remove this message and not all at once.
 									var time_class = 'message-time-' + $.now();
 
 									var message_class = 'ctct-message ' + response.status + ' ' + time_class;
-									$(form_id_selector+'.ctct-form').before('<p class="' + message_class + '">' + response.message + '</p>');
+									$( form_id_selector + '.ctct-form' ).before( '<p class="' + message_class + '">' + response.message + '</p>' );
 
 									if ( '' !== form_id_selector ) {
-										that.clearFormInputs( form_id_selector );
+										app.clearFormInputs( form_id_selector );
 									}
+
 									// Set a 5 second timeout to remove the added success message.
 									setTimeout( function() {
-										$( '.' + time_class ).fadeOut('slow');
+										$( '.' + time_class ).fadeOut( 'slow' );
 									}, 5000 );
 								} else {
-									// Here we'll want to disable the submit button and
-									// add some error classes
-									if (typeof( response.errors ) !== 'undefined') {
-										that.setAllInputsValid();
-										response.errors.forEach(that.processError);
+
+									// Here we'll want to disable the submit button and add some error classes.
+									if ( 'undefined' !== typeof( response.errors ) ) {
+										app.setAllInputsValid();
+										response.errors.forEach( app.processError );
 									} else {
-										$(form_id_selector + '.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
+										$( form_id_selector + '.ctct-form' ).before( '<p class="ctct-message ' + response.status + '">' + response.message + '</p>' );
 									}
 
 								}
 							}
 						}
 					);
-				}, 500)
+				}, 500 );
 			}
-		});
+		} );
 
-		// Look for any changes on the honeypot input field.
-		$( that.$c.honeypot ).on( 'change keyup', function( e ) {
-			that.checkHoneypot();
-		});
+		/**
+		 * Listen for changes on the honeypot input field.
+		 *
+		 * @author Constant Contact
+		 * @since 1.0.0
+		 */
+		$( app.$c.honeypot ).on( 'change keyup', function() {
+			app.checkHoneypot();
+		} );
 
-		if ( that.$c.recaptcha.length > 0 ) {
-			that.$c.submitButton.attr('disabled', 'disabled');
+		/**
+		 * Disable the submit button by default until the captcha is passed (if captcha exists).
+		 *
+		 * @author Constant Contact
+		 * @since 1.0.0
+		 */
+		if ( 0 < app.$c.recaptcha.length ) {
+			app.$c.submitButton.attr( 'disabled', 'disabled' );
 		}
-    };
+	};
 
-	// Engage!
-	$( that.init );
 
-})( window, jQuery, window.CTCTSupport );
+	$( app.init );
+
+} ( window, jQuery, window.CTCTSupport ) );
