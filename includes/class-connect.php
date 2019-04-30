@@ -6,6 +6,8 @@
  * @subpackage Connect
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 use Ctct\ConstantContact;
@@ -102,11 +104,9 @@ class ConstantContact_Connect {
 	 */
 	public function maybe_connect() {
 
-		// If we have this get, we may be getting an connect attempt, so lets
-		// verify it and potentially process it.
-		if ( isset( $_GET['cc_connect_attempt'] ) && is_user_logged_in() ) { // Input var okay.
+		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
+		if ( isset( $_GET['cc_connect_attempt'] ) && is_user_logged_in() ) {
 
-			// Call our access token processing.
 			$verified = constant_contact()->authserver->verify_and_save_access_token_return();
 
 			$redirect_args = [
@@ -118,9 +118,10 @@ class ConstantContact_Connect {
 				$redirect_args['ctct_connect_error'] = 'true';
 			}
 
-			wp_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
+			wp_safe_redirect( add_query_arg( $redirect_args, admin_url( 'edit.php' ) ) );
 			die;
 		}
+		// phpcs:enable WordPress.Security.NonceVerification
 	}
 
 	/**
@@ -189,37 +190,54 @@ class ConstantContact_Connect {
 					</div>
 
 					<?php if ( ! ctct_has_forms() ) : ?>
-					<div class="ctct-connected-next-step">
-						<h3><?php esc_html_e( 'Your account is connected! Now, add a new form.', 'constant-contact-forms' ); ?></h3>
-						<div class="ctct-video">
-							<script src="https://fast.wistia.com/embed/medias/xix7jf8p55.jsonp" async></script>
-							<script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
-							<div class="wistia_embed wistia_async_xix7jf8p55 seo=false" style="height:225px;width:400px;margin:0 auto;">&nbsp;</div>
+
+						<?php // phpcs:disable WordPress.WP.EnqueuedResources -- Ok use of inline scripts. ?>
+						<div class="ctct-connected-next-step">
+							<h3><?php esc_html_e( 'Your account is connected! Now, add a new form.', 'constant-contact-forms' ); ?></h3>
+							<div class="ctct-video">
+								<script src="https://fast.wistia.com/embed/medias/xix7jf8p55.jsonp" async></script>
+								<script src="https://fast.wistia.com/assets/external/E-v1.js" async></script>
+								<div class="wistia_embed wistia_async_xix7jf8p55 seo=false" style="height:225px;width:400px;margin:0 auto;">&nbsp;</div>
+							</div>
 						</div>
-					</div>
-					<div class="ctct-connected-opt-in">
-						<h3><?php esc_html_e( 'Please help to improve this plugin.', 'constant-contact-forms' ); ?></h3>
-						<p><?php
-							// translators: placeholder will hold link to Constant Contact privacy statement.
-							printf( esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %s.', 'constant-contact-forms' ), '<a href="https://www.constantcontact.com/legal/privacy-statement">' . __( 'Privacy Statement', 'constant-contact-forms' ) . '</a>' ); ?></p>
-						<div id="ctct-connect-ga-optin" class="ctct-connect-ga-optin">
-							<a class="button button-blue ctct-connect" data-allow="on"><?php esc_html_e( 'Allow', 'constant-contact-forms' ); ?></a>
-							<a class="button no-bg" data-allow="off"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
+						<?php // phpcs:enable WordPress.WP.EnqueuedResources ?>
+
+						<div class="ctct-connected-opt-in">
+							<h3><?php esc_html_e( 'Please help to improve this plugin.', 'constant-contact-forms' ); ?></h3>
+							<p>
+								<?php
+									printf(
+										/* Translators: Placeholder will hold link to Constant Contact privacy statement. */
+										esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %1$s.', 'constant-contact-forms' ),
+										sprintf(
+											'<a href="https://www.constantcontact.com/legal/privacy-statement">%1$s</a>',
+											esc_html__( 'Privacy Statement', 'constant-contact-forms' )
+										)
+									);
+								?>
+							</p>
+
+							<div id="ctct-connect-ga-optin" class="ctct-connect-ga-optin">
+								<a class="button button-blue ctct-connect" data-allow="on"><?php esc_html_e( 'Allow', 'constant-contact-forms' ); ?></a>
+								<a class="button no-bg" data-allow="off"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
+							</div>
 						</div>
-					</div>
+
 					<?php endif; ?>
 				</div>
 
 			<?php else : ?>
 
 			<?php
-			if ( isset( $_GET['ctct_connect_error'] ) ) { // Input var okay.
+				// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
+				if ( isset( $_GET['ctct_connect_error'] ) ) :
 			?>
 				<div id="message" class="ctct-error"><p>
 				<?php esc_html_e( 'There was an error connecting your account. Please try again.', 'constant-contact-forms' ); ?>
 				</p></div>
 			<?php
-			}
+				endif;
+				// phpcs:enable WordPress.Security.NonceVerification
 			?>
 				<p class="ctct-description">
 					<?php esc_html_e( "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers.", 'constant-contact-forms' ); ?>
@@ -235,17 +253,18 @@ class ConstantContact_Connect {
 					// Get our middleware link.
 					$proof     = constant_contact()->authserver->set_verification_option();
 					$auth_link = constant_contact()->authserver->do_connect_url( $proof );
-
 					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
 
-					// If we have a link, then display the connect button.
-					if ( $auth_link ) { ?>
+					if ( $auth_link ) :
+					?>
 						<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button button-blue ctct-connect">
 							<?php esc_html_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
 						</a>
-					<?php } ?>
+					<?php endif; ?>
 				</div>
+
 				<hr />
+
 				<div class="ctct-call-to-action">
 					<div class="ctct-call-to-action-text">
 						<h3><?php esc_html_e( 'No Constant Contact account? Try us out.', 'constant-contact-forms' ); ?></h3>
@@ -256,19 +275,29 @@ class ConstantContact_Connect {
 
 				<form id="subscribe" accept-charset="utf-8" action="https://cloud.c.constantcontact.com/jmmlsubscriptions/coi_verify" method="get" target="_blank">
 				<div class="ctct-call-to-action">
+
 					<div class="ctct-call-to-action-text">
 						<h3><?php esc_html_e( 'Email marketing tips delivered to your inbox.', 'constant-contact-forms' ); ?></h3>
 						<p><?php esc_html_e( 'Ready to grow with email marketing? Subscribe now for the latest tips and industry best practices to create great-looking emails that work.', 'constant-contact-forms' ); ?></p>
+
 						<input id="subbox" maxlength="255" name="email" type="text" placeholder="<?php esc_attr_e( 'Enter your email address', 'constant-contact-forms' ); ?>">
 						<input name="sub" type="hidden" value="3" />
 						<input name="method" type="hidden" value="JMML" />
 						<input name="page" type="hidden" value="Sub3_Prospect" />
 
-						<p><small><?php
-								// translators: placeholder will hold ConstantContact.com link.
-								printf( __( 'By submitting this form, you agree to receive periodic product announcements and account notifications from Constant Contact. Cancel these communications at any time by clicking the unsubscribe link in the footer of the actual email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %s', 'constant-contact-forms' ), '<a href="https://www.constantcontact.com">www.constantcontact.com</a>' ); ?></small>
+						<p>
+							<small>
+								<?php
+									printf(
+										// translators: placeholder will hold ConstantContact.com link.
+										esc_html__( 'By submitting this form, you agree to receive periodic product announcements and account notifications from Constant Contact. Cancel these communications at any time by clicking the unsubscribe link in the footer of the actual email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %1$s', 'constant-contact-forms' ),
+										'<a href="https://www.constantcontact.com">www.constantcontact.com</a>'
+									);
+								?>
+							</small>
 						</p>
 					</div>
+
 					<input class="button" id="subbutton" type="submit" value="<?php esc_attr_e( 'Sign Up', 'constant-contact-forms' ); ?>">
 				</div>
 				</form>

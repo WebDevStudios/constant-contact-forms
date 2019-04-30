@@ -6,6 +6,8 @@
  * @subpackage Gutenberg
  * @author Constant Contact
  * @since 1.5.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
