@@ -103,6 +103,7 @@ class ConstantContact_Admin {
 		add_action( 'manage_ctct_lists_posts_custom_column', [ $this, 'custom_lists_columns' ], 10, 2 );
 
 		add_filter( 'plugin_action_links_' . $this->basename, [ $this, 'add_social_links' ] );
+
 		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
 	}
 
@@ -445,7 +446,7 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $extra_localizations An array of arrays of `[ $handle, $name, $data ]` passed to wp_localize_script.
+	 * @param array $extra_localizations Optional. An array of arrays of `[ $handle, $name, $data ]` passed to wp_localize_script.
 	 * @return void
 	 */
 	public function scripts( $extra_localizations = [] ) {
@@ -490,6 +491,7 @@ class ConstantContact_Admin {
 				'move_down'    => esc_html__( 'move down', 'constant-contact-forms' ),
 			] )
 		);
+
 		$privacy_settings = get_option( 'ctct_privacy_policy_status', '' );
 
 		wp_localize_script(

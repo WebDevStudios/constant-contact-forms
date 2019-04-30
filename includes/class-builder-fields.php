@@ -36,6 +36,24 @@ class ConstantContact_Builder_Fields {
 	public $prefix = '_ctct_';
 
 	/**
+	 * Default option and placeholder values for the fields.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var array
+	 */
+	protected $defaults = [];
+
+	/**
+	 * The default option and placeholder values for the fields after being run through filters.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var array
+	 */
+	protected $filtered = [];
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
@@ -45,6 +63,7 @@ class ConstantContact_Builder_Fields {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 		$this->init();
+		$this->init_field_defaults();
 	}
 
 	/**
@@ -78,7 +97,6 @@ class ConstantContact_Builder_Fields {
 
 		// Only load the cmb2 fields on our specified pages.
 		if ( $pagenow && in_array( $pagenow, $form_builder_pages, true ) ) {
-
 			add_action( 'cmb2_admin_init', [ $this, 'description_metabox' ] );
 			add_action( 'cmb2_admin_init', [ $this, 'constant_contact_list_metabox' ] );
 			add_action( 'cmb2_admin_init', [ $this, 'opt_ins_metabox' ] );
@@ -90,8 +108,95 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', [ $this, 'add_css_reset_metabox' ] );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 			add_action( 'cmb2_render_reset_css_button', [ $this, 'render_reset_css_button' ] );
+			add_action( 'admin_enqueue_scripts', [ $this, 'add_placeholders_to_js' ] );
 		}
 
+	}
+	/**
+	 * Init default placeholder text and field types for fields.
+	 *
+	 * @since 1.6.0
+	 */
+	public function init_field_defaults() {
+
+		$this->defaults['fields'] = [
+			'email'            => [
+				'option'      => esc_html__( 'Email (required)', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'c.contact@example.com', 'constant-contact-forms' ),
+			],
+			'first_name'       => [
+				'option'      => esc_html__( 'First Name', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'John', 'constant-contact-forms' ),
+			],
+			'last_name'        => [
+				'option'      => esc_html__( 'Last Name', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'Smith', 'constant-contact-forms' ),
+			],
+			'phone_number'     => [
+				'option'      => esc_html__( 'Phone Number', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( '(555) 272-3342', 'constant-contact-forms' ),
+			],
+			'address'          => [
+				'option'      => esc_html__( 'Address', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( '4115 S. Main Rd.', 'constant-contact-forms' ),
+			],
+			'job_title'        => [
+				'option'      => esc_html__( 'Job Title', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'Project Manager', 'constant-contact-forms' ),
+			],
+			'company'          => [
+				'option'      => esc_html__( 'Company', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'Acme Manufacturing', 'constant-contact-forms' ),
+			],
+			'website'          => [
+				'option'      => esc_html__( 'Website', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'http://www.example.com', 'constant-contact-form' ),
+			],
+			'custom'           => [
+				'option'      => esc_html__( 'Custom Text Field', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'A custom text field', 'constant-contact-forms' ),
+			],
+			'custom_text_area' => [
+				'option'      => esc_html__( 'Custom Text Area', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'A large custom text field', 'constant-contact-forms' ),
+			],
+		];
+
+		/**
+		 * Allows filtering the Constant Contact field types to display as an option.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of field types.
+		 */
+		$this->filtered['options'] = apply_filters( 'constant_contact_field_types', wp_list_pluck( $this->defaults['fields'], 'option' ) );
+
+		/**
+		 * Allows filtering of all field placeholders.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @param array $default_fields The field placeholders to use for field description.
+		 */
+		$this->filtered['placeholders'] = apply_filters( 'constant_contact_field_placeholders', wp_list_pluck( $this->defaults['fields'], 'placeholder' ) );
+
+		/**
+		 * Allows filtering the default placeholder text to use for fields without a placeholder.
+		 *
+		 * @since 1.2.0
+		 *
+		 * @param string $default_placeholder The placeholder text.
+		 */
+		$this->filtered['placeholders']['default'] = apply_filters( 'constant_contact_default_placeholder', esc_html__( 'A brief description of this field (optional)', 'constant-contact-forms' ) );
+	}
+
+	/**
+	 * Make placeholder text available to the ctct_form JavaScript.
+	 *
+	 * @since 1.6.0
+	 */
+	public function add_placeholders_to_js() {
+		wp_localize_script( 'ctct_form', 'ctct_admin_placeholders', $this->filtered['placeholders'] );
 	}
 
 	/**
@@ -562,115 +667,20 @@ class ConstantContact_Builder_Fields {
 			],
 		] );
 
-		/**
-		 * The default placeholder text to use for fields without a placeholder.
-		 *
-		 * @since 1.2.0
-		 *
-		 * @param string $default_placeholder The placeholder text.
-		 */
-		$default_placeholder = apply_filters( 'constant_contact_default_placeholder', __( 'A brief description of this field (optional)', 'constant-contact-forms' ) );
-
-		// Define field configuration for options and placeholders.
-		$default_fields = [
-			'email'            => [
-				'option'      => __( 'Email (required)', 'constant-contact-forms' ),
-				'placeholder' => __( 'c.contact@example.com', 'constant-contact-forms' ),
-			],
-			'first_name'       => [
-				'option'      => __( 'First Name', 'constant-contact-forms' ),
-				'placeholder' => __( 'John', 'constant-contact-forms' ),
-			],
-			'last_name'        => [
-				'option'      => __( 'Last Name', 'constant-contact-forms' ),
-				'placeholder' => __( 'Smith', 'constant-contact-forms' ),
-			],
-			'phone_number'     => [
-				'option'      => __( 'Phone Number', 'constant-contact-forms' ),
-				'placeholder' => __( '(555) 272-3342', 'constant-contact-forms' ),
-			],
-			'address'          => [
-				'option'      => __( 'Address', 'constant-contact-forms' ),
-				'placeholder' => __( '4115 S. Main Rd.', 'constant-contact-forms' ),
-			],
-			'job_title'        => [
-				'option'      => __( 'Job Title', 'constant-contact-forms' ),
-				'placeholder' => __( 'Project Manager', 'constant-contact-forms' ),
-			],
-			'company'          => [
-				'option'      => __( 'Company', 'constant-contact-forms' ),
-				'placeholder' => __( 'Acme Manufacturing', 'constant-contact-forms' ),
-			],
-			'website'          => [
-				'option'      => __( 'Website', 'constant-contact-forms' ),
-				'placeholder' => __( 'http://www.example.com', 'constant-contact-form' ),
-			],
-			/**
-			 * V2 of the CC API doesn't support these fields. Hopefully this will get sorted out.
-			 * 'birthday' => array(
-			 *     'option' => __( 'Birthday', 'constant-contact-forms' ),
-			 *     'placeholder' => 'M/D/Y',
-			 * ),
-			 * 'anniversary'      => array(
-			 *     'option' => __( 'Anniversary', 'constant-contact-forms' ),
-			 *     'placeholder' => 'M/D/Y',
-			 *     ),
-			 *
-			 * @since 1.0.2
-			 */
-			'custom'           => [
-				'option'      => __( 'Custom Text Field', 'constant-contact-forms' ),
-				'placeholder' => __( 'A custom text field', 'constant-contact-forms' ),
-			],
-			'custom_text_area' => [
-				'option'      => __( 'Custom Text Area', 'constant-contact-forms' ),
-				'placeholder' => __( 'A large custom text field', 'constant-contact-forms' ),
-			],
-		];
-
-		/**
-		 * Filters the Constant Contact field types to display as an option.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param array $value Array of field types.
-		 */
-		$filtered_options = apply_filters( 'constant_contact_field_types', wp_list_pluck( $default_fields, 'option' ) );
-
-		/**
-		 * Filter the field placeholders.
-		 *
-		 * @since 1.2.0
-		 *
-		 * @param array $default_fields The field placeholders to use for field description.
-		 */
-		$filtered_placeholders            = apply_filters(
-			'constant_contact_field_placeholders',
-			wp_list_pluck( $default_fields, 'placeholder' )
-		);
-		$filtered_placeholders['default'] = $default_placeholder;
-
-		// Go ahead and enqueue with our placeholder text.
-		$this->plugin->admin->scripts( [
-			'ctct_form',
-			'ctct_admin_placeholders',
-			$filtered_placeholders,
-		] );
-
 		// Choose which field.
 		$fields_metabox->add_group_field( $custom_group, [
-			'name'             => __( 'Select a Field', 'constant-contact-forms' ),
+			'name'             => esc_html__( 'Select a Field', 'constant-contact-forms' ),
 			'id'               => $this->prefix . 'map_select',
 			'type'             => 'select',
 			'show_option_none' => false,
 			'default'          => 'email',
 			'row_classes'      => 'map',
-			'options'          => $filtered_options,
+			'options'          => $this->filtered['options'],
 		] );
 
 		// Add a field label.
 		$fields_metabox->add_group_field( $custom_group, [
-			'name'    => __( 'Field Label', 'constant-contact-forms' ),
+			'name'    => esc_html__( 'Field Label', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'field_label',
 			'type'    => 'text',
 			'default' => '',
@@ -678,17 +688,17 @@ class ConstantContact_Builder_Fields {
 
 		// Add our field description.
 		$fields_metabox->add_group_field( $custom_group, [
-			'name'       => __( 'Field Description', 'constant-contact-forms' ),
+			'name'       => esc_html__( 'Field Description', 'constant-contact-forms' ),
 			'id'         => $this->prefix . 'field_desc',
 			'type'       => 'text',
 			'attributes' => [
-				'placeholder' => __( 'Ex: Enter email address', 'constant-contact-forms' ),
+				'placeholder' => esc_html__( 'Ex: Enter email address', 'constant-contact-forms' ),
 			],
 		] );
 
 		// Allow toggling of required fields.
 		$fields_metabox->add_group_field( $custom_group, [
-			'name'        => __( 'Required', 'constant-contact-forms' ),
+			'name'        => esc_html__( 'Required', 'constant-contact-forms' ),
 			'id'          => $this->prefix . 'required_field',
 			'type'        => 'checkbox',
 			'row_classes' => 'required',
@@ -704,7 +714,7 @@ class ConstantContact_Builder_Fields {
 	public function generated_shortcode() {
 		$generated = new_cmb2_box( [
 			'id'           => 'ctct_2_generated_metabox',
-			'title'        => __( 'Shortcode', 'constant-contact-forms' ),
+			'title'        => esc_html__( 'Shortcode', 'constant-contact-forms' ),
 			'object_types' => [ 'ctct_forms' ],
 			'context'      => 'side',
 			'priority'     => 'low',
@@ -712,10 +722,17 @@ class ConstantContact_Builder_Fields {
 		] );
 
 		$generated->add_field( [
-			'name'       => __( 'Shortcode to use', 'constant-contact-forms' ),
+			'name'       => esc_html__( 'Shortcode to use', 'constant-contact-forms' ),
 			'id'         => $this->prefix . 'generated_shortcode',
 			'type'       => 'text_medium',
-			'desc'       => __( 'Shortcode to embed - <em><small>You can copy and paste this in a post to display your form.</small></em>', 'constant-contact-forms' ),
+			'desc'       => sprintf(
+				/* Translators: Placeholders here represent `<em>` and `<strong>` HTML tags. */
+				esc_html__( 'Shortcode to embed — %1$s%2$sYou can copy and paste this in a post to display your form.%3$s%4$s', 'constant-contact-forms' ),
+				'<small>',
+				'<em>',
+				'</em>',
+				'</small>'
+			),
 			'default'    => ( $generated->object_id > 0 ) ? '[ctct form="' . $generated->object_id . '" show_title="false"]' : '',
 			'attributes' => [
 				'readonly' => 'readonly',
@@ -759,10 +776,11 @@ class ConstantContact_Builder_Fields {
 	 * @since 1.5.0
 	 */
 	public function add_css_reset_metabox() {
+
 		$reset_css_metabox = new_cmb2_box(
 			[
 				'id'           => 'ctct_3_reset_css_metabox',
-				'title'        => __( 'Reset Styles', 'constant-contact-forms' ),
+				'title'        => esc_html__( 'Reset Styles', 'constant-contact-forms' ),
 				'object_types' => [ 'ctct_forms' ],
 				'context'      => 'side',
 				'priority'     => 'low',
@@ -789,15 +807,14 @@ class ConstantContact_Builder_Fields {
 	 * @param object $field The CMB2 field object.
 	 */
 	public function render_reset_css_button( $field ) {
-?>
-<button type="button" id="ctct-reset-css" class="button">
-	<?php esc_html_e( 'Reset', 'constant-contact-forms' ); ?>
-</button>
-<p>
-<em>
-	<?php echo esc_html( $field->args['description'] ); ?>
-</em>
-</p>
-<?php
+		?>
+			<button type="button" id="ctct-reset-css" class="button">
+				<?php esc_html_e( 'Reset', 'constant-contact-forms' ); ?>
+			</button>
+
+			<p>
+				<em><?php echo esc_html( $field->args['description'] ); ?></em>
+			</p>
+		<?php
 	}
 }
