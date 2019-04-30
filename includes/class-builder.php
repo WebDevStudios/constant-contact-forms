@@ -328,27 +328,33 @@ class ConstantContact_Builder {
 							<?php esc_html_e( 'Now, how would you like to manage the information you collect?', 'constant-contact-forms' ); ?>
 						</p>
 						<div class="ctct-modal-left">
+
+							<?php // Empty alt tag OK; decorative image. ?>
 							<img
 								class="ctct-modal-flare"
 								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail.png' ); ?>"
-								alt="<?php echo esc_attr_x( '? mail', 'email marketing alt text', 'constant-contact-forms' ); ?>"
+								alt=""
 							/>
 							<h3><?php esc_attr_e( 'Try email marketing.', 'constant-contact-forms' ); ?></h3>
 							<p>
 								<?php esc_attr_e( 'Import everything into Constant Contact so I can see what email marketing can do for me.', 'constant-contact-forms' ); ?>
 							</p>
 							<a href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_fmodal_try' ], constant_contact()->api->get_signup_link() ) ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>"><?php esc_html_e( 'Try Us Free', 'constant-contact-forms' ); ?></a><br/>
+
+							<?php // Empty alt tag OK; decorative image. ?>
 							<img
 								class="flare"
 								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-modal-logo.png' ); ?>"
-								alt="<?php esc_attr_e( 'Constant Contact', 'constant-contact-forms' ); ?>"
+								alt=""
 							/>
 						</div>
 						<div class="ctct-modal-right">
+
+							<?php // Empty alt tag OK; decorative image. ?>
 							<img
 								class="ctct-modal-flare"
 								src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login.png' ); ?>"
-								alt="<?php echo esc_attr_x( 'hand holding phone', 'connect alt text', 'constant-contact-forms' ); ?>"
+								alt=""
 							/>
 							<h3><?php esc_attr_e( 'Connect my account.', 'constant-contact-forms' ); ?></h3>
 							<p>
@@ -357,8 +363,7 @@ class ConstantContact_Builder {
 							<a href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_fmodal_connect' ], constant_contact()->api->get_connect_link() ) ); ?>" target="_blank" class="button button-blue" title="<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>">
 								<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
 							</a><br/>
-							<p class="small"><small><?php esc_attr_e( 'By connecting, you authorize this
-							plugin to access your account.', 'constant-contact-forms' ); ?></small></p>
+							<p class="small"><small><?php esc_attr_e( 'By connecting, you authorize this plugin to access your account.', 'constant-contact-forms' ); ?></small></p>
 						</div>
 					</div><!-- modal body -->
 					<div class="ctct-modal-footer">
@@ -396,7 +401,8 @@ class ConstantContact_Builder {
 							echo wpautop( esc_html__( 'Subsequent "Custom Text Area" fields are only sent with the admin email when the form is submitted, and not to your Constant Contact account.', 'constant-contact-forms' ) );
 						?></div>
 						<div class="ctct-modal-right">
-							<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/fields-image.png' ); ?>" alt="<?php echo esc_attr_x( 'screenshot regarding custom text areas', 'connect alt text', 'constant-contact-forms' ); ?>" />
+							<?php // Empty alt tag OK; decorative image. ?>
+							<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/fields-image.png' ); ?>" alt="" />
 						</div>
 					</div><!-- modal body -->
 				</div><!-- .modal-content -->

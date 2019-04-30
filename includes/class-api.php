@@ -6,6 +6,8 @@
  * @subpackage API
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 use Ctct\ConstantContact;
@@ -15,6 +17,8 @@ use Ctct\Exceptions\CtctException;
 
 /**
  * Powers connection between site and Constant Contact API.
+ *
+ * @since 1.0.0
  */
 class ConstantContact_API {
 
@@ -416,12 +420,12 @@ class ConstantContact_API {
 			if ( isset( $response->results ) && ! empty( $response->results ) ) {
 				constant_contact_maybe_log_it( 'API', 'Contact set to be updated', [ 'form' => get_the_title( $form_id ) ] );
 				// Update the existing contact if address already existed.
-				$return_contact = $this->_update_contact( $response, $api_token, $list, $new_contact, $form_id );
+				$return_contact = $this->update_contact( $response, $api_token, $list, $new_contact, $form_id );
 
 			} else {
 				constant_contact_maybe_log_it( 'API', 'Contact set to be created', [ 'form' => get_the_title( $form_id ) ] );
 				// Create a new contact if one does not exist.
-				$return_contact = $this->_create_contact( $api_token, $list, $email, $new_contact, $form_id );
+				$return_contact = $this->create_contact( $api_token, $list, $email, $new_contact, $form_id );
 			}
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
@@ -445,7 +449,7 @@ class ConstantContact_API {
 	 * @param string $form_id   ID of the form being processed.
 	 * @return mixed Response from API.
 	 */
-	public function _create_contact( $api_token, $list, $email, $user_data, $form_id ) {
+	public function create_contact( $api_token, $list, $email, $user_data, $form_id ) {
 
 		// Get a new instance of our contact.
 		$contact = new Contact();
@@ -489,7 +493,7 @@ class ConstantContact_API {
 	 * @param string $form_id   Form ID being processed.
 	 * @return mixed Response from API.
 	 */
-	public function _update_contact( $response, $api_token, $list, $user_data, $form_id ) {
+	public function update_contact( $response, $api_token, $list, $user_data, $form_id ) {
 
 		// Sanity checks on our response.
 		if (
@@ -647,7 +651,7 @@ class ConstantContact_API {
 
 					// Attach it.
 					$contact->addCustomField( $custom );
-					$count = $count + 1;
+					$count++;
 					break;
 				case 'custom_text_area':
 					$textareas++;
@@ -731,15 +735,12 @@ class ConstantContact_API {
 		switch ( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
 				$this->access_token = false;
-				return __( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constant-contact-forms' );
+				return esc_html__( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constant-contact-forms' );
 			case 'mashery.not.authorized.over.qps':
 				$this->pause_api_calls();
 				return;
-			break;
 			default:
 				return false;
-			break;
-
 		}
 	}
 
@@ -754,6 +755,8 @@ class ConstantContact_API {
 
 	/**
 	 * Make sure we don't over-do API requests, helper method to check if we're connected.
+	 *
+	 * @since 1.0.0
 	 *
 	 * @return boolean If connected.
 	 */

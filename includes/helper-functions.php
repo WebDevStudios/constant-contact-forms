@@ -96,6 +96,7 @@ function constant_contact_maybe_display_optin_notification() {
 	}
 
 	$current_screen = get_current_screen();
+
 	if ( ! is_object( $current_screen ) || 'dashboard' !== $current_screen->base ) {
 		return false;
 	}
@@ -130,17 +131,22 @@ function constant_contact_maybe_display_review_notification() {
 		return false;
 	}
 
-	if ( 'true' === get_option( 'ctct-reviewed', 'false' ) ) {
+	if ( 'true' === get_option( ConstantContact_Notifications::$reviewed_option, 'false' ) ) {
 		return false;
 	}
 
-	// @todo date_diff() comparisons.
-	//
-	$dismissed = get_option( 'ctct-review-dismissed', [] );
+	$activated_time = get_option( Constant_Contact::$activated_date_option );
+
+	if ( ! $activated_time || time() < strtotime( '+14 days', $activated_time ) ) {
+		return false;
+	}
+
+	$dismissed = get_option( ConstantContact_Notifications::$review_dismissed_option, [] );
+
 	if ( isset( $dismissed['count'] ) && '1' === $dismissed['count'] ) {
 		$fourteen_days = strtotime( '-14 days' );
-		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $fourteen_days
-		) {
+
+		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $fourteen_days ) {
 			return true;
 		} else {
 			return false;
@@ -169,7 +175,7 @@ function constant_contact_maybe_display_review_notification() {
 }
 
 /**
- * Whether or not to show our reCAPTCHA info notice. Should only show
+ * Whether or not to show our reCAPTCHA info notice. Should only show two weeks after activation.
  *
  * @since 1.2.4
  *
@@ -230,7 +236,7 @@ function constant_contact_review_ajax_handler() {
 
 		switch ( $action ) {
 			case 'dismissed':
-				$dismissed         = get_option( 'ctct-review-dismissed', [] );
+				$dismissed         = get_option( ConstantContact_Notifications::$review_dismissed_option, [] );
 				$dismissed['time'] = current_time( 'timestamp' );
 				if ( empty( $dismissed['count'] ) ) {
 					$dismissed['count'] = '1';
@@ -239,12 +245,12 @@ function constant_contact_review_ajax_handler() {
 				} else {
 					$dismissed['count'] = '2';
 				}
-				update_option( 'ctct-review-dismissed', $dismissed );
+				update_option( ConstantContact_Notifications::$review_dismissed_option, $dismissed );
 
 				break;
 
 			case 'reviewed':
-				update_option( 'ctct-reviewed', 'true' );
+				update_option( ConstantContact_Notifications::$reviewed_option, 'true' );
 				break;
 
 			default:
