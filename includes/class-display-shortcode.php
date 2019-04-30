@@ -1,10 +1,14 @@
 <?php
 /**
+ * Handles the output of the shortcode.
+ *
  * @package ConstantContact
  *
  * @subpackage DisplayShortcode
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
@@ -18,10 +22,19 @@ class ConstantContact_Display_Shortcode {
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
+	 *
 	 * @var object
 	 */
 	protected $plugin = null;
 
+	/**
+	 * Track form instances on page.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @var array
+	 */
+	protected static $form_instance = 0;
 
 	/**
 	 * Constructor.
@@ -54,12 +67,10 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function shortcode_wrapper( $atts ) {
 
-		// Bail if we don't have a form set.
 		if ( ! isset( $atts['form'] ) ) {
 			return '';
 		}
 
-		// Show the title or not.
 		$show_title = ( isset( $atts['show_title'] ) && 'true' === $atts['show_title'] ) ? true : false;
 
 		return $this->get_form( $atts['form'], $show_title );
@@ -76,28 +87,29 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function get_form( $form_id, $show_title = false ) {
 
-		// Sanity check it.
 		$form_id = absint( $form_id );
+
 		if ( ! $form_id ) {
 			return '';
 		}
 
-		// Grab all post meta.
 		$meta = get_post_meta( $form_id );
 
-		// Bail if we didn't get meta.
 		if ( ! $meta ) {
 			return '';
 		}
 
-		// Pass our data into our field method.
 		$form_data = $this->get_field_meta( $meta, $form_id );
+		$form      = constant_contact()->display->form( $form_data, $form_id, $show_title );
 
-		// Return our markup.
-		$form = constant_contact()->display->form( $form_data, $form_id, $show_title );
+		++self::$form_instance;
 
-		return '<div id="ctct-form-' . $form_id . '" class="ctct-form-wrapper">' . $form . '</div><!-- .ctct-form-wrapper -->';
-
+		return sprintf(
+			'<div data-form-id="%1$s" id="ctct-form-wrapper-%2$s" class="ctct-form-wrapper">%3$s</div>',
+			esc_attr( $form_id ),
+			esc_attr( self::$form_instance - 1 ),
+			$form
+		);
 	}
 
 	/**
@@ -109,10 +121,7 @@ class ConstantContact_Display_Shortcode {
 	 * @param bool $show_title If true, show the title.
 	 */
 	public function display_form( $form_id, $show_title = false ) {
-
-		// @codingStandardsIgnoreStart
-		echo $this->get_form( absint( $form_id ), $show_title );
-		// @codingStandardsIgnoreEnd
+		echo $this->get_form( absint( $form_id ), $show_title ); // WPCS: XSS Ok.
 	}
 
 	/**
