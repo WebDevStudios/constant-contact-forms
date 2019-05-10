@@ -75,21 +75,6 @@
 	};
 
 	/**
-	 * Clears form inputs of current values.
-	 *
-	 * @author Constant Contact
-	 * @since 1.0.0
-	 *
-	 * @param {string} formIdSelector The selector for the form that has just been submitted.
-	 */
-	app.clearFormInputs = function( formIdSelector ) {
-
-		// jQuery doesn't have a native reset function so the [0] will convert to a JavaScript object.
-		var submittedForm = $( formIdSelector + ' form' );
-		submittedForm[0].reset();
-	};
-
-	/**
 	 * Adds .ctct-invalid HTML class to inputs whose values are invalid.
 	 *
 	 * @author Constant Contact
@@ -152,6 +137,28 @@
 	};
 
 	/**
+	 * Prepends form with a message that fades out in 5 seconds.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 *
+	 * @param {object} $form jQuery object for the form a message is being displayed for.
+	 * @param {string} message The message content.
+	 * @param {string} classes Optional. HTML classes to add to the message wrapper.
+	 */
+	app.showMessage = ( $form, message, classes = '' ) => {
+
+		var $p = $( '<p />', {
+			'class': 'ctct-message ' + classes,
+			'text': message
+		} );
+
+		$p.insertBefore( $form ).fadeIn( 200 ).delay( 5000 ).slideUp( 200, () => {
+			$p.remove();
+		} );
+	};
+
+	/**
 	 * Submits the actual form via AJAX.
 	 *
 	 * @author Constant Contact
@@ -172,40 +179,26 @@
 
 			$form.find( '#ctct-submitted' ).prop( 'disabled', false );
 
-			// Make sure we got the 'status' attribute in our response.
 			if ( 'undefined' === typeof( response.status ) ) {
 				return false;
 			}
 
-			if ( 'success' === response.status ) {
+			// Here we'll want to disable the submit button and add some error classes.
+			if ( 'success' !== response.status ) {
 
-				// Add a timestamp to the message so that we only remove this message and not all at once.
-				var timeClass = 'message-time-' + $.now();
-
-				var messageClass = 'ctct-message ' + response.status + ' ' + timeClass;
-
-				$form.before( '<p class="' + messageClass + '">' + response.message + '</p>' );
-
-				if ( '' !== formIdSelector ) {
-					app.clearFormInputs( formIdSelector );
-				}
-
-				// Set a 5 second timeout to remove the added success message.
-				setTimeout( () => {
-					$( '.' + timeClass ).fadeOut( 'slow' );
-				}, 5000 );
-
-			} else {
-
-				// Here we'll want to disable the submit button and add some error classes.
 				if ( 'undefined' !== typeof( response.errors ) ) {
 					app.setAllInputsValid();
 					response.errors.forEach( app.processError );
 				} else {
-					$form.before( '<p class="ctct-message ' + response.status + '">' + response.message + '</p>' );
+					app.showMessage( $form, response.message, 'ctct-error' );
 				}
+
+				return false;
 			}
 
+			// If we're here, the submission was a success; show message and reset form fields.
+			app.showMessage( $form, response.message, 'ctct-success' );
+			$form[0].reset();
 		} );
 	};
 
