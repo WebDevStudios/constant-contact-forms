@@ -134,7 +134,7 @@
 	 * @param {object} $form jQuery object for the form being validated.
 	 * @return {boolean} False if AJAX processing is disabled for this form or if a required field is empty.
 	 */
-	app.validateSubmission = function( $form ) {
+	app.validateSubmission = ( $form ) => {
 
 		if ( 'on' !== $form.attr( 'data-doajax' ) ) {
 			return false;
@@ -159,7 +159,7 @@
 	 *
 	 * @param {object} $form jQuery object for the form being submitted.
 	 */
-	app.submitForm = function( $form ) {
+	app.submitForm = ( $form ) => {
 
 		$form.find( '#ctct-submitted' ).prop( 'disabled', true );
 
@@ -168,43 +168,44 @@
 			'data': $form.serialize()
 		};
 
-		$.post( window.ajaxurl, ajaxData, function( response ) {
+		$.post( window.ajaxurl, ajaxData, ( response ) => {
 
 			$form.find( '#ctct-submitted' ).prop( 'disabled', false );
 
 			// Make sure we got the 'status' attribute in our response.
-			if ( 'undefined' !== typeof( response.status ) ) {
+			if ( 'undefined' === typeof( response.status ) ) {
+				return false;
+			}
 
-				if ( 'success' === response.status ) {
+			if ( 'success' === response.status ) {
 
-					// Add a timestamp to the message so that we only remove this message and not all at once.
-					var timeClass = 'message-time-' + $.now();
+				// Add a timestamp to the message so that we only remove this message and not all at once.
+				var timeClass = 'message-time-' + $.now();
 
-					var messageClass = 'ctct-message ' + response.status + ' ' + timeClass;
+				var messageClass = 'ctct-message ' + response.status + ' ' + timeClass;
 
-					$form.before( '<p class="' + messageClass + '">' + response.message + '</p>' );
+				$form.before( '<p class="' + messageClass + '">' + response.message + '</p>' );
 
-					if ( '' !== formIdSelector ) {
-						app.clearFormInputs( formIdSelector );
-					}
+				if ( '' !== formIdSelector ) {
+					app.clearFormInputs( formIdSelector );
+				}
 
-					// Set a 5 second timeout to remove the added success message.
-					setTimeout( function() {
-						$( '.' + timeClass ).fadeOut( 'slow' );
-					}, 5000 );
+				// Set a 5 second timeout to remove the added success message.
+				setTimeout( () => {
+					$( '.' + timeClass ).fadeOut( 'slow' );
+				}, 5000 );
 
+			} else {
+
+				// Here we'll want to disable the submit button and add some error classes.
+				if ( 'undefined' !== typeof( response.errors ) ) {
+					app.setAllInputsValid();
+					response.errors.forEach( app.processError );
 				} else {
-
-					// Here we'll want to disable the submit button and add some error classes.
-					if ( 'undefined' !== typeof( response.errors ) ) {
-						app.setAllInputsValid();
-						response.errors.forEach( app.processError );
-					} else {
-						$form.before( '<p class="ctct-message ' + response.status + '">' + response.message + '</p>' );
-					}
-
+					$form.before( '<p class="ctct-message ' + response.status + '">' + response.message + '</p>' );
 				}
 			}
+
 		} );
 	};
 
@@ -249,6 +250,7 @@
 
 			// Ensure each form's honeypot is checked.
 			app.$c.$forms[ i ].$honeypot.on( 'change keyup', ( e ) => {
+
 				app.checkHoneypot(
 					e,
 					app.$c.$forms[ i ].$honeypot,
