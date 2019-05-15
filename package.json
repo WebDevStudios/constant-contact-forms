@@ -22,7 +22,7 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.4",
     "gulp-util": "^3.0.8",
-    "webpack": "^4.29.3",
+    "webpack": "^4.30.0",
     "webpack-stream": "^5.2.1"
   },
   "scripts": {
