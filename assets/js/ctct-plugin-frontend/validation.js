@@ -14,7 +14,7 @@
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	app.init = function() {
+	app.init = () => {
 		app.cache();
 		app.bindEvents();
 		app.removePlaceholder();
@@ -26,10 +26,10 @@
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	app.removePlaceholder = function() {
-		$( '.ctct-form-field input, textarea' ).focus( function() {
+	app.removePlaceholder = () => {
+		$( '.ctct-form-field input, textarea' ).focus( () => {
 			$( this ).data( 'placeholder', $( this ).attr( 'placeholder' ) ).attr( 'placeholder', '' );
-		} ).blur( function() {
+		} ).blur( () => {
 			$( this ).attr( 'placeholder', $( this ).data( 'placeholder' ) );
 		} );
 	};
@@ -70,7 +70,7 @@
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	app.setAllInputsValid = function() {
+	app.setAllInputsValid = () => {
 		$( app.$c.$form + ' .ctct-invalid' ).removeClass( 'ctct-invalid' );
 	};
 
@@ -82,7 +82,7 @@
 	 *
 	 * @param {object} error AJAX response error object.
 	 */
-	app.processError = function( error ) {
+	app.processError = ( error ) => {
 
 		// If we have an id property set.
 		if ( 'undefined' !== typeof( error.id ) ) {
