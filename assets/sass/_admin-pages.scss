@@ -289,18 +289,26 @@
 
 	}
 }
+
 .section-try-us {
-  .ctct-bonus-points {
-	margin-bottom: 50px;
-  }
-  a {
-	&.button {
-	  margin-right: 40px;
+
+	.ctct-bonus-points {
+		margin-bottom: 50px;
 	}
-	&.ctct-connect {
-	  font-weight: bold;
+
+	a {
+		&.button {
+			margin-right: 40px;
+		}
+
+		&.ctct-connect {
+			font-weight: bold;
+		}
+
+		&:focus {
+			outline: 1px dotted $color-black;
+		}
 	}
-  }
 }
 
 .section-marketing-tips {
