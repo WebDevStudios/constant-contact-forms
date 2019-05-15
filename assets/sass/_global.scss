@@ -3,30 +3,31 @@
 //   Global styling goes here
 //--------------------------------------------------------------
 
-.ctct-form-wrapper{
+.ctct-form-wrapper {
 
 	// 'Edit Form' link
 	.ctct-button {
-		font-size: 0.9em;
-	}  // .ctct-button
+		font-size: 0.9rem;
+	}
 
 	// form messages / validation
 	.ctct-message {
-	    border: 1px solid;
+		border: 1px solid;
 		padding: $padding;
-	} // .message
 
-	// message Error
-	.error {
-	    background-color: fade-out( $color-error, 0.98 );
-		border-color: $color-error;
-		color: darken( $color-error, 20% );
-	} // .error
 
-	// message Success
-	.success {
-	    background-color: fade-out( $color-success, 0.98 );
-		border-color: $color-green;
-		color: darken( $color-success, 20% );
-	} // .success
+		// message Error
+		&.ctct-error {
+			background-color: fade-out( $color-error, 0.98 );
+			border-color: $color-error;
+			color: darken( $color-error, 20% );
+		}
+
+		// message Success
+		&.ctct-success {
+			background-color: fade-out( $color-success, 0.98 );
+			border-color: $color-green;
+			color: darken( $color-success, 20% );
+		}
+	}
 }
