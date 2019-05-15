@@ -2,8 +2,8 @@
 Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.0.0
-Tested up to:      5.1.1
-Stable tag:        1.5.2
+Tested up to:      5.2.0
+Stable tag:        1.5.3
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.4
@@ -34,6 +34,10 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
+= 1.5.3 =
+* Fixed: Removed TGMPA library files that were causing some conflicts with premium themes or other plugins.
+* Fixed: tweaked shortcode assets URL reference in bundled library for better compatibility with various hosting environments.
 
 = 1.5.2 =
 * Fixed: Javascript conflicts with Lodash and Underscores in conjunction with 1.5.0's Gutenberg support.
