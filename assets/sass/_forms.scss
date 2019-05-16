@@ -1,8 +1,9 @@
+// sass-lint:disable class-name-format no-qualifying-elements id-name-format
 //--------------------------------------------------------------
 //   FORMS
 //--------------------------------------------------------------
-.ctct-form-wrapper{
-	// <form class="ctct-form">
+.ctct-form-wrapper {
+
 	.ctct-form {
 		@include clearfix;
 
@@ -10,34 +11,33 @@
 		.ctct-label-bottom label {
 			display: block;
 		}
+
 		.ctct-label-left label,
 		.ctct-label-right label {
 			display: inline-block;
 		}
 
 		abbr {
-		    border: none;
+			border: none;
 			color: $color-red;
-			font-size: 0.9em;
-		} // <abbr>
+			font-size: 0.9rem;
+		}
 
-	} // .ctct-form
+	}
 
-	// If Field Description (optional) is provided
-	// we wrap an extra div around <input> and <label>
 	.ctct-input-container {
 
 		label {
-		    color: $color-gray;
-			font-size: 0.8em;
-		} // label
-
-	} // .ctct-input-container
+			color: $color-gray;
+			font-size: 0.8rem;
+		}
+	}
 
 	.ctct-field-error {
 		color: $color-red;
 	}
+
 	.ctct-submit {
-	  cursor: pointer;
+		cursor: pointer;
 	}
 }
