@@ -180,7 +180,7 @@ class ConstantContactWidget extends WP_Widget {
 				esc_attr( $name ),
 				esc_attr( $id ),
 				checked( ! empty( $value ), true, false ),
-				esc_attr( $id ),
+				esc_attr( $name ),
 				esc_html( $label_text )
 			);
 		}
@@ -203,7 +203,7 @@ class ConstantContactWidget extends WP_Widget {
 
 			printf(
 				'<p><label for="%1$s">%2$s</label><input type="text" class="widefat" name="%3$s" id="%4$s" value="%5$s" /></p>',
-				esc_attr( $id ),
+				esc_attr( $name ),
 				esc_html( $label_text ),
 				esc_attr( $name ),
 				esc_attr( $id ),
@@ -240,7 +240,7 @@ class ConstantContactWidget extends WP_Widget {
 			}
 			printf(
 				'<p><label for="%1$s">%2$s</label><select class="widefat" name="%3$s" id="%4$s">%5$s</select>',
-				esc_attr( $id ),
+				esc_attr( $name ),
 				esc_html( $label_text ),
 				esc_attr( $name ),
 				esc_attr( $id ),
