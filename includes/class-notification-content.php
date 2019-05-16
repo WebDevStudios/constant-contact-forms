@@ -169,26 +169,6 @@ class ConstantContact_Notification_Content {
 		return ob_get_clean();
 	}
 
-	/**
-	 * Content for the reCAPTCHA information notice.
-	 *
-	 * @since 1.2.4
-	 *
-	 * @return string
-	 */
-	public static function recaptcha() {
-
-		$settings_page_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings' );
-
-		return sprintf(
-			/* Translators: Placeholders will hold HTML `<strong>` tags and `<a>` tags linking to Constant Contact Forms settings page. */
-			esc_html__( '%1$sProtect yourself from spam and bots:%2$s Constant Contact Forms for WordPress now supports Google reCAPTCHA. %3$sSet up reCAPTCHA%4$s in the plugin settings.', 'constant-contact-forms' ),
-			'<strong>',
-			'</strong>',
-			sprintf( '<a href="%1$s">', esc_url( $settings_page_url ) ),
-			'</a>'
-		);
-	}
 }
 
 /**
@@ -252,24 +232,3 @@ function constant_contact_add_review_notification( $notifications = [] ) {
 }
 
 add_filter( 'constant_contact_notifications', 'constant_contact_add_review_notification' );
-
-/**
- * Adds our reCAPTCHA informational admin notice.
- *
- * @since 1.2.4
- *
- * @param array $notifications Array of notifications pending to show.
- * @return array Array of notifications to show.
- */
-function constant_contact_add_recaptcha_notification( $notifications = [] ) {
-
-	$notifications[] = [
-		'ID'         => 'reCAPTCHA',
-		'callback'   => [ 'ConstantContact_Notification_Content', 'reCAPTCHA' ],
-		'require_cb' => 'constant_contact_maybe_display_recaptcha_notification',
-	];
-
-	return $notifications;
-}
-
-add_filter( 'constant_contact_notifications', 'constant_contact_add_recaptcha_notification' );
