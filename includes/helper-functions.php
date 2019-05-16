@@ -175,17 +175,6 @@ function constant_contact_maybe_display_review_notification() {
 }
 
 /**
- * Whether or not to show our reCAPTCHA info notice. Should only show two weeks after activation.
- *
- * @since 1.2.4
- *
- * @return bool
- */
-function constant_contact_maybe_display_recaptcha_notification() {
-	return true;
-}
-
-/**
  * Handle the optin checkbox for the admin notice.
  *
  * @since 1.2.0
