@@ -9,26 +9,30 @@ window.CTCTAJAX = {};
 	};
 
 	// We need to manipulate our form builder a bit. We do this here.
-	that.handleOptinAJAX = function() {
+	that.handleOptinAJAX = () => {
 
 		// Handles GA opt-in confirmation for admin notice.
-		$( '#ctct_admin_notice_tracking_optin' ).on( 'click', function(e){
-			var ctct_optin_ajax = {
+		$( '#ctct_admin_notice_tracking_optin' ).on( 'click', ( e ) => {
+
+			var ctctOptinAjax = {
 				'action': 'constant_contact_optin_ajax_handler',
 				'optin': ( $( this ).is( ':checked' ) ) ? 'on' : 'off'
 			};
 
-			$.ajax({
-				url     : ajaxurl,
-				data    : ctct_optin_ajax,
+			$.ajax( {
+				url: window.ajaxurl,
+				data: ctctOptinAjax,
 				dataType: 'json',
-				success : function (response) {},
-				error: function(x, t, m){
-					if (window.console) {
-						console.log( [t, m] );
+				success: ( response ) => {
+					$( document.getElementById( 'ctct-admin-notice-optin_admin_notice' ) ).remove();
+				},
+				error: ( x, t, m ) => {
+					if ( window.console ) {
+						console.log( [ t, m ] );
 					}
 				}
-			});
+			} );
+
 			$( '#ctct-privacy-modal' ).toggleClass( 'ctct-modal-open' );
 		});
 
