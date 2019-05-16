@@ -112,11 +112,9 @@ class ConstantContact_Notification_Content {
 		</div>
 
 		<div class="admin-notice-message">
-			<h4><?php esc_html_e( 'Constant Contact Forms for WordPress data tracking opt-in', 'constant-contact-forms' ); ?></h4>
+			<h4 id="ctct-admin-notice-tracking-optin-header"><?php esc_html_e( 'Constant Contact Forms for WordPress data tracking opt-in', 'constant-contact-forms' ); ?></h4>
 			<div>
-				<label>
-					<input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" />
-				</label>
+				<input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" aria-labelledby="ctct-admin-notice-tracking-optin-header" />
 			</div>
 			<div>
 				<?php
