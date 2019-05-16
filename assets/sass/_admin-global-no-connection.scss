@@ -6,7 +6,6 @@
 //--------------------------------------------------------------
 // Connect Page
 //--------------------------------------------------------------
-
 .ctct_options_connect {
 	box-sizing: border-box;
 	padding: 70px;
@@ -18,8 +17,8 @@
 	}
 
 	@media screen and (max-width: 782px) {
-		padding: 30px 30px 0;
 		margin-left: -10px;
+		padding: 30px 30px 0;
 	}
 
 	.ctct-call-to-action {
@@ -78,9 +77,9 @@
 	}
 
 	img {
-		width: 100%;
-		max-width: 400px;
 		height: auto;
+		max-width: 400px;
+		width: 100%;
 	}
 
 	h3 {
@@ -115,6 +114,10 @@
 
 	.ctct-body {
 		@include clearfix;
+		margin: 0 auto;
+		max-width: 75%;
+		overflow-y: hidden;
+		position: relative;
 
 		.ctct-call-to-action-text {
 			float: left;
@@ -129,15 +132,10 @@
 			}
 		}
 
-		margin: 0 auto;
-		max-width: 75%;
-		overflow-y: hidden;
-		position: relative;
-
 		.clear {
-			width: 100%;
 			clear: both;
 			height: 0;
+			width: 100%;
 		}
 
 		.left,
@@ -159,8 +157,8 @@
 			img,
 			svg {
 				&.flare {
-					width: 180px;
 					height: auto;
+					width: 180px;
 				}
 			}
 		}
@@ -177,8 +175,8 @@
 			}
 
 			p {
-				max-width: 220px;
 				margin: 0 auto 25px;
+				max-width: 220px;
 
 				@media screen and (max-width: 782px) {
 					max-width: 100%;
@@ -196,8 +194,8 @@
 
 			p {
 				display: block;
-				max-width: 350px;
 				margin: 0 auto 25px;
+				max-width: 350px;
 
 				@media screen and (max-width: 782px) {
 					max-width: 100%;
@@ -240,10 +238,11 @@
 		.ctct-connected {
 
 			.ctct-connected-next-step {
+				margin-bottom: 40px;
+
 				h3 {
 					color: $color-green;
 				}
-				margin-bottom: 40px;
 			}
 
 			.ctct-disconnect-text {
@@ -277,7 +276,7 @@
 
 				.ctct-disconnect-text {
 					float: none;
-					text-align: center
+					text-align: center;
 				}
 
 				form {
@@ -290,8 +289,8 @@
 
 .ctct-error {
 	background: none !important;
-	border-radius: 3px;
 	border: 1px solid $color-red;
+	border-radius: 3px;
 	box-shadow: none !important;
 	display: inline-block;
 	margin: 0 0 20px 0 !important;

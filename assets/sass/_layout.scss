@@ -2,18 +2,16 @@
 //--------------------------------------------------------------
 //   Layout helpers
 //--------------------------------------------------------------
-
-.ctct-form-wrapper{
+.ctct-form-wrapper {
 
 	.ctct-form-field {
-	    margin: 0 0 1em;
-	} // .ctct-form-field
+		margin: 0 0 1rem;
+	}
 
 	.ctct-field-inline {
 		display: inline-block;
-	} // .ctct-field-inline
+	}
 
-	// 2-col layout helper for desktop
 	.ctct-field-half {
 
 		@include wider-than( 'medium' ) {
@@ -26,9 +24,8 @@
 			}
 		}
 
-	} // .ctct-field-half
+	}
 
-	// 3-col layout helper for desktop
 	.ctct-field-third {
 
 		@include wider-than( 'medium' ) {
@@ -41,9 +38,8 @@
 			}
 		}
 
-	} // .ctct-field-third
+	}
 
-	// 4-col layout helper for desktop
 	.ctct-field-fourth {
 
 		@include wider-than('medium') {
@@ -56,5 +52,5 @@
 			}
 		}
 
-	} // .ctct-field-fourth
+	}
 }

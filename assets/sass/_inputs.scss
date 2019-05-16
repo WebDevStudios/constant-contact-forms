@@ -2,18 +2,15 @@
 //--------------------------------------------------------------
 //   INPUTS
 //--------------------------------------------------------------
-
-.ctct-form-wrapper{
+.ctct-form-wrapper {
 
 	input {
+		&[type='text'],
+		&[type='email'],
+		&[type='password'],
+		&[type='tel'],
+		&[type='number'] {
 
-		&[type="text"],
-		&[type="email"],
-		&[type="password"],
-		&[type="tel"],
-		&[type="number"] {
-
-			// show success!
 			&:required:valid {
 				background-image: url( '../images/check_circle.svg' );
 				background-position: 8px 50%;
@@ -23,10 +20,9 @@
 				padding-left: 32px;
 			}
 
-			// show error.
 			&:required.ctct-invalid,
 			&.ctct-invalid {
-				background: rgb(255,255,255) url( '../images/error.svg' ) no-repeat;
+				background: $color-white url( '../images/error.svg' ) no-repeat;
 				background-color: fade-out($color-error, 0.98);
 				background-position: 8px 50%;
 				background-size: 24px;
@@ -35,15 +31,15 @@
 			}
 		}
 
-	} // <input>
+	}
 
 	.ctct-field-error {
-		font-size: 0.85em;
+		font-size: 0.85rem;
 		font-style: italic;
 	}
 
 	input.ctct-invalid {
-		background: rgb(255,255,255) url( '../images/error.svg' ) no-repeat;
+		background: $color-white url( '../images/error.svg' ) no-repeat;
 		background-color: fade-out($color-error, 0.98);
 		background-position: 8px 50%;
 		background-size: 24px;
@@ -55,42 +51,43 @@
 	textarea.ctct-label-left {
 		display: inline-block;
 		width: 75%;
-	} // input.ctct-label-left, textarea.ctct-label-left
+	}
 
 	span.ctct-label-left {
 		display: inline-block;
 		margin-right: 5%;
 		width: 20%;
-	} // span.ctct-label-left
+	}
 
 	input.ctct-label-right,
 	textarea.ctct-label-right {
 		display: inline-block;
 		margin-right: 5%;
 		width: 75%;
-	} // input.ctct-label-right, textarea.ctct-label-right
+	}
 
 	span.ctct-label-right {
 		display: inline-block;
 		width: 20%;
-	} // span.ctct-label-right
+	}
 
 	span.ctct-label-hidden {
 		left: -9999px !important;
 		position: absolute !important;
 		top: -9999px !important;
-	} // span.ctct-label-hidden
+	}
 
 	#ctct_usage {
-		position: absolute;
-		overflow: hidden;
-		clip: rect(0px, 0px, 0px, 0px);
-		height: 1px;
-		width: 1px;
-		margin: -1px;
 		border: 0 none;
+		clip: rect( 0, 0, 0, 0 );
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
 		padding: 0;
+		position: absolute;
+		width: 1px;
 	}
+
 	.no-recaptcha #ctct-submitted:disabled {
 		background-image: url('../images/oval.min.svg');
 		background-position: center;
@@ -99,7 +96,8 @@
 		cursor: wait;
 		opacity: 0.3;
 	}
+
 	.has-recaptcha #ctct-submitted:disabled {
-	  cursor: not-allowed;
+		cursor: not-allowed;
 	}
 }

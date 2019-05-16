@@ -4,10 +4,9 @@
 
 .ctct-modal {
 	@include clearfix;
-
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
-	background-color: rgba(0,0,0,0.3);
+	background-color: $color-modal-background;
 	bottom: 0;
 	display: none;
 	left: 0;
@@ -26,7 +25,7 @@
 	}
 
 	h3 {
-		color: darken($color-prussian-blue,10%);
+		color: darken( $color-prussian-blue, 10% );
 		font-size: 18px;
 		line-height: 1.2;
 		margin-bottom: 15px;
@@ -46,11 +45,11 @@
 
 	.ctct-modal-dialog {
 		left: 50%;
+		max-width: 760px;
 		position: absolute;
 		top: 50%;
-		transform: translate(-50%, -50%);
+		transform: translate( -50%, -50% );
 		width: 100%;
-		max-width: 760px;
 
 		@media screen and (max-width: 1024px) {
 			max-width: 75%;
@@ -58,23 +57,23 @@
 
 		@media screen and (max-width: 782px) {
 			left: 7.5%;
-			top: 15%;
-			transform: translate(0,0);
 			margin-bottom: 15%;
 			max-width: 85%;
+			top: 15%;
+			transform: translate( 0, 0 );
 		}
 	}
 
 	.ctct-modal-content {
 		background-clip: padding-box;
-		background-color: #ffffff;
+		background-color: $color-white;
 		border-radius: 8px;
-		box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.4);
+		box-shadow: 0 0 15px 0 $color-modal-background;
 		padding: 0;
 		position: relative;
 
 		.ctct-modal-header {
-			background: $color-sky-blue url(../images/cc-modal-bg.png) 50% 50% no-repeat;
+			background: $color-sky-blue url('../images/cc-modal-bg.png') 50% 50% no-repeat;
 			border-top-left-radius: 8px;
 			border-top-right-radius: 8px;
 			padding: 65px 20px 40px;
@@ -85,12 +84,12 @@
 				font-size: 16px;
 				margin-bottom: 0;
 
-			    .displayed-shortcode {
+				.displayed-shortcode {
 					color: $color-modal-header;
 				}
 			}
 
-		  	.ctct-logo {
+			.ctct-logo {
 				img {
 					max-width: 75%;
 				}
@@ -98,8 +97,7 @@
 
 			.ctct-modal-close {
 				@include clearfix;
-
-				color: #ffffff;
+				color: $color-white;
 				cursor: pointer;
 				font-size: 26px;
 				height: 16px;
@@ -119,12 +117,12 @@
 			border-bottom-left-radius: 8px;
 			border-bottom-right-radius: 8px;
 			border-top: 3px solid $color-white;
-			padding:15px 15px 18px;
+			padding: 15px 15px 18px;
 			text-align: center;
 
 			p {
-				margin: 0;
 				font-size: 16px;
+				margin: 0;
 			}
 
 			a {
@@ -136,7 +134,7 @@
 				}
 			}
 
-		  	&.ctct-modal-footer-privacy a {
+			&.ctct-modal-footer-privacy a {
 				text-decoration: none;
 
 				&:focus {
@@ -144,7 +142,7 @@
 				}
 			}
 
-		  	.button {
+			.button {
 				border-radius: 4px;
 				color: $color-white;
 				font-size: 16px;
@@ -163,21 +161,21 @@
 
 				&.button-orange {
 					background-color: $color-chrome-yellow;
-					border: 1px solid darken($color-chrome-yellow, 10%);
+					border: 1px solid darken( $color-chrome-yellow, 10% );
 
 					&:hover,
 					&:focus {
-						background-color: darken($color-chrome-yellow, 10%);
+						background-color: darken( $color-chrome-yellow, 10% );
 					}
 				}
 
 				&.button-blue {
 					background-color: $color-prussian-blue;
-					border: 1px solid darken($color-prussian-blue, 10%);
+					border: 1px solid darken( $color-prussian-blue, 10% );
 
 					&:hover,
 					&:focus {
-						background-color: darken($color-prussian-blue, 10%);
+						background-color: darken( $color-prussian-blue, 10% );
 					}
 				}
 			}
@@ -188,50 +186,50 @@
 			padding: 15px;
 			position: relative;
 
-		  	&.ctct-privacy-modal-body {
-				overflow: scroll;
+			&.ctct-privacy-modal-body {
 				height: 350px;
+				overflow: scroll;
 			}
 
 			.ctct-modal-left,
 			.ctct-modal-right {
-				float:left;
-				padding: 15px 50px 15px;
+				box-sizing: border-box;
+				float: left;
+				padding: 15px 50px;
 				text-align: center;
 				width: 50%;
-    			box-sizing: border-box;
 
-    			@media screen and (max-width: 782px) {
-    				width: 100%;
-    				float: none;
-    			}
+				@media screen and (max-width: 782px) {
+					float: none;
+					width: 100%;
+				}
 
-    			img,
-    			svg {
+				img,
+				svg {
 
-    				&.ctct-modal-flare {
-						max-width: 120px;
+					&.ctct-modal-flare {
 						height: auto;
-    				}
-    			}
+						max-width: 120px;
+					}
+				}
 
-    			p {
-    				max-width: 90%;
-    				margin: 0 auto 25px;
+				p {
+					margin: 0 auto 25px;
+					max-width: 90%;
 
-    				&.small {
-    					line-height: 1;
-    					margin: 0;
-    					max-width: 100%;
-    				}
-    			}
+					&.small {
+						line-height: 1;
+						margin: 0;
+						max-width: 100%;
+					}
+				}
 
-    			small {
-    				font-style: italic;
-    			}
+				small {
+					font-style: italic;
+				}
 			}
 
-		    .now-what {
+			.now-what {
 				text-align: center;
 			}
 
@@ -248,8 +246,8 @@
 				border-left: 2px solid $color-alt-silver;
 
 				@media screen and (max-width: 782px) {
-					border-top: 1px solid $color-alt-silver;
 					border-left: 0;
+					border-top: 1px solid $color-alt-silver;
 				}
 			}
 
@@ -264,6 +262,7 @@
 				.ctct-modal-right {
 					border: none;
 					padding: 15px;
+
 					img {
 						max-width: 100%;
 					}
@@ -303,7 +302,7 @@
 			}
 
 			.privacy-center-container a.button {
-				color: #555
+				color: $color-modal-text;
 			}
 		}
 	}
