@@ -1,135 +1,153 @@
 window.CTCTAJAX = {};
+
 ( function( window, $, that ) {
 
-	// Constructor.
-	that.init = function() {
+	/**
+	 * @constructor
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	that.init = () => {
+
 		// Trigger any field modifications we need to do.
 		that.handleOptinAJAX();
 		that.handleReviewAJAX();
 	};
 
-	// We need to manipulate our form builder a bit. We do this here.
-	that.handleOptinAJAX = function() {
+	/**
+	 * We need to manipulate our form builder a bit. We do this here.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	that.handleOptinAJAX = () => {
 
-		// Handles GA opt-in confirmation for admin notice.
-		$( '#ctct_admin_notice_tracking_optin' ).on( 'click', function(e){
-			var ctct_optin_ajax = {
+		// eslint-disable-next-line no-unused-vars
+		$( '#ctct_admin_notice_tracking_optin' ).on( 'click', ( e ) => {
+
+			var ctctOptinAjax = {
 				'action': 'constant_contact_optin_ajax_handler',
 				'optin': ( $( this ).is( ':checked' ) ) ? 'on' : 'off'
 			};
 
-			$.ajax({
-				url     : ajaxurl,
-				data    : ctct_optin_ajax,
+			$.ajax( {
+				url: ajaxurl,  // eslint-disable-line no-undef
+				data: ctctOptinAjax,
 				dataType: 'json',
-				success : function (response) {},
-				error: function(x, t, m){
-					if (window.console) {
-						console.log( [t, m] );
+				error: ( x, t, m ) => {
+					if ( window.console ) {
+						console.log( [ t, m ] ); // eslint-disable-line no-console
 					}
 				}
-			});
+			} );
+
 			$( '#ctct-privacy-modal' ).toggleClass( 'ctct-modal-open' );
-		});
+		} );
 
 		// Opens the privacy modal once clicking on the checkbox to opt in via the admin notice.
-		$( '#ctct-connect-ga-optin a' ).on( 'click', function (e) {
-			var ctct_optin_ajax = {
+		// eslint-disable-next-line no-unused-vars
+		$( '#ctct-connect-ga-optin a' ).on( 'click', ( e ) => {
+			var ctctOptinAjax = {
 				'action': 'constant_contact_optin_ajax_handler',
-				'optin' : $( this ).attr( 'data-allow' )
+				'optin': $( this ).attr( 'data-allow' )
 			};
 
-			$.ajax({
-				url     : ajaxurl,
-				data    : ctct_optin_ajax,
+			$.ajax( {
+				url: ajaxurl, // eslint-disable-line no-undef
+				data: ctctOptinAjax,
 				dataType: 'json',
-				success : function (response) {
+				success: ( response ) => { // eslint-disable-line no-unused-vars
 					$( '.ctct-connected-opt-in' ).hide();
 				},
-				error   : function (x, t, m) {
-					if (window.console) {
-						console.log( [t, m] );
+				error: ( x, t, m ) => {
+					if ( window.console ) {
+						console.log( [ t, m ] ); // eslint-disable-line no-console
 					}
 				}
-			});
-		});
+			} );
+		} );
 
-		$( '#_ctct_data_tracking' ).on( 'click', function(e) {
+		// eslint-disable-next-line no-unused-vars
+		$( '#_ctct_data_tracking' ).on( 'click', ( e ) => {
 			$( '#ctct-privacy-modal' ).toggleClass( 'ctct-modal-open' );
-		});
+		} );
 
 		// Unchecks the value if they have closed the privacy modal without agreeing/disagreeing.
-		// We won't force them to agree.
-		$( '.ctct-modal-close' ).on( 'click', function(e){
+		// eslint-disable-next-line no-unused-vars
+		$( '.ctct-modal-close' ).on( 'click', ( e ) => {
 			var $checkbox = $( '#_ctct_data_tracking' );
 			if ( $checkbox.is( ':checked' ) ) {
 				$checkbox.attr( 'checked', false );
 			}
-		});
+		} );
 
 		// Handle the agreeing or disagreeing regarding privacy modal.
-		$( '#ctct-modal-footer-privacy a' ).on( 'click', function(e){
-			var ctct_privacy_ajax = {
+		// eslint-disable-next-line no-unused-vars
+		$( '#ctct-modal-footer-privacy a' ).on( 'click', ( e ) => {
+			var ctctPrivacyAjax = {
 				'action': 'constant_contact_privacy_ajax_handler',
-				'privacy_agree' : $( this ).attr( 'data-agree' )
+				'privacy_agree': $( this ).attr( 'data-agree' )
 			};
 
-			$.ajax({
-				url     : ajaxurl,
-				data    : ctct_privacy_ajax,
+			$.ajax( {
+				url: ajaxurl, // eslint-disable-line no-undef
+				data: ctctPrivacyAjax,
 				dataType: 'json',
-				success : function (response) {
+				success: ( response ) => { // eslint-disable-line no-unused-vars
 					$( '#ctct-privacy-modal' ).toggleClass( 'ctct-modal-open' );
-					if ( 'false' === ctct_privacy_ajax.privacy_agree ) {
+					if ( 'false' === ctctPrivacyAjax.privacy_agree ) {
 						var $checkbox = $( '#_ctct_data_tracking' );
-						if ($checkbox.is( ':checked' ) ) {
+						if ( $checkbox.is( ':checked' ) ) {
 							$checkbox.attr( 'checked', false );
 						}
 					}
 				},
-				error   : function (x, t, m) {
-					if (window.console) {
-						console.log( [t, m] );
+				error: ( x, t, m ) => {
+					if ( window.console ) {
+						console.log( [ t, m ] ); // eslint-disable-line no-console
 					}
 				}
-			});
-		});
-
+			} );
+		} );
 	};
 
 	// Handle saving the decision regarding the review prompt admin notice.
-	that.handleReviewAJAX = function() {
-		$( '#ctct-admin-notice-review_request' ).on( 'click', 'a', function (e) {
-			var ctct_action = 'dismissed';
+	that.handleReviewAJAX = () => {
+		$( '#ctct-admin-notice-review_request' ).on( 'click', 'a', ( e ) => {
+
+			var ctctAction = 'dismissed';
+
 			if ( $( this ).hasClass( 'ctct-review' ) ) {
-				ctct_action = 'reviewed';
+				ctctAction = 'reviewed';
 			}
-			var ctct_review_ajax = {
+
+			var ctctReviewAjax = {
 				'action': 'constant_contact_review_ajax_handler',
-				'ctct-review-action': ctct_action
+				'ctct-review-action': ctctAction
 			};
 
-			$.ajax({
-				url     : ajaxurl,
-				data    : ctct_review_ajax,
+			$.ajax( {
+				url: ajaxurl, // eslint-disable-line no-undef
+				data: ctctReviewAjax,
 				dataType: 'json',
-				success: function (resp) {
-					if (window.console) {
-						console.log( resp );
+				success: ( resp ) => {
+					if ( window.console ) {
+						console.log( resp ); // eslint-disable-line no-console
 					}
 					e.preventDefault();
 					$( '#ctct-admin-notice-review_request' ).hide();
 				},
-				error   : function (x, t, m) {
-					if (window.console) {
-						console.log( [t, m] );
+				error: ( x, t, m ) => {
+					if ( window.console ) {
+						console.log( [ t, m ] ); // eslint-disable-line no-console
 					}
 				}
-			});
-		});
+			} );
+		} );
 	};
 
 	// Engage!
 	$( that.init );
 
-})( window, jQuery, window.CTCTAJAX );
+} ( window, jQuery, window.CTCTAJAX ) );

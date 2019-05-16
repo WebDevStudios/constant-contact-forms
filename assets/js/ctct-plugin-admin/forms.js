@@ -20,7 +20,7 @@ window.CTCTForms = {};
 	that.bindEvents = function() {
 
 		$( that.$c.disconnect ).on( 'click', function(e) {
-			confirm( ctct_texts.disconnectconfirm );
+			confirm( ctctTexts.disconnectconfirm );
 		});
 	};
 
