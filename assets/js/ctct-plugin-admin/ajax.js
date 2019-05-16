@@ -54,7 +54,7 @@ window.CTCTAJAX = {};
 			};
 
 			$.ajax( {
-				url: ajaxurl, // eslint-disable-line no-undef
+				url: window.ajaxurl,
 				data: ctctOptinAjax,
 				dataType: 'json',
 				success: ( response ) => { // eslint-disable-line no-unused-vars
@@ -91,7 +91,7 @@ window.CTCTAJAX = {};
 			};
 
 			$.ajax( {
-				url: ajaxurl, // eslint-disable-line no-undef
+				url: window.ajaxurl,
 				data: ctctPrivacyAjax,
 				dataType: 'json',
 				success: ( response ) => { // eslint-disable-line no-unused-vars
@@ -128,7 +128,7 @@ window.CTCTAJAX = {};
 			};
 
 			$.ajax( {
-				url: ajaxurl, // eslint-disable-line no-undef
+				url: window.ajaxurl,
 				data: ctctReviewAjax,
 				dataType: 'json',
 				success: ( resp ) => {
@@ -147,7 +147,6 @@ window.CTCTAJAX = {};
 		} );
 	};
 
-	// Engage!
 	$( that.init );
 
 } ( window, jQuery, window.CTCTAJAX ) );

@@ -32,10 +32,15 @@ window.CTCTBuilder = {};
 
 		// Inject our new labels for the up/down CMB2 buttons, so they can be properly localized.
 		// Because we're using :after, we can't use .css() to do this, we need to inject a style tag.
-		$( 'head' ).append( '<style> #cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "' + ctctText.move_up + '" } #cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "' + ctctText.move_down + '" }</style>' );
+		$( 'head' ).append( '<style> #cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "' + window.ctctText.move_up + '" } #cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "' + window.ctctText.move_down + '" }</style>' );
 	};
 
-	// Cache all the things.
+	/**
+	 * Cache DOM elements.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
 	that.cache = () => {
 
 		that.$c = {
@@ -54,7 +59,7 @@ window.CTCTBuilder = {};
 
 			// Bind our error that displays before leaving page.
 			$( window ).bind( 'beforeunload', () => {
-				return ctctText.leavewarning;
+				return window.ctctText.leavewarning;
 			} );
 
 			// Save our state.
@@ -62,25 +67,32 @@ window.CTCTBuilder = {};
 		}
 	};
 
-	// Removes our binding of our leave warning.
+	/**
+	 * Removes our binding of our leave warning.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
 	that.unbindLeaveWarning = () => {
 		$( window ).unbind( 'beforeunload' );
 	};
 
-	// Combine all events.
+	/**
+	 * Attach callbacks to events.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
 	that.bindEvents = () => {
 
-		// Trigger before saving post.
 		$( '#post' ).submit( () => {
 
 			// Make sure our email dropdown reverts from disbled, as CMB2 doesn't save those values.
 			$( '.ctct-email-disabled' ).removeClass( 'disabled' ).prop( 'disabled', false );
 
-			// Unbind our leave warning, so we don't trigger it when we shouldn't.
 			that.unbindLeaveWarning();
 		} );
 
-		// On cmb2 select changes, fire our leave warning function.
 		$( '.cmb2-wrap input, .cmb2-wrap textarea' ).on( 'input', () => {
 			if ( 'undefined' !== typeof( tinyMCE ) ) {
 				that.bindLeaveWarning();
@@ -89,15 +101,8 @@ window.CTCTBuilder = {};
 
 		// Disable email options on row change trigger.
 		$( document ).on( 'cmb2_shift_rows_complete', () => {
-
-			// Fire our field modifications function
-			// functionality to apply to all saved values.
 			that.modifyFields();
-
-			// Bind our leave warning.
 			that.bindLeaveWarning();
-
-			// Re-run our mapping de-dupe.
 			that.removeDuplicateMappings();
 		} );
 
@@ -107,13 +112,11 @@ window.CTCTBuilder = {};
 			// Automatically set new rows to be 'custom' field type.
 			$( '#custom_fields_group_repeat .postbox' ).last().find( '.map select' ).val( 'none' );
 
-			// Trigger bind events again for our selects, as well as our field changes.
 			that.modifyFields();
 			that.selectBinds();
 			that.removeDuplicateMappings();
 		} );
 
-		// Remove any duplicate mappings in fields.
 		that.removeDuplicateMappings();
 
 		$( '#ctct-reset-css' ).on( 'click', ( event ) => {
@@ -149,7 +152,12 @@ window.CTCTBuilder = {};
 		} );
 	};
 
-	// When .cmb2_select <selects> get changed, do some actions.
+	/**
+	 * When .cmb2_select <selects> get changed, do some actions.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
 	that.selectBinds = () => {
 
 		// For each fields select.
@@ -166,7 +174,12 @@ window.CTCTBuilder = {};
 		} );
 	};
 
-	// We need to manipulate our form builder a bit. We do this here.
+	/**
+	 * We need to manipulate our form builder a bit. We do this here.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
 	that.modifyFields = () => {
 
 		// Set that we haven't found an email.
@@ -240,15 +253,17 @@ window.CTCTBuilder = {};
 		} );
 	};
 
-	// Go through all dropdowns, and remove used options.
+	/**
+	 * Go through all dropdowns, and remove used options.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
 	that.removeDuplicateMappings = () => {
 
-		// Set up an array for our mappings.
 		var usedMappings = [];
-
-		// Get all our dropdowns on the page.
-		var dropdowns  = '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select';
-		var $dropdowns = $( dropdowns );
+		var dropdowns    = '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select';
+		var $dropdowns   = $( dropdowns );
 
 		// For each dropdown, build up our array of used values.
 		$dropdowns.each( ( key, value ) => {
@@ -270,7 +285,6 @@ window.CTCTBuilder = {};
 		} );
 	};
 
-	// Engage!
 	$( that.init );
 
 } ( window, jQuery, window.CTCTBuilder ) );
