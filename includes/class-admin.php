@@ -477,7 +477,7 @@ class ConstantContact_Admin {
 
 		wp_localize_script(
 			'ctct_form',
-			'ctct_texts',
+			'ctctTexts',
 			/**
 			 * Filters the text used as part of the ctct_form javascript object.
 			 *
