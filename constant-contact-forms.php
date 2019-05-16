@@ -515,8 +515,8 @@ class Constant_Contact {
 
 		$this->notifications->delete_dismissed_notification( 'activation' );
 
-		delete_transient( 'ctct_lists' );
-		delete_option( self::$activated_date_option );
+		$uninstaller = new ConstantContact_Uninstall();
+		$uninstaller->run();
 	}
 
 	/**
