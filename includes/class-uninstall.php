@@ -18,14 +18,22 @@
 class ConstantContact_Uninstall {
 
 	/**
-	 * Constructor.
+	 * Names of options to delete.
 	 *
 	 * @since 1.6.0
+	 *
+	 * @var array
 	 */
-	public function __construct() {
-		$this->options    = [];
-		$this->transients = [];
-	}
+	private $options = [];
+
+	/**
+	 * Names of transients to delete.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var array
+	 */
+	private $transients = [];
 
 	/**
 	 * A public function for running the uninstallation processes.
@@ -54,6 +62,9 @@ class ConstantContact_Uninstall {
 			'ctct-processed-forms',
 			'ctct_plugin_version',
 			'ctct_privacy_policy_status',
+			'widget_ctct_form',
+			'_ctct_api_key',
+			'ctct_token',
 			Constant_Contact::$activated_date_option,
 			ConstantContact_Notifications::$dismissed_notices_option,
 			ConstantContact_Notifications::$review_dismissed_option,
