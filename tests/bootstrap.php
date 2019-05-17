@@ -31,11 +31,7 @@ if ( false !== getenv( 'WP_DEVELOP_DIR' ) ) {
 require_once $test_root . '/includes/functions.php';
 
 function _test_constant_contact_manually_load_plugin() {
-
 	require dirname( dirname( __FILE__ ) ) . '/constant-contact-forms.php';
-
-	// Not sure why CMB2 is throwing errors, but this seems to solve it for now
-	include_once( dirname( dirname( __FILE__ ) ) . '/vendor/CMB2/includes/helper-functions.php' );
 }
 
 tests_add_filter( 'muplugins_loaded', '_test_constant_contact_manually_load_plugin' );
