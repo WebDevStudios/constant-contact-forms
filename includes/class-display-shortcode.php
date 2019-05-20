@@ -58,14 +58,20 @@ class ConstantContact_Display_Shortcode {
 	}
 
 	/**
-	 * Acts as a wrapper so our shortcode class doesn't have to do this.
+	 * Renders [ctct] shortcodes.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param array $atts Shortcode attributes.
-	 * @return mixed
+	 * @return string
 	 */
-	public function shortcode_wrapper( $atts ) {
+	public function render_shortcode( $atts ) {
+
+		$atts = shortcode_atts(
+			$this->plugin->shortcode->get_atts(),
+			$atts,
+			$this->plugin->shortcode->tag
+		);
 
 		if ( ! isset( $atts['form'] ) ) {
 			return '';

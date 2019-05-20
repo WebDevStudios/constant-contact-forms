@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "678ccf457795b54b6c51ade7e056bf84",
+    "content-hash": "3afaebffb872238db202cdee28ab89e6",
     "packages": [
         {
             "name": "cmb2/cmb2",
@@ -369,50 +369,6 @@
             "time": "2014-10-12T19:18:40+00:00"
         },
         {
-            "name": "jtsternberg/shortcode-button",
-            "version": "v0.2.3",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/jtsternberg/Shortcode_Button.git",
-                "reference": "9a36a6937f10207cecdd021d05b7995ed1cf688d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/jtsternberg/Shortcode_Button/zipball/9a36a6937f10207cecdd021d05b7995ed1cf688d",
-                "reference": "9a36a6937f10207cecdd021d05b7995ed1cf688d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">5.2"
-            },
-            "type": "wordpress-plugin",
-            "autoload": {
-                "classmap": [
-                    "shortcode-button.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "jtsternberg",
-                    "email": "justin@dsgnwrks.pro",
-                    "homepage": "http://dsgnwrks.pro/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Tinymce and Quicktag buttons (and modals) for outputting shortcodes. Built to work with CMB2.",
-            "homepage": "https://github.com/jtsternberg/Shortcode_Button",
-            "keywords": [
-                "CMB2",
-                "shortcodes",
-                "wordpress"
-            ],
-            "time": "2016-02-26T05:53:20+00:00"
-        },
-        {
             "name": "monolog/monolog",
             "version": "1.24.0",
             "source": {
@@ -627,111 +583,6 @@
                 "promises"
             ],
             "time": "2019-01-07T21:25:54+00:00"
-        },
-        {
-            "name": "tgmpa/tgm-plugin-activation",
-            "version": "2.5.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/TGMPA/TGM-Plugin-Activation.git",
-                "reference": "ba41c10e821a10d3d6c3b8e468a16716bb03f125"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/TGMPA/TGM-Plugin-Activation/zipball/ba41c10e821a10d3d6c3b8e468a16716bb03f125",
-                "reference": "ba41c10e821a10d3d6c3b8e468a16716bb03f125",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.2"
-            },
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "class-tgm-plugin-activation.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Thomas Griffin",
-                    "homepage": "http://thomasgriffinmedia.com",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Gary Jones",
-                    "homepage": "https://github.com/GaryJones",
-                    "role": "Developer"
-                },
-                {
-                    "name": "Juliette Reinders Folmer",
-                    "homepage": "https://github.com/jrfnl",
-                    "role": "Developer"
-                }
-            ],
-            "description": "TGM Plugin Activation is a PHP library that allows you to easily require or recommend plugins for your WordPress themes (and plugins).",
-            "homepage": "http://tgmpluginactivation.com",
-            "keywords": [
-                "activation",
-                "library",
-                "plugins",
-                "theme",
-                "wordpress"
-            ],
-            "time": "2015-07-16T08:59:11+00:00"
-        },
-        {
-            "name": "webdevstudios/wds-shortcodes",
-            "version": "v0.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/WebDevStudios/WDS-Shortcodes.git",
-                "reference": "53f73378efee0a1894b828d0ac172d62a0c5fd90"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/WebDevStudios/WDS-Shortcodes/zipball/53f73378efee0a1894b828d0ac172d62a0c5fd90",
-                "reference": "53f73378efee0a1894b828d0ac172d62a0c5fd90",
-                "shasum": ""
-            },
-            "require": {
-                "jtsternberg/shortcode-button": "^v0.2.3",
-                "php": ">5.2",
-                "tgmpa/tgm-plugin-activation": "2.5.2"
-            },
-            "type": "wordpress-plugin",
-            "autoload": {
-                "classmap": [
-                    "includes",
-                    "vendor/tgmpa/tgm-plugin-activation/class-tgm-plugin-activation.php"
-                ],
-                "files": [
-                    "vendor/jtsternberg/shortcode-button/shortcode-button.php"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "GPL-2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "WebDevStudios",
-                    "email": "contact@webdevstudios.com",
-                    "homepage": "https://github.com/WebDevStudios",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Base plugin/classes/functionality for creating shortcodes.",
-            "homepage": "https://github.com/WebDevStudios/WDS-Shortcodes",
-            "keywords": [
-                "json",
-                "wordpress",
-                "wp-api"
-            ],
-            "time": "2016-03-21T00:59:48+00:00"
         }
     ],
     "packages-dev": [
@@ -1582,7 +1433,7 @@
                 },
                 {
                     "name": "Gert de Pagter",
-                    "email": "backendtea@gmail.com"
+                    "email": "BackEndTea@gmail.com"
                 }
             ],
             "description": "Symfony polyfill for ctype functions",
@@ -1597,7 +1448,7 @@
         },
         {
             "name": "symfony/yaml",
-            "version": "v2.8.49",
+            "version": "v2.8.50",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/yaml.git",

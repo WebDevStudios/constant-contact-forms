@@ -1,6 +1,6 @@
 <?php
 /**
- * Shortcode button.
+ * Registers the [ctct] shortcode.
  *
  * @package ConstantContact
  * @subpackage Shortcode
@@ -10,69 +10,70 @@
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
-if ( class_exists( 'WDS_Shortcodes', false ) && ! class_exists( 'ConstantContact_Shortcode', false ) ) {
+/**
+ * Registers the [ctct] shortcode.
+ *
+ * @since 1.0.0
+ */
+class ConstantContact_Shortcode {
 
 	/**
-	 * Extends WDS_Shortcodes to easily build up our shortcode.
+	 * Transient where forms are stored after listed from Constant Contact API.
 	 *
-	 * Sets up shortcode
-	 *
-	 * @since 1.0.0
+	 * @since 1.6.0
+	 * @var string
 	 */
-	class ConstantContact_Shortcode extends WDS_Shortcodes {
+	const FORMS_LIST_TRANSIENT = 'constant_contact_shortcode_form_list';
 
-		/**
-		 * The Shortcode Tag.
-		 *
-		 * @since 1.0.0
-		 * @var string
-		 */
-		public $shortcode = 'ctct';
+	/**
+	 * The Shortcode Tag.
+	 *
+	 * @since 1.6.0
+	 * @var string
+	 */
+	public $tag = 'ctct';
 
-		/**
-		 * Default attributes applied to the shortcode.
-		 *
-		 * @since 1.0.0
-		 * @var array
-		 */
-		public $atts_defaults = [];
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param Constant_Contact $plugin Parent plugin class.
+	 */
+	public function __construct( $plugin ) {
+		$this->plugin = $plugin;
+	}
 
-		/**
-		 * Shortcode Output.
-		 *
-		 * @since 1.0.0
-		 * @return string shortcode html
-		 */
-		public function shortcode() {
+	/**
+	 * Gets the shortcode atts supported by this shortcode. Filterable via shortcode_atts_{$shortcode} filter.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @see shortcode_atts()
+	 * @return array
+	 */
+	public function get_atts() {
+		return [
+			'form'       => '0',
+			'show_title' => 'false',
+		];
+	}
 
-			$custom_atts = [
-				'form'       => '',
-				'show_title' => true,
-			];
+	/**
+	 * Registers the [ctct] shortcode.
+	 *
+	 * @since 1.6.0
+	 */
+	public function register_shortcode() {
+		add_shortcode( $this->tag, [ $this->plugin->display_shortcode, 'render_shortcode' ] );
+	}
 
-			// Attributes.
-			$atts = shortcode_atts( $custom_atts, $this->shortcode_object->atts );
-
-			// Use our helper class to display the shortcode.
-			return constant_contact()->display_shortcode->shortcode_wrapper( $atts );
-		}
-
-		/**
-		 * Override for attribute getter.
-		 *
-		 * You can use this to override specific attribute acquisition
-		 * ex. Getting attributes from options, post_meta, etc...
-		 *
-		 * @see WDS_Shortcode::att
-		 *
-		 * @since 1.0.0
-		 * @param string      $att     Attribute to override.
-		 * @param string|null $default Default value.
-		 * @return string
-		 */
-		public function att( $att, $default = null ) {
-			$current_value = parent::att( $att, $default );
-			return $current_value;
-		}
+	/**
+	 * Additional cache invalidation for form list transient; runs on save_post.
+	 *
+	 * @since 1.6.0
+	 */
+	public function clear_forms_list_transient() {
+		delete_transient( self::FORMS_LIST_TRANSIENT );
 	}
 }
