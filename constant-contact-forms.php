@@ -454,13 +454,13 @@ class Constant_Contact {
 	 */
 	public function hooks() {
 		if ( ! $this->meets_php_requirements() ) {
-			add_action( 'admin_notices', [ $this, 'minimum_version' ] );
+			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
 			return;
 		}
 
-		add_action( 'init', [ $this, 'init' ] );
-		add_action( 'widgets_init', [ $this, 'widgets' ] );
-		add_filter( 'body_class', [ $this, 'body_classes' ] );
+		add_action( 'init', array( $this, 'init' ) );
+		add_action( 'widgets_init', array( $this, 'widgets' ) );
+		add_filter( 'body_class', array( $this, 'body_classes' ) );
 
 		$this->load_libs();
 
