@@ -55,7 +55,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Parent plugin class.
@@ -63,7 +63,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $basename = null;
+	protected $basename;
 
 	/**
 	 * The parent menu page slug.
@@ -454,7 +454,7 @@ class ConstantContact_Admin {
 		global $pagenow;
 
 		// Check if we are in debug mode. allow.
-		$debug = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ? true : false;
+		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 
 		// Based on our debug mode, potentially add a min prefix.
 		$suffix = ( true === $debug ) ? '' : '.min';
@@ -477,7 +477,7 @@ class ConstantContact_Admin {
 
 		wp_localize_script(
 			'ctct_form',
-			'ctct_texts',
+			'ctctTexts',
 			/**
 			 * Filters the text used as part of the ctct_form javascript object.
 			 *

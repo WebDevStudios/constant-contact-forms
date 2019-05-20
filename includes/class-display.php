@@ -1323,14 +1323,14 @@ class ConstantContact_Display {
 		$inline_font_styles    = $this->get_inline_font_color();
 
 		$label_street1 = sprintf(
-			'<span class="%s"><label for="street_%s" style="%s">%s</label></span>',
+			'<span class="%1$s"><label for="street_%2$s" style="%3$s">%4$s</label></span>',
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
 			esc_attr( $inline_font_styles ),
 			esc_attr( $street ) . $req_label
 		);
 		$input_street1 = sprintf(
-			'<input %stype="text" class="ctct-text ctct-address-street %s" name="street_%s" id="street_%s" value="%s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-street %2$s" name="street_%3$s" id="street_%4$s" value="%5$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
@@ -1347,7 +1347,7 @@ class ConstantContact_Display {
 		}
 
 		$label_street2 = sprintf(
-			'<span class="%s"><label for="line_2_%s" style="%s">%s</label></span>',
+			'<span class="%1$s"><label for="line_2_%2$s" style="%3$s">%4$s</label></span>',
 			$label_placement_class,
 			esc_attr( $f_id ),
 			esc_attr( $inline_font_styles ),
@@ -1355,7 +1355,7 @@ class ConstantContact_Display {
 		);
 		// Address Line 2 is not required, note the missing $req inclusion.
 		$input_street2 = sprintf(
-			'<input type="text" class="ctct-text ctct-address-line-2 %s" name="line_2_%s" id="line_2_%s" value="%s">',
+			'<input type="text" class="ctct-text ctct-address-line-2 %1$s" name="line_2_%2$s" id="line_2_%3$s" value="%4$s">',
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
 			esc_attr( $f_id ),
@@ -1371,14 +1371,14 @@ class ConstantContact_Display {
 		}
 
 		$label_city = sprintf(
-			'<span class="%s"><label for="city_%s" style="%s">%s</label></span>',
+			'<span class="%1$s"><label for="city_%2$s" style="%3$s">%4$s</label></span>',
 			$label_placement_class,
 			esc_attr( $f_id ),
 			esc_attr( $inline_font_styles ),
 			esc_attr( $city ) . $req_label
 		);
 		$input_city = sprintf(
-			'<input %stype="text" class="ctct-text ctct-address-city %s" name="city_%s" id="city_%s" value="%s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-city %2$s" name="city_%3$s" id="city_%4$s" value="%5$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
@@ -1395,14 +1395,14 @@ class ConstantContact_Display {
 		}
 
 		$label_state = sprintf(
-			'<span class="%s"><label for="state_%s" style="%s">%s</label></span>',
+			'<span class="%1$s"><label for="state_%2$s" style="%3$s">%4$s</label></span>',
 			$label_placement_class,
 			esc_attr( $f_id ),
 			esc_attr( $inline_font_styles ),
 			esc_attr( $state ) . $req_label
 		);
 		$input_state = sprintf(
-			'<input %stype="text" class="ctct-text ctct-address-state %s" name="state_%s" id="state_%s" value="%s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-state %2$s" name="state_%3$s" id="state_%4$s" value="%5$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
@@ -1419,14 +1419,14 @@ class ConstantContact_Display {
 		}
 
 		$label_zip = sprintf(
-			'<span class="%s"><label for="zip_%s" style="%s">%s</label></span>',
+			'<span class="%1$s"><label for="zip_%2$s" style="%3$s">%4$s</label></span>',
 			$label_placement_class,
 			esc_attr( $f_id ),
 			esc_attr( $inline_font_styles ),
 			esc_attr( $zip ) . $req_label
 		);
 		$input_zip = sprintf(
-			'<input %stype="text" class="ctct-text ctct-address-zip %s" name="zip_%s" id="zip_%s" value="%s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-zip %2$s" name="zip_%3$s" id="zip_%4$s" value="%5$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),

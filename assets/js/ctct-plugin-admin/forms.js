@@ -1,30 +1,45 @@
 window.CTCTForms = {};
+
 ( function( window, $, that ) {
 
-	// Constructor.
-	that.init = function() {
+	/**
+	 * @constructor
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	that.init = () => {
 		that.cache();
 		that.bindEvents();
 	};
 
-	// Cache all the things.
-	that.cache = function() {
+	/**
+	 * Cache DOM elements.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	that.cache = () => {
 		that.$c = {
 			window: $( window ),
 			body: $( 'body' ),
-			disconnect: '.ctct-disconnect',
+			disconnect: '.ctct-disconnect'
 		};
 	};
 
-	// Combine all events.
-	that.bindEvents = function() {
+	/**
+	 * Attach callbacks to events.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	that.bindEvents = () => {
 
-		$( that.$c.disconnect ).on( 'click', function(e) {
-			confirm( ctct_texts.disconnectconfirm );
-		});
+		$( that.$c.disconnect ).on( 'click', ( e ) => { // eslint-disable-line no-unused-vars
+			confirm( window.ctctTexts.disconnectconfirm );
+		} );
 	};
 
-	// Engage!
 	$( that.init );
 
-})( window, jQuery, window.CTCTForms );
+} ( window, jQuery, window.CTCTForms ) );
