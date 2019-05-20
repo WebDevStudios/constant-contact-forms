@@ -79,6 +79,7 @@ class ConstantContact_Mail {
 				 * @param int $schedule_delay The time to add to `time()` for the event.
 				 */
 				$schedule_delay = apply_filters( 'constant_contact_opt_in_delay', MINUTE_IN_SECONDS );
+
 				wp_schedule_single_event( current_time( 'timestamp' ) + absint( $schedule_delay ), 'ctct_schedule_form_opt_in', [ $values ] );
 			}
 		}

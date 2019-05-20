@@ -36,6 +36,15 @@ class ConstantContact_Uninstall {
 	private $transients = [];
 
 	/**
+	 * Names of cron hooks to delete.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var array
+	 */
+	private $cron_hooks = [];
+
+	/**
 	 * A public function for running the uninstallation processes.
 	 *
 	 * @since 1.6.0
@@ -43,6 +52,7 @@ class ConstantContact_Uninstall {
 	public function run() {
 		$this->delete_options();
 		$this->delete_transients();
+		$this->delete_cron_hooks();
 	}
 
 	/**
@@ -101,9 +111,31 @@ class ConstantContact_Uninstall {
 		 *
 		 * @since 1.6.0
 		 *
-		 * @param array $options One-dimensional array of transient names to delete.
+		 * @param array $transients One-dimensional array of transient names to delete.
 		 */
 		return apply_filters( 'ctct_transient_names_to_uninstall', $this->transients );
+	}
+
+	/**
+	 * Get filterable list of cron hooks to delete.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @return array
+	 */
+	private function get_cron_hook_names() {
+		$this->cron_hooks = [
+			'ctct_schedule_form_opt_in',
+		];
+
+		/**
+		 * Allows filtering which cron hooks are deleted upon plugin deactivation.
+		 *
+		 * @since 1.6.0
+		 *
+		 * @param array $cron_hooks One-dimensional array of cron hook names to delete.
+		 */
+		return apply_filters( 'ctct_cron_hook_names_to_uninstall', $this->cron_hooks );
 	}
 
 	/**
@@ -125,6 +157,17 @@ class ConstantContact_Uninstall {
 	private function delete_transients() {
 		foreach ( $this->get_transient_names() as $transient_name ) {
 			delete_transient( $transient_name );
+		}
+	}
+
+	/**
+	 * Delete cron hooks.
+	 *
+	 * @since 1.6.0
+	 */
+	private function delete_cron_hooks() {
+		foreach ( $this->get_cron_hook_names() as $cron_hook_name ) {
+			wp_clear_scheduled_hook( $cron_hook_name );
 		}
 	}
 }
