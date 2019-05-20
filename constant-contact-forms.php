@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.5.2
+ * Version:     1.6.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
@@ -72,7 +72,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.5.2';
+	const VERSION = '1.6.0';
 
 	/**
 	 * URL of plugin directory.
@@ -323,14 +323,6 @@ class Constant_Contact {
 	private $shortcode;
 
 	/**
-	 * An instance of the ConstantContact_Shortcode_Admin class.
-	 *
-	 * @since 1.0.1
-	 * @var ConstantContact_Shortcode_Admin
-	 */
-	private $shortcode_admin;
-
-	/**
 	 * An instance of the ConstantContact_Gutenberg class.
 	 *
 	 * @since 1.5.0
@@ -425,6 +417,7 @@ class Constant_Contact {
 		$this->check                = new ConstantContact_Check( $this );
 		$this->cpts                 = new ConstantContact_CPTS( $this );
 		$this->display              = new ConstantContact_Display( $this );
+		$this->shortcode            = new ConstantContact_Shortcode( $this );
 		$this->display_shortcode    = new ConstantContact_Display_Shortcode( $this );
 		$this->lists                = new ConstantContact_Lists( $this );
 		$this->process_form         = new ConstantContact_Process_Form( $this );
@@ -460,35 +453,32 @@ class Constant_Contact {
 	 * @return null
 	 */
 	public function hooks() {
-
 		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
 			return;
 		}
-		// Hook in our older includes and our init method.
+
 		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'init', array( $this, 'includes' ), 5 );
 		add_action( 'widgets_init', array( $this, 'widgets' ) );
 		add_filter( 'body_class', array( $this, 'body_classes' ) );
+
 		$this->load_libs();
 
-		// Our vendor files will do a check for ISSSL, so we want to set it to be that.
-		// See Guzzle for more info and usage of this.
+		// Our vendor files will do a check for ISSSL, so we want to set it to be that. See Guzzle for more info and usage of this.
 		if ( is_ssl() || ! defined( 'ISSSL' ) ) {
 			define( 'ISSSL', true );
 		}
 
-		// Allow shortcodes in widgets for our plugin.
 		add_filter( 'widget_text', 'do_shortcode' );
-
 		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_assets' ], 1 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_front_assets' ], 1 );
+		add_action( 'init', [ $this->shortcode, 'register_shortcode' ] );
+		add_action( 'save_post', [ $this->shortcode, 'clear_forms_list_transient' ] );
 
 		if ( is_admin() ) {
 			add_action( 'wp_ajax_ctct_dismiss_first_modal', [ $this, 'ajax_save_clear_first_form' ] );
 			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', [ $this, 'ajax_save_clear_first_form' ] );
 		}
-
 	}
 
 	/**
@@ -550,36 +540,6 @@ class Constant_Contact {
 		require_once $this->dir( 'vendor/autoload.php' );
 
 		require_once $this->dir( 'vendor/cmb2/cmb2/init.php' );
-	}
-
-	/**
-	 * Load includes.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return null
-	 */
-	public function includes() {
-
-		if ( $this->is_ctct_editor_screen() ) {
-			return;
-		}
-		// Set up our base WDS_Shortcodes class.
-		$this->shortcode = new ConstantContact_Shortcode();
-		$this->shortcode->hooks();
-		$this->shortcode->atts_defaults = [
-			'form'       => '0',
-			'show_title' => 'false',
-		];
-
-		// Set our custom shortcode with correct version and data.
-		$this->shortcode_admin = new ConstantContact_Shortcode_Admin(
-			$this->shortcode->shortcode,
-			self::VERSION,
-			$this->shortcode->atts_defaults
-		);
-
-		$this->shortcode_admin->hooks();
 	}
 
 	/**
@@ -646,7 +606,6 @@ class Constant_Contact {
 			case 'authserver':
 			case 'updates':
 			case 'shortcode':
-			case 'shortcode_admin':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
@@ -843,3 +802,16 @@ register_deactivation_hook( __FILE__, [ constant_contact(), 'deactivate' ] );
 function constant_contact() {
 	return Constant_Contact::get_instance();
 }
+
+/**
+ * Modify our shortcode-button assets url without having to touch vendor folder.
+ *
+ * @since 1.5.3
+ *
+ * @param string $url Assets url for shortcode-button library.
+ * @return string
+ */
+function ctct_shortcode_button_assets_url( $url ) {
+	return plugin_dir_url( __FILE__ ) . 'vendor/jtsternberg/shortcode-button/';
+}
+add_filter( 'shortcode_button_assets_url', 'ctct_shortcode_button_assets_url' );
