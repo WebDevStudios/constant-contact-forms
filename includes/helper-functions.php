@@ -105,7 +105,12 @@ function constant_contact_maybe_display_optin_notification() {
 		return false;
 	}
 
-	$privacy = get_option( 'ctct_privacy_policy_status', '' );
+	$privacy       = get_option( 'ctct_privacy_policy_status', '' );
+	$ctct_settings = get_option( 'ctct_options_settings', [] );
+
+	if ( isset( $ctct_settings['_ctct_data_tracking'] ) && 'on' === $ctct_settings['_ctct_data_tracking'] ) {
+		return false;
+	}
 
 	if ( '' !== $privacy ) {
 		return false;

@@ -32,12 +32,15 @@ window.CTCTAJAX = {};
 			};
 
 			$.ajax( {
-				url: ajaxurl,  // eslint-disable-line no-undef
+				url: window.ajaxurl,
 				data: ctctOptinAjax,
 				dataType: 'json',
+				success: ( response ) => {
+					$( document.getElementById( 'ctct-admin-notice-optin_admin_notice' ) ).remove();
+				},
 				error: ( x, t, m ) => {
 					if ( window.console ) {
-						console.log( [ t, m ] ); // eslint-disable-line no-console
+						console.log( [ t, m ] );
 					}
 				}
 			} );
