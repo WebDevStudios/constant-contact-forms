@@ -212,6 +212,15 @@ class ConstantContact_API {
 				}
 			} catch ( CtctException $ex ) {
 				$this->log_errors( $ex->getErrors() );
+			} catch ( Exception $ex ) {
+				$error = new stdClass();
+				$error->error_key = get_class( $ex );
+				$error->error_message = $ex->getMessage();
+				$messages[] = $error;
+
+				add_filter( 'constant_contact_force_logging', '__return_true' );
+
+				$this->log_errors( $messages );
 			}
 		}
 
