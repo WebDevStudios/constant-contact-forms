@@ -591,10 +591,13 @@ class Constant_Contact {
 			case 'connect':
 			case 'check':
 			case 'cpts':
+			case 'customizations':
 			case 'display':
 			case 'display_shortcode':
+			case 'gutenberg':
 			case 'lists':
 			case 'logging':
+			case 'optin':
 			case 'path':
 			case 'plugin_name':
 			case 'process_form':
