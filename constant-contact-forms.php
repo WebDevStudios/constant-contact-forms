@@ -843,7 +843,7 @@ add_action( 'plugins_loaded', [ constant_contact(), 'hooks' ] );
 
 register_activation_hook( __FILE__, [ constant_contact(), 'activate' ] );
 register_deactivation_hook( __FILE__, [ constant_contact(), 'deactivate' ] );
-register_uninstallation_hook( __FILE__, [ constant_contact(), 'uninstall' ] );
+register_uninstall_hook( __FILE__, [ constant_contact(), 'uninstall' ] );
 
 /**
  * Grab the Constant_Contact object and return it.
