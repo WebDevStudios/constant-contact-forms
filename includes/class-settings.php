@@ -155,7 +155,7 @@ class ConstantContact_Settings {
 	public function admin_page_display() {
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php echo get_admin_page_title(); ?></h2>
+			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 			<?php
 			if ( function_exists( 'cmb2_metabox_form' ) ) {
 				cmb2_metabox_form( $this->metabox_id, $this->key );
@@ -230,7 +230,10 @@ class ConstantContact_Settings {
 			// Add field to disable e-mail notifications.
 			$cmb->add_field( [
 				'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
-				'desc'       => sprintf( esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ), '<br/>' ),
+				'desc'       => sprintf(
+					/* Translators: Placeholder is for a <br /> HTML tag. */
+					esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ), '<br/>'
+				),
 				'id'         => '_ctct_disable_email_notifications',
 				'type'       => 'checkbox',
 				'before_row' => '<hr/>',
@@ -323,16 +326,24 @@ class ConstantContact_Settings {
 		);
 
 		$cmb->add_field( [
-			'name'       => esc_html__( 'Site Key', 'constant-contact-forms' ),
-			'id'         => '_ctct_recaptcha_site_key',
-			'type'       => 'text',
-			'before_row' => $before_recaptcha,
+			'name'            => esc_html__( 'Site Key', 'constant-contact-forms' ),
+			'id'              => '_ctct_recaptcha_site_key',
+			'type'            => 'text',
+			'before_row'      => $before_recaptcha,
+			'sanitization_cb' => [ $this, 'sanitize_recaptcha_api_key_string' ],
+			'attributes'      => [
+				'maxlength' => 50,
+			],
 		] );
 
 		$cmb->add_field( [
-			'name' => esc_html__( 'Secret Key', 'constant-contact-forms' ),
-			'id'   => '_ctct_recaptcha_secret_key',
-			'type' => 'text',
+			'name'            => esc_html__( 'Secret Key', 'constant-contact-forms' ),
+			'id'              => '_ctct_recaptcha_secret_key',
+			'type'            => 'text',
+			'sanitization_cb' => [ $this, 'sanitize_recaptcha_api_key_string' ],
+			'attributes'      => [
+				'maxlength' => 50,
+			],
 		] );
 
 		$before_global_css = sprintf(
@@ -500,7 +511,7 @@ class ConstantContact_Settings {
 				<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
 				<?php echo esc_attr( $label ); ?>
 			</label>
-			<?php echo constant_contact()->display->get_disclose_text(); ?>
+			<?php echo wp_kses_post( constant_contact()->display->get_disclose_text() ); ?>
 			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin', true, true ); ?>
 		</p>
 		<?php
@@ -547,36 +558,17 @@ class ConstantContact_Settings {
 	 */
 	public function _process_comment_data_for_optin( $comment_data ) {
 
-		// Finally, if we have at least an email, then add it to the api.
 		if ( isset( $comment_data['comment_author_email'] ) && $comment_data['comment_author_email'] ) {
 
-			// If we can grab a name, try to use it.
-			$name = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
-
-			// If we can get a website, use it.
+			$name    = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
 			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
 
-			// Check for our list.
-			//
-			// We also flag PHPCS to ignore this line, as we get
-			// a nonce verification error, but we process the nonce
-			// quite a bit earlier than this
-			//
-			// @codingStandardsIgnoreLine
-			if ( ! isset( $_POST['ctct_optin_list'] ) ) {  // Input var okay.
+			if ( ! isset( $_POST['ctct_optin_list'] ) ) {
 				return $comment_data;
 			}
 
-			// Set up a helper var
-			//
-			// We also flag PHPCS to ignore this line, as we get
-			// a nonce verification error, but we process the nonce
-			// quite a bit earlier than this
-			//
-			// @codingStandardsIgnoreLine
-			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // Input var okay.
+			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) );
 
-			// Build up our data array.
 			$args = [
 				'list'       => $list,
 				'email'      => sanitize_email( $comment_data['comment_author_email'] ),
@@ -893,6 +885,27 @@ class ConstantContact_Settings {
 		}
 
 		return $this->get_default_spam_error();
+	}
+
+	/**
+	 * Sanitize API key strings for Google reCaptcha. Length is enforced
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param  mixed      $value      The unsanitized value from the form.
+	 * @param  array      $field_args Array of field arguments.
+	 * @param  CMB2_Field $field      The field object
+	 * @return string
+	 */
+	public function sanitize_recaptcha_api_key_string( $value, $field_args, $field ) {
+		$value = trim( $value );
+
+		// Keys need to be under 50 chars long and have no spaces inside them.
+		if ( false !== strpos( $value, ' ' ) || 50 < strlen( $value ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( $value );
 	}
 
 	/**
