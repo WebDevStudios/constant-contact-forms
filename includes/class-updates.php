@@ -43,8 +43,6 @@ class ConstantContact_Updates {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-
-		// Check to make sure we don't need to run any update functionality, but only in the admin.
 		if ( is_admin() ) {
 			add_action( 'plugins_loaded', [ $this, 'check_for_update_needed' ] );
 		}
@@ -58,13 +56,11 @@ class ConstantContact_Updates {
 	 */
 	public function check_for_update_needed() {
 
-		// Grab what our current version in the DB is saved as.
 		$installed = get_option( 'ctct_plugin_version', '0.0.0' );
 		$current   = esc_attr( $this->plugin->version );
 
 		if ( ! version_compare( $current, $installed, '<' ) ) {
 
-			// Update our DB option to the current plugin version.
 			update_option( 'ctct_plugin_version', $current, true );
 
 			// Convert our installed / current version to something we can use
@@ -112,7 +108,6 @@ class ConstantContact_Updates {
 			'callback' => [ 'ConstantContact_Notification_Content', esc_attr( $update_id ) ],
 		];
 
-		// Re-save it if we actually did add one.
 		if ( $compare_notifs !== $current_notifs ) {
 			update_option( 'ctct_update_notifications', $current_notifs );
 		}
