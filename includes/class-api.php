@@ -28,7 +28,7 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Access token.
@@ -105,12 +105,10 @@ class ConstantContact_API {
 	 */
 	public function get_account_info() {
 
-		// If we're not connectd, bail out.
 		if ( ! $this->is_connected() ) {
 			return [];
 		}
 
-		// Get our saved account info.
 		$acct_data = get_transient( 'constant_contact_acct_info' );
 
 		/**
@@ -122,16 +120,12 @@ class ConstantContact_API {
 		 */
 		$bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', false );
 
-		// If we dont' have a transient, or we want to bypass, hit our API.
 		if ( false === $acct_data || $bypass_acct_cache ) {
 			try {
 
-				// Grab our account.
 				$acct_data = $this->cc()->accountService->getAccountInfo( $this->get_api_token() );
 
-				// Make sure we got a response before trying to save our transient.
 				if ( $acct_data ) {
-					// Save our data to a transient for a day.
 					set_transient( 'constant_contact_acct_info', $acct_data, 1 * HOUR_IN_SECONDS );
 				}
 			} catch ( CtctException $ex ) {
@@ -139,7 +133,6 @@ class ConstantContact_API {
 			}
 		}
 
-		// Return our account data.
 		return $acct_data;
 	}
 
@@ -152,15 +145,12 @@ class ConstantContact_API {
 	 */
 	public function get_contacts() {
 
-		// Verify we're connected.
 		if ( ! $this->is_connected() ) {
 			return [];
 		}
 
-		// First, check our saved transient for a value.
 		$contacts = get_transient( 'ctct_contact' );
 
-		// If we didn't get anything, then re-do the API call.
 		if ( false === $contacts ) {
 			try {
 				$contacts = $this->cc()->contactService->getContacts( $this->get_api_token() );
@@ -185,27 +175,21 @@ class ConstantContact_API {
 	 */
 	public function get_lists( $force_skip_cache = false ) {
 
-		// Verify we're connected.
 		if ( ! $this->is_connected() ) {
 			return [];
 		}
 
-		// First, check our saved transient for a value.
 		$lists = get_transient( 'ctct_lists' );
 
-		// If we passed in our force skip cache flag, we hit the API directly.
 		if ( $force_skip_cache ) {
 			$lists = false;
 		}
 
-		// If we didn't get anything, then re-do the API call.
 		if ( false === $lists ) {
 			try {
 
-				// Get our lists.
 				$lists = $this->cc()->listService->getLists( $this->get_api_token() );
 
-				// If its an array, then set our transient and return it.
 				if ( is_array( $lists ) ) {
 					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
 					return $lists;
@@ -228,23 +212,18 @@ class ConstantContact_API {
 	 */
 	public function get_list( $id ) {
 
-		// Clean our id.
 		$id = esc_attr( $id );
 
-		// Sanity check that.
 		if ( ! $id ) {
 			return [];
 		}
 
-		// Verify we're connected.
 		if ( ! $this->is_connected() ) {
 			return [];
 		}
 
-		// First, check our saved transient for a value.
 		$list = get_transient( 'ctct_list_' . $id );
 
-		// If we didn't get anything, then re-do the API call.
 		if ( false === $list ) {
 			try {
 				$list = $this->cc()->listService->getList( $this->get_api_token(), $id );
@@ -269,33 +248,26 @@ class ConstantContact_API {
 	 */
 	public function add_list( $new_list = [] ) {
 
-		// Bail out early if we don't have the data we need.
 		if ( empty( $new_list ) || ! isset( $new_list['id'] ) ) {
 			return [];
 		}
 
-		// Set our return list to empty array.
 		$return_list = [];
 
 		try {
-			// Try to get the list from the API.
 			$list = $this->cc()->listService->getList( $this->get_api_token(), esc_attr( $new_list['id'] ) );
 		} catch ( CtctException $ex ) {
-			// If we get an error, bail out.
 			$this->log_errors( $ex->getErrors() );
 		}
 
-		// If we got the list, return it.
 		if ( isset( $list ) ) {
 			return $list;
 		}
 
 		try {
 
-			// Generate a new list.
 			$list = new ContactList();
 
-			// Name it our passed in list.
 			$list->name = isset( $new_list['name'] ) ? esc_attr( $new_list['name'] ) : '';
 
 			/**
@@ -307,15 +279,12 @@ class ConstantContact_API {
 			 */
 			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
-			// Push list to API.
 			$return_list = $this->cc()->listService->addList( $this->get_api_token(), $list );
 
 		} catch ( CtctException $ex ) {
-			// Log an error we get.
 			$this->log_errors( $ex->getErrors() );
 		}
 
-		// This will either have our data, or be an empty array.
 		return $return_list;
 	}
 
@@ -329,7 +298,6 @@ class ConstantContact_API {
 	 */
 	public function update_list( $updated_list = [] ) {
 
-		// Set our var to do things with.
 		$return_list = false;
 
 		try {
@@ -373,7 +341,6 @@ class ConstantContact_API {
 
 		$list = false;
 
-		// Attempt deletion.
 		try {
 			$list = $this->cc()->listService->deleteList( $this->get_api_token(), $updated_list['id'] );
 		} catch ( CtctException $ex ) {
@@ -384,23 +351,23 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Add constact to the connected CTCT account.
+	 * Add contact to the connected CTCT account.
 	 *
 	 * @since 1.0.0
 	 * @since 1.3.0 Added $form_id parameter.
 	 *
-	 * @param array  $new_contact New contact data.
-	 * @param string $form_id     ID of the form being processed.
+	 * @throws Exception
+	 *
+	 * @param array $new_contact New contact data.
+	 * @param int   $form_id     ID of the form being processed.
 	 * @return array Current connect ctct lists.
 	 */
 	public function add_contact( $new_contact = [], $form_id = 0 ) {
 
-		// Make sure we're passed a full set of data.
 		if ( empty( $new_contact ) ) {
 			return [];
 		}
 
-		// If we don't get an email, it does us no good.
 		if ( ! isset( $new_contact['email'] ) ) {
 			return [];
 		}
@@ -414,17 +381,14 @@ class ConstantContact_API {
 		$return_contact = false;
 
 		try {
-			// Check to see if a contact with the email address already exists in the account.
 			$response = $this->cc()->contactService->getContacts( $api_token, [ 'email' => $email ] );
 
 			if ( isset( $response->results ) && ! empty( $response->results ) ) {
 				constant_contact_maybe_log_it( 'API', 'Contact set to be updated', [ 'form' => get_the_title( $form_id ) ] );
-				// Update the existing contact if address already existed.
 				$return_contact = $this->update_contact( $response, $api_token, $list, $new_contact, $form_id );
 
 			} else {
 				constant_contact_maybe_log_it( 'API', 'Contact set to be created', [ 'form' => get_the_title( $form_id ) ] );
-				// Create a new contact if one does not exist.
 				$return_contact = $this->create_contact( $api_token, $list, $email, $new_contact, $form_id );
 			}
 		} catch ( CtctException $ex ) {
@@ -451,16 +415,10 @@ class ConstantContact_API {
 	 */
 	public function create_contact( $api_token, $list, $email, $user_data, $form_id ) {
 
-		// Get a new instance of our contact.
 		$contact = new Contact();
-
-		// Set our email.
 		$contact->addEmail( sanitize_text_field( $email ) );
-
-		// Set our list.
 		$contact->addList( esc_attr( $list ) );
 
-		// Map the rest of our properties to.
 		try {
 			$contact = $this->set_contact_properties( $contact, $user_data, $form_id, false );
 		} catch ( CtctException $ex ) {
@@ -495,20 +453,15 @@ class ConstantContact_API {
 	 */
 	public function update_contact( $response, $api_token, $list, $user_data, $form_id ) {
 
-		// Sanity checks on our response.
 		if (
 			isset( $response->results ) &&
 			isset( $response->results[0] ) &&
 			( $response->results[0] instanceof Contact )
 		) {
 
-			// Set our returned contact.
 			$contact = $response->results[0];
-
-			// Attach our list.
 			$contact->addList( esc_attr( $list ) );
 
-			// Set the rest of our properties.
 			try {
 				$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
 			} catch ( CtctException $ex ) {
@@ -546,37 +499,29 @@ class ConstantContact_API {
 	 * @return object Contact object, with new properties.
 	 */
 	public function set_contact_properties( $contact, $user_data, $form_id, $updated = false ) {
-		// First, verify we have what we need.
 		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
 			$error = new CtctException();
 			$error->setErrors( [ 'type', esc_html__( 'Not a valid contact to set properties to.', 'constant-contact-forms' ) ] );
 			throw $error;
 		}
 
-		// Remove some values we don't need.
 		unset( $user_data['list'] );
 
 		$address   = null;
 		$count     = 1;
 		$textareas = 0;
 		if ( ! $updated ) {
-			// Only initiate an empty array if we are not updating.
 			$contact->notes = [];
 		}
 
-		// Loop through each of our values and set it as a property.
 		foreach ( $user_data as $original => $value ) {
-
-			// Set our key and value to our value's actual key/value.
 			$key   = sanitize_text_field( isset( $value['key'] ) ? $value['key'] : false );
 			$value = sanitize_text_field( isset( $value['val'] ) ? $value['val'] : false );
 
-			// If for some reason, we don't have those, then we'll just skip this one.
 			if ( ! $key || ! $value ) {
 				continue;
 			}
 
-			// Based on our key, theres a few different things we should do.
 			switch ( $key ) {
 				case 'email':
 				case 'website':
@@ -598,7 +543,6 @@ class ConstantContact_API {
 						$address = new Ctct\Components\Contacts\Address();
 					}
 
-					// Nested switch to set all our address properties how they should be mapped.
 					switch ( $key ) {
 						case 'street_address':
 							$address->address_type = 'PERSONAL';
@@ -640,16 +584,13 @@ class ConstantContact_API {
 						$custom_field_name .= $custom_field['name'] . ': ';
 					}
 
-					// Otherwise, set up our custom field.
 					$custom = new Ctct\Components\Contacts\CustomField();
 
-					// Create, name it the way the API needs.
 					$custom = $custom->create( [
 						'name'  => 'CustomField' . $count,
 						'value' => $custom_field_name . $value,
 					] );
 
-					// Attach it.
 					$contact->addCustomField( $custom );
 					$count++;
 					break;
@@ -673,7 +614,6 @@ class ConstantContact_API {
 					}
 					break;
 				default:
-					// If we got here, try to map our field to the key.
 					try {
 						$contact->$key = $value;
 					} catch ( Exception $e ) {
@@ -681,12 +621,10 @@ class ConstantContact_API {
 						break;
 					}
 
-					// Otherwise break anyway.
 					break;
 			} // End switch.
 		} // End foreach.
 
-		// If we did set address properties, then push it to our contact.
 		if ( ! is_null( $address ) ) {
 			$contact->addAddress( $address );
 		}
@@ -715,12 +653,13 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array $error API error repsonse.
 	 * @return mixed
 	 */
 	private function api_error_message( $error ) {
 
-		// Make sure we have our expected error key.
 		if ( ! isset( $error->error_key ) ) {
 			return false;
 		}
@@ -731,7 +670,6 @@ class ConstantContact_API {
 			$error
 		);
 
-		// Otherwise work through our list of error keys we know.
 		switch ( $error->error_key ) {
 			case 'http.status.authentication.invalid_token':
 				$this->access_token = false;
@@ -762,10 +700,8 @@ class ConstantContact_API {
 	 */
 	public function is_connected() {
 
-		// Make sure we only grab our token once during a page load.
 		static $token = null;
 
-		// If we haven't grabbed it yet, grab it.
 		if ( is_null( $token ) ) {
 			$token = get_option( 'ctct_token', false ) ? true : false;
 		}
@@ -781,15 +717,12 @@ class ConstantContact_API {
 	 */
 	public function get_connect_link() {
 
-		// Allow us to re-use the same verification twice on one page load.
 		static $proof = null;
 
-		// If we haven't set a proof yet, generate it.
 		if ( is_null( $proof ) ) {
 			$proof = constant_contact()->authserver->set_verification_option();
 		}
 
-		// Send back our connect url.
 		return constant_contact()->authserver->do_connect_url( $proof );
 	}
 
@@ -802,15 +735,12 @@ class ConstantContact_API {
 	 */
 	public function get_signup_link() {
 
-		// Allow us to re-use the same verification twice on one page load.
 		static $proof = null;
 
-		// If we haven't set a proof yet, generate it.
 		if ( is_null( $proof ) ) {
 			$proof = constant_contact()->authserver->set_verification_option();
 		}
 
-		// Send back our connect url.
 		return constant_contact()->authserver->do_signup_url( $proof );
 	}
 
@@ -830,13 +760,11 @@ class ConstantContact_API {
 		 * ]
 		 */
 
-		// These fields are used to try and buld the full address.
 		static $address_fields = [ 'line1', 'city', 'state_code', 'postal_code' ];
 
 		// Grab disclosure info from the API.
 		$account_info = $this->get_account_info();
 
-		// Bail on empty.
 		if ( empty( $account_info ) ) {
 			return $as_parts ? [] : '';
 		}
@@ -846,7 +774,6 @@ class ConstantContact_API {
 			'address' => ctct_get_settings_option( '_ctct_disclose_address', '' ),
 		];
 
-		// Bail if we don't have a name.
 		if ( empty( $disclosure['name'] ) ) {
 			return $as_parts ? [] : '';
 		}
@@ -856,11 +783,9 @@ class ConstantContact_API {
 			isset( $account_info->organization_addresses )
 			&& count( $account_info->organization_addresses )
 		) {
-			// Assume the first address.
 			$organization_address = array_shift( $account_info->organization_addresses );
 			$disclosure_address   = [];
 
-			// Add in our disclouse address.
 			if ( is_array( $address_fields ) ) {
 				foreach ( $address_fields as $field ) {
 					if ( isset( $organization_address[ $field ] ) && strlen( $organization_address[ $field ] ) ) {
@@ -869,10 +794,8 @@ class ConstantContact_API {
 				}
 			}
 
-			// Join it all together.
 			$disclosure['address'] = implode( ', ', $disclosure_address );
 		} elseif ( empty( $disclosure['address'] ) ) {
-			// Remove the address so we don't get a disclosure like "Business Name, ".
 			unset( $disclosure['address'] );
 		}
 
