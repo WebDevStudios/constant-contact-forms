@@ -20,7 +20,7 @@ use Monolog\Handler\StreamHandler;
  * @return boolean Whether or not they are connected.
  */
 function constant_contact_is_connected() {
-	return ( constant_contact()->api->is_connected() );
+	return constant_contact()->api->is_connected();
 }
 
 /**
@@ -31,7 +31,7 @@ function constant_contact_is_connected() {
  * @return boolean Whether or not they are NOT connected.
  */
 function constant_contact_is_not_connected() {
-	return ! ( constant_contact()->api->is_connected() );
+	return ! constant_contact()->api->is_connected();
 }
 
 /**
@@ -153,9 +153,8 @@ function constant_contact_maybe_display_review_notification() {
 
 		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $fourteen_days ) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	if ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
@@ -163,9 +162,8 @@ function constant_contact_maybe_display_review_notification() {
 		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $thirty_days
 		) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	if ( isset( $dismissed['count'] ) && '3' === $dismissed['count'] ) {
@@ -294,7 +292,7 @@ function ctct_has_forms() {
 		'posts_per_page' => 1,
 	];
 	$forms = new WP_Query( $args );
-	return ( $forms->have_posts() );
+	return $forms->have_posts();
 }
 
 /**
@@ -607,7 +605,7 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
 
 	$global_setting = ctct_get_settings_option( $customization_key );
 
-	return ( ! empty( $global_setting ) ) ? $global_setting : '';
+	return ! empty( $global_setting ) ? $global_setting : '';
 }
 
 /**
