@@ -396,7 +396,6 @@ class ConstantContact_Settings {
 
 		$available_areas = ctct_get_settings_option( '_ctct_optin_forms', [] );
 
-		// If our settings aren't an array, bail out.
 		if ( ! is_array( $available_areas ) ) {
 			return false;
 		}

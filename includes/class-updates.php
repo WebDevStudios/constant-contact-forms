@@ -90,11 +90,9 @@ class ConstantContact_Updates {
 	 */
 	public function add_notification( $update_id ) {
 
-		// Get our current saved update notifications.
-		$current_notifs = get_option( 'ctct_update_notifications' );
+		$current_notifs = get_option( 'ctct_update_notifications', [] );
 		$compare_notifs = $current_notifs;
 
-		// If its not an array, cast it as one.
 		if ( ! is_array( $current_notifs ) ) {
 			$current_notifs = [];
 		}
