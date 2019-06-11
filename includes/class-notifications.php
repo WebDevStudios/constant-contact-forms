@@ -23,7 +23,7 @@ class ConstantContact_Notifications {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Option name where dismissed notices are logged.
@@ -165,7 +165,7 @@ class ConstantContact_Notifications {
 
 		if ( $require_cb ) {
 
-			$requirements_passed = ( $this->check_requirements_callback_for_notif( $require_cb ) );
+			$requirements_passed = $this->check_requirements_callback_for_notif( $require_cb );
 
 			if ( ! $requirements_passed ) {
 				return false;
@@ -195,7 +195,7 @@ class ConstantContact_Notifications {
 	public function check_requirements_callback_for_notif( $require_cb ) {
 
 		if ( is_callable( $require_cb ) ) {
-			return ( call_user_func( $require_cb ) );
+			return call_user_func( $require_cb );
 		}
 
 		return false;
@@ -327,8 +327,7 @@ class ConstantContact_Notifications {
 
 		$is_true = ( ( 'true' === $option ) || ( '1' === $option ) );
 
-		// Cast to boolean and send it back.
-		return ( $is_true ? true : false );
+		return $is_true ?: false ;
 	}
 
 	/**

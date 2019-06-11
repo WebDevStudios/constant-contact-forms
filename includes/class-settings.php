@@ -39,7 +39,7 @@ class ConstantContact_Settings {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.
@@ -279,7 +279,7 @@ class ConstantContact_Settings {
 						'id'         => '_ctct_disclose_name',
 						'type'       => 'text',
 						'default'    => $business_name,
-						'attributes' => strlen( $business_name ) ? [ 'readonly' => 'readonly' ] : [],
+						'attributes' => ! empty( $business_name ) ? [ 'readonly' => 'readonly' ] : [],
 					] );
 
 					$cmb->add_field( [
@@ -287,7 +287,7 @@ class ConstantContact_Settings {
 						'id'         => '_ctct_disclose_address',
 						'type'       => 'text',
 						'default'    => $business_addr,
-						'attributes' => strlen( $business_addr ) ? [ 'readonly' => 'readonly' ] : [],
+						'attributes' => ! empty( $business_addr ) ? [ 'readonly' => 'readonly' ] : [],
 					] );
 				}
 			}
@@ -455,8 +455,8 @@ class ConstantContact_Settings {
 		$saved_label = ctct_get_settings_option( '_ctct_optin_label', '' );
 		$list        = ctct_get_settings_option( '_ctct_optin_list', '' );
 
-		// Otherwise, use our default.
-		$label = $saved_label ? $saved_label : esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
+
+		$label = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 
 		?>
 		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
@@ -465,7 +465,7 @@ class ConstantContact_Settings {
 				<?php echo esc_attr( $label ); ?>
 			</label>
 			<?php echo constant_contact()->display->get_disclose_text(); ?>
-			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin', true, true ); ?>
+			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin' ); ?>
 		</p>
 		<?php
 
@@ -594,17 +594,15 @@ class ConstantContact_Settings {
 	public function _process_user_data_for_optin( $user, $username ) {
 
 		$user_data = get_user_by( 'login', $username );
+		$email     = '';
+		$name      = '';
 
 		if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->user_email ) ) {
 			$email = sanitize_email( $user_data->data->user_email );
-		} else {
-			$email = '';
 		}
 
 		if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->display_name ) ) {
 			$name = sanitize_text_field( $user_data->data->display_name );
-		} else {
-			$name = '';
 		}
 
 		// We also flag PHPCS to ignore this line, as we get
@@ -696,9 +694,9 @@ class ConstantContact_Settings {
 		if ( in_array( $field, [ 'key', 'metabox_id' ], true ) ) {
 			if ( isset( $this->{$field} ) ) {
 				return $this->{$field};
-			} else {
-				return null;
 			}
+
+			return null;
 		}
 
 		throw new Exception( 'Invalid property: ' . $field );
@@ -829,7 +827,7 @@ class ConstantContact_Settings {
 			return $post_error;
 		}
 
-		$option_error = cmb2_get_option( '_ctct_spam_error', '' );
+		$option_error = cmb2_get_option( '_ctct_spam_error' );
 
 		if ( ! empty( $option_error ) ) {
 			return $option_error;

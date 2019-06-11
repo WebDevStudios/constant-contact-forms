@@ -23,7 +23,7 @@ class ConstantContact_Process_Form {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.
@@ -110,7 +110,7 @@ class ConstantContact_Process_Form {
 					/** This filter is documented in includes/class-process-form.php */
 					$message = apply_filters( 'ctct_process_form_success',
 						__( 'Your information has been submitted.', 'constant-contact-forms' ),
-						intval( $json_data['ctct-id'] ) );
+						(int) $json_data['ctct-id'] );
 					break;
 
 				case 'error':
@@ -215,7 +215,7 @@ class ConstantContact_Process_Form {
 			}
 		}
 
-		if ( $this->plugin->settings->has_recaptcha() && ( empty( $data['g-recaptcha-response'] ) ) ) {
+		if ( empty( $data['g-recaptcha-response'] ) && $this->plugin->settings->has_recaptcha() ) {
 			return [
 				'status' => 'named_error',
 				'error'  => $this->get_spam_message( $data['ctct-id'] ),
@@ -439,7 +439,7 @@ class ConstantContact_Process_Form {
 				'map_to'      => isset( $field['_ctct_map_select'] ) ? $field['_ctct_map_select'] : '',
 				'type'        => isset( $field['_ctct_map_select'] ) ? $field['_ctct_map_select'] : '',
 				'description' => isset( $field['_ctct_field_desc'] ) ? $field['_ctct_field_desc'] : '',
-				'required'    => ( isset( $field['_ctct_required_field'] ) && $field['_ctct_required_field'] ) ? true : false,
+				'required'    => isset( $field['_ctct_required_field'] ) && $field['_ctct_required_field'],
 			];
 
 			switch ( $field['_ctct_map_select'] ) {
@@ -603,11 +603,8 @@ class ConstantContact_Process_Form {
 
 		$processed     = $this->process_form();
 		$default_error = esc_html__( 'There was an error sending your form.', 'constant-contact-forms' );
+		$status        = false;
 
-		// Default to no status.
-		$status = false;
-
-		// If we got a status back, check that in our list of returns.
 		if ( isset( $processed['status'] ) && $processed['status'] ) {
 			$status = $processed['status'];
 		}
