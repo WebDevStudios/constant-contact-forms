@@ -25,7 +25,7 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Track form instances on page.

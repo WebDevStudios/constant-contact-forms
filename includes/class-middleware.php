@@ -20,7 +20,7 @@ class ConstantContact_Middleware {
 	 * @since 1.0.1
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.

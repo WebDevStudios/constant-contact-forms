@@ -24,7 +24,7 @@ class ConstantContact_Builder {
 	 *
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Prefix for our meta fields/boxes.
@@ -183,7 +183,7 @@ class ConstantContact_Builder {
 			endif;
 
 			$custom_fields          = get_post_meta( $post->ID, 'custom_fields_group', true );
-			$custom_textareas_count = (int) 0;
+			$custom_textareas_count = 0;
 
 			if ( ! empty( $custom_fields ) && is_array( $custom_fields ) ) {
 

@@ -23,7 +23,7 @@ class ConstantContact_Auth_Redirect {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.

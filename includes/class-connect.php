@@ -53,7 +53,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Whether or not to encrypt.

@@ -31,7 +31,7 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Logging admin page URL.
@@ -89,7 +89,7 @@ class ConstantContact_Logging {
 	 * @since 1.4.5
 	 * @var null
 	 */
-	protected $file_system = null;
+	protected $file_system;
 
 	/**
 	 * Constructor.

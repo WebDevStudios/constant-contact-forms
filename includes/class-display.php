@@ -23,7 +23,7 @@ class ConstantContact_Display {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * The global custom styles.
@@ -308,7 +308,7 @@ class ConstantContact_Display {
 		$should_disable_recaptcha = get_post_meta( $form_id, '_ctct_disable_recaptcha', true );
 		$disable_recaptcha        = ( 'on' === $should_disable_recaptcha );
 		$form_classes             = 'ctct-form ctct-form-' . $form_id;
-		$form_classes            .= ( $this->plugin->settings->has_recaptcha() ) ? ' has-recaptcha' : ' no-recaptcha';
+		$form_classes            .= $this->plugin->settings->has_recaptcha() ? ' has-recaptcha' : ' no-recaptcha';
 		$form_classes            .= $this->build_custom_form_classes();
 
 		$form_styles = '';
@@ -1099,7 +1099,7 @@ class ConstantContact_Display {
 	public function submit( $form_id = 0 ) {
 		$button_text = get_post_meta( $form_id, '_ctct_button_text', true );
 		$button_text =
-		( ! empty( $button_text ) ) ?
+		! empty( $button_text ) ?
 			$button_text :
 			/**
 			 * Filters the text that appears on the submit button.

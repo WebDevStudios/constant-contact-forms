@@ -25,7 +25,7 @@ class ConstantContact_CPTS {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.
@@ -299,7 +299,7 @@ class ConstantContact_CPTS {
 					isset( $form->post_title ) &&
 					isset( $form->post_modified )
 				) {
-					$title         = ( $form->post_title ) ? $form->post_title : __( 'No title', 'constant-contact-forms' );
+					$title         = $form->post_title ?: __( 'No title', 'constant-contact-forms' );
 					$last_modified = human_time_diff( strtotime( $form->post_modified ), current_time( 'timestamp' ) );
 
 					$title = sprintf(

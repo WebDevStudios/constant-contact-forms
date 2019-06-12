@@ -23,7 +23,7 @@ class ConstantContact_Gutenberg {
 	 * @since 1.5.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.
