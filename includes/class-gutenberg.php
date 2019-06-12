@@ -50,7 +50,6 @@ class ConstantContact_Gutenberg {
 	private function meets_requirements() {
 		global $wp_version;
 
-		// Gutenberg is part of core as of WP Version 5.0.
 		return version_compare( $wp_version, '5.0.0' ) >= 0;
 	}
 

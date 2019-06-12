@@ -141,18 +141,15 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function get_field_meta( $form_meta, $form_id ) {
 
-		// Bail if we don't have form meta.
 		if ( empty( $form_meta ) || ! is_array( $form_meta ) ) {
 			return '';
 		}
 
-		// Data verificiation for our custom fields group.
 		if (
 			isset( $form_meta['custom_fields_group'] ) &&
 			$form_meta['custom_fields_group'] &&
 			isset( $form_meta['custom_fields_group'][0] )
 		) {
-			// If we passed all the checks, try to grab the data.
 			return $this->get_field_values( $form_meta['custom_fields_group'][0], $form_meta, $form_id );
 		}
 		return '';
@@ -170,19 +167,14 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function get_field_values( $custom_fields, $full_data, $form_id ) {
 
-		// Get all our data from our fields, while we unserialize them.
 		$fields = $this->generate_field_values_for_fields( maybe_unserialize( $custom_fields ) );
 
-		// Now that we've finished checking all of our form fields, we'll
-		// want to set some general form information here.
 		if ( $form_id ) {
 			$fields['options']['form_id'] = $form_id;
 		}
 
-		// add in our form description, if we have one.
 		$fields['options']['description'] = $this->get_nested_value_from_data( '_ctct_description', $full_data );
 
-		// Get our optin data.
 		$fields['options']['optin'] = $this->generate_optin_data( $full_data );
 
 		return $fields;
@@ -198,33 +190,24 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function generate_field_values_for_fields( $custom_fields ) {
 
-		// Set up our base fields value.
 		$fields = [];
 
-		// Sanity check.
 		if ( ! is_array( $custom_fields ) ) {
 			return $fields;
 		}
 
-		// Loop through each of our fields.
 		foreach ( $custom_fields as $key => $value ) {
-
-			// Make sure we have the parts of our array that we expect.
 			if ( ! isset( $custom_fields ) || ! isset( $custom_fields[ $key ] ) ) {
 				continue;
 			}
 
-			// Set our field name, if we can.
 			$fields = $this->set_field( '_ctct_field_label', 'name', $key, $fields, $custom_fields );
 
-			// Set our field mapping, if we can.
 			$fields = $this->set_field( '_ctct_map_select', 'map_to', $key, $fields, $custom_fields );
 			$fields = $this->set_field( '_ctct_map_select', 'type', $key, $fields, $custom_fields );
 
-			// Set our field description, if we can.
 			$fields = $this->set_field( '_ctct_field_desc', 'description', $key, $fields, $custom_fields );
 
-			// Set our field requirement, if we can. We do this by casting the results of our two checks to a boolean.
 			$fields['fields'][ $key ]['required'] = (
 				isset( $custom_fields[ $key ]['_ctct_required_field'] ) &&
 				'on' === $custom_fields[ $key ]['_ctct_required_field']
@@ -248,7 +231,6 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function set_field( $from_key, $to_key, $key, $fields, $custom_fields ) {
 
-		// Data sanity check / verification.
 		if (
 			is_array( $custom_fields ) &&
 			isset( $custom_fields[ $key ] ) &&
@@ -256,11 +238,9 @@ class ConstantContact_Display_Shortcode {
 			isset( $custom_fields[ $key ][ $from_key ] ) &&
 			$custom_fields[ $key ][ $from_key ]
 		) {
-			// Set our data to the correct key.
 			$fields['fields'][ $key ][ $to_key ] = $custom_fields[ $key ][ $from_key ];
 		}
 
-		// Send it all back.
 		return $fields;
 	}
 
@@ -273,8 +253,6 @@ class ConstantContact_Display_Shortcode {
 	 * @return array Array of opt-in data.
 	 */
 	public function generate_optin_data( $form_data ) {
-
-		// Return our data for our optin.
 		return [
 			'list'         => $this->get_nested_value_from_data( '_ctct_list', $form_data ),
 			'show'         => $this->get_nested_value_from_data( '_ctct_opt_in', $form_data ),
@@ -292,8 +270,6 @@ class ConstantContact_Display_Shortcode {
 	 * @return string Instructions.
 	 */
 	public function get_nested_value_from_data( $key, $form_data ) {
-
-		// Get our instructions for our opt in.
 		if (
 			isset( $form_data[ $key ] ) &&
 			$form_data[ $key ] &&

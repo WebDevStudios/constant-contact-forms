@@ -42,8 +42,6 @@ class ConstantContact_Admin_Pages {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-
-		// Add our styles to the site.
 		add_action( 'admin_enqueue_scripts', [ $this, 'styles' ] );
 	}
 
@@ -132,16 +130,11 @@ class ConstantContact_Admin_Pages {
 					</h2>
 					<ol id="help_ctct">
 					<?php
-					// Grab our FAQs.
 					$helps = $this->get_help_texts();
 
-					// Make sure we have some.
 					if ( is_array( $helps ) ) {
 
-						// Loop through each $help.
 						foreach ( $helps as $help ) {
-
-							// Make sure we have the right data.
 							if ( ! isset( $help['title'] ) || ! isset( $help['content'] ) ) {
 								continue;
 							}
@@ -166,14 +159,11 @@ class ConstantContact_Admin_Pages {
 					</h2>
 					<ol id="faq_ctct">
 					<?php
-					// Grab our FAQs.
 					$faqs = $this->get_faq_texts();
 
 					if ( is_array( $faqs ) ) {
 
 						foreach ( $faqs as $faq ) {
-
-							// Make sure we have the right data.
 							if ( ! isset( $faq['title'] ) || ! isset( $faq['content'] ) ) {
 								continue;
 							}
@@ -208,15 +198,12 @@ class ConstantContact_Admin_Pages {
 		$proof = $auth_link = $new_link = '';
 
 		if ( ! constant_contact()->api->is_connected() ) {
-
-			// Get our middleware link.
 			$proof     = constant_contact()->authserver->set_verification_option();
 			$auth_link = constant_contact()->authserver->do_connect_url( $proof );
 			$new_link  = constant_contact()->authserver->do_signup_url( $proof );
 
 			$new_link  = add_query_arg( [ 'rmc' => 'wp_about_try' ], $new_link );
 			$auth_link = add_query_arg( [ 'rmc' => 'wp_about_connect' ], $auth_link );
-
 		}
 
 		?>
@@ -258,10 +245,10 @@ class ConstantContact_Admin_Pages {
 					</ul>
 
 					<p>
-						<?php if ( $new_link ) { // If we have a link, then display the connect button. ?>
+						<?php if ( $new_link ) { ?>
 							<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
 						<?php } ?>
-						<?php if ( $auth_link ) { // If we have a link, then display the connect button. ?>
+						<?php if ( $auth_link ) { ?>
 							<?php esc_attr_e( 'Already have a Constant Contact account?', 'constant-contact-forms' ); ?>
 							<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="ctct-connect">
 								<?php esc_html_e( 'Connect the plugin.', 'constant-contact-forms' ); ?>

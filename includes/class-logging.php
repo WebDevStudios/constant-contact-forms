@@ -164,7 +164,6 @@ class ConstantContact_Logging {
 		$connect_title = esc_html__( 'Debug logs', 'constant-contact-forms' );
 		$connect_link  = 'edit.php?post_type=ctct_forms';
 
-		// Set up our page.
 		$this->options_page = add_submenu_page(
 			$connect_link,
 			$connect_title,
@@ -301,7 +300,6 @@ class ConstantContact_Logging {
 	 * @return string
 	 */
 	protected function get_log_contents() {
-		// Attempt URL version first.
 		$log_content_url = wp_remote_get( $this->log_location_url );
 		if ( is_wp_error( $log_content_url ) ) {
 			return sprintf(
@@ -314,12 +312,10 @@ class ConstantContact_Logging {
 			);
 		}
 
-		// If we have data from a successful request.
 		if ( 200 === wp_remote_retrieve_response_code( $log_content_url ) ) {
 			return wp_remote_retrieve_body( $log_content_url );
 		}
 
-		// If we have anything BUT 200 status from the url, let's attempt a file system read.
 		$log_content_dir = $this->file_system->get_contents( $this->log_location_file );
 		if ( ! empty( $log_content_dir ) && is_string( $log_content_dir ) ) {
 			return $log_content_dir;

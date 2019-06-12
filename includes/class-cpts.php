@@ -165,7 +165,6 @@ class ConstantContact_CPTS {
 			'capability_type'     => 'page',
 		];
 
-		// Only register if we're connected.
 		if ( constantcontact_api()->is_connected() ) {
 			register_post_type( 'ctct_lists', $args );
 		}
@@ -189,7 +188,7 @@ class ConstantContact_CPTS {
 			2  => __( 'Custom field updated.', 'constant-contact-forms' ),
 			3  => __( 'Custom field deleted.', 'constant-contact-forms' ),
 			4  => __( 'List updated.', 'constant-contact-forms' ),
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'List restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // Input var okay.
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'List restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 			6  => __( 'List published.', 'constant-contact-forms' ),
 			7  => __( 'List saved.', 'constant-contact-forms' ),
 			8  => __( 'List submitted.', 'constant-contact-forms' ),
@@ -204,7 +203,7 @@ class ConstantContact_CPTS {
 			2  => __( 'Custom field updated.', 'constant-contact-forms' ),
 			3  => __( 'Custom field deleted.', 'constant-contact-forms' ),
 			4  => __( 'Form updated.', 'constant-contact-forms' ),
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // Input var okay.
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 			6  => sprintf( __( "Success! Here's the shortcode: %s. Just paste it into a post or page editor to publish", 'constant-contact-forms' ), '<strong>' . constant_contact_display_shortcode( $post->ID ) . '</strong>' ),
 			7  => __( 'Form saved.', 'constant-contact-forms' ),
 			8  => __( 'Form submitted.', 'constant-contact-forms' ),
@@ -235,7 +234,6 @@ class ConstantContact_CPTS {
 			return $title;
 		}
 
-		// If we're on our forms post type.
 		if ( 'ctct_forms' === $post->post_type ) {
 			$title = sprintf(
 				'%s <span class="ctct-admin-title-details">%s</span>',

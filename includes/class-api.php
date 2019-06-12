@@ -71,8 +71,6 @@ class ConstantContact_API {
 	public function get_api_token( $type = '' ) {
 		$url = '';
 
-		// Depending on our request, we'll try to grab a defined value
-		// otherwise we'll grab it from our options.
 		switch ( $type ) {
 			case 'CTCT_APIKEY':
 				if ( defined( 'CTCT_APIKEY' ) && CTCT_APIKEY ) {
@@ -538,7 +536,6 @@ class ConstantContact_API {
 				case 'city_address':
 				case 'state_address':
 				case 'zip_address':
-					// Set our global address so we can append more data.
 					if ( is_null( $address ) ) {
 						$address = new Ctct\Components\Contacts\Address();
 					}
