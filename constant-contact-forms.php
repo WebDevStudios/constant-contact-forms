@@ -800,7 +800,7 @@ add_action( 'plugins_loaded', [ constant_contact(), 'hooks' ] );
 
 register_activation_hook( __FILE__, [ constant_contact(), 'activate' ] );
 register_deactivation_hook( __FILE__, [ constant_contact(), 'deactivate' ] );
-register_uninstall_hook( __FILE__, [ constant_contact(), 'uninstall' ] );
+register_uninstall_hook( __FILE__, 'constant_contact_uninstall' );
 
 /**
  * Grab the Constant_Contact object and return it.
@@ -812,6 +812,16 @@ register_uninstall_hook( __FILE__, [ constant_contact(), 'uninstall' ] );
  */
 function constant_contact() {
 	return Constant_Contact::get_instance();
+}
+
+/**
+ * Callback for the uninstall hook.
+ *
+ * @since 1.6.0
+ */
+function constant_contact_uninstall() {
+	$instance = Constant_Contact::get_instance();
+	$instance->uninstall();
 }
 
 /**
