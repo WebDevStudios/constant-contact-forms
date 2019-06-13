@@ -491,7 +491,7 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Deactivate the plugin.
+	 * Deactivate the plugin, refresh some notification dismissals.
 	 *
 	 * @since 1.0.0
 	 *
@@ -504,9 +504,16 @@ class Constant_Contact {
 		}
 
 		$this->notifications->delete_dismissed_notification( 'activation' );
+	}
 
-		delete_transient( 'ctct_lists' );
-		delete_option( self::$activated_date_option );
+	/**
+	 * Delete a number of transients and database options on uninstall.
+	 *
+	 * @since 1.6.0
+	 */
+	public function uninstall() {
+		$uninstaller = new ConstantContact_Uninstall();
+		$uninstaller->run();
 	}
 
 	/**
@@ -793,6 +800,7 @@ add_action( 'plugins_loaded', [ constant_contact(), 'hooks' ] );
 
 register_activation_hook( __FILE__, [ constant_contact(), 'activate' ] );
 register_deactivation_hook( __FILE__, [ constant_contact(), 'deactivate' ] );
+register_uninstall_hook( __FILE__, [ constant_contact(), 'uninstall' ] );
 
 /**
  * Grab the Constant_Contact object and return it.
