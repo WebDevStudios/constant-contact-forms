@@ -901,7 +901,7 @@ class ConstantContact_Settings {
 		$value = trim( $value );
 
 		// Keys need to be under 50 chars long and have no spaces inside them.
-		if ( false !== strpos( $value, ' ' ) || 50 < strlen( $value ) ) {
+		if ( false !== strpos( $value, ' ' ) || 50 <= strlen( $value ) ) {
 			return '';
 		}
 
