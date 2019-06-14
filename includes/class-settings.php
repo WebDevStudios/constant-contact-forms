@@ -216,7 +216,7 @@ class ConstantContact_Settings {
 		if ( ! constant_contact()->api->is_connected() ) {
 			return;
 		}
-
+    
 		$this->tabs['general']->add_field( [
 			'name' => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
 			'id'   => '_ctct_disable_email_notifications',
@@ -816,6 +816,27 @@ class ConstantContact_Settings {
 		}
 
 		return $this->get_default_spam_error();
+	}
+
+	/**
+	 * Sanitize API key strings for Google reCaptcha. Length is enforced
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param  mixed      $value      The unsanitized value from the form.
+	 * @param  array      $field_args Array of field arguments.
+	 * @param  CMB2_Field $field      The field object
+	 * @return string
+	 */
+	public function sanitize_recaptcha_api_key_string( $value, $field_args, $field ) {
+		$value = trim( $value );
+
+		// Keys need to be under 50 chars long and have no spaces inside them.
+		if ( false !== strpos( $value, ' ' ) || 50 <= strlen( $value ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( $value );
 	}
 
 	/**
