@@ -24,7 +24,7 @@ class ConstantContact_Builder {
 	 *
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Prefix for our meta fields/boxes.
@@ -48,7 +48,7 @@ class ConstantContact_Builder {
 	}
 
 	/**
-	 * Initiate our hooks.
+	 * Initiate our init.
 	 *
 	 * @since 1.0.0
 	 */
@@ -147,7 +147,6 @@ class ConstantContact_Builder {
 
 			foreach ( $cmbobj->data_to_save['custom_fields_group'] as $data ) {
 
-				// If we have a an email field set in our map select.
 				if ( ( isset( $data['_ctct_map_select'] ) && 'email' === $data['_ctct_map_select'] ) || ! isset( $data['_ctct_map_select'] ) ) {
 					update_post_meta( $post->ID, '_ctct_has_email_field', 'true' );
 					return;
@@ -184,7 +183,7 @@ class ConstantContact_Builder {
 			endif;
 
 			$custom_fields          = get_post_meta( $post->ID, 'custom_fields_group', true );
-			$custom_textareas_count = (int) 0;
+			$custom_textareas_count = 0;
 
 			if ( ! empty( $custom_fields ) && is_array( $custom_fields ) ) {
 
@@ -249,7 +248,6 @@ class ConstantContact_Builder {
 			! wp_is_post_revision( $post ) &&
 			! constant_contact()->api->is_connected()
 		) {
-			// Inject in a query arg that we can read later.
 			add_filter( 'redirect_post_location', [ $this, 'add_not_conn_query_arg' ], 99 );
 		}
 	}
@@ -263,11 +261,7 @@ class ConstantContact_Builder {
 	 * @return string
 	 */
 	public function add_not_conn_query_arg( $location ) {
-
-		// Remove our filter that we added before.
 		remove_filter( 'redirect_post_location', [ $this, 'add_notice_query_var' ], 99 );
-
-		// Inject in our query arg.
 		return add_query_arg( [ 'ctct_not_connected' => 'true' ], $location );
 	}
 
@@ -280,10 +274,8 @@ class ConstantContact_Builder {
 	 */
 	public function get_form_name_markup_for_modal() {
 
-		// Get the post object.
 		global $post;
 
-		// If we have a post title set, use that for our modal.
 		if ( isset( $post->post_title ) ) {
 			return esc_attr( $post->post_title );
 		}

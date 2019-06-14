@@ -20,7 +20,7 @@ use Monolog\Handler\StreamHandler;
  * @return boolean Whether or not they are connected.
  */
 function constant_contact_is_connected() {
-	return ( constant_contact()->api->is_connected() );
+	return constant_contact()->api->is_connected();
 }
 
 /**
@@ -31,7 +31,7 @@ function constant_contact_is_connected() {
  * @return boolean Whether or not they are NOT connected.
  */
 function constant_contact_is_not_connected() {
-	return ! ( constant_contact()->api->is_connected() );
+	return ! constant_contact()->api->is_connected();
 }
 
 /**
@@ -153,9 +153,8 @@ function constant_contact_maybe_display_review_notification() {
 
 		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $fourteen_days ) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	if ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
@@ -163,9 +162,8 @@ function constant_contact_maybe_display_review_notification() {
 		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $thirty_days
 		) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	if ( isset( $dismissed['count'] ) && '3' === $dismissed['count'] ) {
@@ -272,7 +270,6 @@ function ctct_custom_form_action_processing() {
 		return false;
 	}
 
-	// Only run this if we have a custom action being filtered in.
 	if ( ! constant_contact_has_redirect_uri( $ctct_id ) ) {
 		return false;
 	}
@@ -295,7 +292,7 @@ function ctct_has_forms() {
 		'posts_per_page' => 1,
 	];
 	$forms = new WP_Query( $args );
-	return ( $forms->have_posts() );
+	return $forms->have_posts();
 }
 
 /**
@@ -352,12 +349,11 @@ add_filter( 'constant_contact_maybe_spam', 'constant_contact_check_timestamps', 
  * @return string
  */
 function constant_contact_clean_url( $url = '' ) {
-	// Reject and return untouched if not provided a string.
 	if ( ! is_string( $url ) ) {
 		return $url;
 	}
 
-	/* @todo Consideration: non-ssl based external websites. Just cause the user's site may be SSL, doesn't mean redirect url wi for sure be. Perhaps add check for home_url as part of consideration. */
+	/* @todo Consideration: non-ssl based external websites. Just cause the user's site may be SSL, doesn't mean redirect url will for sure be. Perhaps add check for home_url as part of consideration. */
 	$clean_url = esc_url( $url );
 	if ( is_ssl() && 'http' === wp_parse_url( $clean_url, PHP_URL_SCHEME ) ) {
 		$clean_url = str_replace( 'http', 'https', $clean_url );
@@ -375,6 +371,9 @@ function constant_contact_clean_url( $url = '' ) {
 function constant_contact_debugging_enabled() {
 	$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
 
+	if ( apply_filters( 'constant_contact_force_logging', false ) ) {
+		$debugging_enabled = 'on';
+	}
 	return (
 		( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) ||
 		'on' === $debugging_enabled
@@ -409,7 +408,6 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 	if ( $extra_data ) {
 		$extra = [ 'Extra information', [ $extra_data ] ];
 	}
-	// Log status of error.
 	$logger->addInfo( $error, $extra );
 }
 
@@ -428,7 +426,6 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
  */
 function constant_contact_akismet( $is_spam, $data ) {
 
-	// Bail out, If spam.
 	if ( $is_spam ) {
 		return $is_spam;
 	}
@@ -454,12 +451,10 @@ function constant_contact_akismet( $is_spam, $data ) {
 		$name .= ' ' . $lname;
 	}
 
-	// Bail out, if Akismet key not exist.
 	if ( ! constant_contact_check_akismet_key() ) {
 		return $is_spam;
 	}
 
-	// Build args array.
 	$args = [];
 
 	$args['comment_author']       = $name;
@@ -480,7 +475,6 @@ function constant_contact_akismet( $is_spam, $data ) {
 		}
 	}
 
-	// It will return Akismet spam detect API response.
 	$is_spam = constant_contact_akismet_spam_check( $args );
 
 	return $is_spam;
@@ -546,16 +540,13 @@ function constant_contact_akismet_spam_check( $args ) {
  */
 function constant_contact_emails_disabled( $form_id = 0 ) {
 
-	// Assume we can.
 	$disabled = false;
 
-	// Check for a setting for the form itself.
 	$form_disabled = get_post_meta( $form_id, '_ctct_disable_emails_for_form', true );
 	if ( 'on' === $form_disabled ) {
 		$disabled = true;
 	}
 
-	// Check for our global setting.
 	$global_form_disabled = ctct_get_settings_option( '_ctct_disable_email_notifications', '' );
 	if ( 'on' === $global_form_disabled ) {
 		$disabled = true;
@@ -617,7 +608,7 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
 
 	$global_setting = ctct_get_settings_option( $customization_key );
 
-	return ( ! empty( $global_setting ) ) ? $global_setting : '';
+	return ! empty( $global_setting ) ? $global_setting : '';
 }
 
 /**

@@ -23,7 +23,7 @@ class ConstantContact_Notifications {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Option name where dismissed notices are logged.
@@ -70,7 +70,6 @@ class ConstantContact_Notifications {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-		// Add activation message.
 		add_action( 'admin_notices', [ $this, 'main' ] );
 	}
 
@@ -121,14 +120,10 @@ class ConstantContact_Notifications {
 		// Get our potentically dismissed notif ID.
 		$notif_id = $this->get_dismissal_id();
 
-		// First, we want to check if we should save any dismissals.
 		if ( $this->check_dismissal_nonce() && $notif_id ) {
-
-			// Then save that we dismissed it.
 			$this->save_dismissed_notification( $notif_id );
 		}
 
-		// Get all our notifications.
 		$notifications        = $this->get_notifications();
 		$update_notifications = $this->get_update_notifications();
 
@@ -168,10 +163,9 @@ class ConstantContact_Notifications {
 			return false;
 		}
 
-		// If we don have requirements set up for a notif, then check them.
 		if ( $require_cb ) {
 
-			$requirements_passed = ( $this->check_requirements_callback_for_notif( $require_cb ) );
+			$requirements_passed = $this->check_requirements_callback_for_notif( $require_cb );
 
 			if ( ! $requirements_passed ) {
 				return false;
@@ -201,7 +195,7 @@ class ConstantContact_Notifications {
 	public function check_requirements_callback_for_notif( $require_cb ) {
 
 		if ( is_callable( $require_cb ) ) {
-			return ( call_user_func( $require_cb ) );
+			return call_user_func( $require_cb );
 		}
 
 		return false;
@@ -224,7 +218,6 @@ class ConstantContact_Notifications {
 		$nonce = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss'] ) );
 		// phpcs:enable WordPress.Security.NonceVerification
 
-		// If our nonce fails, then we don't want to dismiss it.
 		return wp_verify_nonce( $nonce, 'ctct-user-is-dismissing' );
 	}
 
@@ -261,8 +254,6 @@ class ConstantContact_Notifications {
 	 * @return bool If we updated correctly.
 	 */
 	public function save_dismissed_notification( $key ) {
-
-		// Call our save option helper.
 		return $this->save_dismissed_option( $key, true );
 	}
 
@@ -275,8 +266,6 @@ class ConstantContact_Notifications {
 	 * @return bool Update succeeded?
 	 */
 	public function delete_dismissed_notification( $key ) {
-
-		// Call our save option helper.
 		return $this->save_dismissed_option( $key, false );
 	}
 
@@ -313,19 +302,14 @@ class ConstantContact_Notifications {
 	 * @return bool If saved or not.
 	 */
 	public function save_dismissed_option( $key, $value ) {
-
-		// Get all of our options we have saved.
 		$options = $this->get_dismissed_options();
 
-		// If for some reason, we didn't get an array, then clear it out.
 		if ( ! is_array( $options ) ) {
 			$options = [];
 		}
 
-		// Save our keyed notification to be saved.
 		$options[ esc_attr( $key ) ] = esc_attr( $value );
 
-		// Save all the options.
 		return $this->save_dismissed_options( $options );
 	}
 
@@ -339,14 +323,11 @@ class ConstantContact_Notifications {
 	 */
 	public function was_notification_dismissed( $key = '' ) {
 
-		// Get all our options.
 		$option = $this->get_dismissed_option( $key );
 
-		// If we have 'true' or '1' saved, then its true.
 		$is_true = ( ( 'true' === $option ) || ( '1' === $option ) );
 
-		// Cast to boolean and send it back.
-		return ( $is_true ? true : false );
+		return $is_true ?: false ;
 	}
 
 	/**
@@ -359,17 +340,12 @@ class ConstantContact_Notifications {
 	 */
 	public function get_dismissed_option( $key = '' ) {
 
-		// Get all our dismissed notifications.
 		$options = $this->get_dismissed_options();
 
-		// If we have the notification saved in our options array.
 		if ( isset( $options[ esc_attr( $key ) ] ) ) {
-
-			// Return the option of whatever it is.
 			return $options[ esc_attr( $key ) ];
 		}
 
-		// Otherwise, we'll just return false and bail.
 		return false;
 	}
 
@@ -384,12 +360,10 @@ class ConstantContact_Notifications {
 	 */
 	public function show_notice( $key, $content = '' ) {
 
-		// If we don't have any content, bail.
 		if ( ! $content ) {
 			return;
 		}
 
-		// Show our styles.
 		$this->do_styles();
 
 	?>
@@ -407,13 +381,10 @@ class ConstantContact_Notifications {
 	 */
 	public function do_styles() {
 
-		// Set our flag about notice being shown, so we don't re-enqueue styles.
 		static $have_styles = false;
 
 		if ( ! $have_styles ) {
-
 			wp_enqueue_style( 'constant-contact-forms-admin' );
-
 			$have_styles = true;
 		}
 	}
@@ -443,10 +414,7 @@ class ConstantContact_Notifications {
 	 * @return string URL to dismiss prompt.
 	 */
 	public function get_activation_dismiss_url( $type ) {
-
-		// Set a link with our current url and desired action.
 		$link = add_query_arg( [ 'ctct-dismiss-action' => esc_attr( $type ) ] );
-
 		return wp_nonce_url( $link, 'ctct-user-is-dismissing', 'ctct-dismiss' );
 	}
 }

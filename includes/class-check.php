@@ -23,7 +23,7 @@ class ConstantContact_Check {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.
@@ -97,11 +97,10 @@ class ConstantContact_Check {
 	 */
 	public function display_server_checks() {
 
-		// Get everything we should check.
 		$checks = $this->get_checks_to_make();
 
 		echo '<table class="ctct-server-check">';
-		// If we have a functions array.
+
 		if (
 			isset( $checks['functions'] ) &&
 			is_array( $checks['functions'] ) &&
@@ -112,7 +111,6 @@ class ConstantContact_Check {
 			}
 		}
 
-		// See if we have any classes we should check for.
 		if (
 			isset( $checks['classes'] ) &&
 			is_array( $checks['classes'] ) &&
@@ -124,7 +122,6 @@ class ConstantContact_Check {
 			}
 		}
 
-		// Check to see if we can load the encryption library.
 		$crypto = $this->plugin->connect->check_crypto_class();
 		echo '<tr><td>' . esc_attr__( 'Encrpytion Library: ', 'constant-contact-forms' ) . '</td><td>' . esc_attr( $this->exists_text( $crypto ) ) . '</td></tr>';
 

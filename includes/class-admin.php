@@ -169,7 +169,6 @@ class ConstantContact_Admin {
 				<?php
 
 				$page = [];
-				// If we have a page get var set, let's try to pull out the page we're looking for.
 				// phpcs:disable WordPress.Security.NonceVerification -- OK accessing of $_GET values.
 				if ( isset( $_GET['page'] ) ) {
 					$page_key = sanitize_text_field( wp_unslash( $_GET['page'] ) );
@@ -177,10 +176,8 @@ class ConstantContact_Admin {
 				}
 				// phpcs:enable WordPress.Security.NonceVerification
 
-				// If we have a second element set, let's check out what it should be.
 				if ( isset( $page[1] ) && $page[1] ) {
 
-					// Switch through our whitelisted pages that we shoud include.
 					switch ( esc_attr( $page[1] ) ) {
 						case 'about':
 							constant_contact()->admin_pages->about_page();
@@ -242,7 +239,6 @@ class ConstantContact_Admin {
 
 		$field = esc_attr( $field );
 
-		// Allowed fields to retrieve.
 		if ( in_array( $field, [ 'key', 'metabox_id', 'title', 'options_page' ], true ) ) {
 			return $this->{$field};
 		} else {
@@ -282,11 +278,8 @@ class ConstantContact_Admin {
 	 * @return void
 	 */
 	public function custom_columns( $column, $post_id ) {
-
-		// Force our $post_id to an int.
 		$post_id = absint( $post_id );
 
-		// If its a 0 bail out.
 		if ( ! $post_id ) {
 			return;
 		}
@@ -327,7 +320,6 @@ class ConstantContact_Admin {
 	public function set_custom_lists_columns( $columns ) {
 		$columns['ctct_total'] = esc_html__( 'Contact Count', 'constant-contact-forms' );
 
-		// No need to display the date of a sync'd list post.
 		unset( $columns['date'] );
 
 		return $columns;
@@ -346,10 +338,8 @@ class ConstantContact_Admin {
 	 */
 	public function custom_lists_columns( $column, $post_id ) {
 
-		// Force our $post_id to an int.
 		$post_id = absint( $post_id );
 
-		// If its a 0 bail out.
 		if ( ! $post_id ) {
 			return;
 		}
@@ -384,10 +374,8 @@ class ConstantContact_Admin {
 			return $links;
 		}
 
-		// Get Twitter share link.
 		$twitter_cta = esc_html__( 'Check out the official WordPress plugin from @constantcontact:', 'constant-contact-forms' );
 
-		// Add about page.
 		$add_links[] = $this->get_admin_link( esc_html__( 'About', 'constant-contact-forms' ), 'about' );
 		$add_links[] = $this->get_admin_link( esc_html__( 'License', 'constant-contact-forms' ), 'license' );
 
@@ -400,7 +388,6 @@ class ConstantContact_Admin {
 		 */
 		$site_link = apply_filters( 'constant_contact_social_base_url', 'https://constantcontact.com/' );
 
-		// Start our social share links.
 		$social_share = esc_html__( 'Spread the word!', 'constant-contact-forms' );
 		$add_links[]  = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>';
 		$add_links[]  = '<a title="' . $social_share . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" class="dashicons-before dashicons-twitter"></a>';
@@ -453,10 +440,7 @@ class ConstantContact_Admin {
 
 		global $pagenow;
 
-		// Check if we are in debug mode. allow.
 		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
-
-		// Based on our debug mode, potentially add a min prefix.
 		$suffix = ( true === $debug ) ? '' : '.min';
 
 		wp_register_script(
@@ -509,14 +493,11 @@ class ConstantContact_Admin {
 			wp_enqueue_script( 'ctct_form' );
 		}
 
-		// Some admin_enqueue_scripts action calls pass the pagenow string value and not an array.
 		if ( ! is_array( $extra_localizations ) ) {
 			return;
 		}
 
-		// If we have extra localizations, iterate and call with `wp_localize_script`.
 		if ( ! empty( $extra_localizations ) ) {
-			// We only have a single array, put it in another array.
 			if ( ! is_array( $extra_localizations[0] ) ) {
 				$extra_localizations = [ $extra_localizations ];
 			}
@@ -536,7 +517,6 @@ class ConstantContact_Admin {
 		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', [ 'post.php', 'post-new.php' ] );
 
 		if ( $pagenow && in_array( $pagenow, $allowed_pages, true ) ) {
-			// Enqueued script with localized data.
 			wp_enqueue_script( 'ctct_form' );
 			wp_enqueue_script( 'ctct_gutenberg' );
 		}

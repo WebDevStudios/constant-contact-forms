@@ -23,7 +23,7 @@ class ConstantContact_Display {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * The global custom styles.
@@ -268,19 +268,13 @@ class ConstantContact_Display {
 		// with our error messages.
 		$response = constant_contact()->process_form->process_wrapper( $form_data, $form_id );
 
-		// Submitted values.
 		$old_values = isset( $response['values'] ) ? $response['values'] : '';
 		$req_errors = isset( $response['errors'] ) ? $response['errors'] : '';
 
-		// Check to see if we got a response, and if it has the fields we expect.
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
-			// If we were successful, then display success message.
 			if ( 'success' === $response['status'] ) {
-
-				// If we were successful, we'll return here so we don't display the entire form again.
 				return $this->message( 'success', $response['message'] );
-
 			} else {
 
 				// If we didn't get a success message, then we want to error.
@@ -314,7 +308,7 @@ class ConstantContact_Display {
 		$should_disable_recaptcha = get_post_meta( $form_id, '_ctct_disable_recaptcha', true );
 		$disable_recaptcha        = ( 'on' === $should_disable_recaptcha );
 		$form_classes             = 'ctct-form ctct-form-' . $form_id;
-		$form_classes            .= ( $this->plugin->settings->has_recaptcha() ) ? ' has-recaptcha' : ' no-recaptcha';
+		$form_classes            .= $this->plugin->settings->has_recaptcha() ? ' has-recaptcha' : ' no-recaptcha';
 		$form_classes            .= $this->build_custom_form_classes();
 
 		$form_styles = '';
@@ -326,7 +320,6 @@ class ConstantContact_Display {
 			$form_styles .= $this->specific_form_styles[ 'form_padding_' . $pos ];
 		}
 
-		// Add action before form for custom actions.
 		ob_start();
 		/**
 		 * Fires before the start of the form tag.
@@ -339,38 +332,30 @@ class ConstantContact_Display {
 		$return .= ob_get_contents();
 		ob_end_clean();
 
-		// Build out our form.
 		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
 		$return .= 'data-doajax="' . esc_attr( $do_ajax ) . '" ';
 		$return .= 'style="' . esc_attr( $form_styles ) . '" ';
 		$return .= 'action="' . esc_attr( $form_action ) . '" ';
 		$return .= 'method="post">';
 
-		// If we have errors, display them.
 		$return .= $form_err_display;
 
-		// Output our normal form fields.
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
 		if ( $this->plugin->settings->has_recaptcha() && ! $disable_recaptcha ) {
 			$return .= $this->build_recaptcha();
 		}
 
-		// Output a field that should not be populated, and will be visually hidden with inline CSS.
 		$return .= $this->build_honeypot_field();
 
-		// Add our hidden verification fields.
 		$return .= $this->add_verify_fields( $form_data );
 
 		$return .= $this->build_timestamp();
 
-		// Add our submit field.
 		$return .= $this->submit( $form_id );
 
-		// Nonce the field too.
 		$return .= wp_nonce_field( 'ctct_submit_form', 'ctct_form', true, false );
 
-		// Add our disclose notice maybe.
 		$return .= wp_kses_post( $this->maybe_add_disclose_note( $form_data ) );
 
 		$return .= $this->must_opt_in( $form_data );
@@ -405,13 +390,10 @@ class ConstantContact_Display {
 	 */
 	public function get_current_page() {
 
-		// Grab our global wp objects.
 		global $wp;
 
-		// If we have a request, use that.
 		$request = ( isset( $wp->request ) && $wp->request ) ? $wp->request : null;
 
-		// If we still have a request, lets get our url magically.
 		if ( $request ) {
 
 			$curr_url = untrailingslashit( add_query_arg( '', '', home_url( $request ) ) );
@@ -425,7 +407,6 @@ class ConstantContact_Display {
 			}
 		}
 
-		// Otherwise, we'll default to just using add_query_arg, which may throw errors.
 		return untrailingslashit( home_url( add_query_arg( [ '' => '' ] ) ) );
 	}
 
@@ -451,7 +432,6 @@ class ConstantContact_Display {
 				return false;
 			}
 
-			// Add hidden field with our form id in it.
 			$return = $this->input( 'hidden', 'ctct-id', 'ctct-id', $form_id, '', '', true );
 
 			// If we have saved a verify value, add that to our field as well. this is to double-check
@@ -480,17 +460,12 @@ class ConstantContact_Display {
 	 */
 	public function build_form_fields( $form_data, $old_values, $req_errors ) {
 
-		// Start our wrapper return var.
 		$return  = '';
 		$form_id = absint( $form_data['options']['form_id'] );
 
-		// Check to see if we have a form ID for the form, and display our description.
 		if ( isset( $form_data['options'] ) && isset( $form_data['options']['form_id'] ) ) {
-
-			// Get our description.
 			$desc = isset( $form_data['options']['description'] ) ? $form_data['options']['description'] : '';
 
-			// Get our Description.
 			$return .= $this->description( $desc, $form_id );
 
 		}
@@ -501,13 +476,11 @@ class ConstantContact_Display {
 		}
 
 		if ( isset( $form_data['fields'] ) && is_array( $form_data['fields'] ) ) {
-			// Loop through each of our form fields and output it.
 			foreach ( $form_data['fields'] as $key => $value ) {
 				$return .= $this->field( $value, $old_values, $req_errors, $form_id, $label_placement );
 			}
 		}
 
-		// Check to see if we have an opt-in for the form, and display it.
 		if ( isset( $form_data['options'] ) ) {
 			$return .= $this->opt_in( $form_data['options'] );
 		}
@@ -628,7 +601,6 @@ class ConstantContact_Display {
 	 */
 	public function field( $field, $old_values = [], $req_errors = [], $form_id = 0, $label_placement = 'top' ) {
 
-		// If we don't have a name or a mapping, it will be hard to do things.
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
 			return '';
 		}
@@ -741,7 +713,6 @@ class ConstantContact_Display {
 
 			if ( isset( $post['key'] ) && $post['key'] ) {
 
-				// If we have an address, its a special case.
 				if ( 'address' === $field['name'] ) {
 
 					if ( strpos( $post['key'], '_address___' ) !== false ) {
@@ -803,7 +774,6 @@ class ConstantContact_Display {
 		$inline_style = '';
 		$styles       = [];
 
-		// Set any custom CSS for the form description.
 		$specific_form_styles = $this->specific_form_styles;
 
 		if ( ! empty( $specific_form_styles['form_description_font_size'] ) ) {
@@ -835,7 +805,6 @@ class ConstantContact_Display {
 		$display      = '';
 		$inline_style = $this->get_description_inline_styles();
 
-		// If we have the permissions, also display an edit link.
 		if ( current_user_can( 'edit_posts' ) && $form_id ) {
 
 			$edit_link = get_edit_post_link( absint( $form_id ) );
@@ -916,7 +885,6 @@ class ConstantContact_Display {
 		$inline_style = '';
 		$styles       = [];
 
-		// Set any custom CSS for the form submit button.
 		$specific_form_styles = $this->specific_form_styles;
 
 		if ( ! empty( $specific_form_styles['form_submit_button_font_size'] ) ) {
@@ -1131,7 +1099,7 @@ class ConstantContact_Display {
 	public function submit( $form_id = 0 ) {
 		$button_text = get_post_meta( $form_id, '_ctct_button_text', true );
 		$button_text =
-		( ! empty( $button_text ) ) ?
+		! empty( $button_text ) ?
 			$button_text :
 			/**
 			 * Filters the text that appears on the submit button.
@@ -1478,7 +1446,6 @@ class ConstantContact_Display {
 	 */
 	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '', $req = false ) {
 
-		// Account for our weird IDs.
 		$f_id = str_replace( 'birthday', 'birthday_' . $type, $f_id );
 		$f_id = str_replace( 'anniversary', 'anniversary_' . $type, $f_id );
 
@@ -1488,7 +1455,6 @@ class ConstantContact_Display {
 			$return = str_replace( '">', '" required>', $return );
 		}
 
-		// Grab all of our options based on the field type.
 		$return .= $this->get_date_options( $text, $this->get_date_values( $type ), $selected_value );
 
 		$return .= '</select>';
