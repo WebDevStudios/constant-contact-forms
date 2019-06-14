@@ -3,7 +3,7 @@
 // About Page
 //--------------------------------------------------------------
 .constant-contact-about {
-	padding: 15px;
+	padding: rem(15px);
 
 	@media screen and (max-width: 782px) {
 		padding: 0;
@@ -15,17 +15,17 @@
 
 	h1.about-header {
 		color: $color-cc-blue;
-		font-size: 26px;
-		margin: 0 0 15px 0;
+		font-size: rem(26px);
+		margin: 0 0 rem(15px) 0;
 	}
 
 	h3 {
-		padding: 20px 0;
+		padding: rem(20px) 0;
 	}
 
 	p {
 		color: $color-modal-header;
-		font-size: 16px;
+		font-size: rem(16px);
 		font-weight: 300;
 	}
 
@@ -38,13 +38,13 @@
 	.button {
 		border-radius: 4px;
 		color: $color-white;
-		font-size: 16px;
+		font-size: rem(6px);
 		font-weight: 600;
 		height: auto;
 		line-height: 1;
 		margin-bottom: 10px;
 		min-width: 180px;
-		padding: 14px 30px;
+		padding: rem(14px) rem(30px);
 		text-align: center;
 
 		&.button-orange {
@@ -69,7 +69,7 @@
 	}
 
 	.about-text {
-		margin: 0 50px 0 0;
+		margin: 0 rem(50px) 0 0;
 
 		@media screen and (max-width: 482px) {
 			margin: 0;
@@ -110,14 +110,14 @@
 	}
 
 	.fff-img {
-		height: 315px;
-		margin: 20px;
+		height: 315px; // sass-lint:disable-line property-units
+		margin: rem(20px);
 		max-width: 720px;
 		overflow: hidden;
 	}
 
 	.introduction {
-		padding: 20px 0;
+		padding: rem(20px) 0;
 	}
 
 	.featured-title {
@@ -127,13 +127,13 @@
 		margin: 0 auto;
 		position: absolute;
 		text-align: center;
-		text-shadow: 0 0 15px $color-black;
+		text-shadow: 0 0 rem(15px) $color-black;
 		top: 80px;
 		width: 100%;
 
 		@media screen and (max-width: 482px) {
 			color: $color-cc-blue;
-			font-size: 26px;
+			font-size: rem(26px);
 			line-height: 28px;
 			margin-top: 15px;
 			position: relative;
@@ -148,7 +148,7 @@
 		margin: 0 auto;
 		position: absolute;
 		text-align: center;
-		text-shadow: 0 0 15px $color-black;
+		text-shadow: 0 0 rem(15px) $color-black;
 		top: 120px;
 		width: 100%;
 
@@ -172,7 +172,7 @@
 
 		h2 {
 			color: $color-cc-blue;
-			font-size: 16px;
+			font-size: rem(16px);
 			font-weight: 400;
 			margin-top: 30px;
 			text-align: left;
@@ -210,18 +210,18 @@
 
 	margin: 0 auto;
 	max-width: 90%;
-	padding: 50px 0;
+	padding: rem(50px) 0;
 	text-align: center;
 
 	@media screen and (max-width: 482px) {
-		padding: 25px 0;
+		padding: rem(25px) 0;
 	}
 
 	h3 {
 		color: $color-cc-blue;
-		font-size: 21px;
+		font-size: rem(21px);
 		font-weight: 300;
-		height: 63px;
+		height: 63px; // sass-lint:disable-line property-units
 		margin: 0 auto;
 		max-width: 70%;
 
@@ -262,7 +262,7 @@
 			float: left;
 
 			h3 {
-				height: 47px;
+				height: 47px; // sass-lint:disable-line property-units
 				padding-top: 35px;
 			}
 		}
@@ -274,17 +274,17 @@
 }
 
 .ctct-bonus-points {
-	color: #2b5e8c;
-	font-size: 16px;
+	color: $color-admin-blue;
+	font-size: rem(16px);
 	font-weight: 300;
 	list-style: circle;
-	padding-left: 50px;
+	padding-left: rem(50px);
 }
 
 .section-try-us {
 
 	.ctct-bonus-points {
-		margin-bottom: 50px;
+		margin-bottom: rem(50px);
 	}
 
 	a {
@@ -305,7 +305,7 @@
 .section-marketing-tips {
 
 	#subbox {
-		height: 40px;
+		height: 40px; // sass-lint:disable-line property-units
 		width: 50%;
 	}
 }
@@ -313,7 +313,7 @@
 #cmb2-metabox-ctct_option_metabox_settings {
 
 	.regular-text {
-		width: 500px;
+		width: 500px; // sass-lint:disable-line property-units
 	}
 }
 
@@ -332,7 +332,7 @@
 .ctct-body {
 
 	#ctct_error_logs {
-		height: 400px;
+		height: 400px; // sass-lint:disable-line property-units
 		resize: vertical;
 		width: 100%;
 	}

@@ -462,10 +462,6 @@ body.post-type-ctct_forms #titlediv #title {
   width: 70%;
 }
 
-#ctct_option_metabox_settings span.cmb2-metabox-description {
-  color: #444444;
-}
-
 #cmb2-metabox-email_settings .cmb-row,
 #cmb2-metabox-ctct_2_generated_metabox .cmb-row,
 #cmb2-metabox-ctct_1_custom_input_css_metabox .cmb-row {
@@ -892,7 +888,7 @@ a.ctct-notice-dismiss {
 }
 
 .constant-contact-about {
-  padding: 15px;
+  padding: 0.9375rem;
 }
 
 @media screen and (max-width: 782px) {
@@ -907,17 +903,17 @@ a.ctct-notice-dismiss {
 
 .constant-contact-about h1.about-header {
   color: #1a5285;
-  font-size: 26px;
-  margin: 0 0 15px 0;
+  font-size: 1.625rem;
+  margin: 0 0 0.9375rem 0;
 }
 
 .constant-contact-about h3 {
-  padding: 20px 0;
+  padding: 1.25rem 0;
 }
 
 .constant-contact-about p {
   color: #333;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 300;
 }
 
@@ -930,13 +926,13 @@ a.ctct-notice-dismiss {
 .constant-contact-about .button {
   border-radius: 4px;
   color: #fff;
-  font-size: 16px;
+  font-size: 0.375rem;
   font-weight: 600;
   height: auto;
   line-height: 1;
   margin-bottom: 10px;
   min-width: 180px;
-  padding: 14px 30px;
+  padding: 0.875rem 1.875rem;
   text-align: center;
 }
 
@@ -959,7 +955,7 @@ a.ctct-notice-dismiss {
 }
 
 .constant-contact-about .about-text {
-  margin: 0 50px 0 0;
+  margin: 0 3.125rem 0 0;
 }
 
 @media screen and (max-width: 482px) {
@@ -1005,13 +1001,13 @@ a.ctct-notice-dismiss {
 
 .constant-contact-about .fff-img {
   height: 315px;
-  margin: 20px;
+  margin: 1.25rem;
   max-width: 720px;
   overflow: hidden;
 }
 
 .constant-contact-about .introduction {
-  padding: 20px 0;
+  padding: 1.25rem 0;
 }
 
 .constant-contact-about .featured-title {
@@ -1021,7 +1017,7 @@ a.ctct-notice-dismiss {
   margin: 0 auto;
   position: absolute;
   text-align: center;
-  text-shadow: 0 0 15px #000;
+  text-shadow: 0 0 0.9375rem #000;
   top: 80px;
   width: 100%;
 }
@@ -1029,7 +1025,7 @@ a.ctct-notice-dismiss {
 @media screen and (max-width: 482px) {
   .constant-contact-about .featured-title {
     color: #1a5285;
-    font-size: 26px;
+    font-size: 1.625rem;
     line-height: 28px;
     margin-top: 15px;
     position: relative;
@@ -1044,7 +1040,7 @@ a.ctct-notice-dismiss {
   margin: 0 auto;
   position: absolute;
   text-align: center;
-  text-shadow: 0 0 15px #000;
+  text-shadow: 0 0 0.9375rem #000;
   top: 120px;
   width: 100%;
 }
@@ -1071,7 +1067,7 @@ a.ctct-notice-dismiss {
 
 .constant-contact-about .hide-overflow h2 {
   color: #1a5285;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
   margin-top: 30px;
   text-align: left;
@@ -1109,7 +1105,7 @@ a.ctct-notice-dismiss {
 .cc-a-block {
   margin: 0 auto;
   max-width: 90%;
-  padding: 50px 0;
+  padding: 3.125rem 0;
   text-align: center;
 }
 
@@ -1121,13 +1117,13 @@ a.ctct-notice-dismiss {
 
 @media screen and (max-width: 482px) {
   .cc-a-block {
-    padding: 25px 0;
+    padding: 1.5625rem 0;
   }
 }
 
 .cc-a-block h3 {
   color: #1a5285;
-  font-size: 21px;
+  font-size: 1.3125rem;
   font-weight: 300;
   height: 63px;
   margin: 0 auto;
@@ -1205,14 +1201,14 @@ a.ctct-notice-dismiss {
 
 .ctct-bonus-points {
   color: #2b5e8c;
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 300;
   list-style: circle;
-  padding-left: 50px;
+  padding-left: 3.125rem;
 }
 
 .section-try-us .ctct-bonus-points {
-  margin-bottom: 50px;
+  margin-bottom: 3.125rem;
 }
 
 .section-try-us a.button {

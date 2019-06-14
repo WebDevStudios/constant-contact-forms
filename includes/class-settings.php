@@ -194,7 +194,7 @@ class ConstantContact_Settings {
 	 * Register fields for the CMB2-powered "General Settings" tab.
 	 *
 	 * @since 1.6.0
-	 *
+	 *<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.endurance.com/privacy"> Privacy Statement</a> information about what is and is not tracked.
 	 * @return void
 	 */
 	public function register_fields_for_general_settings_tab() {
@@ -202,7 +202,7 @@ class ConstantContact_Settings {
 			'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
 			'id'   => '_ctct_data_tracking',
 			'type' => 'checkbox',
-			'desc' => __( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.endurance.com/privacy"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
+			'desc' => esc_html__( 'Allow Constant Contact to use Google Analytics to track your usage across the Constant Contact Forms plugin.', 'constant-contact-forms' ),
 		] );
 
 		if ( ! constant_contact()->api->is_connected() ) {
@@ -210,20 +210,20 @@ class ConstantContact_Settings {
 		}
 
 		$this->tabs['general']->add_field( [
-			'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
-			'desc'       => sprintf(
+			'name' => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
+			'id'   => '_ctct_disable_email_notifications',
+			'type' => 'checkbox',
+			'desc' => sprintf(
 				/* Translators: Placeholder is for a <br> HTML tag. */
 				esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ), '<br/>'
 			),
-			'id'         => '_ctct_disable_email_notifications',
-			'type'       => 'checkbox',
 		] );
 
 		$this->tabs['general']->add_field( [
-			'name'       => esc_html__( 'Bypass Constant Contact cron scheduling', 'constant-contact-forms' ),
-			'desc'       => esc_html__( 'This option will send form entries to Constant Contact right away instead of holding for one minute delay.', 'constant-contact-forms' ),
-			'id'         => '_ctct_bypass_cron',
-			'type'       => 'checkbox',
+			'name' => esc_html__( 'Bypass Constant Contact cron scheduling', 'constant-contact-forms' ),
+			'id'   => '_ctct_bypass_cron',
+			'type' => 'checkbox',
+			'desc' => esc_html__( 'This option will send form entries to Constant Contact right away instead of holding for one minute delay.', 'constant-contact-forms' ),
 		] );
 
 		$before_recaptcha = sprintf(
@@ -350,10 +350,7 @@ class ConstantContact_Settings {
 			'name'        => esc_html__( 'CSS Classes', 'constant-contact_forms' ),
 			'id'          => '_ctct_form_custom_classes',
 			'type'        => 'text',
-			'description' => esc_html__(
-					'Provide custom classes for the form separated by a single space.',
-					'constant-contact-forms'
-			),
+			'desc' => esc_html__( 'Provide custom classes for the form separated by a single space.', 'constant-contact-forms' ),
 			'before_row'  => $before_global_css,
 		] );
 
@@ -820,7 +817,7 @@ class ConstantContact_Settings {
 	 * @return string
 	 */
 	private function get_default_spam_error() {
-		return __( 'We do not think you are human', 'constant-contact-forms' );
+		return esc_html__( 'We do not think you are human', 'constant-contact-forms' );
 	}
 }
 
