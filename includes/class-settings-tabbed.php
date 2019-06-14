@@ -18,12 +18,12 @@
 class ConstantContact_Settings_Tabbed {
 
 	/**
-	 * Option key, and option page slug.
+	 * The main options key, also used for page slug.
 	 *
 	 * @since 1.6.0
 	 * @var string
 	 */
-	private $key = 'ctct_options_settings';
+	public static $options_key = 'ctct_options';
 
 	/**
 	 * Parent plugin class.
@@ -51,7 +51,45 @@ class ConstantContact_Settings_Tabbed {
 	 * @since 1.6.0
 	 */
 	public function register_hooks() {
+		add_action( 'admin_init', [ $this, 'register_settings' ] );
 		add_action( 'admin_menu', [ $this, 'register_settings_page' ] );
+	}
+
+
+	/**
+	 * Register plugin settings with WordPress.
+	 *
+	 * @since 1.6.0
+	 */
+	public function register_settings() {
+		register_setting( self::$options_key, self::$options_key );
+
+		add_settings_section(
+			'ctct_options_general',         // ID used to identify this section and with which to register options
+			'General Options',                  // Title to be displayed on the administration page
+			'', // Callback used to render the description of the section
+			self::$options_key    // Page on which to add this section of options
+		);
+		// [
+		// 	'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
+		// 	'id'   => '_ctct_data_tracking',
+		// 	'type' => 'checkbox',
+		// ],
+		// Next, we'll introduce the fields for toggling the visibility of content elements.
+		add_settings_field(
+			'_ctct_data_tracking',                      // ID used to identify the field throughout the theme
+			'Google Analytics&trade; tracking opt-in',                           // The label to the left of the option interface element
+			[ $this, 'checkbox_bool' ],   // The name of the function responsible for rendering the option interface
+			self::$options_key,    // The page on which this option will be displayed
+			'ctct_options_general',         // The name of the section to which this field belongs
+			array(                              // The array of arguments to pass to the callback. In this case, just a description.
+				__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.endurance.com/privacy"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
+			)
+		);
+	}
+
+	public function checkbox_bool() {
+		echo '<input type="checkbox"> poop';
 	}
 
 	/**
@@ -65,7 +103,7 @@ class ConstantContact_Settings_Tabbed {
 			esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
 			esc_html__( 'Settings Tabbed', 'constant-contact-forms' ),
 			'manage_options',
-			$this->key . 'TABBED_TODO_REPLACE',
+			self::$options_key,
 			[ $this, 'render_settings_page' ]
 		);
 	}
