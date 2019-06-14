@@ -194,7 +194,7 @@ class ConstantContact_Settings {
 	 * Register fields for the CMB2-powered "General Settings" tab.
 	 *
 	 * @since 1.6.0
-	 *<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.endurance.com/privacy"> Privacy Statement</a> information about what is and is not tracked.
+	 *
 	 * @return void
 	 */
 	public function register_fields_for_general_settings_tab() {
@@ -202,7 +202,15 @@ class ConstantContact_Settings {
 			'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
 			'id'   => '_ctct_data_tracking',
 			'type' => 'checkbox',
-			'desc' => esc_html__( 'Allow Constant Contact to use Google Analytics to track your usage across the Constant Contact Forms plugin.', 'constant-contact-forms' ),
+			'desc' => sprintf(
+				/* Translators: Placeholders are for HTML tags. */
+				esc_html__( 'Allow Constant Contact to use Google Analytics to track your usage across the Constant Contact Forms plugin. %1$s %2$sNote:%3$s Your website and users will not be tracked. See our %4$sPrivacy Statement%5$s information about what is and is not tracked.', 'constant-contact-forms' ),
+				'<br /> <br />',
+				'<strong>',
+				'</strong>',
+				'<a href="https://www.endurance.com/privacy" target="_blank">',
+				'</a>'
+			),
 		] );
 
 		if ( ! constant_contact()->api->is_connected() ) {
