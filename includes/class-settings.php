@@ -147,7 +147,7 @@ class ConstantContact_Settings {
 	public function admin_page_display() {
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php echo get_admin_page_title(); ?></h2>
+			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 			<?php
 			if ( function_exists( 'cmb2_metabox_form' ) ) {
 				cmb2_metabox_form( $this->metabox_id, $this->key );
@@ -170,7 +170,7 @@ class ConstantContact_Settings {
 
 		global $pagenow;
 
-		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ); // Input var okay.
+		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] );  // phpcs:ignore -- Okay accessing of $_GET.
 	}
 
 	/**
@@ -214,7 +214,10 @@ class ConstantContact_Settings {
 
 			$cmb->add_field( [
 				'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
-				'desc'       => sprintf( esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ), '<br/>' ),
+				'desc'       => sprintf(
+					/* Translators: Placeholder is for a <br> HTML tag. */
+					esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ), '<br/>'
+				),
 				'id'         => '_ctct_disable_email_notifications',
 				'type'       => 'checkbox',
 				'before_row' => '<hr/>',
@@ -453,21 +456,18 @@ class ConstantContact_Settings {
 
 		$saved_label = ctct_get_settings_option( '_ctct_optin_label', '' );
 		$list        = ctct_get_settings_option( '_ctct_optin_list', '' );
+		$label       = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 
-
-		$label = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
-
-		?>
+	?>
 		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
 			<label for="ctct_optin">
 				<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
 				<?php echo esc_attr( $label ); ?>
 			</label>
-			<?php echo constant_contact()->display->get_disclose_text(); ?>
+			<?php echo wp_kses_post( constant_contact()->display->get_disclose_text() ); ?>
 			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin' ); ?>
 		</p>
-		<?php
-
+	<?php
 	}
 
 	/**
@@ -475,7 +475,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Exception.
 	 *
 	 * @param array $comment_data Comment form data.
 	 * @return array Comment form data.
@@ -495,7 +495,7 @@ class ConstantContact_Settings {
 			return $comment_data;
 		}
 
-		return $this->_process_comment_data_for_optin( $comment_data );
+		return $this->process_comment_data_for_optin( $comment_data );
 	}
 
 	/**
@@ -506,32 +506,17 @@ class ConstantContact_Settings {
 	 * @param array $comment_data Array of comment data.
 	 * @return array Passed in comment data
 	 */
-	public function _process_comment_data_for_optin( $comment_data ) {
+	public function process_comment_data_for_optin( $comment_data ) {
 
 		if ( isset( $comment_data['comment_author_email'] ) && $comment_data['comment_author_email'] ) {
-
-			$name = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
+			$name    = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
 			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
 
-			// Check for our list.
-			//
-			// We also flag PHPCS to ignore this line, as we get
-			// a nonce verification error, but we process the nonce
-			// quite a bit earlier than this
-			//
-			// @codingStandardsIgnoreLine
-			if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+			if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
 				return $comment_data;
 			}
 
-			// Set up a helper var
-			//
-			// We also flag PHPCS to ignore this line, as we get
-			// a nonce verification error, but we process the nonce
-			// quite a bit earlier than this
-			//
-			// @codingStandardsIgnoreLine
-			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) );
+			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) );  // phpcs:ignore -- Okay accessing of $_POST.
 
 			$args = [
 				'list'       => $list,
@@ -542,7 +527,7 @@ class ConstantContact_Settings {
 			];
 
 			constantcontact_api()->add_contact( $args );
-		} // End if().
+		}
 
 		return $comment_data;
 	}
@@ -552,7 +537,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Exception.
 	 *
 	 * @param array  $user User.
 	 * @param string $username Login name.
@@ -578,7 +563,7 @@ class ConstantContact_Settings {
 			return $user;
 		}
 
-		return $this->_process_user_data_for_optin( $user, $username );
+		return $this->process_user_data_for_optin( $user, $username );
 	}
 
 	/**
@@ -590,8 +575,7 @@ class ConstantContact_Settings {
 	 * @param string $username Username.
 	 * @return object Passed in $user object.
 	 */
-	public function _process_user_data_for_optin( $user, $username ) {
-
+	public function process_user_data_for_optin( $user, $username ) {
 		$user_data = get_user_by( 'login', $username );
 		$email     = '';
 		$name      = '';
@@ -604,21 +588,11 @@ class ConstantContact_Settings {
 			$name = sanitize_text_field( $user_data->data->display_name );
 		}
 
-		// We also flag PHPCS to ignore this line, as we get
-		// a nonce verification error, but we process the nonce
-		// quite a bit earlier than this
-		//
-		// @codingStandardsIgnoreLine
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+		if ( ! isset( $_POST['ctct_optin_list'] ) ) {  // phpcs:ignore -- Okay accessing of $_POST.
 			return $user;
 		}
 
-		// We also flag PHPCS to ignore this line, as we get
-		// a nonce verification error, but we process the nonce
-		// quite a bit earlier than this
-		//
-		// @codingStandardsIgnoreLine
-		$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) );
+		$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) );  // phpcs:ignore -- Okay accessing of $_POST.
 
 		if ( $email ) {
 			$args = [
@@ -733,12 +707,10 @@ class ConstantContact_Settings {
 				<div class="ctct-modal-content">
 					<div class="ctct-modal-header">
 						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
-						<h2 class="ctct-logo"><img src="<?php echo constant_contact()->url . '/assets/images/constant-contact-logo.png' ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" /></h2>
+						<h2 class="ctct-logo"><img src="<?php echo esc_url( constant_contact()->url ) . '/assets/images/constant-contact-logo.png'; ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" /></h2>
 					</div>
 					<div class="ctct-modal-body ctct-privacy-modal-body">
-						<?php
-						echo constant_contact_privacy_policy_content();
-						?>
+						<?php echo constant_contact_privacy_policy_content(); // phpcs:ignore -- XSS Ok. ?>
 					</div><!-- modal body -->
 					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">
 						<a class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Agree', 'constant-contact-forms' ); ?></a>
@@ -770,6 +742,9 @@ class ConstantContact_Settings {
 	 * Attempts to add the index file for protecting the log directory.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @param string $updated Updated.
+	 * @param string $action Action.
 	 * @return void
 	 */
 	public function maybe_init_logs( $updated, $action ) {
@@ -780,9 +755,9 @@ class ConstantContact_Settings {
 		$this->plugin->logging->create_log_folder();
 		$this->plugin->logging->create_log_index_file();
 		$this->plugin->logging->create_log_file();
-  }
+	}
 
-  /*
+	/**
 	 * Adds a fieldset for controlling the spam error.
 	 *
 	 * @since 1.5.0
