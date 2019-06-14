@@ -198,7 +198,6 @@ class ConstantContact_Settings {
 	 * @return void
 	 */
 	public function register_fields_for_general_settings_tab() {
-
 		$this->tabs['general']->add_field( [
 			'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
 			'id'   => '_ctct_data_tracking',
@@ -218,7 +217,6 @@ class ConstantContact_Settings {
 			),
 			'id'         => '_ctct_disable_email_notifications',
 			'type'       => 'checkbox',
-			'before_row' => '<hr/>',
 		] );
 
 		$this->tabs['general']->add_field( [
@@ -226,11 +224,10 @@ class ConstantContact_Settings {
 			'desc'       => esc_html__( 'This option will send form entries to Constant Contact right away instead of holding for one minute delay.', 'constant-contact-forms' ),
 			'id'         => '_ctct_bypass_cron',
 			'type'       => 'checkbox',
-			'before_row' => '<hr/>',
 		] );
 
 		$before_recaptcha = sprintf(
-			'<hr/><h2>%s</h2>%s',
+			'<h2>%s</h2>%s',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
 			'<div class="discover-recaptcha">' . __( 'Learn more and get an <a href="https://www.google.com/recaptcha/intro/" target="_blank">API site key</a>', 'constant-contact-forms' ) . '</div>'
 		);
@@ -254,7 +251,7 @@ class ConstantContact_Settings {
 		$description .= '</div>';
 
 		$before_message = sprintf(
-			'<hr/><h2>%s</h2>%s',
+			'<h2>%s</h2>%s',
 			__( 'Suspected Bot Error Message', 'constant-contact-forms' ),
 			$description
 		);
@@ -285,7 +282,7 @@ class ConstantContact_Settings {
 		}
 
 		$before_optin = sprintf(
-			'<hr/><h2>%s</h2>',
+			'<h2>%s</h2>',
 			esc_html__( 'Advanced Opt-in', 'constant-contact-forms' )
 		);
 
@@ -345,7 +342,7 @@ class ConstantContact_Settings {
 		}
 
 		$before_global_css = sprintf(
-			'<hr /><h2>%s</h2>',
+			'<h2>%s</h2>',
 			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
 		);
 
@@ -387,7 +384,7 @@ class ConstantContact_Settings {
 	 */
 	public function register_fields_for_support_settings_tab() {
 		$before_debugging = sprintf(
-			'<hr/><h2>%s</h2>',
+			'<h2>%s</h2>',
 			esc_html__( 'Support', 'constant-contact-forms' )
 		);
 

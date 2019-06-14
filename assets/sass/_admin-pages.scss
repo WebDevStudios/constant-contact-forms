@@ -317,15 +317,15 @@
 	}
 }
 
-.cmb2-options-page {
+// We have to specify these styles for each settings tab.
+.cmb2-options-page.option-ctct_options_support,
+.cmb2-options-page.option-ctct_options_form_settings,
+.cmb2-options-page.option-ctct_options_settings {
 
-	#ctct_option_metabox_settings {
-
-		.cmb2-metabox > .cmb-row {
-			background: transparent;
-			border: none;
-			box-shadow: none;
-		}
+	.cmb2-metabox > .cmb-row {
+		background: transparent;
+		border: none;
+		box-shadow: none;
 	}
 }
 
