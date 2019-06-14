@@ -219,6 +219,14 @@ class Constant_Contact {
 	private $settings;
 
 	/**
+	 * An instance of the ConstantContact_Settings_Tabbed Class.
+	 *
+	 * @since 1.6.0
+	 * @var ConstantContact_Settings_Tabbed
+	 */
+	private $settings_tabbed;
+
+	/**
 	 * An instance of the ConstantContact_Auth_Redirect Class.
 	 *
 	 * @since 1.0.1
@@ -422,6 +430,7 @@ class Constant_Contact {
 		$this->lists                = new ConstantContact_Lists( $this );
 		$this->process_form         = new ConstantContact_Process_Form( $this );
 		$this->settings             = new ConstantContact_Settings( $this );
+		$this->settings_tabbed      = new ConstantContact_Settings_Tabbed( $this );
 		$this->auth_redirect        = new ConstantContact_Auth_Redirect( $this );
 		$this->connect              = new ConstantContact_Connect( $this );
 		$this->mail                 = new ConstantContact_Mail( $this );
@@ -609,6 +618,7 @@ class Constant_Contact {
 			case 'plugin_name':
 			case 'process_form':
 			case 'settings':
+			case 'settings_tabbed':
 			case 'url':
 			case 'mail':
 			case 'notifications':
