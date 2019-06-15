@@ -160,7 +160,6 @@ class ConstantContact_Settings {
 			'menu_title'   => esc_html__( 'Form Settings', 'constant-contact-forms' ),
 			'object_types' => [ 'options-page' ],
 			'option_key'   => 'ctct_options_form_settings',
-			'menu_title'   => esc_html__( 'Form Settings', 'constant-contact-forms' ),
 			'parent_slug'  => 'ctct_options_settings',
 			'tab_group'    => 'ctct_options_settings',
 			'tab_title'    => esc_html__( 'Form Settings', 'constant-contact-forms' ),
@@ -172,7 +171,6 @@ class ConstantContact_Settings {
 			'menu_title'   => esc_html__( 'Support', 'constant-contact-forms' ),
 			'object_types' => [ 'options-page' ],
 			'option_key'   => 'ctct_options_support',
-			'menu_title'   => esc_html__( 'Support', 'constant-contact-forms' ),
 			'parent_slug'  => 'ctct_options_settings',
 			'tab_group'    => 'ctct_options_settings',
 			'tab_title'    => esc_html__( 'Support', 'constant-contact-forms' ),
@@ -216,7 +214,7 @@ class ConstantContact_Settings {
 		if ( ! constant_contact()->api->is_connected() ) {
 			return;
 		}
-    
+
 		$this->tabs['general']->add_field( [
 			'name' => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
 			'id'   => '_ctct_disable_email_notifications',
