@@ -1,23 +1,94 @@
 <?php
 /**
- * @package ConstantContact_Tests
- * @subpackage Settings
- * @author Pluginize
- * @since 1.0.0
+ * Tests plugin's Settings and related functionality. Note: No transients testing here.
+ *
+ * @package ConstantContact
+ * @subpackage Tests
+ * @since 1.6.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
+/**
+ * Tests plugin's Settings and related functionality.
+ *
+ * @since 1.6.0
+ *
+ * @todo 1. Delete existing ctct_options_settings option.
+ * @todo 2. Update all options to a specific values.
+ * @todo 3. Use the ctct get option template tag to get those values.
+ * @todo 4. Confirm the results match.
+ *
+ * Option keys:
+ * — [ ] ctct-review-dismissed
+ * — [ ] ctct_token
+ * — [ ] ctct_plugin_version
+ * — [ ] ctct_options_settings
+ * — [ ] ctct_notices_dismissed
+ * — [ ] ctct_key
+ * — [ ] _ctct_api_key
+ */
 class ConstantContact_Settings_Test extends WP_UnitTestCase {
 
-	function test_class_exists() {
-		$this->assertTrue( class_exists( 'ConstantContact_Settings' ) );
+	/**
+	 * Set up.
+	 *
+	 * @since 1.6.0
+	 */
+	public function setUp() {
+		parent::setUp();
+
+		$this->plugin = constant_contact();
+
+		$this->default_values = [
+			'_ctct_optin_list'                  => '1441050418',
+			'_ctct_optin_label'                 => 'Yes, I would like to receive emails from WebDevStudios. Sign me up!',
+			'_ctct_form_label_placement'        => 'top',
+			'_ctct_spam_error'                  => 'Looks like you are a bot. Scram!',
+			'_ctct_recaptcha_site_key'          => 'A7Euw2zioWWYqqbK7CXrbMdiWDNTjg',
+			'_ctct_recaptcha_secret_key'        => 'UiF7hwksHkXmbPPFJ9ujDFD4XTsLTP',
+			'_ctct_logging'                     => 'on',
+			'_ctct_bypass_cron'                 => 'on',
+			'_ctct_data_tracking'               => 'on',
+			'_ctct_disable_email_notifications' => 'on',
+		];
+
+		$this->delete_existing_options();
+		$this->setup_new_options();
 	}
 
-	function test_class_access() {
-		$this->assertTrue( constant_contact()->settings instanceof ConstantContact_Settings );
+	/**
+	 * Delete existing options.
+	 *
+	 * @since 1.6.0
+	 */
+	public function delete_existing_options() {
+		delete_option( 'ctct_options_settings' );
 	}
 
-	function test_sample() {
-		// replace this with some actual testing code
-		$this->assertTrue( true );
+	/**
+	 * Set up plugin options with values.
+	 *
+	 * @since 1.6.0
+	 */
+	public function setup_new_options() {
+		update_option( 'ctct_options_settings', $this->default_values );
 	}
+
+	/**
+	 * Should get correct values from the plugin's helper function for getting values.
+	 *
+	 * @since 1.6.0
+	 * @see ctct_get_settings_option()
+	 *
+	 * @test
+	 */
+	public function should_get_correct_values_from_helper_function() {
+		$expected = $this->default_values['_ctct_optin_list'];
+		$actual   = ctct_get_settings_option( '_ctct_optin_list' );
+
+		$this->assertEquals( $expected, $actual );
+	}
+
+
 }

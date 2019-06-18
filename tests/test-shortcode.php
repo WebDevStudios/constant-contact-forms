@@ -3,7 +3,7 @@
  * Tests the ConstantContact_Shortcode class.
  *
  * @package ConstantContact
- * @subpackage Display
+ * @subpackage Tests
  * @since 1.6.0
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
