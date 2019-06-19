@@ -21,6 +21,7 @@ class ConstantContact_Settings_Tabbed {
 	 * The main options key, also used for page slug.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var string
 	 */
 	public static $options_key = 'ctct_options';
@@ -29,9 +30,19 @@ class ConstantContact_Settings_Tabbed {
 	 * Parent plugin class.
 	 *
 	 * @since 1.6.0
+	 *
 	 * @var object
 	 */
-	protected $plugin;
+	private $plugin = null;
+
+	/**
+	 * Array of plugin settings.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var array
+	 */
+	private $plugin_settings = [];
 
 	/**
 	 * Constructor.
@@ -41,7 +52,9 @@ class ConstantContact_Settings_Tabbed {
 	 * @param object $plugin Parent plugin instance.
 	 */
 	public function __construct( $plugin ) {
-		$this->plugin = $plugin;
+		$this->plugin          = $plugin;
+		$this->plugin_settings = include 'plugin-settings.php';
+
 		$this->register_hooks();
 	}
 
@@ -55,7 +68,6 @@ class ConstantContact_Settings_Tabbed {
 		add_action( 'admin_menu', [ $this, 'register_settings_page' ] );
 	}
 
-
 	/**
 	 * Register plugin settings with WordPress.
 	 *
@@ -64,32 +76,81 @@ class ConstantContact_Settings_Tabbed {
 	public function register_settings() {
 		register_setting( self::$options_key, self::$options_key );
 
-		add_settings_section(
-			'ctct_options_general',         // ID used to identify this section and with which to register options
-			'General Options',                  // Title to be displayed on the administration page
-			'', // Callback used to render the description of the section
-			self::$options_key    // Page on which to add this section of options
-		);
-		// [
-		// 	'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
-		// 	'id'   => '_ctct_data_tracking',
-		// 	'type' => 'checkbox',
-		// ],
-		// Next, we'll introduce the fields for toggling the visibility of content elements.
-		add_settings_field(
-			'_ctct_data_tracking',                      // ID used to identify the field throughout the theme
-			'Google Analytics&trade; tracking opt-in',                           // The label to the left of the option interface element
-			[ $this, 'checkbox_bool' ],   // The name of the function responsible for rendering the option interface
-			self::$options_key,    // The page on which this option will be displayed
-			'ctct_options_general',         // The name of the section to which this field belongs
-			array(                              // The array of arguments to pass to the callback. In this case, just a description.
-				__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.endurance.com/privacy"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
-			)
-		);
+		$this->register_general_settings();
+		$this->register_form_settings();
+		$this->register_support_settings();
 	}
 
-	public function checkbox_bool() {
-		echo '<input type="checkbox"> poop';
+	/**
+	 * Register the settings that will make up the "General" settings tab.
+	 *
+	 * @since 1.6.0
+	 */
+	public function register_general_settings() {
+		add_settings_section( 'ctct_options_general', esc_html__( 'General Options', 'constant-contact-forms' ), '', self::$options_key );
+
+		foreach ( $this->plugin_settings['general'] as $option_key => $option ) {
+			add_settings_field(
+				$option_key,
+				$option['name'],
+				[ $this, 'render_settings_field' ],
+				self::$options_key,
+				'ctct_options_general',
+				[
+					'option_key' => $option_key,
+					'field_type' => 'checkbox',
+					'desc'       => isset( $option['desc'] ) ? $option['desc'] : [],
+				]
+			);
+		}
+	}
+
+	/**
+	 * Register the settings that will make up the "Form" settings tab.
+	 *
+	 * @since 1.6.0
+	 */
+	public function register_form_settings() {
+		add_settings_section( 'ctct_options_form', esc_html__( 'Form Options', 'constant-contact-forms' ), '', self::$options_key );
+
+		foreach ( $this->plugin_settings['form'] as $option_key => $option ) {
+			add_settings_field(
+				$option_key,
+				$option['name'],
+				[ $this, 'render_settings_field' ],
+				self::$options_key,
+				'ctct_options_form',
+				[
+					'option_key' => $option_key,
+					'field_type' => 'checkbox',
+					'desc'       => isset( $option['desc'] ) ? $option['desc'] : [],
+				]
+			);
+		}
+	}
+
+	/**
+	 * Register the settings that will make up the "Support" settings tab.
+	 *
+	 * @since 1.6.0
+	 */
+	public function register_support_settings() {
+		add_settings_section( 'ctct_options_support', esc_html__( 'Support', 'constant-contact-forms' ), '', self::$options_key );
+
+		foreach ( $this->plugin_settings['support'] as $option_key => $option ) {
+			add_settings_field(
+				$option_key,
+				$option['name'],
+				[ $this, 'render_settings_field' ],
+				self::$options_key,
+				'ctct_options_support',
+				[
+					'option_key' => $option_key,
+					'field_type' => 'checkbox',
+					'desc'       => isset( $option['desc'] ) ? $option['desc'] : [],
+				]
+			);
+		}
 	}
 
 	/**
@@ -114,6 +175,27 @@ class ConstantContact_Settings_Tabbed {
 	 * @since 1.6.0
 	 */
 	public function render_settings_page() {
-		include $this->plugin->dir( 'templates/admin/settings.php' );
+		include $this->plugin->dir( 'templates/admin/settings-page.php' );
+	}
+
+	/**
+	 * Render an admin settings field.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @param array $args {.
+	 *     @type string $option_key The option key for the option whose field is being rendered'.
+	 *     @type string $field_type The type of field to render.
+	 *     @type string $desc An optional description for the field element.
+	 * }
+	 * @return void
+	 */
+	public function render_settings_field( $args ) {
+		// We must have a type to render the correct field!
+		if ( ! isset( $args['type'] ) ) {
+			return;
+		}
+
+		include $this->plugin->dir( "templates/admin/settings-fields/{$args['type']}.php" );
 	}
 }
