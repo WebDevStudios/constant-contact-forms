@@ -34,6 +34,8 @@ class ConstantContact_Settings_Test extends WP_UnitTestCase {
 	 * Default ctct_options_settings values.
 	 *
 	 * @since 1.6.0
+	 *
+	 * @var array
 	 */
 	public $default_values = [
 		'_ctct_optin_list'                  => '1441050418',
@@ -85,6 +87,9 @@ class ConstantContact_Settings_Test extends WP_UnitTestCase {
 	 *
 	 * @since 1.6.0
 	 *
+	 * @param string $option_key The key for the option via data provider.
+	 * @param mixed  $default_option_value The default value specific for the option.
+	 *
 	 * @dataProvider option_values_provider
 	 * @test
 	 */
@@ -111,6 +116,5 @@ class ConstantContact_Settings_Test extends WP_UnitTestCase {
 
 		return $data;
 	}
-
 
 }
