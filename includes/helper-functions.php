@@ -631,3 +631,22 @@ function constant_contact_privacy_policy_content() {
 
 	return '';
 }
+
+/**
+ * Simple options getter.
+ *
+ * @since 1.6.0
+ *
+ * @param string $option_key The specific ctct_options option to get.
+ * @param mixed  $default Optional, defaults to bool false. A default value to provide if one isn't found.
+ * @return mixed
+ */
+function ctct_get_option( $option_key, $default = false ) {
+	$options = get_option( 'ctct_options', [] );
+
+	if ( empty( $options ) || ! isset( $options[ $option_key ] ) ) {
+		return $default;
+	}
+
+	return $options[ $option_key ];
+}

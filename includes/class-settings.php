@@ -846,9 +846,9 @@ class ConstantContact_Settings {
 	}
 }
 
-function ctct_get_option( $key, $default = null ) {
-	return Constant_Contact_Settings::get_option( $key, $default );
-}
+// function ctct_get_option( $key, $default = null ) {
+// 	return Constant_Contact_Settings::get_option( $key, $default );
+// }
 
 /**
  * Wrapper function around cmb2_get_option.

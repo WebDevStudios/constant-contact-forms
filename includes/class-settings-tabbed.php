@@ -24,7 +24,7 @@ class ConstantContact_Settings_Tabbed {
 	 *
 	 * @var string
 	 */
-	public static $options_key = 'ctct_options';
+	private static $options_key = 'ctct_options';
 
 	/**
 	 * Parent plugin class.
@@ -74,83 +74,62 @@ class ConstantContact_Settings_Tabbed {
 	 * @since 1.6.0
 	 */
 	public function register_settings() {
-		register_setting( self::$options_key, self::$options_key );
+		// Ensure the ctct_options option exists even on fresh installs.
+		if ( false === get_option( self::get_options_key(), false ) ) {
+			add_option( self::get_options_key() );
+		}
 
-		$this->register_general_settings();
-		$this->register_form_settings();
-		$this->register_support_settings();
-	}
+		// Make the Settings API aware of ctct_options and how to save/update it.
+		register_setting( self::get_options_key(), self::get_options_key(), [ $this, 'sanitize_settings' ] );
 
-	/**
-	 * Register the settings that will make up the "General" settings tab.
-	 *
-	 * @since 1.6.0
-	 */
-	public function register_general_settings() {
-		add_settings_section( 'ctct_options_general', esc_html__( 'General Options', 'constant-contact-forms' ), '', self::$options_key );
+		// Registering each tab as a settings section, and then each of its fields.
+		foreach ( $this->plugin_settings as $tab => $tab_settings ) {
+			$section_id = sprintf( 'ctct_options_%1$s', $tab );
 
-		foreach ( $this->plugin_settings['general'] as $option_key => $option ) {
-			add_settings_field(
-				$option_key,
-				$option['name'],
-				[ $this, 'render_settings_field' ],
-				self::$options_key,
-				'ctct_options_general',
-				[
-					'option_key' => $option_key,
-					'field_type' => 'checkbox',
-					'desc'       => isset( $option['desc'] ) ? $option['desc'] : [],
-				]
-			);
+			add_settings_section( $section_id, __return_null(), '__return_false', $section_id );
+
+			foreach ( $tab_settings as $option_key => $option ) {
+				add_settings_field(
+					self::get_option_key( $option_key ),
+					$option['name'],
+					[ $this, 'render_settings_field' ],
+					$section_id,
+					$section_id,
+					$option
+				);
+			}
 		}
 	}
 
-	/**
-	 * Register the settings that will make up the "Form" settings tab.
-	 *
-	 * @since 1.6.0
-	 */
-	public function register_form_settings() {
-		add_settings_section( 'ctct_options_form', esc_html__( 'Form Options', 'constant-contact-forms' ), '', self::$options_key );
+	public function sanitize_settings( $input ) {
+		$all_options = (array) get_option( self::get_options_key(), [] );
+		$input       = empty( $input ) ? [] : $input;
 
-		foreach ( $this->plugin_settings['form'] as $option_key => $option ) {
-			add_settings_field(
-				$option_key,
-				$option['name'],
-				[ $this, 'render_settings_field' ],
-				self::$options_key,
-				'ctct_options_form',
-				[
-					'option_key' => $option_key,
-					'field_type' => 'checkbox',
-					'desc'       => isset( $option['desc'] ) ? $option['desc'] : [],
-				]
-			);
-		}
-	}
+		write_log( $all_options, 'ALL OPTIONS' );
+		write_log( $input, 'INPUT' );
 
-	/**
-	 * Register the settings that will make up the "Support" settings tab.
-	 *
-	 * @since 1.6.0
-	 */
-	public function register_support_settings() {
-		add_settings_section( 'ctct_options_support', esc_html__( 'Support', 'constant-contact-forms' ), '', self::$options_key );
+		$merged = array_merge( $all_options, $input );
+		$filtered = array_filter( $merged );
 
-		foreach ( $this->plugin_settings['support'] as $option_key => $option ) {
-			add_settings_field(
-				$option_key,
-				$option['name'],
-				[ $this, 'render_settings_field' ],
-				self::$options_key,
-				'ctct_options_support',
-				[
-					'option_key' => $option_key,
-					'field_type' => 'checkbox',
-					'desc'       => isset( $option['desc'] ) ? $option['desc'] : [],
-				]
-			);
-		}
+		write_log( $merged, 'MERGED OPTS' );
+		write_log( $filtered, 'FILTERED OPTS' );
+
+		return $filtered;
+
+		// write_log( $test, 'TEST NEW OPTS ARRAY' );
+
+		// $referer = filter_input( INPUT_POST, '_wp_http_referer', FILTER_SANITIZE_STRING );
+		// parse_str( $referer, $referer_parts );
+
+		// // write_log( $referer_parts, 'QUEWRY ARGS' );
+
+		// $tab = isset( $referer_parts['tab'] ) ? $referer_parts['tab'] : 'general';
+
+		// // write_log( $tab, 'tab' );
+		// // write_log( $referer,' referer' );
+		// // write_log( $input, 'INPUT' );
+
+		// return $input;
 	}
 
 	/**
@@ -175,6 +154,21 @@ class ConstantContact_Settings_Tabbed {
 	 * @since 1.6.0
 	 */
 	public function render_settings_page() {
+		$active_tab        = filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) ?: 'general';
+		$settings_page_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options' );
+
+		$tab_urls = [
+			'general' => add_query_arg( [ 'tab' => 'general' ], $settings_page_url ),
+			'form'    => add_query_arg( [ 'tab' => 'form' ], $settings_page_url ),
+			'support' => add_query_arg( [ 'tab' => 'support' ], $settings_page_url ),
+		];
+
+		$tab_classes = [
+			'general' => 'general' === $active_tab ? 'nav-tab-active nav-tab' : 'nav-tab',
+			'form'    => 'form' === $active_tab ? 'nav-tab-active nav-tab' : 'nav-tab',
+			'support' => 'support' === $active_tab ? 'nav-tab-active nav-tab' : 'nav-tab',
+		];
+
 		include $this->plugin->dir( 'templates/admin/settings-page.php' );
 	}
 
@@ -184,9 +178,9 @@ class ConstantContact_Settings_Tabbed {
 	 * @since 1.6.0
 	 *
 	 * @param array $args {.
-	 *     @type string $option_key The option key for the option whose field is being rendered'.
 	 *     @type string $field_type The type of field to render.
-	 *     @type string $desc An optional description for the field element.
+	 *     @type string $option_key The option key for the option whose field is being rendered'.
+	 *     @type string $option_args Array of option args, like title, desc, before_row, etc.
 	 * }
 	 * @return void
 	 */
@@ -196,6 +190,16 @@ class ConstantContact_Settings_Tabbed {
 			return;
 		}
 
-		include $this->plugin->dir( "templates/admin/settings-fields/{$args['type']}.php" );
+		$option_key = self::get_option_key( $args['id'] );
+
+		include $this->plugin->dir( "templates/admin/settings-fields/{$args['type']}-field.php" );
+	}
+
+	public static function get_options_key() {
+		return self::$options_key;
+	}
+
+	public static function get_option_key( $option_key ) {
+		return sprintf( '%1$s[%2$s]', self::$options_key, $option_key );
 	}
 }
