@@ -210,7 +210,15 @@ class Constant_Contact {
 	 */
 	private $process_form;
 
-	/**åå
+	/**
+	 * An instance of the ConstantContact_Settings_Old Class.
+	 *
+	 * @since 1.6.0
+	 * @var ConstantContact_Settings_Old
+	 */
+	private $settings_old;
+
+	/**
 	 * An instance of the ConstantContact_Settings_Tabbed Class.
 	 *
 	 * @since 1.6.0
@@ -370,11 +378,8 @@ class Constant_Contact {
 	 * @return null
 	 */
 	protected function __construct() {
-
-		// Set up our plugin name.
 		$this->plugin_name = esc_html__( 'Constant Contact', 'constant-contact-forms' );
 
-		// Set up some helper properties.
 		$this->basename        = plugin_basename( __FILE__ );
 		$this->url             = plugin_dir_url( __FILE__ );
 		$this->path            = plugin_dir_path( __FILE__ );
@@ -385,14 +390,10 @@ class Constant_Contact {
 			return;
 		}
 
-		// Load our plugin and our libraries.
 		$this->plugin_classes();
 		$this->admin_plugin_classes();
 
-		// Include our helper functions function for end-users.
 		self::include_file( 'helper-functions', false );
-
-		// Include compatibility fixes to address conflicts with other plug-ins.
 		self::include_file( 'compatibility', false );
 	}
 
@@ -421,6 +422,7 @@ class Constant_Contact {
 		$this->display_shortcode    = new ConstantContact_Display_Shortcode( $this );
 		$this->lists                = new ConstantContact_Lists( $this );
 		$this->process_form         = new ConstantContact_Process_Form( $this );
+		$this->settings_old         = new ConstantContact_Settings_Old( $this );
 		$this->settings_tabbed      = new ConstantContact_Settings_Tabbed( $this );
 		$this->auth_redirect        = new ConstantContact_Auth_Redirect( $this );
 		$this->connect              = new ConstantContact_Connect( $this );
@@ -608,6 +610,7 @@ class Constant_Contact {
 			case 'path':
 			case 'plugin_name':
 			case 'process_form':
+			case 'settings_old':
 			case 'settings_tabbed':
 			case 'url':
 			case 'mail':

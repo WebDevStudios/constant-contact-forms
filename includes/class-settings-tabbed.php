@@ -52,9 +52,7 @@ class ConstantContact_Settings_Tabbed {
 	 * @param object $plugin Parent plugin instance.
 	 */
 	public function __construct( $plugin ) {
-		$this->plugin          = $plugin;
-		$this->plugin_settings = include 'plugin-settings.php';
-
+		$this->plugin = $plugin;
 		$this->register_hooks();
 	}
 
@@ -74,6 +72,13 @@ class ConstantContact_Settings_Tabbed {
 	 * @since 1.6.0
 	 */
 	public function register_settings() {
+		// Load the registered settings.
+		$ctct_api_is_connected    = $this->plugin->api->is_connected();
+		$ctct_api_lists           = $this->plugin->builder->get_lists();
+		$ctct_api_disclosure_info = $this->plugin->api->get_disclosure_info( true );
+
+		$this->plugin_settings = include 'plugin-settings.php';
+
 		// Ensure the ctct_options option exists even on fresh installs.
 		if ( false === get_option( self::get_options_key(), false ) ) {
 			add_option( self::get_options_key() );

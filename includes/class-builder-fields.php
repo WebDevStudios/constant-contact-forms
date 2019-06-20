@@ -310,7 +310,7 @@ class ConstantContact_Builder_Fields {
 			'description' => __( 'Enable form submission without a page refresh. This option overrides the Redirect URL choice above.', 'constant-contact-forms' ),
 		] );
 
-		if ( constant_contact()->settings->has_recaptcha() ) {
+		if ( constant_contact()->settings_old->has_recaptcha() ) {
 			$options_metabox->add_field( [
 				'name'        => __( 'Disable Google reCAPTCHA for this form?', 'constant-contact-forms' ),
 				'id'          => $this->prefix . 'disable_recaptcha',

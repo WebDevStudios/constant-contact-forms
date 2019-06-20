@@ -15,7 +15,7 @@
  *
  * @since 1.0.0
  */
-class ConstantContact_Settings {
+class ConstantContact_Settings_Old {
 
 	/**
 	 * Option key, and option page slug.
