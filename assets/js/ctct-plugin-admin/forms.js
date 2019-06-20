@@ -1,6 +1,6 @@
 window.CTCTForms = {};
 
-( function( window, $, that ) {
+( function( window, $, app ) {
 
 	/**
 	 * @constructor
@@ -8,9 +8,9 @@ window.CTCTForms = {};
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	that.init = () => {
-		that.cache();
-		that.bindEvents();
+	app.init = () => {
+		app.cache();
+		app.bindEvents();
 	};
 
 	/**
@@ -19,8 +19,8 @@ window.CTCTForms = {};
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	that.cache = () => {
-		that.$c = {
+	app.cache = () => {
+		app.$c = {
 			window: $( window ),
 			body: $( 'body' ),
 			disconnect: '.ctct-disconnect'
@@ -33,13 +33,13 @@ window.CTCTForms = {};
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	that.bindEvents = () => {
+	app.bindEvents = () => {
 
-		$( that.$c.disconnect ).on( 'click', ( e ) => { // eslint-disable-line no-unused-vars
+		$( app.$c.disconnect ).on( 'click', ( e ) => { // eslint-disable-line no-unused-vars
 			confirm( window.ctctTexts.disconnectconfirm );
 		} );
 	};
 
-	$( that.init );
+	$( app.init );
 
 } ( window, jQuery, window.CTCTForms ) );

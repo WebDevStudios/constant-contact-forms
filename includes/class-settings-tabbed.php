@@ -104,32 +104,9 @@ class ConstantContact_Settings_Tabbed {
 	public function sanitize_settings( $input ) {
 		$all_options = (array) get_option( self::get_options_key(), [] );
 		$input       = empty( $input ) ? [] : $input;
+		$merged      = array_merge( $all_options, $input );
 
-		write_log( $all_options, 'ALL OPTIONS' );
-		write_log( $input, 'INPUT' );
-
-		$merged = array_merge( $all_options, $input );
-		$filtered = array_filter( $merged );
-
-		write_log( $merged, 'MERGED OPTS' );
-		write_log( $filtered, 'FILTERED OPTS' );
-
-		return $filtered;
-
-		// write_log( $test, 'TEST NEW OPTS ARRAY' );
-
-		// $referer = filter_input( INPUT_POST, '_wp_http_referer', FILTER_SANITIZE_STRING );
-		// parse_str( $referer, $referer_parts );
-
-		// // write_log( $referer_parts, 'QUEWRY ARGS' );
-
-		// $tab = isset( $referer_parts['tab'] ) ? $referer_parts['tab'] : 'general';
-
-		// // write_log( $tab, 'tab' );
-		// // write_log( $referer,' referer' );
-		// // write_log( $input, 'INPUT' );
-
-		// return $input;
+		return array_filter( $merged );
 	}
 
 	/**

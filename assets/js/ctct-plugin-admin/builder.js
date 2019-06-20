@@ -1,6 +1,6 @@
 window.CTCTBuilder = {};
 
-( function( window, $, that ) {
+( function( window, $, app ) {
 
 	/**
 	 * @constructor
@@ -8,31 +8,24 @@ window.CTCTBuilder = {};
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	that.init = () => {
+	app.init = () => {
 
 		// If we do actually have an email field set, then remove our error.
 		if ( $( '#cmb2-metabox-ctct_2_fields_metabox option[value="email"]:selected' ).length ) {
 			$( '#ctct-no-email-error' ).remove();
 		}
 
-		// Cache it all.
-		that.cache();
-
-		// Bind our events.
-		that.bindEvents();
-
-		// Bind our select dropdown events.
-		that.selectBinds();
-
-		// Trigger any field modifications we need to do.
-		that.modifyFields();
+		app.cache();
+		app.bindEvents();
+		app.selectBinds();
+		app.modifyFields();
 
 		// Make description non-draggable, so we don't run into weird cmb2 issues.
 		$( '#ctct_0_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
 
 		// Inject our new labels for the up/down CMB2 buttons, so they can be properly localized.
 		// Because we're using :after, we can't use .css() to do this, we need to inject a style tag.
-		$( 'head' ).append( '<style> #cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "' + window.ctctText.move_up + '" } #cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "' + window.ctctText.move_down + '" }</style>' );
+		$( 'head' ).append( '<style> #cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "' + window.ctctTexts.move_up + '" } #cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "' + window.ctctTexts.move_down + '" }</style>' );
 	};
 
 	/**
@@ -41,29 +34,29 @@ window.CTCTBuilder = {};
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	that.cache = () => {
+	app.cache = () => {
 
-		that.$c = {
+		app.$c = {
 			window: $( window ),
 			body: $( 'body' )
 		};
 
-		that.isLeaveWarningBound = false;
+		app.isLeaveWarningBound = false;
 	};
 
 	// Triggers our leave warning if we modify things in the form.
-	that.bindLeaveWarning = () => {
+	app.bindLeaveWarning = () => {
 
 		// Don't double-bind it.
-		if ( ! that.isLeaveWarningBound ) {
+		if ( ! app.isLeaveWarningBound ) {
 
 			// Bind our error that displays before leaving page.
 			$( window ).bind( 'beforeunload', () => {
-				return window.ctctText.leavewarning;
+				return window.ctctTexts.leavewarning;
 			} );
 
 			// Save our state.
-			that.isLeaveWarningBound = true;
+			app.isLeaveWarningBound = true;
 		}
 	};
 
@@ -73,7 +66,7 @@ window.CTCTBuilder = {};
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	that.unbindLeaveWarning = () => {
+	app.unbindLeaveWarning = () => {
 		$( window ).unbind( 'beforeunload' );
 	};
 
@@ -83,27 +76,27 @@ window.CTCTBuilder = {};
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	that.bindEvents = () => {
+	app.bindEvents = () => {
 
 		$( '#post' ).submit( () => {
 
 			// Make sure our email dropdown reverts from disbled, as CMB2 doesn't save those values.
 			$( '.ctct-email-disabled' ).removeClass( 'disabled' ).prop( 'disabled', false );
 
-			that.unbindLeaveWarning();
+			app.unbindLeaveWarning();
 		} );
 
 		$( '.cmb2-wrap input, .cmb2-wrap textarea' ).on( 'input', () => {
 			if ( 'undefined' !== typeof( tinyMCE ) ) {
-				that.bindLeaveWarning();
+				app.bindLeaveWarning();
 			}
 		} );
 
 		// Disable email options on row change trigger.
 		$( document ).on( 'cmb2_shift_rows_complete', () => {
-			that.modifyFields();
-			that.bindLeaveWarning();
-			that.removeDuplicateMappings();
+			app.modifyFields();
+			app.bindLeaveWarning();
+			app.removeDuplicateMappings();
 		} );
 
 		// If we get a row added, then do our stuff.
@@ -112,12 +105,12 @@ window.CTCTBuilder = {};
 			// Automatically set new rows to be 'custom' field type.
 			$( '#custom_fields_group_repeat .postbox' ).last().find( '.map select' ).val( 'none' );
 
-			that.modifyFields();
-			that.selectBinds();
-			that.removeDuplicateMappings();
+			app.modifyFields();
+			app.selectBinds();
+			app.removeDuplicateMappings();
 		} );
 
-		that.removeDuplicateMappings();
+		app.removeDuplicateMappings();
 
 		$( '#ctct-reset-css' ).on( 'click', ( event ) => {
 			event.preventDefault();
@@ -158,19 +151,13 @@ window.CTCTBuilder = {};
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	that.selectBinds = () => {
+	app.selectBinds = () => {
 
 		// For each fields select.
 		$( '#cmb2-metabox-ctct_2_fields_metabox .cmb2_select' ).change( () => {
-
-			// Modify our fields.
-			that.modifyFields();
-
-			// Don't allow duplicate mappings in form.
-			that.removeDuplicateMappings();
-
-			// Bind our leave warning.
-			that.bindLeaveWarning();
+			app.modifyFields();
+			app.removeDuplicateMappings();
+			app.bindLeaveWarning();
 		} );
 	};
 
@@ -180,7 +167,7 @@ window.CTCTBuilder = {};
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	that.modifyFields = () => {
+	app.modifyFields = () => {
 
 		// Set that we haven't found an email.
 		var foundEmail = false;
@@ -212,34 +199,20 @@ window.CTCTBuilder = {};
 			// If we haven't yet found an email field, and this is our email field.
 			if ( ! foundEmail && ( 'email' === $( $map ).val() ) ) {
 
-				// Set that we found an email field.
 				foundEmail = true;
-
-				// Make it required.
 				$required.prop( 'checked', true );
 
-				// Set it to be 'disabled'.
 				$( value ).find( 'select' ).addClass( 'disabled ctct-email-disabled' ).prop( 'disabled', true );
 
-				// Hide the required row.
 				$requiredRow.hide();
-
-				// Hide the remove row button.
 				$button.hide();
-
 			} else {
-
-				// Verify its not disabled.
 				$( value ).find( 'select' ).removeClass( 'disabled ctct-email-disabled' ).prop( 'disabled', false );
 
-				// If we're not an email field, reshow the required field.
 				$requiredRow.show();
-
-				// and the remove button.
 				$button.show();
 			}
 
-			// Set the placeholder text if there's something to set.
 			if ( window.ctct_admin_placeholders ) {
 				var placeholder = window.ctct_admin_placeholders[ $( value ).find( 'select' ).val() ];
 
@@ -259,7 +232,7 @@ window.CTCTBuilder = {};
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	that.removeDuplicateMappings = () => {
+	app.removeDuplicateMappings = () => {
 
 		var usedMappings = [];
 		var dropdowns    = '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select';
@@ -285,6 +258,6 @@ window.CTCTBuilder = {};
 		} );
 	};
 
-	$( that.init );
+	$( app.init );
 
 } ( window, jQuery, window.CTCTBuilder ) );

@@ -1,4 +1,4 @@
-// sass-lint:disable class-name-format no-qualifying-elements id-name-format
+// sass-lint:disable class-name-format no-qualifying-elements id-name-format property-units
 //--------------------------------------------------------------
 // About Page
 //--------------------------------------------------------------
@@ -274,7 +274,7 @@
 }
 
 .ctct-bonus-points {
-	color: #2b5e8c;
+	color: $color-cc-blue-alt;
 	font-size: 16px;
 	font-weight: 300;
 	list-style: circle;
@@ -335,5 +335,31 @@
 		height: 400px;
 		resize: vertical;
 		width: 100%;
+	}
+}
+
+.ctct-options-tooltip {
+	cursor: help;
+}
+
+.ctct-options-ui-tooltip {
+	background: $color-tooltip-background;
+	border-radius: 3px;
+	border-width: 1px;
+	box-shadow: 1px 1px 2px 1px $color-tooltip-box-shadow;
+	color: $color-tooltip-text;
+	max-width: 300px;
+	padding: 7px;
+	position: absolute;
+	text-rendering: optimizeLegibility;
+	text-shadow: none;
+	z-index: 9999;
+
+	a {
+		color: $color-tooltip-text;
+
+		&:hover {
+			color: $color-tooltip-text-light;
+		}
 	}
 }

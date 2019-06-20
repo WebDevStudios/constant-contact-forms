@@ -25,6 +25,7 @@ $color-sky-blue: #88c5e2;
 $color-chrome-yellow: #ffa901;
 $color-prussian-blue: #0078c3;
 $color-cc-blue: #1a5285;
+$color-cc-blue-alt: #2b5e8c ;
 $color-alt-silver: #efefee;
 
 // text
@@ -44,6 +45,12 @@ $color-cmb-description-text: rgb(68, 68, 68);
 
 // Modal
 $color-modal-background: rgba( 0, 0, 0, 0.3 );
+
+// Tooltips
+$color-tooltip-background: #333;
+$color-tooltip-text: $dedede;
+$color-tooltip-text-light: #fff;
+$color-tooltip-box-shadow: rgba( 214, 214, 214, 0.5 );
 
 // Breakpoints
 $breakpoints: (

@@ -60,8 +60,6 @@ class ConstantContact_Settings {
 	 */
 	public function hooks() {
 
-		add_action( 'cmb2_admin_init', [ $this, 'add_options_page_metabox' ] );
-
 		add_filter( 'cmb2_override_option_get_' . $this->key, [ $this, 'get_override' ], 10, 2 );
 
 		add_filter( 'cmb2_override_option_save_' . $this->key, [ $this, 'update_override' ], 10, 2 );
@@ -88,110 +86,10 @@ class ConstantContact_Settings {
 		add_action( 'register_form', [ $this, 'optin_form_field_registration' ] );
 		add_action( 'signup_extra_fields', [ $this, 'optin_form_field_registration' ] );
 		add_action( 'login_head', [ $this, 'optin_form_field_login_css' ] );
-		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
 
 		if ( ! $this->privacy_policy_status() ) {
 			add_action( 'admin_footer', [ $this, 'privacy_notice_markup' ] );
 		}
-	}
-
-	/**
-	 * Add some login page CSS.
-	 *
-	 * @since 1.2.0
-	 */
-	public function optin_form_field_login_css() {
-		?>
-		<style>
-		.login .ctct-disclosure {
-			margin: 0 0 15px;
-		}
-		</style>
-		<?php
-	}
-
-	/**
-	 * Enqueue our styles.
-	 *
-	 * @since 1.0.0
-	 */
-	public function scripts() {
-		wp_enqueue_style( 'constant-contact-forms-admin' );
-	}
-
-	/**
-	 * Add menu options page.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_options_page() {
-
-		$this->options_page = add_submenu_page(
-			'edit.php?post_type=ctct_forms',
-			esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
-			esc_html__( 'Settings', 'constant-contact-forms' ),
-			'manage_options',
-			$this->key,
-			[ $this, 'admin_page_display' ]
-		);
-
-		// Include CMB CSS in the head to avoid FOUC.
-		add_action( "admin_print_styles-{$this->options_page}", [ 'CMB2_hookup', 'enqueue_cmb_css' ] );
-	}
-
-	/**
-	 * Admin page markup. Mostly handled by CMB2.
-	 *
-	 * @since 1.0.0
-	 */
-	public function admin_page_display() {
-		?>
-		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php echo get_admin_page_title(); ?></h2>
-			<?php
-			if ( function_exists( 'cmb2_metabox_form' ) ) {
-				cmb2_metabox_form( $this->metabox_id, $this->key );
-			}
-
-			$this->plugin->check->maybe_display_debug_info();
-			?>
-		</div>
-		<?php
-	}
-
-	/**
-	 * Are we on the settings page?
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return boolean If we are on the settings page or not.
-	 */
-	public function on_settings_page() {
-
-		global $pagenow;
-
-		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ); // Input var okay.
-	}
-
-	/**
-	 * Add the options metabox to the array of metaboxes.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_options_page_metabox() {
-
-		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", [ $this, 'settings_notices' ], 10, 2 );
-
-		$cmb = new_cmb2_box( [
-			'id'           => $this->metabox_id,
-			'title'        => esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
-			'object_types' => [ 'options-page' ],
-			'option_key'   => 'ctct_options_settings',
-			'menu_title'   => esc_html__( 'Settings', 'constant-contact-forms' ),
-			'parent_slug'  => 'edit.php?post_type=ctct_forms',
-		] );
-
-		$this->do_lists_field( $cmb );
 	}
 
 	/**

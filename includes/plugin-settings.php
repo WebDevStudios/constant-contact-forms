@@ -12,7 +12,6 @@
 
 $settings = [];
 
-$before_recaptcha  = '@todo recaptcha placeholder';
 $before_global_css = '@todo global css placeholder';
 $before_debugging  = '@todo debugging placeholder';
 
@@ -22,22 +21,41 @@ $before_debugging  = '@todo debugging placeholder';
  * @since 1.6.0
  */
 $settings['general'] = [
-	'_ctct_data_tracking' => [
-		'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
-		'id'   => '_ctct_data_tracking',
-		'type' => 'checkbox',
-		'desc' => __( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.endurance.com/privacy"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
+	'_ctct_data_tracking'        => [
+		'name'    => esc_html__( 'Allow Google Analytics&trade; tracking?', 'constant-contact-forms' ),
+		'id'      => '_ctct_data_tracking',
+		'type'    => 'checkbox',
+		'desc'    => esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.', 'constact-contact-forms' ),
+		'tooltip' => sprintf(
+			/* Translators: Placeholders are for HTML <a> tags. */
+			esc_html__( 'Your website and users will not be tracked. See our %1$sPrivacy Statement%2$s information about what is and is not tracked.', 'constant-contact-forms' ),
+			'<a target="_blank" href="https://www.endurance.com/privacy">',
+			'</a>'
+		),
 	],
-	'_ctct_recaptcha_site_key' => [
-		'name'       => esc_html__( 'Site Key', 'constant-contact-forms' ),
-		'id'         => '_ctct_recaptcha_site_key',
-		'type'       => 'text',
-		'before_row' => $before_recaptcha, // @todo Maybe don't need this.
+	'_ctct_recaptcha_site_key'   => [
+		'name'    => esc_html__( 'Google ReCAPTCHA Site Key', 'constant-contact-forms' ),
+		'id'      => '_ctct_recaptcha_site_key',
+		'type'    => 'text',
+		'classes' => 'regular-text',
+		'tooltip' => sprintf(
+			/* Translators: Placeholders are for HTML <a> tags. */
+			esc_html__( 'Learn more and get an API site key at %1$sGoogle ReCAPTCHA%2$s.', 'constant-contact-forms' ),
+			'<a href="https://www.google.com/recaptcha/intro/" target="_blank">',
+			'</a>'
+		),
 	],
 	'_ctct_recaptcha_secret_key' => [
-		'name' => esc_html__( 'Secret Key', 'constant-contact-forms' ),
-		'id'   => '_ctct_recaptcha_secret_key',
-		'type' => 'text',
+		'name'    => esc_html__( 'Google ReCAPTCHA Secret Key', 'constant-contact-forms' ),
+		'id'      => '_ctct_recaptcha_secret_key',
+		'type'    => 'text',
+		'classes' => 'regular-text',
+		'tooltip' => sprintf(
+			/* Translators: Placeholders are for HTML <a> tags. */
+			esc_html__( 'Learn more and get an API secret key at %1$sGoogle ReCAPTCHA%2$s.', 'constant-contact-forms' ),
+			'<a href="https://www.google.com/recaptcha/intro/" target="_blank">',
+			'</a>'
+		),
 	],
 ];
 
@@ -47,12 +65,11 @@ $settings['general'] = [
  * @since 1.6.0
  */
 $settings['form'] = [
-	'_ctct_form_custom_classes' => [
+	'_ctct_form_custom_classes'  => [
 		'name'        => esc_html__( 'CSS Classes', 'constant-contact_forms' ),
 		'id'          => '_ctct_form_custom_classes',
 		'type'        => 'text',
 		'description' => esc_html__( 'Provide custom classes for the form separated by a single space.', 'constant-contact-forms' ),
-		'before_row'  => $before_global_css, // @todo Maybe don't need this.
 	],
 	'_ctct_form_label_placement' => [
 		'name'             => esc_html__( 'Label Placement', 'constant-contact-forms' ),

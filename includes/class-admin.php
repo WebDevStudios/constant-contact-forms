@@ -446,7 +446,7 @@ class ConstantContact_Admin {
 		wp_register_script(
 			'ctct_form',
 			constant_contact()->url() . 'assets/js/ctct-plugin-admin' . $suffix . '.js',
-			[],
+			[ 'jquery', 'jquery-ui-tooltip' ],
 			Constant_Contact::VERSION,
 			true
 		);

@@ -1,18 +1,26 @@
 <?php
+/**
+ * Renders the admin settings page.
+ *
+ * @package ConstantContact
+ * @subpackage Settings
+ * @since 1.6.0
+ *
+ * @var array $tab_urls Array of URLs for each tab.
+ * @var array $tab_classes Array of CSS classes for each tab.
+ */
 
-
-
-write_log( $active_tab, 'active tab' );
 ?>
+
 <div class="wrap">
 	<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
 
 	<?php settings_errors(); ?>
 
 	<h2 class="nav-tab-wrapper">
-		<a href="<?php echo esc_url( $tab_urls['general'] ); ?>" class="<?php echo esc_attr( $tab_classes['general'] ); ?>">General Settings</a>
-		<a href="<?php echo esc_url( $tab_urls['form'] ); ?>" class="<?php echo esc_attr( $tab_classes['form'] ); ?>">Form Settings</a>
-		<a href="<?php echo esc_url( $tab_urls['support'] ); ?>" class="<?php echo esc_attr( $tab_classes['support'] ); ?>">Support</a>
+		<a href="<?php echo esc_url( $tab_urls['general'] ); ?>" class="<?php echo esc_attr( $tab_classes['general'] ); ?>"><?php esc_html_e( 'General Settings', 'constant-contact-forms' ); ?></a>
+		<a href="<?php echo esc_url( $tab_urls['form'] ); ?>" class="<?php echo esc_attr( $tab_classes['form'] ); ?>"><?php esc_html_e( 'Form Settings', 'constant-contact-forms' ); ?></a>
+		<a href="<?php echo esc_url( $tab_urls['support'] ); ?>" class="<?php echo esc_attr( $tab_classes['support'] ); ?>"><?php esc_html_e( 'Support', 'constant-contact-forms' ); ?></a>
 	</h2>
 
 	<div id="tab_container">

@@ -1248,6 +1248,28 @@ a.ctct-notice-dismiss {
   width: 100%;
 }
 
+.ctct-options-tooltip {
+  cursor: help;
+}
+
+.ctct-options-ui-tooltip {
+  position: absolute;
+  background: #333;
+  border-width: 1px;
+  border-radius: 3px;
+  box-shadow: 1px 1px 2px 1px rgba(214, 214, 214, 0.5);
+  color: #dedede;
+  max-width: 300px;
+  padding: 7px;
+  text-rendering: optimizeLegibility;
+  text-shadow: none;
+  z-index: 9999;
+}
+
+.ctct-options-ui-tooltip a {
+  color: #dedede;
+}
+
 .ctct-logo {
   max-width: 400px;
 }
