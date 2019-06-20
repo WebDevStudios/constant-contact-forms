@@ -155,7 +155,7 @@ class ConstantContact_Logging {
 	 */
 	public function add_options_page() {
 
-		$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
+		$debugging_enabled = ctct_get_option( '_ctct_logging', '' );
 
 		if ( 'on' !== $debugging_enabled ) {
 			return;
@@ -288,7 +288,7 @@ class ConstantContact_Logging {
 
 		$this->create_log_file();
 
-		wp_redirect( $this->options_url );
+		wp_safe_redirect( $this->options_url );
 		exit();
 	}
 

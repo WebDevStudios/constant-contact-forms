@@ -104,12 +104,12 @@ class ConstantContact_Display {
 
 		$global_form_css = [];
 
-		$global_form_classes = ctct_get_settings_option( '_ctct_form_custom_classes' );
+		$global_form_classes = ctct_get_option( '_ctct_form_custom_classes' );
 		if ( $global_form_classes ) {
 			$global_form_css['global_form_classes'] = $global_form_classes;
 		}
 
-		$global_label_placement = ctct_get_settings_option( 'ctct_form_label_placement' );
+		$global_label_placement = ctct_get_option( 'ctct_form_label_placement' );
 		if ( $global_label_placement ) {
 			$global_form_css['global_label_placement'] = $global_label_placement;
 		}
@@ -511,7 +511,7 @@ class ConstantContact_Display {
 	 */
 	public function build_recaptcha() {
 
-		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
+		$site_key = ctct_get_option( '_ctct_recaptcha_site_key', '' );
 
 		/**
 		 * Filters the language code to be used with Google reCAPTCHA.

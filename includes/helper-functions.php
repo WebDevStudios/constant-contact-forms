@@ -183,16 +183,15 @@ function constant_contact_maybe_display_review_notification() {
  * @since 1.2.0
  */
 function constant_contact_optin_ajax_handler() {
-
 	$optin = filter_var( $_REQUEST['optin'], FILTER_SANITIZE_STRING );
 
 	if ( 'on' !== $optin ) {
 		wp_send_json_success( [ 'opted-in' => 'off' ] );
 	}
 
-	$options                        = get_option( constant_contact()->settings->key );
+	$options                        = get_option( ConstantContact_Settings_Tabbed::get_options_key() );
 	$options['_ctct_data_tracking'] = $optin;
-	update_option( constant_contact()->settings->key, $options );
+	update_option( ConstantContact_Settings_Tabbed::get_options_key(), $options );
 
 	wp_send_json_success( [ 'opted-in' => 'on' ] );
 	exit();
@@ -369,7 +368,7 @@ function constant_contact_clean_url( $url = '' ) {
  * @return bool
  */
 function constant_contact_debugging_enabled() {
-	$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
+	$debugging_enabled = ctct_get_option( '_ctct_logging', '' );
 
 	if ( apply_filters( 'constant_contact_force_logging', false ) ) {
 		$debugging_enabled = 'on';
@@ -547,7 +546,7 @@ function constant_contact_emails_disabled( $form_id = 0 ) {
 		$disabled = true;
 	}
 
-	$global_form_disabled = ctct_get_settings_option( '_ctct_disable_email_notifications', '' );
+	$global_form_disabled = ctct_get_option( '_ctct_disable_email_notifications', '' );
 	if ( 'on' === $global_form_disabled ) {
 		$disabled = true;
 	}
@@ -606,7 +605,7 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
 		}
 	}
 
-	$global_setting = ctct_get_settings_option( $customization_key );
+	$global_setting = ctct_get_option( $customization_key );
 
 	return ! empty( $global_setting ) ? $global_setting : '';
 }

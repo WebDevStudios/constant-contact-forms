@@ -81,16 +81,14 @@ class ConstantContact_Optin {
 	 * @return bool
 	 */
 	public function can_track() {
-		$can_track = false;
-
-		$options = get_option( constant_contact()->settings->key );
-		$optin   = isset( $options['_ctct_data_tracking'] ) ? $options['_ctct_data_tracking'] : '';
+		$optin   = ctct_get_option( '_ctct_data_tracking', false );
 		$privacy = get_option( 'ctct_privacy_policy_status', '' );
 
-		if ( 'on' === $optin && 'true' === $privacy ) {
-			$can_track = true;
+		if ( $optin && 'true' === $privacy ) {
+			return true;
 		}
-		return $can_track;
+
+		return false;
 	}
 
 	/**

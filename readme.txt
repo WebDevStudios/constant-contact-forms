@@ -95,7 +95,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Added: Frontend form submit button disabled if hidden honeypot field has changed.
 * Fixed: Consistently applied ctct_process_form_success filter to AJAX form submission success messages.
 * Fixed: Prevent errors with Constant Contact social links and array_merge issues.
-* Fixed: Prevent errors with array_key_exists() and the ctct_get_settings_option function.
+* Fixed: Prevent errors with array_key_exists() and the ctct_get_option function.
 * Fixed: Wording around associated lists for a form, in the WordPress admin.
 * Fixed: Removed .gitignore files from /vendor folders.
 * Fixed: Prevent potential PHP warnings and notices in various areas.
