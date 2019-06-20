@@ -35,6 +35,17 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.6.0 =
+* Addded: Uninstall routine to remove various options saved from use of the plugin, when uninstalling.
+* Updated: Improved handling of potential fatal errors that caused sites to become unusable.
+* Updated: Completely removed TinyMCE support in favor of Gutenberg block and copy/pasting existing shortcode output.
+* Updated: Reviewed and improved on overall plugin accessibility.
+* Updated: Hardened up sanitization around Google reCAPTCHA settings.
+* Fixed: Inability to remove admin notices in some cases.
+* Fixed: Addressed admin notice meant to show at a later time that showed right away.
+* Fixed: Submission issues when multiple forms are on the same page and "no-refresh" option is used.
+* Fixed: Add "show_title" attribute to List Column shortcode output.
+
 = 1.5.3 =
 * Fixed: Removed TGMPA library files that were causing some conflicts with premium themes or other plugins.
 * Fixed: tweaked shortcode assets URL reference in bundled library for better compatibility with various hosting environments.
