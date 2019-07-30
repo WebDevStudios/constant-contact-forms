@@ -123,7 +123,7 @@ https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress
 http://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options
 
 #### Frequently Asked Questions
-https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18491-WordPress-Frequently-Asked-Questions
+https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18491-Enable-Logging-in-the-Constant-Contact-Forms-for-WordPress-Plugin
 
 #### Constant Contact List Addition Issues
 https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18539-WordPress-Constant-Contact-List-Addition-Issues
