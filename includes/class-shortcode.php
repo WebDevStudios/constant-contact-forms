@@ -34,6 +34,13 @@ class ConstantContact_Shortcode {
 	public $tag = 'ctct';
 
 	/**
+	 * Plugin object.
+	 *
+	 * @var Constant_Contact
+	 */
+	public $plugin;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.6.0

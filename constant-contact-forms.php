@@ -136,7 +136,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var Constant_Contact
 	 */
-	protected static $single_instance = null;
+	protected static $single_instance;
 
 	/**
 	 * An instance of the ConstantContact_API Class.
@@ -366,8 +366,6 @@ class Constant_Contact {
 	 * Sets up our plugin.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return null
 	 */
 	protected function __construct() {
 
@@ -449,8 +447,6 @@ class Constant_Contact {
 	 * Add hooks and filters.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return null
 	 */
 	public function hooks() {
 		if ( ! $this->meets_php_requirements() ) {
@@ -524,7 +520,7 @@ class Constant_Contact {
 	 * @return bool
 	 */
 	public function meets_php_requirements() {
-		return ( version_compare( PHP_VERSION, '5.4.0', '>=' ) );
+		return version_compare( PHP_VERSION, '5.4.0', '>=' );
 	}
 
 	/**
@@ -660,7 +656,7 @@ class Constant_Contact {
 	 */
 	public static function dir( $path = '' ) {
 		static $dir;
-		$dir = $dir ? $dir : trailingslashit( dirname( __FILE__ ) );
+		$dir = $dir ? $dir : trailingslashit( __DIR__ );
 		return $dir . $path;
 	}
 
@@ -686,7 +682,7 @@ class Constant_Contact {
 	 * @return string License text.
 	 */
 	public function get_license_text() {
-		$license         = $this->url( self::LICENSE_FILE );
+		$license         = self::url( self::LICENSE_FILE );
 		$license_content = wp_remote_get( $license );
 
 		if ( 200 === wp_remote_retrieve_response_code( $license_content ) ) {
@@ -745,7 +741,7 @@ class Constant_Contact {
 
 		wp_register_style(
 			'constant-contact-forms-admin',
-			$this->url() . 'assets/css/admin-style.css',
+			self::url() . 'assets/css/admin-style.css',
 			[],
 			self::VERSION
 		);
@@ -759,7 +755,7 @@ class Constant_Contact {
 	public function register_front_assets() {
 		wp_register_style(
 			'ctct_form_styles',
-			$this->url() . 'assets/css/style.css',
+			self::url() . 'assets/css/style.css',
 			[],
 			self::VERSION
 		);

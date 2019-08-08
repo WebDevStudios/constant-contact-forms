@@ -23,7 +23,7 @@ class ConstantContact_User_Customizations {
 	 * @since 1.3.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.

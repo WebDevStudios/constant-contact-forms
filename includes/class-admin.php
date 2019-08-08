@@ -241,9 +241,9 @@ class ConstantContact_Admin {
 
 		if ( in_array( $field, [ 'key', 'metabox_id', 'title', 'options_page' ], true ) ) {
 			return $this->{$field};
-		} else {
-			return constant_contact()->{$field};
 		}
+
+		return constant_contact()->{$field};
 	}
 
 	/**

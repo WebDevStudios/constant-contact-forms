@@ -34,6 +34,13 @@ class ConstantContact_Settings {
 	private $metabox_id = 'ctct_option_metabox_settings';
 
 	/**
+	 * Settings options page.
+	 *
+	 * @var string
+	 */
+	private $options_page;
+
+	/**
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
@@ -697,11 +704,7 @@ class ConstantContact_Settings {
 	 */
 	public function privacy_policy_status() {
 		$status = get_option( 'ctct_privacy_policy_status', '' );
-		if ( '' === $status || 'false' === $status ) {
-			return false;
-		}
-
-		return true;
+		return ! ( '' === $status || 'false' === $status );
 	}
 
 	/**

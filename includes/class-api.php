@@ -499,7 +499,7 @@ class ConstantContact_API {
 		$contact->addList( esc_attr( $list ) );
 
 		try {
-			$contact = $this->set_contact_properties( $contact, $user_data, $form_id, false );
+			$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
 		} catch ( Exception $ex ) {
@@ -635,7 +635,7 @@ class ConstantContact_API {
 				case 'city_address':
 				case 'state_address':
 				case 'zip_address':
-					if ( is_null( $address ) ) {
+					if ( null === $address ) {
 						$address = new Ctct\Components\Contacts\Address();
 					}
 
@@ -721,7 +721,7 @@ class ConstantContact_API {
 			} // End switch.
 		} // End foreach.
 
-		if ( ! is_null( $address ) ) {
+		if ( null !== $address ) {
 			$contact->addAddress( $address );
 		}
 
@@ -732,6 +732,8 @@ class ConstantContact_API {
 	 * Pushes all error to api_error_message.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @throws Exception
 	 *
 	 * @param array $errors Errors from API.
 	 */
@@ -798,7 +800,7 @@ class ConstantContact_API {
 
 		static $token = null;
 
-		if ( is_null( $token ) ) {
+		if ( null === $token ) {
 			$token = get_option( 'ctct_token', false ) ? true : false;
 		}
 
@@ -815,7 +817,7 @@ class ConstantContact_API {
 
 		static $proof = null;
 
-		if ( is_null( $proof ) ) {
+		if ( null === $proof ) {
 			$proof = constant_contact()->authserver->set_verification_option();
 		}
 
@@ -833,7 +835,7 @@ class ConstantContact_API {
 
 		static $proof = null;
 
-		if ( is_null( $proof ) ) {
+		if ( null === $proof ) {
 			$proof = constant_contact()->authserver->set_verification_option();
 		}
 

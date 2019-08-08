@@ -200,7 +200,7 @@ class ConstantContact_Check {
 			return sprintf(
 				/* Translators: Placeholder will be an HTTP response code. */
 				esc_html__( 'Unexpected HTTP response code: %1$s', 'constant-contact-forms' ),
-				intval( $response_code )
+				(int) $response_code
 			);
 		}
 

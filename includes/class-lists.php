@@ -127,8 +127,7 @@ class ConstantContact_Lists {
 
 		echo '<ul>';
 
-		unset( $list_info['id'] );
-		unset( $list_info['status'] );
+		unset( $list_info['id'], $list_info['status'] );
 
 		if ( isset( $list_info['created_date'] ) && $list_info['created_date'] ) {
 			$list_info['created_date'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['created_date'] ) );
@@ -483,11 +482,7 @@ class ConstantContact_Lists {
 		 */
 		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
 
-		if ( is_object( $list ) && isset( $list->id ) ) {
-			return true;
-		}
-
-		return false;
+		return is_object( $list ) && isset( $list->id );
 	}
 
 	/**
@@ -617,7 +612,7 @@ class ConstantContact_Lists {
 			return false;
 		}
 
-		if ( ! isset( $post_title ) ) {
+		if ( ! isset( $ctct_list->post_title ) ) {
 			return false;
 		}
 
@@ -638,11 +633,7 @@ class ConstantContact_Lists {
 		 */
 		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
 
-		if ( is_object( $list ) && isset( $list->id ) ) {
-			return true;
-		}
-
-		return false;
+		return is_object( $list ) && isset( $list->id );
 	}
 
 	/**

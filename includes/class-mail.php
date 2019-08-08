@@ -237,6 +237,8 @@ class ConstantContact_Mail {
 	 * @since 1.0.0
 	 * @since 1.3.6 Added $was_forced.
 	 *
+	 * @throws Exception
+	 *
 	 * @param string $destination_email  Intended mail address.
 	 * @param string $content            Data from clean values.
 	 * @param array  $submission_details Details for submission to process.

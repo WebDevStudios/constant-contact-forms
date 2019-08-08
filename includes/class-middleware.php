@@ -114,8 +114,8 @@ class ConstantContact_Middleware {
 
 		static $proof = null;
 
-		if ( is_null( $proof ) ) {
-			$proof = esc_attr( wp_generate_password( 35, false, false ) );
+		if ( null === $proof ) {
+			$proof = esc_attr( wp_generate_password( 35, false ) );
 			update_option( 'ctct_connect_verification', $proof );
 		}
 
@@ -124,6 +124,8 @@ class ConstantContact_Middleware {
 
 	/**
 	 * Verify a returned request from the auth server, and save the returned token.
+	 *
+	 * @throws Exception
 	 *
 	 * @return boolean Is valid?
 	 */

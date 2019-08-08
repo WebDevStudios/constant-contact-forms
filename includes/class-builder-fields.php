@@ -24,7 +24,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Prefix for our meta fields/boxes.

@@ -311,6 +311,8 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @return boolean
 	 */
 	public function maybe_disconnect() {
@@ -347,6 +349,8 @@ class ConstantContact_Connect {
 	 * Get an encrypted value.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @throws Exception
 	 *
 	 * @param string  $check_key key to save to.
 	 * @param boolean $fallback_to_ctct_opt Fall back maybe.
@@ -430,6 +434,8 @@ class ConstantContact_Connect {
 	 * Get saved API token.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @throws Exception
 	 *
 	 * @return string Token.
 	 */

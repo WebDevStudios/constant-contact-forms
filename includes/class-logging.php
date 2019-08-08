@@ -226,7 +226,7 @@ class ConstantContact_Logging {
 				<?php
 
 				if ( file_exists( constant_contact()->logger_location ) ) {
-					if ( ! empty( $log_content ) && is_wp_error( $log_content ) ) {
+					if ( ! empty( $contents ) && is_wp_error( $contents ) ) {
 						?>
 						<p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the download link below.', 'constant-contact-forms' ); ?></p>
 						<?php

@@ -64,7 +64,7 @@ class ConstantContact_Display {
 	 */
 	public function scripts( $enqueue = false ) {
 
-		$debug  = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true ? true : false;
+		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 		$suffix = ( true === $debug ) ? '' : '.min';
 
 		wp_register_script(
@@ -329,8 +329,7 @@ class ConstantContact_Display {
 		 * @param int $form_id Current form ID.
 		 */
 		do_action( 'ctct_before_form', $form_id );
-		$return .= ob_get_contents();
-		ob_end_clean();
+		$return .= ob_get_clean();
 
 		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
 		$return .= 'data-doajax="' . esc_attr( $do_ajax ) . '" ';
@@ -371,8 +370,7 @@ class ConstantContact_Display {
 		 * @param int $form_id Current form ID.
 		 */
 		do_action( 'ctct_after_form', $form_id );
-		$return .= ob_get_contents();
-		ob_end_clean();
+		$return .= ob_get_clean();
 
 		$return .= '<script type="text/javascript">';
 		$return .= 'var ajaxurl = "' . esc_url( admin_url( 'admin-ajax.php' ) ) . '";';
@@ -695,7 +693,7 @@ class ConstantContact_Display {
 	 * @param string       $map            Map value.
 	 * @param array        $field          Array of fields.
 	 * @param array        $submitted_vals Array of submitted values.
-	 * @return string Submitted value.
+	 * @return mixed Submitted value.
 	 */
 	public function get_submitted_value( $value = '', $map = '', $field = [], $submitted_vals = [] ) {
 
@@ -805,7 +803,7 @@ class ConstantContact_Display {
 		$display      = '';
 		$inline_style = $this->get_description_inline_styles();
 
-		if ( current_user_can( 'edit_posts' ) && $form_id ) {
+		if ( $form_id && current_user_can( 'edit_posts' ) ) {
 
 			$edit_link = get_edit_post_link( absint( $form_id ) );
 
@@ -998,7 +996,7 @@ class ConstantContact_Display {
 		$truncate_max_length = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 		$max_length          = '';
 		if ( false !== strpos( $id, 'custom___' ) ) {
-			$max_length = ( $truncate_max_length ) ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
+			$max_length = $truncate_max_length ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
 		}
 
 		if ( $field_error ) {
@@ -1728,7 +1726,7 @@ class ConstantContact_Display {
 	 * @param string $optional_label Optional label.
 	 * @return string
 	 */
-	public function get_max_length_attr( string $optional_label = '' ) {
+	public function get_max_length_attr( $optional_label = '' ) {
 		$length       = 48; // Two less than 50char custom field limit for ": ".
 		$label_length = 0;
 
