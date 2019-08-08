@@ -528,7 +528,7 @@ class ConstantContact_Settings {
 
 		if ( isset( $comment_data['comment_author_email'] ) && $comment_data['comment_author_email'] ) {
 
-      $name    = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
+			$name    = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
 			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
 
 			if ( ! isset( $_POST['ctct_optin_list'] ) ) {
