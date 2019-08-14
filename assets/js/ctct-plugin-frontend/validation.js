@@ -47,12 +47,12 @@
 		};
 
 		// Cache each form on the page.
-		$( '.ctct-form-wrapper' ).each( ( i, formWrapper ) => {
+		$( '.ctct-form-wrapper' ).each( function( i, formWrapper ) {
 			app.$c.$forms.push( $( formWrapper ).find( 'form' ) );
 		} );
 
 		// For each form, cache its common elements.
-		$.each( app.$c.$forms, ( i, form ) => {
+		$.each( app.$c.$forms, function( i, form ) {
 
 			var $form = $( form );
 
@@ -126,7 +126,7 @@
 		}
 
 		// Ensure all required fields in this form are valid.
-		$.each( $form.find( '[required]' ), ( i, field ) => {
+		$.each( $form.find( '[required]' ), function( i, field ) {
 
 			if ( false === field.checkValidity() ) {
 				return false;
@@ -234,7 +234,7 @@
 	app.bindEvents = () => {
 
 		// eslint-disable-next-line no-unused-vars
-		$.each( app.$c.$forms, ( i, form ) => {
+		$.each( app.$c.$forms, function( i, form ) {
 
 			// Attach submission handler to each form's Submit button.
 			app.$c.$forms[ i ].on( 'click', 'input[type=submit]', ( e ) => {

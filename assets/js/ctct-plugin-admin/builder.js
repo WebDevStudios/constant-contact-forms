@@ -137,7 +137,7 @@ window.CTCTBuilder = {};
 			];
 
 			// Reset color pickers.
-			$( '.wp-picker-clear' ).each( () => {
+			$( '.wp-picker-clear' ).each( function() {
 				$( this ).click();
 			} );
 
@@ -266,7 +266,7 @@ window.CTCTBuilder = {};
 		var $dropdowns   = $( dropdowns );
 
 		// For each dropdown, build up our array of used values.
-		$dropdowns.each( ( key, value ) => {
+		$dropdowns.each( function( key, value ) {
 			usedMappings.push( $( value ).val() );
 		} );
 
@@ -274,7 +274,7 @@ window.CTCTBuilder = {};
 		$dropdowns.children().show();
 
 		// For each of our mappings that we already have, remove them from all selects.
-		usedMappings.forEach( ( value ) => {
+		usedMappings.forEach( function( value ) {
 
 			// But only do it if the value isn't one of our custom ones.
 			if ( ( 'custom_text_area' !== value ) && ( 'custom' !== value ) ) {
