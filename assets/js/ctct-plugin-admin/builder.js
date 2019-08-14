@@ -32,7 +32,7 @@ window.CTCTBuilder = {};
 
 		// Inject our new labels for the up/down CMB2 buttons, so they can be properly localized.
 		// Because we're using :after, we can't use .css() to do this, we need to inject a style tag.
-		$( 'head' ).append( '<style> #cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "' + window.ctctText.move_up + '" } #cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "' + window.ctctText.move_down + '" }</style>' );
+		$( 'head' ).append( '<style> #cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "' + window.ctctTexts.move_up + '" } #cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "' + window.ctctTexts.move_down + '" }</style>' );
 	};
 
 	/**
@@ -59,7 +59,7 @@ window.CTCTBuilder = {};
 
 			// Bind our error that displays before leaving page.
 			$( window ).bind( 'beforeunload', () => {
-				return window.ctctText.leavewarning;
+				return window.ctctTexts.leavewarning;
 			} );
 
 			// Save our state.
