@@ -186,7 +186,7 @@ window.CTCTBuilder = {};
 		var foundEmail = false;
 
 		// Loop through all fields to modify them.
-		$( '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping' ).each( ( key, value ) => {
+		$( '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping' ).each( function( key, value ) {
 
 			// Set some of our helper paramaters.
 			var $fieldParent = $( this ).find( '.cmb-field-list' );
