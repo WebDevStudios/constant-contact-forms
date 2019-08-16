@@ -189,6 +189,9 @@ class ConstantContact_Logging {
 	 */
 	public function admin_page_display() {
 
+		// We will be nice and remove the exception/error status once they visit the logging page.
+		constant_contact_set_has_exceptions( 'false' );
+
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 
 		?>
