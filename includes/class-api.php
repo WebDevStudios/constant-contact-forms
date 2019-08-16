@@ -128,6 +128,7 @@ class ConstantContact_API {
 				}
 			} catch ( CtctException $ex ) {
 				$this->log_errors( $ex->getErrors() );
+				constant_contact_set_has_exceptions();
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
 				$error->error_key     = get_class( $ex );
@@ -135,6 +136,7 @@ class ConstantContact_API {
 				$messages[]           = $error;
 
 				add_filter( 'constant_contact_force_logging', '__return_true' );
+				constant_contact_set_has_exceptions();
 
 				$this->log_errors( $messages );
 			}
@@ -166,6 +168,7 @@ class ConstantContact_API {
 
 			} catch ( CtctException $ex ) {
 				$this->log_errors( $ex->getErrors() );
+				constant_contact_set_has_exceptions();
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
 				$error->error_key     = get_class( $ex );
@@ -173,6 +176,7 @@ class ConstantContact_API {
 				$messages[]           = $error;
 
 				add_filter( 'constant_contact_force_logging', '__return_true' );
+				constant_contact_set_has_exceptions();
 
 				$this->log_errors( $messages );
 			}
@@ -212,6 +216,7 @@ class ConstantContact_API {
 				}
 			} catch ( CtctException $ex ) {
 				$this->log_errors( $ex->getErrors() );
+				constant_contact_set_has_exceptions();
 			} catch ( Exception $ex ) {
 				$error = new stdClass();
 				$error->error_key = get_class( $ex );
@@ -219,6 +224,7 @@ class ConstantContact_API {
 				$messages[] = $error;
 
 				add_filter( 'constant_contact_force_logging', '__return_true' );
+				constant_contact_set_has_exceptions();
 
 				$this->log_errors( $messages );
 			}
@@ -256,6 +262,7 @@ class ConstantContact_API {
 				return $list;
 			} catch ( CtctException $ex ) {
 				$this->log_errors( $ex->getErrors() );
+				constant_contact_set_has_exceptions();
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
 				$error->error_key     = get_class( $ex );
@@ -263,6 +270,7 @@ class ConstantContact_API {
 				$messages[]           = $error;
 
 				add_filter( 'constant_contact_force_logging', '__return_true' );
+				constant_contact_set_has_exceptions();
 
 				$this->log_errors( $messages );
 			}
@@ -292,6 +300,7 @@ class ConstantContact_API {
 			$list = $this->cc()->listService->getList( $this->get_api_token(), esc_attr( $new_list['id'] ) );
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
+			constant_contact_set_has_exceptions();
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
@@ -299,6 +308,7 @@ class ConstantContact_API {
 			$messages[]           = $error;
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_set_has_exceptions();
 
 			$this->log_errors( $messages );
 		}
@@ -326,6 +336,7 @@ class ConstantContact_API {
 
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
+			constant_contact_set_has_exceptions();
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
@@ -333,6 +344,7 @@ class ConstantContact_API {
 			$messages[]           = $error;
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_set_has_exceptions();
 
 			$this->log_errors( $messages );
 		}
@@ -372,6 +384,7 @@ class ConstantContact_API {
 
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
+			constant_contact_set_has_exceptions();
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
@@ -379,6 +392,7 @@ class ConstantContact_API {
 			$messages[]           = $error;
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_set_has_exceptions();
 
 			$this->log_errors( $messages );
 		}
@@ -406,6 +420,7 @@ class ConstantContact_API {
 			$list = $this->cc()->listService->deleteList( $this->get_api_token(), $updated_list['id'] );
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
+			constant_contact_set_has_exceptions();
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
@@ -413,6 +428,7 @@ class ConstantContact_API {
 			$messages[]           = $error;
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_set_has_exceptions();
 
 			$this->log_errors( $messages );
 		}
@@ -463,6 +479,7 @@ class ConstantContact_API {
 			}
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
+			constant_contact_set_has_exceptions();
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
@@ -470,6 +487,7 @@ class ConstantContact_API {
 			$messages[]           = $error;
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_set_has_exceptions();
 
 			$this->log_errors( $messages );
 		}
@@ -502,6 +520,7 @@ class ConstantContact_API {
 			$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
 		} catch ( CtctException $ex ) {
 			$this->log_errors( $ex->getErrors() );
+			constant_contact_set_has_exceptions();
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
@@ -509,6 +528,7 @@ class ConstantContact_API {
 			$messages[]           = $error;
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_set_has_exceptions();
 
 			$this->log_errors( $messages );
 		}
@@ -554,6 +574,7 @@ class ConstantContact_API {
 				$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
 			} catch ( CtctException $ex ) {
 				$this->log_errors( $ex->getErrors() );
+				constant_contact_set_has_exceptions();
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
 				$error->error_key     = get_class( $ex );
@@ -561,6 +582,7 @@ class ConstantContact_API {
 				$messages[]           = $error;
 
 				add_filter( 'constant_contact_force_logging', '__return_true' );
+				constant_contact_set_has_exceptions();
 
 				$this->log_errors( $messages );
 			}
@@ -714,6 +736,7 @@ class ConstantContact_API {
 						$contact->$key = $value;
 					} catch ( Exception $e ) {
 						$this->log_errors( $e->getErrors() );
+						constant_contact_set_has_exceptions();
 						break;
 					}
 
