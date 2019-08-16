@@ -75,6 +75,7 @@ class ConstantContact_Uninstall {
 			'widget_ctct_form',
 			'_ctct_api_key',
 			'ctct_token',
+			'ctct_exceptions_exist',
 			Constant_Contact::$activated_date_option,
 			ConstantContact_Notifications::$dismissed_notices_option,
 			ConstantContact_Notifications::$review_dismissed_option,
