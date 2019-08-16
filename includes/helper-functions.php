@@ -178,6 +178,19 @@ function constant_contact_maybe_display_review_notification() {
 }
 
 /**
+ * Handles the notice of if we have exceptions existing.
+ *
+ * @since 1.6.0
+ *
+ * @return bool
+ */
+function constant_contact_maybe_display_exceptions_notice() {
+	$maybe_has_error = get_option( 'ctct_exceptions_exist' );
+
+	return ( 'true' === $maybe_has_error );
+}
+
+/**
  * Handle the optin checkbox for the admin notice.
  *
  * @since 1.2.0
@@ -632,4 +645,15 @@ function constant_contact_privacy_policy_content() {
 	}
 
 	return '';
+}
+
+/**
+ * Set if we have an exception to deal with.
+ *
+ * @since 1.6.0
+ *
+ * @param string $status Status value to set
+ */
+function constant_contact_set_has_exceptions( $status = 'true' ) {
+	update_option( 'ctct_exceptions_exist', $status );
 }

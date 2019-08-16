@@ -169,6 +169,24 @@ class ConstantContact_Notification_Content {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Admin notice regarding thrown exceptions.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @return string
+	 */
+	public static function exceptions() {
+		return sprintf(
+			/* Translators: placeholders will be html `<a>` links. */
+			esc_html__( 'Constant Contact Forms has experienced issues that need addressed. Functionality may be missing. Please enable the "Support" checkbox in the %1$sConstant Contact settings%2$s and start a %3$sforum support thread%4$s. Our support team will aid with further steps.', 'constant-contact-forms' ),
+			sprintf( '<a href="%s">', esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings' ) ) ),
+			'</a>',
+			sprintf( '<a href="%s" target="_blank">', esc_url( 'https://wordpress.org/support/plugin/constant-contact-forms/' ) ),
+			'</a>'
+		);
+	}
+
 }
 
 /**
@@ -209,7 +227,6 @@ function constant_contact_add_optin_notification( $notifications = [] ) {
 
 	return $notifications;
 }
-
 add_filter( 'constant_contact_notifications', 'constant_contact_add_optin_notification' );
 
 /**
@@ -230,5 +247,25 @@ function constant_contact_add_review_notification( $notifications = [] ) {
 
 	return $notifications;
 }
-
 add_filter( 'constant_contact_notifications', 'constant_contact_add_review_notification' );
+
+/**
+ * Adds a notification that errors have occurred that need looked into.
+ *
+ * @since 1.6.0
+ *
+ * @param array $notifications Array of notifications pending to show.
+ * @return array Array of notifications to show.
+ */
+function constant_contact_exceptions_thrown( $notifications = [] ) {
+
+	$notifications[] = [
+		'ID'         => 'exceptions',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'exceptions' ],
+		'require_cb' => 'constant_contact_maybe_display_exceptions_notice',
+	];
+
+	return $notifications;
+}
+
+add_filter( 'constant_contact_notifications', 'constant_contact_exceptions_thrown' );
