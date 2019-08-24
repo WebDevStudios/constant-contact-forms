@@ -53,9 +53,9 @@ class ConstantContact_reCAPTCHA {
 	 *
 	 * @since NEXT
 	 *
-	 * @param \ReCaptcha\ReCaptcha $recaptcha Google reCAPTCHA instance.
+	 * @param \ReCaptcha\ReCaptcha|string $recaptcha Google reCAPTCHA instance.
 	 */
-	public function __construct( \ReCaptcha\ReCaptcha $recaptcha ) {
+	public function __construct( $recaptcha = '' ) {
 		$this->recaptcha = $recaptcha;
 	}
 
