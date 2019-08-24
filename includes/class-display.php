@@ -509,7 +509,8 @@ class ConstantContact_Display {
 	 */
 	public function build_recaptcha() {
 
-		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
+		$site_key   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
+		$secret_key = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
 
 		/**
 		 * Filters the language code to be used with Google reCAPTCHA.
@@ -522,15 +523,12 @@ class ConstantContact_Display {
 		 */
 		$recaptcha_lang = apply_filters( 'constant_contact_recaptcha_lang', 'en' );
 
+		$recaptcha = new ConstantContact_reCAPTCHA_v2( $site_key, $secret_key );
+		$recaptcha->set_language( $recaptcha_lang );
+
 		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
-		$return  = '<script>function ctctEnableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", false ); }function ctctDisableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", "disabled" ); }</script>';
-		$return .= sprintf(
-			'<div class="g-recaptcha" data-sitekey="%s" data-callback="%s" data-expired-callback="%s"></div><script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=%s"></script>',
-			esc_attr( $site_key ),
-			'ctctEnableBtn',
-			'ctctDisableBtn',
-			esc_attr( $recaptcha_lang )
-		);
+		$return  = $recaptcha->get_inline_script();
+		$return .= $recaptcha->get_inline_markup();
 		// phpcs:enable WordPress.WP.EnqueuedResources
 
 		return $return;
