@@ -93,11 +93,30 @@ class ConstantContact_reCAPTCHA {
 		return $site_key && $secret_key;
 	}
 
+	/**
+	 * Return an array of our site key pair.
+	 *
+	 * @since NEXT
+	 *
+	 * @return array
+	 */
 	public function get_recaptcha_keys() {
 		$keys               = [];
 		$keys['site_key']   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
 		$keys['secret_key'] = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
 
 		return $keys;
+	}
+
+	/**
+	 * Set our key properties.
+	 *
+	 * @since NEXT
+	 */
+	public function set_recaptcha_keys() {
+		$keys = $this->get_recaptcha_keys();
+
+		$this->site_key   = $keys['site_key'];
+		$this->secret_key = $keys['secret_key'];
 	}
 }
