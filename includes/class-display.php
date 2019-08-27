@@ -506,6 +506,8 @@ class ConstantContact_Display {
 	/**
 	 * Display a Google reCAPTCHA field.
 	 *
+	 * This method is dedicated for the version 2 "I am human" style.
+	 *
 	 * @since 1.2.4
 	 *
 	 * @return string
