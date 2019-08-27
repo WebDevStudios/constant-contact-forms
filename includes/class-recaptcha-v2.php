@@ -18,21 +18,6 @@
  */
 class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	/**
-	 * ConstantContact_reCAPTCHA_v2 constructor.
-	 *
-	 * @since NEXT
-	 *
-	 * @param string               $site_key   API v2 site key.
-	 * @param string               $secret_key API v2 secret key.
-	 * @param \ReCaptcha\ReCaptcha $recaptcha  reCAPTCHA object.
-	 */
-	public function __construct( $recaptcha = '' ) {
-		if ( $recaptcha ) {
-			parent::__construct( $recaptcha );
-		}
-	}
-
-	/**
 	 * Retrieve inline scripts for the reCAPTCHA form instance.
 	 *
 	 * @since NEXT
