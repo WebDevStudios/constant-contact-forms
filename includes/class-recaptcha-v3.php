@@ -1,6 +1,6 @@
 <?php
 /**
- * Google reCAPTCHA v2.
+ * Google reCAPTCHA v3.
  *
  * AKA "I am human" checkbox.
  *
@@ -12,7 +12,7 @@
  */
 
 /**
- * Class ConstantContact_reCAPTCHA_v2
+ * Class ConstantContact_reCAPTCHA_v3
  *
  * @since NEXT
  */
