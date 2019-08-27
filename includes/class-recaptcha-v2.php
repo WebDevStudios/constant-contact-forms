@@ -26,10 +26,7 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	 * @param string               $secret_key API v2 secret key.
 	 * @param \ReCaptcha\ReCaptcha $recaptcha  reCAPTCHA object.
 	 */
-	public function __construct( $site_key, $secret_key, $recaptcha = '' ) {
-		$this->site_key   = $site_key;
-		$this->secret_key = $secret_key;
-
+	public function __construct( $recaptcha = '' ) {
 		if ( $recaptcha ) {
 			parent::__construct( $recaptcha );
 		}
