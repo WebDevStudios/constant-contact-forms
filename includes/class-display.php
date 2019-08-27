@@ -342,7 +342,10 @@ class ConstantContact_Display {
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
 		if ( ! $disable_recaptcha && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
-			$return .= $this->build_recaptcha();
+			$recaptcha_version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );
+			if ( 'version3' !== $recaptcha_version ) {
+				$return .= $this->build_recaptcha();
+			}
 		}
 
 		$return .= $this->build_honeypot_field();
@@ -508,13 +511,7 @@ class ConstantContact_Display {
 	 * @return string
 	 */
 	public function build_recaptcha() {
-
-		$recaptcha_version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );
-		if ( 'version3' === $recaptcha_version ) {
-			$recaptcha = new ConstantContact_reCAPTCHA_v3();
-		} else {
-			$recaptcha = new ConstantContact_reCAPTCHA_v2();
-		}
+		$recaptcha = new ConstantContact_reCAPTCHA_v2();
 
 		$recaptcha->set_recaptcha_keys();
 
