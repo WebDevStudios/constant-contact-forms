@@ -306,7 +306,7 @@ class ConstantContact_Display {
 		$should_do_ajax           = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax                  = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$should_disable_recaptcha = get_post_meta( $form_id, '_ctct_disable_recaptcha', true );
-		$disable_recaptcha        = ( 'on' === $should_disable_recaptcha );
+		$disable_recaptcha        = 'on' === $should_disable_recaptcha;
 		$form_classes             = 'ctct-form ctct-form-' . $form_id;
 		$form_classes            .= ConstantContact_reCAPTCHA::has_recaptcha_keys() ? ' has-recaptcha' : ' no-recaptcha';
 		$form_classes            .= $this->build_custom_form_classes();
