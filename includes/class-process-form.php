@@ -197,14 +197,16 @@ class ConstantContact_Process_Form {
 		}
 
 		if ( isset( $data['g-recaptcha-response'] ) ) {
-			$secret = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
 			$method = null;
 			if ( ! ini_get( 'allow_url_fopen' ) ) {
 				$method = new \ReCaptcha\RequestMethod\CurlPost();
 			}
-			$recaptcha = new \ReCaptcha\ReCaptcha( $secret, $method );
+			$ctctrecaptcha = new ConstantContact_reCAPTCHA_v2();
+			$ctctrecaptcha->set_recaptcha_keys();
+			$keys = $ctctrecaptcha->get_recaptcha_keys();
+			$ctctrecaptcha->set_recaptcha_class( new \ReCaptcha\ReCaptcha( $keys['secret_key'], $method ) );
 
-			$resp = $recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
+			$resp = $ctctrecaptcha->recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
 
 			if ( ! $resp->isSuccess() ) {
 				constant_contact_maybe_log_it( 'reCAPTCHA', 'Failed to verify with Google reCAPTCHA', [ $resp->getErrorCodes() ] );
