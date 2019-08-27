@@ -49,13 +49,13 @@ class ConstantContact_reCAPTCHA {
 	public $recaptcha;
 
 	/**
-	 * ConstantContact_reCAPTCHA constructor.
+	 * Set our reCAPTCHA instance.
 	 *
 	 * @since NEXT
 	 *
 	 * @param \ReCaptcha\ReCaptcha|string $recaptcha Google reCAPTCHA instance.
 	 */
-	public function __construct( $recaptcha = '' ) {
+	public function set_recaptcha_class( $recaptcha = '' ) {
 		$this->recaptcha = $recaptcha;
 	}
 
