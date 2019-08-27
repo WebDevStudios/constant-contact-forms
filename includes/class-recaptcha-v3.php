@@ -17,7 +17,6 @@
  * @since NEXT
  */
 class ConstantContact_reCAPTCHA_v3 extends ConstantContact_reCAPTCHA {
-
 	/**
 	 * ConstantContact_reCAPTCHA_v2 constructor.
 	 *
