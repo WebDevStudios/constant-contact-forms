@@ -509,8 +509,14 @@ class ConstantContact_Display {
 	 */
 	public function build_recaptcha() {
 
-		$site_key   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
-		$secret_key = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
+		$recaptcha_version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );
+		if ( 'version3' === $recaptcha_version ) {
+			$recaptcha = new ConstantContact_reCAPTCHA_v3();
+		} else {
+			$recaptcha = new ConstantContact_reCAPTCHA_v2();
+		}
+
+		$recaptcha->set_recaptcha_keys();
 
 		/**
 		 * Filters the language code to be used with Google reCAPTCHA.
@@ -521,10 +527,7 @@ class ConstantContact_Display {
 		 *
 		 * @param string $value Language code to use. Default 'en'.
 		 */
-		$recaptcha_lang = apply_filters( 'constant_contact_recaptcha_lang', 'en' );
-
-		$recaptcha = new ConstantContact_reCAPTCHA_v2( $site_key, $secret_key );
-		$recaptcha->set_language( $recaptcha_lang );
+		$recaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', 'en' ) );
 
 		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
 		$return  = $recaptcha->get_inline_script();
