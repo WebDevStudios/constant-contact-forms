@@ -308,7 +308,7 @@ class ConstantContact_Display {
 		$should_disable_recaptcha = get_post_meta( $form_id, '_ctct_disable_recaptcha', true );
 		$disable_recaptcha        = ( 'on' === $should_disable_recaptcha );
 		$form_classes             = 'ctct-form ctct-form-' . $form_id;
-		$form_classes            .= $this->plugin->settings->has_recaptcha() ? ' has-recaptcha' : ' no-recaptcha';
+		$form_classes            .= ConstantContact_reCAPTCHA::has_recaptcha_keys() ? ' has-recaptcha' : ' no-recaptcha';
 		$form_classes            .= $this->build_custom_form_classes();
 
 		$form_styles = '';
@@ -341,7 +341,7 @@ class ConstantContact_Display {
 
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
-		if ( $this->plugin->settings->has_recaptcha() && ! $disable_recaptcha ) {
+		if ( ConstantContact_reCAPTCHA::has_recaptcha_keys() && ! $disable_recaptcha ) {
 			$return .= $this->build_recaptcha();
 		}
 

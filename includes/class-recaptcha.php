@@ -78,4 +78,26 @@ class ConstantContact_reCAPTCHA {
 	public function get_language() {
 		return $this->lang_code;
 	}
+
+	/**
+	 * Check if we have reCAPTCHA settings available to use with Google reCAPTCHA.
+	 *
+	 * @since 1.2.4
+	 *
+	 * @return bool
+	 */
+	public static function has_recaptcha_keys() {
+		$site_key   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
+		$secret_key = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
+
+		return $site_key && $secret_key;
+	}
+
+	public function get_recaptcha_keys() {
+		$keys               = [];
+		$keys['site_key']   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
+		$keys['secret_key'] = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
+
+		return $keys;
+	}
 }

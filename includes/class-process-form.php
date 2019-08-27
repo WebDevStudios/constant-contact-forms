@@ -215,7 +215,7 @@ class ConstantContact_Process_Form {
 			}
 		}
 
-		if ( empty( $data['g-recaptcha-response'] ) && $this->plugin->settings->has_recaptcha() ) {
+		if ( empty( $data['g-recaptcha-response'] ) && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
 			return [
 				'status' => 'named_error',
 				'error'  => $this->get_spam_message( $data['ctct-id'] ),
