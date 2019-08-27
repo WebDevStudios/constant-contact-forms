@@ -341,7 +341,7 @@ class ConstantContact_Display {
 
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
-		if ( ConstantContact_reCAPTCHA::has_recaptcha_keys() && ! $disable_recaptcha ) {
+		if ( ! $disable_recaptcha && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
 			$return .= $this->build_recaptcha();
 		}
 
