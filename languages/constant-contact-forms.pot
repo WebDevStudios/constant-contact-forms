@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 "Project-Id-Version: Constant Contact Forms for WordPress\n"
-"POT-Creation-Date: 2019-08-07 23:02-0500\n"
+"POT-Creation-Date: 2019-08-27 20:52-0500\n"
 "PO-Revision-Date: 2019-04-02 23:42-0500\n"
 "Last-Translator: \n"
 "Language-Team: \n"
@@ -321,15 +321,15 @@ msgstr ""
 msgid "move down"
 msgstr ""
 
-#: includes/class-api.php:578
+#: includes/class-api.php:600
 msgid "Contact type not returned"
 msgstr ""
 
-#: includes/class-api.php:601
+#: includes/class-api.php:623
 msgid "Not a valid contact to set properties to."
 msgstr ""
 
-#: includes/class-api.php:774
+#: includes/class-api.php:797
 msgid ""
 "Your API access token is invalid. Reconnect to Constant Contact to receive a "
 "new token."
@@ -887,7 +887,7 @@ msgstr ""
 msgid "Are you sure you want to disconnect?"
 msgstr ""
 
-#: includes/class-connect.php:169 includes/class-logging.php:196
+#: includes/class-connect.php:169 includes/class-logging.php:199
 #: includes/class-notification-content.php:111
 #: includes/class-notification-content.php:148 includes/class-optin.php:129
 #: includes/class-settings.php:726
@@ -1365,43 +1365,43 @@ msgstr ""
 msgid "Debug logs"
 msgstr ""
 
-#: includes/class-logging.php:207 includes/class-logging.php:216
+#: includes/class-logging.php:210 includes/class-logging.php:219
 #, php-format
 msgid "We are not able to write to the %s file."
 msgstr ""
 
-#: includes/class-logging.php:211
+#: includes/class-logging.php:214
 msgid "No error log exists"
 msgstr ""
 
-#: includes/class-logging.php:223
+#: includes/class-logging.php:226
 msgid ""
 "Error log below can be used with support requests to help identify issues "
 "with Constant Contact Forms."
 msgstr ""
 
-#: includes/class-logging.php:224
+#: includes/class-logging.php:227
 msgid ""
 "When available, you can share information by copying and pasting the content "
 "in the textarea, or by using the \"Download logs\" link at the end. Logs can "
 "be cleared by using the \"Delete logs\" link."
 msgstr ""
 
-#: includes/class-logging.php:231
+#: includes/class-logging.php:234
 msgid ""
 "Error log may still have content, even if an error is shown above. Please "
 "use the download link below."
 msgstr ""
 
-#: includes/class-logging.php:240
+#: includes/class-logging.php:243
 msgid "Download logs"
 msgstr ""
 
-#: includes/class-logging.php:248
+#: includes/class-logging.php:251
 msgid "Delete logs"
 msgstr ""
 
-#: includes/class-logging.php:308
+#: includes/class-logging.php:311
 #, php-format
 msgid "Log display error: %s"
 msgstr ""
@@ -1507,6 +1507,15 @@ msgstr ""
 
 #: includes/class-notification-content.php:163
 msgid "Leave a review"
+msgstr ""
+
+#: includes/class-notification-content.php:182
+#, php-format
+msgid ""
+"Constant Contact Forms has experienced issues that need addressed. "
+"Functionality may be missing. Please enable the \"Support\" checkbox in the "
+"%1$sConstant Contact settings%2$s and start a %3$sforum support thread%4$s. "
+"Our support team will aid with further steps."
 msgstr ""
 
 #: includes/class-notifications.php:403
