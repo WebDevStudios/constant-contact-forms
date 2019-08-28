@@ -6,6 +6,8 @@
  * @subpackage Check
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
@@ -21,8 +23,7 @@ class ConstantContact_Check {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
-
+	protected $plugin;
 
 	/**
 	 * Constructor.
@@ -43,22 +44,20 @@ class ConstantContact_Check {
 	 */
 	public function maybe_display_debug_info() {
 
-		// Make sure we have our query arg, we're an admin, and we can manage options.
-		if ( isset( $_GET['ctct-debug-server-check'] ) && is_admin() && current_user_can( 'manage_options' ) ) { // Input var okay.
+		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
+		if ( isset( $_GET['ctct-debug-server-check'] ) && is_admin() && current_user_can( 'manage_options' ) ) {
 			?>
-			<div class="ctct-server-requirements">
-				<h4><?php esc_attr_e( 'Server Check', 'constant-contact-forms' ); ?></h4>
-				<?php $this->display_server_checks(); ?>
+				<div class="ctct-server-requirements">
+					<h4><?php esc_attr_e( 'Server Check', 'constant-contact-forms' ); ?></h4>
 
-				<h4><?php esc_attr_e( 'Cron Check', 'constant-contact-forms' ); ?></h4>
+					<?php $this->display_server_checks(); ?>
 
-				<p><?php
-					// Check our cron status.
-					echo esc_html( $this->cron_spawn() ); ?>
-				</p>
-			</div>
+					<h4><?php esc_attr_e( 'Cron Check', 'constant-contact-forms' ); ?></h4>
+					<p><?php echo esc_html( $this->cron_spawn() ); ?></p>
+				</div>
 			<?php
 		}
+		// phpcs:enable WordPress.Security.NonceVerification
 	}
 
 	/**
@@ -98,11 +97,10 @@ class ConstantContact_Check {
 	 */
 	public function display_server_checks() {
 
-		// Get everything we should check.
 		$checks = $this->get_checks_to_make();
 
 		echo '<table class="ctct-server-check">';
-		// If we have a functions array.
+
 		if (
 			isset( $checks['functions'] ) &&
 			is_array( $checks['functions'] ) &&
@@ -113,7 +111,6 @@ class ConstantContact_Check {
 			}
 		}
 
-		// See if we have any classes we should check for.
 		if (
 			isset( $checks['classes'] ) &&
 			is_array( $checks['classes'] ) &&
@@ -125,7 +122,6 @@ class ConstantContact_Check {
 			}
 		}
 
-		// Check to see if we can load the encryption library.
 		$crypto = $this->plugin->connect->check_crypto_class();
 		echo '<tr><td>' . esc_attr__( 'Encrpytion Library: ', 'constant-contact-forms' ) . '</td><td>' . esc_attr( $this->exists_text( $crypto ) ) . '</td></tr>';
 
@@ -157,17 +153,25 @@ class ConstantContact_Check {
 		return '🚫';
 	}
 
+	/**
+	 * Commission a cron job to check on server status.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return string
+	 */
 	public function cron_spawn() {
+
 		global $wp_version;
 
 		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
-			// translators: placeholder will be a timestamp for the current time.
-			return sprintf( __( 'The DISABLE_WP_CRON constant is set to true as of %s. WP-Cron is disabled and will not run.', 'constant-contact-forms' ), current_time( 'm/d/Y g:i:s a' ) ); // Both uses of current_time like this are valid.
+			/* Translators: Placeholder will be a timestamp for the current time. */
+			return sprintf( esc_html__( 'The DISABLE_WP_CRON constant is set to true as of %1$s. WP-Cron is disabled and will not run.', 'constant-contact-forms' ), current_time( 'm/d/Y g:i:s a' ) );
 		}
 
 		if ( defined( 'ALTERNATE_WP_CRON' ) && ALTERNATE_WP_CRON ) {
-			// translators: placeholder will be a timestamp for the current time.
-			return sprintf( __( 'The ALTERNATE_WP_CRON constant is set to true as of %s.  This plugin cannot determine the status of your WP-Cron system.', 'constant-contact-forms' ), current_time( 'm/d/Y g:i:s a' ) );
+			/* Translators: Placeholder will be a timestamp for the current time. */
+			return sprintf( esc_html__( 'The ALTERNATE_WP_CRON constant is set to true as of %1$s. This plugin cannot determine the status of your WP-Cron system.', 'constant-contact-forms' ), current_time( 'm/d/Y g:i:s a' ) );
 		}
 
 		$sslverify     = version_compare( $wp_version, 4.0, '<' );
@@ -185,18 +189,21 @@ class ConstantContact_Check {
 
 		$cron_request['args']['blocking'] = true;
 
-		$result = wp_remote_post( $cron_request['url'], $cron_request['args'] );
+		$result        = wp_remote_post( $cron_request['url'], $cron_request['args'] );
+		$response_code = wp_remote_retrieve_response_code( $result );
 
 		if ( is_wp_error( $result ) ) {
 			return $result->get_error_message();
-		} elseif ( wp_remote_retrieve_response_code( $result ) >= 300 ) {
+		}
+
+		if ( 300 <= $response_code ) {
 			return sprintf(
-				// translators: placeholder iwll have an HTTP response code value.
-				__( 'Unexpected HTTP response code: %s', 'constant-contact-forms' ),
-				intval( wp_remote_retrieve_response_code( $result ) )
+				/* Translators: Placeholder will be an HTTP response code. */
+				esc_html__( 'Unexpected HTTP response code: %1$s', 'constant-contact-forms' ),
+				(int) $response_code
 			);
 		}
 
-		return __( 'Cron spawn ok', 'constant-contact-forms' );
+		return esc_html__( 'Cron spawn ok', 'constant-contact-forms' );
 	}
 }

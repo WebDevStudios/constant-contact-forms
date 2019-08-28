@@ -6,6 +6,8 @@
  * @subpackage Gutenberg
  * @author Constant Contact
  * @since 1.5.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
@@ -21,7 +23,7 @@ class ConstantContact_Gutenberg {
 	 * @since 1.5.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.
@@ -48,7 +50,6 @@ class ConstantContact_Gutenberg {
 	private function meets_requirements() {
 		global $wp_version;
 
-		// Gutenberg is part of core as of WP Version 5.0.
 		return version_compare( $wp_version, '5.0.0' ) >= 0;
 	}
 

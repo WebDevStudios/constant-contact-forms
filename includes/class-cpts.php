@@ -6,6 +6,8 @@
  * @subpackage CPTS
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
@@ -23,7 +25,7 @@ class ConstantContact_CPTS {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.
@@ -163,7 +165,6 @@ class ConstantContact_CPTS {
 			'capability_type'     => 'page',
 		];
 
-		// Only register if we're connected.
 		if ( constantcontact_api()->is_connected() ) {
 			register_post_type( 'ctct_lists', $args );
 		}
@@ -187,7 +188,7 @@ class ConstantContact_CPTS {
 			2  => __( 'Custom field updated.', 'constant-contact-forms' ),
 			3  => __( 'Custom field deleted.', 'constant-contact-forms' ),
 			4  => __( 'List updated.', 'constant-contact-forms' ),
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'List restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // Input var okay.
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'List restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 			6  => __( 'List published.', 'constant-contact-forms' ),
 			7  => __( 'List saved.', 'constant-contact-forms' ),
 			8  => __( 'List submitted.', 'constant-contact-forms' ),
@@ -202,7 +203,7 @@ class ConstantContact_CPTS {
 			2  => __( 'Custom field updated.', 'constant-contact-forms' ),
 			3  => __( 'Custom field deleted.', 'constant-contact-forms' ),
 			4  => __( 'Form updated.', 'constant-contact-forms' ),
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false, // Input var okay.
+			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
 			6  => sprintf( __( "Success! Here's the shortcode: %s. Just paste it into a post or page editor to publish", 'constant-contact-forms' ), '<strong>' . constant_contact_display_shortcode( $post->ID ) . '</strong>' ),
 			7  => __( 'Form saved.', 'constant-contact-forms' ),
 			8  => __( 'Form submitted.', 'constant-contact-forms' ),
@@ -233,7 +234,6 @@ class ConstantContact_CPTS {
 			return $title;
 		}
 
-		// If we're on our forms post type.
 		if ( 'ctct_forms' === $post->post_type ) {
 			$title = sprintf(
 				'%s <span class="ctct-admin-title-details">%s</span>',
@@ -259,7 +259,7 @@ class ConstantContact_CPTS {
 	 */
 	public function get_forms( $expanded_data = false, $bust_cache = false ) {
 
-		$forms = get_transient( 'constant_contact_shortcode_form_list' );
+		$forms = get_transient( ConstantContact_Shortcode::FORMS_LIST_TRANSIENT );
 
 		/**
 		 * Filters whether or not to bypass transient checks.
@@ -270,10 +270,8 @@ class ConstantContact_CPTS {
 		 */
 		$bypass_forms = apply_filters( 'constant_contact_bypass_shotcode_forms', false );
 
-		// If we dont have a transient or we bypass, go through the motions.
 		if ( false === $forms || $bypass_forms || $bust_cache ) {
 
-			// Get all our forms that we have.
 			$query = new WP_Query( [
 				'post_status'            => 'publish',
 				'post_type'              => 'ctct_forms',
@@ -283,13 +281,10 @@ class ConstantContact_CPTS {
 
 			$q_forms = $query->get_posts();
 
-			// If for some reason we got an error, just return a blank array.
 			if ( is_wp_error( $q_forms ) && ! is_array( $q_forms ) ) {
 				return [];
 			}
 
-			// If we're not using this for the shortcode in the admin, just return
-			// the IDs of our forms.
 			if ( ! $expanded_data ) {
 				return $q_forms;
 			}
@@ -298,21 +293,15 @@ class ConstantContact_CPTS {
 
 			foreach ( $q_forms as $form ) {
 
-				// Make sure we have the data we want to use.
 				if (
 					isset( $form->ID ) &&
 					$form->ID &&
 					isset( $form->post_title ) &&
 					isset( $form->post_modified )
 				) {
-
-					// Get our title.
-					$title = ( $form->post_title ) ? $form->post_title : __( 'No title', 'constant-contact-forms' );
-
-					// Get the last modified time in human text.
+					$title         = $form->post_title ?: __( 'No title', 'constant-contact-forms' );
 					$last_modified = human_time_diff( strtotime( $form->post_modified ), current_time( 'timestamp' ) );
 
-					// Build up our title for the shortcode form admin.
 					$title = sprintf(
 						// translators: Placeholders will be form title and then last modified date.
 						esc_html__( '%1$s (last modified %2$s ago)', 'constant-contact-forms' ),
@@ -320,13 +309,12 @@ class ConstantContact_CPTS {
 						$last_modified
 					);
 
-					// Clean that data before we use it.
 					$forms[ absint( $form->ID ) ] = $title;
 				}
 			}
 
-			set_transient( 'constant_contact_shortcode_form_list', $forms, 1 * HOUR_IN_SECONDS );
-		} // End if.
+			set_transient( ConstantContact_Shortcode::FORMS_LIST_TRANSIENT, $forms, 1 * HOUR_IN_SECONDS );
+		}
 
 		return $forms;
 	}

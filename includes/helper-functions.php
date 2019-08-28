@@ -5,6 +5,8 @@
  * @package ConstantContact
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 use Monolog\Logger;
@@ -18,7 +20,7 @@ use Monolog\Handler\StreamHandler;
  * @return boolean Whether or not they are connected.
  */
 function constant_contact_is_connected() {
-	return ( constant_contact()->api->is_connected() );
+	return constant_contact()->api->is_connected();
 }
 
 /**
@@ -29,7 +31,7 @@ function constant_contact_is_connected() {
  * @return boolean Whether or not they are NOT connected.
  */
 function constant_contact_is_not_connected() {
-	return ! ( constant_contact()->api->is_connected() );
+	return ! constant_contact()->api->is_connected();
 }
 
 /**
@@ -94,6 +96,7 @@ function constant_contact_maybe_display_optin_notification() {
 	}
 
 	$current_screen = get_current_screen();
+
 	if ( ! is_object( $current_screen ) || 'dashboard' !== $current_screen->base ) {
 		return false;
 	}
@@ -102,7 +105,12 @@ function constant_contact_maybe_display_optin_notification() {
 		return false;
 	}
 
-	$privacy = get_option( 'ctct_privacy_policy_status', '' );
+	$privacy       = get_option( 'ctct_privacy_policy_status', '' );
+	$ctct_settings = get_option( 'ctct_options_settings', [] );
+
+	if ( isset( $ctct_settings['_ctct_data_tracking'] ) && 'on' === $ctct_settings['_ctct_data_tracking'] ) {
+		return false;
+	}
 
 	if ( '' !== $privacy ) {
 		return false;
@@ -128,21 +136,25 @@ function constant_contact_maybe_display_review_notification() {
 		return false;
 	}
 
-	if ( 'true' === get_option( 'ctct-reviewed', 'false' ) ) {
+	if ( 'true' === get_option( ConstantContact_Notifications::$reviewed_option, 'false' ) ) {
 		return false;
 	}
 
-	// @todo date_diff() comparisons.
-	//
-	$dismissed = get_option( 'ctct-review-dismissed', [] );
+	$activated_time = get_option( Constant_Contact::$activated_date_option );
+
+	if ( ! $activated_time || time() < strtotime( '+14 days', $activated_time ) ) {
+		return false;
+	}
+
+	$dismissed = get_option( ConstantContact_Notifications::$review_dismissed_option, [] );
+
 	if ( isset( $dismissed['count'] ) && '1' === $dismissed['count'] ) {
 		$fourteen_days = strtotime( '-14 days' );
-		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $fourteen_days
-		) {
+
+		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $fourteen_days ) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	if ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
@@ -150,9 +162,8 @@ function constant_contact_maybe_display_review_notification() {
 		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $thirty_days
 		) {
 			return true;
-		} else {
-			return false;
 		}
+		return false;
 	}
 
 	if ( isset( $dismissed['count'] ) && '3' === $dismissed['count'] ) {
@@ -167,14 +178,16 @@ function constant_contact_maybe_display_review_notification() {
 }
 
 /**
- * Whether or not to show our reCAPTCHA info notice. Should only show
+ * Handles the notice of if we have exceptions existing.
  *
- * @since 1.2.4
+ * @since 1.6.0
  *
  * @return bool
  */
-function constant_contact_maybe_display_reCAPTCHA_notification() {
-	return true;
+function constant_contact_maybe_display_exceptions_notice() {
+	$maybe_has_error = get_option( 'ctct_exceptions_exist' );
+
+	return ( 'true' === $maybe_has_error );
 }
 
 /**
@@ -184,14 +197,14 @@ function constant_contact_maybe_display_reCAPTCHA_notification() {
  */
 function constant_contact_optin_ajax_handler() {
 
-	$response = $_REQUEST;
+	$optin = filter_var( $_REQUEST['optin'], FILTER_SANITIZE_STRING );
 
-	if ( ! isset( $response['optin'] ) || 'on' !== $response['optin'] ) {
+	if ( 'on' !== $optin ) {
 		wp_send_json_success( [ 'opted-in' => 'off' ] );
 	}
 
 	$options                        = get_option( constant_contact()->settings->key );
-	$options['_ctct_data_tracking'] = $response['optin'];
+	$options['_ctct_data_tracking'] = $optin;
 	update_option( constant_contact()->settings->key, $options );
 
 	wp_send_json_success( [ 'opted-in' => 'on' ] );
@@ -206,8 +219,7 @@ add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_opt
  */
 function constant_contact_privacy_ajax_handler() {
 
-	$response = $_REQUEST;
-	$agreed   = sanitize_text_field( $response['privacy_agree'] );
+	$agreed = filter_var( $_REQUEST['privacy_agree'], FILTER_SANITIZE_STRING );
 	update_option( 'ctct_privacy_policy_status', $agreed );
 
 	wp_send_json_success( [ 'updated' => 'true' ] );
@@ -222,12 +234,14 @@ add_action( 'wp_ajax_constant_contact_privacy_ajax_handler', 'constant_contact_p
  */
 function constant_contact_review_ajax_handler() {
 
+	//  phpcs:disable WordPress.Security.NonceVerification -- OK accessing of $_REQUEST.
 	if ( isset( $_REQUEST['ctct-review-action'] ) ) {
 		$action = strtolower( sanitize_text_field( $_REQUEST['ctct-review-action'] ) );
+		// phpcs:enable WordPress.Security.NonceVerification
 
 		switch ( $action ) {
 			case 'dismissed':
-				$dismissed         = get_option( 'ctct-review-dismissed', [] );
+				$dismissed         = get_option( ConstantContact_Notifications::$review_dismissed_option, [] );
 				$dismissed['time'] = current_time( 'timestamp' );
 				if ( empty( $dismissed['count'] ) ) {
 					$dismissed['count'] = '1';
@@ -236,12 +250,12 @@ function constant_contact_review_ajax_handler() {
 				} else {
 					$dismissed['count'] = '2';
 				}
-				update_option( 'ctct-review-dismissed', $dismissed );
+				update_option( ConstantContact_Notifications::$review_dismissed_option, $dismissed );
 
 				break;
 
 			case 'reviewed':
-				update_option( 'ctct-reviewed', 'true' );
+				update_option( ConstantContact_Notifications::$reviewed_option, 'true' );
 				break;
 
 			default:
@@ -259,14 +273,19 @@ add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_re
  *
  * @since 1.2.3
  *
+ * @throws Exception
+ *
  * @return bool|array
  */
 function ctct_custom_form_action_processing() {
-	if ( empty( $_POST ) || ! isset( $_POST['ctct-id'] ) ) {
+
+	$ctct_id = filter_input( INPUT_POST, 'ctct-id', FILTER_VALIDATE_INT );
+
+	if ( false === $ctct_id ) {
 		return false;
 	}
-	// Only run this if we have a custom action being filtered in.
-	if ( ! constant_contact_has_redirect_uri( absint( $_POST['ctct-id'] ) ) ) {
+
+	if ( ! constant_contact_has_redirect_uri( $ctct_id ) ) {
 		return false;
 	}
 
@@ -288,7 +307,7 @@ function ctct_has_forms() {
 		'posts_per_page' => 1,
 	];
 	$forms = new WP_Query( $args );
-	return ( $forms->have_posts() );
+	return $forms->have_posts();
 }
 
 /**
@@ -345,12 +364,11 @@ add_filter( 'constant_contact_maybe_spam', 'constant_contact_check_timestamps', 
  * @return string
  */
 function constant_contact_clean_url( $url = '' ) {
-	// Reject and return untouched if not provided a string.
 	if ( ! is_string( $url ) ) {
 		return $url;
 	}
 
-	/* @todo Consideration: non-ssl based external websites. Just cause the user's site may be SSL, doesn't mean redirect url wi for sure be. Perhaps add check for home_url as part of consideration. */
+	/* @todo Consideration: non-ssl based external websites. Just cause the user's site may be SSL, doesn't mean redirect url will for sure be. Perhaps add check for home_url as part of consideration. */
 	$clean_url = esc_url( $url );
 	if ( is_ssl() && 'http' === wp_parse_url( $clean_url, PHP_URL_SCHEME ) ) {
 		$clean_url = str_replace( 'http', 'https', $clean_url );
@@ -368,6 +386,9 @@ function constant_contact_clean_url( $url = '' ) {
 function constant_contact_debugging_enabled() {
 	$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
 
+	if ( apply_filters( 'constant_contact_force_logging', false ) ) {
+		$debugging_enabled = 'on';
+	}
 	return (
 		( defined( 'CONSTANT_CONTACT_DEBUG_MAIL' ) && CONSTANT_CONTACT_DEBUG_MAIL ) ||
 		'on' === $debugging_enabled
@@ -402,7 +423,6 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 	if ( $extra_data ) {
 		$extra = [ 'Extra information', [ $extra_data ] ];
 	}
-	// Log status of error.
 	$logger->addInfo( $error, $extra );
 }
 
@@ -421,7 +441,6 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
  */
 function constant_contact_akismet( $is_spam, $data ) {
 
-	// Bail out, If spam.
 	if ( $is_spam ) {
 		return $is_spam;
 	}
@@ -447,12 +466,10 @@ function constant_contact_akismet( $is_spam, $data ) {
 		$name .= ' ' . $lname;
 	}
 
-	// Bail out, if Akismet key not exist.
 	if ( ! constant_contact_check_akismet_key() ) {
 		return $is_spam;
 	}
 
-	// Build args array.
 	$args = [];
 
 	$args['comment_author']       = $name;
@@ -473,7 +490,6 @@ function constant_contact_akismet( $is_spam, $data ) {
 		}
 	}
 
-	// It will return Akismet spam detect API response.
 	$is_spam = constant_contact_akismet_spam_check( $args );
 
 	return $is_spam;
@@ -539,16 +555,13 @@ function constant_contact_akismet_spam_check( $args ) {
  */
 function constant_contact_emails_disabled( $form_id = 0 ) {
 
-	// Assume we can.
 	$disabled = false;
 
-	// Check for a setting for the form itself.
 	$form_disabled = get_post_meta( $form_id, '_ctct_disable_emails_for_form', true );
 	if ( 'on' === $form_disabled ) {
 		$disabled = true;
 	}
 
-	// Check for our global setting.
 	$global_form_disabled = ctct_get_settings_option( '_ctct_disable_email_notifications', '' );
 	if ( 'on' === $global_form_disabled ) {
 		$disabled = true;
@@ -610,7 +623,7 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
 
 	$global_setting = ctct_get_settings_option( $customization_key );
 
-	return ( ! empty( $global_setting ) ) ? $global_setting : '';
+	return ! empty( $global_setting ) ? $global_setting : '';
 }
 
 /**
@@ -635,21 +648,12 @@ function constant_contact_privacy_policy_content() {
 }
 
 /**
- * Potentially output a message about not having any forms yet, in our TinyMCE modal.
+ * Set if we have an exception to deal with.
  *
- * @since 1.5.1
+ * @since 1.6.0
  *
- * @param string $object_id Current edited object ID. Options page in our case.
- * @param CMB2   $cmb2      CMB2 instance.
+ * @param string $status Status value to set
  */
-function constant_contact_tinymce_no_forms_message( $object_id, $cmb2 ) {
-	$forms = constant_contact()->cpts->get_forms( true );
-	if ( empty( $forms ) ) {
-		printf(
-			// translators: placeholder will store url for forms list page.
-			__( '<p>No forms available. Visit your <a href="%s">forms list</a> to create one.</p>', 'constant-contact-forms' ),
-			esc_url( admin_url( 'edit.php?post_type=ctct_forms' ) )
-		);
-	}
+function constant_contact_set_has_exceptions( $status = 'true' ) {
+	update_option( 'ctct_exceptions_exist', $status );
 }
-add_action( 'cmb2_before_options-page_form_shortcode_ctct', 'constant_contact_tinymce_no_forms_message', 10, 2 );

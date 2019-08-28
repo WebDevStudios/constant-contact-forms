@@ -6,6 +6,8 @@
  * @subpackage AuthRedirect
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
@@ -21,7 +23,7 @@ class ConstantContact_Auth_Redirect {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.
@@ -80,8 +82,6 @@ class ConstantContact_Auth_Redirect {
 			isset( $wp_query->query_vars['username'] ) &&
 			'ctct' === $wp_query->query_vars['auth']
 		) {
-
-			// Create a redirect back to connect page.
 			wp_safe_redirect( add_query_arg( [
 				'post_type' => 'ctct_forms',
 				'page'      => 'ctct_options_connect',

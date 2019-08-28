@@ -12,21 +12,15 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.5.3
+ * Version:     1.6.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
  * Text Domain: constant-contact-forms
  * Domain Path: /languages
- */
-
-/**
- * Looking to extend this plugin at all? There are a series of helper
- * functions in includes/helper-functions.php for you to use. There are also
- * filters throughout the plugin, to customize most areas.
- */
-
-/**
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
+ *
  * Copyright (c) 2016 Constant Contact (email : legal@constantcontact.com)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -78,7 +72,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.5.3';
+	const VERSION = '1.6.0';
 
 	/**
 	 * URL of plugin directory.
@@ -142,7 +136,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var Constant_Contact
 	 */
-	protected static $single_instance = null;
+	protected static $single_instance;
 
 	/**
 	 * An instance of the ConstantContact_API Class.
@@ -329,20 +323,21 @@ class Constant_Contact {
 	private $shortcode;
 
 	/**
-	 * An instance of the ConstantContact_Shortcode_Admin class.
-	 *
-	 * @since 1.0.1
-	 * @var ConstantContact_Shortcode_Admin
-	 */
-	private $shortcode_admin;
-
-	/**
 	 * An instance of the ConstantContact_Gutenberg class.
 	 *
 	 * @since 1.5.0
 	 * @var ConstantContact_Gutenberg
 	 */
 	private $gutenberg;
+
+	/**
+	 * Option name for where we store the timestamp of when the plugin was activated.
+	 *
+	 * @since 1.6.0
+	 *
+	 * @var string
+	 */
+	public static $activated_date_option = 'ctct_plugin_activated_date';
 
 	/**
 	 * License file.
@@ -371,13 +366,11 @@ class Constant_Contact {
 	 * Sets up our plugin.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return null
 	 */
 	protected function __construct() {
 
 		// Set up our plugin name.
-		$this->plugin_name = __( 'Constant Contact', 'constant-contact-forms' );
+		$this->plugin_name = esc_html__( 'Constant Contact', 'constant-contact-forms' );
 
 		// Set up some helper properties.
 		$this->basename        = plugin_basename( __FILE__ );
@@ -422,6 +415,7 @@ class Constant_Contact {
 		$this->check                = new ConstantContact_Check( $this );
 		$this->cpts                 = new ConstantContact_CPTS( $this );
 		$this->display              = new ConstantContact_Display( $this );
+		$this->shortcode            = new ConstantContact_Shortcode( $this );
 		$this->display_shortcode    = new ConstantContact_Display_Shortcode( $this );
 		$this->lists                = new ConstantContact_Lists( $this );
 		$this->process_form         = new ConstantContact_Process_Form( $this );
@@ -453,39 +447,34 @@ class Constant_Contact {
 	 * Add hooks and filters.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return null
 	 */
 	public function hooks() {
-
 		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
 			return;
 		}
-		// Hook in our older includes and our init method.
+
 		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'init', array( $this, 'includes' ), 5 );
 		add_action( 'widgets_init', array( $this, 'widgets' ) );
 		add_filter( 'body_class', array( $this, 'body_classes' ) );
+
 		$this->load_libs();
 
-		// Our vendor files will do a check for ISSSL, so we want to set it to be that.
-		// See Guzzle for more info and usage of this.
+		// Our vendor files will do a check for ISSSL, so we want to set it to be that. See Guzzle for more info and usage of this.
 		if ( is_ssl() || ! defined( 'ISSSL' ) ) {
 			define( 'ISSSL', true );
 		}
 
-		// Allow shortcodes in widgets for our plugin.
 		add_filter( 'widget_text', 'do_shortcode' );
-
-		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_assets' ), 1 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_front_assets' ), 1 );
+		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_assets' ], 1 );
+		add_action( 'wp_enqueue_scripts', [ $this, 'register_front_assets' ], 1 );
+		add_action( 'init', [ $this->shortcode, 'register_shortcode' ] );
+		add_action( 'save_post', [ $this->shortcode, 'clear_forms_list_transient' ] );
 
 		if ( is_admin() ) {
-			add_action( 'wp_ajax_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
-			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', array( $this, 'ajax_save_clear_first_form' ) );
+			add_action( 'wp_ajax_ctct_dismiss_first_modal', [ $this, 'ajax_save_clear_first_form' ] );
+			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', [ $this, 'ajax_save_clear_first_form' ] );
 		}
-
 	}
 
 	/**
@@ -493,24 +482,34 @@ class Constant_Contact {
 	 *
 	 * @since 1.0.0
 	 */
-	public function activate() { }
+	public function activate() {
+		update_option( self::$activated_date_option, time() );
+	}
 
 	/**
-	 * Deactivate the plugin.
+	 * Deactivate the plugin, refresh some notification dismissals.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function deactivate() {
 
-		// Should be nothing to delete for non-met users, since it never ran in the first place.
-		if ( $this->meets_php_requirements() ) {
-			// If we deactivate the plugin, remove our saved dismiss state for the activation
-			// admin notice that pops up, so we can re-prompt the user to connect.
-			$this->notifications->delete_dismissed_notification( 'activation' );
-
-			// Remove our saved transients for our lists, so we force a refresh on re-connection.
-			delete_transient( 'ctct_lists' );
+		if ( ! $this->meets_php_requirements() ) {
+			return;
 		}
+
+		$this->notifications->delete_dismissed_notification( 'activation' );
+	}
+
+	/**
+	 * Delete a number of transients and database options on uninstall.
+	 *
+	 * @since 1.6.0
+	 */
+	public function uninstall() {
+		$uninstaller = new ConstantContact_Uninstall();
+		$uninstaller->run();
 	}
 
 	/**
@@ -521,7 +520,7 @@ class Constant_Contact {
 	 * @return bool
 	 */
 	public function meets_php_requirements() {
-		return ( version_compare( PHP_VERSION, '5.4.0', '>=' ) );
+		return version_compare( PHP_VERSION, '5.4.0', '>=' );
 	}
 
 	/**
@@ -530,7 +529,6 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		// Load our textdomain.
 		load_plugin_textdomain( 'constant-contact-forms', false, dirname( $this->basename ) . '/languages/' );
 	}
 
@@ -544,42 +542,7 @@ class Constant_Contact {
 		// Load what we can, automagically.
 		require_once $this->dir( 'vendor/autoload.php' );
 
-		require_once( $this->dir( 'vendor/cmb2/cmb2/init.php' ) );
-	}
-
-	/**
-	 * Load includes.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return null
-	 */
-	public function includes() {
-
-		// Only load this if we have the WDS Shortcodes class.
-		if ( class_exists( 'WDS_Shortcodes' ) ) {
-
-			if ( $this->is_ctct_editor_screen() ) {
-				return;
-			}
-			// Set up our base WDS_Shortcodes class.
-			$this->shortcode = new ConstantContact_Shortcode();
-			$this->shortcode->hooks();
-			$this->shortcode->atts_defaults = [
-				'form'       => '0',
-				'show_title' => 'false',
-			];
-
-			// Set our custom shortcode with correct version and data.
-			$this->shortcode_admin = new ConstantContact_Shortcode_Admin(
-				$this->shortcode->shortcode,
-				self::VERSION,
-				$this->shortcode->atts_defaults
-			);
-
-			$this->shortcode_admin->hooks();
-		}
-
+		require_once $this->dir( 'vendor/cmb2/cmb2/init.php' );
 	}
 
 	/**
@@ -599,10 +562,11 @@ class Constant_Contact {
 	 */
 	public function ajax_save_clear_first_form() {
 
-		if ( isset( $_POST['action'] ) && 'ctct_dismiss_first_modal' === $_POST['action'] ) {
+		if ( 'ctct_dismiss_first_modal' === filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING ) ) {
 			// Save our dismiss for the first form modal.
 			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) );
 		}
+
 		wp_die();
 	}
 
@@ -630,10 +594,13 @@ class Constant_Contact {
 			case 'connect':
 			case 'check':
 			case 'cpts':
+			case 'customizations':
 			case 'display':
 			case 'display_shortcode':
+			case 'gutenberg':
 			case 'lists':
 			case 'logging':
+			case 'optin':
 			case 'path':
 			case 'plugin_name':
 			case 'process_form':
@@ -645,7 +612,6 @@ class Constant_Contact {
 			case 'authserver':
 			case 'updates':
 			case 'shortcode':
-			case 'shortcode_admin':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
@@ -673,7 +639,7 @@ class Constant_Contact {
 
 		// If its there, include it.
 		if ( file_exists( $file ) ) {
-			return include_once( $file );
+			return include_once $file;
 		}
 
 		// Wasn't there.
@@ -690,7 +656,7 @@ class Constant_Contact {
 	 */
 	public static function dir( $path = '' ) {
 		static $dir;
-		$dir = $dir ? $dir : trailingslashit( dirname( __FILE__ ) );
+		$dir = $dir ? $dir : trailingslashit( __DIR__ );
 		return $dir . $path;
 	}
 
@@ -716,14 +682,14 @@ class Constant_Contact {
 	 * @return string License text.
 	 */
 	public function get_license_text() {
-		$license = $this->url( self::LICENSE_FILE );
+		$license         = self::url( self::LICENSE_FILE );
 		$license_content = wp_remote_get( $license );
 
 		if ( 200 === wp_remote_retrieve_response_code( $license_content ) ) {
 			return wp_remote_retrieve_body( $license_content );
 		}
 
-		return __( 'Error loading license.', 'constant-contact-forms' );
+		return esc_html__( 'Error loading license.', 'constant-contact-forms' );
 	}
 
 	/**
@@ -736,17 +702,11 @@ class Constant_Contact {
 	 */
 	public function is_ctct_editor_screen( $post_id = 0 ) {
 
-		if ( empty( $post_id ) ) {
-			if ( ! empty( $_GET ) && isset( $_GET['post'] ) ) {
-				$post_id = absint( $_GET['post'] );
-			}
+		if ( 0 === $post_id ) {
+			$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 		}
 
-		if ( empty( $_GET ) ) {
-			return false;
-		}
-
-		if ( isset( $_GET['post_type'] ) && 'ctct_forms' === (string) $_GET['post_type'] ) {
+		if ( 'ctct_forms' === filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING ) ) {
 			return true;
 		}
 
@@ -778,10 +738,11 @@ class Constant_Contact {
 	 * @since 1.4.0
 	 */
 	public function register_admin_assets() {
+
 		wp_register_style(
 			'constant-contact-forms-admin',
-			$this->url() . 'assets/css/admin-style.css',
-			array(),
+			self::url() . 'assets/css/admin-style.css',
+			[],
 			self::VERSION
 		);
 	}
@@ -794,8 +755,8 @@ class Constant_Contact {
 	public function register_front_assets() {
 		wp_register_style(
 			'ctct_form_styles',
-			$this->url() . 'assets/css/style.css',
-			array(),
+			self::url() . 'assets/css/style.css',
+			[],
 			self::VERSION
 		);
 	}
@@ -812,40 +773,30 @@ class Constant_Contact {
 			return false;
 		}
 
-		if ( ! is_admin() || empty( $_GET ) ) {
+		if ( ! is_admin() ) {
 			return false;
 		}
 
-		$ctct_types = array( 'ctct_forms', 'ctct_lists' );
-		if (
-			isset( $_GET['post_type'] ) &&
-			in_array(
-				$_GET['post_type'],
-				$ctct_types,
-				true
-			)
-		) {
+		$ctct_types = [ 'ctct_forms', 'ctct_lists' ];
+		$post_type  = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+		$post       = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
+
+		if ( in_array( $post_type, $ctct_types, true ) ) {
 			return true;
 		}
 
-		if (
-			isset( $_GET['post'] ) &&
-			in_array(
-				get_post_type( $_GET['post'] ),
-				$ctct_types,
-				true
-			)
-		) {
+		if ( in_array( get_post_type( $post ), $ctct_types, true ) ) {
 			return true;
 		}
 
 		return false;
 	}
 }
-add_action( 'plugins_loaded', array( constant_contact(), 'hooks' ) );
+add_action( 'plugins_loaded', [ constant_contact(), 'hooks' ] );
 
-register_activation_hook( __FILE__, array( constant_contact(), 'activate' ) );
-register_deactivation_hook( __FILE__, array( constant_contact(), 'deactivate' ) );
+register_activation_hook( __FILE__, [ constant_contact(), 'activate' ] );
+register_deactivation_hook( __FILE__, [ constant_contact(), 'deactivate' ] );
+register_uninstall_hook( __FILE__, 'constant_contact_uninstall' );
 
 /**
  * Grab the Constant_Contact object and return it.
@@ -857,6 +808,16 @@ register_deactivation_hook( __FILE__, array( constant_contact(), 'deactivate' ) 
  */
 function constant_contact() {
 	return Constant_Contact::get_instance();
+}
+
+/**
+ * Callback for the uninstall hook.
+ *
+ * @since 1.6.0
+ */
+function constant_contact_uninstall() {
+	$instance = Constant_Contact::get_instance();
+	$instance->uninstall();
 }
 
 /**

@@ -6,13 +6,14 @@
  * @subpackage Optin
  * @author Constant Contact
  * @since 1.2.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tags in docblocks.
  */
 
-// Exit if accessed directly
+// Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
-
 
 /**
  * Optin for usage tracking.
@@ -83,7 +84,7 @@ class ConstantContact_Optin {
 		$can_track = false;
 
 		$options = get_option( constant_contact()->settings->key );
-		$optin   = ( isset( $options['_ctct_data_tracking'] ) ) ? $options['_ctct_data_tracking'] : '';
+		$optin   = isset( $options['_ctct_data_tracking'] ) ? $options['_ctct_data_tracking'] : '';
 		$privacy = get_option( 'ctct_privacy_policy_status', '' );
 
 		if ( 'on' === $optin && 'true' === $privacy ) {
@@ -101,10 +102,7 @@ class ConstantContact_Optin {
 	 */
 	public function privacy_policy_status() {
 		$status = get_option( 'ctct_privacy_policy_status', '' );
-		if ( '' === $status || 'false' === $status ) {
-			return false;
-		}
-		return true;
+		return ! ( '' === $status || 'false' === $status );
 	}
 
 	/**
@@ -128,11 +126,11 @@ class ConstantContact_Optin {
 				<div class="ctct-modal-content">
 					<div class="ctct-modal-header">
 						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
-						<h2 class="ctct-logo"><img src="<?php echo esc_url( constant_contact()->url ) . '/assets/images/constant-contact-logo.png'; ?>" alt="<?php esc_attr_e( 'Constant Contact logo', 'constant-contact-forms' ); ?>" /></h2>
+						<h2 class="ctct-logo"><img src="<?php echo esc_url( constant_contact()->url ) . '/assets/images/constant-contact-logo.png'; ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" /></h2>
 					</div>
 					<div class="ctct-modal-body ctct-privacy-modal-body">
 					<?php
-						echo constant_contact_privacy_policy_content();
+						echo wp_kses_post( constant_contact_privacy_policy_content() );
 					?>
 					</div><!-- modal body -->
 					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">

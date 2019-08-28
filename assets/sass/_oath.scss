@@ -1,7 +1,7 @@
+// sass-lint:disable class-name-format no-qualifying-elements id-name-format
 //--------------------------------------------------------------
 // Disconnect Page
 //--------------------------------------------------------------
-
 .ctct-logo {
 	max-width: 400px;
 }
@@ -13,28 +13,27 @@
 	width: 100%;
 
 	@media screen and (max-width: 782px) {
-		padding: 30px 30px 0;
 		margin-left: -10px;
+		padding: 30px 30px 0;
 	}
 
 	img {
-		width: 100%;
-		max-width: 400px;
 		height: auto;
+		max-width: 400px;
+		width: 100%;
 	}
 
 	p {
 		color: $color-modal-alt-text;
 		font-size: 16px;
-	} // p
+	}
 
-  	.ctct-description {
-	  text-align: left;
+	.ctct-description {
+		text-align: left;
 	}
 
 	.ctct-body {
 		@include clearfix;
-
 		margin: 0 auto;
 		max-width: 75%;
 		overflow-y: hidden;
@@ -43,11 +42,11 @@
 
 		.notice {
 			background: none;
-		    border-left: none;
-		    box-shadow: none;
-		    margin: 0 0 20px 0;
-		    padding: 0;
-		} // notice
+			border-left: none;
+			box-shadow: none;
+			margin: 0 0 20px 0;
+			padding: 0;
+		}
 
 		.button {
 			border-radius: 4px;
@@ -68,7 +67,7 @@
 				&:focus {
 					background-color: darken($color-chrome-yellow, 10%);
 				}
-			} // button orange
+			}
 
 			&.button-blue {
 				background-color: $color-prussian-blue;
@@ -78,7 +77,7 @@
 				&:focus {
 					background-color: darken($color-prussian-blue, 10%);
 				}
-			} // button blue
-		} // button
-	} // ctct-body
-} // ctct_options_connect
+			}
+		}
+	}
+}

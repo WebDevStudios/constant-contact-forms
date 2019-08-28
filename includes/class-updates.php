@@ -6,6 +6,8 @@
  * @subpackage Updates
  * @author Constant Contact
  * @since 1.0.0
+ *
+ * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
@@ -21,7 +23,7 @@ class ConstantContact_Updates {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin = null;
+	protected $plugin;
 
 	/**
 	 * Constructor.
@@ -41,8 +43,6 @@ class ConstantContact_Updates {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-
-		// Check to make sure we don't need to run any update functionality, but only in the admin.
 		if ( is_admin() ) {
 			add_action( 'plugins_loaded', [ $this, 'check_for_update_needed' ] );
 		}
@@ -56,13 +56,11 @@ class ConstantContact_Updates {
 	 */
 	public function check_for_update_needed() {
 
-		// Grab what our current version in the DB is saved as.
 		$installed = get_option( 'ctct_plugin_version', '0.0.0' );
 		$current   = esc_attr( $this->plugin->version );
 
 		if ( ! version_compare( $current, $installed, '<' ) ) {
 
-			// Update our DB option to the current plugin version.
 			update_option( 'ctct_plugin_version', $current, true );
 
 			// Convert our installed / current version to something we can use
@@ -92,11 +90,9 @@ class ConstantContact_Updates {
 	 */
 	public function add_notification( $update_id ) {
 
-		// Get our current saved update notifications.
-		$current_notifs = get_option( 'ctct_update_notifications' );
+		$current_notifs = get_option( 'ctct_update_notifications', [] );
 		$compare_notifs = $current_notifs;
 
-		// If its not an array, cast it as one.
 		if ( ! is_array( $current_notifs ) ) {
 			$current_notifs = [];
 		}
@@ -110,40 +106,9 @@ class ConstantContact_Updates {
 			'callback' => [ 'ConstantContact_Notification_Content', esc_attr( $update_id ) ],
 		];
 
-		// Re-save it if we actually did add one.
 		if ( $compare_notifs !== $current_notifs ) {
 			update_option( 'ctct_update_notifications', $current_notifs );
 		}
 	}
 
-
-	/**
-	 * Sample update scaffolding for 1.0.0 -> 1.0.1 update.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $version Version updating to.
-	 */
-	public function run_update_v1_0_0_to_v1_0_1( $version ) {
-
-		// If we need a notification, then we add it in this way.
-		// Example of adding a notification to an update. The @codingStand.. line
-		// can be removed as this is to suppress commented code warnings in PHPCS
-		// @codingStandardsIgnoreLine
-		// $this->add_notification( $version );
-		// Here we would run any other necessary update code.
-	}
-
-	/**
-	 * For 0.0.0 to 1.0.1, we just run our 1.0.0 to 1.0.1.
-	 * We currently need this in place for the above method, as a user
-	 * doesn't always update 0.0.0->1.0.0->1.0.1, might be 0.0.0->1.0.1
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $version Version updating to.
-	 */
-	public function run_update_v0_0_0_to_v1_0_1( $version ) {
-		$this->run_update_v1_0_0_to_v1_0_1( $version );
-	}
 }

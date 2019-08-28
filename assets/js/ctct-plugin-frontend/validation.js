@@ -1,148 +1,264 @@
-window.CTCTSupport = {};
-( function( window, $, that ) {
+/**
+ * Front-end form validation.
+ *
+ * @since 1.0.0
+ */
 
-	// Constructor.
-	that.init = function() {
-		that.cache();
-		that.bindEvents();
-		that.removePlaceholder();
-	};
+ window.CTCTSupport = {};
 
-	that.removePlaceholder = function() {
-		$( '.ctct-form-field input,textarea' ).focus( function() {
-			$( this ).data( 'placeholder', $( this ).attr( 'placeholder' ) ).attr( 'placeholder', '' );
-		}).blur( function() {
-			$( this ).attr( 'placeholder', $( this ).data( 'placeholder' ) );
-		});
-	};
+( function( window, $, app ) {
 
-	// Cache all the things.
-	that.cache = function() {
-		that.$c = {
-			window: $( window ),
-			body: $( 'body' ),
-			form: '.ctct-form-wrapper form',
-			honeypot: $( '#ctct_usage_field' ),
-			submitButton: $( '.ctct-form-wrapper form input[type=submit]' ),
-			recaptcha: $( '.ctct-form-wrapper form .g-recaptcha' )
-		};
-
-		that.timeout = null;
-	};
-
-	that.setAllInputsValid = function() {
-		$( that.$c.form + ' .ctct-invalid' ).removeClass( 'ctct-invalid' );
-	};
-
-	that.clearFormInputs = function (form_id_selector) {
-		var submitted_form = $(form_id_selector + ' form');
-		// jQuery doesn't have a native reset function so the [0] will convert to a JavaScript object.
-		submitted_form[0].reset();
-	};
-
-	that.processError = function( error ) {
-
-		// If we have an id property set
-		if ( typeof( error.id ) !== 'undefined' ) {
-			$( '#' + error.id ).addClass( 'ctct-invalid' );
-		}
-
+	/**
+	 * @constructor
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	app.init = () => {
+		app.cache();
+		app.bindEvents();
+		app.removePlaceholder();
 	};
 
 	/**
-	 * Check the value of the hidden honeypot field.
-	 * If there is anything in it, disable the form submission button.
+	 * Remove placeholder text values.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
 	 */
-	that.checkHoneypot = function() {
-		var honeypot_length = that.$c.honeypot.val().length;
+	app.removePlaceholder = () => {
+		$( '.ctct-form-field input, textarea' ).focus( () => {
+			$( this ).data( 'placeholder', $( this ).attr( 'placeholder' ) ).attr( 'placeholder', '' );
+		} ).blur( () => {
+			$( this ).attr( 'placeholder', $( this ).data( 'placeholder' ) );
+		} );
+	};
 
-		// If there is text in the honeypot, disable the submit button
-		if( honeypot_length > 0 ) {
-			that.$c.submitButton.attr( 'disabled', 'disabled' );
-		} else {
-			that.$c.submitButton.attr( 'disabled', false );
+	/**
+	 * Cache DOM elements.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	app.cache = () => {
+
+		app.$c = {
+			$forms: []
+		};
+
+		// Cache each form on the page.
+		$( '.ctct-form-wrapper' ).each( function( i, formWrapper ) {
+			app.$c.$forms.push( $( formWrapper ).find( 'form' ) );
+		} );
+
+		// For each form, cache its common elements.
+		$.each( app.$c.$forms, function( i, form ) {
+
+			var $form = $( form );
+
+			app.$c.$forms[ i ].$honeypot     = $form.find( '#ctct_usage_field' );
+			app.$c.$forms[ i ].$submitButton = $form.find( 'input[type=submit]' );
+			app.$c.$forms[ i ].$recaptcha    = $form.find( '.g-recaptcha' );
+		} );
+
+		app.timeout = null;
+	};
+
+	/**
+	 * Remove the ctct-invalid class from elements that have it.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	app.setAllInputsValid = () => {
+		$( app.$c.$form + ' .ctct-invalid' ).removeClass( 'ctct-invalid' );
+	};
+
+	/**
+	 * Adds .ctct-invalid HTML class to inputs whose values are invalid.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 *
+	 * @param {object} error AJAX response error object.
+	 */
+	app.processError = ( error ) => {
+
+		// If we have an id property set.
+		if ( 'undefined' !== typeof( error.id ) ) {
+			$( '#' + error.id ).addClass( 'ctct-invalid' );
 		}
 	};
 
-	// Combine all events.
-	that.bindEvents = function() {
-		$( that.$c.form ).on( 'click', 'input[type=submit]', function(e) {
+	/**
+	 * Check the value of the hidden honeypot field; disable form submission button if anything in it.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 *
+	 * @param {object} e The change or keyup event triggering this callback.
+	 * @param {object} $honeyPot The jQuery object for the actual input field being checked.
+	 * @param {object} $submitButton The jQuery object for the submit button in the same form as the honeypot field.
+	 */
+	app.checkHoneypot = ( e, $honeyPot, $submitButton ) => {
 
-			if ('on' === $('.ctct-form').attr('data-doajax')) {
-				var $form_id = $(this).closest('.ctct-form-wrapper').attr('id');
-				var form_id_selector = '';
-				if ( $form_id != '' ) {
-					form_id_selector = '#'+ $form_id +' ';
-				}
-				var doProcess = true;
-				$.each($(form_id_selector+'.ctct-form [required]'), function (i, field) {
-					if (field.checkValidity() === false) {
-						doProcess = false;
-					}
-				});
-				if (false === doProcess) {
-					return;
-				}
-
-				e.preventDefault();
-				clearTimeout(that.timeout);
-
-				that.timeout = setTimeout(function () {
-					$('#ctct-submitted').prop('disabled', true);
-					$.post(
-						ajaxurl,
-						{
-							'action': 'ctct_process_form',
-							'data'  : $(form_id_selector + 'form').serialize()
-						},
-						function (response) {
-							$('#ctct-submitted').prop('disabled', false);
-							// Make sure we got the 'status' attribute in our response
-							if (typeof( response.status ) !== 'undefined') {
-
-								if ( 'success' === response.status ) {
-									// Add a timestamp to the message so that we only remove this message and not all at once.
-									var time_class = 'message-time-' + $.now();
-
-									var message_class = 'ctct-message ' + response.status + ' ' + time_class;
-									$(form_id_selector+'.ctct-form').before('<p class="' + message_class + '">' + response.message + '</p>');
-
-									if ( '' !== form_id_selector ) {
-										that.clearFormInputs( form_id_selector );
-									}
-									// Set a 5 second timeout to remove the added success message.
-									setTimeout( function() {
-										$( '.' + time_class ).fadeOut('slow');
-									}, 5000 );
-								} else {
-									// Here we'll want to disable the submit button and
-									// add some error classes
-									if (typeof( response.errors ) !== 'undefined') {
-										that.setAllInputsValid();
-										response.errors.forEach(that.processError);
-									} else {
-										$(form_id_selector + '.ctct-form').before('<p class="ctct-message ' + response.status + '">' + response.message + '</p>');
-									}
-
-								}
-							}
-						}
-					);
-				}, 500)
-			}
-		});
-
-		// Look for any changes on the honeypot input field.
-		$( that.$c.honeypot ).on( 'change keyup', function( e ) {
-			that.checkHoneypot();
-		});
-
-		if ( that.$c.recaptcha.length > 0 ) {
-			that.$c.submitButton.attr('disabled', 'disabled');
+		// If there is text in the honeypot, disable the submit button
+		if ( 0 < $honeyPot.val().length ) {
+			$submitButton.attr( 'disabled', 'disabled' );
+		} else {
+			$submitButton.attr( 'disabled', false );
 		}
-    };
+	};
 
-	// Engage!
-	$( that.init );
+	/**
+	 * Ensures that we should use AJAX to process the specified form, and that all required fields are not empty.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 *
+	 * @param {object} $form jQuery object for the form being validated.
+	 * @return {boolean} False if AJAX processing is disabled for this form or if a required field is empty.
+	 */
+	app.validateSubmission = ( $form ) => {
 
-})( window, jQuery, window.CTCTSupport );
+		if ( 'on' !== $form.attr( 'data-doajax' ) ) {
+			return false;
+		}
+
+		// Ensure all required fields in this form are valid.
+		$.each( $form.find( '[required]' ), function( i, field ) {
+
+			if ( false === field.checkValidity() ) {
+				return false;
+			}
+		} );
+
+		return true;
+	};
+
+	/**
+	 * Prepends form with a message that fades out in 5 seconds.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 *
+	 * @param {object} $form jQuery object for the form a message is being displayed for.
+	 * @param {string} message The message content.
+	 * @param {string} classes Optional. HTML classes to add to the message wrapper.
+	 */
+	app.showMessage = ( $form, message, classes = '' ) => {
+
+		var $p = $( '<p />', {
+			'class': 'ctct-message ' + classes,
+			'text': message
+		} );
+
+		$p.insertBefore( $form ).fadeIn( 200 ).delay( 5000 ).slideUp( 200, () => {
+			$p.remove();
+		} );
+	};
+
+	/**
+	 * Submits the actual form via AJAX.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 *
+	 * @param {object} $form jQuery object for the form being submitted.
+	 */
+	app.submitForm = ( $form ) => {
+
+		$form.find( '#ctct-submitted' ).prop( 'disabled', true );
+
+		var ajaxData = {
+			'action': 'ctct_process_form',
+			'data': $form.serialize()
+		};
+
+		$.post( window.ajaxurl, ajaxData, ( response ) => {
+
+			$form.find( '#ctct-submitted' ).prop( 'disabled', false );
+
+			if ( 'undefined' === typeof( response.status ) ) {
+				return false;
+			}
+
+			// Here we'll want to disable the submit button and add some error classes.
+			if ( 'success' !== response.status ) {
+
+				if ( 'undefined' !== typeof( response.errors ) ) {
+					app.setAllInputsValid();
+					response.errors.forEach( app.processError );
+				} else {
+					app.showMessage( $form, response.message, 'ctct-error' );
+				}
+
+				return false;
+			}
+
+			// If we're here, the submission was a success; show message and reset form fields.
+			app.showMessage( $form, response.message, 'ctct-success' );
+			$form[0].reset();
+		} );
+	};
+
+	/**
+	 * Handle the form submission.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 *
+	 * @param {object} e The submit event.
+	 * @param {object} $form jQuery object for the current form being handled.
+	 * @return {boolean} False if unable to validate the form.
+	 */
+	app.handleSubmission = ( e, $form ) => {
+
+		if ( ! app.validateSubmission( $form ) ) {
+			return false;
+		}
+
+		e.preventDefault();
+
+		clearTimeout( app.timeout );
+
+		app.timeout = setTimeout( app.submitForm, 500, $form );
+	};
+
+	/**
+	 * Set up event bindings and callbacks.
+	 *
+	 * @author Constant Contact
+	 * @since 1.0.0
+	 */
+	app.bindEvents = () => {
+
+		// eslint-disable-next-line no-unused-vars
+		$.each( app.$c.$forms, function( i, form ) {
+
+			// Attach submission handler to each form's Submit button.
+			app.$c.$forms[ i ].on( 'click', 'input[type=submit]', ( e ) => {
+				app.handleSubmission( e, app.$c.$forms[ i ] );
+			} );
+
+			// Ensure each form's honeypot is checked.
+			app.$c.$forms[ i ].$honeypot.on( 'change keyup', ( e ) => {
+
+				app.checkHoneypot(
+					e,
+					app.$c.$forms[ i ].$honeypot,
+					app.$c.$forms[ i ].$submitButton
+				);
+			} );
+
+			// Disable the submit button by default until the captcha is passed (if captcha exists).
+			if ( 0 < app.$c.$forms[ i ].$recaptcha.length ) {
+				app.$c.$forms[ i ].$submitButton.attr( 'disabled', 'disabled' );
+			}
+
+		} );
+	};
+
+	$( app.init );
+
+} ( window, jQuery, window.CTCTSupport ) );
