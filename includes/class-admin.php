@@ -493,6 +493,18 @@ class ConstantContact_Admin {
 			wp_enqueue_script( 'ctct_form' );
 		}
 
+		/**
+		 * Filters the allowed pages to enqueue the ctct_form script on.
+		 * @since 1.0.0
+		 *
+		 * @param array $value Array of WP Admin base files to conditionally load on.
+		 */
+		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', [ 'post.php', 'post-new.php' ] );
+		if ( $pagenow && in_array( $pagenow, $allowed_pages, true ) && ! constant_contact()->is_constant_contact() ) {
+			wp_enqueue_script( 'ctct_form' );
+			wp_enqueue_script( 'ctct_gutenberg' );
+		}
+
 		if ( ! is_array( $extra_localizations ) ) {
 			return;
 		}
@@ -505,20 +517,6 @@ class ConstantContact_Admin {
 			foreach ( $extra_localizations as $localization_set ) {
 				call_user_func_array( 'wp_localize_script', $localization_set );
 			}
-		}
-
-		/**
-		 * Filters the allowed pages to enqueue the ctct_form script on.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param array $value Array of WP Admin base files to conditionally load on.
-		 */
-		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', [ 'post.php', 'post-new.php' ] );
-
-		if ( $pagenow && in_array( $pagenow, $allowed_pages, true ) ) {
-			wp_enqueue_script( 'ctct_form' );
-			wp_enqueue_script( 'ctct_gutenberg' );
 		}
 	}
 
