@@ -75,6 +75,12 @@ class ConstantContact_Display {
 			true
 		);
 
+		$recaptchav3 = new ConstantContact_reCAPTCHA_v3();
+
+		if ( 'version3' === $recaptchav3->get_recaptcha_version() ) {
+			$recaptchav3->enqueue_scripts();
+		}
+
 		wp_enqueue_script( 'ctct_frontend_forms' );
 	}
 
