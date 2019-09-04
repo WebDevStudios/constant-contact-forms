@@ -206,10 +206,11 @@ class ConstantContact_Process_Form {
 			$keys = $ctctrecaptcha->get_recaptcha_keys();
 			$ctctrecaptcha->set_recaptcha_class( new \ReCaptcha\ReCaptcha( $keys['secret_key'], $method ) );
 
-			$resp = $ctctrecaptcha
-				->recaptcha->setExpectedHostname( parse_url( home_url(), PHP_URL_HOST ) )
-			               ->setExpectedAction( 'constantcontactsubmit' )
-			               ->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
+			$ctctrecaptcha->recaptcha->setExpectedHostname( parse_url( home_url(), PHP_URL_HOST ) );
+			if ( 'version3' === $ctctrecaptcha->get_recaptcha_version() ) {
+				$ctctrecaptcha->recaptcha->setExpectedAction( 'constantcontactsubmit' );
+			}
+			$resp = $ctctrecaptcha->recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
 
 			if ( ! $resp->isSuccess() ) {
 				constant_contact_maybe_log_it( 'reCAPTCHA', 'Failed to verify with Google reCAPTCHA', [ $resp->getErrorCodes() ] );
