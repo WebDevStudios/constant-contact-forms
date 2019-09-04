@@ -215,9 +215,10 @@ class ConstantContact_Process_Form {
 				 *
 				 * @since NEXT
 				 *
-				 * @param float $value Threshold to require for submission approval.
+				 * @param float  $value Threshold to require for submission approval.
+				 * @param string $value The ID of the form that was submitted.
 				 */
-				$threshold = (float) apply_filters( 'ctct_recaptcha_threshold', 0.5 );
+				$threshold = (float) apply_filters( 'ctct_recaptcha_threshold', 0.5, $data['ctct-id'] );
 
 				$ctctrecaptcha->recaptcha->setScoreThreshold( $threshold );
 				$ctctrecaptcha->recaptcha->setExpectedAction( 'constantcontactsubmit' );
