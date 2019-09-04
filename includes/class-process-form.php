@@ -208,6 +208,18 @@ class ConstantContact_Process_Form {
 
 			$ctctrecaptcha->recaptcha->setExpectedHostname( parse_url( home_url(), PHP_URL_HOST ) );
 			if ( 'version3' === $ctctrecaptcha->get_recaptcha_version() ) {
+				/**
+				 * Filters the default float value for the score threshold.
+				 *
+				 * This value should be between 0.0 and 1.0.
+				 *
+				 * @since NEXT
+				 *
+				 * @param float $value Threshold to require for submission approval.
+				 */
+				$threshold = (float) apply_filters( 'ctct_recaptcha_threshold', 0.5 );
+
+				$ctctrecaptcha->recaptcha->setScoreThreshold( $threshold );
 				$ctctrecaptcha->recaptcha->setExpectedAction( 'constantcontactsubmit' );
 			}
 			$resp = $ctctrecaptcha->recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
