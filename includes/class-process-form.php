@@ -201,7 +201,7 @@ class ConstantContact_Process_Form {
 			if ( ! ini_get( 'allow_url_fopen' ) ) {
 				$method = new \ReCaptcha\RequestMethod\CurlPost();
 			}
-			$ctctrecaptcha = new ConstantContact_reCAPTCHA_v2();
+			$ctctrecaptcha = new ConstantContact_reCAPTCHA();
 			$ctctrecaptcha->set_recaptcha_keys();
 			$keys = $ctctrecaptcha->get_recaptcha_keys();
 			$ctctrecaptcha->set_recaptcha_class( new \ReCaptcha\ReCaptcha( $keys['secret_key'], $method ) );
