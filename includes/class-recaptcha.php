@@ -17,6 +17,13 @@
 class ConstantContact_reCAPTCHA {
 
 	/**
+	 * Chosen reCAPTCHA version.
+	 *
+	 * @var $version
+	 */
+	protected $version;
+
+	/**
 	 * Google reCAPTCHA site key.
 	 *
 	 * @var $site_key
@@ -118,5 +125,29 @@ class ConstantContact_reCAPTCHA {
 
 		$this->site_key   = $keys['site_key'];
 		$this->secret_key = $keys['secret_key'];
+	}
+
+	/**
+	 * Return our chosen reCAPTCHA version setting.
+	 *
+	 * @since NEXT
+	 *
+	 * @return mixed
+	 */
+	public function get_recaptcha_version() {
+		if ( ! isset( $this->version ) ) {
+			$this->set_recaptcha_version();
+		}
+
+		return $this->version;
+	}
+
+	/**
+	 * Set our chosen reCAPTCHA version setting.
+	 *
+	 * @since NEXT
+	 */
+	public function set_recaptcha_version() {
+		$this->version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );
 	}
 }
