@@ -232,9 +232,9 @@ class ConstantContactWidget extends WP_Widget {
 				foreach ( $option as $key => $title ) {
 					$selects .= sprintf(
 						'<option value="%s" %s>%s</option>',
-						$key,
+						esc_attr( $key ),
 						selected( $value, $key, false ),
-						$title
+						esc_html( $title )
 					);
 				}
 			}
@@ -244,7 +244,7 @@ class ConstantContactWidget extends WP_Widget {
 				esc_html( $label_text ),
 				esc_attr( $name ),
 				esc_attr( $id ),
-				esc_html( $selects )
+				$selects
 			);
 		}
 	}

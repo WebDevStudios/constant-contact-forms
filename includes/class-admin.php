@@ -493,8 +493,12 @@ class ConstantContact_Admin {
 			wp_enqueue_script( 'ctct_form' );
 		}
 
+		$current_screen = get_current_screen();
+		$is_gutenberg   = is_object( $current_screen ) ? $current_screen->is_block_editor : true;
+
 		/**
 		 * Filters the allowed pages to enqueue the ctct_form script on.
+		 *
 		 * @since 1.0.0
 		 *
 		 * @param array $value Array of WP Admin base files to conditionally load on.
@@ -502,7 +506,9 @@ class ConstantContact_Admin {
 		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', [ 'post.php', 'post-new.php' ] );
 		if ( $pagenow && in_array( $pagenow, $allowed_pages, true ) && ! constant_contact()->is_constant_contact() ) {
 			wp_enqueue_script( 'ctct_form' );
-			wp_enqueue_script( 'ctct_gutenberg' );
+			if ( $is_gutenberg ) {
+				wp_enqueue_script( 'ctct_gutenberg' );
+			}
 		}
 
 		if ( ! is_array( $extra_localizations ) ) {
