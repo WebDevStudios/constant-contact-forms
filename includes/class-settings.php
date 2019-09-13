@@ -756,6 +756,9 @@ class ConstantContact_Settings {
 	 * Attempts to add the index file for protecting the log directory.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @param string $updated Whether or not we're updating.
+	 * @param string $action  Current action being performed.
 	 * @return void
 	 */
 	public function maybe_init_logs( $updated, $action ) {
@@ -766,9 +769,9 @@ class ConstantContact_Settings {
 		$this->plugin->logging->create_log_folder();
 		$this->plugin->logging->create_log_index_file();
 		$this->plugin->logging->create_log_file();
-  }
+	}
 
-  /*
+	/**
 	 * Adds a fieldset for controlling the spam error.
 	 *
 	 * @since 1.5.0
@@ -828,7 +831,7 @@ class ConstantContact_Settings {
 	 *
 	 * @param  mixed      $value      The unsanitized value from the form.
 	 * @param  array      $field_args Array of field arguments.
-	 * @param  CMB2_Field $field      The field object
+	 * @param  CMB2_Field $field      The field object.
 	 * @return string
 	 */
 	public function sanitize_recaptcha_api_key_string( $value, $field_args, $field ) {
