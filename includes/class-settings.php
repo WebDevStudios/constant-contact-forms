@@ -749,10 +749,7 @@ class ConstantContact_Settings {
 		$site_key   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
 		$secret_key = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
 
-		if ( $site_key && $secret_key ) {
-			return true;
-		}
-		return false;
+		return $site_key && $secret_key;
 	}
 
 	/**
