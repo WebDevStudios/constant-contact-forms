@@ -177,7 +177,9 @@ class ConstantContact_Settings {
 
 		global $pagenow;
 
-		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ); // Input var okay.
+		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
+		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] );
+		// phpcs:enable WordPress.Security.NonceVerification
 	}
 
 	/**
