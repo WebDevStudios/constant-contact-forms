@@ -315,7 +315,7 @@ class ConstantContact_Builder_Fields {
 				'name'        => __( 'Disable Google reCAPTCHA for this form?', 'constant-contact-forms' ),
 				'id'          => $this->prefix . 'disable_recaptcha',
 				'type'        => 'checkbox',
-				'description' => __( "Checking will disable Google's reCAPTCHA output for this form.", 'constant-contact-forms' ),
+				'description' => __( "Checking will disable Google's reCAPTCHA output for this form. Only valid if using Google reCAPTCHA version 2", 'constant-contact-forms' ),
 			] );
 		}
 
