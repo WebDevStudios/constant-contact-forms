@@ -512,7 +512,7 @@ class ConstantContact_Settings {
 			return $comment_data;
 		}
 
-		return $this->_process_comment_data_for_optin( $comment_data );
+		return $this->process_comment_data_for_optin( $comment_data );
 	}
 
 	/**
@@ -523,7 +523,7 @@ class ConstantContact_Settings {
 	 * @param array $comment_data Array of comment data.
 	 * @return array Passed in comment data
 	 */
-	public function _process_comment_data_for_optin( $comment_data ) {
+	public function process_comment_data_for_optin( $comment_data ) {
 
 		if ( isset( $comment_data['comment_author_email'] ) && $comment_data['comment_author_email'] ) {
 
@@ -581,7 +581,7 @@ class ConstantContact_Settings {
 			return $user;
 		}
 
-		return $this->_process_user_data_for_optin( $user, $username );
+		return $this->process_user_data_for_optin( $user, $username );
 	}
 
 	/**
@@ -593,7 +593,7 @@ class ConstantContact_Settings {
 	 * @param string $username Username.
 	 * @return object Passed in $user object.
 	 */
-	public function _process_user_data_for_optin( $user, $username ) {
+	public function process_user_data_for_optin( $user, $username ) {
 
 		$user_data = get_user_by( 'login', $username );
 		$email     = '';
