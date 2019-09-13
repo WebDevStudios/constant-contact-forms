@@ -599,11 +599,11 @@ class ConstantContact_Settings {
 		$email     = '';
 		$name      = '';
 
-		if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->user_email ) ) {
+		if ( $user_data && isset( $user_data->data, $user_data->data->user_email ) ) {
 			$email = sanitize_email( $user_data->data->user_email );
 		}
 
-		if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->display_name ) ) {
+		if ( $user_data && isset( $user_data->data, $user_data->data->display_name ) ) {
 			$name = sanitize_text_field( $user_data->data->display_name );
 		}
 
