@@ -473,10 +473,7 @@ class ConstantContact_Settings {
 
 		$saved_label = ctct_get_settings_option( '_ctct_optin_label', '' );
 		$list        = ctct_get_settings_option( '_ctct_optin_list', '' );
-
-
-		$label = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
-
+		$label       = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 		?>
 		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
 			<label for="ctct_optin">
