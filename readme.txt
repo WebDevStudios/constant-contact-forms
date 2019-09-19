@@ -35,6 +35,9 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.7.0 =
+* Fixed: issues with debug log deletion and dialog closing
+
 = 1.6.1 =
 * Fixed: Issue with selecting forms in the widget.
 * Fixed: Compatibility with other page builders and our Gutenberg integration.
