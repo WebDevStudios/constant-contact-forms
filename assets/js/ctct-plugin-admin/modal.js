@@ -78,8 +78,8 @@ window.CTCTModal = {};
 						// If the user confirms the action, redirect them to the deletion page.
 						window.location.replace( deleteLogLink );
 					},
-					Cancel: () => {
-						$( this ).dialog( 'close' );
+					'Cancel': () => {
+						$( '#confirmdelete' ).closest( '.ui-dialog-content' ).dialog( 'close' );
 					}
 				}
 			} );
