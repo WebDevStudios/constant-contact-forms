@@ -65,7 +65,7 @@ window.CTCTModal = {};
 			event.preventDefault();
 
 			// Get the link that was clicked on so we can redirect to it if the user confirms.
-			var deleteLogLink = $( this ).attr( 'href' );
+			var deleteLogLink = $( event.currentTarget ).attr( 'href' );
 
 			$( '#confirmdelete' ).dialog( {
 				resizable: false,
