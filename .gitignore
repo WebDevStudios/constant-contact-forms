@@ -3,6 +3,7 @@
 .LSOverride
 .gitmodules
 plugin-config.js
+testing.js
 
 # Files that might appear on external disk
 .Spotlight-V100
