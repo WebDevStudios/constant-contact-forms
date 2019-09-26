@@ -3,7 +3,7 @@ Contributors:      constantcontact
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
 Tested up to:      5.2.3
-Stable tag:        1.6.1
+Stable tag:        1.7.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.6
@@ -34,6 +34,9 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
+= 1.7.0 =
+* Fixed: issues with debug log deletion and dialog closing
 
 = 1.6.1 =
 * Fixed: Issue with selecting forms in the widget.
