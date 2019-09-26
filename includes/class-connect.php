@@ -177,6 +177,15 @@ class ConstantContact_Connect {
 							<p>
 								<?php esc_html_e( 'Plugin connected to Constant Contact.', 'constant-contact-forms' ); ?>
 							</p>
+							<p>
+								<?php
+								$token   = constant_contact()->api->get_api_token();
+								$account = constant_contact()->api->cc()->accountService->getAccountInfo( $token );
+								if ( $account ) {
+									echo esc_html( $account->first_name . ' ' . $account->last_name . ' (' . $account->email . ')' );
+								}
+								?>
+							</p>
 						</div>
 						<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
 							<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
