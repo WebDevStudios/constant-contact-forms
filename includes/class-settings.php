@@ -740,19 +740,6 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Check if we have reCAPTCHA settings available to use with Google reCAPTCHA.
-	 *
-	 * @since 1.2.4
-	 * @return bool
-	 */
-	public function has_recaptcha() {
-		$site_key   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
-		$secret_key = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
-
-		return $site_key && $secret_key;
-	}
-
-	/**
 	 * Attempts to add the index file for protecting the log directory.
 	 *
 	 * @since 1.5.0
