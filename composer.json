@@ -7,7 +7,7 @@
     "monolog/monolog": "1.24",
     "cmb2/cmb2": "2.5.1",
     "defuse/php-encryption": "2.2.1",
-    "google/recaptcha": "1.1.2",
+    "google/recaptcha": "1.2.3",
     "constantcontact/constantcontact": "2.1.*"
   },
   "require-dev": {
