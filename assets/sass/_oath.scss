@@ -3,14 +3,14 @@
 // Disconnect Page
 //--------------------------------------------------------------
 .ctct-logo {
-	max-width: 400px;
+  max-width: 400px;
 }
 
 .ctct_options_connect {
-	box-sizing: border-box;
-	padding: 70px;
-	text-align: center;
-	width: 100%;
+  box-sizing: border-box;
+  padding: 70px;
+  text-align: center;
+  width: 100%;
 
 	@media screen and (max-width: 782px) {
 		margin-left: -10px;
@@ -48,30 +48,30 @@
 			padding: 0;
 		}
 
-		.button {
-			border-radius: 4px;
-			color: $color-white;
-			font-size: 16px;
-			font-weight: 600;
-			height: auto;
-			line-height: 1;
-			margin-bottom: 10px;
-			min-width: 180px;
-			padding: 14px 30px;
+    .button {
+      border-radius: 4px;
+      color: $color-white;
+      font-size: 16px;
+      font-weight: 600;
+      height: auto;
+      line-height: 1;
+      margin-bottom: 10px;
+      min-width: 180px;
+      padding: 14px 30px;
 
-			&.button-orange {
-				background-color: $color-chrome-yellow;
-				border: 1px solid darken($color-chrome-yellow, 10%);
+      &.button-orange {
+			background-color: $color-chrome-yellow;
+			border: 1px solid darken($color-chrome-yellow, 10%);
 
-				&:hover,
-				&:focus {
-					background-color: darken($color-chrome-yellow, 10%);
-				}
+			&:hover,
+			&:focus {
+				background-color: darken($color-chrome-yellow, 10%);
 			}
+	  }
 
-			&.button-blue {
-				background-color: $color-prussian-blue;
-				border: 1px solid darken($color-prussian-blue, 10%);
+      &.button-blue {
+        background-color: $color-prussian-blue;
+        border: 1px solid darken($color-prussian-blue, 10%);
 
 				&:hover,
 				&:focus {
@@ -81,3 +81,4 @@
 		}
 	}
 }
+
