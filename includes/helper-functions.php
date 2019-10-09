@@ -677,3 +677,54 @@ function constant_contact_location_and_line( $location = '', $line = '' ) {
 		$line
 	);
 }
+
+/**
+ * Check our post content for existing Constant Contact shortcodes and grab IDs.
+ *
+ * @since NEXT
+ * @return array
+ */
+function constant_contact_find_post_content_shortcodes() {
+	global $wpdb;
+
+	$rs = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT ID FROM {$wpdb->posts} WHERE `post_content` LIKE '%[ctct%' and `post_status` = %s ",
+			'publish'
+		),
+		ARRAY_A
+	);
+
+	$ids = wp_list_pluck( $rs, 'ID' );
+	return array_map( 'absint', $ids );
+}
+
+/**
+ * Check our widgets for existing forms.
+ *
+ * @since NEXT
+ * @return array
+ */
+function constant_contact_find_widgets() {
+	$widgets = get_option( 'widget_ctct_form' );
+
+	$ids = array_filter( wp_list_pluck( $widgets, 'ctct_form_id' ) );
+	return array_map( 'absint', $ids );
+}
+
+/**
+ * Check for affected posts and widgets for the newly trashed form post type.
+ *
+ * @since NEXT
+ * @param int $post_id Post ID being trashed.
+ */
+function constant_contact_check_for_affected_forms_on_trash( $post_id ) {
+	$posts_with_form   = constant_contact_find_post_content_shortcodes();
+	$widgets_with_form = constant_contact_find_widgets();
+
+	$affected_posts_exist   = in_array( $post_id, $posts_with_form, true );
+	$affected_widgets_exist = in_array( $post_id, $widgets_with_form, true );
+
+	// @todo Figure out how we want to notify at this point.
+}
+add_action( 'trash_ctct_forms', 'constant_contact_check_for_affected_forms_on_trash' );
