@@ -509,11 +509,37 @@ class ConstantContact_API {
 			$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$this->log_errors( $extra . $messages );
 		}
+
+		$new_contact = $this->clear_email( $new_contact );
 		constant_contact_maybe_log_it( 'API', 'Submitted contact data', $new_contact );
 
 		return $return_contact;
 	}
 
+	private function clear_email( $contact ) {
+		$clean = [];
+		foreach ( $contact as $contact_key => $contact_value ) {
+			if ( is_email( $contact_value ) ) {
+				$email_parts           = explode( '@', $contact_value );
+				$clean[ $contact_key ] = implode( '@', [ '***', $email_parts[1] ] );
+			} elseif ( is_array( $contact_value ) ) {
+				$clean_nested = [];
+				foreach ( $contact_value as $nested_key => $nested_value ) {
+					if ( is_email( $nested_value ) ) {
+						$email_parts                 = explode( '@', $nested_value );
+						$clean_nested[ $nested_key ] = implode( '@', [ '***', $email_parts[1] ] );
+						$clean[ $contact_key ]       = $clean_nested;
+					} else {
+						$clean_nested[ $nested_key ] = $nested_value;
+					}
+				}
+			} else {
+				$clean[ $contact_key ] = $contact_value;
+			}
+		}
+
+		return $clean;
+	}
 
 	/**
 	 * Helper method to create contact.
