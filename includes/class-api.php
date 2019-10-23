@@ -516,28 +516,26 @@ class ConstantContact_API {
 		return $return_contact;
 	}
 
-	private function clear_email( $contact ) {
+	/**
+	 * Obfuscate the left side of email addresses at the `@`.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @param array $contact Contact data.
+	 * @return array
+	 */
+	private function clear_email( array $contact ) {
 		$clean = [];
 		foreach ( $contact as $contact_key => $contact_value ) {
-			if ( is_email( $contact_value ) ) {
-				$email_parts           = explode( '@', $contact_value );
+			if ( is_array( $contact_value ) ) {
+				$clean[ $contact_key ] = $this->clear_email( $contact_value );
+			} elseif ( is_email( $contact_value ) ) {
+				$email_parts = explode( '@', $contact_value );
 				$clean[ $contact_key ] = implode( '@', [ '***', $email_parts[1] ] );
-			} elseif ( is_array( $contact_value ) ) {
-				$clean_nested = [];
-				foreach ( $contact_value as $nested_key => $nested_value ) {
-					if ( is_email( $nested_value ) ) {
-						$email_parts                 = explode( '@', $nested_value );
-						$clean_nested[ $nested_key ] = implode( '@', [ '***', $email_parts[1] ] );
-						$clean[ $contact_key ]       = $clean_nested;
-					} else {
-						$clean_nested[ $nested_key ] = $nested_value;
-					}
-				}
 			} else {
 				$clean[ $contact_key ] = $contact_value;
 			}
 		}
-
 		return $clean;
 	}
 
