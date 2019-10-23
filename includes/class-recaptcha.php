@@ -5,14 +5,14 @@
  * @package    ConstantContact
  * @subpackage reCAPTCHA
  * @author     Constant Contact
- * @since      NEXT
+ * @since      1.7.0
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
  * Class ConstantContact_reCAPTCHA.
  *
- * @since NEXT
+ * @since 1.7.0
  */
 class ConstantContact_reCAPTCHA {
 
@@ -20,6 +20,7 @@ class ConstantContact_reCAPTCHA {
 	 * Chosen reCAPTCHA version.
 	 *
 	 * @var $version
+	 * @since 1.7.0
 	 */
 	protected $version;
 
@@ -27,7 +28,7 @@ class ConstantContact_reCAPTCHA {
 	 * Google reCAPTCHA site key.
 	 *
 	 * @var $site_key
-	 * @since NEXT
+	 * @since 1.7.0
 	 */
 	protected $site_key;
 
@@ -35,7 +36,7 @@ class ConstantContact_reCAPTCHA {
 	 * Google reCAPTCHA secret key.
 	 *
 	 * @var $secret_key
-	 * @since NEXT
+	 * @since 1.7.0
 	 */
 	protected $secret_key;
 
@@ -43,7 +44,7 @@ class ConstantContact_reCAPTCHA {
 	 * Language code to use.
 	 *
 	 * @var $lang_code
-	 * @since NEXT
+	 * @since 1.7.0
 	 */
 	protected $lang_code;
 
@@ -51,14 +52,14 @@ class ConstantContact_reCAPTCHA {
 	 * Google reCAPTCHA instance.
 	 *
 	 * @var \ReCaptcha\ReCaptcha $recaptcha
-	 * @since NEXT
+	 * @since 1.7.0
 	 */
 	public $recaptcha;
 
 	/**
 	 * Set our reCAPTCHA instance.
 	 *
-	 * @since NEXT
+	 * @since 1.7.0
 	 *
 	 * @param \ReCaptcha\ReCaptcha|string $recaptcha Google reCAPTCHA instance.
 	 */
@@ -69,7 +70,7 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Set our language code to use.
 	 *
-	 * @since NEXT
+	 * @since 1.7.0
 	 * @param string $lang_code Language code for the reCAPTCHA object.
 	 */
 	public function set_language( $lang_code ) {
@@ -79,7 +80,7 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Get our language code.
 	 *
-	 * @since NEXT
+	 * @since 1.7.0
 	 * @return string $lang_code Language code for the reCAPTCHA object.
 	 */
 	public function get_language() {
@@ -103,7 +104,7 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Return an array of our site key pair.
 	 *
-	 * @since NEXT
+	 * @since 1.7.0
 	 *
 	 * @return array
 	 */
@@ -118,7 +119,7 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Set our key properties.
 	 *
-	 * @since NEXT
+	 * @since 1.7.0
 	 */
 	public function set_recaptcha_keys() {
 		$keys = $this->get_recaptcha_keys();
@@ -130,7 +131,7 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Return our chosen reCAPTCHA version setting.
 	 *
-	 * @since NEXT
+	 * @since 1.7.0
 	 *
 	 * @return mixed
 	 */
@@ -145,7 +146,7 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Set our chosen reCAPTCHA version setting.
 	 *
-	 * @since NEXT
+	 * @since 1.7.0
 	 */
 	public function set_recaptcha_version() {
 		$this->version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );

@@ -7,17 +7,22 @@
  * @package    ConstantContact
  * @subpackage reCAPTCHA
  * @author     Constant Contact
- * @since      NEXT
+ * @since      1.7.0
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
  * Class ConstantContact_reCAPTCHA_v3
  *
- * @since NEXT
+ * @since 1.7.0
  */
 class ConstantContact_reCAPTCHA_v3 extends ConstantContact_reCAPTCHA {
 
+	/**
+	 * Enqueue our needed scripts.
+	 *
+	 * @since 1.7.0
+	 */
 	public function enqueue_scripts() {
 		$this->set_recaptcha_keys();
 

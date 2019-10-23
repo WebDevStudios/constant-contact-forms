@@ -213,7 +213,7 @@ class ConstantContact_Process_Form {
 				 *
 				 * This value should be between 0.0 and 1.0.
 				 *
-				 * @since NEXT
+				 * @since 1.7.0
 				 *
 				 * @param float  $value Threshold to require for submission approval.
 				 * @param string $value The ID of the form that was submitted.

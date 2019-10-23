@@ -7,20 +7,21 @@
  * @package    ConstantContact
  * @subpackage reCAPTCHA
  * @author     Constant Contact
- * @since      NEXT
+ * @since      1.7.0
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
 /**
  * Class ConstantContact_reCAPTCHA_v2
  *
- * @since NEXT
+ * @since 1.7.0
  */
 class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	/**
 	 * Retrieve inline scripts for the reCAPTCHA form instance.
 	 *
-	 * @since NEXT
+	 * @since 1.7.0
+	 *
 	 * @return string
 	 */
 	public function get_inline_script() {
@@ -30,7 +31,8 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	/**
 	 * Retrieve the markup to house the Google reCAPTCHA checkbox.
 	 *
-	 * @since NEXT
+	 * @since 1.7.0
+	 *
 	 * @return string
 	 */
 	public function get_inline_markup() {
