@@ -509,11 +509,35 @@ class ConstantContact_API {
 			$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$this->log_errors( $extra . $messages );
 		}
+
+		$new_contact = $this->clear_email( $new_contact );
 		constant_contact_maybe_log_it( 'API', 'Submitted contact data', $new_contact );
 
 		return $return_contact;
 	}
 
+	/**
+	 * Obfuscate the left side of email addresses at the `@`.
+	 *
+	 * @since 1.7.0
+	 *
+	 * @param array $contact Contact data.
+	 * @return array
+	 */
+	private function clear_email( array $contact ) {
+		$clean = [];
+		foreach ( $contact as $contact_key => $contact_value ) {
+			if ( is_array( $contact_value ) ) {
+				$clean[ $contact_key ] = $this->clear_email( $contact_value );
+			} elseif ( is_email( $contact_value ) ) {
+				$email_parts = explode( '@', $contact_value );
+				$clean[ $contact_key ] = implode( '@', [ '***', $email_parts[1] ] );
+			} else {
+				$clean[ $contact_key ] = $contact_value;
+			}
+		}
+		return $clean;
+	}
 
 	/**
 	 * Helper method to create contact.
