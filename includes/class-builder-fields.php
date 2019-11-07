@@ -208,7 +208,7 @@ class ConstantContact_Builder_Fields {
 		if ( constant_contact()->api->is_connected() ) {
 			$list_metabox = new_cmb2_box( [
 				'id'           => 'ctct_0_list_metabox',
-				'title'        => esc_html__( 'Constant Contact List<h1>teehee</h1>', 'constant-contact-forms' ),
+				'title'        => esc_html__( 'Constant Contact List', 'constant-contact-forms' ),
 				'object_types' => [ 'ctct_forms' ],
 				'context'      => 'normal',
 				'priority'     => 'high',
