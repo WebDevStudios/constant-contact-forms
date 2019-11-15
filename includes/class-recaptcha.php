@@ -19,7 +19,7 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Chosen reCAPTCHA version.
 	 *
-	 * @var $version
+	 * @var string
 	 * @since 1.7.0
 	 */
 	protected $version;
@@ -27,7 +27,7 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Google reCAPTCHA site key.
 	 *
-	 * @var $site_key
+	 * @var string
 	 * @since 1.7.0
 	 */
 	protected $site_key;
@@ -35,7 +35,7 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Google reCAPTCHA secret key.
 	 *
-	 * @var $secret_key
+	 * @var string
 	 * @since 1.7.0
 	 */
 	protected $secret_key;
@@ -43,7 +43,7 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Language code to use.
 	 *
-	 * @var $lang_code
+	 * @var string
 	 * @since 1.7.0
 	 */
 	protected $lang_code;
@@ -51,7 +51,7 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Google reCAPTCHA instance.
 	 *
-	 * @var \ReCaptcha\ReCaptcha $recaptcha
+	 * @var \ReCaptcha\ReCaptcha
 	 * @since 1.7.0
 	 */
 	public $recaptcha;
