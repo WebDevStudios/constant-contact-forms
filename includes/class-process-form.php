@@ -10,6 +10,8 @@
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
+use \ReCaptcha\ReCaptcha;
+
 /**
  * Powers our form processing, validation, and value cleanup.
  *
@@ -199,12 +201,12 @@ class ConstantContact_Process_Form {
 		if ( isset( $data['g-recaptcha-response'] ) ) {
 			$method = null;
 			if ( ! ini_get( 'allow_url_fopen' ) ) {
-				$method = new \ReCaptcha\RequestMethod\CurlPost();
+				$method = new ReCaptcha\RequestMethod\CurlPost();
 			}
 			$ctctrecaptcha = new ConstantContact_reCAPTCHA();
 			$ctctrecaptcha->set_recaptcha_keys();
 			$keys = $ctctrecaptcha->get_recaptcha_keys();
-			$ctctrecaptcha->set_recaptcha_class( new \ReCaptcha\ReCaptcha( $keys['secret_key'], $method ) );
+			$ctctrecaptcha->set_recaptcha_class( new ReCaptcha( $keys['secret_key'], $method ) );
 
 			$ctctrecaptcha->recaptcha->setExpectedHostname( parse_url( home_url(), PHP_URL_HOST ) );
 			if ( 'version3' === $ctctrecaptcha->get_recaptcha_version() ) {
