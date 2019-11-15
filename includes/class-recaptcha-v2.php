@@ -39,13 +39,9 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	 * @return string
 	 */
 	public function get_inline_markup() {
-		$tmpl = '<div class="g-recaptcha" data-sitekey="%s" data-callback="%s" data-expired-callback="%s" data-size="%s"></div><script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=%s"></script>';
-
 		return sprintf(
-			$tmpl,
+			'<div class="g-recaptcha" data-sitekey="%1$s" data-callback="ctctEnableBtn" data-expired-callback="ctctDisableBtn" data-size="%2$s"></div><script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=%3$s"></script>',
 			$this->site_key,
-			'ctctEnableBtn',
-			'ctctDisableBtn',
 			$this->recaptcha_size,
 			$this->lang_code
 		);
