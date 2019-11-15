@@ -350,7 +350,7 @@ class ConstantContact_Display {
 		if ( ! $disable_recaptcha && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
 			$recaptcha_version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );
 			if ( 'version3' !== $recaptcha_version ) {
-				$return .= $this->build_recaptcha();
+				$return .= $this->build_recaptcha( $form_id );
 			}
 		}
 
@@ -516,12 +516,24 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.2.4
 	 *
+	 * @param int $form_id ID of form being rendered.
 	 * @return string
 	 */
-	public function build_recaptcha() {
+	public function build_recaptcha( $form_id ) {
 		$recaptcha = new ConstantContact_reCAPTCHA_v2();
 
 		$recaptcha->set_recaptcha_keys();
+
+		$recaptcha->set_size(
+			/**
+			 * Filters the reCAPTCHA size to render.
+			 *
+			 * @since 1.7.0
+			 *
+			 * @param string $value Size to render. Options: `normal`, `compact`. Default `normal`.
+			 */
+			apply_filters( 'constant_contact_recaptcha_size', 'normal', $form_id )
+		);
 
 		/**
 		 * Filters the language code to be used with Google reCAPTCHA.
@@ -529,10 +541,12 @@ class ConstantContact_Display {
 		 * See https://developers.google.com/recaptcha/docs/language for available values.
 		 *
 		 * @since 1.2.4
+		 * @since 1.7.0 Added form ID for conditional amending.
 		 *
-		 * @param string $value Language code to use. Default 'en'.
+		 * @param string $value   Language code to use. Default 'en'.
+		 * @param int    $form_id ID of the form being rendered.
 		 */
-		$recaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', 'en' ) );
+		$recaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', 'en', $form_id ) );
 
 		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
 		$return  = $recaptcha->get_inline_script();
