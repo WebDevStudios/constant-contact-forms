@@ -18,6 +18,12 @@
  */
 class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 
+	/**
+	 * Size to use for the reCAPTCHA box.
+	 *
+	 * @var string
+	 * @since 1.7.0
+	 */
 	public $recaptcha_size;
 
 	/**
@@ -27,8 +33,8 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	 *
 	 * @return string
 	 */
-	public function get_inline_script() {
-		return '<script>function ctctEnableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", false ); }function ctctDisableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", "disabled" ); }</script>';
+	public function enqueue_scripts() {
+		wp_add_inline_script( 'jquery', 'function ctctEnableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", false ); }function ctctDisableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", "disabled" ); }' );
 	}
 
 	/**

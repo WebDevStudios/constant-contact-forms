@@ -315,11 +315,11 @@ class ConstantContact_Settings {
 			'name'       => esc_html__( 'Version', 'constant-contact-forms' ),
 			'id'         => '_ctct_recaptcha_version',
 			'type'       => 'select',
-			'default'    => 'version2',
+			'default'    => 'v2',
 			'before_row' => $before_recaptcha,
 			'options'    => [
-				'version2' => esc_html__( 'Version 2', 'constant-contact-forms' ),
-				'version3' => esc_html__( 'Version 3', 'constant-contact-forms' ),
+				'v2' => esc_html__( 'Version 2', 'constant-contact-forms' ),
+				'v3' => esc_html__( 'Version 3', 'constant-contact-forms' ),
 			],
 		] );
 

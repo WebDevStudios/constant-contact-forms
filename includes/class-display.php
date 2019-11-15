@@ -75,11 +75,13 @@ class ConstantContact_Display {
 			true
 		);
 
-		$recaptchav3 = new ConstantContact_reCAPTCHA_v3();
+		$recaptcha_base       = new ConstantContact_reCAPTCHA();
+		$version              = $recaptcha_base->get_recaptcha_version();
+		$version              = $version ?: 'v2';
+		$recaptcha_class_name = "ConstantContact_reCAPTCHA_{$version}";
 
-		if ( 'version3' === $recaptchav3->get_recaptcha_version() ) {
-			$recaptchav3->enqueue_scripts();
-		}
+		$recaptcha = new $recaptcha_class_name();
+		$recaptcha->enqueue_scripts();
 
 		wp_enqueue_script( 'ctct_frontend_forms' );
 	}
@@ -549,7 +551,6 @@ class ConstantContact_Display {
 		$recaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', 'en', $form_id ) );
 
 		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
-		$return  = $recaptcha->get_inline_script();
 		$return .= $recaptcha->get_inline_markup();
 		// phpcs:enable WordPress.WP.EnqueuedResources
 
