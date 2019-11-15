@@ -551,7 +551,7 @@ class ConstantContact_Display {
 		$recaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', 'en', $form_id ) );
 
 		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
-		$return .= $recaptcha->get_inline_markup();
+		$return = $recaptcha->get_inline_markup();
 		// phpcs:enable WordPress.WP.EnqueuedResources
 
 		return $return;
