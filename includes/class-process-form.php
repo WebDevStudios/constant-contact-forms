@@ -209,7 +209,7 @@ class ConstantContact_Process_Form {
 			$ctctrecaptcha->set_recaptcha_class( new ReCaptcha( $keys['secret_key'], $method ) );
 
 			$ctctrecaptcha->recaptcha->setExpectedHostname( parse_url( home_url(), PHP_URL_HOST ) );
-			if ( 'version3' === $ctctrecaptcha->get_recaptcha_version() ) {
+			if ( 'v3' === $ctctrecaptcha->get_recaptcha_version() ) {
 				/**
 				 * Filters the default float value for the score threshold.
 				 *
