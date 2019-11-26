@@ -351,7 +351,7 @@ class ConstantContact_Display {
 
 		if ( ! $disable_recaptcha && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
 			$recaptcha_version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );
-			if ( 'version3' !== $recaptcha_version ) {
+			if ( 'v2' === $recaptcha_version ) {
 				$return .= $this->build_recaptcha( $form_id );
 			}
 		}
