@@ -236,7 +236,7 @@ class ConstantContact_Process_Form {
 			}
 		}
 
-		$maybe_disable_recaptcha = 'on' === get_post_meta( $data['ctct-id'], '_ctct_disable_recaptcha' );
+		$maybe_disable_recaptcha = 'on' === get_post_meta( $data['ctct-id'], '_ctct_disable_recaptcha', true );
 		if ( empty( $data['g-recaptcha-response'] ) && $maybe_disable_recaptcha && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
 			return [
 				'status' => 'named_error',
