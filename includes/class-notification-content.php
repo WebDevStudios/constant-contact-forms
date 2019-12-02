@@ -182,7 +182,7 @@ class ConstantContact_Notification_Content {
 			esc_html__( 'Constant Contact Forms has experienced issues that may need addressed and functionality may be missing. Please enable the "Support" checkbox in the %1$sConstant Contact settings%2$s and start a %3$sforum support thread%4$s. Our support team will aid with further steps.', 'constant-contact-forms' ),
 			sprintf( '<a href="%s">', esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings' ) ) ),
 			'</a>',
-			sprintf( '<a href="%s" target="_blank">', esc_url( 'https://wordpress.org/support/topic/constant-contact-forms-has-experienced-issues-that-need-addressed-admin-notice/ ' ) ),
+			sprintf( '<a href="%s" target="_blank">', esc_url( 'https://wordpress.org/support/topic/constant-contact-forms-has-experienced-issues-that-need-addressed-admin-notice/' ) ),
 			'</a>'
 		);
 	}

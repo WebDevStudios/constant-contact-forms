@@ -177,7 +177,9 @@ class ConstantContact_Settings {
 
 		global $pagenow;
 
-		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] ); // Input var okay.
+		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
+		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] );
+		// phpcs:enable WordPress.Security.NonceVerification
 	}
 
 	/**
@@ -310,10 +312,21 @@ class ConstantContact_Settings {
 		);
 
 		$cmb->add_field( [
+			'name'       => esc_html__( 'Version', 'constant-contact-forms' ),
+			'id'         => '_ctct_recaptcha_version',
+			'type'       => 'select',
+			'default'    => 'v2',
+			'before_row' => $before_recaptcha,
+			'options'    => [
+				'v2' => esc_html__( 'Version 2', 'constant-contact-forms' ),
+				'v3' => esc_html__( 'Version 3', 'constant-contact-forms' ),
+			],
+		] );
+
+		$cmb->add_field( [
 			'name'            => esc_html__( 'Site Key', 'constant-contact-forms' ),
 			'id'              => '_ctct_recaptcha_site_key',
 			'type'            => 'text',
-			'before_row'      => $before_recaptcha,
 			'sanitization_cb' => [ $this, 'sanitize_recaptcha_api_key_string' ],
 			'attributes'      => [
 				'maxlength' => 50,
@@ -471,10 +484,7 @@ class ConstantContact_Settings {
 
 		$saved_label = ctct_get_settings_option( '_ctct_optin_label', '' );
 		$list        = ctct_get_settings_option( '_ctct_optin_list', '' );
-
-
-		$label = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
-
+		$label       = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 		?>
 		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
 			<label for="ctct_optin">
@@ -513,7 +523,7 @@ class ConstantContact_Settings {
 			return $comment_data;
 		}
 
-		return $this->_process_comment_data_for_optin( $comment_data );
+		return $this->process_comment_data_for_optin( $comment_data );
 	}
 
 	/**
@@ -524,7 +534,7 @@ class ConstantContact_Settings {
 	 * @param array $comment_data Array of comment data.
 	 * @return array Passed in comment data
 	 */
-	public function _process_comment_data_for_optin( $comment_data ) {
+	public function process_comment_data_for_optin( $comment_data ) {
 
 		if ( isset( $comment_data['comment_author_email'] ) && $comment_data['comment_author_email'] ) {
 
@@ -582,7 +592,7 @@ class ConstantContact_Settings {
 			return $user;
 		}
 
-		return $this->_process_user_data_for_optin( $user, $username );
+		return $this->process_user_data_for_optin( $user, $username );
 	}
 
 	/**
@@ -594,17 +604,17 @@ class ConstantContact_Settings {
 	 * @param string $username Username.
 	 * @return object Passed in $user object.
 	 */
-	public function _process_user_data_for_optin( $user, $username ) {
+	public function process_user_data_for_optin( $user, $username ) {
 
 		$user_data = get_user_by( 'login', $username );
 		$email     = '';
 		$name      = '';
 
-		if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->user_email ) ) {
+		if ( $user_data && isset( $user_data->data, $user_data->data->user_email ) ) {
 			$email = sanitize_email( $user_data->data->user_email );
 		}
 
-		if ( $user_data && isset( $user_data->data ) && isset( $user_data->data->display_name ) ) {
+		if ( $user_data && isset( $user_data->data, $user_data->data->display_name ) ) {
 			$name = sanitize_text_field( $user_data->data->display_name );
 		}
 
@@ -741,25 +751,12 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Check if we have reCAPTCHA settings available to use with Google reCAPTCHA.
-	 *
-	 * @since 1.2.4
-	 * @return bool
-	 */
-	public function has_recaptcha() {
-		$site_key   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
-		$secret_key = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
-
-		if ( $site_key && $secret_key ) {
-			return true;
-		}
-		return false;
-	}
-
-	/**
 	 * Attempts to add the index file for protecting the log directory.
 	 *
 	 * @since 1.5.0
+	 *
+	 * @param string $updated Whether or not we're updating.
+	 * @param string $action  Current action being performed.
 	 * @return void
 	 */
 	public function maybe_init_logs( $updated, $action ) {
@@ -770,9 +767,9 @@ class ConstantContact_Settings {
 		$this->plugin->logging->create_log_folder();
 		$this->plugin->logging->create_log_index_file();
 		$this->plugin->logging->create_log_file();
-  }
+	}
 
-  /*
+	/**
 	 * Adds a fieldset for controlling the spam error.
 	 *
 	 * @since 1.5.0
@@ -832,7 +829,7 @@ class ConstantContact_Settings {
 	 *
 	 * @param  mixed      $value      The unsanitized value from the form.
 	 * @param  array      $field_args Array of field arguments.
-	 * @param  CMB2_Field $field      The field object
+	 * @param  CMB2_Field $field      The field object.
 	 * @return string
 	 */
 	public function sanitize_recaptcha_api_key_string( $value, $field_args, $field ) {
