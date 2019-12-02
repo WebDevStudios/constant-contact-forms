@@ -312,10 +312,21 @@ class ConstantContact_Settings {
 		);
 
 		$cmb->add_field( [
+			'name'       => esc_html__( 'Version', 'constant-contact-forms' ),
+			'id'         => '_ctct_recaptcha_version',
+			'type'       => 'select',
+			'default'    => 'v2',
+			'before_row' => $before_recaptcha,
+			'options'    => [
+				'v2' => esc_html__( 'Version 2', 'constant-contact-forms' ),
+				'v3' => esc_html__( 'Version 3', 'constant-contact-forms' ),
+			],
+		] );
+
+		$cmb->add_field( [
 			'name'            => esc_html__( 'Site Key', 'constant-contact-forms' ),
 			'id'              => '_ctct_recaptcha_site_key',
 			'type'            => 'text',
-			'before_row'      => $before_recaptcha,
 			'sanitization_cb' => [ $this, 'sanitize_recaptcha_api_key_string' ],
 			'attributes'      => [
 				'maxlength' => 50,
@@ -737,19 +748,6 @@ class ConstantContact_Settings {
 			</div><!-- .modal-dialog -->
 		</div>
 		<?php
-	}
-
-	/**
-	 * Check if we have reCAPTCHA settings available to use with Google reCAPTCHA.
-	 *
-	 * @since 1.2.4
-	 * @return bool
-	 */
-	public function has_recaptcha() {
-		$site_key   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
-		$secret_key = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
-
-		return $site_key && $secret_key;
 	}
 
 	/**

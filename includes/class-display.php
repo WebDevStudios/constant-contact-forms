@@ -75,6 +75,14 @@ class ConstantContact_Display {
 			true
 		);
 
+		$recaptcha_base       = new ConstantContact_reCAPTCHA();
+		$version              = $recaptcha_base->get_recaptcha_version();
+		$version              = $version ?: 'v2';
+		$recaptcha_class_name = "ConstantContact_reCAPTCHA_{$version}";
+
+		$recaptcha = new $recaptcha_class_name();
+		$recaptcha->enqueue_scripts();
+
 		wp_enqueue_script( 'ctct_frontend_forms' );
 	}
 
@@ -306,9 +314,9 @@ class ConstantContact_Display {
 		$should_do_ajax           = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax                  = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$should_disable_recaptcha = get_post_meta( $form_id, '_ctct_disable_recaptcha', true );
-		$disable_recaptcha        = ( 'on' === $should_disable_recaptcha );
+		$disable_recaptcha        = 'on' === $should_disable_recaptcha;
 		$form_classes             = 'ctct-form ctct-form-' . $form_id;
-		$form_classes            .= $this->plugin->settings->has_recaptcha() ? ' has-recaptcha' : ' no-recaptcha';
+		$form_classes            .= ConstantContact_reCAPTCHA::has_recaptcha_keys() ? ' has-recaptcha' : ' no-recaptcha';
 		$form_classes            .= $this->build_custom_form_classes();
 
 		$form_styles = '';
@@ -341,8 +349,11 @@ class ConstantContact_Display {
 
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
-		if ( $this->plugin->settings->has_recaptcha() && ! $disable_recaptcha ) {
-			$return .= $this->build_recaptcha();
+		if ( ! $disable_recaptcha && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
+			$recaptcha_version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );
+			if ( 'v2' === $recaptcha_version ) {
+				$return .= $this->build_recaptcha( $form_id );
+			}
 		}
 
 		$return .= $this->build_honeypot_field();
@@ -503,13 +514,28 @@ class ConstantContact_Display {
 	/**
 	 * Display a Google reCAPTCHA field.
 	 *
+	 * This method is dedicated for the version 2 "I am human" style.
+	 *
 	 * @since 1.2.4
 	 *
+	 * @param int $form_id ID of form being rendered.
 	 * @return string
 	 */
-	public function build_recaptcha() {
+	public function build_recaptcha( $form_id ) {
+		$recaptcha = new ConstantContact_reCAPTCHA_v2();
 
-		$site_key = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
+		$recaptcha->set_recaptcha_keys();
+
+		$recaptcha->set_size(
+			/**
+			 * Filters the reCAPTCHA size to render.
+			 *
+			 * @since 1.7.0
+			 *
+			 * @param string $value Size to render. Options: `normal`, `compact`. Default `normal`.
+			 */
+			apply_filters( 'constant_contact_recaptcha_size', 'normal', $form_id )
+		);
 
 		/**
 		 * Filters the language code to be used with Google reCAPTCHA.
@@ -517,20 +543,15 @@ class ConstantContact_Display {
 		 * See https://developers.google.com/recaptcha/docs/language for available values.
 		 *
 		 * @since 1.2.4
+		 * @since 1.7.0 Added form ID for conditional amending.
 		 *
-		 * @param string $value Language code to use. Default 'en'.
+		 * @param string $value   Language code to use. Default 'en'.
+		 * @param int    $form_id ID of the form being rendered.
 		 */
-		$recaptcha_lang = apply_filters( 'constant_contact_recaptcha_lang', 'en' );
+		$recaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', 'en', $form_id ) );
 
 		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
-		$return  = '<script>function ctctEnableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", false ); }function ctctDisableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", "disabled" ); }</script>';
-		$return .= sprintf(
-			'<div class="g-recaptcha" data-sitekey="%s" data-callback="%s" data-expired-callback="%s"></div><script type="text/javascript" src="https://www.google.com/recaptcha/api.js?hl=%s"></script>',
-			esc_attr( $site_key ),
-			'ctctEnableBtn',
-			'ctctDisableBtn',
-			esc_attr( $recaptcha_lang )
-		);
+		$return = $recaptcha->get_inline_markup();
 		// phpcs:enable WordPress.WP.EnqueuedResources
 
 		return $return;
