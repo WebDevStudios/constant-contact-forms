@@ -22,6 +22,7 @@ Temporary Items
 /node_modules/
 build
 lib
+node_modules/
 
 # PHPStorm
 .idea
