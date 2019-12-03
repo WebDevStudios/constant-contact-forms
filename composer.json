@@ -1,7 +1,7 @@
 {
   "name": "constantcontact/constant-contact-forms",
-  "description": "Official WordPress plugin for Constant Contact Forms",
-  "license": "GPLv3",
+  "description": "Official WordPress plugin for Constant Contact Forms.",
+  "license": "GPL-3.0-or-later",
   "homepage": "https://www.constantcontact.com",
   "require": {
     "monolog/monolog": "1.24",
@@ -22,5 +22,14 @@
       "name": "WebDevStudios",
       "homepage": "https://www.webdevstudios.com"
     }
-  ]
+  ],
+  "scripts": {
+		"dist": [
+			"rm -rf ./vendor",
+			"npm run build",
+			"@composer install --no-dev -a",
+			"@composer archive --format=zip --file constant-contact-forms",
+			"mv constant-contact-forms.zip $HOME/Desktop"
+		]
+	}
 }

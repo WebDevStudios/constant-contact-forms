@@ -35,7 +35,7 @@
     "url": "git@github.com/WebDevStudios/constant-contact-forms.git"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/WebDevStudios/constant-contact-forms/issues"
   },
