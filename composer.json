@@ -25,8 +25,14 @@
   ],
   "scripts": {
 		"dist": [
-			"rm -rf ./vendor",
-			"npm run build",
+      "rm -rf ./vendor",
+      "npm install",
+      "npm run build",
+      "rm -rf ./node_modules",
+      "rm -rf ./apigen.neon",
+      "rm -rf ./readme.md",
+      "rm -rf ./CHANGELOG.md",
+      "rm -rf ./CODEOWNERS",
 			"@composer install --no-dev -a",
 			"@composer archive --format=zip --file constant-contact-forms",
 			"mv constant-contact-forms.zip $HOME/Desktop"
