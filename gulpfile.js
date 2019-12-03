@@ -13,8 +13,9 @@ const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
-const webpack = require( 'webpack' );
-const webpackStream = require( 'webpack-stream' );
+const webpack = require('webpack');
+const webpackStream = require('webpack-stream');
+const wpPot = require('gulp-wp-pot');
 
 const pluginConfig = require('./plugin-config');
 const webpackConfig = require( './webpack.config' );
@@ -163,9 +164,16 @@ gulp.task('watch', function() {
 	gulp.watch( './assets/js/ctct-plugin-recaptcha/**/*.js').on('change', browserSync.reload );
 });
 
+gulp.task('makepot', function() {
+    return gulp.src( [ './constant-contact-forms.php', './includes/*.php' ] ).pipe( wpPot({
+		domain: 'constant-contact-forms',
+		package: 'Constant Contact Forms'
+	}) ).pipe( gulp.dest( './languages/constant-contact-forms.pot' ) );
+});
+
 /**
 * Create individual tasks.
 */
 gulp.task('js', gulp.series('scripts'));
 gulp.task('styles', gulp.series('cssnano'));
-gulp.task('default', gulp.parallel('styles', 'js'));
+gulp.task('default', gulp.parallel('styles', 'js', 'makepot' ));
