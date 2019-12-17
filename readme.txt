@@ -35,6 +35,9 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= TBD =
+* Tweak: Added the field ID as third parameter to the `constant_contact_input_classes` filter.
+
 = 1.7.0 =
 * New - Added support for Google reCAPTCHA version 3
 * Fix - Fixed with debug log deletion and dialog closing
