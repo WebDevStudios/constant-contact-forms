@@ -127,46 +127,6 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Add menu options page.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_options_page() {
-
-		$this->options_page = add_submenu_page(
-			'edit.php?post_type=ctct_forms',
-			esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
-			esc_html__( 'Settings', 'constant-contact-forms' ),
-			'manage_options',
-			$this->key,
-			[ $this, 'admin_page_display' ]
-		);
-
-		// Include CMB CSS in the head to avoid FOUC.
-		add_action( "admin_print_styles-{$this->options_page}", [ 'CMB2_hookup', 'enqueue_cmb_css' ] );
-	}
-
-	/**
-	 * Admin page markup. Mostly handled by CMB2.
-	 *
-	 * @since 1.0.0
-	 */
-	public function admin_page_display() {
-		?>
-		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-			<?php
-			if ( function_exists( 'cmb2_metabox_form' ) ) {
-				cmb2_metabox_form( $this->metabox_id, $this->key );
-			}
-
-			$this->plugin->check->maybe_display_debug_info();
-			?>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Are we on the settings page?
 	 *
 	 * @since 1.0.0
