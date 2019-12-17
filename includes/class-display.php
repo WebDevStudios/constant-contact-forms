@@ -1003,9 +1003,10 @@ class ConstantContact_Display {
 		 * @since  1.2.0
 		 * @param  array  $classes Array of classes to apply to the field.
 		 * @param  string $type    The field type being rendered.
+		 * @param  string $f_id    Field ID.
 		 * @return array
 		 */
-		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $f_id );
 
 		/**
 		 * Filters whether or not to remove characters from potential maxlength attribute value.
@@ -1095,9 +1096,10 @@ class ConstantContact_Display {
 		 *
 		 * @param array  $classes Array of classes to apply to the field.
 		 * @param string $type    The field type being rendered.
+		 * @param string $f_id    Field ID.
 		 * @return array
 		 */
-		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $f_id );
 
 		$markup  = $this->field_top( $type, $name, $f_id, $label, false, false );
 		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" class="' . implode( ' ', $classes ) . '" />';
