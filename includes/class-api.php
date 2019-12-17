@@ -54,8 +54,6 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @todo Replace SDK: Initialize a lighter, custom client here instead of the SDK.
-	 *
 	 * @return object ConstantContact_API.
 	 */
 	public function cc() {
