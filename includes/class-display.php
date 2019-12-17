@@ -259,6 +259,7 @@ class ConstantContact_Display {
 
 		$this->set_global_form_css();
 		$this->set_specific_form_css( $form_id );
+
 		$return           = '';
 		$form_err_display = '';
 		$error_message    = false;
@@ -394,7 +395,6 @@ class ConstantContact_Display {
 	 * @return string URL of current page.
 	 */
 	public function get_current_page() {
-
 		global $wp;
 
 		$request = ( isset( $wp->request ) && $wp->request ) ? $wp->request : null;
@@ -424,7 +424,6 @@ class ConstantContact_Display {
 	 * @return mixed.
 	 */
 	public function add_verify_fields( $form_data ) {
-
 		if (
 			isset( $form_data ) &&
 			isset( $form_data['options'] ) &&
@@ -464,7 +463,6 @@ class ConstantContact_Display {
 	 * @return string
 	 */
 	public function build_form_fields( $form_data, $old_values, $req_errors ) {
-
 		$return  = '';
 		$form_id = absint( $form_data['options']['form_id'] );
 
@@ -712,7 +710,6 @@ class ConstantContact_Display {
 	 * @return mixed Submitted value.
 	 */
 	public function get_submitted_value( $value = '', $map = '', $field = [], $submitted_vals = [] ) {
-
 		if ( $value ) {
 			return $value;
 		}
@@ -1115,7 +1112,7 @@ class ConstantContact_Display {
 		$form_id    = 0 === $form_id ? get_the_ID() : $form_id;
 		$maybe_form = get_post( $form_id );
 
-		if ( ! isset( $maybe_form->post_type ) || 'ctct_forms' !== $maybe_form->post_type ) {
+		if ( 'ctct_forms' !== $maybe_form->post_type ) {
 			return 0;
 		}
 
@@ -1225,7 +1222,6 @@ class ConstantContact_Display {
 	 * @return string HTML markup
 	 */
 	public function get_optin_markup( $label, $value, $show ) {
-
 		$checked = $show ? '' : 'checked';
 
 		$markup  = $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
@@ -1250,7 +1246,6 @@ class ConstantContact_Display {
 	 * @return string field HTML markup.
 	 */
 	public function address( $name = '', $f_id = '', $value = [], $desc = '', $req = false, $field_error = '', $label_placement = 'top' ) {
-
 		$street = esc_html__( 'Street Address', 'constant-contact-forms' );
 		$line_2 = esc_html__( 'Address Line 2', 'constant-contact-forms' );
 		$city   = esc_html__( 'City', 'constant-contact-forms' );
@@ -1439,7 +1434,6 @@ class ConstantContact_Display {
 	 * @return string Fields HTML markup.
 	 */
 	public function dates( $name = '', $f_id = '', $value = [], $desc = '', $req = false, $field_error = '' ) {
-
 		$month = esc_html__( 'Month', 'constant-contact-forms' );
 		$day   = esc_html__( 'Day', 'constant-contact-forms' );
 		$year  = esc_html__( 'Year', 'constant-contact-forms' );
@@ -1480,7 +1474,6 @@ class ConstantContact_Display {
 	 * @return string field markup.
 	 */
 	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '', $req = false ) {
-
 		$f_id = str_replace( 'birthday', 'birthday_' . $type, $f_id );
 		$f_id = str_replace( 'anniversary', 'anniversary_' . $type, $f_id );
 
@@ -1508,7 +1501,6 @@ class ConstantContact_Display {
 	 * @return string HTML markup.
 	 */
 	public function get_date_options( $text = '', $values = [], $prev_selected_values = [] ) {
-
 		$return = '<option value="">' . sanitize_text_field( $text ) . '</option>';
 
 		if ( ! is_array( $values ) ) {
