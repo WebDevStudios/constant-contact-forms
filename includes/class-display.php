@@ -63,7 +63,6 @@ class ConstantContact_Display {
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
 	public function scripts( $enqueue = false ) {
-
 		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 		$suffix = ( true === $debug ) ? '' : '.min';
 
@@ -104,7 +103,6 @@ class ConstantContact_Display {
 	 * @since  1.4.0
 	 */
 	public function set_global_form_css() {
-
 		$defaults = [
 			'global_form_classes'    => '',
 			'global_label_placement' => '',
@@ -235,7 +233,6 @@ class ConstantContact_Display {
 	 * @return string The form title.
 	 */
 	private function set_form_title( $show_title, $form_id ) {
-
 		if ( ! $show_title ) {
 			return '';
 		}
@@ -256,7 +253,6 @@ class ConstantContact_Display {
 	 * @return string Form markup.
 	 */
 	public function form( $form_data, $form_id = '', $show_title = false ) {
-
 		if ( 'publish' !== get_post_status( $form_id ) ) {
 			return '';
 		}
@@ -619,7 +615,6 @@ class ConstantContact_Display {
 	 * @return string HTML markup
 	 */
 	public function field( $field, $old_values = [], $req_errors = [], $form_id = 0, $label_placement = 'top' ) {
-
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
 			return '';
 		}
@@ -956,9 +951,9 @@ class ConstantContact_Display {
 	 * @return string HTML markup for field.
 	 */
 	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '' ) {
-
 		$name                  = sanitize_text_field( $name );
 		$f_id                  = sanitize_title( $id );
+		$form_id               = $this->get_true_form_id( $form_id );
 		$input_inline_styles   = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
@@ -1003,10 +998,11 @@ class ConstantContact_Display {
 		 * @since  1.2.0
 		 * @param  array  $classes Array of classes to apply to the field.
 		 * @param  string $type    The field type being rendered.
-		 * @param  string $f_id    Field ID.
+		 * @param  int    $f_id    Field ID.
+		 * @param  int    $form_id Form ID.
 		 * @return array
 		 */
-		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $f_id );
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $f_id, $form_id );
 
 		/**
 		 * Filters whether or not to remove characters from potential maxlength attribute value.
@@ -1079,33 +1075,51 @@ class ConstantContact_Display {
 	 * @return string HTML markup for checkbox.
 	 */
 	public function checkbox( $name = '', $f_id = '', $value = '', $label = '' ) {
-
-		$name  = sanitize_text_field( $name );
-		$f_id  = sanitize_title( $f_id );
-		$value = sanitize_text_field( $value );
-		$label = esc_attr( $label );
-		$type  = 'checkbox';
+		$name    = sanitize_text_field( $name );
+		$f_id    = sanitize_title( $f_id );
+		$form_id = $this->get_true_form_id();
+		$value   = sanitize_text_field( $value );
+		$label   = esc_attr( $label );
+		$type    = 'checkbox';
 
 		$classes = [ 'ctct-' . esc_attr( $type ) ];
 
 		/**
 		 * Filter to add classes for the rendering input.
 		 *
-		 * @since 1.2.0
-		 * @todo  Can we abstract this to use $this->input?
-		 *
-		 * @param array  $classes Array of classes to apply to the field.
-		 * @param string $type    The field type being rendered.
-		 * @param string $f_id    Field ID.
+		 * @since  1.2.0
+		 * @param  array  $classes Array of classes to apply to the field.
+		 * @param  string $type    The field type being rendered.
+		 * @param  int    $f_id    Field ID.
+		 * @param  int    $form_id Form ID.
 		 * @return array
 		 */
-		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $f_id );
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $f_id, $form_id );
 
 		$markup  = $this->field_top( $type, $name, $f_id, $label, false, false );
 		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" class="' . implode( ' ', $classes ) . '" />';
 		$markup .= $this->field_bottom( $name, ' ' . $label );
 
 		return $markup;
+	}
+
+	/**
+	 * Gets post ID of the CTCT form, instead of the ID of the post it's embedded in.
+	 *
+	 * @since TBD
+	 *
+	 * @param int $form_id Optional. Form ID, defaults to 0.
+	 * @return int 0 if could not find a post ID for a CTCT form.
+	 */
+	private function get_true_form_id( $form_id = 0 ) {
+		$form_id    = 0 === $form_id ? get_the_ID() : $form_id;
+		$maybe_form = get_post( $form_id );
+
+		if ( ! isset( $maybe_form->post_type ) || 'ctct_forms' !== $maybe_form->post_type ) {
+			return 0;
+		}
+
+		return $form_id;
 	}
 
 	/**
