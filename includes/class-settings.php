@@ -42,6 +42,9 @@ class ConstantContact_Settings {
 	private $metabox_titles = [
 		'general'   => 'General',
 		'recaptcha' => 'reCaptcha',
+		'form'      => 'Form',
+		'support'   => 'Support',
+		'spam'      => 'Spam',
 	];
 
 	/**
@@ -161,6 +164,9 @@ class ConstantContact_Settings {
 	public function add_options_page_metaboxes() {
 		$this->register_fields_general();
 		$this->register_fields_recaptcha();
+		$this->register_fields_form();
+		$this->register_fields_support();
+		$this->register_fields_spam();
 	}
 
 	/**
@@ -461,13 +467,13 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Helper to show our lists field for settings.
+	 * Register 'form' settings tab fields.
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param object $cmb CMB fields object.
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
 	 */
-	public function do_lists_field( $cmb ) {
+	protected function register_fields_form() {
+		$cmb = new_cmb2_box( $this->get_cmb_args( 'form' ) );
 
 		$before_global_css = sprintf(
 			'<hr /><h2>%s</h2>',
@@ -503,6 +509,16 @@ class ConstantContact_Settings {
 				'constant-contact-forms'
 			),
 		] );
+	}
+
+	/**
+	 * Register 'support' settings tab fields.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 */
+	protected function register_fields_support() {
+		$cmb = new_cmb2_box( $this->get_cmb_args( 'support' ) );
 
 		$before_debugging = sprintf(
 			'<hr/><h2>%s</h2>',
@@ -515,8 +531,37 @@ class ConstantContact_Settings {
 			'type'       => 'checkbox',
 			'before_row' => $before_debugging,
 		] );
+	}
 
-		$this->add_spam_error_fields( $cmb );
+	/**
+	 * Register 'spam' settings tab fields.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 */
+	protected function register_fields_spam() {
+		$cmb = new_cmb2_box( $this->get_cmb_args( 'spam' ) );
+
+		$description  = '<div class="description">';
+		$description .= esc_html__( 'This message displays when the plugin detects spam data.', 'constant-contact-forms' );
+		$description .= esc_html__( 'Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' );
+		$description .= '</div>';
+
+		$before_message = sprintf(
+			'<hr/><h2>%s</h2>%s',
+			__( 'Suspected Bot Error Message', 'constant-contact-forms' ),
+			$description
+		);
+
+		$cmb->add_field(
+			[
+				'name'       => esc_html__( 'Error Message', 'constant-contact-forms' ),
+				'id'         => '_ctct_spam_error',
+				'type'       => 'text',
+				'before_row' => $before_message,
+				'default'    => $this->get_default_spam_error(),
+			]
+		);
 	}
 
 	/**
@@ -886,35 +931,6 @@ class ConstantContact_Settings {
 		$this->plugin->logging->create_log_folder();
 		$this->plugin->logging->create_log_index_file();
 		$this->plugin->logging->create_log_file();
-	}
-
-	/**
-	 * Adds a fieldset for controlling the spam error.
-	 *
-	 * @since 1.5.0
-	 * @param object $cmb An instance of the CMB2 object.
-	 */
-	private function add_spam_error_fields( $cmb ) {
-		$description  = '<div class="description">';
-		$description .= esc_html__( 'This message displays when the plugin detects spam data.', 'constant-contact-forms' );
-		$description .= esc_html__( 'Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' );
-		$description .= '</div>';
-
-		$before_message = sprintf(
-			'<hr/><h2>%s</h2>%s',
-			__( 'Suspected Bot Error Message', 'constant-contact-forms' ),
-			$description
-		);
-
-		$cmb->add_field(
-			[
-				'name'       => esc_html__( 'Error Message', 'constant-contact-forms' ),
-				'id'         => '_ctct_spam_error',
-				'type'       => 'text',
-				'before_row' => $before_message,
-				'default'    => $this->get_default_spam_error(),
-			]
-		);
 	}
 
 	/**
