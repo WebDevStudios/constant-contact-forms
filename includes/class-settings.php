@@ -34,6 +34,17 @@ class ConstantContact_Settings {
 	private $metabox_id = 'ctct_option_metabox_settings';
 
 	/**
+	 * Settings page metabox titles by id.
+	 *
+	 * @since NEXT
+	 * @var array
+	 */
+	private $metabox_titles = [
+		'general'   => 'General',
+		'recaptcha' => 'reCaptcha',
+	];
+
+	/**
 	 * Settings options page.
 	 *
 	 * @var string
@@ -145,28 +156,45 @@ class ConstantContact_Settings {
 	 * @since 1.0.0
 	 */
 	public function add_options_page_metaboxes() {
+		$this->register_fields_general();
+		$this->register_fields_recaptcha();
+	}
 
 
-		$cmb = new_cmb2_box( [
-			'id'           => $this->metabox_id,
+	/**
+	 * Get args for current CMB.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  string $cmb_id Current CMB ID.
+	 * @return array          CMB args.
+	 */
+	protected function get_cmb_args( string $cmb_id ) : array {
+		return [
+			'id'           => "{$this->metabox_id}_{$cmb_id}",
 			'title'        => esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
+			'menu_title'   => esc_html__( 'Settings', 'constant-contact-forms' ),
 			'object_types' => [ 'options-page' ],
 			'option_key'   => 'ctct_options_settings',
-			'menu_title'   => esc_html__( 'Settings', 'constant-contact-forms' ),
-			'parent_slug'  => 'edit.php?post_type=ctct_forms',
-		] );
-
-		$this->do_lists_field( $cmb );
+			'parent_slug'  => add_query_arg( [
+				'post_type' => 'ctct_forms',
+				'page' => ( 'general' === $cmb_id ? false : $this->key ),
+			], 'edit.php' ),
+			'tab_group'    => 'ctct_options_settings',
+			'tab_title'    => $this->metabox_titles[ $cmb_id ],
+			'display_cb'   => [ $this, 'display_tabs' ],
+		];
 	}
 
 	/**
-	 * Helper to show our lists field for settings.
+	 * Register 'General' settings tab fields.
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param object $cmb CMB fields object.
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
 	 */
-	public function do_lists_field( $cmb ) {
+	protected function register_fields_general() {
+		$cmb = new_cmb2_box( $this->get_cmb_args( 'general' ) );
 
 		$cmb->add_field( [
 			'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
@@ -260,6 +288,16 @@ class ConstantContact_Settings {
 				}
 			}
 		}
+	}
+
+	/**
+	 * Register 'Google reCAPTCHA' settings tab fields.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 */
+	protected function register_fields_recaptcha() {
+		$cmb = new_cmb2_box( $this->get_cmb_args( 'recaptcha' ) );
 
 		$before_recaptcha = sprintf(
 			'<hr/><h2>%s</h2>%s',
@@ -298,6 +336,16 @@ class ConstantContact_Settings {
 				'maxlength' => 50,
 			],
 		] );
+	}
+
+	/**
+	 * Helper to show our lists field for settings.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param object $cmb CMB fields object.
+	 */
+	public function do_lists_field( $cmb ) {
 
 		$before_global_css = sprintf(
 			'<hr /><h2>%s</h2>',
