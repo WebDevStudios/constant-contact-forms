@@ -157,16 +157,22 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Add the options metabox to the array of metaboxes.
+	 * Add the options metaboxes to the array of metaboxes.
+	 *
+	 * Call corresponding method for each cmb key listed in $metabox_titles.
 	 *
 	 * @since 1.0.0
 	 */
 	public function add_options_page_metaboxes() {
-		$this->register_fields_general();
-		$this->register_fields_recaptcha();
-		$this->register_fields_form();
-		$this->register_fields_support();
-		$this->register_fields_spam();
+		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
+			$method = "register_fields_{$cmb_key}";
+
+			if ( ! method_exists( $this, $method ) ) {
+				continue;
+			}
+
+			$this->$method();
+		}
 	}
 
 	/**
