@@ -80,6 +80,7 @@ class ConstantContact_Settings {
 		add_action( 'cmb2_admin_init', [ $this, 'add_options_page_metaboxes' ] );
 
 		add_action( 'admin_menu', [ $this, 'remove_extra_menu_items' ], 999 );
+		add_filter( 'parent_file', [ $this, 'select_primary_menu_item' ] );
 
 		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
 			add_filter( "cmb2_override_option_get_{$this->key}_{$cmb_key}", [ $this, 'get_override' ], 10, 2 );
@@ -178,6 +179,25 @@ class ConstantContact_Settings {
 
 			remove_submenu_page( 'edit.php?post_type=ctct_forms', "{$this->key}_{$cmb_key}" );
 		}
+	}
+
+	/**
+	 * Ensure primary settings page menu item is highlighted.
+	 *
+	 * Override $plugin_page global to ensure "general" menu item active for other settings pages.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  string $file The parent file.
+	 * @return string       The parent file.
+	 */
+	public function select_primary_menu_item( $file ) : string {
+		global $plugin_page;
+
+		$plugin_page = false !== strpos( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore -- Okay overriding of WP global
+
+		return $file;
 	}
 
 	/**
