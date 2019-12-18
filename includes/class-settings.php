@@ -39,12 +39,7 @@ class ConstantContact_Settings {
 	 * @since NEXT
 	 * @var   array|null
 	 */
-	private $metabox_titles = [
-		'general' => 'General',
-		'spam'    => 'Spam Control',
-		'support' => 'Support',
-	];
-
+	private $metabox_titles;
 
 	/**
 	 * Parent plugin class.
@@ -64,6 +59,13 @@ class ConstantContact_Settings {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 		$this->register_hooks();
+
+		// Init cmb title property.
+		$this->metabox_titles = [
+			'general' => 'General',
+			'spam'    => 'Spam Control',
+			'support' => 'Support',
+		];
 	}
 
 	/**
