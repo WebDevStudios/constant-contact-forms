@@ -57,7 +57,7 @@ class ConstantContact_Settings {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->hooks();
+		$this->register_hooks();
 	}
 
 	/**
@@ -65,19 +65,17 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
-
-		add_action( 'cmb2_admin_init', [ $this, 'add_options_page_metabox' ] );
+	public function register_hooks() {
+		add_action( 'cmb2_admin_init', [ $this, 'add_options_page_metaboxes' ] );
 
 		add_filter( 'cmb2_override_option_get_' . $this->key, [ $this, 'get_override' ], 10, 2 );
-
 		add_filter( 'cmb2_override_option_save_' . $this->key, [ $this, 'update_override' ], 10, 2 );
+		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", [ $this, 'settings_notices' ], 10, 2 );
 
 		$this->inject_optin_form_hooks();
 
 		add_filter( 'preprocess_comment', [ $this, 'process_optin_comment_form' ] );
 		add_filter( 'authenticate', [ $this, 'process_optin_login_form' ], 10, 3 );
-
 		add_action( 'cmb2_save_field__ctct_logging', [ $this, 'maybe_init_logs' ], 10, 2 );
 		add_filter( 'ctct_custom_spam_message', [ $this, 'get_spam_error_message' ], 10, 2 );
 	}
@@ -88,7 +86,6 @@ class ConstantContact_Settings {
 	 * @since 1.0.0
 	 */
 	public function inject_optin_form_hooks() {
-
 		add_action( 'login_form', [ $this, 'optin_form_field_login' ] );
 		add_action( 'comment_form', [ $this, 'optin_form_field_comment' ] );
 
@@ -147,9 +144,8 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_options_page_metabox() {
+	public function add_options_page_metaboxes() {
 
-		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", [ $this, 'settings_notices' ], 10, 2 );
 
 		$cmb = new_cmb2_box( [
 			'id'           => $this->metabox_id,
