@@ -150,9 +150,7 @@ class ConstantContact_Settings {
 
 		global $pagenow;
 
-		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
-		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && $this->key === $_GET['page'] );
-		// phpcs:enable WordPress.Security.NonceVerification
+		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && $this->key === $_GET['page'] ); // phpcs:ignore -- Okay accessing of $_GET.
 	}
 
 	/**
@@ -619,7 +617,7 @@ class ConstantContact_Settings {
 				<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
 				<?php echo esc_attr( $label ); ?>
 			</label>
-			<?php echo constant_contact()->display->get_disclose_text(); ?>
+			<?php echo wp_kses_post( constant_contact()->display->get_disclose_text() ); ?>
 			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin' ); ?>
 		</p>
 		<?php
@@ -630,8 +628,6 @@ class ConstantContact_Settings {
 	 * Sends contact to CTCT if optin checked.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @throws Exception
 	 *
 	 * @param array $comment_data Comment form data.
 	 * @return array Comment form data.
@@ -669,11 +665,11 @@ class ConstantContact_Settings {
 			$name    = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
 			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
 
-			if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+			if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
 				return $comment_data;
 			}
 
-			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) );
+			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // phpcs:ignore -- Okay accessing of $_POST.
 
 			$args = [
 				'list'       => $list,
@@ -693,8 +689,6 @@ class ConstantContact_Settings {
 	 * Sends contact to CTCT if optin checked.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @throws Exception
 	 *
 	 * @param array  $user User.
 	 * @param string $username Login name.
@@ -746,11 +740,11 @@ class ConstantContact_Settings {
 			$name = sanitize_text_field( $user_data->data->display_name );
 		}
 
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+		if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
 			return $user;
 		}
 
-		$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) );
+		$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // phpcs:ignore -- Okay accessing of $_POST.
 
 		if ( $email ) {
 			$args = [
@@ -860,12 +854,10 @@ class ConstantContact_Settings {
 				<div class="ctct-modal-content">
 					<div class="ctct-modal-header">
 						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
-						<h2 class="ctct-logo"><img src="<?php echo constant_contact()->url . '/assets/images/constant-contact-logo.png' ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" /></h2>
+						<h2 class="ctct-logo"><img src="<?php echo esc_url( constant_contact()->url . '/assets/images/constant-contact-logo.png' ); ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" /></h2>
 					</div>
 					<div class="ctct-modal-body ctct-privacy-modal-body">
-						<?php
-						echo constant_contact_privacy_policy_content();
-						?>
+						<?php echo constant_contact_privacy_policy_content(); // phpcs:ignore -- XSS Ok. ?>
 					</div><!-- modal body -->
 					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">
 						<a class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Agree', 'constant-contact-forms' ); ?></a>
