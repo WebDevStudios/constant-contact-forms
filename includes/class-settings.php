@@ -196,7 +196,7 @@ class ConstantContact_Settings {
 	 * @param  string $file The parent file.
 	 * @return string       The parent file.
 	 */
-	public function select_primary_menu_item( $file ) : string {
+	public function select_primary_menu_item( $file ) {
 		global $plugin_page;
 
 		$plugin_page = false !== strpos( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore -- Okay overriding of WP global
@@ -244,7 +244,7 @@ class ConstantContact_Settings {
 	 * @param  CMB2_Options_Hookup $cmb_options The CMB2_Options_Hookup object.
 	 * @return array                            Array of option tabs.
 	 */
-	protected function get_option_tabs( CMB2_Options_Hookup $cmb_options ) : array {
+	protected function get_option_tabs( CMB2_Options_Hookup $cmb_options ) {
 		$tab_group = $cmb_options->cmb->prop( 'tab_group' );
 		$tabs      = [];
 
@@ -259,7 +259,8 @@ class ConstantContact_Settings {
 				continue;
 			}
 
-			$tabs[ "{$this->key}_{$cmb_key}" ] = $cmb->prop( 'tab_title' ) ?? $cmb->prop( 'title' );
+			$tab_title                         = $cmb->prop( 'tab_title' );
+			$tabs[ "{$this->key}_{$cmb_key}" ] = empty( $tab_title ) ? $cmb->prop( 'title' ) : $tab_title;
 		}
 
 		return $tabs;
@@ -273,8 +274,10 @@ class ConstantContact_Settings {
 	 *
 	 * @return string Current tab.
 	 */
-	protected function get_current_tab() : string {
-		return filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ?? "{$this->key}_general";
+	protected function get_current_tab() {
+		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+
+		return empty( $page ) ? "{$this->key}_general" : $page;
 	}
 
 	/**
@@ -286,7 +289,7 @@ class ConstantContact_Settings {
 	 * @param  string $option_key CMB tab key.
 	 * @return string             URL to CMB tab.
 	 */
-	protected function get_tab_link( $option_key ) : string {
+	protected function get_tab_link( $option_key ) {
 		$menu_page_url = wp_specialchars_decode( menu_page_url( $option_key, false ) );
 
 		return $menu_page_url;
@@ -301,7 +304,7 @@ class ConstantContact_Settings {
 	 * @param  string $cmb_id Current CMB ID.
 	 * @return array          CMB args.
 	 */
-	protected function get_cmb_args( string $cmb_id ) : array {
+	protected function get_cmb_args( string $cmb_id ) {
 		return [
 			'id'           => "{$this->metabox_id}_{$cmb_id}",
 			'title'        => esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
