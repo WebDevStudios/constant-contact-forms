@@ -79,6 +79,8 @@ class ConstantContact_Settings {
 	public function register_hooks() {
 		add_action( 'cmb2_admin_init', [ $this, 'add_options_page_metaboxes' ] );
 
+		add_action( 'admin_menu', [ $this, 'remove_extra_menu_items' ], 999 );
+
 		add_filter( 'cmb2_override_option_get_' . $this->key, [ $this, 'get_override' ], 10, 2 );
 		add_filter( 'cmb2_override_option_save_' . $this->key, [ $this, 'update_override' ], 10, 2 );
 		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", [ $this, 'settings_notices' ], 10, 2 );
@@ -158,6 +160,22 @@ class ConstantContact_Settings {
 	public function add_options_page_metaboxes() {
 		$this->register_fields_general();
 		$this->register_fields_recaptcha();
+	}
+
+	/**
+	 * Remove secondary settings page menu items.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 */
+	public function remove_extra_menu_items() {
+		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
+			if ( 'general' === $cmb_key ) {
+				continue;
+			}
+
+			remove_submenu_page( 'edit.php?post_type=ctct_forms', "{$this->key}_{$cmb_key}" );
+		}
 	}
 
 	/**
