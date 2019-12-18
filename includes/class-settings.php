@@ -160,6 +160,101 @@ class ConstantContact_Settings {
 		$this->register_fields_recaptcha();
 	}
 
+	/**
+	 * Display options page with CMB2 tabs.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  CMB2_Options_Hookup $cmb_options The CMB2_Options_Hookup object.
+	 */
+	public function display_tabs( CMB2_Options_Hookup $cmb_options ) {
+		$tabs        = $this->get_option_tabs( $cmb_options );
+		$current     = $this->get_current_tab();
+
+		// Get current CMB2_Options_Hookup if necessary.
+		if ( 'general' !== $current ) {
+			$cmb = CMB2_Boxes::get_by( 'id', "{$this->metabox_id}_{$current}" );
+			$cmb = $cmb ? reset( $cmb ) : null;
+			$cmb_options_tmp = $cmb ? new CMB2_Options_Hookup( $cmb, $this->key ) : null;
+			$cmb_options = $cmb_options_tmp ?? $cmb_options;
+		}
+		?>
+		<div class="wrap cmb2-options-page option-<?php echo esc_attr( $cmb_options->option_key ); ?>">
+			<?php if ( get_admin_page_title() ) : ?>
+				<h2><?php echo wp_kses_post( get_admin_page_title() ); ?></h2>
+			<?php endif; ?>
+			<h2 class="nav-tab-wrapper">
+				<?php foreach ( $tabs as $option_key => $tab_title ) : ?>
+					<?php $tab_class = $current === $option_key ? ' nav-tab-active' : ''; ?>
+					<a class="nav-tab<?php echo esc_attr( $tab_class ); ?>" href="<?php echo esc_url_raw( $this->get_tab_link( $option_key ) ); ?>"><?php echo wp_kses_post( $tab_title ); ?></a>
+				<?php endforeach; ?>
+			</h2>
+			<form class="cmb-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" id="<?php echo esc_attr( $cmb_options->cmb->cmb_id ); ?>" enctype="multipart/form-data" encoding="multipart/form-data">
+				<input type="hidden" name="action" value="<?php echo esc_attr( $cmb_options->option_key ); ?>">
+				<?php $cmb_options->options_page_metabox(); ?>
+				<?php submit_button( esc_attr( $cmb_options->cmb->prop( 'save_button' ) ), 'primary', 'submit-cmb' ); ?>
+			</form>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Get all option tabs for navigation on CMB2 settings page.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  CMB2_Options_Hookup $cmb_options The CMB2_Options_Hookup object.
+	 * @return array                            Array of option tabs.
+	 */
+	protected function get_option_tabs( CMB2_Options_Hookup $cmb_options ) : array {
+		$tab_group = $cmb_options->cmb->prop( 'tab_group' );
+		$tabs      = [];
+
+		foreach ( CMB2_Boxes::get_all() as $cmb_id => $cmb ) {
+			if ( $tab_group !== $cmb->prop( 'tab_group' ) ) {
+				continue;
+			}
+
+			$cmb_key = array_search( $cmb->prop( 'tab_title' ), $this->metabox_titles );
+
+			if ( false === $cmb_key ) {
+				continue;
+			}
+
+			$tabs[ $cmb_key ] = $cmb->prop( 'tab_title' ) ?? $cmb->prop( 'title' );
+		}
+
+		return $tabs;
+	}
+
+	/**
+	 * Get currently selected tab.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return string Current tab.
+	 */
+	protected function get_current_tab() : string {
+		return filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) ?? 'general';
+	}
+
+	/**
+	 * Get link to CMB tab.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  string $option_key CMB tab key.
+	 * @return string             URL to CMB tab.
+	 */
+	protected function get_tab_link( $option_key ) : string {
+		$menu_page_url = wp_specialchars_decode( menu_page_url( 'ctct_options_settings', false ) );
+
+		return ( 'general' !== $option_key ? add_query_arg( 'tab', $option_key, $menu_page_url ) : $menu_page_url );
+	}
 
 	/**
 	 * Get args for current CMB.
