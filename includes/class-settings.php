@@ -42,7 +42,6 @@ class ConstantContact_Settings {
 	private $metabox_titles = [
 		'general' => 'General',
 		'spam'    => 'Spam Control',
-		'form'    => 'Form',
 		'support' => 'Support',
 	];
 
@@ -421,6 +420,41 @@ class ConstantContact_Settings {
 				}
 			}
 		}
+
+		$before_global_css = sprintf(
+			'<hr /><h2>%s</h2>',
+			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
+		);
+
+		$cmb->add_field( [
+			'name'        => esc_html__( 'CSS Classes', 'constant-contact_forms' ),
+			'id'          => '_ctct_form_custom_classes',
+			'type'        => 'text',
+			'description' => esc_html__(
+					'Provide custom classes for the form separated by a single space.',
+					'constant-contact-forms'
+			),
+			'before_row'  => $before_global_css,
+		] );
+
+		$cmb->add_field( [
+			'name'             => esc_html__( 'Label Placement', 'constant-contact-forms' ),
+			'id'               => '_ctct_form_label_placement',
+			'type'             => 'select',
+			'default'          => 'top',
+			'show_option_none' => false,
+			'options'          => [
+				'top'    => esc_html__( 'Top', 'constant-contact-forms' ),
+				'left'   => esc_html__( 'Left', 'constant-contact-forms' ),
+				'right'  => esc_html__( 'Right', 'constant-contact-forms' ),
+				'bottom' => esc_html__( 'Bottom', 'constant-contact-forms' ),
+				'hidden' => esc_html__( 'Hidden', 'constant-contact-forms' ),
+			],
+			'description'      => esc_html__(
+				'Choose the position for the labels of the form elements.',
+				'constant-contact-forms'
+			),
+		] );
 	}
 
 	/**
@@ -433,7 +467,7 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'spam' ) );
 
 		$before_recaptcha = sprintf(
-			'<hr/><h2>%s</h2>%s',
+			'<h2>%s</h2>%s',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
 			'<div class="discover-recaptcha">' . __( 'Learn more and get an <a href="https://www.google.com/recaptcha/intro/" target="_blank">API site key</a>', 'constant-contact-forms' ) . '</div>'
 		);
@@ -493,51 +527,6 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Register 'Form' settings tab fields.
-	 *
-	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
-	 */
-	protected function register_fields_form() {
-		$cmb = new_cmb2_box( $this->get_cmb_args( 'form' ) );
-
-		$before_global_css = sprintf(
-			'<hr /><h2>%s</h2>',
-			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
-		);
-
-		$cmb->add_field( [
-			'name'        => esc_html__( 'CSS Classes', 'constant-contact_forms' ),
-			'id'          => '_ctct_form_custom_classes',
-			'type'        => 'text',
-			'description' => esc_html__(
-					'Provide custom classes for the form separated by a single space.',
-					'constant-contact-forms'
-			),
-			'before_row'  => $before_global_css,
-		] );
-
-		$cmb->add_field( [
-			'name'             => esc_html__( 'Label Placement', 'constant-contact-forms' ),
-			'id'               => '_ctct_form_label_placement',
-			'type'             => 'select',
-			'default'          => 'top',
-			'show_option_none' => false,
-			'options'          => [
-				'top'    => esc_html__( 'Top', 'constant-contact-forms' ),
-				'left'   => esc_html__( 'Left', 'constant-contact-forms' ),
-				'right'  => esc_html__( 'Right', 'constant-contact-forms' ),
-				'bottom' => esc_html__( 'Bottom', 'constant-contact-forms' ),
-				'hidden' => esc_html__( 'Hidden', 'constant-contact-forms' ),
-			],
-			'description'      => esc_html__(
-				'Choose the position for the labels of the form elements.',
-				'constant-contact-forms'
-			),
-		] );
-	}
-
-	/**
 	 * Register 'Support' settings tab fields.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
@@ -547,7 +536,7 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'support' ) );
 
 		$before_debugging = sprintf(
-			'<hr/><h2>%s</h2>',
+			'<h2>%s</h2>',
 			esc_html__( 'Support', 'constant-contact-forms' )
 		);
 		$cmb->add_field( [
