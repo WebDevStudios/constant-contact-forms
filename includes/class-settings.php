@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore -- Class name okay, PSR-4.
 /**
  * Constant Contact Settings class.
  *
@@ -146,7 +146,7 @@ class ConstantContact_Settings {
 		global $pagenow;
 
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
-		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] );
+		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && $this->key === $_GET['page'] );
 		// phpcs:enable WordPress.Security.NonceVerification
 	}
 
@@ -169,16 +169,8 @@ class ConstantContact_Settings {
 	 * @param  CMB2_Options_Hookup $cmb_options The CMB2_Options_Hookup object.
 	 */
 	public function display_tabs( CMB2_Options_Hookup $cmb_options ) {
-		$tabs        = $this->get_option_tabs( $cmb_options );
-		$current     = $this->get_current_tab();
-
-		// Get current CMB2_Options_Hookup if necessary.
-		if ( 'general' !== $current ) {
-			$cmb = CMB2_Boxes::get_by( 'id', "{$this->metabox_id}_{$current}" );
-			$cmb = $cmb ? reset( $cmb ) : null;
-			$cmb_options_tmp = $cmb ? new CMB2_Options_Hookup( $cmb, $this->key ) : null;
-			$cmb_options = $cmb_options_tmp ?? $cmb_options;
-		}
+		$tabs    = $this->get_option_tabs( $cmb_options );
+		$current = $this->get_current_tab();
 		?>
 		<div class="wrap cmb2-options-page option-<?php echo esc_attr( $cmb_options->option_key ); ?>">
 			<?php if ( get_admin_page_title() ) : ?>
@@ -223,7 +215,7 @@ class ConstantContact_Settings {
 				continue;
 			}
 
-			$tabs[ $cmb_key ] = $cmb->prop( 'tab_title' ) ?? $cmb->prop( 'title' );
+			$tabs[ "{$this->key}_{$cmb_key}" ] = $cmb->prop( 'tab_title' ) ?? $cmb->prop( 'title' );
 		}
 
 		return $tabs;
@@ -238,7 +230,7 @@ class ConstantContact_Settings {
 	 * @return string Current tab.
 	 */
 	protected function get_current_tab() : string {
-		return filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) ?? 'general';
+		return filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ?? "{$this->key}_general";
 	}
 
 	/**
@@ -251,9 +243,9 @@ class ConstantContact_Settings {
 	 * @return string             URL to CMB tab.
 	 */
 	protected function get_tab_link( $option_key ) : string {
-		$menu_page_url = wp_specialchars_decode( menu_page_url( 'ctct_options_settings', false ) );
+		$menu_page_url = wp_specialchars_decode( menu_page_url( $option_key, false ) );
 
-		return ( 'general' !== $option_key ? add_query_arg( 'tab', $option_key, $menu_page_url ) : $menu_page_url );
+		return $menu_page_url;
 	}
 
 	/**
@@ -271,12 +263,9 @@ class ConstantContact_Settings {
 			'title'        => esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
 			'menu_title'   => esc_html__( 'Settings', 'constant-contact-forms' ),
 			'object_types' => [ 'options-page' ],
-			'option_key'   => 'ctct_options_settings',
-			'parent_slug'  => add_query_arg( [
-				'post_type' => 'ctct_forms',
-				'page' => ( 'general' === $cmb_id ? false : $this->key ),
-			], 'edit.php' ),
-			'tab_group'    => 'ctct_options_settings',
+			'option_key'   => "{$this->key}_{$cmb_id}",
+			'parent_slug'  => add_query_arg( 'post_type', 'ctct_forms', 'edit.php' ),
+			'tab_group'    => $this->key,
 			'tab_title'    => $this->metabox_titles[ $cmb_id ],
 			'display_cb'   => [ $this, 'display_tabs' ],
 		];
