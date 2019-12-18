@@ -81,9 +81,11 @@ class ConstantContact_Settings {
 
 		add_action( 'admin_menu', [ $this, 'remove_extra_menu_items' ], 999 );
 
-		add_filter( 'cmb2_override_option_get_' . $this->key, [ $this, 'get_override' ], 10, 2 );
-		add_filter( 'cmb2_override_option_save_' . $this->key, [ $this, 'update_override' ], 10, 2 );
-		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", [ $this, 'settings_notices' ], 10, 2 );
+		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
+			add_filter( "cmb2_override_option_get_{$this->key}_{$cmb_key}", [ $this, 'get_override' ], 10, 2 );
+			add_filter( "cmb2_override_option_save_{$this->key}_{$cmb_key}", [ $this, 'update_override' ], 10, 2 );
+			add_action( "cmb2_save_options-page_fields_{$this->metabox_id}_{$cmb_key}", [ $this, 'settings_notices' ], 10, 2 );
+		}
 
 		$this->inject_optin_form_hooks();
 
@@ -754,7 +756,6 @@ class ConstantContact_Settings {
 	 * @return void
 	 */
 	public function settings_notices( $object_id, $updated ) {
-
 		if ( $object_id !== $this->key || empty( $updated ) ) {
 			return;
 		}
@@ -781,11 +782,11 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $test         Key.
+	 * @param string $ignore       Key.
 	 * @param mixed  $option_value Value to update to.
 	 * @return mixed Site option
 	 */
-	public function update_override( $test, $option_value ) {
+	public function update_override( $ignore, $option_value ) {
 		return update_site_option( $this->key, $option_value );
 	}
 
