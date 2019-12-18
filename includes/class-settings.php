@@ -21,7 +21,7 @@ class ConstantContact_Settings {
 	 * Option key, and option page slug.
 	 *
 	 * @since 1.0.0
-	 * @var string
+	 * @var   string
 	 */
 	private $key = 'ctct_options_settings';
 
@@ -29,7 +29,7 @@ class ConstantContact_Settings {
 	 * Settings page metabox id.
 	 *
 	 * @since 1.0.0
-	 * @var string
+	 * @var   string
 	 */
 	private $metabox_id = 'ctct_option_metabox_settings';
 
@@ -37,7 +37,7 @@ class ConstantContact_Settings {
 	 * Settings page metabox titles by id.
 	 *
 	 * @since NEXT
-	 * @var array
+	 * @var   array|null
 	 */
 	private $metabox_titles = [
 		'general' => 'General',
@@ -45,18 +45,12 @@ class ConstantContact_Settings {
 		'support' => 'Support',
 	];
 
-	/**
-	 * Settings options page.
-	 *
-	 * @var string
-	 */
-	private $options_page;
 
 	/**
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
-	 * @var object
+	 * @var   object
 	 */
 	protected $plugin;
 
