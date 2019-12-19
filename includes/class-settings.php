@@ -360,8 +360,11 @@ class ConstantContact_Settings {
 			if ( $lists && is_array( $lists ) ) {
 
 				$before_optin = sprintf(
-					'<hr/><h2>%s</h2>',
-					esc_html__( 'Advanced Opt-in', 'constant-contact-forms' )
+					/* translators: 1: horizontal rule and opening heading tag, 2: opt-in section heading, 3: closing heading tag */
+					'%1$s%2$s%3$s',
+					'<hr/><h2>',
+					esc_html__( 'Advanced Opt-in', 'constant-contact-forms' ),
+					'</h2>'
 				);
 
 				$cmb->add_field( [
@@ -421,8 +424,11 @@ class ConstantContact_Settings {
 		}
 
 		$before_global_css = sprintf(
-			'<hr /><h2>%s</h2>',
-			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
+			/* translators: 1: horizontal rule and opening heading tag, 2: global css section heading, 3: closing heading tag */
+			'%1$s%2$s%3$s',
+			'<hr><h2>',
+			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' ),
+			'</h2>'
 		);
 
 		$cmb->add_field( [
@@ -466,9 +472,16 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'spam' ) );
 
 		$before_recaptcha = sprintf(
-			'<h2>%s</h2>%s',
+			/* translators: 1: opening heading tag, 2: reCaptcha section heading, 3: closing heading tag, 4: opening div tag, 5: text before 'learn more' link, 6: open 'learn more' link tag, 7: 'learn more' link text, 8: closing 'learn more' link and div tags */
+			'%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s',
+			'<h2>',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
-			'<div class="discover-recaptcha">' . __( 'Learn more and get an <a href="https://www.google.com/recaptcha/intro/" target="_blank">API site key</a>', 'constant-contact-forms' ) . '</div>'
+			'</h2>',
+			'<div class="discover-recaptcha">',
+			esc_html__( 'Learn more and get an ', 'constant-contact-forms' ),
+			'<a href="https://www.google.com/recaptcha/intro/" target="_blank">',
+			esc_html__( 'API site key', 'constant-contact-forms' ),
+			'</a></div>'
 		);
 
 		$cmb->add_field( [
@@ -503,15 +516,15 @@ class ConstantContact_Settings {
 			],
 		] );
 
-		$description  = '<div class="description">';
-		$description .= esc_html__( 'This message displays when the plugin detects spam data.', 'constant-contact-forms' );
-		$description .= esc_html__( 'Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' );
-		$description .= '</div>';
-
 		$before_message = sprintf(
-			'<hr/><h2>%s</h2>%s',
-			__( 'Suspected Bot Error Message', 'constant-contact-forms' ),
-			$description
+			/* translators: 1: horizontal rule and opening heading tag, 2: spam section heading, 3: closing heading tag, 4: opening div tag for description, 5: spam section description, 6: closing div tag */
+			'%1$s%2$s%3$s%4$s%5$s%6$s',
+			'<hr/><h2>',
+			esc_html__( 'Suspected Bot Error Message', 'constant-contact-forms' ),
+			'</h2>',
+			'<div class="description">',
+			esc_html__( 'This message displays when the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' ),
+			'</div>'
 		);
 
 		$cmb->add_field(
@@ -535,8 +548,11 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'support' ) );
 
 		$before_debugging = sprintf(
-			'<h2>%s</h2>',
-			esc_html__( 'Support', 'constant-contact-forms' )
+			/* translators: 1: opening heading tag, 2: support section heading, 3: closing heading tag */
+			'%1$s%2$s%3$s',
+			'<h2>',
+			esc_html__( 'Support', 'constant-contact-forms' ),
+			'</h2>'
 		);
 		$cmb->add_field( [
 			'name'       => esc_html__( 'Enable logging for debugging purposes.', 'constant-contact-forms' ),
