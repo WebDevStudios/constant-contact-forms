@@ -58,7 +58,6 @@ class ConstantContact_Settings {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->register_hooks();
 
 		// Init CMB2 metabox titles, used as tab titles on settings page.
 		$this->metabox_titles = [
@@ -66,6 +65,8 @@ class ConstantContact_Settings {
 			'spam'    => esc_html__( 'Spam Control', 'constant-contact-forms' ),
 			'support' => esc_html__( 'Support', 'constant-contact-forms' ),
 		];
+
+		$this->register_hooks();
 	}
 
 	/**
@@ -79,18 +80,33 @@ class ConstantContact_Settings {
 		add_action( 'admin_menu', [ $this, 'remove_extra_menu_items' ], 999 );
 		add_filter( 'parent_file', [ $this, 'select_primary_menu_item' ] );
 
-		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
-			add_filter( "cmb2_override_option_get_{$this->key}_{$cmb_key}", [ $this, 'get_override' ], 10, 2 );
-			add_filter( "cmb2_override_option_save_{$this->key}_{$cmb_key}", [ $this, 'update_override' ], 10, 2 );
-			add_action( "cmb2_save_options-page_fields_{$this->metabox_id}_{$cmb_key}", [ $this, 'settings_notices' ], 10, 2 );
-		}
-
+		$this->register_metabox_override_hooks();
 		$this->inject_optin_form_hooks();
 
 		add_filter( 'preprocess_comment', [ $this, 'process_optin_comment_form' ] );
 		add_filter( 'authenticate', [ $this, 'process_optin_login_form' ], 10, 3 );
 		add_action( 'cmb2_save_field__ctct_logging', [ $this, 'maybe_init_logs' ], 10, 2 );
 		add_filter( 'ctct_custom_spam_message', [ $this, 'get_spam_error_message' ], 10, 2 );
+	}
+
+	/**
+	 * Add CMB2 hook overrides specific to individual metaboxes.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return void
+	 */
+	protected function register_metabox_override_hooks() {
+		if ( ! is_array( $this->metabox_titles ) ) {
+			return;
+		}
+
+		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
+			add_filter( "cmb2_override_option_get_{$this->key}_{$cmb_key}", [ $this, 'get_override' ], 10, 2 );
+			add_filter( "cmb2_override_option_save_{$this->key}_{$cmb_key}", [ $this, 'update_override' ], 10, 2 );
+			add_action( "cmb2_save_options-page_fields_{$this->metabox_id}_{$cmb_key}", [ $this, 'settings_notices' ], 10, 2 );
+		}
 	}
 
 	/**
