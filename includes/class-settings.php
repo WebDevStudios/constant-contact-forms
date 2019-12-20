@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore -- Class name okay, PSR-4.
 /**
  * Constant Contact Settings class.
  *
@@ -21,7 +21,7 @@ class ConstantContact_Settings {
 	 * Option key, and option page slug.
 	 *
 	 * @since 1.0.0
-	 * @var string
+	 * @var   string
 	 */
 	private $key = 'ctct_options_settings';
 
@@ -29,22 +29,23 @@ class ConstantContact_Settings {
 	 * Settings page metabox id.
 	 *
 	 * @since 1.0.0
-	 * @var string
+	 * @var   string
 	 */
 	private $metabox_id = 'ctct_option_metabox_settings';
 
 	/**
-	 * Settings options page.
+	 * Settings page metabox titles by id.
 	 *
-	 * @var string
+	 * @since NEXT
+	 * @var   array|null
 	 */
-	private $options_page;
+	private $metabox_titles;
 
 	/**
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
-	 * @var object
+	 * @var   object
 	 */
 	protected $plugin;
 
@@ -57,7 +58,15 @@ class ConstantContact_Settings {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-		$this->hooks();
+
+		// Init CMB2 metabox titles, used as tab titles on settings page.
+		$this->metabox_titles = [
+			'general' => esc_html__( 'General', 'constant-contact-forms' ),
+			'spam'    => esc_html__( 'Spam Control', 'constant-contact-forms' ),
+			'support' => esc_html__( 'Support', 'constant-contact-forms' ),
+		];
+
+		$this->register_hooks();
 	}
 
 	/**
@@ -65,21 +74,39 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function register_hooks() {
+		add_action( 'cmb2_admin_init', [ $this, 'add_options_page_metaboxes' ] );
 
-		add_action( 'cmb2_admin_init', [ $this, 'add_options_page_metabox' ] );
+		add_action( 'admin_menu', [ $this, 'remove_extra_menu_items' ], 999 );
+		add_filter( 'parent_file', [ $this, 'select_primary_menu_item' ] );
 
-		add_filter( 'cmb2_override_option_get_' . $this->key, [ $this, 'get_override' ], 10, 2 );
-
-		add_filter( 'cmb2_override_option_save_' . $this->key, [ $this, 'update_override' ], 10, 2 );
-
+		$this->register_metabox_override_hooks();
 		$this->inject_optin_form_hooks();
 
 		add_filter( 'preprocess_comment', [ $this, 'process_optin_comment_form' ] );
 		add_filter( 'authenticate', [ $this, 'process_optin_login_form' ], 10, 3 );
-
 		add_action( 'cmb2_save_field__ctct_logging', [ $this, 'maybe_init_logs' ], 10, 2 );
 		add_filter( 'ctct_custom_spam_message', [ $this, 'get_spam_error_message' ], 10, 2 );
+	}
+
+	/**
+	 * Add CMB2 hook overrides specific to individual metaboxes.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return void
+	 */
+	protected function register_metabox_override_hooks() {
+		if ( ! is_array( $this->metabox_titles ) ) {
+			return;
+		}
+
+		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
+			add_filter( "cmb2_override_option_get_{$this->key}_{$cmb_key}", [ $this, 'get_override' ], 10, 2 );
+			add_filter( "cmb2_override_option_save_{$this->key}_{$cmb_key}", [ $this, 'update_override' ], 10, 2 );
+			add_action( "cmb2_save_options-page_fields_{$this->metabox_id}_{$cmb_key}", [ $this, 'settings_notices' ], 10, 2 );
+		}
 	}
 
 	/**
@@ -88,7 +115,6 @@ class ConstantContact_Settings {
 	 * @since 1.0.0
 	 */
 	public function inject_optin_form_hooks() {
-
 		add_action( 'login_form', [ $this, 'optin_form_field_login' ] );
 		add_action( 'comment_form', [ $this, 'optin_form_field_comment' ] );
 
@@ -127,46 +153,6 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Add menu options page.
-	 *
-	 * @since 1.0.0
-	 */
-	public function add_options_page() {
-
-		$this->options_page = add_submenu_page(
-			'edit.php?post_type=ctct_forms',
-			esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
-			esc_html__( 'Settings', 'constant-contact-forms' ),
-			'manage_options',
-			$this->key,
-			[ $this, 'admin_page_display' ]
-		);
-
-		// Include CMB CSS in the head to avoid FOUC.
-		add_action( "admin_print_styles-{$this->options_page}", [ 'CMB2_hookup', 'enqueue_cmb_css' ] );
-	}
-
-	/**
-	 * Admin page markup. Mostly handled by CMB2.
-	 *
-	 * @since 1.0.0
-	 */
-	public function admin_page_display() {
-		?>
-		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php echo esc_html( get_admin_page_title() ); ?></h2>
-			<?php
-			if ( function_exists( 'cmb2_metabox_form' ) ) {
-				cmb2_metabox_form( $this->metabox_id, $this->key );
-			}
-
-			$this->plugin->check->maybe_display_debug_info();
-			?>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Are we on the settings page?
 	 *
 	 * @since 1.0.0
@@ -177,40 +163,183 @@ class ConstantContact_Settings {
 
 		global $pagenow;
 
-		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
-		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && 'ctct_options_settings' === $_GET['page'] );
-		// phpcs:enable WordPress.Security.NonceVerification
+		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && $this->key === $_GET['page'] ); // phpcs:ignore -- Okay accessing of $_GET.
 	}
 
 	/**
-	 * Add the options metabox to the array of metaboxes.
+	 * Add the options metaboxes to the array of metaboxes.
+	 *
+	 * Call corresponding method for each cmb key listed in $metabox_titles.
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_options_page_metabox() {
+	public function add_options_page_metaboxes() {
+		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
+			$method = "register_fields_{$cmb_key}";
 
-		add_action( "cmb2_save_options-page_fields_{$this->metabox_id}", [ $this, 'settings_notices' ], 10, 2 );
+			if ( ! method_exists( $this, $method ) ) {
+				continue;
+			}
 
-		$cmb = new_cmb2_box( [
-			'id'           => $this->metabox_id,
+			$this->$method();
+		}
+	}
+
+	/**
+	 * Remove secondary settings page menu items.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 */
+	public function remove_extra_menu_items() {
+		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
+			if ( 'general' === $cmb_key ) {
+				continue;
+			}
+
+			remove_submenu_page( 'edit.php?post_type=ctct_forms', "{$this->key}_{$cmb_key}" );
+		}
+	}
+
+	/**
+	 * Ensure primary settings page menu item is highlighted.
+	 *
+	 * Override $plugin_page global to ensure "general" menu item active for other settings pages.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  string $file The parent file.
+	 * @return string       The parent file.
+	 */
+	public function select_primary_menu_item( $file ) {
+		global $plugin_page;
+
+		$plugin_page = false !== strpos( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore -- Okay overriding of WP global
+
+		return $file;
+	}
+
+	/**
+	 * Display options page with CMB2 tabs.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  CMB2_Options_Hookup $cmb_options The CMB2_Options_Hookup object.
+	 */
+	public function display_tabs( CMB2_Options_Hookup $cmb_options ) {
+		$tabs    = $this->get_option_tabs( $cmb_options );
+		$current = $this->get_current_tab();
+		?>
+		<div class="wrap cmb2-options-page option-<?php echo esc_attr( $cmb_options->option_key ); ?>">
+			<?php if ( get_admin_page_title() ) : ?>
+				<h2><?php echo wp_kses_post( get_admin_page_title() ); ?></h2>
+			<?php endif; ?>
+			<h2 class="nav-tab-wrapper">
+				<?php foreach ( $tabs as $option_key => $tab_title ) : ?>
+					<?php $tab_class = $current === $option_key ? ' nav-tab-active' : ''; ?>
+					<a class="nav-tab<?php echo esc_attr( $tab_class ); ?>" href="<?php echo esc_url_raw( $this->get_tab_link( $option_key ) ); ?>"><?php echo wp_kses_post( $tab_title ); ?></a>
+				<?php endforeach; ?>
+			</h2>
+			<form class="cmb-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" id="<?php echo esc_attr( $cmb_options->cmb->cmb_id ); ?>" enctype="multipart/form-data" encoding="multipart/form-data">
+				<input type="hidden" name="action" value="<?php echo esc_attr( $cmb_options->option_key ); ?>">
+				<?php $cmb_options->options_page_metabox(); ?>
+				<?php submit_button( esc_attr( $cmb_options->cmb->prop( 'save_button' ) ), 'primary', 'submit-cmb' ); ?>
+			</form>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Get all option tabs for navigation on CMB2 settings page.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  CMB2_Options_Hookup $cmb_options The CMB2_Options_Hookup object.
+	 * @return array                            Array of option tabs.
+	 */
+	protected function get_option_tabs( CMB2_Options_Hookup $cmb_options ) {
+		$tab_group = $cmb_options->cmb->prop( 'tab_group' );
+		$tabs      = [];
+
+		foreach ( CMB2_Boxes::get_all() as $cmb_id => $cmb ) {
+			if ( $tab_group !== $cmb->prop( 'tab_group' ) ) {
+				continue;
+			}
+
+			$cmb_key = array_search( $cmb->prop( 'tab_title' ), $this->metabox_titles );
+
+			if ( false === $cmb_key ) {
+				continue;
+			}
+
+			$tab_title                         = $cmb->prop( 'tab_title' );
+			$tabs[ "{$this->key}_{$cmb_key}" ] = empty( $tab_title ) ? $cmb->prop( 'title' ) : $tab_title;
+		}
+
+		return $tabs;
+	}
+
+	/**
+	 * Get currently selected tab.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return string Current tab.
+	 */
+	protected function get_current_tab() {
+		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+
+		return ( empty( $page ) ? "{$this->key}_general" : $page );
+	}
+
+	/**
+	 * Get link to CMB tab.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  string $option_key CMB tab key.
+	 * @return string             URL to CMB tab.
+	 */
+	protected function get_tab_link( $option_key ) {
+		return wp_specialchars_decode( menu_page_url( $option_key, false ) );
+	}
+
+	/**
+	 * Get args for current CMB.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  string $cmb_id Current CMB ID.
+	 * @return array          CMB args.
+	 */
+	protected function get_cmb_args( string $cmb_id ) {
+		return [
+			'id'           => "{$this->metabox_id}_{$cmb_id}",
 			'title'        => esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
-			'object_types' => [ 'options-page' ],
-			'option_key'   => 'ctct_options_settings',
 			'menu_title'   => esc_html__( 'Settings', 'constant-contact-forms' ),
-			'parent_slug'  => 'edit.php?post_type=ctct_forms',
-		] );
-
-		$this->do_lists_field( $cmb );
+			'object_types' => [ 'options-page' ],
+			'option_key'   => "{$this->key}_{$cmb_id}",
+			'parent_slug'  => add_query_arg( 'post_type', 'ctct_forms', 'edit.php' ),
+			'tab_group'    => $this->key,
+			'tab_title'    => $this->metabox_titles[ $cmb_id ],
+			'display_cb'   => [ $this, 'display_tabs' ],
+		];
 	}
 
 	/**
-	 * Helper to show our lists field for settings.
+	 * Register 'General' settings tab fields.
 	 *
-	 * @since 1.0.0
-	 *
-	 * @param object $cmb CMB fields object.
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
 	 */
-	public function do_lists_field( $cmb ) {
+	protected function register_fields_general() {
+		$cmb = new_cmb2_box( $this->get_cmb_args( 'general' ) );
 
 		$cmb->add_field( [
 			'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
@@ -245,8 +374,11 @@ class ConstantContact_Settings {
 			if ( $lists && is_array( $lists ) ) {
 
 				$before_optin = sprintf(
-					'<hr/><h2>%s</h2>',
-					esc_html__( 'Advanced Opt-in', 'constant-contact-forms' )
+					/* translators: 1: horizontal rule and opening heading tag, 2: opt-in section heading, 3: closing heading tag */
+					'%1$s%2$s%3$s',
+					'<hr/><h2>',
+					esc_html__( 'Advanced Opt-in', 'constant-contact-forms' ),
+					'</h2>'
 				);
 
 				$cmb->add_field( [
@@ -305,10 +437,65 @@ class ConstantContact_Settings {
 			}
 		}
 
+		$before_global_css = sprintf(
+			/* translators: 1: horizontal rule and opening heading tag, 2: global css section heading, 3: closing heading tag */
+			'%1$s%2$s%3$s',
+			'<hr><h2>',
+			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' ),
+			'</h2>'
+		);
+
+		$cmb->add_field( [
+			'name'        => esc_html__( 'CSS Classes', 'constant-contact_forms' ),
+			'id'          => '_ctct_form_custom_classes',
+			'type'        => 'text',
+			'description' => esc_html__(
+					'Provide custom classes for the form separated by a single space.',
+					'constant-contact-forms'
+			),
+			'before_row'  => $before_global_css,
+		] );
+
+		$cmb->add_field( [
+			'name'             => esc_html__( 'Label Placement', 'constant-contact-forms' ),
+			'id'               => '_ctct_form_label_placement',
+			'type'             => 'select',
+			'default'          => 'top',
+			'show_option_none' => false,
+			'options'          => [
+				'top'    => esc_html__( 'Top', 'constant-contact-forms' ),
+				'left'   => esc_html__( 'Left', 'constant-contact-forms' ),
+				'right'  => esc_html__( 'Right', 'constant-contact-forms' ),
+				'bottom' => esc_html__( 'Bottom', 'constant-contact-forms' ),
+				'hidden' => esc_html__( 'Hidden', 'constant-contact-forms' ),
+			],
+			'description'      => esc_html__(
+				'Choose the position for the labels of the form elements.',
+				'constant-contact-forms'
+			),
+		] );
+	}
+
+	/**
+	 * Register 'Spam Control' (incl. Google reCAPTCHA) settings tab fields.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 */
+	protected function register_fields_spam() {
+		$cmb = new_cmb2_box( $this->get_cmb_args( 'spam' ) );
+
 		$before_recaptcha = sprintf(
-			'<hr/><h2>%s</h2>%s',
+			/* translators: 1: opening heading tag, 2: reCaptcha section heading, 3: closing heading tag, 4: opening div tag, 5: text before 'learn more' link, 6: open 'learn more' link tag, 7: 'learn more' link text, 8: closing 'learn more' link and div tags */
+			'%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s',
+			'<h2>',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
-			'<div class="discover-recaptcha">' . __( 'Learn more and get an <a href="https://www.google.com/recaptcha/intro/" target="_blank">API site key</a>', 'constant-contact-forms' ) . '</div>'
+			'</h2>',
+			'<div class="discover-recaptcha">',
+			esc_html__( 'Learn more and get an ', 'constant-contact-forms' ),
+			'<a href="https://www.google.com/recaptcha/intro/" target="_blank">',
+			esc_html__( 'API site key', 'constant-contact-forms' ),
+			'</a></div>'
 		);
 
 		$cmb->add_field( [
@@ -343,44 +530,43 @@ class ConstantContact_Settings {
 			],
 		] );
 
-		$before_global_css = sprintf(
-			'<hr /><h2>%s</h2>',
-			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
+		$before_message = sprintf(
+			/* translators: 1: horizontal rule and opening heading tag, 2: spam section heading, 3: closing heading tag, 4: opening div tag for description, 5: spam section description, 6: closing div tag */
+			'%1$s%2$s%3$s%4$s%5$s%6$s',
+			'<hr/><h2>',
+			esc_html__( 'Suspected Bot Error Message', 'constant-contact-forms' ),
+			'</h2>',
+			'<div class="description">',
+			esc_html__( 'This message displays when the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' ),
+			'</div>'
 		);
 
-		$cmb->add_field( [
-			'name'        => esc_html__( 'CSS Classes', 'constant-contact_forms' ),
-			'id'          => '_ctct_form_custom_classes',
-			'type'        => 'text',
-			'description' => esc_html__(
-					'Provide custom classes for the form separated by a single space.',
-					'constant-contact-forms'
-			),
-			'before_row'  => $before_global_css,
-		] );
+		$cmb->add_field(
+			[
+				'name'       => esc_html__( 'Error Message', 'constant-contact-forms' ),
+				'id'         => '_ctct_spam_error',
+				'type'       => 'text',
+				'before_row' => $before_message,
+				'default'    => $this->get_default_spam_error(),
+			]
+		);
+	}
 
-		$cmb->add_field( [
-			'name'             => esc_html__( 'Label Placement', 'constant-contact-forms' ),
-			'id'               => '_ctct_form_label_placement',
-			'type'             => 'select',
-			'default'          => 'top',
-			'show_option_none' => false,
-			'options'          => [
-				'top'    => esc_html__( 'Top', 'constant-contact-forms' ),
-				'left'   => esc_html__( 'Left', 'constant-contact-forms' ),
-				'right'  => esc_html__( 'Right', 'constant-contact-forms' ),
-				'bottom' => esc_html__( 'Bottom', 'constant-contact-forms' ),
-				'hidden' => esc_html__( 'Hidden', 'constant-contact-forms' ),
-			],
-			'description'      => esc_html__(
-				'Choose the position for the labels of the form elements.',
-				'constant-contact-forms'
-			),
-		] );
+	/**
+	 * Register 'Support' settings tab fields.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 */
+	protected function register_fields_support() {
+		$cmb = new_cmb2_box( $this->get_cmb_args( 'support' ) );
 
 		$before_debugging = sprintf(
-			'<hr/><h2>%s</h2>',
-			esc_html__( 'Support', 'constant-contact-forms' )
+			/* translators: 1: opening heading tag, 2: support section heading, 3: closing heading tag */
+			'%1$s%2$s%3$s',
+			'<h2>',
+			esc_html__( 'Support', 'constant-contact-forms' ),
+			'</h2>'
 		);
 		$cmb->add_field( [
 			'name'       => esc_html__( 'Enable logging for debugging purposes.', 'constant-contact-forms' ),
@@ -389,8 +575,6 @@ class ConstantContact_Settings {
 			'type'       => 'checkbox',
 			'before_row' => $before_debugging,
 		] );
-
-		$this->add_spam_error_fields( $cmb );
 	}
 
 	/**
@@ -491,7 +675,7 @@ class ConstantContact_Settings {
 				<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
 				<?php echo esc_attr( $label ); ?>
 			</label>
-			<?php echo constant_contact()->display->get_disclose_text(); ?>
+			<?php echo wp_kses_post( constant_contact()->display->get_disclose_text() ); ?>
 			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin' ); ?>
 		</p>
 		<?php
@@ -502,8 +686,6 @@ class ConstantContact_Settings {
 	 * Sends contact to CTCT if optin checked.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @throws Exception
 	 *
 	 * @param array $comment_data Comment form data.
 	 * @return array Comment form data.
@@ -541,11 +723,11 @@ class ConstantContact_Settings {
 			$name    = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
 			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
 
-			if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+			if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
 				return $comment_data;
 			}
 
-			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) );
+			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // phpcs:ignore -- Okay accessing of $_POST.
 
 			$args = [
 				'list'       => $list,
@@ -565,8 +747,6 @@ class ConstantContact_Settings {
 	 * Sends contact to CTCT if optin checked.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @throws Exception
 	 *
 	 * @param array  $user User.
 	 * @param string $username Login name.
@@ -618,11 +798,11 @@ class ConstantContact_Settings {
 			$name = sanitize_text_field( $user_data->data->display_name );
 		}
 
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+		if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
 			return $user;
 		}
 
-		$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) );
+		$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // phpcs:ignore -- Okay accessing of $_POST.
 
 		if ( $email ) {
 			$args = [
@@ -648,7 +828,6 @@ class ConstantContact_Settings {
 	 * @return void
 	 */
 	public function settings_notices( $object_id, $updated ) {
-
 		if ( $object_id !== $this->key || empty( $updated ) ) {
 			return;
 		}
@@ -662,11 +841,11 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $test Something.
-	 * @param bool   $default Default to return.
+	 * @param string $deprecated Unused first param passed by CMB2 hook.
+	 * @param bool   $default    Default to return.
 	 * @return mixed Site option
 	 */
-	public function get_override( $test, $default = false ) {
+	public function get_override( $deprecated, $default = false ) {
 		return get_site_option( $this->key, $default );
 	}
 
@@ -675,11 +854,11 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $test         Key.
+	 * @param string $deprecated   Unused first param passed by CMB2 hook.
 	 * @param mixed  $option_value Value to update to.
 	 * @return mixed Site option
 	 */
-	public function update_override( $test, $option_value ) {
+	public function update_override( $deprecated, $option_value ) {
 		return update_site_option( $this->key, $option_value );
 	}
 
@@ -733,12 +912,10 @@ class ConstantContact_Settings {
 				<div class="ctct-modal-content">
 					<div class="ctct-modal-header">
 						<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
-						<h2 class="ctct-logo"><img src="<?php echo constant_contact()->url . '/assets/images/constant-contact-logo.png' ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" /></h2>
+						<h2 class="ctct-logo"><img src="<?php echo esc_url( constant_contact()->url . '/assets/images/constant-contact-logo.png' ); ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" /></h2>
 					</div>
 					<div class="ctct-modal-body ctct-privacy-modal-body">
-						<?php
-						echo constant_contact_privacy_policy_content();
-						?>
+						<?php echo constant_contact_privacy_policy_content(); // phpcs:ignore -- XSS Ok. ?>
 					</div><!-- modal body -->
 					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">
 						<a class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Agree', 'constant-contact-forms' ); ?></a>
@@ -767,35 +944,6 @@ class ConstantContact_Settings {
 		$this->plugin->logging->create_log_folder();
 		$this->plugin->logging->create_log_index_file();
 		$this->plugin->logging->create_log_file();
-	}
-
-	/**
-	 * Adds a fieldset for controlling the spam error.
-	 *
-	 * @since 1.5.0
-	 * @param object $cmb An instance of the CMB2 object.
-	 */
-	private function add_spam_error_fields( $cmb ) {
-		$description  = '<div class="description">';
-		$description .= esc_html__( 'This message displays when the plugin detects spam data.', 'constant-contact-forms' );
-		$description .= esc_html__( 'Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' );
-		$description .= '</div>';
-
-		$before_message = sprintf(
-			'<hr/><h2>%s</h2>%s',
-			__( 'Suspected Bot Error Message', 'constant-contact-forms' ),
-			$description
-		);
-
-		$cmb->add_field(
-			[
-				'name'       => esc_html__( 'Error Message', 'constant-contact-forms' ),
-				'id'         => '_ctct_spam_error',
-				'type'       => 'text',
-				'before_row' => $before_message,
-				'default'    => $this->get_default_spam_error(),
-			]
-		);
 	}
 
 	/**
