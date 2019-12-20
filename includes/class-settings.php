@@ -63,8 +63,8 @@ class ConstantContact_Settings {
 		// Init cmb title property.
 		$this->metabox_titles = [
 			'general' => esc_html__( 'General', 'constant-contact-forms' ),
-			'spam'    => esc_html__( 'Spam Control' ),
-			'support' => esc_html__( 'Support' ),
+			'spam'    => esc_html__( 'Spam Control', 'constant-contact-forms' ),
+			'support' => esc_html__( 'Support', 'constant-contact-forms' ),
 		];
 	}
 
