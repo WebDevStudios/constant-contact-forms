@@ -1236,7 +1236,7 @@ a.ctct-notice-dismiss {
   width: 500px;
 }
 
-.cmb2-options-page #ctct_option_metabox_settings .cmb2-metabox > .cmb-row {
+.cmb2-options-page[class*='option-ctct_options_settings_'] .cmb2-metabox > .cmb-row {
   background: transparent;
   border: none;
   box-shadow: none;

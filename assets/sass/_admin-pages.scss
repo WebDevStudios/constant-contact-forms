@@ -319,7 +319,7 @@
 
 .cmb2-options-page {
 
-	#ctct_option_metabox_settings {
+	&[class*='option-ctct_options_settings_'] {
 
 		.cmb2-metabox > .cmb-row {
 			background: transparent;
