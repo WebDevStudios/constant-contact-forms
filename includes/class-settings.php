@@ -827,11 +827,11 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $test Something.
-	 * @param bool   $default Default to return.
+	 * @param string $deprecated Unused first param passed by CMB2 hook.
+	 * @param bool   $default    Default to return.
 	 * @return mixed Site option
 	 */
-	public function get_override( $test, $default = false ) {
+	public function get_override( $deprecated, $default = false ) {
 		return get_site_option( $this->key, $default );
 	}
 
@@ -840,11 +840,11 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $ignore       Key.
+	 * @param string $deprecated   Unused first param passed by CMB2 hook.
 	 * @param mixed  $option_value Value to update to.
 	 * @return mixed Site option
 	 */
-	public function update_override( $ignore, $option_value ) {
+	public function update_override( $deprecated, $option_value ) {
 		return update_site_option( $this->key, $option_value );
 	}
 
