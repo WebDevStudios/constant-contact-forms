@@ -277,7 +277,7 @@ class ConstantContact_Settings {
 	protected function get_current_tab() {
 		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
 
-		return empty( $page ) ? "{$this->key}_general" : $page;
+		return ( empty( $page ) ? "{$this->key}_general" : $page );
 	}
 
 	/**
@@ -290,9 +290,7 @@ class ConstantContact_Settings {
 	 * @return string             URL to CMB tab.
 	 */
 	protected function get_tab_link( $option_key ) {
-		$menu_page_url = wp_specialchars_decode( menu_page_url( $option_key, false ) );
-
-		return $menu_page_url;
+		return wp_specialchars_decode( menu_page_url( $option_key, false ) );
 	}
 
 	/**
