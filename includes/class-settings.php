@@ -60,7 +60,7 @@ class ConstantContact_Settings {
 		$this->plugin = $plugin;
 		$this->register_hooks();
 
-		// Init cmb title property.
+		// Init CMB2 metabox titles, used as tab titles on settings page.
 		$this->metabox_titles = [
 			'general' => esc_html__( 'General', 'constant-contact-forms' ),
 			'spam'    => esc_html__( 'Spam Control', 'constant-contact-forms' ),
