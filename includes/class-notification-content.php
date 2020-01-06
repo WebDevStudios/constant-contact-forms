@@ -187,6 +187,18 @@ class ConstantContact_Notification_Content {
 		);
 	}
 
+	/**
+	 * Admin notice regarding deleted forms.
+	 *
+	 * @since  NEXT
+	 *
+	 * @return string Deleted forms notice HTML.
+	 */
+	public static function deleted_forms() {
+		$option = get_option( ConstantContact_Notifications::$deleted_forms, [] );
+		return '';
+	}
+
 }
 
 /**
@@ -269,3 +281,22 @@ function constant_contact_exceptions_thrown( $notifications = [] ) {
 }
 
 add_filter( 'constant_contact_notifications', 'constant_contact_exceptions_thrown' );
+
+/**
+ * Add notification on form deletion if instances of that form appear as shortcodes or widgets.
+ *
+ * @since  NEXT
+ *
+ * @param  array $notifications Array of notifications to be shown.
+ * @return array                Array of notifications to be shown.
+ */
+function constant_contact_form_deleted( array $notifications = [] ) {
+	$notifications[] = [
+		'ID'         => 'deleted_forms',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'deleted_forms' ],
+		'require_cb' => 'constant_contact_maybe_display_deleted_forms_notice',
+	];
+
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_form_deleted' );

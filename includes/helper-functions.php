@@ -733,3 +733,14 @@ function constant_contact_check_for_affected_forms_on_trash( int $post_id ) {
 	update_option( ConstantContact_Notifications::$deleted_forms, $option );
 }
 add_action( 'trash_ctct_forms', 'constant_contact_check_for_affected_forms_on_trash' );
+
+/**
+ * Determine whether to display the deleted forms notice in admin.
+ *
+ * @since  NEXT
+ *
+ * @return bool Whether to display the deleted forms notice.
+ */
+function constant_contact_maybe_display_deleted_forms_notice() {
+	return ! empty( get_option( ConstantContact_Notifications::$deleted_forms, [] ) );
+}
