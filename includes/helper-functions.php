@@ -693,14 +693,13 @@ function constant_contact_find_post_content_shortcodes( int $post_id ) {
 	$post_id_like_single = $wpdb->esc_like( "form='{$post_id}'" );
 	$post_id_like_double = $wpdb->esc_like( "form=\"{$post_id}\"" );
 	$posts               = $wpdb->get_results( $wpdb->prepare(
-		"SELECT ID FROM {$wpdb->posts} WHERE (`post_content` LIKE %s OR `post_content` LIKE %s) and `post_status` = %s ",
+		"SELECT ID, post_type FROM {$wpdb->posts} WHERE (`post_content` LIKE %s OR `post_content` LIKE %s) AND `post_status` = %s ORDER BY post_type ASC",
 		"%{$shortcode_like}%{$post_id_like_single}%",
 		"%{$shortcode_like}%{$post_id_like_double}%",
 		'publish'
 	), ARRAY_A );
 
-	$ids = wp_list_pluck( $posts, 'ID' );
-	return array_map( 'absint', $ids );
+	return wp_list_pluck( $posts, 'post_type', 'ID' );
 }
 
 /**
