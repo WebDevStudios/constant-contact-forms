@@ -196,7 +196,14 @@ class ConstantContact_Notification_Content {
 	 */
 	public static function deleted_forms() {
 		$option = get_option( ConstantContact_Notifications::$deleted_forms, [] );
-		return '';
+
+		ob_start();
+		?>
+		<div class="admin-notice-message">
+			<p><?php esc_html_e( 'References to one or more deleted Constant Contact forms are still present on your site. Please review the list below and update or remove the references to avoid issues on your site.', 'constant-contact-forms' ); ?></p>
+		</div>
+		<?php
+		return ob_get_clean();
 	}
 
 }
