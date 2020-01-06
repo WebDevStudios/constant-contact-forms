@@ -724,9 +724,12 @@ function constant_contact_find_widgets( int $post_id ) {
  * @param int $post_id Post ID being trashed.
  */
 function constant_contact_check_for_affected_forms_on_trash( int $post_id ) {
-	$post_ids   = constant_contact_find_post_content_shortcodes( $post_id );
-	$widget_ids = constant_contact_find_widgets( $post_id );
+	$option             = get_option( ConstantContact_Notifications::$deleted_forms, [] );
+	$option[ $post_id ] = [
+		'posts'   => constant_contact_find_post_content_shortcodes( $post_id ),
+		'widgets' => constant_contact_find_widgets( $post_id ),
+	];
 
-	// @todo Figure out how we want to notify at this point.
+	update_option( ConstantContact_Notifications::$deleted_forms, $option );
 }
 add_action( 'trash_ctct_forms', 'constant_contact_check_for_affected_forms_on_trash' );

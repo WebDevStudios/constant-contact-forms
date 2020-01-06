@@ -53,6 +53,15 @@ class ConstantContact_Notifications {
 	public static $reviewed_option = 'ctct-reviewed';
 
 	/**
+	 * Option name for deleted forms, containing IDs for post and widget instances of forms.
+	 *
+	 * @since NEXT
+	 *
+	 * @var string
+	 */
+	public static $deleted_forms = 'ctct-deleted-forms';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
