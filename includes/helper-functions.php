@@ -706,14 +706,16 @@ function constant_contact_find_post_content_shortcodes( int $post_id ) {
 /**
  * Check our widgets for existing forms.
  *
- * @since NEXT
- * @return array
+ * @since  NEXT
+ *
+ * @param  int $post_id Post ID being trashed.
+ * @return array        Array of form widget IDs containing the form ID.
  */
-function constant_contact_find_widgets() {
+function constant_contact_find_widgets( int $post_id ) {
 	$widgets = get_option( 'widget_ctct_form' );
-
-	$ids = array_filter( wp_list_pluck( $widgets, 'ctct_form_id' ) );
-	return array_map( 'absint', $ids );
+	return array_keys( array_filter( array_map( 'absint', wp_list_pluck( $widgets, 'ctct_form_id' ) ), function( $value ) use ( $post_id ) {
+		return $value === $post_id;
+	} ) );
 }
 
 /**
@@ -722,12 +724,9 @@ function constant_contact_find_widgets() {
  * @since NEXT
  * @param int $post_id Post ID being trashed.
  */
-	$widgets_with_form = constant_contact_find_widgets();
-
-	$affected_posts_exist   = in_array( $post_id, $posts_with_form, true );
-	$affected_widgets_exist = in_array( $post_id, $widgets_with_form, true );
 function constant_contact_check_for_affected_forms_on_trash( int $post_id ) {
 	$post_ids   = constant_contact_find_post_content_shortcodes( $post_id );
+	$widget_ids = constant_contact_find_widgets( $post_id );
 
 	// @todo Figure out how we want to notify at this point.
 }
