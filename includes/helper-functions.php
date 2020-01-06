@@ -682,20 +682,24 @@ function constant_contact_location_and_line( $location = '', $line = '' ) {
  * Check our post content for existing Constant Contact shortcodes and grab IDs.
  *
  * @since NEXT
- * @return array
+ *
+ * @param  int $post_id Post ID being trashed.
+ * @return array        Array of form post IDs containing the form ID.
  */
-function constant_contact_find_post_content_shortcodes() {
+function constant_contact_find_post_content_shortcodes( int $post_id ) {
 	global $wpdb;
 
-	$rs = $wpdb->get_results(
-		$wpdb->prepare(
-			"SELECT ID FROM {$wpdb->posts} WHERE `post_content` LIKE '%[ctct%' and `post_status` = %s ",
-			'publish'
-		),
-		ARRAY_A
-	);
+	$shortcode_like      = $wpdb->esc_like( '[ctct' );
+	$post_id_like_single = $wpdb->esc_like( "form='{$post_id}'" );
+	$post_id_like_double = $wpdb->esc_like( "form=\"{$post_id}\"" );
+	$posts               = $wpdb->get_results( $wpdb->prepare(
+		"SELECT ID FROM {$wpdb->posts} WHERE (`post_content` LIKE %s OR `post_content` LIKE %s) and `post_status` = %s ",
+		"%{$shortcode_like}%{$post_id_like_single}%",
+		"%{$shortcode_like}%{$post_id_like_double}%",
+		'publish'
+	), ARRAY_A );
 
-	$ids = wp_list_pluck( $rs, 'ID' );
+	$ids = wp_list_pluck( $posts, 'ID' );
 	return array_map( 'absint', $ids );
 }
 
@@ -718,12 +722,12 @@ function constant_contact_find_widgets() {
  * @since NEXT
  * @param int $post_id Post ID being trashed.
  */
-function constant_contact_check_for_affected_forms_on_trash( $post_id ) {
-	$posts_with_form   = constant_contact_find_post_content_shortcodes();
 	$widgets_with_form = constant_contact_find_widgets();
 
 	$affected_posts_exist   = in_array( $post_id, $posts_with_form, true );
 	$affected_widgets_exist = in_array( $post_id, $widgets_with_form, true );
+function constant_contact_check_for_affected_forms_on_trash( int $post_id ) {
+	$post_ids   = constant_contact_find_post_content_shortcodes( $post_id );
 
 	// @todo Figure out how we want to notify at this point.
 }
