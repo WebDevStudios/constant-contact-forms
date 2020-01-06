@@ -200,12 +200,70 @@ class ConstantContact_Notification_Content {
 		ob_start();
 		?>
 		<div class="admin-notice-message">
-			<p><?php esc_html_e( 'References to one or more deleted Constant Contact forms are still present on your site. Please review the list below and update or remove the references to avoid issues on your site.', 'constant-contact-forms' ); ?></p>
+			<p><?php esc_html_e( 'References to one or more deleted Constant Contact forms are still present on your site. Please review the list below and update or remove the references to avoid issues on your site:', 'constant-contact-forms' ); ?></p>
+			<ul>
+				<?php
+				foreach ( $option as $form_id => $references ) {
+					self::display_deleted_form_post_markup( intval( $form_id ), $references );
+				}
+				?>
+			</ul>
 		</div>
 		<?php
 		return ob_get_clean();
 	}
 
+	/**
+	 * Display deleted form HTML by form.
+	 *
+	 * @since  NEXT
+	 *
+	 * @param  int   $form_id    Current form ID.
+	 * @param  array $references Current form references.
+	 * @return void
+	 */
+	protected static function display_deleted_form_post_markup( int $form_id, array $references ) {
+		$post_ids   = isset( $references['posts'] ) ? $references['posts'] : [];
+		$widget_ids = isset( $references['widgets'] ) ? $references['widgets'] : [];
+
+		if ( empty( $post_ids ) && empty( $widget_ids ) ) {
+			return;
+		}
+
+		if ( ! empty( $post_ids ) ) {
+			foreach ( $post_ids as $post_id => $post_type ) {
+				printf(
+					/* Translators: 1: URL to edit screen for current post, 2: post type singular label, 3: current post ID, 4: current post title. */
+					'<li><a href="%1$s">%2$s #%3$d: %4$s</a></li>',
+					esc_url( get_edit_post_link( $post_id ) ),
+					esc_html( get_post_type_object( $post_type )->labels->singular_name ),
+					esc_html( $post_id ),
+					esc_html( get_post( $post_id )->post_title )
+				);
+			}
+		}
+
+		if ( ! empty( $widget_ids ) ) {
+			$sidebars = get_option( 'sidebars_widgets', [] );
+			global $wp_registered_sidebars, $wp_registered_widgets;
+
+			foreach ( $widget_ids as $widget_id ) {
+				$widget_id = "ctct_form-{$widget_id}";
+				$sidebar   = array_intersect_key( $wp_registered_sidebars, array_filter( $sidebars, function( $value ) use ( $widget_id ) {
+					return is_array( $value ) && in_array( $widget_id, $value );
+				} ) );
+
+				printf(
+					/* Translators: 1: URL to widgets admin screen, 2: current widget name, 3: generic widget text, 4: specific sidebar name. */
+					'<li><a href="%1$s">"%2$s" %3$s "%4$s"</a></li>',
+					esc_url( admin_url( 'widgets.php' ) ),
+					esc_html( $wp_registered_widgets[ $widget_id ]['name'] ),
+					esc_html__( 'Widget in', 'constant-contact-forms' ),
+					esc_html( array_shift( $sidebar )['name'] )
+				);
+			}
+		}
+	}
 }
 
 /**
