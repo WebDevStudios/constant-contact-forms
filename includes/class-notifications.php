@@ -59,7 +59,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @var string
 	 */
-	public static $deleted_forms = 'ctct-deleted-forms';
+	public static $deleted_forms = 'ctct_deleted_forms';
 
 	/**
 	 * Constructor.
