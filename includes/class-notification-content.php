@@ -227,7 +227,8 @@ class ConstantContact_Notification_Content {
 			esc_html( $form_id )
 		);
 
-		$last_key = array_pop( array_keys( $references ) );
+		$reference_keys = array_keys( $references );
+		$last_key = array_pop( $reference_keys );
 
 		array_walk( $references, function( $value, $key, $last_key ) {
 			if ( 'post' === $value['type'] ) {

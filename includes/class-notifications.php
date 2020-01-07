@@ -263,6 +263,9 @@ class ConstantContact_Notifications {
 	 * @return bool If we updated correctly.
 	 */
 	public function save_dismissed_notification( $key ) {
+		if ( 'deleted_forms' === $key ) {
+			return $this->delete_dismissed_option( $key );
+		}
 		return $this->save_dismissed_option( $key, true );
 	}
 
@@ -425,6 +428,18 @@ class ConstantContact_Notifications {
 	public function get_activation_dismiss_url( $type ) {
 		$link = add_query_arg( [ 'ctct-dismiss-action' => esc_attr( $type ) ] );
 		return wp_nonce_url( $link, 'ctct-user-is-dismissing', 'ctct-dismiss' );
+	}
+
+	/**
+	 * Fully remove a saved notification option from the database.
+	 *
+	 * @since  NEXT
+	 *
+	 * @param  string $key Notice option key.
+	 * @return bool        Whether option key successfully deleted.
+	 */
+	protected function delete_dismissed_option( $key ) {
+		return delete_option( "ctct_{$key}" );
 	}
 }
 
