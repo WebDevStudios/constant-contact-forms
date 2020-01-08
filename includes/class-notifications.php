@@ -129,6 +129,9 @@ class ConstantContact_Notifications {
 		// Get our potentically dismissed notif ID.
 		$notif_id = $this->get_dismissal_id();
 
+		// Get current action to ensure dismissing on correct load.
+		$action = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
+
 		if ( $this->check_dismissal_nonce() && $notif_id ) {
 			$this->save_dismissed_notification( $notif_id );
 		}
@@ -264,7 +267,7 @@ class ConstantContact_Notifications {
 	 */
 	public function save_dismissed_notification( $key ) {
 		if ( 'deleted_forms' === $key ) {
-			return $this->delete_dismissed_option( $key );
+			$this->delete_dismissed_option( $key );
 		}
 		return $this->save_dismissed_option( $key, true );
 	}
@@ -433,13 +436,16 @@ class ConstantContact_Notifications {
 	/**
 	 * Fully remove a saved notification option from the database.
 	 *
+	 * Redirect to current page with dismissal query args removal to avoid potentially re-dismissing notices unintentionally.
+	 *
 	 * @since  NEXT
 	 *
 	 * @param  string $key Notice option key.
-	 * @return bool        Whether option key successfully deleted.
 	 */
 	protected function delete_dismissed_option( $key ) {
-		return delete_option( "ctct_{$key}" );
+		delete_option( "ctct_{$key}" );
+		wp_safe_redirect( remove_query_arg( [ 'ctct-dismiss-action', 'ctct-dismiss' ] ) );
+		exit;
 	}
 }
 
