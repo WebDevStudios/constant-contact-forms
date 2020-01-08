@@ -796,6 +796,27 @@ function constant_contact_check_for_affected_forms_on_trash( int $form_id ) {
 add_action( 'trash_ctct_forms', 'constant_contact_check_for_affected_forms_on_trash' );
 
 /**
+ * Remove saved references to deleted form if restored from trash.
+ *
+ * @since  NEXT
+ *
+ * @param  int $post_id Post ID being restored.
+ * @return void
+ */
+function constant_contact_remove_form_references_on_restore( int $post_id ) {
+	if ( 'ctct_forms' !== get_post_type( $post_id ) ) {
+		return;
+	}
+
+	$option = get_option( ConstantContact_Notifications::$deleted_forms, [] );
+
+	unset( $option[ $post_id ] );
+
+	update_option( ConstantContact_Notifications::$deleted_forms, $option );
+}
+add_action( 'untrashed_post', 'constant_contact_remove_form_references_on_restore' );
+
+/**
  * Determine whether to display the deleted forms notice in admin.
  *
  * @since  NEXT
