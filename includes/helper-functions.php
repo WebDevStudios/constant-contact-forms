@@ -677,3 +677,152 @@ function constant_contact_location_and_line( $location = '', $line = '' ) {
 		$line
 	);
 }
+
+/**
+ * Get posts containing specified form ID.
+ *
+ * @since NEXT
+ *
+ * @param  int $form_id Form ID.
+ * @return array        Array of posts containing the form ID.
+ */
+function constant_contact_get_posts_by_form( $form_id ) {
+	global $wpdb;
+
+	$shortcode_like      = $wpdb->esc_like( '[ctct' );
+	$post_id_like_single = $wpdb->esc_like( "form='{$form_id}'" );
+	$post_id_like_double = $wpdb->esc_like( "form=\"{$form_id}\"" );
+	$posts               = $wpdb->get_results( $wpdb->prepare(
+		"SELECT ID, post_title, post_type FROM {$wpdb->posts} WHERE (`post_content` LIKE %s OR `post_content` LIKE %s) AND `post_status` = %s ORDER BY post_type ASC",
+		"%{$shortcode_like}%{$post_id_like_single}%",
+		"%{$shortcode_like}%{$post_id_like_double}%",
+		'publish'
+	), ARRAY_A );
+
+	array_walk( $posts, function( &$value, $key ) {
+		$value = [
+			'type'  => 'post',
+			'url'   => get_edit_post_link( $value['ID'] ),
+			'label' => get_post_type_object( $value['post_type'] )->labels->singular_name,
+			'id'    => $value['ID'],
+		];
+	} );
+
+	return $posts;
+}
+
+/**
+ * Get links and info on widgets containing specified form ID.
+ *
+ * @since  NEXT
+ *
+ * @param  int $form_id Form ID.
+ * @return array        Array of widgets containing the form ID.
+ */
+function constant_contact_get_widgets_by_form( $form_id ) {
+	$return = [];
+
+	foreach ( [ 'ctct_form', 'text' ] as $widget_type ) {
+		$data    = [
+			'form_id' => $form_id,
+			'type'    => $widget_type,
+		];
+		$widgets = array_filter( get_option( "widget_{$widget_type}", [] ), function( $value ) use ( $data ) {
+			if ( 'ctct_form' === $data['type'] ) {
+				return absint( $value['ctct_form_id'] ) === $data['form_id'];
+			} else if ( 'text' === $data['type'] ) {
+				if ( ! isset( $value['text'] ) || false === strpos( $value['text'], '[ctct' ) ) {
+					return false;
+				}
+				return ( false !== strpos( $value['text'], "form=\"{$data['form_id']}\"" ) || false !== strpos( $value['text'], "form='{$data['form_id']}'" ) );
+			}
+			return false;
+		} );
+		array_walk( $widgets, 'constant_contact_walk_widget_references', $widget_type );
+		$return  = array_merge( $return, $widgets );
+	}
+
+	return $return;
+}
+
+/**
+ * Walker callback for widget references of deleted forms.
+ *
+ * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+ * @since  NEXT
+ *
+ * @param  array  $value Array of current widget settings.
+ * @param  string $key   Current widget key.
+ * @param  string $type  Type of widget.
+ */
+function constant_contact_walk_widget_references( array &$value, $key, $type ) {
+	global $wp_registered_sidebars, $wp_registered_widgets;
+
+	$widget_id  = "{$type}-{$key}";
+	$sidebars   = array_keys( array_filter( get_option( 'sidebars_widgets', [] ), function( $sidebar ) use ( $widget_id ) {
+		return is_array( $sidebar ) && in_array( $widget_id, $sidebar );
+	} ) );
+	$value = [
+		'type'    => 'widget',
+		'widget'  => $type,
+		'url'     => admin_url( 'widgets.php' ),
+		'name'    => $wp_registered_widgets[ $widget_id ]['name'],
+		'title'   => 'ctct_form' === $type ? $value['ctct_title'] : $value['title'],
+		'sidebar' => $wp_registered_sidebars[ array_shift( $sidebars ) ]['name'],
+	];
+}
+
+/**
+ * Check for affected posts and widgets for the newly trashed form post type.
+ *
+ * @since NEXT
+ *
+ * @param int $form_id Form ID being trashed.
+ * @return void
+ */
+function constant_contact_check_for_affected_forms_on_trash( $form_id ) {
+	$option             = get_option( ConstantContact_Notifications::$deleted_forms, [] );
+	$option[ $form_id ] = array_filter( array_merge(
+		constant_contact_get_posts_by_form( $form_id ),
+		constant_contact_get_widgets_by_form( $form_id )
+	) );
+
+	if ( empty( $option[ $form_id ] ) ) {
+		return;
+	}
+
+	update_option( ConstantContact_Notifications::$deleted_forms, $option );
+}
+add_action( 'trash_ctct_forms', 'constant_contact_check_for_affected_forms_on_trash' );
+
+/**
+ * Remove saved references to deleted form if restored from trash.
+ *
+ * @since  NEXT
+ *
+ * @param  int $post_id Post ID being restored.
+ * @return void
+ */
+function constant_contact_remove_form_references_on_restore( $post_id ) {
+	if ( 'ctct_forms' !== get_post_type( $post_id ) ) {
+		return;
+	}
+
+	$option = get_option( ConstantContact_Notifications::$deleted_forms, [] );
+
+	unset( $option[ $post_id ] );
+
+	update_option( ConstantContact_Notifications::$deleted_forms, $option );
+}
+add_action( 'untrashed_post', 'constant_contact_remove_form_references_on_restore' );
+
+/**
+ * Determine whether to display the deleted forms notice in admin.
+ *
+ * @since  NEXT
+ *
+ * @return bool Whether to display the deleted forms notice.
+ */
+function constant_contact_maybe_display_deleted_forms_notice() {
+	return ! empty( get_option( ConstantContact_Notifications::$deleted_forms, [] ) );
+}

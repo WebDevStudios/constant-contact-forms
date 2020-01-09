@@ -80,6 +80,7 @@ class ConstantContact_Uninstall {
 			ConstantContact_Notifications::$dismissed_notices_option,
 			ConstantContact_Notifications::$review_dismissed_option,
 			ConstantContact_Notifications::$reviewed_option,
+			ConstantContact_Notifications::$deleted_forms,
 		];
 
 		/**
