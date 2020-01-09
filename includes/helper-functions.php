@@ -686,7 +686,7 @@ function constant_contact_location_and_line( $location = '', $line = '' ) {
  * @param  int $form_id Form ID.
  * @return array        Array of posts containing the form ID.
  */
-function constant_contact_get_posts_by_form( int $form_id ) {
+function constant_contact_get_posts_by_form( $form_id ) {
 	global $wpdb;
 
 	$shortcode_like      = $wpdb->esc_like( '[ctct' );
@@ -719,7 +719,7 @@ function constant_contact_get_posts_by_form( int $form_id ) {
  * @param  int $form_id Form ID.
  * @return array        Array of widgets containing the form ID.
  */
-function constant_contact_get_widgets_by_form( int $form_id ) {
+function constant_contact_get_widgets_by_form( $form_id ) {
 	$return = [];
 
 	foreach ( [ 'ctct_form', 'text' ] as $widget_type ) {
@@ -755,7 +755,7 @@ function constant_contact_get_widgets_by_form( int $form_id ) {
  * @param  string $key   Current widget key.
  * @param  string $type  Type of widget.
  */
-function constant_contact_walk_widget_references( array &$value, string $key, string $type ) {
+function constant_contact_walk_widget_references( array &$value, $key, $type ) {
 	global $wp_registered_sidebars, $wp_registered_widgets;
 
 	$widget_id  = "{$type}-{$key}";
@@ -780,7 +780,7 @@ function constant_contact_walk_widget_references( array &$value, string $key, st
  * @param int $form_id Form ID being trashed.
  * @return void
  */
-function constant_contact_check_for_affected_forms_on_trash( int $form_id ) {
+function constant_contact_check_for_affected_forms_on_trash( $form_id ) {
 	$option             = get_option( ConstantContact_Notifications::$deleted_forms, [] );
 	$option[ $form_id ] = array_filter( array_merge(
 		constant_contact_get_posts_by_form( $form_id ),
@@ -803,7 +803,7 @@ add_action( 'trash_ctct_forms', 'constant_contact_check_for_affected_forms_on_tr
  * @param  int $post_id Post ID being restored.
  * @return void
  */
-function constant_contact_remove_form_references_on_restore( int $post_id ) {
+function constant_contact_remove_form_references_on_restore( $post_id ) {
 	if ( 'ctct_forms' !== get_post_type( $post_id ) ) {
 		return;
 	}

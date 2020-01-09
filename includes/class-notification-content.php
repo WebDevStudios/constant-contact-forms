@@ -219,7 +219,7 @@ class ConstantContact_Notification_Content {
 	 * @param  int   $form_id    Current form ID.
 	 * @param  array $references Current form references.
 	 */
-	protected static function display_deleted_form_reference_markup( int $form_id, array $references ) {
+	protected static function display_deleted_form_reference_markup( $form_id, array $references ) {
 		printf(
 			/* Translators: 1: label for form ID, 2: form ID, 3: references to specified form. */
 			'%1$s #%2$d: ',
