@@ -318,7 +318,7 @@ class ConstantContact_Settings {
 	 * @param  string $cmb_id Current CMB ID.
 	 * @return array          CMB args.
 	 */
-	protected function get_cmb_args( string $cmb_id ) {
+	protected function get_cmb_args( $cmb_id ) {
 		return [
 			'id'           => "{$this->metabox_id}_{$cmb_id}",
 			'title'        => esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
