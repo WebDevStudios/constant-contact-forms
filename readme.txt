@@ -36,8 +36,9 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 == Changelog ==
 
 = TBD =
-* Tweak: Added the form ID as third parameter to the `constant_contact_input_classes` filter.
-* Tweak: Added the input field ID as fourth parameter to the `constant_contact_input_classes` filter.
+* Added: Form and field IDs parameters to the `constant_contact_input_classes` filters.
+* Added: Site owners will be notified if they have stray shortcodes or widgets using a newly deleted form.
+* Added: Separated the settings page into tabs for better purpose organization.
 
 = 1.7.0 =
 * New - Added support for Google reCAPTCHA version 3
