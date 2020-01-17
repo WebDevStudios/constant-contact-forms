@@ -63,7 +63,6 @@ class ConstantContact_Display {
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
 	public function scripts( $enqueue = false ) {
-
 		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 		$suffix = ( true === $debug ) ? '' : '.min';
 
@@ -104,7 +103,6 @@ class ConstantContact_Display {
 	 * @since  1.4.0
 	 */
 	public function set_global_form_css() {
-
 		$defaults = [
 			'global_form_classes'    => '',
 			'global_label_placement' => '',
@@ -235,7 +233,6 @@ class ConstantContact_Display {
 	 * @return string The form title.
 	 */
 	private function set_form_title( $show_title, $form_id ) {
-
 		if ( ! $show_title ) {
 			return '';
 		}
@@ -256,13 +253,13 @@ class ConstantContact_Display {
 	 * @return string Form markup.
 	 */
 	public function form( $form_data, $form_id = '', $show_title = false ) {
-
 		if ( 'publish' !== get_post_status( $form_id ) ) {
 			return '';
 		}
 
 		$this->set_global_form_css();
 		$this->set_specific_form_css( $form_id );
+
 		$return           = '';
 		$form_err_display = '';
 		$error_message    = false;
@@ -398,7 +395,6 @@ class ConstantContact_Display {
 	 * @return string URL of current page.
 	 */
 	public function get_current_page() {
-
 		global $wp;
 
 		$request = ( isset( $wp->request ) && $wp->request ) ? $wp->request : null;
@@ -428,7 +424,6 @@ class ConstantContact_Display {
 	 * @return mixed.
 	 */
 	public function add_verify_fields( $form_data ) {
-
 		if (
 			isset( $form_data ) &&
 			isset( $form_data['options'] ) &&
@@ -468,7 +463,6 @@ class ConstantContact_Display {
 	 * @return string
 	 */
 	public function build_form_fields( $form_data, $old_values, $req_errors ) {
-
 		$return  = '';
 		$form_id = absint( $form_data['options']['form_id'] );
 
@@ -619,7 +613,6 @@ class ConstantContact_Display {
 	 * @return string HTML markup
 	 */
 	public function field( $field, $old_values = [], $req_errors = [], $form_id = 0, $label_placement = 'top' ) {
-
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
 			return '';
 		}
@@ -717,7 +710,6 @@ class ConstantContact_Display {
 	 * @return mixed Submitted value.
 	 */
 	public function get_submitted_value( $value = '', $map = '', $field = [], $submitted_vals = [] ) {
-
 		if ( $value ) {
 			return $value;
 		}
@@ -956,7 +948,6 @@ class ConstantContact_Display {
 	 * @return string HTML markup for field.
 	 */
 	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '' ) {
-
 		$name                  = sanitize_text_field( $name );
 		$f_id                  = sanitize_title( $id );
 		$input_inline_styles   = '';
@@ -1003,9 +994,11 @@ class ConstantContact_Display {
 		 * @since  1.2.0
 		 * @param  array  $classes Array of classes to apply to the field.
 		 * @param  string $type    The field type being rendered.
+		 * @param  int    $form_id Form ID.
+		 * @param  int    $f_id    Field ID.
 		 * @return array
 		 */
-		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $form_id, $f_id );
 
 		/**
 		 * Filters whether or not to remove characters from potential maxlength attribute value.
@@ -1078,7 +1071,6 @@ class ConstantContact_Display {
 	 * @return string HTML markup for checkbox.
 	 */
 	public function checkbox( $name = '', $f_id = '', $value = '', $label = '' ) {
-
 		$name  = sanitize_text_field( $name );
 		$f_id  = sanitize_title( $f_id );
 		$value = sanitize_text_field( $value );
@@ -1090,14 +1082,12 @@ class ConstantContact_Display {
 		/**
 		 * Filter to add classes for the rendering input.
 		 *
-		 * @since 1.2.0
-		 * @todo  Can we abstract this to use $this->input?
-		 *
-		 * @param array  $classes Array of classes to apply to the field.
-		 * @param string $type    The field type being rendered.
+		 * @since  1.2.0
+		 * @param  array  $classes Array of classes to apply to the field.
+		 * @param  string $type    The field type being rendered.
 		 * @return array
 		 */
-		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type );
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type ); // @todo if/when we start using the checkbox field type, pass in a $form_id and $f_id value.
 
 		$markup  = $this->field_top( $type, $name, $f_id, $label, false, false );
 		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" class="' . implode( ' ', $classes ) . '" />';
@@ -1209,7 +1199,6 @@ class ConstantContact_Display {
 	 * @return string HTML markup
 	 */
 	public function get_optin_markup( $label, $value, $show ) {
-
 		$checked = $show ? '' : 'checked';
 
 		$markup  = $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
@@ -1234,7 +1223,6 @@ class ConstantContact_Display {
 	 * @return string field HTML markup.
 	 */
 	public function address( $name = '', $f_id = '', $value = [], $desc = '', $req = false, $field_error = '', $label_placement = 'top' ) {
-
 		$street = esc_html__( 'Street Address', 'constant-contact-forms' );
 		$line_2 = esc_html__( 'Address Line 2', 'constant-contact-forms' );
 		$city   = esc_html__( 'City', 'constant-contact-forms' );
@@ -1423,7 +1411,6 @@ class ConstantContact_Display {
 	 * @return string Fields HTML markup.
 	 */
 	public function dates( $name = '', $f_id = '', $value = [], $desc = '', $req = false, $field_error = '' ) {
-
 		$month = esc_html__( 'Month', 'constant-contact-forms' );
 		$day   = esc_html__( 'Day', 'constant-contact-forms' );
 		$year  = esc_html__( 'Year', 'constant-contact-forms' );
@@ -1464,7 +1451,6 @@ class ConstantContact_Display {
 	 * @return string field markup.
 	 */
 	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '', $req = false ) {
-
 		$f_id = str_replace( 'birthday', 'birthday_' . $type, $f_id );
 		$f_id = str_replace( 'anniversary', 'anniversary_' . $type, $f_id );
 
@@ -1492,7 +1478,6 @@ class ConstantContact_Display {
 	 * @return string HTML markup.
 	 */
 	public function get_date_options( $text = '', $values = [], $prev_selected_values = [] ) {
-
 		$return = '<option value="">' . sanitize_text_field( $text ) . '</option>';
 
 		if ( ! is_array( $values ) ) {
