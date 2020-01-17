@@ -950,7 +950,6 @@ class ConstantContact_Display {
 	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '' ) {
 		$name                  = sanitize_text_field( $name );
 		$f_id                  = sanitize_title( $id );
-		$form_id               = $this->get_true_form_id( $form_id );
 		$input_inline_styles   = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
@@ -1074,7 +1073,6 @@ class ConstantContact_Display {
 	public function checkbox( $name = '', $f_id = '', $value = '', $label = '' ) {
 		$name    = sanitize_text_field( $name );
 		$f_id    = sanitize_title( $f_id );
-		$form_id = $this->get_true_form_id();
 		$value   = sanitize_text_field( $value );
 		$label   = esc_attr( $label );
 		$type    = 'checkbox';
@@ -1091,32 +1089,13 @@ class ConstantContact_Display {
 		 * @param  int    $f_id    Field ID.
 		 * @return array
 		 */
-		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $form_id, $f_id );
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type ); // @todo if/when we start using the checkbox field type, pass in a $form_id and $f_id value.
 
 		$markup  = $this->field_top( $type, $name, $f_id, $label, false, false );
 		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" class="' . implode( ' ', $classes ) . '" />';
 		$markup .= $this->field_bottom( $name, ' ' . $label );
 
 		return $markup;
-	}
-
-	/**
-	 * Gets post ID of the CTCT form, instead of the ID of the post it's embedded in.
-	 *
-	 * @since TBD
-	 *
-	 * @param int $form_id Optional. Form ID, defaults to 0.
-	 * @return int 0 if could not find a post ID for a CTCT form.
-	 */
-	private function get_true_form_id( $form_id = 0 ) {
-		$form_id    = 0 === $form_id ? get_the_ID() : $form_id;
-		$maybe_form = get_post( $form_id );
-
-		if ( 'ctct_forms' !== $maybe_form->post_type ) {
-			return 0;
-		}
-
-		return $form_id;
 	}
 
 	/**
