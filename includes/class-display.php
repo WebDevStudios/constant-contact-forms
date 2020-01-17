@@ -1071,11 +1071,11 @@ class ConstantContact_Display {
 	 * @return string HTML markup for checkbox.
 	 */
 	public function checkbox( $name = '', $f_id = '', $value = '', $label = '' ) {
-		$name    = sanitize_text_field( $name );
-		$f_id    = sanitize_title( $f_id );
-		$value   = sanitize_text_field( $value );
-		$label   = esc_attr( $label );
-		$type    = 'checkbox';
+		$name  = sanitize_text_field( $name );
+		$f_id  = sanitize_title( $f_id );
+		$value = sanitize_text_field( $value );
+		$label = esc_attr( $label );
+		$type  = 'checkbox';
 
 		$classes = [ 'ctct-' . esc_attr( $type ) ];
 
@@ -1085,8 +1085,6 @@ class ConstantContact_Display {
 		 * @since  1.2.0
 		 * @param  array  $classes Array of classes to apply to the field.
 		 * @param  string $type    The field type being rendered.
-		 * @param  int    $form_id Form ID.
-		 * @param  int    $f_id    Field ID.
 		 * @return array
 		 */
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type ); // @todo if/when we start using the checkbox field type, pass in a $form_id and $f_id value.
