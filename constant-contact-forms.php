@@ -819,16 +819,3 @@ function constant_contact_uninstall() {
 	$instance = Constant_Contact::get_instance();
 	$instance->uninstall();
 }
-
-/**
- * Modify our shortcode-button assets url without having to touch vendor folder.
- *
- * @since 1.5.3
- *
- * @param string $url Assets url for shortcode-button library.
- * @return string
- */
-function ctct_shortcode_button_assets_url( $url ) {
-	return plugin_dir_url( __FILE__ ) . 'vendor/jtsternberg/shortcode-button/';
-}
-add_filter( 'shortcode_button_assets_url', 'ctct_shortcode_button_assets_url' );
