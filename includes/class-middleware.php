@@ -115,6 +115,10 @@ class ConstantContact_Middleware {
 		static $proof = null;
 
 		if ( null === $proof ) {
+			constant_contact_maybe_log_it(
+				'Middleware',
+				'Verification option proof was null',
+			);
 			$proof = esc_attr( wp_generate_password( 35, false ) );
 			update_option( 'ctct_connect_verification', $proof );
 		}
