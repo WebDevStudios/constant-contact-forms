@@ -657,3 +657,23 @@ function constant_contact_privacy_policy_content() {
 function constant_contact_set_has_exceptions( $status = 'true' ) {
 	update_option( 'ctct_exceptions_exist', $status );
 }
+
+/**
+ * Contactenate passed in log location and line number.
+ *
+ * Line number may not be 100% accurate, depending on how data is combined.
+ * Will be close to actual location in cases of multiple log calls in same function.
+ *
+ * @since 1.7.0
+ *
+ * @param string $location Location of the log data being added.
+ * @param string $line     Line approximation of where the error originates.
+ * @return string
+ */
+function constant_contact_location_and_line( $location = '', $line = '' ) {
+	return sprintf(
+		'%s:%s ',
+		$location,
+		$line
+	);
+}

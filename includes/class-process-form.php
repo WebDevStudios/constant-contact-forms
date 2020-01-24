@@ -10,6 +10,8 @@
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
+use \ReCaptcha\ReCaptcha;
+
 /**
  * Powers our form processing, validation, and value cleanup.
  *
@@ -197,14 +199,33 @@ class ConstantContact_Process_Form {
 		}
 
 		if ( isset( $data['g-recaptcha-response'] ) ) {
-			$secret = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
 			$method = null;
 			if ( ! ini_get( 'allow_url_fopen' ) ) {
-				$method = new \ReCaptcha\RequestMethod\CurlPost();
+				$method = new ReCaptcha\RequestMethod\CurlPost();
 			}
-			$recaptcha = new \ReCaptcha\ReCaptcha( $secret, $method );
+			$ctctrecaptcha = new ConstantContact_reCAPTCHA();
+			$ctctrecaptcha->set_recaptcha_keys();
+			$keys = $ctctrecaptcha->get_recaptcha_keys();
+			$ctctrecaptcha->set_recaptcha_class( new ReCaptcha( $keys['secret_key'], $method ) );
 
-			$resp = $recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
+			$ctctrecaptcha->recaptcha->setExpectedHostname( parse_url( home_url(), PHP_URL_HOST ) );
+			if ( 'v3' === $ctctrecaptcha->get_recaptcha_version() ) {
+				/**
+				 * Filters the default float value for the score threshold.
+				 *
+				 * This value should be between 0.0 and 1.0.
+				 *
+				 * @since 1.7.0
+				 *
+				 * @param float  $value Threshold to require for submission approval.
+				 * @param string $value The ID of the form that was submitted.
+				 */
+				$threshold = (float) apply_filters( 'ctct_recaptcha_threshold', 0.5, $data['ctct-id'] );
+
+				$ctctrecaptcha->recaptcha->setScoreThreshold( $threshold );
+				$ctctrecaptcha->recaptcha->setExpectedAction( 'constantcontactsubmit' );
+			}
+			$resp = $ctctrecaptcha->recaptcha->verify( $data['g-recaptcha-response'], $_SERVER['REMOTE_ADDR'] );
 
 			if ( ! $resp->isSuccess() ) {
 				constant_contact_maybe_log_it( 'reCAPTCHA', 'Failed to verify with Google reCAPTCHA', [ $resp->getErrorCodes() ] );
@@ -215,7 +236,8 @@ class ConstantContact_Process_Form {
 			}
 		}
 
-		if ( empty( $data['g-recaptcha-response'] ) && $this->plugin->settings->has_recaptcha() ) {
+		$maybe_disable_recaptcha = 'on' === get_post_meta( $data['ctct-id'], '_ctct_disable_recaptcha', true );
+		if ( ! $maybe_disable_recaptcha && empty( $data['g-recaptcha-response'] ) && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
 			return [
 				'status' => 'named_error',
 				'error'  => $this->get_spam_message( $data['ctct-id'] ),

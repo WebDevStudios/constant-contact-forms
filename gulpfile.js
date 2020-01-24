@@ -13,8 +13,9 @@ const postcss = require('gulp-postcss');
 const rename = require('gulp-rename');
 const sass = require('gulp-sass');
 const sourcemaps = require('gulp-sourcemaps');
-const webpack = require( 'webpack' );
-const webpackStream = require( 'webpack-stream' );
+const webpack = require('webpack');
+const webpackStream = require('webpack-stream');
+const wpPot = require('gulp-wp-pot');
 
 const pluginConfig = require('./plugin-config');
 const webpackConfig = require( './webpack.config' );
@@ -51,7 +52,7 @@ function getFolders(dir) {
  * Use webpack to transpile and bundle scripts.
  */
 gulp.task('scripts', function(done) {
-	gulp.src( [ './assets/js/ctct-plugin-frontend/index.js', './assets/js/ctct-plugin-gutenberg/index.js', './assets/js/ctct-plugin-admin/index.js' ] )
+	gulp.src( [ './assets/js/ctct-plugin-frontend/index.js', './assets/js/ctct-plugin-gutenberg/index.js', './assets/js/ctct-plugin-admin/index.js', './assets/js/ctct-plugin-recaptcha/index.js' ] )
 		.pipe( webpackStream( webpackConfig ), webpack )
 		.pipe( gulp.dest( './assets/js' ) );
 	done();
@@ -151,14 +152,23 @@ gulp.task('watch', function() {
 		proxy: pluginConfig.localURL
 	});
 
-	gulp.watch('./assets/sass/**/*.scss', gulp.series('cssnano'));
-	gulp.watch( './assets/js/ctct-plugin-admin/**/*.js', gulp.series('scripts'));
-	gulp.watch( './assets/js/ctct-plugin-gutenberg/**/*.js', gulp.series('scripts'));
-	gulp.watch( './assets/js/ctct-plugin-frontend/**/*.js', gulp.series('scripts'));
+	gulp.watch( './assets/sass/**/*.scss', gulp.series('cssnano') );
+	gulp.watch( './assets/js/ctct-plugin-admin/**/*.js', gulp.series('scripts') );
+	gulp.watch( './assets/js/ctct-plugin-gutenberg/**/*.js', gulp.series('scripts') );
+	gulp.watch( './assets/js/ctct-plugin-frontend/**/*.js', gulp.series('scripts') );
+	gulp.watch( './assets/js/ctct-plugin-recaptcha/**/*.js', gulp.series('scripts') );
 	gulp.watch( './assets/sass/**/*.scss' ).on( 'change', browserSync.reload );
 	gulp.watch( './assets/js/ctct-plugin-admin/**/*.js' ).on( 'change', browserSync.reload );
 	gulp.watch( './assets/js/ctct-plugin-gutenberg/**/*.js' ).on( 'change', browserSync.reload );
 	gulp.watch( './assets/js/ctct-plugin-frontend/**/*.js' ).on( 'change', browserSync.reload );
+	gulp.watch( './assets/js/ctct-plugin-recaptcha/**/*.js').on('change', browserSync.reload );
+});
+
+gulp.task('makepot', function() {
+    return gulp.src( [ './constant-contact-forms.php', './includes/*.php' ] ).pipe( wpPot({
+		domain: 'constant-contact-forms',
+		package: 'Constant Contact Forms'
+	}) ).pipe( gulp.dest( './languages/constant-contact-forms.pot' ) );
 });
 
 /**
@@ -166,4 +176,4 @@ gulp.task('watch', function() {
 */
 gulp.task('js', gulp.series('scripts'));
 gulp.task('styles', gulp.series('cssnano'));
-gulp.task('default', gulp.parallel('styles', 'js'));
+gulp.task('default', gulp.parallel('styles', 'js', 'makepot' ));
