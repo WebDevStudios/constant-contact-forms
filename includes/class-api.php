@@ -496,7 +496,9 @@ class ConstantContact_API {
 		} catch ( CtctException $ex ) {
 			$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$this->log_errors( $extra . $ex->getErrors() );
-			constant_contact_set_has_exceptions();
+			if ( 400 !== $ex->getCode() || false !== strpos( 'Bad Request', $ex->getMessage() ) ) {
+				constant_contact_set_has_exceptions();
+			}
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
@@ -504,7 +506,9 @@ class ConstantContact_API {
 			$messages[]           = $error;
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_set_has_exceptions();
+			if ( 400 !== $ex->getCode() || false !== strpos( 'Bad Request', $ex->getMessage() ) ) {
+				constant_contact_set_has_exceptions();
+			}
 
 			$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$this->log_errors( $extra . $messages );
