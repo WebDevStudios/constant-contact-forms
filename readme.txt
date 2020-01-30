@@ -2,8 +2,8 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
-Tested up to:      5.3.0
-Stable tag:        1.7.0
+Tested up to:      5.3.2
+Stable tag:        1.8.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.6
@@ -35,7 +35,7 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
-= TBD =
+= 1.8.0 =
 * Added: Form and field IDs parameters to the `constant_contact_input_classes` filters.
 * Added: Site owners will be notified if they have stray shortcodes or widgets using a newly deleted form.
 * Added: Separated the settings page into tabs for better purpose organization.
