@@ -34,7 +34,7 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	 * @return string
 	 */
 	public function enqueue_scripts() {
-		wp_add_inline_script( 'jquery', 'function ctctEnableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", false ); }function ctctDisableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", "disabled" ); }' );
+		wp_add_inline_script( 'ctct_frontend_forms', 'function ctctEnableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", false ); }function ctctDisableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", "disabled" ); }' );
 	}
 
 	/**
