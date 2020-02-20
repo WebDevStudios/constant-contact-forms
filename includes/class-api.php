@@ -128,7 +128,9 @@ class ConstantContact_API {
 				}
 			} catch ( CtctException $ex ) {
 				$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$this->log_errors( $extra . $ex->getErrors() );
+				$errors = $ex->getErrors();
+				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
+				$this->log_errors( $our_errors );
 				constant_contact_set_has_exceptions();
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
@@ -140,7 +142,9 @@ class ConstantContact_API {
 				constant_contact_set_has_exceptions();
 
 				$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$this->log_errors( $extra . $messages );
+				$errors = $ex->getErrors();
+				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
+				$this->log_errors( $our_errors );
 			}
 		}
 
