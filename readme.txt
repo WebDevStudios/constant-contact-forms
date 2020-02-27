@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
 Tested up to:      5.3.2
-Stable tag:        1.8.0
+Stable tag:        1.8.1
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.6
@@ -34,6 +34,11 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
+= 1.8.1 =
+* Fixed: Google reCAPTCHA issues with jQuery dependencies.
+* Fixed: Google reCAPTCHA undefined class errors when `allow_url_fopen` is disabled.
+* Fixed: Array to string errors when API errors occurred.
 
 = 1.8.0 =
 * Added: Form and field IDs parameters to the `constant_contact_input_classes` filters.
