@@ -376,7 +376,6 @@ class Constant_Contact {
 		$this->basename        = plugin_basename( __FILE__ );
 		$this->url             = plugin_dir_url( __FILE__ );
 		$this->path            = plugin_dir_path( __FILE__ );
-		$this->logger_location = WP_CONTENT_DIR . '/ctct-logs/constant-contact-errors.log';
 
 		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
@@ -386,6 +385,9 @@ class Constant_Contact {
 		// Load our plugin and our libraries.
 		$this->plugin_classes();
 		$this->admin_plugin_classes();
+
+		// Set logging location.
+		$this->logger_location = $this->logging->get_logging_location();
 
 		// Include our helper functions function for end-users.
 		self::include_file( 'helper-functions', false );

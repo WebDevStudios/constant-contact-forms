@@ -391,4 +391,16 @@ class ConstantContact_Logging {
 
 		touch( $this->log_location_file );
 	}
+
+	/**
+	 * Retrieve logging file location.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return string Logging file location.
+	 */
+	public function get_logging_location() {
+		return $this->log_location_file;
+	}
 }
