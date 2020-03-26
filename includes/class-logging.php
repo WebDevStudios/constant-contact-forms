@@ -429,6 +429,16 @@ class ConstantContact_Logging {
 	}
 
 	/**
+	 * Remove current logging directory and files.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 */
+	public function delete_current_log_dir() {
+		$this->delete_log_dir( $this->log_location_dir );
+	}
+
+	/**
 	 * Helper function to remove logging directory.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
