@@ -101,9 +101,12 @@ class ConstantContact_Logging {
 	public function __construct( $plugin ) {
 		$this->plugin            = $plugin;
 		$this->options_url       = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
-		$this->log_location_url  = content_url() . '/ctct-logs/constant-contact-errors.log';
-		$this->log_location_dir  = WP_CONTENT_DIR . '/ctct-logs';
-		$this->log_location_file = "{$this->log_location_dir}/constant-contact-errors.log";
+		$uploads_dir             = wp_upload_dir();
+		$log_file_dir            = 'ctct-logs';
+		$log_file_name           = 'constant-contact-errors.log';
+		$this->log_location_url  = "{$uploads_dir['baseurl']}/{$log_file_dir}/{$log_file_name}";
+		$this->log_location_dir  = "{$uploads_dir['basedir']}/{$log_file_dir}";
+		$this->log_location_file = "{$this->log_location_dir}/{$log_file_name}";
 		$this->log_index_file    = "{$this->log_location_dir}/index.php";
 
 		$this->hooks();
