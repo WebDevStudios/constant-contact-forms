@@ -292,7 +292,9 @@ class ConstantContact_Logging {
 			unlink( $log_file );
 		}
 
-		$this->create_log_file();
+		if ( constant_contact_debugging_enabled() ) {
+			$this->create_log_file();
+		}
 
 		wp_redirect( $this->options_url );
 		exit();
@@ -348,13 +350,8 @@ class ConstantContact_Logging {
 	 * Create the log folder.
 	 *
 	 * @since 1.5.0
-	 * @return void
 	 */
 	public function create_log_folder() {
-		if ( ! constant_contact_debugging_enabled() ) {
-			return;
-		}
-
 		mkdir( $this->log_location_dir );
 		chmod( $this->log_location_dir, 0755 );
 	}
@@ -366,10 +363,6 @@ class ConstantContact_Logging {
 	 * @return void
 	 */
 	public function create_log_index_file() {
-		if ( ! constant_contact_debugging_enabled() ) {
-			return;
-		}
-
 		if ( ! is_writable( $this->log_location_dir ) ) {
 			return;
 		}
@@ -388,10 +381,6 @@ class ConstantContact_Logging {
 	 * @return void
 	 */
 	public function create_log_file() {
-		if ( ! constant_contact_debugging_enabled() ) {
-			return;
-		}
-
 		if ( ! is_writable( $this->log_location_dir ) ) {
 			return;
 		}
