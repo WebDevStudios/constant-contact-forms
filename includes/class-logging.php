@@ -84,6 +84,14 @@ class ConstantContact_Logging {
 	protected $log_index_file = '';
 
 	/**
+	 * The logging directory name.
+	 *
+	 * @since NEXT
+	 * @var   string
+	 */
+	protected $log_file_dir = 'ctct-logs';
+
+	/**
 	 * WP_Filesystem
 	 *
 	 * @since 1.4.5
@@ -101,9 +109,11 @@ class ConstantContact_Logging {
 	public function __construct( $plugin ) {
 		$this->plugin            = $plugin;
 		$this->options_url       = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
-		$this->log_location_url  = content_url() . '/ctct-logs/constant-contact-errors.log';
-		$this->log_location_dir  = WP_CONTENT_DIR . '/ctct-logs';
-		$this->log_location_file = "{$this->log_location_dir}/constant-contact-errors.log";
+		$uploads_dir             = wp_upload_dir();
+		$log_file_name           = 'constant-contact-errors.log';
+		$this->log_location_url  = "{$uploads_dir['baseurl']}/{$this->log_file_dir}/{$log_file_name}";
+		$this->log_location_dir  = "{$uploads_dir['basedir']}/{$this->log_file_dir}";
+		$this->log_location_file = "{$this->log_location_dir}/{$log_file_name}";
 		$this->log_index_file    = "{$this->log_location_dir}/index.php";
 
 		$this->hooks();
@@ -117,6 +127,7 @@ class ConstantContact_Logging {
 	public function hooks() {
 		add_action( 'admin_menu', [ $this, 'add_options_page' ] );
 		add_action( 'admin_init', [ $this, 'delete_log_file' ] );
+		add_action( 'admin_init', [ $this, 'maybe_delete_old_log_dir' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
 		add_action( 'admin_footer', [ $this, 'dialog' ] );
 		add_action( 'admin_init', [ $this, 'set_file_system' ] );
@@ -289,7 +300,9 @@ class ConstantContact_Logging {
 			unlink( $log_file );
 		}
 
-		$this->create_log_file();
+		if ( constant_contact_debugging_enabled() ) {
+			$this->create_log_file();
+		}
 
 		wp_redirect( $this->options_url );
 		exit();
@@ -345,13 +358,8 @@ class ConstantContact_Logging {
 	 * Create the log folder.
 	 *
 	 * @since 1.5.0
-	 * @return void
 	 */
 	public function create_log_folder() {
-		if ( ! constant_contact_debugging_enabled() ) {
-			return;
-		}
-
 		mkdir( $this->log_location_dir );
 		chmod( $this->log_location_dir, 0755 );
 	}
@@ -363,10 +371,6 @@ class ConstantContact_Logging {
 	 * @return void
 	 */
 	public function create_log_index_file() {
-		if ( ! constant_contact_debugging_enabled() ) {
-			return;
-		}
-
 		if ( ! is_writable( $this->log_location_dir ) ) {
 			return;
 		}
@@ -385,10 +389,6 @@ class ConstantContact_Logging {
 	 * @return void
 	 */
 	public function create_log_file() {
-		if ( ! constant_contact_debugging_enabled() ) {
-			return;
-		}
-
 		if ( ! is_writable( $this->log_location_dir ) ) {
 			return;
 		}
@@ -398,5 +398,65 @@ class ConstantContact_Logging {
 		}
 
 		touch( $this->log_location_file );
+	}
+
+	/**
+	 * Retrieve logging file location.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return string Logging file location.
+	 */
+	public function get_logging_location() {
+		return $this->log_location_file;
+	}
+
+	/**
+	 * Remove old logging directory and files for older plugin versions (<= 1.8.1).
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return void
+	 */
+	public function maybe_delete_old_log_dir() {
+		if ( Constant_Contact::VERSION <= '1.8.1' ) {
+			return;
+		}
+
+		$this->delete_log_dir( WP_CONTENT_DIR . '/ctct-logs' );
+	}
+
+	/**
+	 * Remove current logging directory and files.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 */
+	public function delete_current_log_dir() {
+		$this->delete_log_dir( $this->log_location_dir );
+	}
+
+	/**
+	 * Helper function to remove logging directory.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return void
+	 */
+	protected function delete_log_dir( $dir = '' ) {
+		if ( empty( $dir ) || ! is_dir( $dir ) ) {
+			return;
+		}
+
+		// Don't allow removing non-logging directories.
+		if ( empty( stristr( $dir, $this->log_file_dir ) ) ) {
+			return;
+		}
+
+		array_map( 'unlink', glob( "{$dir}/*" ) );
+		rmdir( $dir );
 	}
 }
