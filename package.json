@@ -22,9 +22,9 @@
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
-    "@babel/preset-react": "^7.8.3",
-    "@wordpress/components": "^9.2.1",
-    "autoprefixer": "^9.7.4",
+    "@babel/preset-react": "^7.9.4",
+    "@wordpress/components": "^9.3.0",
+    "autoprefixer": "^9.7.5",
     "babel-loader": "^8.0.6",
     "browser-sync": "^2.26.7",
     "css-mqpacker": "^7.0.0",
@@ -38,8 +38,8 @@
     "gulp-sass": "^4.0.2",
     "gulp-sourcemaps": "^2.6.5",
     "gulp-util": "^3.0.8",
-    "gulp-wp-pot": "^2.3.6",
-    "webpack": "^4.41.6",
+    "gulp-wp-pot": "^2.4.1",
+    "webpack": "^4.42.1",
     "webpack-stream": "^5.2.1"
   }
 }
