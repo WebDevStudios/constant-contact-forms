@@ -1,6 +1,6 @@
 const autoprefixer = require('autoprefixer');
 const browserSync = require('browser-sync');
-const cssnano = require('gulp-cssnano');
+const cssnano = require('cssnano');
 const del = require('del');
 const fs = require('fs'); // node file system manipulation
 const gulp = require('gulp');
@@ -103,12 +103,11 @@ gulp.task('postcss', gulp.series('sass', function() {
 
 		// Parse with PostCSS plugins.
 		.pipe(postcss([
-			autoprefixer({
-				browsers: ['last 2 version']
-			}),
+			autoprefixer(),
 			mqpacker({
 				sort: true
 			}),
+			cssnano(),
 		]))
 
 	// Create sourcemap.
@@ -121,17 +120,13 @@ gulp.task('postcss', gulp.series('sass', function() {
 /**
 * Minify and optimize style.css.
 *
-* https://www.npmjs.com/package/gulp-cssnano
+* https://www.npmjs.com/package/cssnano
 */
 gulp.task('cssnano', gulp.series('postcss', function(done) {
 	gulp.src('assets/css/style.css')
 
 	// handle any errors
 	.pipe(plumber({ errorHandler: handleErrors }))
-
-	.pipe(cssnano({
-		safe: true // Use safe optimizations
-	}))
 
 	// rename file from style.css to style.min.css
 	.pipe(rename('style.min.css'))

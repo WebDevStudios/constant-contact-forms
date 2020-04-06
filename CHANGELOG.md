@@ -1,3 +1,6 @@
+= NEXT =
+* Updated: Moved logging directory to `uploads`. Some installs may encounter an error writing to the new directory, in which case deactivating then re-activating logging should fix the issue.
+
 = 1.3.7 =
 * Added: Logging functionality to help aid with debugging and the plugin not working as needed or expected.
 * Added: Passed form ID to filters related to including labels for custom fields.

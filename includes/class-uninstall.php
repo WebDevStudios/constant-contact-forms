@@ -53,6 +53,7 @@ class ConstantContact_Uninstall {
 		$this->delete_options();
 		$this->delete_transients();
 		$this->delete_cron_hooks();
+		$this->delete_log_dir();
 	}
 
 	/**
@@ -171,5 +172,15 @@ class ConstantContact_Uninstall {
 		foreach ( $this->get_cron_hook_names() as $cron_hook_name ) {
 			wp_clear_scheduled_hook( $cron_hook_name );
 		}
+	}
+
+	/**
+	 * Delete logging directory.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 */
+	private function delete_log_dir() {
+		constant_contact()->logging->delete_current_log_dir();
 	}
 }
