@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.8.1
+ * Version:     1.8.2
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
@@ -72,7 +72,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.8.1';
+	const VERSION = '1.8.2';
 
 	/**
 	 * URL of plugin directory.
@@ -376,7 +376,6 @@ class Constant_Contact {
 		$this->basename        = plugin_basename( __FILE__ );
 		$this->url             = plugin_dir_url( __FILE__ );
 		$this->path            = plugin_dir_path( __FILE__ );
-		$this->logger_location = WP_CONTENT_DIR . '/ctct-logs/constant-contact-errors.log';
 
 		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
@@ -386,6 +385,9 @@ class Constant_Contact {
 		// Load our plugin and our libraries.
 		$this->plugin_classes();
 		$this->admin_plugin_classes();
+
+		// Set logging location.
+		$this->logger_location = $this->logging->get_logging_location();
 
 		// Include our helper functions function for end-users.
 		self::include_file( 'helper-functions', false );
