@@ -260,18 +260,6 @@ class ConstantContact_Process_Form {
 			];
 		}
 
-		if (
-			! isset( $data['ctct_form'] ) ||
-			! wp_verify_nonce( $data['ctct_form'], 'ctct_submit_form' )
-		) {
-			constant_contact_maybe_log_it( 'Nonces', 'ctct_submit_form nonce failed to verify.' );
-			// @todo Figure out a way to pass errors back.
-			return [
-				'status' => 'named_error',
-				'error'  => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
-			];
-		}
-
 		$orig_form_id = absint( $data['ctct-id'] );
 		if ( ! $orig_form_id ) {
 			return [
