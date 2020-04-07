@@ -132,7 +132,7 @@ class ConstantContact_Notifications {
 		// Get current action to ensure dismissing on correct load.
 		$action = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_STRING );
 
-		if ( $notif_id ) {
+		if ( $this->check_dismissal_nonce() && $notif_id ) {
 			$this->save_dismissed_notification( $notif_id );
 		}
 
@@ -214,6 +214,26 @@ class ConstantContact_Notifications {
 	}
 
 	/**
+	 * Checks to see if we have a dismissal nonce, and if it is valid.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool Whether or not nonce is verified.
+	 */
+	public function check_dismissal_nonce() {
+
+		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
+		if ( ! isset( $_GET['ctct-dismiss'] ) ) {
+			return false;
+		}
+
+		$nonce = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss'] ) );
+		// phpcs:enable WordPress.Security.NonceVerification
+
+		return wp_verify_nonce( $nonce, 'ctct-user-is-dismissing' );
+	}
+
+	/**
 	 * Get the notice the user is attempting to dismiss.
 	 *
 	 * @since 1.0.0
@@ -223,7 +243,7 @@ class ConstantContact_Notifications {
 	public function get_dismissal_id() {
 
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
-		if ( ! isset( $_GET['ctct-dismiss-action'] ) ) {
+		if ( ! isset( $_GET['ctct-dismiss'] ) || ! isset( $_GET['ctct-dismiss-action'] ) ) {
 			return false;
 		}
 
@@ -409,7 +429,8 @@ class ConstantContact_Notifications {
 	 * @return string URL to dismiss prompt.
 	 */
 	public function get_activation_dismiss_url( $type ) {
-		return add_query_arg( [ 'ctct-dismiss-action' => esc_attr( $type ) ] );
+		$link = add_query_arg( [ 'ctct-dismiss-action' => esc_attr( $type ) ] );
+		return wp_nonce_url( $link, 'ctct-user-is-dismissing', 'ctct-dismiss' );
 	}
 
 	/**

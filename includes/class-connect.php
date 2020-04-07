@@ -188,6 +188,7 @@ class ConstantContact_Connect {
 							</p>
 						</div>
 						<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
+							<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
 							<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
 							<input type="submit" class="button ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constant-contact-forms' ); ?>">
 						</form>
@@ -325,6 +326,10 @@ class ConstantContact_Connect {
 	 */
 	public function maybe_disconnect() {
 
+		if ( ! isset( $_POST['ctct-admin-disconnect'] ) ) {
+			return false;
+		}
+
 		if ( ! isset( $_POST['ctct-disconnect'] ) ) {
 			return false;
 		}
@@ -333,15 +338,19 @@ class ConstantContact_Connect {
 			return false;
 		}
 
-		delete_option( 'ctct_token' );
-		delete_option( '_ctct_token' );
+		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ctct-admin-disconnect'] ) ), 'ctct-admin-disconnect' ) ) {
 
-		$saved_options = get_option( 'ctct_options_settings' );
-		if ( isset( $saved_options['_ctct_disable_email_notifications'] ) ) {
-			unset( $saved_options['_ctct_disable_email_notifications'] );
-			update_option( 'ctct_options_settings', $saved_options );
+			delete_option( 'ctct_token' );
+			delete_option( '_ctct_token' );
+
+			$saved_options = get_option( 'ctct_options_settings' );
+			if ( isset( $saved_options['_ctct_disable_email_notifications'] ) ) {
+				unset( $saved_options['_ctct_disable_email_notifications'] );
+				update_option( 'ctct_options_settings', $saved_options );
+			}
+		} else {
+			constant_contact_maybe_log_it( 'Nonces', 'Account disconnection nonce failed to verify.' );
 		}
-
 		return true;
 	}
 

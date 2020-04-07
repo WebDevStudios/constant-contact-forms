@@ -772,7 +772,7 @@ class ConstantContact_Lists {
 	 */
 	public function add_force_sync_button( $views ) {
 
-		$link = add_query_arg( [ 'ctct_list_sync' => 'true' ] );
+		$link = wp_nonce_url( add_query_arg( [ 'ctct_list_sync' => 'true' ] ), 'ctct_reysncing', 'ctct_resyncing' );
 
 		$views['sync'] = '<strong><a href="' . $link . '">' . __( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
 
