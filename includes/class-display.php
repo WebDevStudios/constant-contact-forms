@@ -361,8 +361,6 @@ class ConstantContact_Display {
 
 		$return .= $this->submit( $form_id );
 
-		$return .= wp_nonce_field( 'ctct_submit_form', 'ctct_form', true, false );
-
 		$return .= wp_kses_post( $this->maybe_add_disclose_note( $form_data ) );
 
 		$return .= $this->must_opt_in( $form_data );

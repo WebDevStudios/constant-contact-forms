@@ -253,11 +253,7 @@ class ConstantContact_Logging {
 								esc_attr( $log_location ),
 								esc_html__( 'Download logs', 'constant-contact-forms' ),
 								esc_attr(
-									wp_nonce_url(
-										$this->options_url,
-										'ctct_delete_log',
-										'ctct_delete_log'
-									)
+									add_query_arg( 'ctct_delete_log', '1', $this->options_url )
 								),
 								esc_html__( 'Delete logs', 'constant-contact-forms' )
 							);
@@ -289,11 +285,9 @@ class ConstantContact_Logging {
 			return;
 		}
 
-		if ( ! isset( $_GET['ctct_delete_log'] ) ) {
+		if ( ! isset( $_GET['ctct_delete_log'] ) || '1' !== $_GET['ctct_delete_log'] ) {
 			return;
 		}
-
-		check_admin_referer( 'ctct_delete_log', 'ctct_delete_log' );
 
 		$log_file = $this->log_location_file;
 		if ( file_exists( $log_file ) ) {

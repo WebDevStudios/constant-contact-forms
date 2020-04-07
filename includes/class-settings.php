@@ -676,7 +676,6 @@ class ConstantContact_Settings {
 				<?php echo esc_attr( $label ); ?>
 			</label>
 			<?php echo wp_kses_post( constant_contact()->display->get_disclose_text() ); ?>
-			<?php wp_nonce_field( 'ct_ct_add_to_optin', 'ct_ct_optin' ); ?>
 		</p>
 		<?php
 
@@ -693,15 +692,6 @@ class ConstantContact_Settings {
 	public function process_optin_comment_form( $comment_data ) {
 
 		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
-			return $comment_data;
-		}
-
-		if ( ! isset( $_POST['ct_ct_optin'] ) ) {
-			return $comment_data;
-		}
-
-		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ct_ct_optin'] ) ), 'ct_ct_add_to_optin' ) ) {
-			constant_contact_maybe_log_it( 'Nonces', 'process_optin_comment_form() nonce failed to verify.' );
 			return $comment_data;
 		}
 
@@ -756,15 +746,6 @@ class ConstantContact_Settings {
 	public function process_optin_login_form( $user, $username, $password ) {
 
 		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
-			return $user;
-		}
-
-		if ( ! isset( $_POST['ct_ct_optin'] ) ) {
-			return $user;
-		}
-
-		if ( ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ct_ct_optin'] ) ), 'ct_ct_add_to_optin' ) ) {
-			constant_contact_maybe_log_it( 'Nonces', 'process_optin_login_form() nonce failed to verify.' );
 			return $user;
 		}
 
