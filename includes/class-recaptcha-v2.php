@@ -34,10 +34,6 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	 * @return string
 	 */
 	public function enqueue_scripts() {
-
-		// Handle disabling/enabling submit button.
-		wp_add_inline_script( 'ctct_frontend_forms', 'function ctctEnableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", false ); }function ctctDisableBtn(){ jQuery( "#ctct-submitted" ).attr( "disabled", "disabled" ); }' );
-
 		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 		$suffix = ( true === $debug ) ? '' : '.min';
 
