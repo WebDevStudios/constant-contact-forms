@@ -15,10 +15,10 @@ var renderReCaptcha = function() {
             'size': jQuery( el ).attr( 'data-size' ),
             'tabindex': jQuery( el ).attr( 'data-tabindex' ),
             'callback': function() {
-                ctctEnableBtn( index );
+                window.ctctEnableBtn( index );
             },
             'expired-callback': function() {
-                ctctDisableBtn( index );
+                window.ctctDisableBtn( index );
             },
             'isolated': true,
         } );
