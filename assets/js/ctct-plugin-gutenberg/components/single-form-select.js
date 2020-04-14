@@ -1,8 +1,16 @@
-import { SelectControl } from '@wordpress/components';
-import apiFetch from '@wordpress/api-fetch';
-
-const { Component } = wp.element;
-const { __ } = wp.i18n;
+const {
+	components: {
+		SelectControl,
+	},
+	apiFetch,
+	element: {
+		Component,
+		useState,
+	},
+	i18n: {
+		__,
+	},
+} = wp;
 
 class SingleFormSelect extends Component {
 	/**
