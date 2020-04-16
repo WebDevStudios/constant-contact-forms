@@ -52,7 +52,13 @@ function getFolders(dir) {
  * Use webpack to transpile and bundle scripts.
  */
 gulp.task('scripts', function(done) {
-	gulp.src( [ './assets/js/ctct-plugin-frontend/index.js', './assets/js/ctct-plugin-gutenberg/index.js', './assets/js/ctct-plugin-admin/index.js', './assets/js/ctct-plugin-recaptcha/index.js' ] )
+	gulp.src( [
+		'./assets/js/ctct-plugin-frontend/index.js',
+		'./assets/js/ctct-plugin-gutenberg/index.js',
+		'./assets/js/ctct-plugin-admin/index.js',
+		'./assets/js/ctct-plugin-recaptcha/index.js',
+		'./assets/js/ctct-plugin-recaptcha-v2/index.js'
+	] )
 		.pipe( webpackStream( webpackConfig ), webpack )
 		.pipe( gulp.dest( './assets/js' ) );
 	done();
@@ -152,11 +158,13 @@ gulp.task('watch', function() {
 	gulp.watch( './assets/js/ctct-plugin-gutenberg/**/*.js', gulp.series('scripts') );
 	gulp.watch( './assets/js/ctct-plugin-frontend/**/*.js', gulp.series('scripts') );
 	gulp.watch( './assets/js/ctct-plugin-recaptcha/**/*.js', gulp.series('scripts') );
+	gulp.watch( './assets/js/ctct-plugin-recaptcha-v2/**/*.js', gulp.series('scripts') );
 	gulp.watch( './assets/sass/**/*.scss' ).on( 'change', browserSync.reload );
 	gulp.watch( './assets/js/ctct-plugin-admin/**/*.js' ).on( 'change', browserSync.reload );
 	gulp.watch( './assets/js/ctct-plugin-gutenberg/**/*.js' ).on( 'change', browserSync.reload );
 	gulp.watch( './assets/js/ctct-plugin-frontend/**/*.js' ).on( 'change', browserSync.reload );
 	gulp.watch( './assets/js/ctct-plugin-recaptcha/**/*.js').on('change', browserSync.reload );
+	gulp.watch( './assets/js/ctct-plugin-recaptcha-v2/**/*.js').on('change', browserSync.reload );
 });
 
 gulp.task('makepot', function() {

@@ -13,7 +13,8 @@ const config = {
 		'ctct-plugin-admin': [ './assets/js/ctct-plugin-admin/index.js' ],
 		'ctct-plugin-gutenberg': [ './assets/js/ctct-plugin-gutenberg/index.js' ],
 		'ctct-plugin-frontend': [ './assets/js/ctct-plugin-frontend/index.js' ],
-		'ctct-plugin-recaptcha': [ './assets/js/ctct-plugin-recaptcha/index.js' ]
+		'ctct-plugin-recaptcha': [ './assets/js/ctct-plugin-recaptcha/index.js' ],
+		'ctct-plugin-recaptcha-v2': [ './assets/js/ctct-plugin-recaptcha-v2/index.js' ]
 	},
 	output: {
 		filename: isProduction ? '[name].min.js' : '[name].js',
