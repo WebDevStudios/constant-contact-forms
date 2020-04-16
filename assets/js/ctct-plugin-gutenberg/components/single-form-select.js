@@ -5,7 +5,6 @@ const {
 	apiFetch,
 	element: {
 		Component,
-		useState,
 	},
 	i18n: {
 		__,
@@ -56,7 +55,8 @@ class SingleFormSelect extends Component {
 				<SelectControl
 					value={ selectedForm }
 					options={ this.state.forms }
-					onChange={ value => this.props.setAttributes( { selectedForm: value } ) } />
+					onChange={ value => this.props.setAttributes( { selectedForm: value } ) }
+				/>
 			</div>
 		)
 	}
