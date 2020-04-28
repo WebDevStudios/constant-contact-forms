@@ -273,7 +273,7 @@ class ConstantContact_Display {
 		// if the status is success, then we sent the form correctly
 		// if the status is error, then we will re-show the form, but also
 		// with our error messages.
-		$response = constant_contact()->process_form->process_wrapper( $form_data, $form_id );
+		$response = constant_contact()->process_form->process_wrapper( $form_data, $form_id, $instance );
 
 		$old_values = isset( $response['values'] ) ? $response['values'] : '';
 		$req_errors = isset( $response['errors'] ) ? $response['errors'] : '';
