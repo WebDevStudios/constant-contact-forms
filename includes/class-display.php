@@ -245,14 +245,16 @@ class ConstantContact_Display {
 	/**
 	 * Main wrapper for getting our form display.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
+	 * @since  NEXT Added $instance param to help properly track multiple instances of the same form.
 	 *
-	 * @param array  $form_data   Array of form data.
-	 * @param string $form_id     Form ID.
-	 * @param bool   $show_title  Show title if true.
+	 * @param  array  $form_data  Array of form data.
+	 * @param  string $form_id    Form ID.
+	 * @param  bool   $show_title Show title if true.
+	 * @param  int    $instance   Current form instance.
 	 * @return string Form markup.
 	 */
-	public function form( $form_data, $form_id = '', $show_title = false ) {
+	public function form( $form_data, $form_id = '', $show_title = false, $instance = 0 ) {
 		if ( 'publish' !== get_post_status( $form_id ) ) {
 			return '';
 		}
@@ -356,6 +358,8 @@ class ConstantContact_Display {
 		$return .= $this->build_honeypot_field();
 
 		$return .= $this->add_verify_fields( $form_data );
+
+		$return .= $this->create_instance_field( $instance );
 
 		$return .= $this->build_timestamp();
 
@@ -1777,5 +1781,18 @@ class ConstantContact_Display {
 		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
 		 */
 		return apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+	}
+
+	/**
+	 * Add hidden input field to verify current instance of form.
+	 *
+	 * @since  NEXT
+	 *
+	 * @param  int $instance Current instance of form.
+	 * @return string HTML markup for instance field.
+	 */
+	protected function create_instance_field( $instance ) {
+		$instance = absint( $instance );
+		return $this->input( 'hidden', 'ctct-instance', 'ctct-instance', $instance, '', false, true );
 	}
 }
