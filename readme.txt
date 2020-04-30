@@ -96,49 +96,6 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Updated: Added logging of API request parameters before the request is made.
 * Updated: Added logging around valid requests verifications when submitting a form.
 
-= 1.4.5 =
-* Fixed: Conflicts with custom textareas and notes inside of Constant Contact account when updating an existing contact.
-* Fixed: Potential issues around reading Constant Contact Forms error logs when log file is potentially not readable.
-
-= 1.4.4 =
-* Fixed: Hardened reCAPTCHA and form processing from possible AJAX bypass.
-
-= 1.4.3 =
-* Fixed: Persistent spinner on Constant Contact Forms submit button when Google reCAPTCHA is anywhere on the page.
-* Fixed: Better messaging around debug logging when unable to write to the intended log file.
-* Updated: Changed the modal popup content for when we need to display Endurance Privacy Policy information.
-
-= 1.4.2 =
-* Fixed: Issue with mismatched meta key for per-form destination email address.
-* Fixed: Ability to successfully submit a form with Google reCAPTCHA enabled, but when not validated, with a custom redirect URL is set.
-* Fixed: Prevent errors if Debug Log location is not writeable by the plugin.
-
-= 1.4.1 =
-* Fixed: Issue with generic CSS selector causing other WordPress admin UI to be revealed unintentionally.
-* Fixed: Issue with emails losing submitted information due to newly mismatched md5 hash values for each field.
-* Updated: Re-added outlines styles in a couple of places in admin area for accessibility sake.
-* Updated: Made form ID optional during contact addition method for site owners using plugin for comment/login page signups.
-
-= 1.4.0 =
-* Added: Various styling options during the form building process.
-* Added: Initial Akismet integration to help aid with spam submissions.
-* Added: Clear form fields after successful AJAX-based form submissions.
-* Added: Clear success/error message after small delay, for AJAX-based form submissions.
-* Added: WordPress action hooks before and after form output. Useful to add your own output for a given form.
-* Added: Compatibility with "Call To Action" plugin.
-* Added: Include custom field labels in email notifications.
-* Added: Ability to customize who receives email notifications, per form.
-* Added: Frontend form submit button disabled if hidden honeypot field has changed.
-* Fixed: Consistently applied ctct_process_form_success filter to AJAX form submission success messages.
-* Fixed: Prevent errors with Constant Contact social links and array_merge issues.
-* Fixed: Prevent errors with array_key_exists() and the ctct_get_settings_option function.
-* Fixed: Wording around associated lists for a form, in the WordPress admin.
-* Fixed: Removed .gitignore files from /vendor folders.
-* Fixed: Prevent potential PHP warnings and notices in various areas.
-* Updated: Better support for emailing notifications to multiple recipiants.
-* Updated: Better disabling of submit button during AJAX-based submissions.
-* Updated: Tightened up form builder screen to not use so much space.
-
 == Frequently Asked Questions ==
 
 #### Installation and Setup
