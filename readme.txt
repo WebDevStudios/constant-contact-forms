@@ -24,7 +24,7 @@ https://www.youtube.com/watch?v=MhxtAlpZzJw
 
 BONUS: If you have a Constant Contact account, all new email addresses that you capture will be automatically added to the Constant Contact email lists of your choosing. Not a Constant Contact customer? Sign up for a [Free Trial](http://www.constantcontact.com/index?pn=miwordpress) right from the plugin.
 
-**Constant Contact Forms** requires a PHP version of 5.4 or higher. You will not be able to use if on a lower version. Talk to your system administrator or hosting company if you are not sure what version you are on.
+**Constant Contact Forms** requires a PHP version of 5.6 or higher. You will not be able to use if on a lower version. Talk to your system administrator or hosting company if you are not sure what version you are on.
 
 == Screenshots ==
 1. Adding a New form when connected to Constant Contact account.
