@@ -2,8 +2,7 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
-Tested up to:      5.3.2
-
+Tested up to:      5.4.1
 Stable tag:        1.8.2
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -162,3 +161,6 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 #### How do I include which custom fields labels are which custom field values in my Constant Contact Account?
 You can add this to your active theme or custom plugin: `add_filter( 'constant_contact_include_custom_field_label', '__return_true' );`. Note: custom fields have a max length of 50 characters. Including the labels will subtract from the 50 character total available.
+
+#### Which account level access is needed to connect my WordPress account to Constant Contact?
+You will need to make the connection to Constant Contact using the credentials of the acccount owner. Campaign manager credentials will not have enough access.
