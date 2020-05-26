@@ -262,11 +262,11 @@ msgstr ""
 msgid "move down"
 msgstr ""
 
-#: includes/class-api.php:695
+#: includes/class-api.php:706
 msgid "Not a valid contact to set properties to."
 msgstr ""
 
-#: includes/class-api.php:870
+#: includes/class-api.php:881
 msgid "Your API access token is invalid. Reconnect to Constant Contact to receive a new token."
 msgstr ""
 
@@ -849,7 +849,7 @@ msgstr ""
 msgid "New Form"
 msgstr ""
 
-#: includes/class-cpts.php:72, includes/class-display.php:822
+#: includes/class-cpts.php:72, includes/class-display.php:826
 msgid "Edit Form"
 msgstr ""
 
@@ -1060,100 +1060,100 @@ msgstr ""
 msgid "%1$s (last modified %2$s ago)"
 msgstr ""
 
-#: includes/class-display.php:502
+#: includes/class-display.php:506
 msgid "Constant Contact Use."
 msgstr ""
 
-#: includes/class-display.php:655, includes/class-display.php:1642
+#: includes/class-display.php:659, includes/class-display.php:1646
 msgid "Error: Please correct your entry."
 msgstr ""
 
-#: includes/class-display.php:1224
+#: includes/class-display.php:1228
 msgid "Street Address"
 msgstr ""
 
-#: includes/class-display.php:1225
+#: includes/class-display.php:1229
 msgid "Address Line 2"
 msgstr ""
 
-#: includes/class-display.php:1226
+#: includes/class-display.php:1230
 msgid "City"
 msgstr ""
 
-#: includes/class-display.php:1227
+#: includes/class-display.php:1231
 msgid "State"
 msgstr ""
 
-#: includes/class-display.php:1228
+#: includes/class-display.php:1232
 msgid "ZIP Code"
 msgstr ""
 
-#: includes/class-display.php:1412
+#: includes/class-display.php:1416
 msgid "Month"
 msgstr ""
 
-#: includes/class-display.php:1413
+#: includes/class-display.php:1417
 msgid "Day"
 msgstr ""
 
-#: includes/class-display.php:1414
+#: includes/class-display.php:1418
 msgid "Year"
 msgstr ""
 
-#: includes/class-display.php:1528
+#: includes/class-display.php:1532
 msgid "January"
 msgstr ""
 
-#: includes/class-display.php:1529
+#: includes/class-display.php:1533
 msgid "February"
 msgstr ""
 
-#: includes/class-display.php:1530
+#: includes/class-display.php:1534
 msgid "March"
 msgstr ""
 
-#: includes/class-display.php:1531
+#: includes/class-display.php:1535
 msgid "April"
 msgstr ""
 
-#: includes/class-display.php:1532
+#: includes/class-display.php:1536
 msgid "May"
 msgstr ""
 
-#: includes/class-display.php:1533
+#: includes/class-display.php:1537
 msgid "June"
 msgstr ""
 
-#: includes/class-display.php:1534
+#: includes/class-display.php:1538
 msgid "July "
 msgstr ""
 
-#: includes/class-display.php:1535
+#: includes/class-display.php:1539
 msgid "August"
 msgstr ""
 
-#: includes/class-display.php:1536
+#: includes/class-display.php:1540
 msgid "September"
 msgstr ""
 
-#: includes/class-display.php:1537
+#: includes/class-display.php:1541
 msgid "October"
 msgstr ""
 
-#: includes/class-display.php:1538
+#: includes/class-display.php:1542
 msgid "November"
 msgstr ""
 
-#: includes/class-display.php:1539
+#: includes/class-display.php:1543
 msgid "December"
 msgstr ""
 
 #. translators: placeholder will hold company info for site owner.
-#: includes/class-display.php:1713
+#: includes/class-display.php:1717
 msgid "By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s"
 msgstr ""
 
-#: includes/class-display.php:1720
+#: includes/class-display.php:1724
 msgid "Emails are serviced by Constant Contact"
 msgstr ""
 
@@ -1320,15 +1320,15 @@ msgstr ""
 msgid "Disagree"
 msgstr ""
 
-#: includes/class-process-form.php:104, includes/class-process-form.php:616
+#: includes/class-process-form.php:104, includes/class-process-form.php:624
 msgid "There was an error sending your form."
 msgstr ""
 
-#: includes/class-process-form.php:115, includes/class-process-form.php:634
+#: includes/class-process-form.php:115, includes/class-process-form.php:642
 msgid "Your information has been submitted."
 msgstr ""
 
-#: includes/class-process-form.php:130, includes/class-process-form.php:648
+#: includes/class-process-form.php:130, includes/class-process-form.php:656
 msgid "We had trouble processing your submission. Please review your entries and try again."
 msgstr ""
 
@@ -1356,7 +1356,7 @@ msgstr ""
 msgid "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again."
 msgstr ""
 
-#: includes/class-process-form.php:713
+#: includes/class-process-form.php:721
 msgid "We do no think you are human"
 msgstr ""
 
