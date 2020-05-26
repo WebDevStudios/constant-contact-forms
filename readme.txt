@@ -36,6 +36,13 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.8.3 =
+* Fixed: Potential compatibility issues around Gutenberg block.
+* Fixed: Conflicts with multiple reCAPTCHAs on different Constant Contact Forms from the same page.
+* Fixed: Conflicts with multiple reCAPTCHAs on the same Constant Contact Form on the page multiple times.
+* Fixed: Removed incorrect usage of WordPress nonces on user submissions to forms.
+* Fixed: Address missed logging enabling for cases that potentially lead to missing debugging information.
+
 = 1.8.2 =
 * Updated: Amended logging location for more hopefully more consistent write-ability and smoother support requests.
 
