@@ -260,18 +260,6 @@ class ConstantContact_Process_Form {
 			];
 		}
 
-		if (
-			! isset( $data['ctct_form'] ) ||
-			! wp_verify_nonce( $data['ctct_form'], 'ctct_submit_form' )
-		) {
-			constant_contact_maybe_log_it( 'Nonces', 'ctct_submit_form nonce failed to verify.' );
-			// @todo Figure out a way to pass errors back.
-			return [
-				'status' => 'named_error',
-				'error'  => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
-			];
-		}
-
 		$orig_form_id = absint( $data['ctct-id'] );
 		if ( ! $orig_form_id ) {
 			return [
@@ -609,11 +597,12 @@ class ConstantContact_Process_Form {
 	 *
 	 * @throws Exception
 	 *
-	 * @param array      $form_data Form data to process.
-	 * @param string|int $form_id   Form ID being processed.
+	 * @param  array      $form_data Form data to process.
+	 * @param  string|int $form_id   Form ID being processed.
+	 * @param  int        $instance  Current form instance.
 	 * @return false|array
 	 */
-	public function process_wrapper( $form_data = [], $form_id = 0 ) {
+	public function process_wrapper( $form_data = [], $form_id = 0, $instance = 0 ) {
 
 		if ( empty( $_POST['ctct-id'] ) ) {
 			return false;
@@ -624,7 +613,14 @@ class ConstantContact_Process_Form {
 			return false;
 		}
 
-		$processed     = $this->process_form();
+		// Ensure calculated form instance matches POST form instance.
+		$posted_instance = absint( filter_input( INPUT_POST, 'ctct-instance', FILTER_SANITIZE_NUMBER_INT ) );
+
+		if ( $posted_instance !== $instance ) {
+			return false;
+		}
+
+		$processed     = $this->process_form( [], false );
 		$default_error = esc_html__( 'There was an error sending your form.', 'constant-contact-forms' );
 		$status        = false;
 

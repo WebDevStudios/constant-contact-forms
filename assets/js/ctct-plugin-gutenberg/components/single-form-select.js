@@ -1,8 +1,15 @@
-import { SelectControl } from '@wordpress/components';
-import apiFetch from '@wordpress/api-fetch';
-
-const { Component } = wp.element;
-const { __ } = wp.i18n;
+const {
+	components: {
+		SelectControl,
+	},
+	apiFetch,
+	element: {
+		Component,
+	},
+	i18n: {
+		__,
+	},
+} = wp;
 
 class SingleFormSelect extends Component {
 	/**
@@ -48,7 +55,8 @@ class SingleFormSelect extends Component {
 				<SelectControl
 					value={ selectedForm }
 					options={ this.state.forms }
-					onChange={ value => this.props.setAttributes( { selectedForm: value } ) } />
+					onChange={ value => this.props.setAttributes( { selectedForm: value } ) }
+				/>
 			</div>
 		)
 	}
