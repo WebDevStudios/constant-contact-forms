@@ -246,7 +246,7 @@ class ConstantContact_Display {
 	 * Main wrapper for getting our form display.
 	 *
 	 * @since  1.0.0
-	 * @since  NEXT Added $instance param to help properly track multiple instances of the same form.
+	 * @since  1.8.3 Added $instance param to help properly track multiple instances of the same form.
 	 *
 	 * @param  array  $form_data  Array of form data.
 	 * @param  string $form_id    Form ID.
@@ -1786,7 +1786,7 @@ class ConstantContact_Display {
 	/**
 	 * Add hidden input field to verify current instance of form.
 	 *
-	 * @since  NEXT
+	 * @since 1.8.3
 	 *
 	 * @param  int $instance Current instance of form.
 	 * @return string HTML markup for instance field.
