@@ -28,6 +28,9 @@
       "homepage": "https://www.webdevstudios.com"
     }
   ],
+  "extra": {
+	"phpcodesniffer-search-depth": 5
+  },
   "scripts": {
 		"dist": [
       "rm -rf ./vendor",
@@ -38,9 +41,20 @@
       "rm -rf ./readme.md",
       "rm -rf ./CHANGELOG.md",
       "rm -rf ./CODEOWNERS",
+      "rm -rf ./phpcompat.xml.dist",
+      "rm -rf ./phpcs.xml.dist",
 			"@composer install --no-dev -a",
 			"@composer archive --format=zip --file constant-contact-forms",
 			"mv constant-contact-forms.zip $HOME/Desktop"
-		]
+		],
+	"install-codestandards": "Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
+    "compat": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --standard=phpcompat.xml.dist",
+	"lint": "@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --standard=phpcs.xml.dist",
+	"post-install-cmd": [
+	  "@install-codestandards"
+	],
+	"post-update-cmd": [
+	  "@install-codestandards"
+	]
 	}
 }
