@@ -35,3 +35,5 @@ LBF->Preferences->Advanced menu and toggle on the `IPv6 Loopback` option. This s
 
 1. Download the repo.
 1. Run `composer install`
+1. Check PHP compatibility with the Composer script `composer run compat`
+1. Lint code with the Composer script `composer run lint`
