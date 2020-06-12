@@ -130,6 +130,9 @@ gulp.task('postcss', gulp.series('sass', function() {
 gulp.task('cssnano', gulp.series('postcss', function(done) {
 	gulp.src('assets/css/style.css')
 
+	// Wrap tasks in a sourcemap.
+	.pipe(sourcemaps.init())
+
 	// handle any errors
 	.pipe(plumber({ errorHandler: handleErrors }))
 
@@ -139,6 +142,9 @@ gulp.task('cssnano', gulp.series('postcss', function(done) {
 
 	// rename file from style.css to style.min.css
 	.pipe(rename('style.min.css'))
+
+	// Create sourcemap.
+	.pipe(sourcemaps.write())
 
 	.pipe(gulp.dest('./assets/css'));
 
