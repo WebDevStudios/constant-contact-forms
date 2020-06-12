@@ -113,8 +113,7 @@ gulp.task('postcss', gulp.series('sass', function() {
 			mqpacker({
 				sort: true
 			}),
-			cssnano(),
-		]))
+	]))
 
 	// Create sourcemap.
 	.pipe(sourcemaps.write())
