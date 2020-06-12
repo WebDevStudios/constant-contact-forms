@@ -178,5 +178,5 @@ gulp.task('makepot', function() {
 * Create individual tasks.
 */
 gulp.task('js', gulp.series('scripts'));
-gulp.task('styles', gulp.series('cssnano'));
+gulp.task('styles', gulp.series('clean:styles','cssnano'));
 gulp.task('default', gulp.parallel('styles', 'js', 'makepot' ));
