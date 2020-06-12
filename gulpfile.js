@@ -133,6 +133,10 @@ gulp.task('cssnano', gulp.series('postcss', function(done) {
 	// handle any errors
 	.pipe(plumber({ errorHandler: handleErrors }))
 
+	.pipe(postcss([
+		cssnano(),
+	]))
+
 	// rename file from style.css to style.min.css
 	.pipe(rename('style.min.css'))
 
