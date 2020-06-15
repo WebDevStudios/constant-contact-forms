@@ -210,28 +210,19 @@ class ConstantContact_Logging {
 			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>">
 			<div class="ctct-body">
 				<?php
-				$contents     = '';
-				$log_location = $this->log_location_url;
 
-				if ( ! file_exists( constant_contact()->logger_location ) ) {
+				$contents = '';
 
-					if ( ! is_writable( constant_contact()->logger_location ) ) {
-						$contents .= sprintf(
-						/* Translators: placeholder holds the log location. */
-							esc_html__( 'We are not able to write to the %s file.', 'constant-contact-forms' ),
-							constant_contact()->logger_location
-						);
-					} else {
-						$contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
-					}
-				} elseif ( ! is_writable( constant_contact()->logger_location ) ) {
+				if ( ! file_exists( $this->log_location_file ) ) {
+					$contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
+				}
+
+				if ( ! is_writable( $this->log_location_file ) ) {
 					$contents .= sprintf(
 						/* Translators: placeholder holds the log location. */
 						esc_html__( 'We are not able to write to the %s file.', 'constant-contact-forms' ),
 						constant_contact()->logger_location
 					);
-				} else {
-					$contents .= $this->get_log_contents();
 				}
 				?>
 				<p><?php esc_html_e( 'Error log below can be used with support requests to help identify issues with Constant Contact Forms.', 'constant-contact-forms' ); ?></p>
@@ -239,18 +230,19 @@ class ConstantContact_Logging {
 				<textarea name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea>
 				<?php
 
-				if ( file_exists( constant_contact()->logger_location ) ) {
-					if ( ! empty( $contents ) && is_wp_error( $contents ) ) {
-						?>
-						<p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the download link below.', 'constant-contact-forms' ); ?></p>
-						<?php
-					}
+				if ( is_file( $this->log_location_file ) && ! is_readable( $this->log_location_file ) ) {
+					?>
+					<p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the download link below.', 'constant-contact-forms' ); ?></p>
+					<?php
+				}
+
+				if ( file_exists( $this->log_location_file ) ) {
 					?>
 					<p>
 						<?php
 							printf(
 								'<p><a href="%s" download>%s</a></p><p><a href="%s" id="deletelog">%s</a></p>',
-								esc_attr( $log_location ),
+								esc_attr( $this->log_location_url ),
 								esc_html__( 'Download logs', 'constant-contact-forms' ),
 								esc_attr(
 									wp_nonce_url(
