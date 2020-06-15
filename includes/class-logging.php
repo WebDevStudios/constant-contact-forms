@@ -304,7 +304,7 @@ class ConstantContact_Logging {
 			$this->create_log_file();
 		}
 
-		wp_redirect( $this->options_url );
+		wp_safe_redirect( $this->options_url );
 		exit();
 	}
 
