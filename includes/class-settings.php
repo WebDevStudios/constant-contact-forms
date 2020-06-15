@@ -927,9 +927,7 @@ class ConstantContact_Settings {
 			return;
 		}
 
-		$this->plugin->logging->create_log_folder();
-		$this->plugin->logging->create_log_index_file();
-		$this->plugin->logging->create_log_file();
+		$this->plugin->logging->iniitialize_logging();
 	}
 
 	/**
