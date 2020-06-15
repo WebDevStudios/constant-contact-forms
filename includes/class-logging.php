@@ -224,6 +224,12 @@ class ConstantContact_Logging {
 						constant_contact()->logger_location
 					);
 				}
+
+				if ( is_file( $this->log_location_file ) && is_readable( $this->log_location_file ) ) {
+					// phpcs:ignore -- Not reading over network, it's on the filesystem.
+					$contents .= file_get_contents( $this->log_location_file );
+				}
+
 				?>
 				<p><?php esc_html_e( 'Error log below can be used with support requests to help identify issues with Constant Contact Forms.', 'constant-contact-forms' ); ?></p>
 				<p><?php esc_html_e( 'When available, you can share information by copying and pasting the content in the textarea, or by using the "Download logs" link at the end. Logs can be cleared by using the "Delete logs" link.', 'constant-contact-forms' ); ?></p>
