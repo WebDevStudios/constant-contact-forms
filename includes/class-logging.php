@@ -360,8 +360,7 @@ class ConstantContact_Logging {
 	 * @since 1.5.0
 	 */
 	public function create_log_folder() {
-		mkdir( $this->log_location_dir );
-		chmod( $this->log_location_dir, 0755 );
+		wp_mkdir_p( $this->log_location_dir );
 	}
 
 	/**
