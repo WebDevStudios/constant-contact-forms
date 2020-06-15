@@ -458,4 +458,16 @@ class ConstantContact_Logging {
 		array_map( 'unlink', glob( "{$dir}/*" ) );
 		rmdir( $dir );
 	}
+
+	/**
+	 * Initialize Logging directories and files.
+	 *
+	 * @author Richard Aber <richard.aber@webdevstudios.com>
+	 * @since  NEXT
+	 */
+	public function iniitialize_logging() {
+		$this->create_log_folder();
+		$this->create_log_index_file();
+		$this->create_log_file();
+	}
 }
