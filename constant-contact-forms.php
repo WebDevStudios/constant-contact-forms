@@ -549,7 +549,7 @@ class Constant_Contact {
 		}
 
 		// Create logging file and directory.
-		constant_contact()->logging->initialize_logging();
+		$this->logging->initialize_logging();
 	}
 
 	/**
