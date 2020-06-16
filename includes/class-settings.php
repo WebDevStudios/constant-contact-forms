@@ -927,7 +927,7 @@ class ConstantContact_Settings {
 			return;
 		}
 
-		$this->plugin->logging->iniitialize_logging();
+		$this->plugin->logging->initialize_logging();
 	}
 
 	/**
