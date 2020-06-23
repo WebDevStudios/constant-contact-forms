@@ -486,6 +486,11 @@ class ConstantContact_Mail {
 					esc_html__( 'NO (User did not select the Email Opt-in checkbox)', 'constant-contact-forms' ) . '<br/>' . esc_html__( "You can disable this under Form options. Email Opt-in isn't required to add subscribers into your account", 'constant-contact-forms' )
 				);
 			}
+		} elseif ( isset( $submission_details['custom-reason'] ) && ! empty( $submission_details['custom-reason'] ) ) {
+			$content_notice .= sprintf(
+				$template,
+				esc_html( $submission_details['custom-reason'] )
+			);
 		}
 
 		return $content_notice;
