@@ -342,6 +342,12 @@ class ConstantContact_Process_Form {
 					$clean_values  = constant_contact()->process_form->clean_values( $return['values'] );
 					$pretty_values = constant_contact()->process_form->pretty_values( $clean_values );
 					$email_values  = constant_contact()->mail->format_values_for_email( $pretty_values, $orig_form_id );
+
+					constant_contact()->mail->mail( constant_contact()->mail->get_email( $orig_form_id ), $email_values, [
+						'form_id'         => $orig_form_id,
+						'submitted_email' => constant_contact()->mail->get_user_email_from_submission( $clean_values ),
+						'custom-reason'   => __( 'An error occurred while attempting Constant Contact API request.', 'constant-contact-forms' ),
+					], true );
 				}
 			} else {
 				constant_contact()->mail->submit_form_values( $return['values'], true );
