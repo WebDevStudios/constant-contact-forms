@@ -336,6 +336,13 @@ class ConstantContact_Process_Form {
 			if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
 				constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
 				$api_result = constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
+
+				// Send email if API request fails.
+				if ( false === $api_result ) {
+					$clean_values  = constant_contact()->process_form->clean_values( $return['values'] );
+					$pretty_values = constant_contact()->process_form->pretty_values( $clean_values );
+					$email_values  = constant_contact()->mail->format_values_for_email( $pretty_values, $orig_form_id );
+				}
 			} else {
 				constant_contact()->mail->submit_form_values( $return['values'], true );
 			}
