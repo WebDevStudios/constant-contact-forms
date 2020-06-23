@@ -335,7 +335,7 @@ class ConstantContact_Process_Form {
 
 			if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
 				constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
-				constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
+				$api_result = constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
 			} else {
 				constant_contact()->mail->submit_form_values( $return['values'], true );
 			}
