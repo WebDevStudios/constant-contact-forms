@@ -77,7 +77,7 @@
 		top: -9999px !important;
 	}
 
-	#ctct_usage {
+	.ctct_usage {
 		border: 0 none;
 		clip: rect( 0, 0, 0, 0 );
 		height: 1px;
@@ -88,7 +88,7 @@
 		width: 1px;
 	}
 
-	.no-recaptcha #ctct-submitted:disabled {
+	.no-recaptcha .ctct-submitted:disabled {
 		background-image: url('../images/oval.min.svg');
 		background-position: center;
 		background-repeat: no-repeat;
@@ -97,7 +97,7 @@
 		opacity: 0.3;
 	}
 
-	.has-recaptcha #ctct-submitted:disabled {
+	.has-recaptcha .ctct-submitted:disabled {
 		cursor: not-allowed;
 	}
 }
