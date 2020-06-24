@@ -36,15 +36,11 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 == Changelog ==
 
 = NEXT =
-* Updated: Replaced usage of non-unique IDs on frontend form elements with classes.
 * Added: Forced email notifications to admin when Constant Contact API request fails on attempted form submission.
-* Updated: Updated support error messaging in admin to reference tab structure of plugin settings.
 * Fixed: Addressed issues with plugin error logging and addressed false-positive error messaging.
 * Fixed: Cleaned up style minification task to allow for unminified version of stylesheet.
-* Added: Added FAQ item to clarify necessary Constant Contact account privileges for plugin connection.
-* Updated: Cleaned up Changelog to add changes from recent versions and limit to >= 1.8.0.
-* Fixed: Updated stated minimum PHP version to reflect actual minimum.
-* Added: Implemented coding standards and linting.
+* Updated: Replaced usage of non-unique IDs on frontend form elements with classes.
+* Updated: Updated support error messaging in admin to reference tab structure of plugin settings.
 
 = 1.8.4 =
 * Fixed: Compatibility issue with PHP 5.6.
