@@ -509,6 +509,11 @@ class ConstantContact_API {
 		try {
 			$response = $this->cc()->contactService->getContacts( $api_token, [ 'email' => $email ] );
 
+			// Remove ctct-instance if present to avoid errors.
+			if ( array_key_exists( 'ctct-instance', $new_contact ) ) {
+				unset( $new_contact['ctct-instance'] );
+			}
+
 			if ( isset( $response->results ) && ! empty( $response->results ) ) {
 				constant_contact_maybe_log_it( 'API', 'Contact set to be updated', [ 'form' => get_the_title( $form_id ) ] );
 				$return_contact = $this->update_contact( $response, $api_token, $list, $new_contact, $form_id );
