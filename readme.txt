@@ -35,6 +35,13 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= NEXT =
+* Added: Forced email notifications to admin when Constant Contact API request fails on attempted form submission.
+* Fixed: Addressed issues with plugin error logging and addressed false-positive error messaging.
+* Fixed: Cleaned up style minification task to allow for unminified version of stylesheet.
+* Updated: Replaced usage of non-unique IDs on frontend form elements with classes.
+* Updated: Updated support error messaging in admin to reference tab structure of plugin settings.
+
 = 1.8.4 =
 * Fixed: Compatibility issue with PHP 5.6.
 
@@ -84,4 +91,4 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 You can add this to your active theme or custom plugin: `add_filter( 'constant_contact_include_custom_field_label', '__return_true' );`. Note: custom fields have a max length of 50 characters. Including the labels will subtract from the 50 character total available.
 
 #### Which account level access is needed to connect my WordPress account to Constant Contact?
-You will need to make the connection to Constant Contact using the credentials of the acccount owner. Campaign manager credentials will not have enough access.
+You will need to make the connection to Constant Contact using the credentials of the account owner. Campaign manager credentials will not have enough access.
