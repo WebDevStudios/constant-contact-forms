@@ -8,7 +8,7 @@
 	 */
 	$( document ).ready( () => {
 
-		$( '#ctct-submitted' ).on( 'click', () => {
+		$( '.ctct-submitted' ).on( 'click', () => {
 			setTimeout( () => {
 				disableSendButton();
 				setTimeout( enableSendButton, 3000 );
@@ -25,7 +25,7 @@
 	 * @return {mixed} jQuery if attribute is set, undefined if not.
 	 */
 	function disableSendButton() {
-		return $( '#ctct-submitted' ).attr( 'disabled', 'disabled' );
+		return $( '.ctct-submitted' ).attr( 'disabled', 'disabled' );
 	}
 
 	/**
@@ -37,7 +37,7 @@
 	 * @return {mixed} jQuery if attribute is set, undefined if not.
 	 */
 	function enableSendButton() {
-		return $( '#ctct-submitted' ).attr( 'disabled', null );
+		return $( '.ctct-submitted' ).attr( 'disabled', null );
 	}
 
 } ( window, jQuery ) );
