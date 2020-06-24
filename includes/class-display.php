@@ -502,7 +502,7 @@ class ConstantContact_Display {
 	 */
 	public function build_honeypot_field() {
 		return sprintf(
-			'<div id="ctct_usage"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" id="ctct_usage_field" /></div>',
+			'<div class="ctct_usage"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" class="ctct_usage_field" /></div>',
 			esc_html__( 'Constant Contact Use.', 'constant-contact-forms' )
 		);
 	}
@@ -1025,7 +1025,7 @@ class ConstantContact_Display {
 			$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 		}
 
-		$field   = '<input %s type="%s" name="%s" id="%s" %s value="%s" %s placeholder="%s" %s />';
+		$field   = '<input %s type="%s" name="%s" class="%s" %s value="%s" %s placeholder="%s" %s />';
 		$markup .= sprintf(
 			$field,
 			$req_text,
@@ -1204,7 +1204,7 @@ class ConstantContact_Display {
 		$checked = $show ? '' : 'checked';
 
 		$markup  = $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
-		$markup .= '<input type="checkbox" ' . $checked . ' name="ctct-opt-in" id="ctct-opt-in" class="ctct-checkbox ctct-opt-in" value="' . $value . '" />';
+		$markup .= '<input type="checkbox" ' . $checked . ' name="ctct-opt-in" class="ctct-checkbox ctct-opt-in" value="' . $value . '" />';
 		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . wp_kses_post( $label ), false );
 
 		return $markup;
@@ -1251,7 +1251,7 @@ class ConstantContact_Display {
 			esc_attr( $street ) . $req_label
 		);
 		$input_street1 = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-street %2$s" name="street_%3$s" id="street_%4$s" value="%5$s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-street %2$s street_%3$s" name="street_%4$s" value="%5$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
@@ -1276,7 +1276,7 @@ class ConstantContact_Display {
 		);
 
 		$input_street2 = sprintf(
-			'<input type="text" class="ctct-text ctct-address-line-2 %1$s" name="line_2_%2$s" id="line_2_%3$s" value="%4$s">',
+			'<input type="text" class="ctct-text ctct-address-line-2 %1$s line_2_%2$s" name="line_2_%3$s" value="%4$s">',
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
 			esc_attr( $f_id ),
@@ -1302,7 +1302,7 @@ class ConstantContact_Display {
 		);
 
 		$input_city = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-city %2$s" name="city_%3$s" id="city_%4$s" value="%5$s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-city %2$s city_%3$s" name="city_%4$s" value="%5$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
@@ -1329,7 +1329,7 @@ class ConstantContact_Display {
 		);
 
 		$input_state = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-state %2$s" name="state_%3$s" id="state_%4$s" value="%5$s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-state %2$s state_%3$s" name="state_%4$s" value="%5$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
@@ -1356,7 +1356,7 @@ class ConstantContact_Display {
 		);
 
 		$input_zip = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-zip %2$s" name="zip_%3$s" id="zip_%4$s" value="%5$s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-zip %2$s zip_%3$s" name="zip_%4$s" value="%5$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $f_id ),
@@ -1376,10 +1376,10 @@ class ConstantContact_Display {
 
 		$return  = '<fieldset class="ctct-address"><legend style="%s">%s</legend>';
 		$return .= '<div class="ctct-form-field ctct-field-full address-line-1%s">%s</div>';
-		$return .= '<div class="ctct-form-field ctct-field-full address-line-2%s" id="input_2_1_2_container">%s</div>';
-		$return .= '<div class="ctct-form-field ctct-field-third address-city%s" id="input_2_1_3_container">%s</div>';
-		$return .= '<div class="ctct-form-field ctct-field-third address-state%s" id="input_2_1_4_container">%s</div>';
-		$return .= '<div class="ctct-form-field ctct-field-third address-zip%s" id="input_2_1_5_container">%s</div>';
+		$return .= '<div class="ctct-form-field ctct-field-full address-line-2%s input_2_1_2_container">%s</div>';
+		$return .= '<div class="ctct-form-field ctct-field-third address-city%s input_2_1_3_container">%s</div>';
+		$return .= '<div class="ctct-form-field ctct-field-third address-state%s input_2_1_4_container">%s</div>';
+		$return .= '<div class="ctct-form-field ctct-field-third address-zip%s input_2_1_5_container">%s</div>';
 		$return .= '</fieldset>';
 
 		return sprintf(
