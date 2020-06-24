@@ -1019,18 +1019,18 @@ class ConstantContact_Display {
 			$classes[] = 'ctct-invalid';
 		}
 
+		$classes[]  = $f_id;
 		$class_attr = '';
 
 		if ( count( $classes ) ) {
 			$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 		}
 
-		$field   = '<input %s type="%s" name="%s" class="%s" %s value="%s" %s placeholder="%s" %s />';
+		$field   = '<input %s type="%s" name="%s" %s value="%s" %s placeholder="%s" %s />';
 		$markup .= sprintf(
 			$field,
 			$req_text,
 			$type,
-			$f_id,
 			$f_id,
 			$input_inline_styles,
 			$value,
