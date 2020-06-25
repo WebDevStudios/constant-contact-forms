@@ -56,7 +56,7 @@
 
 			var $form = $( form );
 
-			app.$c.$forms[ i ].$honeypot     = $form.find( '.ctct_usage_field' );
+			app.$c.$forms[ i ].$honeypot     = $form.find( '#ctct_usage_field' );
 			app.$c.$forms[ i ].$submitButton = $form.find( 'input[type=submit]' );
 			app.$c.$forms[ i ].$recaptcha    = $form.find( '.g-recaptcha' );
 		} );
@@ -168,7 +168,7 @@
 	 */
 	app.submitForm = ( $form ) => {
 
-		$form.find( '.ctct-submitted' ).prop( 'disabled', true );
+		$form.find( '#ctct-submitted' ).prop( 'disabled', true );
 
 		var ajaxData = {
 			'action': 'ctct_process_form',
@@ -177,7 +177,7 @@
 
 		$.post( window.ajaxurl, ajaxData, ( response ) => {
 
-			$form.find( '.ctct-submitted' ).prop( 'disabled', false );
+			$form.find( '#ctct-submitted' ).prop( 'disabled', false );
 
 			if ( 'undefined' === typeof( response.status ) ) {
 				return false;
