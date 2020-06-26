@@ -461,7 +461,7 @@ class ConstantContact_Logging {
 	 * Initialize Logging directories and files.
 	 *
 	 * @author Richard Aber <richard.aber@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.5
 	 */
 	public function initialize_logging() {
 		$this->create_log_folder();

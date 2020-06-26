@@ -538,7 +538,7 @@ class Constant_Contact {
 	/**
 	 * Initialize debug log on init.
 	 *
-	 * @since NEXT
+	 * @since 1.8.5
 	 *
 	 * @return void
 	 */
