@@ -86,7 +86,7 @@ class ConstantContact_Logging {
 	/**
 	 * The logging directory name.
 	 *
-	 * @since NEXT
+	 * @since 1.8.2
 	 * @var   string
 	 */
 	protected $log_file_dir = 'ctct-logs';
@@ -401,7 +401,7 @@ class ConstantContact_Logging {
 	 * Retrieve logging file location.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.2
 	 *
 	 * @return string Logging file location.
 	 */
@@ -413,7 +413,7 @@ class ConstantContact_Logging {
 	 * Remove old logging directory and files for older plugin versions (<= 1.8.1).
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.2
 	 *
 	 * @return void
 	 */
@@ -429,7 +429,7 @@ class ConstantContact_Logging {
 	 * Remove current logging directory and files.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.2
 	 */
 	public function delete_current_log_dir() {
 		$this->delete_log_dir( $this->log_location_dir );
@@ -439,7 +439,7 @@ class ConstantContact_Logging {
 	 * Helper function to remove logging directory.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.2
 	 *
 	 * @return void
 	 */
