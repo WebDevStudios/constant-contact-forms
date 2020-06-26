@@ -190,7 +190,7 @@ class ConstantContact_Notification_Content {
 	/**
 	 * Admin notice regarding deleted forms.
 	 *
-	 * @since  NEXT
+	 * @since  1.8.0
 	 *
 	 * @return string Deleted forms notice HTML.
 	 */
@@ -214,7 +214,7 @@ class ConstantContact_Notification_Content {
 	/**
 	 * Display deleted form references HTML.
 	 *
-	 * @since  NEXT
+	 * @since  1.8.0
 	 *
 	 * @param  int   $form_id    Current form ID.
 	 * @param  array $references Current form references.
@@ -341,7 +341,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_exceptions_throw
 /**
  * Add notification on form deletion if instances of that form appear as shortcodes or widgets.
  *
- * @since  NEXT
+ * @since  1.8.0
  *
  * @param  array $notifications Array of notifications to be shown.
  * @return array                Array of notifications to be shown.

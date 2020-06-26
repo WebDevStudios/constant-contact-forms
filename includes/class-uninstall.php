@@ -178,7 +178,7 @@ class ConstantContact_Uninstall {
 	 * Delete logging directory.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.2
 	 */
 	private function delete_log_dir() {
 		constant_contact()->logging->delete_current_log_dir();

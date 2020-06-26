@@ -36,7 +36,7 @@ class ConstantContact_Settings {
 	/**
 	 * Settings page metabox titles by id.
 	 *
-	 * @since NEXT
+	 * @since 1.8.0
 	 * @var   array|null
 	 */
 	private $metabox_titles;
@@ -93,7 +93,7 @@ class ConstantContact_Settings {
 	 * Add CMB2 hook overrides specific to individual metaboxes.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.0
 	 *
 	 * @return void
 	 */
@@ -189,7 +189,7 @@ class ConstantContact_Settings {
 	 * Remove secondary settings page menu items.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.0
 	 */
 	public function remove_extra_menu_items() {
 		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
@@ -207,7 +207,7 @@ class ConstantContact_Settings {
 	 * Override $plugin_page global to ensure "general" menu item active for other settings pages.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.0
 	 *
 	 * @param  string $file The parent file.
 	 * @return string       The parent file.
@@ -224,7 +224,7 @@ class ConstantContact_Settings {
 	 * Display options page with CMB2 tabs.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.0
 	 *
 	 * @param  CMB2_Options_Hookup $cmb_options The CMB2_Options_Hookup object.
 	 */
@@ -255,7 +255,7 @@ class ConstantContact_Settings {
 	 * Get all option tabs for navigation on CMB2 settings page.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.0
 	 *
 	 * @param  CMB2_Options_Hookup $cmb_options The CMB2_Options_Hookup object.
 	 * @return array                            Array of option tabs.
@@ -286,7 +286,7 @@ class ConstantContact_Settings {
 	 * Get currently selected tab.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.0
 	 *
 	 * @return string Current tab.
 	 */
@@ -300,7 +300,7 @@ class ConstantContact_Settings {
 	 * Get link to CMB tab.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.0
 	 *
 	 * @param  string $option_key CMB tab key.
 	 * @return string             URL to CMB tab.
@@ -313,7 +313,7 @@ class ConstantContact_Settings {
 	 * Get args for current CMB.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.0
 	 *
 	 * @param  string $cmb_id Current CMB ID.
 	 * @return array          CMB args.
@@ -336,7 +336,7 @@ class ConstantContact_Settings {
 	 * Register 'General' settings tab fields.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.0
 	 */
 	protected function register_fields_general() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'general' ) );
@@ -480,7 +480,7 @@ class ConstantContact_Settings {
 	 * Register 'Spam Control' (incl. Google reCAPTCHA) settings tab fields.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.0
 	 */
 	protected function register_fields_spam() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'spam' ) );
@@ -556,7 +556,7 @@ class ConstantContact_Settings {
 	 * Register 'Support' settings tab fields.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.8.0
 	 */
 	protected function register_fields_support() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'support' ) );
