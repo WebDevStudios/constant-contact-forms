@@ -415,11 +415,7 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 	$logging_file = constant_contact()->logger_location;
 
 	// Create logging file and directory if they don't exist.
-	if ( ! file_exists( $logging_file ) ) {
-		constant_contact()->logging->create_log_folder();
-		constant_contact()->logging->create_log_index_file();
-		constant_contact()->logging->create_log_file();
-	}
+	constant_contact()->logging->initialize_logging();
 
 	if ( ! is_writable( $logging_file ) ) {
 		return;

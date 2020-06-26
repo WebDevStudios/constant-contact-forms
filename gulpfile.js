@@ -113,8 +113,7 @@ gulp.task('postcss', gulp.series('sass', function() {
 			mqpacker({
 				sort: true
 			}),
-			cssnano(),
-		]))
+	]))
 
 	// Create sourcemap.
 	.pipe(sourcemaps.write())
@@ -131,11 +130,21 @@ gulp.task('postcss', gulp.series('sass', function() {
 gulp.task('cssnano', gulp.series('postcss', function(done) {
 	gulp.src('assets/css/style.css')
 
+	// Wrap tasks in a sourcemap.
+	.pipe(sourcemaps.init())
+
 	// handle any errors
 	.pipe(plumber({ errorHandler: handleErrors }))
 
+	.pipe(postcss([
+		cssnano(),
+	]))
+
 	// rename file from style.css to style.min.css
 	.pipe(rename('style.min.css'))
+
+	// Create sourcemap.
+	.pipe(sourcemaps.write())
 
 	.pipe(gulp.dest('./assets/css'));
 
@@ -178,5 +187,5 @@ gulp.task('makepot', function() {
 * Create individual tasks.
 */
 gulp.task('js', gulp.series('scripts'));
-gulp.task('styles', gulp.series('cssnano'));
+gulp.task('styles', gulp.series('clean:styles','cssnano'));
 gulp.task('default', gulp.parallel('styles', 'js', 'makepot' ));

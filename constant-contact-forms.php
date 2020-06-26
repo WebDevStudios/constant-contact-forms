@@ -532,6 +532,24 @@ class Constant_Contact {
 	 */
 	public function init() {
 		load_plugin_textdomain( 'constant-contact-forms', false, dirname( $this->basename ) . '/languages/' );
+		$this->init_debug_log();
+	}
+
+	/**
+	 * Initialize debug log on init.
+	 *
+	 * @since NEXT
+	 *
+	 * @return void
+	 */
+	protected function init_debug_log() {
+
+		if ( ! constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		// Create logging file and directory.
+		$this->logging->initialize_logging();
 	}
 
 	/**
