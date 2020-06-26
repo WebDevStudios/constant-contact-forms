@@ -39,7 +39,6 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 * Added: Forced email notifications to admin when Constant Contact API request fails on attempted form submission.
 * Fixed: Addressed issues with plugin error logging and addressed false-positive error messaging.
 * Fixed: Cleaned up style minification task to allow for unminified version of stylesheet.
-* Updated: Replaced usage of non-unique IDs on frontend form elements with classes.
 * Updated: Updated support error messaging in admin to reference tab structure of plugin settings.
 
 = 1.8.4 =
