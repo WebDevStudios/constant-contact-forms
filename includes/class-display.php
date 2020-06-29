@@ -1454,18 +1454,18 @@ class ConstantContact_Display {
 	 * @since 1.0.0
 	 *
 	 * @param  string  $text           Text for default option.
-	 * @param  string  $f_id           Field ID.
+	 * @param  string  $field_key      Field ID.
 	 * @param  string  $type           Type of dropdown (day, month, year).
 	 * @param  string  $selected_value Previous value.
 	 * @param  boolean $req            If is require.
 	 * @param  int     $instance       Current form instance.
 	 * @return string                  Field markup.
 	 */
-	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '', $req = false, $instance = 0 ) {
-		$f_id = str_replace( 'birthday', 'birthday_' . $type, $f_id );
-		$f_id = str_replace( 'anniversary', 'anniversary_' . $type, $f_id );
+	public function get_date_dropdown( $text = '', $field_key = '', $type = '', $selected_value = '', $req = false, $instance = 0 ) {
+		$field_key = str_replace( 'birthday', 'birthday_' . $type, $field_key );
+		$field_key = str_replace( 'anniversary', 'anniversary_' . $type, $field_key );
 
-		$return = '<select name="' . esc_attr( $f_id ) . '" class="ctct-date-select ctct-date-select-' . esc_attr( $type ) . '">';
+		$return = '<select name="' . esc_attr( $field_key ) . '" class="ctct-date-select ctct-date-select-' . esc_attr( $type ) . '">';
 
 		if ( $req ) {
 			$return = str_replace( '">', '" required>', $return );
