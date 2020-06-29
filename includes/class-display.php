@@ -1464,8 +1464,9 @@ class ConstantContact_Display {
 	public function get_date_dropdown( $text = '', $field_key = '', $type = '', $selected_value = '', $req = false, $instance = 0 ) {
 		$field_key = str_replace( 'birthday', 'birthday_' . $type, $field_key );
 		$field_key = str_replace( 'anniversary', 'anniversary_' . $type, $field_key );
+		$field_id  = "{$field_key}_{$instance}";
 
-		$return = '<select name="' . esc_attr( $field_key ) . '" class="ctct-date-select ctct-date-select-' . esc_attr( $type ) . '">';
+		$return = '<select name="' . esc_attr( $field_key ) . '" class="ctct-date-select ctct-date-select-' . esc_attr( $type ) . '" id="' . $field_id . '">';
 
 		if ( $req ) {
 			$return = str_replace( '">', '" required>', $return );
