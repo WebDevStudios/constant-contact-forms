@@ -1232,11 +1232,12 @@ class ConstantContact_Display {
 	 * @return string                   HTML markup.
 	 */
 	public function address( $name = '', $field_key = '', $value = [], $desc = '', $req = false, $field_error = '', $label_placement = 'top', $instance = 0 ) {
-		$street = esc_html__( 'Street Address', 'constant-contact-forms' );
-		$line_2 = esc_html__( 'Address Line 2', 'constant-contact-forms' );
-		$city   = esc_html__( 'City', 'constant-contact-forms' );
-		$state  = esc_html__( 'State', 'constant-contact-forms' );
-		$zip    = esc_html__( 'ZIP Code', 'constant-contact-forms' );
+		$field_id = "{$field_key}_{$instance}";
+		$street   = esc_html__( 'Street Address', 'constant-contact-forms' );
+		$line_2   = esc_html__( 'Address Line 2', 'constant-contact-forms' );
+		$city     = esc_html__( 'City', 'constant-contact-forms' );
+		$state    = esc_html__( 'State', 'constant-contact-forms' );
+		$zip      = esc_html__( 'ZIP Code', 'constant-contact-forms' );
 
 		$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
 		$v_line_2 = isset( $value['line_2_address'] ) ? $value['line_2_address'] : '';
@@ -1253,17 +1254,18 @@ class ConstantContact_Display {
 		$label_street1 = sprintf(
 			'<span class="%1$s"><label for="street_%2$s" style="%3$s">%4$s</label></span>',
 			esc_attr( $label_placement_class ),
-			esc_attr( $field_key ),
+			esc_attr( $field_id ),
 			esc_attr( $inline_font_styles ),
 			esc_attr( $street ) . $req_label
 		);
 		$input_street1 = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-street %2$s street_%3$s" name="street_%4$s" value="%5$s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-street %2$s street_%3$s" name="street_%4$s" value="%5$s" id="street_%6$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $field_key ),
 			esc_attr( $field_key ),
-			esc_attr( $v_street )
+			esc_attr( $v_street ),
+			esc_attr( $field_id )
 		);
 
 		$input_street1_whole = '';
@@ -1277,17 +1279,18 @@ class ConstantContact_Display {
 		$label_street2 = sprintf(
 			'<span class="%1$s"><label for="line_2_%2$s" style="%3$s">%4$s</label></span>',
 			$label_placement_class,
-			esc_attr( $field_key ),
+			esc_attr( $field_id ),
 			esc_attr( $inline_font_styles ),
 			esc_attr( $line_2 )
 		);
 
 		$input_street2 = sprintf(
-			'<input type="text" class="ctct-text ctct-address-line-2 %1$s line_2_%2$s" name="line_2_%3$s" value="%4$s">',
+			'<input type="text" class="ctct-text ctct-address-line-2 %1$s line_2_%2$s" name="line_2_%3$s" value="%4$s" id="line_2_%5$s">',
 			esc_attr( $label_placement_class ),
 			esc_attr( $field_key ),
 			esc_attr( $field_key ),
-			esc_attr( $v_line_2 )
+			esc_attr( $v_line_2 ),
+			esc_attr( $field_id )
 		);
 
 		$input_street2_whole = '';
@@ -1303,18 +1306,19 @@ class ConstantContact_Display {
 		$label_city = sprintf(
 			'<span class="%1$s"><label for="city_%2$s" style="%3$s">%4$s</label></span>',
 			$label_placement_class,
-			esc_attr( $field_key ),
+			esc_attr( $field_id ),
 			esc_attr( $inline_font_styles ),
 			esc_attr( $city ) . $req_label
 		);
 
 		$input_city = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-city %2$s city_%3$s" name="city_%4$s" value="%5$s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-city %2$s city_%3$s" name="city_%4$s" value="%5$s" id="city_%6$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $field_key ),
 			esc_attr( $field_key ),
-			esc_attr( $v_city )
+			esc_attr( $v_city ),
+			esc_attr( $field_id )
 		);
 
 		$input_city_whole = '';
@@ -1330,18 +1334,19 @@ class ConstantContact_Display {
 		$label_state = sprintf(
 			'<span class="%1$s"><label for="state_%2$s" style="%3$s">%4$s</label></span>',
 			$label_placement_class,
-			esc_attr( $field_key ),
+			esc_attr( $field_id ),
 			esc_attr( $inline_font_styles ),
 			esc_attr( $state ) . $req_label
 		);
 
 		$input_state = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-state %2$s state_%3$s" name="state_%4$s" value="%5$s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-state %2$s state_%3$s" name="state_%4$s" value="%5$s" id="state_%6$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $field_key ),
 			esc_attr( $field_key ),
-			esc_attr( $v_state )
+			esc_attr( $v_state ),
+			esc_attr( $field_id )
 		);
 
 		$input_state_whole = '';
@@ -1357,18 +1362,19 @@ class ConstantContact_Display {
 		$label_zip = sprintf(
 			'<span class="%1$s"><label for="zip_%2$s" style="%3$s">%4$s</label></span>',
 			$label_placement_class,
-			esc_attr( $field_key ),
+			esc_attr( $field_id ),
 			esc_attr( $inline_font_styles ),
 			esc_attr( $zip ) . $req_label
 		);
 
 		$input_zip = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-zip %2$s zip_%3$s" name="zip_%4$s" value="%5$s">',
+			'<input %1$stype="text" class="ctct-text ctct-address-zip %2$s zip_%3$s" name="zip_%4$s" value="%5$s" id="zip_%6$s">',
 			$req,
 			esc_attr( $label_placement_class ),
 			esc_attr( $field_key ),
 			esc_attr( $field_key ),
-			esc_attr( $v_zip )
+			esc_attr( $v_zip ),
+			esc_attr( $field_id )
 		);
 
 		$input_zip_whole = '';
