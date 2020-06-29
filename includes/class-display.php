@@ -1434,13 +1434,13 @@ class ConstantContact_Display {
 		$return  = '<p class="ctct-date"><fieldset>';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline month' . $req_class . '">';
-		$return .= $this->get_date_dropdown( $month, $f_id, 'month', $v_month, $req );
+		$return .= $this->get_date_dropdown( $month, $f_id, 'month', $v_month, $req, $instance );
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline day' . $req_class . '">';
-		$return .= $this->get_date_dropdown( $day, $f_id, 'day', $v_day, $req );
+		$return .= $this->get_date_dropdown( $day, $f_id, 'day', $v_day, $req, $instance );
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline year' . $req_class . '">';
-		$return .= $this->get_date_dropdown( $year, $f_id, 'year', $v_year, $req );
+		$return .= $this->get_date_dropdown( $year, $f_id, 'year', $v_year, $req, $instance );
 		$return .= ' </div>';
 
 		$return .= '</fieldset></p>';
@@ -1453,14 +1453,15 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $text           Text for default option.
-	 * @param string  $f_id           Field ID.
-	 * @param string  $type           Type of dropdown (day, month, year).
-	 * @param string  $selected_value Previous value.
-	 * @param boolean $req            If is require.
-	 * @return string field markup.
+	 * @param  string  $text           Text for default option.
+	 * @param  string  $f_id           Field ID.
+	 * @param  string  $type           Type of dropdown (day, month, year).
+	 * @param  string  $selected_value Previous value.
+	 * @param  boolean $req            If is require.
+	 * @param  int     $instance       Current form instance.
+	 * @return string                  Field markup.
 	 */
-	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '', $req = false ) {
+	public function get_date_dropdown( $text = '', $f_id = '', $type = '', $selected_value = '', $req = false, $instance = 0 ) {
 		$f_id = str_replace( 'birthday', 'birthday_' . $type, $f_id );
 		$f_id = str_replace( 'anniversary', 'anniversary_' . $type, $f_id );
 
