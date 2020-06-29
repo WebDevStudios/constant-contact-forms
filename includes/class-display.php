@@ -1623,8 +1623,8 @@ class ConstantContact_Display {
 
 		$classes          = [ 'ctct-form-field' ];
 		$textarea_classes = [ 'ctct-textarea' ];
-
-		$req_text = $req ? 'required' : '';
+		$field_id         = "{$map}_{$instance}";
+		$req_text         = $req ? 'required' : '';
 
 		if ( $req ) {
 			$classes[] = 'ctct-form-field-required';
@@ -1640,8 +1640,8 @@ class ConstantContact_Display {
 		}
 
 		$return   = '<p class="' . implode( ' ', $classes ) . '">';
-		$label    = '<span class="' . $label_placement_class . '"><label for="' . esc_attr( $map ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label></span>';
-		$textarea = '<textarea class="' . esc_attr( implode( ' ', $textarea_classes ) ) . '" ' . $req_text . ' name="' . esc_attr( $map ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
+		$label    = '<span class="' . $label_placement_class . '"><label for="' . esc_attr( $field_id ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label></span>';
+		$textarea = '<textarea class="' . esc_attr( implode( ' ', $textarea_classes ) ) . '" ' . $req_text . ' name="' . esc_attr( $map ) . '" id="' . esc_attr( $field_id ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
 
 		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
 			$return .= $label . $textarea;
@@ -1652,7 +1652,7 @@ class ConstantContact_Display {
 		}
 
 		if ( $field_error ) {
-			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $map ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constant-contact-forms' ) ) . '</label></span>';
+			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $field_id ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constant-contact-forms' ) ) . '</label></span>';
 		}
 
 		return $return . '</p>';
