@@ -346,7 +346,7 @@ class ConstantContact_Display {
 
 		$return .= $form_err_display;
 
-		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
+		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors, $instance );
 
 		if ( ! $disable_recaptcha && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
 			$recaptcha_version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );
@@ -459,12 +459,13 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $form_data  Formulated cmb2 data for form.
-	 * @param array $old_values Original values.
-	 * @param array $req_errors Errors.
+	 * @param  array $form_data  Formulated cmb2 data for form.
+	 * @param  array $old_values Original values.
+	 * @param  array $req_errors Errors.
+	 * @param  int   $instance   Current form instance.
 	 * @return string
 	 */
-	public function build_form_fields( $form_data, $old_values, $req_errors ) {
+	public function build_form_fields( $form_data, $old_values, $req_errors, $instance ) {
 		$return  = '';
 		$form_id = absint( $form_data['options']['form_id'] );
 
@@ -482,7 +483,7 @@ class ConstantContact_Display {
 
 		if ( isset( $form_data['fields'] ) && is_array( $form_data['fields'] ) ) {
 			foreach ( $form_data['fields'] as $key => $value ) {
-				$return .= $this->field( $value, $old_values, $req_errors, $form_id, $label_placement );
+				$return .= $this->field( $value, $old_values, $req_errors, $form_id, $label_placement, $instance );
 			}
 		}
 
@@ -607,14 +608,15 @@ class ConstantContact_Display {
 	 * @since 1.0.0
 	 * @since 1.4.0 Added label placement parameter.
 	 *
-	 * @param array  $field           Field data.
-	 * @param array  $old_values      Original values.
-	 * @param array  $req_errors      Errors.
-	 * @param int    $form_id         Current form ID.
-	 * @param string $label_placement Label placement location.
-	 * @return string HTML markup
+	 * @param  array  $field           Field data.
+	 * @param  array  $old_values      Original values.
+	 * @param  array  $req_errors      Errors.
+	 * @param  int    $form_id         Current form ID.
+	 * @param  string $label_placement Label placement location.
+	 * @param  int    $instance        Current form instance.
+	 * @return string                  HTML markup
 	 */
-	public function field( $field, $old_values = [], $req_errors = [], $form_id = 0, $label_placement = 'top' ) {
+	public function field( $field, $old_values = [], $req_errors = [], $form_id = 0, $label_placement = 'top', $instance = 0 ) {
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
 			return '';
 		}
@@ -678,23 +680,23 @@ class ConstantContact_Display {
 			case 'company':
 			case 'website':
 			case 'text_field':
-				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement );
+				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'custom_text_area':
-				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="500"', $label_placement );
+				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="500"', $label_placement, $instance );
 			case 'email':
-				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement );
+				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'hidden':
 				return $this->input( 'hidden', $name, $map, $value, $desc, $req );
 			case 'checkbox':
-				return $this->checkbox( $name, $map, $value, $desc );
+				return $this->checkbox( $name, $map, $value, $desc, $instance );
 			case 'submit':
 				return $this->input( 'submit', $name, $map, $value, $desc, $req, false, $field_error );
 			case 'address':
-				return $this->address( $name, $map, $value, $desc, $req, $field_error, $label_placement );
+				return $this->address( $name, $map, $value, $desc, $req, $field_error, $label_placement, $instance );
 			case 'anniversery':
 			case 'birthday':
 				// Need this to be month / day / year.
-				return $this->dates( $name, $map, $value, $desc, $req, $field_error );
+				return $this->dates( $name, $map, $value, $desc, $req, $field_error, $instance );
 			default:
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
 		}
@@ -937,19 +939,20 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $type                 Type of form field.
-	 * @param string  $name                 ID of form field.
-	 * @param string  $id                   ID attribute value.
-	 * @param string  $value                pre-filled value.
-	 * @param string  $label                label text for input.
-	 * @param boolean $req                  If field required.
-	 * @param boolean $f_only               If we only return the field itself, with no label.
-	 * @param boolean $field_error          Field error.
-	 * @param int     $form_id              Current form ID.
-	 * @param string  $label_placement      Where to place the label.
-	 * @return string HTML markup for field.
+	 * @param  string  $type            Type of form field.
+	 * @param  string  $name            ID of form field.
+	 * @param  string  $id              ID attribute value.
+	 * @param  string  $value           pre-filled value.
+	 * @param  string  $label           label text for input.
+	 * @param  boolean $req             If field required.
+	 * @param  boolean $f_only          If we only return the field itself, with no label.
+	 * @param  boolean $field_error     Field error.
+	 * @param  int     $form_id         Current form ID.
+	 * @param  string  $label_placement Where to place the label.
+	 * @param  int     $instance        Current form instance.
+	 * @return string                   HTML markup for field.
 	 */
-	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '' ) {
+	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '', $instance = 0 ) {
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
 		$input_inline_styles   = '';
@@ -1067,13 +1070,14 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $name  Name/it of field.
-	 * @param string $f_id  Field ID.
-	 * @param string $value Value of field.
-	 * @param string $label Label / desc text.
-	 * @return string HTML markup for checkbox.
+	 * @param  string $name     Name/it of field.
+	 * @param  string $f_id     Field ID.
+	 * @param  string $value    Value of field.
+	 * @param  string $label    Label / desc text.
+	 * @param  int    $instance Current form instance.
+	 * @return string           HTML markup for checkbox.
 	 */
-	public function checkbox( $name = '', $f_id = '', $value = '', $label = '' ) {
+	public function checkbox( $name = '', $f_id = '', $value = '', $label = '', $instance = 0 ) {
 		$name  = sanitize_text_field( $name );
 		$f_id  = sanitize_title( $f_id );
 		$value = sanitize_text_field( $value );
@@ -1216,16 +1220,17 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $name            Name of fields.
-	 * @param string  $f_id            Form ID name.
-	 * @param array   $value           Values of each field.
-	 * @param string  $desc            Label of field.
-	 * @param boolean $req             Whether or not required.
-	 * @param string  $field_error     Field error value.
-	 * @param string  $label_placement Where to put the label.
-	 * @return string field HTML markup.
+	 * @param  string  $name            Name of fields.
+	 * @param  string  $f_id            Form ID name.
+	 * @param  array   $value           Values of each field.
+	 * @param  string  $desc            Label of field.
+	 * @param  boolean $req             Whether or not required.
+	 * @param  string  $field_error     Field error value.
+	 * @param  string  $label_placement Where to put the label.
+	 * @param  int     $instance        Current form instance.
+	 * @return string                   HTML markup.
 	 */
-	public function address( $name = '', $f_id = '', $value = [], $desc = '', $req = false, $field_error = '', $label_placement = 'top' ) {
+	public function address( $name = '', $f_id = '', $value = [], $desc = '', $req = false, $field_error = '', $label_placement = 'top', $instance = 0 ) {
 		$street = esc_html__( 'Street Address', 'constant-contact-forms' );
 		$line_2 = esc_html__( 'Address Line 2', 'constant-contact-forms' );
 		$city   = esc_html__( 'City', 'constant-contact-forms' );
@@ -1405,15 +1410,16 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $name        Name of field.
-	 * @param string  $f_id        Field ID.
-	 * @param array   $value       Values to pre-fill.
-	 * @param string  $desc        Description of fields.
-	 * @param boolean $req         If is required.
-	 * @param string  $field_error Field error text.
-	 * @return string Fields HTML markup.
+	 * @param  string  $name        Name of field.
+	 * @param  string  $f_id        Field ID.
+	 * @param  array   $value       Values to pre-fill.
+	 * @param  string  $desc        Description of fields.
+	 * @param  boolean $req         If is required.
+	 * @param  string  $field_error Field error text.
+	 * @param  int     $instance    Current form instance.
+	 * @return string               Fields HTML markup.
 	 */
-	public function dates( $name = '', $f_id = '', $value = [], $desc = '', $req = false, $field_error = '' ) {
+	public function dates( $name = '', $f_id = '', $value = [], $desc = '', $req = false, $field_error = '', $instance = 0 ) {
 		$month = esc_html__( 'Month', 'constant-contact-forms' );
 		$day   = esc_html__( 'Day', 'constant-contact-forms' );
 		$year  = esc_html__( 'Year', 'constant-contact-forms' );
@@ -1601,17 +1607,18 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string  $name            Name of field.
-	 * @param string  $map             ID of field.
-	 * @param string  $value           Previous value of field.
-	 * @param string  $desc            Description/label of field.
-	 * @param boolean $req             If is required.
-	 * @param string  $field_error     Error from field.
-	 * @param string  $extra_attrs     Extra attributes to append.
-	 * @param string  $label_placement Where to place the label.
-	 * @return string HTML markup.
+	 * @param  string  $name            Name of field.
+	 * @param  string  $map             ID of field.
+	 * @param  string  $value           Previous value of field.
+	 * @param  string  $desc            Description/label of field.
+	 * @param  boolean $req             If is required.
+	 * @param  string  $field_error     Error from field.
+	 * @param  string  $extra_attrs     Extra attributes to append.
+	 * @param  string  $label_placement Where to place the label.
+	 * @param  int     $instance        Current form instance.
+	 * @return string                   HTML markup.
 	 */
-	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '', $label_placement = 'top' ) {
+	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '', $label_placement = 'top', $instance = 0 ) {
 
 		$classes          = [ 'ctct-form-field' ];
 		$textarea_classes = [ 'ctct-textarea' ];
