@@ -951,7 +951,7 @@ class ConstantContact_Display {
 	 */
 	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '' ) {
 		$name                  = sanitize_text_field( $name );
-		$f_id                  = sanitize_title( $id );
+		$field_key             = sanitize_title( $id );
 		$input_inline_styles   = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
@@ -966,7 +966,7 @@ class ConstantContact_Display {
 		$label    = sanitize_text_field( $label );
 		$req_text = $req ? 'required' : '';
 
-		$markup = $this->field_top( $type, $name, $f_id, $label, $req );
+		$markup = $this->field_top( $type, $name, $field_key, $label, $req );
 
 		$req_label = '';
 
@@ -979,7 +979,7 @@ class ConstantContact_Display {
 			} else {
 				$markup .= '<span class="' . $label_placement_class . '">';
 			}
-			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
+			$markup .= $this->get_label( $field_key, $name . ' ' . $req_label );
 			$markup .= '</span>';
 		}
 
@@ -994,13 +994,13 @@ class ConstantContact_Display {
 		 * Filter to add classes for the rendering input.
 		 *
 		 * @since  1.2.0
-		 * @param  array  $classes Array of classes to apply to the field.
-		 * @param  string $type    The field type being rendered.
-		 * @param  int    $form_id Form ID.
-		 * @param  int    $f_id    Field ID.
+		 * @param  array  $classes   Array of classes to apply to the field.
+		 * @param  string $type      The field type being rendered.
+		 * @param  int    $form_id   Form ID.
+		 * @param  int    $field_key Field ID.
 		 * @return array
 		 */
-		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $form_id, $f_id );
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $form_id, $field_key );
 
 		/**
 		 * Filters whether or not to remove characters from potential maxlength attribute value.
@@ -1019,19 +1019,20 @@ class ConstantContact_Display {
 			$classes[] = 'ctct-invalid';
 		}
 
-		$classes[]  = $f_id;
+		$classes[]  = $field_key;
 		$class_attr = '';
 
 		if ( count( $classes ) ) {
 			$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 		}
 
-		$field   = '<input %s type="%s" name="%s" %s value="%s" %s placeholder="%s" %s />';
+		$field   = '<input %s type="%s" name="%s" id="%s" %s value="%s" %s placeholder="%s" %s />';
 		$markup .= sprintf(
 			$field,
 			$req_text,
 			$type,
-			$f_id,
+			$field_key,
+			$field_key,
 			$input_inline_styles,
 			$value,
 			$max_length,
@@ -1044,7 +1045,7 @@ class ConstantContact_Display {
 
 		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
 			$markup .= '<span class="' . $label_placement_class . '">';
-			$markup .= $this->get_label( $f_id, $name . ' ' . $req_label );
+			$markup .= $this->get_label( $field_key, $name . ' ' . $req_label );
 			$markup .= '</span>';
 		}
 
