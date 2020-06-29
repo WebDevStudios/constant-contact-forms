@@ -1079,13 +1079,12 @@ class ConstantContact_Display {
 	 * @return string           HTML markup for checkbox.
 	 */
 	public function checkbox( $name = '', $f_id = '', $value = '', $label = '', $instance = 0 ) {
-		$name  = sanitize_text_field( $name );
-		$f_id  = sanitize_title( $f_id );
-		$value = sanitize_text_field( $value );
-		$label = esc_attr( $label );
-		$type  = 'checkbox';
-
-		$classes = [ 'ctct-' . esc_attr( $type ) ];
+		$name      = sanitize_text_field( $name );
+		$field_key = sanitize_title( $field_key );
+		$value     = sanitize_text_field( $value );
+		$label     = esc_attr( $label );
+		$type      = 'checkbox';
+		$classes   = [ 'ctct-' . esc_attr( $type ) ];
 
 		/**
 		 * Filter to add classes for the rendering input.
@@ -1095,10 +1094,10 @@ class ConstantContact_Display {
 		 * @param  string $type    The field type being rendered.
 		 * @return array
 		 */
-		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type ); // @todo if/when we start using the checkbox field type, pass in a $form_id and $f_id value.
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type ); // @todo if/when we start using the checkbox field type, pass in a $form_id and $field_key value.
 
-		$markup  = $this->field_top( $type, $name, $f_id, $label, false, false );
-		$markup .= '<input type="' . $type . '" name="' . $f_id . '" id="' . $f_id . '" value="' . $value . '" class="' . implode( ' ', $classes ) . '" />';
+		$markup  = $this->field_top( $type, $name, $field_key, $label, false, false );
+		$markup .= '<input type="' . $type . '" name="' . $field_key . '" id="' . $field_key . '" value="' . $value . '" class="' . implode( ' ', $classes ) . '" />';
 		$markup .= $this->field_bottom( $name, ' ' . $label );
 
 		return $markup;
