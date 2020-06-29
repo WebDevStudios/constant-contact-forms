@@ -955,6 +955,7 @@ class ConstantContact_Display {
 	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '', $instance = 0 ) {
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
+		$field_id              = "{$field_key}_$instance";
 		$input_inline_styles   = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
@@ -982,7 +983,7 @@ class ConstantContact_Display {
 			} else {
 				$markup .= '<span class="' . $label_placement_class . '">';
 			}
-			$markup .= $this->get_label( $field_key, $name . ' ' . $req_label );
+			$markup .= $this->get_label( $field_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
 		}
 
@@ -1035,7 +1036,7 @@ class ConstantContact_Display {
 			$req_text,
 			$type,
 			$field_key,
-			$field_key,
+			$field_id,
 			$input_inline_styles,
 			$value,
 			$max_length,
@@ -1048,12 +1049,12 @@ class ConstantContact_Display {
 
 		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
 			$markup .= '<span class="' . $label_placement_class . '">';
-			$markup .= $this->get_label( $field_key, $name . ' ' . $req_label );
+			$markup .= $this->get_label( $field_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
 		}
 
 		if ( $field_error ) {
-			$markup .= $this->field_bottom( $id, $field_error );
+			$markup .= $this->field_bottom( $field_id, $field_error );
 		} else {
 			$markup .= $this->field_bottom();
 		}
