@@ -488,7 +488,7 @@ class ConstantContact_Display {
 		}
 
 		if ( isset( $form_data['options'] ) ) {
-			$return .= $this->opt_in( $form_data['options'] );
+			$return .= $this->opt_in( $form_data['options'], $instance );
 		}
 
 		return $return;
@@ -1141,10 +1141,11 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $form_data Form data structure.
-	 * @return string Markup of optin form.
+	 * @param  array $form_data Form data structure.
+	 * @param  int   $instance  Current form instance.
+	 * @return string           Markup of optin form.
 	 */
-	public function opt_in( $form_data ) {
+	public function opt_in( $form_data, $instance = 0 ) {
 
 		if ( ! isset( $form_data['optin'] ) ) {
 			return '';
@@ -1157,7 +1158,7 @@ class ConstantContact_Display {
 		] );
 
 		if ( isset( $optin['list'] ) && $optin['list'] ) {
-			return $this->optin_display( $optin );
+			return $this->optin_display( $optin, $instance );
 		}
 
 		return '';
@@ -1168,10 +1169,11 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $optin Optin data.
-	 * @return string HTML markup.
+	 * @param  array $optin    Optin data.
+	 * @param  int   $instance Current form instance.
+	 * @return string          HTML markup.
 	 */
-	public function optin_display( $optin ) {
+	public function optin_display( $optin, $instance = 0 ) {
 
 		$label = sanitize_text_field( isset( $optin['instructions'] ) ? $optin['instructions'] : '' );
 		$value = sanitize_text_field( isset( $optin['list'] ) ? $optin['list'] : '' );
@@ -1187,7 +1189,7 @@ class ConstantContact_Display {
 			$markup = '<div class="ctct-optin-hide" style="display:none;">';
 		}
 
-		$markup .= $this->get_optin_markup( $label, $value, $show );
+		$markup .= $this->get_optin_markup( $label, $value, $show, $instance );
 
 		if ( ! $show ) {
 			$markup .= '</div><!--.ctct-optin-hide -->';
@@ -1201,17 +1203,20 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $label Label for field.
-	 * @param string $value Value of opt in field.
-	 * @param string $show  Whether or not we are showing the field.
-	 * @return string HTML markup
+	 * @param  string $label    Label for field.
+	 * @param  string $value    Value of opt in field.
+	 * @param  string $show     Whether or not we are showing the field.
+	 * @param  int    $instance Current form instance.
+	 * @return string           HTML markup
 	 */
-	public function get_optin_markup( $label, $value, $show ) {
-		$checked = $show ? '' : 'checked';
+	public function get_optin_markup( $label, $value, $show, $instance = 0 ) {
+		$checked   = $show ? '' : 'checked';
+		$field_key = 'ctct-opt-in';
+		$field_id  = "{$field_key}_{$instance}";
 
-		$markup  = $this->field_top( 'checkbox', 'ctct-opt-in', 'ctct-opt-in', $label, false, false );
-		$markup .= '<input type="checkbox" ' . $checked . ' name="ctct-opt-in" class="ctct-checkbox ctct-opt-in" value="' . $value . '" />';
-		$markup .= $this->field_bottom( 'ctct-opt-in', ' ' . wp_kses_post( $label ), false );
+		$markup  = $this->field_top( 'checkbox', $field_key, $field_key, $label, false, false );
+		$markup .= '<input type="checkbox" ' . $checked . ' name="' . esc_attr( $field_key ) . '" class="ctct-checkbox ' . esc_attr( $field_key ) . '" value="' . esc_attr( $value ) . '" id="' . esc_attr( $field_id ) . '" />';
+		$markup .= $this->field_bottom( $field_id, ' ' . wp_kses_post( $label ), false );
 
 		return $markup;
 	}
