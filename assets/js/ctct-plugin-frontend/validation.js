@@ -153,9 +153,7 @@
 			'text': message
 		} );
 
-		$p.insertBefore( $form ).fadeIn( 200 ).delay( 5000 ).slideUp( 200, () => {
-			$p.remove();
-		} );
+		$p.insertBefore( $form ).fadeIn( 200 );
 	};
 
 	/**
