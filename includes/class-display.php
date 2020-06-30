@@ -281,7 +281,7 @@ class ConstantContact_Display {
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
 			if ( 'success' === $response['status'] ) {
-				return $this->message( 'success', $response['message'] );
+				return $this->message( 'success', $response['message'], 'status' );
 			} else {
 
 				// If we didn't get a success message, then we want to error.
@@ -294,7 +294,7 @@ class ConstantContact_Display {
 
 		if ( 'error' === $status || $error_message ) {
 			if ( ! empty( $error_message ) ) {
-				$form_err_display = $this->message( 'error', $error_message );
+				$form_err_display = $this->message( 'error', $error_message, 'alert' );
 			}
 		}
 
@@ -765,17 +765,17 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $type    Success/error/etc for class.
-	 * @param string $message Message to display to user.
-	 * @return string HTML markup.
+	 * @param  string $type    Success/error/etc for class.
+	 * @param  string $message Message to display to user.
+	 * @param  string $role    Message role.
+	 * @return string          HTML markup.
 	 */
-	public function message( $type, $message ) {
-		$role = ( 'error' === $type ) ? ' role="alert"' : '';
-
+	public function message( $type, $message, $role = 'log' ) {
 		return sprintf(
-			'<p class="ctct-message %s"%s>%s</p>',
+			'<p class="ctct-message %s ctct-%s" role="%s">%s</p>',
 			esc_attr( $type ),
-			$role,
+			esc_attr( $type ),
+			esc_attr( $role ),
 			esc_html( $message )
 		);
 	}
