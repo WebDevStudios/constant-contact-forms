@@ -503,7 +503,7 @@ class ConstantContact_Display {
 	 */
 	public function build_honeypot_field() {
 		return sprintf(
-			'<div class="ctct_usage"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" class="ctct_usage_field" /></div>',
+			'<div class="ctct_usage"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" class="ctct_usage_field" tabindex="-1" /></div>',
 			esc_html__( 'Constant Contact Use.', 'constant-contact-forms' )
 		);
 	}
