@@ -146,11 +146,14 @@
 	 * @param {string} message The message content.
 	 * @param {string} classes Optional. HTML classes to add to the message wrapper.
 	 */
-	app.showMessage = ( $form, message, classes = '' ) => {
+	app.showMessage = ( $form, message, classes = '', role = 'log' ) => {
+
+		$form.parents( '.ctct-form-wrapper' ).find( 'p.ctct-message' ).remove();
 
 		var $p = $( '<p />', {
 			'class': 'ctct-message ' + classes,
-			'text': message
+			'text': message,
+			'role': role
 		} );
 
 		$p.insertBefore( $form ).fadeIn( 200 );
@@ -188,14 +191,14 @@
 					app.setAllInputsValid();
 					response.errors.forEach( app.processError );
 				} else {
-					app.showMessage( $form, response.message, 'ctct-error' );
+					app.showMessage( $form, response.message, 'ctct-error', 'alert' );
 				}
 
 				return false;
 			}
 
 			// If we're here, the submission was a success; show message and reset form fields.
-			app.showMessage( $form, response.message, 'ctct-success' );
+			app.showMessage( $form, response.message, 'ctct-success', 'status' );
 			$form[0].reset();
 		} );
 	};
