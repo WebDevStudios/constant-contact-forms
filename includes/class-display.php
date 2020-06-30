@@ -672,13 +672,15 @@ class ConstantContact_Display {
 		$value = $this->get_submitted_value( $value, $map, $field, $old_values );
 
 		switch ( $type ) {
+			case 'phone_number':
+				return $this->input( 'tel', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
+			case 'website':
+				return $this->input( 'url', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'custom':
 			case 'first_name':
 			case 'last_name':
-			case 'phone_number':
 			case 'job_title':
 			case 'company':
-			case 'website':
 			case 'text_field':
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'custom_text_area':
