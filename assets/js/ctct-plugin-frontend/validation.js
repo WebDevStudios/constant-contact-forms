@@ -154,7 +154,11 @@
 			'class': 'ctct-message ' + classes,
 			'text': message,
 			'role': role
-		} );
+		} ).prepend( $( '<button />', {
+			'class': 'button button-secondary ctct-dismiss ctct-dismiss-ajax-notice',
+			'html': '&#10005;',
+			'aria-label': 'Dismiss Notification'
+		} ) );
 
 		$p.insertBefore( $form ).fadeIn( 200 );
 	};
