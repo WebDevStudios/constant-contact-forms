@@ -148,7 +148,9 @@
 	 */
 	app.showMessage = ( $form, message, classes = '', role = 'log' ) => {
 
-		$form.parents( '.ctct-form-wrapper' ).find( 'p.ctct-message' ).remove();
+		const $wrapper = $form.parents( '.ctct-form-wrapper' );
+
+		$wrapper.find( 'p.ctct-message' ).remove();
 
 		var $p = $( '<p />', {
 			'class': 'ctct-message ' + classes,
@@ -161,6 +163,10 @@
 		} ) );
 
 		$p.insertBefore( $form ).fadeIn( 200 );
+
+		$wrapper.find( '.ctct-dismiss-ajax-notice' ).on( 'click', function() {
+			$( this ).parents( '.ctct-message' ).remove();
+		} );
 	};
 
 	/**
