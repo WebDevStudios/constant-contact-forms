@@ -692,7 +692,7 @@ class ConstantContact_Display {
 			case 'hidden':
 				return $this->input( 'hidden', $name, $map, $value, $desc, $req );
 			case 'checkbox':
-				return $this->checkbox( $name, $map, $value, $desc, $instance );
+				return $this->checkbox( $name, $map, $value, $desc, $req, $field_error, $form_id, $label_placement, $instance );
 			case 'submit':
 				return $this->input( 'submit', $name, $map, $value, $desc, $req, false, $field_error );
 			case 'address':
@@ -1076,15 +1076,20 @@ class ConstantContact_Display {
 	 * Checkbox field helper method.
 	 *
 	 * @since 1.0.0
+	 * @since NEXT Updated params to mirror text inputs and updated output to work with multicheck.
 	 *
-	 * @param  string $name     Name/it of field.
-	 * @param  string $f_id     Field ID.
-	 * @param  string $value    Value of field.
-	 * @param  string $label    Label / desc text.
-	 * @param  int    $instance Current form instance.
-	 * @return string           HTML markup for checkbox.
+	 * @param  string       $name            ID of form field.
+	 * @param  string       $id              ID attribute value.
+	 * @param  string|array $value           Value of field.
+	 * @param  string       $label           label text for input.
+	 * @param  boolean      $req             If field required.
+	 * @param  boolean      $field_error     Field error.
+	 * @param  int          $form_id         Current form ID.
+	 * @param  string       $label_placement Where to place the label.
+	 * @param  int          $instance        Current form instance.
+	 * @return string                        HTML markup for checkbox.
 	 */
-	public function checkbox( $name = '', $f_id = '', $value = '', $label = '', $instance = 0 ) {
+	public function checkbox( $name = '', $id = '', $value = '', $label = '', $req = false, $field_error = false, $form_id = 0, $label_placement = '', $instance = 0 ) {
 		$name      = sanitize_text_field( $name );
 		$field_key = sanitize_title( $field_key );
 		$field_id  = "{$field_key}_{$instance}";
