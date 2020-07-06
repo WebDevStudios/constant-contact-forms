@@ -609,9 +609,12 @@ class ConstantContact_Process_Form {
 				continue;
 			}
 
-			$return_values[ sanitize_text_field( $value['key'] ) ] = [
-				'key'      => sanitize_text_field( $key_break[0] ),
-				'value'    => sanitize_text_field( $value['value'] ),
+			$clean_key = $key_break[0];
+			$field_key = 'lists' === $clean_key ? 'ctct-lists' : $value['key'];
+
+			$return_values[ sanitize_text_field( $field_key ) ] = [
+				'key'      => sanitize_text_field( $clean_key ),
+				'value'    => is_array( $value['value'] ) ? array_map( 'sanitize_text_field', $value['value'] ) : sanitize_text_field( $value['value'] ),
 				'orig_key' => $value['key'],
 			];
 		}
