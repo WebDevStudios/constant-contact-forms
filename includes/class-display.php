@@ -1098,17 +1098,19 @@ class ConstantContact_Display {
 		$value                 = is_array( $value ) ? $value : [ $value ];
 		$label                 = esc_attr( $label );
 		$type                  = 'checkbox';
-		$classes               = [ 'ctct-' . esc_attr( $type ), $label_placement_class ];
+		$classes               = [ 'ctct-' . esc_attr( $type ) ];
 
 		/**
 		 * Filter to add classes for the rendering input.
 		 *
 		 * @since  1.2.0
-		 * @param  array  $classes Array of classes to apply to the field.
-		 * @param  string $type    The field type being rendered.
+		 * @param  array  $classes   Array of classes to apply to the field.
+		 * @param  string $type      The field type being rendered.
+		 * @param  int    $form_id   Form ID.
+		 * @param  int    $field_key Field ID.
 		 * @return array
 		 */
-		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type ); // @todo if/when we start using the checkbox field type, pass in a $form_id and $field_key value.
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $form_id, $field_key );
 
 		$markup  = $this->field_top( $type, $name, $field_id, $label, false, false );
 		$markup .= '<input type="' . $type . '" name="' . $field_key . '" id="' . $field_id . '" value="' . $value . '" class="' . implode( ' ', $classes ) . '" />';
