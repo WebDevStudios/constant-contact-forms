@@ -1090,14 +1090,15 @@ class ConstantContact_Display {
 	 * @return string                        HTML markup for checkbox.
 	 */
 	public function checkbox( $name = '', $id = '', $value = '', $label = '', $req = false, $field_error = false, $form_id = 0, $label_placement = '', $instance = 0 ) {
-		$name      = sanitize_text_field( $name );
-		$field_key = sanitize_title( $field_key );
-		$field_id  = "{$field_key}_{$instance}";
-		$value     = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
-		$value     = is_array( $value ) ? $value : [ $value ];
-		$label     = esc_attr( $label );
-		$type      = 'checkbox';
-		$classes   = [ 'ctct-' . esc_attr( $type ) ];
+		$name                  = sanitize_text_field( $name );
+		$field_key             = sanitize_title( $id );
+		$field_id              = "{$field_key}_{$instance}";
+		$label_placement_class = 'ctct-label-' . $label_placement;
+		$value                 = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
+		$value                 = is_array( $value ) ? $value : [ $value ];
+		$label                 = esc_attr( $label );
+		$type                  = 'checkbox';
+		$classes               = [ 'ctct-' . esc_attr( $type ), $label_placement_class ];
 
 		/**
 		 * Filter to add classes for the rendering input.
