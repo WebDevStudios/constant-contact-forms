@@ -488,7 +488,7 @@ class ConstantContact_Display {
 		}
 
 		if ( isset( $form_data['options'] ) ) {
-			$lists = maybe_unserialize( isset( $form_data['options']['list'] ) ? $form_data['options']['list'] : '' );
+			$lists = maybe_unserialize( isset( $form_data['options']['optin']['list'] ) ? $form_data['options']['optin']['list'] : '' );
 			$return .= $this->opt_in( $form_data['options'], $instance );
 		}
 
