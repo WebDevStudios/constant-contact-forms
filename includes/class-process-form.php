@@ -331,7 +331,17 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
-		$field_errors = $this->get_field_errors( $this->clean_values( $return['values'] ), $is_ajax );
+		$cleaned_values = $this->clean_values( $return['values'] );
+
+		// Require at least one list to be selected.
+		if ( ! isset( $cleaned_values['ctct-lists'] ) || empty( $cleaned_values['ctct-lists'] ) ) {
+			return [
+				'status' => 'named_error',
+				'error'  => __( 'Please select at least one list to subscribe to.', 'constant-contact-forms' ),
+			];
+		}
+
+		$field_errors = $this->get_field_errors( $cleaned_values, $is_ajax );
 
 		if ( is_array( $field_errors ) && ! empty( $field_errors ) ) {
 
