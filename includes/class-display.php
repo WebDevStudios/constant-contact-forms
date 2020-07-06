@@ -1106,7 +1106,10 @@ class ConstantContact_Display {
 		$value                 = is_array( $value ) ? $value : [ $value ];
 		$label                 = esc_attr( $label );
 		$type                  = 'checkbox';
-		$classes               = [ 'ctct-' . esc_attr( $type ) ];
+		$classes               = [
+			'ctct-' . esc_attr( $type ),
+			'ctct-label-right',
+		];
 
 		/**
 		 * Filter to add classes for the rendering input.
