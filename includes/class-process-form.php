@@ -313,7 +313,7 @@ class ConstantContact_Process_Form {
 
 		foreach ( $data as $key => $value ) {
 
-			if ( ! is_string( $value ) ) {
+			if ( ! is_string( $value ) && ! is_array( $value ) ) {
 				continue;
 			}
 
@@ -323,7 +323,7 @@ class ConstantContact_Process_Form {
 
 			$return['values'][] = [
 				'key'   => sanitize_text_field( $key ),
-				'value' => sanitize_text_field( $value ),
+				'value' => is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value ),
 			];
 		}
 
