@@ -1180,7 +1180,8 @@ class ConstantContact_Display {
 	public function optin_display( $optin, $instance = 0 ) {
 
 		$label = sanitize_text_field( isset( $optin['instructions'] ) ? $optin['instructions'] : '' );
-		$value = sanitize_text_field( isset( $optin['list'] ) ? $optin['list'] : '' );
+		$value = maybe_unserialize( isset( $optin['list'] ) ? $optin['list'] : '' );
+		$value = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
 
 		$show = false;
 		if ( isset( $optin['show'] ) && 'on' === $optin['show'] ) {
