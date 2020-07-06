@@ -581,12 +581,12 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 * @since 1.3.0 Added $form_id parameter.
 	 *
-	 * @param string $api_token Token.
-	 * @param string $list      List name.
-	 * @param string $email     Email address.
-	 * @param array  $user_data User data.
-	 * @param string $form_id   ID of the form being processed.
-	 * @return mixed Response from API.
+	 * @param string       $api_token Token.
+	 * @param string|array $list      List name(s).
+	 * @param string       $email     Email address.
+	 * @param array        $user_data User data.
+	 * @param string       $form_id   ID of the form being processed.
+	 * @return mixed                  Response from API.
 	 */
 	public function create_contact( $api_token, $list, $email, $user_data, $form_id ) {
 
@@ -635,12 +635,12 @@ class ConstantContact_API {
 	 *
 	 * @throws CtctException API exception.
 	 *
-	 * @param array  $response  Response from api call.
-	 * @param string $api_token Token.
-	 * @param string $list      List name.
-	 * @param array  $user_data User data.
-	 * @param string $form_id   Form ID being processed.
-	 * @return mixed Response from API.
+	 * @param array        $response  Response from api call.
+	 * @param string       $api_token Token.
+	 * @param string|array $list      List name(s).
+	 * @param array        $user_data User data.
+	 * @param string       $form_id   Form ID being processed.
+	 * @return mixed                  Response from API.
 	 */
 	public function update_contact( $response, $api_token, $list, $user_data, $form_id ) {
 
