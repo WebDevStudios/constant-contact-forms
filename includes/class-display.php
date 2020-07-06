@@ -635,7 +635,8 @@ class ConstantContact_Display {
 		$map   = sanitize_text_field( $field['map_to'] );
 		$desc  = sanitize_text_field( isset( $field['description'] ) ? $field['description'] : '' );
 		$type  = sanitize_text_field( isset( $field['type'] ) ? $field['type'] : 'text_field' );
-		$value = sanitize_text_field( isset( $field['value'] ) ? $field['value'] : false );
+		$value = isset( $field['value'] ) ? $field['value'] : false;
+		$value = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
 		$req   = isset( $field['required'] ) ? $field['required'] : false;
 
 		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions -- Okay use of serialize() here.
