@@ -1133,6 +1133,21 @@ class ConstantContact_Display {
 		}
 
 		for ( $i = 0; $i < count( $value ); $i++ ) {
+			$input_label = $value[ $i ];
+			$key_pieces  = explode( '___', $field_key );
+
+			// Retrieve list names for label.
+			if ( 'lists' === $key_pieces[0] ) {
+				$list = get_posts( [
+					'numberposts' => 1,
+					'post_type'   => 'ctct_lists',
+					'meta_key'    => '_ctct_list_id',
+					'meta_value'  => $input_label,
+				] );
+
+				$input_label = ! empty( $list ) ? reset( $list )->post_title : $input_label;
+			}
+
 			$markup .= sprintf(
 				'<input type="%s" name="%s[]" id="%s" value="%s" %s />',
 				$type,
@@ -1142,7 +1157,7 @@ class ConstantContact_Display {
 				$class_attr
 			);
 			$markup .= '<span class="ctct-label-right">';
-			$markup .= $this->get_label( "{$field_id}_{$i}", $value[ $i ] );
+			$markup .= $this->get_label( "{$field_id}_{$i}", $input_label );
 			$markup .= '</span>';
 
 			if ( $i < ( count( $value ) - 1 ) ) {
