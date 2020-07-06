@@ -589,10 +589,10 @@ class ConstantContact_API {
 	 * @return mixed                  Response from API.
 	 */
 	public function create_contact( $api_token, $list, $email, $user_data, $form_id ) {
-
 		$contact = new Contact();
+
 		$contact->addEmail( sanitize_text_field( $email ) );
-		$contact->addList( esc_attr( $list ) );
+		$this->add_to_list( $contact, $list );
 
 		try {
 			$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
@@ -649,9 +649,9 @@ class ConstantContact_API {
 			isset( $response->results[0] ) &&
 			( $response->results[0] instanceof Contact )
 		) {
-
 			$contact = $response->results[0];
-			$contact->addList( esc_attr( $list ) );
+
+			$this->add_to_list( $contact, $list );
 
 			try {
 				$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
@@ -1019,6 +1019,28 @@ class ConstantContact_API {
 		}
 
 		return $as_parts ? $disclosure : implode( ', ', array_values( $disclosure ) );
+	}
+
+	/**
+	 * Add contact to one or more lists.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  Contact      $contact Contact object.
+	 * @param  string|array $list    Single list ID or array of lists.
+	 * @return void
+	 */
+	private function add_to_list( $contact, $list ) {
+		if ( empty( $list ) ) {
+			return;
+		}
+
+		$list = is_array( $list ) ? $list : [ $list ];
+
+		foreach( $list as $list_id ) {
+			$contact->addList( esc_attr( $list_id ) );
+		}
 	}
 }
 
