@@ -1088,7 +1088,8 @@ class ConstantContact_Display {
 		$name      = sanitize_text_field( $name );
 		$field_key = sanitize_title( $field_key );
 		$field_id  = "{$field_key}_{$instance}";
-		$value     = sanitize_text_field( $value );
+		$value     = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
+		$value     = is_array( $value ) ? $value : [ $value ];
 		$label     = esc_attr( $label );
 		$type      = 'checkbox';
 		$classes   = [ 'ctct-' . esc_attr( $type ) ];
