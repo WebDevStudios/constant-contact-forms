@@ -161,7 +161,9 @@ class ConstantContact_Mail {
 			return;
 		}
 
-		$args['list'] = sanitize_text_field( $values['ctct-opt-in']['value'] );
+		$lists        = isset( $values['ctct-lists'] ) ? $values['ctct-lists'] : [];
+		$lists        = isset( $lists['value'] ) ? $lists['value'] : [];
+		$args['list'] = is_array( $lists ) ? array_map( 'sanitize_text_field', $lists ) : sanitize_text_field( $lists );
 
 		return constantcontact_api()->add_contact( $args, $values['ctct-id']['value'] );
 	}
