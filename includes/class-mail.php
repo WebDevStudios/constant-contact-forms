@@ -133,8 +133,8 @@ class ConstantContact_Mail {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $values Submitted values.
-	 * @return object|null Response from API.
+	 * @param  array $values Submitted values.
+	 * @return array|void    Response from API.
 	 */
 	public function opt_in_user( $values ) {
 
@@ -157,11 +157,13 @@ class ConstantContact_Mail {
 			}
 		}
 
-		if ( isset( $values['ctct-opt-in'] ) && isset( $values['ctct-opt-in']['value'] ) ) {
-			$args['list'] = sanitize_text_field( $values['ctct-opt-in']['value'] );
-
-			return constantcontact_api()->add_contact( $args, $values['ctct-id']['value'] );
+		if ( ! isset( $values['ctct-opt-in'] ) || ! isset( $values['ctct-lists'] ) || empty( $values['ctct-lists'] ) ) {
+			return;
 		}
+
+		$args['list'] = sanitize_text_field( $values['ctct-opt-in']['value'] );
+
+		return constantcontact_api()->add_contact( $args, $values['ctct-id']['value'] );
 	}
 
 	/**
