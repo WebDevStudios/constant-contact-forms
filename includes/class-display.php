@@ -489,6 +489,14 @@ class ConstantContact_Display {
 
 		if ( isset( $form_data['options'] ) ) {
 			$lists = maybe_unserialize( isset( $form_data['options']['optin']['list'] ) ? $form_data['options']['optin']['list'] : '' );
+
+			$return .= $this->field( [
+				'name'     => __( 'Select list(s) to subscribe to', 'constant-contact-forms' ),
+				'map_to'   => 'lists',
+				'type'     => 'checkbox',
+				'required' => true,
+				'value'    => $lists,
+			], $old_values, $req_errors, $form_id, $label_placement, $instance );
 			$return .= $this->opt_in( $form_data['options'], $instance );
 		}
 
