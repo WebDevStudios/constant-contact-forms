@@ -219,11 +219,9 @@ class ConstantContact_Builder_Fields {
 
 			if ( $lists ) {
 				$list_metabox->add_field( [
-					'name'             => esc_html__( 'Add subscribers to', 'constant-contact-forms' ),
+					'name'             => esc_html__( 'Allow subscribers to select from lists', 'constant-contact-forms' ),
 					'id'               => $this->prefix . 'list',
-					'type'             => 'select',
-					'show_option_none' => esc_html__( 'No List Selected', 'constant-contact-forms' ),
-					'default'          => 'none',
+					'type'             => 'multicheck',
 					'options'          => $lists,
 				] );
 			}
