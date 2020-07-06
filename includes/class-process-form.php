@@ -75,6 +75,10 @@ class ConstantContact_Process_Form {
 			if ( is_array( $data ) ) {
 				foreach ( $data as $field ) {
 
+					// Decode characters in field string.
+					// Used to recover array field values.
+					$field = urldecode( $field );
+
 					// @codingStandardsIgnoreStart
 					// Our data looks like this:
 					// Array (
@@ -88,7 +92,18 @@ class ConstantContact_Process_Form {
 
 					if ( isset( $exp_fields[0] ) && $exp_fields[0] ) {
 						$value                                    = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
-						$json_data[  esc_attr( $exp_fields[0] ) ] = sanitize_text_field( $value );
+						$field_key = $exp_fields[0];
+
+						if ( stristr( $field_key, '[]' ) ) {
+							$field_key = explode( '[]', $field_key );
+							$field_key = $field_key[0];
+
+							$json_data[ esc_attr( $field_key ) ][] = sanitize_text_field( $value );
+
+							continue;
+						}
+
+						$json_data[  esc_attr( $field_key ) ] = sanitize_text_field( $value );
 					}
 				}
 			}
