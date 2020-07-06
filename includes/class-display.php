@@ -1119,10 +1119,41 @@ class ConstantContact_Display {
 		 * @return array
 		 */
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $form_id, $field_key );
+		
+		$markup     = $this->field_top( $type, $name, $field_key, $label, $req );
+		$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 
-		$markup  = $this->field_top( $type, $name, $field_id, $label, false, false );
-		$markup .= '<input type="' . $type . '" name="' . $field_key . '" id="' . $field_id . '" value="' . $value . '" class="' . implode( ' ', $classes ) . '" />';
-		$markup .= $this->field_bottom( $name, ' ' . $label );
+		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
+			$markup .= '<span class="' . $label_placement_class . '">';
+			$markup .= $this->get_label( $field_id, $name );
+			$markup .= '</span>';
+		}
+
+		for ( $i = 0; $i < count( $value ); $i++ ) {
+			$markup .= sprintf(
+				'<input type="%s" name="%s" id="%s" value="%s" %s />',
+				$type,
+				$field_key,
+				"{$field_id}_{$i}",
+				$value[ $i ],
+				$class_attr
+			);
+			$markup .= '<span class="ctct-label-right">';
+			$markup .= $this->get_label( "{$field_id}_{$i}", $value[ $i ] );
+			$markup .= '</span>';
+		}
+
+		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
+			$markup .= '<span class="' . $label_placement_class . '">';
+			$markup .= $this->get_label( $field_id, $name );
+			$markup .= '</span>';
+		}
+
+		if ( $field_error ) {
+			$markup .= $this->field_bottom( $field_id, $field_error );
+		} else {
+			$markup .= $this->field_bottom();
+		}
 
 		return $markup;
 	}
