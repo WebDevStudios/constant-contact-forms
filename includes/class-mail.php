@@ -143,16 +143,17 @@ class ConstantContact_Mail {
 			$orig = sanitize_text_field( isset( $val['orig_key'] ) ? $val['orig_key'] : '' );
 			$val  = sanitize_text_field( isset( $val['value'] ) ? $val['value'] : '' );
 
-			if ( $key && ( 'ctct-opt-in' !== $key ) && ( 'ctct-id' !== $key ) ) {
+			if ( empty( $key ) || in_array( $key, [ 'ctct-opt-in', 'ctct-id', 'ctct-lists' ], true ) ) {
+				continue;
+			}
 
-				$args[ $orig ] = [
-					'key' => $key,
-					'val' => $val,
-				];
+			$args[ $orig ] = [
+				'key' => $key,
+				'val' => $val,
+			];
 
-				if ( 'email' === $key ) {
-					$args['email'] = $val;
-				}
+			if ( 'email' === $key ) {
+				$args['email'] = $val;
 			}
 		}
 
