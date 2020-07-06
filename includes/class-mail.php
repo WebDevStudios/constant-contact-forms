@@ -88,6 +88,7 @@ class ConstantContact_Mail {
 		$submission_details['form_id']         = $values['ctct-id']['value'];
 		$submission_details['submitted_email'] = $this->get_user_email_from_submission( $values );
 
+		$lists  = isset( $values['ctct-lists'] ) ? $values['ctct-lists'] : [];
 		$values = constant_contact()->process_form->pretty_values( $values );
 
 		$email_values = $this->format_values_for_email( $values, $submission_details['form_id'] );
@@ -108,13 +109,9 @@ class ConstantContact_Mail {
 			// phpcs:enable WordPress.Security.NonceVerification
 		}
 
-		// This would allow for setting each sections error and also allow for returning early again for cases
-		// like having a list, but not needing to opt in.
-		$has_list = get_post_meta( $submission_details['form_id'], '_ctct_list', true );
-
 		$emails_disabled = constant_contact_emails_disabled( $submission_details['form_id'] );
 
-		if ( ( ! constant_contact()->api->is_connected() || empty( $has_list ) ) && $emails_disabled ) {
+		if ( ( ! constant_contact()->api->is_connected() || empty( $lists ) ) && $emails_disabled ) {
 
 			// If we're not connected or have no list set AND we've disabled. Override.
 			$submission_details['list-available'] = 'no';
