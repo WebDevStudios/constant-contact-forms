@@ -488,6 +488,8 @@ class ConstantContact_Display {
 		}
 
 		if ( isset( $form_data['options'] ) ) {
+			$list   = maybe_unserialize( isset( $optin['list'] ) ? $optin['list'] : '' );
+			$list   = is_array( $list ) ? array_map( 'sanitize_text_field', $list ) : sanitize_text_field( $list );
 			$return .= $this->opt_in( $form_data['options'], $instance );
 		}
 
@@ -1180,8 +1182,6 @@ class ConstantContact_Display {
 	public function optin_display( $optin, $instance = 0 ) {
 
 		$label = sanitize_text_field( isset( $optin['instructions'] ) ? $optin['instructions'] : '' );
-		$value = maybe_unserialize( isset( $optin['list'] ) ? $optin['list'] : '' );
-		$value = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
 
 		$show = false;
 		if ( isset( $optin['show'] ) && 'on' === $optin['show'] ) {
@@ -1194,7 +1194,7 @@ class ConstantContact_Display {
 			$markup = '<div class="ctct-optin-hide" style="display:none;">';
 		}
 
-		$markup .= $this->get_optin_markup( $label, $value, $show, $instance );
+		$markup .= $this->get_optin_markup( $label, '', $show, $instance );
 
 		if ( ! $show ) {
 			$markup .= '</div><!--.ctct-optin-hide -->';
