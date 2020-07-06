@@ -1134,7 +1134,7 @@ class ConstantContact_Display {
 
 		for ( $i = 0; $i < count( $value ); $i++ ) {
 			$markup .= sprintf(
-				'<input type="%s" name="%s" id="%s" value="%s" %s />',
+				'<input type="%s" name="%s[]" id="%s" value="%s" %s />',
 				$type,
 				$field_key,
 				"{$field_id}_{$i}",
