@@ -1144,6 +1144,10 @@ class ConstantContact_Display {
 			$markup .= '<span class="ctct-label-right">';
 			$markup .= $this->get_label( "{$field_id}_{$i}", $value[ $i ] );
 			$markup .= '</span>';
+
+			if ( $i < ( count( $value ) - 1 ) ) {
+				$markup .= '<br />';
+			}
 		}
 
 		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
