@@ -1145,7 +1145,12 @@ class ConstantContact_Display {
 					'meta_value'  => $input_label,
 				] );
 
-				$input_label = ! empty( $list ) ? reset( $list )->post_title : $input_label;
+				// Skip list IDs that don't have corresponding post.
+				if ( empty( $list ) ) {
+					continue;
+				}
+
+				$input_label = reset( $list )->post_title;
 			}
 
 			$markup .= sprintf(
