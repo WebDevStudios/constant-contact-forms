@@ -281,7 +281,7 @@ class ConstantContact_Display {
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
 			if ( 'success' === $response['status'] ) {
-				return $this->message( 'success', $response['message'] );
+				return $this->message( 'success', $response['message'], 'status' );
 			} else {
 
 				// If we didn't get a success message, then we want to error.
@@ -294,7 +294,7 @@ class ConstantContact_Display {
 
 		if ( 'error' === $status || $error_message ) {
 			if ( ! empty( $error_message ) ) {
-				$form_err_display = $this->message( 'error', $error_message );
+				$form_err_display = $this->message( 'error', $error_message, 'alert' );
 			}
 		}
 
@@ -503,7 +503,7 @@ class ConstantContact_Display {
 	 */
 	public function build_honeypot_field() {
 		return sprintf(
-			'<div class="ctct_usage"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" class="ctct_usage_field" /></div>',
+			'<div class="ctct_usage"><label for="ctct_usage_field">%s</label><input type="text" value="" name="ctct_usage_field" class="ctct_usage_field" tabindex="-1" /></div>',
 			esc_html__( 'Constant Contact Use.', 'constant-contact-forms' )
 		);
 	}
@@ -672,13 +672,15 @@ class ConstantContact_Display {
 		$value = $this->get_submitted_value( $value, $map, $field, $old_values );
 
 		switch ( $type ) {
+			case 'phone_number':
+				return $this->input( 'tel', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
+			case 'website':
+				return $this->input( 'url', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'custom':
 			case 'first_name':
 			case 'last_name':
-			case 'phone_number':
 			case 'job_title':
 			case 'company':
-			case 'website':
 			case 'text_field':
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'custom_text_area':
@@ -763,17 +765,17 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $type    Success/error/etc for class.
-	 * @param string $message Message to display to user.
-	 * @return string HTML markup.
+	 * @param  string $type    Success/error/etc for class.
+	 * @param  string $message Message to display to user.
+	 * @param  string $role    Message role.
+	 * @return string          HTML markup.
 	 */
-	public function message( $type, $message ) {
-		$role = ( 'error' === $type ) ? ' role="alert"' : '';
-
+	public function message( $type, $message, $role = 'log' ) {
 		return sprintf(
-			'<p class="ctct-message %s"%s>%s</p>',
+			'<p class="ctct-message %s ctct-%s" role="%s">%s</p>',
 			esc_attr( $type ),
-			$role,
+			esc_attr( $type ),
+			esc_attr( $role ),
 			esc_html( $message )
 		);
 	}
@@ -1030,18 +1032,20 @@ class ConstantContact_Display {
 			$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 		}
 
-		$field   = '<input %s type="%s" name="%s" id="%s" %s value="%s" %s placeholder="%s" %s />';
+		/* translators: 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder (non-hidden fields only), 8: Field class(es), 9: Field ID (non-hidden fields only), 10: Tabindex (hidden fields only). */
+		$field   = '<input %1$s type="%2$s" name="%3$s" %4$s value="%5$s" %6$s %7$s %8$s %9$s %10$s />';
 		$markup .= sprintf(
 			$field,
 			$req_text,
 			$type,
 			$field_key,
-			$field_id,
 			$input_inline_styles,
 			$value,
 			$max_length,
-			$label,
-			$class_attr
+			'hidden' !== $type ? "placeholder=\"{$label}\"" : '',
+			$class_attr,
+			'hidden' !== $type ? "id=\"{$field_id}\"" : '',
+			'hidden' === $type ? 'tabindex="-1"' : ''
 		);
 
 		// Reassign because if we want "field only", like for hidden inputs, we need to still pass a value that went through sprintf().

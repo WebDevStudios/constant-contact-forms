@@ -23,5 +23,13 @@
 			border-color: $color-green;
 			color: darken( $color-success, 20% );
 		}
+
+		.ctct-dismiss-ajax-notice {
+			border-radius: 50%;
+			float: right;
+			line-height: 1;
+			padding: 0.85rem 1rem;
+			text-decoration: none;
+		}
 	}
 }
