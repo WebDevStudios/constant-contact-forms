@@ -1156,12 +1156,13 @@ class ConstantContact_Display {
 			}
 
 			$markup .= sprintf(
-				'<input type="%s" name="%s[]" id="%s" value="%s" %s />',
+				'<input type="%s" name="%s[]" id="%s" value="%s" %s %s />',
 				$type,
 				$field_key,
 				"{$field_id}_{$i}",
 				$value[ $i ],
-				$class_attr
+				$class_attr,
+				$count === 0 ? 'checked' : ''
 			);
 			$markup .= '<span class="ctct-label-right">';
 			$markup .= $this->get_label( "{$field_id}_{$i}", $input_label );
