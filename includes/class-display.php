@@ -1132,9 +1132,11 @@ class ConstantContact_Display {
 			$markup .= '</span>';
 		}
 
+		$key_pieces = explode( '___', $field_key );
+		$count      = 0;
+
 		for ( $i = 0; $i < count( $value ); $i++ ) {
 			$input_label = $value[ $i ];
-			$key_pieces  = explode( '___', $field_key );
 
 			// Retrieve list names for label.
 			if ( 'lists' === $key_pieces[0] ) {
@@ -1168,6 +1170,8 @@ class ConstantContact_Display {
 			if ( $i < ( count( $value ) - 1 ) ) {
 				$markup .= '<br />';
 			}
+
+			$count++;
 		}
 
 		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
@@ -1180,6 +1184,11 @@ class ConstantContact_Display {
 			$markup .= $this->field_bottom( $field_id, $field_error );
 		} else {
 			$markup .= $this->field_bottom();
+		}
+
+		// If only one list displayed, hide input.
+		if ( 'lists' === $key_pieces[0] && $count <= 1 ) {
+			$markup = "<div style='display:none;'>{$markup}</div>";
 		}
 
 		return $markup;
