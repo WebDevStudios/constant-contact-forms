@@ -1038,7 +1038,7 @@ class ConstantContact_API {
 
 		$list = is_array( $list ) ? $list : [ $list ];
 
-		foreach( $list as $list_id ) {
+		foreach ( $list as $list_id ) {
 			$contact->addList( esc_attr( $list_id ) );
 		}
 	}
