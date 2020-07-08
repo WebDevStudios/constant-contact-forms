@@ -818,8 +818,10 @@ class ConstantContact_API {
 					try {
 						$contact->$key = $value;
 					} catch ( Exception $e ) {
+						$errors = [];
 						$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-						$this->log_errors( $extra . $e->getErrors() );
+						$errors[] = $extra . $e->getErrors();
+						$this->log_errors( $errors );
 						constant_contact_set_has_exceptions();
 						break;
 					}
