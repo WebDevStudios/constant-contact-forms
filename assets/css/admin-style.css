@@ -522,6 +522,11 @@ body.post-type-ctct_forms #titlediv #title {
   display: none;
 }
 
+.cmb2-id--ctct-list .cmb2-list {
+  max-height: 10rem;
+  overflow-y: auto;
+}
+
 .ui-dialog .cmb-type-checkbox.cmb2-id--ctct-show-title .cmb-th {
   width: 90px;
 }

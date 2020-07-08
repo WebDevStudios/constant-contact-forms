@@ -230,6 +230,14 @@ body.post-type-ctct_forms #titlediv #title {
 	}
 }
 
+.cmb2-id--ctct-list {
+
+	.cmb2-list {
+		max-height: 10rem;
+		overflow-y: auto;
+	}
+}
+
 //--------------------------------------------------------------
 // TinyMCE Tweaks
 //--------------------------------------------------------------
