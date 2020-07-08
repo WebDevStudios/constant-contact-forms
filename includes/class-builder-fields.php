@@ -219,10 +219,10 @@ class ConstantContact_Builder_Fields {
 
 			if ( $lists ) {
 				$list_metabox->add_field( [
-					'name'             => esc_html__( 'Allow subscribers to select from lists', 'constant-contact-forms' ),
-					'id'               => $this->prefix . 'list',
-					'type'             => 'multicheck',
-					'options'          => $lists,
+					'name'    => esc_html__( 'Allow subscribers to select from lists', 'constant-contact-forms' ),
+					'id'      => $this->prefix . 'list',
+					'type'    => 'multicheck',
+					'options' => $lists,
 				] );
 			}
 		}
