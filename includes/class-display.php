@@ -1163,7 +1163,7 @@ class ConstantContact_Display {
 				"{$field_id}_{$i}",
 				$value[ $i ],
 				$class_attr,
-				$count === 0 ? 'checked' : ''
+				0 === $count ? 'checked' : ''
 			);
 			$markup .= '<span class="ctct-label-right">';
 			$markup .= $this->get_label( "{$field_id}_{$i}", $input_label );
