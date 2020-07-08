@@ -1133,9 +1133,10 @@ class ConstantContact_Display {
 		}
 
 		$key_pieces = explode( '___', $field_key );
+		$total      = count( $value );
 		$count      = 0;
 
-		for ( $i = 0; $i < count( $value ); $i++ ) {
+		for ( $i = 0; $i < $total; $i++ ) {
 			$input_label = $value[ $i ];
 
 			// Retrieve list names for label.
