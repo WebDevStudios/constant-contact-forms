@@ -1122,7 +1122,7 @@ class ConstantContact_Display {
 		 * @return array
 		 */
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $form_id, $field_key );
-		
+
 		$markup     = $this->field_top( $type, $name, $field_key, $label, $req );
 		$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 
