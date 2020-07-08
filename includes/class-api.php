@@ -818,8 +818,10 @@ class ConstantContact_API {
 					try {
 						$contact->$key = $value;
 					} catch ( Exception $e ) {
+						$errors = [];
 						$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-						$this->log_errors( $extra . $e->getErrors() );
+						$errors[] = $extra . $e->getErrors();
+						$this->log_errors( $errors );
 						constant_contact_set_has_exceptions();
 						break;
 					}
@@ -845,10 +847,12 @@ class ConstantContact_API {
 	 * @param array $errors Errors from API.
 	 */
 	public function log_errors( $errors ) {
-
 		if ( is_array( $errors ) ) {
 			foreach ( $errors as $error ) {
-				$this->api_error_message( $error );
+				constant_contact_maybe_log_it(
+					'API',
+					$error
+				);
 			}
 		}
 	}
@@ -857,6 +861,7 @@ class ConstantContact_API {
 	 * Process api error response.
 	 *
 	 * @since 1.0.0
+	 * @since 1.8.6 Deprected
 	 *
 	 * @throws Exception
 	 *
