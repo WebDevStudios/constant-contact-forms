@@ -91,7 +91,7 @@ class ConstantContact_Process_Form {
 					$exp_fields = explode( '=', $field, 2 );
 
 					if ( isset( $exp_fields[0] ) && $exp_fields[0] ) {
-						$value                                    = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
+						$value     = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
 						$field_key = $exp_fields[0];
 
 						if ( stristr( $field_key, '[]' ) ) {
