@@ -1,3 +1,7 @@
+= 1.8.6 =
+* Fixed: Removed invalid property being sent to the API, causing rejected requests.
+* Fixed: Failure to log API errors for support purposes.
+
 = 1.8.5 =
 * Added: Forced email notifications to admin when Constant Contact API request fails on attempted form submission.
 * Fixed: Addressed issues with plugin error logging and addressed false-positive error messaging.
