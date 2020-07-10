@@ -138,7 +138,7 @@ class ConstantContact_Middleware {
 		// If we get this, we'll want to start our process of
 		// verifying the proof that the middleware server gives us
 		// so that we can ignore any malicious entries that are sent to us
-		// Sanitize our expected data
+		// Sanitize our expected data.
 		$proof = isset( $_GET['proof'] ) ? sanitize_text_field( wp_unslash( $_GET['proof'] ) ) : false;
 		$token = isset( $_GET['token'] ) ? sanitize_text_field( wp_unslash( $_GET['token'] ) ) : false;
 		$key   = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : false;
