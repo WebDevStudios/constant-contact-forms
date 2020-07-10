@@ -657,7 +657,7 @@ function constant_contact_privacy_policy_content() {
  *
  * @since 1.6.0
  *
- * @param string $status Status value to set
+ * @param string $status Status value to set.
  */
 function constant_contact_set_has_exceptions( $status = 'true' ) {
 	update_option( 'ctct_exceptions_exist', $status );

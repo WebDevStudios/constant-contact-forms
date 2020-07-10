@@ -58,8 +58,8 @@ class ConstantContact_Middleware {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $proof Proof key
-	 * @return string Signup/connect url.
+	 * @param  string $proof Proof key.
+	 * @return string        Signup/connect url.
 	 */
 	public function do_signup_url( $proof = '' ) {
 		return $this->do_connect_url( $proof, [ 'new_signup' => true ] );
