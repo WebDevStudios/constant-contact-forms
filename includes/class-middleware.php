@@ -160,7 +160,7 @@ class ConstantContact_Middleware {
 
 		constant_contact_maybe_log_it( 'Authentication', 'Authorization verification succeeded.' );
 
-	 	constant_contact()->connect->update_token( sanitize_text_field( $token ) );
+		constant_contact()->connect->update_token( sanitize_text_field( $token ) );
 		constant_contact()->connect->e_set( '_ctct_api_key', sanitize_text_field( $key ) );
 		return true;
 	}
