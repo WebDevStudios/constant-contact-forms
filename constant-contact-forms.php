@@ -366,6 +366,8 @@ class Constant_Contact {
 	 * Sets up our plugin.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	protected function __construct() {
 
@@ -449,6 +451,8 @@ class Constant_Contact {
 	 * Add hooks and filters.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function hooks() {
 		if ( ! $this->meets_php_requirements() ) {

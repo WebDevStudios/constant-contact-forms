@@ -54,6 +54,8 @@ class ConstantContact_Process_Form {
 	 * A wrapper to process our form via AJAX.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void|array Return array of error data if error encountered, void otherwise.
 	 */
 	public function process_form_ajax_wrapper() {
 
