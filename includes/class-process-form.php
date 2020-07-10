@@ -628,7 +628,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// @todo Utilize $form_data.
-		if ( isset( $_POST['ctct-id'] ) && $form_id !== absint( $_POST['ctct-id'] ) ) {
+		if ( isset( $_POST['ctct-id'] ) && absint( $_POST['ctct-id'] ) !== $form_id ) {
 			return false;
 		}
 
