@@ -269,7 +269,7 @@ class ConstantContact_Settings {
 				continue;
 			}
 
-			$cmb_key = array_search( $cmb->prop( 'tab_title' ), $this->metabox_titles );
+			$cmb_key = array_search( $cmb->prop( 'tab_title' ), $this->metabox_titles, true );
 
 			if ( false === $cmb_key ) {
 				continue;

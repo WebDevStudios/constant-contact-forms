@@ -765,7 +765,7 @@ function constant_contact_walk_widget_references( array &$value, $key, $type ) {
 
 	$widget_id = "{$type}-{$key}";
 	$sidebars  = array_keys( array_filter( get_option( 'sidebars_widgets', [] ), function( $sidebar ) use ( $widget_id ) {
-		return is_array( $sidebar ) && in_array( $widget_id, $sidebar );
+		return is_array( $sidebar ) && in_array( $widget_id, $sidebar, true );
 	} ) );
 	$value     = [
 		'type'    => 'widget',
