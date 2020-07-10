@@ -36,6 +36,7 @@ class ConstantContact_Shortcode {
 	/**
 	 * Plugin object.
 	 *
+	 * @since 1.6.0
 	 * @var Constant_Contact
 	 */
 	public $plugin;

@@ -129,6 +129,8 @@ class ConstantContact_Middleware {
 	/**
 	 * Verify a returned request from the auth server, and save the returned token.
 	 *
+	 * @since  1.0.0
+	 *
 	 * @throws Exception Throws Exception if encountered while attempting to verify request.
 	 *
 	 * @return boolean Is valid?
