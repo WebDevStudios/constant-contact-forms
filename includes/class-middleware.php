@@ -129,7 +129,7 @@ class ConstantContact_Middleware {
 	/**
 	 * Verify a returned request from the auth server, and save the returned token.
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to verify request.
 	 *
 	 * @return boolean Is valid?
 	 */

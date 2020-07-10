@@ -482,7 +482,7 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 * @since 1.3.0 Added $form_id parameter.
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to save contact.
 	 *
 	 * @param array $new_contact New contact data.
 	 * @param int   $form_id     ID of the form being processed.
@@ -842,7 +842,7 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to log errors.
 	 *
 	 * @param array $errors Errors from API.
 	 */
@@ -863,7 +863,7 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 * @since 1.8.6 Deprected
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to process error message.
 	 *
 	 * @param array $error API error repsonse.
 	 * @return mixed

@@ -273,7 +273,7 @@ add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_re
  *
  * @since 1.2.3
  *
- * @throws Exception
+ * @throws Exception Throw Exception if error occurs during form processing.
  *
  * @return bool|array
  */

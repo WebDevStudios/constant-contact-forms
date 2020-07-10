@@ -152,7 +152,7 @@ class ConstantContact_Process_Form {
 	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to process form.
 	 *
 	 * @param array $data    Form data.
 	 * @param bool  $is_ajax Whether or not processing via AJAX.
@@ -616,7 +616,7 @@ class ConstantContact_Process_Form {
 	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to process form wrapper.
 	 *
 	 * @param  array      $form_data Form data to process.
 	 * @param  string|int $form_id   Form ID being processed.

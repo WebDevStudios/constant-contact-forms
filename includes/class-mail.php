@@ -237,7 +237,7 @@ class ConstantContact_Mail {
 	 * @since 1.0.0
 	 * @since 1.3.6 Added $was_forced.
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to send email.
 	 *
 	 * @param string $destination_email  Intended mail address.
 	 * @param string $content            Data from clean values.
