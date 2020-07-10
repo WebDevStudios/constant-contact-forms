@@ -1,5 +1,7 @@
 <?php
 /**
+ * Constant Contact Middleware.
+ *
  * @package ConstantContact
  * @subpackage Middleware
  * @author Constant Contact
