@@ -149,6 +149,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Process submitted form data.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @throws Exception
@@ -248,6 +249,7 @@ class ConstantContact_Process_Form {
 		/**
 		 * Filters whether or not we think an entry is spam.
 		 *
+		 * @author Michael Beckwith <michael@webdevstudios.com>
 		 * @since 1.3.2
 		 *
 		 * @param bool  $value Whether or not we thing an entry is spam. Default not spam.
@@ -362,6 +364,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Pretty our values up.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param array $values Original values.
@@ -434,6 +437,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Gets our original field from a form id.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param int $form_id Form id.
@@ -509,6 +513,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Get field requirement errors.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param array $values Values.
@@ -568,6 +573,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Clean our values from form submission.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param array $values Values to clean.
@@ -607,6 +613,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Form submit success/error messages.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @throws Exception
@@ -648,6 +655,7 @@ class ConstantContact_Process_Form {
 				/**
 				 * Filters the message for the successful processed form.
 				 *
+				 * @author Michael Beckwith <michael@webdevstudios.com>
 				 * @since 1.3.0
 				 *
 				 * @param string     $value Success message.
@@ -686,6 +694,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Increment a counter for processed form submissions.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.2.2
 	 */
 	public function increment_processed_form_count() {
@@ -697,6 +706,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Check if we have all the required fields for a given form.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.3.5
 	 *
 	 * @param int   $form_id   ID of form to verify.
@@ -727,6 +737,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Gets the non-human error messeage dispalyed when we think there's a bot.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.5.0
 	 * @param int $post_id The ID of the current post.
 	 * @return string
@@ -737,6 +748,7 @@ class ConstantContact_Process_Form {
 		/**
 		 * Filter the error message displayed for suspected non-humans.
 		 *
+		 * @author Michael Beckwith <michael@webdevstudios.com>
 		 * @since 1.5.0
 		 * @param string $error The error message dispalyed.
 		 * @param mixed  $post_id The ID of the current post.
