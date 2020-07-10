@@ -58,16 +58,12 @@ class ConstantContact_Process_Form {
 	public function process_form_ajax_wrapper() {
 
 		// See if we're passed in data.
-		//
-		// We set to ignore this from PHPCS, as our nonce is handled elsewhere
-		// @codingStandardsIgnoreLine
-		if ( isset( $_POST['data'] ) ) { // Input var okay.
+		// We set to ignore this from PHPCS, as our nonce is handled elsewhere.
+		if ( isset( $_POST['data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-			// Form data comes over serialzied, so break it apart
-			//
-			// We set to ignore this from PHPCS, as our nonce is handled elsewhere
-			// @codingStandardsIgnoreLine
-			$data = explode( '&', $_POST['data'] );
+			// Form data comes over serialzied, so break it apart.
+			// We set to ignore this from PHPCS, as our nonce is handled elsewhere.
+			$data = explode( '&', $_POST['data'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			// Finish converting that ajax data to something we can use.
 			$json_data = [];
