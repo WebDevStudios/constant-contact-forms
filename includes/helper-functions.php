@@ -735,7 +735,7 @@ function constant_contact_get_widgets_by_form( $form_id ) {
 		$widgets = array_filter( get_option( "widget_{$widget_type}", [] ), function( $value ) use ( $data ) {
 			if ( 'ctct_form' === $data['type'] ) {
 				return absint( $value['ctct_form_id'] ) === $data['form_id'];
-			} else if ( 'text' === $data['type'] ) {
+			} elseif ( 'text' === $data['type'] ) {
 				if ( ! isset( $value['text'] ) || false === strpos( $value['text'], '[ctct' ) ) {
 					return false;
 				}

@@ -240,7 +240,7 @@ class ConstantContact_Notification_Content {
 					esc_html( $value['id'] ),
 					esc_html( $key === $last_key ? '' : ', ' )
 				);
-			} else if ( 'widget' === $value['type'] ) {
+			} elseif ( 'widget' === $value['type'] ) {
 				printf(
 					/* Translators: 1: URL to widgets admin screen, 2: current widget name, 3: generic widget text, 4: current widget title, 5: preposition, 6: specific sidebar name, 7: separator between links. */
 					'<a href="%1$s">%2$s %3$s "%4$s" %5$s %6$s</a>%7$s',
