@@ -763,11 +763,11 @@ function constant_contact_get_widgets_by_form( $form_id ) {
 function constant_contact_walk_widget_references( array &$value, $key, $type ) {
 	global $wp_registered_sidebars, $wp_registered_widgets;
 
-	$widget_id  = "{$type}-{$key}";
-	$sidebars   = array_keys( array_filter( get_option( 'sidebars_widgets', [] ), function( $sidebar ) use ( $widget_id ) {
+	$widget_id = "{$type}-{$key}";
+	$sidebars  = array_keys( array_filter( get_option( 'sidebars_widgets', [] ), function( $sidebar ) use ( $widget_id ) {
 		return is_array( $sidebar ) && in_array( $widget_id, $sidebar );
 	} ) );
-	$value = [
+	$value     = [
 		'type'    => 'widget',
 		'widget'  => $type,
 		'url'     => admin_url( 'widgets.php' ),

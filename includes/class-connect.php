@@ -508,8 +508,8 @@ class ConstantContact_Connect {
 			return 'ctct_key';
 		}
 
-		$key = Key::createNewRandomKey();
-		$key = $key->saveToAsciiSafeString();
+		$key     = Key::createNewRandomKey();
+		$key     = $key->saveToAsciiSafeString();
 		$updated = update_option( 'ctct_key', $key );
 
 		if ( ! $updated || $first_try ) {

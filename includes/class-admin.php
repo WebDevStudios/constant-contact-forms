@@ -440,7 +440,7 @@ class ConstantContact_Admin {
 
 		global $pagenow;
 
-		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
+		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 		$suffix = ( true === $debug ) ? '' : '.min';
 
 		wp_register_script(
