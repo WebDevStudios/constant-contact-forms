@@ -446,7 +446,7 @@ class ConstantContact_Settings {
 		);
 
 		$cmb->add_field( [
-			'name'        => esc_html__( 'CSS Classes', 'constant-contact_forms' ),
+			'name'        => esc_html__( 'CSS Classes', 'constant-contact-forms' ),
 			'id'          => '_ctct_form_custom_classes',
 			'type'        => 'text',
 			'description' => esc_html__(

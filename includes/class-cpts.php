@@ -188,10 +188,14 @@ class ConstantContact_CPTS {
 			2  => __( 'Custom field updated.', 'constant-contact-forms' ),
 			3  => __( 'Custom field deleted.', 'constant-contact-forms' ),
 			4  => __( 'List updated.', 'constant-contact-forms' ),
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'List restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
+			5  => isset( $_GET['revision'] ) ?
+				/* translators: formatted revision timestamp. */
+				sprintf( __( 'List restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) :
+				false,
 			6  => __( 'List published.', 'constant-contact-forms' ),
 			7  => __( 'List saved.', 'constant-contact-forms' ),
 			8  => __( 'List submitted.', 'constant-contact-forms' ),
+			/* translators: formatted post date timestamp. */
 			9  => __( 'List scheduled for: <strong>%1$s</strong>.', 'constant-contact-forms' ),
 			date_i18n( 'M j, Y @ G:i', strtotime( $post->post_date ) ),
 			10 => __( 'List draft updated.', 'constant-contact-forms' ),
@@ -203,10 +207,18 @@ class ConstantContact_CPTS {
 			2  => __( 'Custom field updated.', 'constant-contact-forms' ),
 			3  => __( 'Custom field deleted.', 'constant-contact-forms' ),
 			4  => __( 'Form updated.', 'constant-contact-forms' ),
-			5  => isset( $_GET['revision'] ) ? sprintf( __( 'Form restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) : false,
-			6  => sprintf( __( "Success! Here's the shortcode: %s. Just paste it into a post or page editor to publish", 'constant-contact-forms' ), '<strong>' . constant_contact_display_shortcode( $post->ID ) . '</strong>' ),
+			5  => isset( $_GET['revision'] ) ?
+				/* translators: formatted revision timestamp. */
+				sprintf( __( 'Form restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) :
+				false,
+			6  => sprintf(
+					/* translators: form shortcode. */
+					__( "Success! Here's the shortcode: %s. Just paste it into a post or page editor to publish", 'constant-contact-forms' ),
+					'<strong>' . constant_contact_display_shortcode( $post->ID ) . '</strong>'
+				),
 			7  => __( 'Form saved.', 'constant-contact-forms' ),
 			8  => __( 'Form submitted.', 'constant-contact-forms' ),
+			/* translators: formatted post date timestamp. */
 			9  => __( 'Form scheduled for: <strong>%1$s</strong>.', 'constant-contact-forms' ),
 			date_i18n( 'M j, Y @ G:i', strtotime( $post->post_date ) ),
 			10 => __( 'Form draft updated.', 'constant-contact-forms' ),

@@ -149,7 +149,7 @@ class ConstantContact_Builder_Fields {
 			],
 			'website'          => [
 				'option'      => esc_html__( 'Website', 'constant-contact-forms' ),
-				'placeholder' => esc_html__( 'http://www.example.com', 'constant-contact-form' ),
+				'placeholder' => esc_html__( 'http://www.example.com', 'constant-contact-forms' ),
 			],
 			'custom'           => [
 				'option'      => esc_html__( 'Custom Text Field', 'constant-contact-forms' ),
@@ -451,7 +451,7 @@ class ConstantContact_Builder_Fields {
 			'id'          => 'form-padding-title',
 			'description' => esc_html__(
 				'Enter padding values in number of pixels. Padding will be applied to four sides of the form.',
-				'constant-contact-form' ),
+				'constant-contact-forms' ),
 		] );
 
 		$custom_css_metabox->add_field( [
