@@ -744,7 +744,7 @@ function constant_contact_get_widgets_by_form( $form_id ) {
 			return false;
 		} );
 		array_walk( $widgets, 'constant_contact_walk_widget_references', $widget_type );
-		$return  = array_merge( $return, $widgets );
+		$return = array_merge( $return, $widgets );
 	}
 
 	return $return;
