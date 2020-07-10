@@ -185,6 +185,12 @@ class ConstantContact_Logging {
 		);
 	}
 
+	/**
+	 * Set file system.
+	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
+	 * @since  1.4.5
+	 */
 	public function set_file_system() {
 		global $wp_filesystem;
 		WP_Filesystem();
