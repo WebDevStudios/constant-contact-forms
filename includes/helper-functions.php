@@ -277,7 +277,7 @@ add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_re
  *
  * @return bool|array
  */
-function ctct_custom_form_action_processing() {
+function ctct_custom_form_action_processing() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function is prefixed.
 
 	$ctct_id = filter_input( INPUT_POST, 'ctct-id', FILTER_VALIDATE_INT );
 
@@ -300,7 +300,7 @@ add_action( 'wp_head', 'ctct_custom_form_action_processing' );
  *
  * @return bool
  */
-function ctct_has_forms() {
+function ctct_has_forms() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function is prefixed.
 	$args  = [
 		'post_type'      => 'ctct_forms',
 		'post_status'    => 'publish',
