@@ -352,7 +352,7 @@ class ConstantContact_Lists {
 		 *
 		 * @param array $lists_to_insert CTCT returned list data.
 		 */
-		do_action( 'ctct_sync_lists', $lists_to_insert );
+		do_action( 'ctct_sync_lists', $lists_to_insert ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 	}
 
 	/**
@@ -480,7 +480,7 @@ class ConstantContact_Lists {
 		 * @param integer $list_id Ctct list id.
 		 * @param array   $list    Ctct returned list data.
 		 */
-		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
+		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 
 		return is_object( $list ) && isset( $list->id );
 	}
@@ -631,7 +631,7 @@ class ConstantContact_Lists {
 		 * @param integer $list_id Ctct list id.
 		 * @param array   $list    Ctct returned list data.
 		 */
-		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
+		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 
 		return is_object( $list ) && isset( $list->id );
 	}
@@ -672,7 +672,7 @@ class ConstantContact_Lists {
 		 * @param integer $post_id Form list ID that was deleted.
 		 * @param integer $list_id Constant Contact list ID.
 		 */
-		do_action( 'ctct_delete_list', $post_id, $list_id );
+		do_action( 'ctct_delete_list', $post_id, $list_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 
 		return $list;
 	}

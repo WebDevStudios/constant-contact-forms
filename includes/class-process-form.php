@@ -111,7 +111,7 @@ class ConstantContact_Process_Form {
 
 				case 'success':
 					/** This filter is documented in includes/class-process-form.php */
-					$message = apply_filters( 'ctct_process_form_success',
+					$message = apply_filters( 'ctct_process_form_success', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 						__( 'Your information has been submitted.', 'constant-contact-forms' ),
 						(int) $json_data['ctct-id'] );
 					break;
@@ -221,7 +221,7 @@ class ConstantContact_Process_Form {
 				 * @param float  $value Threshold to require for submission approval.
 				 * @param string $value The ID of the form that was submitted.
 				 */
-				$threshold = (float) apply_filters( 'ctct_recaptcha_threshold', 0.5, $data['ctct-id'] );
+				$threshold = (float) apply_filters( 'ctct_recaptcha_threshold', 0.5, $data['ctct-id'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 
 				$ctctrecaptcha->recaptcha->setScoreThreshold( $threshold );
 				$ctctrecaptcha->recaptcha->setExpectedAction( 'constantcontactsubmit' );
@@ -653,7 +653,7 @@ class ConstantContact_Process_Form {
 				 * @param string     $value Success message.
 				 * @param string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
-				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id );
+				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 				break;
 
 			case 'error':
@@ -742,6 +742,6 @@ class ConstantContact_Process_Form {
 		 * @param mixed  $post_id The ID of the current post.
 		 * @return string
 		 */
-		return apply_filters( 'ctct_custom_spam_message', $error, $post_id );
+		return apply_filters( 'ctct_custom_spam_message', $error, $post_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 	}
 }
