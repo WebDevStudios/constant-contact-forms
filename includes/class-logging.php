@@ -447,6 +447,7 @@ class ConstantContact_Logging {
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.2
 	 *
+	 * @param  string $dir Directory path.
 	 * @return void
 	 */
 	protected function delete_log_dir( $dir = '' ) {
