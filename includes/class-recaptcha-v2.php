@@ -86,6 +86,16 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 		$this->recaptcha_size = $size;
 	}
 
+	/**
+	 * Add script attributes.
+	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
+	 * @since  1.8.3
+	 *
+	 * @param  string $tag    Script tag.
+	 * @param  string $handle Script handle.
+	 * @return string         Script tag.
+	 */
 	public function add_script_attributes( $tag, $handle ) {
 		if ( 'recaptcha-lib-v2' !== $handle ) {
 			return $tag;
