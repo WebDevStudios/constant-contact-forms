@@ -30,8 +30,6 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	 * Retrieve inline scripts for the reCAPTCHA form instance.
 	 *
 	 * @since 1.7.0
-	 *
-	 * @return string
 	 */
 	public function enqueue_scripts() {
 		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
