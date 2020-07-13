@@ -269,7 +269,7 @@ class ConstantContact_Settings {
 				continue;
 			}
 
-			$cmb_key = array_search( $cmb->prop( 'tab_title' ), $this->metabox_titles );
+			$cmb_key = array_search( $cmb->prop( 'tab_title' ), $this->metabox_titles, true );
 
 			if ( false === $cmb_key ) {
 				continue;
@@ -995,7 +995,7 @@ class ConstantContact_Settings {
  * @param string $default Default value if no option exists.
  * @return mixed Option value.
  */
-function ctct_get_settings_option( $key = '', $default = null ) {
+function ctct_get_settings_option( $key = '', $default = null ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function is prefixed.
 	if ( function_exists( 'cmb2_get_option' ) ) {
 		return cmb2_get_option( constant_contact()->settings->key, $key, $default );
 	}

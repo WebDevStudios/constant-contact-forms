@@ -273,11 +273,11 @@ add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_re
  *
  * @since 1.2.3
  *
- * @throws Exception
+ * @throws Exception Throw Exception if error occurs during form processing.
  *
  * @return bool|array
  */
-function ctct_custom_form_action_processing() {
+function ctct_custom_form_action_processing() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function is prefixed.
 
 	$ctct_id = filter_input( INPUT_POST, 'ctct-id', FILTER_VALIDATE_INT );
 
@@ -300,7 +300,7 @@ add_action( 'wp_head', 'ctct_custom_form_action_processing' );
  *
  * @return bool
  */
-function ctct_has_forms() {
+function ctct_has_forms() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function is prefixed.
 	$args  = [
 		'post_type'      => 'ctct_forms',
 		'post_status'    => 'publish',
@@ -657,7 +657,7 @@ function constant_contact_privacy_policy_content() {
  *
  * @since 1.6.0
  *
- * @param string $status Status value to set
+ * @param string $status Status value to set.
  */
 function constant_contact_set_has_exceptions( $status = 'true' ) {
 	update_option( 'ctct_exceptions_exist', $status );
@@ -735,7 +735,7 @@ function constant_contact_get_widgets_by_form( $form_id ) {
 		$widgets = array_filter( get_option( "widget_{$widget_type}", [] ), function( $value ) use ( $data ) {
 			if ( 'ctct_form' === $data['type'] ) {
 				return absint( $value['ctct_form_id'] ) === $data['form_id'];
-			} else if ( 'text' === $data['type'] ) {
+			} elseif ( 'text' === $data['type'] ) {
 				if ( ! isset( $value['text'] ) || false === strpos( $value['text'], '[ctct' ) ) {
 					return false;
 				}
@@ -744,7 +744,7 @@ function constant_contact_get_widgets_by_form( $form_id ) {
 			return false;
 		} );
 		array_walk( $widgets, 'constant_contact_walk_widget_references', $widget_type );
-		$return  = array_merge( $return, $widgets );
+		$return = array_merge( $return, $widgets );
 	}
 
 	return $return;
@@ -763,11 +763,11 @@ function constant_contact_get_widgets_by_form( $form_id ) {
 function constant_contact_walk_widget_references( array &$value, $key, $type ) {
 	global $wp_registered_sidebars, $wp_registered_widgets;
 
-	$widget_id  = "{$type}-{$key}";
-	$sidebars   = array_keys( array_filter( get_option( 'sidebars_widgets', [] ), function( $sidebar ) use ( $widget_id ) {
-		return is_array( $sidebar ) && in_array( $widget_id, $sidebar );
+	$widget_id = "{$type}-{$key}";
+	$sidebars  = array_keys( array_filter( get_option( 'sidebars_widgets', [] ), function( $sidebar ) use ( $widget_id ) {
+		return is_array( $sidebar ) && in_array( $widget_id, $sidebar, true );
 	} ) );
-	$value = [
+	$value     = [
 		'type'    => 'widget',
 		'widget'  => $type,
 		'url'     => admin_url( 'widgets.php' ),

@@ -54,20 +54,18 @@ class ConstantContact_Process_Form {
 	 * A wrapper to process our form via AJAX.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void|array Return array of error data if error encountered, void otherwise.
 	 */
 	public function process_form_ajax_wrapper() {
 
 		// See if we're passed in data.
-		//
-		// We set to ignore this from PHPCS, as our nonce is handled elsewhere
-		// @codingStandardsIgnoreLine
-		if ( isset( $_POST['data'] ) ) { // Input var okay.
+		// We set to ignore this from PHPCS, as our nonce is handled elsewhere.
+		if ( isset( $_POST['data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-			// Form data comes over serialzied, so break it apart
-			//
-			// We set to ignore this from PHPCS, as our nonce is handled elsewhere
-			// @codingStandardsIgnoreLine
-			$data = explode( '&', $_POST['data'] );
+			// Form data comes over serialzied, so break it apart.
+			// We set to ignore this from PHPCS, as our nonce is handled elsewhere.
+			$data = explode( '&', $_POST['data'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			// Finish converting that ajax data to something we can use.
 			$json_data = [];
@@ -110,8 +108,8 @@ class ConstantContact_Process_Form {
 			switch ( $status ) {
 
 				case 'success':
-					/** This filter is documented in includes/class-process-form.php */
-					$message = apply_filters( 'ctct_process_form_success',
+					/** This filter is documented in includes/class-process-form.php */ // phpcs:ignore WebDevStudios.All.RequireAuthor.815dee87b802924681c29bc8a2de5f5271299785, WebDevStudios.All.RequireSince.13ca5a7b31977b85cc9bef96a61a278896b99d9c -- Filter documented elsewhere.
+					$message = apply_filters( 'ctct_process_form_success', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 						__( 'Your information has been submitted.', 'constant-contact-forms' ),
 						(int) $json_data['ctct-id'] );
 					break;
@@ -149,9 +147,10 @@ class ConstantContact_Process_Form {
 	/**
 	 * Process submitted form data.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to process form.
 	 *
 	 * @param array $data    Form data.
 	 * @param bool  $is_ajax Whether or not processing via AJAX.
@@ -221,7 +220,7 @@ class ConstantContact_Process_Form {
 				 * @param float  $value Threshold to require for submission approval.
 				 * @param string $value The ID of the form that was submitted.
 				 */
-				$threshold = (float) apply_filters( 'ctct_recaptcha_threshold', 0.5, $data['ctct-id'] );
+				$threshold = (float) apply_filters( 'ctct_recaptcha_threshold', 0.5, $data['ctct-id'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 
 				$ctctrecaptcha->recaptcha->setScoreThreshold( $threshold );
 				$ctctrecaptcha->recaptcha->setExpectedAction( 'constantcontactsubmit' );
@@ -248,6 +247,7 @@ class ConstantContact_Process_Form {
 		/**
 		 * Filters whether or not we think an entry is spam.
 		 *
+		 * @author Michael Beckwith <michael@webdevstudios.com>
 		 * @since 1.3.2
 		 *
 		 * @param bool  $value Whether or not we thing an entry is spam. Default not spam.
@@ -362,6 +362,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Pretty our values up.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param array $values Original values.
@@ -434,6 +435,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Gets our original field from a form id.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param int $form_id Form id.
@@ -509,6 +511,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Get field requirement errors.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param array $values Values.
@@ -568,6 +571,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Clean our values from form submission.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param array $values Values to clean.
@@ -607,9 +611,10 @@ class ConstantContact_Process_Form {
 	/**
 	 * Form submit success/error messages.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to process form wrapper.
 	 *
 	 * @param  array      $form_data Form data to process.
 	 * @param  string|int $form_id   Form ID being processed.
@@ -623,7 +628,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// @todo Utilize $form_data.
-		if ( isset( $_POST['ctct-id'] ) && $form_id !== absint( $_POST['ctct-id'] ) ) {
+		if ( isset( $_POST['ctct-id'] ) && absint( $_POST['ctct-id'] ) !== $form_id ) {
 			return false;
 		}
 
@@ -648,12 +653,13 @@ class ConstantContact_Process_Form {
 				/**
 				 * Filters the message for the successful processed form.
 				 *
+				 * @author Michael Beckwith <michael@webdevstudios.com>
 				 * @since 1.3.0
 				 *
 				 * @param string     $value Success message.
 				 * @param string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
-				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id );
+				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 				break;
 
 			case 'error':
@@ -686,6 +692,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Increment a counter for processed form submissions.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.2.2
 	 */
 	public function increment_processed_form_count() {
@@ -697,6 +704,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Check if we have all the required fields for a given form.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.3.5
 	 *
 	 * @param int   $form_id   ID of form to verify.
@@ -727,6 +735,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Gets the non-human error messeage dispalyed when we think there's a bot.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.5.0
 	 * @param int $post_id The ID of the current post.
 	 * @return string
@@ -737,11 +746,12 @@ class ConstantContact_Process_Form {
 		/**
 		 * Filter the error message displayed for suspected non-humans.
 		 *
+		 * @author Michael Beckwith <michael@webdevstudios.com>
 		 * @since 1.5.0
 		 * @param string $error The error message dispalyed.
 		 * @param mixed  $post_id The ID of the current post.
 		 * @return string
 		 */
-		return apply_filters( 'ctct_custom_spam_message', $error, $post_id );
+		return apply_filters( 'ctct_custom_spam_message', $error, $post_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 	}
 }

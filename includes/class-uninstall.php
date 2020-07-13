@@ -91,7 +91,7 @@ class ConstantContact_Uninstall {
 		 *
 		 * @param array $options One-dimensional array of option names to delete.
 		 */
-		return apply_filters( 'ctct_option_names_to_uninstall', $this->options );
+		return apply_filters( 'ctct_option_names_to_uninstall', $this->options ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 	}
 
 	/**
@@ -116,7 +116,7 @@ class ConstantContact_Uninstall {
 		 *
 		 * @param array $transients One-dimensional array of transient names to delete.
 		 */
-		return apply_filters( 'ctct_transient_names_to_uninstall', $this->transients );
+		return apply_filters( 'ctct_transient_names_to_uninstall', $this->transients ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 	}
 
 	/**
@@ -138,7 +138,7 @@ class ConstantContact_Uninstall {
 		 *
 		 * @param array $cron_hooks One-dimensional array of cron hook names to delete.
 		 */
-		return apply_filters( 'ctct_cron_hook_names_to_uninstall', $this->cron_hooks );
+		return apply_filters( 'ctct_cron_hook_names_to_uninstall', $this->cron_hooks ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 	}
 
 	/**

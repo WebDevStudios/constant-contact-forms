@@ -185,6 +185,12 @@ class ConstantContact_Logging {
 		);
 	}
 
+	/**
+	 * Set file system.
+	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
+	 * @since  1.4.5
+	 */
 	public function set_file_system() {
 		global $wp_filesystem;
 		WP_Filesystem();
@@ -441,6 +447,7 @@ class ConstantContact_Logging {
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.2
 	 *
+	 * @param  string $dir Directory path.
 	 * @return void
 	 */
 	protected function delete_log_dir( $dir = '' ) {

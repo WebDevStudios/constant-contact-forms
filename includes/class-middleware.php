@@ -1,5 +1,7 @@
 <?php
 /**
+ * Constant Contact Middleware.
+ *
  * @package ConstantContact
  * @subpackage Middleware
  * @author Constant Contact
@@ -58,8 +60,8 @@ class ConstantContact_Middleware {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $proof Proof key
-	 * @return string Signup/connect url.
+	 * @param  string $proof Proof key.
+	 * @return string        Signup/connect url.
 	 */
 	public function do_signup_url( $proof = '' ) {
 		return $this->do_connect_url( $proof, [ 'new_signup' => true ] );
@@ -129,7 +131,9 @@ class ConstantContact_Middleware {
 	/**
 	 * Verify a returned request from the auth server, and save the returned token.
 	 *
-	 * @throws Exception
+	 * @since  1.0.0
+	 *
+	 * @throws Exception Throws Exception if encountered while attempting to verify request.
 	 *
 	 * @return boolean Is valid?
 	 */
@@ -138,7 +142,7 @@ class ConstantContact_Middleware {
 		// If we get this, we'll want to start our process of
 		// verifying the proof that the middleware server gives us
 		// so that we can ignore any malicious entries that are sent to us
-		// Sanitize our expected data
+		// Sanitize our expected data.
 		$proof = isset( $_GET['proof'] ) ? sanitize_text_field( wp_unslash( $_GET['proof'] ) ) : false;
 		$token = isset( $_GET['token'] ) ? sanitize_text_field( wp_unslash( $_GET['token'] ) ) : false;
 		$key   = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : false;
@@ -156,7 +160,7 @@ class ConstantContact_Middleware {
 
 		constant_contact_maybe_log_it( 'Authentication', 'Authorization verification succeeded.' );
 
-	 	constant_contact()->connect->update_token( sanitize_text_field( $token ) );
+		constant_contact()->connect->update_token( sanitize_text_field( $token ) );
 		constant_contact()->connect->e_set( '_ctct_api_key', sanitize_text_field( $key ) );
 		return true;
 	}

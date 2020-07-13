@@ -335,7 +335,7 @@ class ConstantContact_Display {
 		 *
 		 * @param int $form_id Current form ID.
 		 */
-		do_action( 'ctct_before_form', $form_id );
+		do_action( 'ctct_before_form', $form_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 		$return .= ob_get_clean();
 
 		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
@@ -379,7 +379,7 @@ class ConstantContact_Display {
 		 *
 		 * @param int $form_id Current form ID.
 		 */
-		do_action( 'ctct_after_form', $form_id );
+		do_action( 'ctct_after_form', $form_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 		$return .= ob_get_clean();
 
 		$return .= '<script type="text/javascript">';
