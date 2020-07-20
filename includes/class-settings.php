@@ -216,7 +216,7 @@ class ConstantContact_Settings {
 	public function select_primary_menu_item( $file ) {
 		global $plugin_page;
 
-		$plugin_page = false !== strpos( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore -- Okay overriding of WP global
+		$plugin_page = false !== strpos( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- OK overriding of WP global.
 
 		return $file;
 	}
