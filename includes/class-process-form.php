@@ -108,7 +108,7 @@ class ConstantContact_Process_Form {
 			switch ( $status ) {
 
 				case 'success':
-					/** This filter is documented in includes/class-process-form.php */ // phpcs:ignore WebDevStudios.All.RequireAuthor.815dee87b802924681c29bc8a2de5f5271299785, WebDevStudios.All.RequireSince.13ca5a7b31977b85cc9bef96a61a278896b99d9c -- Filter documented elsewhere.
+					/* This filter is documented in includes/class-process-form.php */
 					$message = apply_filters( 'ctct_process_form_success', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 						__( 'Your information has been submitted.', 'constant-contact-forms' ),
 						(int) $json_data['ctct-id'] );
