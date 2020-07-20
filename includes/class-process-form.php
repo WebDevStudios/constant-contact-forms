@@ -469,38 +469,40 @@ class ConstantContact_Process_Form {
 				'required'    => isset( $field['_ctct_required_field'] ) && $field['_ctct_required_field'],
 			];
 
+			$hashed_key = md5( serialize( $field_key ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- OK use of serialize().
+
 			switch ( $field['_ctct_map_select'] ) {
 				case 'address':
-					$return[ 'street_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'street_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'street';
+					$return[ 'street_address___' . $hashed_key ]                     = $field_key;
+					$return[ 'street_address___' . $hashed_key ]['_ctct_map_select'] = 'street';
 
-					$return[ 'line_2_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'line_2_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'line_2';
+					$return[ 'line_2_address___' . $hashed_key ]                     = $field_key;
+					$return[ 'line_2_address___' . $hashed_key ]['_ctct_map_select'] = 'line_2';
 
-					$return[ 'city_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'city_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'city';
+					$return[ 'city_address___' . $hashed_key ]                     = $field_key;
+					$return[ 'city_address___' . $hashed_key ]['_ctct_map_select'] = 'city';
 
-					$return[ 'state_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'state_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'state';
+					$return[ 'state_address___' . $hashed_key ]                     = $field_key;
+					$return[ 'state_address___' . $hashed_key ]['_ctct_map_select'] = 'state';
 
-					$return[ 'zip_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'zip_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'zip';
+					$return[ 'zip_address___' . $hashed_key ]                     = $field_key;
+					$return[ 'zip_address___' . $hashed_key ]['_ctct_map_select'] = 'zip';
 
 					break;
 				case 'anniversery':
 				case 'birthday':
-					$return[ 'month___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'month___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'month';
+					$return[ 'month___' . $hashed_key ]                     = $field_key;
+					$return[ 'month___' . $hashed_key ]['_ctct_map_select'] = 'month';
 
-					$return[ 'day___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'day___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'day';
+					$return[ 'day___' . $hashed_key ]                     = $field_key;
+					$return[ 'day___' . $hashed_key ]['_ctct_map_select'] = 'day';
 
-					$return[ 'year___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'year___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'year';
+					$return[ 'year___' . $hashed_key ]                     = $field_key;
+					$return[ 'year___' . $hashed_key ]['_ctct_map_select'] = 'year';
 
 					break;
 				default:
-					$return[ $field['_ctct_map_select'] . '___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ $field['_ctct_map_select'] . '___' . $hashed_key ] = $field_key;
 					break;
 			}
 		}
