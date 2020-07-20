@@ -160,10 +160,11 @@ class ConstantContact_Settings {
 	 * @return boolean If we are on the settings page or not.
 	 */
 	public function on_settings_page() {
-
 		global $pagenow;
 
-		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && $this->key === $_GET['page'] ); // phpcs:ignore -- Okay accessing of $_GET.
+		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+
+		return ( 'edit.php' === $pagenow && ! empty( $page ) && $this->key === $page );
 	}
 
 	/**
