@@ -745,8 +745,9 @@ class ConstantContact_Settings {
 	 * @return object|array CTCT return API for contact or original $user array.
 	 */
 	public function process_optin_login_form( $user, $username, $password ) {
+		$ctct_optin_list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_NUMBER_INT );
 
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+		if ( empty( $ctct_optin_list ) ) {
 			return $user;
 		}
 
