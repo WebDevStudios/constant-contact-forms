@@ -138,14 +138,17 @@ class ConstantContact_Middleware {
 	 * @return boolean Is valid?
 	 */
 	public function verify_and_save_access_token_return() {
+		$proof = filter_input( INPUT_GET, 'proof', FILTER_SANITIZE_STRING );
+		$token = filter_input( INPUT_GET, 'token', FILTER_SANITIZE_STRING );
+		$key   = filter_input( INPUT_GET, 'key', FILTER_SANITIZE_STRING );
 
 		// If we get this, we'll want to start our process of
 		// verifying the proof that the middleware server gives us
 		// so that we can ignore any malicious entries that are sent to us
 		// Sanitize our expected data.
-		$proof = isset( $_GET['proof'] ) ? sanitize_text_field( wp_unslash( $_GET['proof'] ) ) : false;
-		$token = isset( $_GET['token'] ) ? sanitize_text_field( wp_unslash( $_GET['token'] ) ) : false;
-		$key   = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : false;
+		$proof = ! empty( $proof ) ? sanitize_text_field( $proof ) : false;
+		$token = ! empty( $token ) ? sanitize_text_field( $token ) : false;
+		$key   = ! empty( $key ) ? sanitize_text_field( $key ) : false;
 
 		// If we're missing any piece of data, we failed.
 		if ( ! $proof || ! $token || ! $key ) {
