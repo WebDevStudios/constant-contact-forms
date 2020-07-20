@@ -127,7 +127,7 @@ class ConstantContact_Display_Shortcode {
 	 * @param bool $show_title If true, show the title.
 	 */
 	public function display_form( $form_id, $show_title = false ) {
-		echo $this->get_form( absint( $form_id ), $show_title ); // WPCS: XSS Ok.
+		echo $this->get_form( absint( $form_id ), $show_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
 	}
 
 	/**

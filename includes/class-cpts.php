@@ -179,8 +179,9 @@ class ConstantContact_CPTS {
 	 * @return array appended update messages with custom post types.
 	 */
 	public function post_updated_messages( $messages ) {
-
 		global $post;
+
+		$revision = filter_input( INPUT_GET, 'revision', FILTER_SANITIZE_NUMBER_INT );
 
 		$messages['ctct_lists'] = [
 			0  => '', // Unused. Messages start at index 1.
@@ -188,9 +189,9 @@ class ConstantContact_CPTS {
 			2  => __( 'Custom field updated.', 'constant-contact-forms' ),
 			3  => __( 'Custom field deleted.', 'constant-contact-forms' ),
 			4  => __( 'List updated.', 'constant-contact-forms' ),
-			5  => isset( $_GET['revision'] ) ?
+			5  => ! empty( $revision ) ?
 				/* translators: formatted revision timestamp. */
-				sprintf( __( 'List restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) :
+				sprintf( __( 'List restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( $revision, false ) ) :
 				false,
 			6  => __( 'List published.', 'constant-contact-forms' ),
 			7  => __( 'List saved.', 'constant-contact-forms' ),
@@ -207,9 +208,9 @@ class ConstantContact_CPTS {
 			2  => __( 'Custom field updated.', 'constant-contact-forms' ),
 			3  => __( 'Custom field deleted.', 'constant-contact-forms' ),
 			4  => __( 'Form updated.', 'constant-contact-forms' ),
-			5  => isset( $_GET['revision'] ) ?
+			5  => ! empty( $revision ) ?
 				/* translators: formatted revision timestamp. */
-				sprintf( __( 'Form restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( (int) $_GET['revision'], false ) ) :
+				sprintf( __( 'Form restored to revision from %s', 'constant-contact-forms' ), wp_post_revision_title( $revision, false ) ) :
 				false,
 			6  => sprintf(
 					/* translators: form shortcode. */

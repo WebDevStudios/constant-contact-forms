@@ -232,8 +232,7 @@ class ConstantContact_Logging {
 				}
 
 				if ( is_file( $this->log_location_file ) && is_readable( $this->log_location_file ) ) {
-					// phpcs:ignore -- Not reading over network, it's on the filesystem.
-					$contents .= file_get_contents( $this->log_location_file );
+					$contents .= file_get_contents( $this->log_location_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not reading over network, it's on the filesystem.
 				}
 
 				?>

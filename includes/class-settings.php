@@ -1,4 +1,4 @@
-<?php // phpcs:ignore -- Class name okay, PSR-4.
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName -- Class name okay, PSR-4.
 /**
  * Constant Contact Settings class.
  *
@@ -160,10 +160,11 @@ class ConstantContact_Settings {
 	 * @return boolean If we are on the settings page or not.
 	 */
 	public function on_settings_page() {
-
 		global $pagenow;
 
-		return ( 'edit.php' === $pagenow && isset( $_GET['page'] ) && $this->key === $_GET['page'] ); // phpcs:ignore -- Okay accessing of $_GET.
+		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+
+		return ( 'edit.php' === $pagenow && ! empty( $page ) && $this->key === $page );
 	}
 
 	/**
@@ -215,7 +216,7 @@ class ConstantContact_Settings {
 	public function select_primary_menu_item( $file ) {
 		global $plugin_page;
 
-		$plugin_page = false !== strpos( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore -- Okay overriding of WP global
+		$plugin_page = false !== strpos( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- OK overriding of WP global.
 
 		return $file;
 	}
@@ -690,8 +691,9 @@ class ConstantContact_Settings {
 	 * @return array Comment form data.
 	 */
 	public function process_optin_comment_form( $comment_data ) {
+		$ctct_optin_list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
 
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+		if ( empty( $ctct_optin_list ) ) {
 			return $comment_data;
 		}
 
@@ -712,15 +714,14 @@ class ConstantContact_Settings {
 
 			$name    = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
 			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
+			$list    = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
 
-			if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
+			if ( empty( $list ) ) {
 				return $comment_data;
 			}
 
-			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // phpcs:ignore -- Okay accessing of $_POST.
-
 			$args = [
-				'list'       => $list,
+				'list'       => sanitize_text_field( wp_unslash( $list ) ),
 				'email'      => sanitize_email( $comment_data['comment_author_email'] ),
 				'first_name' => sanitize_text_field( $name ),
 				'last_name'  => '',
@@ -744,8 +745,9 @@ class ConstantContact_Settings {
 	 * @return object|array CTCT return API for contact or original $user array.
 	 */
 	public function process_optin_login_form( $user, $username, $password ) {
+		$ctct_optin_list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
 
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+		if ( empty( $ctct_optin_list ) ) {
 			return $user;
 		}
 
@@ -779,16 +781,16 @@ class ConstantContact_Settings {
 			$name = sanitize_text_field( $user_data->data->display_name );
 		}
 
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
+		$list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
+
+		if ( empty( $list ) ) {
 			return $user;
 		}
-
-		$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // phpcs:ignore -- Okay accessing of $_POST.
 
 		if ( $email ) {
 			$args = [
 				'email'      => $email,
-				'list'       => $list,
+				'list'       => sanitize_text_field( wp_unslash( $list ) ),
 				'first_name' => $name,
 				'last_name'  => '',
 			];
@@ -896,7 +898,7 @@ class ConstantContact_Settings {
 						<h2 class="ctct-logo"><img src="<?php echo esc_url( constant_contact()->url . '/assets/images/constant-contact-logo.png' ); ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" /></h2>
 					</div>
 					<div class="ctct-modal-body ctct-privacy-modal-body">
-						<?php echo constant_contact_privacy_policy_content(); // phpcs:ignore -- XSS Ok. ?>
+						<?php echo constant_contact_privacy_policy_content(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK. ?>
 					</div><!-- modal body -->
 					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">
 						<a class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Agree', 'constant-contact-forms' ); ?></a>
