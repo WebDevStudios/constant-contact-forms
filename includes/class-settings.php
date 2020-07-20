@@ -713,15 +713,14 @@ class ConstantContact_Settings {
 
 			$name    = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
 			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
+			$list    = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
 
-			if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
+			if ( empty( $list ) ) {
 				return $comment_data;
 			}
 
-			$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // phpcs:ignore -- Okay accessing of $_POST.
-
 			$args = [
-				'list'       => $list,
+				'list'       => sanitize_text_field( wp_unslash( $list ) ),
 				'email'      => sanitize_email( $comment_data['comment_author_email'] ),
 				'first_name' => sanitize_text_field( $name ),
 				'last_name'  => '',
@@ -781,16 +780,16 @@ class ConstantContact_Settings {
 			$name = sanitize_text_field( $user_data->data->display_name );
 		}
 
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
+		$list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
+
+		if ( empty( $list ) ) {
 			return $user;
 		}
-
-		$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // phpcs:ignore -- Okay accessing of $_POST.
 
 		if ( $email ) {
 			$args = [
 				'email'      => $email,
-				'list'       => $list,
+				'list'       => sanitize_text_field( wp_unslash( $list ) ),
 				'first_name' => $name,
 				'last_name'  => '',
 			];
