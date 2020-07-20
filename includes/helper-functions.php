@@ -218,8 +218,9 @@ add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_opt
  * @since 1.2.0
  */
 function constant_contact_privacy_ajax_handler() {
+	$agreed = filter_input( INPUT_GET, 'privacy_agree', FILTER_SANITIZE_STRING );
+	$agreed = empty( $agreed ) ? filter_input( INPUT_POST, 'privacy_agree', FILTER_SANITIZE_STRING ) : $agreed;
 
-	$agreed = filter_var( $_REQUEST['privacy_agree'], FILTER_SANITIZE_STRING );
 	update_option( 'ctct_privacy_policy_status', $agreed );
 
 	wp_send_json_success( [ 'updated' => 'true' ] );
