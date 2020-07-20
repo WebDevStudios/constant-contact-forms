@@ -177,6 +177,8 @@ class ConstantContact_Check {
 		$sslverify     = version_compare( $wp_version, 4.0, '<' );
 		$doing_wp_cron = sprintf( '%.22F', microtime( true ) );
 
+		// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Filters defined in WP Core.
+		/* This filter is documented in wp-includes/cron.php */
 		$cron_request = apply_filters( 'cron_request', [
 			'url'  => site_url( 'wp-cron.php?doing_wp_cron=' . $doing_wp_cron ),
 			'key'  => $doing_wp_cron,
@@ -186,6 +188,7 @@ class ConstantContact_Check {
 				'sslverify' => apply_filters( 'https_local_ssl_verify', $sslverify ),
 			],
 		] );
+		// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 		$cron_request['args']['blocking'] = true;
 
