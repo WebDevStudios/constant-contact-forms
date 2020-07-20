@@ -1,4 +1,4 @@
-<?php // phpcs:ignore -- Class name okay, PSR-4.
+<?php // phpcs:ignore WordPress.Files.FileName.InvalidClassFileName -- Class name okay, PSR-4.
 /**
  * Constant Contact Settings class.
  *
