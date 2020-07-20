@@ -466,11 +466,6 @@ class Constant_Contact {
 
 		$this->load_libs();
 
-		// Our vendor files will do a check for ISSSL, so we want to set it to be that. See Guzzle for more info and usage of this.
-		if ( is_ssl() || ! defined( 'ISSSL' ) ) {
-			define( 'ISSSL', true );
-		}
-
 		add_filter( 'widget_text', 'do_shortcode' );
 		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_assets' ], 1 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_front_assets' ], 1 );
