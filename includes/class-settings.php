@@ -690,7 +690,7 @@ class ConstantContact_Settings {
 	 * @return array Comment form data.
 	 */
 	public function process_optin_comment_form( $comment_data ) {
-		$ctct_optin_list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_NUMBER_INT );
+		$ctct_optin_list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
 
 		if ( empty( $ctct_optin_list ) ) {
 			return $comment_data;
@@ -745,7 +745,7 @@ class ConstantContact_Settings {
 	 * @return object|array CTCT return API for contact or original $user array.
 	 */
 	public function process_optin_login_form( $user, $username, $password ) {
-		$ctct_optin_list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_NUMBER_INT );
+		$ctct_optin_list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
 
 		if ( empty( $ctct_optin_list ) ) {
 			return $user;
