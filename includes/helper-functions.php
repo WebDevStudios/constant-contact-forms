@@ -196,8 +196,8 @@ function constant_contact_maybe_display_exceptions_notice() {
  * @since 1.2.0
  */
 function constant_contact_optin_ajax_handler() {
-
-	$optin = filter_var( $_REQUEST['optin'], FILTER_SANITIZE_STRING );
+	$optin = filter_input( INPUT_GET, 'optin', FILTER_SANITIZE_STRING );
+	$optin = empty( $optin ) ? filter_input( INPUT_POST, 'optin', FILTER_SANITIZE_STRING ) : $optin;
 
 	if ( 'on' !== $optin ) {
 		wp_send_json_success( [ 'opted-in' => 'off' ] );
