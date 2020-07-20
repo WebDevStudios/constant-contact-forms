@@ -622,13 +622,14 @@ class ConstantContact_Process_Form {
 	 * @return false|array
 	 */
 	public function process_wrapper( $form_data = [], $form_id = 0, $instance = 0 ) {
+		$ctct_id = absint( filter_input( INPUT_POST, 'ctct-id', FILTER_SANITIZE_NUMBER_INT ) );
 
-		if ( empty( $_POST['ctct-id'] ) ) {
+		if ( empty( $ctct_id ) ) {
 			return false;
 		}
 
 		// @todo Utilize $form_data.
-		if ( isset( $_POST['ctct-id'] ) && absint( $_POST['ctct-id'] ) !== $form_id ) {
+		if ( $ctct_id !== $form_id ) {
 			return false;
 		}
 
