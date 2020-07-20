@@ -897,7 +897,7 @@ class ConstantContact_Settings {
 						<h2 class="ctct-logo"><img src="<?php echo esc_url( constant_contact()->url . '/assets/images/constant-contact-logo.png' ); ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" /></h2>
 					</div>
 					<div class="ctct-modal-body ctct-privacy-modal-body">
-						<?php echo constant_contact_privacy_policy_content(); // phpcs:ignore -- XSS Ok. ?>
+						<?php echo constant_contact_privacy_policy_content(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK. ?>
 					</div><!-- modal body -->
 					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">
 						<a class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Agree', 'constant-contact-forms' ); ?></a>
