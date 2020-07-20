@@ -239,13 +239,14 @@ class ConstantContactWidget extends WP_Widget {
 					);
 				}
 			}
+
 			printf(
 				'<p><label for="%1$s">%2$s</label><select class="widefat" name="%3$s" id="%4$s">%5$s</select>',
 				esc_attr( $name ),
 				esc_html( $label_text ),
 				esc_attr( $name ),
 				esc_attr( $id ),
-				$selects
+				$selects // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
 			);
 		}
 	}
