@@ -293,6 +293,7 @@ class ConstantContact_Process_Form {
 			'ctct_usage_field',
 			'g-recaptcha-response',
 			'ctct_must_opt_in',
+			'ctct-instance',
 		], $orig_form_id );
 
 		foreach ( $data as $key => $value ) {
