@@ -56,7 +56,7 @@
 
 			var $form = $( form );
 
-			app.$c.$forms[ i ].$honeypot     = $form.find( '#ctct_usage_field' );
+			app.$c.$forms[ i ].$honeypot     = $form.find( '.ctct_usage_field' );
 			app.$c.$forms[ i ].$submitButton = $form.find( 'input[type=submit]' );
 			app.$c.$forms[ i ].$recaptcha    = $form.find( '.g-recaptcha' );
 		} );
@@ -146,15 +146,26 @@
 	 * @param {string} message The message content.
 	 * @param {string} classes Optional. HTML classes to add to the message wrapper.
 	 */
-	app.showMessage = ( $form, message, classes = '' ) => {
+	app.showMessage = ( $form, message, classes = '', role = 'log' ) => {
+
+		const $wrapper = $form.parents( '.ctct-form-wrapper' );
+
+		$wrapper.find( 'p.ctct-message' ).remove();
 
 		var $p = $( '<p />', {
 			'class': 'ctct-message ' + classes,
-			'text': message
-		} );
+			'text': message,
+			'role': role
+		} ).prepend( $( '<button />', {
+			'class': 'button button-secondary ctct-dismiss ctct-dismiss-ajax-notice',
+			'html': '&#10005;',
+			'aria-label': 'Dismiss Notification'
+		} ) );
 
-		$p.insertBefore( $form ).fadeIn( 200 ).delay( 5000 ).slideUp( 200, () => {
-			$p.remove();
+		$p.insertBefore( $form ).fadeIn( 200 );
+
+		$wrapper.find( '.ctct-dismiss-ajax-notice' ).on( 'click', function() {
+			$( this ).parents( '.ctct-message' ).remove();
 		} );
 	};
 
@@ -168,7 +179,7 @@
 	 */
 	app.submitForm = ( $form ) => {
 
-		$form.find( '#ctct-submitted' ).prop( 'disabled', true );
+		$form.find( '.ctct-submitted' ).prop( 'disabled', true );
 
 		var ajaxData = {
 			'action': 'ctct_process_form',
@@ -177,7 +188,7 @@
 
 		$.post( window.ajaxurl, ajaxData, ( response ) => {
 
-			$form.find( '#ctct-submitted' ).prop( 'disabled', false );
+			$form.find( '.ctct-submitted' ).prop( 'disabled', false );
 
 			if ( 'undefined' === typeof( response.status ) ) {
 				return false;
@@ -190,14 +201,14 @@
 					app.setAllInputsValid();
 					response.errors.forEach( app.processError );
 				} else {
-					app.showMessage( $form, response.message, 'ctct-error' );
+					app.showMessage( $form, response.message, 'ctct-error', 'alert' );
 				}
 
 				return false;
 			}
 
 			// If we're here, the submission was a success; show message and reset form fields.
-			app.showMessage( $form, response.message, 'ctct-success' );
+			app.showMessage( $form, response.message, 'ctct-success', 'status' );
 			$form[0].reset();
 		} );
 	};
