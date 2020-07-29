@@ -35,6 +35,11 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 
 == Changelog ==
 
+= 1.8.7 =
+* Improved: Implemented recommendations for improved accessibility.
+* Improved: Avoid duplicate ID attributes when more than one form is present on a page.
+* Fixed: Submit button targeting for recaptcha v2.
+
 = 1.8.6 =
 * Fixed: Removed invalid property being sent to the API, causing rejected requests.
 * Fixed: Failure to log API errors for support purposes.
