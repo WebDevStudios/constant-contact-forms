@@ -847,17 +847,19 @@ class ConstantContact_Display {
 	/**
 	 * Helper method to display label for form field + field starting markup.
 	 *
-	 * @since 1.0.0
+	 * @since  1.0.0
+	 * @since  NEXT Added $tag
 	 *
-	 * @param string  $type           Type of field.
-	 * @param string  $name           Name / id of field.
-	 * @param string  $f_id           Field ID.
-	 * @param string  $label          Label text for field.
-	 * @param boolean $req            If this field required.
-	 * @param boolean $use_label      Whether or not to use label.
+	 * @param  string  $type           Type of field.
+	 * @param  string  $name           Name / id of field.
+	 * @param  string  $f_id           Field ID.
+	 * @param  string  $label          Label text for field.
+	 * @param  boolean $req            If this field required.
+	 * @param  boolean $use_label      Whether or not to use label.
+	 * @param  string  $tag            HTML tag for field.
 	 * @return string HTML markup.
 	 */
-	public function field_top( $type = '', $name = '', $f_id = '', $label = '', $req = false, $use_label = true ) {
+	public function field_top( $type = '', $name = '', $f_id = '', $label = '', $req = false, $use_label = true, $tag = 'p' ) {
 
 		$classes = [
 			'ctct-form-field',
@@ -867,7 +869,7 @@ class ConstantContact_Display {
 			$classes[] = 'ctct-form-field-required';
 		}
 
-		$markup = '<p class="' . implode( ' ', $classes ) . '">';
+		$markup = '<' . $tag . ' class="' . implode( ' ', $classes ) . '">';
 
 		if ( ! $use_label ) {
 			$markup .= '<span class="ctct-input-container">';
@@ -879,15 +881,17 @@ class ConstantContact_Display {
 	/**
 	 * Bottom of field markup.
 	 *
-	 * @since 1.0.0
-	 * @since 1.3.5 Added $use_label
+	 * @since  1.0.0
+	 * @since  1.3.5 Added $use_label
+	 * @since  NEXT Added $tag
 	 *
-	 * @param string $name        Field name.
-	 * @param string $field_label Field label.
-	 * @param bool   $use_label   Whether or not to include label markup.
+	 * @param  string $name        Field name.
+	 * @param  string $field_label Field label.
+	 * @param  bool   $use_label   Whether or not to include label markup.
+	 * @param  string $tag         HTML tag for field.
 	 * @return string HTML markup
 	 */
-	public function field_bottom( $name = '', $field_label = '', $use_label = true ) {
+	public function field_bottom( $name = '', $field_label = '', $use_label = true, $tag = 'p' ) {
 
 		$markup = '';
 		if ( ! empty( $name ) && ! empty( $field_label ) ) {
@@ -898,7 +902,7 @@ class ConstantContact_Display {
 			$markup .= '</span>';
 		}
 
-		return $markup . '</p>';
+		return $markup . "</{$tag}>";
 	}
 
 	/**
@@ -1101,7 +1105,7 @@ class ConstantContact_Display {
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
 		$field_id              = "{$field_key}_{$instance}";
-		$label_placement_class = 'ctct-label-' . $label_placement;
+		$label_placement_class = 'ctct-label-top';
 		$value                 = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
 		$value                 = is_array( $value ) ? $value : [ $value ];
 		$label                 = esc_attr( $label );
@@ -1123,14 +1127,13 @@ class ConstantContact_Display {
 		 */
 		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $form_id, $field_key );
 
-		$markup     = $this->field_top( $type, $name, $field_key, $label, $req );
+		$markup     = $this->field_top( $type, $name, $field_key, $label, $req, true, 'div' );
 		$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 
-		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
-			$markup .= '<span class="' . $label_placement_class . '">';
-			$markup .= $this->get_label( $field_id, $name );
-			$markup .= '</span>';
-		}
+		$markup .= '<fieldset>';
+		$markup .= '<legend class="' . $label_placement_class . '">';
+		$markup .= $name;
+		$markup .= '</legend>';
 
 		$key_pieces = explode( '___', $field_key );
 		$total      = count( $value );
@@ -1176,16 +1179,12 @@ class ConstantContact_Display {
 			$count++;
 		}
 
-		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
-			$markup .= '<span class="' . $label_placement_class . '">';
-			$markup .= $this->get_label( $field_id, $name );
-			$markup .= '</span>';
-		}
+		$markup .= '</fieldset>';
 
 		if ( $field_error ) {
-			$markup .= $this->field_bottom( $field_id, $field_error );
+			$markup .= $this->field_bottom( $field_id, $field_error, true, 'div' );
 		} else {
-			$markup .= $this->field_bottom();
+			$markup .= $this->field_bottom( '', '', true, 'div' );
 		}
 
 		// If only one list displayed, hide input.
