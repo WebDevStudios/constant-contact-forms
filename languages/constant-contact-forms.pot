@@ -1068,96 +1068,96 @@ msgstr ""
 msgid "Constant Contact Use."
 msgstr ""
 
-#: includes/class-display.php:671, includes/class-display.php:1756
+#: includes/class-display.php:671, includes/class-display.php:1758
 msgid "Error: Please correct your entry."
 msgstr ""
 
-#: includes/class-display.php:1329
+#: includes/class-display.php:1331
 msgid "Street Address"
 msgstr ""
 
-#: includes/class-display.php:1330
+#: includes/class-display.php:1332
 msgid "Address Line 2"
 msgstr ""
 
-#: includes/class-display.php:1331
+#: includes/class-display.php:1333
 msgid "City"
 msgstr ""
 
-#: includes/class-display.php:1332
+#: includes/class-display.php:1334
 msgid "State"
 msgstr ""
 
-#: includes/class-display.php:1333
+#: includes/class-display.php:1335
 msgid "ZIP Code"
 msgstr ""
 
-#: includes/class-display.php:1523
+#: includes/class-display.php:1525
 msgid "Month"
 msgstr ""
 
-#: includes/class-display.php:1524
+#: includes/class-display.php:1526
 msgid "Day"
 msgstr ""
 
-#: includes/class-display.php:1525
+#: includes/class-display.php:1527
 msgid "Year"
 msgstr ""
 
-#: includes/class-display.php:1641
+#: includes/class-display.php:1643
 msgid "January"
 msgstr ""
 
-#: includes/class-display.php:1642
+#: includes/class-display.php:1644
 msgid "February"
 msgstr ""
 
-#: includes/class-display.php:1643
+#: includes/class-display.php:1645
 msgid "March"
 msgstr ""
 
-#: includes/class-display.php:1644
+#: includes/class-display.php:1646
 msgid "April"
 msgstr ""
 
-#: includes/class-display.php:1645
+#: includes/class-display.php:1647
 msgid "May"
 msgstr ""
 
-#: includes/class-display.php:1646
+#: includes/class-display.php:1648
 msgid "June"
 msgstr ""
 
-#: includes/class-display.php:1647
+#: includes/class-display.php:1649
 msgid "July "
 msgstr ""
 
-#: includes/class-display.php:1648
+#: includes/class-display.php:1650
 msgid "August"
 msgstr ""
 
-#: includes/class-display.php:1649
+#: includes/class-display.php:1651
 msgid "September"
 msgstr ""
 
-#: includes/class-display.php:1650
+#: includes/class-display.php:1652
 msgid "October"
 msgstr ""
 
-#: includes/class-display.php:1651
+#: includes/class-display.php:1653
 msgid "November"
 msgstr ""
 
-#: includes/class-display.php:1652
+#: includes/class-display.php:1654
 msgid "December"
 msgstr ""
 
 #. translators: placeholder will hold company info for site owner.
-#: includes/class-display.php:1827
+#: includes/class-display.php:1829
 msgid "By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s"
 msgstr ""
 
-#: includes/class-display.php:1834
+#: includes/class-display.php:1836
 msgid "Emails are serviced by Constant Contact"
 msgstr ""
 
