@@ -44,5 +44,15 @@
 	.ctct-form-field-checkbox {
 		max-height: 20rem;
 		overflow-y: auto;
+
+		fieldset {
+			border: none;
+			padding: 0;
+
+			legend {
+				font-weight: normal;
+				padding: 0;
+			}
+		}
 	}
 }
