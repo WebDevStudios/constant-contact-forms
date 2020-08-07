@@ -86,7 +86,7 @@ class ConstantContact_Settings {
 		add_filter( 'preprocess_comment', [ $this, 'process_optin_comment_form' ] );
 		add_filter( 'authenticate', [ $this, 'process_optin_login_form' ], 10, 3 );
 		add_action( 'cmb2_save_field__ctct_logging', [ $this, 'maybe_init_logs' ], 10, 3 );
-		add_filter( 'ctct_custom_spam_message', [ $this, 'get_spam_error_message' ], 10, 2 );
+		add_filter( 'constant_contact_custom_spam_message', [ $this, 'get_spam_error_message' ], 10, 2 );
 	}
 
 	/**
