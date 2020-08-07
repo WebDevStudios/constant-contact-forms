@@ -87,11 +87,23 @@ class ConstantContact_Uninstall {
 		/**
 		 * Allows filtering which options are deleted upon plugin deactivation.
 		 *
+		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @since 1.6.0
 		 *
 		 * @param array $options One-dimensional array of option names to delete.
 		 */
-		return apply_filters( 'ctct_option_names_to_uninstall', $this->options ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+		$options = apply_filters_deprecated( 'ctct_option_names_to_uninstall', [ $this->options ], 'NEXT', 'constant_contact_option_names_to_uninstall' );
+
+		/**
+		 * Filters which options are deleted when plugin is uninstalled.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  NEXT
+		 *
+		 * @param  array $options Options to be deleted.
+		 */
+		return apply_filters( 'constant_contact_option_names_to_uninstall', $options );
 	}
 
 	/**
