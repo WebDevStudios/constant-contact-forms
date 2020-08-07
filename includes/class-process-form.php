@@ -659,9 +659,10 @@ class ConstantContact_Process_Form {
 				/**
 				 * Filters the message for the successful processed form.
 				 *
+				 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+				 *
 				 * @author Michael Beckwith <michael@webdevstudios.com>
 				 * @since  1.3.0
-				 * @deprecated deprecated since NEXT
 				 *
 				 * @param  string     $value Success message.
 				 * @param  string/int $form_id ID of the Constant Contact form being submitted to.
