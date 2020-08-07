@@ -108,10 +108,13 @@ class ConstantContact_Process_Form {
 			switch ( $status ) {
 
 				case 'success':
+					$form_id = (int) $json_data['ctct-id'];
+
+					/* This deprecated filter is documented in includes/class-process-form.php */
+					$message = apply_filters_deprecated( 'ctct_process_form_success', [ __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ], 'NEXT', 'constant_contact_process_form_success' );
+
 					/* This filter is documented in includes/class-process-form.php */
-					$message = apply_filters( 'ctct_process_form_success', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
-						__( 'Your information has been submitted.', 'constant-contact-forms' ),
-						(int) $json_data['ctct-id'] );
+					$message = apply_filters( 'constant_contact_process_form_success', $message, $form_id );
 					break;
 
 				case 'error':
