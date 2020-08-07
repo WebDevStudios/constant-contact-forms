@@ -991,25 +991,45 @@ class ConstantContact_Settings {
 /**
  * Wrapper function around cmb2_get_option.
  *
- * @since 1.0.0
+ * @deprecated NEXT Deprecated in favor of properly-prefixed function name.
  *
- * @param string $key     Options array key.
- * @param string $default Default value if no option exists.
- * @return mixed Option value.
+ * @since  1.0.0
+ *
+ * @param  string $key     Options array key.
+ * @param  string $default Default value if no option exists.
+ * @return mixed           Option value.
  */
 function ctct_get_settings_option( $key = '', $default = null ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function is prefixed.
+	_deprecated_function( __FUNCTION__, 'NEXT', 'constant_contact_get_option' );
+
+	return constant_contact_get_option( $key, $default );
+}
+
+/**
+ * Retrieve option value.
+ *
+ * Wrapper for `cmb2_get_option` to provide fallback when that function is not available.
+ *
+ * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+ * @since  NEXT
+ *
+ * @param  string $key     Option key.
+ * @param  mixed  $default Default option value.
+ * @return mixed           Option value.
+ */
+function constant_contact_get_option( $key = '', $default = null ) {
 	if ( function_exists( 'cmb2_get_option' ) ) {
 		return cmb2_get_option( constant_contact()->settings->key, $key, $default );
 	}
 
-	$opts = get_option( constant_contact()->settings->key, $key, $default );
-	$val  = $default;
+	$options = get_option( constant_contact()->settings->key, $key, $default );
+	$value   = $default;
 
 	if ( 'all' === $key ) {
-		$val = $opts;
-	} elseif ( is_array( $opts ) && array_key_exists( $key, $opts ) && false !== $opts[ $key ] ) {
-		$val = $opts[ $key ];
+		$value = $options;
+	} elseif ( is_array( $options ) && array_key_exists( $key, $options ) && false !== $options[ $key ] ) {
+		$value = $options[ $key ];
 	}
 
-	return $val;
+	return $value;
 }
