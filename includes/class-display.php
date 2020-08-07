@@ -386,14 +386,28 @@ class ConstantContact_Display {
 		$return .= '</form>';
 
 		ob_start();
+
 		/**
 		 * Fires after the end of the form tag.
+		 *
+		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
 		 *
 		 * @since 1.4.0
 		 *
 		 * @param int $form_id Current form ID.
 		 */
-		do_action( 'ctct_after_form', $form_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+		do_action_deprecated( 'ctct_after_form', [ $form_id ], 'NEXT', 'constant_contact_before_form' );
+
+		/**
+		 * Fires after the closing form tag.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  NEXT
+		 *
+		 * @param int $form_id Current form ID.
+		 */
+		do_action( 'constant_contact_after_form', $form_id );
+
 		$return .= ob_get_clean();
 
 		$return .= '<script type="text/javascript">';
