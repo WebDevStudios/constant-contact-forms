@@ -663,7 +663,18 @@ class ConstantContact_Process_Form {
 				 * @param  string     $value Success message.
 				 * @param  string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
-				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+				$message = apply_filters_deprecated( 'ctct_process_form_success', [ __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ], 'NEXT', 'constant_contact_process_form_success' );
+
+				/**
+				 * Filters the message for the successful processed form.
+				 *
+				 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+				 * @since  NEXT
+				 *
+				 * @param  string     $value   Success message.
+				 * @param  string|int $form_id Constant Contact form ID.
+				 */
+				$message = apply_filters( 'constant_contact_process_form_success', $message, $form_id );
 				break;
 
 			case 'error':
