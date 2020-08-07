@@ -213,17 +213,33 @@ class ConstantContact_Process_Form {
 
 			$ctctrecaptcha->recaptcha->setExpectedHostname( wp_parse_url( home_url(), PHP_URL_HOST ) );
 			if ( 'v3' === $ctctrecaptcha->get_recaptcha_version() ) {
+
 				/**
 				 * Filters the default float value for the score threshold.
 				 *
 				 * This value should be between 0.0 and 1.0.
+				 *
+				 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
 				 *
 				 * @since 1.7.0
 				 *
 				 * @param float  $value Threshold to require for submission approval.
 				 * @param string $value The ID of the form that was submitted.
 				 */
-				$threshold = (float) apply_filters( 'ctct_recaptcha_threshold', 0.5, $data['ctct-id'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+				$threshold = apply_filters_deprecated( 'ctct_recaptcha_threshold', [ 0.5, $data['ctct-id'] ], 'NEXT', 'constant_contact_recaptcha_threshold' );
+
+				/**
+				 * Filters the default float value for the score threshold.
+				 *
+				 * This value should be between 0.0 and 1.0.
+				 *
+				 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+				 * @since  NEXT
+				 *
+				 * @param  float  $value Required threshold value.
+				 * @param  string $value Form ID.
+				 */
+				$threshold = (float) apply_filters( 'constant_contact_recaptcha_threshold', 0.5, $data['ctct-id'] );
 
 				$ctctrecaptcha->recaptcha->setScoreThreshold( $threshold );
 				$ctctrecaptcha->recaptcha->setExpectedAction( 'constantcontactsubmit' );
