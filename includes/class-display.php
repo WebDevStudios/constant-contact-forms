@@ -110,12 +110,12 @@ class ConstantContact_Display {
 
 		$global_form_css = [];
 
-		$global_form_classes = ctct_get_settings_option( '_ctct_form_custom_classes' );
+		$global_form_classes = constant_contact_get_option( '_ctct_form_custom_classes' );
 		if ( $global_form_classes ) {
 			$global_form_css['global_form_classes'] = $global_form_classes;
 		}
 
-		$global_label_placement = ctct_get_settings_option( 'ctct_form_label_placement' );
+		$global_label_placement = constant_contact_get_option( 'ctct_form_label_placement' );
 		if ( $global_label_placement ) {
 			$global_form_css['global_label_placement'] = $global_label_placement;
 		}
@@ -363,7 +363,7 @@ class ConstantContact_Display {
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors );
 
 		if ( ! $disable_recaptcha && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
-			$recaptcha_version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );
+			$recaptcha_version = constant_contact_get_option( '_ctct_recaptcha_version', '' );
 			if ( 'v2' === $recaptcha_version ) {
 				$return .= $this->build_recaptcha( $form_id );
 			}

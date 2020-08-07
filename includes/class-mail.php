@@ -65,7 +65,7 @@ class ConstantContact_Mail {
 
 		if ( $add_to_opt_in && constant_contact()->api->is_connected() ) {
 
-			$maybe_bypass = ctct_get_settings_option( '_ctct_bypass_cron', '' );
+			$maybe_bypass = constant_contact_get_option( '_ctct_bypass_cron', '' );
 
 			if ( 'on' !== $maybe_bypass ) {
 				/**
