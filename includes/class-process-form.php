@@ -75,6 +75,10 @@ class ConstantContact_Process_Form {
 			if ( is_array( $data ) ) {
 				foreach ( $data as $field ) {
 
+					// Decode characters in field string.
+					// Used to recover array field values.
+					$field = urldecode( $field );
+
 					// @codingStandardsIgnoreStart
 					// Our data looks like this:
 					// Array (
@@ -87,8 +91,19 @@ class ConstantContact_Process_Form {
 					$exp_fields = explode( '=', $field, 2 );
 
 					if ( isset( $exp_fields[0] ) && $exp_fields[0] ) {
-						$value                                    = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
-						$json_data[  esc_attr( $exp_fields[0] ) ] = sanitize_text_field( $value );
+						$value     = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
+						$field_key = $exp_fields[0];
+
+						if ( stristr( $field_key, '[]' ) ) {
+							$field_key = explode( '[]', $field_key );
+							$field_key = $field_key[0];
+
+							$json_data[ esc_attr( $field_key ) ][] = sanitize_text_field( $value );
+
+							continue;
+						}
+
+						$json_data[  esc_attr( $field_key ) ] = sanitize_text_field( $value );
 					}
 				}
 			}
@@ -298,7 +313,7 @@ class ConstantContact_Process_Form {
 
 		foreach ( $data as $key => $value ) {
 
-			if ( ! is_string( $value ) ) {
+			if ( ! is_string( $value ) && ! is_array( $value ) ) {
 				continue;
 			}
 
@@ -308,7 +323,7 @@ class ConstantContact_Process_Form {
 
 			$return['values'][] = [
 				'key'   => sanitize_text_field( $key ),
-				'value' => sanitize_text_field( $value ),
+				'value' => is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value ),
 			];
 		}
 
@@ -316,7 +331,17 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
-		$field_errors = $this->get_field_errors( $this->clean_values( $return['values'] ), $is_ajax );
+		$cleaned_values = $this->clean_values( $return['values'] );
+
+		// Require at least one list to be selected.
+		if ( ! isset( $cleaned_values['ctct-lists'] ) || empty( $cleaned_values['ctct-lists'] ) ) {
+			return [
+				'status' => 'named_error',
+				'error'  => __( 'Please select at least one list to subscribe to.', 'constant-contact-forms' ),
+			];
+		}
+
+		$field_errors = $this->get_field_errors( $cleaned_values, $is_ajax );
 
 		if ( is_array( $field_errors ) && ! empty( $field_errors ) ) {
 
@@ -594,9 +619,12 @@ class ConstantContact_Process_Form {
 				continue;
 			}
 
-			$return_values[ sanitize_text_field( $value['key'] ) ] = [
-				'key'      => sanitize_text_field( $key_break[0] ),
-				'value'    => sanitize_text_field( $value['value'] ),
+			$clean_key = $key_break[0];
+			$field_key = 'lists' === $clean_key ? 'ctct-lists' : $value['key'];
+
+			$return_values[ sanitize_text_field( $field_key ) ] = [
+				'key'      => sanitize_text_field( $clean_key ),
+				'value'    => is_array( $value['value'] ) ? array_map( 'sanitize_text_field', $value['value'] ) : sanitize_text_field( $value['value'] ),
 				'orig_key' => $value['key'],
 			];
 		}

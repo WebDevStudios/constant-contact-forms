@@ -88,6 +88,7 @@ class ConstantContact_Mail {
 		$submission_details['form_id']         = $values['ctct-id']['value'];
 		$submission_details['submitted_email'] = $this->get_user_email_from_submission( $values );
 
+		$lists  = isset( $values['ctct-lists'] ) ? $values['ctct-lists'] : [];
 		$values = constant_contact()->process_form->pretty_values( $values );
 
 		$email_values = $this->format_values_for_email( $values, $submission_details['form_id'] );
@@ -108,13 +109,9 @@ class ConstantContact_Mail {
 			// phpcs:enable WordPress.Security.NonceVerification
 		}
 
-		// This would allow for setting each sections error and also allow for returning early again for cases
-		// like having a list, but not needing to opt in.
-		$has_list = get_post_meta( $submission_details['form_id'], '_ctct_list', true );
-
 		$emails_disabled = constant_contact_emails_disabled( $submission_details['form_id'] );
 
-		if ( ( ! constant_contact()->api->is_connected() || empty( $has_list ) ) && $emails_disabled ) {
+		if ( ( ! constant_contact()->api->is_connected() || empty( $lists ) ) && $emails_disabled ) {
 
 			// If we're not connected or have no list set AND we've disabled. Override.
 			$submission_details['list-available'] = 'no';
@@ -136,8 +133,8 @@ class ConstantContact_Mail {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $values Submitted values.
-	 * @return object|null Response from API.
+	 * @param  array $values Submitted values.
+	 * @return array|void    Response from API.
 	 */
 	public function opt_in_user( $values ) {
 
@@ -146,24 +143,29 @@ class ConstantContact_Mail {
 			$orig = sanitize_text_field( isset( $val['orig_key'] ) ? $val['orig_key'] : '' );
 			$val  = sanitize_text_field( isset( $val['value'] ) ? $val['value'] : '' );
 
-			if ( $key && ( 'ctct-opt-in' !== $key ) && ( 'ctct-id' !== $key ) ) {
+			if ( empty( $key ) || in_array( $key, [ 'ctct-opt-in', 'ctct-id', 'ctct-lists' ], true ) ) {
+				continue;
+			}
 
-				$args[ $orig ] = [
-					'key' => $key,
-					'val' => $val,
-				];
+			$args[ $orig ] = [
+				'key' => $key,
+				'val' => $val,
+			];
 
-				if ( 'email' === $key ) {
-					$args['email'] = $val;
-				}
+			if ( 'email' === $key ) {
+				$args['email'] = $val;
 			}
 		}
 
-		if ( isset( $values['ctct-opt-in'] ) && isset( $values['ctct-opt-in']['value'] ) ) {
-			$args['list'] = sanitize_text_field( $values['ctct-opt-in']['value'] );
-
-			return constantcontact_api()->add_contact( $args, $values['ctct-id']['value'] );
+		if ( ! isset( $values['ctct-opt-in'] ) || ! isset( $values['ctct-lists'] ) || empty( $values['ctct-lists'] ) ) {
+			return;
 		}
+
+		$lists        = isset( $values['ctct-lists'] ) ? $values['ctct-lists'] : [];
+		$lists        = isset( $lists['value'] ) ? $lists['value'] : [];
+		$args['list'] = is_array( $lists ) ? array_map( 'sanitize_text_field', $lists ) : sanitize_text_field( $lists );
+
+		return constantcontact_api()->add_contact( $args, $values['ctct-id']['value'] );
 	}
 
 	/**
