@@ -348,11 +348,23 @@ class ConstantContact_Lists {
 		/**
 		 * Hook when a ctct list is updated.
 		 *
+		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @since 1.0.0
 		 *
 		 * @param array $lists_to_insert CTCT returned list data.
 		 */
-		do_action( 'ctct_sync_lists', $lists_to_insert ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+		do_action_deprecated( 'ctct_sync_lists', [ $lists_to_insert ], 'NEXT', 'constant_contact_sync_lists' );
+
+		/**
+		 * Fires after lists synced.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  NEXT
+		 *
+		 * @param  array $lists_to_insert Synced Constant Contact lists.
+		 */
+		do_action( 'constant_contact_sync_lists', $lists_to_insert );
 	}
 
 	/**
