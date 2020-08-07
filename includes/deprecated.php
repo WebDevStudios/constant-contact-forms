@@ -43,3 +43,18 @@ function ctct_custom_form_action_processing() {
 
 	return constant_contact_process_form_custom();
 }
+
+/**
+ * Determine if we have any Constant Contact Forms published.
+ *
+ * @deprecated NEXT Deprecated in favor of properly-prefixed function name.
+ *
+ * @since 1.2.5
+ *
+ * @return bool
+ */
+function ctct_has_forms() {
+	_deprecated_function( __FUNCTION__, 'NEXT', 'constant_contact_has_forms' );
+
+	return constant_contact_has_forms();
+}

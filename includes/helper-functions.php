@@ -293,19 +293,21 @@ function constant_contact_process_form_custom() {
 add_action( 'wp_head', 'constant_contact_process_form_custom' );
 
 /**
- * Determine if we have any Constant Contact Forms published.
+ * Check if any published Constant Contact forms exist.
  *
- * @since 1.2.5
+ * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+ * @since  NEXT
  *
- * @return bool
+ * @return bool Whether published forms exist.
  */
-function ctct_has_forms() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function is prefixed.
+function constant_contact_has_forms() {
 	$args  = [
 		'post_type'      => 'ctct_forms',
 		'post_status'    => 'publish',
 		'posts_per_page' => 1,
 	];
 	$forms = new WP_Query( $args );
+
 	return $forms->have_posts();
 }
 
