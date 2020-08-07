@@ -689,12 +689,25 @@ class ConstantContact_Lists {
 		/**
 		 * Hook when a ctct list is deleted.
 		 *
+		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @since 1.0.0
 		 *
 		 * @param integer $post_id Form list ID that was deleted.
 		 * @param integer $list_id Constant Contact list ID.
 		 */
-		do_action( 'ctct_delete_list', $post_id, $list_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+		do_action_deprecated( 'ctct_delete_list', [ $post_id, $list_id ], 'NEXT', 'constant_contact_delete_list' );
+
+		/**
+		 * Fires when a list is deleted.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  NEXT
+		 *
+		 * @param  integer $post_id Form post ID.
+		 * @param  integer $list_id CTCT list ID.
+		 */
+		do_action( 'constant_contact_delete_list', $post_id, $list_id );
 
 		return $list;
 	}
