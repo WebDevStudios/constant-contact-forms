@@ -781,12 +781,26 @@ class ConstantContact_Process_Form {
 		/**
 		 * Filter the error message displayed for suspected non-humans.
 		 *
+		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @author Michael Beckwith <michael@webdevstudios.com>
 		 * @since 1.5.0
 		 * @param string $error The error message dispalyed.
 		 * @param mixed  $post_id The ID of the current post.
 		 * @return string
 		 */
-		return apply_filters( 'ctct_custom_spam_message', $error, $post_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+		$error = apply_filters_deprecated( 'ctct_custom_spam_message', [ $error, $post_id ], 'NEXT', 'constant_contact_custom_spam_message' );
+
+		/**
+		 * Filters error message for suspected spam entries.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  NEXT
+		 *
+		 * @param  string     $error   Error message.
+		 * @param  int|string $post_id Current post ID.
+		 * @return string              Error message.
+		 */
+		return apply_filters( 'constant_contact_custom_spam_message', $error, $post_id );
 	}
 }
