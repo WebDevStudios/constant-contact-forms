@@ -657,10 +657,11 @@ class ConstantContact_Process_Form {
 				 * Filters the message for the successful processed form.
 				 *
 				 * @author Michael Beckwith <michael@webdevstudios.com>
-				 * @since 1.3.0
+				 * @since  1.3.0
+				 * @deprecated deprecated since NEXT
 				 *
-				 * @param string     $value Success message.
-				 * @param string/int $form_id ID of the Constant Contact form being submitted to.
+				 * @param  string     $value Success message.
+				 * @param  string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
 				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
 				break;
