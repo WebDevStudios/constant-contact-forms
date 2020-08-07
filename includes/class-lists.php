@@ -486,13 +486,27 @@ class ConstantContact_Lists {
 		/**
 		 * Hook when a ctct list is saved.
 		 *
+		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @since 1.0.0
 		 *
 		 * @param integer $post_id CPT post id.
 		 * @param integer $list_id Ctct list id.
 		 * @param array   $list    Ctct returned list data.
 		 */
-		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+		do_action_deprecated( 'ctct_update_list', [ $ctct_list->ID, $list_id, $list ], 'NEXT', 'constant_contact_update_list' );
+
+		/**
+		 * Fires when a list is updated.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  NEXT
+		 *
+		 * @param  integer $post_id Form post ID.
+		 * @param  integer $list_id CTCT list ID.
+		 * @param  array   $list    CTCT list data.
+		 */
+		do_action( 'constant_contact_update_list', $ctct_list->ID, $list_id, $list );
 
 		return is_object( $list ) && isset( $list->id );
 	}
