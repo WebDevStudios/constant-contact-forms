@@ -239,7 +239,7 @@ class ConstantContact_Process_Form {
 				 * @param  float  $value Required threshold value.
 				 * @param  string $value Form ID.
 				 */
-				$threshold = (float) apply_filters( 'constant_contact_recaptcha_threshold', 0.5, $data['ctct-id'] );
+				$threshold = (float) apply_filters( 'constant_contact_recaptcha_threshold', $threshold, $data['ctct-id'] );
 
 				$ctctrecaptcha->recaptcha->setScoreThreshold( $threshold );
 				$ctctrecaptcha->recaptcha->setExpectedAction( 'constantcontactsubmit' );
