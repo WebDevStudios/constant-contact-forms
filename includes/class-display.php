@@ -396,7 +396,7 @@ class ConstantContact_Display {
 		 *
 		 * @param int $form_id Current form ID.
 		 */
-		do_action_deprecated( 'ctct_after_form', [ $form_id ], 'NEXT', 'constant_contact_before_form' );
+		do_action_deprecated( 'ctct_after_form', [ $form_id ], 'NEXT', 'constant_contact_after_form' );
 
 		/**
 		 * Fires after the closing form tag.
