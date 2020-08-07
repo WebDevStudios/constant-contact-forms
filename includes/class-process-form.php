@@ -108,10 +108,13 @@ class ConstantContact_Process_Form {
 			switch ( $status ) {
 
 				case 'success':
-					/** This filter is documented in includes/class-process-form.php */ // phpcs:ignore WebDevStudios.All.RequireAuthor.815dee87b802924681c29bc8a2de5f5271299785, WebDevStudios.All.RequireSince.13ca5a7b31977b85cc9bef96a61a278896b99d9c -- Filter documented elsewhere.
-					$message = apply_filters( 'ctct_process_form_success', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
-						__( 'Your information has been submitted.', 'constant-contact-forms' ),
-						(int) $json_data['ctct-id'] );
+					$form_id = (int) $json_data['ctct-id'];
+
+					/* This deprecated filter is documented in includes/class-process-form.php */
+					$message = apply_filters_deprecated( 'ctct_process_form_success', [ __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ], 'NEXT', 'constant_contact_process_form_success' );
+
+					/* This filter is documented in includes/class-process-form.php */
+					$message = apply_filters( 'constant_contact_process_form_success', $message, $form_id );
 					break;
 
 				case 'error':
@@ -210,17 +213,33 @@ class ConstantContact_Process_Form {
 
 			$ctctrecaptcha->recaptcha->setExpectedHostname( wp_parse_url( home_url(), PHP_URL_HOST ) );
 			if ( 'v3' === $ctctrecaptcha->get_recaptcha_version() ) {
+
 				/**
 				 * Filters the default float value for the score threshold.
 				 *
 				 * This value should be between 0.0 and 1.0.
+				 *
+				 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
 				 *
 				 * @since 1.7.0
 				 *
 				 * @param float  $value Threshold to require for submission approval.
 				 * @param string $value The ID of the form that was submitted.
 				 */
-				$threshold = (float) apply_filters( 'ctct_recaptcha_threshold', 0.5, $data['ctct-id'] ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+				$threshold = apply_filters_deprecated( 'ctct_recaptcha_threshold', [ 0.5, $data['ctct-id'] ], 'NEXT', 'constant_contact_recaptcha_threshold' );
+
+				/**
+				 * Filters the default float value for the score threshold.
+				 *
+				 * This value should be between 0.0 and 1.0.
+				 *
+				 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+				 * @since  NEXT
+				 *
+				 * @param  float  $value Required threshold value.
+				 * @param  string $value Form ID.
+				 */
+				$threshold = (float) apply_filters( 'constant_contact_recaptcha_threshold', $threshold, $data['ctct-id'] );
 
 				$ctctrecaptcha->recaptcha->setScoreThreshold( $threshold );
 				$ctctrecaptcha->recaptcha->setExpectedAction( 'constantcontactsubmit' );
@@ -332,7 +351,7 @@ class ConstantContact_Process_Form {
 		} else {
 
 			// No need to check for opt in status because we would have returned early by now if false.
-			$maybe_bypass = ctct_get_settings_option( '_ctct_bypass_cron', '' );
+			$maybe_bypass = constant_contact_get_option( '_ctct_bypass_cron', '' );
 
 			if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
 				constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
@@ -656,13 +675,26 @@ class ConstantContact_Process_Form {
 				/**
 				 * Filters the message for the successful processed form.
 				 *
-				 * @author Michael Beckwith <michael@webdevstudios.com>
-				 * @since 1.3.0
+				 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
 				 *
-				 * @param string     $value Success message.
-				 * @param string/int $form_id ID of the Constant Contact form being submitted to.
+				 * @author Michael Beckwith <michael@webdevstudios.com>
+				 * @since  1.3.0
+				 *
+				 * @param  string     $value Success message.
+				 * @param  string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
-				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+				$message = apply_filters_deprecated( 'ctct_process_form_success', [ __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ], 'NEXT', 'constant_contact_process_form_success' );
+
+				/**
+				 * Filters the message for the successful processed form.
+				 *
+				 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+				 * @since  NEXT
+				 *
+				 * @param  string     $value   Success message.
+				 * @param  string|int $form_id Constant Contact form ID.
+				 */
+				$message = apply_filters( 'constant_contact_process_form_success', $message, $form_id );
 				break;
 
 			case 'error':
@@ -749,12 +781,26 @@ class ConstantContact_Process_Form {
 		/**
 		 * Filter the error message displayed for suspected non-humans.
 		 *
+		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @author Michael Beckwith <michael@webdevstudios.com>
 		 * @since 1.5.0
 		 * @param string $error The error message dispalyed.
 		 * @param mixed  $post_id The ID of the current post.
 		 * @return string
 		 */
-		return apply_filters( 'ctct_custom_spam_message', $error, $post_id ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+		$error = apply_filters_deprecated( 'ctct_custom_spam_message', [ $error, $post_id ], 'NEXT', 'constant_contact_custom_spam_message' );
+
+		/**
+		 * Filters error message for suspected spam entries.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  NEXT
+		 *
+		 * @param  string     $error   Error message.
+		 * @param  int|string $post_id Current post ID.
+		 * @return string              Error message.
+		 */
+		return apply_filters( 'constant_contact_custom_spam_message', $error, $post_id );
 	}
 }

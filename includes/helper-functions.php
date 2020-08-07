@@ -270,16 +270,14 @@ function constant_contact_review_ajax_handler() {
 add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_review_ajax_handler' );
 
 /**
- * Process potential custom Constant Contact Forms action urls.
+ * Perform custom form processing.
  *
- * @since 1.2.3
+ * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+ * @since  NEXT
  *
- * @throws Exception Throw Exception if error occurs during form processing.
- *
- * @return bool|array
+ * @return mixed Results of form processing, false if no processing performed.
  */
-function ctct_custom_form_action_processing() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function is prefixed.
-
+function constant_contact_process_form_custom() {
 	$ctct_id = filter_input( INPUT_POST, 'ctct-id', FILTER_VALIDATE_INT );
 
 	if ( false === $ctct_id ) {
@@ -292,22 +290,24 @@ function ctct_custom_form_action_processing() { // phpcs:ignore WordPress.Naming
 
 	return constant_contact()->process_form->process_form();
 }
-add_action( 'wp_head', 'ctct_custom_form_action_processing' );
+add_action( 'wp_head', 'constant_contact_process_form_custom' );
 
 /**
- * Determine if we have any Constant Contact Forms published.
+ * Check if any published Constant Contact forms exist.
  *
- * @since 1.2.5
+ * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+ * @since  NEXT
  *
- * @return bool
+ * @return bool Whether published forms exist.
  */
-function ctct_has_forms() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function is prefixed.
+function constant_contact_has_forms() {
 	$args  = [
 		'post_type'      => 'ctct_forms',
 		'post_status'    => 'publish',
 		'posts_per_page' => 1,
 	];
 	$forms = new WP_Query( $args );
+
 	return $forms->have_posts();
 }
 
@@ -385,7 +385,7 @@ function constant_contact_clean_url( $url = '' ) {
  * @return bool
  */
 function constant_contact_debugging_enabled() {
-	$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
+	$debugging_enabled = constant_contact_get_option( '_ctct_logging', '' );
 
 	if ( apply_filters( 'constant_contact_force_logging', false ) ) {
 		$debugging_enabled = 'on';
@@ -568,7 +568,7 @@ function constant_contact_emails_disabled( $form_id = 0 ) {
 		$disabled = true;
 	}
 
-	$global_form_disabled = ctct_get_settings_option( '_ctct_disable_email_notifications', '' );
+	$global_form_disabled = constant_contact_get_option( '_ctct_disable_email_notifications', '' );
 	if ( 'on' === $global_form_disabled ) {
 		$disabled = true;
 	}
@@ -627,7 +627,7 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
 		}
 	}
 
-	$global_setting = ctct_get_settings_option( $customization_key );
+	$global_setting = constant_contact_get_option( $customization_key );
 
 	return ! empty( $global_setting ) ? $global_setting : '';
 }

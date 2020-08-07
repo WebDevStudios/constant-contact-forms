@@ -86,7 +86,7 @@ class ConstantContact_Settings {
 		add_filter( 'preprocess_comment', [ $this, 'process_optin_comment_form' ] );
 		add_filter( 'authenticate', [ $this, 'process_optin_login_form' ], 10, 3 );
 		add_action( 'cmb2_save_field__ctct_logging', [ $this, 'maybe_init_logs' ], 10, 3 );
-		add_filter( 'ctct_custom_spam_message', [ $this, 'get_spam_error_message' ], 10, 2 );
+		add_filter( 'constant_contact_custom_spam_message', [ $this, 'get_spam_error_message' ], 10, 2 );
 	}
 
 	/**
@@ -989,27 +989,30 @@ class ConstantContact_Settings {
 }
 
 /**
- * Wrapper function around cmb2_get_option.
+ * Retrieve option value.
  *
- * @since 1.0.0
+ * Wrapper for `cmb2_get_option` to provide fallback when that function is not available.
  *
- * @param string $key     Options array key.
- * @param string $default Default value if no option exists.
- * @return mixed Option value.
+ * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+ * @since  NEXT
+ *
+ * @param  string $key     Option key.
+ * @param  mixed  $default Default option value.
+ * @return mixed           Option value.
  */
-function ctct_get_settings_option( $key = '', $default = null ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function is prefixed.
+function constant_contact_get_option( $key = '', $default = null ) {
 	if ( function_exists( 'cmb2_get_option' ) ) {
 		return cmb2_get_option( constant_contact()->settings->key, $key, $default );
 	}
 
-	$opts = get_option( constant_contact()->settings->key, $key, $default );
-	$val  = $default;
+	$options = get_option( constant_contact()->settings->key, $key, $default );
+	$value   = $default;
 
 	if ( 'all' === $key ) {
-		$val = $opts;
-	} elseif ( is_array( $opts ) && array_key_exists( $key, $opts ) && false !== $opts[ $key ] ) {
-		$val = $opts[ $key ];
+		$value = $options;
+	} elseif ( is_array( $options ) && array_key_exists( $key, $options ) && false !== $options[ $key ] ) {
+		$value = $options[ $key ];
 	}
 
-	return $val;
+	return $value;
 }
