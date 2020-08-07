@@ -158,11 +158,23 @@ class ConstantContact_Uninstall {
 		/**
 		 * Allows filtering which cron hooks are deleted upon plugin deactivation.
 		 *
+		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @since 1.6.0
 		 *
 		 * @param array $cron_hooks One-dimensional array of cron hook names to delete.
 		 */
-		return apply_filters( 'ctct_cron_hook_names_to_uninstall', $this->cron_hooks ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+		$cron_hooks = apply_filters_deprecated( 'ctct_cron_hook_names_to_uninstall', [ $this->cron_hooks ], 'NEXT', 'constant_contact_cron_hook_names_to_uninstall' );
+
+		/**
+		 * Filters which cron hooks are deleted when plugin is uninstalled.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  NEXT
+		 *
+		 * @param  array $cron_hooks Cron hooks to be deleted.
+		 */
+		return apply_filters( 'constant_contact_cron_hook_names_to_uninstall', $cron_hooks );
 	}
 
 	/**
