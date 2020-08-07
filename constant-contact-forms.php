@@ -396,6 +396,9 @@ class Constant_Contact {
 
 		// Include compatibility fixes to address conflicts with other plug-ins.
 		self::include_file( 'compatibility', false );
+
+		// Include deprecated functions.
+		self::include_file( 'deprecated', false );
 	}
 
 	/**
