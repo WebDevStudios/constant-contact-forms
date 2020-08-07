@@ -1279,7 +1279,7 @@ class ConstantContact_Display {
 			$markup = '<div class="ctct-optin-hide" style="display:none;">';
 		}
 
-		$markup .= $this->get_optin_markup( $label, '', $show, $instance );
+		$markup .= $this->get_optin_markup( $label, true, $show, $instance );
 
 		if ( ! $show ) {
 			$markup .= '</div><!--.ctct-optin-hide -->';
