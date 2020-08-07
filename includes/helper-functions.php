@@ -270,16 +270,14 @@ function constant_contact_review_ajax_handler() {
 add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_review_ajax_handler' );
 
 /**
- * Process potential custom Constant Contact Forms action urls.
+ * Perform custom form processing.
  *
- * @since 1.2.3
+ * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+ * @since  NEXT
  *
- * @throws Exception Throw Exception if error occurs during form processing.
- *
- * @return bool|array
+ * @return mixed Results of form processing, false if no processing performed.
  */
-function ctct_custom_form_action_processing() { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound -- Function is prefixed.
-
+function constant_contact_process_form_custom() {
 	$ctct_id = filter_input( INPUT_POST, 'ctct-id', FILTER_VALIDATE_INT );
 
 	if ( false === $ctct_id ) {
@@ -292,7 +290,7 @@ function ctct_custom_form_action_processing() { // phpcs:ignore WordPress.Naming
 
 	return constant_contact()->process_form->process_form();
 }
-add_action( 'wp_head', 'ctct_custom_form_action_processing' );
+add_action( 'wp_head', 'constant_contact_process_form_custom' );
 
 /**
  * Determine if we have any Constant Contact Forms published.

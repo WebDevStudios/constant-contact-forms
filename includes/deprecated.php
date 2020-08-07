@@ -26,3 +26,20 @@ function ctct_get_settings_option( $key = '', $default = null ) {
 
 	return constant_contact_get_option( $key, $default );
 }
+
+/**
+ * Process potential custom Constant Contact Forms action urls.
+ *
+ * @deprecated NEXT Deprecated in favor of properly-prefixed function name.
+ *
+ * @since  1.2.3
+ *
+ * @throws Exception Throw Exception if error occurs during form processing.
+ *
+ * @return bool|array
+ */
+function ctct_custom_form_action_processing() {
+	_deprecated_function( __FUNCTION__, 'NEXT', 'constant_contact_process_form_custom' );
+
+	return constant_contact_process_form_custom();
+}
