@@ -649,15 +649,11 @@ class ConstantContact_Lists {
 			]
 		);
 
-		/**
-		 * Hook when a ctct list is updated.
-		 *
-		 * @since 1.0.0
-		 * @param integer $post_id CPT post id.
-		 * @param integer $list_id Ctct list id.
-		 * @param array   $list    Ctct returned list data.
-		 */
-		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Hookname is prefixed.
+		/* This deprecated filter is documented in includes/class-lists.php */
+		do_action_deprecated( 'ctct_update_list', [ $ctct_list->ID, $list_id, $list ], 'NEXT', 'constant_contact_update_list' );
+
+		/* This filter is documented in includes/class-lists.php */
+		do_action( 'constant_contact_update_list', $ctct_list->ID, $list_id, $list );
 
 		return is_object( $list ) && isset( $list->id );
 	}
