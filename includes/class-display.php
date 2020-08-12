@@ -438,14 +438,14 @@ class ConstantContact_Display {
 				return false;
 			}
 
-			$return = $this->input( 'hidden', 'ctct-id', 'ctct-id', $form_id, '', '', true );
+			$return = $this->input_hidden( 'ctct-id', $form_id );
 
 			// If we have saved a verify value, add that to our field as well. this is to double-check
 			// that we have the correct form id for processing later.
 			$verify_key = get_post_meta( $form_id, '_ctct_verify_key', true );
 
 			if ( $verify_key ) {
-				$return .= $this->input( 'hidden', 'ctct-verify', 'ctct-verify', $verify_key, '', '', true );
+				$return .= $this->input_hidden( 'ctct-verify', $verify_key );
 			}
 
 			return $return;
