@@ -438,14 +438,14 @@ class ConstantContact_Display {
 				return false;
 			}
 
-			$return = $this->input( 'hidden', 'ctct-id', 'ctct-id', $form_id, '', '', true );
+			$return = $this->input_hidden( 'ctct-id', $form_id );
 
 			// If we have saved a verify value, add that to our field as well. this is to double-check
 			// that we have the correct form id for processing later.
 			$verify_key = get_post_meta( $form_id, '_ctct_verify_key', true );
 
 			if ( $verify_key ) {
-				$return .= $this->input( 'hidden', 'ctct-verify', 'ctct-verify', $verify_key, '', '', true );
+				$return .= $this->input_hidden( 'ctct-verify', $verify_key );
 			}
 
 			return $return;
@@ -698,7 +698,7 @@ class ConstantContact_Display {
 			case 'email':
 				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'hidden':
-				return $this->input( 'hidden', $name, $map, $value, $desc, $req );
+				return $this->input_hidden( $name, $value );
 			case 'checkbox':
 				return $this->checkbox( $name, $map, $value, $desc, $req, $field_error, $form_id, $label_placement, $instance );
 			case 'submit':
@@ -993,7 +993,7 @@ class ConstantContact_Display {
 		if ( $req ) {
 			$req_label = $this->display_required_indicator();
 		}
-		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
+		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) ) {
 			if ( $inline_font_styles ) {
 				$markup .= '<span class="' . $label_placement_class . '"  style="' . $inline_font_styles . '">';
 			} else {
@@ -1046,8 +1046,8 @@ class ConstantContact_Display {
 			$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 		}
 
-		/* translators: 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder (non-hidden fields only), 8: Field class(es), 9: Field ID (non-hidden fields only), 10: Tabindex (hidden fields only). */
-		$field   = '<input %1$s type="%2$s" name="%3$s" %4$s value="%5$s" %6$s %7$s %8$s %9$s %10$s />';
+		/* translators: 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID. */
+		$field   = '<input %1$s type="%2$s" name="%3$s" %4$s value="%5$s" %6$s %7$s %8$s %9$s />';
 		$markup .= sprintf(
 			$field,
 			$req_text,
@@ -1056,16 +1056,15 @@ class ConstantContact_Display {
 			$input_inline_styles,
 			$value,
 			$max_length,
-			'hidden' !== $type ? "placeholder=\"{$label}\"" : '',
+			"placeholder=\"{$label}\"",
 			$class_attr,
-			'hidden' !== $type ? "id=\"{$field_id}\"" : '',
-			'hidden' === $type ? 'tabindex="-1"' : ''
+			"id=\"{$field_id}\""
 		);
 
 		// Reassign because if we want "field only", like for hidden inputs, we need to still pass a value that went through sprintf().
 		$field = $markup;
 
-		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
+		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) ) {
 			$markup .= '<span class="' . $label_placement_class . '">';
 			$markup .= $this->get_label( $field_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
@@ -1082,6 +1081,25 @@ class ConstantContact_Display {
 		}
 
 		return $markup;
+	}
+
+	/**
+	 * Display hidden input field.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  string $name  Field name.
+	 * @param  string $value Field value.
+	 * @return string        HTML markup for field.
+	 */
+	public function input_hidden( $name = '', $value = '' ) {
+		return sprintf(
+			/* translators: 1: Field name, 2: Field value. */
+			'<input type="hidden" name="%1$s" value="%2$s" />',
+			sanitize_text_field( $name ),
+			sanitize_text_field( $value )
+		);
 	}
 
 	/**
@@ -1904,7 +1922,6 @@ class ConstantContact_Display {
 	 * @return string HTML markup for instance field.
 	 */
 	protected function create_instance_field( $instance ) {
-		$instance = absint( $instance );
-		return $this->input( 'hidden', 'ctct-instance', 'ctct-instance', $instance, '', false, true );
+		return $this->input_hidden( 'ctct-instance', absint( $instance ) );
 	}
 }
