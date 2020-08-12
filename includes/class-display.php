@@ -698,7 +698,7 @@ class ConstantContact_Display {
 			case 'email':
 				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'hidden':
-				return $this->input( 'hidden', $name, $map, $value, $desc, $req );
+				return $this->input_hidden( $name, $value );
 			case 'checkbox':
 				return $this->checkbox( $name, $map, $value, $desc, $req, $field_error, $form_id, $label_placement, $instance );
 			case 'submit':
