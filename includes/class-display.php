@@ -1085,6 +1085,25 @@ class ConstantContact_Display {
 	}
 
 	/**
+	 * Display hidden input field.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @param  string $name  Field name.
+	 * @param  string $value Field value.
+	 * @return string        HTML markup for field.
+	 */
+	public function input_hidden( $name = '', $value = '' ) {
+		return sprintf(
+			/* translators: 1: Field name, 2: Field value. */
+			'<input type="hidden" name="%1$s" value="%2$s" />',
+			sanitize_text_field( $name ),
+			sanitize_text_field( $value )
+		);
+	}
+
+	/**
 	 * Checkbox field helper method.
 	 *
 	 * @since 1.0.0
