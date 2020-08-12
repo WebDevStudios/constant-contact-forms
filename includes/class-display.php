@@ -993,7 +993,7 @@ class ConstantContact_Display {
 		if ( $req ) {
 			$req_label = $this->display_required_indicator();
 		}
-		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
+		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) ) {
 			if ( $inline_font_styles ) {
 				$markup .= '<span class="' . $label_placement_class . '"  style="' . $inline_font_styles . '">';
 			} else {
@@ -1046,8 +1046,8 @@ class ConstantContact_Display {
 			$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 		}
 
-		/* translators: 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder (non-hidden fields only), 8: Field class(es), 9: Field ID (non-hidden fields only), 10: Tabindex (hidden fields only). */
-		$field   = '<input %1$s type="%2$s" name="%3$s" %4$s value="%5$s" %6$s %7$s %8$s %9$s %10$s />';
+		/* translators: 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID. */
+		$field   = '<input %1$s type="%2$s" name="%3$s" %4$s value="%5$s" %6$s %7$s %8$s %9$s />';
 		$markup .= sprintf(
 			$field,
 			$req_text,
@@ -1056,16 +1056,15 @@ class ConstantContact_Display {
 			$input_inline_styles,
 			$value,
 			$max_length,
-			'hidden' !== $type ? "placeholder=\"{$label}\"" : '',
+			"placeholder=\"{$label}\"",
 			$class_attr,
-			'hidden' !== $type ? "id=\"{$field_id}\"" : '',
-			'hidden' === $type ? 'tabindex="-1"' : ''
+			"id=\"{$field_id}\""
 		);
 
 		// Reassign because if we want "field only", like for hidden inputs, we need to still pass a value that went through sprintf().
 		$field = $markup;
 
-		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) && ( 'hidden' !== $type ) ) {
+		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) ) {
 			$markup .= '<span class="' . $label_placement_class . '">';
 			$markup .= $this->get_label( $field_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
