@@ -450,7 +450,7 @@ class ConstantContact_Mail {
 
 		return sprintf(
 			/* Translators: placeholders simply meant for `<strong>` html tags */
-			'<p>' . esc_html__( '%1\$sNote:%2\$s You have disabled admin email notifications under the plugin settings, but are receiving this email because of the following reason.', 'constant-contact-forms' ) . '</p>',
+			'<p>' . esc_html__( '%1$sNote:%2$s You have disabled admin email notifications under the plugin settings, but are receiving this email because of the following reason.', 'constant-contact-forms' ) . '</p>',
 			'<strong>*',
 			'</strong>'
 		);
