@@ -1923,7 +1923,6 @@ class ConstantContact_Display {
 	 * @return string HTML markup for instance field.
 	 */
 	protected function create_instance_field( $instance ) {
-		$instance = absint( $instance );
-		return $this->input( 'hidden', 'ctct-instance', 'ctct-instance', $instance, '', false, true );
+		return $this->input_hidden( 'ctct-instance', absint( $instance ) );
 	}
 }
