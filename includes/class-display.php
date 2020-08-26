@@ -1033,6 +1033,8 @@ class ConstantContact_Display {
 		$max_length          = '';
 		if ( false !== strpos( $id, 'custom___' ) ) {
 			$max_length = $truncate_max_length ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
+		} elseif ( false !== strpos( $id, 'first_name___' ) || false !== strpos( $id, 'last_name___' ) ) {
+			$max_length = 'maxlength="50"';
 		}
 
 		if ( $field_error ) {
