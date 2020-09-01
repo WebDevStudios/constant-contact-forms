@@ -65,7 +65,7 @@ class ConstantContact_Mail {
 
 		if ( $add_to_opt_in && constant_contact()->api->is_connected() ) {
 
-			$maybe_bypass = ctct_get_settings_option( '_ctct_bypass_cron', '' );
+			$maybe_bypass = constant_contact_get_option( '_ctct_bypass_cron', '' );
 
 			if ( 'on' !== $maybe_bypass ) {
 				/**
@@ -239,7 +239,7 @@ class ConstantContact_Mail {
 	 * @since 1.0.0
 	 * @since 1.3.6 Added $was_forced.
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to send email.
 	 *
 	 * @param string $destination_email  Intended mail address.
 	 * @param string $content            Data from clean values.
@@ -250,7 +250,7 @@ class ConstantContact_Mail {
 	public function mail( $destination_email, $content, $submission_details, $was_forced = false ) {
 
 		static $last_sent = false;
-		$screen = '';
+		$screen           = '';
 
 		if ( function_exists( 'get_current_screen' ) ) {
 			$screen = get_current_screen();
@@ -269,7 +269,7 @@ class ConstantContact_Mail {
 		} else {
 			if ( false !== strpos( $destination_email, ',' ) ) {
 				// Use trim to handle cases of ", ".
-				$partials = array_map( 'trim', explode( ',', $destination_email ) );
+				$partials      = array_map( 'trim', explode( ',', $destination_email ) );
 				$partial_email = array_map( [ $this, 'get_email_part' ], $partials );
 				$partial_email = implode( ',', $partial_email );
 			} else {

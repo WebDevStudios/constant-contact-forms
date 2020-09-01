@@ -53,9 +53,9 @@ class ConstantContact_Notification_Content {
 				<?php
 					printf(
 
-						// translators: Placeholder will hold "Constan Contact Forms" with <strong> tags.
+						// translators: Placeholder will hold "Constant Contact Forms" with <strong> tags.
 						esc_attr__( 'Get the most out of the %s plugin &mdash; use it with an active Constant Contact account.', 'constant-contact-forms' ),
-						'<strong>' . esc_attr__( 'Constant Contact Forms' ) . '</strong>'
+						'<strong>' . esc_attr__( 'Constant Contact Forms', 'constant-contact-forms' ) . '</strong>'
 					);
 				?>
 			</p>
@@ -228,7 +228,7 @@ class ConstantContact_Notification_Content {
 		);
 
 		$reference_keys = array_keys( $references );
-		$last_key = array_pop( $reference_keys );
+		$last_key       = array_pop( $reference_keys );
 
 		array_walk( $references, function( $value, $key, $last_key ) {
 			if ( 'post' === $value['type'] ) {
@@ -240,7 +240,7 @@ class ConstantContact_Notification_Content {
 					esc_html( $value['id'] ),
 					esc_html( $key === $last_key ? '' : ', ' )
 				);
-			} else if ( 'widget' === $value['type'] ) {
+			} elseif ( 'widget' === $value['type'] ) {
 				printf(
 					/* Translators: 1: URL to widgets admin screen, 2: current widget name, 3: generic widget text, 4: current widget title, 5: preposition, 6: specific sidebar name, 7: separator between links. */
 					'<a href="%1$s">%2$s %3$s "%4$s" %5$s %6$s</a>%7$s',

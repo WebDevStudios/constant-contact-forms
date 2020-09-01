@@ -85,7 +85,7 @@ class ConstantContact_Gutenberg {
 		}
 
 		ob_start();
-		echo constant_contact_get_form( absint( $attributes['selectedForm'] ) ); // WPCS: XSS OK.
+		echo constant_contact_get_form( absint( $attributes['selectedForm'] ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
 		return ob_get_clean();
 	}
 }
