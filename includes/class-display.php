@@ -110,12 +110,12 @@ class ConstantContact_Display {
 
 		$global_form_css = [];
 
-		$global_form_classes = ctct_get_settings_option( '_ctct_form_custom_classes' );
+		$global_form_classes = constant_contact_get_option( '_ctct_form_custom_classes' );
 		if ( $global_form_classes ) {
 			$global_form_css['global_form_classes'] = $global_form_classes;
 		}
 
-		$global_label_placement = ctct_get_settings_option( 'ctct_form_label_placement' );
+		$global_label_placement = constant_contact_get_option( 'ctct_form_label_placement' );
 		if ( $global_label_placement ) {
 			$global_form_css['global_label_placement'] = $global_label_placement;
 		}
@@ -328,14 +328,28 @@ class ConstantContact_Display {
 		}
 
 		ob_start();
+
 		/**
 		 * Fires before the start of the form tag.
+		 *
+		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
 		 *
 		 * @since 1.4.0
 		 *
 		 * @param int $form_id Current form ID.
 		 */
-		do_action( 'ctct_before_form', $form_id );
+		do_action_deprecated( 'ctct_before_form', [ $form_id ], 'NEXT', 'constant_contact_before_form' );
+
+		/**
+		 * Fires before the opening form tag.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  NEXT
+		 *
+		 * @param int $form_id Current form ID.
+		 */
+		do_action( 'constant_contact_before_form', $form_id );
+
 		$return .= ob_get_clean();
 
 		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
@@ -349,7 +363,7 @@ class ConstantContact_Display {
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors, $instance );
 
 		if ( ! $disable_recaptcha && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
-			$recaptcha_version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );
+			$recaptcha_version = constant_contact_get_option( '_ctct_recaptcha_version', '' );
 			if ( 'v2' === $recaptcha_version ) {
 				$return .= $this->build_recaptcha( $form_id );
 			}
@@ -372,14 +386,28 @@ class ConstantContact_Display {
 		$return .= '</form>';
 
 		ob_start();
+
 		/**
 		 * Fires after the end of the form tag.
+		 *
+		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
 		 *
 		 * @since 1.4.0
 		 *
 		 * @param int $form_id Current form ID.
 		 */
-		do_action( 'ctct_after_form', $form_id );
+		do_action_deprecated( 'ctct_after_form', [ $form_id ], 'NEXT', 'constant_contact_after_form' );
+
+		/**
+		 * Fires after the closing form tag.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  NEXT
+		 *
+		 * @param int $form_id Current form ID.
+		 */
+		do_action( 'constant_contact_after_form', $form_id );
+
 		$return .= ob_get_clean();
 
 		$return .= '<script type="text/javascript">';
@@ -739,6 +767,7 @@ class ConstantContact_Display {
 		foreach ( $submitted_vals as $post ) {
 
 			if ( isset( $post['key'] ) && $post['key'] ) {
+				$post_map = filter_input( INPUT_POST, esc_attr( $map ), FILTER_SANITIZE_STRING );
 
 				if ( 'address' === $field['name'] ) {
 
@@ -747,23 +776,15 @@ class ConstantContact_Display {
 						$addr_key = explode( '___', $post['key'] );
 
 						if ( isset( $addr_key[0] ) && $addr_key[0] ) {
-
-							$post_key = '';
-
-							// phpcs:disable WordPress.Security.NonceVerification.NoNonceVerification -- Okay accessing of $_POST value.
-							if ( isset( $_POST[ esc_attr( $post['key'] ) ] ) ) {
-								$post_key = sanitize_text_field( wp_unslash( $_POST[ esc_attr( $post['key'] ) ] ) );
-							}
-							// phpcs:enable WordPress.Security.NonceVerification.NoNonceVerification
+							$post_key = filter_input( INPUT_POST, esc_attr( $post['key'] ), FILTER_SANITIZE_STRING );
+							$post_key = empty( $post_key ) ? '' : sanitize_text_field( wp_unslash( $post_key ) );
 
 							$return[ esc_attr( $addr_key[0] ) ] = $post_key;
 						}
 					}
-				// phpcs:disable WordPress.Security.NonceVerification.NoNonceVerification -- Okay accessing of $_POST value.
-				} elseif ( $post['key'] === $map && isset( $_POST[ esc_attr( $map ) ] ) ) {
-					return sanitize_text_field( wp_unslash( $_POST[ esc_attr( $map ) ] ) );
+				} elseif ( $post['key'] === $map && ! empty( $post_map ) ) {
+					return sanitize_text_field( wp_unslash( $post_map ) );
 				}
-				// phpcs:enable WordPress.Security.NonceVerification.NoNonceVerification
 			}
 		}
 

@@ -128,8 +128,8 @@ class ConstantContact_API {
 				}
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
-				$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$errors = $ex->getErrors();
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$errors       = $ex->getErrors();
 				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 				$this->log_errors( $our_errors );
 				constant_contact_set_has_exceptions();
@@ -173,8 +173,8 @@ class ConstantContact_API {
 
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
-				$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$errors = $ex->getErrors();
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$errors       = $ex->getErrors();
 				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 				$this->log_errors( $our_errors );
 				constant_contact_set_has_exceptions();
@@ -226,14 +226,14 @@ class ConstantContact_API {
 				}
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
-				$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$errors = $ex->getErrors();
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$errors       = $ex->getErrors();
 				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 				$this->log_errors( $our_errors );
 				constant_contact_set_has_exceptions();
 			} catch ( Exception $ex ) {
-				$error = new stdClass();
-				$error->error_key = get_class( $ex );
+				$error                = new stdClass();
+				$error->error_key     = get_class( $ex );
 				$error->error_message = $ex->getMessage();
 
 				add_filter( 'constant_contact_force_logging', '__return_true' );
@@ -277,8 +277,8 @@ class ConstantContact_API {
 				return $list;
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
-				$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$errors = $ex->getErrors();
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$errors       = $ex->getErrors();
 				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 				$this->log_errors( $our_errors );
 				constant_contact_set_has_exceptions();
@@ -320,8 +320,8 @@ class ConstantContact_API {
 			$list = $this->cc()->listService->getList( $this->get_api_token(), esc_attr( $new_list['id'] ) );
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors = $ex->getErrors();
+			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 			$this->log_errors( $our_errors );
 			constant_contact_set_has_exceptions();
@@ -361,8 +361,8 @@ class ConstantContact_API {
 
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors = $ex->getErrors();
+			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 			$this->log_errors( $our_errors );
 			constant_contact_set_has_exceptions();
@@ -414,8 +414,8 @@ class ConstantContact_API {
 
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors = $ex->getErrors();
+			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 			$this->log_errors( $our_errors );
 			constant_contact_set_has_exceptions();
@@ -455,8 +455,8 @@ class ConstantContact_API {
 			$list = $this->cc()->listService->deleteList( $this->get_api_token(), $updated_list['id'] );
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors = $ex->getErrors();
+			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 			$this->log_errors( $our_errors );
 			constant_contact_set_has_exceptions();
@@ -482,7 +482,7 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 * @since 1.3.0 Added $form_id parameter.
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to save contact.
 	 *
 	 * @param array $new_contact New contact data.
 	 * @param int   $form_id     ID of the form being processed.
@@ -524,8 +524,8 @@ class ConstantContact_API {
 			}
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors = $ex->getErrors();
+			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 			$this->log_errors( $our_errors );
 			if ( 400 !== $ex->getCode() || false !== strpos( 'Bad Request', $ex->getMessage() ) ) {
@@ -566,7 +566,7 @@ class ConstantContact_API {
 			if ( is_array( $contact_value ) ) {
 				$clean[ $contact_key ] = $this->clear_email( $contact_value );
 			} elseif ( is_email( $contact_value ) ) {
-				$email_parts = explode( '@', $contact_value );
+				$email_parts           = explode( '@', $contact_value );
 				$clean[ $contact_key ] = implode( '@', [ '***', $email_parts[1] ] );
 			} else {
 				$clean[ $contact_key ] = $contact_value;
@@ -598,8 +598,8 @@ class ConstantContact_API {
 			$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors = $ex->getErrors();
+			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 			$this->log_errors( $our_errors );
 			constant_contact_set_has_exceptions();
@@ -657,8 +657,8 @@ class ConstantContact_API {
 				$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
-				$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$errors = $ex->getErrors();
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$errors       = $ex->getErrors();
 				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 				$this->log_errors( $our_errors );
 				constant_contact_set_has_exceptions();
@@ -847,7 +847,7 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to log errors.
 	 *
 	 * @param array $errors Errors from API.
 	 */
@@ -868,7 +868,7 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 * @since 1.8.6 Deprected
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to process error message.
 	 *
 	 * @param array $error API error repsonse.
 	 * @return mixed
@@ -985,8 +985,8 @@ class ConstantContact_API {
 		}
 
 		$disclosure = [
-			'name'    => empty( $account_info->organization_name ) ? ctct_get_settings_option( '_ctct_disclose_name', '' ) : $account_info->organization_name,
-			'address' => ctct_get_settings_option( '_ctct_disclose_address', '' ),
+			'name'    => empty( $account_info->organization_name ) ? constant_contact_get_option( '_ctct_disclose_name', '' ) : $account_info->organization_name,
+			'address' => constant_contact_get_option( '_ctct_disclose_address', '' ),
 		];
 
 		if ( empty( $disclosure['name'] ) ) {

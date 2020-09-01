@@ -1,5 +1,7 @@
 <?php
 /**
+ * Constant Contact Middleware.
+ *
  * @package ConstantContact
  * @subpackage Middleware
  * @author Constant Contact
@@ -58,8 +60,8 @@ class ConstantContact_Middleware {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $proof Proof key
-	 * @return string Signup/connect url.
+	 * @param  string $proof Proof key.
+	 * @return string        Signup/connect url.
 	 */
 	public function do_signup_url( $proof = '' ) {
 		return $this->do_connect_url( $proof, [ 'new_signup' => true ] );
@@ -129,19 +131,24 @@ class ConstantContact_Middleware {
 	/**
 	 * Verify a returned request from the auth server, and save the returned token.
 	 *
-	 * @throws Exception
+	 * @since  1.0.0
+	 *
+	 * @throws Exception Throws Exception if encountered while attempting to verify request.
 	 *
 	 * @return boolean Is valid?
 	 */
 	public function verify_and_save_access_token_return() {
+		$proof = filter_input( INPUT_GET, 'proof', FILTER_SANITIZE_STRING );
+		$token = filter_input( INPUT_GET, 'token', FILTER_SANITIZE_STRING );
+		$key   = filter_input( INPUT_GET, 'key', FILTER_SANITIZE_STRING );
 
 		// If we get this, we'll want to start our process of
 		// verifying the proof that the middleware server gives us
 		// so that we can ignore any malicious entries that are sent to us
-		// Sanitize our expected data
-		$proof = isset( $_GET['proof'] ) ? sanitize_text_field( wp_unslash( $_GET['proof'] ) ) : false;
-		$token = isset( $_GET['token'] ) ? sanitize_text_field( wp_unslash( $_GET['token'] ) ) : false;
-		$key   = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : false;
+		// Sanitize our expected data.
+		$proof = ! empty( $proof ) ? sanitize_text_field( $proof ) : false;
+		$token = ! empty( $token ) ? sanitize_text_field( $token ) : false;
+		$key   = ! empty( $key ) ? sanitize_text_field( $key ) : false;
 
 		// If we're missing any piece of data, we failed.
 		if ( ! $proof || ! $token || ! $key ) {
@@ -156,7 +163,7 @@ class ConstantContact_Middleware {
 
 		constant_contact_maybe_log_it( 'Authentication', 'Authorization verification succeeded.' );
 
-	 	constant_contact()->connect->update_token( sanitize_text_field( $token ) );
+		constant_contact()->connect->update_token( sanitize_text_field( $token ) );
 		constant_contact()->connect->e_set( '_ctct_api_key', sanitize_text_field( $key ) );
 		return true;
 	}

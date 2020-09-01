@@ -166,7 +166,7 @@ class ConstantContact_Logging {
 	 */
 	public function add_options_page() {
 
-		$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
+		$debugging_enabled = constant_contact_get_option( '_ctct_logging', '' );
 
 		if ( 'on' !== $debugging_enabled ) {
 			return;
@@ -185,6 +185,12 @@ class ConstantContact_Logging {
 		);
 	}
 
+	/**
+	 * Set file system.
+	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
+	 * @since  1.4.5
+	 */
 	public function set_file_system() {
 		global $wp_filesystem;
 		WP_Filesystem();
@@ -226,8 +232,7 @@ class ConstantContact_Logging {
 				}
 
 				if ( is_file( $this->log_location_file ) && is_readable( $this->log_location_file ) ) {
-					// phpcs:ignore -- Not reading over network, it's on the filesystem.
-					$contents .= file_get_contents( $this->log_location_file );
+					$contents .= file_get_contents( $this->log_location_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not reading over network, it's on the filesystem.
 				}
 
 				?>
@@ -441,6 +446,7 @@ class ConstantContact_Logging {
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.2
 	 *
+	 * @param  string $dir Directory path.
 	 * @return void
 	 */
 	protected function delete_log_dir( $dir = '' ) {
