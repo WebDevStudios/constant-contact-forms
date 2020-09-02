@@ -1004,7 +1004,7 @@ class ConstantContact_Display {
 
 		$type     = sanitize_text_field( $type );
 		$value    = sanitize_text_field( $value );
-		$label    = sanitize_text_field( $label );
+		$label    = esc_html( sanitize_text_field( $label ) );
 		$req_text = $req ? 'required' : '';
 
 		$markup = $this->field_top( $type, $name, $field_key, $label, $req );
