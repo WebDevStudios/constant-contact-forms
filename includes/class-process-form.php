@@ -111,9 +111,9 @@ class ConstantContact_Process_Form {
 
 				case 'success':
 					/** This filter is documented in includes/class-process-form.php */
-					$message = apply_filters( 'ctct_process_form_success',
+					$message = esc_html ( apply_filters( 'ctct_process_form_success',
 						__( 'Your information has been submitted.', 'constant-contact-forms' ),
-						(int) $json_data['ctct-id'] );
+						(int) $json_data['ctct-id'] ) );
 					break;
 
 				case 'error':
@@ -653,7 +653,7 @@ class ConstantContact_Process_Form {
 				 * @param string     $value Success message.
 				 * @param string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
-				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id );
+				$message = esc_html ( apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ) );
 				break;
 
 			case 'error':
