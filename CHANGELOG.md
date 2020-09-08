@@ -1,3 +1,6 @@
+= 1.8.8 =
+* Updated: Added extra security output escaping of custom input values
+
 = 1.8.7 =
 * Improved: Implemented recommendations for improved accessibility.
 * Improved: Avoid duplicate ID attributes when more than one form is present on a page.

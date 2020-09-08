@@ -128,8 +128,8 @@ class ConstantContact_Process_Form {
 					/* This deprecated filter is documented in includes/class-process-form.php */
 					$message = apply_filters_deprecated( 'ctct_process_form_success', [ __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ], 'NEXT', 'constant_contact_process_form_success' );
 
-					/* This filter is documented in includes/class-process-form.php */
-					$message = apply_filters( 'constant_contact_process_form_success', $message, $form_id );
+					/** This filter is documented in includes/class-process-form.php */
+					$message = esc_html( apply_filters( 'constant_contact_process_form_success', $message, $form_id ) );
 					break;
 
 				case 'error':
@@ -722,7 +722,7 @@ class ConstantContact_Process_Form {
 				 * @param  string     $value   Success message.
 				 * @param  string|int $form_id Constant Contact form ID.
 				 */
-				$message = apply_filters( 'constant_contact_process_form_success', $message, $form_id );
+				$message = esc_html( apply_filters( 'constant_contact_process_form_success', $message, $form_id ) );
 				break;
 
 			case 'error':
