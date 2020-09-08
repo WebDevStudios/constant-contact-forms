@@ -515,7 +515,7 @@ class ConstantContact_Display {
 			}
 		}
 
-		if ( isset( $form_data['options'] ) ) {
+		if ( constant_contact()->api->is_connected() && isset( $form_data['options'] ) ) {
 			$lists = maybe_unserialize( isset( $form_data['options']['optin']['list'] ) ? $form_data['options']['optin']['list'] : '' );
 
 			$return .= $this->field( [
