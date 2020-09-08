@@ -353,7 +353,7 @@ class ConstantContact_Process_Form {
 		$cleaned_values = $this->clean_values( $return['values'] );
 
 		// Require at least one list to be selected.
-		if ( ! isset( $cleaned_values['ctct-lists'] ) || empty( $cleaned_values['ctct-lists'] ) ) {
+		if ( constant_contact()->api->is_connected() && ( ! isset( $cleaned_values['ctct-lists'] ) || empty( $cleaned_values['ctct-lists'] ) ) ) {
 			return [
 				'status' => 'named_error',
 				'error'  => __( 'Please select at least one list to subscribe to.', 'constant-contact-forms' ),
