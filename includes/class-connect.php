@@ -180,9 +180,13 @@ class ConstantContact_Connect {
 							<p>
 								<?php
 								$token   = constant_contact()->api->get_api_token();
-								$account = constant_contact()->api->cc()->accountService->getAccountInfo( $token );
-								if ( $account ) {
-									echo esc_html( $account->first_name . ' ' . $account->last_name . ' (' . $account->email . ')' );
+								try {
+									$account = constant_contact()->api->cc()->accountService->getAccountInfo( $token );
+									if ( $account ) {
+										echo esc_html( $account->first_name . ' ' . $account->last_name . ' (' . $account->email . ')' );
+									}
+								} catch ( CtctException $ex ) {
+									esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
 								}
 								?>
 							</p>
