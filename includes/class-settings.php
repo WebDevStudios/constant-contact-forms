@@ -85,6 +85,7 @@ class ConstantContact_Settings {
 
 		add_filter( 'preprocess_comment', [ $this, 'process_optin_comment_form' ] );
 		add_filter( 'authenticate', [ $this, 'process_optin_login_form' ], 10, 3 );
+		add_filter( 'user_register', [ $this, 'process_optin_register_form' ], 10, 1 );
 		add_action( 'cmb2_save_field__ctct_logging', [ $this, 'maybe_init_logs' ], 10, 3 );
 		add_filter( 'constant_contact_custom_spam_message', [ $this, 'get_spam_error_message' ], 10, 2 );
 	}
@@ -758,33 +759,70 @@ class ConstantContact_Settings {
 		return $this->process_user_data_for_optin( $user, $username );
 	}
 
+
 	/**
-	 * Sends user data to CTCT.
+	 * Sends contact to CTCT if optin checked on register.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $user     WP user object.
-	 * @param string $username Username.
-	 * @return object Passed in $user object.
+	 * @param int $user_id ID of user just registered.
+	 * @param int Pass in user ID.
 	 */
-	public function process_user_data_for_optin( $user, $username ) {
+	public function process_optin_register_form( $user_id ) {
 
-		$user_data = get_user_by( 'login', $username );
-		$email     = '';
-		$name      = '';
-
-		if ( $user_data && isset( $user_data->data, $user_data->data->user_email ) ) {
-			$email = sanitize_email( $user_data->data->user_email );
+		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+			return $user_id;
 		}
 
-		if ( $user_data && isset( $user_data->data, $user_data->data->display_name ) ) {
-			$name = sanitize_text_field( $user_data->data->display_name );
+		if ( empty( $user_id ) ) {
+			return $user_id;
+		}
+
+		return $this->process_user_data_register_for_optin( $user_id );
+	}
+
+	/**
+	 * Process contact for CTCT on register.
+	 *
+	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
+	 * @since  NEXT
+	 * @param int $user_id ID of user just registered.
+	 * @param int Pass in user ID.
+	 */
+	private function process_user_data_register_for_optin( $user_id ) {
+		$this->add_user_to_list( get_user_by( 'ID', $user_id ) );
+		return $user_id;
+	}
+
+	/**
+	 * Sends user data to CTCT.
+	 * Updated form of process_user_data_for_optin to be more re-usable. Old function not refactored due to public visibility setting.
+	 *
+	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
+	 * @since  NEXT
+	 * @param object $user     WP user object.
+	 */
+	private function add_user_to_list( $user ) {
+
+		$email = '';
+		$name  = '';
+
+		if ( $user && isset( $user->data, $user->data->user_email ) ) {
+			$email = sanitize_email( $user->data->user_email );
+		}
+
+		if ( $user && isset( $user->data, $user->data->display_name ) ) {
+			$name = sanitize_text_field( $user->data->display_name );
+		}
+
+		if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
+			return;
 		}
 
 		$list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
 
 		if ( empty( $list ) ) {
-			return $user;
+			return;
 		}
 
 		if ( $email ) {
@@ -798,6 +836,20 @@ class ConstantContact_Settings {
 			constantcontact_api()->add_contact( $args );
 		}
 
+	}
+
+
+	/**
+	 * Sends user data to CTCT.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param object $user     WP user object.
+	 * @param string $username Username.
+	 * @return object Passed in $user object.
+	 */
+	public function process_user_data_for_optin( $user, $username ) {
+		$this->add_user_to_list( get_user_by( 'login', $username ) );
 		return $user;
 	}
 
