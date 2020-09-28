@@ -776,7 +776,7 @@ class ConstantContact_Settings {
 			return $user_id;
 		}
 
-		return $this->process_user_data_reigster_for_optin( $user_id );
+		return $this->process_user_data_register_for_optin( $user_id );
 	}
 
 	/**
@@ -787,7 +787,7 @@ class ConstantContact_Settings {
 	 * @param int $user_id ID of user just registered.
 	 * @param int Pass in user ID.
 	 */
-	private function process_user_data_reigster_for_optin( $user_id ) {
+	private function process_user_data_register_for_optin( $user_id ) {
 		$this->add_user_to_list( get_user_by( 'ID', $user_id ) );
 		return $user_id;
 	}
@@ -843,36 +843,7 @@ class ConstantContact_Settings {
 	 * @return object Passed in $user object.
 	 */
 	public function process_user_data_for_optin( $user, $username ) {
-
-		$user_data = get_user_by( 'login', $username );
-		$email     = '';
-		$name      = '';
-
-		if ( $user_data && isset( $user_data->data, $user_data->data->user_email ) ) {
-			$email = sanitize_email( $user_data->data->user_email );
-		}
-
-		if ( $user_data && isset( $user_data->data, $user_data->data->display_name ) ) {
-			$name = sanitize_text_field( $user_data->data->display_name );
-		}
-
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
-			return $user;
-		}
-
-		$list = sanitize_text_field( wp_unslash( $_POST['ctct_optin_list'] ) ); // phpcs:ignore -- Okay accessing of $_POST.
-
-		if ( $email ) {
-			$args = [
-				'email'      => $email,
-				'list'       => $list,
-				'first_name' => $name,
-				'last_name'  => '',
-			];
-
-			constantcontact_api()->add_contact( $args );
-		}
-
+		$this->add_user_to_list( get_user_by( 'login', $username ) );
 		return $user;
 	}
 
