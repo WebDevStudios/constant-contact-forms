@@ -320,7 +320,7 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Throw Exception if encountered during disconnection.
 	 *
 	 * @return boolean
 	 */
@@ -359,7 +359,7 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to retrieve encrypted value.
 	 *
 	 * @param string  $check_key key to save to.
 	 * @param boolean $fallback_to_ctct_opt Fall back maybe.
@@ -444,7 +444,7 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to save API token.
 	 *
 	 * @return string Token.
 	 */
@@ -508,8 +508,8 @@ class ConstantContact_Connect {
 			return 'ctct_key';
 		}
 
-		$key = Key::createNewRandomKey();
-		$key = $key->saveToAsciiSafeString();
+		$key     = Key::createNewRandomKey();
+		$key     = $key->saveToAsciiSafeString();
 		$updated = update_option( 'ctct_key', $key );
 
 		if ( ! $updated || $first_try ) {

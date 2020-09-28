@@ -366,6 +366,8 @@ class Constant_Contact {
 	 * Sets up our plugin.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	protected function __construct() {
 
@@ -373,9 +375,9 @@ class Constant_Contact {
 		$this->plugin_name = esc_html__( 'Constant Contact', 'constant-contact-forms' );
 
 		// Set up some helper properties.
-		$this->basename        = plugin_basename( __FILE__ );
-		$this->url             = plugin_dir_url( __FILE__ );
-		$this->path            = plugin_dir_path( __FILE__ );
+		$this->basename = plugin_basename( __FILE__ );
+		$this->url      = plugin_dir_url( __FILE__ );
+		$this->path     = plugin_dir_path( __FILE__ );
 
 		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
@@ -394,6 +396,9 @@ class Constant_Contact {
 
 		// Include compatibility fixes to address conflicts with other plug-ins.
 		self::include_file( 'compatibility', false );
+
+		// Include deprecated functions.
+		self::include_file( 'deprecated', false );
 	}
 
 	/**
@@ -449,6 +454,8 @@ class Constant_Contact {
 	 * Add hooks and filters.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function hooks() {
 		if ( ! $this->meets_php_requirements() ) {
@@ -461,11 +468,6 @@ class Constant_Contact {
 		add_filter( 'body_class', array( $this, 'body_classes' ) );
 
 		$this->load_libs();
-
-		// Our vendor files will do a check for ISSSL, so we want to set it to be that. See Guzzle for more info and usage of this.
-		if ( is_ssl() || ! defined( 'ISSSL' ) ) {
-			define( 'ISSSL', true );
-		}
 
 		add_filter( 'widget_text', 'do_shortcode' );
 		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_assets' ], 1 );

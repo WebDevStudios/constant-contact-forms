@@ -9,6 +9,8 @@
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
+// phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid -- OK classname.
+
 /**
  * Class ConstantContact_reCAPTCHA.
  *
@@ -95,8 +97,8 @@ class ConstantContact_reCAPTCHA {
 	 * @return bool
 	 */
 	public static function has_recaptcha_keys() {
-		$site_key   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
-		$secret_key = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
+		$site_key   = constant_contact_get_option( '_ctct_recaptcha_site_key', '' );
+		$secret_key = constant_contact_get_option( '_ctct_recaptcha_secret_key', '' );
 
 		return $site_key && $secret_key;
 	}
@@ -110,8 +112,8 @@ class ConstantContact_reCAPTCHA {
 	 */
 	public function get_recaptcha_keys() {
 		$keys               = [];
-		$keys['site_key']   = ctct_get_settings_option( '_ctct_recaptcha_site_key', '' );
-		$keys['secret_key'] = ctct_get_settings_option( '_ctct_recaptcha_secret_key', '' );
+		$keys['site_key']   = constant_contact_get_option( '_ctct_recaptcha_site_key', '' );
+		$keys['secret_key'] = constant_contact_get_option( '_ctct_recaptcha_secret_key', '' );
 
 		return $keys;
 	}
@@ -149,6 +151,6 @@ class ConstantContact_reCAPTCHA {
 	 * @since 1.7.0
 	 */
 	public function set_recaptcha_version() {
-		$this->version = ctct_get_settings_option( '_ctct_recaptcha_version', '' );
+		$this->version = constant_contact_get_option( '_ctct_recaptcha_version', '' );
 	}
 }
