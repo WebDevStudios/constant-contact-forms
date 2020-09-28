@@ -817,6 +817,7 @@ class ConstantContact_Settings {
 
 		if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
 			return;
+		}
 
 		$list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
 
