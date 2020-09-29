@@ -126,7 +126,7 @@ class ConstantContact_Process_Form {
 					$form_id = (int) $json_data['ctct-id'];
 
 					/* This deprecated filter is documented in includes/class-process-form.php */
-					$message = apply_filters_deprecated( 'ctct_process_form_success', [ __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ], 'NEXT', 'constant_contact_process_form_success' );
+					$message = apply_filters_deprecated( 'ctct_process_form_success', [ __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ], '1.9.0', 'constant_contact_process_form_success' );
 
 					/** This filter is documented in includes/class-process-form.php */
 					$message = esc_html( apply_filters( 'constant_contact_process_form_success', $message, $form_id ) );
@@ -234,14 +234,14 @@ class ConstantContact_Process_Form {
 				 *
 				 * This value should be between 0.0 and 1.0.
 				 *
-				 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+				 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
 				 *
 				 * @since 1.7.0
 				 *
 				 * @param float  $value Threshold to require for submission approval.
 				 * @param string $value The ID of the form that was submitted.
 				 */
-				$threshold = apply_filters_deprecated( 'ctct_recaptcha_threshold', [ 0.5, $data['ctct-id'] ], 'NEXT', 'constant_contact_recaptcha_threshold' );
+				$threshold = apply_filters_deprecated( 'ctct_recaptcha_threshold', [ 0.5, $data['ctct-id'] ], '1.9.0', 'constant_contact_recaptcha_threshold' );
 
 				/**
 				 * Filters the default float value for the score threshold.
@@ -249,7 +249,7 @@ class ConstantContact_Process_Form {
 				 * This value should be between 0.0 and 1.0.
 				 *
 				 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
-				 * @since  NEXT
+				 * @since  1.9.0
 				 *
 				 * @param  float  $value Required threshold value.
 				 * @param  string $value Form ID.
@@ -703,7 +703,7 @@ class ConstantContact_Process_Form {
 				/**
 				 * Filters the message for the successful processed form.
 				 *
-				 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+				 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
 				 *
 				 * @author Michael Beckwith <michael@webdevstudios.com>
 				 * @since  1.3.0
@@ -711,13 +711,13 @@ class ConstantContact_Process_Form {
 				 * @param  string     $value Success message.
 				 * @param  string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
-				$message = apply_filters_deprecated( 'ctct_process_form_success', [ __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ], 'NEXT', 'constant_contact_process_form_success' );
+				$message = apply_filters_deprecated( 'ctct_process_form_success', [ __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ], '1.9.0', 'constant_contact_process_form_success' );
 
 				/**
 				 * Filters the message for the successful processed form.
 				 *
 				 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
-				 * @since  NEXT
+				 * @since  1.9.0
 				 *
 				 * @param  string     $value   Success message.
 				 * @param  string|int $form_id Constant Contact form ID.
@@ -809,7 +809,7 @@ class ConstantContact_Process_Form {
 		/**
 		 * Filter the error message displayed for suspected non-humans.
 		 *
-		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+		 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
 		 *
 		 * @author Michael Beckwith <michael@webdevstudios.com>
 		 * @since 1.5.0
@@ -817,13 +817,13 @@ class ConstantContact_Process_Form {
 		 * @param mixed  $post_id The ID of the current post.
 		 * @return string
 		 */
-		$error = apply_filters_deprecated( 'ctct_custom_spam_message', [ $error, $post_id ], 'NEXT', 'constant_contact_custom_spam_message' );
+		$error = apply_filters_deprecated( 'ctct_custom_spam_message', [ $error, $post_id ], '1.9.0', 'constant_contact_custom_spam_message' );
 
 		/**
 		 * Filters error message for suspected spam entries.
 		 *
 		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
-		 * @since  NEXT
+		 * @since  1.9.0
 		 *
 		 * @param  string     $error   Error message.
 		 * @param  int|string $post_id Current post ID.

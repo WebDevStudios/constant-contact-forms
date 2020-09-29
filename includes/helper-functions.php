@@ -273,7 +273,7 @@ add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_re
  * Perform custom form processing.
  *
  * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
- * @since  NEXT
+ * @since  1.9.0
  *
  * @return mixed Results of form processing, false if no processing performed.
  */
@@ -296,7 +296,7 @@ add_action( 'wp_head', 'constant_contact_process_form_custom' );
  * Check if any published Constant Contact forms exist.
  *
  * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
- * @since  NEXT
+ * @since  1.9.0
  *
  * @return bool Whether published forms exist.
  */
