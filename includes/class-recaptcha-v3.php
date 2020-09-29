@@ -11,6 +11,8 @@
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
+// phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid -- OK classname.
+
 /**
  * Class ConstantContact_reCAPTCHA_v3
  *

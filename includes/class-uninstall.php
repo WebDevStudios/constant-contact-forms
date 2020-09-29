@@ -87,11 +87,23 @@ class ConstantContact_Uninstall {
 		/**
 		 * Allows filtering which options are deleted upon plugin deactivation.
 		 *
+		 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @since 1.6.0
 		 *
 		 * @param array $options One-dimensional array of option names to delete.
 		 */
-		return apply_filters( 'ctct_option_names_to_uninstall', $this->options );
+		$options = apply_filters_deprecated( 'ctct_option_names_to_uninstall', [ $this->options ], '1.9.0', 'constant_contact_option_names_to_uninstall' );
+
+		/**
+		 * Filters which options are deleted when plugin is uninstalled.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  1.9.0
+		 *
+		 * @param  array $options Options to be deleted.
+		 */
+		return apply_filters( 'constant_contact_option_names_to_uninstall', $options );
 	}
 
 	/**
@@ -112,11 +124,23 @@ class ConstantContact_Uninstall {
 		/**
 		 * Allows filtering which transients are deleted upon plugin deactivation.
 		 *
+		 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @since 1.6.0
 		 *
 		 * @param array $transients One-dimensional array of transient names to delete.
 		 */
-		return apply_filters( 'ctct_transient_names_to_uninstall', $this->transients );
+		$transients = apply_filters_deprecated( 'ctct_transient_names_to_uninstall', [ $this->transients ], '1.9.0', 'constant_contact_transient_names_to_uninstall' );
+
+		/**
+		 * Filters which transients are deleted when plugin is uninstalled.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  1.9.0
+		 *
+		 * @param  array $transients Transients to be deleted.
+		 */
+		return apply_filters( 'constant_contact_transient_names_to_uninstall', $transients );
 	}
 
 	/**
@@ -134,11 +158,23 @@ class ConstantContact_Uninstall {
 		/**
 		 * Allows filtering which cron hooks are deleted upon plugin deactivation.
 		 *
+		 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @since 1.6.0
 		 *
 		 * @param array $cron_hooks One-dimensional array of cron hook names to delete.
 		 */
-		return apply_filters( 'ctct_cron_hook_names_to_uninstall', $this->cron_hooks );
+		$cron_hooks = apply_filters_deprecated( 'ctct_cron_hook_names_to_uninstall', [ $this->cron_hooks ], '1.9.0', 'constant_contact_cron_hook_names_to_uninstall' );
+
+		/**
+		 * Filters which cron hooks are deleted when plugin is uninstalled.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  1.9.0
+		 *
+		 * @param  array $cron_hooks Cron hooks to be deleted.
+		 */
+		return apply_filters( 'constant_contact_cron_hook_names_to_uninstall', $cron_hooks );
 	}
 
 	/**

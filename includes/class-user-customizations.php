@@ -43,7 +43,7 @@ class ConstantContact_User_Customizations {
 	 * @since 1.3.0
 	 */
 	public function hooks() {
-		add_filter( 'ctct_process_form_success', [ $this, 'process_form_success' ], 10, 2 );
+		add_filter( 'constant_contact_process_form_success', [ $this, 'process_form_success' ], 10, 2 );
 		add_filter( 'constant_contact_front_form_action', [ $this, 'custom_redirect' ], 10, 2 );
 		add_filter( 'constant_contact_destination_email', [ $this, 'custom_email' ], 10, 2 );
 	}

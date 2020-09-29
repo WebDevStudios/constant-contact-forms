@@ -53,4 +53,9 @@
 	<exclude-pattern>/tests/*</exclude-pattern>
 	<exclude-pattern>/vendor/*</exclude-pattern>
 
+	<!-- Ignore InvalidClassFileName warnings. -->
+	<rule ref="WordPress.Files.FileName">
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+	</rule>
+
 </ruleset>

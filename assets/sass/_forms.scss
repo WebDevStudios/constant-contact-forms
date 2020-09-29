@@ -40,4 +40,17 @@
 	.ctct-submit {
 		cursor: pointer;
 	}
+
+	.ctct-form-field-checkbox {
+
+		fieldset {
+			border: none;
+			padding: 0;
+
+			legend {
+				font-weight: normal;
+				padding: 0;
+			}
+		}
+	}
 }

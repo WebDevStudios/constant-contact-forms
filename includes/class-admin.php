@@ -284,7 +284,8 @@ class ConstantContact_Admin {
 			return;
 		}
 
-		$table_list_id = get_post_meta( $post_id, '_ctct_list', true );
+		$table_list_ids = get_post_meta( $post_id, '_ctct_list', true );
+		$table_list_ids = is_array( $table_list_ids ) ? $table_list_ids : [ $table_list_ids ];
 
 		switch ( $column ) {
 			case 'shortcodes':
@@ -294,16 +295,26 @@ class ConstantContact_Admin {
 				echo wp_kses_post( wpautop( get_post_meta( $post_id, '_ctct_description', true ) ) );
 				break;
 			case 'ctct_list':
-				$list = $this->get_associated_list_by_id( $table_list_id );
-				if ( ! empty( $list ) ) {
-					printf(
-						'<a href="%s">%s</a>',
-						esc_url( get_edit_post_link( $list->ID ) ),
-						esc_html( get_the_title( $list->ID ) )
-					);
-				} else {
-					esc_html_e( 'No associated list', 'constant-contact-forms' );
+				$list_html = [];
+
+				foreach ( $table_list_ids as $list_id ) {
+					$list = $this->get_associated_list_by_id( $list_id );
+
+					if ( ! empty( $list ) ) {
+						$list_html[] = sprintf(
+							'<a href="%s">%s</a>',
+							esc_url( get_edit_post_link( $list->ID ) ),
+							esc_html( get_the_title( $list->ID ) )
+						);
+					}
 				}
+
+				if ( empty( $list_html ) ) {
+					esc_html_e( 'No associated list', 'constant-contact-forms' );
+					break;
+				}
+
+				echo wp_kses_post( implode( ', ', $list_html ) );
 				break;
 		}
 	}
@@ -440,7 +451,7 @@ class ConstantContact_Admin {
 
 		global $pagenow;
 
-		$debug = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
+		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 		$suffix = ( true === $debug ) ? '' : '.min';
 
 		wp_register_script(

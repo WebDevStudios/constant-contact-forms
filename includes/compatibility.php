@@ -81,7 +81,7 @@ function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_
 
 	// This will grab all of the keys from the global $_POST, and then assign
 	// the difference between that and our intended keys.
-	$bad_keys = array_diff( array_keys( $_POST ), $good_keys ); // WPCS: CSRF ok.
+	$bad_keys = array_diff( array_keys( $_POST ), $good_keys ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- CSRF OK.
 
 	// This will merge the passed ignored keys with our newly found bad keys,
 	// and then return all the unique values for our return value.

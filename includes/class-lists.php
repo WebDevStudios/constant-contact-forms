@@ -348,11 +348,23 @@ class ConstantContact_Lists {
 		/**
 		 * Hook when a ctct list is updated.
 		 *
+		 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @since 1.0.0
 		 *
 		 * @param array $lists_to_insert CTCT returned list data.
 		 */
-		do_action( 'ctct_sync_lists', $lists_to_insert );
+		do_action_deprecated( 'ctct_sync_lists', [ $lists_to_insert ], '1.9.0', 'constant_contact_sync_lists' );
+
+		/**
+		 * Fires after lists synced.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  1.9.0
+		 *
+		 * @param  array $lists_to_insert Synced Constant Contact lists.
+		 */
+		do_action( 'constant_contact_sync_lists', $lists_to_insert );
 	}
 
 	/**
@@ -474,13 +486,27 @@ class ConstantContact_Lists {
 		/**
 		 * Hook when a ctct list is saved.
 		 *
+		 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @since 1.0.0
 		 *
 		 * @param integer $post_id CPT post id.
 		 * @param integer $list_id Ctct list id.
 		 * @param array   $list    Ctct returned list data.
 		 */
-		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
+		do_action_deprecated( 'ctct_update_list', [ $ctct_list->ID, $list_id, $list ], '1.9.0', 'constant_contact_update_list' );
+
+		/**
+		 * Fires when a list is updated.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  1.9.0
+		 *
+		 * @param  integer $post_id Form post ID.
+		 * @param  integer $list_id CTCT list ID.
+		 * @param  array   $list    CTCT list data.
+		 */
+		do_action( 'constant_contact_update_list', $ctct_list->ID, $list_id, $list );
 
 		return is_object( $list ) && isset( $list->id );
 	}
@@ -623,15 +649,11 @@ class ConstantContact_Lists {
 			]
 		);
 
-		/**
-		 * Hook when a ctct list is updated.
-		 *
-		 * @since 1.0.0
-		 * @param integer $post_id CPT post id.
-		 * @param integer $list_id Ctct list id.
-		 * @param array   $list    Ctct returned list data.
-		 */
-		do_action( 'ctct_update_list', $ctct_list->ID, $list_id, $list );
+		/* This deprecated filter is documented in includes/class-lists.php */
+		do_action_deprecated( 'ctct_update_list', [ $ctct_list->ID, $list_id, $list ], '1.9.0', 'constant_contact_update_list' );
+
+		/* This filter is documented in includes/class-lists.php */
+		do_action( 'constant_contact_update_list', $ctct_list->ID, $list_id, $list );
 
 		return is_object( $list ) && isset( $list->id );
 	}
@@ -667,12 +689,25 @@ class ConstantContact_Lists {
 		/**
 		 * Hook when a ctct list is deleted.
 		 *
+		 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
+		 *
 		 * @since 1.0.0
 		 *
 		 * @param integer $post_id Form list ID that was deleted.
 		 * @param integer $list_id Constant Contact list ID.
 		 */
-		do_action( 'ctct_delete_list', $post_id, $list_id );
+		do_action_deprecated( 'ctct_delete_list', [ $post_id, $list_id ], '1.9.0', 'constant_contact_delete_list' );
+
+		/**
+		 * Fires when a list is deleted.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  1.9.0
+		 *
+		 * @param  integer $post_id Form post ID.
+		 * @param  integer $list_id CTCT list ID.
+		 */
+		do_action( 'constant_contact_delete_list', $post_id, $list_id );
 
 		return $list;
 	}
