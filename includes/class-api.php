@@ -1025,7 +1025,7 @@ class ConstantContact_API {
 	 * Add contact to one or more lists.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.9.0
 	 *
 	 * @param  Contact      $contact Contact object.
 	 * @param  string|array $list    Single list ID or array of lists.
