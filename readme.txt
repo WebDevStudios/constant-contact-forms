@@ -2,8 +2,8 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
-Tested up to:      5.5
-Stable tag:        1.8.8
+Tested up to:      5.5.1
+Stable tag:        1.9.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.6
@@ -34,6 +34,14 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
+= 1.9.0 =
+* Added: Ability for site owners to multiple lists for users to choose which to sign up for.
+* Fixed: Issues around enabling list signup on user registration.
+* Fixed: Unintended markup in email notification text.
+* Fixed: Inappropriate or unneeded markup around hidden fields.
+* Updated: Max length values for first/last name fields.
+* Updated: Deprecated some functions in order to get consistent naming across all our code.
 
 = 1.8.8 =
 * Updated: Added extra security output escaping of custom input values

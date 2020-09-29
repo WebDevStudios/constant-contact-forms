@@ -785,7 +785,7 @@ class ConstantContact_Settings {
 	 * Process contact for CTCT on register.
 	 *
 	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.9.0
 	 * @param int $user_id ID of user just registered.
 	 * @param int Pass in user ID.
 	 */
@@ -799,7 +799,7 @@ class ConstantContact_Settings {
 	 * Updated form of process_user_data_for_optin to be more re-usable. Old function not refactored due to public visibility setting.
 	 *
 	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.9.0
 	 * @param object $user     WP user object.
 	 */
 	private function add_user_to_list( $user ) {
@@ -1046,7 +1046,7 @@ class ConstantContact_Settings {
  * Wrapper for `cmb2_get_option` to provide fallback when that function is not available.
  *
  * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
- * @since  NEXT
+ * @since  1.9.0
  *
  * @param  string $key     Option key.
  * @param  mixed  $default Default option value.

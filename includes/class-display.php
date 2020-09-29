@@ -332,19 +332,19 @@ class ConstantContact_Display {
 		/**
 		 * Fires before the start of the form tag.
 		 *
-		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+		 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
 		 *
 		 * @since 1.4.0
 		 *
 		 * @param int $form_id Current form ID.
 		 */
-		do_action_deprecated( 'ctct_before_form', [ $form_id ], 'NEXT', 'constant_contact_before_form' );
+		do_action_deprecated( 'ctct_before_form', [ $form_id ], '1.9.0', 'constant_contact_before_form' );
 
 		/**
 		 * Fires before the opening form tag.
 		 *
 		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
-		 * @since  NEXT
+		 * @since  1.9.0
 		 *
 		 * @param int $form_id Current form ID.
 		 */
@@ -390,19 +390,19 @@ class ConstantContact_Display {
 		/**
 		 * Fires after the end of the form tag.
 		 *
-		 * @deprecated NEXT Deprecated in favor of properly-prefixed hookname.
+		 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
 		 *
 		 * @since 1.4.0
 		 *
 		 * @param int $form_id Current form ID.
 		 */
-		do_action_deprecated( 'ctct_after_form', [ $form_id ], 'NEXT', 'constant_contact_after_form' );
+		do_action_deprecated( 'ctct_after_form', [ $form_id ], '1.9.0', 'constant_contact_after_form' );
 
 		/**
 		 * Fires after the closing form tag.
 		 *
 		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
-		 * @since  NEXT
+		 * @since  1.9.0
 		 *
 		 * @param int $form_id Current form ID.
 		 */
@@ -869,7 +869,7 @@ class ConstantContact_Display {
 	 * Helper method to display label for form field + field starting markup.
 	 *
 	 * @since  1.0.0
-	 * @since  NEXT Added $tag
+	 * @since  1.9.0 Added $tag
 	 *
 	 * @param  string  $type           Type of field.
 	 * @param  string  $name           Name / id of field.
@@ -904,7 +904,7 @@ class ConstantContact_Display {
 	 *
 	 * @since  1.0.0
 	 * @since  1.3.5 Added $use_label
-	 * @since  NEXT Added $tag
+	 * @since  1.9.0 Added $tag
 	 *
 	 * @param  string $name        Field name.
 	 * @param  string $field_label Field label.
@@ -1110,7 +1110,7 @@ class ConstantContact_Display {
 	 * Display hidden input field.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.9.0
 	 *
 	 * @param  string $name  Field name.
 	 * @param  string $value Field value.
@@ -1129,7 +1129,7 @@ class ConstantContact_Display {
 	 * Checkbox field helper method.
 	 *
 	 * @since 1.0.0
-	 * @since NEXT Updated params to mirror text inputs and updated output to work with multicheck.
+	 * @since 1.9.0 Updated params to mirror text inputs and updated output to work with multicheck.
 	 *
 	 * @param  string       $name            ID of form field.
 	 * @param  string       $id              ID attribute value.
