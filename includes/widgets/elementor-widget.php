@@ -32,7 +32,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	 * @since  NEXT
 	 */
 	public function get_title() {
-		return 'Constant Contact';
+		return 'Constant Contact Form';
 	}
 
 	/**
@@ -41,7 +41,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	 * @since  NEXT
 	 */
 	public function get_icon() {
-		return 'fa fa-code';
+		return 'eicon-form-horizontal';
 	}
 	
 	/**
