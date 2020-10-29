@@ -331,6 +331,14 @@ class Constant_Contact {
 	private $gutenberg;
 
 	/**
+	 * An instance of the ConstantContact_BeaverBuilder class.
+	 *
+	 * @since 1.5.0
+	 * @var ConstantContact_BeaverBuilder
+	 */
+	private $beaver_builder;
+
+	/**
 	 * Option name for where we store the timestamp of when the plugin was activated.
 	 *
 	 * @since 1.6.0
@@ -417,6 +425,7 @@ class Constant_Contact {
 	 */
 	public function plugin_classes() {
 		$this->api                  = new ConstantContact_API( $this );
+		$this->beaver_builder       = new ConstantContact_Beaver_Builder( $this );
 		$this->builder              = new ConstantContact_Builder( $this );
 		$this->builder_fields       = new ConstantContact_Builder_Fields( $this );
 		$this->check                = new ConstantContact_Check( $this );
@@ -611,6 +620,7 @@ class Constant_Contact {
 			case 'auth_redirect':
 			case 'api':
 			case 'basename':
+			case 'beaver_builder':
 			case 'builder':
 			case 'builder_fields':
 			case 'connect':
