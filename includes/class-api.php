@@ -528,7 +528,7 @@ class ConstantContact_API {
 			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
 			$this->log_errors( $our_errors );
-			if ( 400 !== $ex->getCode() || false !== strpos( 'Bad Request', $ex->getMessage() ) ) {
+			if ( 400 !== $ex->getCode() || false === strpos( $ex->getMessage(), 'Bad request' ) ) {
 				constant_contact_set_has_exceptions();
 			}
 		} catch ( Exception $ex ) {
@@ -537,7 +537,7 @@ class ConstantContact_API {
 			$error->error_message = $ex->getMessage();
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
-			if ( 400 !== $ex->getCode() || false !== strpos( 'Bad Request', $ex->getMessage() ) ) {
+			if ( 400 !== $ex->getCode() || false === strpos( $ex->getMessage(), 'Bad request' ) ) {
 				constant_contact_set_has_exceptions();
 			}
 
