@@ -331,6 +331,14 @@ class Constant_Contact {
 	private $gutenberg;
 
 	/**
+	 * An instance of the ConstantContact_Divi class.
+	 *
+	 * @since 1.5.0
+	 * @var ConstantContact_Divi
+	 */
+	private $divi;
+
+	/**
 	 * Option name for where we store the timestamp of when the plugin was activated.
 	 *
 	 * @since 1.6.0
@@ -475,10 +483,21 @@ class Constant_Contact {
 		add_action( 'init', [ $this->shortcode, 'register_shortcode' ] );
 		add_action( 'save_post', [ $this->shortcode, 'clear_forms_list_transient' ] );
 
+		add_action( 'et_builder_framework_loaded', [ $this, 'init_divi' ] );
+
 		if ( is_admin() ) {
 			add_action( 'wp_ajax_ctct_dismiss_first_modal', [ $this, 'ajax_save_clear_first_form' ] );
 			add_action( 'wp_ajax_nopriv_ctct_dismiss_first_modal', [ $this, 'ajax_save_clear_first_form' ] );
 		}
+	}
+
+	/**
+	 * Register Divi Modules.
+	 *
+	 * @since NEXT
+	 */
+	public function init_divi() {
+		$this->divi = new ConstantContact_Divi();
 	}
 
 	/**
