@@ -990,9 +990,10 @@ class ConstantContact_Display {
 	 * @return string                   HTML markup for field.
 	 */
 	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '', $instance = 0 ) {
+		$id_salt               = wp_rand();
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
-		$field_id              = "{$field_key}_{$instance}";
+		$field_id              = "{$field_key}_{$instance}_{$id_salt}";
 		$input_inline_styles   = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
