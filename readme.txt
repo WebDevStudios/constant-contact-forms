@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
 Tested up to:      5.5.1
-Stable tag:        1.9.0
+Stable tag:        1.9.1
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.6
@@ -34,6 +34,11 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 5. Basic Form
 
 == Changelog ==
+
+= 1.9.1 =
+* Fixed: Removing duplicate IDs on form submit button.
+* Fixed: Preventing `Bad Request` request errors from rendering an admin notice.
+* Fixed: Various other admin and front-end fixes.
 
 = 1.9.0 =
 * Added: Ability for site owners to multiple lists for users to choose which to sign up for.
