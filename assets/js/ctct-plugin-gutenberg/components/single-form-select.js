@@ -23,6 +23,10 @@ class SingleFormSelect extends Component {
 		this.state = {
 			forms: [
 				{ label: __( 'Select a form', 'constant-contact' ), value: 0 }
+			],
+			displayTitle: [
+				{ label: __( 'Display Title', 'constant-contact' ), value: true },
+				{ label: __( 'Hide Title', 'constant-contact' ), value: false }
 			]
 		}
 	}
@@ -46,11 +50,19 @@ class SingleFormSelect extends Component {
 	 */
 	render() {
 		// Destructure the selectedFrom from props.
-		let { selectedForm } = this.props.attributes;
+		let { selectedForm, displayTitle } = this.props.attributes;
 
 		return (
 			<div className="ctct-block-container">
 				<h4 className="ctct-block-title">{ __( 'Constant Contact Forms', 'constant-contact' ) }</h4>
+
+				<small>{ __( 'Display Form Title', 'constant-contact' ) }</small>
+				<SelectControl
+					value={ displayTitle }
+					options={ this.state.displayTitle }
+					onChange={ value => this.props.setAttributes( { displayTitle: value } ) }
+				/>
+
 				<small>{ __( 'Choose the form to display with the dropdown below.', 'constant-contact' ) }</small>
 				<SelectControl
 					value={ selectedForm }

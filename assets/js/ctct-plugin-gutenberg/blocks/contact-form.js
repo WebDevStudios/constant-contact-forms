@@ -15,6 +15,9 @@ export default registerBlockType( 'constant-contact/single-contact-form', {
 	attributes: {
 		selectedForm: {
 			type: 'string',
+		},
+		displayTitle: {
+			type: 'boolean',
 		}
 	},
 	edit: SingleFormSelect,
