@@ -54,9 +54,9 @@ class SingleFormSelect extends Component {
 
 		return (
 			<div className="ctct-block-container">
-				<h4 className="ctct-block-title">{ __( 'Constant Contact Forms', 'constant-contact' ) }</h4>
-
+				<img className="ctct-block-logo" src="https://images.ctfassets.net/t21gix3kzulv/78gf1S3CjPrnl9rURf6Q8w/3c20fb510dd4d4653feddf86ece35e1a/ctct_ripple_logo_horizontal_white_orange.svg"/>
 				<small>{ __( 'Display Form Title', 'constant-contact' ) }</small>
+
 				<SelectControl
 					value={ displayTitle }
 					options={ this.state.displayTitle }

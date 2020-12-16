@@ -1116,6 +1116,23 @@ a.ctct-notice-dismiss {
   text-align: center;
 }
 
+.ctct-block-container {
+  background-color: #1756EC;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border: 3px solid #ff9e1a;
+  border-radius: 5px;
+}
+
+.ctct-block-container .ctct-block-logo {
+  max-width: 80%;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
+}
+
 .cc-a-block {
   margin: 0 auto;
   max-width: 90%;
