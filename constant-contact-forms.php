@@ -425,7 +425,10 @@ class Constant_Contact {
 	 */
 	public function plugin_classes() {
 		$this->api                  = new ConstantContact_API( $this );
-		$this->beaver_builder       = new ConstantContact_Beaver_Builder( $this );
+		if ( class_exists( 'FLBuilder' ) ) {
+			// Load if Beaver Builder is active.
+			$this->beaver_builder       = new ConstantContact_Beaver_Builder( $this );
+		}
 		$this->builder              = new ConstantContact_Builder( $this );
 		$this->builder_fields       = new ConstantContact_Builder_Fields( $this );
 		$this->check                = new ConstantContact_Check( $this );
