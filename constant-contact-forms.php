@@ -331,6 +331,14 @@ class Constant_Contact {
 	private $gutenberg;
 
 	/**
+	 * An instance of the ConstantContact_Elementor class.
+	 *
+	 * @since 1.5.0
+	 * @var ConstantContact_Elementor
+	 */
+	private $elementor;
+
+	/**
 	 * Option name for where we store the timestamp of when the plugin was activated.
 	 *
 	 * @since 1.6.0
@@ -437,6 +445,7 @@ class Constant_Contact {
 		$this->optin                = new ConstantContact_Optin( $this );
 		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
+		$this->elementor            = new ConstantContact_Elementor( $this );
 	}
 
 	/**
@@ -619,6 +628,7 @@ class Constant_Contact {
 			case 'customizations':
 			case 'display':
 			case 'display_shortcode':
+			case 'elementor':
 			case 'gutenberg':
 			case 'lists':
 			case 'logging':
