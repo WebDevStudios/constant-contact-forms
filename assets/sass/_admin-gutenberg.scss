@@ -3,10 +3,58 @@
 // Gutenberg Admin
 //--------------------------------------------------------------
 .ctct-block-title {
-	margin: 0;
+  margin: 0;
 }
 
 .ctct-block-container {
-	padding-bottom: 20px;
-	padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #1756ec;
+  padding: 40px;
+  color: #fff;
+
+  &--header,
+  &--selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  &--header {
+    margin: 0 0 10px;
+    img {
+      max-width: 280px;
+      display: block;
+    }
+  }
+
+  &--selection {
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    margin: 20px 0 0;
+    small {
+      opacity: 0.8;
+      font-size: 14px;
+      font-weight: 600;
+      margin: 0 0 10px;
+      display: block;
+    }
+  }
+  &--component {
+    max-width: 400px;
+    width: 100%;
+  }
+
+  .ctct-block-logo {
+    max-width: 80%;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+  }
 }
