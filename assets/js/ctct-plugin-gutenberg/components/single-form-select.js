@@ -52,15 +52,15 @@ class SingleFormSelect extends Component {
           />
         </div>
         <div className="ctct-block-container--selection">
-          <small>{__("Choose the form to display with the dropdown below.", "constant-contact")}</small>
-          <div className="ctct-block-container--component">
-            <SelectControl value={selectedForm} options={this.state.forms} onChange={(value) => this.props.setAttributes({ selectedForm: value })} />
-          </div>
-        </div>
-        <div className="ctct-block-container--selection">
           <small>{__("Display Form Title", "constant-contact")}</small>
           <div className="ctct-block-container--component">
             <SelectControl value={displayTitle} options={this.state.displayTitle} onChange={(value) => this.props.setAttributes({ displayTitle: value })} />
+          </div>
+        </div>
+        <div className="ctct-block-container--selection">
+          <small>{__("Choose the form to display with the dropdown below.", "constant-contact")}</small>
+          <div className="ctct-block-container--component">
+            <SelectControl value={selectedForm} options={this.state.forms} onChange={(value) => this.props.setAttributes({ selectedForm: value })} />
           </div>
         </div>
       </div>
