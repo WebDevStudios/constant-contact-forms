@@ -136,9 +136,7 @@ class ConstantContact_Divi extends ET_Builder_Module {
 	 */
 	private function get_form_options () {
 
-		$options = [
-
-		];
+		$options = [];
 
 		$forms = get_posts( [
 			'post_type' => 'ctct_forms',
