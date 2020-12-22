@@ -87,6 +87,11 @@ function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_
 	// and then return all the unique values for our return value.
 	$new_ignore_keys = array_unique( array_merge( $ignored_keys, $bad_keys ) );
 
+	// Filter $new_ignore_keys array for items without `lists___`.
+	$new_ignore_keys = array_filter( $new_ignore_keys, function ( $item ) {
+		return false === strpos( $item, 'lists___' );
+	} );
+
 	return $new_ignore_keys;
 }
 add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_wpspamshield_compatibility', 10, 2 );

@@ -611,7 +611,7 @@ class ConstantContact_Settings {
 	 */
 	public function check_if_optin_should_show( $type ) {
 
-		$available_areas = ctct_get_settings_option( '_ctct_optin_forms', [] );
+		$available_areas = constant_contact_get_option( '_ctct_optin_forms', [] );
 
 		if ( ! is_array( $available_areas ) ) {
 			return false;
@@ -668,8 +668,8 @@ class ConstantContact_Settings {
 			return;
 		}
 
-		$saved_label = ctct_get_settings_option( '_ctct_optin_label', '' );
-		$list        = ctct_get_settings_option( '_ctct_optin_list', '' );
+		$saved_label = constant_contact_get_option( '_ctct_optin_label', '' );
+		$list        = constant_contact_get_option( '_ctct_optin_list', '' );
 		$label       = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 		?>
 		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">

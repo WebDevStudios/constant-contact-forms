@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.9.0
+ * Version:     1.9.1
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
@@ -72,7 +72,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.9.0';
+	const VERSION = '1.9.1';
 
 	/**
 	 * URL of plugin directory.
@@ -338,6 +338,14 @@ class Constant_Contact {
 	 */
 	private $beaver_builder;
 
+	/*
+	 * An instance of the ConstantContact_Elementor class.
+	 *
+	 * @since 1.5.0
+	 * @var ConstantContact_Elementor
+	 */
+	private $elementor;
+
 	/**
 	 * Option name for where we store the timestamp of when the plugin was activated.
 	 *
@@ -449,6 +457,10 @@ class Constant_Contact {
 		$this->optin                = new ConstantContact_Optin( $this );
 		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
+		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			// Load if Elementor is active.
+			$this->elementor            = new ConstantContact_Elementor( $this );
+		}
 	}
 
 	/**
@@ -632,6 +644,7 @@ class Constant_Contact {
 			case 'customizations':
 			case 'display':
 			case 'display_shortcode':
+			case 'elementor':
 			case 'gutenberg':
 			case 'lists':
 			case 'logging':
