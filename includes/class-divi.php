@@ -38,34 +38,34 @@ class ConstantContact_Divi extends ET_Builder_Module {
 	 *
 	 * @var array $whitelisted_fields
 	 */
-	public $whitelisted_fields = array();
+	public $whitelisted_fields = [];
 
 	/**
 	 * Field defaults.
 	 *
 	 * @var    array $fields_defaults
 	 */
-	public $fields_defaults = array();
+	public $fields_defaults = [];
 
 	/**
 	 * Advanced options.
 	 *
 	 * @var array $advanced_options
 	 */
-	public $advanced_options = array();
+	public $advanced_options = [];
 
 	/**
 	 * Option toggles.
 	 *
 	 * @var array $options_toggles
 	 */
-	public $options_toggles = array();
+	public $options_toggles = [];
 
 	/**
 	 * Function init()
 	 */
 	function init() {
-		$this->name = __( 'Constant Contact Forms', 'constant-contact-forms' );
+		$this->name = esc_html__( 'Constant Contact Forms', 'constant-contact-forms' );
 
 		$this->whitelisted_fields = [
 			'show_title',
@@ -151,7 +151,7 @@ class ConstantContact_Divi extends ET_Builder_Module {
 		}
 
 		if ( empty( $options ) ) {
-			$options[ '' ] = __( 'No forms currently published.', 'constant-contact-forms' );
+			$options[ '' ] = esc_html__( 'No forms currently published.', 'constant-contact-forms' );
 		}
 
 		return $options;
@@ -171,7 +171,7 @@ class ConstantContact_Divi extends ET_Builder_Module {
 		$settings = $this->get_settings_for_display();
 
 		if ( empty( $this->props['cc_form'] ) ) {
-			echo __( 'Please select a form.', 'constant-contact-forms' );
+			echo esc_html__( 'Please select a form.', 'constant-contact-forms' );
 			return;
 		}
 
