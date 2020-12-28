@@ -773,7 +773,7 @@ msgstr ""
 msgid "Cron spawn ok"
 msgstr ""
 
-#: includes/class-connect.php:132, includes/class-connect.php:193
+#: includes/class-connect.php:132, includes/class-connect.php:197
 msgid "Disconnect"
 msgstr ""
 
@@ -798,28 +798,32 @@ msgstr ""
 msgid "Plugin connected to Constant Contact."
 msgstr ""
 
-#: includes/class-connect.php:201
+#: includes/class-connect.php:189
+msgid "There was an issue with retrieving connected account information. Please try again."
+msgstr ""
+
+#: includes/class-connect.php:205
 msgid "Your account is connected! Now, add a new form."
 msgstr ""
 
-#: includes/class-connect.php:211
+#: includes/class-connect.php:215
 msgid "Please help to improve this plugin."
 msgstr ""
 
 #. translators: Placeholder will hold link to Constant Contact privacy statement.
-#: includes/class-connect.php:216
+#: includes/class-connect.php:220
 msgid "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %1$s."
 msgstr ""
 
-#: includes/class-connect.php:219
+#: includes/class-connect.php:223
 msgid "Privacy Statement"
 msgstr ""
 
-#: includes/class-connect.php:226
+#: includes/class-connect.php:230
 msgid "Allow"
 msgstr ""
 
-#: includes/class-connect.php:227, includes/class-notification-content.php:164
+#: includes/class-connect.php:231, includes/class-notification-content.php:164
 msgid "Dismiss"
 msgstr ""
 
@@ -1079,96 +1083,96 @@ msgstr ""
 msgid "Constant Contact Use."
 msgstr ""
 
-#: includes/class-display.php:699, includes/class-display.php:1799
+#: includes/class-display.php:699, includes/class-display.php:1800
 msgid "Error: Please correct your entry."
 msgstr ""
 
-#: includes/class-display.php:1372
+#: includes/class-display.php:1373
 msgid "Street Address"
 msgstr ""
 
-#: includes/class-display.php:1373
+#: includes/class-display.php:1374
 msgid "Address Line 2"
 msgstr ""
 
-#: includes/class-display.php:1374
+#: includes/class-display.php:1375
 msgid "City"
 msgstr ""
 
-#: includes/class-display.php:1375
+#: includes/class-display.php:1376
 msgid "State"
 msgstr ""
 
-#: includes/class-display.php:1376
+#: includes/class-display.php:1377
 msgid "ZIP Code"
 msgstr ""
 
-#: includes/class-display.php:1566
+#: includes/class-display.php:1567
 msgid "Month"
 msgstr ""
 
-#: includes/class-display.php:1567
+#: includes/class-display.php:1568
 msgid "Day"
 msgstr ""
 
-#: includes/class-display.php:1568
+#: includes/class-display.php:1569
 msgid "Year"
 msgstr ""
 
-#: includes/class-display.php:1684
+#: includes/class-display.php:1685
 msgid "January"
 msgstr ""
 
-#: includes/class-display.php:1685
+#: includes/class-display.php:1686
 msgid "February"
 msgstr ""
 
-#: includes/class-display.php:1686
+#: includes/class-display.php:1687
 msgid "March"
 msgstr ""
 
-#: includes/class-display.php:1687
+#: includes/class-display.php:1688
 msgid "April"
 msgstr ""
 
-#: includes/class-display.php:1688
+#: includes/class-display.php:1689
 msgid "May"
 msgstr ""
 
-#: includes/class-display.php:1689
+#: includes/class-display.php:1690
 msgid "June"
 msgstr ""
 
-#: includes/class-display.php:1690
+#: includes/class-display.php:1691
 msgid "July "
 msgstr ""
 
-#: includes/class-display.php:1691
+#: includes/class-display.php:1692
 msgid "August"
 msgstr ""
 
-#: includes/class-display.php:1692
+#: includes/class-display.php:1693
 msgid "September"
 msgstr ""
 
-#: includes/class-display.php:1693
+#: includes/class-display.php:1694
 msgid "October"
 msgstr ""
 
-#: includes/class-display.php:1694
+#: includes/class-display.php:1695
 msgid "November"
 msgstr ""
 
-#: includes/class-display.php:1695
+#: includes/class-display.php:1696
 msgid "December"
 msgstr ""
 
 #. translators: placeholder will hold company info for site owner.
-#: includes/class-display.php:1870
+#: includes/class-display.php:1871
 msgid "By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s"
 msgstr ""
 
-#: includes/class-display.php:1877
+#: includes/class-display.php:1878
 msgid "Emails are serviced by Constant Contact"
 msgstr ""
 

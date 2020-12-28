@@ -1246,7 +1246,7 @@ a.ctct-notice-dismiss {
   width: 500px;
 }
 
-.cmb2-options-page[class*='option-ctct_options_settings_'] .cmb2-metabox > .cmb-row {
+.cmb2-options-page[class*="option-ctct_options_settings_"] .cmb2-metabox > .cmb-row {
   background: transparent;
   border: none;
   box-shadow: none;
@@ -1348,6 +1348,56 @@ a.ctct-notice-dismiss {
 }
 
 .ctct-block-container {
-  padding-bottom: 20px;
-  padding-top: 15px;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  align-items: center;
+  border-radius: 5px;
+  overflow: hidden;
+  background-color: #1756ec;
+  padding: 40px;
+  color: #fff;
+}
+
+.ctct-block-container--header, .ctct-block-container--selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.ctct-block-container--header {
+  margin: 0 0 10px;
+}
+
+.ctct-block-container--header img {
+  max-width: 280px;
+  display: block;
+}
+
+.ctct-block-container--selection {
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  margin: 20px 0 0;
+}
+
+.ctct-block-container--selection small {
+  opacity: 0.8;
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0 0 10px;
+  display: block;
+}
+
+.ctct-block-container--component {
+  max-width: 400px;
+  width: 100%;
+}
+
+.ctct-block-container .ctct-block-logo {
+  max-width: 80%;
+  margin: auto;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }
