@@ -198,7 +198,7 @@ class ConstantContact_Connect {
 						</form>
 					</div>
 
-					<?php if ( ! constant_contact_has_forms()() ) : ?>
+					<?php if ( ! constant_contact_has_forms() ) : ?>
 
 						<?php // phpcs:disable WordPress.WP.EnqueuedResources -- Ok use of inline scripts. ?>
 						<div class="ctct-connected-next-step">
