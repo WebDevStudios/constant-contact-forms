@@ -801,6 +801,11 @@ class Constant_Contact {
 	 * @since 1.4.0
 	 */
 	public function register_front_assets() {
+
+		if ( disable_frontend_css() ) {
+			return;
+		}
+
 		wp_register_style(
 			'ctct_form_styles',
 			self::url() . 'assets/css/style.css',
