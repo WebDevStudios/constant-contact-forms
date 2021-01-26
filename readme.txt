@@ -13,7 +13,9 @@ The official Constant Contact plugin adds a contact form to your WordPress site 
 == Description ==
 
 ##Work smarter, not harder. The Constant Contact Way
-Create branded emails, build a website, sell online, and make it easy for people to find you—all from one place. 
+Create branded emails, build a website, sell online, and make it easy for people to find you—all from one place.
+
+https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 **Constant Contact Forms** is the easiest way to connect your WordPress website with your Constant Contact account! 
 Effortlessly create sign-up forms to convert your site visitors into mailing list contacts.
