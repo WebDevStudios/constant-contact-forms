@@ -17,12 +17,16 @@ Create branded emails, build a website, sell online, and make it easy for people
 
 https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
-**Constant Contact Forms** is the easiest way to connect your WordPress website with your Constant Contact account! 
-Effortlessly create sign-up forms to convert your site visitors into mailing list contacts.
-Customize data fields, so you can tailor the type of information you collect from your users.
-All new email addresses that you capture will be automatically added to the Constant Contact email lists of your choosing
+**Constant Contact Forms** is the easiest way to connect your WordPress website with your Constant Contact account.
 
-#How To Get Started.
+-  Effortlessly create sign-up forms to convert your site visitors into mailing list contacts.
+-  Customize data fields, so you can tailor the type of information you collect from your users.
+-  Captured email addresses will be automatically added to the Constant Contact email lists of your choosing.
+
+**BONUS**: If you have a Constant Contact account, all new email addresses that you capture will be automatically added to the Constant Contact email lists of your choosing. Not a Constant Contact customer? Sign up for a (Free Trial)[https://go.constantcontact.com/signup.jsp] right from the plugin.
+
+
+##How To Get Started.
 
 1. Signup for a [Free Trial](http://www.constantcontact.com/index?pn=miwordpress). ( Existing Constant Contact users can skip this step).
 2. Follow [first-time setup instructions](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integration-with-Constant-Contact).
@@ -130,3 +134,7 @@ You can add this to your active theme or custom plugin: `add_filter( 'constant_c
 
 #### Which account level access is needed to connect my WordPress account to Constant Contact?
 You will need to make the connection to Constant Contact using the credentials of the account owner. Campaign manager credentials will not have enough access.
+
+
+== Upgrade Notice ==
+-  None
