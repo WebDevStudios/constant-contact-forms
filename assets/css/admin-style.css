@@ -618,6 +618,7 @@ body.post-type-ctct_forms #titlediv #title {
   height: auto;
   max-width: 400px;
   width: 100%;
+  margin-bottom: 25px;
 }
 
 .ctct_options_connect h3 {
@@ -1100,9 +1101,8 @@ a.ctct-notice-dismiss {
 }
 
 .constant-contact-about .plugin-badge {
-  float: right;
-  margin-left: 40px;
-  max-height: 180px;
+  float: left;
+  margin: 4px 15px 15px 0;
   max-width: 160px;
 }
 

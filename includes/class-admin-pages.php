@@ -210,10 +210,10 @@ class ConstantContact_Admin_Pages {
 		<div class="wrap about-wrap constant-contact-about">
 			<div class="hide-overflow">
 				<div class="ctct-section section-about">
-					<span class="plugin-badge">
-						<img alt="<?php echo esc_attr_x( 'Constant Contact Logo', 'img alt text', 'constant-contact-forms' ); ?>" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/icon.jpg' ); ?>">
-					</span>
 					<h1 class="about-header"><?php esc_html_e( 'Constant Contact Forms', 'constant-contact-forms' ); ?></h1>
+					<span class="plugin-badge">
+						<img alt="<?php echo esc_attr_x( 'Constant Contact Logo', 'img alt text', 'constant-contact-forms' ); ?>" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/ctct-admin-notice-logo.png' ); ?>">
+					</span>
 					<p>
 						<?php echo wp_kses_post( __( "This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account.", 'constant-contact-forms' ) ); ?>
 					</p>

@@ -190,9 +190,8 @@
   }
 
   .plugin-badge {
-    float: right;
-    margin-left: 40px;
-    max-height: 180px;
+    float: left;
+    margin: 4px 15px 15px 0;
     max-width: 160px;
 
     @media screen and (max-width: 482px) {
