@@ -118,72 +118,72 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function help_page() {
 		?>
-		<h1>
+		<h2>
 			<?php esc_attr_e( 'Help / FAQ', 'constant-contact-forms' ); ?>
-		</h1>
+		</h2>
 		<div class="ctct-wrap wrap">
 			<table id="ctct-support" class="ctct-form-table">
-			<tr>
-				<td class="outer outer-first">
-					<h2>
-						<?php esc_html_e( 'Help', 'constant-contact-forms' ); ?>
-					</h2>
-					<ol id="help_ctct">
-					<?php
-					$helps = $this->get_help_texts();
+				<tr>
+					<td class="outer outer-first">
+						<h2>
+							<?php esc_html_e( 'Help', 'constant-contact-forms' ); ?>
+						</h2>
+						<ol id="help_ctct">
+						<?php
+						$helps = $this->get_help_texts();
 
-					if ( is_array( $helps ) ) {
+						if ( is_array( $helps ) ) {
 
-						foreach ( $helps as $help ) {
-							if ( ! isset( $help['title'] ) || ! isset( $help['content'] ) ) {
-								continue;
+							foreach ( $helps as $help ) {
+								if ( ! isset( $help['title'] ) || ! isset( $help['content'] ) ) {
+									continue;
+								}
+								?>
+								<li>
+									<span class="question" aria-controls="q1" aria-expanded="false">
+										<?php echo esc_html( $help['title'] ); ?>
+									</span>
+									<div class="answer">
+										<?php echo esc_html( $help['content'] ); ?>
+									</div>
+								</li>
+								<?php
 							}
+						}
+						?>
+						</ol>
+					</td>
+					<td class="outter">
+						<h2>
+							<?php esc_html_e( 'FAQ', 'constant-contact-forms' ); ?>
+						</h2>
+						<ol id="faq_ctct">
+						<?php
+						$faqs = $this->get_faq_texts();
+
+						if ( is_array( $faqs ) ) {
+
+							foreach ( $faqs as $faq ) {
+								if ( ! isset( $faq['title'] ) || ! isset( $faq['content'] ) ) {
+									continue;
+								}
 							?>
 							<li>
 								<span class="question" aria-controls="q1" aria-expanded="false">
-									<?php echo esc_html( $help['title'] ); ?>
+									<?php echo esc_html( $faq['title'] ); ?>
 								</span>
 								<div class="answer">
-									<?php echo esc_html( $help['content'] ); ?>
+									<?php echo esc_html( $faq['content'] ); ?>
 								</div>
 							</li>
 							<?php
-						}
-					}
-					?>
-					</ol>
-				</td>
-				<td class="outter">
-					<h2>
-						<?php esc_html_e( 'FAQ', 'constant-contact-forms' ); ?>
-					</h2>
-					<ol id="faq_ctct">
-					<?php
-					$faqs = $this->get_faq_texts();
-
-					if ( is_array( $faqs ) ) {
-
-						foreach ( $faqs as $faq ) {
-							if ( ! isset( $faq['title'] ) || ! isset( $faq['content'] ) ) {
-								continue;
 							}
-						?>
-						<li>
-							<span class="question" aria-controls="q1" aria-expanded="false">
-								<?php echo esc_html( $faq['title'] ); ?>
-							</span>
-							<div class="answer">
-								<?php echo esc_html( $faq['content'] ); ?>
-							</div>
-						</li>
-						<?php
 						}
-					}
-					?>
-					</ol>
-				</td>
-			</tr>
-			</table
+						?>
+						</ol>
+					</td>
+				</tr>
+			</table>
 		</div>
 		<?php
 	}
@@ -207,141 +207,139 @@ class ConstantContact_Admin_Pages {
 		}
 
 		?>
-		<div class="wrap about-wrap constant-contact-about">
-			<div class="hide-overflow">
-				<div class="ctct-section section-about">
-					<h1 class="about-header"><?php esc_html_e( 'Constant Contact Forms', 'constant-contact-forms' ); ?></h1>
-					<span class="plugin-badge">
-						<img alt="<?php echo esc_attr_x( 'Constant Contact Logo', 'img alt text', 'constant-contact-forms' ); ?>" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/ctct-admin-notice-logo.png' ); ?>">
-					</span>
-					<p>
-						<?php echo wp_kses_post( __( "This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account.", 'constant-contact-forms' ) ); ?>
-					</p>
-					<p>
-						<?php esc_attr_e( "Whether you're looking to collect email addresses, contact info, or visitor feedback, you can customize your forms with data fields that work best for you.", 'constant-contact-forms' ); ?>
-					</p>
-					<ul class="ctct-bonus-points">
-						<li> <?php esc_attr_e( 'Quickly create different types of forms that are clear, simple, and mobile-optimized.', 'constant-contact-forms' ); ?></li>
-						<li> <?php esc_attr_e( 'Choose forms that automatically select the theme and style of your WordPress site.', 'constant-contact-forms' ); ?></li>
-						<li> <?php esc_attr_e( 'Customize the form data fields, so you can tailor the type of information you collect.', 'constant-contact-forms' ); ?></li>
-					</ul>
-				</div>
-
-				<div class="ctct-section section-try-us">
-					<?php // phpcs:disable WordPress.Security.EscapeOutput -- OK instance of echoing without escaping.  ?>
-					<div style="float: right;" class="ctct-video"><?php echo wp_oembed_get( 'https://www.youtube.com/watch?v=MhxtAlpZzJw', [ 'width' => 400 ] ); ?></div>
-					<?php // phpcs:enable WordPress.Security.EscapeOutput ?>
-					<h1 class="about-header">
-						<?php esc_html_e( 'Collecting email addresses with the plugin?', 'constant-contact-forms' ); ?>
-						<br /><?php esc_html_e( 'Turn those contacts into customers.', 'constant-contact-forms' ); ?>
-					</h1>
-					<p>
-						<?php esc_html_e( "Nurture your new contacts with a Constant Contact email marketing account even after they've left your website. Sign up for a 60-day trial account* and you can:", 'constant-contact-forms' ); ?>
-					</p>
-					<ul class="ctct-bonus-points">
-						<li><?php esc_html_e( 'Seamlessly add new contacts to mailing lists.', 'constant-contact-forms' ); ?></li>
-						<li><?php esc_html_e( 'Create and send professional emails.', 'constant-contact-forms' ); ?></li>
-						<li><?php esc_html_e( 'Get expert marketing help and support.', 'constant-contact-forms' ); ?></li>
-					</ul>
-
-					<p>
-						<?php if ( $new_link ) { ?>
-							<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
-						<?php } ?>
-						<?php if ( $auth_link ) { ?>
-							<?php esc_attr_e( 'Already have a Constant Contact account?', 'constant-contact-forms' ); ?>
-							<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="ctct-connect">
-								<?php esc_html_e( 'Connect the plugin.', 'constant-contact-forms' ); ?>
-							</a>
-						<?php } ?>
-					</p>
-					<p><?php esc_html_e( 'NOTE: You can use the Constant Contact Form plugin without a Constant Contact account. All information collected by the forms will be individually emailed to your site admin.', 'constant-contact-forms' ); ?></p>
-					<hr>
-				</div>
-
-				<div class="ctct-section section-marketing-tips">
-					<?php /* @todo Move to its own function/method. */ ?>
-					<form id="subscribe" accept-charset="utf-8" action="https://cloud.c.constantcontact.com/jmmlsubscriptions/coi_verify" method="get" target="_blank">
-						<input class="button button-blue right" id="subbutton" type="submit" value="<?php esc_attr_e( 'Sign Up', 'constant-contact-forms' ); ?>">
-						<h1 class="about-header"><?php esc_html_e( 'Email marketing tips delivered to your inbox.', 'constant-contact-forms' ); ?></h1>
-						<p><?php esc_html_e( 'Ready to grow with email marketing? Subscribe now for the latest tips and industry best practices to create great-looking emails that work.', 'constant-contact-forms' ); ?></p>
-						<p><input id="subbox" maxlength="255" name="email" type="text" placeholder="<?php esc_attr_e( 'Enter your email address', 'constant-contact-forms' ); ?>">
-						</p>
-						<input name="sub" type="hidden" value="3" />
-						<input name="method" type="hidden" value="JMML" />
-						<input name="page" type="hidden" value="Sub3_Prospect" />
-
-					</form>
-					<small>
-						<?php
-							printf(
-								/* Translators: Placholder is a link to Constant Contact homepage. */
-								esc_html__( 'By submitting this form, you agree to receive periodic product announcements and account notifications from Constant Contact. Cancel these communications at any time by clicking the unsubscribe link in the footer of the actual email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %1$s', 'constant-contact-forms' ),
-								'<a href="https://www.constantcontact.com">www.constantcontact.com</a>'
-							);
-						?>
-					</small>
-					<hr>
-				</div>
-
-				<div class="clear"></div>
-			</div>
-			<div class="headline-feature">
-				<div class="featured-image">
-					<?php // Empty alt tag OK; decorative image. ?>
-					<img alt="" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/coffee-hero.jpg' ); ?>">
-					<p class="featured-title c-text">
-						<?php esc_attr_e( 'Powerful Email Marketing, Made Simple.', 'constant-contact-forms' ); ?>
-					</p>
-					<p class="featured-introduction c-text">
-						<?php esc_attr_e( 'Create professional emails that bring customers to your door', 'constant-contact-forms' ); ?>
-					</p>
-				</div>
-				<p class="introduction c-text">
-				<?php esc_attr_e( "Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact for WordPress plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they've left.", 'constant-contact-forms' ); ?>
+		<div class="wrap constant-contact-about">
+			<h2><?php esc_html_e( 'About Constant Contact Forms', 'constant-contact-forms' ); ?></h2>
+			<div class="ctct-section section-about">
+				<span class="plugin-badge">
+					<img alt="<?php echo esc_attr_x( 'Constant Contact Logo', 'img alt text', 'constant-contact-forms' ); ?>" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/ctct-admin-notice-logo.png' ); ?>">
+				</span>
+				<p>
+					<?php echo wp_kses_post( __( "This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account.", 'constant-contact-forms' ) ); ?>
 				</p>
-				<?php
-					$license_link = $this->plugin->admin->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
-					if ( $license_link ) :
-				?>
-					<p class="c-text">
-					<?php
-						/* Translators: Placholder here is a link to the license. */
-						$license_message = sprintf( __( 'This software is released under a modified %s.', 'constant-contact-forms' ), $license_link );
-						echo wp_kses_post( $license_message );
-					?>
-					</p>
-				<?php endif; ?>
-				<h5>
-					<?php esc_attr_e( '*Direct Marketing Association 2013 Statistical Fact Book', 'constant-contact-forms' ); ?>
-				</h5>
-				<div class="clear"></div>
+				<p>
+					<?php esc_attr_e( "Whether you're looking to collect email addresses, contact info, or visitor feedback, you can customize your forms with data fields that work best for you.", 'constant-contact-forms' ); ?>
+				</p>
+				<ul class="ctct-bonus-points">
+					<li> <?php esc_attr_e( 'Quickly create different types of forms that are clear, simple, and mobile-optimized.', 'constant-contact-forms' ); ?></li>
+					<li> <?php esc_attr_e( 'Choose forms that automatically select the theme and style of your WordPress site.', 'constant-contact-forms' ); ?></li>
+					<li> <?php esc_attr_e( 'Customize the form data fields, so you can tailor the type of information you collect.', 'constant-contact-forms' ); ?></li>
+				</ul>
 			</div>
-			<hr>
-			<div class="cc-a-block">
-				<div class="left">
-					<div class="ad-1">
-						<h3><?php esc_html_e( 'Easily Add Forms', 'constant-contact-forms' ); ?></h3>
-						<img
-							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/add-forms.png' ); ?>"
-							alt="<?php echo esc_attr_x( 'Example embedded Constant Contact form', 'img alt text', 'constant-contact-forms' ); ?>"
-						/>
-						<p>
-							<?php esc_html_e( 'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. ', 'constant-contact-forms' ); ?>
-						</p>
-					</div>
+
+			<div class="ctct-section section-try-us">
+				<?php // phpcs:disable WordPress.Security.EscapeOutput -- OK instance of echoing without escaping.  ?>
+				<div style="float: right;" class="ctct-video"><?php echo wp_oembed_get( 'https://www.youtube.com/watch?v=MhxtAlpZzJw', [ 'width' => 400 ] ); ?></div>
+				<?php // phpcs:enable WordPress.Security.EscapeOutput ?>
+				<h2 class="about-header">
+					<?php esc_html_e( 'Collecting email addresses with the plugin?', 'constant-contact-forms' ); ?>
+					<br /><?php esc_html_e( 'Turn those contacts into customers.', 'constant-contact-forms' ); ?>
+				</h2>
+				<p>
+					<?php esc_html_e( "Nurture your new contacts with a Constant Contact email marketing account even after they've left your website. Sign up for a 60-day trial account* and you can:", 'constant-contact-forms' ); ?>
+				</p>
+				<ul class="ctct-bonus-points">
+					<li><?php esc_html_e( 'Seamlessly add new contacts to mailing lists.', 'constant-contact-forms' ); ?></li>
+					<li><?php esc_html_e( 'Create and send professional emails.', 'constant-contact-forms' ); ?></li>
+					<li><?php esc_html_e( 'Get expert marketing help and support.', 'constant-contact-forms' ); ?></li>
+				</ul>
+
+				<p>
+					<?php if ( $new_link ) { ?>
+						<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
+					<?php } ?>
+					<?php if ( $auth_link ) { ?>
+						<?php esc_attr_e( 'Already have a Constant Contact account?', 'constant-contact-forms' ); ?>
+						<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="ctct-connect">
+							<?php esc_html_e( 'Connect the plugin.', 'constant-contact-forms' ); ?>
+						</a>
+					<?php } ?>
+				</p>
+				<p><?php esc_html_e( 'NOTE: You can use the Constant Contact Form plugin without a Constant Contact account. All information collected by the forms will be individually emailed to your site admin.', 'constant-contact-forms' ); ?></p>
+				<hr>
+			</div>
+
+			<div class="ctct-section section-marketing-tips">
+				<?php /* @todo Move to its own function/method. */ ?>
+				<form id="subscribe" accept-charset="utf-8" action="https://cloud.c.constantcontact.com/jmmlsubscriptions/coi_verify" method="get" target="_blank">
+					<input class="button button-blue right" id="subbutton" type="submit" value="<?php esc_attr_e( 'Sign Up', 'constant-contact-forms' ); ?>">
+					<h2 class="about-header"><?php esc_html_e( 'Email marketing tips delivered to your inbox.', 'constant-contact-forms' ); ?></h2>
+					<p><?php esc_html_e( 'Ready to grow with email marketing? Subscribe now for the latest tips and industry best practices to create great-looking emails that work.', 'constant-contact-forms' ); ?></p>
+					<p><input id="subbox" maxlength="255" name="email" type="text" placeholder="<?php esc_attr_e( 'Enter your email address', 'constant-contact-forms' ); ?>">
+					</p>
+					<input name="sub" type="hidden" value="3" />
+					<input name="method" type="hidden" value="JMML" />
+					<input name="page" type="hidden" value="Sub3_Prospect" />
+
+				</form>
+				<small>
+					<?php
+						printf(
+							/* Translators: Placholder is a link to Constant Contact homepage. */
+							esc_html__( 'By submitting this form, you agree to receive periodic product announcements and account notifications from Constant Contact. Cancel these communications at any time by clicking the unsubscribe link in the footer of the actual email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %1$s', 'constant-contact-forms' ),
+							'<a href="https://www.constantcontact.com">www.constantcontact.com</a>'
+						);
+					?>
+				</small>
+				<hr>
+			</div>
+
+			<div class="clear"></div>
+		</div>
+		<div class="headline-feature">
+			<div class="featured-image">
+				<?php // Empty alt tag OK; decorative image. ?>
+				<img alt="" src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/coffee-hero.jpg' ); ?>">
+				<p class="featured-title c-text">
+					<?php esc_attr_e( 'Powerful Email Marketing, Made Simple.', 'constant-contact-forms' ); ?>
+				</p>
+				<p class="featured-introduction c-text">
+					<?php esc_attr_e( 'Create professional emails that bring customers to your door', 'constant-contact-forms' ); ?>
+				</p>
+			</div>
+			<p class="introduction c-text">
+			<?php esc_attr_e( "Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact for WordPress plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they've left.", 'constant-contact-forms' ); ?>
+			</p>
+			<?php
+				$license_link = $this->plugin->admin->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
+				if ( $license_link ) :
+			?>
+				<p class="c-text">
+				<?php
+					/* Translators: Placholder here is a link to the license. */
+					$license_message = sprintf( __( 'This software is released under a modified %s.', 'constant-contact-forms' ), $license_link );
+					echo wp_kses_post( $license_message );
+				?>
+				</p>
+			<?php endif; ?>
+			<h5>
+				<?php esc_attr_e( '*Direct Marketing Association 2013 Statistical Fact Book', 'constant-contact-forms' ); ?>
+			</h5>
+			<div class="clear"></div>
+		</div>
+		<hr>
+		<div class="cc-a-block">
+			<div class="left">
+				<div class="ad-1">
+					<h3><?php esc_html_e( 'Easily Add Forms', 'constant-contact-forms' ); ?></h3>
+					<img
+						src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/add-forms.png' ); ?>"
+						alt="<?php echo esc_attr_x( 'Example embedded Constant Contact form', 'img alt text', 'constant-contact-forms' ); ?>"
+					/>
+					<p>
+						<?php esc_html_e( 'Create forms that automatically select the theme and styling of your WordPress site for a perfect match. ', 'constant-contact-forms' ); ?>
+					</p>
 				</div>
-				<div class="right">
-					<div class="ad-2">
-						<h3><?php esc_html_e( 'Stay Connected With Your WordPress Visitors', 'constant-contact-forms' ); ?></h3>
-						<img
-							src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/stay-connected.png' ); ?>"
-							alt="<?php echo esc_attr_x( 'Constant Contact list management UI', 'img alt text', 'constant-contact-forms' ); ?>"
-						/>
-						<p>
-							<?php esc_html_e( 'Form completions from site visitors are conveniently added to your Constant Contact email list.', 'constant-contact-forms' ); ?>
-						</p>
-					</div>
+			</div>
+			<div class="right">
+				<div class="ad-2">
+					<h3><?php esc_html_e( 'Stay Connected With Your WordPress Visitors', 'constant-contact-forms' ); ?></h3>
+					<img
+						src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/stay-connected.png' ); ?>"
+						alt="<?php echo esc_attr_x( 'Constant Contact list management UI', 'img alt text', 'constant-contact-forms' ); ?>"
+					/>
+					<p>
+						<?php esc_html_e( 'Form completions from site visitors are conveniently added to your Constant Contact email list.', 'constant-contact-forms' ); ?>
+					</p>
 				</div>
 			</div>
 		</div>
@@ -359,7 +357,7 @@ class ConstantContact_Admin_Pages {
 		<div class="wrap license-wrap constant-contact-license">
 			<div class="hide-overflow">
 				<div class="left-side">
-					<h1 class="license-header"><?php esc_attr_e( 'Constant Contact Forms - License', 'constant-contact-forms' ); ?></h1>
+					<h2 class="license-header"><?php esc_attr_e( 'Constant Contact Forms - License', 'constant-contact-forms' ); ?></h2>
 					<div class="license-text">
 					<pre><?php echo wp_kses_post( $license_text ); ?></pre>
 					</div>

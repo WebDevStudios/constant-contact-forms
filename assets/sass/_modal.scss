@@ -22,6 +22,10 @@
 		font-weight: 400;
 		line-height: 1.2;
 		margin: 0;
+
+		img {
+			display: block;
+		}
 	}
 
 	h3 {
@@ -70,14 +74,15 @@
 		border-radius: 8px;
 		box-shadow: 0 0 15px 0 $color-modal-background;
 		padding: 0;
-		position: relative;
+		position: relative; 
 
 		.ctct-modal-header {
-			background: $color-sky-blue url('../images/cc-modal-bg.png') 50% 50% no-repeat;
+			background: $color-lighter-gray;
 			border-top-left-radius: 8px;
 			border-top-right-radius: 8px;
-			padding: 65px 20px 40px;
+			padding: 30px;
 			text-align: center;
+			border-bottom: 1px solid $color-white;
 
 			p {
 				color: $color-white;
@@ -89,15 +94,9 @@
 				}
 			}
 
-			.ctct-logo {
-				img {
-					max-width: 75%;
-				}
-			}
-
 			.ctct-modal-close {
 				@include clearfix;
-				color: $color-white;
+				color: $color-black;
 				cursor: pointer;
 				font-size: 26px;
 				height: 16px;
@@ -105,19 +104,23 @@
 				margin: 0;
 				padding: 0;
 				position: absolute;
-				right: 10px;
+				right: 15px;
+				top: 15px;
 				text-decoration: none;
-				top:  18px;
-				width: 16px;
+				width: 24px;
+				height: 24px;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 			}
 		}
 
 		.ctct-modal-footer {
-			background-color: $color-alt-silver;
+			background-color: $color-lighter-gray;
 			border-bottom-left-radius: 8px;
 			border-bottom-right-radius: 8px;
-			border-top: 3px solid $color-white;
-			padding: 15px 15px 18px;
+			border-top: 1px solid $color-white;
+			padding: 20px;
 			text-align: center;
 
 			p {
@@ -157,6 +160,7 @@
 					border: none;
 					box-shadow: none;
 					color: $color-prussian-blue;
+					background-color: $color-white;
 				}
 
 				&.button-orange {
@@ -188,7 +192,7 @@
 
 			&.ctct-privacy-modal-body {
 				height: 350px;
-				overflow: scroll;
+				overflow-y: auto;
 			}
 
 			.ctct-modal-left,
@@ -262,10 +266,6 @@
 				.ctct-modal-right {
 					border: none;
 					padding: 15px;
-
-					img {
-						max-width: 100%;
-					}
 				}
 			}
 

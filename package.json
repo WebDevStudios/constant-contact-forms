@@ -8,7 +8,7 @@
     "build": "NODE_ENV=production gulp",
     "dev": "gulp",
     "watch": "gulp watch"
-  },
+  }, 
   "repository": {
     "type": "git",
     "url": "git@github.com/WebDevStudios/constant-contact-forms.git"

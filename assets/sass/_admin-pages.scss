@@ -1,19 +1,15 @@
 // sass-lint:disable class-name-format no-qualifying-elements id-name-format
+
 //--------------------------------------------------------------
 // About Page
 //--------------------------------------------------------------
 .constant-contact-about {
-  padding: 15px;
-
-  @media screen and (max-width: 782px) {
-    padding: 0;
-  }
 
   .ctct-section {
-    margin-bottom: 50px;
+    margin-bottom: 30px;
   }
 
-  h1.about-header {
+  h2.about-header {
     color: $color-cc-blue;
     font-size: 26px;
     margin: 0 0 15px 0;
@@ -171,9 +167,6 @@
     }
 
     h2 {
-      color: $color-cc-blue;
-      font-size: 16px;
-      font-weight: 400;
       margin-top: 30px;
       text-align: left;
     }
@@ -276,7 +269,7 @@
   font-size: 16px;
   font-weight: 300;
   list-style: circle;
-  padding-left: 50px;
+  padding-left: 30px;
 }
 
 .section-try-us {

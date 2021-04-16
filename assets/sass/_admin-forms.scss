@@ -1,6 +1,10 @@
 // sass-lint:disable class-name-format no-qualifying-elements id-name-format
 .post-type-ctct_forms {
 
+	img {
+		max-width: 100%;
+	}
+
 	.misc-pub-section {
 
 		&.misc-pub-visibility,

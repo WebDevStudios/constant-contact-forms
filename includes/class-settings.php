@@ -323,7 +323,7 @@ class ConstantContact_Settings {
 	protected function get_cmb_args( $cmb_id ) {
 		return [
 			'id'           => "{$this->metabox_id}_{$cmb_id}",
-			'title'        => esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
+			'title'        => esc_html__( 'Settings', 'constant-contact-forms' ),
 			'menu_title'   => esc_html__( 'Settings', 'constant-contact-forms' ),
 			'object_types' => [ 'options-page' ],
 			'option_key'   => "{$this->key}_{$cmb_id}",

@@ -1,0 +1,95 @@
+.ctct-header{
+	display: none;
+	@include wider-than('xsmall') {
+		margin: 0 0 0 -20px;
+		padding: 0 0 0 20px;
+		background-color: $color-white;
+		border-block: 1px solid $color-silver;
+		display: flex;
+		width: 100%;
+		align-items: center;
+	}
+	h2{
+		margin: 0;
+		padding: 0 0 0 39px;
+		min-height: 32px;
+		line-height: 32px;
+		background: $color-white url( '../images/ctct-icon-2x.png' ) no-repeat 0 48%;
+      background-size: 32px 32px;
+	}
+	ul{
+		padding: 0 0 0 20px;
+		margin: 0;
+		flex: 1;
+		display: flex;
+		align-items: center;
+		width: 100%;
+		li{
+			margin: 0 15px 0 0;
+			padding: 0;
+			a{
+				padding: 20px 5px;
+				display: block;
+				text-decoration: none;
+				&.is-active{
+					font-weight: 600;
+					text-decoration: underline;
+				}
+			
+				//margin-left: auto;
+				&.ctct-connect-btn{
+					color: $color-white;
+					background-color: $color-blue;
+					border: 1px solid $color-blue-alt;
+					padding: 8px;
+					border-radius: 3px;
+					font-weight: 500;
+					&:hover,
+					&:focus{
+						background-color: $color-blue-alt;
+					}
+				}
+				&.ctct-disconnect{
+					a{					
+						background-color: $color-orange;
+						border: 1px solid $color-orange-alt;
+						&:hover,
+						&:focus{
+							background-color: $color-orange-alt;
+						}
+					}
+				}
+			}
+		}
+	}
+	.ctct-status{
+		display: none;
+		@include wider-than('medium') {
+			display: flex;
+		}
+		align-items: center;
+		text-decoration: none;
+		margin-right: 20px;
+		padding: 0;
+		border-radius: 4px;
+		color: $color-gray;
+		&:hover{
+			cursor: help;
+		}
+		&:before{
+			content: '';
+			display: block;
+			width: 10px;
+			height: 10px;
+			border-radius: 100%;
+			background-color: $color-light-gray; 
+			margin-right: 7px;
+			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+		}
+		&.ctct-connected{
+			&:before{
+				background-color: $color-green;;
+			}
+		}
+	}
+}
