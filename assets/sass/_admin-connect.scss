@@ -17,7 +17,7 @@
 	padding: 30px;
 	@include wider-than('small') {
 	  margin: 45px auto 0;
-	  padding: 50px;
+	  padding: 45px;
 	}
 	max-width: 850px;
 	position: relative;
@@ -28,9 +28,9 @@
 	text-align: center;
  
 	h2{
-	  font-size: 26px;
+	  font-size: 24px;
 	  font-weight: 800;
-	  margin: 0 0 30px;
+	  margin: 0 0 15px;
 	  + p {
 		 margin: 0 0 25px;
 		 padding: 0 10% 25px;
@@ -75,33 +75,23 @@
 			justify-content: center;
 			flex-wrap: wrap;
 			border-radius: $radius;
-			border: 1px solid $color-light-gray;
-			h3 {
-				line-height: 1.55;
-				margin: 0 0 15px;
-			}
-			p {
-				color: $color-modal-alt-text;
-				font-size: 14px;
-				margin: 0;
-		
-				&.ctct-description {
-					font-size: 16px;
-					margin-bottom: 35px;
-				}
-		
-				&.small {
-					color: $color-light-silver;
-					font-size: 12px;
-					margin: 0 auto;
-					padding: 0 10%;
-					line-height: 1.75;
-					text-align: center;
-				}
-			}
+			border: 1px solid $color-light-gray;	
+			box-shadow: $shadow;
+			&.connect-account{
+				border-color: #d1dfe8;
+				background-color:#f5faff;
+			}		
+			&.no-account{
+				border-color: #e2d9c4;
+				background-color:#fff8e9;
+			}		
 		}
 	}
 
+	h3 {
+		line-height: 1.55;
+		margin: 0 0 10px;
+	}
 	p {
 		color: $color-modal-alt-text;
 		font-size: 14px;
@@ -109,7 +99,7 @@
 
 		&.ctct-description {
 			font-size: 16px;
-			margin-bottom: 35px;
+			margin-bottom: 25px;
 		}
 
 		&.small {
@@ -120,9 +110,14 @@
 			line-height: 1.75;
 			text-align: center;
 		}
-	}	
+	}
+	
+	hr{
+		margin: 45px 0;
+		border-bottom: none;
+	}
 
-	.button {
+	.button.ctct-button {
 		border-radius: 4px;
 		color: $color-prussian-blue;
 		font-size: 16px;
@@ -138,7 +133,7 @@
 		&.button-orange {
 			background-color: $color-chrome-yellow;
 			border: 1px solid darken($color-chrome-yellow, 10%);
-
+			color: $color-white;
 			&:hover,
 			&:focus {
 				color: $color-white;
@@ -160,13 +155,59 @@
 	}
 }
 
-.ctct-connected-next-step{
-	padding: 25px 0 0;
-	text-align: left;
+
+// Connection Details
+.ctct-connected-wrap{
+	.ctct-connection-details{
+		display: flex;
+		text-align: left;
+		margin: 0 0 12px;
+		> p,
+		form{
+			padding: 0 6px;
+			width: 50%;
+			text-align: left;
+			input{
+				position: relative;
+				top: -2px;
+			}
+			&:not(form):first-of-type{
+				text-align: right;
+			}
+		}
+	}
 }
 
+// Getting Started/ Next Steps
+.ctct-connected-next-step{
+	text-align: left;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	align-items: center;
+	p{
+		margin: 0 0 15px;
+	}
+	> div{
+		width: 100%;
+		@include wider-than('small') {
+			width: calc(50% - 15px);
+		}
+	}
+	.ctct-video{
+		margin-bottom: 15px;
+		@include wider-than('small') {
+			margin-bottom: 0;
+		}
+		.wistia_embed{
+			max-width: 100%;
+		}
+	}
+}
+
+
+// Connect to GA
 .ctct-connected-opt-in{
-	padding: 25px 0 0;
 	width: 100%;
 	text-align: left;
 	.ctct-connect-ga-optin{
@@ -175,7 +216,7 @@
 		padding: 15px 0 0;
 		.button{
 			text-align: center;
-			margin: 0 15px 0 0;
+			margin: 0 10px 0 0;
 			width: auto;
 		}
 	}
