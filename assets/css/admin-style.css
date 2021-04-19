@@ -622,6 +622,12 @@
   text-align: right;
 }
 
+.ctct-connected-wrap .ctct-connection-details p {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
 .ctct-connected-next-step {
   text-align: left;
   display: flex;
