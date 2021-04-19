@@ -148,7 +148,7 @@
     top: 120px;
     width: 100%;
 
-    @media screen and (max-width: 482px) {
+    @include wider-than('small') {
       color: $color-cc-blue;
       line-height: 1;
       margin-top: 15px;
@@ -312,13 +312,5 @@
       border: none;
       box-shadow: none;
     }
-  }
-}
-
-.ctct-body {
-  #ctct_error_logs {
-    height: 400px;
-    resize: vertical;
-    width: 100%;
   }
 }

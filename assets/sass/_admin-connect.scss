@@ -1,0 +1,197 @@
+// sass-lint:disable class-name-format no-qualifying-elements id-name-format
+#adminmenu .wp-submenu a[href='edit.php?post_type=ctct_forms&page=ctct_options_connect'] {
+	color: $color-light-green;
+}
+
+//--------------------------------------------------------------
+// Connect Page
+//--------------------------------------------------------------
+
+.ctct-body {
+	box-sizing: border-box;
+	* {
+	  box-sizing: border-box;
+	}
+	@include clearfix;
+	margin: 30px auto 0;
+	padding: 30px;
+	@include wider-than('small') {
+	  margin: 45px auto 0;
+	  padding: 50px;
+	}
+	max-width: 850px;
+	position: relative;
+	background-color: $color-white;
+	border: 1px solid $color-silver;
+	border-radius: 8px;
+	box-shadow: $shadow_lg;
+	text-align: center;
+ 
+	h2{
+	  font-size: 26px;
+	  font-weight: 800;
+	  margin: 0 0 30px;
+	  + p {
+		 margin: 0 0 25px;
+		 padding: 0 10% 25px;
+		 position: relative;
+		 &:after{
+			position: absolute;
+			content: '';
+			height: 1px;
+			width: 50px;
+			left: 50%;
+			bottom: 0;
+			margin-left: -25px;
+			background-color: $color-silver;
+		 }
+	  }
+	}
+ 
+	#ctct_error_logs {
+	  height: 400px;
+	  resize: vertical;
+	  width: 100%;
+	}
+ 
+}
+
+.ctct_options_connect {
+	
+	.ctct-call-to-actions{
+		display: flex;
+		flex-wrap: wrap;
+		width: 100%;
+		justify-content: space-between;
+		&--item {
+			width: 100%;
+			margin: 0 0 35px;
+			@include wider-than('small') {
+				width: calc(50% - 10px);
+			}
+			padding: 25px;
+			background-color: $color-lighter-gray;
+			display: flex;
+			justify-content: center;
+			flex-wrap: wrap;
+			border-radius: $radius;
+			border: 1px solid $color-light-gray;
+			h3 {
+				line-height: 1.55;
+				margin: 0 0 15px;
+			}
+			p {
+				color: $color-modal-alt-text;
+				font-size: 14px;
+				margin: 0;
+		
+				&.ctct-description {
+					font-size: 16px;
+					margin-bottom: 35px;
+				}
+		
+				&.small {
+					color: $color-light-silver;
+					font-size: 12px;
+					margin: 0 auto;
+					padding: 0 10%;
+					line-height: 1.75;
+					text-align: center;
+				}
+			}
+		}
+	}
+
+	p {
+		color: $color-modal-alt-text;
+		font-size: 14px;
+		margin: 0;
+
+		&.ctct-description {
+			font-size: 16px;
+			margin-bottom: 35px;
+		}
+
+		&.small {
+			color: $color-light-silver;
+			font-size: 12px;
+			margin: 0 auto;
+			padding: 0 10%;
+			line-height: 1.75;
+			text-align: center;
+		}
+	}	
+
+	.button {
+		border-radius: 4px;
+		color: $color-prussian-blue;
+		font-size: 16px;
+		font-weight: 600;
+		height: auto;
+		line-height: 1;
+		margin: 25px 0 0;
+		min-width: 180px;
+		padding: 14px 30px;
+		align-self: flex-end;
+		width: 100%;
+
+		&.button-orange {
+			background-color: $color-chrome-yellow;
+			border: 1px solid darken($color-chrome-yellow, 10%);
+
+			&:hover,
+			&:focus {
+				color: $color-white;
+				background-color: darken($color-chrome-yellow, 10%);
+			}
+		}
+
+		&.button-blue {
+			background-color: $color-prussian-blue;
+			border: 1px solid darken($color-prussian-blue, 10%);
+			color: $color-white;
+
+			&:hover,
+			&:focus {
+				color: $color-white;
+				background-color: darken($color-prussian-blue, 10%);
+			}
+		}
+	}
+}
+
+.ctct-connected-next-step{
+	padding: 25px 0 0;
+	text-align: left;
+}
+
+.ctct-connected-opt-in{
+	padding: 25px 0 0;
+	width: 100%;
+	text-align: left;
+	.ctct-connect-ga-optin{
+		display: flex;
+		flex-wrap: nowrap;
+		padding: 15px 0 0;
+		.button{
+			text-align: center;
+			margin: 0 15px 0 0;
+			width: auto;
+		}
+	}
+}
+
+.ctct-error {
+	background: none !important;
+	border: 1px solid $color-red;
+	border-radius: $radius;
+	box-shadow: none !important;
+	display: inline-block;
+	padding: 15px;
+	margin: 0 0 25px 0 !important;
+
+	p {
+		color: $color-red !important;
+	}
+
+}
