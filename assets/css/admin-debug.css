@@ -1,0 +1,7 @@
+.ctct_options_logging #ctct_error_logs {
+  height: 400px;
+  resize: vertical;
+  width: 100%;
+  padding: 25px;
+  margin: 15px 0 25px;
+}

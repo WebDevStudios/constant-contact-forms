@@ -278,7 +278,7 @@ class ConstantContact_Admin {
 		do_action( 'constant_contact_admin_before' );
 
 		?>
-		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?> ctct-settings-page-wrap">
+		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?> ctct-page-wrap">
 			
 			<?php
 

@@ -1,5 +1,7 @@
 .ctct-header{
 	display: none;
+	position: relative;
+	z-index: 2;
 	@include wider-than('xsmall') {
 		margin: 0 0 0 -20px;
 		padding: 0 0 0 20px;
@@ -16,6 +18,10 @@
 		line-height: 32px;
 		background: $color-white url( '../images/ctct-icon-2x.png' ) no-repeat 0 48%;
       background-size: 32px 32px;
+		text-indent: -9999px;
+		@include wider-than('small') {
+			text-indent: 0;
+		}
 	}
 	ul{
 		padding: 0 0 0 20px;
@@ -31,9 +37,33 @@
 				padding: 20px 5px;
 				display: block;
 				text-decoration: none;
+				position: relative;
 				&.is-active{
 					font-weight: 600;
 					text-decoration: underline;
+					&:after, 
+					&:before {
+						top: 100%;
+						left: 50%;
+						border: solid transparent;
+						content: "";
+						height: 0;
+						width: 0;
+						position: absolute;
+						pointer-events: none;
+					}					
+					&:after {
+						border-color: rgba(255, 255, 255, 0);
+						border-top-color: $color-white;
+						border-width: 7px;
+						margin-left: -7px;
+					}
+					&:before {
+						border-color: rgba( $color-silver, 0);
+						border-top-color:  $color-silver;
+						border-width: 8px;
+						margin-left: -8px;
+					}
 				}
 			
 				//margin-left: auto;
@@ -72,7 +102,8 @@
 		margin-right: 20px;
 		padding: 0;
 		border-radius: 4px;
-		color: $color-gray;
+		color: $color-modal-alt-text;
+		font-weight: 500;
 		&:hover{
 			cursor: help;
 		}

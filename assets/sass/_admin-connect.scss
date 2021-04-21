@@ -4,19 +4,17 @@
 }
 
 //--------------------------------------------------------------
-// Connect Page
+// Connect/Disconnect Page
 //--------------------------------------------------------------
-
-.ctct-body {
+.wrap.ctct_options_connect {
 	box-sizing: border-box;
 	* {
 	  box-sizing: border-box;
 	}
-	@include clearfix;
-	margin: 30px auto 0;
-	padding: 30px;
+	margin: 35px auto 0;
+	padding: 35px;
 	@include wider-than('small') {
-	  margin: 45px auto 0;
+	  margin: 55px auto 0;
 	  padding: 45px;
 	}
 	max-width: 850px;
@@ -26,13 +24,33 @@
 	border-radius: 8px;
 	box-shadow: $shadow_lg;
 	text-align: center;
+	z-index: 1;
+	&.text-left{
+		text-align: left;
+	}
+	&:before{
+		width: 46px;
+		height: 46px;
+		position: absolute;
+		left: 50%;
+		top: -23px;
+		margin-left: -23px;
+		display: block;
+		border-radius: 100%;
+		content: '';
+		z-index: -1;
+		border-top: 1px solid $color-silver;
+		background: $color-white url( '../images/ctct-icon-2x.png' ) no-repeat center center;
+	}
  
 	h2{
 	  font-size: 24px;
-	  font-weight: 800;
+	  font-weight: 700;
 	  margin: 0 0 15px;
+	  padding: 0;
 	  + p {
-		 margin: 0 0 25px;
+		 font-size: 16px;
+		 margin: 0 0 28px;
 		 padding: 0 10% 25px;
 		 position: relative;
 		 &:after{
@@ -46,17 +64,7 @@
 			background-color: $color-silver;
 		 }
 	  }
-	}
- 
-	#ctct_error_logs {
-	  height: 400px;
-	  resize: vertical;
-	  width: 100%;
-	}
- 
-}
-
-.ctct_options_connect {
+	} 
 	
 	.ctct-call-to-actions{
 		display: flex;
@@ -65,42 +73,53 @@
 		justify-content: space-between;
 		&--item {
 			width: 100%;
-			margin: 0 0 35px;
+			margin: 0 0 25px;
 			@include wider-than('small') {
-				width: calc(50% - 10px);
+				width: calc(50% - 5px);
 			}
-			padding: 25px;
+			padding: 30px 25px 25px;
 			background-color: $color-lighter-gray;
 			display: flex;
 			justify-content: center;
 			flex-wrap: wrap;
-			border-radius: $radius;
+			border-radius: 6px;
 			border: 1px solid $color-light-gray;	
-			box-shadow: $shadow;
+			transition: all 0.15s ease;
+			&:hover{
+				box-shadow: $shadow_lg;
+			}
 			&.connect-account{
 				border-color: #d1dfe8;
 				background-color:#f5faff;
+				&:hover{
+					border-color: #90afc3;
+				}
 			}		
 			&.no-account{
 				border-color: #e2d9c4;
 				background-color:#fff8e9;
-			}		
+				&:hover{
+					border-color: #c7ba9a;
+				}
+			}	
+			p{
+				margin-bottom: 15px;
+				line-height: 1.6;
+				padding: 0 5px;
+			}	
 		}
 	}
 
 	h3 {
+		font-size: 16px;
+		font-weight: 700;
 		line-height: 1.55;
 		margin: 0 0 10px;
 	}
 	p {
 		color: $color-modal-alt-text;
 		font-size: 14px;
-		margin: 0;
-
-		&.ctct-description {
-			font-size: 16px;
-			margin-bottom: 25px;
-		}
+		margin-top: 0;
 
 		&.small {
 			color: $color-light-silver;
@@ -115,6 +134,7 @@
 	hr{
 		margin: 45px 0;
 		border-bottom: none;
+		border-color: $color-silver;
 	}
 
 	.button.ctct-button {
@@ -129,6 +149,7 @@
 		padding: 14px 30px;
 		align-self: flex-end;
 		width: 100%;
+		transition: all 0.15s ease;
 
 		&.button-orange {
 			background-color: $color-chrome-yellow;
@@ -137,7 +158,7 @@
 			&:hover,
 			&:focus {
 				color: $color-white;
-				background-color: darken($color-chrome-yellow, 10%);
+				background-color: lighten($color-chrome-yellow, 10%);
 			}
 		}
 
@@ -149,7 +170,7 @@
 			&:hover,
 			&:focus {
 				color: $color-white;
-				background-color: darken($color-prussian-blue, 10%);
+				background-color: lighten($color-prussian-blue, 10%);
 			}
 		}
 	}
@@ -161,16 +182,13 @@
 	.ctct-connection-details{
 		display: flex;
 		text-align: left;
-		margin: 0 0 12px;
 		> p,
 		form{
-			padding: 0 6px;
+			padding: 0 10px;
 			width: 50%;
 			text-align: left;
-			input{
-				position: relative;
-				top: -2px;
-			}
+			display: flex;
+			align-items: center;
 			&:not(form):first-of-type{
 				text-align: right;
 			}
@@ -179,6 +197,9 @@
 			overflow: hidden;
 			white-space: nowrap;
 			text-overflow: ellipsis;
+			&.ctct-label{
+				justify-content: flex-end;
+			}
 		}
 	}
 }
@@ -190,19 +211,21 @@
 	flex-wrap: wrap;
 	justify-content: space-between;
 	align-items: center;
+	width: 100%;
 	p{
 		margin: 0 0 15px;
 	}
 	> div{
 		width: 100%;
 		@include wider-than('small') {
-			width: calc(50% - 15px);
+			width: calc(50% - 10px);
 		}
 	}
 	.ctct-video{
 		margin-bottom: 15px;
 		@include wider-than('small') {
 			margin-bottom: 0;
+			padding-right: 5px;
 		}
 		.wistia_embed{
 			max-width: 100%;
@@ -213,6 +236,7 @@
 
 // Connect to GA
 .ctct-connected-opt-in{
+	display: none;
 	width: 100%;
 	text-align: left;
 	.ctct-connect-ga-optin{
