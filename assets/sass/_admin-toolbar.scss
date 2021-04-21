@@ -104,8 +104,22 @@
 		border-radius: 4px;
 		color: $color-modal-alt-text;
 		font-weight: 500;
-		&:hover{
-			cursor: help;
+		padding: 7px 10px;
+		border: 1px solid $color-light-gray;
+		border-radius: $radius;
+		text-decoration: none;
+		color: $color-modal-alt-text;
+		&:hover,
+		&:focus{
+			border-color: $color-light-gray;
+			color: $color-black;
+			box-shadow: $shadow;
+		}
+		&:focus{
+			background-color: $color-lighter-gray;
+			border-color: $color-light-gray;
+			color: $color-black;
+			box-shadow: none;
 		}
 		&:before{
 			content: '';
