@@ -337,7 +337,7 @@
     margin: 0 0 0 -20px;
     padding: 0 0 0 20px;
     background-color: #fff;
-    border-block: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     display: flex;
     width: 100%;
     align-items: center;
@@ -440,13 +440,12 @@
   margin-right: 20px;
   padding: 0;
   border-radius: 4px;
-  color: #606d78;
   font-weight: 500;
   padding: 7px 10px;
-  border: 1px solid #e9e9e9;
+  border: 1px solid #ddd;
   border-radius: 4px;
   text-decoration: none;
-  color: #606d78;
+  color: #646970;
 }
 
 @media (min-width: 992px) {
@@ -456,14 +455,12 @@
 }
 
 .ctct-header .ctct-status:hover, .ctct-header .ctct-status:focus {
-  border-color: #e9e9e9;
   color: #000;
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.055);
 }
 
 .ctct-header .ctct-status:focus {
   background-color: #f7f7f7;
-  border-color: #e9e9e9;
   color: #000;
   box-shadow: none;
 }
@@ -623,7 +620,7 @@
 }
 
 .wrap.ctct_options_connect p {
-  color: #606d78;
+  color: #646970;
   font-size: 14px;
   margin-top: 0;
 }
