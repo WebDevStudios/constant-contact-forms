@@ -494,7 +494,6 @@
 @media (min-width: 767px) {
   .wrap.ctct_options_connect {
     margin: 55px auto 0;
-    padding: 45px;
   }
 }
 
@@ -514,7 +513,7 @@
   content: '';
   z-index: -1;
   border-top: 1px solid #ddd;
-  background: #fff url("../images/ctct-icon-2x.png") no-repeat center center;
+  background: #fff url("../images/ctct-icon-2x.png") no-repeat center 45%;
 }
 
 .wrap.ctct_options_connect h2 {
@@ -526,7 +525,7 @@
 
 .wrap.ctct_options_connect h2 + p {
   font-size: 16px;
-  margin: 0 0 28px;
+  margin: 0 0 25px;
   padding: 0 10% 25px;
   position: relative;
 }
@@ -540,6 +539,12 @@
   bottom: 0;
   margin-left: -25px;
   background-color: #ddd;
+}
+
+.wrap.ctct_options_connect .ctct-connected-wrap {
+  padding: 45px 35px;
+  background-color: #f7f7f7;
+  border-radius: 4px;
 }
 
 .wrap.ctct_options_connect .ctct-call-to-actions {
@@ -619,9 +624,7 @@
 }
 
 .wrap.ctct_options_connect hr {
-  margin: 45px 0;
-  border-bottom: none;
-  border-color: #ddd;
+  margin: 35px 0;
 }
 
 .wrap.ctct_options_connect .button.ctct-button {
@@ -664,6 +667,7 @@
 .ctct-connected-wrap .ctct-connection-details {
   display: flex;
   text-align: left;
+  margin: 10px 0 0;
 }
 
 .ctct-connected-wrap .ctct-connection-details > p,
@@ -673,11 +677,18 @@
   text-align: left;
   display: flex;
   align-items: center;
+  margin: 0;
 }
 
 .ctct-connected-wrap .ctct-connection-details > p:not(form):first-of-type,
 .ctct-connected-wrap .ctct-connection-details form:not(form):first-of-type {
   text-align: right;
+}
+
+.ctct-connected-wrap .ctct-connection-details > p input,
+.ctct-connected-wrap .ctct-connection-details form input {
+  position: relative;
+  top: 1px;
 }
 
 .ctct-connected-wrap .ctct-connection-details p {
@@ -726,6 +737,8 @@
 
 .ctct-connected-next-step .ctct-video .wistia_embed {
   max-width: 100%;
+  border-radius: 4px;
+  overflow: hidden;
 }
 
 .ctct-connected-opt-in {
@@ -1200,6 +1213,7 @@ a.ctct-notice-dismiss {
   left: 0;
   width: 100%;
   height: 100%;
+  border-radius: 4px;
 }
 
 .wp-admin hr {
@@ -1215,6 +1229,12 @@ a.ctct-notice-dismiss {
 .wp-admin form.cmb-form .description,
 .wp-admin form.cmb-form p.submit {
   padding: 0 14px;
+  margin-bottom: 10px;
+}
+
+.wp-admin form.cmb-form .cmb-th,
+.wp-admin form.cmb-form .cmb-th label {
+  font-weight: 600;
 }
 
 .wp-admin .ctct-button-actions {

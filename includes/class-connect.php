@@ -231,8 +231,9 @@ class ConstantContact_Connect {
 					</div>
 
 					<div>
-						<h3><?php esc_html_e( 'Getting Started', 'constant-contact-forms' ); ?></h3>
-						<p><?php esc_html_e( 'Your account is connected to Constant Contact and you\'re ready to start collecting visitor information.', 'constant-contact-forms' ); ?></p>
+						<h3><?php esc_html_e( 'Turn Contacts into Customers!', 'constant-contact-forms' ); ?></h3>
+						<p><?php esc_html_e( 'You site is connected to Constant Contact and ready to start collecting visitor information. ', 'constant-contact-forms' ); ?></p>
+						<p><?php esc_html_e( 'Get started by watching our introduction video to get the most out of the plugin.', 'constant-contact-forms' ); ?></p>
 						<a href="wp-admin/post-new.php?post_type=ctct_forms" class="button"><?php esc_html_e( 'Add Contact Form', 'constant-contact-forms' ); ?></a>
 					</div>
 				</div>
