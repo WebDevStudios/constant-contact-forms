@@ -312,14 +312,10 @@ class ConstantContact_Admin_Pages {
 	public function license_page() {
 		$license_text = $this->plugin->get_license_text();
 		?>
-		<div class="wrap license-wrap constant-contact-license">
-			<div class="hide-overflow">
-				<div class="left-side">
-					<h2 class="license-header"><?php esc_attr_e( 'Constant Contact Forms - License', 'constant-contact-forms' ); ?></h2>
-					<div class="license-text">
-					<pre><?php echo wp_kses_post( $license_text ); ?></pre>
-					</div>
-				</div>
+		<h2><?php esc_attr_e( 'Constant Contact Forms - License', 'constant-contact-forms' ); ?></h2>
+		<div class="constant-contact-license">
+			<div class="license-text">
+				<pre><?php echo wp_kses_post( $license_text ); ?></pre>
 			</div>
 		</div>
 		<?php
