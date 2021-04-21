@@ -688,7 +688,7 @@
 .ctct-connected-wrap .ctct-connection-details > p input,
 .ctct-connected-wrap .ctct-connection-details form input {
   position: relative;
-  top: 1px;
+  top: 2px;
 }
 
 .ctct-connected-wrap .ctct-connection-details p {
