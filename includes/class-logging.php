@@ -220,7 +220,7 @@ class ConstantContact_Logging {
 			$contents = esc_html__( 'No errors exists.', 'constant-contact-forms' );
 
 			if ( ! file_exists( $this->log_location_file ) ) {
-				$contents .= esc_html__( 'No error log exists.', 'constant-contact-forms' );
+				$contents = esc_html__( 'No error log exists.', 'constant-contact-forms' );
 			}
 
 			if ( ! is_writable( $this->log_location_file ) ) {
