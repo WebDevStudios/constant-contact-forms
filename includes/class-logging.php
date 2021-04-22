@@ -224,7 +224,7 @@ class ConstantContact_Logging {
 			}
 
 			if ( ! is_writable( $this->log_location_file ) ) {
-				$contents .= sprintf(
+				$contents = sprintf(
 					/* Translators: placeholder holds the log location. */
 					esc_html__( 'We are not able to write to the %s file.', 'constant-contact-forms' ),
 					constant_contact()->logger_location
@@ -232,7 +232,7 @@ class ConstantContact_Logging {
 			}
 
 			if ( is_file( $this->log_location_file ) && is_readable( $this->log_location_file ) ) {
-				$contents .= file_get_contents( $this->log_location_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not reading over network, it's on the filesystem.
+				$contents = file_get_contents( $this->log_location_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not reading over network, it's on the filesystem.
 			}
 
 			?>
