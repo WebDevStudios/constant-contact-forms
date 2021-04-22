@@ -1259,6 +1259,48 @@ a.ctct-notice-dismiss {
   margin: 0 10px 0 0;
 }
 
+.wp-admin .ctct-shortcode-wrap {
+  display: flex;
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 3px;
+  position: relative;
+}
+
+.wp-admin .ctct-shortcode-wrap:focus-within {
+  border-color: #747e88;
+}
+
+.wp-admin .ctct-shortcode-wrap input, .wp-admin .ctct-shortcode-wrap button {
+  min-height: auto;
+  height: 30px;
+  font-size: 12px;
+}
+
+.wp-admin .ctct-shortcode-wrap input {
+  background-color: transparent;
+  border: none;
+  font-size: 12px;
+  padding: 0 10px 0 5px;
+  margin: 0;
+  flex: 1;
+  box-shadow: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wp-admin .ctct-shortcode-wrap input:focus {
+  box-shadow: none;
+}
+
+.wp-admin .ctct-shortcode-wrap button {
+  border-radius: 4px;
+  z-index: 1;
+}
+
 .ctct-block-title {
   margin: 0;
 }

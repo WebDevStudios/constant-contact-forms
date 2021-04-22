@@ -398,7 +398,13 @@ class ConstantContact_Admin {
 
 		switch ( $column ) {
 			case 'shortcodes':
+				echo '<div class="ctct-shortcode-wrap"><input class="ctct-shortcode" type="text" value="';
 				echo esc_html( '[ctct form="' . $post_id . '" show_title="false"]' );
+				echo '">';
+				echo '<button type="button" class="button" data-copied="' . esc_html( 'Copied', 'constant-contact-forms' ) . '">';
+				echo esc_html__( 'Copy', 'constant-contact-forms' );
+				echo '</button>';
+				echo '</div>';
 				break;
 			case 'description':
 				echo wp_kses_post( wpautop( get_post_meta( $post_id, '_ctct_description', true ) ) );

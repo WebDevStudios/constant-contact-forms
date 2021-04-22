@@ -102,4 +102,42 @@
     }
   }
 
+  // Copy shortcode on form listing.
+  .ctct-shortcode-wrap{
+    display: flex;
+    width: 100%;
+    background-color: $color-white;
+    border: 1px solid $color-silver;
+    border-radius: $radius;
+    padding: 3px;
+    position: relative;
+    &:focus-within{
+      border-color: $color-light-silver;
+    }
+    input, button{
+      min-height: auto;
+      height: 30px;
+      font-size: 12px;
+    }
+    input{
+      background-color: transparent;
+      border: none;
+      font-size: 12px;
+      padding: 0 10px 0 5px;
+      margin: 0;
+      flex: 1;
+      box-shadow: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      &:focus{
+        box-shadow: none;
+      }
+    }
+    button{
+      border-radius: $radius;
+      z-index: 1;
+    }
+  }
+
 }
