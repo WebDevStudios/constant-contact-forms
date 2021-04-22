@@ -197,18 +197,18 @@ class ConstantContact_Admin {
 				<h2><?php esc_html_e( 'Constant Contact', 'constant-contact-forms' ); ?></h2>
 				<?php
 				if ( $tabs ) {
-					echo wp_kses( '<ul>', [ 'ul' => array() ] );
+					echo wp_kses( '<ul>', [ 'ul' => [] ] );
 					foreach( $tabs as $tab ) {
-						echo wp_kses( '<li>', [ 'li' => array() ] );
+						echo wp_kses( '<li>', [ 'li' => [] ] );
 						printf(
 							'<a class="ctct-item%s" href="%s">%s</a>',
 							! empty( $tab['is_active'] ) ? ' is-active' : '',
 							esc_url( $tab['url'] ),
 							esc_html( $tab['text'] )
 						);
-						echo wp_kses( '</li>', [ 'li' => array() ] );
+						echo wp_kses( '</li>', [ 'li' => [] ] );
 					}
-					echo wp_kses( '</ul>', [ 'ul' => array() ] );
+					echo wp_kses( '</ul>', [ 'ul' => [] ] );
 				}
 				?>
 				<a href="edit.php?post_type=ctct_forms&page=ctct_options_connect" class="ctct-status ctct-<?php echo $api_status; ?>" title="<?php echo $connect_alt; ?>">
