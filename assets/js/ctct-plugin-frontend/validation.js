@@ -260,7 +260,7 @@
 					(key === '+' && e.shiftKey) ||
 					// Allow the rest.
 					$.inArray(key, keyArray) !== -1
-				) {
+				) { 
 					// let it happen, don't do anything.
 					return;
 				} else {
