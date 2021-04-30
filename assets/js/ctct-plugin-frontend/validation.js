@@ -247,28 +247,6 @@
 		// eslint-disable-next-line no-unused-vars
 		$.each( app.$c.$forms, function( i, form ) {
 
-			// Attach number validation to tel inputs.
-			app.$c.$forms[i].on('keydown', 'input[type=tel]', (e) => {
-				var key = e.key ? e.key.toLowerCase() : '';
-				var keyArray = ['-', 'home', 'end', 'arrowleft', 'arrowright', 'delete', 'backspace'];
-				if (
-					// Allow 0-9.
-					(key >= 0 || key < 9) ||
-					// Allow select all.
-					(key === 'a' && e.ctrlKey || key === 'a' && e.metaKey) ||
-					// Allow '+'.
-					(key === '+' && e.shiftKey) ||
-					// Allow the rest.
-					$.inArray(key, keyArray) !== -1
-				) { 
-					// let it happen, don't do anything.
-					return;
-				} else {
-					// Stop form entry.
-					e.preventDefault();
-				}
-			} );
-
 			// Attach submission handler to each form's Submit button.
 			app.$c.$forms[ i ].on( 'click', 'input[type=submit]', ( e ) => {
 				app.handleSubmission( e, app.$c.$forms[ i ] );
