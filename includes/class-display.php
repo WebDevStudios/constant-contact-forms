@@ -995,12 +995,17 @@ class ConstantContact_Display {
 		$field_key             = sanitize_title( $id );
 		$field_id              = "{$field_key}_{$instance}_{$id_salt}";
 		$input_inline_styles   = '';
+		$tel_regex_pattern     = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
 		$inline_font_styles    = $this->get_inline_font_color();
 
 		if ( 'submit' === $type ) {
 			$input_inline_styles = $this->get_submit_inline_styles();
+		}
+
+		if ( 'tel' === $type ) {
+			$tel_regex_pattern = '^[0-9\-\+\.()]*';
 		}
 
 		$type     = sanitize_text_field( $type );
@@ -1070,8 +1075,10 @@ class ConstantContact_Display {
 			$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 		}
 
-		/* translators: 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID. */
-		$field   = '<input %1$s type="%2$s" name="%3$s" %4$s value="%5$s" %6$s %7$s %8$s %9$s />';
+		$tel_pattern_title = apply_filters( 'constant_contact_tel_pattern_title', esc_html__( 'numbers, dashes, pluses, periods, and parentheses', 'constant-contact-forms' ) );
+
+		/* translators: 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID., 10: Tel Regex Pattern. */
+		$field   = '<input %1$s type="%2$s" name="%3$s" %4$s value="%5$s" %6$s %7$s %8$s %9$s %10$s />';
 		$markup .= sprintf(
 			$field,
 			$req_text,
@@ -1082,7 +1089,8 @@ class ConstantContact_Display {
 			$max_length,
 			"placeholder=\"{$label}\"",
 			$class_attr,
-			"id=\"{$field_id}\""
+			"id=\"{$field_id}\"",
+			$tel_regex_pattern ? "pattern=\"{$tel_regex_pattern}\" title=\"{$tel_pattern_title}\"" : ''
 		);
 
 		// Reassign because if we want "field only", like for hidden inputs, we need to still pass a value that went through sprintf().
