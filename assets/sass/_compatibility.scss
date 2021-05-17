@@ -101,3 +101,17 @@
 		}
 	}
 }
+
+.ctct-twentytwentyone {
+	.ctct-button{
+			padding:0px !important;
+	}
+	.ctct-form-field {
+		input[type="text"],
+		input[type="email"],
+		input[type="url"],
+		input[type="tel"] {
+			width: 100%;
+		}
+	}
+}
