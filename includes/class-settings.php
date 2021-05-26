@@ -484,6 +484,14 @@ class ConstantContact_Settings {
 				'constant-contact-forms'
 			),
 		] );
+
+		$cmb->add_field( [
+			'name'       => esc_html__( 'Disable Constant Contact CSS', 'constant-contact-forms' ),
+			'desc'       => esc_html__( 'Disables Constant Contact stylesheets from loading on the frontend. Note you may need to clear server and client cache to see changes go into effect.', 'constant-contact-forms' ),
+			'id'         => '_ctct_disable_css',
+			'type'       => 'checkbox',
+		] );
+		
 	}
 
 	/**
@@ -1075,4 +1083,15 @@ function constant_contact_get_option( $key = '', $default = null ) {
 	}
 
 	return $value;
+}
+
+/**
+ * Returns whether frontend css should be disabled or not.
+ *
+ * @author Scott Anderson <scott.anderson@webdevstudios.com>
+ * @since  NEXT
+ * @return bool
+ */
+function disable_frontend_css() {
+	return 'on' === constant_contact_get_option( '_ctct_disable_css' );
 }
