@@ -14,7 +14,6 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: constant-contact-forms.php:391, includes/class-admin.php:197, includes/class-beaver-builder.php:112, includes/class-cpts.php:89, includes/class-cpts.php:148
-
 msgid "Constant Contact"
 msgstr ""
 
@@ -22,7 +21,7 @@ msgstr ""
 msgid "Constant Contact Forms requires PHP 5.4 or higher. Your hosting provider or website administrator should be able to assist in updating your PHP version."
 msgstr ""
 
-#: constant-contact-forms.php:712
+#: constant-contact-forms.php:740
 msgid "Error loading license."
 msgstr ""
 
@@ -171,7 +170,7 @@ msgstr ""
 msgid "License"
 msgstr ""
 
-#: includes/class-admin.php:333, includes/class-settings.php:878
+#: includes/class-admin.php:333, includes/class-settings.php:886
 msgid "Settings updated."
 msgstr ""
 
@@ -874,7 +873,6 @@ msgstr ""
 msgid "New Form"
 msgstr ""
 
-#: includes/class-cpts.php:72, includes/class-display.php:830
 #: includes/class-cpts.php:72, includes/class-display.php:861
 msgid "Edit Form"
 msgstr ""
@@ -1089,91 +1087,6 @@ msgstr ""
 msgid "%1$s (last modified %2$s ago)"
 msgstr ""
 
-#: includes/class-display.php:507
-msgid "Constant Contact Use."
-msgstr ""
-
-#: includes/class-display.php:661, includes/class-display.php:1672
-msgid "Error: Please correct your entry."
-msgstr ""
-
-#: includes/class-display.php:1245
-msgid "Street Address"
-msgstr ""
-
-#: includes/class-display.php:1246
-msgid "Address Line 2"
-msgstr ""
-
-#: includes/class-display.php:1247
-msgid "City"
-msgstr ""
-
-#: includes/class-display.php:1248
-msgid "State"
-msgstr ""
-
-#: includes/class-display.php:1249
-msgid "ZIP Code"
-msgstr ""
-
-#: includes/class-display.php:1439
-msgid "Month"
-msgstr ""
-
-#: includes/class-display.php:1440
-msgid "Day"
-msgstr ""
-
-#: includes/class-display.php:1441
-msgid "Year"
-msgstr ""
-
-#: includes/class-display.php:1557
-msgid "January"
-msgstr ""
-
-#: includes/class-display.php:1558
-msgid "February"
-msgstr ""
-
-#: includes/class-display.php:1559
-msgid "March"
-msgstr ""
-
-#: includes/class-display.php:1560
-msgid "April"
-msgstr ""
-
-#: includes/class-display.php:1561
-msgid "May"
-msgstr ""
-
-#: includes/class-display.php:1562
-msgid "June"
-msgstr ""
-
-#: includes/class-display.php:1563
-msgid "July "
-msgstr ""
-
-#: includes/class-display.php:1564
-msgid "August"
-msgstr ""
-
-#: includes/class-display.php:1565
-msgid "September"
-msgstr ""
-
-#: includes/class-display.php:1566
-msgid "October"
-msgstr ""
-
-#: includes/class-display.php:1567
-msgid "November"
-msgstr ""
-
-#: includes/class-display.php:1568
 #: includes/class-display.php:522
 msgid "Select list(s) to subscribe to"
 msgstr ""
@@ -1182,102 +1095,100 @@ msgstr ""
 msgid "Constant Contact Use."
 msgstr ""
 
-#: includes/class-display.php:699, includes/class-display.php:1806
+#: includes/class-display.php:699, includes/class-display.php:1808
 msgid "Error: Please correct your entry."
 msgstr ""
 
-#: includes/class-display.php:1379
-msgid "Street Address"
-msgstr ""
-
-#: includes/class-display.php:1380
-msgid "Address Line 2"
+#: includes/class-display.php:1078
+msgid "numbers, dashes, pluses, periods, and parentheses"
 msgstr ""
 
 #: includes/class-display.php:1381
-msgid "City"
+msgid "Street Address"
 msgstr ""
 
 #: includes/class-display.php:1382
-msgid "State"
+msgid "Address Line 2"
 msgstr ""
 
 #: includes/class-display.php:1383
+msgid "City"
+msgstr ""
+
+#: includes/class-display.php:1384
+msgid "State"
+msgstr ""
+
+#: includes/class-display.php:1385
 msgid "ZIP Code"
 msgstr ""
 
-#: includes/class-display.php:1573
+#: includes/class-display.php:1575
 msgid "Month"
 msgstr ""
 
-#: includes/class-display.php:1574
+#: includes/class-display.php:1576
 msgid "Day"
 msgstr ""
 
-#: includes/class-display.php:1575
+#: includes/class-display.php:1577
 msgid "Year"
 msgstr ""
 
-#: includes/class-display.php:1691
+#: includes/class-display.php:1693
 msgid "January"
 msgstr ""
 
-#: includes/class-display.php:1692
+#: includes/class-display.php:1694
 msgid "February"
 msgstr ""
 
-#: includes/class-display.php:1693
+#: includes/class-display.php:1695
 msgid "March"
 msgstr ""
 
-#: includes/class-display.php:1694
+#: includes/class-display.php:1696
 msgid "April"
 msgstr ""
 
-#: includes/class-display.php:1695
+#: includes/class-display.php:1697
 msgid "May"
 msgstr ""
 
-#: includes/class-display.php:1696
+#: includes/class-display.php:1698
 msgid "June"
 msgstr ""
 
-#: includes/class-display.php:1697
+#: includes/class-display.php:1699
 msgid "July "
 msgstr ""
 
-#: includes/class-display.php:1698
+#: includes/class-display.php:1700
 msgid "August"
 msgstr ""
 
-#: includes/class-display.php:1699
+#: includes/class-display.php:1701
 msgid "September"
 msgstr ""
 
-#: includes/class-display.php:1700
+#: includes/class-display.php:1702
 msgid "October"
 msgstr ""
 
-#: includes/class-display.php:1701
+#: includes/class-display.php:1703
 msgid "November"
 msgstr ""
 
-#: includes/class-display.php:1702
-
+#: includes/class-display.php:1704
 msgid "December"
 msgstr ""
 
 #. translators: placeholder will hold company info for site owner.
-#: includes/class-display.php:1743
+#: includes/class-display.php:1879
 msgid "By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s"
 msgstr ""
 
-#: includes/class-display.php:1750
-#: includes/class-display.php:1877
-msgid "By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s"
-msgstr ""
-
-#: includes/class-display.php:1884
+#: includes/class-display.php:1886
 msgid "Emails are serviced by Constant Contact"
 msgstr ""
 
@@ -1309,33 +1220,11 @@ msgstr ""
 msgid "No errors exists."
 msgstr ""
 
-#: includes/class-logging.php:217
 #: includes/class-logging.php:223
 msgid "No error log exists."
 msgstr ""
 
 #. translators: placeholder holds the log location.
-#: includes/class-logging.php:223
-msgid "We are not able to write to the %s file."
-msgstr ""
-
-#: includes/class-logging.php:234
-msgid "Error log below can be used with support requests to help identify issues with Constant Contact Forms."
-msgstr ""
-
-#: includes/class-logging.php:235
-msgid "When available, you can share information by copying and pasting the content in the textarea, or by using the \"Download logs\" link at the end. Logs can be cleared by using the \"Delete logs\" link."
-msgstr ""
-
-#: includes/class-logging.php:241
-msgid "Error log may still have content, even if an error is shown above. Please use the download link below."
-msgstr ""
-
-#: includes/class-logging.php:252
-msgid "Download logs"
-msgstr ""
-
-#: includes/class-logging.php:260
 #: includes/class-logging.php:229
 msgid "We are not able to write to the %s file."
 msgstr ""
@@ -1357,8 +1246,6 @@ msgid "Download logs"
 msgstr ""
 
 #: includes/class-logging.php:265
-
-
 msgid "Delete logs"
 msgstr ""
 
@@ -1436,7 +1323,7 @@ msgstr ""
 msgid "You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them."
 msgstr ""
 
-#: includes/class-notification-content.php:111, includes/class-notification-content.php:148, includes/class-optin.php:129, includes/class-settings.php:958
+#: includes/class-notification-content.php:111, includes/class-notification-content.php:148, includes/class-optin.php:129, includes/class-settings.php:966
 msgctxt "img alt text"
 msgid "Constant Contact logo"
 msgstr ""
@@ -1472,23 +1359,14 @@ msgstr ""
 msgid "Dismiss this notice."
 msgstr ""
 
-#: includes/class-optin.php:137, includes/class-settings.php:964
+#: includes/class-optin.php:137, includes/class-settings.php:972
 msgid "Agree"
 msgstr ""
 
-#: includes/class-optin.php:138, includes/class-settings.php:965
+#: includes/class-optin.php:138, includes/class-settings.php:973
 msgid "Disagree"
 msgstr ""
 
-#: includes/class-process-form.php:104, includes/class-process-form.php:638
-msgid "There was an error sending your form."
-msgstr ""
-
-#: includes/class-process-form.php:115, includes/class-process-form.php:656
-msgid "Your information has been submitted."
-msgstr ""
-
-#: includes/class-process-form.php:130, includes/class-process-form.php:670
 #: includes/class-process-form.php:117, includes/class-process-form.php:693
 msgid "There was an error sending your form."
 msgstr ""
@@ -1525,7 +1403,6 @@ msgstr ""
 msgid "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again."
 msgstr ""
 
-#: includes/class-process-form.php:735
 #: includes/class-process-form.php:359
 msgid "Please select at least one list to subscribe to."
 msgstr ""
@@ -1542,7 +1419,7 @@ msgstr ""
 msgid "Spam Control"
 msgstr ""
 
-#: includes/class-settings.php:66, includes/class-settings.php:578
+#: includes/class-settings.php:66, includes/class-settings.php:586
 msgid "Support"
 msgstr ""
 
@@ -1620,70 +1497,78 @@ msgstr ""
 msgid "Choose the position for the labels of the form elements."
 msgstr ""
 
-#: includes/class-settings.php:502
+#: includes/class-settings.php:489
+msgid "Disable Constant Contact CSS"
+msgstr ""
+
+#: includes/class-settings.php:490
+msgid "Disables Constant Contact stylesheets from loading on the frontend. Note you may need to clear server and client cache to see changes go into effect."
+msgstr ""
+
+#: includes/class-settings.php:510
 msgid "Google reCAPTCHA"
 msgstr ""
 
-#: includes/class-settings.php:505
+#: includes/class-settings.php:513
 msgid "Learn more and get an "
 msgstr ""
 
-#: includes/class-settings.php:507
+#: includes/class-settings.php:515
 msgid "API site key"
 msgstr ""
 
-#: includes/class-settings.php:512
+#: includes/class-settings.php:520
 msgid "Version"
 msgstr ""
 
-#: includes/class-settings.php:518
+#: includes/class-settings.php:526
 msgid "Version 2"
 msgstr ""
 
-#: includes/class-settings.php:519
+#: includes/class-settings.php:527
 msgid "Version 3"
 msgstr ""
 
-#: includes/class-settings.php:524
+#: includes/class-settings.php:532
 msgid "Site Key"
 msgstr ""
 
-#: includes/class-settings.php:534
+#: includes/class-settings.php:542
 msgid "Secret Key"
 msgstr ""
 
-#: includes/class-settings.php:547
+#: includes/class-settings.php:555
 msgid "Suspected Bot Error Message"
 msgstr ""
 
-#: includes/class-settings.php:550
+#: includes/class-settings.php:558
 msgid "This message displays when the plugin detects spam data. Note that this message may be overriden on a per-post basis."
 msgstr ""
 
-#: includes/class-settings.php:556
+#: includes/class-settings.php:564
 msgid "Error Message"
 msgstr ""
 
-#: includes/class-settings.php:582
+#: includes/class-settings.php:590
 msgid "Enable logging for debugging purposes."
 msgstr ""
 
-#: includes/class-settings.php:583
+#: includes/class-settings.php:591
 msgid "This option will turn on some logging functionality that can be used to deduce sources of issues with the use of Constant Contact Forms plugin."
 msgstr ""
 
-#: includes/class-settings.php:600
+#: includes/class-settings.php:608
 msgid "Add a checkbox to the comment field in your posts"
 msgstr ""
 
-#: includes/class-settings.php:601
+#: includes/class-settings.php:609
 msgid "Add a checkbox to the main WordPress login page"
 msgstr ""
 
-#: includes/class-settings.php:605
+#: includes/class-settings.php:613
 msgid "Add a checkbox to the WordPress user registration page"
 msgstr ""
 
-#: includes/class-settings.php:1047
+#: includes/class-settings.php:1055
 msgid "We do not think you are human"
 msgstr ""

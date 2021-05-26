@@ -349,7 +349,7 @@
   padding: 0 0 0 39px;
   min-height: 32px;
   line-height: 32px;
-  background: #fff url("../images/ctct-icon-2x.png") no-repeat 0 48%;
+  background: #fff url(../images/ctct-icon-2x.png) no-repeat 0 48%;
   background-size: 32px 32px;
   text-indent: -9999px;
 }
@@ -386,7 +386,7 @@
   text-decoration: underline;
 }
 
-.ctct-header ul li a.is-active:after, .ctct-header ul li a.is-active:before {
+.ctct-header ul li a.is-active::after, .ctct-header ul li a.is-active::before {
   top: 100%;
   left: 50%;
   border: solid transparent;
@@ -397,14 +397,14 @@
   pointer-events: none;
 }
 
-.ctct-header ul li a.is-active:after {
+.ctct-header ul li a.is-active::after {
   border-color: rgba(255, 255, 255, 0);
   border-top-color: #fff;
   border-width: 7px;
   margin-left: -7px;
 }
 
-.ctct-header ul li a.is-active:before {
+.ctct-header ul li a.is-active::before {
   border-color: rgba(195, 196, 199, 0);
   border-top-color: #c3c4c7;
   border-width: 8px;
@@ -436,10 +436,7 @@
 .ctct-header .ctct-status {
   display: none;
   align-items: center;
-  text-decoration: none;
   margin-right: 20px;
-  padding: 0;
-  border-radius: 4px;
   font-weight: 500;
   padding: 7px 10px;
   border: 1px solid #fff;
@@ -466,7 +463,7 @@
   box-shadow: none;
 }
 
-.ctct-header .ctct-status:before {
+.ctct-header .ctct-status::before {
   content: '';
   display: block;
   width: 10px;
@@ -477,7 +474,7 @@
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
 
-.ctct-header .ctct-status.ctct-connected:before {
+.ctct-header .ctct-status.ctct-connected::before {
   background-color: #2ecc40;
 }
 
@@ -513,7 +510,7 @@
   text-align: left;
 }
 
-.wrap.ctct_options_connect:before {
+.wrap.ctct_options_connect::before {
   width: 46px;
   height: 46px;
   position: absolute;
@@ -525,7 +522,7 @@
   content: '';
   z-index: -1;
   border-top: 1px solid #ddd;
-  background: #fff url("../images/ctct-icon-2x.png") no-repeat center 45%;
+  background: #fff url(../images/ctct-icon-2x.png) no-repeat center 45%;
 }
 
 .wrap.ctct_options_connect h2 {
@@ -542,7 +539,7 @@
   position: relative;
 }
 
-.wrap.ctct_options_connect h2 + p:after {
+.wrap.ctct_options_connect h2 + p::after {
   position: absolute;
   content: '';
   height: 1px;
@@ -913,7 +910,7 @@ body.post-type-ctct_forms #titlediv #title {
 .ctct-admin-title-details {
   display: block;
   font-size: 0.6rem;
-  line-height: 2rem;
+  line-height: 2;
 }
 
 #cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in-instructions,
