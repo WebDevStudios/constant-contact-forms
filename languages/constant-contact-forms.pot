@@ -21,6 +21,7 @@ msgstr ""
 msgid "Constant Contact Forms requires PHP 5.4 or higher. Your hosting provider or website administrator should be able to assist in updating your PHP version."
 msgstr ""
 
+#: constant-contact-forms.php:712
 #: constant-contact-forms.php:740
 msgid "Error loading license."
 msgstr ""
@@ -902,6 +903,7 @@ msgstr ""
 msgid "New Form"
 msgstr ""
 
+#: includes/class-cpts.php:72, includes/class-display.php:830
 #: includes/class-cpts.php:72, includes/class-display.php:861
 msgid "Edit Form"
 msgstr ""
@@ -1116,6 +1118,91 @@ msgstr ""
 msgid "%1$s (last modified %2$s ago)"
 msgstr ""
 
+#: includes/class-display.php:507
+msgid "Constant Contact Use."
+msgstr ""
+
+#: includes/class-display.php:661, includes/class-display.php:1672
+msgid "Error: Please correct your entry."
+msgstr ""
+
+#: includes/class-display.php:1245
+msgid "Street Address"
+msgstr ""
+
+#: includes/class-display.php:1246
+msgid "Address Line 2"
+msgstr ""
+
+#: includes/class-display.php:1247
+msgid "City"
+msgstr ""
+
+#: includes/class-display.php:1248
+msgid "State"
+msgstr ""
+
+#: includes/class-display.php:1249
+msgid "ZIP Code"
+msgstr ""
+
+#: includes/class-display.php:1439
+msgid "Month"
+msgstr ""
+
+#: includes/class-display.php:1440
+msgid "Day"
+msgstr ""
+
+#: includes/class-display.php:1441
+msgid "Year"
+msgstr ""
+
+#: includes/class-display.php:1557
+msgid "January"
+msgstr ""
+
+#: includes/class-display.php:1558
+msgid "February"
+msgstr ""
+
+#: includes/class-display.php:1559
+msgid "March"
+msgstr ""
+
+#: includes/class-display.php:1560
+msgid "April"
+msgstr ""
+
+#: includes/class-display.php:1561
+msgid "May"
+msgstr ""
+
+#: includes/class-display.php:1562
+msgid "June"
+msgstr ""
+
+#: includes/class-display.php:1563
+msgid "July "
+msgstr ""
+
+#: includes/class-display.php:1564
+msgid "August"
+msgstr ""
+
+#: includes/class-display.php:1565
+msgid "September"
+msgstr ""
+
+#: includes/class-display.php:1566
+msgid "October"
+msgstr ""
+
+#: includes/class-display.php:1567
+msgid "November"
+msgstr ""
+
+#: includes/class-display.php:1568
 #: includes/class-display.php:522
 msgid "Select list(s) to subscribe to"
 msgstr ""
@@ -1205,10 +1292,16 @@ msgid "November"
 msgstr ""
 
 #: includes/class-display.php:1702
+>>>>>>> sprint/21.01
 msgid "December"
 msgstr ""
 
 #. translators: placeholder will hold company info for site owner.
+#: includes/class-display.php:1743
+msgid "By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s"
+msgstr ""
+
+#: includes/class-display.php:1750
 #: includes/class-display.php:1877
 msgid "By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s"
 msgstr ""
@@ -1241,11 +1334,33 @@ msgstr ""
 msgid "Debug logs"
 msgstr ""
 
+#: includes/class-logging.php:217
 #: includes/class-logging.php:223
 msgid "No error log exists"
 msgstr ""
 
 #. translators: placeholder holds the log location.
+#: includes/class-logging.php:223
+msgid "We are not able to write to the %s file."
+msgstr ""
+
+#: includes/class-logging.php:234
+msgid "Error log below can be used with support requests to help identify issues with Constant Contact Forms."
+msgstr ""
+
+#: includes/class-logging.php:235
+msgid "When available, you can share information by copying and pasting the content in the textarea, or by using the \"Download logs\" link at the end. Logs can be cleared by using the \"Delete logs\" link."
+msgstr ""
+
+#: includes/class-logging.php:241
+msgid "Error log may still have content, even if an error is shown above. Please use the download link below."
+msgstr ""
+
+#: includes/class-logging.php:252
+msgid "Download logs"
+msgstr ""
+
+#: includes/class-logging.php:260
 #: includes/class-logging.php:229
 msgid "We are not able to write to the %s file."
 msgstr ""
@@ -1267,10 +1382,12 @@ msgid "Download logs"
 msgstr ""
 
 #: includes/class-logging.php:265
+>>>>>>> sprint/21.01
 msgid "Delete logs"
 msgstr ""
 
 #. translators: placeholder wil have error message.
+#: includes/class-logging.php:321
 #: includes/class-logging.php:326
 msgid "Log display error: %s"
 msgstr ""
@@ -1379,6 +1496,15 @@ msgstr ""
 msgid "Disagree"
 msgstr ""
 
+#: includes/class-process-form.php:104, includes/class-process-form.php:638
+msgid "There was an error sending your form."
+msgstr ""
+
+#: includes/class-process-form.php:115, includes/class-process-form.php:656
+msgid "Your information has been submitted."
+msgstr ""
+
+#: includes/class-process-form.php:130, includes/class-process-form.php:670
 #: includes/class-process-form.php:117, includes/class-process-form.php:693
 msgid "There was an error sending your form."
 msgstr ""
@@ -1415,6 +1541,7 @@ msgstr ""
 msgid "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again."
 msgstr ""
 
+#: includes/class-process-form.php:735
 #: includes/class-process-form.php:359
 msgid "Please select at least one list to subscribe to."
 msgstr ""
@@ -1573,6 +1700,7 @@ msgstr ""
 msgid "Add a checkbox to the WordPress user registration page"
 msgstr ""
 
+#: includes/class-settings.php:985
 #: includes/class-settings.php:1039
 msgid "We do not think you are human"
 msgstr ""
