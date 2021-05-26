@@ -162,11 +162,11 @@ msgstr ""
 msgid "Your Constant Contact account is not connected."
 msgstr ""
 
-#: includes/class-admin.php:239, includes/class-admin.php:240, includes/class-admin.php:499
+#: includes/class-admin.php:239, includes/class-admin.php:240, includes/class-admin.php:505
 msgid "About"
 msgstr ""
 
-#: includes/class-admin.php:248, includes/class-admin.php:249, includes/class-admin.php:500
+#: includes/class-admin.php:248, includes/class-admin.php:249, includes/class-admin.php:506
 msgid "License"
 msgstr ""
 
@@ -186,31 +186,35 @@ msgstr ""
 msgid "Associated List"
 msgstr ""
 
-#: includes/class-admin.php:422
+#: includes/class-admin.php:405
+msgid "Copy"
+msgstr ""
+
+#: includes/class-admin.php:428
 msgid "No associated list"
 msgstr ""
 
-#: includes/class-admin.php:441
+#: includes/class-admin.php:447
 msgid "Contact Count"
 msgstr ""
 
-#: includes/class-admin.php:497
+#: includes/class-admin.php:503
 msgid "Check out the official WordPress plugin from @constantcontact:"
 msgstr ""
 
-#: includes/class-admin.php:511
+#: includes/class-admin.php:517
 msgid "Spread the word!"
 msgstr ""
 
-#: includes/class-admin.php:593
+#: includes/class-admin.php:599
 msgid "You have unsaved changes."
 msgstr ""
 
-#: includes/class-admin.php:594
+#: includes/class-admin.php:600
 msgid "move up"
 msgstr ""
 
-#: includes/class-admin.php:595
+#: includes/class-admin.php:601
 msgid "move down"
 msgstr ""
 
