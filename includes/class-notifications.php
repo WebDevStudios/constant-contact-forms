@@ -342,7 +342,7 @@ class ConstantContact_Notifications {
 
 		$is_true = ( ( 'true' === $option ) || ( '1' === $option ) );
 
-		return $is_true ?: false ;
+		return $is_true ?: false;
 	}
 
 	/**

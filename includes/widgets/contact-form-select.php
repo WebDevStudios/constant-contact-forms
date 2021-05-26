@@ -112,16 +112,17 @@ class ConstantContactWidget extends WP_Widget {
 		$title           = trim( wp_strip_all_tags( $instance['ctct_title'] ) );
 		$form_id         = absint( $instance['ctct_form_id'] );
 		$show_form_title = ( ! empty( $instance['ctct_form_title'] ) ) ? 'true' : 'false';
-
-		echo $args['before_widget']; // WPCS: XSS Ok.
+		$widget          = $args['before_widget'];
 
 		if ( $title ) {
-			echo $args['before_title'] . esc_html( $title ) . $args['after_title']; // WPCS: XSS Ok.
+			$widget .= $args['before_title'] . esc_html( $title ) . $args['after_title'];
 		}
 
-		echo do_shortcode( sprintf( '[ctct form="%s" show_title="%s"]', $form_id, $show_form_title ) );
+		$widget .= do_shortcode( sprintf( '[ctct form="%s" show_title="%s"]', $form_id, $show_form_title ) );
 
-		echo $args['after_widget']; // WPCS: XSS Ok.
+		$widget .= $args['after_widget'];
+
+		echo $widget; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
 	}
 
 	/**
@@ -238,13 +239,14 @@ class ConstantContactWidget extends WP_Widget {
 					);
 				}
 			}
+
 			printf(
 				'<p><label for="%1$s">%2$s</label><select class="widefat" name="%3$s" id="%4$s">%5$s</select>',
 				esc_attr( $name ),
 				esc_html( $label_text ),
 				esc_attr( $name ),
 				esc_attr( $id ),
-				$selects
+				$selects // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
 			);
 		}
 	}

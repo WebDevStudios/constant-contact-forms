@@ -149,7 +149,7 @@ class ConstantContact_Builder_Fields {
 			],
 			'website'          => [
 				'option'      => esc_html__( 'Website', 'constant-contact-forms' ),
-				'placeholder' => esc_html__( 'http://www.example.com', 'constant-contact-form' ),
+				'placeholder' => esc_html__( 'http://www.example.com', 'constant-contact-forms' ),
 			],
 			'custom'           => [
 				'option'      => esc_html__( 'Custom Text Field', 'constant-contact-forms' ),
@@ -216,15 +216,22 @@ class ConstantContact_Builder_Fields {
 			] );
 
 			$lists = $this->plugin->builder->get_lists();
+			
+			if ( empty( $lists ) ) {
+				$list_metabox->add_field( array(
+					'name' => esc_html__( 'No Lists Found', 'constant-contact-forms' ),
+					'desc' => '<a href="/wp-admin/edit.php?post_type=ctct_lists">' .esc_html__( 'Create a List', 'constant-contact-forms' ) . '</a>',
+					'type' => 'title',
+					'id'   => $this->prefix . 'tip',
+				) );
+			}
 
 			if ( $lists ) {
 				$list_metabox->add_field( [
-					'name'             => esc_html__( 'Add subscribers to', 'constant-contact-forms' ),
-					'id'               => $this->prefix . 'list',
-					'type'             => 'select',
-					'show_option_none' => esc_html__( 'No List Selected', 'constant-contact-forms' ),
-					'default'          => 'none',
-					'options'          => $lists,
+					'name'    => esc_html__( 'Allow subscribers to select from lists. ( Select at least one )', 'constant-contact-forms' ),
+					'id'      => $this->prefix . 'list',
+					'type'    => 'multicheck',
+					'options' => $lists,
 				] );
 			}
 		}
@@ -451,7 +458,7 @@ class ConstantContact_Builder_Fields {
 			'id'          => 'form-padding-title',
 			'description' => esc_html__(
 				'Enter padding values in number of pixels. Padding will be applied to four sides of the form.',
-				'constant-contact-form' ),
+				'constant-contact-forms' ),
 		] );
 
 		$custom_css_metabox->add_field( [

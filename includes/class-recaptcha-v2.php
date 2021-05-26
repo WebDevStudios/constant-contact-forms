@@ -11,6 +11,8 @@
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
+// phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid -- OK classname.
+
 /**
  * Class ConstantContact_reCAPTCHA_v2
  *
@@ -30,8 +32,6 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	 * Retrieve inline scripts for the reCAPTCHA form instance.
 	 *
 	 * @since 1.7.0
-	 *
-	 * @return string
 	 */
 	public function enqueue_scripts() {
 		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
@@ -86,6 +86,16 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 		$this->recaptcha_size = $size;
 	}
 
+	/**
+	 * Add script attributes.
+	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
+	 * @since  1.8.3
+	 *
+	 * @param  string $tag    Script tag.
+	 * @param  string $handle Script handle.
+	 * @return string         Script tag.
+	 */
 	public function add_script_attributes( $tag, $handle ) {
 		if ( 'recaptcha-lib-v2' !== $handle ) {
 			return $tag;

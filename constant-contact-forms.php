@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.8.7
+ * Version:     1.10.1
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * License:     GPLv3
@@ -72,7 +72,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.8.7';
+	const VERSION = '1.10.1';
 
 	/**
 	 * URL of plugin directory.
@@ -331,6 +331,22 @@ class Constant_Contact {
 	private $gutenberg;
 
 	/**
+	 * An instance of the ConstantContact_BeaverBuilder class.
+	 *
+	 * @since 1.5.0
+	 * @var ConstantContact_BeaverBuilder
+	 */
+	private $beaver_builder;
+
+	/*
+	 * An instance of the ConstantContact_Elementor class.
+	 *
+	 * @since 1.5.0
+	 * @var ConstantContact_Elementor
+	 */
+	private $elementor;
+
+	/**
 	 * Option name for where we store the timestamp of when the plugin was activated.
 	 *
 	 * @since 1.6.0
@@ -366,6 +382,8 @@ class Constant_Contact {
 	 * Sets up our plugin.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	protected function __construct() {
 
@@ -373,9 +391,9 @@ class Constant_Contact {
 		$this->plugin_name = esc_html__( 'Constant Contact', 'constant-contact-forms' );
 
 		// Set up some helper properties.
-		$this->basename        = plugin_basename( __FILE__ );
-		$this->url             = plugin_dir_url( __FILE__ );
-		$this->path            = plugin_dir_path( __FILE__ );
+		$this->basename = plugin_basename( __FILE__ );
+		$this->url      = plugin_dir_url( __FILE__ );
+		$this->path     = plugin_dir_path( __FILE__ );
 
 		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
@@ -394,6 +412,9 @@ class Constant_Contact {
 
 		// Include compatibility fixes to address conflicts with other plug-ins.
 		self::include_file( 'compatibility', false );
+
+		// Include deprecated functions.
+		self::include_file( 'deprecated', false );
 	}
 
 	/**
@@ -412,6 +433,10 @@ class Constant_Contact {
 	 */
 	public function plugin_classes() {
 		$this->api                  = new ConstantContact_API( $this );
+		if ( class_exists( 'FLBuilder' ) ) {
+			// Load if Beaver Builder is active.
+			$this->beaver_builder       = new ConstantContact_Beaver_Builder( $this );
+		}
 		$this->builder              = new ConstantContact_Builder( $this );
 		$this->builder_fields       = new ConstantContact_Builder_Fields( $this );
 		$this->check                = new ConstantContact_Check( $this );
@@ -432,6 +457,10 @@ class Constant_Contact {
 		$this->optin                = new ConstantContact_Optin( $this );
 		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
+		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			// Load if Elementor is active.
+			$this->elementor            = new ConstantContact_Elementor( $this );
+		}
 	}
 
 	/**
@@ -449,6 +478,8 @@ class Constant_Contact {
 	 * Add hooks and filters.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function hooks() {
 		if ( ! $this->meets_php_requirements() ) {
@@ -461,11 +492,6 @@ class Constant_Contact {
 		add_filter( 'body_class', array( $this, 'body_classes' ) );
 
 		$this->load_libs();
-
-		// Our vendor files will do a check for ISSSL, so we want to set it to be that. See Guzzle for more info and usage of this.
-		if ( is_ssl() || ! defined( 'ISSSL' ) ) {
-			define( 'ISSSL', true );
-		}
 
 		add_filter( 'widget_text', 'do_shortcode' );
 		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_assets' ], 1 );
@@ -609,6 +635,7 @@ class Constant_Contact {
 			case 'auth_redirect':
 			case 'api':
 			case 'basename':
+			case 'beaver_builder':
 			case 'builder':
 			case 'builder_fields':
 			case 'connect':
@@ -617,6 +644,7 @@ class Constant_Contact {
 			case 'customizations':
 			case 'display':
 			case 'display_shortcode':
+			case 'elementor':
 			case 'gutenberg':
 			case 'lists':
 			case 'logging':
@@ -773,6 +801,11 @@ class Constant_Contact {
 	 * @since 1.4.0
 	 */
 	public function register_front_assets() {
+
+		if ( disable_frontend_css() ) {
+			return;
+		}
+
 		wp_register_style(
 			'ctct_form_styles',
 			self::url() . 'assets/css/style.css',
