@@ -1,4 +1,4 @@
-# Copyright (C) 2020 Constant Contact Forms
+# Copyright (C) 2021 Constant Contact Forms
 # This file is distributed under the same license as the Constant Contact Forms package.
 msgid ""
 msgstr ""
