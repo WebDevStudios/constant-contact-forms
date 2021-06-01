@@ -17,7 +17,7 @@ window.CTCTClipboard = {};
 	 * Cache DOM elements.
 	 *
 	 * @author Constant Contact
-	 * @since NEXT
+	 * @since 1.11.0
 	 */
 	 app.cache = () => {
 		app.$c = {
@@ -32,7 +32,7 @@ window.CTCTClipboard = {};
 	 * @param {object} e The clicked element.
 	 * @param {HTMLElement} input The input element.
 	 * @author Constant Contact
-	 * @since NEXT
+	 * @since 1.11.0
 	 */
 	app.copyClick = (button, input) => {
 
@@ -60,7 +60,7 @@ window.CTCTClipboard = {};
 	 * Attach callbacks to events.
 	 *
 	 * @author Constant Contact
-	 * @since NEXT
+	 * @since 1.11.0
 	 */
 	 app.bindEvents = () => {
 
