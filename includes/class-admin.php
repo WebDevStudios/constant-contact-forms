@@ -114,7 +114,7 @@ class ConstantContact_Admin {
 	 * 
 	 * @param array $screen Details on the current admin screen.
 	 * @return void
-	 * @since NEXT
+	 * @since 1.11.0
 	 * @author Darren Cooney <darren.cooney@webdevstudios.com>
 	 */
 	public function current_screen( $screen ) {
@@ -132,7 +132,7 @@ class ConstantContact_Admin {
 	 * Build the Constant Contact header toolbar.
 	 * 
 	 * @return void
-	 * @since NEXT
+	 * @since 1.11.0
 	 * @author Darren Cooney <darren.cooney@webdevstudios.com>
 	 */
 	public function admin_page_toolbar(){

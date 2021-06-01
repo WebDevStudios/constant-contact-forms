@@ -5,7 +5,7 @@
  * @package ConstantContact
  * @subpackage Elementor
  * @author Constant Contact
- * @since NEXT
+ * @since 1.11.0
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
@@ -13,7 +13,7 @@
 /**
  * This class get's everything up an running for Elementor Widget.
  *
- * @since NEXT
+ * @since 1.11.0
  */
 class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 
