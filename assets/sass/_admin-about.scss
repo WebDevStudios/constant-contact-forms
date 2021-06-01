@@ -1,0 +1,106 @@
+//--------------------------------------------------------------
+// About Page
+//--------------------------------------------------------------
+
+.constant-contact-about {
+
+	.ctct-section{
+		margin: 0 0 30px;
+	}
+
+	.ctct-video-cta{
+		padding: 0;
+		@include wider-than('small') {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			width: 100%;
+
+			> div{
+				width: calc(50% - 15px);
+			}
+		}
+
+		h3{
+			@include wider-than('small') {
+				margin: 0 0 15px;
+			}
+		} 
+	} 
+
+	ul {
+		list-style: disc;
+		padding-left: 24px;
+	}
+ 
+	.section-try-us{
+		padding: 20px;
+		border-radius: $radius;
+		background-color: $color-white;
+		border: 1px solid $color-silver;
+
+		h2, p{
+			margin: 0 0 15px;
+		}
+
+		hr{
+			margin: 20px 0;
+		}
+
+		.ctct-try-us-cta{
+			display: flex;
+			align-items: center;
+
+			p{
+				margin: 0;
+			}
+
+			.item{
+				margin: 0 15px 0 0;
+				font-size: 14px;
+			}
+		}
+
+		.button {
+			border-radius: 4px;
+			color: $color-white;
+			font-size: 16px;
+			font-weight: 600;
+			height: auto;
+			line-height: 1;
+			min-width: 180px;
+			padding: 14px 30px;
+			text-align: center;
+		
+			&.button-orange {
+				background-color: $color-chrome-yellow;
+				border: 1px solid darken($color-chrome-yellow, 10%);
+		
+				&:hover,
+				&:focus {
+					background-color: darken($color-chrome-yellow, 10%);
+				}
+			}
+		
+			&.button-blue {
+				background-color: $color-prussian-blue;
+				border: 1px solid darken($color-prussian-blue, 10%);
+		
+				&:hover,
+				&:focus {
+					background-color: darken($color-prussian-blue, 10%);
+				}
+			}
+		}
+	}
+
+	.ctct-license{
+		margin-top: 30px;
+		padding: 20px 0 0;
+		border-top: 1px solid $color-silver;
+	}
+
+	.small-text{
+		max-width: 800px;
+	}
+}

@@ -1,5 +1,5 @@
 === Constant Contact Forms ===
-Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev
+Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
 Tested up to:      5.6.0
@@ -12,19 +12,27 @@ The official Constant Contact plugin adds a contact form to your WordPress site 
 
 == Description ==
 
-**Constant Contact Forms** makes it fast and easy to capture visitor information right from your WordPress site. Whether you’re looking to collect email addresses, contact info, or visitor feedback, you can customize your forms with data fields that work best for you. Best of all, this plugin is available to all WordPress users, even if you don’t have a Constant Contact account.
+##Work smarter, not harder. The Constant Contact Way
+Create branded emails, build a website, sell online, and make it easy for people to find you—all from one place.
 
 https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
-**Constant Contact Forms** allows you to:
+**Constant Contact Forms** is the easiest way to connect your WordPress website with your Constant Contact account.
 
-* Create forms that are clear, simple, and mobile-optimized for every device.
-* Choose forms that automatically select the theme and style of your WordPress site.
-* Customize data fields, so you can tailor the type of information you collect.
+-  Effortlessly create sign-up forms to convert your site visitors into mailing list contacts.
+-  Customize data fields, so you can tailor the type of information you collect from your users.
+-  Captured email addresses will be automatically added to the Constant Contact email lists of your choosing.
 
-BONUS: If you have a Constant Contact account, all new email addresses that you capture will be automatically added to the Constant Contact email lists of your choosing. Not a Constant Contact customer? Sign up for a [Free Trial](http://www.constantcontact.com/index?pn=miwordpress) right from the plugin.
+**BONUS**: If you have a Constant Contact account, all new email addresses that you capture will be automatically added to the Constant Contact email lists of your choosing. Not a Constant Contact customer? Sign up for a [Free Trial](https://go.constantcontact.com/signup.jsp) right from the plugin.
 
-**Constant Contact Forms** requires a PHP version of 5.6 or higher. You will not be able to use if on a lower version. Talk to your system administrator or hosting company if you are not sure what version you are on.
+
+##How To Get Started.
+
+1. Signup for a [Free Trial](http://www.constantcontact.com/index?pn=miwordpress). ( Existing Constant Contact users can skip this step).
+2. Follow [first-time setup instructions](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integration-with-Constant-Contact).
+3. [Create your first form](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18059-Create-a-Wordpress-Form?q=create%20a%20form%20wordpress&pnx=1&lang).
+4. [Add a form anywhere on your website](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/30850-Add-a-Form-Created-with-the-Constant-Contact-Plugin-to-a-WordPress-Page-or-Blog-Post?lang).
+5. Watch as your visitors turn into lifetime contacts!
 
 == Screenshots ==
 1. Adding a New form when connected to Constant Contact account.
@@ -104,25 +112,29 @@ BONUS: If you have a Constant Contact account, all new email addresses that you 
 == Frequently Asked Questions ==
 
 #### Installation and Setup
-[https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integration-with-Constant-Contact](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integration-with-Constant-Contact)
+[HELP: Install the Constant Contact Forms Plugin for WordPress to Gather Sign-Ups and Feedback](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integration-with-Constant-Contact)
 
 #### Constant Contact Forms Options
-[http://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options](http://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options)
+[HELP: Add email opt-in to a WordPress Form created with the Constant Contact plugin](http://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options)
 
 #### Frequently Asked Questions
-[https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18491-Enable-Logging-in-the-Constant-Contact-Forms-for-WordPress-Plugin](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18491-Enable-Logging-in-the-Constant-Contact-Forms-for-WordPress-Plugin)
+[HELP: Enable Logging in the Constant Contact Forms for WordPress Plugin](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18491-Enable-Logging-in-the-Constant-Contact-Forms-for-WordPress-Plugin)
 
 #### Constant Contact List Addition Issues
-[https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18539-WordPress-Constant-Contact-List-Addition-Issues](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18539-WordPress-Constant-Contact-List-Addition-Issues)
+[HELP: Troubleshooting List Addition Issues in the Constant Contact Forms Plugin for WordPress](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18539-WordPress-Constant-Contact-List-Addition-Issues)
 
 #### cURL error 60: SSL certificate problem
-[https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18159-WordPress-Error-60](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18159-WordPress-Error-60)
+[HELP: WordPress cURL Error 60: SSL Certificate Problem](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18159-WordPress-Error-60)
 
 #### Add Google reCAPTCHA to Constant Contact Forms
-[http://knowledgebase.constantcontact.com/articles/KnowledgeBase/17880](http://knowledgebase.constantcontact.com/articles/KnowledgeBase/17880)
+[HELP: Add Google reCAPTCHA to Your WordPress Sign-up Form to Prevent Spam Entries](http://knowledgebase.constantcontact.com/articles/KnowledgeBase/17880)
 
 #### How do I include which custom fields labels are which custom field values in my Constant Contact Account?
 You can add this to your active theme or custom plugin: `add_filter( 'constant_contact_include_custom_field_label', '__return_true' );`. Note: custom fields have a max length of 50 characters. Including the labels will subtract from the 50 character total available.
 
 #### Which account level access is needed to connect my WordPress account to Constant Contact?
 You will need to make the connection to Constant Contact using the credentials of the account owner. Campaign manager credentials will not have enough access.
+
+
+== Upgrade Notice ==
+-  None

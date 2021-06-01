@@ -2,9 +2,11 @@
 //--------------------------------------------------------------
 //   INPUTS
 //--------------------------------------------------------------
+
 .ctct-form-wrapper {
 
 	input {
+
 		&[type='text'],
 		&[type='email'],
 		&[type='password'],
@@ -12,7 +14,7 @@
 		&[type='number'] {
 
 			&:required:valid {
-				background-image: url( '../images/check_circle.svg' );
+				background-image: url( ../images/check_circle.svg );
 				background-position: 8px 50%;
 				background-repeat: no-repeat;
 				background-size: 18px;
@@ -22,7 +24,7 @@
 
 			&:required.ctct-invalid,
 			&.ctct-invalid {
-				background: $color-white url( '../images/error.svg' ) no-repeat;
+				background: $color-white url( ../images/error.svg ) no-repeat;
 				background-color: fade-out($color-error, 0.98);
 				background-position: 8px 50%;
 				background-size: 24px;
@@ -39,7 +41,7 @@
 	}
 
 	input.ctct-invalid {
-		background: $color-white url( '../images/error.svg' ) no-repeat;
+		background: $color-white url( ../images/error.svg ) no-repeat;
 		background-color: fade-out($color-error, 0.98);
 		background-position: 8px 50%;
 		background-size: 24px;
@@ -93,7 +95,7 @@
 	}
 
 	.no-recaptcha .ctct-submitted:disabled {
-		background-image: url('../images/oval.min.svg');
+		background-image: url( ../images/oval.min.svg );
 		background-position: center;
 		background-repeat: no-repeat;
 		color: transparent;
@@ -103,5 +105,5 @@
 
 	.has-recaptcha .ctct-submitted:disabled {
 		cursor: not-allowed;
-	}
+	} 
 }
