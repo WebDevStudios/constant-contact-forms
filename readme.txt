@@ -2,8 +2,8 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
-Tested up to:      5.6.0
-Stable tag:        1.10.1
+Tested up to:      5.7.0
+Stable tag:        1.11.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.6
@@ -42,6 +42,13 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 5. Basic Form
 
 == Changelog ==
+
+= 1.11.0 =
+
+- Updated: New admin styling to update the overall look and feel of the plugin in the WordPress admin.
+- Added: Plugins etting to disable the loading on Constant Contact plugin CSS on the frontend.
+- Added: Native browser validatio for phone number (tel) field input type.
+- Fixed: Amended admin notification for Bad Request results.
 
 = 1.10.1 =
 * Fixed: Removed accidental extra parentheses on a function call.
