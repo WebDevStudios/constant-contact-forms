@@ -46,8 +46,8 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 = 1.11.0 =
 
 - Updated: New admin styling to update the overall look and feel of the plugin in the WordPress admin.
-- Added: Plugins etting to disable the loading on Constant Contact plugin CSS on the frontend.
-- Added: Native browser validatio for phone number (tel) field input type.
+- Added: Plugin setting to disable the loading on Constant Contact plugin CSS on the frontend.
+- Added: Native browser validation for phone number (tel) field input type.
 - Fixed: Amended admin notification for Bad Request results.
 
 = 1.10.1 =
