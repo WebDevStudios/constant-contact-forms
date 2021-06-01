@@ -1,5 +1,10 @@
 // sass-lint:disable class-name-format no-qualifying-elements id-name-format
+
 .post-type-ctct_forms {
+
+	img {
+		max-width: 100%;
+	}
 
 	.misc-pub-section {
 
@@ -11,8 +16,8 @@
 }
 
 body.post-type-ctct_lists .misc-pub-post-status {
-	display: none;
-}
+	display: none; 
+} 
 
 body.post-type-ctct_forms #titlediv #title {
 	height: 2.7em;
@@ -21,7 +26,7 @@ body.post-type-ctct_forms #titlediv #title {
 .ctct-admin-title-details {
 	display: block;
 	font-size: 0.6rem;
-	line-height: 2rem;
+	line-height: 2;
 }
 
 #cmb2-metabox-ctct_1_optin_metabox {
@@ -69,21 +74,21 @@ body.post-type-ctct_forms #titlediv #title {
 		.required {
 			padding-bottom: 0.1em;
 			padding-top: 0.1em;
-		}
-	}
+		} 
+	} 
 
 	#default_fields_group_repeat {
 
 		.cmb-field-list {
 
-			& > .cmb-row {
+			> .cmb-row {
 				padding-top: 0.5em;
 
 				&:not(:last-of-type)  {
 					border-bottom: 1px solid $color-light-gray;
 					padding-bottom: 0.1rem;
 				}
-			}
+			} 
 		}
 	}
 
@@ -98,7 +103,7 @@ body.post-type-ctct_forms #titlediv #title {
 			}
 		}
 
-		.cmb-repeat-group-field {
+		.cmb-repeat-group-field { 
 			padding-top: 0.2em;
 		}
 	}
@@ -250,6 +255,7 @@ body.post-type-ctct_forms #titlediv #title {
 //--------------------------------------------------------------
 // TinyMCE Tweaks
 //--------------------------------------------------------------
+
 .ui-dialog .cmb-type-checkbox {
 
 	&.cmb2-id--ctct-show-title {

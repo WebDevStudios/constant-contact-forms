@@ -1,332 +1,164 @@
 // sass-lint:disable class-name-format no-qualifying-elements id-name-format
-//--------------------------------------------------------------
-// About Page
-//--------------------------------------------------------------
-.constant-contact-about {
-  padding: 15px;
 
-  @media screen and (max-width: 782px) {
-    padding: 0;
-  }
-
-  .ctct-section {
-    margin-bottom: 50px;
-  }
-
-  h1.about-header {
-    color: $color-cc-blue;
-    font-size: 26px;
-    margin: 0 0 15px 0;
-  }
-
-  h3 {
-    padding: 20px 0;
-  }
-
-  p {
-    color: $color-modal-header;
-    font-size: 16px;
-    font-weight: 300;
-  }
-
-  .clear {
-    clear: both;
-    height: 0;
-    width: 100%;
-  }
-
-  .button {
-    border-radius: 4px;
-    color: $color-white;
-    font-size: 16px;
-    font-weight: 600;
-    height: auto;
-    line-height: 1;
-    margin-bottom: 10px;
-    min-width: 180px;
-    padding: 14px 30px;
-    text-align: center;
-
-    &.button-orange {
-      background-color: $color-chrome-yellow;
-      border: 1px solid darken($color-chrome-yellow, 10%);
-
-      &:hover,
-      &:focus {
-        background-color: darken($color-chrome-yellow, 10%);
-      }
-    }
-
-    &.button-blue {
-      background-color: $color-prussian-blue;
-      border: 1px solid darken($color-prussian-blue, 10%);
-
-      &:hover,
-      &:focus {
-        background-color: darken($color-prussian-blue, 10%);
-      }
-    }
-  }
-
-  .about-text {
-    margin: 0 50px 0 0;
-
-    @media screen and (max-width: 482px) {
-      margin: 0;
-    }
-  }
-
-  .feature-section.two-col > div {
-    float: left;
-    width: 49%;
-  }
-
-  .headline-feature {
-    max-width: 90%;
-
-    @media screen and (max-width: 782px) {
-      max-width: 100%;
-    }
-
-    p {
-      margin-bottom: 0;
-    }
-
-    h5 {
-      color: $color-light-silver;
-      font-style: italic;
-      font-weight: 300;
-    }
-  }
-
-  .headline-title,
-  .c-text {
-    text-align: center;
-  }
-
-  .featured-image {
-    min-height: 150px;
-    position: relative;
-  }
-
-  .fff-img {
-    height: 315px;
-    margin: 20px;
-    max-width: 720px;
-    overflow: hidden;
-  }
-
-  .introduction {
-    padding: 20px 0;
-  }
-
-  .featured-title {
-    color: $color-white;
-    font-size: 2rem;
-    font-weight: bold;
-    margin: 0 auto;
-    position: absolute;
-    text-align: center;
-    text-shadow: 0 0 15px $color-black;
-    top: 80px;
-    width: 100%;
-
-    @media screen and (max-width: 482px) {
-      color: $color-cc-blue;
-      font-size: 26px;
-      line-height: 28px;
-      margin-top: 15px;
-      position: relative;
-      text-shadow: none;
-      top: 0;
-    }
-  }
-
-  .featured-introduction {
-    color: $color-white;
-    font-size: 1.2rem;
-    margin: 0 auto;
-    position: absolute;
-    text-align: center;
-    text-shadow: 0 0 15px $color-black;
-    top: 120px;
-    width: 100%;
-
-    @media screen and (max-width: 482px) {
-      color: $color-cc-blue;
-      line-height: 1;
-      margin-top: 15px;
-      position: relative;
-      text-shadow: none;
-      top: 0;
-    }
-  }
-
-  .hide-overflow {
-    overflow: hidden;
-    position: relative;
-
-    hr {
-      margin-top: 30px;
-    }
-
-    h2 {
-      color: $color-cc-blue;
-      font-size: 16px;
-      font-weight: 400;
-      margin-top: 30px;
-      text-align: left;
-    }
-  }
-
-  .left-side {
-    box-sizing: border-box;
-    float: left;
-    padding-right: 160px;
-
-    @media screen and (max-width: 482px) {
-      padding-right: 0;
-    }
-  }
-
-  .plugin-badge {
-    float: right;
-    margin-left: 40px;
-    max-height: 180px;
-    max-width: 160px;
-
-    @media screen and (max-width: 482px) {
-      display: none;
-    }
-  }
-
-  .feature-image {
-    text-align: center;
-  }
-}
-.cc-a-block {
-  @include clearfix;
-
-  margin: 0 auto;
-  max-width: 90%;
-  padding: 50px 0;
-  text-align: center;
-
-  @media screen and (max-width: 482px) {
-    padding: 25px 0;
-  }
-
-  h3 {
-    color: $color-cc-blue;
-    font-size: 21px;
-    font-weight: 300;
-    height: 63px;
-    margin: 0 auto;
-    max-width: 70%;
-
-    @media screen and (max-width: 782px) {
-      height: auto;
-      max-width: 100%;
-    }
-  }
-
-  .left,
-  .right {
-    @include clearfix;
-
-    float: left;
-    width: 50%;
-
-    @media screen and (max-width: 482px) {
-      float: none;
-      width: 100%;
-    }
-
-    .ad-1,
-    .ad-2 {
-      width: 90%;
-
-      @media screen and (max-width: 482px) {
-        float: none;
-        width: 100%;
-      }
-
-      img {
-        height: auto;
-        width: 100%;
-      }
-    }
-
-    .ad-1 {
-      float: left;
-
-      h3 {
-        height: 47px;
-        padding-top: 35px;
-      }
-    }
-
-    .ad-2 {
-      float: right;
-    }
-  }
-}
-
-.ctct-bonus-points {
-  color: #2b5e8c;
-  font-size: 16px;
-  font-weight: 300;
-  list-style: circle;
-  padding-left: 50px;
-}
-
-.section-try-us {
-  .ctct-bonus-points {
-    margin-bottom: 50px;
-  }
-
-  a {
-    &.button {
-      margin-right: 40px;
-    }
-
-    &.ctct-connect {
-      font-weight: bold;
-    }
-
-    &:focus {
-      outline: 1px dotted $color-black;
-    }
-  }
-}
-
-.section-marketing-tips {
-  #subbox {
-    height: 40px;
-    width: 50%;
-  }
-}
-
-#cmb2-metabox-ctct_option_metabox_settings {
-  .regular-text {
-    width: 500px;
-  }
-}
+// Settings form table.
 
 .cmb2-options-page {
+
   &[class*="option-ctct_options_settings_"] {
+
     .cmb2-metabox > .cmb-row {
       background: transparent;
       border: none;
       box-shadow: none;
     }
+    // Text input
+
+    .regular-text {
+      width: 500px;
+    }
   }
 }
 
-.ctct-body {
-  #ctct_error_logs {
-    height: 400px;
-    resize: vertical;
-    width: 100%;
+// Global admin styles.
+
+.wp-admin{
+
+  // Settings/Debug/About Page.
+
+  .wrap.ctct-page-wrap{
+    max-width: 1000px;
+    margin: 0;
+    padding: 20px 10px 0 2px;
+    @include wider-than('small') {
+      padding-right: 20px;
+    }
+
+    > h2{
+      font-size: 24px;
+      font-weight: 700;
+      margin: 0 0 20px;
+      padding: 0;
+    }
+
+    p, li{
+      font-size: 14px;
+      line-height: 1.65;
+
+      &.small-text{
+        font-size: 12px;
+      }
+
+      &.large-text{
+        font-size: 16px;
+      }
+
+      &.xlarge-text{
+        font-size: 18px;
+      }
+    }
+
+    .text-centered{
+      text-align: center;
+    }
+    
+    .iframe-wrap{
+      position: relative;
+      padding-bottom: 56.25%; /* 16:9 */
+      height: 0;
+
+      iframe{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: $radius;
+      }
+
+    }
   }
+
+  hr{
+    border-top: none;
+    border-color: $color-silver;
+  }
+
+  // Align elements in settings form tables.
+
+  form.cmb-form{
+
+    h2{
+      margin: 0;
+      padding: 14px;
+    }
+
+    .description,
+    p.submit{
+      padding: 0 14px;
+      margin-bottom: 10px; 
+    }
+
+    .cmb-th,
+    .cmb-th label{
+      font-weight: 600;
+    }
+
+  }
+
+  // Align buttons in flex row
+
+  .ctct-button-actions{
+    display: flex;
+    justify-content: flex-start;
+
+    a {
+      align-self: flex-start;
+      margin: 0 10px 0 0;
+    }
+  }
+
+  // Copy shortcode on form listing.
+
+  .ctct-shortcode-wrap{ 
+    display: flex;
+    width: 100%;
+    background-color: $color-white;
+    border: 1px solid $color-silver;
+    border-radius: $radius;
+    padding: 3px; 
+    position: relative;
+
+    &:focus-within{
+      border-color: $color-light-silver;
+    }
+
+    input, button{ 
+      min-height: auto;
+      height: 30px;
+      font-size: 12px;
+    } 
+
+    input{
+      background-color: transparent;
+      border: none;
+      font-size: 12px;
+      padding: 0 10px 0 5px;
+      margin: 0;
+      flex: 1;
+      box-shadow: none;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+
+      &:focus{
+        box-shadow: none;
+      } 
+    }
+
+    button{
+      border-radius: $radius;
+      z-index: 1;
+    }
+  }
+
 }

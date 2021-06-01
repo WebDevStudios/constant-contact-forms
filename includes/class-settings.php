@@ -234,7 +234,7 @@ class ConstantContact_Settings {
 		$tabs    = $this->get_option_tabs( $cmb_options );
 		$current = $this->get_current_tab();
 		?>
-		<div class="wrap cmb2-options-page option-<?php echo esc_attr( $cmb_options->option_key ); ?>">
+		<div class="wrap cmb2-options-page ctct-page-wrap option-<?php echo esc_attr( $cmb_options->option_key ); ?>">
 			<?php if ( get_admin_page_title() ) : ?>
 				<h2><?php echo wp_kses_post( get_admin_page_title() ); ?></h2>
 			<?php endif; ?>
@@ -323,7 +323,7 @@ class ConstantContact_Settings {
 	protected function get_cmb_args( $cmb_id ) {
 		return [
 			'id'           => "{$this->metabox_id}_{$cmb_id}",
-			'title'        => esc_html__( 'Constant Contact Forms Settings', 'constant-contact-forms' ),
+			'title'        => esc_html__( 'Settings', 'constant-contact-forms' ),
 			'menu_title'   => esc_html__( 'Settings', 'constant-contact-forms' ),
 			'object_types' => [ 'options-page' ],
 			'option_key'   => "{$this->key}_{$cmb_id}",
@@ -343,12 +343,20 @@ class ConstantContact_Settings {
 	protected function register_fields_general() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'general' ) );
 
+		$before_analytics = sprintf(
+			/* translators: 1: Opening heading tag, 2: opt-in section heading, 3: closing heading tag */
+			'%1$s%2$s%3$s',
+			'<h2>',
+			esc_html__( 'General Settings', 'constant-contact-forms' ),
+			'</h2>'
+		);
 		$cmb->add_field( [
 			'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
 			'id'   => '_ctct_data_tracking',
 			'type' => 'checkbox',
 			'desc' => __( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href="https://www.endurance.com/privacy"> Privacy Statement</a> information about what is and is not tracked.', 'constant-contact-forms' ),
-		] );
+			'before_row' => $before_analytics,
+			] );
 
 		if ( constant_contact()->api->is_connected() ) {
 
@@ -501,7 +509,7 @@ class ConstantContact_Settings {
 			'<h2>',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
 			'</h2>',
-			'<div class="discover-recaptcha">',
+			'<div class="description">',
 			esc_html__( 'Learn more and get an ', 'constant-contact-forms' ),
 			'<a href="https://www.google.com/recaptcha/intro/" target="_blank">',
 			esc_html__( 'API site key', 'constant-contact-forms' ),

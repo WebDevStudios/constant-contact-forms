@@ -172,7 +172,7 @@ class ConstantContact_Logging {
 			return;
 		}
 
-		$connect_title = esc_html__( 'Debug logs', 'constant-contact-forms' );
+		$connect_title = esc_html__( 'Debug Logs', 'constant-contact-forms' );
 		$connect_link  = 'edit.php?post_type=ctct_forms';
 
 		$this->options_page = add_submenu_page(
@@ -212,65 +212,64 @@ class ConstantContact_Logging {
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 
 		?>
-		<div class="wrap <?php echo esc_attr( $this->key ); ?>">
-			<img class="ctct-logo" src="<?php echo esc_url( constant_contact()->url . 'assets/images/constant-contact-logo.png' ); ?>" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>">
-			<div class="ctct-body">
-				<?php
+		<div class="wrap ctct-page-wrap <?php echo esc_attr( $this->key ); ?>">
+			<h2><?php esc_html_e( 'Debug Logs', 'constant-contact-forms' ); ?></h2>
 
-				$contents = '';
+			<?php
 
-				if ( ! file_exists( $this->log_location_file ) ) {
-					$contents .= esc_html__( 'No error log exists', 'constant-contact-forms' );
-				}
+			$contents = esc_html__( 'No errors exists.', 'constant-contact-forms' );
 
-				if ( ! is_writable( $this->log_location_file ) ) {
-					$contents .= sprintf(
-						/* Translators: placeholder holds the log location. */
-						esc_html__( 'We are not able to write to the %s file.', 'constant-contact-forms' ),
-						constant_contact()->logger_location
-					);
-				}
+			if ( ! file_exists( $this->log_location_file ) ) {
+				$contents = esc_html__( 'No error log exists.', 'constant-contact-forms' );
+			}
 
-				if ( is_file( $this->log_location_file ) && is_readable( $this->log_location_file ) ) {
-					$contents .= file_get_contents( $this->log_location_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not reading over network, it's on the filesystem.
-				}
+			if ( ! is_writable( $this->log_location_file ) ) {
+				$contents = sprintf(
+					/* Translators: placeholder holds the log location. */
+					esc_html__( 'We are not able to write to the %s file.', 'constant-contact-forms' ),
+					constant_contact()->logger_location
+				);
+			}
 
+			if ( is_file( $this->log_location_file ) && is_readable( $this->log_location_file ) ) {
+				$contents = file_get_contents( $this->log_location_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not reading over network, it's on the filesystem.
+			}
+
+			?>
+			<p class="large-text"><?php esc_html_e( 'The error log below can be used with support requests to help identify issues with Constant Contact Forms.', 'constant-contact-forms' ); ?></p>
+			<p><?php esc_html_e( 'When available, you can share information by copying and pasting the content in the textarea, or by using the "Download logs" link below. Logs can be cleared by using the "Delete logs" link.', 'constant-contact-forms' ); ?></p>
+			<textarea name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea>
+			<?php
+
+			if ( is_file( $this->log_location_file ) && ! is_readable( $this->log_location_file ) ) {
 				?>
-				<p><?php esc_html_e( 'Error log below can be used with support requests to help identify issues with Constant Contact Forms.', 'constant-contact-forms' ); ?></p>
-				<p><?php esc_html_e( 'When available, you can share information by copying and pasting the content in the textarea, or by using the "Download logs" link at the end. Logs can be cleared by using the "Delete logs" link.', 'constant-contact-forms' ); ?></p>
-				<textarea name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea>
+				<p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the download link below.', 'constant-contact-forms' ); ?></p>
 				<?php
+			}
 
-				if ( is_file( $this->log_location_file ) && ! is_readable( $this->log_location_file ) ) {
-					?>
-					<p><?php esc_html_e( 'Error log may still have content, even if an error is shown above. Please use the download link below.', 'constant-contact-forms' ); ?></p>
-					<?php
-				}
-
-				if ( file_exists( $this->log_location_file ) ) {
-					?>
-					<p>
-						<?php
-							printf(
-								'<p><a href="%s" download>%s</a></p><p><a href="%s" id="deletelog">%s</a></p>',
-								esc_attr( $this->log_location_url ),
-								esc_html__( 'Download logs', 'constant-contact-forms' ),
-								esc_attr(
-									wp_nonce_url(
-										$this->options_url,
-										'ctct_delete_log',
-										'ctct_delete_log'
-									)
-								),
-								esc_html__( 'Delete logs', 'constant-contact-forms' )
-							);
-						?>
-					</p>
-					<?php
-				}
-				// @TODO Remind to turn off debugging setting when not needed.
+			if ( file_exists( $this->log_location_file ) ) {
 				?>
-			</div>
+				<div class="ctct-button-actions">
+					<?php
+						printf(
+							'<a class="button button-primary" href="%s" download>%s</a> <a class="button" href="%s" id="deletelog">%s</a>',
+							esc_attr( $this->log_location_url ),
+							esc_html__( 'Download logs', 'constant-contact-forms' ),
+							esc_attr(
+								wp_nonce_url(
+									$this->options_url,
+									'ctct_delete_log',
+									'ctct_delete_log'
+								)
+							),
+							esc_html__( 'Delete logs', 'constant-contact-forms' )
+						);
+					?>
+				</div>
+				<?php
+			}
+			// @TODO Remind to turn off debugging setting when not needed.
+			?>
 		</div>
 		<?php
 		return true;

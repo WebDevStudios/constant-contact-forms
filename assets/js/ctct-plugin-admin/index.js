@@ -3,4 +3,5 @@ import './builder';
 import './forms';
 import './modal';
 import './newsletter';
-import './optins';
+import './optins';;
+import './clipboard'; 
