@@ -141,6 +141,9 @@ You can add this to your active theme or custom plugin: `add_filter( 'constant_c
 #### Which account level access is needed to connect my WordPress account to Constant Contact?
 You will need to make the connection to Constant Contact using the credentials of the account owner. Campaign manager credentials will not have enough access.
 
+### Error: Please select at least one list to subscribe to.
+Some users are experiencing errors when upgrading from an older version of the plugin. If you are receiving an error "Please select at least one list to subscribe to" on your form submissions we recommend "Sync Lists with Constant Contact", this can be found in your admin dashboard Contact Form > Lists. If problem still persists we recommend recreating the form from scratch.
+
 
 == Upgrade Notice ==
 -  None
