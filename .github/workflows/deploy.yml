@@ -9,6 +9,11 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+    - name: Install dependencies
+      uses: php-actions/composer@v5
+      with: 
+        php_version: 5.6
+        version: 1
     - name: Build
       run: |
         npm install
