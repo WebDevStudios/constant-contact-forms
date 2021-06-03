@@ -2,7 +2,7 @@
 /**
  * Beaver Builder Module to Display Form
  *
- * @since  NEXT
+ * @since 1.10.0
  */
 
 if ( empty( $settings->cc_form ) ) {

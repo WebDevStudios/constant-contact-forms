@@ -40,7 +40,7 @@ class ConstantContact_Elementor {
 	/**
 	 * Register Hooks
 	 *
-	 * @since  NEXT
+	 * @since 1.10.0
 	 */
 	private function hooks() {
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widget' ] );
@@ -49,7 +49,7 @@ class ConstantContact_Elementor {
 	/**
 	 * Registers all Elementor Widgets
 	 *
-	 * @since  NEXT
+	 * @since 1.10.0
 	 */
 	public function register_widget() {
 		require_once( __DIR__ . '/widgets/elementor-widget.php' );

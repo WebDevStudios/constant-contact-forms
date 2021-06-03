@@ -1089,7 +1089,7 @@ function constant_contact_get_option( $key = '', $default = null ) {
  * Returns whether frontend css should be disabled or not.
  *
  * @author Scott Anderson <scott.anderson@webdevstudios.com>
- * @since  NEXT
+ * @since 1.10.0
  * @return bool
  */
 function disable_frontend_css() {

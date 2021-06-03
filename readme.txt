@@ -45,6 +45,7 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 = 1.11.0 =
 - Updated: New admin styling to update the overall look and feel of the plugin in the WordPress admin.
+- Updated: Amend honeypot field input for accessibility purposes.
 - Added: Plugin setting to disable the loading on Constant Contact plugin CSS on the frontend.
 - Added: Native browser validation for phone number (tel) field input type.
 - Fixed: Amended admin notification for Bad Request results.
@@ -140,6 +141,9 @@ You can add this to your active theme or custom plugin: `add_filter( 'constant_c
 
 #### Which account level access is needed to connect my WordPress account to Constant Contact?
 You will need to make the connection to Constant Contact using the credentials of the account owner. Campaign manager credentials will not have enough access.
+
+### Error: Please select at least one list to subscribe to.
+Some users are experiencing errors when upgrading from an older version of the plugin. If you are receiving an error "Please select at least one list to subscribe to" on your form submissions we recommend "Sync Lists with Constant Contact", this can be found in your admin dashboard Contact Form > Lists. If problem still persists we recommend recreating the form from scratch.
 
 
 == Upgrade Notice ==

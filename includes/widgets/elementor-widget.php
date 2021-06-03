@@ -20,7 +20,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	/**
 	 * Widgets Name
 	 *
-	 * @since  NEXT
+	 * @since 1.10.0
 	 */
 	public function get_name() {
 		return 'constant-contact';
@@ -29,7 +29,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	/**
 	 * Widgets Title
 	 *
-	 * @since  NEXT
+	 * @since 1.10.0
 	 */
 	public function get_title() {
 		return 'Constant Contact Form';
@@ -38,7 +38,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	/**
 	 * Widgets Icon
 	 *
-	 * @since  NEXT
+	 * @since 1.10.0
 	 */
 	public function get_icon() {
 		return 'eicon-form-horizontal';
@@ -47,7 +47,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	/**
 	 * Widgets Category
 	 *
-	 * @since  NEXT
+	 * @since 1.10.0
 	 */
 	public function get_categories() {
 		return [ 'basic' ];
@@ -56,7 +56,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	/**
 	 * Displays Widget Controls.
 	 *
-	 * @since  NEXT
+	 * @since 1.10.0
 	 */
 	protected function _register_controls() {
 
@@ -94,7 +94,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	/**
 	 * Provides all Constant Contact Forms current Published.
 	 *
-	 * @since  NEXT
+	 * @since 1.10.0
 	 */
 	private function get_form_options () {
 
@@ -122,7 +122,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	/**
 	 * Displays Widget
 	 *
-	 * @since  NEXT
+	 * @since 1.10.0
 	 */
 	protected function render() {
 		$settings = $this->get_settings_for_display();
