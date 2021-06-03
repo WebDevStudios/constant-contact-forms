@@ -15,6 +15,7 @@ jobs:
     - name: Install dependencies
       uses: php-actions/composer@v5
       with: 
+        php_version: 7
         version: 1
         command: install
         args: --no-dev
