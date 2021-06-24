@@ -729,7 +729,7 @@ class ConstantContact_Display {
 			case 'checkbox':
 				return $this->checkbox( $name, $map, $value, $desc, $req, $field_error, $form_id, $label_placement, $instance );
 			case 'submit':
-				return $this->input( 'submit', $name, $map, $value, $desc, $req, false, $field_error );
+				return $this->input( 'submit', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'address':
 				return $this->address( $name, $map, $value, $desc, $req, $field_error, $label_placement, $instance );
 			case 'anniversery':
