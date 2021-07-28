@@ -690,6 +690,7 @@ class ConstantContact_Builder_Fields {
 			'id'         => $this->prefix . 'field_desc',
 			'type'       => 'text',
 			'attributes' => [
+				'maxlength' => 500,
 				'placeholder' => esc_html__( 'Ex: Enter email address', 'constant-contact-forms' ),
 			],
 		] );
