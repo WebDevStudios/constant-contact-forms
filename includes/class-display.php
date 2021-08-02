@@ -1860,7 +1860,7 @@ class ConstantContact_Display {
 		return apply_filters(
 			'constant_contact_disclose',
 			sprintf(
-				'<div class="ctct-disclosure" style="%s"><hr><sub>%s</sub></div>',
+				'<div class="ctct-disclosure" style="%s"><hr><small>%s</small></div>',
 				esc_attr( $this->get_inline_font_color() ),
 				$this->get_inner_disclose_text() ) );
 	}
