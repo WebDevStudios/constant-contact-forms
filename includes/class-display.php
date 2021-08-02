@@ -1380,8 +1380,8 @@ class ConstantContact_Display {
 		$street   = esc_html__( 'Street Address', 'constant-contact-forms' );
 		$line_2   = esc_html__( 'Address Line 2', 'constant-contact-forms' );
 		$city     = esc_html__( 'City', 'constant-contact-forms' );
-		$state    = esc_html__( 'State', 'constant-contact-forms' );
-		$zip      = esc_html__( 'ZIP Code', 'constant-contact-forms' );
+		$state    = apply_filters( 'constant_contact_address_state', esc_html__( 'State', 'constant-contact-forms' ) );
+		$zip      = apply_filters( 'constant_contact_address_zip_code', esc_html__( 'ZIP Code', 'constant-contact-forms' ) );
 
 		$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
 		$v_line_2 = isset( $value['line_2_address'] ) ? $value['line_2_address'] : '';
