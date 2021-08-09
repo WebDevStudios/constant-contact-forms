@@ -1880,18 +1880,25 @@ class ConstantContact_Display {
 	 * @return string
 	 */
 	public function get_inner_disclose_text() {
-		return sprintf(
-			// Translators: placeholder will hold company info for site owner.
-			__(
-				'By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s', 'constant-contact-forms'
-			),
-			$this->plugin->api->get_disclosure_info(),
-			sprintf(
-				'<a href="%s" target="_blank">%s</a>',
-				esc_url( 'https://www.constantcontact.com/legal/service-provider' ),
-				esc_html__( 'Emails are serviced by Constant Contact', 'constant-contact-forms' )
-			)
-		);
+
+		$alternative_legal_text = constant_contact_get_option( '_ctct_alternative_legal_text' );
+
+		if ( empty( $alternative_legal_text ) ) {
+			return sprintf(
+				// Translators: placeholder will hold company info for site owner.
+				__(
+					'By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s', 'constant-contact-forms'
+				),
+				$this->plugin->api->get_disclosure_info(),
+				sprintf(
+					'<a href="%s" target="_blank">%s</a>',
+					esc_url( 'https://www.constantcontact.com/legal/service-provider' ),
+					esc_html__( 'Emails are serviced by Constant Contact', 'constant-contact-forms' )
+				)
+			);
+		}
+
+		return $alternative_legal_text;
 	}
 
 	/**
