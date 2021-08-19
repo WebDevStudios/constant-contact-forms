@@ -825,7 +825,7 @@ class ConstantContact_Lists {
 
 		$ctct_resyncing = filter_input( INPUT_GET, 'ctct_resyncing', FILTER_SANITIZE_STRING );
 
-		if ( ! isset( $ctct_resyncing ) || wp_verify_nonce( $ctct_resyncing, 'ctct_resyncing' ) || ! is_admin() ) {
+		if ( ! isset( $ctct_resyncing ) || ! wp_verify_nonce( $ctct_resyncing, 'ctct_resyncing' ) || ! is_admin() ) {
 			return;
 		}
 
