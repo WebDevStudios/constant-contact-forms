@@ -1791,9 +1791,10 @@ class ConstantContact_Display {
 			$req_label = $this->display_required_indicator();
 		}
 
-		$return   = '<p class="' . implode( ' ', $classes ) . '">';
-		$label    = '<span class="' . $label_placement_class . '"><label for="' . esc_attr( $field_id ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label></span>';
-		$textarea = '<textarea class="' . esc_attr( implode( ' ', $textarea_classes ) ) . '" ' . $req_text . ' name="' . esc_attr( $map ) . '" id="' . esc_attr( $field_id ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
+		$return            = '<p class="' . implode( ' ', $classes ) . '">';
+		$label             = '<span class="' . $label_placement_class . '"><label for="' . esc_attr( $field_id ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label></span>';
+		$textarea          = '<textarea class="' . esc_attr( implode( ' ', $textarea_classes ) ) . '" ' . $req_text . ' name="' . esc_attr( $map ) . '" id="' . esc_attr( $field_id ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
+		$instructions_span = '<span class="ctct-textarea-warning-label"><label for="' . esc_attr( $field_id ) . '">' . esc_html__( 'Limit 500 Characters', 'constant-contact-forms' )  . ' ' . $req_label . '</label></span>';
 
 		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
 			$return .= $label . $textarea;
@@ -1802,6 +1803,8 @@ class ConstantContact_Display {
 		if ( 'right' === $label_placement || 'bottom' === $label_placement ) {
 			$return .= $textarea . $label;
 		}
+
+		$return .= $instructions_span;
 
 		if ( $field_error ) {
 			$return .= '<span class="ctct-field-error"><label for="' . esc_attr( $field_id ) . '">' . esc_attr( __( 'Error: Please correct your entry.', 'constant-contact-forms' ) ) . '</label></span>';

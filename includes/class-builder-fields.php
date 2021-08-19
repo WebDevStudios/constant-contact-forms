@@ -686,11 +686,10 @@ class ConstantContact_Builder_Fields {
 		] );
 
 		$fields_metabox->add_group_field( $custom_group, [
-			'name'       => esc_html__( 'Field Description (500 Char Max)', 'constant-contact-forms' ),
+			'name'       => esc_html__( 'Field Description', 'constant-contact-forms' ),
 			'id'         => $this->prefix . 'field_desc',
 			'type'       => 'text',
 			'attributes' => [
-				'maxlength' => 500,
 				'placeholder' => esc_html__( 'Ex: Enter email address', 'constant-contact-forms' ),
 			],
 		] );
