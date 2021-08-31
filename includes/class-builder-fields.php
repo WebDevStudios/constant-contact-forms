@@ -215,7 +215,7 @@ class ConstantContact_Builder_Fields {
 				'show_names'   => true,
 			] );
 
-			$lists = $this->plugin->builder->get_lists();
+			$lists = $this->get_local_lists();
 			
 			if ( empty( $lists ) ) {
 				$list_metabox->add_field( array(
@@ -813,5 +813,30 @@ class ConstantContact_Builder_Fields {
 				<em><?php echo esc_html( $field->args['description'] ); ?></em>
 			</p>
 		<?php
+	}
+
+	/**
+	 * Returns available lists that are available locally.
+	 *
+	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return array
+	 */
+	private function get_local_lists() {
+
+		$args = [
+			'post_type'   => 'ctct_lists',
+			'numberposts' => -1,
+		];
+		$lists = get_posts( $args );
+
+		$formatted_lists = [];
+		foreach ( $lists as $list ) {
+			$form_id                   = get_post_meta($list->ID, '_ctct_list_id', true);
+			$formatted_lists[$form_id] = $list->post_title;
+		}
+
+		return $formatted_lists;
 	}
 }
