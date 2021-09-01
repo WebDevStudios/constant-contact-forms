@@ -823,7 +823,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @return array
 	 */
-	private function get_local_lists() {
+	public function get_local_lists() {
 
 		$args = [
 			'post_type'   => 'ctct_lists',

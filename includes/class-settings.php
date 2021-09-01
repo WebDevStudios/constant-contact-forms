@@ -685,14 +685,19 @@ class ConstantContact_Settings {
 		}
 
 		$saved_label = constant_contact_get_option( '_ctct_optin_label', '' );
-		$list        = constant_contact_get_option( '_ctct_optin_list', '' );
+
+		$lists = $this->plugin->builder_fields->get_local_lists();
 		$label       = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
+
 		?>
 		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
-			<label for="ctct_optin">
-				<input type="checkbox" value="<?php echo esc_attr( $list ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list" />
-				<?php echo esc_attr( $label ); ?>
-			</label>
+			<p><?php echo esc_attr( $label ); ?></p>
+			<?php foreach ( $lists as $key => $list ) { ?>
+				<label for="ctct_optin">
+					<input type="checkbox" value="<?php echo esc_attr( $key ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list[]" /> <?php echo esc_attr( $list ); ?>
+				</label>
+				<br/>
+			<?php } ?>
 			<?php echo wp_kses_post( constant_contact()->display->get_disclose_text() ); ?>
 		</p>
 		<?php
@@ -708,9 +713,9 @@ class ConstantContact_Settings {
 	 * @return array Comment form data.
 	 */
 	public function process_optin_comment_form( $comment_data ) {
-		$ctct_optin_list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
+		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
-		if ( empty( $ctct_optin_list ) ) {
+		if ( empty( $ctct_optin_lists ) ) {
 			return $comment_data;
 		}
 
@@ -731,21 +736,23 @@ class ConstantContact_Settings {
 
 			$name    = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
 			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
-			$list    = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
+			$lists    = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
-			if ( empty( $list ) ) {
+			if ( empty( $lists ) ) {
 				return $comment_data;
 			}
 
-			$args = [
-				'list'       => sanitize_text_field( wp_unslash( $list ) ),
-				'email'      => sanitize_email( $comment_data['comment_author_email'] ),
-				'first_name' => sanitize_text_field( $name ),
-				'last_name'  => '',
-				'website'    => sanitize_text_field( $website ),
-			];
+			foreach ( $lists as $list ) {
+				$args = [
+					'list'       => sanitize_text_field( wp_unslash( $list ) ),
+					'email'      => sanitize_email( $comment_data['comment_author_email'] ),
+					'first_name' => sanitize_text_field( $name ),
+					'last_name'  => '',
+					'website'    => sanitize_text_field( $website ),
+				];
+				constantcontact_api()->add_contact( $args );
+			}
 
-			constantcontact_api()->add_contact( $args );
 		}
 
 		return $comment_data;
@@ -762,9 +769,9 @@ class ConstantContact_Settings {
 	 * @return object|array CTCT return API for contact or original $user array.
 	 */
 	public function process_optin_login_form( $user, $username, $password ) {
-		$ctct_optin_list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
+		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
-		if ( empty( $ctct_optin_list ) ) {
+		if ( empty( $ctct_optin_lists ) ) {
 			return $user;
 		}
 
@@ -786,7 +793,9 @@ class ConstantContact_Settings {
 	 */
 	public function process_optin_register_form( $user_id ) {
 
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) {
+		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+
+		if ( empty( $ctct_optin_lists ) ) {
 			return $user_id;
 		}
 
@@ -835,21 +844,22 @@ class ConstantContact_Settings {
 			return;
 		}
 
-		$list = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING );
+		$lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
-		if ( empty( $list ) ) {
+		if ( empty( $lists ) ) {
 			return;
 		}
 
 		if ( $email ) {
-			$args = [
-				'email'      => $email,
-				'list'       => sanitize_text_field( wp_unslash( $list ) ),
-				'first_name' => $name,
-				'last_name'  => '',
-			];
-
-			constantcontact_api()->add_contact( $args );
+			foreach ( $lists as $list ) {
+				$args = [
+					'email'      => $email,
+					'list'       => sanitize_text_field( wp_unslash( $list ) ),
+					'first_name' => $name,
+					'last_name'  => '',
+				];
+				constantcontact_api()->add_contact( $args );
+			}
 		}
 
 	}
