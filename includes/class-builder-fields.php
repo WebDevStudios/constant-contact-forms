@@ -216,7 +216,7 @@ class ConstantContact_Builder_Fields {
 			] );
 
 			$lists = $this->get_local_lists();
-			
+
 			if ( empty( $lists ) ) {
 				$list_metabox->add_field( array(
 					'name' => esc_html__( 'No Lists Found', 'constant-contact-forms' ),
@@ -826,8 +826,10 @@ class ConstantContact_Builder_Fields {
 	private function get_local_lists() {
 
 		$args = [
-			'post_type'   => 'ctct_lists',
-			'numberposts' => -1,
+			'post_type'      => 'ctct_lists',
+			'posts_per_page' => -1,
+			'orderby'        => 'title',
+			'order'          => 'ASC'
 		];
 		$lists = get_posts( $args );
 
