@@ -238,7 +238,7 @@ class ConstantContact_Lists {
 		 */
 		$query = new WP_Query( apply_filters( 'constant_contact_lists_query_for_sync', [
 			'post_type'              => 'ctct_lists',
-			'posts_per_page'         => 100,
+			'posts_per_page'         => -1,
 			'no_found_rows'          => true,
 			'update_post_term_cache' => false,
 			'fields'                 => 'ids',
