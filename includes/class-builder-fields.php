@@ -833,12 +833,14 @@ class ConstantContact_Builder_Fields {
 			'no_found_rows'          => true,
 			'update_post_term_cache' => false,
 		];
+
 		$lists = get_posts( $args );
 
 		$formatted_lists = [];
+
 		foreach ( $lists as $list ) {
-			$form_id                   = get_post_meta($list->ID, '_ctct_list_id', true);
-			$formatted_lists[$form_id] = $list->post_title;
+			$form_id                     = get_post_meta( $list->ID, '_ctct_list_id', true );
+			$formatted_lists[ $form_id ] = $list->post_title;
 		}
 
 		return $formatted_lists;
