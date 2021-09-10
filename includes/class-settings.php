@@ -491,6 +491,13 @@ class ConstantContact_Settings {
 			'id'         => '_ctct_disable_css',
 			'type'       => 'checkbox',
 		] );
+
+		$cmb->add_field( [
+			'name'       => esc_html__( 'Alternative Disclaimer Text', 'constant-contact-forms' ),
+			'desc'       => esc_html__( 'Override default sign-up disclaimer text. (Supports HTML)', 'constant-contact-forms' ),
+			'id'         => '_ctct_alternative_legal_text',
+			'type'       => 'textarea',
+		] );
 		
 	}
 
