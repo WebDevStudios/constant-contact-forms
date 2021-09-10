@@ -826,10 +826,12 @@ class ConstantContact_Builder_Fields {
 	private function get_local_lists() {
 
 		$args = [
-			'post_type'      => 'ctct_lists',
-			'posts_per_page' => -1,
-			'orderby'        => 'title',
-			'order'          => 'ASC'
+			'post_type'              => 'ctct_lists',
+			'posts_per_page'         => 1000, // phpcs:ignore WordPress.WP.PostsPerPage
+			'orderby'                => 'title',
+			'order'                  => 'ASC',
+			'no_found_rows'          => true,
+			'update_post_term_cache' => false,
 		];
 		$lists = get_posts( $args );
 
