@@ -1238,7 +1238,7 @@ class ConstantContact_Display {
 
 		// If only one list displayed, hide input.
 		if ( 'lists' === $key_pieces[0] && $count <= 1 ) {
-			$markup = "<div style='display:none;'>{$markup}</div>";
+			$markup = "<div class='ctct-list-selector' style='display:none;'>{$markup}</div>";
 		}
 
 		return $markup;
