@@ -827,7 +827,7 @@ class ConstantContact_Builder_Fields {
 
 		$args = [
 			'post_type'   => 'ctct_lists',
-			'numberposts' => -1,
+			'numberposts' => 1000,
 		];
 		$lists = get_posts( $args );
 

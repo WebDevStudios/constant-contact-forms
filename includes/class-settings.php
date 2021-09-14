@@ -404,7 +404,7 @@ class ConstantContact_Settings {
 				$cmb->add_field( [
 					'name'             => esc_html__( 'Add subscribers to', 'constant-contact-forms' ),
 					'id'               => '_ctct_optin_list',
-					'type'             => 'select',
+					'type'             => 'multicheck',
 					'show_option_none' => false,
 					'default'          => esc_html__( 'Select a list', 'constant-contact-forms' ),
 					'options'          => $lists,
@@ -686,15 +686,15 @@ class ConstantContact_Settings {
 
 		$saved_label = constant_contact_get_option( '_ctct_optin_label', '' );
 
-		$lists = $this->plugin->builder_fields->get_local_lists();
+		$lists = $this->get_optin_list_options();
 		$label       = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 
 		?>
 		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
 			<p><?php echo esc_attr( $label ); ?></p>
 			<?php foreach ( $lists as $key => $list ) { ?>
-				<label for="ctct_optin">
-					<input type="checkbox" value="<?php echo esc_attr( $key ); ?>" class="checkbox" id="ctct_optin" name="ctct_optin_list[]" /> <?php echo esc_attr( $list ); ?>
+				<label for="ctct_optin_<?php echo esc_attr( $key ); ?>">
+					<input type="checkbox" value="<?php echo esc_attr( $key ); ?>" class="checkbox" id="ctct_optin_<?php echo esc_attr( $key ); ?>" name="ctct_optin_list[]" /> <?php echo esc_attr( $list ); ?>
 				</label>
 				<br/>
 			<?php } ?>
@@ -1063,6 +1063,33 @@ class ConstantContact_Settings {
 	 */
 	private function get_default_spam_error() {
 		return __( 'We do not think you are human', 'constant-contact-forms' );
+	}
+
+	/**
+	 * Returns formated list of available lists during opt-in.
+	 *
+	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return array
+	 */
+	private function get_optin_list_options() {
+		$lists = constant_contact_get_option( '_ctct_optin_list', '' );
+
+		$formatted_lists = [];
+		foreach ( $lists as $list_id ) {
+
+			$list_args = array(
+				'numberposts' => 1,
+				'post_type'   => 'ctct_lists',
+				'meta_key'    => '_ctct_list_id',
+				'meta_value'  => $list_id
+			);
+			$list = get_posts( $list_args );
+
+			$formatted_lists[ $list_id ] = $list[0]->post_title;
+		}
+		return $formatted_lists;
 	}
 }
 
