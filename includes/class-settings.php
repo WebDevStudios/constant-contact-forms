@@ -1076,7 +1076,7 @@ class ConstantContact_Settings {
 	 * Returns formated list of available lists during opt-in.
 	 *
 	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.12.0
 	 *
 	 * @return array
 	 */

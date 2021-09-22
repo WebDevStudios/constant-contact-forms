@@ -819,7 +819,7 @@ class ConstantContact_Builder_Fields {
 	 * Returns available lists that are available locally.
 	 *
 	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
-	 * @since  NEXT
+	 * @since  1.12.0
 	 *
 	 * @return array
 	 */
