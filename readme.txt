@@ -43,78 +43,19 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 == Changelog ==
 
-= 1.11.0 =
-- Updated: New admin styling to update the overall look and feel of the plugin in the WordPress admin.
-- Updated: Amend honeypot field input for accessibility purposes.
-- Added: Plugin setting to disable the loading on Constant Contact plugin CSS on the frontend.
-- Added: Native browser validation for phone number (tel) field input type.
-- Fixed: Amended admin notification for Bad Request results.
-
-= 1.10.1 =
-* Fixed: Removed accidental extra parentheses on a function call.
-
-= 1.10.0 =
-* Added: Toggle to our Forms Block to display Form title or not.
-* Added: Support for displaying a form in Beaver Builder.
-* Added: Support for displaying a form in Elementor.
-* Fixed: PHP Notices about usage of deprecated functions.
-* Updated: Touched up styles for the Constant Contact Forms Block.
-
-= 1.9.1 =
-* Fixed: Removing duplicate IDs on form submit button.
-* Fixed: Preventing `Bad Request` request errors from rendering an admin notice.
-* Fixed: Various other admin and front-end fixes.
-
-= 1.9.0 =
-* Added: Ability for site owners to multiple lists for users to choose which to sign up for.
-* Fixed: Issues around enabling list signup on user registration.
-* Fixed: Unintended markup in email notification text.
-* Fixed: Inappropriate or unneeded markup around hidden fields.
-* Updated: Max length values for first/last name fields.
-* Updated: Deprecated some functions in order to get consistent naming across all our code.
-
-= 1.8.8 =
-* Updated: Added extra security output escaping of custom input values
-
-= 1.8.7 =
-* Improved: Implemented recommendations for improved accessibility.
-* Improved: Avoid duplicate ID attributes when more than one form is present on a page.
-* Fixed: Submit button targeting for recaptcha v2.
-
-= 1.8.6 =
-* Fixed: Removed invalid property being sent to the API, causing rejected requests.
-* Fixed: Failure to log API errors for support purposes.
-
-= 1.8.5 =
-* Added: Forced email notifications to admin when Constant Contact API request fails on attempted form submission.
-* Fixed: Addressed issues with plugin error logging and addressed false-positive error messaging.
-* Fixed: Cleaned up style minification task to allow for unminified version of stylesheet.
-* Updated: Updated support error messaging in admin to reference tab structure of plugin settings.
-
-= 1.8.4 =
-* Fixed: Compatibility issue with PHP 5.6.
-
-= 1.8.3 =
-* Fixed: Potential compatibility issues around Gutenberg block.
-* Fixed: Conflicts with multiple reCAPTCHAs on different Constant Contact Forms from the same page.
-* Fixed: Conflicts with multiple reCAPTCHAs on the same Constant Contact Form on the page multiple times.
-* Fixed: Removed incorrect usage of WordPress nonces on user submissions to forms.
-* Fixed: Address missed logging enabling for cases that potentially lead to missing debugging information.
-
-= 1.8.2 =
-* Updated: Amended logging location for more hopefully more consistent write-ability and smoother support requests.
-
-= 1.8.1 =
-* Fixed: Google reCAPTCHA issues with jQuery dependencies.
-* Fixed: Google reCAPTCHA undefined class errors when `allow_url_fopen` is disabled.
-* Fixed: Array to string errors when API errors occurred.
-
-= 1.8.0 =
-* Added: Form and field IDs parameters to the `constant_contact_input_classes` filters.
-* Added: Site owners will be notified if they have stray shortcodes or widgets using a newly deleted form.
-* Added: Separated the settings page into tabs for better purpose organization.
-* Updated: Reduced frequency of admin notifications for potentially momentary issues.
-* Updated: Clarified details regarding "Redirect URL" setting.
+= 1.12.0 =
+* Added: Multi-select list options to "advanced optin" settings
+* Added: Force email notifications if no list is selected for a form
+* Changed: Change <small> to <sub> for form disclaimer
+* Added: Two new filters to override state and zipcode labels
+* Added: New setting to override default opt-in text
+* Fixed: Incomplete "ctct-label-" CSS class on submit button
+* Fixed: Erroneous placeholder attribute on submit button
+* Fixed: Email field browser validation when form submits via AJAX
+* Added: “Limit 500 Characters” description below textarea fields
+* Added: CSS class selector to the div wrapping the list checkboxes
+* Updated: Better ensured security
+* Updated: Addressed limits and issues regarding list management
 
 == Frequently Asked Questions ==
 
