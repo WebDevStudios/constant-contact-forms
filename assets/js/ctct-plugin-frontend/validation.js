@@ -229,8 +229,6 @@
 			return false;
 		}
 
-		e.preventDefault();
-
 		clearTimeout( app.timeout );
 
 		app.timeout = setTimeout( app.submitForm, 500, $form );

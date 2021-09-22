@@ -96,17 +96,21 @@ class ConstantContact_Mail {
 
 		constant_contact()->process_form->increment_processed_form_count();
 
-		// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in.
-		if ( constant_contact()->api->is_connected() && constant_contact_emails_disabled( $submission_details['form_id'] ) ) {
-			if ( $add_to_opt_in ) {
-				return true;
-			}
+		// Check if no list is selected, if so skip to force email logic regardless of connection.
+		if ( ! empty( $lists['value'][0] ) ) {
 
-			// phpcs:disable WordPress.Security.NonceVerification -- OK checking of $_POST values.
-			if ( empty( $_POST['ctct_must_opt_in'] ) || ! empty( $_POST['ctct-opt-in'] ) ) {
-				return true;
+			// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in.
+			if ( constant_contact()->api->is_connected() && constant_contact_emails_disabled( $submission_details['form_id'] ) ) {
+				if ( $add_to_opt_in ) {
+					return true;
+				}
+
+				// phpcs:disable WordPress.Security.NonceVerification -- OK checking of $_POST values.
+				if ( empty( $_POST['ctct_must_opt_in'] ) || ! empty( $_POST['ctct-opt-in'] ) ) {
+					return true;
+				}
+				// phpcs:enable WordPress.Security.NonceVerification
 			}
-			// phpcs:enable WordPress.Security.NonceVerification
 		}
 
 		$emails_disabled = constant_contact_emails_disabled( $submission_details['form_id'] );
