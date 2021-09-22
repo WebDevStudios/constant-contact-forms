@@ -1,3 +1,33 @@
+= 1.11.0 =
+* Updated: New admin styling to update the overall look and feel of the plugin in the WordPress admin.
+* Updated: Amend honeypot field input for accessibility purposes.
+* Added: Plugin setting to disable the loading on Constant Contact plugin CSS on the frontend.
+* Added: Native browser validation for phone number (tel) field input type.
+* Fixed: Amended admin notification for Bad Request results.
+
+= 1.10.1 =
+* Fixed: Removed accidental extra parentheses on a function call.
+
+= 1.10.0 =
+* Added: Toggle to our Forms Block to display Form title or not.
+* Added: Support for displaying a form in Beaver Builder.
+* Added: Support for displaying a form in Elementor.
+* Fixed: PHP Notices about usage of deprecated functions.
+* Updated: Touched up styles for the Constant Contact Forms Block.
+
+= 1.9.1 =
+* Fixed: Removing duplicate IDs on form submit button.
+* Fixed: Preventing `Bad Request` request errors from rendering an admin notice.
+* Fixed: Various other admin and front-end fixes.
+
+= 1.9.0 =
+* Added: Ability for site owners to multiple lists for users to choose which to sign up for.
+* Fixed: Issues around enabling list signup on user registration.
+* Fixed: Unintended markup in email notification text.
+* Fixed: Inappropriate or unneeded markup around hidden fields.
+* Updated: Max length values for first/last name fields.
+* Updated: Deprecated some functions in order to get consistent naming across all our code.
+
 = 1.8.8 =
 * Updated: Added extra security output escaping of custom input values
 
