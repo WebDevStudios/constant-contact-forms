@@ -547,6 +547,7 @@ class ConstantContact_API {
 		}
 
 		$new_contact = $this->clear_email( $new_contact );
+		$new_contact = $this->clear_phone( $new_contact );
 		constant_contact_maybe_log_it( 'API', 'Submitted contact data', $new_contact );
 
 		return $return_contact;
@@ -570,6 +571,25 @@ class ConstantContact_API {
 				$clean[ $contact_key ] = implode( '@', [ '***', $email_parts[1] ] );
 			} else {
 				$clean[ $contact_key ] = $contact_value;
+			}
+		}
+		return $clean;
+	}
+
+	/**
+	 * Obfuscate phone numbers.
+	 *
+	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
+	 * @since NEXT
+	 *
+	 * @param array $contact Contact data.
+	 * @return array
+	 */
+	private function clear_phone ( array $contact ) {
+		$clean = $contact;
+		foreach ( $contact as $contact_key => $contact_value ) {
+			if ( is_array( $contact_value ) && ! empty( $contact_value['key'] ) && $contact_value['key'] === 'phone_number' ) {
+				$clean[ $contact_key ]['val'] = '***-***-****';
 			}
 		}
 		return $clean;
