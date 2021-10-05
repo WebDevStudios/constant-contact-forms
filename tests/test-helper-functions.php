@@ -69,4 +69,77 @@ class ConstantContact_Helper_Functions_Test extends WP_UnitTestCase {
 			'true'
 		);
 	}
+
+	/**
+	 * Test that an Exception with a 418 code
+	 * sets ctct_exceptions_exist option to 'true'.
+	 *
+	 * @since NEXT
+	 *
+	 * @test
+	 */
+	public function test_exception_with_418_error_sets_ctct_exceptions_exist_to_true() {
+
+		/**
+		 * Note that 418 was chosen simply because
+		 * it was not implemented in guzzlehttp/guzzle:^5.1.0.
+		 */
+		constant_contact_forms_maybe_set_exception_notice(
+			new Exception(
+				'I\'m a teapot',
+				418
+			)
+		);
+
+		$this->assertEquals(
+			get_option( self::EXCEPT_OPTION_NAME ),
+			'true'
+		);
+	}
+
+	/**
+	 * Test that an Exception with a 400 code
+	 * does not set ctct_exceptions_exist option to 'true'.
+	 *
+	 * @since NEXT
+	 *
+	 * @test
+	 */
+	public function test_exception_with_400_error_does_not_set_ctct_exceptions_exist_to_true() {
+
+		constant_contact_forms_maybe_set_exception_notice(
+			new Exception(
+				'Bad Request',
+				400
+			)
+		);
+
+		$this->assertNotEquals(
+			get_option( self::EXCEPT_OPTION_NAME ),
+			'true'
+		);
+	}
+
+	/**
+	 * Test that an Exception with a 503 code
+	 * does not set ctct_exceptions_exist option to 'true'.
+	 *
+	 * @since NEXT
+	 *
+	 * @test
+	 */
+	public function test_exception_with_503_error_does_not_set_ctct_exceptions_exist_to_true() {
+
+		constant_contact_forms_maybe_set_exception_notice(
+			new Exception(
+				'Service Unavailable',
+				503
+			)
+		);
+
+		$this->assertNotEquals(
+			get_option( self::EXCEPT_OPTION_NAME ),
+			'true'
+		);
+	}
 }
