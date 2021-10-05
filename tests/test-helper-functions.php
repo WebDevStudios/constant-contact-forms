@@ -9,6 +9,11 @@
 class ConstantContact_Helper_Functions_Test extends WP_UnitTestCase {
 
 	/**
+	 * The option name used by constant_contact_set_has_exceptions().
+	 */
+	const EXCEPT_OPTION_NAME = 'ctct_exceptions_exist';
+
+	/**
 	 * Runs the routine before each test is executed.
 	 *
 	 * @since NEXT
@@ -25,6 +30,7 @@ class ConstantContact_Helper_Functions_Test extends WP_UnitTestCase {
 	 */
 	public function tearDown() {
 		// This code will run after each test.
+		delete_option( self::EXCEPT_OPTION_NAME );
 		parent::tearDown();
 	}
 }
