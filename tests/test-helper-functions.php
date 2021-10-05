@@ -13,9 +13,4 @@ class ConstantContact_Helper_Functions_Test extends WP_UnitTestCase {
 		$this->assertTrue( function_exists( 'constant_contact_display_form' ) );
 		$this->assertTrue( function_exists( 'constant_contact_get_forms' ) );
 	}
-
-	function test_sample() {
-		// replace this with some actual testing code
-		$this->assertTrue( true );
-	}
 }
