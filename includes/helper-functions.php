@@ -832,3 +832,31 @@ add_action( 'untrashed_post', 'constant_contact_remove_form_references_on_restor
 function constant_contact_maybe_display_deleted_forms_notice() {
 	return ! empty( get_option( ConstantContact_Notifications::$deleted_forms, [] ) );
 }
+
+/**
+ * Maybe set exception notice for admin notification.
+ *
+ * @since NEXT
+ *
+ * @param Exception $e
+ */
+function constant_contact_forms_maybe_set_exception_notice( $e ) {
+
+	// Do not notify if the exception code is 400 or the message contains "Bad Request".
+	if (
+		( 400 === $e->getCode() ) ||
+		( false !== stripos( $e->getMessage(), 'Bad Request' ) )
+	) {
+		return;
+	}
+
+	// Do not notify if the exception code is 503 or the message contains "Service Unavailable".
+	if (
+		( 503 === $e->getCode() ) ||
+		( false !== stripos( $e->getMessage(), 'Service Unavailable' ) )
+	) {
+		return;
+	}
+
+	constant_contact_set_has_exceptions();
+}
