@@ -44,6 +44,8 @@ class ConstantContact_Signup_Forms {
 	 */
 	public function hooks() {
 		add_action( 'wp_head', [ $this, 'inject_universal_code' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'register_metaboxes' ] );
+		add_shortcode('ctct-line-form', [$this, 'render_inline_form']);
 	}
 
     /**
@@ -63,5 +65,47 @@ class ConstantContact_Signup_Forms {
         }
         echo $universal_code;
     }
+
+	/**
+	 * Register Metaboxes for Inline Forms.
+	 *
+	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return void
+	 */
+	public function register_metaboxes() {
+		$inline_details = new_cmb2_box(array(
+			'id'            => 'ctct_inline_metabox',
+			'title'         => esc_html__('Inline Forms Details', 'constant-contact-forms'),
+			'object_types'  => array('ctct_inline_forms'),
+		));
+
+		$inline_details->add_field(array(
+			'name'       => esc_html__('Date Received', 'constant-contact-forms'),
+			'id'         => 'ctct_inline_code',
+			'type'       => 'textarea_code',
+		));
+	}
+
+	/**
+	 * Render Inline Form.
+	 *
+	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
+	 * @since  NEXT
+	 * @param  array $args Shortcode Args
+	 *
+	 * @return array
+	 */
+	public function render_inline_form( $args ) {
+
+		$post_id = absint( $args['id'] );
+
+		$inline_code = get_post_meta( $post_id, 'ctct_inline_code', true );
+		if ( '' === $inline_code ) {
+            return;
+        }
+        echo $inline_code;
+	}
 
 }
