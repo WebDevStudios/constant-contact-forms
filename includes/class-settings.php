@@ -534,6 +534,13 @@ class ConstantContact_Settings {
 			'type'       => 'textarea_code',
 			'before_row'  => $before_signup_css,
 		] );
+
+		$cmb->add_field( [
+			'name'       => esc_html__( 'Disable Universal Code', 'constant-contact-forms' ),
+			'desc'       => esc_html__( 'Temporarily disable Universal Code for debugging.', 'constant-contact-forms' ),
+			'id'         => '_ctct_signup_uc_disable',
+			'type'       => 'checkbox',
+		] );
 		
 	}
 

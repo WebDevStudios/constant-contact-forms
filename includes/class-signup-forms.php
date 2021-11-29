@@ -55,9 +55,10 @@ class ConstantContact_Signup_Forms {
 	 * @return void
 	 */
     public function inject_universal_code() : void {
-        $universal_code = constant_contact_get_option( '_ctct_signup_universal_code', '' );
-        
-        if ( '' === $universal_code ) {
+        $universal_code         = constant_contact_get_option( '_ctct_signup_universal_code', '' );
+		$disable_universal_code = constant_contact_get_option( '_ctct_signup_uc_disable', 'off' );
+
+        if ( '' === $universal_code || 'on' === $disable_universal_code ) {
             return;
         }
         echo $universal_code;
