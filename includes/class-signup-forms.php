@@ -26,6 +26,14 @@ class ConstantContact_Signup_Forms {
 	protected $plugin;
 
 	/**
+	 * Inline Forms Slug.
+	 *
+	 * @since NEXT
+	 * @var string
+	 */
+	private $slug = 'ctct_inline_forms';
+
+	/**
 	 * Constructor.
 	 *
 	 * @since NEXT
@@ -45,7 +53,8 @@ class ConstantContact_Signup_Forms {
 	public function hooks() {
 		add_action( 'wp_head', [ $this, 'inject_universal_code' ] );
 		add_action( 'cmb2_admin_init', [ $this, 'register_metaboxes' ] );
-		add_shortcode('ctct-line-form', [$this, 'render_inline_form']);
+		add_action( 'cmb2_admin_init', [ $this, 'generated_shortcode' ] );
+		add_shortcode('ctct-inline-form', [$this, 'render_inline_form']);
 	}
 
     /**
@@ -95,7 +104,7 @@ class ConstantContact_Signup_Forms {
 	 * @since  NEXT
 	 * @param  array $args Shortcode Args
 	 *
-	 * @return array
+	 * @return string
 	 */
 	public function render_inline_form( $args ) {
 
@@ -105,7 +114,47 @@ class ConstantContact_Signup_Forms {
 		if ( '' === $inline_code ) {
             return;
         }
-        echo $inline_code;
+
+		ob_start();
+		echo $inline_code;
+		return ob_get_clean();
+	}
+
+	/**
+	 * Show a metabox rendering inline shortcode.
+	 *
+	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
+	 * @since  NEXT
+	 *
+	 * @return void
+	 */
+	public function generated_shortcode() {
+		$generated = new_cmb2_box( [
+			'id'           => 'ctct_inline_generated_metabox',
+			'title'        => esc_html__( 'Shortcode', 'constant-contact-forms' ),
+			'object_types' => [ $this->slug ],
+			'context'      => 'side',
+			'priority'     => 'low',
+			'show_names'   => true,
+		] );
+
+		$generated->add_field( [
+			'name'       => esc_html__( 'Shortcode to use', 'constant-contact-forms' ),
+			'id'         => 'ctct_' . 'generated_shortcode',
+			'type'       => 'text_medium',
+			'desc'       => sprintf(
+				/* Translators: Placeholders here represent `<em>` and `<strong>` HTML tags. */
+				esc_html__( 'Shortcode to embed — %1$s%2$sYou can copy and paste this in a post to display your form.%3$s%4$s', 'constant-contact-forms' ),
+				'<small>',
+				'<em>',
+				'</em>',
+				'</small>'
+			),
+			'default'    => ( $generated->object_id > 0 ) ? '[ctct-inline-form id="' . $generated->object_id . '"]' : '',
+			'attributes' => [
+				'readonly' => 'readonly',
+			],
+		] );
 	}
 
 }

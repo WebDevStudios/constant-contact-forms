@@ -839,7 +839,7 @@ class Constant_Contact {
 			return false;
 		}
 
-		$ctct_types = [ 'ctct_forms', 'ctct_lists' ];
+		$ctct_types = [ 'ctct_forms', 'ctct_lists', 'ctct_inline_forms' ];
 		$post_type  = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
 		$post       = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 
