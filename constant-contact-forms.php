@@ -339,12 +339,12 @@ class Constant_Contact {
 	private $beaver_builder;
 
 	/**
-	 * An instance of the ConstantContact_Signup_Forms class.
+	 * An instance of the ConstantContact_Inline_Forms class.
 	 *
 	 * @since NEXT
-	 * @var ConstantContact_Signup_Forms
+	 * @var ConstantContact_Inline_Forms
 	 */
-	private $signup_forms;
+	private $inline_forms;
 
 	/*
 	 * An instance of the ConstantContact_Elementor class.
@@ -445,7 +445,7 @@ class Constant_Contact {
 			// Load if Beaver Builder is active.
 			$this->beaver_builder       = new ConstantContact_Beaver_Builder( $this );
 		}
-		$this->signup_forms         = new ConstantContact_Signup_Forms( $this );
+		$this->inline_forms         = new ConstantContact_Inline_Forms( $this );
 		$this->builder              = new ConstantContact_Builder( $this );
 		$this->builder_fields       = new ConstantContact_Builder_Fields( $this );
 		$this->check                = new ConstantContact_Check( $this );
