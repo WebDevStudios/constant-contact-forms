@@ -3,7 +3,7 @@
  * Sign-up Forms
  *
  * @package ConstantContact
- * @subpackage Beaver Builder
+ * @subpackage Inline Forms
  * @author Constant Contact
  * @since NEXT
  *
@@ -11,7 +11,7 @@
  */
 
 /**
- * This class get's everything up an running for Sign-up Forms.
+ * This class get's everything up an running for Inline Forms.
  *
  * @since NEXT
  */
@@ -42,10 +42,10 @@ class ConstantContact_Inline_Forms {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-        $this->hooks();
+		$this->hooks();
 	}
 
-    /**
+	/**
 	 * Initiate our hooks.
 	 *
 	 * @since 1.0.0
@@ -59,7 +59,7 @@ class ConstantContact_Inline_Forms {
 		add_action( 'manage_ctct_inline_forms_posts_custom_column', [ $this, 'custom_columns' ], 10, 2 );
 	}
 
-    /**
+	/**
 	 * Attempt to inject Universal Code of All Sign-up Forms.
 	 *
 	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
@@ -67,15 +67,15 @@ class ConstantContact_Inline_Forms {
 	 *
 	 * @return void
 	 */
-    public function inject_universal_code() : void {
-        $universal_code         = constant_contact_get_option( '_ctct_signup_universal_code', '' );
+	public function inject_universal_code() : void {
+		$universal_code         = constant_contact_get_option( '_ctct_signup_universal_code', '' );
 		$disable_universal_code = constant_contact_get_option( '_ctct_signup_uc_disable', 'off' );
 
-        if ( '' === $universal_code || 'on' === $disable_universal_code ) {
-            return;
-        }
-        echo $universal_code;
-    }
+		if ( '' === $universal_code || 'on' === $disable_universal_code ) {
+			return;
+		}
+		echo $universal_code;
+	}
 
 	/**
 	 * Register Metaboxes for Inline Forms.
@@ -110,16 +110,19 @@ class ConstantContact_Inline_Forms {
 	 */
 	public function render_inline_form( $args ) {
 
-		$post_id = absint( $args['form'] );
+		if ( ! array_key_exists( 'form', $args ) ) {
+			return;
+		}
+
+		$post_id = absint( sanitize_text_field( $args['form'] ) );
 
 		$inline_code = get_post_meta( $post_id, 'ctct_inline_code', true );
-		if ( '' === $inline_code ) {
-            return;
-        }
 
-		ob_start();
-		echo $inline_code;
-		return ob_get_clean();
+		if ( '' === $inline_code ) {
+			return;
+		}
+
+		return $inline_code;
 	}
 
 	/**
@@ -152,7 +155,7 @@ class ConstantContact_Inline_Forms {
 				'</em>',
 				'</small>'
 			),
-			'default'    => ( $generated->object_id > 0 ) ? '[ctct-inline-form id="' . $generated->object_id . '"]' : '',
+			'default'    => ( $generated->object_id > 0 ) ? '[ctct-inline-form form="' . $generated->object_id . '"]' : '',
 			'attributes' => [
 				'readonly' => 'readonly',
 			],
