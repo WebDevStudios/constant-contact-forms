@@ -510,7 +510,7 @@ class ConstantContact_Settings {
 			'</h2>',
 			'<div class="description">',
 			esc_html__( 'Learn more and get an ', 'constant-contact-forms' ),
-			'<a href="https://www.google.com/recaptcha/intro/" target="_blank">',
+			'<a href="https://www.google.com/recaptcha/intro/" target="_blank" rel="noopener noreferrer">',
 			esc_html__( 'API site key', 'constant-contact-forms' ),
 			'</a></div>'
 		);
