@@ -344,12 +344,10 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'general' ) );
 
 		$before_analytics = sprintf(
-			/* translators: 1: Opening heading tag, 2: opt-in section heading, 3: closing heading tag */
-			'%1$s%2$s%3$s',
-			'<h2>',
-			esc_html__( 'General Settings', 'constant-contact-forms' ),
-			'</h2>'
+			'<h2>%s</h2>',
+			esc_html__( 'General Settings', 'constant-contact-forms' )
 		);
+		
 		$cmb->add_field( [
 			'name' => esc_html__( 'Google Analytics&trade; tracking opt-in.', 'constant-contact-forms' ),
 			'id'   => '_ctct_data_tracking',
@@ -384,11 +382,8 @@ class ConstantContact_Settings {
 			if ( $lists && is_array( $lists ) ) {
 
 				$before_optin = sprintf(
-					/* translators: 1: horizontal rule and opening heading tag, 2: opt-in section heading, 3: closing heading tag */
-					'%1$s%2$s%3$s',
-					'<hr/><h2>',
-					esc_html__( 'Advanced Opt-in', 'constant-contact-forms' ),
-					'</h2>'
+					'<hr><h2>%s</h2>',
+					esc_html__( 'Advanced Opt-in', 'constant-contact-forms' )
 				);
 
 				$cmb->add_field( [
@@ -448,11 +443,8 @@ class ConstantContact_Settings {
 		}
 
 		$before_global_css = sprintf(
-			/* translators: 1: horizontal rule and opening heading tag, 2: global css section heading, 3: closing heading tag */
-			'%1$s%2$s%3$s',
-			'<hr><h2>',
-			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' ),
-			'</h2>'
+			'<hr><h2>%s</h2>',
+			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
 		);
 
 		$cmb->add_field( [
