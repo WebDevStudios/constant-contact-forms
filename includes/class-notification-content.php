@@ -221,7 +221,6 @@ class ConstantContact_Notification_Content {
 	 */
 	protected static function display_deleted_form_reference_markup( $form_id, array $references ) {
 		printf(
-			/* Translators: 1: label for form ID, 2: form ID, 3: references to specified form. */
 			'%1$s #%2$d: ',
 			esc_html__( 'Form', 'constant-contact-forms' ),
 			esc_html( $form_id )

@@ -503,17 +503,26 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'spam' ) );
 
 		$before_recaptcha = sprintf(
-			/* translators: 1: opening heading tag, 2: reCaptcha section heading, 3: closing heading tag, 4: opening div tag, 5: text before 'learn more' link, 6: open 'learn more' link tag, 7: 'learn more' link text, 8: closing 'learn more' link and div tags */
-			'%1$s%2$s%3$s%4$s%5$s%6$s%7$s%8$s',
-			'<h2>',
+			'<h2>%s</h2>',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
-			'</h2>',
-			'<div class="description">',
-			esc_html__( 'Learn more and get an ', 'constant-contact-forms' ),
-			'<a href="https://www.google.com/recaptcha/intro/" target="_blank" rel="noopener noreferrer">',
-			esc_html__( 'API site key', 'constant-contact-forms' ),
-			'</a></div>'
 		);
+		
+		$before_recaptcha .= '<div class="description">';
+		
+		$before_recaptcha .= sprintf(
+			wp_kses(
+				/* translators: %s: recaptcha documentation URL */
+				__( 'Learn more and get an <a href="%s" target="_blank">API site key</a>', 'constant-contact-forms' ),
+				[
+					'a' => [
+						'href' => []
+					]
+				]
+			),
+			esc_url( 'https://www.google.com/recaptcha/intro/' )
+		);
+		
+		$before_recaptcha .= '</div>';
 
 		$cmb->add_field( [
 			'name'       => esc_html__( 'Version', 'constant-contact-forms' ),
@@ -548,14 +557,9 @@ class ConstantContact_Settings {
 		] );
 
 		$before_message = sprintf(
-			/* translators: 1: horizontal rule and opening heading tag, 2: spam section heading, 3: closing heading tag, 4: opening div tag for description, 5: spam section description, 6: closing div tag */
-			'%1$s%2$s%3$s%4$s%5$s%6$s',
-			'<hr/><h2>',
+			'<hr/><h2>%s</h2><div class="description">%s</div>',
 			esc_html__( 'Suspected Bot Error Message', 'constant-contact-forms' ),
-			'</h2>',
-			'<div class="description">',
-			esc_html__( 'This message displays when the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' ),
-			'</div>'
+			esc_html__( 'This message displays when `the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' ),
 		);
 
 		$cmb->add_field(
@@ -580,10 +584,8 @@ class ConstantContact_Settings {
 
 		$before_debugging = sprintf(
 			/* translators: 1: opening heading tag, 2: support section heading, 3: closing heading tag */
-			'%1$s%2$s%3$s',
-			'<h2>',
+			'<h2>%1$s</h2>',
 			esc_html__( 'Support', 'constant-contact-forms' ),
-			'</h2>'
 		);
 		$cmb->add_field( [
 			'name'       => esc_html__( 'Enable logging for debugging purposes.', 'constant-contact-forms' ),
