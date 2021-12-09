@@ -498,6 +498,49 @@ class ConstantContact_Settings {
 			'id'         => '_ctct_alternative_legal_text',
 			'type'       => 'textarea',
 		] );
+
+
+		$before_global_css = sprintf(
+			/* translators: 1: horizontal rule and opening heading tag, 2: signup section H, 3: closing heading tag */
+			'%1$s%2$s%3$s',
+			'<hr><h2>',
+			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' ),
+			'</h2>'
+		);
+
+		$cmb->add_field( [
+			'name'        => esc_html__( 'CSS Classes', 'constant-contact-forms' ),
+			'id'          => '_ctct_form_custom_classes',
+			'type'        => 'text',
+			'description' => esc_html__(
+					'Provide custom classes for the form separated by a single space.',
+					'constant-contact-forms'
+			),
+			'before_row'  => $before_global_css,
+		] );
+
+		$before_signup_css = sprintf(
+			/* translators: 1: horizontal rule and opening heading tag, 2: signup section H, 3: closing heading tag */
+			'%1$s%2$s%3$s',
+			'<hr><h2>',
+			esc_html__( 'Sign-up Form Settings', 'constant-contact-forms' ),
+			'</h2>'
+		);
+
+		$cmb->add_field( [
+			'name'       => esc_html__( 'Universal Code', 'constant-contact-forms' ),
+			'desc'       => esc_html__( 'Universal Code found in Constant Contact Sign-up Dashboard.', 'constant-contact-forms' ),
+			'id'         => '_ctct_signup_universal_code',
+			'type'       => 'textarea_code',
+			'before_row'  => $before_signup_css,
+		] );
+
+		$cmb->add_field( [
+			'name'       => esc_html__( 'Disable Universal Code', 'constant-contact-forms' ),
+			'desc'       => esc_html__( 'Temporarily disable Universal Code for debugging.', 'constant-contact-forms' ),
+			'id'         => '_ctct_signup_uc_disable',
+			'type'       => 'checkbox',
+		] );
 		
 	}
 
