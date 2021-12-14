@@ -583,7 +583,6 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'support' ) );
 
 		$before_debugging = sprintf(
-			/* translators: 1: opening heading tag, 2: support section heading, 3: closing heading tag */
 			'<h2>%1$s</h2>',
 			esc_html__( 'Support', 'constant-contact-forms' ),
 		);
