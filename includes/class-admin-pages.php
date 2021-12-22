@@ -255,7 +255,7 @@ class ConstantContact_Admin_Pages {
 				<div class="ctct-try-us-cta">
 					<?php if ( $new_link ) { ?>
 						<div class="item">
-							<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" class="button button-orange" title="<?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
+							<a href="<?php echo esc_url_raw( $new_link ); ?>" target="_blank" rel="noopener noreferrer" class="button button-orange" title="<?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?>"><?php esc_attr_e( 'Try us Free', 'constant-contact-forms' ); ?></a>
 						</div>
 					<?php } ?>
 					<?php if ( $auth_link ) { ?>
