@@ -498,7 +498,7 @@ class ConstantContact_Settings {
 			'id'         => '_ctct_alternative_legal_text',
 			'type'       => 'textarea',
 		] );
-		
+
 	}
 
 	/**
@@ -1081,7 +1081,7 @@ class ConstantContact_Settings {
 	 * @return array
 	 */
 	private function get_optin_list_options() {
-		$lists = constant_contact_get_option( '_ctct_optin_list', '' );
+		$lists = constant_contact_get_option( '_ctct_optin_list', [] );
 
 		$formatted_lists = [];
 		foreach ( $lists as $list_id ) {
