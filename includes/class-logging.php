@@ -463,6 +463,46 @@ class ConstantContact_Logging {
 	}
 
 	/**
+	 * Helper function to mask API Keys present in error messages returned by API.
+	 * All but the last 3 characters of the key will be masked.
+	 * Example input:  Server error response [url] https://api.constantcontact.com/v2/lists?api_key=1234567890abcdefghijklmn [status code] 596 ...
+	 * Example output: Server error response [url] https://api.constantcontact.com/v2/lists?api_key=*********************lmn [status code] 596 ...
+	 *
+	 * @since 1.13.0
+	 *
+	 * @param string $message Text that may contain the api_key value.
+	 *
+	 * @return string $message with masked api_key value.
+	 */
+	public function mask_api_key( $message ) {
+		if ( empty( $message ) ) {
+			return $message;
+		}
+
+		if ( strpos( $message, 'api_key' ) === false ) {
+			return $message;
+		}
+
+		$key_pattern = '/(?<=api_key=)([^\s]+)/m';
+		preg_match( $key_pattern, $message, $matches );
+		$key = $matches[0] ?? false;
+
+		if ( ! empty( $key ) ) {
+			$key_length = strlen( $key );
+			$message    = preg_replace(
+				$key_pattern,
+				str_repeat( '*', $key_length - 3 ) .
+				$key[ $key_length - 3 ] .
+				$key[ $key_length - 2 ] .
+				$key[ $key_length - 1 ],
+				$message
+			);
+		}
+
+		return $message;
+	}
+
+	/**
 	 * Initialize Logging directories and files.
 	 *
 	 * @author Richard Aber <richard.aber@webdevstudios.com>

@@ -429,6 +429,9 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 	if ( $extra_data ) {
 		$extra = [ 'Extra information', [ $extra_data ] ];
 	}
+
+	$error = constant_contact()->logging->mask_api_key( $error );
+
 	$logger->addInfo( $error, $extra );
 }
 
