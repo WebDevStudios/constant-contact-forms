@@ -464,9 +464,10 @@ class ConstantContact_Logging {
 
 	/**
 	 * Helper function to mask API Keys present in error messages returned by API.
-	 * All but the last 3 characters of the key will be masked.
+	 * The last 3 characters will be revealed, but the others will be dropped/masked.
+	 *
 	 * Example input:  Server error response [url] https://api.constantcontact.com/v2/lists?api_key=1234567890abcdefghijklmn [status code] 596 ...
-	 * Example output: Server error response [url] https://api.constantcontact.com/v2/lists?api_key=*********************lmn [status code] 596 ...
+	 * Example output: Server error response [url] https://api.constantcontact.com/v2/lists?api_key=**********lmn [status code] 596 ...
 	 *
 	 * @since 1.13.0
 	 *
@@ -491,7 +492,7 @@ class ConstantContact_Logging {
 			$key_length = strlen( $key );
 			$message    = preg_replace(
 				$key_pattern,
-				str_repeat( '*', $key_length - 3 ) .
+				str_repeat( '*', 10 ) . // We won't reveal the actual key length.
 				$key[ $key_length - 3 ] .
 				$key[ $key_length - 2 ] .
 				$key[ $key_length - 1 ],
