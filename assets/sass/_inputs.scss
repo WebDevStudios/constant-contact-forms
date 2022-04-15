@@ -83,17 +83,6 @@
 		top: -9999px !important;
 	}
 
-	.ctct_usage {
-		border: 0 none;
-		clip: rect( 0, 0, 0, 0 );
-		height: 1px;
-		margin: -1px;
-		overflow: hidden;
-		padding: 0;
-		position: absolute;
-		width: 1px;
-	}
-
 	.no-recaptcha .ctct-submitted:disabled {
 		background-image: url( ../images/oval.min.svg );
 		background-position: center;
@@ -105,5 +94,5 @@
 
 	.has-recaptcha .ctct-submitted:disabled {
 		cursor: not-allowed;
-	} 
+	}
 }
