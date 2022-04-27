@@ -486,7 +486,7 @@ class ConstantContact_Logging {
 
 		$key_pattern = '/(?<=api_key=)([^\s]+)/m';
 		preg_match( $key_pattern, $message, $matches );
-		$key = $matches[0] ?? false;
+		$key = ! empty( $matches[0] ) ? $matches[0] : false;
 
 		if ( ! empty( $key ) ) {
 			$key_length = strlen( $key );
