@@ -839,7 +839,7 @@ function constant_contact_maybe_display_deleted_forms_notice() {
 /**
  * Maybe set exception notice for admin notification.
  *
- * @since NEXT
+ * @since 1.13.0
  *
  * @param Exception $e
  */
