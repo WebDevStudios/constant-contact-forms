@@ -535,12 +535,17 @@ class ConstantContact_Display {
 	 * Display a honeypot spam field.
 	 *
 	 * @since 1.2.2
+	 * @since 1.13.0 Moved visually hidden .ctct_usage styles inline to prevent honeypot field from
+	 *               being displayed when the "Disable Constant Contact CSS" option is checked.
 	 *
 	 * @return string
 	 */
 	public function build_honeypot_field() {
 		return sprintf(
-			'<div class="ctct_usage"><label for="ctct_usage_field">%s</label><input type="text" value="" id="ctct_usage_field" name="ctct_usage_field" class="ctct_usage_field" tabindex="-1" /></div>', esc_html__( 'Constant Contact Use. Please leave this field blank.', 'constant-contact-forms' )
+			'<div ' .
+				'class="ctct_usage"' .
+				'style="border: 0 none; clip: rect( 0, 0, 0, 0 ); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px;"' .
+			'><label for="ctct_usage_field">%s</label><input type="text" value="" id="ctct_usage_field" name="ctct_usage_field" class="ctct_usage_field" tabindex="-1" /></div>', esc_html__( 'Constant Contact Use. Please leave this field blank.', 'constant-contact-forms' )
 		);
 	}
 
