@@ -72,7 +72,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.12.0';
+	const VERSION = '1.13.0';
 
 	/**
 	 * URL of plugin directory.
