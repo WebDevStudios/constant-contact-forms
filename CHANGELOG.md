@@ -1,4 +1,8 @@
 = 1.11.0 =
+* Updated: Support for Constant Contact v3 API.
+* Updated: Developer dependencies.
+
+= 1.11.0 =
 * Updated: New admin styling to update the overall look and feel of the plugin in the WordPress admin.
 * Updated: Amend honeypot field input for accessibility purposes.
 * Added: Plugin setting to disable the loading on Constant Contact plugin CSS on the frontend.
