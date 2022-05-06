@@ -37,12 +37,19 @@ class ConstantContact_API {
 	 * @since 1.3.0
 	 * @var bool
 	 */
-	protected $access_token = false;
+	public string $access_token 	= '';
 
-	private string $authorize_url = 'https://authz.constantcontact.com/oauth2/default/v1/authorize';
-	public bool $PKCE = true;
-	private array $scopes = [];
-	private array $valid_scopes = ['account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access', ];
+	public string $refresh_token 	= '';
+
+	private string $oauth2_url 		= 'https://authz.constantcontact.com/oauth2/default/v1/token';
+	private string $authorize_url 	= 'https://authz.constantcontact.com/oauth2/default/v1/authorize';
+	
+	public bool $PKCE 				= true;
+	private array $scopes 			= [];
+	private array $valid_scopes 	= ['account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access', ];
+
+	private $client_api_key 		= "b93e18ca-6a3b-41c5-b39f-d6a6c117a78c";
+	private $redirect_URI 			= "//constantcontact.test";
 
 	/**
 	 * Constructor.
@@ -55,6 +62,8 @@ class ConstantContact_API {
 		$this->plugin = $plugin;
 
 		$this->scopes = \array_flip($this->valid_scopes);
+
+		echo $this->get_authorization_url();die;
 	}
 
 	/**
@@ -1101,30 +1110,29 @@ class ConstantContact_API {
 	 * They are then redirected to your redirect URL with the authorization code appended as a query parameter. e.g.:
 	 * http://localhost:8888/?code={authorization_code}
 	 */
-	public function get_authorization_url() : string
-		{
+	public function get_authorization_url() : string {
+
 		$scopes = \implode('+', \array_keys($this->scopes));
+		[$code_verifier, $code_challenge] = $this->code_challenge();
 
 		$state = \bin2hex(\random_bytes(8));
 		$this->session('Ctct\ConstantContact\state', $state);
+
 		$params = [
+			'client_id' => $this->client_api_key,
+			'redirect_uri' => $this->redirect_URI,
 			'response_type' => 'code',
-			'client_id' => $this->clientAPIKey,
-			'redirect_uri' => $this->redirectURI,
-			'scope' => $scopes,
+			'code_challenge' => $code_challenge,
+			'code_challenge_method' => 'S256',
 			'state' => $state,
+			'scope' => $scopes
 		];
 
-		if ($this->PKCE)
-			{
-			[$code_verifier, $code_challenge] = $this->code_challenge();
-
-			// Store generated random state and code challenge based on RFC 7636
-			// https://datatracker.ietf.org/doc/html/rfc7636#section-6.1
-			$this->session('Ctct\ConstantContact\code_verifier', $code_verifier);
-			$params['code_challenge'] = $code_challenge;
-			$params['code_challenge_method'] = 'S256';
-			}
+		// Store generated random state and code challenge based on RFC 7636
+		// https://datatracker.ietf.org/doc/html/rfc7636#section-6.1
+		$this->session('Ctct\ConstantContact\code_verifier', $code_verifier);
+		
+		
 
 		$url = $this->authorize_url . '?' . \str_replace('%2B', '+', \http_build_query($params));	// hack %2B to + for stupid CC API bug
 
