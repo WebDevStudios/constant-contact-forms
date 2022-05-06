@@ -55,9 +55,6 @@ class ConstantContact_API {
 		$this->plugin = $plugin;
 
 		$this->scopes = \array_flip($this->valid_scopes);
-		
-		echo $this->get_authorization_url();
-		die;
 	}
 
 	/**
