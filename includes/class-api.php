@@ -22,6 +22,7 @@ use Ctct\Exceptions\CtctException;
  */
 class ConstantContact_API {
 
+
 	/**
 	 * Parent plugin class.
 	 *
@@ -38,6 +39,11 @@ class ConstantContact_API {
 	 */
 	protected $access_token = false;
 
+	private string $authorize_url = 'https://authz.constantcontact.com/oauth2/default/v1/authorize';
+	public bool $PKCE = true;
+	private array $scopes = [];
+	private array $valid_scopes = ['account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access', ];
+
 	/**
 	 * Constructor.
 	 *
@@ -47,6 +53,11 @@ class ConstantContact_API {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
+
+		$this->scopes = \array_flip($this->valid_scopes);
+		
+		echo $this->get_authorization_url();
+		die;
 	}
 
 	/**
@@ -1039,6 +1050,88 @@ class ConstantContact_API {
 		}
 
 		return $as_parts ? $disclosure : implode( ', ', array_values( $disclosure ) );
+	}
+
+	/**
+	 * Generate code_verifier and code_challenge for rfc7636 PKCE.
+	 * https://datatracker.ietf.org/doc/html/rfc7636#appendix-B
+	 *
+	 * @return array [code_verifier, code_challenge].
+	 */
+	private function code_challenge(?string $code_verifier = null) : array {
+		$gen = static function() {
+			$strings = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-._~';
+			$length = \random_int(43, 128);
+
+			for ($i = 0; $i < $length; $i++) {
+				yield $strings[\random_int(0, 65)];
+			}
+		};
+
+		$code = $code_verifier ?? \implode('', \iterator_to_array($gen()));
+
+		if (! \preg_match('/[A-Za-z0-9-._~]{43,128}/', $code)) {
+			return ['', ''];
+		}
+
+		return [$code, $this->base64url_encode(\pack('H*', \hash('sha256', $code)))];
+	}
+
+	private function base64url_encode(string $data) : string {
+		return \rtrim(\strtr(\base64_encode($data), '+/', '-_'), '=');
+	}
+
+	private function session(string $key, ?string $value) : string {
+		if ($this->sessionCallback) {
+			return call_user_func($this->sessionCallback, $key, $value);
+		}
+		if (null === $value) {
+			$value = $_SESSION[$key];
+			unset($_SESSION[$key]);
+
+			return $value;
+		}
+
+		return $_SESSION[$key] = $value;
+	}
+	
+
+	/**
+	 * Generate the URL an account owner would use to allow your app
+	 * to access their account.
+	 *
+	 * After visiting the URL, the account owner is prompted to log in and allow your app to access their account.
+	 * They are then redirected to your redirect URL with the authorization code appended as a query parameter. e.g.:
+	 * http://localhost:8888/?code={authorization_code}
+	 */
+	public function get_authorization_url() : string
+		{
+		$scopes = \implode('+', \array_keys($this->scopes));
+
+		$state = \bin2hex(\random_bytes(8));
+		$this->session('Ctct\ConstantContact\state', $state);
+		$params = [
+			'response_type' => 'code',
+			'client_id' => $this->clientAPIKey,
+			'redirect_uri' => $this->redirectURI,
+			'scope' => $scopes,
+			'state' => $state,
+		];
+
+		if ($this->PKCE)
+			{
+			[$code_verifier, $code_challenge] = $this->code_challenge();
+
+			// Store generated random state and code challenge based on RFC 7636
+			// https://datatracker.ietf.org/doc/html/rfc7636#section-6.1
+			$this->session('Ctct\ConstantContact\code_verifier', $code_verifier);
+			$params['code_challenge'] = $code_challenge;
+			$params['code_challenge_method'] = 'S256';
+			}
+
+		$url = $this->authorize_url . '?' . \str_replace('%2B', '+', \http_build_query($params));	// hack %2B to + for stupid CC API bug
+
+		return $url;
 	}
 
 	/**
