@@ -63,7 +63,7 @@ class ConstantContact_API {
 
 		$this->scopes = \array_flip($this->valid_scopes);
 
-		echo $this->get_authorization_url();die;
+		// echo $this->get_authorization_url();die;
 	}
 
 	/**
@@ -1132,8 +1132,6 @@ class ConstantContact_API {
 		// https://datatracker.ietf.org/doc/html/rfc7636#section-6.1
 		$this->session('Ctct\ConstantContact\code_verifier', $code_verifier);
 		
-		
-
 		$url = $this->authorize_url . '?' . \str_replace('%2B', '+', \http_build_query($params));	// hack %2B to + for stupid CC API bug
 
 		return $url;
@@ -1159,6 +1157,95 @@ class ConstantContact_API {
 		foreach ( $list as $list_id ) {
 			$contact->addList( esc_attr( $list_id ) );
 		}
+	}
+
+	/**
+	 * Exchange an authorization code for an access token.
+	 *
+	 * Make this call by passing in the code present when the account owner is redirected back to you.
+	 * The response will contain an 'access_token' and 'refresh_token'
+	 *
+	 * @param array of get parameters passed to redirect URL
+	 */
+	public function acquire_access_token(array $parameters) : bool {
+		if ( isset($parameters['error']) ) {
+			$this->statusCode = 0;
+			$this->lastError = $parameters['error'] . ': ' . ($parameters['error_description'] ?? 'Undefined');
+
+			return false;
+		}
+
+		$expectedState = $this->session('Ctct\ConstantContact\state', null);
+
+		if (($parameters['state'] ?? 'undefined') != $expectedState)
+			{
+			$this->statusCode = 0;
+			$this->lastError = 'state is not correct';
+
+			return false;
+			}
+
+		// Use cURL to get access token and refresh token
+		$ch = \curl_init();
+
+		// Create full request URL
+		$params = [
+			'code' => $parameters['code'],
+			'redirect_uri' => $this->redirectURI,
+			'grant_type' => 'authorization_code',
+		];
+
+		
+		$params['code_verifier'] = $this->session('Ctct\ConstantContact\code_verifier', null);
+			
+		$url = $this->oauth2URL . '?' . \http_build_query($params);
+		\curl_setopt($ch, CURLOPT_URL, $url);
+
+		$this->set_authorization($ch);
+
+		// Set method and to expect response
+		\curl_setopt($ch, CURLOPT_POST, true);
+
+		return $this->exec($ch);
+	}
+
+	/**
+	 * Refresh the access token.
+	 */
+	public function refresh_token() : bool
+		{
+		// Use cURL to get a new access token and refresh token
+		$ch = \curl_init();
+
+		// Create full request URL
+		$params = [
+			'refresh_token' => $this->refreshToken,
+			'grant_type' => 'refresh_token',
+			'redirect_uri' => $this->redirectURI,
+		];
+
+		$url = $this->oauth2URL . '?' . \http_build_query($params);
+		\curl_setopt($ch, CURLOPT_URL, $url);
+
+		$this->set_authorization($ch);
+
+		// Set method and to expect response
+		\curl_setopt($ch, CURLOPT_POST, true);
+		\curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
+		\curl_setopt($ch, CURLOPT_POSTFIELDS, '');
+
+		return $this->exec($ch);
+	}
+
+	private function set_authorization(\CurlHandle $ch) : void {
+		// Set authorization header
+		// Make string of "API_KEY:SECRET"
+		$auth = $this->clientAPIKey . ':' . $this->clientSecret;
+		// Base64 encode it
+		$credentials = \base64_encode($auth);
+		// Create and set the Authorization header to use the encoded credentials
+		$headers = ['Authorization: Basic ' . $credentials, 'cache-control: no-cache', ];
+		\curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	}
 }
 
