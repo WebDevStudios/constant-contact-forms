@@ -504,7 +504,7 @@ class ConstantContact_Settings {
 
 		$before_recaptcha = sprintf(
 			'<h2>%s</h2>',
-			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
+			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' )
 		);
 		
 		$before_recaptcha .= '<div class="description">';
@@ -559,7 +559,7 @@ class ConstantContact_Settings {
 		$before_message = sprintf(
 			'<hr/><h2>%s</h2><div class="description">%s</div>',
 			esc_html__( 'Suspected Bot Error Message', 'constant-contact-forms' ),
-			esc_html__( 'This message displays when `the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' ),
+			esc_html__( 'This message displays when `the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' )
 		);
 
 		$cmb->add_field(
@@ -584,7 +584,7 @@ class ConstantContact_Settings {
 
 		$before_debugging = sprintf(
 			'<h2>%1$s</h2>',
-			esc_html__( 'Support', 'constant-contact-forms' ),
+			esc_html__( 'Support', 'constant-contact-forms' )
 		);
 		$cmb->add_field( [
 			'name'       => esc_html__( 'Enable logging for debugging purposes.', 'constant-contact-forms' ),
