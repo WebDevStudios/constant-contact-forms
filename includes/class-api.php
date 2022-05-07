@@ -1,4 +1,5 @@
 <?php
+session_start();
 /**
  * Constant Contact API class.
  *
@@ -37,19 +38,26 @@ class ConstantContact_API {
 	 * @since 1.3.0
 	 * @var bool
 	 */
-	public string $access_token 	= '';
+	public string 	$access_token 	= '';
+	public string 	$refresh_token 	= '';
 
-	public string $refresh_token 	= '';
-
-	private string $oauth2_url 		= 'https://authz.constantcontact.com/oauth2/default/v1/token';
-	private string $authorize_url 	= 'https://authz.constantcontact.com/oauth2/default/v1/authorize';
+	private string 	$oauth2_url 	= 'https://authz.constantcontact.com/oauth2/default/v1/token';
+	private string 	$authorize_url 	= 'https://authz.constantcontact.com/oauth2/default/v1/authorize';
 	
+	private string 	$last_error 	= '';
+	private string 	$body 			= '';
+	private string 	$host 			= '';
+	private int 	$status_code 	= 200;
+	private string 	$next 			= '';
+
+	private $session_callback 		= null;
+
 	public bool $PKCE 				= true;
 	private array $scopes 			= [];
 	private array $valid_scopes 	= ['account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access', ];
 
 	private $client_api_key 		= "b93e18ca-6a3b-41c5-b39f-d6a6c117a78c";
-	private $redirect_URI 			= "//constantcontact.test";
+	private $redirect_URI 			= "https://cc.test/cc";
 
 	/**
 	 * Constructor.
@@ -62,8 +70,6 @@ class ConstantContact_API {
 		$this->plugin = $plugin;
 
 		$this->scopes = \array_flip($this->valid_scopes);
-
-		// echo $this->get_authorization_url();die;
 	}
 
 	/**
@@ -86,29 +92,7 @@ class ConstantContact_API {
 	 * @return string API token.
 	 */
 	public function get_api_token( $type = '' ) {
-		$url = '';
-
-		switch ( $type ) {
-			case 'CTCT_APIKEY':
-				if ( defined( 'CTCT_APIKEY' ) && CTCT_APIKEY ) {
-					return CTCT_APIKEY;
-				}
-
-				$url .= constant_contact()->connect->e_get( '_ctct_api_key' );
-				break;
-			case 'CTCT_SECRETKEY':
-				if ( defined( 'CTCT_SECRETKEY' ) && CTCT_SECRETKEY ) {
-					return CTCT_SECRETKEY;
-				}
-
-				$url .= constant_contact()->connect->e_get( '_ctct_api_secret' );
-				break;
-
-			default:
-				$url .= constant_contact()->connect->get_api_token();
-				break;
-		}
-		return $url;
+		
 	}
 
 	/**
@@ -1088,8 +1072,8 @@ class ConstantContact_API {
 	}
 
 	private function session(string $key, ?string $value) : string {
-		if ($this->sessionCallback) {
-			return call_user_func($this->sessionCallback, $key, $value);
+		if ($this->session_callback) {
+			return call_user_func($this->session_callback, $key, $value);
 		}
 		if (null === $value) {
 			$value = $_SESSION[$key];
@@ -1169,21 +1153,22 @@ class ConstantContact_API {
 	 */
 	public function acquire_access_token(array $parameters) : bool {
 		if ( isset($parameters['error']) ) {
-			$this->statusCode = 0;
-			$this->lastError = $parameters['error'] . ': ' . ($parameters['error_description'] ?? 'Undefined');
+			$this->status_code 	= 0;
+			$this->last_error 	= $parameters['error'] . ': ' . ($parameters['error_description'] ?? 'Undefined');
 
 			return false;
 		}
 
-		$expectedState = $this->session('Ctct\ConstantContact\state', null);
+		$expected_state = $this->session('Ctct\ConstantContact\state', null);
 
-		if (($parameters['state'] ?? 'undefined') != $expectedState)
-			{
-			$this->statusCode = 0;
-			$this->lastError = 'state is not correct';
 
+		
+		if (($parameters['state'] ?? 'undefined') != $expected_state) {
+			$this->status_code = 0;
+			$this->last_error = 'state is not correct';
 			return false;
-			}
+		}
+		
 
 		// Use cURL to get access token and refresh token
 		$ch = \curl_init();
@@ -1191,17 +1176,23 @@ class ConstantContact_API {
 		// Create full request URL
 		$params = [
 			'code' => $parameters['code'],
-			'redirect_uri' => $this->redirectURI,
+			'redirect_uri' => $this->redirect_URI,
 			'grant_type' => 'authorization_code',
 		];
 
 		
 		$params['code_verifier'] = $this->session('Ctct\ConstantContact\code_verifier', null);
+
+		
 			
-		$url = $this->oauth2URL . '?' . \http_build_query($params);
+		$url = $this->oauth2_url . '?' . \http_build_query($params);
 		\curl_setopt($ch, CURLOPT_URL, $url);
 
+		
+
 		$this->set_authorization($ch);
+
+		
 
 		// Set method and to expect response
 		\curl_setopt($ch, CURLOPT_POST, true);
@@ -1237,15 +1228,47 @@ class ConstantContact_API {
 		return $this->exec($ch);
 	}
 
-	private function set_authorization(\CurlHandle $ch) : void {
+	private function set_authorization($ch) : void {
+
+		
 		// Set authorization header
 		// Make string of "API_KEY:SECRET"
-		$auth = $this->clientAPIKey . ':' . $this->clientSecret;
+		$auth = $this->client_api_key;
 		// Base64 encode it
 		$credentials = \base64_encode($auth);
 		// Create and set the Authorization header to use the encoded credentials
 		$headers = ['Authorization: Basic ' . $credentials, 'cache-control: no-cache', ];
 		\curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+	}
+
+	private function exec($ch) : bool {
+		\curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+		// Make the call
+		$result = \curl_exec($ch);
+
+		$this->last_error = '';
+		$this->status_code = 0;
+
+		if ($result) {
+			$data = \json_decode($result, true);
+
+			if (isset($data['error'])) {
+				$this->lastError = $data['error'] . ': ' . ($data['error_description'] ?? 'Undefined');
+			}
+			$this->access_token = $data['access_token'] ?? '';
+			$this->refresh_token = $data['refresh_token'] ?? '';
+
+			\curl_close($ch);
+
+			return isset($data['access_token'], $data['refresh_token']);
+		}
+
+		$this->status_code = \curl_errno($ch);
+		$this->last_error = \curl_error($ch);
+		\curl_close($ch);
+
+		return false;
 	}
 }
 
