@@ -1161,43 +1161,38 @@ class ConstantContact_API {
 
 		$expected_state = $this->session('Ctct\ConstantContact\state', null);
 
-
-		
 		if (($parameters['state'] ?? 'undefined') != $expected_state) {
 			$this->status_code = 0;
 			$this->last_error = 'state is not correct';
 			return false;
 		}
-		
-
-		// Use cURL to get access token and refresh token
-		$ch = \curl_init();
-
 		// Create full request URL
-		$params = [
+		$body = [
+			'client_id' => $this->client_api_key,
 			'code' => $parameters['code'],
 			'redirect_uri' => $this->redirect_URI,
 			'grant_type' => 'authorization_code',
 		];
 
 		
-		$params['code_verifier'] = $this->session('Ctct\ConstantContact\code_verifier', null);
+		$body['code_verifier'] = $this->session('Ctct\ConstantContact\code_verifier', null);
 
+		$url = $this->oauth2_url;
 		
-			
-		$url = $this->oauth2_url . '?' . \http_build_query($params);
-		\curl_setopt($ch, CURLOPT_URL, $url);
+		$headers = $this->set_authorization();
 
-		
+		$options = [
+			'body'		=> $body,
+			'headers'	=> $headers
+		];
 
-		$this->set_authorization($ch);
 
-		
+		$response = wp_safe_remote_post( $url, $options );
+		$token_array = json_decode( $response['body'], true );
 
-		// Set method and to expect response
-		\curl_setopt($ch, CURLOPT_POST, true);
+		// var_dump($token_array);die;
 
-		return $this->exec($ch);
+		return $this->exec( $url, $options );
 	}
 
 	/**
@@ -1228,7 +1223,7 @@ class ConstantContact_API {
 		return $this->exec($ch);
 	}
 
-	private function set_authorization($ch) : void {
+	private function set_authorization() : array {
 
 		
 		// Set authorization header
@@ -1238,7 +1233,9 @@ class ConstantContact_API {
 		$credentials = \base64_encode($auth);
 		// Create and set the Authorization header to use the encoded credentials
 		$headers = ['Authorization: Basic ' . $credentials, 'cache-control: no-cache', ];
-		\curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+		return $headers;
+		// \curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	}
 
 	private function exec($ch) : bool {
