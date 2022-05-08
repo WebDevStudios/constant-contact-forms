@@ -1,5 +1,6 @@
 <?php
 session_start();
+include("Ctct/autoload.php");
 /**
  * Constant Contact API class.
  *
@@ -56,8 +57,13 @@ class ConstantContact_API {
 	private array $scopes 			= [];
 	private array $valid_scopes 	= ['account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access', ];
 
-	private $client_api_key 		= "b93e18ca-6a3b-41c5-b39f-d6a6c117a78c";
-	private $redirect_URI 			= "https://cc.test/cc";
+	// private $client_api_key 		= "b93e18ca-6a3b-41c5-b39f-d6a6c117a78c";
+	// private $redirect_URI 		= "http://cc.test/wp-admin/edit.php?post_type=ctct_lists";
+
+	private $client_api_key 		= '';
+	private $redirect_URI 			= '';
+
+	
 
 	/**
 	 * Constructor.
@@ -68,8 +74,13 @@ class ConstantContact_API {
 	 */
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
-
 		$this->scopes = \array_flip($this->valid_scopes);
+
+		// $this->client_api_key 	= constant_contact_get_option( '_ctct_form_api_key' , '' );
+		// $this->redirect_URI 	= constant_contact_get_option( '_ctct_form_redirect_url', '' );
+		
+		// var_dump(get_post_meta( '_ctct_form_api_key' ));
+		// die (  ) ;
 	}
 
 	/**
@@ -80,7 +91,7 @@ class ConstantContact_API {
 	 * @return object ConstantContact_API.
 	 */
 	public function cc() {
-		return new ConstantContact( $this->get_api_token( 'CTCT_APIKEY' ) );
+		return new ConstantContact( $this->get_api_token() );
 	}
 
 	/**
@@ -89,10 +100,22 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 *
 	 * @param string $type api key type.
-	 * @return string API token.
+	 * @return string Access API token.
 	 */
-	public function get_api_token( $type = '' ) {
-		
+	public function get_api_token() {
+		return $this->access_token;
+	}
+
+	/**
+	 * Returns Refresh API token.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $type api key type.
+	 * @return string Refresh Token.
+	 */
+	public function get_refresh_token() {
+		return $this->refresh_token;
 	}
 
 	/**
@@ -205,22 +228,26 @@ class ConstantContact_API {
 	 * @return array Current connect ctct lists.
 	 */
 	public function get_lists( $force_skip_cache = false ) {
-
+		
 		if ( ! $this->is_connected() ) {
 			return [];
+			
 		}
 
-		$lists = get_transient( 'ctct_lists' );
+		$this->acquire_access_token($_GET);
 
+		$lists = get_transient( 'ctct_lists' );
+		
 		if ( $force_skip_cache ) {
 			$lists = false;
 		}
 
 		if ( false === $lists ) {
+			
 			try {
-
+				// var_dump($this->get_api_token());die;
 				$lists = $this->cc()->listService->getLists( $this->get_api_token() );
-
+				// var_dump($lists);die;
 				if ( is_array( $lists ) ) {
 					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
 					return $lists;
@@ -935,7 +962,7 @@ class ConstantContact_API {
 	 * @return boolean If connected.
 	 */
 	public function is_connected() {
-
+		
 		static $token = null;
 
 		if ( null === $token ) {
@@ -1071,7 +1098,7 @@ class ConstantContact_API {
 		return \rtrim(\strtr(\base64_encode($data), '+/', '-_'), '=');
 	}
 
-	private function session(string $key, ?string $value) : string {
+	private function session(string $key, ?string $value) {
 		if ($this->session_callback) {
 			return call_user_func($this->session_callback, $key, $value);
 		}
@@ -1094,7 +1121,10 @@ class ConstantContact_API {
 	 * They are then redirected to your redirect URL with the authorization code appended as a query parameter. e.g.:
 	 * http://localhost:8888/?code={authorization_code}
 	 */
-	public function get_authorization_url() : string {
+	public function get_authorization_url( $api_key, $redirect_url ) : string {
+
+		$this->client_api_key = $api_key;
+		$this->redirect_URI   = $redirect_url;
 
 		$scopes = \implode('+', \array_keys($this->scopes));
 		[$code_verifier, $code_challenge] = $this->code_challenge();
@@ -1208,6 +1238,7 @@ class ConstantContact_API {
 			'body'		=> $body,
 			'headers'	=> $headers
 		];
+
 
 		return $this->exec( $url, $options );
 	}

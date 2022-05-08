@@ -11,7 +11,7 @@
  */
 
 use Ctct\ConstantContact;
-use Ctct\Auth\CtctOAuth2;
+use Ctct\Auth\CtctOAuth2PKCE;
 use Ctct\Exceptions\OAuth2Exception;
 use Defuse\Crypto\Key;
 use Defuse\Crypto\Crypto;
@@ -103,7 +103,7 @@ class ConstantContact_Connect {
 	public function maybe_connect() {
 
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
-		if ( isset( $_GET['cc_connect_attempt'] ) && is_user_logged_in() ) {
+		if ( isset( $_GET['code'] ) && is_user_logged_in() ) {
 
 			$verified = constant_contact()->authserver->verify_and_save_access_token_return();
 
@@ -129,6 +129,10 @@ class ConstantContact_Connect {
 	 */
 	public function add_options_page() {
 
+		// check if there is no API key then don't show connect option
+		$api_key = constant_contact_get_option( '_ctct_form_api_key', '' );
+		if ( empty ( $api_key ) )  return;
+		
 		$connect_title = esc_html__( 'Disconnect', 'constant-contact-forms' );
 		$connect_link  = 'edit.php?post_type=ctct_forms';
 
@@ -291,10 +295,12 @@ class ConstantContact_Connect {
 					</div>
 					<?php
 
-					$proof     = constant_contact()->authserver->set_verification_option();
-					$auth_link = constant_contact()->authserver->do_connect_url( $proof );
-					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
+					$client_api 	= constant_contact_get_option( '_ctct_form_api_key' , '' );
+					$redirect_url 	= constant_contact_get_option( '_ctct_form_redirect_url' , '' );
 
+					$auth_link = constantcontact_api()->get_authorization_url( $client_api, $redirect_url );
+					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
+					
 					if ( $auth_link ) :
 					?>
 						<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button ctct-button button-blue ctct-connect">

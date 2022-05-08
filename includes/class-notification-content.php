@@ -46,6 +46,7 @@ class ConstantContact_Notification_Content {
 	public static function activation() {
 		$auth_url = add_query_arg( [ 'rmc' => 'wp_admin_connect' ], constant_contact()->api->get_connect_link() );
 		$try_url  = add_query_arg( [ 'rmc' => 'wp_admin_try' ], constant_contact()->api->get_signup_link() );
+		$acc_url  = add_query_arg( [ 'page' => 'ctct_options_settings_auth' ] );
 
 		ob_start();
 	?>
@@ -54,15 +55,15 @@ class ConstantContact_Notification_Content {
 					printf(
 
 						// translators: Placeholder will hold "Constant Contact Forms" with <strong> tags.
-						esc_attr__( 'Get the most out of the %s plugin &mdash; use it with an active Constant Contact account.', 'constant-contact-forms' ),
+						esc_attr__( 'Get the most out of the %s plugin &mdash; use it with an active Constant Contact account. To get started add API key now.', 'constant-contact-forms' ),
 						'<strong>' . esc_attr__( 'Constant Contact Forms', 'constant-contact-forms' ) . '</strong>'
 					);
 				?>
 			</p>
 
 			<p>
-				<a href="<?php echo esc_url_raw( $auth_url ); ?>" class="ctct-notice-button button-primary">
-					<?php esc_attr_e( 'Connect your account', 'constant-contact-forms' ); ?>
+				<a href="<?php echo esc_url_raw( $acc_url ); ?>" class="ctct-notice-button button-primary">
+					<?php esc_attr_e( 'Go to Account settings', 'constant-contact-forms' ); ?>
 				</a>
 				<a href="<?php echo esc_url_raw( $try_url ); ?>" class="ctct-notice-button button-secondary">
 					<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>

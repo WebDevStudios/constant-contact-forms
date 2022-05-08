@@ -64,6 +64,7 @@ class ConstantContact_Settings {
 			'general' => esc_html__( 'General', 'constant-contact-forms' ),
 			'spam'    => esc_html__( 'Spam Control', 'constant-contact-forms' ),
 			'support' => esc_html__( 'Support', 'constant-contact-forms' ),
+			'auth' => esc_html__( 'Account', 'constant-contact-forms' ),
 		];
 
 		$this->register_hooks();
@@ -601,6 +602,45 @@ class ConstantContact_Settings {
 			'before_row' => $before_debugging,
 		] );
 	}
+
+	/**
+	 * Register 'auth' settings tab fields.
+	 *
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  1.8.0
+	 */
+	protected function register_fields_auth() {
+		$cmb = new_cmb2_box( $this->get_cmb_args( 'auth' ) );
+
+		$before_api_key = sprintf(
+			/* translators: 1: horizontal rule and opening heading tag, 2: global css section heading, 3: closing heading tag */
+			'%1$s%2$s%3$s',
+			'<hr><h2>',
+			esc_html__( 'Account Settings', 'constant-contact-forms' ),
+			'</h2>'
+		);
+
+		$cmb->add_field( [
+			'name'        => esc_html__( 'Client API Key', 'constant-contact-forms' ),
+			'id'          => '_ctct_form_api_key',
+			'type'        => 'text',
+			'desc' => __( 'Also known as Client ID. Go to your app and find the API key. <a target="_blank" href="https://v3.developer.constantcontact.com/api_guide/apps_create.html">Visit here</a> for more information', 'constant-contact-forms' ),
+			'before_row'  => $before_api_key,
+		] );
+		
+
+		$cmb->add_field( [
+			'name'        => esc_html__( 'Redirect URL', 'constant-contact-forms' ),
+			'id'          => '_ctct_form_redirect_url',
+			'type'        => 'text',
+			'desc' => __( 'Once authorized you will be redirected to this URL. <a target="_blank" href="https://v3.developer.constantcontact.com/api_guide/apps_create.html#step-3-specify-redirect-uris">Visit here</a> for more information', 'constant-contact-forms' ),
+			
+		] );
+
+		
+	}
+
+	
 
 	/**
 	 * Get array of options for our 'optin show' settings.

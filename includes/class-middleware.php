@@ -138,33 +138,24 @@ class ConstantContact_Middleware {
 	 * @return boolean Is valid?
 	 */
 	public function verify_and_save_access_token_return() {
-		$proof = filter_input( INPUT_GET, 'proof', FILTER_SANITIZE_STRING );
-		$token = filter_input( INPUT_GET, 'token', FILTER_SANITIZE_STRING );
-		$key   = filter_input( INPUT_GET, 'key', FILTER_SANITIZE_STRING );
+		if ( isset($_GET['error']) ) {
+			$error 	= $_GET['error'] . ': ' . ($_GET['error_description'] ?? 'Undefined');
+			constant_contact_maybe_log_it( 'Authentication', $error );
 
-		// If we get this, we'll want to start our process of
-		// verifying the proof that the middleware server gives us
-		// so that we can ignore any malicious entries that are sent to us
-		// Sanitize our expected data.
-		$proof = ! empty( $proof ) ? sanitize_text_field( $proof ) : false;
+			return false;
+		}
+		$key = constant_contact_get_option( '_ctct_form_api_key', '' );
+		$state = filter_input( INPUT_GET, 'state' );
+		$token = filter_input( INPUT_GET, 'code' );
+		
+		$state = ! empty( $state ) ? sanitize_text_field( $state ) : false;
 		$token = ! empty( $token ) ? sanitize_text_field( $token ) : false;
-		$key   = ! empty( $key ) ? sanitize_text_field( $key ) : false;
-
-		// If we're missing any piece of data, we failed.
-		if ( ! $proof || ! $token || ! $key ) {
-			constant_contact_maybe_log_it( 'Authentication', 'Proof, token, or key missing for access verification.' );
-			return false;
-		}
-
-		if ( ! $this->verify_proof( $proof ) ) {
-			constant_contact_maybe_log_it( 'Authentication', 'Authorization verification failed.' );
-			return false;
-		}
 
 		constant_contact_maybe_log_it( 'Authentication', 'Authorization verification succeeded.' );
 
 		constant_contact()->connect->update_token( sanitize_text_field( $token ) );
 		constant_contact()->connect->e_set( '_ctct_api_key', sanitize_text_field( $key ) );
+
 		return true;
 	}
 
