@@ -1186,12 +1186,6 @@ class ConstantContact_API {
 			'headers'	=> $headers
 		];
 
-
-		$response = wp_safe_remote_post( $url, $options );
-		$token_array = json_decode( $response['body'], true );
-
-		// var_dump($token_array);die;
-
 		return $this->exec( $url, $options );
 	}
 
@@ -1238,32 +1232,31 @@ class ConstantContact_API {
 		// \curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 	}
 
-	private function exec($ch) : bool {
-		\curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-
-		// Make the call
-		$result = \curl_exec($ch);
+	private function exec( $url, $options ) : bool {
+		
+		$response = wp_safe_remote_post( $url, $options );
 
 		$this->last_error = '';
 		$this->status_code = 0;
 
-		if ($result) {
-			$data = \json_decode($result, true);
+		if ( ! is_wp_error( $response ) ) {
+			
+			$data = json_decode( $response['body'], true );
 
-			if (isset($data['error'])) {
-				$this->lastError = $data['error'] . ': ' . ($data['error_description'] ?? 'Undefined');
+			// check if the body contains error
+			if ( isset($data['error']) ) {
+				$this->last_error = $data['error'] . ': ' . ($data['error_description'] ?? 'Undefined');
 			}
+
 			$this->access_token = $data['access_token'] ?? '';
 			$this->refresh_token = $data['refresh_token'] ?? '';
-
-			\curl_close($ch);
+			
 
 			return isset($data['access_token'], $data['refresh_token']);
 		}
 
-		$this->status_code = \curl_errno($ch);
-		$this->last_error = \curl_error($ch);
-		\curl_close($ch);
+		$this->status_code = $response['response']['code'];
+		$this->last_error = $response['response']['message'];
 
 		return false;
 	}
