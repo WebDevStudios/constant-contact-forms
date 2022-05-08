@@ -606,7 +606,7 @@ class ConstantContact_Settings {
 	/**
 	 * Register 'auth' settings tab fields.
 	 *
-	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @author Rebekah Van Epps <faisal@zao.is>
 	 * @since  1.8.0
 	 */
 	protected function register_fields_auth() {

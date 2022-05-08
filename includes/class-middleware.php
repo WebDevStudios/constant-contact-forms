@@ -158,21 +158,4 @@ class ConstantContact_Middleware {
 
 		return true;
 	}
-
-	/**
-	 * Verifies a given proof from a request against our DB, and does cleanup.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $proof Proof string to check.
-	 * @return boolean Whether or not its our expected proof.
-	 */
-	public function verify_proof( $proof ) {
-
-		$expected_proof = get_option( 'ctct_connect_verification' );
-
-		delete_option( 'ctct_connect_verification' );
-
-		return ( $proof === $expected_proof );
-	}
 }

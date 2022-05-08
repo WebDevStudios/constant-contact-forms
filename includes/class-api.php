@@ -103,7 +103,15 @@ class ConstantContact_API {
 	 * @return string Access API token.
 	 */
 	public function get_api_token() {
-		return $this->access_token;
+		$url = '';
+
+		if ( constant_contact()->connect->e_get( '_ctct_api_key' ) ) {
+			$url .= constant_contact()->connect->e_get( '_ctct_api_key' );
+		} else {
+			$url .= constant_contact()->connect->get_api_token();
+		}
+				
+		return $url;
 	}
 
 	/**
