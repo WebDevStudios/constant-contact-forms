@@ -1173,13 +1173,12 @@ class ConstantContact_API {
 			'redirect_uri' => $this->redirect_URI,
 			'grant_type' => 'authorization_code',
 		];
-
 		
 		$body['code_verifier'] = $this->session('Ctct\ConstantContact\code_verifier', null);
 
-		$url = $this->oauth2_url;
-		
 		$headers = $this->set_authorization();
+
+		$url = $this->oauth2_url;
 
 		$options = [
 			'body'		=> $body,
@@ -1192,29 +1191,25 @@ class ConstantContact_API {
 	/**
 	 * Refresh the access token.
 	 */
-	public function refresh_token() : bool
-		{
-		// Use cURL to get a new access token and refresh token
-		$ch = \curl_init();
-
+	public function refresh_token() : bool {
+		
 		// Create full request URL
-		$params = [
-			'refresh_token' => $this->refreshToken,
+		$body = [
+			'refresh_token' => $this->refresh_token,
 			'grant_type' => 'refresh_token',
-			'redirect_uri' => $this->redirectURI,
+			'redirect_uri' => $this->redirect_URI,
 		];
 
-		$url = $this->oauth2URL . '?' . \http_build_query($params);
-		\curl_setopt($ch, CURLOPT_URL, $url);
+		$url = $this->oauth2_url;
 
-		$this->set_authorization($ch);
+		$headers = $this->set_authorization();
 
-		// Set method and to expect response
-		\curl_setopt($ch, CURLOPT_POST, true);
-		\curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'POST');
-		\curl_setopt($ch, CURLOPT_POSTFIELDS, '');
+		$options = [
+			'body'		=> $body,
+			'headers'	=> $headers
+		];
 
-		return $this->exec($ch);
+		return $this->exec( $url, $options );
 	}
 
 	private function set_authorization() : array {
