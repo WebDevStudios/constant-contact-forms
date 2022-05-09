@@ -576,7 +576,7 @@ class ConstantContact_API {
 	 * Obfuscate phone numbers.
 	 *
 	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
-	 * @since NEXT
+	 * @since 1.13.0
 	 *
 	 * @param array $contact Contact data.
 	 * @return array

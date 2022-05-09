@@ -2,7 +2,7 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
-Tested up to:      5.7.0
+Tested up to:      5.9.3
 Stable tag:        1.13.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -46,11 +46,14 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 = 1.13.0 =
 * Fixed: get_optin_list_options() defaults to an empty array instead of an empty string
 * Fixed: Prevent "CTCT has experienced issues" notifications for "503 Service Not Available" errors
+* Fixed: Fixes plugin sometimes causing errors due to trailing commas
 * Changed: Move styles inline for honeypot field to ensure field is hidden when option to disable CSS output is used
 * Updated: Mask API keys in error logs
 * Updated: Mask phone numbers in logs
 * Updated: Add noopener noreferrer to blank links
 * Updated: Refactor multiple translated strings
+* Updated: Added error messages on form submissions upon API faliures
+
 
 == Frequently Asked Questions ==
 
