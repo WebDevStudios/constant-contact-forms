@@ -225,6 +225,8 @@
 	 */
 	app.handleSubmission = ( e, $form ) => {
 
+        e.preventDefault();
+
 		if ( ! app.validateSubmission( $form ) ) {
 			return false;
 		}
