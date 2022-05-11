@@ -206,7 +206,7 @@
 
 				return false;
 			}
-
+			$form.hide();
 			// If we're here, the submission was a success; show message and reset form fields.
 			app.showMessage( $form, response.message, 'ctct-success', 'status' );
 			$form[0].reset();
@@ -225,14 +225,13 @@
 	 */
 	app.handleSubmission = ( e, $form ) => {
 
-        e.preventDefault();
 
 		if ( ! app.validateSubmission( $form ) ) {
 			return false;
 		}
 
 		clearTimeout( app.timeout );
-
+        e.preventDefault();
 		app.timeout = setTimeout( app.submitForm, 500, $form );
 	};
 
