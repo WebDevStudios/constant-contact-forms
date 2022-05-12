@@ -93,6 +93,14 @@ msgstr ""
 msgid "Customize the form data fields, so you can tailor the type of information you collect."
 msgstr ""
 
+#: includes/class-admin-pages.php:281
+msgid "Add Contact Form"
+msgstr ""
+
+#: includes/class-admin-pages.php:282
+msgid "View Lists"
+msgstr ""
+
 #: includes/class-admin-pages.php:244
 msgid "Turn Contacts into Customers."
 msgstr ""
@@ -198,6 +206,10 @@ msgstr ""
 msgid "Contact Count"
 msgstr ""
 
+#: includes/class-admin.php:482
+msgid "None available"
+msgstr ""
+
 #: includes/class-admin.php:503
 msgid "Check out the official WordPress plugin from @constantcontact:"
 msgstr ""
@@ -216,6 +228,10 @@ msgstr ""
 
 #: includes/class-admin.php:601
 msgid "move down"
+msgstr ""
+
+#: includes/class-api.php:704
+msgid "Contact type not returned"
 msgstr ""
 
 #: includes/class-api.php:727
@@ -562,6 +578,10 @@ msgstr ""
 msgid "Opt-in checkbox"
 msgstr ""
 
+#: includes/class-builder-fields.php:618
+msgid "Your Business Name"
+msgstr ""
+
 #: includes/class-builder-fields.php:621, includes/class-settings.php:418
 msgid "Opt-in Affirmation"
 msgstr ""
@@ -686,7 +706,7 @@ msgstr ""
 msgid "Import everything into Constant Contact so I can see what email marketing can do for me."
 msgstr ""
 
-#: includes/class-builder.php:328, includes/class-builder.php:328, includes/class-notification-content.php:68
+#: includes/class-builder.php:328, includes/class-builder.php:328, includes/class-connect.php:311, includes/class-notification-content.php:68
 msgid "Try Us Free"
 msgstr ""
 
@@ -698,7 +718,7 @@ msgstr ""
 msgid "Automatically add collected information to contacts in my Constant Contact account."
 msgstr ""
 
-#: includes/class-builder.php:349, includes/class-builder.php:350
+#: includes/class-builder.php:349, includes/class-builder.php:350, includes/class-connect.php:301
 msgid "Connect Plugin"
 msgstr ""
 
@@ -768,12 +788,44 @@ msgstr ""
 msgid "Disconnect"
 msgstr ""
 
-#: includes/class-connect.php:136
+#: includes/class-connect.php:136, includes/class-connect.php:281
 msgid "Connect Now"
 msgstr ""
 
 #: includes/class-connect.php:164
 msgid "Are you sure you want to disconnect?"
+msgstr ""
+
+#: includes/class-connect.php:274
+msgid "There was an error connecting your account. Please try again."
+msgstr ""
+
+#: includes/class-connect.php:283
+msgid "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers."
+msgstr ""
+
+#: includes/class-connect.php:289
+msgid "Connect to Constant Contact"
+msgstr ""
+
+#: includes/class-connect.php:290
+msgid "By connecting to Constant Contact, you authorize this plugin to access your account."
+msgstr ""
+
+#: includes/class-connect.php:308
+msgid "No Constant Contact Account?"
+msgstr ""
+
+#: includes/class-connect.php:309
+msgid "Create professional emails to nurture relationships with contacts even after they leave your website. Sign up for a free 60-day trial."
+msgstr ""
+
+#: includes/class-connect.php:316
+msgid "NOTE: "
+msgstr ""
+
+#: includes/class-connect.php:316
+msgid "It's possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin."
 msgstr ""
 
 #: includes/class-connect.php:174
@@ -820,7 +872,6 @@ msgstr ""
 msgid "Please Help to Improve this Plugin"
 msgstr ""
 
-#. translators: Placeholder will hold link to Constant Contact privacy statement.
 #: includes/class-connect.php:249
 msgid "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %1$s."
 msgstr ""
@@ -1025,6 +1076,11 @@ msgstr ""
 msgid "Custom field deleted."
 msgstr ""
 
+#. translators: formatted revision timestamp.
+#: includes/class-cpts.php:194
+msgid "List restored to revision from %s"
+msgstr ""
+
 #: includes/class-cpts.php:196
 msgid "List published."
 msgstr ""
@@ -1048,6 +1104,11 @@ msgstr ""
 
 #: includes/class-cpts.php:207, includes/class-cpts.php:210
 msgid "Form updated."
+msgstr ""
+
+#. translators: formatted revision timestamp.
+#: includes/class-cpts.php:213
+msgid "Form restored to revision from %s"
 msgstr ""
 
 #. translators: form shortcode.
@@ -1080,6 +1141,10 @@ msgstr ""
 msgid "(Examples: Join Our Email List, Contact Us)"
 msgstr ""
 
+#: includes/class-cpts.php:315
+msgid "No title"
+msgstr ""
+
 #. translators: Placeholders will be form title and then last modified date.
 #: includes/class-cpts.php:320
 msgid "%1$s (last modified %2$s ago)"
@@ -1093,12 +1158,20 @@ msgstr ""
 msgid "Constant Contact Use. Please leave this field blank."
 msgstr ""
 
+#: includes/class-display.php:705
+msgid " Error: Please fill out this field."
+msgstr ""
+
 #: includes/class-display.php:703, includes/class-display.php:1821
 msgid "Error: Please correct your entry."
 msgstr ""
 
 #: includes/class-display.php:1082
 msgid "numbers, dashes, pluses, periods, and parentheses"
+msgstr ""
+
+#: includes/class-display.php:1279
+msgid "Send"
 msgstr ""
 
 #: includes/class-display.php:1391
@@ -1357,6 +1430,14 @@ msgstr ""
 msgid "References to one or more deleted Constant Contact forms are still present on your site. Please review the list below and update or remove the references to avoid issues on your site:"
 msgstr ""
 
+#: includes/class-notification-content.php:248
+msgid "Widget titled"
+msgstr ""
+
+#: includes/class-notification-content.php:250
+msgid "in"
+msgstr ""
+
 #: includes/class-notifications.php:418
 msgid "Dismiss this notice."
 msgstr ""
@@ -1377,7 +1458,7 @@ msgstr ""
 msgid "Your information has been submitted."
 msgstr ""
 
-#: includes/class-process-form.php:146, includes/class-process-form.php:760
+#: includes/class-process-form.php:146, includes/class-process-form.php:760, includes/class-process-form.php:767
 msgid "We had trouble processing your submission. Please review your entries and try again."
 msgstr ""
 
@@ -1407,6 +1488,14 @@ msgstr ""
 
 #: includes/class-process-form.php:365
 msgid "Please select at least one list to subscribe to."
+msgstr ""
+
+#: includes/class-process-form.php:400
+msgid "An error occurred while attempting Constant Contact API request."
+msgstr ""
+
+#: includes/class-process-form.php:407
+msgid "An error occurred while attempting Constant Contact API request. Please check your details and try again."
 msgstr ""
 
 #: includes/class-process-form.php:834
@@ -1468,6 +1557,10 @@ msgstr ""
 
 #: includes/class-settings.php:400
 msgid "Add subscribers to"
+msgstr ""
+
+#: includes/class-settings.php:408
+msgid "Business Name"
 msgstr ""
 
 #. translators: placeholder will hold site owner's business name.
@@ -1574,6 +1667,10 @@ msgstr ""
 
 #: includes/class-settings.php:613
 msgid "Add a checkbox to the WordPress user registration page"
+msgstr ""
+
+#: includes/class-settings.php:690
+msgid "Sign up to our newsletter."
 msgstr ""
 
 #: includes/class-settings.php:1065
