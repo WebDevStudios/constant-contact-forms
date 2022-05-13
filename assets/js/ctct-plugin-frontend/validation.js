@@ -231,8 +231,11 @@
 		}
 
 		clearTimeout( app.timeout );
-        e.preventDefault();
-		app.timeout = setTimeout( app.submitForm, 500, $form );
+
+		if($form[0].checkValidity()){
+			e.preventDefault();
+			app.timeout = setTimeout( app.submitForm, 500, $form );
+		}
 	};
 
 	/**
