@@ -12,7 +12,7 @@
 
 use \ReCaptcha\ReCaptcha;
 use \ReCaptcha\RequestMethod\CurlPost;
-
+use Ctct\Exceptions\CtctException;
 /**
  * Powers our form processing, validation, and value cleanup.
  *
@@ -145,6 +145,12 @@ class ConstantContact_Process_Form {
 						'status'  => 'error',
 						'message' => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
 						'errors'  => isset( $response['errors'] ) ? $response['errors'] : '',
+						'values'  => isset( $response['values'] ) ? $response['values'] : '',
+					];
+				case 'api_error':
+					return [
+						'status'  => 'error',
+						'message' => $response['message'],
 						'values'  => isset( $response['values'] ) ? $response['values'] : '',
 					];
 
@@ -370,33 +376,48 @@ class ConstantContact_Process_Form {
 				'values' => $return['values'],
 			];
 		}
-
-		if ( ! isset( $data['ctct-opt-in'] ) ) {
-			constant_contact()->mail->submit_form_values( $return['values'] );
-		} else {
-
-			// No need to check for opt in status because we would have returned early by now if false.
-			$maybe_bypass = constant_contact_get_option( '_ctct_bypass_cron', '' );
-
-			if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
-				constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
-				$api_result = constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
-
-				// Send email if API request fails.
-				if ( false === $api_result ) {
-					$clean_values  = constant_contact()->process_form->clean_values( $return['values'] );
-					$pretty_values = constant_contact()->process_form->pretty_values( $clean_values );
-					$email_values  = constant_contact()->mail->format_values_for_email( $pretty_values, $orig_form_id );
-
-					constant_contact()->mail->mail( constant_contact()->mail->get_email( $orig_form_id ), $email_values, [
-						'form_id'         => $orig_form_id,
-						'submitted_email' => constant_contact()->mail->get_user_email_from_submission( $clean_values ),
-						'custom-reason'   => __( 'An error occurred while attempting Constant Contact API request.', 'constant-contact-forms' ),
-					], true );
-				}
+		try {
+			if ( ! isset( $data['ctct-opt-in'] ) ) {
+				constant_contact()->mail->submit_form_values( $return['values'] );
 			} else {
-				constant_contact()->mail->submit_form_values( $return['values'], true );
+				// No need to check for opt in status because we would have returned early by now if false.
+				$maybe_bypass = constant_contact_get_option( '_ctct_bypass_cron', '' );
+
+				if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
+					constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
+					
+					$api_result = constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
+					
+					// Send email if API request fails.
+					if ( false === $api_result ) {
+						$clean_values  = constant_contact()->process_form->clean_values( $return['values'] );
+						$pretty_values = constant_contact()->process_form->pretty_values( $clean_values );
+						$email_values  = constant_contact()->mail->format_values_for_email( $pretty_values, $orig_form_id );
+
+						$test = constant_contact()->mail->mail( constant_contact()->mail->get_email( $orig_form_id ), $email_values, [
+							'form_id'         => $orig_form_id,
+							'submitted_email' => constant_contact()->mail->get_user_email_from_submission( $clean_values ),
+							'custom-reason'   => __( 'An error occurred while attempting Constant Contact API request.', 'constant-contact-forms' ),
+						], true );
+
+						// Also return API error.
+						return [
+							'status' => 'api_error',
+							'values' => $return['values'],
+							'message'=> __( 'An error occurred while attempting Constant Contact API request. Please check your details and try again.', 'constant-contact-forms' ),
+						];
+					}
+				} else {
+					constant_contact()->mail->submit_form_values( $return['values'], true );
+				}
 			}
+			
+		}  catch (CtctException $exception) {
+			return [
+				'status' => 'api_error',
+				'values' => $return['values'],
+				'message'=> $exception->getMessage(),
+			];
 		}
 
 		$return['status'] = 'success';
@@ -738,6 +759,12 @@ class ConstantContact_Process_Form {
 					'status'  => 'error',
 					'message' => esc_html__( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
 					'errors'  => isset( $processed['errors'] ) ? $processed['errors'] : '',
+					'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
+				];
+			case 'api_error':
+				return [
+					'status'  => 'error',
+					'message' => $processed['message'] ? esc_html( $processed['message'] ) :esc_html__( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
 					'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
 				];
 
