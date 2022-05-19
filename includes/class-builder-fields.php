@@ -307,7 +307,6 @@ class ConstantContact_Builder_Fields {
 			'id'              => $this->prefix . 'redirect_uri',
 			'type'            => 'text',
 			'description'     => sprintf(
-				/* Translators: 1: basic field info, 2: warning about invalid values, 3: recommended field value */
 				'%1$s</br><strong>%2$s</strong><br/>%3$s',
 				esc_html__( 'Leave blank to keep users on the current page.', 'constant-contact-forms' ),
 				esc_html__( 'NOTE: This URL must be within the current site and may not be a direct link to a media file (e.g., a PDF document). Providing a Redirect URL that is outside the current site or is a media file will cause issues with Constant Constact functionality, including contacts not being added to lists successfully.', 'constant-contact-forms' ),
@@ -546,7 +545,7 @@ class ConstantContact_Builder_Fields {
 				'constant-contact-forms'
 			),
 			sprintf(
-				'<a href="%s" target="_blank">%s</a>',
+				'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
 				'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options',
 				esc_html__( 'Learn more', 'constant-contact-forms' )
 			)

@@ -515,9 +515,9 @@ class ConstantContact_Admin {
 		$site_link = apply_filters( 'constant_contact_social_base_url', 'https://constantcontact.com/' );
 
 		$social_share = esc_html__( 'Spread the word!', 'constant-contact-forms' );
-		$add_links[]  = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-facebook"></a>';
-		$add_links[]  = '<a title="' . $social_share . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" class="dashicons-before dashicons-twitter"></a>';
-		$add_links[]  = '<a title="' . $social_share . '" href="https://plus.google.com/share?url=' . rawurlencode( $site_link ) . '" target="_blank" class="dashicons-before dashicons-googleplus"></a>';
+		$add_links[]  = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( $site_link ) . '" target="_blank" rel="noopener noreferrer" class="dashicons-before dashicons-facebook"></a>';
+		$add_links[]  = '<a title="' . $social_share . '" href="https://twitter.com/home?status=' . $twitter_cta . ' ' . $site_link . '" target="_blank" rel="noopener noreferrer" class="dashicons-before dashicons-twitter"></a>';
+		$add_links[]  = '<a title="' . $social_share . '" href="https://plus.google.com/share?url=' . rawurlencode( $site_link ) . '" target="_blank" rel="noopener noreferrer" class="dashicons-before dashicons-googleplus"></a>';
 
 		/**
 		 * Filters the final custom social links.
@@ -542,7 +542,7 @@ class ConstantContact_Admin {
 	 */
 	public function get_admin_link( $text, $link_slug ) {
 
-		static $link_template = '<a title="%1$s" href="%2$s" target="_blank">%1$s</a>';
+		static $link_template = '<a title="%1$s" href="%2$s" target="_blank" rel="noopener noreferrer">%1$s</a>';
 		static $link_args     = [
 			'post_type' => 'ctct_forms',
 			'page'      => '',

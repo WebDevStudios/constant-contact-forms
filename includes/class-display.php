@@ -535,12 +535,17 @@ class ConstantContact_Display {
 	 * Display a honeypot spam field.
 	 *
 	 * @since 1.2.2
+	 * @since 1.13.0 Moved visually hidden .ctct_usage styles inline to prevent honeypot field from
+	 *               being displayed when the "Disable Constant Contact CSS" option is checked.
 	 *
 	 * @return string
 	 */
 	public function build_honeypot_field() {
 		return sprintf(
-			'<div class="ctct_usage"><label for="ctct_usage_field">%s</label><input type="text" value="" id="ctct_usage_field" name="ctct_usage_field" class="ctct_usage_field" tabindex="-1" /></div>', esc_html__( 'Constant Contact Use. Please leave this field blank.', 'constant-contact-forms' )
+			'<div ' .
+				'class="ctct_usage"' .
+				'style="border: 0 none; clip: rect( 0, 0, 0, 0 ); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px;"' .
+			'><label for="ctct_usage_field">%s</label><input type="text" value="" id="ctct_usage_field" name="ctct_usage_field" class="ctct_usage_field" tabindex="-1" /></div>', esc_html__( 'Constant Contact Use. Please leave this field blank.', 'constant-contact-forms' )
 		);
 	}
 
@@ -1083,7 +1088,7 @@ class ConstantContact_Display {
 			$placeholder = "placeholder=\"{$label}\"";
 		}
 
-		/* translators: 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID., 10: Tel Regex Pattern. */
+		/* 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID., 10: Tel Regex Pattern. */
 		$field   = '<input %1$s type="%2$s" name="%3$s" %4$s value="%5$s" %6$s %7$s %8$s %9$s %10$s />';
 		$markup .= sprintf(
 			$field,
@@ -1133,7 +1138,6 @@ class ConstantContact_Display {
 	 */
 	public function input_hidden( $name = '', $value = '' ) {
 		return sprintf(
-			/* translators: 1: Field name, 2: Field value. */
 			'<input type="hidden" name="%1$s" value="%2$s" />',
 			sanitize_text_field( $name ),
 			sanitize_text_field( $value )
@@ -1894,7 +1898,7 @@ class ConstantContact_Display {
 				),
 				$this->plugin->api->get_disclosure_info(),
 				sprintf(
-					'<a href="%s" target="_blank">%s</a>',
+					'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
 					esc_url( 'https://www.constantcontact.com/legal/service-provider' ),
 					esc_html__( 'Emails are serviced by Constant Contact', 'constant-contact-forms' )
 				)

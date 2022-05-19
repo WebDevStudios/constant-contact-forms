@@ -2,8 +2,8 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
-Tested up to:      5.7.0
-Stable tag:        1.12.0
+Tested up to:      6.0
+Stable tag:        1.13.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.6
@@ -43,19 +43,17 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 == Changelog ==
 
-= 1.12.0 =
-* Added: “Limit 500 Characters” description below textarea fields
-* Added: CSS class selector to the div wrapping the list checkboxes
-* Added: Force email notifications if no list is selected for a form
-* Added: Multi-select list options to "advanced optin" settings
-* Added: New setting to override default opt-in text
-* Added: Two new filters to override state and zipcode labels
-* Changed: Change <small> to <sub> for form disclaimer
-* Fixed: Email field browser validation when form submits via AJAX
-* Fixed: Erroneous placeholder attribute on submit button
-* Fixed: Incomplete "ctct-label-" CSS class on submit button
-* Updated: Addressed limits and issues regarding list management
-* Updated: Better ensured security
+= 1.13.0 =
+* Fixed: get_optin_list_options() defaults to an empty array instead of an empty string
+* Fixed: Prevent "CTCT has experienced issues" notifications for "503 Service Not Available" errors
+* Fixed: Fixes plugin sometimes causing errors due to trailing commas
+* Changed: Move styles inline for honeypot field to ensure field is hidden when option to disable CSS output is used
+* Updated: Mask API keys in error logs
+* Updated: Mask phone numbers in logs
+* Updated: Add noopener noreferrer to blank links
+* Updated: Refactor multiple translated strings
+* Updated: Added error messages on form submissions upon API faliures
+
 
 == Frequently Asked Questions ==
 
