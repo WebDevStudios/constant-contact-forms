@@ -9,16 +9,13 @@
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
-
-use Ctct\ConstantContact;
-use Ctct\Auth\CtctOAuth2PKCE;
-use Ctct\Exceptions\OAuth2Exception;
 use Defuse\Crypto\Key;
 use Defuse\Crypto\Crypto;
 
 /**
  * Powers our admin connect page, as well as misc functionality around connecting to Constant Contact.
  *
+ * @todo Check usage of cc() below (Around Line 187). Remove if not necessary.
  * @since 1.0.0
  */
 class ConstantContact_Connect {
@@ -132,7 +129,7 @@ class ConstantContact_Connect {
 		// check if there is no API key then don't show connect option
 		$api_key = constant_contact_get_option( '_ctct_form_api_key', '' );
 		if ( empty ( $api_key ) )  return;
-		
+
 		$connect_title = esc_html__( 'Disconnect', 'constant-contact-forms' );
 		$connect_link  = 'edit.php?post_type=ctct_forms';
 
@@ -222,11 +219,11 @@ class ConstantContact_Connect {
 				</div>
 
 				<?php  //if ( ! constant_contact_has_forms() ) : ?>
-					
+
 				<hr />
-				
+
 				<?php // phpcs:disable WordPress.WP.EnqueuedResources -- Ok use of inline scripts. ?>
-				
+
 				<div class="ctct-connected-next-step">
 					<div class="ctct-video">
 						<script src="https://fast.wistia.com/embed/medias/xix7jf8p55.jsonp" async></script>
@@ -281,7 +278,7 @@ class ConstantContact_Connect {
 			endif;
 			// phpcs:enable WordPress.Security.NonceVerification
 		?>
-		
+
 			<h2><?php esc_html_e( 'Connect Now', 'constant-contact-forms' ); ?></h2>
 			<p class="ctct-description">
 				<?php esc_html_e( "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers.", 'constant-contact-forms' ); ?>
@@ -300,7 +297,7 @@ class ConstantContact_Connect {
 
 					$auth_link = constantcontact_api()->get_authorization_url( $client_api, $redirect_url );
 					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
-					
+
 					if ( $auth_link ) :
 					?>
 						<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button ctct-button button-blue ctct-connect">
