@@ -79,12 +79,12 @@ class ConstantContact_Middleware {
 	 */
 	public function add_query_args_to_link( $link, $proof, $extra_args = [] ) {
 		$return = add_query_arg(
-		[
-			'ctct-auth'  => 'auth',
-			'ctct-proof' => esc_attr( $proof ),
-			'ctct-site'  => get_site_url(),
-		],
-		$link
+			[
+				'ctct-auth'  => 'auth',
+				'ctct-proof' => esc_attr( $proof ),
+				'ctct-site'  => get_site_url(),
+			],
+			$link
 		);
 
 		if ( ! empty( $extra_args ) ) {
@@ -138,16 +138,16 @@ class ConstantContact_Middleware {
 	 * @return boolean Is valid?
 	 */
 	public function verify_and_save_access_token_return() {
-		if ( isset($_GET['error']) ) {
-			$error 	= $_GET['error'] . ': ' . ($_GET['error_description'] ?? 'Undefined');
+		if ( isset( $_GET['error'] ) ) {
+			$error = $_GET['error'] . ': ' . ( $_GET['error_description'] ?? 'Undefined' );
 			constant_contact_maybe_log_it( 'Authentication', $error );
 
 			return false;
 		}
-		$key = constant_contact_get_option( '_ctct_form_api_key', '' );
+		$key   = constant_contact_get_option( '_ctct_form_api_key', '' );
 		$state = filter_input( INPUT_GET, 'state' );
 		$token = filter_input( INPUT_GET, 'code' );
-		
+
 		$state = ! empty( $state ) ? sanitize_text_field( $state ) : false;
 		$token = ! empty( $token ) ? sanitize_text_field( $token ) : false;
 

@@ -98,13 +98,16 @@ class ConstantContact_Notifications {
 		 *
 		 * @param array $value Array of notification details.
 		 */
-		return apply_filters( 'constant_contact_notifications', [
+		return apply_filters(
+			'constant_contact_notifications',
 			[
-				'ID'         => 'activation',
-				'callback'   => [ 'ConstantContact_Notification_Content', 'activation' ],
-				'require_cb' => 'constant_contact_is_not_connected',
-			],
-		] );
+				[
+					'ID'         => 'activation',
+					'callback'   => [ 'ConstantContact_Notification_Content', 'activation' ],
+					'require_cb' => 'constant_contact_is_not_connected',
+				],
+			]
+		);
 	}
 
 	/**
@@ -381,12 +384,12 @@ class ConstantContact_Notifications {
 
 		$this->do_styles();
 
-	?>
+		?>
 		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
 			<?php echo wp_kses_post( $content ); ?>
 			<?php constant_contact()->notifications->do_dismiss_link( esc_attr( $key ) ); ?>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
@@ -413,11 +416,11 @@ class ConstantContact_Notifications {
 	 */
 	public function do_dismiss_link( $notif_id ) {
 
-	?>
+		?>
 		<a class="ctct-notice-dismiss notice-dismiss" href="<?php echo esc_url_raw( $this->get_activation_dismiss_url( esc_attr( $notif_id ) ) ); ?>">
 			<span class="screen-reader-text"><?php esc_attr_e( 'Dismiss this notice.', 'constant-contact-forms' ); ?></span>
 		</a>
-	<?php
+		<?php
 	}
 
 	/**

@@ -73,21 +73,25 @@ class ConstantContact_Lists {
 	 */
 	public function add_lists_metabox() {
 
-		$cmb = new_cmb2_box( [
-			'id'           => 'ctct_list_metabox',
-			'title'        => __( 'List Information', 'constant-contact-forms' ),
-			'object_types' => [ 'ctct_lists' ],
-			'context'      => 'normal',
-			'priority'     => 'high',
-			'show_names'   => true,
-		] );
+		$cmb = new_cmb2_box(
+			[
+				'id'           => 'ctct_list_metabox',
+				'title'        => __( 'List Information', 'constant-contact-forms' ),
+				'object_types' => [ 'ctct_lists' ],
+				'context'      => 'normal',
+				'priority'     => 'high',
+				'show_names'   => true,
+			]
+		);
 
-		$cmb->add_field( [
-			'name' => '',
-			'desc' => '',
-			'id'   => '_ctct_list_meta',
-			'type' => 'constant_contact_list_information',
-		] );
+		$cmb->add_field(
+			[
+				'name' => '',
+				'desc' => '',
+				'id'   => '_ctct_list_meta',
+				'type' => 'constant_contact_list_information',
+			]
+		);
 	}
 
 	/**
@@ -236,13 +240,18 @@ class ConstantContact_Lists {
 		 *
 		 * @param array $value Array of WP_Query arguments.
 		 */
-		$query = new WP_Query( apply_filters( 'constant_contact_lists_query_for_sync', [
-			'post_type'              => 'ctct_lists',
-			'posts_per_page'         => 1000, // phpcs:ignore WordPress.WP.PostsPerPage
-			'no_found_rows'          => true,
-			'update_post_term_cache' => false,
-			'fields'                 => 'ids',
-		] ) );
+		$query = new WP_Query(
+			apply_filters(
+				'constant_contact_lists_query_for_sync',
+				[
+					'post_type'              => 'ctct_lists',
+					'posts_per_page'         => 1000, // phpcs:ignore WordPress.WP.PostsPerPage
+					'no_found_rows'          => true,
+					'update_post_term_cache' => false,
+					'fields'                 => 'ids',
+				]
+			)
+		);
 
 		$potentially_remove_list = $query->get_posts();
 
@@ -296,11 +305,14 @@ class ConstantContact_Lists {
 				 *
 				 * @param array $value Array of arguments for a new list to be inserted into database.
 				 */
-				$new_post = apply_filters( 'constant_contact_list_insert_args', [
-					'post_title'  => isset( $list->name ) ? esc_attr( $list->name ) : '',
-					'post_status' => 'publish',
-					'post_type'   => 'ctct_lists',
-				] );
+				$new_post = apply_filters(
+					'constant_contact_list_insert_args',
+					[
+						'post_title'  => isset( $list->name ) ? esc_attr( $list->name ) : '',
+						'post_status' => 'publish',
+						'post_type'   => 'ctct_lists',
+					]
+				);
 
 				// By default, we'll attempt to update post meta for everything.
 				$update_meta = true;
@@ -414,10 +426,12 @@ class ConstantContact_Lists {
 			add_post_meta( $ctct_list->ID, 'ctct_duplicate_list', true );
 
 			if ( 'draft' !== $ctct_list->post_status ) {
-				$return = wp_update_post( [
-					'ID'          => absint( $ctct_list->ID ),
-					'post_status' => 'draft',
-				] );
+				$return = wp_update_post(
+					[
+						'ID'          => absint( $ctct_list->ID ),
+						'post_status' => 'draft',
+					]
+				);
 			}
 		} else {
 			$list_id = get_post_meta( $ctct_list->ID, '_ctct_list_id', true );
@@ -548,10 +562,12 @@ class ConstantContact_Lists {
 		}
 
 		if ( $title !== $original_title ) {
-			wp_update_post( [
-				'ID'         => absint( $id ),
-				'post_title' => $title,
-			] );
+			wp_update_post(
+				[
+					'ID'         => absint( $id ),
+					'post_title' => $title,
+				]
+			);
 		}
 
 		return $title;
@@ -794,7 +810,7 @@ class ConstantContact_Lists {
 		<div class="notice notice-error">
 				<p><?php esc_attr_e( 'You already have a list with that name.', 'constant-contact-forms' ); ?></p>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**

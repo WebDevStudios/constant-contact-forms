@@ -128,7 +128,9 @@ class ConstantContact_Connect {
 
 		// check if there is no API key then don't show connect option
 		$api_key = constant_contact_get_option( '_ctct_form_api_key', '' );
-		if ( empty ( $api_key ) )  return;
+		if ( empty( $api_key ) ) {
+			return;
+		}
 
 		$connect_title = esc_html__( 'Disconnect', 'constant-contact-forms' );
 		$connect_link  = 'edit.php?post_type=ctct_forms';
@@ -184,12 +186,12 @@ class ConstantContact_Connect {
 							<?php
 							$token = constant_contact()->api->get_api_token();
 							// try {
-							// 	$account = constant_contact()->api->cc()->accountService->getAccountInfo( $token );
-							// 	if ( $account ) {
-							// 		echo esc_html( $account->first_name . ' ' . $account->last_name );
-							// 	}
+							// $account = constant_contact()->api->cc()->accountService->getAccountInfo( $token );
+							// if ( $account ) {
+							// echo esc_html( $account->first_name . ' ' . $account->last_name );
+							// }
 							// } catch ( CtctException $ex ) {
-							// 	esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
+							// esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
 							// }
 							?>
 						</p>
@@ -218,7 +220,7 @@ class ConstantContact_Connect {
 					</div>
 				</div>
 
-				<?php  //if ( ! constant_contact_has_forms() ) : ?>
+				<?php // if ( ! constant_contact_has_forms() ) : ?>
 
 				<hr />
 
@@ -267,17 +269,17 @@ class ConstantContact_Connect {
 
 		<?php else : ?>
 
-		<?php
+			<?php
 			// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
 			if ( isset( $_GET['ctct_connect_error'] ) ) :
-		?>
+				?>
 			<div id="message" class="ctct-error"><p>
-			<?php esc_html_e( 'There was an error connecting your account. Please try again.', 'constant-contact-forms' ); ?>
+				<?php esc_html_e( 'There was an error connecting your account. Please try again.', 'constant-contact-forms' ); ?>
 			</p></div>
-		<?php
+				<?php
 			endif;
 			// phpcs:enable WordPress.Security.NonceVerification
-		?>
+			?>
 
 			<h2><?php esc_html_e( 'Connect Now', 'constant-contact-forms' ); ?></h2>
 			<p class="ctct-description">
@@ -292,14 +294,14 @@ class ConstantContact_Connect {
 					</div>
 					<?php
 
-					$client_api 	= constant_contact_get_option( '_ctct_form_api_key' , '' );
-					$redirect_url 	= constant_contact_get_option( '_ctct_form_redirect_url' , '' );
+					$client_api   = constant_contact_get_option( '_ctct_form_api_key', '' );
+					$redirect_url = constant_contact_get_option( '_ctct_form_redirect_url', '' );
 
 					$auth_link = constantcontact_api()->get_authorization_url( $client_api, $redirect_url );
 					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
 
 					if ( $auth_link ) :
-					?>
+						?>
 						<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button ctct-button button-blue ctct-connect">
 							<?php esc_html_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
 						</a>

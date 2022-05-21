@@ -93,7 +93,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-		
+
 		add_action( 'current_screen', [ $this, 'current_screen' ] );
 		add_action( 'admin_init', [ $this, 'init' ] );
 		add_action( 'admin_menu', [ $this, 'add_options_page' ], 999 );
@@ -111,7 +111,7 @@ class ConstantContact_Admin {
 
 	/**
 	 * Adds functionality to Constant Contact admin screen.
-	 * 
+	 *
 	 * @param array $screen Details on the current admin screen.
 	 * @return void
 	 * @since 1.11.0
@@ -119,7 +119,7 @@ class ConstantContact_Admin {
 	 */
 	public function current_screen( $screen ) {
 
-		$post_type_array = [ 'ctct_forms', 'ctct_lists' ];	
+		$post_type_array = [ 'ctct_forms', 'ctct_lists' ];
 
 		// Determine if the current page being viewed is Constant Contact.
 		if ( constant_contact()->is_constant_contact() ) {
@@ -130,53 +130,53 @@ class ConstantContact_Admin {
 
 	/**
 	 * Build the Constant Contact header toolbar.
-	 * 
+	 *
 	 * @return void
 	 * @since 1.11.0
 	 * @author Darren Cooney <darren.cooney@webdevstudios.com>
 	 */
-	public function admin_page_toolbar(){
+	public function admin_page_toolbar() {
 
 		global $submenu, $submenu_file, $plugin_page, $pagenow;
 
 		// Vars.
-		$cpt_slug = "ctct_forms";
+		$cpt_slug    = 'ctct_forms';
 		$parent_slug = "edit.php?post_type=$cpt_slug";
 
 		// Generate array of menu items.
-		$tabs = array();
-		
+		$tabs = [];
+
 		if ( isset( $submenu[ $parent_slug ] ) ) {
 			foreach ( $submenu[ $parent_slug ] as $i => $sub_item ) {
-				
+
 				// Check user can access page.
 				if ( ! current_user_can( $sub_item[1] ) ) {
 					continue;
 				}
-				
+
 				// Ignore "Add New".
-				if( $i === 10 ) {
+				if ( $i === 10 ) {
 					continue;
 				}
-				
+
 				// Define tab.
-				$tab = array(
-					'text'	=> $sub_item[0],
-					'url' => $sub_item[2]
-				);
-				
+				$tab = [
+					'text' => $sub_item[0],
+					'url'  => $sub_item[2],
+				];
+
 				// Convert submenu slug to "$parent_slug&page=test".
-				if( !strpos($sub_item[2], '.php') ) {
-					$tab['url'] = add_query_arg( array( 'page' => $sub_item[2] ), $parent_slug );
+				if ( ! strpos( $sub_item[2], '.php' ) ) {
+					$tab['url'] = add_query_arg( [ 'page' => $sub_item[2] ], $parent_slug );
 				}
-				
+
 				// Detect active state.
-				if( $submenu_file === $sub_item[2] || $plugin_page === $sub_item[2] ) {
+				if ( $submenu_file === $sub_item[2] || $plugin_page === $sub_item[2] ) {
 					$tab['is_active'] = true;
 				}
-				
+
 				// Special case for "Add New" page.
-				if( $i === 5 && $submenu_file === "post-new.php?post_type=$cpt_slug" ) {
+				if ( $i === 5 && $submenu_file === "post-new.php?post_type=$cpt_slug" ) {
 					$tab['is_active'] = true;
 				}
 
@@ -184,13 +184,13 @@ class ConstantContact_Admin {
 			}
 		}
 
-		$connect_title   = esc_html__( 'Connected', 'constant-contact-forms' );
-		$connect_alt     = esc_html__( 'Your Constant Contact account is connected!', 'constant-contact-forms' );
-		$api_status      = esc_html( 'connected' );
+		$connect_title = esc_html__( 'Connected', 'constant-contact-forms' );
+		$connect_alt   = esc_html__( 'Your Constant Contact account is connected!', 'constant-contact-forms' );
+		$api_status    = esc_html( 'connected' );
 		if ( ! constant_contact()->api->is_connected() ) {
-			$connect_title   = esc_html__( 'Disconnected', 'constant-contact-forms' );
-			$connect_alt     = esc_html__( 'Your Constant Contact account is not connected.', 'constant-contact-forms' );
-			$api_status      = esc_html( 'disconnected' );
+			$connect_title = esc_html__( 'Disconnected', 'constant-contact-forms' );
+			$connect_alt   = esc_html__( 'Your Constant Contact account is not connected.', 'constant-contact-forms' );
+			$api_status    = esc_html( 'disconnected' );
 		}
 		?>
 			<div class="ctct-header">
@@ -198,7 +198,7 @@ class ConstantContact_Admin {
 				<?php
 				if ( $tabs ) {
 					echo wp_kses( '<ul>', [ 'ul' => [] ] );
-					foreach( $tabs as $tab ) {
+					foreach ( $tabs as $tab ) {
 						echo wp_kses( '<li>', [ 'li' => [] ] );
 						printf(
 							'<a class="ctct-item%s" href="%s">%s</a>',
@@ -256,7 +256,7 @@ class ConstantContact_Admin {
 
 		// Include CMB CSS in the head to avoid FOUC.
 		add_action( "admin_print_styles-{$this->options_page}", [ 'CMB2_hookup', 'enqueue_cmb_css' ] );
-		
+
 	}
 
 	/**
@@ -595,11 +595,14 @@ class ConstantContact_Admin {
 			 *
 			 * @param array $value Array of strings to be used with javascript calls.
 			 */
-			apply_filters( 'constant_contact_localized_js_texts', [
-				'leavewarning' => esc_html__( 'You have unsaved changes.', 'constant-contact-forms' ),
-				'move_up'      => esc_html__( 'move up', 'constant-contact-forms' ),
-				'move_down'    => esc_html__( 'move down', 'constant-contact-forms' ),
-			] )
+			apply_filters(
+				'constant_contact_localized_js_texts',
+				[
+					'leavewarning' => esc_html__( 'You have unsaved changes.', 'constant-contact-forms' ),
+					'move_up'      => esc_html__( 'move up', 'constant-contact-forms' ),
+					'move_down'    => esc_html__( 'move down', 'constant-contact-forms' ),
+				]
+			)
 		);
 
 		$privacy_settings = get_option( 'ctct_privacy_policy_status', '' );

@@ -40,7 +40,7 @@ class ConstantContact_Client {
 	 * @since 1.14.0
 	 * @var string
 	 */
-    private string $base_url = 'https://api.cc.email/v3';
+	private string $base_url = 'https://api.cc.email/v3';
 
 	/**
 	 * Constructor.

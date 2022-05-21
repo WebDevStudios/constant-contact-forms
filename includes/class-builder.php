@@ -356,7 +356,8 @@ class ConstantContact_Builder {
 						<div class="ctct-modal-footer">
 							<p>
 								<?php
-									printf( '<a class="ctct-modal-close" href="#">%1$s</a>. %2$s',
+									printf(
+										'<a class="ctct-modal-close" href="#">%1$s</a>. %2$s',
 										esc_attr__( 'I\'m all set', 'constant-contact-forms' ),
 										esc_attr__( 'I\'ll manage the information on my own for now.', 'constant-contact-forms' )
 									);
