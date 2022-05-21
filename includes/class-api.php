@@ -1118,14 +1118,18 @@ class ConstantContact_API
 		if ($this->session_callback) {
 			return call_user_func($this->session_callback, $key, $value);
 		}
+
 		if (null === $value) {
-			$value = $_SESSION[$key];
-			unset($_SESSION[$key]);
+			$value = get_user_meta( get_current_user_id(), $key, true );
+
+			delete_user_meta( get_current_user_id(), $key, $value );
 
 			return $value;
 		}
 
-		return $_SESSION[$key] = $value;
+		update_user_meta( get_current_user_id(), $key, $value );
+
+		return $value;
 	}
 
 	/**
