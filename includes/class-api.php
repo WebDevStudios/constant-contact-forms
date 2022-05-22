@@ -143,7 +143,7 @@ class ConstantContact_API {
 		if ( false === $acct_data || $bypass_acct_cache ) {
 			try {
 
-				$acct_data = $this->cc()->accountService->getAccountInfo( $this->get_api_token() );
+				$acct_data = $this->cc()->get_account_info();
 
 				if ( $acct_data ) {
 					set_transient( 'constant_contact_acct_info', $acct_data, 1 * HOUR_IN_SECONDS );
@@ -655,10 +655,9 @@ class ConstantContact_API {
 		/*
 		 * See: http://v2.developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
 		 */
-		return $this->cc()->contactService->addContact(
-			$api_token,
+		return $this->cc()->add_contact(
 			$contact,
-			[ 'action_by' => 'ACTION_BY_VISITOR' ]
+			[ 'create_source' => 'Contact' ]
 		);
 	}
 
@@ -710,13 +709,8 @@ class ConstantContact_API {
 				$this->log_errors( $our_errors );
 			}
 
-			/*
-			 * See: http://v2.developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in array( 'action_by' => 'ACTION_BY_VISITOR' )
-			 */
-			return $this->cc()->contactService->updateContact(
-				$api_token,
-				$contact,
-				[ 'action_by' => 'ACTION_BY_VISITOR' ]
+			return $this->cc()->update_contact(
+				$contact
 			);
 		} else {
 			$error = new CtctException();

@@ -14,10 +14,9 @@
  * Interfaces with necessary Constant Contact V3 Endpoints, utlizing WordPress HTTP APIs as needed.
  *
  * @since 1.14.0
- * @todo Support accountService->getAccountInfo in v3, replacing usage in API class.
- * @todo Support contactService->getContacts in v3, replacing usage in API class.
- * @todo Support contactService->addContact in v3, replacing usage in API class.
+ *
  * @todo Support contactService->updateContact in v3, replacing usage in API class.
+ *
  * @todo Support listService->getLists in v3, replacing usage in API class.
  * @todo Support listService->getList in v3, replacing usage in API class.
  * @todo Support listService->addList in v3, replacing usage in API class.
@@ -27,20 +26,24 @@
 class ConstantContact_Client {
 
 	/**
-	 * API Key.
-	 *
-	 * @since 1.14.0
-	 * @var string
-	 */
-	private string $api_key = '';
-
-	/**
 	 * Base URL for V3.
 	 *
 	 * @since 1.14.0
 	 * @var string
 	 */
-	private string $base_url = 'https://api.cc.email/v3';
+	private string $base_url = 'https://api.cc.email/v3/';
+
+	/**
+	 * Base args for V3 requests.
+	 *
+	 * @since 1.14.0
+	 * @var array
+	 */
+	private array $base_args = [
+		'cache-control' => 'no-cache',
+		'content-type'  => 'application/json',
+		'accept'        => 'application/json',
+	];
 
 	/**
 	 * Constructor.
@@ -49,8 +52,45 @@ class ConstantContact_Client {
 	 *
 	 * @param object $plugin Parent class.
 	 */
-	public function __construct( $api_key ) {
-		$this->api_key = $api_key;
+	public function __construct( $access_token ) {
+		$this->base_args['authorization'] = 'Bearer ' . $access_token;
+	}
+
+	public function get_account_info() {
+		return $this->get( 'account/summary' );
+	}
+
+	public function get_contacts( $args = [] ) {
+
+		if ( empty( $args ) ) {
+			$args = [ 'status' => 'all' ];
+		}
+
+		return $this->get( 'contacts', $args );
+	}
+
+	public function add_contact( $args = [] ) {
+
+		if ( empty( $args ) ) {
+			$args = [ 'status' => 'all' ];
+		}
+
+		return $this->get( 'contacts', $args );
+	}
+
+	public function update_contact( $args = [] ) {
+
+		return $this->get( 'contacts/sign_up_form', $args );
+	}
+
+	private function get( string $endpoint, $args = [] ) : array {
+
+		return wp_safe_remote_get( $this->base_url . $endpoint, $args );
+	}
+
+	private function post( string $endpoint, $args = [] ) : array {
+
+		return wp_safe_remote_post( $this->base_url . $endpoint, $args );
 	}
 
 }
