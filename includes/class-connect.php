@@ -102,7 +102,7 @@ class ConstantContact_Connect {
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
 		if ( isset( $_GET['code'] ) && is_user_logged_in() ) {
 
-			$verified = constant_contact()->authserver->verify_and_save_access_token_return();
+			constantcontact_api()->acquire_access_token($_GET);
 
 			$redirect_args = [
 				'post_type' => 'ctct_forms',
@@ -185,14 +185,16 @@ class ConstantContact_Connect {
 						<p>
 							<?php
 							$token = constant_contact()->api->get_api_token();
-							// try {
-							// $account = constant_contact()->api->cc()->accountService->getAccountInfo( $token );
-							// if ( $account ) {
-							// echo esc_html( $account->first_name . ' ' . $account->last_name );
-							// }
-							// } catch ( CtctException $ex ) {
-							// esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
-							// }
+
+							try {
+							$account = constant_contact()->api->get_account_info( $token );
+							var_dump($account);
+							if ( $account ) {
+							echo esc_html( $account->first_name . ' ' . $account->last_name );
+							}
+							} catch ( CtctException $ex ) {
+							esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
+							}
 							?>
 						</p>
 					</div>
@@ -350,8 +352,10 @@ class ConstantContact_Connect {
 
 		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ctct-admin-disconnect'] ) ), 'ctct-admin-disconnect' ) ) {
 
-			delete_option( 'ctct_token' );
-			delete_option( '_ctct_token' );
+			delete_option( 'ctct_access_token' );
+			delete_option( '_ctct_access_token' );
+			delete_option( 'ctct_refresh_token' );
+			delete_option( '_ctct_refresh_token' );
 
 			$saved_options = get_option( 'ctct_options_settings' );
 			if ( isset( $saved_options['_ctct_disable_email_notifications'] ) ) {
@@ -445,8 +449,9 @@ class ConstantContact_Connect {
 	 * @param string $access_token API access token.
 	 * @return string
 	 */
-	public function update_token( $access_token ) {
-		return $this->e_set( 'ctct_token', $access_token, true );
+	public function update_token( $access_token, $refresh_token ) {
+		return $this->e_set( 'ctct_access_token', $access_token, true );
+		return $this->e_set( 'ctct_refresh_token', $refresh_token, true );
 	}
 
 	/**
@@ -461,7 +466,7 @@ class ConstantContact_Connect {
 	public function get_api_token() {
 		$this->check_deleted_legacy_token();
 
-		return $this->e_get( 'ctct_token' );
+		return $this->e_get( 'ctct_access_token' );
 	}
 
 	/**
@@ -470,11 +475,11 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 */
 	public function check_deleted_legacy_token() {
-		$legacy = get_option( '_ctct_token' );
+		$legacy = get_option( '_ctct_access_token' );
 
 		if ( $legacy ) {
 			$this->update_token( $legacy );
-			delete_option( '_ctct_token' );
+			delete_option( '_ctct_access_token' );
 		}
 	}
 

@@ -128,34 +128,4 @@ class ConstantContact_Middleware {
 		return $proof;
 	}
 
-	/**
-	 * Verify a returned request from the auth server, and save the returned token.
-	 *
-	 * @since  1.0.0
-	 *
-	 * @throws Exception Throws Exception if encountered while attempting to verify request.
-	 *
-	 * @return boolean Is valid?
-	 */
-	public function verify_and_save_access_token_return() {
-		if ( isset( $_GET['error'] ) ) {
-			$error = $_GET['error'] . ': ' . ( $_GET['error_description'] ?? 'Undefined' );
-			constant_contact_maybe_log_it( 'Authentication', $error );
-
-			return false;
-		}
-		$key   = constant_contact_get_option( '_ctct_form_api_key', '' );
-		$state = filter_input( INPUT_GET, 'state' );
-		$token = filter_input( INPUT_GET, 'code' );
-
-		$state = ! empty( $state ) ? sanitize_text_field( $state ) : false;
-		$token = ! empty( $token ) ? sanitize_text_field( $token ) : false;
-
-		constant_contact_maybe_log_it( 'Authentication', 'Authorization verification succeeded.' );
-
-		constant_contact()->connect->update_token( sanitize_text_field( $token ) );
-		constant_contact()->connect->e_set( '_ctct_api_key', sanitize_text_field( $key ) );
-
-		return true;
-	}
 }
