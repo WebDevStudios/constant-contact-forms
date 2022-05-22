@@ -188,7 +188,6 @@ class ConstantContact_Connect {
 
 							try {
 							$account = constant_contact()->api->get_account_info( $token );
-							var_dump($account);
 							if ( $account ) {
 							echo esc_html( $account->first_name . ' ' . $account->last_name );
 							}
