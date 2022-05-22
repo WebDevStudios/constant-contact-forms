@@ -69,11 +69,7 @@ class ConstantContact_Client {
 
 	public function add_contact( $args = [] ) {
 
-		if ( empty( $args ) ) {
-			$args = [ 'status' => 'all' ];
-		}
-
-		return $this->get( 'contacts', $args );
+		return $this->post( 'contacts', $args );
 	}
 
 	public function update_contact( $args = [] ) {
@@ -81,14 +77,19 @@ class ConstantContact_Client {
 		return $this->post( 'contacts/sign_up_form', $args );
 	}
 
+	public function get_lists() {
+		//Note: probably want to support pulling all the lists, e.g. set limit to 1000, rather than default of 50. Marketers gonna market.
+		return $this->get( 'contact_lists', $this->base_args );
+	}
+
 	private function get( string $endpoint, $args = [] ) : array {
 
-		return wp_safe_remote_get( $this->base_url . $endpoint, $args );
+		return wp_safe_remote_get( $this->base_url . $endpoint, array_merge( $args, $this->base_args ) );
 	}
 
 	private function post( string $endpoint, $args = [] ) : array {
 
-		return wp_safe_remote_post( $this->base_url . $endpoint, $args );
+		return wp_safe_remote_post( $this->base_url . $endpoint, array_merge( $args, $this->base_args ) );
 	}
 
 }
