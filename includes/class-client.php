@@ -15,8 +15,6 @@
  *
  * @since 1.14.0
  *
- * @todo Support contactService->updateContact in v3, replacing usage in API class.
- *
  * @todo Support listService->getLists in v3, replacing usage in API class.
  * @todo Support listService->getList in v3, replacing usage in API class.
  * @todo Support listService->addList in v3, replacing usage in API class.
@@ -80,7 +78,7 @@ class ConstantContact_Client {
 
 	public function update_contact( $args = [] ) {
 
-		return $this->get( 'contacts/sign_up_form', $args );
+		return $this->post( 'contacts/sign_up_form', $args );
 	}
 
 	private function get( string $endpoint, $args = [] ) : array {
