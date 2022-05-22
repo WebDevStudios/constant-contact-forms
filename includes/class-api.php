@@ -295,7 +295,7 @@ class ConstantContact_API {
 
 		if ( false === $list ) {
 			try {
-				$list = $this->cc()->listService->getList( $this->get_api_token(), $id );
+				$list = $this->cc()->listService->getList( $id );
 				set_transient( 'ctct_lists_' . $id, $list, 1 * HOUR_IN_SECONDS );
 				return $list;
 			} catch ( CtctException $ex ) {
@@ -340,7 +340,7 @@ class ConstantContact_API {
 		$return_list = [];
 
 		try {
-			$list = $this->cc()->listService->getList( $this->get_api_token(), esc_attr( $new_list['id'] ) );
+			$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
@@ -380,7 +380,7 @@ class ConstantContact_API {
 			 */
 			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
-			$return_list = $this->cc()->listService->addList( $this->get_api_token(), $list );
+			$return_list = $this->cc()->add_list( $list );
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
@@ -432,7 +432,7 @@ class ConstantContact_API {
 			 */
 			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
-			$return_list = $this->cc()->listService->updateList( $this->get_api_token(), $list );
+			$return_list = $this->cc()->update_list( $list );
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
@@ -473,7 +473,7 @@ class ConstantContact_API {
 		$list = false;
 
 		try {
-			$list = $this->cc()->listService->deleteList( $this->get_api_token(), $updated_list['id'] );
+			$list = $this->cc()->delete_list( $updated_list['id'] );
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
@@ -1139,6 +1139,7 @@ class ConstantContact_API {
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.9.0
+	 * @todo Update addList to use v3
 	 *
 	 * @param  Contact      $contact Contact object.
 	 * @param  string|array $list    Single list ID or array of lists.

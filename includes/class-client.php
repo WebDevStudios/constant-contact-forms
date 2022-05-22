@@ -15,11 +15,6 @@
  *
  * @since 1.14.0
  *
- * @todo Support listService->getLists in v3, replacing usage in API class.
- * @todo Support listService->getList in v3, replacing usage in API class.
- * @todo Support listService->addList in v3, replacing usage in API class.
- * @todo Support listService->updateList in v3, replacing usage in API class.
- * @todo Support listService->deleteList in v3, replacing usage in API class.
  */
 class ConstantContact_Client {
 
@@ -78,8 +73,29 @@ class ConstantContact_Client {
 	}
 
 	public function get_lists() {
-		//Note: probably want to support pulling all the lists, e.g. set limit to 1000, rather than default of 50. Marketers gonna market.
+		// Note: probably want to support pulling all the lists, e.g. set limit to 1000, rather than default of 50. Marketers gonna market.
 		return $this->get( 'contact_lists', $this->base_args );
+	}
+
+	public function get_list( $list_id ) {
+		// Note: Major change in V3 is resource IDs are now all UUIDs. Investigate docs. Will need to use the xhref API to get this list prior to attempting to access this resource.
+		return $this->get( "contact_lists/$list_id", $this->base_args );
+	}
+
+	public function add_list( $list ) {
+		// Note: Major change in V3 is resource IDs are now all UUIDs. Investigate docs. Will need to use the xhref API to get this list prior to attempting to access this resource.
+		return $this->post( 'contact_lists', $this->base_args );
+	}
+
+	public function update_list( $list ) {
+
+		// Note: Major change in V3 is resource IDs are now all UUIDs. Investigate docs. Will need to use the xhref API to get this list prior to attempting to access this resource.
+		return $this->put( "contact_lists/$list->id", array_merge( $this->base_args, $list ) );
+	}
+
+	public function delete_list( $list_id ) {
+		// Note: Major change in V3 is resource IDs are now all UUIDs. Investigate docs. Will need to use the xhref API to get this list prior to attempting to access this resource.
+		return $this->delete( "contact_lists/$list_id", $this->base_args );
 	}
 
 	private function get( string $endpoint, $args = [] ) : array {
@@ -90,6 +106,16 @@ class ConstantContact_Client {
 	private function post( string $endpoint, $args = [] ) : array {
 
 		return wp_safe_remote_post( $this->base_url . $endpoint, array_merge( $args, $this->base_args ) );
+	}
+
+	private function put( string $endpoint, $args = [] ) : array {
+		$args['method'] = 'PUT';
+		return wp_safe_remote_request( $this->base_url . $endpoint, array_merge( $args, $this->base_args ) );
+	}
+
+	private function delete( string $endpoint, $args = [] ) : array {
+		$args['method'] = 'DELETE';
+		return wp_safe_remote_request( $this->base_url . $endpoint, array_merge( $args, $this->base_args ) );
 	}
 
 }
