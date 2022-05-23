@@ -15,7 +15,6 @@ use Defuse\Crypto\Crypto;
 /**
  * Powers our admin connect page, as well as misc functionality around connecting to Constant Contact.
  *
- * @todo Check usage of cc() below (Around Line 187). Remove if not necessary.
  * @since 1.0.0
  */
 class ConstantContact_Connect {
@@ -191,7 +190,7 @@ class ConstantContact_Connect {
 								if ( $account ) {
 									echo esc_html( $account->first_name . ' ' . $account->last_name );
 								}
-							} catch ( CtctException $ex ) {
+							} catch ( Exception $ex ) {
 								esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
 							}
 							?>
