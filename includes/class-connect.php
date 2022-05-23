@@ -476,7 +476,7 @@ class ConstantContact_Connect {
 		$legacy = get_option( '_ctct_access_token' );
 
 		if ( $legacy ) {
-			$this->update_token( $legacy );
+			$this->update_token( $legacy, null );
 			delete_option( '_ctct_access_token' );
 		}
 	}
