@@ -100,12 +100,12 @@ class ConstantContact_Client {
 	private function get( string $endpoint, $args = [] ) : array {
 
 		$options = [
-			'headers'	=> array_merge( $args, $this->base_args )
+			'headers' => array_merge( $args, $this->base_args ),
 		];
 
 		$url = $this->base_url . $endpoint;
 
-		$response = wp_safe_remote_get( $url, $options );		
+		$response = wp_safe_remote_get( $url, $options );
 
 		if ( is_wp_error( $response ) ) {
 			return '';

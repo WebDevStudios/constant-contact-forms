@@ -102,7 +102,7 @@ class ConstantContact_Connect {
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
 		if ( isset( $_GET['code'] ) && is_user_logged_in() ) {
 
-			constantcontact_api()->acquire_access_token( $_GET );
+			$verified = constantcontact_api()->acquire_access_token( $_GET );
 
 			$redirect_args = [
 				'post_type' => 'ctct_forms',
@@ -187,7 +187,7 @@ class ConstantContact_Connect {
 							$token = constant_contact()->api->get_api_token();
 
 							try {
-								$account = (object)constant_contact()->api->get_account_info( $token );
+								$account = (object) constant_contact()->api->get_account_info( $token );
 								if ( $account ) {
 									echo esc_html( $account->first_name . ' ' . $account->last_name );
 								}
