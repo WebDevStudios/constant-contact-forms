@@ -14,7 +14,6 @@
  * Interfaces with necessary Constant Contact V3 Endpoints, utlizing WordPress HTTP APIs as needed.
  *
  * @since 1.14.0
- *
  */
 class ConstantContact_Client {
 

@@ -46,7 +46,13 @@ class ConstantContact_Notification_Content {
 	public static function activation() {
 		$auth_url = add_query_arg( [ 'rmc' => 'wp_admin_connect' ], constant_contact()->api->get_connect_link() );
 		$try_url  = add_query_arg( [ 'rmc' => 'wp_admin_try' ], constant_contact()->api->get_signup_link() );
-		$acc_url  = add_query_arg( [ 'page' => 'ctct_options_settings_auth', 'post_type' => 'ctct_forms' ] , constant_contact()->api->get_account_link());
+		$acc_url  = add_query_arg(
+			[
+				'page'      => 'ctct_options_settings_auth',
+				'post_type' => 'ctct_forms',
+			],
+			constant_contact()->api->get_account_link()
+		);
 
 		ob_start();
 		?>

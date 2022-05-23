@@ -102,7 +102,7 @@ class ConstantContact_Connect {
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
 		if ( isset( $_GET['code'] ) && is_user_logged_in() ) {
 
-			constantcontact_api()->acquire_access_token($_GET);
+			constantcontact_api()->acquire_access_token( $_GET );
 
 			$redirect_args = [
 				'post_type' => 'ctct_forms',
@@ -187,12 +187,12 @@ class ConstantContact_Connect {
 							$token = constant_contact()->api->get_api_token();
 
 							try {
-							$account = constant_contact()->api->get_account_info( $token );
-							if ( $account ) {
-							echo esc_html( $account->first_name . ' ' . $account->last_name );
-							}
+								$account = constant_contact()->api->get_account_info( $token );
+								if ( $account ) {
+									echo esc_html( $account->first_name . ' ' . $account->last_name );
+								}
 							} catch ( CtctException $ex ) {
-							esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
+								esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
 							}
 							?>
 						</p>

@@ -62,7 +62,7 @@ class ConstantContact_API {
 	private $client_api_key = '';
 	private $redirect_URI   = '';
 
-	public int $this_user_id	= 0;
+	public int $this_user_id = 0;
 
 	/**
 	 * Constructor.
@@ -83,12 +83,11 @@ class ConstantContact_API {
 	 * Setup user id and other DB fields like Client API Key and Redirect URI
 	 *
 	 * @since 1.0.0
-	 *
 	 */
 	public function cct_init() {
-		$this->client_api_key   = constant_contact_get_option( '_ctct_form_api_key', '' );
-		$this->redirect_URI = constant_contact_get_option( '_ctct_form_redirect_url', '' );
-		
+		$this->client_api_key = constant_contact_get_option( '_ctct_form_api_key', '' );
+		$this->redirect_URI   = constant_contact_get_option( '_ctct_form_redirect_url', '' );
+
 		$this->this_user_id = get_current_user_id();
 
 		if ( ! wp_next_scheduled( 'refresh_token_job' ) ) { // if it hasn't been scheduled
@@ -116,15 +115,15 @@ class ConstantContact_API {
 	 * @return string Access API token.
 	 */
 	public function get_api_token() {
-		
+
 		$token = '';
 
 		if ( constant_contact()->connect->e_get( '_ctct_access_token' ) ) {
 			$token .= constant_contact()->connect->e_get( '_ctct_access_token' );
 		} else {
-			$this->acquire_access_token($_GET);
+			$this->acquire_access_token( $_GET );
 		}
-		
+
 		return $token;
 	}
 
@@ -154,8 +153,7 @@ class ConstantContact_API {
 		}
 
 		$acct_data = get_transient( 'constant_contact_acct_info' );
-		
-		
+
 		/**
 		 * Filters whether or not to bypass transient with a filter.
 		 *
@@ -165,10 +163,9 @@ class ConstantContact_API {
 		 */
 		// $bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', false );
 		$bypass_acct_cache = true;
-		
-		
+
 		if ( false === $acct_data || $bypass_acct_cache ) {
-			
+
 			try {
 
 				$acct_data = $this->cc()->get_account_info();
@@ -976,7 +973,7 @@ class ConstantContact_API {
 		static $token = null;
 
 		if ( constant_contact()->connect->e_get( '_ctct_access_token' ) ) {
-			$token = constant_contact()->connect->e_get( '_ctct_access_token' ) ? true : false ;
+			$token = constant_contact()->connect->e_get( '_ctct_access_token' ) ? true : false;
 		}
 
 		return $token;
@@ -1005,9 +1002,8 @@ class ConstantContact_API {
 	 * @return string Connect URL.
 	 */
 	public function get_account_link() {
-		
 
-		return admin_url('edit.php');
+		return admin_url( 'edit.php' );
 	}
 
 	/**
@@ -1118,12 +1114,11 @@ class ConstantContact_API {
 		return rtrim( strtr( base64_encode( $data ), '+/', '-_' ), '=' );
 	}
 
-	public function session(string $key, ?string $value)
-	{
-		if ($this->session_callback) {
-			return call_user_func($this->session_callback, $key, $value);
+	public function session( string $key, ?string $value ) {
+		if ( $this->session_callback ) {
+			return call_user_func( $this->session_callback, $key, $value );
 		}
-		if (null === $value) {
+		if ( null === $value ) {
 			$value = get_user_meta( $this->this_user_id, $key, true );
 			delete_user_meta( $this->this_user_id, $key, $value );
 
@@ -1247,17 +1242,15 @@ class ConstantContact_API {
 	 */
 	public function refresh_token(): bool {
 
-		
-
 		// Create full request URL
 		$body = [
-			'client_id'    => $this->client_api_key,
+			'client_id'     => $this->client_api_key,
 			'refresh_token' => constant_contact()->connect->e_get( '_ctct_refresh_token' ),
-			'redirect_uri' => $this->redirect_URI,
-			'grant_type'   => 'refresh_token',
+			'redirect_uri'  => $this->redirect_URI,
+			'grant_type'    => 'refresh_token',
 		];
-		
-		$url = $this->oauth2_url;
+
+		$url     = $this->oauth2_url;
 		$headers = $this->set_authorization();
 
 		$options = [
@@ -1290,20 +1283,18 @@ class ConstantContact_API {
 		if ( ! is_wp_error( $response ) ) {
 
 			$data = json_decode( $response['body'], true );
-			
+
 			// check if the body contains error
 			if ( isset( $data['error'] ) ) {
 				$this->last_error = $data['error'] . ': ' . ( $data['error_description'] ?? 'Undefined' );
 			}
-
-			
 
 			$this->session( '_ctct_access_token', $data['access_token'] );
 			$this->session( '_ctct_refresh_token', $data['refresh_token'] );
 
 			constant_contact()->connect->e_set( '_ctct_access_token', $data['access_token'] );
 			constant_contact()->connect->e_set( '_ctct_refresh_token', $data['refresh_token'] );
-			
+
 			$this->access_token  = $data['access_token'] ?? '';
 			$this->refresh_token = $data['refresh_token'] ?? '';
 
