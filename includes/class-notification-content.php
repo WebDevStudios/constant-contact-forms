@@ -60,7 +60,7 @@ class ConstantContact_Notification_Content {
 				<?php
 					printf(
 						// translators: Placeholder will hold "Constant Contact Forms" with <strong> tags.
-						esc_attr__( 'Get the most out of the %s plugin &mdash; use it with an active Constant Contact account. To get started add API key now.', 'constant-contact-forms' ),
+						esc_attr__( 'Get the most out of the %s plugin &mdash; use it with an active Constant Contact account. Add API key now to get started.', 'constant-contact-forms' ),
 						'<strong>' . esc_attr__( 'Constant Contact Forms', 'constant-contact-forms' ) . '</strong>'
 					);
 				?>
