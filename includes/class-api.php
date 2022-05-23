@@ -999,6 +999,18 @@ class ConstantContact_API {
 	}
 
 	/**
+	 * Helper method to output a link for our Account Tab.
+	 *
+	 * @since 1.0.0
+	 * @return string Connect URL.
+	 */
+	public function get_account_link() {
+		
+
+		return admin_url('edit.php');
+	}
+
+	/**
 	 * Helper method to output a link for our connect modal.
 	 *
 	 * @since 1.0.0
