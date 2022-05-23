@@ -187,7 +187,7 @@ class ConstantContact_Connect {
 							$token = constant_contact()->api->get_api_token();
 
 							try {
-								$account = constant_contact()->api->get_account_info( $token );
+								$account = (object)constant_contact()->api->get_account_info( $token );
 								if ( $account ) {
 									echo esc_html( $account->first_name . ' ' . $account->last_name );
 								}
@@ -204,7 +204,7 @@ class ConstantContact_Connect {
 						<p>
 							<?php
 							if ( $account ) {
-								echo '<a href="mailto:' . esc_html( $account->email ) . '">' . esc_html( $account->email ) . '</a>';
+								echo '<a href="mailto:' . esc_html( $account->contact_email ) . '">' . esc_html( $account->contact_email ) . '</a>';
 							}
 							?>
 						</p>
