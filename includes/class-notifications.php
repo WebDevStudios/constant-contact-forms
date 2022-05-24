@@ -104,7 +104,9 @@ class ConstantContact_Notifications {
 				[
 					'ID'         => 'activation',
 					'callback'   => [ 'ConstantContact_Notification_Content', 'activation' ],
-					'require_cb' => 'constant_contact_is_not_connected',
+					'require_cb' => function() {
+						return constant_contact_is_not_connected() && (  $_GET['page'] ?? '' ) !== 'ctct_options_settings_auth';
+					},
 				],
 			]
 		);

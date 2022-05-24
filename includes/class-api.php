@@ -166,8 +166,7 @@ class ConstantContact_API {
 		 *
 		 * @param bool $value Whether or not to bypass.
 		 */
-		// $bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', false );
-		$bypass_acct_cache = true;
+		$bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', false );
 
 		if ( false === $acct_data || $bypass_acct_cache ) {
 

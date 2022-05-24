@@ -15,7 +15,6 @@ use Defuse\Crypto\Crypto;
 /**
  * Powers our admin connect page, as well as misc functionality around connecting to Constant Contact.
  *
- * @todo Check usage of cc() below (Around Line 187). Remove if not necessary.
  * @since 1.0.0
  */
 class ConstantContact_Connect {
@@ -102,7 +101,7 @@ class ConstantContact_Connect {
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
 		if ( isset( $_GET['code'] ) && is_user_logged_in() ) {
 
-			constantcontact_api()->acquire_access_token( $_GET );
+			$verified = constantcontact_api()->acquire_access_token( $_GET );
 
 			$redirect_args = [
 				'post_type' => 'ctct_forms',
@@ -181,11 +180,11 @@ class ConstantContact_Connect {
 							$token = constant_contact()->api->get_api_token();
 
 							try {
-								$account = constant_contact()->api->get_account_info( $token );
+								$account = (object) constant_contact()->api->get_account_info( $token );
 								if ( $account ) {
 									echo esc_html( $account->first_name . ' ' . $account->last_name );
 								}
-							} catch ( CtctException $ex ) {
+							} catch ( Exception $ex ) {
 								esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
 							}
 							?>
@@ -198,7 +197,7 @@ class ConstantContact_Connect {
 						<p>
 							<?php
 							if ( $account ) {
-								echo '<a href="mailto:' . esc_html( $account->email ) . '">' . esc_html( $account->email ) . '</a>';
+								echo '<a href="mailto:' . esc_html( $account->contact_email ) . '">' . esc_html( $account->contact_email ) . '</a>';
 							}
 							?>
 						</p>
@@ -471,7 +470,7 @@ class ConstantContact_Connect {
 		$legacy = get_option( '_ctct_access_token' );
 
 		if ( $legacy ) {
-			$this->update_token( $legacy );
+			$this->update_token( $legacy, null );
 			delete_option( '_ctct_access_token' );
 		}
 	}
