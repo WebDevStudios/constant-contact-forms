@@ -126,12 +126,6 @@ class ConstantContact_Connect {
 	 */
 	public function add_options_page() {
 
-		// check if there is no API key then don't show connect option
-		$api_key = constant_contact_get_option( '_ctct_form_api_key', '' );
-		if ( empty( $api_key ) ) {
-			return;
-		}
-
 		$connect_title = esc_html__( 'Disconnect', 'constant-contact-forms' );
 		$connect_link  = 'edit.php?post_type=ctct_forms';
 
@@ -295,8 +289,8 @@ class ConstantContact_Connect {
 					</div>
 					<?php
 
-					$client_api   = constant_contact_get_option( '_ctct_form_api_key', '' );
-					$redirect_url = constant_contact_get_option( '_ctct_form_redirect_url', '' );
+					$client_api = 'b93e18ca-6a3b-41c5-b39f-d6a6c117a78c';
+					$redirect_url   = 'http://localhost:10052/wp-admin/edit.php?post_type=ctct_forms&page=ctct_options_connect';
 
 					$auth_link = constantcontact_api()->get_authorization_url( $client_api, $redirect_url );
 					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );

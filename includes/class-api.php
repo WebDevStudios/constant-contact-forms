@@ -85,8 +85,13 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 */
 	public function cct_init() {
-		$this->client_api_key = constant_contact_get_option( '_ctct_form_api_key', '' );
-		$this->redirect_URI   = constant_contact_get_option( '_ctct_form_redirect_url', '' );
+		// $this->client_api_key = constant_contact_get_option( '_ctct_form_api_key', '' );
+		// $this->redirect_URI   = constant_contact_get_option( '_ctct_form_redirect_url', '' );
+
+		$this->client_api_key = 'b93e18ca-6a3b-41c5-b39f-d6a6c117a78c';
+		$this->redirect_URI   = 'http://localhost:10052/wp-admin/edit.php?post_type=ctct_forms&page=ctct_options_connect';
+
+		
 
 		$this->this_user_id = get_current_user_id();
 
