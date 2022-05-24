@@ -984,22 +984,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Helper method to output a link for our connect modal.
-	 *
-	 * @since 1.0.0
-	 * @return string Connect URL.
-	 */
-	public function get_connect_link() {
-		static $proof = null;
-
-		if ( null === $proof ) {
-			$proof = constant_contact()->authserver->set_verification_option();
-		}
-
-		return constant_contact()->authserver->do_connect_url( $proof );
-	}
-
-	/**
 	 * Helper method to output a link for our Account Tab.
 	 *
 	 * @since 1.0.0
@@ -1142,10 +1126,7 @@ class ConstantContact_API {
 	 * They are then redirected to your redirect URL with the authorization code appended as a query parameter. e.g.:
 	 * http://localhost:8888/?code={authorization_code}
 	 */
-	public function get_authorization_url( $api_key, $redirect_url ): string {
-
-		$this->client_api_key = $api_key;
-		$this->redirect_URI   = $redirect_url;
+	public function get_authorization_url(): string {
 
 		$scopes                           = implode( '+', array_keys( $this->scopes ) );
 		[$code_verifier, $code_challenge] = $this->code_challenge();

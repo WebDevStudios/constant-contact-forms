@@ -288,10 +288,7 @@ class ConstantContact_Connect {
 					</div>
 					<?php
 
-					$client_api = 'b93e18ca-6a3b-41c5-b39f-d6a6c117a78c';
-					$redirect_url   = 'http://localhost:10052/wp-admin/edit.php?post_type=ctct_forms&page=ctct_options_connect';
-
-					$auth_link = constantcontact_api()->get_authorization_url( $client_api, $redirect_url );
+					$auth_link = constantcontact_api()->get_authorization_url();
 					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
 
 					if ( $auth_link ) :

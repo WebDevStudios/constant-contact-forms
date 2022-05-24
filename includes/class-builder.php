@@ -346,7 +346,7 @@ class ConstantContact_Builder {
 								<p>
 									<?php esc_attr_e( 'Automatically add collected information to contacts in my Constant Contact account.', 'constant-contact-forms' ); ?>
 								</p>
-								<a href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_fmodal_connect' ], constant_contact()->api->get_connect_link() ) ); ?>" target="_blank" rel="noopener noreferrer" class="button button-blue" title="<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>">
+								<a href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_fmodal_connect' ], constant_contact()->api->get_authorization_url() ) ); ?>" target="_blank" rel="noopener noreferrer" class="button button-blue" title="<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>">
 									<?php esc_attr_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
 								</a><br/>
 								<p class="small"><small><?php esc_attr_e( 'By connecting, you authorize this plugin to access your account.', 'constant-contact-forms' ); ?></small></p>
