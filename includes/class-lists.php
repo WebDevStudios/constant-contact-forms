@@ -6,7 +6,7 @@
  * @subpackage Lists
  * @author Constant Contact
  * @since 1.0.0
- * 
+ *
  * todo: when user is disconnected then the lists should be removed
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
@@ -109,27 +109,27 @@ class ConstantContact_Lists {
 	 * @return void
 	 */
 	public function list_info_metabox( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
-		
+
 		if ( ! $object_id ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
 
 		$list_id = get_post_meta( absint( $object_id ), '_ctct_list_id', true );
-		
+
 		if ( ! $list_id ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
 
 		$list_info = constant_contact()->api->get_list( esc_attr( $list_id ) );
-		
+
 		$list_info_obj = (object) $list_info;
 		if ( ! isset( $list_info_obj->list_id ) ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
-		
+
 		echo '<ul>';
 
 		unset( $list_info['id'], $list_info['status'] );
@@ -215,7 +215,7 @@ class ConstantContact_Lists {
 		if ( ( ! $force ) && ( $last_synced + $sync_rate_limit_time ) >= current_time( 'timestamp' ) ) {
 			return;
 		}
-		
+
 		if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( 'delete_posts' ) ) {
 			return;
 		}

@@ -95,7 +95,7 @@ class ConstantContact_Client {
 	private function get( string $endpoint, $args = [] ) : array {
 
 		$options = [
-			'headers' => $args
+			'headers' => $args,
 		];
 
 		$url = $this->base_url . $endpoint;
@@ -141,7 +141,7 @@ class ConstantContact_Client {
 		}
 
 		$url = $this->base_url . $endpoint;
-		
+
 		$options['method'] = 'PUT';
 
 		$response = wp_safe_remote_request( $url, $options );
@@ -159,7 +159,7 @@ class ConstantContact_Client {
 		];
 
 		$url = $this->base_url . $endpoint;
-		
+
 		$options['method'] = 'DELETE';
 
 		$response = wp_safe_remote_request( $url, $options );

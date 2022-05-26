@@ -10,7 +10,7 @@
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
-include("Ctct/autoload.php");
+require 'Ctct/autoload.php';
 
 use Ctct\Components\Contacts\Contact;
 use Ctct\Components\Contacts\ContactList;
@@ -262,7 +262,7 @@ class ConstantContact_API {
 
 				$lists = $this->cc()->get_lists();
 				$lists = $lists['lists'];
-				
+
 				if ( is_array( $lists ) ) {
 					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
 					return $lists;
@@ -382,7 +382,7 @@ class ConstantContact_API {
 		}
 
 		if ( ! isset( $list[0]['error_key'] ) ) {
-			return $list;	
+			return $list;
 		}
 
 		try {
@@ -401,9 +401,9 @@ class ConstantContact_API {
 			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
 			$return_list = $this->cc()->add_list( $list );
-			if( isset($return_list[0]['error_message']) ) {
+			if ( isset( $return_list[0]['error_message'] ) ) {
 				// TODO: check why it's not going to catch
-				throw new Exception($return_list[0]['error_message']);
+				throw new Exception( $return_list[0]['error_message'] );
 			}
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
@@ -444,8 +444,8 @@ class ConstantContact_API {
 
 			$list = new ContactList();
 
-			$list->id   = isset( $updated_list['id'] ) ? esc_attr( $updated_list['id'] ) : '';
-			$list->name = isset( $updated_list['name'] ) ? esc_attr( $updated_list['name'] ) : '';
+			$list->id       = isset( $updated_list['id'] ) ? esc_attr( $updated_list['id'] ) : '';
+			$list->name     = isset( $updated_list['name'] ) ? esc_attr( $updated_list['name'] ) : '';
 			$list->favorite = isset( $updated_list['favorite'] ) ? esc_attr( $updated_list['favorite'] ) : false;
 
 			/**
