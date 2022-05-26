@@ -214,7 +214,7 @@ class ConstantContact_Lists {
 		if ( ( ! $force ) && ( $last_synced + $sync_rate_limit_time ) >= current_time( 'timestamp' ) ) {
 			return;
 		}
-
+		
 		if ( ! current_user_can( 'edit_posts' ) || ! current_user_can( 'delete_posts' ) ) {
 			return;
 		}
@@ -291,12 +291,13 @@ class ConstantContact_Lists {
 			}
 
 			foreach ( $lists_to_insert as $list ) {
+				$list = (object) $list;
 
-				if ( ! isset( $list->id ) ) {
+				if ( ! isset( $list->list_id ) ) {
 					continue;
 				}
 
-				$list_id = esc_attr( $list->id );
+				$list_id = esc_attr( $list->list_id );
 
 				/**
 				 * Filters the arguments used for inserting new lists from a fresh sync.

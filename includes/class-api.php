@@ -18,9 +18,6 @@ use Ctct\Exceptions\CtctException;
 /**
  * Powers connection between site and Constant Contact API.
  *
- * @todo Eliminate dependency on Contact
- * @todo Eliminate dependency on ContactList
- * @todo Eliminate dependency on CtctException
  * @todo Test RefreshToken Cron Job
  * @since 1.0.0
  */
@@ -60,7 +57,7 @@ class ConstantContact_API {
 	private array $valid_scopes = [ 'account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access' ];
 
 	private $client_api_key = 'b93e18ca-6a3b-41c5-b39f-d6a6c117a78c';
-	private $redirect_URI   = 'http://localhost:10052/wp-admin/edit.php?post_type=ctct_forms&page=ctct_options_connect';
+	private $redirect_URI   = 'http://cc.test/wp-admin/edit.php?post_type=ctct_forms&page=ctct_options_connect';
 
 	public int $this_user_id = 0;
 
@@ -80,7 +77,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Setup user id and other DB fields like Client API Key and Redirect URI
 	 *
 	 * @since 1.0.0
 	 */
@@ -264,7 +260,8 @@ class ConstantContact_API {
 			try {
 
 				$lists = $this->cc()->get_lists();
-
+				$lists = $lists['lists'];
+				
 				if ( is_array( $lists ) ) {
 					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
 					return $lists;
@@ -317,7 +314,7 @@ class ConstantContact_API {
 
 		if ( false === $list ) {
 			try {
-				$list = $this->cc()->listService->getList( $id );
+				$list = $this->cc()->get_list( $id );
 				set_transient( 'ctct_lists_' . $id, $list, 1 * HOUR_IN_SECONDS );
 				return $list;
 			} catch ( CtctException $ex ) {
