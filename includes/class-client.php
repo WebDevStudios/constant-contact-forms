@@ -49,7 +49,7 @@ class ConstantContact_Client {
 	}
 
 	public function get_account_info() {
-		return $this->get( 'account/summary' );
+		return $this->get( 'account/summary', $this->base_args );
 	}
 
 	public function get_contacts( $args = [] ) {
