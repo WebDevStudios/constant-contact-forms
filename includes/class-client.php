@@ -73,16 +73,14 @@ class ConstantContact_Client {
 
 	public function get_lists() {
 		// Note: probably want to support pulling all the lists, e.g. set limit to 1000, rather than default of 50. Marketers gonna market.
-		return $this->get( 'contact_lists', $this->base_args );
+		return $this->get( 'contact_lists?include_membership_count=all', $this->base_args );
 	}
 
 	public function get_list( $list_id ) {
-		// Note: Major change in V3 is resource IDs are now all UUIDs. Investigate docs. Will need to use the xhref API to get this list prior to attempting to access this resource.
-		return $this->get( "contact_lists/$list_id", $this->base_args );
+		return $this->get( "contact_lists/$list_id?include_membership_count=all", $this->base_args );
 	}
 
 	public function add_list( $list ) {
-		// Note: Major change in V3 is resource IDs are now all UUIDs. Investigate docs. Will need to use the xhref API to get this list prior to attempting to access this resource.
 		return $this->post( 'contact_lists', $this->base_args );
 	}
 

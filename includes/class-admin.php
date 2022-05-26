@@ -475,9 +475,9 @@ class ConstantContact_Admin {
 		switch ( $column ) {
 			case 'ctct_total':
 				$list_info = constant_contact()->api->get_list( esc_attr( $table_list_id ) );
-
-				if ( isset( $list_info->contact_count ) ) {
-					echo esc_html( $list_info->contact_count );
+				$list_info = (object) $list_info;
+				if ( isset( $list_info->membership_count ) ) {
+					echo esc_html( $list_info->membership_count );
 				} else {
 					esc_html_e( 'None available', 'constant-contact-forms' );
 				}
