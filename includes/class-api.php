@@ -446,6 +446,7 @@ class ConstantContact_API {
 
 			$list->id   = isset( $updated_list['id'] ) ? esc_attr( $updated_list['id'] ) : '';
 			$list->name = isset( $updated_list['name'] ) ? esc_attr( $updated_list['name'] ) : '';
+			$list->favorite = isset( $updated_list['favorite'] ) ? esc_attr( $updated_list['favorite'] ) : false;
 
 			/**
 			 * Filters the list status to use when updating a list.

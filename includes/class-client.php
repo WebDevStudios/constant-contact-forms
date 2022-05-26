@@ -85,9 +85,7 @@ class ConstantContact_Client {
 	}
 
 	public function update_list( $list ) {
-
-		// Note: Major change in V3 is resource IDs are now all UUIDs. Investigate docs. Will need to use the xhref API to get this list prior to attempting to access this resource.
-		return $this->put( "contact_lists/$list->id", array_merge( $this->base_args, $list ) );
+		return $this->put( "contact_lists/$list->id", $this->base_args, $list );
 	}
 
 	public function delete_list( $list_id ) {
@@ -134,9 +132,29 @@ class ConstantContact_Client {
 		return json_decode( $response['body'], true );
 	}
 
-	private function put( string $endpoint, $args = [] ) : array {
-		$args['method'] = 'PUT';
-		return wp_safe_remote_request( $this->base_url . $endpoint, array_merge( $args, $this->base_args ) );
+	private function put( string $endpoint, $args = [], $body ) : array {
+		
+		
+		$options = [
+			'headers' => array_merge( $args, $this->base_args ),
+		];
+
+		if ( isset( $body ) ) {
+			$body = wp_json_encode( $body );
+			$options['body'] = $body;
+		}
+
+		$url = $this->base_url . $endpoint;
+		
+		$options['method'] = 'PUT';
+
+		$response = wp_safe_remote_request( $url, $options );
+
+		if ( is_wp_error( $response ) ) {
+			return '';
+		}
+
+		return json_decode( $response['body'], true );
 	}
 
 	private function delete( string $endpoint, $args = [] ) : array {
