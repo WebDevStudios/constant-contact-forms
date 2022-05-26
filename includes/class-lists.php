@@ -6,6 +6,8 @@
  * @subpackage Lists
  * @author Constant Contact
  * @since 1.0.0
+ * 
+ * todo: when user is disconnected then the lists should be removed
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
@@ -107,28 +109,27 @@ class ConstantContact_Lists {
 	 * @return void
 	 */
 	public function list_info_metabox( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
-
+		
 		if ( ! $object_id ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
 
 		$list_id = get_post_meta( absint( $object_id ), '_ctct_list_id', true );
-
+		
 		if ( ! $list_id ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
 
 		$list_info = constant_contact()->api->get_list( esc_attr( $list_id ) );
-
-		if ( ! isset( $list_info->id ) ) {
+		
+		$list_info_obj = (object) $list_info;
+		if ( ! isset( $list_info_obj->list_id ) ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
-
-		$list_info = (array) $list_info;
-
+		
 		echo '<ul>';
 
 		unset( $list_info['id'], $list_info['status'] );
@@ -146,7 +147,7 @@ class ConstantContact_Lists {
 			$key = str_replace( '_', ' ', $key );
 			$key = ucwords( $key );
 
-			echo wp_kses_post( '<li>' . $key . ': ' . sanitize_text_field( $value ) . '</li>' );
+			echo wp_kses_post( '<li><b>' . $key . '</b> : ' . sanitize_text_field( $value ) . '</li>' );
 		}
 
 		echo '</ul>';
