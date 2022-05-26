@@ -10,6 +10,7 @@
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
+include("Ctct/autoload.php");
 
 use Ctct\Components\Contacts\Contact;
 use Ctct\Components\Contacts\ContactList;
@@ -155,7 +156,7 @@ class ConstantContact_API {
 		 *
 		 * @param bool $value Whether or not to bypass.
 		 */
-		$bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', false );
+		$bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', true );
 
 		if ( false === $acct_data || $bypass_acct_cache ) {
 
@@ -380,8 +381,8 @@ class ConstantContact_API {
 			$this->log_errors( $our_errors );
 		}
 
-		if ( isset( $list ) ) {
-			return $list;
+		if ( ! isset( $list[0]['error_key'] ) ) {
+			return $list;	
 		}
 
 		try {
@@ -400,6 +401,10 @@ class ConstantContact_API {
 			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
 			$return_list = $this->cc()->add_list( $list );
+			if( isset($return_list[0]['error_message']) ) {
+				// TODO: check why it's not going to catch
+				throw new Exception($return_list[0]['error_message']);
+			}
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
@@ -410,7 +415,7 @@ class ConstantContact_API {
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
-			$error->error_message = $ex->getMessage();
+			$error->error_message = $ex->xdebug_message;
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			constant_contact_forms_maybe_set_exception_notice( $ex );

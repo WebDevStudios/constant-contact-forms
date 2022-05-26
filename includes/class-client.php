@@ -81,7 +81,7 @@ class ConstantContact_Client {
 	}
 
 	public function add_list( $list ) {
-		return $this->post( 'contact_lists', $this->base_args );
+		return $this->post( 'contact_lists', $this->base_args, $list );
 	}
 
 	public function update_list( $list ) {
@@ -112,9 +112,26 @@ class ConstantContact_Client {
 		return json_decode( $response['body'], true );
 	}
 
-	private function post( string $endpoint, $args = [] ) : array {
+	private function post( string $endpoint, $args = [], $body ) : array {
 
-		return wp_safe_remote_post( $this->base_url . $endpoint, array_merge( $args, $this->base_args ) );
+		$options = [
+			'headers' => array_merge( $args, $this->base_args ),
+		];
+
+		if ( isset( $body ) ) {
+			$body = wp_json_encode( $body );
+			$options['body'] = $body;
+		}
+
+		$url = $this->base_url . $endpoint;
+
+		$response = wp_safe_remote_post( $url, $options );
+
+		if ( is_wp_error( $response ) ) {
+			return '';
+		}
+
+		return json_decode( $response['body'], true );
 	}
 
 	private function put( string $endpoint, $args = [] ) : array {

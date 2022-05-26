@@ -346,6 +346,11 @@ class ConstantContact_Connect {
 			delete_option( 'ctct_refresh_token' );
 			delete_option( '_ctct_refresh_token' );
 
+			constantcontact_api()->session( 'ctct_access_token', null );
+			constantcontact_api()->session( '_ctct_access_token', null );
+			constantcontact_api()->session( 'ctct_refresh_token', null );
+			constantcontact_api()->session( '_ctct_refresh_token', null );
+
 			$saved_options = get_option( 'ctct_options_settings' );
 			if ( isset( $saved_options['_ctct_disable_email_notifications'] ) ) {
 				unset( $saved_options['_ctct_disable_email_notifications'] );

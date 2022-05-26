@@ -133,12 +133,12 @@ class ConstantContact_Lists {
 
 		unset( $list_info['id'], $list_info['status'] );
 
-		if ( isset( $list_info['created_date'] ) && $list_info['created_date'] ) {
-			$list_info['created_date'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['created_date'] ) );
+		if ( isset( $list_info['created_at'] ) && $list_info['created_at'] ) {
+			$list_info['created_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['created_at'] ) );
 		}
 
-		if ( isset( $list_info['modified_date'] ) && $list_info['modified_date'] ) {
-			$list_info['modified_date'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['modified_date'] ) );
+		if ( isset( $list_info['updated_at'] ) && $list_info['updated_at'] ) {
+			$list_info['updated_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['updated_at'] ) );
 		}
 
 		foreach ( $list_info as $key => $value ) {
