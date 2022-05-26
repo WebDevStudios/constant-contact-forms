@@ -89,14 +89,13 @@ class ConstantContact_Client {
 	}
 
 	public function delete_list( $list_id ) {
-		// Note: Major change in V3 is resource IDs are now all UUIDs. Investigate docs. Will need to use the xhref API to get this list prior to attempting to access this resource.
 		return $this->delete( "contact_lists/$list_id", $this->base_args );
 	}
 
 	private function get( string $endpoint, $args = [] ) : array {
 
 		$options = [
-			'headers' => array_merge( $args, $this->base_args ),
+			'headers' => $args
 		];
 
 		$url = $this->base_url . $endpoint;
@@ -113,12 +112,11 @@ class ConstantContact_Client {
 	private function post( string $endpoint, $args = [], $body ) : array {
 
 		$options = [
-			'headers' => array_merge( $args, $this->base_args ),
+			'headers' => $args,
 		];
 
 		if ( isset( $body ) ) {
-			$body = wp_json_encode( $body );
-			$options['body'] = $body;
+			$options['body'] = wp_json_encode( $body );
 		}
 
 		$url = $this->base_url . $endpoint;
@@ -133,15 +131,13 @@ class ConstantContact_Client {
 	}
 
 	private function put( string $endpoint, $args = [], $body ) : array {
-		
-		
+
 		$options = [
-			'headers' => array_merge( $args, $this->base_args ),
+			'headers' => $args,
 		];
 
 		if ( isset( $body ) ) {
-			$body = wp_json_encode( $body );
-			$options['body'] = $body;
+			$options['body'] = wp_json_encode( $body );
 		}
 
 		$url = $this->base_url . $endpoint;
@@ -158,8 +154,21 @@ class ConstantContact_Client {
 	}
 
 	private function delete( string $endpoint, $args = [] ) : array {
-		$args['method'] = 'DELETE';
-		return wp_safe_remote_request( $this->base_url . $endpoint, array_merge( $args, $this->base_args ) );
+		$options = [
+			'headers' => $this->base_args,
+		];
+
+		$url = $this->base_url . $endpoint;
+		
+		$options['method'] = 'DELETE';
+
+		$response = wp_safe_remote_request( $url, $options );
+
+		if ( is_wp_error( $response ) ) {
+			return '';
+		}
+
+		return json_decode( $response['body'], true );
 	}
 
 }
