@@ -67,8 +67,7 @@ class ConstantContact_Client {
 	}
 
 	public function update_contact( $args = [] ) {
-
-		return $this->post( 'contacts/sign_up_form', $args );
+		return $this->post( 'contacts/sign_up_form', $this->base_args, $args );
 	}
 
 	public function get_lists() {
@@ -101,9 +100,9 @@ class ConstantContact_Client {
 		$url = $this->base_url . $endpoint;
 
 		$response = wp_safe_remote_get( $url, $options );
-
 		if ( is_wp_error( $response ) ) {
-			return '';
+			// todo: handle exception
+			return (array) $response;
 		}
 
 		return json_decode( $response['body'], true );
@@ -120,11 +119,12 @@ class ConstantContact_Client {
 		}
 
 		$url = $this->base_url . $endpoint;
-
+		
 		$response = wp_safe_remote_post( $url, $options );
-
+		
 		if ( is_wp_error( $response ) ) {
-			return '';
+			// todo: handle exception
+			return (array) $response;
 		}
 
 		return json_decode( $response['body'], true );
@@ -147,7 +147,8 @@ class ConstantContact_Client {
 		$response = wp_safe_remote_request( $url, $options );
 
 		if ( is_wp_error( $response ) ) {
-			return '';
+			// todo: handle exception
+			return (array) $response;
 		}
 
 		return json_decode( $response['body'], true );
@@ -165,7 +166,8 @@ class ConstantContact_Client {
 		$response = wp_safe_remote_request( $url, $options );
 
 		if ( is_wp_error( $response ) ) {
-			return '';
+			// todo: handle exception
+			return (array) $response;
 		}
 
 		return json_decode( $response['body'], true );
