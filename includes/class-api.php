@@ -207,7 +207,7 @@ class ConstantContact_API {
 
 		if ( false === $contacts ) {
 			try {
-				$contacts = $this->cc()->contactService->getContacts( $this->get_api_token() );
+				$contacts = $this->cc()->get_contacts( $this->get_api_token() );
 				set_transient( 'ctct_contact', $contacts, 1 * HOUR_IN_SECONDS );
 				return $contacts;
 			} catch ( CtctException $ex ) {
@@ -553,19 +553,26 @@ class ConstantContact_API {
 		$return_contact = false;
 
 		try {
-			$response = $this->cc()->contactService->getContacts( $api_token, [ 'email' => $email ] );
+			$response = $this->cc()->get_contacts(
+				[
+					'email'  => $email,
+					'status' => 'all',
+					'list'   => $list[0],
+				]
+			);
 
 			// Remove ctct-instance if present to avoid errors.
 			if ( array_key_exists( 'ctct-instance', $new_contact ) ) {
 				unset( $new_contact['ctct-instance'] );
 			}
+			$response = (object) $response;
 
-			if ( isset( $response->results ) && ! empty( $response->results ) ) {
+			if ( isset( $response->contacts ) && ! empty( $response->contacts ) ) {
 				constant_contact_maybe_log_it( 'API', 'Contact set to be updated', [ 'form' => get_the_title( $form_id ) ] );
 				$return_contact = $this->update_contact( $response, $api_token, $list, $new_contact, $form_id );
 			} else {
 				constant_contact_maybe_log_it( 'API', 'Contact set to be created', [ 'form' => get_the_title( $form_id ) ] );
-				$return_contact = $this->create_contact( $api_token, $list, $email, $new_contact, $form_id );
+				$return_contact = $this->create_contact( $list, $email, $new_contact, $form_id );
 			}
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
@@ -642,17 +649,18 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 * @since 1.3.0 Added $form_id parameter.
 	 *
-	 * @param string       $api_token Token.
 	 * @param string|array $list      List name(s).
 	 * @param string       $email     Email address.
 	 * @param array        $user_data User data.
 	 * @param string       $form_id   ID of the form being processed.
 	 * @return mixed                  Response from API.
 	 */
-	public function create_contact( $api_token, $list, $email, $user_data, $form_id ) {
+	public function create_contact( $list, $email, $user_data, $form_id ) {
 		$contact = new Contact();
 
-		$contact->addEmail( sanitize_text_field( $email ) );
+		// $contact->addEmailAddress( sanitize_text_field( $email ) );
+		$contact->email_address['address'] = sanitize_text_field( $email );
+
 		$this->add_to_list( $contact, $list );
 
 		try {
@@ -681,8 +689,7 @@ class ConstantContact_API {
 		 * See: http://v2.developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
 		 */
 		return $this->cc()->add_contact(
-			$contact,
-			[ 'create_source' => 'Contact' ]
+			$contact
 		);
 	}
 
@@ -894,6 +901,8 @@ class ConstantContact_API {
 		if ( null !== $address ) {
 			$contact->addAddress( $address );
 		}
+
+		$contact->create_source = 'Contact';
 
 		return $contact;
 	}
@@ -1168,7 +1177,7 @@ class ConstantContact_API {
 		$list = is_array( $list ) ? $list : [ $list ];
 
 		foreach ( $list as $list_id ) {
-			$contact->addList( esc_attr( $list_id ) );
+			$contact->addListId( esc_attr( $list_id ) );
 		}
 	}
 

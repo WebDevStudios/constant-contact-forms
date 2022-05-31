@@ -57,13 +57,13 @@ class ConstantContact_Client {
 		if ( empty( $args ) ) {
 			$args = [ 'status' => 'all' ];
 		}
+		$args = http_build_query( $args );
 
-		return $this->get( 'contacts', $args );
+		return $this->get( "contacts?$args", $this->base_args );
 	}
 
 	public function add_contact( $args = [] ) {
-
-		return $this->post( 'contacts', $args );
+		return $this->post( 'contacts', $this->base_args, $args );
 	}
 
 	public function update_contact( $args = [] ) {

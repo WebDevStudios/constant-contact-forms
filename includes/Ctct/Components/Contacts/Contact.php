@@ -236,6 +236,15 @@ class Contact extends Component {
 	}
 
 	/**
+	 * Add a ContactList
+	 *
+	 * @param mixed $contactList - ContactList object or contact list id
+	 */
+	public function addListId( $contactListId ) {
+		$this->list_memberships[] = $contactListId;
+	}
+
+	/**
 	 * Add an EmailAddress
 	 *
 	 * @param mixed $emailAddress - EmailAddress object or email address
@@ -246,6 +255,18 @@ class Contact extends Component {
 		}
 
 		$this->email_addresses[] = $emailAddress;
+	}
+
+	/**
+	 * Add an EmailAddress
+	 *
+	 * @param mixed $emailAddress - EmailAddress object or email address
+	 */
+	public function addEmailAddress( $emailAddress ) {
+
+		$email['address'] = $emailAddress;
+
+		$this->email_address[] = $email;
 	}
 
 	/**
