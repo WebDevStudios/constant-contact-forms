@@ -523,19 +523,21 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Add contact to the connected CTCT account.
+	 * Create a new contact or update an existing contact. 
+	 * This method uses the email_address string value you include in the 
+	 * request body to determine if it should create an new contact or update 
+	 * an existing contact.
 	 *
 	 * @since 1.0.0
 	 * @since 1.3.0 Added $form_id parameter.
 	 *
-	 * @throws Exception Throws Exception if encountered while attempting to save contact.
-	 *
+	 * 
 	 * @param array $new_contact New contact data.
 	 * @param int   $form_id     ID of the form being processed.
-	 * @return array Current connect ctct lists.
+	 * @return array Current connect contact.
 	 */
 	public function add_contact( $new_contact = [], $form_id = 0 ) {
-
+		
 		if ( empty( $new_contact ) ) {
 			return [];
 		}
@@ -553,29 +555,14 @@ class ConstantContact_API {
 		$return_contact = false;
 
 		try {
-			// TO CONFIRM: do we still to need to get_contact and check if email exists? or can we simply hit the endpoint Post /contacts/sign_up_form which handles this?
-			$response = $this->cc()->get_contacts(
-				[
-					'email'  => $email,
-					'status' => 'all',
-					'list'   => $list[0],
-				]
-			);
 
 			// Remove ctct-instance if present to avoid errors.
 			if ( array_key_exists( 'ctct-instance', $new_contact ) ) {
 				unset( $new_contact['ctct-instance'] );
 			}
-			$response = (object) $response;
 
-			if ( isset( $response->contacts ) && ! empty( $response->contacts ) ) {
-				constant_contact_maybe_log_it( 'API', 'Contact set to be updated', [ 'form' => get_the_title( $form_id ) ] );
-				
-				$return_contact = $this->update_contact( $list, $email, $new_contact, $form_id );
-			} else {
-				constant_contact_maybe_log_it( 'API', 'Contact set to be created', [ 'form' => get_the_title( $form_id ) ] );
-				$return_contact = $this->create_contact( $list, $email, $new_contact, $form_id );
-			}
+			$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
+			
 		} catch ( CtctException $ex ) {
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
@@ -646,56 +633,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Helper method to create contact.
-	 *
-	 * @since 1.0.0
-	 * @since 1.3.0 Added $form_id parameter.
-	 *
-	 * @param string|array $list      List name(s).
-	 * @param string       $email     Email address.
-	 * @param array        $user_data User data.
-	 * @param string       $form_id   ID of the form being processed.
-	 * @return mixed                  Response from API.
-	 */
-	public function create_contact( $list, $email, $user_data, $form_id ) {
-		$contact = new Contact();
-
-		// $contact->addEmailAddress( sanitize_text_field( $email ) );
-		$contact->email_address['address'] = sanitize_text_field( $email );
-
-		$this->add_to_list( $contact, $list );
-
-		try {
-			$contact = $this->set_contact_properties( $contact, $user_data, $form_id );
-		} catch ( CtctException $ex ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors       = $ex->getErrors();
-			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			$this->log_errors( $our_errors );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-		} catch ( Exception $ex ) {
-			$error                = new stdClass();
-			$error->error_key     = get_class( $ex );
-			$error->error_message = $ex->getMessage();
-
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			$this->log_errors( $our_errors );
-		}
-
-		/*
-		 * See: http://v2.developer.constantcontact.com/docs/contacts-api/contacts-index.html#opt_in
-		 */
-		return $this->cc()->add_contact(
-			$contact
-		);
-	}
-
-	/**
 	 * Helper method to update contact.
 	 *
 	 * @since 1.0.0
@@ -709,14 +646,13 @@ class ConstantContact_API {
 	 * @param string       $form_id   Form ID being processed.
 	 * @return mixed                  Response from API.
 	 */
-	public function update_contact( $list, $email, $user_data, $form_id ) { 
+	public function create_update_contact( $list, $email, $user_data, $form_id ) { 
 
 		$contact = new Contact();
 
 		$contact->email_address = sanitize_text_field( $email );
-		// todo: something weird happening here - later
-		// $contact->list_memberships = ["32e29da4-dd23-11ec-af7b-fa163e2743c5"];
-		// $this->add_to_list( $contact, $list );
+		
+		$this->add_to_list( $contact, $list );
 
 		try {
 			$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
@@ -740,8 +676,8 @@ class ConstantContact_API {
 			$this->log_errors( $our_errors );
 		}
 
-		return $this->cc()->update_contact(
-			$contact
+		return $this->cc()->create_update_contact(
+			(array) $contact
 		);
 	
 	}

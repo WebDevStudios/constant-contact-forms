@@ -62,11 +62,7 @@ class ConstantContact_Client {
 		return $this->get( "contacts?$args", $this->base_args );
 	}
 
-	public function add_contact( $args = [] ) {
-		return $this->post( 'contacts', $this->base_args, $args );
-	}
-
-	public function update_contact( $args = [] ) {
+	public function create_update_contact( $args = [] ) {
 		return $this->post( 'contacts/sign_up_form', $this->base_args, $args );
 	}
 
@@ -119,7 +115,7 @@ class ConstantContact_Client {
 		}
 
 		$url = $this->base_url . $endpoint;
-		
+
 		$response = wp_safe_remote_post( $url, $options );
 		
 		if ( is_wp_error( $response ) ) {

@@ -53,7 +53,7 @@ class Contact extends Component {
 	 *
 	 * @var string
 	 */
-	public $source;
+	// public $source;
 
 	/**
 	 * Array of email addresses associated with this contact
