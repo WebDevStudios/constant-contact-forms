@@ -734,7 +734,7 @@ class ConstantContact_Display {
 			case 'checkbox':
 				return $this->checkbox( $name, $map, $value, $desc, $req, $field_error, $form_id, $label_placement, $instance );
 			case 'submit':
-				return $this->input( 'submit', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
+				return $this->button( 'submit', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'address':
 				return $this->address( $name, $map, $value, $desc, $req, $field_error, $label_placement, $instance );
 			case 'anniversery':
@@ -1112,6 +1112,127 @@ class ConstantContact_Display {
 			$markup .= $this->get_label( $field_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
 		}
+
+		if ( $field_error ) {
+			$markup .= $this->field_bottom( $field_id, $field_error );
+		} else {
+			$markup .= $this->field_bottom();
+		}
+
+		if ( $f_only ) {
+			return $field;
+		}
+
+		return $markup;
+	}
+
+		/**
+	 * Wrapper for 'input' form fields.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param  string  $type            Type of form field.
+	 * @param  string  $name            ID of form field.
+	 * @param  string  $id              ID attribute value.
+	 * @param  string  $value           pre-filled value.
+	 * @param  string  $label           label text for input.
+	 * @param  boolean $req             If field required.
+	 * @param  boolean $f_only          If we only return the field itself, with no label.
+	 * @param  boolean $field_error     Field error.
+	 * @param  int     $form_id         Current form ID.
+	 * @param  string  $label_placement Where to place the label.
+	 * @param  int     $instance        Current form instance.
+	 * @return string                   HTML markup for field.
+	 */
+	public function button( $type = 'submit', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '', $instance = 0 ) {
+		$id_salt               = wp_rand();
+		$name                  = sanitize_text_field( $name );
+		$field_key             = sanitize_title( $id );
+		$field_id              = "{$field_key}_{$instance}_{$id_salt}";
+		$input_inline_styles   = '';
+		$tel_regex_pattern     = '';
+		$label_placement_class = 'ctct-label-' . $label_placement;
+		$specific_form_styles  = $this->specific_form_styles;
+		$inline_font_styles    = $this->get_inline_font_color();
+
+		if ( 'button' === $type ) {
+			$input_inline_styles = $this->get_submit_inline_styles();
+		}
+
+		$type     = sanitize_text_field( $type );
+		$value    = sanitize_text_field( $value );
+		$label    = esc_html( sanitize_text_field( $label ) );
+		$req_text = $req ? 'required' : '';
+
+		$markup = $this->field_top( $type, $name, $field_key, $label, $req );
+
+		$req_label = '';
+
+		if ( $req ) {
+			$req_label = $this->display_required_indicator();
+		}
+
+		$classes   = [ 'ctct-' . esc_attr( $type ) ];
+		$classes[] = $label_placement_class;
+		if ( ! empty( $specific_form_styles['input_custom_classes'] ) ) {
+			$custom_input_classes = explode( ' ', $specific_form_styles['input_custom_classes'] );
+			$classes              = array_merge( $classes, $custom_input_classes );
+		}
+
+		/**
+		 * Filter to add classes for the rendering input.
+		 *
+		 * @since  1.2.0
+		 * @param  array  $classes   Array of classes to apply to the field.
+		 * @param  string $type      The field type being rendered.
+		 * @param  int    $form_id   Form ID.
+		 * @param  int    $field_key Field ID.
+		 * @return array
+		 */
+		$classes = apply_filters( 'constant_contact_input_classes', $classes, $type, $form_id, $field_key );
+
+		/**
+		 * Filters whether or not to remove characters from potential maxlength attribute value.
+		 *
+		 * @since 1.3.0
+		 *
+		 * @param bool $value Whether or not to truncate. Default false.
+		 */
+		$truncate_max_length = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
+		$max_length          = '';
+		
+		if ( false !== strpos( $id, 'custom___' ) ) {
+			$max_length = $truncate_max_length ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
+		} elseif ( false !== strpos( $id, 'first_name___' ) || false !== strpos( $id, 'last_name___' ) ) {
+			$max_length = 'maxlength="50"';
+		}
+
+		if ( $field_error ) {
+			$classes[] = 'ctct-invalid';
+		}
+
+		$classes[]  = $field_key;
+		$class_attr = '';
+
+		if ( count( $classes ) ) {
+			$class_attr = 'class="' . implode( ' ', $classes ) . '"';
+		}
+
+		/* 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID., 10: Tel Regex Pattern. */
+		$field   = '<button %1$s type="%2$s" name="%3$s" %4$s %6$s %7$s >%5$s</button>';
+		$markup .= sprintf(
+			$field,
+			$req_text,
+			$type,
+			$field_key,
+			$input_inline_styles,
+			$value,
+			$class_attr,
+			"id=\"{$field_id}\"",
+		);
+
+		// Reassign because if we want "field only", like for hidden inputs, we need to still pass a value that went through sprintf().
+		$field = $markup;
 
 		if ( $field_error ) {
 			$markup .= $this->field_bottom( $field_id, $field_error );
