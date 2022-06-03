@@ -1126,8 +1126,8 @@ class ConstantContact_Display {
 		return $markup;
 	}
 
-		/**
-	 * Wrapper for 'input' form fields.
+	/**
+	 * Wrapper for 'button' form field.
 	 *
 	 * @since 1.0.0
 	 *
@@ -1151,7 +1151,6 @@ class ConstantContact_Display {
 		$field_id              = "{$field_key}_{$instance}_{$id_salt}";
 		$input_inline_styles   = '';
 		$tel_regex_pattern     = '';
-		$label_placement_class = 'ctct-label-' . $label_placement;
 		$specific_form_styles  = $this->specific_form_styles;
 		$inline_font_styles    = $this->get_inline_font_color();
 
