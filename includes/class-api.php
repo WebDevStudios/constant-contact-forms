@@ -41,6 +41,7 @@ class ConstantContact_API {
 	 */
 	public string $access_token  = '';
 	public string $refresh_token = '';
+	public string $expires_in = '';
 
 	private string $oauth2_url    = 'https://authz.constantcontact.com/oauth2/default/v1/token';
 	private string $authorize_url = 'https://authz.constantcontact.com/oauth2/default/v1/authorize';
@@ -58,7 +59,7 @@ class ConstantContact_API {
 	private array $valid_scopes = [ 'account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access' ];
 
 	private $client_api_key = '1929d2f8-32b2-45c9-b948-b9492d678ca5';
-	private $redirect_URI   = 'http://cc.test/wp-admin/edit.php?post_type=ctct_forms&page=ctct_options_connect';
+	private $redirect_URI   = 'http://localhost:10052/wp-admin/edit.php?post_type=ctct_forms&page=ctct_options_connect';
 
 	public int $this_user_id = 0;
 
@@ -85,8 +86,21 @@ class ConstantContact_API {
 
 		$this->this_user_id = get_current_user_id();
 
+		$this->expires_in = constant_contact()->connect->e_get( '_ctct_expires_in' );
+		$this->refresh_token = constant_contact()->connect->e_get( '_ctct_refresh_token' );
+		$this->access_token = constant_contact()->connect->e_get( '_ctct_access_token' );
+		
+		// custom scheduling based on the expiry time returned with access token
+		add_filter( 'cron_schedules', function ( $schedules ) {
+			$schedules['pkce_expiry'] = array(
+				'interval' => $this->expires_in - 3600 , //refreshing token before 1 hour of expiry
+				'display' => __( 'Token Expiry' )
+			);
+			return $schedules;
+		 } );
+
 		if ( ! wp_next_scheduled( 'refresh_token_job' ) ) { // if it hasn't been scheduled
-			wp_schedule_event( time(), 'daily', 'refresh_token_job' ); // schedule it
+			wp_schedule_event( time(), 'pkce_expiry', 'refresh_token_job' ); // schedule it
 		}
 	}
 
@@ -247,8 +261,6 @@ class ConstantContact_API {
 		if ( ! $this->is_connected() ) {
 			return [];
 		}
-
-		// $this->acquire_access_token( $_GET );
 
 		$lists = get_transient( 'ctct_lists' );
 
@@ -1211,12 +1223,15 @@ class ConstantContact_API {
 
 			$this->session( '_ctct_access_token', $data['access_token'] );
 			$this->session( '_ctct_refresh_token', $data['refresh_token'] );
+			$this->session( '_ctct_expires_in', $data['expires_in'] );
 
 			constant_contact()->connect->e_set( '_ctct_access_token', $data['access_token'] );
 			constant_contact()->connect->e_set( '_ctct_refresh_token', $data['refresh_token'] );
+			constant_contact()->connect->e_set( '_ctct_expires_in', (string) $data['expires_in'] );
 
 			$this->access_token  = $data['access_token'] ?? '';
 			$this->refresh_token = $data['refresh_token'] ?? '';
+			$this->expires_in = $data['expires_in'] ?? '';
 
 			return isset( $data['access_token'], $data['refresh_token'] );
 		}

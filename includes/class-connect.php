@@ -293,7 +293,7 @@ class ConstantContact_Connect {
 
 					if ( $auth_link ) :
 						?>
-						<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="button ctct-button button-blue ctct-connect">
+						<a href="<?php echo esc_url_raw( $auth_link ); ?>" target="_blank" class="button ctct-button button-blue ctct-connect">
 							<?php esc_html_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
 						</a>
 					<?php endif; ?>
