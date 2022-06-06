@@ -57,7 +57,7 @@ class ConstantContact_API {
 	private array $scopes       = [];
 	private array $valid_scopes = [ 'account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access' ];
 
-	private $client_api_key = 'b93e18ca-6a3b-41c5-b39f-d6a6c117a78c';
+	private $client_api_key = '1929d2f8-32b2-45c9-b948-b9492d678ca5';
 	private $redirect_URI   = 'http://cc.test/wp-admin/edit.php?post_type=ctct_forms&page=ctct_options_connect';
 
 	public int $this_user_id = 0;
