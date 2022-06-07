@@ -91,16 +91,19 @@ class ConstantContact_API {
 		$this->access_token = constant_contact()->connect->e_get( '_ctct_access_token' );
 		
 		// custom scheduling based on the expiry time returned with access token
-		add_filter( 'cron_schedules', function ( $schedules ) {
-			$schedules['pkce_expiry'] = array(
-				'interval' => $this->expires_in - 3600 , //refreshing token before 1 hour of expiry
-				'display' => __( 'Token Expiry' )
-			);
-			return $schedules;
-		 } );
 
-		if ( ! wp_next_scheduled( 'refresh_token_job' ) ) { // if it hasn't been scheduled
-			wp_schedule_event( time(), 'pkce_expiry', 'refresh_token_job' ); // schedule it
+		if ( ! empty( $this->expires_in ) ) {
+			add_filter( 'cron_schedules', function ( $schedules ) {
+				$schedules['pkce_expiry'] = array(
+					'interval' => $this->expires_in - 3600 , //refreshing token before 1 hour of expiry
+					'display' => __( 'Token Expiry' )
+				);
+				return $schedules;
+			 } );
+	
+			if ( ! wp_next_scheduled( 'refresh_token_job' ) ) { // if it hasn't been scheduled
+				wp_schedule_event( time(), 'pkce_expiry', 'refresh_token_job' ); // schedule it
+			}
 		}
 	}
 
