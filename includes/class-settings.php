@@ -648,21 +648,18 @@ class ConstantContact_Settings {
 
 		$cmb->add_field(
 			[
-				'name'       => esc_html__( 'Client API Key', 'constant-contact-forms' ),
-				'id'         => '_ctct_form_api_key',
+				'name'       => esc_html__( 'Auth Code', 'constant-contact-forms' ),
+				'id'         => '_ctct_form_auth_code',
 				'type'       => 'text',
-				'desc'       => __( 'Also known as Client ID. Go to your app and find the API key. <a target="_blank" href="https://v3.developer.constantcontact.com/api_guide/apps_create.html">Visit here</a> for more information', 'constant-contact-forms' ),
 				'before_row' => $before_api_key,
 			]
 		);
 
 		$cmb->add_field(
 			[
-				'name' => esc_html__( 'Redirect URL', 'constant-contact-forms' ),
-				'id'   => '_ctct_form_redirect_url',
-				'type' => 'text',
-				'desc' => __( 'Once authorized you will be redirected to this URL. <a target="_blank" href="https://v3.developer.constantcontact.com/api_guide/apps_create.html#step-3-specify-redirect-uris">Visit here</a> for more information', 'constant-contact-forms' ),
-
+				'name' => esc_html__( 'State Code', 'constant-contact-forms' ),
+				'id'   => '_ctct_form_state_code',
+				'type' => 'text'
 			]
 		);
 

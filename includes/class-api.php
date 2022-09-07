@@ -58,8 +58,8 @@ class ConstantContact_API {
 	private array $scopes       = [];
 	private array $valid_scopes = [ 'account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access' ];
 
-	private $client_api_key = '1929d2f8-32b2-45c9-b948-b9492d678ca5';
-	private $redirect_URI   = 'http://cc.test/wp-admin/edit.php?post_type=ctct_forms&page=ctct_options_connect';
+	private $client_api_key = 'a5e132cc-9e78-4da7-94d5-1ed7f652981d';
+	private $redirect_URI   = 'https://app.constantcontact.com/pages/dma/portal/oauth2';
 
 	public int $this_user_id = 0;
 
@@ -133,7 +133,7 @@ class ConstantContact_API {
 		if ( constant_contact()->connect->e_get( '_ctct_access_token' ) ) {
 			$token .= constant_contact()->connect->e_get( '_ctct_access_token' );
 		} else {
-			$this->acquire_access_token( $_GET );
+			$this->acquire_access_token();
 		}
 
 		return $token;
@@ -1082,7 +1082,8 @@ class ConstantContact_API {
 		[$code_verifier, $code_challenge] = $this->code_challenge();
 
 		$state = bin2hex( random_bytes( 8 ) );
-		$this->session( 'CtctConstantContactState', $state );
+
+		update_option( 'CtctConstantContactState', $state );
 
 		$params = [
 			'client_id'             => $this->client_api_key,
@@ -1096,7 +1097,7 @@ class ConstantContact_API {
 
 		// Store generated random state and code challenge based on RFC 7636
 		// https://datatracker.ietf.org/doc/html/rfc7636#section-6.1
-		$this->session( 'CtctConstantContactcode_verifier', $code_verifier );
+		update_option( 'CtctConstantContactcode_verifier', $code_verifier );
 
 		$url = $this->authorize_url . '?' . str_replace( '%2B', '+', http_build_query( $params ) ); // hack %2B to + for stupid CC API bug
 
@@ -1134,7 +1135,10 @@ class ConstantContact_API {
 	 *
 	 * @param array of get parameters passed to redirect URL
 	 */
-	public function acquire_access_token( array $parameters ): bool {
+	public function acquire_access_token(): bool {
+
+		$code = constant_contact_get_option( '_ctct_form_auth_code', '' );
+		$state = constant_contact_get_option( '_ctct_form_state_code', '' );
 
 		if ( isset( $parameters['error'] ) ) {
 			$this->status_code = 0;
@@ -1143,9 +1147,10 @@ class ConstantContact_API {
 			return false;
 		}
 
-		$expected_state = $this->session( 'CtctConstantContactState', null );
+		$expected_state = get_option( 'CtctConstantContactState' );
 
-		if ( ( $parameters['state'] ?? 'undefined' ) != $expected_state ) {
+
+		if ( ( $state ?? 'undefined' ) != $expected_state ) {
 			$this->status_code = 0;
 			$this->last_error  = 'state is not correct';
 			return false;
@@ -1153,12 +1158,12 @@ class ConstantContact_API {
 		// Create full request URL
 		$body = [
 			'client_id'    => $this->client_api_key,
-			'code'         => $parameters['code'],
+			'code'         => $code,
 			'redirect_uri' => $this->redirect_URI,
 			'grant_type'   => 'authorization_code',
 		];
 
-		$body['code_verifier'] = $this->session( 'CtctConstantContactcode_verifier', null );
+		$body['code_verifier'] = get_option( 'CtctConstantContactcode_verifier' );
 
 		$headers = $this->set_authorization();
 
