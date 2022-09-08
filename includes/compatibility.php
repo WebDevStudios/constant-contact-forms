@@ -95,10 +95,3 @@ function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_
 	return $new_ignore_keys;
 }
 add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_wpspamshield_compatibility', 10, 2 );
-
-function constant_contact_exclude_cleantalk( $ignored ) {
-	$ignored[] = 'apbct_visible_fields';
-
-	return $ignored;
-}
-add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_exclude_cleantalk' );
