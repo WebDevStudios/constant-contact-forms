@@ -117,7 +117,7 @@ class ConstantContact_Client {
 		$url = $this->base_url . $endpoint;
 
 		$response = wp_safe_remote_post( $url, $options );
-		
+
 		if ( is_wp_error( $response ) ) {
 			// todo: handle exception
 			return (array) $response;

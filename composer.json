@@ -56,5 +56,10 @@
       "post-update-cmd":[
          "@install-codestandards"
       ]
+   },
+   "config": {
+      "allow-plugins": {
+         "dealerdirect/phpcodesniffer-composer-installer": true
+      }
    }
 }

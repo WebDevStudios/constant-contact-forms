@@ -651,7 +651,7 @@ class ConstantContact_Settings {
 				'name'       => esc_html__( 'Auth Code and State', 'constant-contact-forms' ),
 				'id'         => '_ctct_form_state_authcode',
 				'type'       => 'text',
-				'desc'		 => 'Paste the string you copied from the app',
+				'desc'       => 'Paste the string you copied from the app',
 				'before_row' => $before_api_key,
 			]
 		);
@@ -659,7 +659,7 @@ class ConstantContact_Settings {
 	}
 
 
-	
+
 	/**
 	 * Get array of options for our 'optin show' settings.
 	 *

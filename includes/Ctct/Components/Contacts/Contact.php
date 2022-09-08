@@ -48,7 +48,7 @@ class Contact extends Component {
 	 */
 	public $confirmed;
 
-	
+
 
 	/**
 	 * Array of email addresses associated with this contact
@@ -167,7 +167,7 @@ class Contact extends Component {
 		$contact->status     = parent::getValue( $props, 'status' );
 		$contact->first_name = parent::getValue( $props, 'first_name' );
 		$contact->last_name  = parent::getValue( $props, 'last_name' );
-		$contact->confirmed  = parent::getValue( $props, 'confirmed' );		
+		$contact->confirmed  = parent::getValue( $props, 'confirmed' );
 
 		if ( isset( $props['email_addresses'] ) ) {
 			foreach ( $props['email_addresses'] as $email_address ) {
