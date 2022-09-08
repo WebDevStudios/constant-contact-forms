@@ -95,7 +95,7 @@ class ConstantContact_API {
 		if ( ! empty( $this->expires_in ) ) {
 			add_filter( 'cron_schedules', function ( $schedules ) {
 				$schedules['pkce_expiry'] = array(
-					'interval' => $this->expires_in - 3600 , //refreshing token before 1 hour of expiry
+					'interval' => $this->expires_in - 3600, //refreshing token before 1 hour of expiry
 					'display' => __( 'Token Expiry' )
 				);
 				return $schedules;
@@ -104,6 +104,8 @@ class ConstantContact_API {
 			if ( ! wp_next_scheduled( 'refresh_token_job' ) ) { // if it hasn't been scheduled
 				wp_schedule_event( time(), 'pkce_expiry', 'refresh_token_job' ); // schedule it
 			}
+		} else {
+			wp_unschedule_hook( 'refresh_token_job' );
 		}
 	}
 
@@ -1186,6 +1188,8 @@ class ConstantContact_API {
 	 */
 	public function refresh_token(): bool {
 
+		constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token triggered' );
+
 		// Create full request URL
 		$body = [
 			'client_id'     => $this->client_api_key,
@@ -1237,6 +1241,9 @@ class ConstantContact_API {
 
 			if ( ! empty( $data['access_token'] ) ) {
 
+				constant_contact_maybe_log_it( 'Refresh Token:', 'Old Refresh Token: ' . $this->access_token );
+				constant_contact_maybe_log_it( 'Access Token:', 'Old Access Token: ' . $this->refresh_token );
+
 				constant_contact()->connect->e_set( '_ctct_access_token', $data['access_token'] );
 				constant_contact()->connect->e_set( '_ctct_refresh_token', $data['refresh_token'] );
 				constant_contact()->connect->e_set( '_ctct_expires_in', (string) $data['expires_in'] );
@@ -1244,6 +1251,11 @@ class ConstantContact_API {
 				$this->access_token  = $data['access_token'] ?? '';
 				$this->refresh_token = $data['refresh_token'] ?? '';
 				$this->expires_in = $data['expires_in'] ?? '';
+
+				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token successfully received' );
+				constant_contact_maybe_log_it( 'Refresh Token:', 'New Refresh Token: ' . $this->refresh_token );
+				constant_contact_maybe_log_it( 'Access Token:', 'New Access Token: ' . $this->access_token );
+				constant_contact_maybe_log_it( 'Expires in:', 'Expiry: ' . $this->expires_in );
 
 				return isset( $data['access_token'], $data['refresh_token'] );
 			}

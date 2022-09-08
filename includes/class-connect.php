@@ -345,6 +345,10 @@ class ConstantContact_Connect {
 			delete_option( '_ctct_access_token' );
 			delete_option( 'ctct_refresh_token' );
 			delete_option( '_ctct_refresh_token' );
+			delete_option( '_ctct_expires_in' );
+
+			wp_clear_scheduled_hook( 'refresh_token_job' );
+			wp_unschedule_hook( 'refresh_token_job' );
 
 			$saved_options = get_option( 'ctct_options_settings' );
 			if ( isset( $saved_options['_ctct_disable_email_notifications'] ) ) {
