@@ -1260,10 +1260,11 @@ class ConstantContact_API {
 				return isset( $data['access_token'], $data['refresh_token'] );
 			}
 			
+		} else {
+			$this->status_code = 0;
+			$this->last_error  = $response->get_error_message();
 		}
 
-		$this->status_code = $response['response']['code'];
-		$this->last_error  = $response['response']['message'];
 
 		return false;
 	}
