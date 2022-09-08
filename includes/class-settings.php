@@ -641,32 +641,25 @@ class ConstantContact_Settings {
 		$before_api_key = sprintf(
 			/* translators: 1: horizontal rule and opening heading tag, 2: global css section heading, 3: closing heading tag */
 			'%1$s%2$s%3$s',
-			'<hr><h2>',
+			'<h2>',
 			esc_html__( 'Account Settings', 'constant-contact-forms' ),
 			'</h2>'
 		);
 
 		$cmb->add_field(
 			[
-				'name'       => esc_html__( 'Auth Code', 'constant-contact-forms' ),
-				'id'         => '_ctct_form_auth_code',
+				'name'       => esc_html__( 'Auth Code and State', 'constant-contact-forms' ),
+				'id'         => '_ctct_form_state_authcode',
 				'type'       => 'text',
+				'desc'		 => 'Paste the string you copied from the app',
 				'before_row' => $before_api_key,
-			]
-		);
-
-		$cmb->add_field(
-			[
-				'name' => esc_html__( 'State Code', 'constant-contact-forms' ),
-				'id'   => '_ctct_form_state_code',
-				'type' => 'text'
 			]
 		);
 
 	}
 
 
-
+	
 	/**
 	 * Get array of options for our 'optin show' settings.
 	 *

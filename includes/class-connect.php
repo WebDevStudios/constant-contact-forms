@@ -101,7 +101,7 @@ class ConstantContact_Connect {
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
 		if ( isset( $_GET['code'] ) && is_user_logged_in() ) {
 
-			$verified = constantcontact_api()->acquire_access_token( $_GET );
+			$verified = constantcontact_api()->acquire_access_token();
 
 			$redirect_args = [
 				'post_type' => 'ctct_forms',
@@ -345,11 +345,6 @@ class ConstantContact_Connect {
 			delete_option( '_ctct_access_token' );
 			delete_option( 'ctct_refresh_token' );
 			delete_option( '_ctct_refresh_token' );
-
-			constantcontact_api()->session( 'ctct_access_token', null );
-			constantcontact_api()->session( '_ctct_access_token', null );
-			constantcontact_api()->session( 'ctct_refresh_token', null );
-			constantcontact_api()->session( '_ctct_refresh_token', null );
 
 			$saved_options = get_option( 'ctct_options_settings' );
 			if ( isset( $saved_options['_ctct_disable_email_notifications'] ) ) {

@@ -1137,18 +1137,22 @@ class ConstantContact_API {
 	 */
 	public function acquire_access_token(): bool {
 
-		$code = constant_contact_get_option( '_ctct_form_auth_code', '' );
-		$state = constant_contact_get_option( '_ctct_form_state_code', '' );
+		$code_state = constant_contact_get_option( '_ctct_form_state_authcode', '' );
+		
+		parse_str( $code_state, $parsed_code_state );
+		$parsed_code_state = array_values($parsed_code_state);
 
-		if ( isset( $parameters['error'] ) ) {
+		if ( empty( $parsed_code_state[0] ) || empty( $parsed_code_state[1] ) ) {
 			$this->status_code = 0;
-			$this->last_error  = $parameters['error'] . ': ' . ( $parameters['error_description'] ?? 'Undefined' );
+			$this->last_error  = 'Invalid state or auth code!';
 
 			return false;
+		} else {
+			$code  = $parsed_code_state[0];
+			$state = $parsed_code_state[1];
 		}
 
 		$expected_state = get_option( 'CtctConstantContactState' );
-
 
 		if ( ( $state ?? 'undefined' ) != $expected_state ) {
 			$this->status_code = 0;
@@ -1229,19 +1233,21 @@ class ConstantContact_API {
 				$this->last_error = $data['error'] . ': ' . ( $data['error_description'] ?? 'Undefined' );
 			}
 
-			$this->session( '_ctct_access_token', $data['access_token'] );
-			$this->session( '_ctct_refresh_token', $data['refresh_token'] );
-			$this->session( '_ctct_expires_in', $data['expires_in'] );
+			
 
-			constant_contact()->connect->e_set( '_ctct_access_token', $data['access_token'] );
-			constant_contact()->connect->e_set( '_ctct_refresh_token', $data['refresh_token'] );
-			constant_contact()->connect->e_set( '_ctct_expires_in', (string) $data['expires_in'] );
+			if ( ! empty( $data['access_token'] ) ) {
 
-			$this->access_token  = $data['access_token'] ?? '';
-			$this->refresh_token = $data['refresh_token'] ?? '';
-			$this->expires_in = $data['expires_in'] ?? '';
+				constant_contact()->connect->e_set( '_ctct_access_token', $data['access_token'] );
+				constant_contact()->connect->e_set( '_ctct_refresh_token', $data['refresh_token'] );
+				constant_contact()->connect->e_set( '_ctct_expires_in', (string) $data['expires_in'] );
 
-			return isset( $data['access_token'], $data['refresh_token'] );
+				$this->access_token  = $data['access_token'] ?? '';
+				$this->refresh_token = $data['refresh_token'] ?? '';
+				$this->expires_in = $data['expires_in'] ?? '';
+
+				return isset( $data['access_token'], $data['refresh_token'] );
+			}
+			
 		}
 
 		$this->status_code = $response['response']['code'];
