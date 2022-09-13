@@ -346,6 +346,7 @@ class ConstantContact_Connect {
 			delete_option( 'ctct_refresh_token' );
 			delete_option( '_ctct_refresh_token' );
 			delete_option( '_ctct_expires_in' );
+			constant_contact_delete_option( '_ctct_form_state_authcode' );
 
 			wp_clear_scheduled_hook( 'refresh_token_job' );
 			wp_unschedule_hook( 'refresh_token_job' );

@@ -1187,6 +1187,32 @@ function constant_contact_get_option( $key = '', $default = null ) {
 }
 
 /**
+ * delete option value.
+ *
+ *
+ * @author Faisal
+ * @since  1.9.0
+ *
+ * @param  string $key     Option key.
+ * @param  mixed  $default Default option value.
+ * @return bool true if success, false if error           .
+ */
+function constant_contact_delete_option( $key = '' ) {
+
+	$options = get_option( constant_contact()->settings->key, $key );
+
+	if ( is_array( $options ) && array_key_exists( $key, $options ) && false !== $options[ $key ] ) {
+		
+		$options[ $key ] = null;
+		update_option( constant_contact()->settings->key, $options );
+		
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Returns whether frontend css should be disabled or not.
  *
  * @author Scott Anderson <scott.anderson@webdevstudios.com>
