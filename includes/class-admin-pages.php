@@ -269,7 +269,7 @@ class ConstantContact_Admin_Pages {
 						<div class="item">
 							<p><?php esc_attr_e( 'Already have a Constant Contact account?', 'constant-contact-forms' ); ?>
 								<strong>
-									<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="ctct-connect">
+									<a href="<?php echo esc_url_raw( $auth_link ); ?>" target="_blank" class="ctct-connect">
 										<?php esc_html_e( 'Connect the Plugin', 'constant-contact-forms' ); ?>
 									</a>
 								</strong>

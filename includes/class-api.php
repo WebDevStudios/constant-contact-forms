@@ -1081,6 +1081,12 @@ class ConstantContact_API {
 	 */
 	public function get_authorization_url(): string {
 
+		$auth_url = get_option( 'ctct_auth_url' );
+
+		if ( $auth_url  ) {
+			return $auth_url;
+		}
+
 		$scopes                           = implode( '+', array_keys( $this->scopes ) );
 		[$code_verifier, $code_challenge] = $this->code_challenge();
 
@@ -1103,6 +1109,8 @@ class ConstantContact_API {
 		update_option( 'CtctConstantContactcode_verifier', $code_verifier );
 
 		$url = $this->authorize_url . '?' . str_replace( '%2B', '+', http_build_query( $params ) ); // hack %2B to + for stupid CC API bug
+
+		update_option( 'ctct_auth_url', $url );
 
 		return $url;
 	}
@@ -1250,6 +1258,8 @@ class ConstantContact_API {
 				$this->access_token  = $data['access_token'] ?? '';
 				$this->refresh_token = $data['refresh_token'] ?? '';
 				$this->expires_in    = $data['expires_in'] ?? '';
+
+				delete_option( 'ctct_auth_url' );
 
 				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token successfully received' );
 				constant_contact_maybe_log_it( 'Refresh Token:', 'New Refresh Token: ' . $this->refresh_token );

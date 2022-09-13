@@ -67,7 +67,7 @@ class ConstantContact_Notification_Content {
 			</p>
 
 			<p>
-				<a href="<?php echo esc_url_raw( $auth_url ); ?>" class="ctct-notice-button button-primary">
+				<a href="<?php echo esc_url_raw( $auth_url ); ?>" target="_blank" class="ctct-notice-button button-primary">
 					<?php esc_attr_e( 'Connect your account', 'constant-contact-forms' ); ?>
 				<a href="<?php echo esc_url_raw( $try_url ); ?>" class="ctct-notice-button button-secondary">
 					<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>
