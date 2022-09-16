@@ -955,13 +955,7 @@ class ConstantContact_API {
 	 * @return string Signup URL.
 	 */
 	public function get_signup_link() {
-		static $proof = null;
-
-		if ( null === $proof ) {
-			$proof = constant_contact()->authserver->set_verification_option();
-		}
-
-		return constant_contact()->authserver->do_signup_url( $proof );
+		return 'https://www.constantcontact.com/signup';
 	}
 
 	/**

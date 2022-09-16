@@ -304,7 +304,7 @@ class ConstantContact_Connect {
 						<h3><?php esc_html_e( 'No Constant Contact Account?', 'constant-contact-forms' ); ?></h3>
 						<p><?php esc_html_e( 'Create professional emails to nurture relationships with contacts even after they leave your website. Sign up for a free 60-day trial.', 'constant-contact-forms' ); ?></p>
 					</div>
-					<a class="button ctct-button button-orange" href="<?php echo esc_url_raw( add_query_arg( [ 'rmc' => 'wp_connect_try' ], constant_contact()->api->get_signup_link() ) ); ?>"><?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?></a>
+					<a class="button ctct-button button-orange" href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>" target="_blank"><?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?></a>
 				</div>
 			</div>
 

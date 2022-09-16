@@ -201,14 +201,12 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function about_page() {
 
-		$proof = $auth_link = $new_link = '';
+		$auth_link = $new_link = '';
 
 		if ( ! constant_contact()->api->is_connected() ) {
-			$proof     = constant_contact()->authserver->set_verification_option();
 			$auth_link = constantcontact_api()->get_authorization_url();
-			$new_link  = constant_contact()->authserver->do_signup_url( $proof );
+			$new_link  = constant_contact()->api->get_signup_link();
 
-			$new_link  = add_query_arg( [ 'rmc' => 'wp_about_try' ], $new_link );
 			$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
 		}
 

@@ -45,7 +45,7 @@ class ConstantContact_Notification_Content {
 	 */
 	public static function activation() {
 		$auth_url = add_query_arg( [ 'rmc' => 'wp_admin_connect' ], constant_contact()->api->get_authorization_url() );
-		$try_url  = add_query_arg( [ 'rmc' => 'wp_admin_try' ], constant_contact()->api->get_signup_link() );
+		$try_url  = constant_contact()->api->get_signup_link();
 		$acc_url  = add_query_arg(
 			[
 				'page'      => 'ctct_options_settings_auth',
@@ -69,7 +69,7 @@ class ConstantContact_Notification_Content {
 			<p>
 				<a href="<?php echo esc_url_raw( $auth_url ); ?>" target="_blank" class="ctct-notice-button button-primary">
 					<?php esc_attr_e( 'Connect your account', 'constant-contact-forms' ); ?>
-				<a href="<?php echo esc_url_raw( $try_url ); ?>" class="ctct-notice-button button-secondary">
+				<a href="<?php echo esc_url_raw( $try_url ); ?>" target="_blank" class="ctct-notice-button button-secondary">
 					<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>
 				</a>
 
