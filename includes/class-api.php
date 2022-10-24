@@ -948,6 +948,23 @@ class ConstantContact_API {
 	}
 
 	/**
+	 * Helper method to output a link for our settings page tabs.
+	 *
+	 * @since 2022-10-24
+	 * @return string Settings tab URL.
+	 */
+	public function get_settings_link( $settings_tab = 'ctct_options_settings_general' ) {
+
+		return add_query_arg(
+			[
+				'post_type' => 'ctct_forms',
+				'page' => sanitize_text_field( $settings_tab ),
+			],
+			$this->get_account_link()
+		);
+	}
+
+	/**
 	 * Helper method to output a link for our connect modal.
 	 *
 	 * @since 1.0.0

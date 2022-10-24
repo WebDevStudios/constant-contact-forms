@@ -275,7 +275,7 @@ class ConstantContact_Admin {
 
 		?>
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?> ctct-page-wrap">
-			
+
 			<?php
 
 			$page = [];
@@ -611,7 +611,8 @@ class ConstantContact_Admin {
 			'ctct_form',
 			'ctct_settings',
 			[
-				'privacy_set' => empty( $privacy_settings ) ? 'no' : 'yes',
+				'privacy_set'  => empty( $privacy_settings ) ? 'no' : 'yes',
+				'account'      => constant_contact()->api->get_settings_link( 'ctct_options_settings_auth' )
 			]
 		);
 
