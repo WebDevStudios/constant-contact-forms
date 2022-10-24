@@ -36,7 +36,7 @@ window.CTCTForms = {};
 	that.bindEvents = () => {
 
 		$( that.$c.disconnect ).on( 'click', ( e ) => { // eslint-disable-line no-unused-vars
-			confirm( window.ctctTexts.disconnectconfirm );
+			return confirm( window.ctctTexts.disconnectconfirm );
 		} );
 	};
 
