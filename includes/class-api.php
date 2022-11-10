@@ -1119,7 +1119,7 @@ class ConstantContact_API {
 		// https://datatracker.ietf.org/doc/html/rfc7636#section-6.1
 		update_option( 'CtctConstantContactcode_verifier', $code_verifier );
 
-		$url = $this->authorize_url . '?' . str_replace( '%2B', '+', http_build_query( $params ) ); // hack %2B to + for stupid CC API bug
+		$url = add_query_arg( $params, $this->authorize_url );
 
 		update_option( 'ctct_auth_url', $url );
 
