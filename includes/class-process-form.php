@@ -89,7 +89,11 @@ class ConstantContact_Process_Form {
 					$exp_fields = explode( '=', $field, 2 );
 
 					if ( isset( $exp_fields[0] ) && $exp_fields[0] ) {
-						$value     = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
+						if ( false !== strpos( $exp_fields[0], 'email__' ) ) {
+							$value = ( is_email( $exp_fields[1] ) ) ? $exp_fields[1] : '';
+						} else {
+							$value = isset( $exp_fields[1] ) ? urldecode( $exp_fields[1] ) : '';
+						}
 						$field_key = $exp_fields[0];
 
 						if ( stristr( $field_key, '[]' ) ) {
@@ -385,9 +389,9 @@ class ConstantContact_Process_Form {
 
 				if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
 					constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
-					
+
 					$api_result = constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
-					
+
 					// Send email if API request fails.
 					if ( false === $api_result ) {
 						$clean_values  = constant_contact()->process_form->clean_values( $return['values'] );
@@ -411,7 +415,7 @@ class ConstantContact_Process_Form {
 					constant_contact()->mail->submit_form_values( $return['values'], true );
 				}
 			}
-			
+
 		}  catch (CtctException $exception) {
 			return [
 				'status' => 'api_error',
