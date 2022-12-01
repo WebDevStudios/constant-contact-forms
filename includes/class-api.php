@@ -90,6 +90,17 @@ class ConstantContact_API {
 		$this->refresh_token = constant_contact()->connect->e_get( '_ctct_refresh_token' );
 		$this->access_token  = constant_contact()->connect->e_get( '_ctct_access_token' );
 
+		// Attempt to acquire access token if we don't have it already.
+		// This fixes an issue where authorization does not work sometimes when switching between different accounts.
+		if (
+			empty( $this->expires_in ) ||
+			empty( $this->refresh_token ) ||
+			empty( $this->access_token )
+		) {
+
+			$this->acquire_access_token();
+		}
+
 		// custom scheduling based on the expiry time returned with access token
 
 		if ( ! empty( $this->expires_in ) ) {
