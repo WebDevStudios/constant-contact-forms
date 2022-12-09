@@ -79,12 +79,12 @@ class ConstantContact_Middleware {
 	 */
 	public function add_query_args_to_link( $link, $proof, $extra_args = [] ) {
 		$return = add_query_arg(
-		[
-			'ctct-auth'  => 'auth',
-			'ctct-proof' => esc_attr( $proof ),
-			'ctct-site'  => get_site_url(),
-		],
-		$link
+			[
+				'ctct-auth'  => 'auth',
+				'ctct-proof' => esc_attr( $proof ),
+				'ctct-site'  => get_site_url(),
+			],
+			$link
 		);
 
 		if ( ! empty( $extra_args ) ) {
@@ -117,10 +117,6 @@ class ConstantContact_Middleware {
 		static $proof = null;
 
 		if ( null === $proof ) {
-			constant_contact_maybe_log_it(
-				'Middleware',
-				'Verification option proof was null'
-			);
 			$proof = esc_attr( wp_generate_password( 35, false ) );
 			update_option( 'ctct_connect_verification', $proof );
 		}
@@ -128,60 +124,4 @@ class ConstantContact_Middleware {
 		return $proof;
 	}
 
-	/**
-	 * Verify a returned request from the auth server, and save the returned token.
-	 *
-	 * @since  1.0.0
-	 *
-	 * @throws Exception Throws Exception if encountered while attempting to verify request.
-	 *
-	 * @return boolean Is valid?
-	 */
-	public function verify_and_save_access_token_return() {
-		$proof = filter_input( INPUT_GET, 'proof', FILTER_SANITIZE_STRING );
-		$token = filter_input( INPUT_GET, 'token', FILTER_SANITIZE_STRING );
-		$key   = filter_input( INPUT_GET, 'key', FILTER_SANITIZE_STRING );
-
-		// If we get this, we'll want to start our process of
-		// verifying the proof that the middleware server gives us
-		// so that we can ignore any malicious entries that are sent to us
-		// Sanitize our expected data.
-		$proof = ! empty( $proof ) ? sanitize_text_field( $proof ) : false;
-		$token = ! empty( $token ) ? sanitize_text_field( $token ) : false;
-		$key   = ! empty( $key ) ? sanitize_text_field( $key ) : false;
-
-		// If we're missing any piece of data, we failed.
-		if ( ! $proof || ! $token || ! $key ) {
-			constant_contact_maybe_log_it( 'Authentication', 'Proof, token, or key missing for access verification.' );
-			return false;
-		}
-
-		if ( ! $this->verify_proof( $proof ) ) {
-			constant_contact_maybe_log_it( 'Authentication', 'Authorization verification failed.' );
-			return false;
-		}
-
-		constant_contact_maybe_log_it( 'Authentication', 'Authorization verification succeeded.' );
-
-		constant_contact()->connect->update_token( sanitize_text_field( $token ) );
-		constant_contact()->connect->e_set( '_ctct_api_key', sanitize_text_field( $key ) );
-		return true;
-	}
-
-	/**
-	 * Verifies a given proof from a request against our DB, and does cleanup.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $proof Proof string to check.
-	 * @return boolean Whether or not its our expected proof.
-	 */
-	public function verify_proof( $proof ) {
-
-		$expected_proof = get_option( 'ctct_connect_verification' );
-
-		delete_option( 'ctct_connect_verification' );
-
-		return ( $proof === $expected_proof );
-	}
 }

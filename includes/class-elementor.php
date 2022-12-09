@@ -52,7 +52,7 @@ class ConstantContact_Elementor {
 	 * @since 1.10.0
 	 */
 	public function register_widget() {
-		require_once( __DIR__ . '/widgets/elementor-widget.php' );
+		require_once __DIR__ . '/widgets/elementor-widget.php';
 		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new ConstantContact_Elementor_Widget() );
 	}
 

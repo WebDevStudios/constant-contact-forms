@@ -50,10 +50,13 @@ function constant_contact_autoload_classes( $class_name ) {
 		return;
 	}
 
-	$filename = strtolower( str_replace(
-		'_', '-',
-		substr( $class_name, strlen( 'ConstantContact_' ) )
-	) );
+	$filename = strtolower(
+		str_replace(
+			'_',
+			'-',
+			substr( $class_name, strlen( 'ConstantContact_' ) )
+		)
+	);
 
 	Constant_Contact::include_file( $filename );
 }
@@ -396,7 +399,7 @@ class Constant_Contact {
 		$this->path     = plugin_dir_path( __FILE__ );
 
 		if ( ! $this->meets_php_requirements() ) {
-			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
+			add_action( 'admin_notices', [ $this, 'minimum_version' ] );
 			return;
 		}
 
@@ -432,10 +435,10 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 */
 	public function plugin_classes() {
-		$this->api                  = new ConstantContact_API( $this );
+		$this->api = new ConstantContact_API( $this );
 		if ( class_exists( 'FLBuilder' ) ) {
 			// Load if Beaver Builder is active.
-			$this->beaver_builder       = new ConstantContact_Beaver_Builder( $this );
+			$this->beaver_builder = new ConstantContact_Beaver_Builder( $this );
 		}
 		$this->builder              = new ConstantContact_Builder( $this );
 		$this->builder_fields       = new ConstantContact_Builder_Fields( $this );
@@ -459,7 +462,7 @@ class Constant_Contact {
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
 		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 			// Load if Elementor is active.
-			$this->elementor            = new ConstantContact_Elementor( $this );
+			$this->elementor = new ConstantContact_Elementor( $this );
 		}
 	}
 
@@ -483,13 +486,13 @@ class Constant_Contact {
 	 */
 	public function hooks() {
 		if ( ! $this->meets_php_requirements() ) {
-			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
+			add_action( 'admin_notices', [ $this, 'minimum_version' ] );
 			return;
 		}
 
-		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'widgets_init', array( $this, 'widgets' ) );
-		add_filter( 'body_class', array( $this, 'body_classes' ) );
+		add_action( 'init', [ $this, 'init' ] );
+		add_action( 'widgets_init', [ $this, 'widgets' ] );
+		add_filter( 'body_class', [ $this, 'body_classes' ] );
 
 		$this->load_libs();
 
@@ -526,6 +529,20 @@ class Constant_Contact {
 		if ( ! $this->meets_php_requirements() ) {
 			return;
 		}
+
+		// Clear out connection data when deactivating plugin.
+		delete_option( 'ctct_access_token' );
+		delete_option( '_ctct_access_token' );
+		delete_option( 'ctct_refresh_token' );
+		delete_option( '_ctct_refresh_token' );
+		delete_option( '_ctct_expires_in' );
+		delete_option( 'CtctConstantContactcode_verifier' );
+		delete_option( 'CtctConstantContactState' );
+		delete_option( 'ctct_auth_url' );
+		delete_option( 'ctct_key' );
+		constant_contact_delete_option( '_ctct_form_state_authcode' );
+		wp_clear_scheduled_hook( 'refresh_token_job' );
+		wp_unschedule_hook( 'refresh_token_job' );
 
 		$this->notifications->delete_dismissed_notification( 'activation' );
 	}
@@ -773,7 +790,7 @@ class Constant_Contact {
 	 * @param array $classes Existing body classes.
 	 * @return array Amended body classes.
 	 */
-	public function body_classes( $classes = array() ) {
+	public function body_classes( $classes = [] ) {
 		$theme     = wp_get_theme()->template;
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 

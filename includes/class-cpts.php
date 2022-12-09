@@ -214,9 +214,9 @@ class ConstantContact_CPTS {
 				false,
 			6  => sprintf(
 					/* translators: form shortcode. */
-					__( "Success! Here's the shortcode: %s. Just paste it into a post or page editor to publish", 'constant-contact-forms' ),
-					'<strong>' . constant_contact_display_shortcode( $post->ID ) . '</strong>'
-				),
+				__( "Success! Here's the shortcode: %s. Just paste it into a post or page editor to publish", 'constant-contact-forms' ),
+				'<strong>' . constant_contact_display_shortcode( $post->ID ) . '</strong>'
+			),
 			7  => __( 'Form saved.', 'constant-contact-forms' ),
 			8  => __( 'Form submitted.', 'constant-contact-forms' ),
 			/* translators: formatted post date timestamp. */
@@ -285,12 +285,14 @@ class ConstantContact_CPTS {
 
 		if ( false === $forms || $bypass_forms || $bust_cache ) {
 
-			$query = new WP_Query( [
-				'post_status'            => 'publish',
-				'post_type'              => 'ctct_forms',
-				'no_found_rows'          => true,
-				'update_post_term_cache' => false,
-			] );
+			$query = new WP_Query(
+				[
+					'post_status'            => 'publish',
+					'post_type'              => 'ctct_forms',
+					'no_found_rows'          => true,
+					'update_post_term_cache' => false,
+				]
+			);
 
 			$q_forms = $query->get_posts();
 
