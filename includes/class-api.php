@@ -58,7 +58,7 @@ class ConstantContact_API {
 	private array $scopes       = [];
 	private array $valid_scopes = [ 'account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access' ];
 
-	private $client_api_key = 'a5e132cc-9e78-4da7-94d5-1ed7f652981d';
+	private $client_api_key = 'a001418d-73c6-4ecb-9f8b-d5773d29b6e4'; // Managed by Constant Contact. Plain text OK due to PCKE auth method.
 	private $redirect_URI   = 'https://app.constantcontact.com/pages/dma/portal/oauth2';
 
 	public int $this_user_id = 0;
