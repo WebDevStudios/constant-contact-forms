@@ -120,7 +120,7 @@ class ConstantContact_Optin {
 		if ( $this->privacy_policy_status() || ! constant_contact()->is_constant_contact() ) {
 			return;
 		}
-	?>
+		?>
 		<div id="ctct-privacy-modal" class="ctct-modal">
 			<div class="ctct-modal-dialog" role="document">
 				<div class="ctct-modal-content">
@@ -140,6 +140,6 @@ class ConstantContact_Optin {
 				</div><!-- .modal-content -->
 			</div><!-- .modal-dialog -->
 		</div>
-	<?php
+		<?php
 	}
 }

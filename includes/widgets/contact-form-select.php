@@ -54,27 +54,33 @@ class ConstantContactWidget extends WP_Widget {
 		$form_id         = absint( $instance['ctct_form_id'] );
 		$show_form_title = ( 'on' === $instance['ctct_form_title'] ) ? $instance['ctct_form_title'] : '';
 
-		$this->form_input_text( [
-			'label_text' => esc_html__( 'Title', 'constant-contact-forms' ),
-			'name'       => $this->get_field_name( 'ctct_title' ),
-			'id'         => $this->get_field_id( 'ctct_title' ),
-			'value'      => $title,
-		] );
+		$this->form_input_text(
+			[
+				'label_text' => esc_html__( 'Title', 'constant-contact-forms' ),
+				'name'       => $this->get_field_name( 'ctct_title' ),
+				'id'         => $this->get_field_id( 'ctct_title' ),
+				'value'      => $title,
+			]
+		);
 
-		$this->form_input_select( [
-			'label_text' => esc_html__( 'Form', 'constant-contact-forms' ),
-			'name'       => $this->get_field_name( 'ctct_form_id' ),
-			'id'         => $this->get_field_id( 'ctct_form_id' ),
-			'options'    => $this->get_forms(),
-			'value'      => $form_id,
-		] );
+		$this->form_input_select(
+			[
+				'label_text' => esc_html__( 'Form', 'constant-contact-forms' ),
+				'name'       => $this->get_field_name( 'ctct_form_id' ),
+				'id'         => $this->get_field_id( 'ctct_form_id' ),
+				'options'    => $this->get_forms(),
+				'value'      => $form_id,
+			]
+		);
 
-		$this->form_input_checkbox( [
-			'label_text' => esc_html__( 'Display form title', 'constant-contact-forms' ),
-			'name'       => $this->get_field_name( 'ctct_form_title' ),
-			'id'         => $this->get_field_id( 'ctct_form_title' ),
-			'value'      => $show_form_title,
-		] );
+		$this->form_input_checkbox(
+			[
+				'label_text' => esc_html__( 'Display form title', 'constant-contact-forms' ),
+				'name'       => $this->get_field_name( 'ctct_form_title' ),
+				'id'         => $this->get_field_id( 'ctct_form_title' ),
+				'value'      => $show_form_title,
+			]
+		);
 	}
 
 	/**

@@ -82,12 +82,17 @@ class ConstantContact_Auth_Redirect {
 			isset( $wp_query->query_vars['username'] ) &&
 			'ctct' === $wp_query->query_vars['auth']
 		) {
-			wp_safe_redirect( add_query_arg( [
-				'post_type' => 'ctct_forms',
-				'page'      => 'ctct_options_connect',
-				'code'      => sanitize_text_field( $wp_query->query_vars['code'] ),
-				'user'      => sanitize_text_field( $wp_query->query_vars['username'] ),
-			], admin_url( 'edit.php' ) ) );
+			wp_safe_redirect(
+				add_query_arg(
+					[
+						'post_type' => 'ctct_forms',
+						'page'      => 'ctct_options_connect',
+						'code'      => sanitize_text_field( $wp_query->query_vars['code'] ),
+						'user'      => sanitize_text_field( $wp_query->query_vars['username'] ),
+					],
+					admin_url( 'edit.php' )
+				)
+			);
 			exit;
 		}
 	}

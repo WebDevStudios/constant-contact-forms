@@ -105,7 +105,7 @@ class ConstantContact_Process_Form {
 							continue;
 						}
 
-						$json_data[  esc_attr( $field_key ) ] = sanitize_text_field( $value );
+						$json_data[ esc_attr( $field_key ) ] = sanitize_text_field( $value );
 					}
 				}
 			}
@@ -163,10 +163,12 @@ class ConstantContact_Process_Form {
 					break;
 			}
 
-			wp_send_json( [
-				'status'  => $status,
-				'message' => $message,
-			] );
+			wp_send_json(
+				[
+					'status'  => $status,
+					'message' => $message,
+				]
+			);
 
 			wp_die();
 		}
@@ -328,17 +330,21 @@ class ConstantContact_Process_Form {
 			];
 		}
 
-		$ignored_keys = apply_filters( 'constant_contact_ignored_post_form_values', [
-			'ctct-submitted',
-			'ctct_form',
-			'_wp_http_referer',
-			'ctct-verify',
-			'ctct_time',
-			'ctct_usage_field',
-			'g-recaptcha-response',
-			'ctct_must_opt_in',
-			'ctct-instance',
-		], $orig_form_id );
+		$ignored_keys = apply_filters(
+			'constant_contact_ignored_post_form_values',
+			[
+				'ctct-submitted',
+				'ctct_form',
+				'_wp_http_referer',
+				'ctct-verify',
+				'ctct_time',
+				'ctct_usage_field',
+				'g-recaptcha-response',
+				'ctct_must_opt_in',
+				'ctct-instance',
+			],
+			$orig_form_id
+		);
 
 		foreach ( $data as $key => $value ) {
 
@@ -398,29 +404,33 @@ class ConstantContact_Process_Form {
 						$pretty_values = constant_contact()->process_form->pretty_values( $clean_values );
 						$email_values  = constant_contact()->mail->format_values_for_email( $pretty_values, $orig_form_id );
 
-						$test = constant_contact()->mail->mail( constant_contact()->mail->get_email( $orig_form_id ), $email_values, [
-							'form_id'         => $orig_form_id,
-							'submitted_email' => constant_contact()->mail->get_user_email_from_submission( $clean_values ),
-							'custom-reason'   => __( 'An error occurred while attempting Constant Contact API request.', 'constant-contact-forms' ),
-						], true );
+						$test = constant_contact()->mail->mail(
+							constant_contact()->mail->get_email( $orig_form_id ),
+							$email_values,
+							[
+								'form_id'         => $orig_form_id,
+								'submitted_email' => constant_contact()->mail->get_user_email_from_submission( $clean_values ),
+								'custom-reason'   => __( 'An error occurred while attempting Constant Contact API request.', 'constant-contact-forms' ),
+							],
+							true
+						);
 
 						// Also return API error.
 						return [
-							'status' => 'api_error',
-							'values' => $return['values'],
-							'message'=> __( 'An error occurred while attempting Constant Contact API request. Please check your details and try again.', 'constant-contact-forms' ),
+							'status'  => 'api_error',
+							'values'  => $return['values'],
+							'message' => __( 'An error occurred while attempting Constant Contact API request. Please check your details and try again.', 'constant-contact-forms' ),
 						];
 					}
 				} else {
 					constant_contact()->mail->submit_form_values( $return['values'], true );
 				}
 			}
-
-		}  catch (CtctException $exception) {
+		} catch ( CtctException $exception ) {
 			return [
-				'status' => 'api_error',
-				'values' => $return['values'],
-				'message'=> $exception->getMessage(),
+				'status'  => 'api_error',
+				'values'  => $return['values'],
+				'message' => $exception->getMessage(),
 			];
 		}
 
@@ -768,7 +778,7 @@ class ConstantContact_Process_Form {
 			case 'api_error':
 				return [
 					'status'  => 'error',
-					'message' => $processed['message'] ? esc_html( $processed['message'] ) :esc_html__( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
+					'message' => $processed['message'] ? esc_html( $processed['message'] ) : esc_html__( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
 					'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
 				];
 

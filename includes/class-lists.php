@@ -7,6 +7,8 @@
  * @author Constant Contact
  * @since 1.0.0
  *
+ * todo: when user is disconnected then the lists should be removed
+ *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
@@ -73,21 +75,25 @@ class ConstantContact_Lists {
 	 */
 	public function add_lists_metabox() {
 
-		$cmb = new_cmb2_box( [
-			'id'           => 'ctct_list_metabox',
-			'title'        => __( 'List Information', 'constant-contact-forms' ),
-			'object_types' => [ 'ctct_lists' ],
-			'context'      => 'normal',
-			'priority'     => 'high',
-			'show_names'   => true,
-		] );
+		$cmb = new_cmb2_box(
+			[
+				'id'           => 'ctct_list_metabox',
+				'title'        => __( 'List Information', 'constant-contact-forms' ),
+				'object_types' => [ 'ctct_lists' ],
+				'context'      => 'normal',
+				'priority'     => 'high',
+				'show_names'   => true,
+			]
+		);
 
-		$cmb->add_field( [
-			'name' => '',
-			'desc' => '',
-			'id'   => '_ctct_list_meta',
-			'type' => 'constant_contact_list_information',
-		] );
+		$cmb->add_field(
+			[
+				'name' => '',
+				'desc' => '',
+				'id'   => '_ctct_list_meta',
+				'type' => 'constant_contact_list_information',
+			]
+		);
 	}
 
 	/**
@@ -118,23 +124,22 @@ class ConstantContact_Lists {
 
 		$list_info = constant_contact()->api->get_list( esc_attr( $list_id ) );
 
-		if ( ! isset( $list_info->id ) ) {
+		$list_info_obj = (object) $list_info;
+		if ( ! isset( $list_info_obj->list_id ) ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
-
-		$list_info = (array) $list_info;
 
 		echo '<ul>';
 
 		unset( $list_info['id'], $list_info['status'] );
 
-		if ( isset( $list_info['created_date'] ) && $list_info['created_date'] ) {
-			$list_info['created_date'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['created_date'] ) );
+		if ( isset( $list_info['created_at'] ) && $list_info['created_at'] ) {
+			$list_info['created_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['created_at'] ) );
 		}
 
-		if ( isset( $list_info['modified_date'] ) && $list_info['modified_date'] ) {
-			$list_info['modified_date'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['modified_date'] ) );
+		if ( isset( $list_info['updated_at'] ) && $list_info['updated_at'] ) {
+			$list_info['updated_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['updated_at'] ) );
 		}
 
 		foreach ( $list_info as $key => $value ) {
@@ -142,7 +147,7 @@ class ConstantContact_Lists {
 			$key = str_replace( '_', ' ', $key );
 			$key = ucwords( $key );
 
-			echo wp_kses_post( '<li>' . $key . ': ' . sanitize_text_field( $value ) . '</li>' );
+			echo wp_kses_post( '<li><b>' . $key . '</b> : ' . sanitize_text_field( $value ) . '</li>' );
 		}
 
 		echo '</ul>';
@@ -236,13 +241,18 @@ class ConstantContact_Lists {
 		 *
 		 * @param array $value Array of WP_Query arguments.
 		 */
-		$query = new WP_Query( apply_filters( 'constant_contact_lists_query_for_sync', [
-			'post_type'              => 'ctct_lists',
-			'posts_per_page'         => 1000, // phpcs:ignore WordPress.WP.PostsPerPage
-			'no_found_rows'          => true,
-			'update_post_term_cache' => false,
-			'fields'                 => 'ids',
-		] ) );
+		$query = new WP_Query(
+			apply_filters(
+				'constant_contact_lists_query_for_sync',
+				[
+					'post_type'              => 'ctct_lists',
+					'posts_per_page'         => 1000, // phpcs:ignore WordPress.WP.PostsPerPage
+					'no_found_rows'          => true,
+					'update_post_term_cache' => false,
+					'fields'                 => 'ids',
+				]
+			)
+		);
 
 		$potentially_remove_list = $query->get_posts();
 
@@ -282,12 +292,13 @@ class ConstantContact_Lists {
 			}
 
 			foreach ( $lists_to_insert as $list ) {
+				$list = (object) $list;
 
-				if ( ! isset( $list->id ) ) {
+				if ( ! isset( $list->list_id ) ) {
 					continue;
 				}
 
-				$list_id = esc_attr( $list->id );
+				$list_id = esc_attr( $list->list_id );
 
 				/**
 				 * Filters the arguments used for inserting new lists from a fresh sync.
@@ -296,11 +307,14 @@ class ConstantContact_Lists {
 				 *
 				 * @param array $value Array of arguments for a new list to be inserted into database.
 				 */
-				$new_post = apply_filters( 'constant_contact_list_insert_args', [
-					'post_title'  => isset( $list->name ) ? esc_attr( $list->name ) : '',
-					'post_status' => 'publish',
-					'post_type'   => 'ctct_lists',
-				] );
+				$new_post = apply_filters(
+					'constant_contact_list_insert_args',
+					[
+						'post_title'  => isset( $list->name ) ? esc_attr( $list->name ) : '',
+						'post_status' => 'publish',
+						'post_type'   => 'ctct_lists',
+					]
+				);
 
 				// By default, we'll attempt to update post meta for everything.
 				$update_meta = true;
@@ -414,10 +428,12 @@ class ConstantContact_Lists {
 			add_post_meta( $ctct_list->ID, 'ctct_duplicate_list', true );
 
 			if ( 'draft' !== $ctct_list->post_status ) {
-				$return = wp_update_post( [
-					'ID'          => absint( $ctct_list->ID ),
-					'post_status' => 'draft',
-				] );
+				$return = wp_update_post(
+					[
+						'ID'          => absint( $ctct_list->ID ),
+						'post_status' => 'draft',
+					]
+				);
 			}
 		} else {
 			$list_id = get_post_meta( $ctct_list->ID, '_ctct_list_id', true );
@@ -548,10 +564,12 @@ class ConstantContact_Lists {
 		}
 
 		if ( $title !== $original_title ) {
-			wp_update_post( [
-				'ID'         => absint( $id ),
-				'post_title' => $title,
-			] );
+			wp_update_post(
+				[
+					'ID'         => absint( $id ),
+					'post_title' => $title,
+				]
+			);
 		}
 
 		return $title;
@@ -794,7 +812,7 @@ class ConstantContact_Lists {
 		<div class="notice notice-error">
 				<p><?php esc_attr_e( 'You already have a list with that name.', 'constant-contact-forms' ); ?></p>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**

@@ -44,15 +44,21 @@ class ConstantContact_Notification_Content {
 	 * @return string
 	 */
 	public static function activation() {
-		$auth_url = add_query_arg( [ 'rmc' => 'wp_admin_connect' ], constant_contact()->api->get_connect_link() );
-		$try_url  = add_query_arg( [ 'rmc' => 'wp_admin_try' ], constant_contact()->api->get_signup_link() );
+		$auth_url = add_query_arg( [ 'rmc' => 'wp_admin_connect' ], constant_contact()->api->get_authorization_url() );
+		$try_url  = constant_contact()->api->get_signup_link();
+		$acc_url  = add_query_arg(
+			[
+				'page'      => 'ctct_options_settings_auth',
+				'post_type' => 'ctct_forms',
+			],
+			constant_contact()->api->get_account_link()
+		);
 
 		ob_start();
-	?>
+		?>
 			<p class="ctct-notice-intro">
 				<?php
 					printf(
-
 						// translators: Placeholder will hold "Constant Contact Forms" with <strong> tags.
 						esc_attr__( 'Get the most out of the %s plugin &mdash; use it with an active Constant Contact account.', 'constant-contact-forms' ),
 						'<strong>' . esc_attr__( 'Constant Contact Forms', 'constant-contact-forms' ) . '</strong>'
@@ -61,10 +67,9 @@ class ConstantContact_Notification_Content {
 			</p>
 
 			<p>
-				<a href="<?php echo esc_url_raw( $auth_url ); ?>" class="ctct-notice-button button-primary">
+				<a href="<?php echo esc_url_raw( $auth_url ); ?>" target="_blank" class="ctct-notice-button button-primary connection-settings-redirect">
 					<?php esc_attr_e( 'Connect your account', 'constant-contact-forms' ); ?>
-				</a>
-				<a href="<?php echo esc_url_raw( $try_url ); ?>" class="ctct-notice-button button-secondary">
+				<a href="<?php echo esc_url_raw( $try_url ); ?>" target="_blank" class="ctct-notice-button button-secondary">
 					<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>
 				</a>
 
@@ -79,7 +84,7 @@ class ConstantContact_Notification_Content {
 					)
 				?>
 			</p>
-	<?php
+		<?php
 		return ob_get_clean();
 	}
 
@@ -105,7 +110,7 @@ class ConstantContact_Notification_Content {
 		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
 
 		ob_start();
-	?>
+		?>
 
 		<div class="admin-notice-logo">
 			<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
@@ -127,7 +132,7 @@ class ConstantContact_Notification_Content {
 			</div>
 		</div>
 
-	<?php
+		<?php
 		return ob_get_clean();
 	}
 
@@ -142,7 +147,7 @@ class ConstantContact_Notification_Content {
 		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
 
 		ob_start();
-	?>
+		?>
 
 		<div class="admin-notice-logo">
 			<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
@@ -165,7 +170,7 @@ class ConstantContact_Notification_Content {
 			</p>
 		</div>
 
-	<?php
+		<?php
 		return ob_get_clean();
 	}
 
@@ -229,30 +234,34 @@ class ConstantContact_Notification_Content {
 		$reference_keys = array_keys( $references );
 		$last_key       = array_pop( $reference_keys );
 
-		array_walk( $references, function( $value, $key, $last_key ) {
-			if ( 'post' === $value['type'] ) {
-				printf(
+		array_walk(
+			$references,
+			function( $value, $key, $last_key ) {
+				if ( 'post' === $value['type'] ) {
+					printf(
 					/* Translators: 1: URL to edit screen for current post, 2: post type singular label, 3: current post ID, 4: separator between links. */
-					'<a href="%1$s">%2$s #%3$d</a>%4$s',
-					esc_url( $value['url'] ),
-					esc_html( $value['label'] ),
-					esc_html( $value['id'] ),
-					esc_html( $key === $last_key ? '' : ', ' )
-				);
-			} elseif ( 'widget' === $value['type'] ) {
-				printf(
+						'<a href="%1$s">%2$s #%3$d</a>%4$s',
+						esc_url( $value['url'] ),
+						esc_html( $value['label'] ),
+						esc_html( $value['id'] ),
+						esc_html( $key === $last_key ? '' : ', ' )
+					);
+				} elseif ( 'widget' === $value['type'] ) {
+					printf(
 					/* Translators: 1: URL to widgets admin screen, 2: current widget name, 3: generic widget text, 4: current widget title, 5: preposition, 6: specific sidebar name, 7: separator between links. */
-					'<a href="%1$s">%2$s %3$s "%4$s" %5$s %6$s</a>%7$s',
-					esc_url( $value['url'] ),
-					esc_html( $value['name'] ),
-					esc_html__( 'Widget titled', 'constant-contact-forms' ),
-					esc_html( $value['title'] ),
-					esc_html__( 'in', 'constant-contact-forms' ),
-					esc_html( $value['sidebar'] ),
-					esc_html( $key === $last_key ? '' : ', ' )
-				);
-			}
-		}, $last_key );
+						'<a href="%1$s">%2$s %3$s "%4$s" %5$s %6$s</a>%7$s',
+						esc_url( $value['url'] ),
+						esc_html( $value['name'] ),
+						esc_html__( 'Widget titled', 'constant-contact-forms' ),
+						esc_html( $value['title'] ),
+						esc_html__( 'in', 'constant-contact-forms' ),
+						esc_html( $value['sidebar'] ),
+						esc_html( $key === $last_key ? '' : ', ' )
+					);
+				}
+			},
+			$last_key
+		);
 	}
 
 	public static function api3_upgrade_notice() {

@@ -23,7 +23,8 @@ window.CTCTForms = {};
 		that.$c = {
 			window: $( window ),
 			body: $( 'body' ),
-			disconnect: '.ctct-disconnect'
+			disconnect: '.ctct-disconnect',
+			redirectToConnectionSettings: '.connection-settings-redirect'
 		};
 	};
 
@@ -36,7 +37,13 @@ window.CTCTForms = {};
 	that.bindEvents = () => {
 
 		$( that.$c.disconnect ).on( 'click', ( e ) => { // eslint-disable-line no-unused-vars
-			confirm( window.ctctTexts.disconnectconfirm );
+			return confirm( window.ctctTexts.disconnectconfirm );
+		} );
+
+		$( that.$c.redirectToConnectionSettings ).on( 'click', ( e ) => {
+			e.preventDefault();
+			window.open(e.target.href, '_blank' )
+			window.open(window.ctct_settings.account, '_self' );
 		} );
 	};
 

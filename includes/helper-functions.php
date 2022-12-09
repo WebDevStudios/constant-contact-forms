@@ -541,8 +541,12 @@ function constant_contact_akismet_spam_check( $args ) {
 	if ( is_callable( [ 'Akismet', 'http_post' ] ) ) { // Akismet v3.0.
 		$response = Akismet::http_post( $query_string, 'comment-check' );
 	} else {
-		$response = akismet_http_post( $query_string, $akismet_api_host,
-			'/1.1/comment-check', $akismet_api_port );
+		$response = akismet_http_post(
+			$query_string,
+			$akismet_api_host,
+			'/1.1/comment-check',
+			$akismet_api_port
+		);
 	}
 
 	// It's spam if response status is true.
@@ -701,21 +705,27 @@ function constant_contact_get_posts_by_form( $form_id ) {
 	$shortcode_like      = $wpdb->esc_like( '[ctct' );
 	$post_id_like_single = $wpdb->esc_like( "form='{$form_id}'" );
 	$post_id_like_double = $wpdb->esc_like( "form=\"{$form_id}\"" );
-	$posts               = $wpdb->get_results( $wpdb->prepare(
-		"SELECT ID, post_title, post_type FROM {$wpdb->posts} WHERE (`post_content` LIKE %s OR `post_content` LIKE %s) AND `post_status` = %s ORDER BY post_type ASC",
-		"%{$shortcode_like}%{$post_id_like_single}%",
-		"%{$shortcode_like}%{$post_id_like_double}%",
-		'publish'
-	), ARRAY_A );
+	$posts               = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT ID, post_title, post_type FROM {$wpdb->posts} WHERE (`post_content` LIKE %s OR `post_content` LIKE %s) AND `post_status` = %s ORDER BY post_type ASC",
+			"%{$shortcode_like}%{$post_id_like_single}%",
+			"%{$shortcode_like}%{$post_id_like_double}%",
+			'publish'
+		),
+		ARRAY_A
+	);
 
-	array_walk( $posts, function( &$value, $key ) {
-		$value = [
-			'type'  => 'post',
-			'url'   => get_edit_post_link( $value['ID'] ),
-			'label' => get_post_type_object( $value['post_type'] )->labels->singular_name,
-			'id'    => $value['ID'],
-		];
-	} );
+	array_walk(
+		$posts,
+		function( &$value, $key ) {
+			$value = [
+				'type'  => 'post',
+				'url'   => get_edit_post_link( $value['ID'] ),
+				'label' => get_post_type_object( $value['post_type'] )->labels->singular_name,
+				'id'    => $value['ID'],
+			];
+		}
+	);
 
 	return $posts;
 }
@@ -736,17 +746,20 @@ function constant_contact_get_widgets_by_form( $form_id ) {
 			'form_id' => $form_id,
 			'type'    => $widget_type,
 		];
-		$widgets = array_filter( get_option( "widget_{$widget_type}", [] ), function( $value ) use ( $data ) {
-			if ( 'ctct_form' === $data['type'] ) {
-				return absint( $value['ctct_form_id'] ) === $data['form_id'];
-			} elseif ( 'text' === $data['type'] ) {
-				if ( ! isset( $value['text'] ) || false === strpos( $value['text'], '[ctct' ) ) {
-					return false;
+		$widgets = array_filter(
+			get_option( "widget_{$widget_type}", [] ),
+			function( $value ) use ( $data ) {
+				if ( 'ctct_form' === $data['type'] ) {
+					return absint( $value['ctct_form_id'] ) === $data['form_id'];
+				} elseif ( 'text' === $data['type'] ) {
+					if ( ! isset( $value['text'] ) || false === strpos( $value['text'], '[ctct' ) ) {
+						return false;
+					}
+					return ( false !== strpos( $value['text'], "form=\"{$data['form_id']}\"" ) || false !== strpos( $value['text'], "form='{$data['form_id']}'" ) );
 				}
-				return ( false !== strpos( $value['text'], "form=\"{$data['form_id']}\"" ) || false !== strpos( $value['text'], "form='{$data['form_id']}'" ) );
+				return false;
 			}
-			return false;
-		} );
+		);
 		array_walk( $widgets, 'constant_contact_walk_widget_references', $widget_type );
 		$return = array_merge( $return, $widgets );
 	}
@@ -768,9 +781,14 @@ function constant_contact_walk_widget_references( array &$value, $key, $type ) {
 	global $wp_registered_sidebars, $wp_registered_widgets;
 
 	$widget_id = "{$type}-{$key}";
-	$sidebars  = array_keys( array_filter( get_option( 'sidebars_widgets', [] ), function( $sidebar ) use ( $widget_id ) {
-		return is_array( $sidebar ) && in_array( $widget_id, $sidebar, true );
-	} ) );
+	$sidebars  = array_keys(
+		array_filter(
+			get_option( 'sidebars_widgets', [] ),
+			function( $sidebar ) use ( $widget_id ) {
+				return is_array( $sidebar ) && in_array( $widget_id, $sidebar, true );
+			}
+		)
+	);
 	$value     = [
 		'type'    => 'widget',
 		'widget'  => $type,
@@ -791,10 +809,12 @@ function constant_contact_walk_widget_references( array &$value, $key, $type ) {
  */
 function constant_contact_check_for_affected_forms_on_trash( $form_id ) {
 	$option             = get_option( ConstantContact_Notifications::$deleted_forms, [] );
-	$option[ $form_id ] = array_filter( array_merge(
-		constant_contact_get_posts_by_form( $form_id ),
-		constant_contact_get_widgets_by_form( $form_id )
-	) );
+	$option[ $form_id ] = array_filter(
+		array_merge(
+			constant_contact_get_posts_by_form( $form_id ),
+			constant_contact_get_widgets_by_form( $form_id )
+		)
+	);
 
 	if ( empty( $option[ $form_id ] ) ) {
 		return;
