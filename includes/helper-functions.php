@@ -644,6 +644,7 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
  */
 function constant_contact_privacy_policy_content() {
 	$policy_output = wp_remote_get( 'https://www.endurance.com/privacy' );
+
 	if ( ! is_wp_error( $policy_output ) && 200 === wp_remote_retrieve_response_code( $policy_output ) ) {
 		$content = wp_remote_retrieve_body( $policy_output );
 		preg_match( '/<body[^>]*>(.*?)<\/body>/si', $content, $match );
@@ -862,4 +863,20 @@ function constant_contact_forms_maybe_set_exception_notice( $e ) {
 	}
 
 	constant_contact_set_has_exceptions();
+}
+
+/**
+ * Determine whether to display upcoming API v3 update notice in admin.
+ *
+ * @since 1.14.0
+ *
+ * @return bool Whether to display the upcoming API v3 update notice.
+ */
+function constant_contact_maybe_display_v3_api_upgrade_notification() {
+	$installed = get_option( 'ctct_plugin_version', '0.0.0' );
+
+	return (
+		version_compare( $installed, '1.13.0', '>=' ) &&
+		version_compare( $installed, '2.0.0', '<' )
+	);
 }

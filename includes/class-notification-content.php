@@ -254,6 +254,32 @@ class ConstantContact_Notification_Content {
 			}
 		}, $last_key );
 	}
+
+	/**
+	 * Admin notice regarding upcoming v3 API update.
+	 *
+	 * @since 1.14.0
+	 *
+	 * @return string Deleted forms notice HTML.
+	 */
+	public static function api_v3_update() {
+		ob_start();
+		?>
+		<div class="admin-notice-message">
+			<p>
+				<?php
+				esc_html_e(
+					'Constant Contact Forms version 2.0.0 will be released soon.
+                        Once you\'ve updated the plugin, you will need to re-connect your account. If you do not
+                         yet have an Constant Contact account, you will need to create one.',
+					'constant-contact-forms'
+				);
+				?>
+			</p>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
 }
 
 /**
@@ -355,3 +381,23 @@ function constant_contact_form_deleted( array $notifications = [] ) {
 	return $notifications;
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_form_deleted' );
+
+/**
+ * Adds our notice about v3 API update to the notification system.
+ *
+ * @since 1.14.0
+ *
+ * @param array $notifications Array of notifications pending to show.
+ * @return array Array of notifications to show.
+ */
+function constant_contact_add_v3_api_upgrade_notification( $notifications = [] ) {
+
+	$notifications[] = [
+		'ID'         => 'api_v3_update',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'api_v3_update' ],
+		'require_cb' => 'constant_contact_maybe_display_v3_api_upgrade_notification',
+	];
+
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_add_v3_api_upgrade_notification' );
