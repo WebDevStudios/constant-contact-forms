@@ -1076,7 +1076,7 @@ class ConstantContact_Display {
 		if ( false !== strpos( $id, 'custom___' ) ) {
 			$max_length = $truncate_max_length ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
 		} elseif ( false !== strpos( $id, 'first_name___' ) || false !== strpos( $id, 'last_name___' ) ) {
-			$max_length = 'maxlength="50"';
+			$max_length = 'maxlength="255"';
 		}
 
 		if ( $field_error ) {
@@ -1943,7 +1943,7 @@ class ConstantContact_Display {
 	 * @return string
 	 */
 	public function get_max_length_attr( $optional_label = '' ) {
-		$length       = 48; // Two less than 50char custom field limit for ": ".
+		$length       = 253; // Two less than 255char custom field limit for ": ".
 		$label_length = 0;
 
 		if ( ! empty( $optional_label ) ) {
