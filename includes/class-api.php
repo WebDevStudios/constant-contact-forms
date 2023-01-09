@@ -799,7 +799,7 @@ class ConstantContact_API {
 				case 'anniversary_year':
 				case 'custom':
 					// Dont overload custom fields.
-					if ( $count > 15 ) {
+					if ( $count > 25 ) {
 						break;
 					}
 
