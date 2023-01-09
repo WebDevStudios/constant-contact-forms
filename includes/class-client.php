@@ -76,13 +76,26 @@ class ConstantContact_Client {
 
 	public function custom_field_exists( $field_name ) {
 		$fields = $this->get_custom_fields();
+		if ( ! empty( $fields ) && array_key_exists( 'custom_fields', $fields ) ) {
+			$field_keys = wp_list_pluck( $fields['custom_fields'], 'label' );
+			return in_array( $field_name, $field_keys );
+		}
+		return false;
 	}
 
-	public function add_custom_field() {
-		$field_data = wp_json_encode([
-			'label' => 'xyz',
-			'type' => 'string',
-		]);
+	public function get_custom_field_by_name( $field_name ) {
+		$fields = $this->get_custom_fields();
+		if ( ! empty( $fields ) && array_key_exists( 'custom_fields', $fields ) ) {
+			foreach( $fields['custom_fields'] as $field ) {
+				if ( $field['label'] === $field_name ) {
+					return $field;
+				}
+			}
+		}
+		return '';
+	}
+
+	public function add_custom_field( $field_data ) {
 		return $this->post( 'contact_custom_fields', $this->base_args, $field_data );
 	}
 
