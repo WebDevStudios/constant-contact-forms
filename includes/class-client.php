@@ -66,6 +66,33 @@ class ConstantContact_Client {
 		return $this->post( 'contacts/sign_up_form', $this->base_args, $args );
 	}
 
+	public function get_custom_fields() {
+		return $this->get( 'contact_custom_fields', $this->base_args );
+	}
+
+	public function get_custom_field( $field_id ) {
+		return $this->get( "contact_custom_fields/{$field_id}", $this->base_args );
+	}
+
+	public function custom_field_exists( $field_name ) {
+		$fields = $this->get_custom_fields();
+	}
+
+	public function add_custom_field() {
+		$field_data = wp_json_encode([
+			'label' => 'xyz',
+			'type' => 'string',
+		]);
+		return $this->post( 'contact_custom_fields', $this->base_args, $field_data );
+	}
+
+	public function update_custom_field( $field_id ) {
+		$field_data = wp_json_encode([
+
+		]);
+		return $this->put( "contact_custom_fields/{$field_id}", $this->base_args, $field_data );
+	}
+
 	public function get_lists() {
 		// Note: probably want to support pulling all the lists, e.g. set limit to 1000, rather than default of 50. Marketers gonna market.
 		return $this->get( 'contact_lists?include_membership_count=all', $this->base_args );
