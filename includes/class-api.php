@@ -807,21 +807,30 @@ class ConstantContact_API {
 					$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
 					$custom_field_name   = '';
 					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
+					$custom_field        = ( $original_field_data[ $original ] );
+					$new_custom_field    = '';
 					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
-						$custom_field       = ( $original_field_data[ $original ] );
 						$custom_field_name .= $custom_field['name'] . ': ';
 					}
 
-					$custom = new Ctct\Components\Contacts\CustomField();
+					if ( ! $this->cc()->custom_field_exists( $custom_field['name'] ) ) {
+						$new_custom_field = $this->cc()->add_custom_field( [
+							'label' => $custom_field['name'],
+							'type'  => 'string',
+						] );
+					}
 
-					$custom = $custom->create(
-						[
-							'name'  => 'CustomField' . $count,
-							'value' => $custom_field_name . $value,
-						]
-					);
+					if ( empty( $new_custom_field ) ) {
+						$custom_field = $this->cc()->get_custom_field_by_name( $custom_field['name'] );
+					}
 
-					$contact->addCustomField( $custom );
+
+					#$custom = new Ctct\Components\Contacts\CustomField();
+
+					$contact->custom_fields[] = [
+						'custom_field_id' => $custom_field['custom_field_id'],
+						'value' => $value,
+					];
 					$count++;
 					break;
 				case 'custom_text_area':
