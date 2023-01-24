@@ -735,7 +735,7 @@ class ConstantContact_API {
 
 		$contact = new Contact();
 
-		$contact->email_address = new stdClass();
+		$contact->email_address          = new stdClass();
 		$contact->email_address->address = sanitize_text_field( $email );
 
 		$this->add_to_list( $contact, $list );
@@ -813,10 +813,10 @@ class ConstantContact_API {
 					// Do nothing, as we already captured.
 					break;
 				case 'phone_number':
-					$phone_number = new stdClass();
+					$phone_number               = new stdClass();
 					$phone_number->phone_number = $value;
-					$phone_number->kind = 'home';
-					$contact->phone_numbers[] = $phone_number;
+					$phone_number->kind         = 'home';
+					$contact->phone_numbers[]   = $phone_number;
 					break;
 				case 'company':
 					$contact->company_name = $value;
