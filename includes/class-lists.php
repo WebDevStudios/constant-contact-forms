@@ -469,10 +469,6 @@ class ConstantContact_Lists {
 			return false;
 		}
 
-		if ( ! isset( $ctct_list ) || empty( $ctct_list ) ) {
-			return false;
-		}
-
 		if ( ! isset( $ctct_list->ID ) || 0 >= $ctct_list->ID ) {
 			return false;
 		}
