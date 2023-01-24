@@ -680,7 +680,8 @@ class ConstantContact_API {
 
 		$contact = new Contact();
 
-		$contact->email_address = sanitize_text_field( $email );
+		$contact->email_address = new stdClass();
+		$contact->email_address->address = sanitize_text_field( $email );
 
 		$this->add_to_list( $contact, $list );
 
