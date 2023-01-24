@@ -66,6 +66,8 @@ class ConstantContact_Lists {
 		add_filter( 'post_row_actions', [ $this, 'remove_quick_edit_from_lists' ] );
 
 		add_action( 'admin_init', [ $this, 'maybe_display_duplicate_list_error' ] );
+
+		add_action( 'constant_contact_sync_lists', [ $this, 'migrate_v2_v3_form_lists' ] );
 	}
 
 	/**
@@ -877,5 +879,56 @@ class ConstantContact_Lists {
 		}
 
 		return $actions;
+	}
+
+	public function migrate_v2_v3_form_lists( $updated_lists ) {
+
+		$migrated = get_option( 'ctct_api_v2_v3_migrated', false );
+
+		if ( $migrated ) {
+			return;
+		}
+
+		$query = new WP_Query(
+			[
+				'post_status'            => ['publish', 'draft'],
+				'post_type'              => 'ctct_forms',
+				'update_post_term_cache' => false,
+			]
+		);
+
+		if ( ! $query->have_posts() ) {
+			return;
+		}
+
+		$lists = [];
+		while( $query->have_posts() ) {
+			$query->the_post();
+			$post_lists = get_post_meta( get_the_ID(), '_ctct_list', true );
+			if ( is_array( $post_lists ) && ! empty( $post_lists[0] ) ) {
+				$lists[ get_the_ID() ] = $post_lists;
+			}
+		}
+
+		$new_list_ids = $this->get_new_ids_from_list( $lists );
+
+		return;
+		#return update_option( 'ctct_api_v2_v3_migrated', true );
+	}
+
+	private function get_new_ids_from_list( $list_of_ids ) {
+		$new_pairs = [];
+		$list_chunks = array_chunk( $list_of_ids, 500 );
+
+		if ( empty( $list_chunks ) ) {
+			return;
+		}
+
+		foreach( $list_chunks as $list_chunk ) {
+			$list_string = implode( ',', $list_chunk );
+			$new_pairs[] = constantcontact_api()->get_updated_lists_ids( $list_string );
+		}
+
+		return $new_pairs;
 	}
 }
