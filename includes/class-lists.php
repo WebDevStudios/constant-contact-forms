@@ -761,8 +761,12 @@ class ConstantContact_Lists {
 	 */
 	public function maybe_display_duplicate_list_error() {
 		global $pagenow, $post;
-		if ( $pagenow || ( ! in_array( $pagenow, [ 'post.php' ], true ) ) ) {
+		if ( $pagenow && ( ! in_array( $pagenow, [ 'post.php' ], true ) ) ) {
 			return;
+		}
+
+		if ( is_null( $post ) && isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) {
+			$post = get_post( sanitize_text_field( $_GET['post'] ) );
 		}
 
 		if (
