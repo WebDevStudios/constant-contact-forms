@@ -433,7 +433,9 @@ class ConstantContact_Lists {
 
 			add_post_meta( $ctct_list->ID, 'ctct_duplicate_list', true );
 
-			if ( 'draft' !== $ctct_list->post_status ) {
+			if ( 'trash' === $ctct_list->post_status ) {
+				$return = wp_delete_post( $ctct_list->ID );
+			} else if ( 'draft' !== $ctct_list->post_status ) {
 				$return = wp_update_post(
 					[
 						'ID'          => absint( $ctct_list->ID ),
