@@ -99,13 +99,6 @@ class ConstantContact_Client {
 		return $this->post( 'contact_custom_fields', $this->base_args, $field_data );
 	}
 
-	public function update_custom_field( $field_id ) {
-		$field_data = wp_json_encode([
-
-		]);
-		return $this->put( "contact_custom_fields/{$field_id}", $this->base_args, $field_data );
-	}
-
 	public function get_lists() {
 		// Note: probably want to support pulling all the lists, e.g. set limit to 1000, rather than default of 50. Marketers gonna market.
 		return $this->get( 'contact_lists?include_membership_count=all', $this->base_args );
