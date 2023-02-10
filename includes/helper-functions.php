@@ -864,6 +864,13 @@ function constant_contact_forms_maybe_set_exception_notice( $e ) {
 	constant_contact_set_has_exceptions();
 }
 
+/**
+ * Maybe show notification about API v3 changes.
+ *
+ * @since 1.14.0
+ *
+ * @return bool|int
+ */
 function constant_contact_maybe_display_api3_upgrade_notice() {
 	$current_version = get_option( 'ctct_plugin_version' );
 	return version_compare( $current_version, '2.0.0', '<' );

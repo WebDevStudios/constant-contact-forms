@@ -368,6 +368,14 @@ function constant_contact_form_deleted( array $notifications = [] ) {
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_form_deleted' );
 
+/**
+ * Add notification about upcoming API v3 changes.
+ *
+ * @since 1.14.0
+ *
+ * @param array $notifications Array of notifications to be shown.
+ * @return array               Array of notifications to be shown.
+ */
 function constant_contact_api3_upgrade_notice( array $notifications = [] ) {
 	$notifications[] = [
 		'ID'         => 'api3_upgrade_notice',
