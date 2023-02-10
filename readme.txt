@@ -12,6 +12,8 @@ The official Constant Contact plugin adds a contact form to your WordPress site 
 
 == Description ==
 
+Please note: the next upcoming version 2.0.0 of this plugin will be a significant release, including both security and feature updates. You will be required to reconnect the plugin to your Constant Contact account after installing version 2.0.0, once it is released.
+
 ##Work smarter, not harder. The Constant Contact Way
 Create branded emails, build a website, sell online, and make it easy for people to find you—all from one place.
 
