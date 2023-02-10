@@ -808,7 +808,6 @@ class ConstantContact_API {
 
 			switch ( $key ) {
 				case 'email':
-				case 'website':
 					// Do nothing, as we already captured.
 					break;
 				case 'phone_number':
@@ -852,6 +851,7 @@ class ConstantContact_API {
 				case 'anniversery_day':
 				case 'anniversary_month':
 				case 'anniversary_year':
+				case 'website':
 				case 'custom':
 					// Dont overload custom fields.
 					if ( $count > 25 ) {
