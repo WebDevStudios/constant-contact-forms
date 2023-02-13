@@ -898,6 +898,9 @@ class ConstantContact_Lists {
 		);
 
 		if ( ! $query->have_posts() ) {
+			// There were no forms to update. Flag the migration as complete.
+			//update_option( 'ctct_api_v2_v3_migrated', true );
+
 			return;
 		}
 
@@ -912,6 +915,7 @@ class ConstantContact_Lists {
 
 		$new_list_ids = $this->get_new_ids_from_list( $lists );
 
+		error_log( '$new_list_ids ' . var_export( $new_list_ids, true ) );
 		return;
 		#return update_option( 'ctct_api_v2_v3_migrated', true );
 	}
@@ -926,9 +930,11 @@ class ConstantContact_Lists {
 
 		foreach( $list_chunks as $list_chunk ) {
 			$list_string = implode( ',', $list_chunk );
-			$new_pairs[] = constantcontact_api()->get_updated_lists_ids( $list_string );
+			//$new_pairs[] = constantcontact_api()->get_updated_lists_ids( $list_string );
+			$new_pairs[] = constantcontact_api()->client()->get_updated_lists_ids( $list_string );
 		}
 
+		error_log( '$new_pairs ' . var_export( $new_pairs, true ) );
 		return $new_pairs;
 	}
 }
