@@ -813,10 +813,7 @@ class ConstantContact_API {
 					// Do nothing, as we already captured.
 					break;
 				case 'phone_number':
-					$phone_number               = new stdClass();
-					$phone_number->phone_number = $value;
-					$phone_number->kind         = 'home';
-					$contact->phone_numbers[]   = $phone_number;
+					$contact->phone_number = $value;
 					break;
 				case 'company':
 					$contact->company_name = $value;
