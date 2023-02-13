@@ -839,7 +839,7 @@ class ConstantContact_API {
 							break;
 						case 'state_address':
 							$address['state']   = $value;
-							$address['country'] = 'US';
+							$address['country'] = 'United States';
 							break;
 						case 'zip_address':
 							$address['postal_code'] = $value;
@@ -925,11 +925,11 @@ class ConstantContact_API {
 		} // End foreach.
 
 		if ( ! empty( $streets ) ) {
-			$address['street'] = implode( ',', $streets );
+			$address['street'] = implode( ', ', $streets );
 		}
 
 		if ( null !== $address ) {
-			$contact->street_addresses[] = $address;
+			$contact->street_address = (object) $address;
 		}
 
 		return $contact;
