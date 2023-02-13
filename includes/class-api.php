@@ -739,6 +739,7 @@ class ConstantContact_API {
 		$address   = null;
 		$count     = 1;
 		$textareas = 0;
+		$streets   = [];
 		if ( ! $updated ) {
 			$contact->notes = [];
 		}
@@ -756,7 +757,7 @@ class ConstantContact_API {
 					// Do nothing, as we already captured.
 					break;
 				case 'phone_number':
-					$contact->cell_phone = $value;
+					$contact->phone_number = $value;
 					break;
 				case 'company':
 					$contact->company_name = $value;
@@ -767,26 +768,26 @@ class ConstantContact_API {
 				case 'state_address':
 				case 'zip_address':
 					if ( null === $address ) {
-						$address = new Ctct\Components\Contacts\Address();
+						$address = [];
 					}
 
 					switch ( $key ) {
 						case 'street_address':
-							$address->address_type = 'PERSONAL';
-							$address->line1        = $value;
+							$address['kind'] = 'home';
+							$streets[]       = $value;
 							break;
 						case 'line_2_address':
-							$address->line2 = $value;
+							$streets[] = $value;
 							break;
 						case 'city_address':
-							$address->city = $value;
+							$address['city'] = $value;
 							break;
 						case 'state_address':
-							$address->state        = $value;
-							$address->country_code = 'us';
+							$address['state']   = $value;
+							$address['country'] = 'United States';
 							break;
 						case 'zip_address':
-							$address->postal_code = $value;
+							$address['postal_code'] = $value;
 							break;
 					}
 					break;
@@ -868,8 +869,12 @@ class ConstantContact_API {
 			} // End switch.
 		} // End foreach.
 
+		if ( ! empty( $streets ) ) {
+			$address['street'] = implode( ', ', $streets );
+		}
+
 		if ( null !== $address ) {
-			$contact->addAddress( $address );
+			$contact->street_address = (object) $address;
 		}
 
 		return $contact;
