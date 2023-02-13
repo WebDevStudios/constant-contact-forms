@@ -323,6 +323,62 @@ class ConstantContact_API {
 	}
 
 	/**
+	 * Get v2 to v3 API lists of the connected CTCT account.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $old_ids_string List of old (v2 API) list ids.
+	 * @param bool $force_skip_cache Whether or not to skip cache.
+	 * @return array Current connect updated ctct lists.
+	 */
+	public function get_updated_lists_ids( $old_ids_string, $force_skip_cache = false ) {
+
+		if ( ! $this->is_connected() ) {
+			return [];
+		}
+
+		$lists = get_transient( 'ctct_updated_lists' );
+
+		if ( $force_skip_cache ) {
+			$lists = false;
+		}
+
+		if ( false === $lists ) {
+
+			try {
+
+				$lists = $this->cc()->get_updated_lists_ids( $old_ids_string );
+				$lists = $lists['lists'];
+
+				if ( is_array( $lists ) ) {
+					set_transient( 'ctct_updated_lists', $lists, 1 * HOUR_IN_SECONDS );
+					return $lists;
+				}
+			} catch ( CtctException $ex ) {
+				add_filter( 'constant_contact_force_logging', '__return_true' );
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$errors       = $ex->getErrors();
+				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
+				$this->log_errors( $our_errors );
+				constant_contact_forms_maybe_set_exception_notice( $ex );
+			} catch ( Exception $ex ) {
+				$error                = new stdClass();
+				$error->error_key     = get_class( $ex );
+				$error->error_message = $ex->getMessage();
+
+				add_filter( 'constant_contact_force_logging', '__return_true' );
+				constant_contact_forms_maybe_set_exception_notice( $ex );
+
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
+				$this->log_errors( $our_errors );
+			}
+		}
+
+		return $lists;
+	}
+
+	/**
 	 * Get an individual list by ID.
 	 *
 	 * @since 1.0.0

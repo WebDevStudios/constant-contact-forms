@@ -913,6 +913,7 @@ class ConstantContact_Lists {
 			}
 		}
 
+		error_log( '$lists ' . var_export( $lists, true ) );
 		$new_list_ids = $this->get_new_ids_from_list( $lists );
 
 		error_log( '$new_list_ids ' . var_export( $new_list_ids, true ) );
