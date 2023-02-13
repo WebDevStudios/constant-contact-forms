@@ -427,7 +427,9 @@ class ConstantContact_Lists {
 
 			add_post_meta( $ctct_list->ID, 'ctct_duplicate_list', true );
 
-			if ( 'draft' !== $ctct_list->post_status ) {
+			if ( 'trash' === $ctct_list->post_status ) {
+				$return = wp_delete_post( $ctct_list->ID );
+			} else if ( 'draft' !== $ctct_list->post_status ) {
 				$return = wp_update_post(
 					[
 						'ID'          => absint( $ctct_list->ID ),
@@ -464,10 +466,6 @@ class ConstantContact_Lists {
 	 * @return bool
 	 */
 	public function add_list( $ctct_list ) {
-
-		if ( ! isset( $ctct_list ) || empty( $ctct_list ) ) {
-			return false;
-		}
 
 		if ( ! isset( $ctct_list ) || empty( $ctct_list ) ) {
 			return false;
@@ -747,8 +745,8 @@ class ConstantContact_Lists {
 		if ( $lists && is_array( $lists ) ) {
 
 			foreach ( $lists as $list ) {
-				if ( isset( $list->id ) && isset( $list->name ) ) {
-					$get_lists[ esc_attr( $list->id ) ] = esc_attr( $list->name );
+				if ( isset( $list['list_id'] ) && isset( $list['name'] ) ) {
+					$get_lists[ esc_attr( $list['list_id'] ) ] = esc_attr( $list['name'] );
 				}
 			}
 		}
@@ -765,8 +763,12 @@ class ConstantContact_Lists {
 	 */
 	public function maybe_display_duplicate_list_error() {
 		global $pagenow, $post;
-		if ( $pagenow || ( ! in_array( $pagenow, [ 'post.php' ], true ) ) ) {
+		if ( $pagenow && ( ! in_array( $pagenow, [ 'post.php' ], true ) ) ) {
 			return;
+		}
+
+		if ( is_null( $post ) && isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) {
+			$post = get_post( sanitize_text_field( $_GET['post'] ) );
 		}
 
 		if (
