@@ -68,6 +68,7 @@ class ConstantContact_Lists {
 		add_action( 'admin_init', [ $this, 'maybe_display_duplicate_list_error' ] );
 
 		add_action( 'constant_contact_sync_lists', [ $this, 'migrate_v2_v3_form_lists' ] );
+		add_action( 'update_option_ctct_options_settings', [ $this, 'migrate_v2_v3_form_lists' ] );
 	}
 
 	/**
