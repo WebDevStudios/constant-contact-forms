@@ -914,6 +914,7 @@ class ConstantContact_Lists {
 			return update_option( 'ctct_api_v2_v3_migrated', true );
 		}
 
+		// Get all the v2 List IDs.
 		$v2_list_ids = [];
 		while( $forms_query->have_posts() ) {
 			$forms_query->the_post();
@@ -950,7 +951,7 @@ class ConstantContact_Lists {
 
 			if ( is_array( $list_ids ) && ! empty( $list_ids[0] ) ) {
 				foreach ( $list_ids as $list_id ) {
-					// V3 List IDs do not need to be modified.
+					// V3 List IDs do not need to be modified. We will save them as-is.
 					if ( ! $this->is_v2_list_id( $list_id ) && ! in_array( $list_id , $updated_list_ids ) ) {
 						$updated_list_ids[] = $list_id;
 						continue;
@@ -973,6 +974,7 @@ class ConstantContact_Lists {
 			}
 		}
 
+		// Set flag indicating that list ID migration is complete.
 		return update_option( 'ctct_api_v2_v3_migrated', true );
 	}
 
