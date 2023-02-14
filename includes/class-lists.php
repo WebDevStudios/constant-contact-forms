@@ -967,7 +967,10 @@ class ConstantContact_Lists {
 			}
 
 			error_log( '$updated_list_ids ' . var_export( $updated_list_ids, true ) );
-			update_post_meta( get_the_ID(), '_ctct_list', $updated_list_ids );
+			// Update the current form's list IDs.
+			if ( ! empty( $updated_list_ids ) ) {
+				update_post_meta( get_the_ID(), '_ctct_list', $updated_list_ids );
+			}
 		}
 
 		return update_option( 'ctct_api_v2_v3_migrated', true );
