@@ -327,32 +327,31 @@ class ConstantContact_API {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $old_ids_string List of old (v2 API) list ids.
-	 * @param bool $force_skip_cache Whether or not to skip cache.
-	 * @return array Current connect updated ctct lists.
+	 * @param string $old_ids_string Comma separated list of old (v2 API) list ids.
+	 * @param bool   $force_skip_cache Whether or not to skip cache.
+	 * @return array API v2 to v3 List ID cross references.
 	 */
-	public function get_updated_lists_ids( $old_ids_string, $force_skip_cache = false ) {
+	public function get_v2_list_id_x_refs( $old_ids_string, $force_skip_cache = false ) {
 
 		if ( ! $this->is_connected() ) {
 			return [];
 		}
 
-		$lists = get_transient( 'ctct_updated_lists' );
+		$list_x_refs = get_transient('ctct_list_xrefs');
 
 		if ( $force_skip_cache ) {
-			$lists = false;
+			$list_x_refs = false;
 		}
 
-		if ( false === $lists ) {
+		if ( false === $list_x_refs ) {
 
 			try {
 
-				$lists = $this->cc()->get_updated_lists_ids( $old_ids_string );
-				$lists = $lists['lists'];
+				$list_x_refs = $this->cc()->get_updated_lists_ids( $old_ids_string );
 
-				if ( is_array( $lists ) ) {
-					set_transient( 'ctct_updated_lists', $lists, 1 * HOUR_IN_SECONDS );
-					return $lists;
+				if ( is_array( $list_x_refs ) ) {
+					set_transient('ctct_list_xrefs', $list_x_refs, 1 * HOUR_IN_SECONDS );
+					return $list_x_refs;
 				}
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
@@ -375,7 +374,7 @@ class ConstantContact_API {
 			}
 		}
 
-		return $lists;
+		return $list_x_refs;
 	}
 
 	/**
