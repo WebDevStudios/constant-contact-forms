@@ -374,7 +374,7 @@ class ConstantContact_Process_Form {
 			(
 				! isset( $cleaned_values['ctct-lists'] ) ||
 				empty( $cleaned_values['ctct-lists'] ) ||
-				empty( $cleaned_values['ctct-lists'][0] )
+				empty( $cleaned_values['ctct-lists']['value'][0] )
 			)
 		) {
 			return [
