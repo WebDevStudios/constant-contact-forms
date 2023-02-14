@@ -881,15 +881,22 @@ class ConstantContact_Lists {
 		return $actions;
 	}
 
-	public function migrate_v2_v3_form_lists( $updated_lists ) {
+	/**
+	 * Migrate API v2 list IDs associated with forms to the corresponding API v3 list ID.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return bool True if migration was completed.
+	 */
+	public function migrate_v2_v3_form_lists() {
 
 		$migrated = get_option( 'ctct_api_v2_v3_migrated', false );
 
 		if ( $migrated ) {
-			return;
+			return true;
 		}
 
-		$query = new WP_Query(
+		$forms_query = new WP_Query(
 			[
 				'post_status'            => ['publish', 'draft'],
 				'post_type'              => 'ctct_forms',
@@ -897,45 +904,129 @@ class ConstantContact_Lists {
 			]
 		);
 
-		if ( ! $query->have_posts() ) {
+		if ( ! $forms_query->have_posts() ) {
 			// There were no forms to update. Flag the migration as complete.
-			//update_option( 'ctct_api_v2_v3_migrated', true );
-
-			return;
+			return update_option( 'ctct_api_v2_v3_migrated', true );
 		}
 
-		$lists = [];
-		while( $query->have_posts() ) {
-			$query->the_post();
-			$post_lists = get_post_meta( get_the_ID(), '_ctct_list', true );
-			if ( is_array( $post_lists ) && ! empty( $post_lists[0] ) ) {
-				$lists[ get_the_ID() ] = $post_lists;
+		$v2_list_ids = [];
+		while( $forms_query->have_posts() ) {
+			$forms_query->the_post();
+			$list_ids  = get_post_meta( get_the_ID(), '_ctct_list', true );
+
+			error_log( '$list_ids ' . var_export( $list_ids, true ) );
+
+			if ( is_array( $list_ids ) && ! empty( $list_ids[0] ) ) {
+				foreach ( $list_ids as $list_id ) {
+					// Only update v2 list IDs.
+					if ( $this->is_v2_list_id( $list_id ) && ! in_array( $list_id , $v2_list_ids ) ) {
+						$v2_list_ids[] = $list_id;
+					}
+				}
 			}
 		}
 
-		error_log( '$lists ' . var_export( $lists, true ) );
-		$new_list_ids = $this->get_new_ids_from_list( $lists );
+		error_log( '$v2_list_ids ' . var_export( $v2_list_ids, true ) );
 
-		error_log( '$new_list_ids ' . var_export( $new_list_ids, true ) );
-		return;
-		#return update_option( 'ctct_api_v2_v3_migrated', true );
+		$v2_list_ids_string = implode( ',', $v2_list_ids );
+		error_log( '$v2_list_ids_string ' . var_export( $v2_list_ids_string, true ) );
+
+		// Get the list ID cross references.
+		$list_x_refs = [];
+		$list_x_refs = $this->get_v2_list_id_x_refs( $v2_list_ids_string );
+
+		error_log( '$list_x_refs ' . var_export( $list_x_refs, true ) );
+
+		// Iterate over forms and update list IDs.
+		while( $forms_query->have_posts() ) {
+			$forms_query->the_post();
+			$list_ids         = get_post_meta( get_the_ID(), '_ctct_list', true );
+			$updated_list_ids = [];
+
+			if ( is_array( $list_ids ) && ! empty( $list_ids[0] ) ) {
+				foreach ( $list_ids as $list_id ) {
+					// V3 List IDs do not need to be modified.
+					if ( ! $this->is_v2_list_id( $list_id ) && ! in_array( $list_id , $updated_list_ids ) ) {
+						$updated_list_ids[] = $list_id;
+						continue;
+					}
+
+					// Handle v2 list IDs. We need to get their corrsesponding v3 ID.
+					if ( $this->is_v2_list_id( $list_id ) && ! in_array( $list_id , $updated_list_ids ) ) {
+						$updated_list_id = $this->get_v3_list_id_for_v2_list( $list_id, $list_x_refs );
+						if ( ! empty( $updated_list_id ) ) {
+							$updated_list_ids[] = $updated_list_id;
+						}
+					}
+				}
+			}
+
+			error_log( '$updated_list_ids ' . var_export( $updated_list_ids, true ) );
+			update_post_meta( get_the_ID(), '_ctct_list', $updated_list_ids );
+		}
+
+		return update_option( 'ctct_api_v2_v3_migrated', true );
 	}
 
-	private function get_new_ids_from_list( $list_of_ids ) {
-		$new_pairs = [];
-		$list_chunks = array_chunk( $list_of_ids, 500 );
-
-		if ( empty( $list_chunks ) ) {
-			return;
+	/**
+	 * Helper function used to determine if a list id is v2 or v3.
+	 *
+	 * Example v2 ID: 1033695742
+	 * Example v3 ID: ddcaf370-abcb-11ed-bf30-fa163ef7d836
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $list_id The list ID to check.
+	 *
+	 * @return bool True if the supplied list ID is for API v2, false otherwise.
+	 */
+	private function is_v2_list_id( $list_id ) {
+		if ( 36 !== strlen( $list_id ) ) {
+			return true;
 		}
 
-		foreach( $list_chunks as $list_chunk ) {
-			$list_string = implode( ',', $list_chunk );
-			//$new_pairs[] = constantcontact_api()->get_updated_lists_ids( $list_string );
-			$new_pairs[] = constantcontact_api()->client()->get_updated_lists_ids( $list_string );
+		return false;
+	}
+
+	/**
+	 * Use the CC API to get v2 to v3 list ID cross references.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $list_of_ids Comma separated list of v2 API List IDs.
+	 *
+	 * @return array of v2 to v3 list ID cross references.
+	 */
+	private function get_v2_list_id_x_refs( $list_of_ids ) {
+		$x_refs = constantcontact_api()->get_v2_list_id_x_refs(
+			$list_of_ids,
+			true
+		);
+
+		return $x_refs;
+	}
+
+	/**
+	 * Provide an API v2 List ID and the corresponding API v3 List ID will be returned.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $v2_list_id  The CC API v2 list ID
+	 * @param array  $list_x_refs The API v2 to API v3 list ID cross references supplied by the CC API.
+	 *
+	 * @return string API v3 list id, or null if not found.
+	 */
+	private function get_v3_list_id_for_v2_list( $v2_list_id, $list_x_refs ) {
+		if ( empty( $list_x_refs ) || empty( $list_x_refs['xrefs'] ) ) {
+			return null;
 		}
 
-		error_log( '$new_pairs ' . var_export( $new_pairs, true ) );
-		return $new_pairs;
+		foreach ( $list_x_refs['xrefs'] as $list_x_ref ) {
+			if ( $v2_list_id === $list_x_ref['sequence_id'] ) {
+				return $list_x_ref['list_id'];
+			}
+		}
+
+		return null;
 	}
 }
