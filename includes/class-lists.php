@@ -891,6 +891,10 @@ class ConstantContact_Lists {
 	 */
 	public function migrate_v2_v3_form_lists() {
 
+		if ( ! constant_contact()->api->is_connected() ) {
+			return false;
+		}
+
 		$migrated = get_option( 'ctct_api_v2_v3_migrated', false );
 
 		if ( $migrated ) {
