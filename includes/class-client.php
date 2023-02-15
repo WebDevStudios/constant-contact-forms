@@ -62,8 +62,16 @@ class ConstantContact_Client {
 		return $this->get( "contacts?$args", $this->base_args );
 	}
 
+	public function get_contact( $contact_id ) {
+		return $this->get( "contacts/$contact_id", $this->base_args );
+	}
+
 	public function create_update_contact( $args = [] ) {
 		return $this->post( 'contacts/sign_up_form', $this->base_args, $args );
+	}
+
+	public function create_update_contact_with_notes( $contact_id, $args = [] ) {
+		return $this->put( "contacts/$contact_id", $this->base_args, $args );
 	}
 
 	public function get_lists() {

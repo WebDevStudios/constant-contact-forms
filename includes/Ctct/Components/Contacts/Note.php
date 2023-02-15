@@ -33,6 +33,10 @@ class Note extends Component {
 	 */
 	public $created_date;
 
+	public $note_id;
+	public $content;
+	public $created_at;
+
 	/**
 	 * Factory method to create a Note object from an array
 	 *
@@ -44,6 +48,11 @@ class Note extends Component {
 		$note->id           = parent::getValue( $props, 'id' );
 		$note->note         = parent::getValue( $props, 'note' );
 		$note->created_date = parent::getValue( $props, 'created_date' );
+
+		$note->note_id    = parent::getValue( $props, 'note_id' );
+		$note->content    = parent::getValue( $props, 'content' );
+		$note->created_at = parent::getValue( $props, 'created_at' );
+
 		return $note;
 	}
 }

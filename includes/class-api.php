@@ -15,6 +15,7 @@ require 'Ctct/autoload.php';
 use Ctct\Components\Contacts\Contact;
 use Ctct\Components\Contacts\ContactList;
 use Ctct\Exceptions\CtctException;
+error_log( 'debug...' );
 
 /**
  * Powers connection between site and Constant Contact API.
@@ -706,10 +707,40 @@ class ConstantContact_API {
 			$this->log_errors( $our_errors );
 		}
 
-		return $this->cc()->create_update_contact(
+		error_log( '$contact - contact data ' . var_export( $contact, true ) );
+		$create_update_contact = $this->cc()->create_update_contact(
 			(array) $contact
 		);
 
+		error_log( 'create_update_contact ' . var_export( $create_update_contact, true ) );
+
+		// Get the contact.
+		$get_contact = $this->cc()->get_contact( $create_update_contact['contact_id'] );
+		error_log( '$get_contact ' . var_export( $get_contact, true ) );
+
+
+		//$contact->contact_id = $create_update_contact->id;
+
+		$update_data =[];
+		$update_data['email_address'] = $get_contact['email_address'];
+		$update_data['first_name'] = $get_contact['first_name'] ?? '';
+		$update_data['last_name'] = $get_contact['last_name'] ?? '';
+		$update_data['update_source'] = 'Contact';
+		$update_data['notes'] = $contact->notes;
+		$update_data['job_title'] = 'jobbies';
+		error_log( '$update_data ' . var_export( $update_data, true ) );
+
+		$create_update_contact_note = $this->cc()->create_update_contact_with_notes(
+			$create_update_contact['contact_id'],
+			$update_data
+		);
+		error_log( 'create_update_contact_note ' . var_export( $create_update_contact_note, true ) );
+
+		return $create_update_contact_note;
+
+		// return $this->cc()->create_update_contact(
+		// 	(array) $contact
+		// );
 	}
 
 	/**
@@ -828,19 +859,54 @@ class ConstantContact_API {
 					$textareas++;
 					// API version 2 only allows for 1 note for a given request.
 					// Version 3 will allow multiple notes.
-					if ( $textareas > 1 ) {
-						break;
-					}
+					// if ( $textareas > 1 ) {
+					// 	break;
+					// }
 					if ( ! $updated ) {
 						$unique_id        = explode( '___', $original );
 						$contact->notes[] = [
+							'note_id'     => $unique_id[1],
+							'content'     => substr( $value, 0, 2000 ),
+							'created_at'  => date( 'Y-m-d\TH:i:s' ),
+
 							'created_date'  => date( 'Y-m-d\TH:i:s' ),
 							'id'            => $unique_id[1],
 							'modified_date' => date( 'Y-m-d\TH:i:s' ),
 							'note'          => $value,
 						];
 					} else {
-						$contact->notes[0]->note .= ' ' . $value;
+						//$contact->notes[0]->note .= ' ' . $value;
+						$unique_id        = explode( '___', $original );
+						$unique_id_dashed        = preg_replace("/(\w{8})(\w{4})(\w{4})(\w{4})(\w{12})/i", "$1-$2-$3-$4-$5", $unique_id[1]);
+						// $contact->notes[] = [
+						// 	// v3
+						// 	'note_id'     => $unique_id_dashed,
+						// 	'content'     => substr( $value, 0, 2000 ),
+						// 	'created_at'  => date( 'Y-m-d\TH:i:s' ),
+
+						// 	// v2
+						// 	'created_date'  => date( 'Y-m-d\TH:i:s' ),
+						// 	'id'            => $unique_id[1],
+						// 	'modified_date' => date( 'Y-m-d\TH:i:s' ),
+						// 	'note'          => $value,
+						// ];
+
+						$note = new Ctct\Components\Contacts\Note();
+						$note = $note->create(
+							[
+								'note_id'     => '7669fb82-a954-11ed-8ce1-fa163ed70180', // created in cc
+								//'note_id'     => $unique_id_dashed,
+								'content'     => substr( $value, 0, 2000 ),
+								'created_at'  => date( 'Y-m-d\TH:i:s' ),
+
+								'created_date'  => date( 'Y-m-d\TH:i:s' ),
+								'id'            => $unique_id[1],
+								'modified_date' => date( 'Y-m-d\TH:i:s' ),
+								'note'          => $value,
+							]
+						);
+
+						$contact->notes[] = $note;
 					}
 					break;
 				default:
