@@ -67,8 +67,11 @@ class ConstantContact_Lists {
 
 		add_action( 'admin_init', [ $this, 'maybe_display_duplicate_list_error' ] );
 
+		// Attempt to migrate v2 to v3 lists when syncing lists manually.
 		add_action( 'constant_contact_sync_lists', [ $this, 'migrate_v2_v3_form_lists' ] );
-		add_action( 'update_option_ctct_options_settings', [ $this, 'migrate_v2_v3_form_lists' ] );
+
+		// Attempt to migrate v2 to v3 lists automatically upon account authentication.
+		add_action( 'update_option__ctct_access_token', [ $this, 'migrate_v2_v3_form_lists' ] );
 	}
 
 	/**
