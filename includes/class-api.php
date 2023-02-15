@@ -737,6 +737,12 @@ class ConstantContact_API {
 
 		$contact->email_address = sanitize_text_field( $email );
 		unset( $contact->{"source"} );
+		if ( ! property_exists( $contact, 'list_memberships' ) ) {
+			$contact->list_memberships = [];
+		}
+		if ( property_exists( $contact, 'list_memberships' ) && ! is_array( $contact->list_memberships ) ) {
+			$contact->list_memberships = (array) $contact->list_memberships;
+		}
 		$this->add_to_list( $contact, $list );
 
 		try {
@@ -1236,7 +1242,7 @@ class ConstantContact_API {
 		$list = is_array( $list ) ? $list : [ $list ];
 
 		foreach ( $list as $list_id ) {
-			$contact->addListId( esc_attr( $list_id ) );
+			$contact->list_memberships[] = esc_attr( $list_id );
 		}
 	}
 
