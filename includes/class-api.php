@@ -681,7 +681,7 @@ class ConstantContact_API {
 		$contact = new Contact();
 
 		$contact->email_address = sanitize_text_field( $email );
-
+		unset( $contact->{"source"} );
 		$this->add_to_list( $contact, $list );
 
 		try {
@@ -841,17 +841,28 @@ class ConstantContact_API {
 					if ( $textareas > 1 ) {
 						break;
 					}
-					if ( ! $updated ) {
-						$unique_id        = explode( '___', $original );
-						$contact->notes[] = [
-							'created_date'  => date( 'Y-m-d\TH:i:s' ),
-							'id'            => $unique_id[1],
-							'modified_date' => date( 'Y-m-d\TH:i:s' ),
-							'note'          => $value,
-						];
-					} else {
-						$contact->notes[0]->note .= ' ' . $value;
+
+					$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
+					$textarea            = $original_field_data[ $original ];
+
+					if ( ! $this->cc()->custom_field_exists( $textarea['name'] ) ) {
+						$new_custom_field = $this->cc()->add_custom_field( [
+							'label' => $textarea['name'],
+							'type'  => 'string',
+						] );
 					}
+
+					if ( ! empty( $new_custom_field ) ) {
+						$contact->custom_fields[] = $new_custom_field;
+					} else {
+						$custom_field = $this->cc()->get_custom_field_by_name( $textarea['name'] );
+
+						$contact->custom_fields[] = [
+							'custom_field_id' => $custom_field['custom_field_id'],
+							'value'           => $value,
+						];
+					}
+
 					break;
 				default:
 					try {
