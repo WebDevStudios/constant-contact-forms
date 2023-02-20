@@ -292,7 +292,7 @@ class ConstantContact_API {
 			try {
 
 				$lists = $this->cc()->get_lists();
-				$lists = $lists['lists'];
+				$lists = $lists['lists'] ?? [];
 
 				if ( is_array( $lists ) ) {
 					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
@@ -320,6 +320,61 @@ class ConstantContact_API {
 		}
 
 		return $lists;
+	}
+
+	/**
+	 * Get v2 to v3 API lists of the connected CTCT account.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $old_ids_string Comma separated list of old (v2 API) list ids.
+	 * @param bool   $force_skip_cache Whether or not to skip cache.
+	 * @return array API v2 to v3 List ID cross references.
+	 */
+	public function get_v2_list_id_x_refs( $old_ids_string, $force_skip_cache = false ) {
+
+		if ( ! $this->is_connected() ) {
+			return [];
+		}
+
+		$list_x_refs = get_transient('ctct_list_xrefs');
+
+		if ( $force_skip_cache ) {
+			$list_x_refs = false;
+		}
+
+		if ( false === $list_x_refs ) {
+
+			try {
+
+				$list_x_refs = $this->cc()->get_updated_lists_ids( $old_ids_string );
+
+				if ( is_array( $list_x_refs ) ) {
+					set_transient('ctct_list_xrefs', $list_x_refs, 1 * HOUR_IN_SECONDS );
+					return $list_x_refs;
+				}
+			} catch ( CtctException $ex ) {
+				add_filter( 'constant_contact_force_logging', '__return_true' );
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$errors       = $ex->getErrors();
+				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
+				$this->log_errors( $our_errors );
+				constant_contact_forms_maybe_set_exception_notice( $ex );
+			} catch ( Exception $ex ) {
+				$error                = new stdClass();
+				$error->error_key     = get_class( $ex );
+				$error->error_message = $ex->getMessage();
+
+				add_filter( 'constant_contact_force_logging', '__return_true' );
+				constant_contact_forms_maybe_set_exception_notice( $ex );
+
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
+				$this->log_errors( $our_errors );
+			}
+		}
+
+		return $list_x_refs;
 	}
 
 	/**

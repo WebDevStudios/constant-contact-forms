@@ -120,6 +120,10 @@ class ConstantContact_Client {
 		return $this->delete( "contact_lists/$list_id", $this->base_args );
 	}
 
+	public function get_updated_lists_ids( $old_ids_string ) {
+		return $this->get( "contact_lists/list_id_xrefs?sequence_ids={$old_ids_string}", $this->base_args );
+	}
+
 	private function get( string $endpoint, $args = [] ) : array {
 
 		$options = [
