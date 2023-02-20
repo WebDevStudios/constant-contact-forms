@@ -935,6 +935,8 @@ class ConstantContact_Lists {
 			}
 		}
 
+		$forms_query->rewind_posts();
+
 		error_log( '$v2_list_ids ' . var_export( $v2_list_ids, true ) );
 
 		$v2_list_ids_string = implode( ',', $v2_list_ids );
