@@ -794,6 +794,7 @@ class ConstantContact_API {
 		$address   = null;
 		$count     = 1;
 		$textareas = 0;
+		$streets   = [];
 		if ( ! $updated ) {
 			$contact->notes = [];
 		}
@@ -808,11 +809,10 @@ class ConstantContact_API {
 
 			switch ( $key ) {
 				case 'email':
-				case 'website':
 					// Do nothing, as we already captured.
 					break;
 				case 'phone_number':
-					$contact->cell_phone = $value;
+					$contact->phone_number = $value;
 					break;
 				case 'company':
 					$contact->company_name = $value;
@@ -823,26 +823,26 @@ class ConstantContact_API {
 				case 'state_address':
 				case 'zip_address':
 					if ( null === $address ) {
-						$address = new Ctct\Components\Contacts\Address();
+						$address = [];
 					}
 
 					switch ( $key ) {
 						case 'street_address':
-							$address->address_type = 'PERSONAL';
-							$address->line1        = $value;
+							$address['kind'] = 'home';
+							$streets[]       = $value;
 							break;
 						case 'line_2_address':
-							$address->line2 = $value;
+							$streets[] = $value;
 							break;
 						case 'city_address':
-							$address->city = $value;
+							$address['city'] = $value;
 							break;
 						case 'state_address':
-							$address->state        = $value;
-							$address->country_code = 'us';
+							$address['state']   = $value;
+							$address['country'] = 'United States';
 							break;
 						case 'zip_address':
-							$address->postal_code = $value;
+							$address['postal_code'] = $value;
 							break;
 					}
 					break;
@@ -852,9 +852,10 @@ class ConstantContact_API {
 				case 'anniversery_day':
 				case 'anniversary_month':
 				case 'anniversary_year':
+				case 'website':
 				case 'custom':
 					// Dont overload custom fields.
-					if ( $count > 15 ) {
+					if ( $count > 25 ) {
 						break;
 					}
 
@@ -862,21 +863,30 @@ class ConstantContact_API {
 					$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
 					$custom_field_name   = '';
 					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
+					$custom_field        = ( $original_field_data[ $original ] );
+					$new_custom_field    = '';
 					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
-						$custom_field       = ( $original_field_data[ $original ] );
 						$custom_field_name .= $custom_field['name'] . ': ';
 					}
 
-					$custom = new Ctct\Components\Contacts\CustomField();
+					if ( ! $this->cc()->custom_field_exists( $custom_field['name'] ) ) {
+						$new_custom_field = $this->cc()->add_custom_field( [
+							'label' => $custom_field['name'],
+							'type'  => 'string',
+						] );
+					}
 
-					$custom = $custom->create(
-						[
-							'name'  => 'CustomField' . $count,
-							'value' => $custom_field_name . $value,
-						]
-					);
+					if ( ! empty( $new_custom_field ) ) {
+						$contact->custom_fields[] = $new_custom_field;
+					} else {
+						$custom_field = $this->cc()->get_custom_field_by_name( $custom_field['name'] );
 
-					$contact->addCustomField( $custom );
+						$contact->custom_fields[] = [
+							'custom_field_id' => $custom_field['custom_field_id'],
+							'value' => $value,
+						];
+					}
+
 					$count++;
 					break;
 				case 'custom_text_area':
@@ -914,8 +924,12 @@ class ConstantContact_API {
 			} // End switch.
 		} // End foreach.
 
+		if ( ! empty( $streets ) ) {
+			$address['street'] = implode( ', ', $streets );
+		}
+
 		if ( null !== $address ) {
-			$contact->addAddress( $address );
+			$contact->street_address = (object) $address;
 		}
 
 		return $contact;
