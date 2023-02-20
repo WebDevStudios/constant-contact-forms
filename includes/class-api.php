@@ -292,7 +292,7 @@ class ConstantContact_API {
 			try {
 
 				$lists = $this->cc()->get_lists();
-				$lists = $lists['lists'];
+				$lists = $lists['lists'] ?? [];
 
 				if ( is_array( $lists ) ) {
 					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
