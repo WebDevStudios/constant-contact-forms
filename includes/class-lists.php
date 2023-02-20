@@ -923,8 +923,6 @@ class ConstantContact_Lists {
 			$forms_query->the_post();
 			$list_ids  = get_post_meta( get_the_ID(), '_ctct_list', true );
 
-			error_log( '$list_ids ' . var_export( $list_ids, true ) );
-
 			if ( is_array( $list_ids ) && ! empty( $list_ids[0] ) ) {
 				foreach ( $list_ids as $list_id ) {
 					// Only update v2 list IDs.
@@ -937,16 +935,11 @@ class ConstantContact_Lists {
 
 		$forms_query->rewind_posts();
 
-		error_log( '$v2_list_ids ' . var_export( $v2_list_ids, true ) );
-
 		$v2_list_ids_string = implode( ',', $v2_list_ids );
-		error_log( '$v2_list_ids_string ' . var_export( $v2_list_ids_string, true ) );
 
 		// Get the list ID cross references.
 		$list_x_refs = [];
 		$list_x_refs = $this->get_v2_list_id_x_refs( $v2_list_ids_string );
-
-		error_log( '$list_x_refs ' . var_export( $list_x_refs, true ) );
 
 		// Iterate over forms and update list IDs.
 		while( $forms_query->have_posts() ) {
@@ -972,7 +965,6 @@ class ConstantContact_Lists {
 				}
 			}
 
-			error_log( '$updated_list_ids ' . var_export( $updated_list_ids, true ) );
 			// Update the current form's list IDs.
 			if ( ! empty( $updated_list_ids ) ) {
 				update_post_meta( get_the_ID(), '_ctct_list', $updated_list_ids );
