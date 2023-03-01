@@ -1,19 +1,27 @@
 # Copyright (C) 2022 Constant Contact Forms
 # This file is distributed under the same license as the Constant Contact Forms package.
+#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: Constant Contact Forms\n"
+"POT-Creation-Date: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 3.1.1\n"
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: constant-contact-forms.php:391, includes/class-admin.php:197, includes/class-beaver-builder.php:112, includes/class-cpts.php:89, includes/class-cpts.php:148
+#: constant-contact-forms.php:391 includes/class-admin.php:197
+#: includes/class-beaver-builder.php:112 includes/class-cpts.php:89
+#: includes/class-cpts.php:148
 msgid "Constant Contact"
 msgstr ""
 
@@ -23,6 +31,11 @@ msgstr ""
 
 #: constant-contact-forms.php:740
 msgid "Error loading license."
+msgstr ""
+
+#: includes/cc-modules/form/includes/frontend.php:9
+#: includes/widgets/elementor-widget.php:131
+msgid "Please select a form."
 msgstr ""
 
 #: includes/class-admin-pages.php:76
@@ -93,14 +106,6 @@ msgstr ""
 msgid "Customize the form data fields, so you can tailor the type of information you collect."
 msgstr ""
 
-#: includes/class-admin-pages.php:281
-msgid "Add Contact Form"
-msgstr ""
-
-#: includes/class-admin-pages.php:282
-msgid "View Lists"
-msgstr ""
-
 #: includes/class-admin-pages.php:244
 msgid "Turn Contacts into Customers."
 msgstr ""
@@ -121,7 +126,7 @@ msgstr ""
 msgid "Get expert marketing help and support."
 msgstr ""
 
-#: includes/class-admin-pages.php:258, includes/class-admin-pages.php:258
+#: includes/class-admin-pages.php:258
 msgid "Try us Free"
 msgstr ""
 
@@ -141,12 +146,20 @@ msgstr ""
 msgid "You can use the Constant Contact Form plugin without a Constant Contact account. All information collected by the forms will be individually emailed to your site admin."
 msgstr ""
 
+#: includes/class-admin-pages.php:281
+msgid "Add Contact Form"
+msgstr ""
+
+#: includes/class-admin-pages.php:282
+msgid "View Lists"
+msgstr ""
+
 #: includes/class-admin-pages.php:289
 msgid "GPLv3 license"
 msgstr ""
 
-#. translators: Placholder here is a link to the license.
 #: includes/class-admin-pages.php:296
+#, php-format
 msgid "This software is released under a modified %s."
 msgstr ""
 
@@ -170,23 +183,26 @@ msgstr ""
 msgid "Your Constant Contact account is not connected."
 msgstr ""
 
-#: includes/class-admin.php:239, includes/class-admin.php:240, includes/class-admin.php:505
+#: includes/class-admin.php:239 includes/class-admin.php:240
+#: includes/class-admin.php:505
 msgid "About"
 msgstr ""
 
-#: includes/class-admin.php:248, includes/class-admin.php:249, includes/class-admin.php:506
+#: includes/class-admin.php:248 includes/class-admin.php:249
+#: includes/class-admin.php:506
 msgid "License"
 msgstr ""
 
-#: includes/class-admin.php:333, includes/class-settings.php:896
+#: includes/class-admin.php:333 includes/class-settings.php:896
+#: vendor/cmb2/cmb2/includes/CMB2_Options_Hookup.php:143
 msgid "Settings updated."
 msgstr ""
 
-#: includes/class-admin.php:370
+#: includes/class-admin.php:370 vendor/cmb2/cmb2/example-functions.php:544
 msgid "Description"
 msgstr ""
 
-#: includes/class-admin.php:371, includes/class-builder-fields.php:713
+#: includes/class-admin.php:371 includes/class-builder-fields.php:713
 msgid "Shortcode"
 msgstr ""
 
@@ -242,11 +258,13 @@ msgstr ""
 msgid "Your API access token is invalid. Reconnect to Constant Contact to receive a new token."
 msgstr ""
 
-#: includes/class-beaver-builder.php:50, includes/class-beaver-builder.php:53, includes/class-settings.php:326, includes/class-settings.php:327
+#: includes/class-beaver-builder.php:50 includes/class-beaver-builder.php:53
+#: includes/class-settings.php:326 includes/class-settings.php:327
 msgid "Settings"
 msgstr ""
 
 #: includes/class-beaver-builder.php:57
+#: includes/widgets/contact-form-select.php:58
 msgid "Title"
 msgstr ""
 
@@ -255,18 +273,24 @@ msgid "Display"
 msgstr ""
 
 #: includes/class-beaver-builder.php:61
+#: includes/widgets/elementor-widget.php:76
 msgid "Hide"
 msgstr ""
 
-#: includes/class-beaver-builder.php:66, includes/class-notification-content.php:225
+#: includes/class-beaver-builder.php:66
+#: includes/class-notification-content.php:225
+#: includes/widgets/contact-form-select.php:65
+#: includes/widgets/elementor-widget.php:85
 msgid "Form"
 msgstr ""
 
 #: includes/class-beaver-builder.php:98
+#: includes/widgets/elementor-widget.php:116
 msgid "No forms currently published."
 msgstr ""
 
 #: includes/class-beaver-builder.php:110
+#: includes/widgets/contact-form-select.php:32
 msgid "Constant Contact Form"
 msgstr ""
 
@@ -454,11 +478,11 @@ msgstr ""
 msgid "Form Design"
 msgstr ""
 
-#: includes/class-builder-fields.php:368, includes/class-builder-fields.php:430
+#: includes/class-builder-fields.php:368 includes/class-builder-fields.php:430
 msgid "Background Color"
 msgstr ""
 
-#: includes/class-builder-fields.php:371
+#: includes/class-builder-fields.php:372
 msgid "Applies to the whole form."
 msgstr ""
 
@@ -466,19 +490,19 @@ msgstr ""
 msgid "Form Fonts"
 msgstr ""
 
-#: includes/class-builder-fields.php:384, includes/class-builder-fields.php:412
+#: includes/class-builder-fields.php:384 includes/class-builder-fields.php:412
 msgid "Font Size"
 msgstr ""
 
-#: includes/class-builder-fields.php:389
+#: includes/class-builder-fields.php:390
 msgid "Only applies to the form description."
 msgstr ""
 
-#: includes/class-builder-fields.php:396, includes/class-builder-fields.php:420
+#: includes/class-builder-fields.php:396 includes/class-builder-fields.php:420
 msgid "Font Color"
 msgstr ""
 
-#: includes/class-builder-fields.php:399
+#: includes/class-builder-fields.php:400
 msgid "Applies to the form description, input labels, and disclosure text."
 msgstr ""
 
@@ -486,11 +510,11 @@ msgstr ""
 msgid "Form Submit Button"
 msgstr ""
 
-#: includes/class-builder-fields.php:423
+#: includes/class-builder-fields.php:424
 msgid "Choose a color for the submit button text."
 msgstr ""
 
-#: includes/class-builder-fields.php:433
+#: includes/class-builder-fields.php:434
 msgid "Choose a color for the submit button background."
 msgstr ""
 
@@ -502,23 +526,27 @@ msgstr ""
 msgid "Form Padding"
 msgstr ""
 
-#: includes/class-builder-fields.php:458
+#: includes/class-builder-fields.php:459
 msgid "Enter padding values in number of pixels. Padding will be applied to four sides of the form."
 msgstr ""
 
-#: includes/class-builder-fields.php:464, includes/class-builder-fields.php:519, includes/class-settings.php:468
+#: includes/class-builder-fields.php:464 includes/class-builder-fields.php:519
+#: includes/class-settings.php:468
 msgid "Top"
 msgstr ""
 
-#: includes/class-builder-fields.php:474, includes/class-builder-fields.php:522, includes/class-settings.php:470
+#: includes/class-builder-fields.php:474 includes/class-builder-fields.php:522
+#: includes/class-settings.php:470
 msgid "Right"
 msgstr ""
 
-#: includes/class-builder-fields.php:484, includes/class-builder-fields.php:521, includes/class-settings.php:471
+#: includes/class-builder-fields.php:484 includes/class-builder-fields.php:521
+#: includes/class-settings.php:471
 msgid "Bottom"
 msgstr ""
 
-#: includes/class-builder-fields.php:494, includes/class-builder-fields.php:520, includes/class-settings.php:469
+#: includes/class-builder-fields.php:494 includes/class-builder-fields.php:520
+#: includes/class-settings.php:469
 msgid "Left"
 msgstr ""
 
@@ -526,11 +554,11 @@ msgstr ""
 msgid "Custom Classes"
 msgstr ""
 
-#: includes/class-builder-fields.php:507
+#: includes/class-builder-fields.php:508
 msgid "Set custom CSS class(es) for inputs. Separate multiple classes with spaces."
 msgstr ""
 
-#: includes/class-builder-fields.php:514, includes/class-settings.php:462
+#: includes/class-builder-fields.php:514 includes/class-settings.php:462
 msgid "Label Placement"
 msgstr ""
 
@@ -538,15 +566,15 @@ msgstr ""
 msgid "Global"
 msgstr ""
 
-#: includes/class-builder-fields.php:523, includes/class-settings.php:472
+#: includes/class-builder-fields.php:523 includes/class-settings.php:472
 msgid "Hidden"
 msgstr ""
 
-#: includes/class-builder-fields.php:525
+#: includes/class-builder-fields.php:526
 msgid "Set the position for labels for inputs."
 msgstr ""
 
-#: includes/class-builder-fields.php:543
+#: includes/class-builder-fields.php:544
 msgid "Enabling this option will require users to check a box to be added to your list."
 msgstr ""
 
@@ -582,12 +610,12 @@ msgstr ""
 msgid "Your Business Name"
 msgstr ""
 
-#: includes/class-builder-fields.php:621, includes/class-settings.php:418
+#: includes/class-builder-fields.php:621 includes/class-settings.php:418
 msgid "Opt-in Affirmation"
 msgstr ""
 
-#. translators: placeholder has a business name from Constant Contact.
 #: includes/class-builder-fields.php:625
+#, php-format
 msgid "Example: Yes, I would like to receive emails from %s. (You can unsubscribe anytime)"
 msgstr ""
 
@@ -639,8 +667,8 @@ msgstr ""
 msgid "Shortcode to use"
 msgstr ""
 
-#. translators: Placeholders here represent `<em>` and `<strong>` HTML tags.
 #: includes/class-builder-fields.php:726
+#, php-format
 msgid "Shortcode to embed — %1$s%2$sYou can copy and paste this in a post to display your form.%3$s%4$s"
 msgstr ""
 
@@ -668,11 +696,11 @@ msgstr ""
 msgid "Reset Styles"
 msgstr ""
 
-#: includes/class-builder-fields.php:790, includes/class-builder-fields.php:808
+#: includes/class-builder-fields.php:790 includes/class-builder-fields.php:808
 msgid "Reset"
 msgstr ""
 
-#: includes/class-builder-fields.php:791
+#: includes/class-builder-fields.php:792
 msgid "Reset the styles for this Form."
 msgstr ""
 
@@ -680,8 +708,8 @@ msgstr ""
 msgid "Please add an email field to continue."
 msgstr ""
 
-#. translators: Placeholders here are for `<strong>` and `<a>` HTML tags.
 #: includes/class-builder.php:203
+#, php-format
 msgid "You have multiple %1$sCustom Text Area%2$s fields in this form. %1$sOnly the first field%2$s will be sent to Constant Contact. %3$sLearn More%4$s"
 msgstr ""
 
@@ -689,8 +717,8 @@ msgstr ""
 msgid "Your first form is ready!"
 msgstr ""
 
-#. translators: Placeholder will hold an example shortcode for a newly-created form.
 #: includes/class-builder.php:306
+#, php-format
 msgid "Paste shortcode %1$s into a post or page editor."
 msgstr ""
 
@@ -706,7 +734,8 @@ msgstr ""
 msgid "Import everything into Constant Contact so I can see what email marketing can do for me."
 msgstr ""
 
-#: includes/class-builder.php:328, includes/class-builder.php:328, includes/class-connect.php:311, includes/class-notification-content.php:68
+#: includes/class-builder.php:328 includes/class-connect.php:311
+#: includes/class-notification-content.php:68
 msgid "Try Us Free"
 msgstr ""
 
@@ -718,7 +747,8 @@ msgstr ""
 msgid "Automatically add collected information to contacts in my Constant Contact account."
 msgstr ""
 
-#: includes/class-builder.php:349, includes/class-builder.php:350, includes/class-connect.php:301
+#: includes/class-builder.php:349 includes/class-builder.php:350
+#: includes/class-connect.php:301
 msgid "Connect Plugin"
 msgstr ""
 
@@ -738,18 +768,18 @@ msgstr ""
 msgid "Custom Text Area limitations."
 msgstr ""
 
-#. translators: Placeholders here are for `<strong>` and `<em>` HTML tags.
 #: includes/class-builder.php:396
+#, php-format
 msgid "Apologies&mdash;at this time, we can only upload %1$sone %2$sCustom Text Area%3$s field%4$s to your Constant Contact account per form submission. The uploaded field is placed into your contact's %1$sNotes%4$s field."
 msgstr ""
 
-#. translators: Placeholders here are for `<strong>` HTML tags.
 #: includes/class-builder.php:409
+#, php-format
 msgid "The first listed %1$sCustom Text Area%2$s field is sent to Constant Contact."
 msgstr ""
 
-#. translators: Placeholders here are for `<strong>` HTML tags.
 #: includes/class-builder.php:420
+#, php-format
 msgid "Subsequent %1$sCustom Text Area%2$s fields are only sent with the admin email when the form is submitted, and not to your Constant Contact account."
 msgstr ""
 
@@ -765,18 +795,18 @@ msgstr ""
 msgid "Encrpytion Library: "
 msgstr ""
 
-#. translators: Placeholder will be a timestamp for the current time.
 #: includes/class-check.php:169
+#, php-format
 msgid "The DISABLE_WP_CRON constant is set to true as of %1$s. WP-Cron is disabled and will not run."
 msgstr ""
 
-#. translators: Placeholder will be a timestamp for the current time.
 #: includes/class-check.php:174
+#, php-format
 msgid "The ALTERNATE_WP_CRON constant is set to true as of %1$s. This plugin cannot determine the status of your WP-Cron system."
 msgstr ""
 
-#. translators: Placeholder will be an HTTP response code.
 #: includes/class-check.php:205
+#, php-format
 msgid "Unexpected HTTP response code: %1$s"
 msgstr ""
 
@@ -784,48 +814,16 @@ msgstr ""
 msgid "Cron spawn ok"
 msgstr ""
 
-#: includes/class-connect.php:132, includes/class-connect.php:215
+#: includes/class-connect.php:132 includes/class-connect.php:215
 msgid "Disconnect"
 msgstr ""
 
-#: includes/class-connect.php:136, includes/class-connect.php:281
+#: includes/class-connect.php:136 includes/class-connect.php:281
 msgid "Connect Now"
 msgstr ""
 
 #: includes/class-connect.php:164
 msgid "Are you sure you want to disconnect?"
-msgstr ""
-
-#: includes/class-connect.php:274
-msgid "There was an error connecting your account. Please try again."
-msgstr ""
-
-#: includes/class-connect.php:283
-msgid "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers."
-msgstr ""
-
-#: includes/class-connect.php:289
-msgid "Connect to Constant Contact"
-msgstr ""
-
-#: includes/class-connect.php:290
-msgid "By connecting to Constant Contact, you authorize this plugin to access your account."
-msgstr ""
-
-#: includes/class-connect.php:308
-msgid "No Constant Contact Account?"
-msgstr ""
-
-#: includes/class-connect.php:309
-msgid "Create professional emails to nurture relationships with contacts even after they leave your website. Sign up for a free 60-day trial."
-msgstr ""
-
-#: includes/class-connect.php:316
-msgid "NOTE: "
-msgstr ""
-
-#: includes/class-connect.php:316
-msgid "It's possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin."
 msgstr ""
 
 #: includes/class-connect.php:174
@@ -864,7 +862,7 @@ msgstr ""
 msgid "Get started by watching our introduction video to get the most out of the plugin."
 msgstr ""
 
-#: includes/class-connect.php:237, includes/class-cpts.php:70
+#: includes/class-connect.php:237 includes/class-cpts.php:70
 msgid "Add Form"
 msgstr ""
 
@@ -873,6 +871,7 @@ msgid "Please Help to Improve this Plugin"
 msgstr ""
 
 #: includes/class-connect.php:249
+#, php-format
 msgid "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %1$s."
 msgstr ""
 
@@ -884,8 +883,40 @@ msgstr ""
 msgid "Allow"
 msgstr ""
 
-#: includes/class-connect.php:260, includes/class-notification-content.php:164
+#: includes/class-connect.php:260 includes/class-notification-content.php:164
 msgid "Dismiss"
+msgstr ""
+
+#: includes/class-connect.php:274
+msgid "There was an error connecting your account. Please try again."
+msgstr ""
+
+#: includes/class-connect.php:283
+msgid "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers."
+msgstr ""
+
+#: includes/class-connect.php:289
+msgid "Connect to Constant Contact"
+msgstr ""
+
+#: includes/class-connect.php:290
+msgid "By connecting to Constant Contact, you authorize this plugin to access your account."
+msgstr ""
+
+#: includes/class-connect.php:308
+msgid "No Constant Contact Account?"
+msgstr ""
+
+#: includes/class-connect.php:309
+msgid "Create professional emails to nurture relationships with contacts even after they leave your website. Sign up for a free 60-day trial."
+msgstr ""
+
+#: includes/class-connect.php:316
+msgid "NOTE: "
+msgstr ""
+
+#: includes/class-connect.php:316
+msgid "It's possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin."
 msgstr ""
 
 #: includes/class-cpts.php:62
@@ -898,7 +929,7 @@ msgctxt "Post Type Singular Name"
 msgid "Form"
 msgstr ""
 
-#: includes/class-cpts.php:64, includes/class-cpts.php:65
+#: includes/class-cpts.php:64 includes/class-cpts.php:65
 msgid "Contact Form"
 msgstr ""
 
@@ -922,7 +953,7 @@ msgstr ""
 msgid "New Form"
 msgstr ""
 
-#: includes/class-cpts.php:72, includes/class-display.php:865
+#: includes/class-cpts.php:72 includes/class-display.php:865
 msgid "Edit Form"
 msgstr ""
 
@@ -946,19 +977,19 @@ msgstr ""
 msgid "No forms found in Trash"
 msgstr ""
 
-#: includes/class-cpts.php:78, includes/class-cpts.php:137
+#: includes/class-cpts.php:78 includes/class-cpts.php:137
 msgid "Featured Image"
 msgstr ""
 
-#: includes/class-cpts.php:79, includes/class-cpts.php:138
+#: includes/class-cpts.php:79 includes/class-cpts.php:138
 msgid "Set featured image"
 msgstr ""
 
-#: includes/class-cpts.php:80, includes/class-cpts.php:139
+#: includes/class-cpts.php:80 includes/class-cpts.php:139
 msgid "Remove featured image"
 msgstr ""
 
-#: includes/class-cpts.php:81, includes/class-cpts.php:140
+#: includes/class-cpts.php:81 includes/class-cpts.php:140
 msgid "Use as featured image"
 msgstr ""
 
@@ -996,7 +1027,8 @@ msgctxt "Post Type Singular Name"
 msgid "List"
 msgstr ""
 
-#: includes/class-cpts.php:123, includes/class-cpts.php:124, includes/class-cpts.php:127
+#: includes/class-cpts.php:123 includes/class-cpts.php:124
+#: includes/class-cpts.php:127
 msgid "Lists"
 msgstr ""
 
@@ -1008,7 +1040,7 @@ msgstr ""
 msgid "Parent List:"
 msgstr ""
 
-#: includes/class-cpts.php:128, includes/class-cpts.php:129
+#: includes/class-cpts.php:128 includes/class-cpts.php:129
 msgid "Add New List"
 msgstr ""
 
@@ -1064,20 +1096,20 @@ msgstr ""
 msgid "Constant Contact lists."
 msgstr ""
 
-#: includes/class-cpts.php:188, includes/class-cpts.php:191
+#: includes/class-cpts.php:188 includes/class-cpts.php:191
 msgid "List updated."
 msgstr ""
 
-#: includes/class-cpts.php:189, includes/class-cpts.php:208
+#: includes/class-cpts.php:189 includes/class-cpts.php:208
 msgid "Custom field updated."
 msgstr ""
 
-#: includes/class-cpts.php:190, includes/class-cpts.php:209
+#: includes/class-cpts.php:190 includes/class-cpts.php:209
 msgid "Custom field deleted."
 msgstr ""
 
-#. translators: formatted revision timestamp.
 #: includes/class-cpts.php:194
+#, php-format
 msgid "List restored to revision from %s"
 msgstr ""
 
@@ -1093,8 +1125,8 @@ msgstr ""
 msgid "List submitted."
 msgstr ""
 
-#. translators: formatted post date timestamp.
 #: includes/class-cpts.php:200
+#, php-format
 msgid "List scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
@@ -1102,17 +1134,17 @@ msgstr ""
 msgid "List draft updated."
 msgstr ""
 
-#: includes/class-cpts.php:207, includes/class-cpts.php:210
+#: includes/class-cpts.php:207 includes/class-cpts.php:210
 msgid "Form updated."
 msgstr ""
 
-#. translators: formatted revision timestamp.
 #: includes/class-cpts.php:213
+#, php-format
 msgid "Form restored to revision from %s"
 msgstr ""
 
-#. translators: form shortcode.
 #: includes/class-cpts.php:217
+#, php-format
 msgid "Success! Here's the shortcode: %s. Just paste it into a post or page editor to publish"
 msgstr ""
 
@@ -1124,8 +1156,8 @@ msgstr ""
 msgid "Form submitted."
 msgstr ""
 
-#. translators: formatted post date timestamp.
 #: includes/class-cpts.php:223
+#, php-format
 msgid "Form scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
@@ -1145,8 +1177,8 @@ msgstr ""
 msgid "No title"
 msgstr ""
 
-#. translators: Placeholders will be form title and then last modified date.
 #: includes/class-cpts.php:320
+#, php-format
 msgid "%1$s (last modified %2$s ago)"
 msgstr ""
 
@@ -1158,12 +1190,12 @@ msgstr ""
 msgid "Constant Contact Use. Please leave this field blank."
 msgstr ""
 
-#: includes/class-display.php:705
-msgid " Error: Please fill out this field."
+#: includes/class-display.php:703 includes/class-display.php:1821
+msgid "Error: Please correct your entry."
 msgstr ""
 
-#: includes/class-display.php:703, includes/class-display.php:1821
-msgid "Error: Please correct your entry."
+#: includes/class-display.php:705
+msgid " Error: Please fill out this field."
 msgstr ""
 
 #: includes/class-display.php:1082
@@ -1258,8 +1290,8 @@ msgstr ""
 msgid "Limit 500 Characters"
 msgstr ""
 
-#. translators: placeholder will hold company info for site owner.
-#: includes/class-display.php:1896
+#: includes/class-display.php:1897
+#, php-format
 msgid "By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s"
 msgstr ""
 
@@ -1287,7 +1319,7 @@ msgstr ""
 msgid "Are you sure you want to delete current logs?"
 msgstr ""
 
-#: includes/class-logging.php:175, includes/class-logging.php:216
+#: includes/class-logging.php:175 includes/class-logging.php:216
 msgid "Debug Logs"
 msgstr ""
 
@@ -1299,8 +1331,8 @@ msgstr ""
 msgid "No error log exists."
 msgstr ""
 
-#. translators: placeholder holds the log location.
 #: includes/class-logging.php:229
+#, php-format
 msgid "We are not able to write to the %s file."
 msgstr ""
 
@@ -1324,13 +1356,13 @@ msgstr ""
 msgid "Delete logs"
 msgstr ""
 
-#. translators: placeholder wil have error message.
-#: includes/class-logging.php:325
+#: includes/class-logging.php:326
+#, php-format
 msgid "Log display error: %s"
 msgstr ""
 
-#. translators: this is only used when some debugging is enabled
 #: includes/class-mail.php:288
+#, php-format
 msgid "Duplicate send mail for: %1$s and: %2$s"
 msgstr ""
 
@@ -1346,8 +1378,8 @@ msgstr ""
 msgid "Form information: "
 msgstr ""
 
-#. translators: placeholders provide Constant Contact link information.
 #: includes/class-mail.php:330
+#, php-format
 msgid "Email marketing is a great way to stay connected and engage with visitors after they've left your site. Visit %1$shttps://www.constantcontact.com/index?pn=miwordpress%2$s to sign up for a Free Trial."
 msgstr ""
 
@@ -1355,8 +1387,8 @@ msgstr ""
 msgid "Constant Contact Forms Notification"
 msgstr ""
 
-#. translators: placeholders simply meant for `<strong>` html tags
 #: includes/class-mail.php:457
+#, php-format
 msgid "%1$sNote:%2$s You have disabled admin email notifications under the plugin settings, but are receiving this email because of the following reason."
 msgstr ""
 
@@ -1376,8 +1408,8 @@ msgstr ""
 msgid "You can disable this under Form options. Email Opt-in isn't required to add subscribers into your account"
 msgstr ""
 
-#. translators: Placeholder will hold "Constant Contact Forms" with <strong> tags.
 #: includes/class-notification-content.php:57
+#, php-format
 msgid "Get the most out of the %s plugin &mdash; use it with an active Constant Contact account."
 msgstr ""
 
@@ -1389,8 +1421,8 @@ msgstr ""
 msgid "Connect your account"
 msgstr ""
 
-#. translators: Placeholders around "Learn More" hold html `<a>` tag.
 #: includes/class-notification-content.php:76
+#, php-format
 msgid "%1$sLearn More%2$s about the power of email marketing."
 msgstr ""
 
@@ -1398,7 +1430,9 @@ msgstr ""
 msgid "You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them."
 msgstr ""
 
-#: includes/class-notification-content.php:111, includes/class-notification-content.php:148, includes/class-optin.php:129, includes/class-settings.php:976
+#: includes/class-notification-content.php:111
+#: includes/class-notification-content.php:148 includes/class-optin.php:129
+#: includes/class-settings.php:976
 msgctxt "img alt text"
 msgid "Constant Contact logo"
 msgstr ""
@@ -1407,13 +1441,13 @@ msgstr ""
 msgid "Constant Contact Forms for WordPress data tracking opt-in"
 msgstr ""
 
-#. translators: Placeholder here is a `<br />` HTML tag for formatting.
 #: includes/class-notification-content.php:123
+#, php-format
 msgid "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. %1$s You can change this opt-in within the plugin's settings page at any time."
 msgstr ""
 
-#. translators: Placeholders here are for `<strong>` HTML tags.
 #: includes/class-notification-content.php:156
+#, php-format
 msgid "You have been successfully using %1$sConstant Contact Forms%2$s to capture valuable site visitor information! Please consider leaving us a nice review. Reviews help fellow WordPress admins find our plugin and lets you provide us useful feedback."
 msgstr ""
 
@@ -1421,8 +1455,8 @@ msgstr ""
 msgid "Leave a review"
 msgstr ""
 
-#. translators: placeholders will be html `<a>` links.
 #: includes/class-notification-content.php:182
+#, php-format
 msgid "Constant Contact Forms has experienced issues that may need addressed and functionality may be missing. Please enable the \"Support\" checkbox under the Support tab in %1$sConstant Contact settings%2$s and start a %3$sforum support thread%4$s. Our support team will aid with further steps."
 msgstr ""
 
@@ -1438,67 +1472,72 @@ msgstr ""
 msgid "in"
 msgstr ""
 
+#: includes/class-notification-content.php:263
+msgid "Please note: the next upcoming version 2.0.0 of this plugin will be a significant release, including both security and feature updates. You will be required to reconnect the plugin to your Constant Contact account after installing version 2.0.0, once it is released."
+msgstr ""
+
 #: includes/class-notifications.php:418
 msgid "Dismiss this notice."
 msgstr ""
 
-#: includes/class-optin.php:137, includes/class-settings.php:982
+#: includes/class-optin.php:137 includes/class-settings.php:982
 msgid "Agree"
 msgstr ""
 
-#: includes/class-optin.php:138, includes/class-settings.php:983
+#: includes/class-optin.php:138 includes/class-settings.php:983
 msgid "Disagree"
 msgstr ""
 
-#: includes/class-process-form.php:117, includes/class-process-form.php:714
+#: includes/class-process-form.php:121 includes/class-process-form.php:718
 msgid "There was an error sending your form."
 msgstr ""
 
-#: includes/class-process-form.php:129, includes/class-process-form.php:735
+#: includes/class-process-form.php:133 includes/class-process-form.php:739
 msgid "Your information has been submitted."
 msgstr ""
 
-#: includes/class-process-form.php:146, includes/class-process-form.php:760, includes/class-process-form.php:767
+#: includes/class-process-form.php:150 includes/class-process-form.php:764
+#: includes/class-process-form.php:771
 msgid "We had trouble processing your submission. Please review your entries and try again."
 msgstr ""
 
-#: includes/class-process-form.php:199
+#: includes/class-process-form.php:203
 msgid "No Constant Contact Forms form ID provided"
 msgstr ""
 
-#: includes/class-process-form.php:206
+#: includes/class-process-form.php:210
 msgid "No form verify value provided"
 msgstr ""
 
-#: includes/class-process-form.php:221
+#: includes/class-process-form.php:225
 msgid "Please properly fill out all required fields"
 msgstr ""
 
-#: includes/class-process-form.php:274
+#: includes/class-process-form.php:278
 msgid "Failed reCAPTCHA check"
 msgstr ""
 
-#: includes/class-process-form.php:307, includes/class-process-form.php:323
+#: includes/class-process-form.php:311 includes/class-process-form.php:327
 msgid "We had trouble processing your submission. Make sure you haven't changed the required form ID and try again."
 msgstr ""
 
-#: includes/class-process-form.php:315
+#: includes/class-process-form.php:319
 msgid "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again."
 msgstr ""
 
-#: includes/class-process-form.php:365
+#: includes/class-process-form.php:369
 msgid "Please select at least one list to subscribe to."
 msgstr ""
 
-#: includes/class-process-form.php:400
+#: includes/class-process-form.php:404
 msgid "An error occurred while attempting Constant Contact API request."
 msgstr ""
 
-#: includes/class-process-form.php:407
+#: includes/class-process-form.php:411
 msgid "An error occurred while attempting Constant Contact API request. Please check your details and try again."
 msgstr ""
 
-#: includes/class-process-form.php:834
+#: includes/class-process-form.php:838
 msgid "We do no think you are human"
 msgstr ""
 
@@ -1510,7 +1549,7 @@ msgstr ""
 msgid "Spam Control"
 msgstr ""
 
-#: includes/class-settings.php:66, includes/class-settings.php:587
+#: includes/class-settings.php:66 includes/class-settings.php:587
 msgid "Support"
 msgstr ""
 
@@ -1530,8 +1569,8 @@ msgstr ""
 msgid "Disable E-mail Notifications"
 msgstr ""
 
-#. translators: Placeholder is for a <br /> HTML tag.
 #: includes/class-settings.php:365
+#, php-format
 msgid "This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress \"General Settings\"."
 msgstr ""
 
@@ -1551,7 +1590,7 @@ msgstr ""
 msgid "Opt-in Location"
 msgstr ""
 
-#: includes/class-settings.php:397, includes/class-settings.php:404
+#: includes/class-settings.php:397 includes/class-settings.php:404
 msgid "Select a list"
 msgstr ""
 
@@ -1563,8 +1602,8 @@ msgstr ""
 msgid "Business Name"
 msgstr ""
 
-#. translators: placeholder will hold site owner's business name.
 #: includes/class-settings.php:422
+#, php-format
 msgid "Yes, I would like to receive emails from %s. Sign me up!"
 msgstr ""
 
@@ -1584,11 +1623,11 @@ msgstr ""
 msgid "CSS Classes"
 msgstr ""
 
-#: includes/class-settings.php:454
+#: includes/class-settings.php:455
 msgid "Provide custom classes for the form separated by a single space."
 msgstr ""
 
-#: includes/class-settings.php:474
+#: includes/class-settings.php:475
 msgid "Choose the position for the labels of the form elements."
 msgstr ""
 
@@ -1612,8 +1651,8 @@ msgstr ""
 msgid "Google reCAPTCHA"
 msgstr ""
 
-#. translators: %s: recaptcha documentation URL
 #: includes/class-settings.php:515
+#, php-format
 msgid "Learn more and get an <a href=\"%s\" target=\"_blank\">API site key</a>"
 msgstr ""
 
@@ -1675,4 +1714,729 @@ msgstr ""
 
 #: includes/class-settings.php:1065
 msgid "We do not think you are human"
+msgstr ""
+
+#: includes/widgets/contact-form-select.php:27
+msgid "Display a Constant Contact form."
+msgstr ""
+
+#: includes/widgets/contact-form-select.php:73
+msgid "Display form title"
+msgstr ""
+
+#: includes/widgets/elementor-widget.php:66
+msgid "Constant Contact Form Settings"
+msgstr ""
+
+#: includes/widgets/elementor-widget.php:73
+msgid "Show Title"
+msgstr ""
+
+#: includes/widgets/elementor-widget.php:75
+msgid "Show"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:115
+msgid "Test Metabox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:148
+#: vendor/cmb2/cmb2/example-functions.php:492
+msgid "Test Text"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:149
+#: vendor/cmb2/cmb2/example-functions.php:162
+#: vendor/cmb2/cmb2/example-functions.php:175
+#: vendor/cmb2/cmb2/example-functions.php:182
+#: vendor/cmb2/cmb2/example-functions.php:195
+#: vendor/cmb2/cmb2/example-functions.php:203
+#: vendor/cmb2/cmb2/example-functions.php:212
+#: vendor/cmb2/cmb2/example-functions.php:220
+#: vendor/cmb2/cmb2/example-functions.php:235
+#: vendor/cmb2/cmb2/example-functions.php:243
+#: vendor/cmb2/cmb2/example-functions.php:251
+#: vendor/cmb2/cmb2/example-functions.php:268
+#: vendor/cmb2/cmb2/example-functions.php:277
+#: vendor/cmb2/cmb2/example-functions.php:293
+#: vendor/cmb2/cmb2/example-functions.php:300
+#: vendor/cmb2/cmb2/example-functions.php:307
+#: vendor/cmb2/cmb2/example-functions.php:332
+#: vendor/cmb2/cmb2/example-functions.php:345
+#: vendor/cmb2/cmb2/example-functions.php:358
+#: vendor/cmb2/cmb2/example-functions.php:370
+#: vendor/cmb2/cmb2/example-functions.php:384
+#: vendor/cmb2/cmb2/example-functions.php:392
+#: vendor/cmb2/cmb2/example-functions.php:401
+#: vendor/cmb2/cmb2/example-functions.php:408
+#: vendor/cmb2/cmb2/example-functions.php:422
+#: vendor/cmb2/cmb2/example-functions.php:493
+#: vendor/cmb2/cmb2/example-functions.php:583
+#: vendor/cmb2/cmb2/example-functions.php:591
+#: vendor/cmb2/cmb2/example-functions.php:598
+#: vendor/cmb2/cmb2/example-functions.php:605
+#: vendor/cmb2/cmb2/example-functions.php:612
+#: vendor/cmb2/cmb2/example-functions.php:619
+#: vendor/cmb2/cmb2/example-functions.php:626
+#: vendor/cmb2/cmb2/example-functions.php:652
+#: vendor/cmb2/cmb2/example-functions.php:660
+#: vendor/cmb2/cmb2/example-functions.php:667
+#: vendor/cmb2/cmb2/example-functions.php:717
+msgid "field description (optional)"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:161
+msgid "Test Text Small"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:174
+msgid "Test Text Medium"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:181
+msgid "Read-only Disabled Field"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:185
+msgid "Hey there, I'm a read-only field"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:194
+msgid "Custom Rendered Field"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:202
+msgid "Website URL"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:211
+msgid "Test Text Email"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:219
+msgid "Test Time"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:227
+#: vendor/cmb2/cmb2/example-functions.php:228
+msgid "Time zone"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:234
+msgid "Test Date Picker"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:242
+msgid "Test Date Picker (UNIX timestamp)"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:250
+msgid "Test Date/Time Picker Combo (UNIX timestamp)"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:267
+msgid "Test Money"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:276
+msgid "Test Color Picker"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:292
+msgid "Test Text Area"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:299
+msgid "Test Text Area Small"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:306
+msgid "Test Text Area for Code"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:324
+msgid "Test Title Weeeee"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:325
+msgid "This is a title description"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:331
+msgid "Test Select"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:337
+#: vendor/cmb2/cmb2/example-functions.php:350
+#: vendor/cmb2/cmb2/example-functions.php:362
+msgid "Option One"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:338
+#: vendor/cmb2/cmb2/example-functions.php:351
+#: vendor/cmb2/cmb2/example-functions.php:363
+msgid "Option Two"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:339
+#: vendor/cmb2/cmb2/example-functions.php:352
+#: vendor/cmb2/cmb2/example-functions.php:364
+msgid "Option Three"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:344
+msgid "Test Radio inline"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:357
+msgid "Test Radio"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:369
+msgid "Test Taxonomy Radio"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:383
+msgid "Test Taxonomy Select"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:391
+msgid "Test Taxonomy Multi Checkbox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:400
+msgid "Test Checkbox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:407
+msgid "Test Multi Checkbox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:413
+msgid "Check One"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:414
+msgid "Check Two"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:415
+msgid "Check Three"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:421
+msgid "Test wysiwyg"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:431
+msgid "Test Image"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:432
+msgid "Upload an image or enter a URL."
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:438
+msgid "Multiple Files"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:439
+msgid "Upload or add multiple images/attachments."
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:446
+msgid "oEmbed"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:449
+#, php-format
+msgid "Enter a youtube, twitter, or instagram URL. Supports services listed at %s."
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:481
+msgid "About Page Metabox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:511
+msgid "Repeating Field Group"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:519
+msgid "Generates reusable form entries"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:521
+msgid "Entry {#}"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:522
+msgid "Add Another Entry"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:523
+msgid "Remove Entry"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:537
+msgid "Entry Title"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:545
+msgid "Write a short description for this entry"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:551
+msgid "Entry Image"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:557
+msgid "Image Caption"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:575
+msgid "User Profile Metabox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:582
+#: vendor/cmb2/cmb2/example-functions.php:651
+msgid "Extra Info"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:590
+msgid "Avatar"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:597
+msgid "Facebook URL"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:604
+msgid "Twitter URL"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:611
+msgid "Google+ URL"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:618
+msgid "Linkedin URL"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:625
+msgid "User Field"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:644
+msgid "Category Metabox"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:659
+msgid "Term Image"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:666
+msgid "Arbitrary Term Field"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:685
+msgid "Theme Options"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:716
+msgid "Site Background Color"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:753
+#, php-format
+msgid "%s &mdash; Updated!"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:785
+msgid "REST Test Box"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:794
+msgid "REST Test Text"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:795
+msgid "Will show in the REST API for this box and for pages."
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:801
+msgid "REST Editable Test Text"
+msgstr ""
+
+#: vendor/cmb2/cmb2/example-functions.php:802
+msgid "Will show in REST API \"editable\" contexts only (`POST` requests)."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2.php:199
+msgid "Metabox configuration is required to have an ID parameter."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2.php:618
+msgid "Click to toggle"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Ajax.php:75
+msgid "Please Try Again"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Ajax.php:181
+msgid "Remove Embed"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Ajax.php:189
+#: vendor/cmb2/cmb2/includes/helper-functions.php:107
+#, php-format
+msgid "No oEmbed Results Found for %1$s. View more info at %2$s."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:423
+#, php-format
+msgid "The \"%1$s\" field parameter has been deprecated in favor of the \"%2$s\" parameter."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:427
+#, php-format
+msgid "Using the \"%1$s\" field parameter as a callback has been deprecated in favor of the \"%2$s\" parameter."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:457
+#, php-format
+msgid "%1$s was called with a parameter that is <strong>deprecated</strong> since version %2$s! %3$s"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:459
+#, php-format
+msgid "%1$s was called with a parameter that is <strong>deprecated</strong> since version %2$s with no alternative available."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:492
+#: vendor/cmb2/cmb2/includes/CMB2_Hookup_Base.php:102
+#: vendor/cmb2/cmb2/includes/CMB2_Options.php:247
+#: vendor/cmb2/cmb2/includes/CMB2_Options_Hookup.php:369
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_Base.php:173
+#, php-format
+msgid "Invalid %1$s property: %2$s"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Base.php:510
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_Base.php:157
+#, php-format
+msgid "Invalid %1$s method: %2$s"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Field.php:1443
+msgid "Add Group"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Field.php:1444
+msgid "Remove Group"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Field.php:1476
+#: vendor/cmb2/cmb2/includes/CMB2_Field.php:1480
+msgid "None"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Field.php:1594
+msgid "Sorry, this field does not have a cmb_id specified."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Field_Display.php:453
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:242
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File_Base.php:90
+msgid "File:"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Hookup.php:188
+msgid "Term Metadata is a WordPress 4.4+ feature. Please upgrade your WordPress install."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Hookup.php:192
+msgid "Term metaboxes configuration requires a \"taxonomies\" parameter."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Hookup.php:560
+#, php-format
+msgid "Toggle panel: %s"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Hookup_Base.php:44
+#, php-format
+msgid "%1$s should be implemented by the extended class."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:177
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:222
+msgid "Clear"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:178
+msgid "Default"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:179
+msgid "Select Color"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:180
+msgid "Current Color"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:212
+msgctxt "Valid formatDate string for jquery-ui datepicker"
+msgid "mm/dd/yy"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:213
+msgid "Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:214
+msgid "Su, Mo, Tu, We, Th, Fr, Sa"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:215
+msgid "Sun, Mon, Tue, Wed, Thu, Fri, Sat"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:216
+msgid "January, February, March, April, May, June, July, August, September, October, November, December"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:217
+msgid "Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:218
+msgid "Next"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:219
+msgid "Prev"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:220
+msgid "Today"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:221
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:231
+msgid "Done"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:225
+msgid "Choose Time"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:226
+msgid "Time"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:227
+msgid "Hour"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:228
+msgid "Minute"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:229
+msgid "Second"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:230
+msgid "Now"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:232
+msgctxt "Valid formatting string, as per http://trentrichardson.com/examples/timepicker/"
+msgid "hh:mm TT"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:238
+msgid "Use this file"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:239
+msgid "Use these files"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:240
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File_Base.php:75
+msgid "Remove Image"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:241
+#: vendor/cmb2/cmb2/includes/CMB2_Types.php:408
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File_Base.php:95
+msgid "Remove"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:243
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File_Base.php:93
+msgid "Download"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_JS.php:244
+msgid "Select / Deselect All"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Options_Hookup.php:139
+msgid "Nothing to update."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Types.php:226
+msgid "Custom CMB2 field type classes must extend CMB2_Type_Base."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Types.php:344
+msgid "Add Row"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/CMB2_Types.php:408
+msgid "Remove Row"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/helper-functions.php:308
+msgid "Save"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:257
+msgid "This box does not have read permissions."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:277
+msgid "This box does not have write permissions."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:300
+msgid "No box found by that id. A box needs to be registered with the \"show_in_rest\" parameter configured."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:378
+msgid "A human-readable description of the object."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:385
+msgid "The id for the object."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller.php:392
+msgid "The title for the object."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Boxes.php:51
+msgid "Includes the registered fields for the box in the response."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Boxes.php:72
+msgid "Includes the fully rendered attributes, 'form_open', 'form_close', as well as the enqueued 'js_dependencies' script handles, and 'css_dependencies' stylesheet handles."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Boxes.php:122
+msgid "No boxes found."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:27
+msgid "Includes the box object which the fields are registered to in the response."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:30
+msgid "When the '_rendered' argument is passed, the renderable field attributes will be returned fully rendered. By default, the names of the callback handers for the renderable attributes will be returned."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:33
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:36
+msgid "To view or modify the field's value, the 'object_id' and 'object_type' arguments are required."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:236
+msgid "CMB2 Field value cannot be updated without the value parameter specified."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:297
+msgid "CMB2 Field value cannot be modified without the object_id and object_type parameters specified."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:312
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:341
+msgid "No field found by that id."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/rest-api/CMB2_REST_Controller_Fields.php:415
+#, php-format
+msgid "Value Error for %s"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:25
+#, php-format
+msgid "Method '%s' must be overridden."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:35
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:47
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:59
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:71
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:83
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:95
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:107
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:119
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:131
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:143
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:155
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:168
+#, php-format
+msgid "Method '%s' not implemented. Must be overridden in subclass."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:273
+msgid "Current page of the collection."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:281
+msgid "Maximum number of items to be returned in result set."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:290
+msgid "Limit results to those matching a string."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/shim/WP_REST_Controller.php:308
+msgid "Scope under which the request is made; determines fields present in response."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_Counter_Base.php:50
+msgid "Words left"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_Counter_Base.php:51
+msgid "Words"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_Counter_Base.php:56
+msgid "Characters left"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_Counter_Base.php:57
+msgid "Characters"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_Counter_Base.php:62
+msgid "Your text may be truncated."
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File.php:76
+msgid "Add or Upload File"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_File_List.php:41
+msgid "Add or Upload Files"
+msgstr ""
+
+#: vendor/cmb2/cmb2/includes/types/CMB2_Type_Taxonomy_Base.php:115
+msgid "No terms"
 msgstr ""
