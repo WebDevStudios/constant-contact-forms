@@ -254,6 +254,18 @@ class ConstantContact_Notification_Content {
 			}
 		}, $last_key );
 	}
+
+	public static function api3_upgrade_notice() {
+		ob_start();
+		?>
+		<div class="admin-notice admin-notice-message">
+			<p>
+				<?php esc_html_e( 'Please note: the next upcoming version 2.0.0 of this plugin will be a significant release, including both security and feature updates. You will be required to reconnect the plugin to your Constant Contact account after installing version 2.0.0, once it is released.', 'constant-contact-forms' ); ?>
+			</p>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
 }
 
 /**
@@ -355,3 +367,22 @@ function constant_contact_form_deleted( array $notifications = [] ) {
 	return $notifications;
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_form_deleted' );
+
+/**
+ * Add notification about upcoming API v3 changes.
+ *
+ * @since 1.14.0
+ *
+ * @param array $notifications Array of notifications to be shown.
+ * @return array               Array of notifications to be shown.
+ */
+function constant_contact_api3_upgrade_notice( array $notifications = [] ) {
+	$notifications[] = [
+		'ID'         => 'api3_upgrade_notice',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'api3_upgrade_notice' ],
+		'require_cb' => 'constant_contact_maybe_display_api3_upgrade_notice'
+	];
+
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_api3_upgrade_notice' );

@@ -25,7 +25,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	public function get_name() {
 		return 'constant-contact';
 	}
-	
+
 	/**
 	 * Widgets Title
 	 *
@@ -43,7 +43,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	public function get_icon() {
 		return 'eicon-form-horizontal';
 	}
-	
+
 	/**
 	 * Widgets Category
 	 *
@@ -52,13 +52,13 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	public function get_categories() {
 		return [ 'basic' ];
 	}
-	
+
 	/**
 	 * Displays Widget Controls.
 	 *
 	 * @since 1.10.0
 	 */
-	protected function _register_controls() {
+	protected function register_controls() {
 
 		$this->start_controls_section(
 			'section_title',
@@ -66,7 +66,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 				'label' => __( 'Constant Contact Form Settings', 'constant-contact-forms' ),
 			]
 		);
-		
+
 		$this->add_control(
 			'show_title',
 			[
@@ -135,5 +135,5 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 		$show_title = $settings['show_title'] ? 'true' : 'false';
 		echo do_shortcode( "[ctct form='{$settings['form_id']}' show_title='{$show_title}']" );
 	}
-	
+
 }
