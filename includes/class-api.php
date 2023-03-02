@@ -808,7 +808,6 @@ class ConstantContact_API {
 
 		$address   = null;
 		$count     = 1;
-		$textareas = 0;
 		$streets   = [];
 		if ( ! $updated ) {
 			$contact->notes = [];
