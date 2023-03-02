@@ -104,6 +104,11 @@ class ConstantContact_Client {
 		return $this->post( 'contact_custom_fields', $this->base_args, $field_data );
 	}
 
+	public function add_note( $updated_contact_data ) {
+		$contact_id = $updated_contact_data['contact_id'];
+		return $this->put( "contacts/{$contact_id}", $this->base_args, $updated_contact_data  );
+	}
+
 	public function get_lists() {
 		// Note: probably want to support pulling all the lists, e.g. set limit to 1000, rather than default of 50. Marketers gonna market.
 		return $this->get( 'contact_lists?include_membership_count=all', $this->base_args );
