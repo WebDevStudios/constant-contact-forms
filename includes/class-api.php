@@ -1369,6 +1369,7 @@ class ConstantContact_API {
 		foreach( $keys as $key ) {
 			if ( false !== strpos( $key, 'custom_text_area' ) ) {
 				$has_text_area = true;
+				break;
 			}
 		}
 		return $has_text_area;
