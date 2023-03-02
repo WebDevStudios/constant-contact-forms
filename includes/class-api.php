@@ -775,7 +775,7 @@ class ConstantContact_API {
 			$fetched_contact = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
 			$note_content = $this->get_note_content( $user_data );
 			$fetched_contact['notes'][] = [ 'content' => $note_content ];
-
+			$fetched_contact['update_source'] = 'Contact';
 			$this->cc()->add_note( $fetched_contact );
 		}
 
@@ -824,7 +824,8 @@ class ConstantContact_API {
 
 			switch ( $key ) {
 				case 'email':
-					// Do nothing, as we already captured.
+				case 'custom_text_area':
+					// Do nothing, as we already captured or handled elsewhere.
 					break;
 				case 'phone_number':
 					$contact->phone_number = $value;
@@ -903,36 +904,6 @@ class ConstantContact_API {
 					}
 
 					$count++;
-					break;
-				case 'custom_text_area':
-					$textareas++;
-					// API version 2 only allows for 1 note for a given request.
-					// Version 3 will allow multiple notes.
-					if ( $textareas > 1 ) {
-						break;
-					}
-
-					$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
-					$textarea            = $original_field_data[ $original ];
-
-					if ( ! $this->cc()->custom_field_exists( $textarea['name'] ) ) {
-						$new_custom_field = $this->cc()->add_custom_field( [
-							'label' => $textarea['name'],
-							'type'  => 'string',
-						] );
-					}
-
-					if ( ! empty( $new_custom_field ) ) {
-						$contact->custom_fields[] = $new_custom_field;
-					} else {
-						$custom_field = $this->cc()->get_custom_field_by_name( $textarea['name'] );
-
-						$contact->custom_fields[] = [
-							'custom_field_id' => $custom_field['custom_field_id'],
-							'value'           => $value,
-						];
-					}
-
 					break;
 				default:
 					try {
