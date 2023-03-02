@@ -767,10 +767,19 @@ class ConstantContact_API {
 			$this->log_errors( $our_errors );
 		}
 
-		return $this->cc()->create_update_contact(
+		$new_contact = $this->cc()->create_update_contact(
 			(array) $contact
 		);
 
+		if ( $this->has_note( $user_data ) ) {
+			$fetched_contact = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
+			$note_content = $this->get_note_content( $user_data );
+			$fetched_contact['notes'][] = [ 'content' => $note_content ];
+
+			$this->cc()->add_note( $fetched_contact );
+		}
+
+		return $new_contact;
 	}
 
 	/**
@@ -1382,6 +1391,28 @@ class ConstantContact_API {
 		}
 
 		return false;
+	}
+
+	private function has_note( $submission_data ) {
+		$keys = array_keys( $submission_data );
+		$has_text_area = false;
+		foreach( $keys as $key ) {
+			if ( false !== strpos( $key, 'custom_text_area' ) ) {
+				$has_text_area = true;
+			}
+		}
+		return $has_text_area;
+	}
+
+	private function get_note_content( $submission_data ) {
+		$note = '';
+		foreach ( $submission_data as $key => $data ) {
+			if ( false !== strpos( $key, 'custom_text_area' ) ) {
+				$note .= $data['val'];
+				break;
+			}
+		}
+		return $note;
 	}
 }
 
