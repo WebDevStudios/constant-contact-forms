@@ -1363,6 +1363,14 @@ class ConstantContact_API {
 		return false;
 	}
 
+	/**
+	 * Check if a submission has note data in place.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $submission_data Array of form data.
+	 * @return bool
+	 */
 	private function has_note( $submission_data ) {
 		$keys = array_keys( $submission_data );
 		$has_text_area = false;
@@ -1375,6 +1383,14 @@ class ConstantContact_API {
 		return $has_text_area;
 	}
 
+	/**
+	 * Get the content of the first found note submitted to a form.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param $submission_data
+	 * @return string
+	 */
 	private function get_note_content( $submission_data ) {
 		$note = '';
 		foreach ( $submission_data as $key => $data ) {
