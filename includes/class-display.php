@@ -737,7 +737,7 @@ class ConstantContact_Display {
 			case 'text_field':
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'custom_text_area':
-				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="255"', $label_placement, $instance );
+				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="2000"', $label_placement, $instance );
 			case 'email':
 				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'hidden':
@@ -1828,7 +1828,7 @@ class ConstantContact_Display {
 		$return            = '<p class="' . implode( ' ', $classes ) . '">';
 		$label             = '<span class="' . $label_placement_class . '"><label for="' . esc_attr( $field_id ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label></span>';
 		$textarea          = '<textarea class="' . esc_attr( implode( ' ', $textarea_classes ) ) . '" ' . $req_text . ' name="' . esc_attr( $map ) . '" id="' . esc_attr( $field_id ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
-		$instructions_span = '<span class="ctct-textarea-warning-label">' . esc_html__( 'Limit 255 Characters', 'constant-contact-forms' ) . '</span>';
+		$instructions_span = '<span class="ctct-textarea-warning-label">' . esc_html__( 'Limit 2000 Characters', 'constant-contact-forms' ) . '</span>';
 
 		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
 			$return .= $label . $textarea;
