@@ -380,6 +380,8 @@ class ConstantContact_Display {
 			}
 		}
 
+		$return .= $this->submit( $form_id );
+
 		$return .= $this->build_honeypot_field();
 
 		$return .= $this->add_verify_fields( $form_data );
@@ -387,8 +389,6 @@ class ConstantContact_Display {
 		$return .= $this->create_instance_field( $instance );
 
 		$return .= $this->build_timestamp();
-
-		$return .= $this->submit( $form_id );
 
 		$return .= wp_kses_post( $this->maybe_add_disclose_note( $form_data ) );
 
