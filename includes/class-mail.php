@@ -66,8 +66,8 @@ class ConstantContact_Mail {
 		if ( $add_to_opt_in && constant_contact()->api->is_connected() ) {
 
 			$maybe_bypass = constant_contact_get_option( '_ctct_bypass_cron', '' );
-
-			if ( 'on' !== $maybe_bypass ) {
+			$cron_disabled = ( defined( 'DISABLE_WP_CRON' ) && true === DISABLE_WP_CRON );
+			if ( 'on' !== $maybe_bypass && ! $cron_disabled ) {
 				/**
 				 * Filters the delay between scheduling of the opt-in e-mail event.
 				 *
