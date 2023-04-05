@@ -414,12 +414,15 @@ class ConstantContact_Admin {
 
 				foreach ( $table_list_ids as $list_id ) {
 					$list = $this->get_associated_list_by_id( $list_id );
-
 					if ( ! empty( $list ) ) {
+						$edit_url = ( null !== get_edit_post_link( $list->ID ) ) ?
+							get_edit_post_link( $list->ID ) :
+							'';
+						$title = get_the_title( $list->ID );
 						$list_html[] = sprintf(
 							'<a href="%s">%s</a>',
-							esc_url( get_edit_post_link( $list->ID ) ),
-							esc_html( get_the_title( $list->ID ) )
+							esc_url( $edit_url ),
+							esc_html( $title )
 						);
 					}
 				}
