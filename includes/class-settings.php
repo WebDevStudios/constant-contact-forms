@@ -218,6 +218,10 @@ class ConstantContact_Settings {
 	public function select_primary_menu_item( $file ) {
 		global $plugin_page;
 
+		if ( null === $plugin_page ) {
+			return $file;
+		}
+
 		$plugin_page = false !== strpos( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- OK overriding of WP global.
 
 		return $file;
@@ -1202,10 +1206,10 @@ function constant_contact_delete_option( $key = '' ) {
 	$options = get_option( constant_contact()->settings->key, $key );
 
 	if ( is_array( $options ) && array_key_exists( $key, $options ) && false !== $options[ $key ] ) {
-		
+
 		$options[ $key ] = null;
 		update_option( constant_contact()->settings->key, $options );
-		
+
 		return true;
 	}
 
