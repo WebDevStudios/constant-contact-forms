@@ -164,7 +164,7 @@ class ConstantContact_Settings {
 	public function on_settings_page() {
 		global $pagenow;
 
-		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS );
 
 		return ( 'edit.php' === $pagenow && ! empty( $page ) && $this->key === $page );
 	}
@@ -294,7 +294,7 @@ class ConstantContact_Settings {
 	 * @return string Current tab.
 	 */
 	protected function get_current_tab() {
-		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING );
+		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS );
 
 		return ( empty( $page ) ? "{$this->key}_general" : $page );
 	}
@@ -778,7 +778,7 @@ class ConstantContact_Settings {
 	 * @return array Comment form data.
 	 */
 	public function process_optin_comment_form( $comment_data ) {
-		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
 
 		if ( empty( $ctct_optin_lists ) ) {
 			return $comment_data;
@@ -801,7 +801,7 @@ class ConstantContact_Settings {
 
 			$name    = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
 			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
-			$lists   = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+			$lists   = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
 
 			if ( empty( $lists ) ) {
 				return $comment_data;
@@ -833,7 +833,7 @@ class ConstantContact_Settings {
 	 * @return object|array CTCT return API for contact or original $user array.
 	 */
 	public function process_optin_login_form( $user, $username, $password ) {
-		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
 
 		if ( empty( $ctct_optin_lists ) ) {
 			return $user;
@@ -857,7 +857,7 @@ class ConstantContact_Settings {
 	 */
 	public function process_optin_register_form( $user_id ) {
 
-		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
 
 		if ( empty( $ctct_optin_lists ) ) {
 			return $user_id;
@@ -908,7 +908,7 @@ class ConstantContact_Settings {
 			return;
 		}
 
-		$lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+		$lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
 
 		if ( empty( $lists ) ) {
 			return;

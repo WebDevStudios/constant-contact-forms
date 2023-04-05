@@ -626,7 +626,7 @@ class Constant_Contact {
 	 */
 	public function ajax_save_clear_first_form() {
 
-		if ( 'ctct_dismiss_first_modal' === filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING ) ) {
+		if ( 'ctct_dismiss_first_modal' === filter_input( INPUT_POST, 'action', FILTER_SANITIZE_SPECIAL_CHARS ) ) {
 			// Save our dismiss for the first form modal.
 			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) );
 		}
@@ -772,7 +772,7 @@ class Constant_Contact {
 			$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 		}
 
-		if ( 'ctct_forms' === filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING ) ) {
+		if ( 'ctct_forms' === filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_SPECIAL_CHARS ) ) {
 			return true;
 		}
 
@@ -849,7 +849,7 @@ class Constant_Contact {
 		}
 
 		$ctct_types = [ 'ctct_forms', 'ctct_lists' ];
-		$post_type  = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+		$post_type  = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_SPECIAL_CHARS );
 		$post       = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( in_array( $post_type, $ctct_types, true ) ) {

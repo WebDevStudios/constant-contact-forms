@@ -782,7 +782,7 @@ class ConstantContact_Display {
 		foreach ( $submitted_vals as $post ) {
 
 			if ( isset( $post['key'] ) && $post['key'] ) {
-				$post_map = filter_input( INPUT_POST, esc_attr( $map ), FILTER_SANITIZE_STRING );
+				$post_map = filter_input( INPUT_POST, esc_attr( $map ), FILTER_SANITIZE_SPECIAL_CHARS );
 
 				if ( 'address' === $field['name'] ) {
 
@@ -791,7 +791,7 @@ class ConstantContact_Display {
 						$addr_key = explode( '___', $post['key'] );
 
 						if ( isset( $addr_key[0] ) && $addr_key[0] ) {
-							$post_key = filter_input( INPUT_POST, esc_attr( $post['key'] ), FILTER_SANITIZE_STRING );
+							$post_key = filter_input( INPUT_POST, esc_attr( $post['key'] ), FILTER_SANITIZE_SPECIAL_CHARS );
 							$post_key = empty( $post_key ) ? '' : sanitize_text_field( wp_unslash( $post_key ) );
 
 							$return[ esc_attr( $addr_key[0] ) ] = $post_key;

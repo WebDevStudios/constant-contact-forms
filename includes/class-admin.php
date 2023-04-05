@@ -618,7 +618,7 @@ class ConstantContact_Admin {
 
 		if (
 			constant_contact_maybe_display_optin_notification() ||
-			'ctct_options_settings' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING )
+			'ctct_options_settings' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS )
 		) {
 			wp_enqueue_script( 'ctct_form' );
 		}

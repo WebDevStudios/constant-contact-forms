@@ -230,7 +230,7 @@ class ConstantContact_Lists {
 			return;
 		}
 
-		$post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+		$post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_SPECIAL_CHARS );
 
 		if ( ! isset( $post_type ) ) {
 			return;
@@ -849,7 +849,7 @@ class ConstantContact_Lists {
 	 */
 	public function check_for_list_sync_request() {
 
-		$ctct_resyncing = filter_input( INPUT_GET, 'ctct_resyncing', FILTER_SANITIZE_STRING );
+		$ctct_resyncing = filter_input( INPUT_GET, 'ctct_resyncing', FILTER_SANITIZE_SPECIAL_CHARS );
 
 		if ( ! isset( $ctct_resyncing ) || ! wp_verify_nonce( $ctct_resyncing, 'ctct_resyncing' ) || ! is_admin() ) {
 			return;
