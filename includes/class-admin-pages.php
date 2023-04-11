@@ -204,14 +204,12 @@ class ConstantContact_Admin_Pages {
 		$auth_link = $new_link = '';
 
 		if ( ! constant_contact()->api->is_connected() ) {
-			$auth_link = constantcontact_api()->get_authorization_url();
 			$new_link  = constant_contact()->api->get_signup_link();
-
-			$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
+			$auth_link = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' );
 		}
 
 		?>
-		 
+
 
 		<h2><?php esc_html_e( 'About Constant Contact Forms', 'constant-contact-forms' ); ?></h2>
 
@@ -240,7 +238,7 @@ class ConstantContact_Admin_Pages {
 						</ul>
 					</div>
 				</div>
-			</div>			
+			</div>
 
 			<?php if ( $new_link || $auth_link ) { ?>
 
@@ -267,7 +265,7 @@ class ConstantContact_Admin_Pages {
 						<div class="item">
 							<p><?php esc_attr_e( 'Already have a Constant Contact account?', 'constant-contact-forms' ); ?>
 								<strong>
-									<a href="<?php echo esc_url_raw( $auth_link ); ?>" target="_blank" class="ctct-connect">
+									<a href="<?php echo esc_url_raw( $auth_link ); ?>" class="ctct-connect">
 										<?php esc_html_e( 'Connect the Plugin', 'constant-contact-forms' ); ?>
 									</a>
 								</strong>
@@ -279,7 +277,7 @@ class ConstantContact_Admin_Pages {
 
 			<p class="small-text"><strong><?php esc_html_e( 'NOTE:', 'constant-contact-forms' ); ?></strong> <?php esc_html_e( 'You can use the Constant Contact Form plugin without a Constant Contact account. All information collected by the forms will be individually emailed to your site admin.', 'constant-contact-forms' ); ?></p>
 
-			<?php } else { ?>	
+			<?php } else { ?>
 
 				<div class="ctct-section">
 					<div class="ctct-button-actions">
@@ -288,8 +286,8 @@ class ConstantContact_Admin_Pages {
 					</div>
 				</div>
 
-			<?php } ?>	
-			
+			<?php } ?>
+
 			<?php
 				$license_link = $this->plugin->admin->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
 			if ( $license_link ) :
@@ -305,7 +303,7 @@ class ConstantContact_Admin_Pages {
 				</div>
 			<?php endif; ?>
 
-		</div>				
+		</div>
 		<?php
 	}
 
