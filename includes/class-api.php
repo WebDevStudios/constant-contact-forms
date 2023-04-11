@@ -893,12 +893,16 @@ class ConstantContact_API {
 
 					if ( ! empty( $new_custom_field ) ) {
 						$contact->custom_fields[] = $new_custom_field;
+						$contact->custom_fields[] = [
+							'custom_field_id' => $new_custom_field['custom_field_id'],
+							'value'           => $value
+						];
 					} else {
 						$custom_field = $this->cc()->get_custom_field_by_name( $custom_field['name'] );
 
 						$contact->custom_fields[] = [
 							'custom_field_id' => $custom_field['custom_field_id'],
-							'value' => $value,
+							'value'           => $value,
 						];
 					}
 
