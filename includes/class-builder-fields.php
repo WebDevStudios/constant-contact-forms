@@ -741,6 +741,7 @@ class ConstantContact_Builder_Fields {
 					'remove_button' => esc_html__( 'Remove Field', 'constant-contact-forms' ),
 					'sortable'      => true,
 				],
+				'after_group' => [ $this, 'unique_label_messaging' ],
 			]
 		);
 
@@ -789,6 +790,10 @@ class ConstantContact_Builder_Fields {
 			]
 		);
 
+	}
+
+	public function unique_label_messaging( $field_args, $field ) {
+		esc_html_e( '"Custom Text Field" labels are used for custom fields and need to be unique.', 'constant-contact-forms' );
 	}
 
 	/**
