@@ -279,7 +279,7 @@ class ConstantContact_Connect {
 			<p class="ctct-description">
 				<?php esc_html_e( "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers.", 'constant-contact-forms' ); ?>
 			</p>
-			<p><?php
+			<p class="ctct-description"><?php
 				printf(
 					esc_html__( "If you've just copied an authorization code and are looking for the place to paste it, %sclick here%s.", 'constant-contact-forms' ),
 					sprintf(
@@ -292,7 +292,7 @@ class ConstantContact_Connect {
 				);
 				?>
 			</p>
-			<p>
+			<p class="ctct-description">
 				<?php
 				printf(
 					esc_html__(
