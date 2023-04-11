@@ -279,6 +279,34 @@ class ConstantContact_Connect {
 			<p class="ctct-description">
 				<?php esc_html_e( "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers.", 'constant-contact-forms' ); ?>
 			</p>
+			<p><?php
+				printf(
+					esc_html__( "If you've just copied an authorization code and are looking for the place to paste it, %sclick here%s.", 'constant-contact-forms' ),
+					sprintf(
+						'<a href="%s">',
+						esc_url(
+							admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings_auth' )
+						)
+					),
+					'</a>'
+				);
+				?>
+			</p>
+			<p>
+				<?php
+				printf(
+					esc_html__(
+					"For a full walkthrough of the steps to install this plugin &amp; connect it to your Constant Contact account, please see our %sKnowledge Base article here%s.", 'constant-contact-forms' ),
+					sprintf(
+						'<a href="%s">',
+						esc_url(
+							'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integrat ion-with-Constant-Contact'
+						)
+					),
+					'</a>'
+				);
+				?>
+			</p>
 
 			<div class="ctct-call-to-actions">
 				<div class="ctct-call-to-actions--item connect-account">
