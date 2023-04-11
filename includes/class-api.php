@@ -1379,7 +1379,10 @@ class ConstantContact_API {
 		$keys = array_keys( $submission_data );
 		$has_text_area = false;
 		foreach( $keys as $key ) {
-			if ( false !== strpos( $key, 'custom_text_area' ) ) {
+			if (
+				false !== strpos( $key, 'custom_text_area' ) &&
+				! empty( $submission_data[ $key ]['val'] )
+			) {
 				$has_text_area = true;
 				break;
 			}
