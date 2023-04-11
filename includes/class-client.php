@@ -151,7 +151,7 @@ class ConstantContact_Client {
 		return json_decode( $response['body'], true );
 	}
 
-	private function post( string $endpoint, $args = [], $body ) : array {
+	private function post( string $endpoint, $args = [], $body = [] ) : array {
 
 		$options = [
 			'headers' => $args,
@@ -173,7 +173,7 @@ class ConstantContact_Client {
 		return json_decode( $response['body'], true );
 	}
 
-	private function put( string $endpoint, $args = [], $body ) : array {
+	private function put( string $endpoint, $args = [], $body = [] ) : array {
 
 		$options = [
 			'headers' => $args,
