@@ -812,7 +812,7 @@ class ConstantContact_API {
 		if ( ! $updated ) {
 			$contact->notes = [];
 		}
-		$contact->create_source = 'Contact';
+
 		foreach ( $user_data as $original => $value ) {
 			$key   = sanitize_text_field( isset( $value['key'] ) ? $value['key'] : false );
 			$value = sanitize_text_field( isset( $value['val'] ) ? $value['val'] : false );
@@ -921,7 +921,7 @@ class ConstantContact_API {
 		} // End foreach.
 
 		if ( ! empty( $streets ) ) {
-			$address['street'] = implode( ', ', $streets );
+			$address['street_address'] = implode( ', ', $streets );
 		}
 
 		if ( null !== $address ) {
