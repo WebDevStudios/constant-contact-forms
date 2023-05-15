@@ -892,7 +892,6 @@ class ConstantContact_API {
 					}
 
 					if ( ! empty( $new_custom_field ) ) {
-						$contact->custom_fields[] = $new_custom_field;
 						$contact->custom_fields[] = [
 							'custom_field_id' => $new_custom_field['custom_field_id'],
 							'value'           => $value
