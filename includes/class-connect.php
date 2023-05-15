@@ -279,35 +279,6 @@ class ConstantContact_Connect {
 			<p class="ctct-description">
 				<?php esc_html_e( "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers.", 'constant-contact-forms' ); ?>
 			</p>
-			<p class="ctct-description"><?php
-				printf(
-					esc_html__( "If you've just copied an authorization code and are looking for the place to paste it, %sclick here%s.", 'constant-contact-forms' ),
-					sprintf(
-						'<a href="%s">',
-						esc_url(
-							admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_settings_auth' )
-						)
-					),
-					'</a>'
-				);
-				?>
-			</p>
-			<p class="ctct-description">
-				<?php
-				printf(
-					esc_html__(
-					"For a full walkthrough of the steps to install this plugin &amp; connect it to your Constant Contact account, please see our %sKnowledge Base article here%s.", 'constant-contact-forms' ),
-					sprintf(
-						'<a href="%s">',
-						esc_url(
-							'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integrat ion-with-Constant-Contact'
-						)
-					),
-					'</a>'
-				);
-				?>
-			</p>
-
 			<div class="ctct-call-to-actions">
 				<div class="ctct-call-to-actions--item connect-account">
 					<div>
@@ -319,10 +290,18 @@ class ConstantContact_Connect {
 					$auth_link = constantcontact_api()->get_authorization_url();
 					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
 
+					$code_link = add_query_arg( [
+						'post_type' => 'ctct_forms',
+						'page'      => 'ctct_options_settings_auth',
+					], admin_url( 'edit.php' ) );
+
 					if ( $auth_link ) :
 						?>
-						<a href="<?php echo esc_url_raw( $auth_link ); ?>" target="_blank" class="button ctct-button button-blue ctct-connect connection-settings-redirect">
-							<?php esc_html_e( 'Connect Plugin', 'constant-contact-forms' ); ?>
+						<a href="<?php echo esc_url_raw( $auth_link ); ?>" target="_blank" rel="noopener" class="button ctct-button button-blue ctct-connect">
+							<?php esc_html_e( 'Get Code', 'constant-contact-forms' ); ?>
+						</a>
+						<a href="<?php echo esc_url_raw( $code_link ); ?>" class="button ctct-button button-blue ctct-connect">
+							<?php esc_html_e( 'Paste Code', 'constant-contact-forms' ); ?>
 						</a>
 					<?php endif; ?>
 				</div>
@@ -335,6 +314,22 @@ class ConstantContact_Connect {
 					<a class="button ctct-button button-orange" href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>" target="_blank"><?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?></a>
 				</div>
 			</div>
+
+			<p class="ctct-description">
+				<?php
+				printf(
+					esc_html__(
+						"For a full walkthrough of the steps to install this plugin &amp; connect it to your Constant Contact account, please see our %sKnowledge Base article here%s.", 'constant-contact-forms' ),
+					sprintf(
+						'<a target="_blank" rel="noopener" href="%s">',
+						esc_url(
+							'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integration-with-Constant-Contact'
+						)
+					),
+					'</a>'
+				);
+				?>
+			</p>
 
 			<p class="small">
 				<strong><?php esc_html_e( 'NOTE: ', 'constant-contact-forms' ); ?></strong><?php esc_html_e( "It's possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin.", 'constant-contact-forms' ); ?>
