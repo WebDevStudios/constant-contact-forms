@@ -44,15 +44,17 @@ class ConstantContact_Notification_Content {
 	 * @return string
 	 */
 	public static function activation() {
-		$auth_url = add_query_arg( [ 'rmc' => 'wp_admin_connect' ], constant_contact()->api->get_authorization_url() );
+		$auth_url = add_query_arg( [
+			'post_type' => 'ctct_forms',
+			'page'      => 'ctct_options_connect',
+			'ctct-dismiss-action' => 'activation'
+		], admin_url( 'edit.php' ) );
+		$auth_url = wp_nonce_url( $auth_url, 'ctct-user-is-dismissing', 'ctct-dismiss' );
 		$try_url  = constant_contact()->api->get_signup_link();
-		$acc_url  = add_query_arg(
-			[
-				'page'      => 'ctct_options_settings_auth',
-				'post_type' => 'ctct_forms',
-			],
-			constant_contact()->api->get_account_link()
-		);
+
+		if ( ! empty( $_GET['page'] ) && 'ctct_options_connect' === sanitize_text_field( $_GET['page'] ) ) {
+			return '';
+		}
 
 		ob_start();
 		?>
@@ -67,7 +69,7 @@ class ConstantContact_Notification_Content {
 			</p>
 
 			<p>
-				<a href="<?php echo esc_url_raw( $auth_url ); ?>" target="_blank" class="ctct-notice-button button-primary connection-settings-redirect">
+				<a href="<?php echo esc_url_raw( $auth_url ); ?>" class="ctct-notice-button button-primary">
 					<?php esc_attr_e( 'Connect your account', 'constant-contact-forms' ); ?>
 				<a href="<?php echo esc_url_raw( $try_url ); ?>" target="_blank" class="ctct-notice-button button-secondary">
 					<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>
