@@ -793,7 +793,19 @@ class ConstantContact_Builder_Fields {
 	}
 
 	public function unique_label_messaging( $field_args, $field ) {
-		esc_html_e( '"Custom Text Field" labels are used for custom fields and need to be unique.', 'constant-contact-forms' );
+		printf(
+			'<p>%s</p>',
+			esc_html__( '"Custom Text Field" labels are used for custom fields and need to be unique.', 'constant-contact-forms' )
+		);
+		printf(
+			'<p>%s</p>',
+			sprintf(
+				// translators: Placeholders are for html link markup.
+				esc_html__( 'Custom fields created within Constant Contact with field type "%sdate field%s" are not supported.', 'constant-contact-forms' ),
+				'<a target="_blank" rel="noopener" href="' . esc_url( 'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/33120-Create-and-Manag e-Custom-Contact-Fields?lang=en_US#Types' ) . '">',
+				'</a>'
+			)
+		);
 	}
 
 	/**
