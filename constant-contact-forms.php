@@ -15,7 +15,7 @@
  * Version:     1.14.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
- * Requires PHP: 7.0
+ * Requires PHP: 7.4
  * License:     GPLv3
  * Text Domain: constant-contact-forms
  * Domain Path: /languages
