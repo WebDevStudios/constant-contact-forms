@@ -386,9 +386,8 @@ class ConstantContact_Process_Form {
 			} else {
 				// No need to check for opt in status because we would have returned early by now if false.
 				$maybe_bypass = constant_contact_get_option( '_ctct_bypass_cron', '' );
-				$cron_disabled = ( defined( 'DISABLE_WP_CRON' ) && true === DISABLE_WP_CRON );
 
-				if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass || $cron_disabled ) {
+				if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
 					constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
 
 					$api_result = constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
