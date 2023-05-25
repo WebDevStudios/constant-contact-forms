@@ -328,9 +328,9 @@ class ConstantContact_Mail {
 		$content_after = sprintf(
 			/* Translators: placeholders provide Constant Contact link information. */
 			esc_html__( "Email marketing is a great way to stay connected and engage with visitors after they've left your site. Visit %1\$shttps://www.constantcontact.com/index?pn=miwordpress%2\$s to sign up for a Free Trial.", 'constant-contact-forms' ),
-				'<a href="https://www.constantcontact.com/index?pn=miwordpress">',
-				'</a>'
-			);
+			'<a href="https://www.constantcontact.com/index?pn=miwordpress">',
+			'</a>'
+		);
 
 		/**
 		 * Filters the final constructed email content to be sent to an admin.

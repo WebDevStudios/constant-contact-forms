@@ -518,13 +518,20 @@ class ConstantContact_Display {
 		if ( constant_contact()->api->is_connected() && isset( $form_data['options'] ) ) {
 			$lists = maybe_unserialize( isset( $form_data['options']['optin']['list'] ) ? $form_data['options']['optin']['list'] : '' );
 
-			$return .= $this->field( [
-				'name'     => __( 'Select list(s) to subscribe to', 'constant-contact-forms' ),
-				'map_to'   => 'lists',
-				'type'     => 'checkbox',
-				'required' => true,
-				'value'    => $lists,
-			], $old_values, $req_errors, $form_id, $label_placement, $instance );
+			$return .= $this->field(
+				[
+					'name'     => __( 'Select list(s) to subscribe to', 'constant-contact-forms' ),
+					'map_to'   => 'lists',
+					'type'     => 'checkbox',
+					'required' => true,
+					'value'    => $lists,
+				],
+				$old_values,
+				$req_errors,
+				$form_id,
+				$label_placement,
+				$instance
+			);
 			$return .= $this->opt_in( $form_data['options'], $instance );
 		}
 
@@ -545,7 +552,8 @@ class ConstantContact_Display {
 			'<div ' .
 				'class="ctct_usage"' .
 				'style="border: 0 none; clip: rect( 0, 0, 0, 0 ); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px;"' .
-			'><label for="ctct_usage_field">%s</label><input type="text" value="" id="ctct_usage_field" name="ctct_usage_field" class="ctct_usage_field" tabindex="-1" /></div>', esc_html__( 'Constant Contact Use. Please leave this field blank.', 'constant-contact-forms' )
+			'><label for="ctct_usage_field">%s</label><input type="text" value="" id="ctct_usage_field" name="ctct_usage_field" class="ctct_usage_field" tabindex="-1" /></div>',
+			esc_html__( 'Constant Contact Use. Please leave this field blank.', 'constant-contact-forms' )
 		);
 	}
 
@@ -662,14 +670,17 @@ class ConstantContact_Display {
 			return '';
 		}
 
-		$field = wp_parse_args( $field, [
-			'name'             => '',
-			'map_to'           => '',
-			'type'             => '',
-			'description'      => '',
-			'field_custom_css' => [],
-			'required'         => false,
-		] );
+		$field = wp_parse_args(
+			$field,
+			[
+				'name'             => '',
+				'map_to'           => '',
+				'type'             => '',
+				'description'      => '',
+				'field_custom_css' => [],
+				'required'         => false,
+			]
+		);
 
 		$name  = sanitize_text_field( $field['name'] );
 		$map   = sanitize_text_field( $field['map_to'] );
@@ -726,7 +737,7 @@ class ConstantContact_Display {
 			case 'text_field':
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'custom_text_area':
-				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="500"', $label_placement, $instance );
+				return $this->textarea( $name, $map, $value, $desc, $req, $field_error, 'maxlength="2000"', $label_placement, $instance );
 			case 'email':
 				return $this->input( 'email', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'hidden':
@@ -771,7 +782,7 @@ class ConstantContact_Display {
 		foreach ( $submitted_vals as $post ) {
 
 			if ( isset( $post['key'] ) && $post['key'] ) {
-				$post_map = filter_input( INPUT_POST, esc_attr( $map ), FILTER_SANITIZE_STRING );
+				$post_map = filter_input( INPUT_POST, esc_attr( $map ), FILTER_SANITIZE_SPECIAL_CHARS );
 
 				if ( 'address' === $field['name'] ) {
 
@@ -780,7 +791,7 @@ class ConstantContact_Display {
 						$addr_key = explode( '___', $post['key'] );
 
 						if ( isset( $addr_key[0] ) && $addr_key[0] ) {
-							$post_key = filter_input( INPUT_POST, esc_attr( $post['key'] ), FILTER_SANITIZE_STRING );
+							$post_key = filter_input( INPUT_POST, esc_attr( $post['key'] ), FILTER_SANITIZE_SPECIAL_CHARS );
 							$post_key = empty( $post_key ) ? '' : sanitize_text_field( wp_unslash( $post_key ) );
 
 							$return[ esc_attr( $addr_key[0] ) ] = $post_key;
@@ -1065,7 +1076,7 @@ class ConstantContact_Display {
 		if ( false !== strpos( $id, 'custom___' ) ) {
 			$max_length = $truncate_max_length ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
 		} elseif ( false !== strpos( $id, 'first_name___' ) || false !== strpos( $id, 'last_name___' ) ) {
-			$max_length = 'maxlength="50"';
+			$max_length = 'maxlength="255"';
 		}
 
 		if ( $field_error ) {
@@ -1204,12 +1215,14 @@ class ConstantContact_Display {
 
 			// Retrieve list names for label.
 			if ( 'lists' === $key_pieces[0] ) {
-				$list = get_posts( [
-					'numberposts' => 1,
-					'post_type'   => 'ctct_lists',
-					'meta_key'    => '_ctct_list_id',
-					'meta_value'  => $input_label,
-				] );
+				$list = get_posts(
+					[
+						'numberposts' => 1,
+						'post_type'   => 'ctct_lists',
+						'meta_key'    => '_ctct_list_id',
+						'meta_value'  => $input_label,
+					]
+				);
 
 				// Skip list IDs that don't have corresponding post.
 				if ( empty( $list ) ) {
@@ -1276,15 +1289,19 @@ class ConstantContact_Display {
 			 *
 			 * @param string $value Submit button text.
 			 */
-			apply_filters( 'constant_contact_submit_text', __( 'Send', 'constant-contact-forms' )
-		);
+			apply_filters(
+				'constant_contact_submit_text',
+				__( 'Send', 'constant-contact-forms' )
+			);
 
-		return $this->field( [
-			'type'   => 'submit',
-			'name'   => 'ctct-submitted',
-			'map_to' => 'ctct-submitted',
-			'value'  => esc_html( $button_text ),
-		] );
+		return $this->field(
+			[
+				'type'   => 'submit',
+				'name'   => 'ctct-submitted',
+				'map_to' => 'ctct-submitted',
+				'value'  => esc_html( $button_text ),
+			]
+		);
 	}
 
 	/**
@@ -1302,11 +1319,14 @@ class ConstantContact_Display {
 			return '';
 		}
 
-		$optin = wp_parse_args( $form_data['optin'], [
-			'list'         => false,
-			'show'         => false,
-			'instructions' => '',
-		] );
+		$optin = wp_parse_args(
+			$form_data['optin'],
+			[
+				'list'         => false,
+				'show'         => false,
+				'instructions' => '',
+			]
+		);
 
 		if ( isset( $optin['list'] ) && $optin['list'] ) {
 			return $this->optin_display( $optin, $instance );
@@ -1699,20 +1719,23 @@ class ConstantContact_Display {
 				 *
 				 * @param array $value Array of months from calendar.
 				 */
-				$return = apply_filters( 'constant_contact_dates_month', [
-					'january'   => esc_html__( 'January', 'constant-contact-forms' ),
-					'february'  => esc_html__( 'February', 'constant-contact-forms' ),
-					'march'     => esc_html__( 'March', 'constant-contact-forms' ),
-					'april'     => esc_html__( 'April', 'constant-contact-forms' ),
-					'may'       => esc_html__( 'May', 'constant-contact-forms' ),
-					'june'      => esc_html__( 'June', 'constant-contact-forms' ),
-					'july '     => esc_html__( 'July ', 'constant-contact-forms' ),
-					'august'    => esc_html__( 'August', 'constant-contact-forms' ),
-					'september' => esc_html__( 'September', 'constant-contact-forms' ),
-					'october'   => esc_html__( 'October', 'constant-contact-forms' ),
-					'november'  => esc_html__( 'November', 'constant-contact-forms' ),
-					'december'  => esc_html__( 'December', 'constant-contact-forms' ),
-				] );
+				$return = apply_filters(
+					'constant_contact_dates_month',
+					[
+						'january'   => esc_html__( 'January', 'constant-contact-forms' ),
+						'february'  => esc_html__( 'February', 'constant-contact-forms' ),
+						'march'     => esc_html__( 'March', 'constant-contact-forms' ),
+						'april'     => esc_html__( 'April', 'constant-contact-forms' ),
+						'may'       => esc_html__( 'May', 'constant-contact-forms' ),
+						'june'      => esc_html__( 'June', 'constant-contact-forms' ),
+						'july '     => esc_html__( 'July ', 'constant-contact-forms' ),
+						'august'    => esc_html__( 'August', 'constant-contact-forms' ),
+						'september' => esc_html__( 'September', 'constant-contact-forms' ),
+						'october'   => esc_html__( 'October', 'constant-contact-forms' ),
+						'november'  => esc_html__( 'November', 'constant-contact-forms' ),
+						'december'  => esc_html__( 'December', 'constant-contact-forms' ),
+					]
+				);
 				break;
 			case 'year':
 				/**
@@ -1805,7 +1828,7 @@ class ConstantContact_Display {
 		$return            = '<p class="' . implode( ' ', $classes ) . '">';
 		$label             = '<span class="' . $label_placement_class . '"><label for="' . esc_attr( $field_id ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label></span>';
 		$textarea          = '<textarea class="' . esc_attr( implode( ' ', $textarea_classes ) ) . '" ' . $req_text . ' name="' . esc_attr( $map ) . '" id="' . esc_attr( $field_id ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
-		$instructions_span = '<span class="ctct-textarea-warning-label">' . esc_html__( 'Limit 500 Characters', 'constant-contact-forms' ) . '</span>';
+		$instructions_span = '<span class="ctct-textarea-warning-label">' . esc_html__( 'Limit 2000 Characters', 'constant-contact-forms' ) . '</span>';
 
 		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
 			$return .= $label . $textarea;
@@ -1876,7 +1899,9 @@ class ConstantContact_Display {
 			sprintf(
 				'<div class="ctct-disclosure" style="%s"><hr><small>%s</small></div>',
 				esc_attr( $this->get_inline_font_color() ),
-				$this->get_inner_disclose_text() ) );
+				$this->get_inner_disclose_text()
+			)
+		);
 	}
 
 	/**
@@ -1894,7 +1919,8 @@ class ConstantContact_Display {
 			return sprintf(
 				// Translators: placeholder will hold company info for site owner.
 				__(
-					'By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s', 'constant-contact-forms'
+					'By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s',
+					'constant-contact-forms'
 				),
 				$this->plugin->api->get_disclosure_info(),
 				sprintf(
@@ -1917,7 +1943,7 @@ class ConstantContact_Display {
 	 * @return string
 	 */
 	public function get_max_length_attr( $optional_label = '' ) {
-		$length       = 48; // Two less than 50char custom field limit for ": ".
+		$length       = 253; // Two less than 255char custom field limit for ": ".
 		$label_length = 0;
 
 		if ( ! empty( $optional_label ) ) {

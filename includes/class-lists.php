@@ -7,6 +7,8 @@
  * @author Constant Contact
  * @since 1.0.0
  *
+ * todo: when user is disconnected then the lists should be removed
+ *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
@@ -64,6 +66,12 @@ class ConstantContact_Lists {
 		add_filter( 'post_row_actions', [ $this, 'remove_quick_edit_from_lists' ] );
 
 		add_action( 'admin_init', [ $this, 'maybe_display_duplicate_list_error' ] );
+
+		// Attempt to migrate v2 to v3 lists when syncing lists manually.
+		add_action( 'constant_contact_sync_lists', [ $this, 'migrate_v2_v3_form_lists' ] );
+
+		// Attempt to migrate v2 to v3 lists automatically upon account authentication.
+		add_action( 'update_option__ctct_access_token', [ $this, 'migrate_v2_v3_form_lists' ] );
 	}
 
 	/**
@@ -73,21 +81,25 @@ class ConstantContact_Lists {
 	 */
 	public function add_lists_metabox() {
 
-		$cmb = new_cmb2_box( [
-			'id'           => 'ctct_list_metabox',
-			'title'        => __( 'List Information', 'constant-contact-forms' ),
-			'object_types' => [ 'ctct_lists' ],
-			'context'      => 'normal',
-			'priority'     => 'high',
-			'show_names'   => true,
-		] );
+		$cmb = new_cmb2_box(
+			[
+				'id'           => 'ctct_list_metabox',
+				'title'        => __( 'List Information', 'constant-contact-forms' ),
+				'object_types' => [ 'ctct_lists' ],
+				'context'      => 'normal',
+				'priority'     => 'high',
+				'show_names'   => true,
+			]
+		);
 
-		$cmb->add_field( [
-			'name' => '',
-			'desc' => '',
-			'id'   => '_ctct_list_meta',
-			'type' => 'constant_contact_list_information',
-		] );
+		$cmb->add_field(
+			[
+				'name' => '',
+				'desc' => '',
+				'id'   => '_ctct_list_meta',
+				'type' => 'constant_contact_list_information',
+			]
+		);
 	}
 
 	/**
@@ -118,23 +130,22 @@ class ConstantContact_Lists {
 
 		$list_info = constant_contact()->api->get_list( esc_attr( $list_id ) );
 
-		if ( ! isset( $list_info->id ) ) {
+		$list_info_obj = (object) $list_info;
+		if ( ! isset( $list_info_obj->list_id ) ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
-
-		$list_info = (array) $list_info;
 
 		echo '<ul>';
 
 		unset( $list_info['id'], $list_info['status'] );
 
-		if ( isset( $list_info['created_date'] ) && $list_info['created_date'] ) {
-			$list_info['created_date'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['created_date'] ) );
+		if ( isset( $list_info['created_at'] ) && $list_info['created_at'] ) {
+			$list_info['created_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['created_at'] ) );
 		}
 
-		if ( isset( $list_info['modified_date'] ) && $list_info['modified_date'] ) {
-			$list_info['modified_date'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['modified_date'] ) );
+		if ( isset( $list_info['updated_at'] ) && $list_info['updated_at'] ) {
+			$list_info['updated_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['updated_at'] ) );
 		}
 
 		foreach ( $list_info as $key => $value ) {
@@ -142,7 +153,7 @@ class ConstantContact_Lists {
 			$key = str_replace( '_', ' ', $key );
 			$key = ucwords( $key );
 
-			echo wp_kses_post( '<li>' . $key . ': ' . sanitize_text_field( $value ) . '</li>' );
+			echo wp_kses_post( '<li><b>' . $key . '</b> : ' . sanitize_text_field( $value ) . '</li>' );
 		}
 
 		echo '</ul>';
@@ -219,7 +230,7 @@ class ConstantContact_Lists {
 			return;
 		}
 
-		$post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+		$post_type = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_SPECIAL_CHARS );
 
 		if ( ! isset( $post_type ) ) {
 			return;
@@ -236,13 +247,18 @@ class ConstantContact_Lists {
 		 *
 		 * @param array $value Array of WP_Query arguments.
 		 */
-		$query = new WP_Query( apply_filters( 'constant_contact_lists_query_for_sync', [
-			'post_type'              => 'ctct_lists',
-			'posts_per_page'         => 1000, // phpcs:ignore WordPress.WP.PostsPerPage
-			'no_found_rows'          => true,
-			'update_post_term_cache' => false,
-			'fields'                 => 'ids',
-		] ) );
+		$query = new WP_Query(
+			apply_filters(
+				'constant_contact_lists_query_for_sync',
+				[
+					'post_type'              => 'ctct_lists',
+					'posts_per_page'         => 1000, // phpcs:ignore WordPress.WP.PostsPerPage
+					'no_found_rows'          => true,
+					'update_post_term_cache' => false,
+					'fields'                 => 'ids',
+				]
+			)
+		);
 
 		$potentially_remove_list = $query->get_posts();
 
@@ -282,12 +298,13 @@ class ConstantContact_Lists {
 			}
 
 			foreach ( $lists_to_insert as $list ) {
+				$list = (object) $list;
 
-				if ( ! isset( $list->id ) ) {
+				if ( ! isset( $list->list_id ) ) {
 					continue;
 				}
 
-				$list_id = esc_attr( $list->id );
+				$list_id = esc_attr( $list->list_id );
 
 				/**
 				 * Filters the arguments used for inserting new lists from a fresh sync.
@@ -296,11 +313,14 @@ class ConstantContact_Lists {
 				 *
 				 * @param array $value Array of arguments for a new list to be inserted into database.
 				 */
-				$new_post = apply_filters( 'constant_contact_list_insert_args', [
-					'post_title'  => isset( $list->name ) ? esc_attr( $list->name ) : '',
-					'post_status' => 'publish',
-					'post_type'   => 'ctct_lists',
-				] );
+				$new_post = apply_filters(
+					'constant_contact_list_insert_args',
+					[
+						'post_title'  => isset( $list->name ) ? esc_attr( $list->name ) : '',
+						'post_status' => 'publish',
+						'post_type'   => 'ctct_lists',
+					]
+				);
 
 				// By default, we'll attempt to update post meta for everything.
 				$update_meta = true;
@@ -413,11 +433,15 @@ class ConstantContact_Lists {
 
 			add_post_meta( $ctct_list->ID, 'ctct_duplicate_list', true );
 
-			if ( 'draft' !== $ctct_list->post_status ) {
-				$return = wp_update_post( [
-					'ID'          => absint( $ctct_list->ID ),
-					'post_status' => 'draft',
-				] );
+			if ( 'trash' === $ctct_list->post_status ) {
+				$return = wp_delete_post( $ctct_list->ID );
+			} else if ( 'draft' !== $ctct_list->post_status ) {
+				$return = wp_update_post(
+					[
+						'ID'          => absint( $ctct_list->ID ),
+						'post_status' => 'draft',
+					]
+				);
 			}
 		} else {
 			$list_id = get_post_meta( $ctct_list->ID, '_ctct_list_id', true );
@@ -448,10 +472,6 @@ class ConstantContact_Lists {
 	 * @return bool
 	 */
 	public function add_list( $ctct_list ) {
-
-		if ( ! isset( $ctct_list ) || empty( $ctct_list ) ) {
-			return false;
-		}
 
 		if ( ! isset( $ctct_list ) || empty( $ctct_list ) ) {
 			return false;
@@ -548,10 +568,12 @@ class ConstantContact_Lists {
 		}
 
 		if ( $title !== $original_title ) {
-			wp_update_post( [
-				'ID'         => absint( $id ),
-				'post_title' => $title,
-			] );
+			wp_update_post(
+				[
+					'ID'         => absint( $id ),
+					'post_title' => $title,
+				]
+			);
 		}
 
 		return $title;
@@ -729,8 +751,8 @@ class ConstantContact_Lists {
 		if ( $lists && is_array( $lists ) ) {
 
 			foreach ( $lists as $list ) {
-				if ( isset( $list->id ) && isset( $list->name ) ) {
-					$get_lists[ esc_attr( $list->id ) ] = esc_attr( $list->name );
+				if ( isset( $list['list_id'] ) && isset( $list['name'] ) ) {
+					$get_lists[ esc_attr( $list['list_id'] ) ] = esc_attr( $list['name'] );
 				}
 			}
 		}
@@ -747,8 +769,12 @@ class ConstantContact_Lists {
 	 */
 	public function maybe_display_duplicate_list_error() {
 		global $pagenow, $post;
-		if ( $pagenow || ( ! in_array( $pagenow, [ 'post.php' ], true ) ) ) {
+		if ( $pagenow && ( ! in_array( $pagenow, [ 'post.php' ], true ) ) ) {
 			return;
+		}
+
+		if ( is_null( $post ) && isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) {
+			$post = get_post( sanitize_text_field( $_GET['post'] ) );
 		}
 
 		if (
@@ -794,7 +820,7 @@ class ConstantContact_Lists {
 		<div class="notice notice-error">
 				<p><?php esc_attr_e( 'You already have a list with that name.', 'constant-contact-forms' ); ?></p>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**
@@ -823,7 +849,7 @@ class ConstantContact_Lists {
 	 */
 	public function check_for_list_sync_request() {
 
-		$ctct_resyncing = filter_input( INPUT_GET, 'ctct_resyncing', FILTER_SANITIZE_STRING );
+		$ctct_resyncing = filter_input( INPUT_GET, 'ctct_resyncing', FILTER_SANITIZE_SPECIAL_CHARS );
 
 		if ( ! isset( $ctct_resyncing ) || ! wp_verify_nonce( $ctct_resyncing, 'ctct_resyncing' ) || ! is_admin() ) {
 			return;
@@ -859,5 +885,157 @@ class ConstantContact_Lists {
 		}
 
 		return $actions;
+	}
+
+	/**
+	 * Migrate API v2 list IDs associated with forms to the corresponding API v3 list ID.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return bool True if migration was completed.
+	 */
+	public function migrate_v2_v3_form_lists() {
+
+		if ( ! constant_contact()->api->is_connected() ) {
+			return false;
+		}
+
+		$migrated = get_option( 'ctct_api_v2_v3_migrated', false );
+
+		if ( $migrated ) {
+			return true;
+		}
+
+		$forms_query = new WP_Query(
+			[
+				'post_status'            => ['publish', 'draft'],
+				'post_type'              => 'ctct_forms',
+				'update_post_term_cache' => false,
+			]
+		);
+
+		if ( ! $forms_query->have_posts() ) {
+			// There were no forms to update. Flag the migration as complete.
+			return update_option( 'ctct_api_v2_v3_migrated', true );
+		}
+
+		// Get all the v2 List IDs.
+		$v2_list_ids = [];
+		while( $forms_query->have_posts() ) {
+			$forms_query->the_post();
+			$list_ids  = get_post_meta( get_the_ID(), '_ctct_list', true );
+
+			if ( is_array( $list_ids ) && ! empty( $list_ids[0] ) ) {
+				foreach ( $list_ids as $list_id ) {
+					// Only update v2 list IDs.
+					if ( $this->is_v2_list_id( $list_id ) && ! in_array( $list_id , $v2_list_ids ) ) {
+						$v2_list_ids[] = $list_id;
+					}
+				}
+			}
+		}
+
+		$forms_query->rewind_posts();
+
+		$v2_list_ids_string = implode( ',', $v2_list_ids );
+
+		// Get the list ID cross references.
+		$list_x_refs = [];
+		$list_x_refs = $this->get_v2_list_id_x_refs( $v2_list_ids_string );
+
+		// Iterate over forms and update list IDs.
+		while( $forms_query->have_posts() ) {
+			$forms_query->the_post();
+			$list_ids         = get_post_meta( get_the_ID(), '_ctct_list', true );
+			$updated_list_ids = [];
+
+			if ( is_array( $list_ids ) && ! empty( $list_ids[0] ) ) {
+				foreach ( $list_ids as $list_id ) {
+					// V3 List IDs do not need to be modified. We will save them as-is.
+					if ( ! $this->is_v2_list_id( $list_id ) && ! in_array( $list_id , $updated_list_ids ) ) {
+						$updated_list_ids[] = $list_id;
+						continue;
+					}
+
+					// Handle v2 list IDs. We need to get their corrsesponding v3 ID.
+					if ( $this->is_v2_list_id( $list_id ) && ! in_array( $list_id , $updated_list_ids ) ) {
+						$updated_list_id = $this->get_v3_list_id_for_v2_list( $list_id, $list_x_refs );
+						if ( ! empty( $updated_list_id ) ) {
+							$updated_list_ids[] = $updated_list_id;
+						}
+					}
+				}
+			}
+
+			// Update the current form's list IDs.
+			if ( ! empty( $updated_list_ids ) ) {
+				update_post_meta( get_the_ID(), '_ctct_list', $updated_list_ids );
+			}
+		}
+
+		// Set flag indicating that list ID migration is complete.
+		return update_option( 'ctct_api_v2_v3_migrated', true );
+	}
+
+	/**
+	 * Helper function used to determine if a list id is v2 or v3.
+	 *
+	 * Example v2 ID: 1033695742
+	 * Example v3 ID: ddcaf370-abcb-11ed-bf30-fa163ef7d836
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $list_id The list ID to check.
+	 *
+	 * @return bool True if the supplied list ID is for API v2, false otherwise.
+	 */
+	private function is_v2_list_id( $list_id ) {
+		if ( 36 !== strlen( $list_id ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Use the CC API to get v2 to v3 list ID cross references.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $list_of_ids Comma separated list of v2 API List IDs.
+	 *
+	 * @return array of v2 to v3 list ID cross references.
+	 */
+	private function get_v2_list_id_x_refs( $list_of_ids ) {
+		$x_refs = constantcontact_api()->get_v2_list_id_x_refs(
+			$list_of_ids,
+			true
+		);
+
+		return $x_refs;
+	}
+
+	/**
+	 * Provide an API v2 List ID and the corresponding API v3 List ID will be returned.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $v2_list_id  The CC API v2 list ID
+	 * @param array  $list_x_refs The API v2 to API v3 list ID cross references supplied by the CC API.
+	 *
+	 * @return string API v3 list id, or null if not found.
+	 */
+	private function get_v3_list_id_for_v2_list( $v2_list_id, $list_x_refs ) {
+		if ( empty( $list_x_refs ) || empty( $list_x_refs['xrefs'] ) ) {
+			return null;
+		}
+
+		foreach ( $list_x_refs['xrefs'] as $list_x_ref ) {
+			if ( $v2_list_id === $list_x_ref['sequence_id'] ) {
+				return $list_x_ref['list_id'];
+			}
+		}
+
+		return null;
 	}
 }

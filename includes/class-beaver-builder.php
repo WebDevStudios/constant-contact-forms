@@ -35,7 +35,7 @@ class ConstantContact_Beaver_Builder {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 		if ( class_exists( 'FLBuilder' ) ) {
-			add_action( 'init', [ $this, 'register_bb_modules'] );
+			add_action( 'init', [ $this, 'register_bb_modules' ] );
 		}
 	}
 
@@ -45,32 +45,35 @@ class ConstantContact_Beaver_Builder {
 	 * @since 1.10.0
 	 */
 	public function register_bb_modules() {
-		FLBuilder::register_module( 'CCForm', array(
-			'ccm-tab-1'      => array(
-				'title'         => __( 'Settings', 'constant-contact-forms' ),
-				'sections'      => array(
-					'ccm-section-1'  => array(
-						'title'         => __( 'Settings', 'constant-contact-forms' ),
-						'fields'        => array(
-							'cc_display_title'     => array(
-								'type'          => 'select',
-								'label'         => __('Title', 'constant-contact-forms'),
-								'default'       => 'true',
-								'options'       => array(
-									'true'      => __('Display', 'constant-contact-forms'),
-									'false'     => __('Hide', 'constant-contact-forms')
-								),
-							),
-							'cc_form'     => array(
-								'type'          => 'select',
-								'label'         => __('Form', 'constant-contact-forms'),
-								'options'       => $this->get_form_options(),
-							),
-						)
-					)
-				)
-			)
-		) );
+		FLBuilder::register_module(
+			'CCForm',
+			[
+				'ccm-tab-1' => [
+					'title'    => __( 'Settings', 'constant-contact-forms' ),
+					'sections' => [
+						'ccm-section-1' => [
+							'title'  => __( 'Settings', 'constant-contact-forms' ),
+							'fields' => [
+								'cc_display_title' => [
+									'type'    => 'select',
+									'label'   => __( 'Title', 'constant-contact-forms' ),
+									'default' => 'true',
+									'options' => [
+										'true'  => __( 'Display', 'constant-contact-forms' ),
+										'false' => __( 'Hide', 'constant-contact-forms' ),
+									],
+								],
+								'cc_form'          => [
+									'type'    => 'select',
+									'label'   => __( 'Form', 'constant-contact-forms' ),
+									'options' => $this->get_form_options(),
+								],
+							],
+						],
+					],
+				],
+			]
+		);
 	}
 
 	/**
@@ -78,24 +81,24 @@ class ConstantContact_Beaver_Builder {
 	 *
 	 * @since 1.10.0
 	 */
-	private function get_form_options () {
+	private function get_form_options() {
 
-		$options = [
+		$options = [];
 
-		];
-
-		$forms = get_posts( [
-			'post_type' => 'ctct_forms',
-			'post_status' => 'publish',
-			'numberposts' => -1
-		] );
+		$forms = get_posts(
+			[
+				'post_type'   => 'ctct_forms',
+				'post_status' => 'publish',
+				'numberposts' => -1,
+			]
+		);
 
 		foreach ( $forms as $form ) {
 			$options[ $form->ID ] = $form->post_title;
 		}
 
 		if ( empty( $options ) ) {
-			$options[ '' ] = __( 'No forms currently published.', 'constant-contact-forms' );
+			$options[''] = __( 'No forms currently published.', 'constant-contact-forms' );
 		}
 
 		return $options;
@@ -104,14 +107,15 @@ class ConstantContact_Beaver_Builder {
 }
 
 class CCForm extends FLBuilderModule {
-	public function __construct()
-	{
-		parent::__construct( array(
-			'name'            => __( 'Constant Contact Form', 'constant-contact-forms' ),
-			'description'     => __( 'Display a Constant Contact Form', 'constant-contact-forms' ),
-			'category'        => __( 'Constant Contact', 'constant-contact-forms' ),
-			'dir'             => __DIR__ . '/cc-modules/form/',
-			'url'             => __DIR__ . '/cc-modules/form/',
-		) );
+	public function __construct() {
+		parent::__construct(
+			[
+				'name'        => __( 'Constant Contact Form', 'constant-contact-forms' ),
+				'description' => __( 'Display a Constant Contact Form', 'constant-contact-forms' ),
+				'category'    => __( 'Constant Contact', 'constant-contact-forms' ),
+				'dir'         => __DIR__ . '/cc-modules/form/',
+				'url'         => __DIR__ . '/cc-modules/form/',
+			]
+		);
 	}
 }
