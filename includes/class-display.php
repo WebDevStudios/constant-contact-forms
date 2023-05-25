@@ -352,6 +352,17 @@ class ConstantContact_Display {
 
 		$return .= ob_get_clean();
 
+		if ( ! empty( $form_data['options']['description'] ) ) {
+			$return .= $this->description( $form_data['options']['description'], $form_id );
+		}
+
+		if ( $form_id && current_user_can( 'edit_posts' ) ) {
+			$edit_link = get_edit_post_link( absint( $form_id ) );
+			if ( $edit_link ) {
+				$return .= '<a class="button ctct-button" href="' . esc_url( $edit_link ) . '">' . esc_html__( 'Edit Form', 'constant-contact-forms' ) . '</a>';
+			}
+		}
+
 		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
 		$return .= 'data-doajax="' . esc_attr( $do_ajax ) . '" ';
 		$return .= 'style="' . esc_attr( $form_styles ) . '" ';
@@ -369,6 +380,8 @@ class ConstantContact_Display {
 			}
 		}
 
+		$return .= $this->submit( $form_id );
+
 		$return .= $this->build_honeypot_field();
 
 		$return .= $this->add_verify_fields( $form_data );
@@ -376,8 +389,6 @@ class ConstantContact_Display {
 		$return .= $this->create_instance_field( $instance );
 
 		$return .= $this->build_timestamp();
-
-		$return .= $this->submit( $form_id );
 
 		$return .= wp_kses_post( $this->maybe_add_disclose_note( $form_data ) );
 
@@ -496,13 +507,6 @@ class ConstantContact_Display {
 	public function build_form_fields( $form_data, $old_values, $req_errors, $instance ) {
 		$return  = '';
 		$form_id = absint( $form_data['options']['form_id'] );
-
-		if ( isset( $form_data['options'] ) && isset( $form_data['options']['form_id'] ) ) {
-			$desc = isset( $form_data['options']['description'] ) ? $form_data['options']['description'] : '';
-
-			$return .= $this->description( $desc, $form_id );
-
-		}
 
 		$label_placement = constant_contact_get_css_customization( $form_id, '_ctct_form_label_placement' );
 		if ( empty( $label_placement ) ) {
@@ -867,15 +871,6 @@ class ConstantContact_Display {
 
 		$display      = '';
 		$inline_style = $this->get_description_inline_styles();
-
-		if ( $form_id && current_user_can( 'edit_posts' ) ) {
-
-			$edit_link = get_edit_post_link( absint( $form_id ) );
-
-			if ( $edit_link ) {
-				$display .= '<a class="button ctct-button" href="' . esc_url( $edit_link ) . '">' . __( 'Edit Form', 'constant-contact-forms' ) . '</a>';
-			}
-		}
 
 		return '<span class="ctct-form-description" ' . $inline_style . '>' . wpautop( wp_kses_post( $desc ) ) . '</span>' . $display;
 	}
