@@ -1813,6 +1813,7 @@ class ConstantContact_Display {
 
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$textarea_classes[]    = $label_placement_class;
+		$inline_font_styles    = $this->get_inline_font_color();
 
 		$req_label = '';
 
@@ -1821,9 +1822,10 @@ class ConstantContact_Display {
 		}
 
 		$return            = '<p class="' . implode( ' ', $classes ) . '">';
-		$label             = '<span class="' . $label_placement_class . '"><label for="' . esc_attr( $field_id ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label></span>';
+		$label             = '<span class="' . $label_placement_class . '" style="' . $inline_font_styles . '"><label for="' . esc_attr( $field_id ) . '">' . esc_attr( $name ) . ' ' . $req_label . '</label></span>';
 		$textarea          = '<textarea class="' . esc_attr( implode( ' ', $textarea_classes ) ) . '" ' . $req_text . ' name="' . esc_attr( $map ) . '" id="' . esc_attr( $field_id ) . '" placeholder="' . esc_attr( $desc ) . '" ' . $extra_attrs . '>' . esc_html( $value ) . '</textarea>';
-		$instructions_span = '<span class="ctct-textarea-warning-label">' . esc_html__( 'Limit 2000 Characters', 'constant-contact-forms' ) . '</span>';
+
+		$instructions_span = '<span class="ctct-textarea-warning-label" style="' . $inline_font_styles . '">' . esc_html__( 'Limit 2000 Characters', 'constant-contact-forms' ) . '</span>';
 
 		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
 			$return .= $label . $textarea;
