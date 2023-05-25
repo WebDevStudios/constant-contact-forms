@@ -2,11 +2,11 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
-Tested up to:      6.2
+Tested up to:      6.2.2
 Stable tag:        1.14.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
-Requires PHP:      5.6
+Requires PHP:      7.4
 
 The official Constant Contact plugin adds a contact form to your WordPress site to quickly capture information from visitors.
 
