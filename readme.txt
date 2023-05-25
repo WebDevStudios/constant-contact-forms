@@ -45,6 +45,10 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 == Changelog ==
 
+= 2.0.0 =
+* Updated: Plugin has been migrated to use Constant Contact API version 3.0. This will require new authentication workflow.
+* Updated
+
 = 1.14.0 =
 * Fixed: Issues around email submissions with "some+value@email.com" based addresses.
 * Fixed: Compatibility with Elementor Widget registration
