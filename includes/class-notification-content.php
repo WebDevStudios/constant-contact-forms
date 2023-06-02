@@ -266,12 +266,38 @@ class ConstantContact_Notification_Content {
 		);
 	}
 
+	/**
+	 * Admin notice content for upcoming API version 3 upgrade.
+	 *
+	 * @since 1.14.0
+	 *
+	 * @return false|string
+	 */
 	public static function api3_upgrade_notice() {
 		ob_start();
 		?>
 		<div class="admin-notice admin-notice-message">
 			<p>
 				<?php esc_html_e( 'Please note: the next upcoming version 2.0.0 of this plugin will be a significant release, including both security and feature updates. You will be required to reconnect the plugin to your Constant Contact account after installing version 2.0.0, once it is released.', 'constant-contact-forms' ); ?>
+			</p>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
+	/**
+	 * Admin notice for the needed API version 3 upgrade with new Forms 2.0.0 release.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return false|string
+	 */
+	public static function api3_upgraded_notice() {
+		ob_start();
+		?>
+		<div class="admin-notice admin-notice-message">
+			<p>
+				<?php esc_html_e( 'Action Required! This Constant Contact Forms version is a significant release, including both security and feature updates. You must reconnect the plugin to your Constant Contact account & reselect the lists associated with your forms. For a full walkthrough of the steps to connect to your Constant Contact account, please see our Knowledge Base article.', 'constant-contact-forms' ); ?>
 			</p>
 		</div>
 		<?php
@@ -397,3 +423,22 @@ function constant_contact_api3_upgrade_notice( array $notifications = [] ) {
 	return $notifications;
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_api3_upgrade_notice' );
+
+/**
+ * Add notification for API version 3 update notice for 2.0.0 release.
+ *
+ * @since 2.0.0
+ *
+ * @param array $notifications Array of notifications to be shown.
+ * @return array               Array of notifications to be shown.
+ */
+function constant_contact_api3_upgraded_notice( array $notifications = [] ) {
+	$notifications[] = [
+		'ID'         => 'api3_upgraded_notice',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'api3_upgraded_notice' ],
+		'require_cb' => 'constant_contact_maybe_display_api3_upgraded_notice'
+	];
+
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_api3_upgraded_notice' );
