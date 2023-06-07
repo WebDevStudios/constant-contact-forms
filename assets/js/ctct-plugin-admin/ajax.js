@@ -25,10 +25,10 @@ window.CTCTAJAX = {};
 
 		// eslint-disable-next-line no-unused-vars
 		$( '#ctct_admin_notice_tracking_optin' ).on( 'click', ( e ) => {
-
 			var ctctOptinAjax = {
 				'action': 'constant_contact_optin_ajax_handler',
-				'optin': ( $( this ).is( ':checked' ) ) ? 'on' : 'off'
+				'optin': ( $( this ).is( ':checked' ) ) ? 'on' : 'off',
+				'ctct_option_from_notification': $('#ctct_option_from_notification').val(),
 			};
 
 			$.ajax( {

@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-05-30 17:51+0000\n"
+"POT-Creation-Date: 2023-06-07 16:51+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -255,7 +255,7 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: includes/class-beaver-builder.php:68, includes/class-notification-content.php:232
+#: includes/class-beaver-builder.php:68, includes/class-notification-content.php:233
 msgid "Form"
 msgstr ""
 
@@ -902,7 +902,7 @@ msgstr ""
 msgid "Allow"
 msgstr ""
 
-#: includes/class-connect.php:257, includes/class-notification-content.php:171
+#: includes/class-connect.php:257, includes/class-notification-content.php:172
 msgid "Dismiss"
 msgstr ""
 
@@ -1416,7 +1416,7 @@ msgstr ""
 msgid "You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them."
 msgstr ""
 
-#: includes/class-notification-content.php:118, includes/class-notification-content.php:155, includes/class-optin.php:129, includes/class-settings.php:1044
+#: includes/class-notification-content.php:118, includes/class-notification-content.php:156, includes/class-optin.php:129, includes/class-settings.php:1044
 msgctxt "img alt text"
 msgid "Constant Contact logo"
 msgstr ""
@@ -1426,38 +1426,42 @@ msgid "Constant Contact Forms for WordPress data tracking opt-in"
 msgstr ""
 
 #. translators: Placeholder here is a `<br />` HTML tag for formatting.
-#: includes/class-notification-content.php:130
+#: includes/class-notification-content.php:131
 msgid "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. %1$s You can change this opt-in within the plugin's settings page at any time."
 msgstr ""
 
 #. translators: Placeholders here are for `<strong>` HTML tags.
-#: includes/class-notification-content.php:163
+#: includes/class-notification-content.php:164
 msgid "You have been successfully using %1$sConstant Contact Forms%2$s to capture valuable site visitor information! Please consider leaving us a nice review. Reviews help fellow WordPress admins find our plugin and lets you provide us useful feedback."
 msgstr ""
 
-#: includes/class-notification-content.php:170
+#: includes/class-notification-content.php:171
 msgid "Leave a review"
 msgstr ""
 
 #. translators: placeholders will be html `<a>` links.
-#: includes/class-notification-content.php:189
+#: includes/class-notification-content.php:190
 msgid "Constant Contact Forms has experienced issues that may need addressed and functionality may be missing. Please enable the \"Support\" checkbox under the Support tab in %1$sConstant Contact settings%2$s and start a %3$sforum support thread%4$s. Our support team will aid with further steps."
 msgstr ""
 
-#: includes/class-notification-content.php:210
+#: includes/class-notification-content.php:211
 msgid "References to one or more deleted Constant Contact forms are still present on your site. Please review the list below and update or remove the references to avoid issues on your site:"
 msgstr ""
 
-#: includes/class-notification-content.php:257
+#: includes/class-notification-content.php:258
 msgid "Widget titled"
 msgstr ""
 
-#: includes/class-notification-content.php:259
+#: includes/class-notification-content.php:260
 msgid "in"
 msgstr ""
 
-#: includes/class-notification-content.php:274
+#: includes/class-notification-content.php:282
 msgid "Please note: the next upcoming version 2.0.0 of this plugin will be a significant release, including both security and feature updates. You will be required to reconnect the plugin to your Constant Contact account after installing version 2.0.0, once it is released."
+msgstr ""
+
+#: includes/class-notification-content.php:301
+msgid "Action Required! This Constant Contact Forms version is a significant release, including both security and feature updates. You must reconnect the plugin to your Constant Contact account & reselect the lists associated with your forms. For a full walkthrough of the steps to connect to your Constant Contact account, please see our Knowledge Base article."
 msgstr ""
 
 #: includes/class-notifications.php:423
