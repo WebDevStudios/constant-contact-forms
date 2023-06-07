@@ -47,6 +47,7 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 = 2.0.0 =
 * Updated: Plugin has been migrated to use Constant Contact API version 3.0. This will require new authentication workflow.
+* Updated: Addressed security issues with regards to opt-in notification.
 * Updated: Added support to check for DISABLE_WP_CRON constant usage and bypass cron scheduling if true.
 * Fixed: moved "Edit form" link to outside the `<form>` markup.
 * Fixed: Custom color choices were not applying to all parts of form text output.
