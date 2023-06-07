@@ -150,11 +150,11 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 */
 	public function dialog() {
-	?>
+		?>
 		<div id="confirmdelete" style="display:none;">
 			<?php esc_html_e( 'Are you sure you want to delete current logs?', 'constant-contact-forms' ); ?>
 		</div>
-	<?php
+		<?php
 	}
 
 	/**

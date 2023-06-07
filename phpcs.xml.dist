@@ -29,8 +29,12 @@
 	<!-- Minimum WordPress version. -->
 	<config name="minimum_supported_wp_version" value="5.2"/>
 
-	<!-- Use WDS standards. -->
-	<rule ref="WebDevStudios"/>
+	<!-- Use WP standards. -->
+	<rule ref="WordPress"/>
+
+    <rule ref="Generic.Arrays">
+        <exclude name="Generic.Arrays.DisallowShortArraySyntax.Found" />
+    </rule>
 
 	<!-- Configure text domain. -->
 	<rule ref="WordPress.WP.I18n">

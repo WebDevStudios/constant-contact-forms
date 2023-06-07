@@ -82,8 +82,8 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'form_id',
 			[
-				'label' => __( 'Form', 'constant-contact-forms' ),
-				'type' => \Elementor\Controls_Manager::SELECT,
+				'label'   => __( 'Form', 'constant-contact-forms' ),
+				'type'    => \Elementor\Controls_Manager::SELECT,
 				'options' => $this->get_form_options(),
 			]
 		);
@@ -96,24 +96,24 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	 *
 	 * @since 1.10.0
 	 */
-	private function get_form_options () {
+	private function get_form_options() {
 
-		$options = [
+		$options = [];
 
-		];
-
-		$forms = get_posts([
-			'post_type' => 'ctct_forms',
-			'post_status' => 'publish',
-			'numberposts' => -1
-		]);
+		$forms = get_posts(
+			[
+				'post_type'   => 'ctct_forms',
+				'post_status' => 'publish',
+				'numberposts' => -1,
+			]
+		);
 
 		foreach ( $forms as $form ) {
 			$options[ $form->ID ] = $form->post_title;
 		}
 
 		if ( empty( $options ) ) {
-			$options[ '' ] = __( 'No forms currently published.', 'constant-contact-forms' );
+			$options[''] = __( 'No forms currently published.', 'constant-contact-forms' );
 		}
 
 		return $options;

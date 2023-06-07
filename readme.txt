@@ -2,17 +2,17 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
-Tested up to:      6.1.1
-Stable tag:        1.14.0
+Tested up to:      6.2.2
+Stable tag:        2.0.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
-Requires PHP:      5.6
+Requires PHP:      7.4
 
 The official Constant Contact plugin adds a contact form to your WordPress site to quickly capture information from visitors.
 
 == Description ==
 
-Please note: the next upcoming version 2.0.0 of this plugin will be a significant release, including both security and feature updates. You will be required to reconnect the plugin to your Constant Contact account after installing version 2.0.0, once it is released.
+Please note: Version 2.0.0 of this plugin is a significant release, including both security and feature updates. After updating to version 2.0.0, you will be required to reconnect the plugin to your Constant Contact account & reselect the lists associated with your forms.
 
 ##Work smarter, not harder. The Constant Contact Way
 Create branded emails, build a website, sell online, and make it easy for people to find you—all from one place.
@@ -44,6 +44,13 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 5. Basic Form
 
 == Changelog ==
+
+= 2.0.0 =
+* Updated: Plugin has been migrated to use Constant Contact API version 3.0. This will require new authentication workflow.
+* Updated: Addressed security issues with regards to opt-in notification.
+* Updated: Added support to check for DISABLE_WP_CRON constant usage and bypass cron scheduling if true.
+* Fixed: moved "Edit form" link to outside the `<form>` markup.
+* Fixed: Custom color choices were not applying to all parts of form text output.
 
 = 1.14.0 =
 * Fixed: Issues around email submissions with "some+value@email.com" based addresses.

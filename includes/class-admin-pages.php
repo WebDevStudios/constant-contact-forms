@@ -71,16 +71,19 @@ class ConstantContact_Admin_Pages {
 		 *
 		 * @param array $value Array of arrays with title/content values.
 		 */
-		return apply_filters( 'constant_contact_help_texts', [
+		return apply_filters(
+			'constant_contact_help_texts',
 			[
-				'title'   => esc_html__( 'This is a sample help header', 'constant-contact-forms' ),
-				'content' => esc_html__( 'This is some sample help text.', 'constant-contact-forms' ),
-			],
-			[
-				'title'   => esc_html__( 'This is another sample header', 'constant-contact-forms' ),
-				'content' => esc_html__( 'This is also some sample help text.', 'constant-contact-forms' ),
-			],
-		] );
+				[
+					'title'   => esc_html__( 'This is a sample help header', 'constant-contact-forms' ),
+					'content' => esc_html__( 'This is some sample help text.', 'constant-contact-forms' ),
+				],
+				[
+					'title'   => esc_html__( 'This is another sample header', 'constant-contact-forms' ),
+					'content' => esc_html__( 'This is also some sample help text.', 'constant-contact-forms' ),
+				],
+			]
+		);
 	}
 
 	/**
@@ -99,16 +102,19 @@ class ConstantContact_Admin_Pages {
 		 *
 		 * @param array $value Array of arrays for help text.
 		 */
-		return apply_filters( 'constant_contact_faq_texts', [
+		return apply_filters(
+			'constant_contact_faq_texts',
 			[
-				'title'   => esc_html__( 'Is this a sample question?', 'constant-contact-forms' ),
-				'content' => esc_html__( 'This is a sample answer', 'constant-contact-forms' ),
-			],
-			[
-				'title'   => esc_html__( 'This is also a sample question', 'constant-contact-forms' ),
-				'content' => esc_html__( 'This is another sample answer', 'constant-contact-forms' ),
-			],
-		] );
+				[
+					'title'   => esc_html__( 'Is this a sample question?', 'constant-contact-forms' ),
+					'content' => esc_html__( 'This is a sample answer', 'constant-contact-forms' ),
+				],
+				[
+					'title'   => esc_html__( 'This is also a sample question', 'constant-contact-forms' ),
+					'content' => esc_html__( 'This is another sample answer', 'constant-contact-forms' ),
+				],
+			]
+		);
 	}
 
 	/**
@@ -167,7 +173,7 @@ class ConstantContact_Admin_Pages {
 								if ( ! isset( $faq['title'] ) || ! isset( $faq['content'] ) ) {
 									continue;
 								}
-							?>
+								?>
 							<li>
 								<span class="question" aria-controls="q1" aria-expanded="false">
 									<?php echo esc_html( $faq['title'] ); ?>
@@ -176,7 +182,7 @@ class ConstantContact_Admin_Pages {
 									<?php echo esc_html( $faq['content'] ); ?>
 								</div>
 							</li>
-							<?php
+								<?php
 							}
 						}
 						?>
@@ -195,18 +201,15 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function about_page() {
 
-		$proof = $auth_link = $new_link = '';
+		$auth_link = $new_link = '';
 
 		if ( ! constant_contact()->api->is_connected() ) {
-			$proof     = constant_contact()->authserver->set_verification_option();
-			$auth_link = constant_contact()->authserver->do_connect_url( $proof );
-			$new_link  = constant_contact()->authserver->do_signup_url( $proof );
-
-			$new_link  = add_query_arg( [ 'rmc' => 'wp_about_try' ], $new_link );
-			$auth_link = add_query_arg( [ 'rmc' => 'wp_about_connect' ], $auth_link );
+			$new_link  = constant_contact()->api->get_signup_link();
+			$auth_link = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' );
 		}
 
-		?> 
+		?>
+
 
 		<h2><?php esc_html_e( 'About Constant Contact Forms', 'constant-contact-forms' ); ?></h2>
 
@@ -235,7 +238,7 @@ class ConstantContact_Admin_Pages {
 						</ul>
 					</div>
 				</div>
-			</div>			
+			</div>
 
 			<?php if ( $new_link || $auth_link ) { ?>
 
@@ -274,7 +277,7 @@ class ConstantContact_Admin_Pages {
 
 			<p class="small-text"><strong><?php esc_html_e( 'NOTE:', 'constant-contact-forms' ); ?></strong> <?php esc_html_e( 'You can use the Constant Contact Form plugin without a Constant Contact account. All information collected by the forms will be individually emailed to your site admin.', 'constant-contact-forms' ); ?></p>
 
-			<?php } else { ?>	
+			<?php } else { ?>
 
 				<div class="ctct-section">
 					<div class="ctct-button-actions">
@@ -283,24 +286,24 @@ class ConstantContact_Admin_Pages {
 					</div>
 				</div>
 
-			<?php } ?>	
-			
+			<?php } ?>
+
 			<?php
 				$license_link = $this->plugin->admin->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
-				if ( $license_link ) :
-			?>
+			if ( $license_link ) :
+				?>
 				<div class="ctct-license">
 					<p class="small-text">
-					<?php
-						/* Translators: Placholder here is a link to the license. */
-						$license_message = sprintf( __( 'This software is released under a modified %s.', 'constant-contact-forms' ), $license_link );
-						echo wp_kses_post( $license_message );
-					?>
+				<?php
+					/* Translators: Placholder here is a link to the license. */
+					$license_message = sprintf( __( 'This software is released under a modified %s.', 'constant-contact-forms' ), $license_link );
+					echo wp_kses_post( $license_message );
+				?>
 					</p>
 				</div>
 			<?php endif; ?>
 
-		</div>				
+		</div>
 		<?php
 	}
 
