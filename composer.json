@@ -42,8 +42,6 @@
          "rm -rf ./CODEOWNERS",
          "rm -rf ./phpcompat.xml.dist",
          "rm -rf ./phpcs.xml.dist",
-         "rm -rf ./composer.json",
-         "rm -rf ./composer.lock",
          "rm -rf ./gulpfile.js",
          "rm -rf ./package.json",
          "rm -rf ./package-lock.json",
@@ -54,6 +52,8 @@
          "rm -rf ./webpack.config.js",
          "@composer install --no-dev -a",
          "@composer archive --format=zip --file constant-contact-forms",
+         "rm -rf ./composer.json",
+         "rm -rf ./composer.lock",
          "mv constant-contact-forms.zip $HOME/Desktop"
       ],
       "install-codestandards":"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
