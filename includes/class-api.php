@@ -291,12 +291,19 @@ class ConstantContact_API {
 
 			try {
 
-				$lists = $this->cc()->get_lists();
-				$lists = $lists['lists'] ?? [];
+				$results = $this->cc()->get_lists();
+				$lists = $results['lists'] ?? [];
 
-				if ( is_array( $lists ) ) {
+				if ( ! empty( $lists ) && is_array( $lists ) ) {
 					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
 					return $lists;
+				} elseif ( array_key_exists( 'error_key', $results ) ) {
+					set_transient( 'ctct_lists', $lists, 15 * MINUTE_IN_SECONDS );
+					add_filter( 'constant_contact_force_logging', '__return_true' );
+					$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
+					$our_errors[] = $extra . $results['error_key'] . ': ' . $results['error_message'];
+					$this->log_errors($our_errors);
+					constant_contact_forms_maybe_set_exception_notice();
 				}
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );

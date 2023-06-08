@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
 Tested up to:      6.2.2
-Stable tag:        2.0.1
+Stable tag:        2.0.2
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -44,6 +44,12 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 5. Basic Form
 
 == Changelog ==
+
+= 2.0.2 =
+
+* Updated: Rate limits on API requests. Should help address list sync issues.
+* Added: Notifications of issues with list fetching with API version 3. Shorter transient cache time.
+* Added: More conditions to show "APIv3 upgrade needed" notice while needed.
 
 = 2.0.1 =
 * Fixed: Fatal error regarding objects and arrays upon update to 2.0.0

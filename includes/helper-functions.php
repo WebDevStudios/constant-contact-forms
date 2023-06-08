@@ -872,22 +872,24 @@ function constant_contact_maybe_display_deleted_forms_notice() {
  *
  * @param Exception $e
  */
-function constant_contact_forms_maybe_set_exception_notice( $e ) {
+function constant_contact_forms_maybe_set_exception_notice( $e = '' ) {
 
-	// Do not notify if the exception code is 400 or the message contains "Bad Request".
-	if (
-		( 400 === $e->getCode() ) ||
-		( false !== stripos( $e->getMessage(), 'Bad Request' ) )
-	) {
-		return;
-	}
+	if ( ! empty( $e ) ) {
+		// Do not notify if the exception code is 400 or the message contains "Bad Request".
+		if (
+			( 400 === $e->getCode() ) ||
+			( false !== stripos( $e->getMessage(), 'Bad Request' ) )
+		) {
+			return;
+		}
 
-	// Do not notify if the exception code is 503 or the message contains "Service Unavailable".
-	if (
-		( 503 === $e->getCode() ) ||
-		( false !== stripos( $e->getMessage(), 'Service Unavailable' ) )
-	) {
-		return;
+		// Do not notify if the exception code is 503 or the message contains "Service Unavailable".
+		if (
+			( 503 === $e->getCode() ) ||
+			( false !== stripos( $e->getMessage(), 'Service Unavailable' ) )
+		) {
+			return;
+		}
 	}
 
 	constant_contact_set_has_exceptions();
@@ -915,5 +917,8 @@ function constant_contact_maybe_display_api3_upgrade_notice() {
 function constant_contact_maybe_display_api3_upgraded_notice() {
 	$current_version = get_option( 'ctct_plugin_version' );
 
-	return version_compare( $current_version, '2.0.0', '=' );
+	return (
+		version_compare( $current_version, '2.0.0', '=' ) ||
+		'' === get_option( 'CtctConstantContactState', '' )
+	);
 }
