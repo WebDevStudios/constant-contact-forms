@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
 Tested up to:      6.2.2
-Stable tag:        2.0.0
+Stable tag:        2.0.1
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -45,12 +45,18 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 == Changelog ==
 
+= 2.0.1 =
+* Fixed: Fatal error regarding objects and arrays upon update to 2.0.0
+
 = 2.0.0 =
 * Updated: Plugin has been migrated to use Constant Contact API version 3.0. This will require new authentication workflow.
 * Updated: Addressed security issues with regards to opt-in notification.
 * Updated: Added support to check for DISABLE_WP_CRON constant usage and bypass cron scheduling if true.
 * Fixed: moved "Edit form" link to outside the `<form>` markup.
 * Fixed: Custom color choices were not applying to all parts of form text output.
+
+= 1.14.1 =
+* Fixed: Backport of security issue originally fixed in 2.0.0 release.
 
 = 1.14.0 =
 * Fixed: Issues around email submissions with "some+value@email.com" based addresses.

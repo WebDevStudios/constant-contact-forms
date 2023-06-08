@@ -751,6 +751,7 @@ class ConstantContact_Lists {
 		if ( $lists && is_array( $lists ) ) {
 
 			foreach ( $lists as $list ) {
+				$list = (array) $list;
 				if ( isset( $list['list_id'] ) && isset( $list['name'] ) ) {
 					$get_lists[ esc_attr( $list['list_id'] ) ] = esc_attr( $list['name'] );
 				}
