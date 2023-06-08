@@ -196,6 +196,16 @@ function constant_contact_maybe_display_exceptions_notice() {
  * @since 1.2.0
  */
 function constant_contact_optin_ajax_handler() {
+	if (
+		! isset( $_REQUEST['ctct_option_from_notification'] ) ||
+		! wp_verify_nonce(
+			$_REQUEST['ctct_option_from_notification'],
+			'ctct_option_from_notification_action'
+		)
+	) {
+		exit();
+	}
+
 	$optin = filter_input( INPUT_GET, 'optin', FILTER_SANITIZE_STRING );
 	$optin = empty( $optin ) ? filter_input( INPUT_POST, 'optin', FILTER_SANITIZE_STRING ) : $optin;
 

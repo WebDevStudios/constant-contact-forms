@@ -28,7 +28,8 @@ window.CTCTAJAX = {};
 
 			var ctctOptinAjax = {
 				'action': 'constant_contact_optin_ajax_handler',
-				'optin': ( $( this ).is( ':checked' ) ) ? 'on' : 'off'
+				'optin': ($(this).is(':checked')) ? 'on' : 'off',
+				'ctct_option_from_notification': $('#ctct_option_from_notification').val(),
 			};
 
 			$.ajax( {

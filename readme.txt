@@ -2,8 +2,8 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
-Tested up to:      6.1.1
-Stable tag:        1.14.0
+Tested up to:      6.2.2
+Stable tag:        1.14.1
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      5.6
@@ -44,6 +44,9 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 5. Basic Form
 
 == Changelog ==
+
+= 1.14.1 =
+* Fixed: Backport of security issue originally fixed in 2.0.0 release.
 
 = 1.14.0 =
 * Fixed: Issues around email submissions with "some+value@email.com" based addresses.
