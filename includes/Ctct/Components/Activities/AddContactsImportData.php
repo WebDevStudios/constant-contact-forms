@@ -12,58 +12,62 @@ use Ctct\Components\Contacts\CustomField;
  * @subpackage     Activities
  * @author         Constant Contact
  */
-class AddContactsImportData extends Component {
+class AddContactsImportData extends Component
+{
+    public $first_name;
+    public $middle_name;
+    public $last_name;
+    public $job_title;
+    public $company_name;
+    public $work_phone;
+    public $home_phone;
+    
+    public $birthday_day;
+    public $birthday_month;
+    public $anniversary;
+    
+    public $email_addresses = array();
+    public $addresses = array();
+    public $custom_fields = array();
 
-	public $first_name;
-	public $middle_name;
-	public $last_name;
-	public $job_title;
-	public $company_name;
-	public $work_phone;
-	public $home_phone;
+    /**
+     * Factory method to create an Activity object from an array
+     * @param array $props - associative array of initial properties to set
+     */
+    public function __construct(array $props = array())
+    {
+        foreach ($this as $property => $value) {
+            $this->$property = parent::getValue($props, $property);
+        }
+    }
 
-	public $birthday_day;
-	public $birthday_month;
-	public $anniversary;
+    public function addCustomField(CustomField $customField)
+    {
+        $this->custom_fields[] = $customField;
+    }
 
-	public $email_addresses = [];
-	public $addresses       = [];
-	public $custom_fields   = [];
+    public function addAddress(Address $address)
+    {
+        if (isset($address->state)) {
+            $address->state_code = $address->state;
+            unset($address->state);
+        }
 
-	/**
-	 * Factory method to create an Activity object from an array
-	 *
-	 * @param array $props - associative array of initial properties to set
-	 */
-	public function __construct( array $props = [] ) {
-		foreach ( $this as $property => $value ) {
-			$this->$property = parent::getValue( $props, $property );
-		}
-	}
+        foreach ($address as $key => $value) {
+            if ($value == null) {
+                unset($address->$key);
+            }
+        }
+        $this->addresses[] = $address;
+    }
 
-	public function addCustomField( CustomField $customField ) {
-		$this->custom_fields[] = $customField;
-	}
+    public function addEmail($emailAddress)
+    {
+        $this->email_addresses[] = $emailAddress;
+    }
 
-	public function addAddress( Address $address ) {
-		if ( isset( $address->state ) ) {
-			$address->state_code = $address->state;
-			unset( $address->state );
-		}
-
-		foreach ( $address as $key => $value ) {
-			if ( $value == null ) {
-				unset( $address->$key );
-			}
-		}
-		$this->addresses[] = $address;
-	}
-
-	public function addEmail( $emailAddress ) {
-		$this->email_addresses[] = $emailAddress;
-	}
-
-	public function toJson() {
-		return json_encode( $this );
-	}
+    public function toJson()
+    {
+        return json_encode($this);
+    }
 }

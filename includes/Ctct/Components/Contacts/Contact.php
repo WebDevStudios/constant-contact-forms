@@ -10,99 +10,244 @@ use Ctct\Components\Component;
  * @subpackage     Contacts
  * @author         Constant Contact
  */
-class Contact extends Component {
+class Contact extends Component
+{
 
-	/**
-	 * First name of the contact
-	 *
-	 * @var string
-	 */
-	public $first_name;
+    /**
+     * Unique identifier for the contact
+     * @var string
+     */
+    public $id;
 
-	/**
-	 * Last name of the contact
-	 *
-	 * @var string
-	 */
-	public $last_name;
+    /**
+     * Status of the contact, must be one of "ACTIVE", "UNCONFIRMED", "OPTOUT", "REMOVED", "NON_SUBSCRIBER", "VISITOR"
+     * @var string
+     */
+    public $status;
 
-	/**
-	 * The job title of the contact
-	 *
-	 * @var string
-	 */
-	public $job_title;
+    /**
+     * First name of the contact
+     * @var string
+     */
+    public $first_name;
 
-	/**
-	 * Company name this contact works for
-	 *
-	 * @var string
-	 */
-	public $company_name;
+    /**
+     * Last name of the contact
+     * @var string
+     */
+    public $last_name;
 
-	/**
-	 * Array of custom fields associated with this contact
-	 *
-	 * @var CustomField[]
-	 */
-	public $custom_fields = [];
+    /**
+     * Whether or not the contact is confirmed
+     * @var boolean
+     */
+    public $confirmed;
 
-	/**
-	 * Factory method to create a Contact object from an array
-	 *
-	 * @param array $props - Associative array of initial properties to set
-	 * @return Contact
-	 */
-	public static function create( array $props ) {
-		$contact             = new Contact();
-		$contact->first_name = parent::getValue( $props, 'first_name' );
-		$contact->last_name  = parent::getValue( $props, 'last_name' );
+    /**
+     * Contact source information
+     * @var string
+     */
+    public $source;
 
-		$contact->job_title   = parent::getValue( $props, 'job_title' );
+    /**
+     * Array of email addresses associated with this contact
+     * @var EmailAddress[]
+     */
+    public $email_addresses = array();
 
-		$contact->company_name = parent::getValue( $props, 'company_name' );
+    /**
+     * The prefix name of the contact
+     * @var string
+     */
+    public $prefix_name;
 
-		if ( isset( $props['custom_fields'] ) ) {
-			foreach ( $props['custom_fields'] as $custom_field ) {
-				$contact->custom_fields[] = CustomField::create( $custom_field );
-			}
-		}
+    /**
+     * The job title of the contact
+     * @var string
+     */
+    public $job_title;
 
-		return $contact;
-	}
+    /**
+     * Array of addresses associated with this contact
+     * @var Address[]
+     */
+    public $addresses = array();
 
-	/**
-	 * Add a ContactList
-	 *
-	 * @param mixed $contactList - ContactList object or contact list id
-	 */
-	public function addListId( $contactListId ) {
-		$this->list_memberships[] = $contactListId;
-	}
+    /**
+     * Array of notes associated with this contact
+     * @var Note[]
+     */
+    public $notes = array();
 
-	/**
-	 * Add an EmailAddress
-	 *
-	 * @param mixed $emailAddress - EmailAddress object or email address
-	 */
-	public function addEmailAddress( $emailAddress ) {
+    /**
+     * Company name this contact works for
+     * @var string
+     */
+    public $company_name;
 
-		$email['address'] = $emailAddress;
+    /**
+     * Contact's home phone number
+     * @var string
+     */
+    public $home_phone;
 
-		$this->email_address[] = $email;
-	}
+    /**
+     * Contact's work phone number
+     * @var string
+     */
+    public $work_phone;
 
-	/**
-	 * Add a custom field to the contact object
-	 *
-	 * @param CustomField $customField - custom field to add to the contact
-	 */
-	public function addCustomField( CustomField $customField ) {
-		$this->custom_fields[] = $customField;
-	}
+    /**
+     * Contact's cell phone number
+     * @var string
+     */
+    public $cell_phone;
 
-	public function toJson() {
-		unset( $this->last_update_date );
-		return json_encode( $this );
-	}
+    /**
+     * Contact's fax number
+     * @var string
+     */
+    public $fax;
+
+    /**
+     * Array of custom fields associated with this contact
+     * @var CustomField[]
+     */
+    public $custom_fields = array();
+
+    /**
+     * Array of contact lists this contact belongs to
+     * @var ContactList[]
+     */
+    public $lists = array();
+
+    /**
+     * Date the contact was created
+     * @var string
+     */
+    public $created_date;
+
+    /**
+     * Date the contact was last modified
+     * @var string
+     */
+    public $modified_date;
+
+    /**
+     * Contact source details
+     * @var string
+     */
+    public $source_details;
+
+    /**
+     * Factory method to create a Contact object from an array
+     * @param array $props - Associative array of initial properties to set
+     * @return Contact
+     */
+    public static function create(array $props)
+    {
+        $contact = new Contact();
+        $contact->id = parent::getValue($props, "id");
+        $contact->status = parent::getValue($props, "status");
+        $contact->first_name = parent::getValue($props, "first_name");
+        $contact->last_name = parent::getValue($props, "last_name");
+        $contact->confirmed = parent::getValue($props, "confirmed");
+        $contact->source = parent::getValue($props, "source");
+
+        if (isset($props['email_addresses'])) {
+            foreach ($props['email_addresses'] as $email_address) {
+                $contact->email_addresses[] = EmailAddress::create($email_address);
+            }
+        }
+
+        $contact->prefix_name = parent::getValue($props, "prefix_name");
+        $contact->job_title = parent::getValue($props, "job_title");
+
+        if (isset($props['addresses'])) {
+            foreach ($props['addresses'] as $address) {
+                $contact->addresses[] = Address::create($address);
+            }
+        }
+
+        if (isset($props['notes'])) {
+            foreach ($props['notes'] as $note) {
+                $contact->notes[] = Note::create($note);
+            }
+        }
+
+        $contact->company_name = parent::getValue($props, "company_name");
+        $contact->home_phone = parent::getValue($props, "home_phone");
+        $contact->work_phone = parent::getValue($props, "work_phone");
+        $contact->cell_phone = parent::getValue($props, "cell_phone");
+        $contact->fax = parent::getValue($props, "fax");
+
+        if (isset($props['custom_fields'])) {
+            foreach ($props['custom_fields'] as $custom_field) {
+                $contact->custom_fields[] = CustomField::create($custom_field);
+            }
+        }
+
+        if (isset($props['lists'])) {
+          foreach ($props['lists'] as $contact_list) {
+              $contact->lists[] = ContactList::create($contact_list);
+          }
+        }
+
+        $contact->created_date = parent::getValue($props, "created_date");
+        $contact->modified_date = parent::getValue($props, "modified_date");
+
+        $contact->source_details = parent::getValue($props, "source_details");
+
+        return $contact;
+    }
+
+    /**
+     * Add a ContactList
+     * @param mixed $contactList - ContactList object or contact list id
+     */
+    public function addList($contactList)
+    {
+        if (!$contactList instanceof ContactList) {
+            $contactList = new ContactList($contactList);
+        }
+
+        $this->lists[] = $contactList;
+    }
+
+    /**
+     * Add an EmailAddress
+     * @param mixed $emailAddress - EmailAddress object or email address
+     */
+    public function addEmail($emailAddress)
+    {
+        if (!$emailAddress instanceof EmailAddress) {
+            $emailAddress = new EmailAddress($emailAddress);
+        }
+
+        $this->email_addresses[] = $emailAddress;
+    }
+
+    /**
+     * Add a custom field to the contact object
+     * @param CustomField $customField - custom field to add to the contact
+     */
+    public function addCustomField(CustomField $customField)
+    {
+        $this->custom_fields[] = $customField;
+    }
+
+    /**
+     * Add an address
+     * @param Address $address - Address to add
+     */
+    public function addAddress(Address $address)
+    {
+        $this->addresses[] = $address;
+    }
+
+    public function toJson()
+    {
+        unset($this->last_update_date);
+        return json_encode($this);
+    }
 }

@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
 Tested up to:      6.2.2
-Stable tag:        2.0.2
+Stable tag:        2.0.3
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -45,8 +45,11 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 == Changelog ==
 
-= 2.0.2 =
+= 2.0.3 =
+* Updated: Resolution for fatal errors regarding autoloading.
+* Updated: Further security fixes for reported issues.
 
+= 2.0.2 =
 * Updated: Rate limits on API requests. Should help address list sync issues.
 * Added: Notifications of issues with list fetching with API version 3. Shorter transient cache time.
 * Added: More conditions to show "APIv3 upgrade needed" notice while needed.

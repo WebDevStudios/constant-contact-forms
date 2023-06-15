@@ -7,6 +7,6 @@ namespace Ctct\Exceptions;
  * @package     exceptions
  * @author         djellesma
  */
-class OAuth2Exception extends CtctException {
-
+class OAuth2Exception extends CtctException
+{
 }

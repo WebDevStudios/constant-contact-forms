@@ -6,7 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2023-06-07 16:51+0000\n"
+"POT-Creation-Date: 2023-06-15 15:13+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -231,11 +231,11 @@ msgstr ""
 msgid "move down"
 msgstr ""
 
-#: includes/class-api.php:803
+#: includes/class-api.php:810
 msgid "Not a valid contact to set properties to."
 msgstr ""
 
-#: includes/class-api.php:983
+#: includes/class-api.php:990
 msgid "Your API access token is invalid. Reconnect to Constant Contact to receive a new token."
 msgstr ""
 
@@ -255,7 +255,7 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: includes/class-beaver-builder.php:68, includes/class-notification-content.php:233
+#: includes/class-beaver-builder.php:68, includes/class-notification-content.php:232
 msgid "Form"
 msgstr ""
 
@@ -902,7 +902,7 @@ msgstr ""
 msgid "Allow"
 msgstr ""
 
-#: includes/class-connect.php:257, includes/class-notification-content.php:172
+#: includes/class-connect.php:257
 msgid "Dismiss"
 msgstr ""
 
@@ -1293,11 +1293,11 @@ msgstr ""
 msgid "List information will populate upon saving."
 msgstr ""
 
-#: includes/class-lists.php:821
+#: includes/class-lists.php:822
 msgid "You already have a list with that name."
 msgstr ""
 
-#: includes/class-lists.php:838
+#: includes/class-lists.php:839
 msgid "Sync Lists with Constant Contact"
 msgstr ""
 
@@ -1440,27 +1440,27 @@ msgid "Leave a review"
 msgstr ""
 
 #. translators: placeholders will be html `<a>` links.
-#: includes/class-notification-content.php:190
+#: includes/class-notification-content.php:189
 msgid "Constant Contact Forms has experienced issues that may need addressed and functionality may be missing. Please enable the \"Support\" checkbox under the Support tab in %1$sConstant Contact settings%2$s and start a %3$sforum support thread%4$s. Our support team will aid with further steps."
 msgstr ""
 
-#: includes/class-notification-content.php:211
+#: includes/class-notification-content.php:210
 msgid "References to one or more deleted Constant Contact forms are still present on your site. Please review the list below and update or remove the references to avoid issues on your site:"
 msgstr ""
 
-#: includes/class-notification-content.php:258
+#: includes/class-notification-content.php:257
 msgid "Widget titled"
 msgstr ""
 
-#: includes/class-notification-content.php:260
+#: includes/class-notification-content.php:259
 msgid "in"
 msgstr ""
 
-#: includes/class-notification-content.php:282
+#: includes/class-notification-content.php:281
 msgid "Please note: the next upcoming version 2.0.0 of this plugin will be a significant release, including both security and feature updates. You will be required to reconnect the plugin to your Constant Contact account after installing version 2.0.0, once it is released."
 msgstr ""
 
-#: includes/class-notification-content.php:301
+#: includes/class-notification-content.php:300
 msgid "Action Required! This Constant Contact Forms version is a significant release, including both security and feature updates. You must reconnect the plugin to your Constant Contact account & reselect the lists associated with your forms. For a full walkthrough of the steps to connect to your Constant Contact account, please see our Knowledge Base article."
 msgstr ""
 

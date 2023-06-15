@@ -1,3 +1,17 @@
+= 1.12.0 =
+ * Added: “Limit 500 Characters” description below textarea fields
+ * Added: CSS class selector to the div wrapping the list checkboxes
+ * Added: Force email notifications if no list is selected for a form
+ * Added: Multi-select list options to "advanced optin" settings
+ * Added: New setting to override default opt-in text
+ * Added: Two new filters to override state and zipcode labels
+ * Changed: Change <small> to <sub> for form disclaimer
+ * Fixed: Email field browser validation when form submits via AJAX
+ * Fixed: Erroneous placeholder attribute on submit button
+ * Fixed: Incomplete "ctct-label-" CSS class on submit button
+ * Updated: Addressed limits and issues regarding list management
+ * Updated: Better ensured security
+
 = 1.11.0 =
 * Updated: New admin styling to update the overall look and feel of the plugin in the WordPress admin.
 * Updated: Amend honeypot field input for accessibility purposes.

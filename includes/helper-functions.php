@@ -185,6 +185,10 @@ function constant_contact_maybe_display_review_notification() {
  * @return bool
  */
 function constant_contact_maybe_display_exceptions_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
 	$maybe_has_error = get_option( 'ctct_exceptions_exist' );
 
 	return ( 'true' === $maybe_has_error );
@@ -203,6 +207,12 @@ function constant_contact_optin_ajax_handler() {
 			'ctct_option_from_notification_action'
 		)
 	) {
+		wp_send_json_error( [ 'nonce' => 'nonce failure' ] );
+		exit();
+	}
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( [ 'user' => 'user can not manage options' ] );
 		exit();
 	}
 	$optin = filter_input( INPUT_GET, 'optin', FILTER_SANITIZE_SPECIAL_CHARS );
@@ -227,6 +237,12 @@ add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_opt
  * @since 1.2.0
  */
 function constant_contact_privacy_ajax_handler() {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( [ 'updated' => 'false' ] );
+		exit();
+	}
+
 	$agreed = filter_input( INPUT_GET, 'privacy_agree', FILTER_SANITIZE_SPECIAL_CHARS );
 	$agreed = empty( $agreed ) ? filter_input( INPUT_POST, 'privacy_agree', FILTER_SANITIZE_SPECIAL_CHARS ) : $agreed;
 
@@ -862,6 +878,10 @@ add_action( 'untrashed_post', 'constant_contact_remove_form_references_on_restor
  * @return bool Whether to display the deleted forms notice.
  */
 function constant_contact_maybe_display_deleted_forms_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
 	return ! empty( get_option( ConstantContact_Notifications::$deleted_forms, [] ) );
 }
 
@@ -903,6 +923,10 @@ function constant_contact_forms_maybe_set_exception_notice( $e = '' ) {
  * @return bool|int
  */
 function constant_contact_maybe_display_api3_upgrade_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
 	$current_version = get_option( 'ctct_plugin_version' );
 	return version_compare( $current_version, '2.0.0', '<' );
 }
@@ -915,8 +939,11 @@ function constant_contact_maybe_display_api3_upgrade_notice() {
  * @return bool|int
  */
 function constant_contact_maybe_display_api3_upgraded_notice() {
-	$current_version = get_option( 'ctct_plugin_version' );
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
 
+	$current_version = get_option( 'ctct_plugin_version' );
 	return (
 		version_compare( $current_version, '2.0.0', '=' ) ||
 		'' === get_option( 'CtctConstantContactState', '' )
