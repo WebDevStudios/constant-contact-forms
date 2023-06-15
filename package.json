@@ -38,7 +38,7 @@
     "@wordpress/scripts": "^23.0.0",
     "autoprefixer": "^10.4.7",
     "babel-loader": "^8.2.5",
-    "browser-sync": "^2.27.9",
+    "browser-sync": "^2.29.3",
     "css-mqpacker": "^7.0.0",
     "cssnano": "^5.1.7",
     "del": "^6.0.0",
