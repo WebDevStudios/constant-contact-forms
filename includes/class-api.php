@@ -831,6 +831,7 @@ class ConstantContact_API {
 			switch ( $key ) {
 				case 'email':
 				case 'custom_text_area':
+				case 'lists':
 					// Do nothing, as we already captured or handled elsewhere.
 					break;
 				case 'phone_number':
