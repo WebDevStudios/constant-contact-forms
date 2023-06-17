@@ -109,7 +109,6 @@ window.CTCTBuilder = {};
 		// If we get a row added, then do our stuff.
 		$( document ).on( 'cmb2_add_row', ( newRow ) => { // eslint-disable-line no-unused-vars
 
-			// Automatically set new rows to be 'custom' field type.
 			$( '#custom_fields_group_repeat .postbox' ).last().find( '.map select' ).val( 'none' );
 
 			that.modifyFields();
@@ -171,8 +170,29 @@ window.CTCTBuilder = {};
 
 			// Bind our leave warning.
 			that.bindLeaveWarning();
+
+			if ( that.validateUniqueFieldLabels() ) {
+				console.log( 'have uniques' );
+			} else {
+				console.log( 'have duplicates' );
+			}
 		} );
 	};
+
+	that.validateUniqueFieldLabels = () => {
+		let cfValues = $('.form-field-is-custom-field').map(function(){
+			return $(this).val();
+		}).get();
+		let cfValuesTotal = cfValues.length;
+		let cfValuesFiltered = cfValues.filter(
+			function(item,position) {
+				return cfValues.indexOf(item) === position;
+			}
+		);
+		let cfValuesFilteredTotal = cfValuesFiltered.length;
+
+		return cfValuesTotal === cfValuesFilteredTotal;
+	}
 
 	/**
 	 * We need to manipulate our form builder a bit. We do this here.
@@ -237,6 +257,13 @@ window.CTCTBuilder = {};
 
 				// and the remove button.
 				$button.show();
+
+				let mapvalue = $($map).val();
+				if ( 'custom' === $( $map ).val() ) {
+					$labelField.addClass('form-field-is-custom-field');
+				} else {
+					$labelField.removeClass('form-field-is-custom-field')
+				}
 			}
 
 			// Set the placeholder text if there's something to set.
