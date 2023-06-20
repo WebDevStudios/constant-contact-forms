@@ -174,11 +174,7 @@ window.CTCTBuilder = {};
 			// Bind our leave warning.
 			that.bindLeaveWarning();
 
-			if ( that.validateUniqueFieldLabels() ) {
-				console.log( 'have uniques' );
-			} else {
-				console.log( 'have duplicates' );
-			}
+			that.noUniqueWarningSelect();
 		} );
 	};
 
