@@ -765,6 +765,7 @@ class ConstantContact_Builder_Fields {
 				'id'      => $this->prefix . 'field_label',
 				'type'    => 'text',
 				'default' => '',
+				'after'   => '<span class="ctct-warning">' . esc_html__( 'Field label is not unique', 'constant-contact-forms' ) . '</span>',
 			]
 		);
 
