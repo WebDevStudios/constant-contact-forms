@@ -975,7 +975,11 @@ class ConstantContact_Settings {
 	 * @return mixed Site option
 	 */
 	public function get_override( $deprecated, $default = false ) {
-		return get_site_option( $this->key, $default );
+		$option = get_option( $this->key, $default );
+		if ( empty( $option ) ) {
+			$option = get_site_option( $this->key, $default );
+		}
+		return $option;
 	}
 
 	/**
@@ -988,7 +992,7 @@ class ConstantContact_Settings {
 	 * @return mixed Site option
 	 */
 	public function update_override( $deprecated, $option_value ) {
-		return update_site_option( $this->key, $option_value );
+		return update_option( $this->key, $option_value );
 	}
 
 	/**
