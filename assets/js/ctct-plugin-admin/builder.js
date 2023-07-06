@@ -33,9 +33,6 @@ window.CTCTBuilder = {};
 		// Inject our new labels for the up/down CMB2 buttons, so they can be properly localized.
 		// Because we're using :after, we can't use .css() to do this, we need to inject a style tag.
 		$( 'head' ).append( '<style> #cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "' + window.ctctTexts.move_up + '" } #cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "' + window.ctctTexts.move_down + '" }</style>' );
-
-		// Cached? Need to somehow listen for changed amounts.
-		$('.form-field-is-custom-field').on( 'keyup', that.noUniqueWarning )
 	};
 
 	/**
@@ -174,7 +171,8 @@ window.CTCTBuilder = {};
 			// Bind our leave warning.
 			that.bindLeaveWarning();
 
-			that.noUniqueWarningSelect();
+			// Cached? Need to somehow listen for changed amounts.
+			$('.form-field-is-custom-field').on('keyup', that.noUniqueWarning);
 		} );
 	};
 
@@ -198,14 +196,6 @@ window.CTCTBuilder = {};
 			$(this).siblings('.ctct-warning').removeClass('ctct-warning-no-unqiue');
 		} else {
 			$(this).siblings('.ctct-warning').addClass('ctct-warning-no-unqiue');
-		}
-	}
-
-	that.noUniqueWarningSelect = function () {
-		if (that.validateUniqueFieldLabels()) {
-			console.log('have uniques');
-		} else {
-			console.log('have duplicates');
 		}
 	}
 
