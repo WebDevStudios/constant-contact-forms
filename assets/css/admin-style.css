@@ -675,7 +675,9 @@ body.post-type-ctct_forms #titlediv #title {
 #ctct_0_description_metabox .ctct-warning,
 #ctct_1_optin_metabox .ctct-warning,
 #ctct_2_fields_metabox .ctct-warning {
-  display: none; }
+  display: none;
+  color: #ff0000;
+  vertical-align: top; }
 
 #ctct_0_description_metabox .ctct-warning.ctct-warning-no-unqiue,
 #ctct_1_optin_metabox .ctct-warning.ctct-warning-no-unqiue,
