@@ -219,10 +219,10 @@ window.CTCTBuilder = {};
 
 		// Set that we haven't found an email.
 		var foundEmail = false;
+		var cfnumber = 1;
 
 		// Loop through all fields to modify them.
 		$( '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping' ).each( function( key, value ) {
-
 			// Set some of our helper paramaters.
 			var $fieldParent = $( this ).find( '.cmb-field-list' );
 			var $button       = $( $fieldParent ).find( '.cmb-remove-group-row' );
@@ -233,6 +233,12 @@ window.CTCTBuilder = {};
 			var $fieldTitle   = $( this ).find( 'h3' );
 			var $labelField   = $( this ).find( 'input[name*="_ctct_field_label"]' );
 			var $descField    = $( this ).find( 'input[name*="_ctct_field_desc"]' );
+
+			if ( $mapName === 'Custom Text Field' ) {
+				$mapName += ' ';
+				$mapName += cfnumber.toString();
+				cfnumber++;
+			}
 
 			// Set our field row to be the name of the selected option.
 			$fieldTitle.text( $mapName );
