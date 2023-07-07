@@ -81,7 +81,7 @@ window.CTCTAJAX = {};
 		$( '.ctct-modal-close' ).on( 'click', ( e ) => {
 			var $checkbox = $( '#_ctct_data_tracking' );
 			if ( $checkbox.is( ':checked' ) ) {
-				$checkbox.attr( 'checked', false );
+				$checkbox.prop( 'checked', false );
 			}
 		} );
 
@@ -101,7 +101,7 @@ window.CTCTAJAX = {};
 					if ( 'false' === ctctPrivacyAjax.privacy_agree ) {
 						var $checkbox = $( '#_ctct_data_tracking' );
 						if ( $checkbox.is( ':checked' ) ) {
-							$checkbox.attr( 'checked', false );
+							$checkbox.prop( 'checked', false );
 						}
 					}
 				},
