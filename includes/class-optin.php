@@ -120,6 +120,8 @@ class ConstantContact_Optin {
 		if ( $this->privacy_policy_status() || ! constant_contact()->is_constant_contact() ) {
 			return;
 		}
+		$complete_url = wp_nonce_url( admin_url(), 'optin-privacy' , 'modal_privacy' );
+
 		?>
 		<div id="ctct-privacy-modal" class="ctct-modal">
 			<div class="ctct-modal-dialog" role="document">
@@ -134,8 +136,8 @@ class ConstantContact_Optin {
 					?>
 					</div><!-- modal body -->
 					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">
-						<a class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Agree', 'constant-contact-forms' ); ?></a>
-						<a class="button no-bg" data-agree="false"><?php esc_html_e( 'Disagree', 'constant-contact-forms' ); ?></a>
+						<a href="<?php echo esc_url( $complete_url ); ?>" class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Agree', 'constant-contact-forms' ); ?></a>
+						<a href="<?php echo esc_url( $complete_url ); ?>" class="button no-bg" data-agree="false"><?php esc_html_e( 'Disagree', 'constant-contact-forms' ); ?></a>
 					</div>
 				</div><!-- .modal-content -->
 			</div><!-- .modal-dialog -->
