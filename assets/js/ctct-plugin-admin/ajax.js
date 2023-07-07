@@ -104,7 +104,6 @@ window.CTCTAJAX = {};
 				data: ctctPrivacyAjax,
 				dataType: 'json',
 				success: ( response ) => { // eslint-disable-line no-unused-vars
-					$( '#ctct-privacy-modal' ).toggleClass( 'ctct-modal-open' );
 					if ( 'false' === ctctPrivacyAjax.privacy_agree ) {
 						var $checkbox = $( '#_ctct_data_tracking' );
 						if ( $checkbox.is( ':checked' ) ) {
@@ -118,6 +117,8 @@ window.CTCTAJAX = {};
 					}
 				}
 			} );
+
+			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
 		} );
 	};
 
