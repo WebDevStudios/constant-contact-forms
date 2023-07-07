@@ -88,10 +88,17 @@ window.CTCTAJAX = {};
 		// Handle the agreeing or disagreeing regarding privacy modal.
 		// eslint-disable-next-line no-unused-vars
 		$( '#ctct-modal-footer-privacy a' ).on( 'click', function( e ) {
+			e.preventDefault();
+			let params = new URLSearchParams(e.target.search)
+			let nonce = params.get('modal_privacy');
 			let ctctPrivacyAjax = {
 				'action'       : 'constant_contact_privacy_ajax_handler',
 				'privacy_agree': $(this).attr('data-agree'),
 			};
+			if ( null !== nonce ) {
+				ctctPrivacyAjax.nonce = nonce;
+			}
+
 			$.ajax( {
 				url: window.ajaxurl,
 				data: ctctPrivacyAjax,
