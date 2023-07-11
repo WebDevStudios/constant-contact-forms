@@ -125,9 +125,7 @@ class ConstantContact_Settings {
 		add_action( 'login_head', [ $this, 'optin_form_field_login_css' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
 
-		if ( ! $this->privacy_policy_status() ) {
-			add_action( 'admin_footer', [ $this, 'privacy_notice_markup' ] );
-		}
+		add_action( 'admin_footer', [ $this, 'privacy_notice_markup' ] );
 	}
 
 	/**
@@ -1036,7 +1034,7 @@ class ConstantContact_Settings {
 	 * @return void
 	 */
 	public function privacy_notice_markup() {
-		if ( $this->privacy_policy_status() || ! constant_contact()->is_constant_contact() ) {
+		if ( ! constant_contact()->is_constant_contact() ) {
 			return;
 		}
 		$complete_url = wp_nonce_url( admin_url(), 'optin-privacy', 'modal_privacy' );

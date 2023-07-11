@@ -51,9 +51,8 @@ class ConstantContact_Optin {
 		if ( $this->can_track() && constant_contact()->is_constant_contact() ) {
 			add_action( 'admin_footer', [ $this, 'anonymous_tracking' ] );
 		}
-		if ( ! $this->privacy_policy_status() ) {
-			add_action( 'admin_footer', [ $this, 'privacy_notice_markup' ] );
-		}
+
+		add_action( 'admin_footer', [ $this, 'privacy_notice_markup' ] );
 	}
 
 	/**
@@ -117,7 +116,7 @@ class ConstantContact_Optin {
 			return;
 		}
 
-		if ( $this->privacy_policy_status() || ! constant_contact()->is_constant_contact() ) {
+		if ( ! constant_contact()->is_constant_contact() ) {
 			return;
 		}
 		$complete_url = wp_nonce_url( admin_url(), 'optin-privacy' , 'modal_privacy' );
