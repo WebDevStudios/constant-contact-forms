@@ -18,7 +18,10 @@
     "plugin-zip": "wp-scripts plugin-zip",
     "styles": "run-s styles:compile styles:compress",
     "styles:compile": "node-sass assets/sass/style.scss -o assets/css/ --source-map true",
-    "styles:compress": "node-sass assets/css/style.css assets/css/style.min.css --output-style compressed"
+    "styles:compress": "node-sass assets/css/style.css assets/css/style.min.css --output-style compressed",
+    "stylesadmin": "run-s stylesadmin:compile stylesadmin:compress",
+    "stylesadmin:compile": "node-sass assets/sass/admin-style.scss -o assets/css/ --source-map true",
+    "stylesadmin:compress": "node-sass assets/css/admin-style.css assets/css/admin-style.min.css --output-style compressed"
   },
   "repository": {
     "type": "git",
