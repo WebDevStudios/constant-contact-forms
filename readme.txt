@@ -47,10 +47,12 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 = 2.1.0 =
 * Fixed: Option saving process for Multisite installs.
-* Fixed: Prevent potential issues with `lists` property and contact actions
+* Fixed: Further touchups and fixes around reported security vulnerabilities.
+* Fixed: Prevent potential issues with `lists` property and contact actions.
 * Fixed: Compatibility with other oAuth2 based services. Specifically: Site Kit at this time.
 * Updated: Obfuscated API values in debug logs.
 * Updated: Adjusted account information lookup frequency. Reduced to every 12 hours.
+* Updated: Adjusted and fixed up details around custom field usage and needing unique labels.
 
 = 2.0.3 =
 * Updated: Resolution for fatal errors regarding autoloading.
