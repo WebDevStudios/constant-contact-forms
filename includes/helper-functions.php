@@ -238,6 +238,11 @@ add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_opt
  */
 function constant_contact_privacy_ajax_handler() {
 
+	if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'optin-privacy' ) ) {
+		wp_send_json_error( [ 'updated' => 'false' ] );
+		exit();
+	}
+
 	if ( ! current_user_can( 'manage_options' ) ) {
 		wp_send_json_error( [ 'updated' => 'false' ] );
 		exit();
