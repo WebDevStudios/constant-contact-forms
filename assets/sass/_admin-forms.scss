@@ -16,8 +16,8 @@
 }
 
 body.post-type-ctct_lists .misc-pub-post-status {
-	display: none; 
-} 
+	display: none;
+}
 
 body.post-type-ctct_forms #titlediv #title {
 	height: 2.7em;
@@ -74,8 +74,8 @@ body.post-type-ctct_forms #titlediv #title {
 		.required {
 			padding-bottom: 0.1em;
 			padding-top: 0.1em;
-		} 
-	} 
+		}
+	}
 
 	#default_fields_group_repeat {
 
@@ -88,8 +88,17 @@ body.post-type-ctct_forms #titlediv #title {
 					border-bottom: 1px solid $color-light-gray;
 					padding-bottom: 0.1rem;
 				}
-			} 
+			}
 		}
+	}
+
+	.ctct-warning {
+		display: none;
+		color: #ff0000;
+		vertical-align: top;
+	}
+	.ctct-warning.ctct-warning-no-unqiue {
+		display: inline;
 	}
 
 	.cmb-repeat-group-wrap {
@@ -103,7 +112,7 @@ body.post-type-ctct_forms #titlediv #title {
 			}
 		}
 
-		.cmb-repeat-group-field { 
+		.cmb-repeat-group-field {
 			padding-top: 0.2em;
 		}
 	}
