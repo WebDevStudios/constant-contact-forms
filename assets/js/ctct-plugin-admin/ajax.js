@@ -81,27 +81,33 @@ window.CTCTAJAX = {};
 		$( '.ctct-modal-close' ).on( 'click', ( e ) => {
 			var $checkbox = $( '#_ctct_data_tracking' );
 			if ( $checkbox.is( ':checked' ) ) {
-				$checkbox.attr( 'checked', false );
+				$checkbox.prop( 'checked', false );
 			}
 		} );
 
 		// Handle the agreeing or disagreeing regarding privacy modal.
 		// eslint-disable-next-line no-unused-vars
 		$( '#ctct-modal-footer-privacy a' ).on( 'click', function( e ) {
+			e.preventDefault();
+			let params = new URLSearchParams(e.target.search)
+			let nonce = params.get('modal_privacy');
 			let ctctPrivacyAjax = {
 				'action'       : 'constant_contact_privacy_ajax_handler',
 				'privacy_agree': $(this).attr('data-agree'),
 			};
+			if ( null !== nonce ) {
+				ctctPrivacyAjax.nonce = nonce;
+			}
+
 			$.ajax( {
 				url: window.ajaxurl,
 				data: ctctPrivacyAjax,
 				dataType: 'json',
 				success: ( response ) => { // eslint-disable-line no-unused-vars
-					$( '#ctct-privacy-modal' ).toggleClass( 'ctct-modal-open' );
 					if ( 'false' === ctctPrivacyAjax.privacy_agree ) {
 						var $checkbox = $( '#_ctct_data_tracking' );
 						if ( $checkbox.is( ':checked' ) ) {
-							$checkbox.attr( 'checked', false );
+							$checkbox.prop( 'checked', false );
 						}
 					}
 				},
@@ -111,6 +117,8 @@ window.CTCTAJAX = {};
 					}
 				}
 			} );
+
+			$('#ctct-privacy-modal').toggleClass('ctct-modal-open');
 		} );
 	};
 

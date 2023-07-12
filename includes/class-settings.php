@@ -125,9 +125,7 @@ class ConstantContact_Settings {
 		add_action( 'login_head', [ $this, 'optin_form_field_login_css' ] );
 		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
 
-		if ( ! $this->privacy_policy_status() ) {
-			add_action( 'admin_footer', [ $this, 'privacy_notice_markup' ] );
-		}
+		add_action( 'admin_footer', [ $this, 'privacy_notice_markup' ] );
 	}
 
 	/**
@@ -975,7 +973,11 @@ class ConstantContact_Settings {
 	 * @return mixed Site option
 	 */
 	public function get_override( $deprecated, $default = false ) {
-		return get_site_option( $this->key, $default );
+		$option = get_option( $this->key, $default );
+		if ( empty( $option ) ) {
+			$option = get_site_option( $this->key, $default );
+		}
+		return $option;
 	}
 
 	/**
@@ -988,7 +990,7 @@ class ConstantContact_Settings {
 	 * @return mixed Site option
 	 */
 	public function update_override( $deprecated, $option_value ) {
-		return update_site_option( $this->key, $option_value );
+		return update_option( $this->key, $option_value );
 	}
 
 	/**
@@ -1032,9 +1034,10 @@ class ConstantContact_Settings {
 	 * @return void
 	 */
 	public function privacy_notice_markup() {
-		if ( $this->privacy_policy_status() || ! constant_contact()->is_constant_contact() ) {
+		if ( ! constant_contact()->is_constant_contact() ) {
 			return;
 		}
+		$complete_url = wp_nonce_url( admin_url(), 'optin-privacy', 'modal_privacy' );
 		?>
 		<div id="ctct-privacy-modal" class="ctct-modal">
 			<div class="ctct-modal-dialog" role="document">
@@ -1047,8 +1050,8 @@ class ConstantContact_Settings {
 						<?php echo constant_contact_privacy_policy_content(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK. ?>
 					</div><!-- modal body -->
 					<div id="ctct-modal-footer-privacy" class="ctct-modal-footer ctct-modal-footer-privacy">
-						<a class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Agree', 'constant-contact-forms' ); ?></a>
-						<a class="button no-bg" data-agree="false"><?php esc_html_e( 'Disagree', 'constant-contact-forms' ); ?></a>
+						<a href="<?php echo esc_url( $complete_url ); ?>" class="button button-blue ctct-connect" data-agree="true"><?php esc_html_e( 'Agree', 'constant-contact-forms' ); ?></a>
+						<a href="<?php echo esc_url( $complete_url ); ?>" class="button no-bg" data-agree="false"><?php esc_html_e( 'Disagree', 'constant-contact-forms' ); ?></a>
 					</div>
 				</div><!-- .modal-content -->
 			</div><!-- .modal-dialog -->

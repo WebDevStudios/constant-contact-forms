@@ -189,7 +189,7 @@ class ConstantContact_API {
 		 *
 		 * @param bool $value Whether or not to bypass.
 		 */
-		$bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', true );
+		$bypass_acct_cache = apply_filters( 'constant_contact_bypass_acct_info_cache', false );
 
 		if ( false === $acct_data || $bypass_acct_cache ) {
 
@@ -198,7 +198,7 @@ class ConstantContact_API {
 				$acct_data = $this->cc()->get_account_info();
 
 				if ( $acct_data ) {
-					set_transient( 'constant_contact_acct_info', $acct_data, 1 * HOUR_IN_SECONDS );
+					set_transient( 'constant_contact_acct_info', $acct_data, 12 * HOUR_IN_SECONDS );
 				}
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
@@ -831,6 +831,7 @@ class ConstantContact_API {
 			switch ( $key ) {
 				case 'email':
 				case 'custom_text_area':
+				case 'lists':
 					// Do nothing, as we already captured or handled elsewhere.
 					break;
 				case 'phone_number':
@@ -1345,8 +1346,8 @@ class ConstantContact_API {
 
 			if ( ! empty( $data['access_token'] ) ) {
 
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Old Refresh Token: ' . $this->access_token );
-				constant_contact_maybe_log_it( 'Access Token:', 'Old Access Token: ' . $this->refresh_token );
+				constant_contact_maybe_log_it( 'Refresh Token:', 'Old Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
+				constant_contact_maybe_log_it( 'Access Token:', 'Old Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
 
 				constant_contact()->connect->e_set( '_ctct_access_token', $data['access_token'] );
 				constant_contact()->connect->e_set( '_ctct_refresh_token', $data['refresh_token'] );
@@ -1359,8 +1360,8 @@ class ConstantContact_API {
 				delete_option( 'ctct_auth_url' );
 
 				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token successfully received' );
-				constant_contact_maybe_log_it( 'Refresh Token:', 'New Refresh Token: ' . $this->refresh_token );
-				constant_contact_maybe_log_it( 'Access Token:', 'New Access Token: ' . $this->access_token );
+				constant_contact_maybe_log_it( 'Refresh Token:', 'New Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
+				constant_contact_maybe_log_it( 'Access Token:', 'New Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
 				constant_contact_maybe_log_it( 'Expires in:', 'Expiry: ' . $this->expires_in );
 
 				return isset( $data['access_token'], $data['refresh_token'] );
@@ -1371,6 +1372,11 @@ class ConstantContact_API {
 		}
 
 		return false;
+	}
+
+	private function obfuscate_api_data_item( $data_item ) {
+		$start = substr( $data_item, 0, 8 );
+		return $start . '***';
 	}
 
 	/**

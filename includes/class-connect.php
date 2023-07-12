@@ -99,7 +99,7 @@ class ConstantContact_Connect {
 	public function maybe_connect() {
 
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
-		if ( isset( $_GET['code'] ) && is_user_logged_in() ) {
+		if ( isset( $_GET['code'] ) && isset( $_GET['state'] ) && is_user_logged_in() ) {
 
 			$verified = constantcontact_api()->acquire_access_token();
 
