@@ -279,14 +279,6 @@ class Constant_Contact {
 	private $updates;
 
 	/**
-	 * An instance of the ConstantContact_Optin Class.
-	 *
-	 * @since 1.0.1
-	 * @var ConstantContact_Optin
-	 */
-	private $optin;
-
-	/**
 	 * An instance of the ConstantContact_User_Customizations Class.
 	 *
 	 * @since 1.0.1
@@ -458,7 +450,6 @@ class Constant_Contact {
 		$this->notification_content = new ConstantContact_Notification_Content( $this );
 		$this->authserver           = new ConstantContact_Middleware( $this );
 		$this->updates              = new ConstantContact_Updates( $this );
-		$this->optin                = new ConstantContact_Optin( $this );
 		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
 		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
@@ -666,7 +657,6 @@ class Constant_Contact {
 			case 'gutenberg':
 			case 'lists':
 			case 'logging':
-			case 'optin':
 			case 'path':
 			case 'plugin_name':
 			case 'process_form':
