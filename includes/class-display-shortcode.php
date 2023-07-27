@@ -110,7 +110,7 @@ class ConstantContact_Display_Shortcode {
 			'<div data-form-id="%1$s" id="ctct-form-wrapper-%2$s" class="ctct-form-wrapper">%3$s</div>',
 			esc_attr( $form_id ),
 			esc_attr( self::$form_instance ),
-			constant_contact()->display->form( $form_data, $form_id, $show_title )
+			constant_contact()->display->form( $form_data, $form_id, $show_title, self::$form_instance )
 		);
 
 		++self::$form_instance;
@@ -127,7 +127,7 @@ class ConstantContact_Display_Shortcode {
 	 * @param bool $show_title If true, show the title.
 	 */
 	public function display_form( $form_id, $show_title = false ) {
-		echo $this->get_form( absint( $form_id ), $show_title ); // WPCS: XSS Ok.
+		echo $this->get_form( absint( $form_id ), $show_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
 	}
 
 	/**

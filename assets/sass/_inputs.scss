@@ -2,9 +2,11 @@
 //--------------------------------------------------------------
 //   INPUTS
 //--------------------------------------------------------------
+
 .ctct-form-wrapper {
 
 	input {
+
 		&[type='text'],
 		&[type='email'],
 		&[type='password'],
@@ -12,7 +14,7 @@
 		&[type='number'] {
 
 			&:required:valid {
-				background-image: url( '../images/check_circle.svg' );
+				background-image: url( ../images/check_circle.svg );
 				background-position: 8px 50%;
 				background-repeat: no-repeat;
 				background-size: 18px;
@@ -22,7 +24,7 @@
 
 			&:required.ctct-invalid,
 			&.ctct-invalid {
-				background: $color-white url( '../images/error.svg' ) no-repeat;
+				background: $color-white url( ../images/error.svg ) no-repeat;
 				background-color: fade-out($color-error, 0.98);
 				background-position: 8px 50%;
 				background-size: 24px;
@@ -39,7 +41,7 @@
 	}
 
 	input.ctct-invalid {
-		background: $color-white url( '../images/error.svg' ) no-repeat;
+		background: $color-white url( ../images/error.svg ) no-repeat;
 		background-color: fade-out($color-error, 0.98);
 		background-position: 8px 50%;
 		background-size: 24px;
@@ -64,6 +66,10 @@
 		display: inline-block;
 		margin-right: 5%;
 		width: 75%;
+
+		&[type="checkbox"] {
+			width: auto;
+		}
 	}
 
 	span.ctct-label-right {
@@ -77,19 +83,8 @@
 		top: -9999px !important;
 	}
 
-	#ctct_usage {
-		border: 0 none;
-		clip: rect( 0, 0, 0, 0 );
-		height: 1px;
-		margin: -1px;
-		overflow: hidden;
-		padding: 0;
-		position: absolute;
-		width: 1px;
-	}
-
-	.no-recaptcha #ctct-submitted:disabled {
-		background-image: url('../images/oval.min.svg');
+	.no-recaptcha .ctct-submitted:disabled {
+		background-image: url( ../images/oval.min.svg );
 		background-position: center;
 		background-repeat: no-repeat;
 		color: transparent;
@@ -97,7 +92,7 @@
 		opacity: 0.3;
 	}
 
-	.has-recaptcha #ctct-submitted:disabled {
+	.has-recaptcha .ctct-submitted:disabled {
 		cursor: not-allowed;
 	}
 }

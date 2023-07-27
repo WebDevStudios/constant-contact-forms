@@ -12,9 +12,10 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     1.7.0
+ * Version:     2.1.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
+ * Requires PHP: 7.4
  * License:     GPLv3
  * Text Domain: constant-contact-forms
  * Domain Path: /languages
@@ -50,10 +51,13 @@ function constant_contact_autoload_classes( $class_name ) {
 		return;
 	}
 
-	$filename = strtolower( str_replace(
-		'_', '-',
-		substr( $class_name, strlen( 'ConstantContact_' ) )
-	) );
+	$filename = strtolower(
+		str_replace(
+			'_',
+			'-',
+			substr( $class_name, strlen( 'ConstantContact_' ) )
+		)
+	);
 
 	Constant_Contact::include_file( $filename );
 }
@@ -72,7 +76,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '1.7.0';
+	const VERSION = '2.1.0';
 
 	/**
 	 * URL of plugin directory.
@@ -331,6 +335,22 @@ class Constant_Contact {
 	private $gutenberg;
 
 	/**
+	 * An instance of the ConstantContact_BeaverBuilder class.
+	 *
+	 * @since 1.5.0
+	 * @var ConstantContact_BeaverBuilder
+	 */
+	private $beaver_builder;
+
+	/*
+	 * An instance of the ConstantContact_Elementor class.
+	 *
+	 * @since 1.5.0
+	 * @var ConstantContact_Elementor
+	 */
+	private $elementor;
+
+	/**
 	 * Option name for where we store the timestamp of when the plugin was activated.
 	 *
 	 * @since 1.6.0
@@ -366,6 +386,8 @@ class Constant_Contact {
 	 * Sets up our plugin.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	protected function __construct() {
 
@@ -373,13 +395,12 @@ class Constant_Contact {
 		$this->plugin_name = esc_html__( 'Constant Contact', 'constant-contact-forms' );
 
 		// Set up some helper properties.
-		$this->basename        = plugin_basename( __FILE__ );
-		$this->url             = plugin_dir_url( __FILE__ );
-		$this->path            = plugin_dir_path( __FILE__ );
-		$this->logger_location = WP_CONTENT_DIR . '/ctct-logs/constant-contact-errors.log';
+		$this->basename = plugin_basename( __FILE__ );
+		$this->url      = plugin_dir_url( __FILE__ );
+		$this->path     = plugin_dir_path( __FILE__ );
 
 		if ( ! $this->meets_php_requirements() ) {
-			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
+			add_action( 'admin_notices', [ $this, 'minimum_version' ] );
 			return;
 		}
 
@@ -387,11 +408,17 @@ class Constant_Contact {
 		$this->plugin_classes();
 		$this->admin_plugin_classes();
 
+		// Set logging location.
+		$this->logger_location = $this->logging->get_logging_location();
+
 		// Include our helper functions function for end-users.
 		self::include_file( 'helper-functions', false );
 
 		// Include compatibility fixes to address conflicts with other plug-ins.
 		self::include_file( 'compatibility', false );
+
+		// Include deprecated functions.
+		self::include_file( 'deprecated', false );
 	}
 
 	/**
@@ -409,7 +436,11 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 */
 	public function plugin_classes() {
-		$this->api                  = new ConstantContact_API( $this );
+		$this->api = new ConstantContact_API( $this );
+		if ( class_exists( 'FLBuilder' ) ) {
+			// Load if Beaver Builder is active.
+			$this->beaver_builder = new ConstantContact_Beaver_Builder( $this );
+		}
 		$this->builder              = new ConstantContact_Builder( $this );
 		$this->builder_fields       = new ConstantContact_Builder_Fields( $this );
 		$this->check                = new ConstantContact_Check( $this );
@@ -430,6 +461,10 @@ class Constant_Contact {
 		$this->optin                = new ConstantContact_Optin( $this );
 		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
+		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+			// Load if Elementor is active.
+			$this->elementor = new ConstantContact_Elementor( $this );
+		}
 	}
 
 	/**
@@ -447,23 +482,20 @@ class Constant_Contact {
 	 * Add hooks and filters.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function hooks() {
 		if ( ! $this->meets_php_requirements() ) {
-			add_action( 'admin_notices', array( $this, 'minimum_version' ) );
+			add_action( 'admin_notices', [ $this, 'minimum_version' ] );
 			return;
 		}
 
-		add_action( 'init', array( $this, 'init' ) );
-		add_action( 'widgets_init', array( $this, 'widgets' ) );
-		add_filter( 'body_class', array( $this, 'body_classes' ) );
+		add_action( 'init', [ $this, 'init' ] );
+		add_action( 'widgets_init', [ $this, 'widgets' ] );
+		add_filter( 'body_class', [ $this, 'body_classes' ] );
 
 		$this->load_libs();
-
-		// Our vendor files will do a check for ISSSL, so we want to set it to be that. See Guzzle for more info and usage of this.
-		if ( is_ssl() || ! defined( 'ISSSL' ) ) {
-			define( 'ISSSL', true );
-		}
 
 		add_filter( 'widget_text', 'do_shortcode' );
 		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_assets' ], 1 );
@@ -499,6 +531,20 @@ class Constant_Contact {
 			return;
 		}
 
+		// Clear out connection data when deactivating plugin.
+		delete_option( 'ctct_access_token' );
+		delete_option( '_ctct_access_token' );
+		delete_option( 'ctct_refresh_token' );
+		delete_option( '_ctct_refresh_token' );
+		delete_option( '_ctct_expires_in' );
+		delete_option( 'CtctConstantContactcode_verifier' );
+		delete_option( 'CtctConstantContactState' );
+		delete_option( 'ctct_auth_url' );
+		delete_option( 'ctct_key' );
+		constant_contact_delete_option( '_ctct_form_state_authcode' );
+		wp_clear_scheduled_hook( 'refresh_token_job' );
+		wp_unschedule_hook( 'refresh_token_job' );
+
 		$this->notifications->delete_dismissed_notification( 'activation' );
 	}
 
@@ -520,7 +566,7 @@ class Constant_Contact {
 	 * @return bool
 	 */
 	public function meets_php_requirements() {
-		return version_compare( PHP_VERSION, '5.4.0', '>=' );
+		return version_compare( PHP_VERSION, '5.6.0', '>=' );
 	}
 
 	/**
@@ -530,6 +576,24 @@ class Constant_Contact {
 	 */
 	public function init() {
 		load_plugin_textdomain( 'constant-contact-forms', false, dirname( $this->basename ) . '/languages/' );
+		$this->init_debug_log();
+	}
+
+	/**
+	 * Initialize debug log on init.
+	 *
+	 * @since 1.8.5
+	 *
+	 * @return void
+	 */
+	protected function init_debug_log() {
+
+		if ( ! constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		// Create logging file and directory.
+		$this->logging->initialize_logging();
 	}
 
 	/**
@@ -562,7 +626,7 @@ class Constant_Contact {
 	 */
 	public function ajax_save_clear_first_form() {
 
-		if ( 'ctct_dismiss_first_modal' === filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING ) ) {
+		if ( 'ctct_dismiss_first_modal' === filter_input( INPUT_POST, 'action', FILTER_SANITIZE_SPECIAL_CHARS ) ) {
 			// Save our dismiss for the first form modal.
 			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) );
 		}
@@ -589,6 +653,7 @@ class Constant_Contact {
 			case 'auth_redirect':
 			case 'api':
 			case 'basename':
+			case 'beaver_builder':
 			case 'builder':
 			case 'builder_fields':
 			case 'connect':
@@ -597,6 +662,7 @@ class Constant_Contact {
 			case 'customizations':
 			case 'display':
 			case 'display_shortcode':
+			case 'elementor':
 			case 'gutenberg':
 			case 'lists':
 			case 'logging':
@@ -706,7 +772,7 @@ class Constant_Contact {
 			$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 		}
 
-		if ( 'ctct_forms' === filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING ) ) {
+		if ( 'ctct_forms' === filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_SPECIAL_CHARS ) ) {
 			return true;
 		}
 
@@ -725,7 +791,7 @@ class Constant_Contact {
 	 * @param array $classes Existing body classes.
 	 * @return array Amended body classes.
 	 */
-	public function body_classes( $classes = array() ) {
+	public function body_classes( $classes = [] ) {
 		$theme     = wp_get_theme()->template;
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
@@ -753,6 +819,11 @@ class Constant_Contact {
 	 * @since 1.4.0
 	 */
 	public function register_front_assets() {
+
+		if ( disable_frontend_css() ) {
+			return;
+		}
+
 		wp_register_style(
 			'ctct_form_styles',
 			self::url() . 'assets/css/style.css',
@@ -778,7 +849,7 @@ class Constant_Contact {
 		}
 
 		$ctct_types = [ 'ctct_forms', 'ctct_lists' ];
-		$post_type  = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_STRING );
+		$post_type  = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_SPECIAL_CHARS );
 		$post       = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 
 		if ( in_array( $post_type, $ctct_types, true ) ) {
@@ -819,16 +890,3 @@ function constant_contact_uninstall() {
 	$instance = Constant_Contact::get_instance();
 	$instance->uninstall();
 }
-
-/**
- * Modify our shortcode-button assets url without having to touch vendor folder.
- *
- * @since 1.5.3
- *
- * @param string $url Assets url for shortcode-button library.
- * @return string
- */
-function ctct_shortcode_button_assets_url( $url ) {
-	return plugin_dir_url( __FILE__ ) . 'vendor/jtsternberg/shortcode-button/';
-}
-add_filter( 'shortcode_button_assets_url', 'ctct_shortcode_button_assets_url' );

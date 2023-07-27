@@ -1,0 +1,4 @@
+assets/css/
+build/
+vendor/
+!.*.js

@@ -60,14 +60,20 @@ class ConstantContact_Gutenberg {
 	 * @since 1.5.0
 	 */
 	public function register_blocks() {
-		register_block_type( 'constant-contact/single-contact-form', [
-			'attributes'      => [
-				'selectedForm' => [
-					'type' => 'number',
+		register_block_type(
+			'constant-contact/single-contact-form',
+			[
+				'attributes'      => [
+					'selectedForm' => [
+						'type' => 'number',
+					],
+					'displayTitle' => [
+						'type' => 'boolean',
+					],
 				],
-			],
-			'render_callback' => [ $this, 'display_single_contact_form' ],
-		] );
+				'render_callback' => [ $this, 'display_single_contact_form' ],
+			]
+		);
 	}
 
 	/**
@@ -84,8 +90,13 @@ class ConstantContact_Gutenberg {
 			return '';
 		}
 
+		$display_title = true;
+		if ( empty( $attributes['displayTitle'] ) || 'false' === $attributes['displayTitle'] ) {
+			$display_title = false;
+		}
+
 		ob_start();
-		echo constant_contact_get_form( absint( $attributes['selectedForm'] ) ); // WPCS: XSS OK.
+		echo constant_contact_get_form( absint( $attributes['selectedForm'] ), $display_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
 		return ob_get_clean();
 	}
 }

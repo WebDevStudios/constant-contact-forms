@@ -1,4 +1,4 @@
-# Copyright (C) 2019 Constant Contact Forms
+# Copyright (C) 2023 Constant Contact Forms
 # This file is distributed under the same license as the Constant Contact Forms package.
 msgid ""
 msgstr ""
@@ -6,6 +6,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2023-06-15 15:13+0000\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
 "X-Poedit-SearchPath-0: .\n"
@@ -13,274 +14,261 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: constant-contact-forms.php:373, includes/class-cpts.php:89, includes/class-cpts.php:148
+#: constant-contact-forms.php:395, includes/class-admin.php:197, includes/class-beaver-builder.php:115, includes/class-cpts.php:89, includes/class-cpts.php:148
 msgid "Constant Contact"
 msgstr ""
 
-#: constant-contact-forms.php:403
+#: constant-contact-forms.php:430
 msgid "Constant Contact Forms requires PHP 5.4 or higher. Your hosting provider or website administrator should be able to assist in updating your PHP version."
 msgstr ""
 
-#: constant-contact-forms.php:692
+#: constant-contact-forms.php:758
 msgid "Error loading license."
 msgstr ""
 
-#: includes/class-admin-pages.php:76
+#: includes/class-admin-pages.php:78
 msgid "This is a sample help header"
 msgstr ""
 
-#: includes/class-admin-pages.php:77
+#: includes/class-admin-pages.php:79
 msgid "This is some sample help text."
 msgstr ""
 
-#: includes/class-admin-pages.php:80
+#: includes/class-admin-pages.php:82
 msgid "This is another sample header"
 msgstr ""
 
-#: includes/class-admin-pages.php:81
+#: includes/class-admin-pages.php:83
 msgid "This is also some sample help text."
 msgstr ""
 
-#: includes/class-admin-pages.php:104
+#: includes/class-admin-pages.php:109
 msgid "Is this a sample question?"
 msgstr ""
 
-#: includes/class-admin-pages.php:105
+#: includes/class-admin-pages.php:110
 msgid "This is a sample answer"
 msgstr ""
 
-#: includes/class-admin-pages.php:108
+#: includes/class-admin-pages.php:113
 msgid "This is also a sample question"
 msgstr ""
 
-#: includes/class-admin-pages.php:109
+#: includes/class-admin-pages.php:114
 msgid "This is another sample answer"
 msgstr ""
 
-#: includes/class-admin-pages.php:122
+#: includes/class-admin-pages.php:128
 msgid "Help / FAQ"
 msgstr ""
 
-#: includes/class-admin-pages.php:129
+#: includes/class-admin-pages.php:135
 msgid "Help"
 msgstr ""
 
-#: includes/class-admin-pages.php:158
+#: includes/class-admin-pages.php:164
 msgid "FAQ"
 msgstr ""
 
 #: includes/class-admin-pages.php:214
-msgctxt "img alt text"
-msgid "Constant Contact Logo"
+msgid "About Constant Contact Forms"
 msgstr ""
 
-#: includes/class-admin-pages.php:216
-msgid "Constant Contact Forms"
-msgstr ""
-
-#: includes/class-admin-pages.php:218
+#: includes/class-admin-pages.php:220
 msgid "This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account."
 msgstr ""
 
-#: includes/class-admin-pages.php:221
+#: includes/class-admin-pages.php:232
 msgid "Whether you're looking to collect email addresses, contact info, or visitor feedback, you can customize your forms with data fields that work best for you."
 msgstr ""
 
-#: includes/class-admin-pages.php:224
+#: includes/class-admin-pages.php:235
 msgid "Quickly create different types of forms that are clear, simple, and mobile-optimized."
 msgstr ""
 
-#: includes/class-admin-pages.php:225
+#: includes/class-admin-pages.php:236
 msgid "Choose forms that automatically select the theme and style of your WordPress site."
 msgstr ""
 
-#: includes/class-admin-pages.php:226
+#: includes/class-admin-pages.php:237
 msgid "Customize the form data fields, so you can tailor the type of information you collect."
 msgstr ""
 
-#: includes/class-admin-pages.php:235
-msgid "Collecting email addresses with the plugin?"
+#: includes/class-admin-pages.php:284
+msgid "Add Contact Form"
 msgstr ""
 
-#: includes/class-admin-pages.php:236
-msgid "Turn those contacts into customers."
+#: includes/class-admin-pages.php:285
+msgid "View Lists"
 msgstr ""
 
-#: includes/class-admin-pages.php:239
+#: includes/class-admin-pages.php:247
+msgid "Turn Contacts into Customers."
+msgstr ""
+
+#: includes/class-admin-pages.php:250
 msgid "Nurture your new contacts with a Constant Contact email marketing account even after they've left your website. Sign up for a 60-day trial account* and you can:"
 msgstr ""
 
-#: includes/class-admin-pages.php:242
+#: includes/class-admin-pages.php:253
 msgid "Seamlessly add new contacts to mailing lists."
 msgstr ""
 
-#: includes/class-admin-pages.php:243
+#: includes/class-admin-pages.php:254
 msgid "Create and send professional emails."
 msgstr ""
 
-#: includes/class-admin-pages.php:244
+#: includes/class-admin-pages.php:255
 msgid "Get expert marketing help and support."
 msgstr ""
 
-#: includes/class-admin-pages.php:249, includes/class-admin-pages.php:249, includes/class-connect.php:277
+#: includes/class-admin-pages.php:261, includes/class-admin-pages.php:261
 msgid "Try us Free"
 msgstr ""
 
-#: includes/class-admin-pages.php:252
+#: includes/class-admin-pages.php:266
 msgid "Already have a Constant Contact account?"
 msgstr ""
 
-#: includes/class-admin-pages.php:254
-msgid "Connect the plugin."
+#: includes/class-admin-pages.php:269
+msgid "Connect the Plugin"
 msgstr ""
 
-#: includes/class-admin-pages.php:258
-msgid "NOTE: You can use the Constant Contact Form plugin without a Constant Contact account. All information collected by the forms will be individually emailed to your site admin."
+#: includes/class-admin-pages.php:278
+msgid "NOTE:"
 msgstr ""
 
-#: includes/class-admin-pages.php:265, includes/class-connect.php:305
-msgid "Sign Up"
+#: includes/class-admin-pages.php:278
+msgid "You can use the Constant Contact Form plugin without a Constant Contact account. All information collected by the forms will be individually emailed to your site admin."
 msgstr ""
 
-#: includes/class-admin-pages.php:266, includes/class-connect.php:284
-msgid "Email marketing tips delivered to your inbox."
-msgstr ""
-
-#: includes/class-admin-pages.php:267, includes/class-connect.php:285
-msgid "Ready to grow with email marketing? Subscribe now for the latest tips and industry best practices to create great-looking emails that work."
-msgstr ""
-
-#: includes/class-admin-pages.php:268, includes/class-connect.php:287
-msgid "Enter your email address"
-msgstr ""
-
-#. translators: Placholder is a link to Constant Contact homepage.
-#. translators: placeholder will hold ConstantContact.com link.
-#: includes/class-admin-pages.php:279, includes/class-connect.php:297
-msgid "By submitting this form, you agree to receive periodic product announcements and account notifications from Constant Contact. Cancel these communications at any time by clicking the unsubscribe link in the footer of the actual email. Constant Contact, Inc, 1601 Trapelo Road, Waltham, MA 02451, %1$s"
-msgstr ""
-
-#: includes/class-admin-pages.php:294
-msgid "Powerful Email Marketing, Made Simple."
-msgstr ""
-
-#: includes/class-admin-pages.php:297
-msgid "Create professional emails that bring customers to your door"
-msgstr ""
-
-#: includes/class-admin-pages.php:301
-msgid "Email marketing is good for your business.  $44-back-for-every-$1-spent kind of good.*  And with the Constant Contact for WordPress plugin, you can easily add sign-up forms to your site so you can stay connected with visitors long after they've left."
-msgstr ""
-
-#: includes/class-admin-pages.php:304
+#: includes/class-admin-pages.php:292
 msgid "GPLv3 license"
 msgstr ""
 
 #. translators: Placholder here is a link to the license.
-#: includes/class-admin-pages.php:310
+#: includes/class-admin-pages.php:299
 msgid "This software is released under a modified %s."
 msgstr ""
 
-#: includes/class-admin-pages.php:316
-msgid "*Direct Marketing Association 2013 Statistical Fact Book"
-msgstr ""
-
-#: includes/class-admin-pages.php:324
-msgid "Easily Add Forms"
-msgstr ""
-
-#: includes/class-admin-pages.php:327
-msgctxt "img alt text"
-msgid "Example embedded Constant Contact form"
-msgstr ""
-
-#: includes/class-admin-pages.php:330
-msgid "Create forms that automatically select the theme and styling of your WordPress site for a perfect match. "
-msgstr ""
-
-#: includes/class-admin-pages.php:336
-msgid "Stay Connected With Your WordPress Visitors"
-msgstr ""
-
-#: includes/class-admin-pages.php:339
-msgctxt "img alt text"
-msgid "Constant Contact list management UI"
-msgstr ""
-
-#: includes/class-admin-pages.php:342
-msgid "Form completions from site visitors are conveniently added to your Constant Contact email list."
-msgstr ""
-
-#: includes/class-admin-pages.php:362
+#: includes/class-admin-pages.php:318
 msgid "Constant Contact Forms - License"
 msgstr ""
 
-#: includes/class-admin.php:129, includes/class-admin.php:130, includes/class-admin.php:379
+#: includes/class-admin.php:187
+msgid "Connected"
+msgstr ""
+
+#: includes/class-admin.php:188
+msgid "Your Constant Contact account is connected!"
+msgstr ""
+
+#: includes/class-admin.php:191
+msgid "Disconnected"
+msgstr ""
+
+#: includes/class-admin.php:192
+msgid "Your Constant Contact account is not connected."
+msgstr ""
+
+#: includes/class-admin.php:239, includes/class-admin.php:240, includes/class-admin.php:508
 msgid "About"
 msgstr ""
 
-#: includes/class-admin.php:138, includes/class-admin.php:139, includes/class-admin.php:380
+#: includes/class-admin.php:248, includes/class-admin.php:249, includes/class-admin.php:509
 msgid "License"
 msgstr ""
 
-#: includes/class-admin.php:224, includes/class-settings.php:656
+#: includes/class-admin.php:333, includes/class-settings.php:964
 msgid "Settings updated."
 msgstr ""
 
-#: includes/class-admin.php:261
+#: includes/class-admin.php:370
 msgid "Description"
 msgstr ""
 
-#: includes/class-admin.php:262, includes/class-builder-fields.php:701
+#: includes/class-admin.php:371, includes/class-builder-fields.php:820
 msgid "Shortcode"
 msgstr ""
 
-#: includes/class-admin.php:263
+#: includes/class-admin.php:372
 msgid "Associated List"
 msgstr ""
 
-#: includes/class-admin.php:305
+#: includes/class-admin.php:405
+msgid "Copy"
+msgstr ""
+
+#: includes/class-admin.php:431
 msgid "No associated list"
 msgstr ""
 
-#: includes/class-admin.php:321
+#: includes/class-admin.php:450
 msgid "Contact Count"
 msgstr ""
 
-#: includes/class-admin.php:356
+#: includes/class-admin.php:485
 msgid "None available"
 msgstr ""
 
-#: includes/class-admin.php:377
+#: includes/class-admin.php:506
 msgid "Check out the official WordPress plugin from @constantcontact:"
 msgstr ""
 
-#: includes/class-admin.php:391
+#: includes/class-admin.php:520
 msgid "Spread the word!"
 msgstr ""
 
-#: includes/class-admin.php:473
+#: includes/class-admin.php:604
 msgid "You have unsaved changes."
 msgstr ""
 
-#: includes/class-admin.php:474
+#: includes/class-admin.php:605
 msgid "move up"
 msgstr ""
 
-#: includes/class-admin.php:475
+#: includes/class-admin.php:606
 msgid "move down"
 msgstr ""
 
-#: includes/class-api.php:646
-msgid "Contact type not returned"
-msgstr ""
-
-#: includes/class-api.php:669
+#: includes/class-api.php:810
 msgid "Not a valid contact to set properties to."
 msgstr ""
 
-#: includes/class-api.php:844
+#: includes/class-api.php:990
 msgid "Your API access token is invalid. Reconnect to Constant Contact to receive a new token."
+msgstr ""
+
+#: includes/class-beaver-builder.php:52, includes/class-beaver-builder.php:55, includes/class-settings.php:331, includes/class-settings.php:332
+msgid "Settings"
+msgstr ""
+
+#: includes/class-beaver-builder.php:59
+msgid "Title"
+msgstr ""
+
+#: includes/class-beaver-builder.php:62
+msgid "Display"
+msgstr ""
+
+#: includes/class-beaver-builder.php:63
+msgid "Hide"
+msgstr ""
+
+#: includes/class-beaver-builder.php:68, includes/class-notification-content.php:232
+msgid "Form"
+msgstr ""
+
+#: includes/class-beaver-builder.php:101
+msgid "No forms currently published."
+msgstr ""
+
+#: includes/class-beaver-builder.php:113
+msgid "Constant Contact Form"
+msgstr ""
+
+#: includes/class-beaver-builder.php:114
+msgid "Display a Constant Contact Form"
 msgstr ""
 
 #: includes/class-builder-fields.php:123
@@ -363,305 +351,330 @@ msgstr ""
 msgid "A brief description of this field (optional)"
 msgstr ""
 
-#: includes/class-builder-fields.php:211
+#: includes/class-builder-fields.php:212
 msgid "Constant Contact List"
 msgstr ""
 
-#: includes/class-builder-fields.php:222, includes/class-settings.php:263
-msgid "Add subscribers to"
-msgstr ""
-
 #: includes/class-builder-fields.php:225
-msgid "No List Selected"
+msgid "No Lists Found"
 msgstr ""
 
-#: includes/class-builder-fields.php:242
+#: includes/class-builder-fields.php:226
+msgid "Create a List"
+msgstr ""
+
+#: includes/class-builder-fields.php:236
+msgid "Allow subscribers to select from lists. ( Select at least one )"
+msgstr ""
+
+#: includes/class-builder-fields.php:256
 msgid "Form Description"
 msgstr ""
 
-#: includes/class-builder-fields.php:250
+#: includes/class-builder-fields.php:266
 msgid "This message will display above the form fields, so use it as an opportunity to pitch your email list. Tell visitors why they should subscribe to your emails, focusing on benefits like insider tips, discounts, subscriber coupons, and more."
 msgstr ""
 
-#: includes/class-builder-fields.php:270
+#: includes/class-builder-fields.php:288
 msgid "Form Options"
 msgstr ""
 
-#: includes/class-builder-fields.php:278
+#: includes/class-builder-fields.php:298
 msgid "Button text"
 msgstr ""
 
-#: includes/class-builder-fields.php:281
+#: includes/class-builder-fields.php:301
 msgid "Sign up"
 msgstr ""
 
-#: includes/class-builder-fields.php:285
+#: includes/class-builder-fields.php:307
 msgid "Success message"
 msgstr ""
 
-#: includes/class-builder-fields.php:288
+#: includes/class-builder-fields.php:310
 msgid "Your information has been submitted"
 msgstr ""
 
-#: includes/class-builder-fields.php:292
+#: includes/class-builder-fields.php:316
 msgid "Submission behavior"
 msgstr ""
 
-#: includes/class-builder-fields.php:299
+#: includes/class-builder-fields.php:325
 msgid "Redirect URL"
 msgstr ""
 
-#: includes/class-builder-fields.php:302
+#: includes/class-builder-fields.php:330
 msgid "Leave blank to keep users on the current page."
 msgstr ""
 
-#: includes/class-builder-fields.php:307
+#: includes/class-builder-fields.php:331
+msgid "NOTE: This URL must be within the current site and may not be a direct link to a media file (e.g., a PDF document). Providing a Redirect URL that is outside the current site or is a media file will cause issues with Constant Constact functionality, including contacts not being added to lists successfully."
+msgstr ""
+
+#: includes/class-builder-fields.php:332
+msgid "It is recommended to leave this field blank or provide a URL to a page that contains any external or media links within the page content."
+msgstr ""
+
+#: includes/class-builder-fields.php:340
 msgid "No page refresh"
 msgstr ""
 
-#: includes/class-builder-fields.php:310
+#: includes/class-builder-fields.php:343
 msgid "Enable form submission without a page refresh. This option overrides the Redirect URL choice above."
 msgstr ""
 
-#: includes/class-builder-fields.php:315
+#: includes/class-builder-fields.php:350
 msgid "Disable Google reCAPTCHA for this form?"
 msgstr ""
 
-#: includes/class-builder-fields.php:318
+#: includes/class-builder-fields.php:353
 msgid "Checking will disable Google's reCAPTCHA output for this form. Only valid if using Google reCAPTCHA version 2"
 msgstr ""
 
-#: includes/class-builder-fields.php:323
+#: includes/class-builder-fields.php:360
 msgid "Spam notice"
 msgstr ""
 
-#: includes/class-builder-fields.php:330
+#: includes/class-builder-fields.php:369
 msgid "Spam Error Message"
 msgstr ""
 
-#: includes/class-builder-fields.php:333
+#: includes/class-builder-fields.php:372
 msgid "Set the spam error message displayed for this form."
 msgstr ""
 
-#: includes/class-builder-fields.php:349
+#: includes/class-builder-fields.php:390
 msgid "Form Design"
 msgstr ""
 
-#: includes/class-builder-fields.php:356, includes/class-builder-fields.php:418
+#: includes/class-builder-fields.php:399, includes/class-builder-fields.php:475
 msgid "Background Color"
 msgstr ""
 
-#: includes/class-builder-fields.php:359
+#: includes/class-builder-fields.php:402
 msgid "Applies to the whole form."
 msgstr ""
 
-#: includes/class-builder-fields.php:366
+#: includes/class-builder-fields.php:411
 msgid "Form Fonts"
 msgstr ""
 
-#: includes/class-builder-fields.php:372, includes/class-builder-fields.php:400
+#: includes/class-builder-fields.php:419, includes/class-builder-fields.php:453
 msgid "Font Size"
 msgstr ""
 
-#: includes/class-builder-fields.php:377
+#: includes/class-builder-fields.php:424
 msgid "Only applies to the form description."
 msgstr ""
 
-#: includes/class-builder-fields.php:384, includes/class-builder-fields.php:408
+#: includes/class-builder-fields.php:433, includes/class-builder-fields.php:463
 msgid "Font Color"
 msgstr ""
 
-#: includes/class-builder-fields.php:387
+#: includes/class-builder-fields.php:436
 msgid "Applies to the form description, input labels, and disclosure text."
 msgstr ""
 
-#: includes/class-builder-fields.php:394
+#: includes/class-builder-fields.php:445
 msgid "Form Submit Button"
 msgstr ""
 
-#: includes/class-builder-fields.php:411
+#: includes/class-builder-fields.php:466
 msgid "Choose a color for the submit button text."
 msgstr ""
 
-#: includes/class-builder-fields.php:421
+#: includes/class-builder-fields.php:478
 msgid "Choose a color for the submit button background."
 msgstr ""
 
-#: includes/class-builder-fields.php:436
+#: includes/class-builder-fields.php:495
 msgid "Input Design"
 msgstr ""
 
-#: includes/class-builder-fields.php:443
+#: includes/class-builder-fields.php:504
 msgid "Form Padding"
 msgstr ""
 
-#: includes/class-builder-fields.php:452, includes/class-builder-fields.php:507, includes/class-settings.php:369
+#: includes/class-builder-fields.php:507
+msgid "Enter padding values in number of pixels. Padding will be applied to four sides of the form."
+msgstr ""
+
+#: includes/class-builder-fields.php:516, includes/class-builder-fields.php:581, includes/class-settings.php:493
 msgid "Top"
 msgstr ""
 
-#: includes/class-builder-fields.php:462, includes/class-builder-fields.php:510, includes/class-settings.php:371
+#: includes/class-builder-fields.php:528, includes/class-builder-fields.php:584, includes/class-settings.php:495
 msgid "Right"
 msgstr ""
 
-#: includes/class-builder-fields.php:472, includes/class-builder-fields.php:509, includes/class-settings.php:372
+#: includes/class-builder-fields.php:540, includes/class-builder-fields.php:583, includes/class-settings.php:496
 msgid "Bottom"
 msgstr ""
 
-#: includes/class-builder-fields.php:482, includes/class-builder-fields.php:508, includes/class-settings.php:370
+#: includes/class-builder-fields.php:552, includes/class-builder-fields.php:582, includes/class-settings.php:494
 msgid "Left"
 msgstr ""
 
-#: includes/class-builder-fields.php:492
+#: includes/class-builder-fields.php:564
 msgid "Custom Classes"
 msgstr ""
 
-#: includes/class-builder-fields.php:495
+#: includes/class-builder-fields.php:567
 msgid "Set custom CSS class(es) for inputs. Separate multiple classes with spaces."
 msgstr ""
 
-#: includes/class-builder-fields.php:502, includes/class-settings.php:363
+#: includes/class-builder-fields.php:576, includes/class-settings.php:487
 msgid "Label Placement"
 msgstr ""
 
-#: includes/class-builder-fields.php:505
+#: includes/class-builder-fields.php:579
 msgid "Global"
 msgstr ""
 
-#: includes/class-builder-fields.php:511, includes/class-settings.php:373
+#: includes/class-builder-fields.php:585, includes/class-settings.php:497
 msgid "Hidden"
 msgstr ""
 
-#: includes/class-builder-fields.php:513
+#: includes/class-builder-fields.php:587
 msgid "Set the position for labels for inputs."
 msgstr ""
 
-#: includes/class-builder-fields.php:531
+#: includes/class-builder-fields.php:606
 msgid "Enabling this option will require users to check a box to be added to your list."
 msgstr ""
 
-#: includes/class-builder-fields.php:538
+#: includes/class-builder-fields.php:613
 msgid "Learn more"
 msgstr ""
 
-#: includes/class-builder-fields.php:543
+#: includes/class-builder-fields.php:619
 msgid "Email opt-in"
 msgstr ""
 
-#: includes/class-builder-fields.php:563
+#: includes/class-builder-fields.php:641
 msgid "Enable email subscriber opt-in"
 msgstr ""
 
-#: includes/class-builder-fields.php:565
+#: includes/class-builder-fields.php:643
 msgid "Adds an opt-in to the bottom of your form."
 msgstr ""
 
-#: includes/class-builder-fields.php:584
+#: includes/class-builder-fields.php:663
 msgid "Add a checkbox so subscribers can opt-in to your email list."
 msgstr ""
 
-#: includes/class-builder-fields.php:586
+#: includes/class-builder-fields.php:665
 msgid "(For use with Contact Us form)"
 msgstr ""
 
-#: includes/class-builder-fields.php:589
+#: includes/class-builder-fields.php:669
 msgid "Opt-in checkbox"
 msgstr ""
 
-#: includes/class-builder-fields.php:606
+#: includes/class-builder-fields.php:687
 msgid "Your Business Name"
 msgstr ""
 
-#: includes/class-builder-fields.php:609, includes/class-settings.php:281
+#: includes/class-builder-fields.php:691, includes/class-settings.php:435
 msgid "Opt-in Affirmation"
 msgstr ""
 
 #. translators: placeholder has a business name from Constant Contact.
-#: includes/class-builder-fields.php:613
+#: includes/class-builder-fields.php:695
 msgid "Example: Yes, I would like to receive emails from %s. (You can unsubscribe anytime)"
 msgstr ""
 
-#: includes/class-builder-fields.php:626
+#: includes/class-builder-fields.php:710
 msgid "Form Fields"
 msgstr ""
 
-#: includes/class-builder-fields.php:634
+#: includes/class-builder-fields.php:720
 msgid "Add Fields"
 msgstr ""
 
-#: includes/class-builder-fields.php:641
+#: includes/class-builder-fields.php:727
 msgid "Create a field for each piece of information you want to collect. Good basics include email address, first name, and last name."
 msgstr ""
 
-#: includes/class-builder-fields.php:651
+#: includes/class-builder-fields.php:739
 msgid "Field {#}"
 msgstr ""
 
-#: includes/class-builder-fields.php:652
+#: includes/class-builder-fields.php:740
 msgid "Add Another Field"
 msgstr ""
 
-#: includes/class-builder-fields.php:653
+#: includes/class-builder-fields.php:741
 msgid "Remove Field"
 msgstr ""
 
-#: includes/class-builder-fields.php:659
+#: includes/class-builder-fields.php:751
 msgid "Select a Field"
 msgstr ""
 
-#: includes/class-builder-fields.php:669
+#: includes/class-builder-fields.php:764
 msgid "Field Label"
 msgstr ""
 
-#: includes/class-builder-fields.php:676
+#: includes/class-builder-fields.php:774
 msgid "Field Description"
 msgstr ""
 
-#: includes/class-builder-fields.php:680
+#: includes/class-builder-fields.php:778
 msgid "Ex: Enter email address"
 msgstr ""
 
-#: includes/class-builder-fields.php:685
+#: includes/class-builder-fields.php:786
 msgid "Required"
 msgstr ""
 
-#: includes/class-builder-fields.php:709
+#: includes/class-builder-fields.php:798
+msgid "\"Custom Text Field\" labels are used for custom fields and need to be unique."
+msgstr ""
+
+#. translators: Placeholders are for html link markup.
+#: includes/class-builder-fields.php:804
+msgid "Custom fields created within Constant Contact with field type \"%sdate field%s\" are not supported."
+msgstr ""
+
+#: includes/class-builder-fields.php:830
 msgid "Shortcode to use"
 msgstr ""
 
 #. translators: Placeholders here represent `<em>` and `<strong>` HTML tags.
-#: includes/class-builder-fields.php:714
+#: includes/class-builder-fields.php:835
 msgid "Shortcode to embed — %1$s%2$sYou can copy and paste this in a post to display your form.%3$s%4$s"
 msgstr ""
 
-#: includes/class-builder-fields.php:736
+#: includes/class-builder-fields.php:859
 msgid "Email settings"
 msgstr ""
 
-#: includes/class-builder-fields.php:743
+#: includes/class-builder-fields.php:868
 msgid "Email destination"
 msgstr ""
 
-#: includes/class-builder-fields.php:744
+#: includes/class-builder-fields.php:869
 msgid "Who should receive email notifications for this form. Separate multiple emails by a comma. Leave blank to default to admin email."
 msgstr ""
 
-#: includes/class-builder-fields.php:750
+#: includes/class-builder-fields.php:877
 msgid "Disable email notifications for this form?"
 msgstr ""
 
-#: includes/class-builder-fields.php:751
+#: includes/class-builder-fields.php:878
 msgid "Check this option to disable emails for this Constant Contact Forms form."
 msgstr ""
 
-#: includes/class-builder-fields.php:767
+#: includes/class-builder-fields.php:895
 msgid "Reset Styles"
 msgstr ""
 
-#: includes/class-builder-fields.php:778, includes/class-builder-fields.php:796
+#: includes/class-builder-fields.php:906, includes/class-builder-fields.php:924
 msgid "Reset"
 msgstr ""
 
-#: includes/class-builder-fields.php:779
+#: includes/class-builder-fields.php:907
 msgid "Reset the styles for this Form."
 msgstr ""
 
@@ -674,71 +687,71 @@ msgstr ""
 msgid "You have multiple %1$sCustom Text Area%2$s fields in this form. %1$sOnly the first field%2$s will be sent to Constant Contact. %3$sLearn More%4$s"
 msgstr ""
 
-#: includes/class-builder.php:301
+#: includes/class-builder.php:305
 msgid "Your first form is ready!"
 msgstr ""
 
 #. translators: Placeholder will hold an example shortcode for a newly-created form.
-#: includes/class-builder.php:306
+#: includes/class-builder.php:310
 msgid "Paste shortcode %1$s into a post or page editor."
 msgstr ""
 
-#: includes/class-builder.php:314
+#: includes/class-builder.php:318
 msgid "Now, how would you like to manage the information you collect?"
 msgstr ""
 
-#: includes/class-builder.php:324
+#: includes/class-builder.php:328
 msgid "Try email marketing."
 msgstr ""
 
-#: includes/class-builder.php:326
+#: includes/class-builder.php:330
 msgid "Import everything into Constant Contact so I can see what email marketing can do for me."
 msgstr ""
 
-#: includes/class-builder.php:328, includes/class-builder.php:328, includes/class-notification-content.php:68
+#: includes/class-builder.php:332, includes/class-builder.php:332, includes/class-connect.php:314, includes/class-notification-content.php:75
 msgid "Try Us Free"
 msgstr ""
 
-#: includes/class-builder.php:345
+#: includes/class-builder.php:349
 msgid "Connect my account."
 msgstr ""
 
-#: includes/class-builder.php:347
+#: includes/class-builder.php:351
 msgid "Automatically add collected information to contacts in my Constant Contact account."
 msgstr ""
 
-#: includes/class-builder.php:349, includes/class-builder.php:350, includes/class-connect.php:265
+#: includes/class-builder.php:353, includes/class-builder.php:354
 msgid "Connect Plugin"
 msgstr ""
 
-#: includes/class-builder.php:352, includes/class-connect.php:254
+#: includes/class-builder.php:356
 msgid "By connecting, you authorize this plugin to access your account."
 msgstr ""
 
-#: includes/class-builder.php:360
+#: includes/class-builder.php:365
 msgid "I'm all set"
 msgstr ""
 
-#: includes/class-builder.php:361
+#: includes/class-builder.php:366
 msgid "I'll manage the information on my own for now."
 msgstr ""
 
-#: includes/class-builder.php:386
+#: includes/class-builder.php:391
 msgid "Custom Text Area limitations."
 msgstr ""
 
 #. translators: Placeholders here are for `<strong>` and `<em>` HTML tags.
-#: includes/class-builder.php:396
+#: includes/class-builder.php:401
 msgid "Apologies&mdash;at this time, we can only upload %1$sone %2$sCustom Text Area%3$s field%4$s to your Constant Contact account per form submission. The uploaded field is placed into your contact's %1$sNotes%4$s field."
 msgstr ""
 
 #. translators: Placeholders here are for `<strong>` HTML tags.
-#: includes/class-builder.php:409
+#: includes/class-builder.php:414
 msgid "The first listed %1$sCustom Text Area%2$s field is sent to Constant Contact."
 msgstr ""
 
 #. translators: Placeholders here are for `<strong>` HTML tags.
-#: includes/class-builder.php:420
+#: includes/class-builder.php:425
 msgid "Subsequent %1$sCustom Text Area%2$s fields are only sent with the admin email when the form is submitted, and not to your Constant Contact account."
 msgstr ""
 
@@ -750,105 +763,143 @@ msgstr ""
 msgid "Cron Check"
 msgstr ""
 
-#: includes/class-check.php:126
+#: includes/class-check.php:129
 msgid "Encrpytion Library: "
 msgstr ""
 
 #. translators: Placeholder will be a timestamp for the current time.
-#: includes/class-check.php:169
+#: includes/class-check.php:172
 msgid "The DISABLE_WP_CRON constant is set to true as of %1$s. WP-Cron is disabled and will not run."
 msgstr ""
 
 #. translators: Placeholder will be a timestamp for the current time.
-#: includes/class-check.php:174
+#: includes/class-check.php:177
 msgid "The ALTERNATE_WP_CRON constant is set to true as of %1$s. This plugin cannot determine the status of your WP-Cron system."
 msgstr ""
 
 #. translators: Placeholder will be an HTTP response code.
-#: includes/class-check.php:202
+#: includes/class-check.php:211
 msgid "Unexpected HTTP response code: %1$s"
 msgstr ""
 
-#: includes/class-check.php:207
+#: includes/class-check.php:216
 msgid "Cron spawn ok"
 msgstr ""
 
-#: includes/class-connect.php:132, includes/class-connect.php:193
+#: includes/class-connect.php:128, includes/class-connect.php:212
 msgid "Disconnect"
 msgstr ""
 
-#: includes/class-connect.php:136
+#: includes/class-connect.php:132, includes/class-connect.php:278
 msgid "Connect Now"
 msgstr ""
 
-#: includes/class-connect.php:164
+#: includes/class-connect.php:160
 msgid "Are you sure you want to disconnect?"
 msgstr ""
 
-#: includes/class-connect.php:169, includes/class-logging.php:199, includes/class-notification-content.php:111, includes/class-notification-content.php:148, includes/class-optin.php:129, includes/class-settings.php:736
-msgctxt "img alt text"
-msgid "Constant Contact logo"
-msgstr ""
-
-#: includes/class-connect.php:176
-msgid "Account connected."
-msgstr ""
-
-#: includes/class-connect.php:178
-msgid "Plugin connected to Constant Contact."
-msgstr ""
-
-#: includes/class-connect.php:201
-msgid "Your account is connected! Now, add a new form."
-msgstr ""
-
-#: includes/class-connect.php:211
-msgid "Please help to improve this plugin."
-msgstr ""
-
-#. translators: Placeholder will hold link to Constant Contact privacy statement.
-#: includes/class-connect.php:216
-msgid "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %1$s."
-msgstr ""
-
-#: includes/class-connect.php:219
-msgid "Privacy Statement"
-msgstr ""
-
-#: includes/class-connect.php:226
-msgid "Allow"
-msgstr ""
-
-#: includes/class-connect.php:227, includes/class-notification-content.php:164
-msgid "Dismiss"
-msgstr ""
-
-#: includes/class-connect.php:241
+#: includes/class-connect.php:271
 msgid "There was an error connecting your account. Please try again."
 msgstr ""
 
-#: includes/class-connect.php:248
+#: includes/class-connect.php:280
 msgid "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers."
 msgstr ""
 
-#: includes/class-connect.php:253
-msgid "Connect your Constant Contact account."
+#: includes/class-connect.php:285
+msgid "Connect to Constant Contact"
 msgstr ""
 
-#: includes/class-connect.php:274
-msgid "No Constant Contact account? Try us out."
+#: includes/class-connect.php:286
+msgid "By connecting to Constant Contact, you authorize this plugin to access your account."
 msgstr ""
 
-#: includes/class-connect.php:275
-msgid "Create professional emails so you can nurture great relationships with new contacts even after they leave your website. Sign up for a free 60-day trial."
+#: includes/class-connect.php:301
+msgid "Get Code"
 msgstr ""
 
-#: includes/class-connect.php:310
+#: includes/class-connect.php:304
+msgid "Paste Code"
+msgstr ""
+
+#: includes/class-connect.php:311
+msgid "No Constant Contact Account?"
+msgstr ""
+
+#: includes/class-connect.php:312
+msgid "Create professional emails to nurture relationships with contacts even after they leave your website. Sign up for a free 60-day trial."
+msgstr ""
+
+#: includes/class-connect.php:321
+msgid "For a full walkthrough of the steps to install this plugin &amp; connect it to your Constant Contact account, please see our %sKnowledge Base article here%s."
+msgstr ""
+
+#: includes/class-connect.php:335
 msgid "NOTE: "
 msgstr ""
 
-#: includes/class-connect.php:310
+#: includes/class-connect.php:335
 msgid "It's possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin."
+msgstr ""
+
+#: includes/class-connect.php:170
+msgid "Account Connected!"
+msgstr ""
+
+#: includes/class-connect.php:172
+msgid "You are connected to your Constant Contact account."
+msgstr ""
+
+#: includes/class-connect.php:176
+msgid "Account Name:"
+msgstr ""
+
+#: includes/class-connect.php:188
+msgid "There was an issue with retrieving connected account information. Please try again."
+msgstr ""
+
+#: includes/class-connect.php:195
+msgid "Email Address:"
+msgstr ""
+
+#: includes/class-connect.php:207
+msgid "Status:"
+msgstr ""
+
+#: includes/class-connect.php:231
+msgid "Turn Contacts into Customers!"
+msgstr ""
+
+#: includes/class-connect.php:232
+msgid "You site is connected to Constant Contact and ready to start collecting visitor information. "
+msgstr ""
+
+#: includes/class-connect.php:233
+msgid "Get started by watching our introduction video to get the most out of the plugin."
+msgstr ""
+
+#: includes/class-connect.php:234, includes/class-cpts.php:70
+msgid "Add Form"
+msgstr ""
+
+#: includes/class-connect.php:241
+msgid "Please Help to Improve this Plugin"
+msgstr ""
+
+#: includes/class-connect.php:246
+msgid "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %1$s."
+msgstr ""
+
+#: includes/class-connect.php:249
+msgid "Privacy Statement"
+msgstr ""
+
+#: includes/class-connect.php:256
+msgid "Allow"
+msgstr ""
+
+#: includes/class-connect.php:257
+msgid "Dismiss"
 msgstr ""
 
 #: includes/class-cpts.php:62
@@ -874,10 +925,10 @@ msgid "Parent Form:"
 msgstr ""
 
 #: includes/class-cpts.php:68
-msgid "All Forms"
+msgid "Forms"
 msgstr ""
 
-#: includes/class-cpts.php:69, includes/class-cpts.php:70
+#: includes/class-cpts.php:69
 msgid "Add New Form"
 msgstr ""
 
@@ -885,7 +936,7 @@ msgstr ""
 msgid "New Form"
 msgstr ""
 
-#: includes/class-cpts.php:72, includes/class-display.php:832
+#: includes/class-cpts.php:72, includes/class-display.php:362
 msgid "Edit Form"
 msgstr ""
 
@@ -1027,537 +1078,635 @@ msgstr ""
 msgid "Constant Contact lists."
 msgstr ""
 
-#: includes/class-cpts.php:187, includes/class-cpts.php:190
+#: includes/class-cpts.php:188, includes/class-cpts.php:191
 msgid "List updated."
 msgstr ""
 
-#: includes/class-cpts.php:188, includes/class-cpts.php:203
+#: includes/class-cpts.php:189, includes/class-cpts.php:208
 msgid "Custom field updated."
 msgstr ""
 
-#: includes/class-cpts.php:189, includes/class-cpts.php:204
+#: includes/class-cpts.php:190, includes/class-cpts.php:209
 msgid "Custom field deleted."
 msgstr ""
 
-#: includes/class-cpts.php:191
+#. translators: formatted revision timestamp.
+#: includes/class-cpts.php:194
 msgid "List restored to revision from %s"
 msgstr ""
 
-#: includes/class-cpts.php:192
+#: includes/class-cpts.php:196
 msgid "List published."
 msgstr ""
 
-#: includes/class-cpts.php:193
+#: includes/class-cpts.php:197
 msgid "List saved."
 msgstr ""
 
-#: includes/class-cpts.php:194
+#: includes/class-cpts.php:198
 msgid "List submitted."
 msgstr ""
 
-#: includes/class-cpts.php:195
+#. translators: formatted post date timestamp.
+#: includes/class-cpts.php:200
 msgid "List scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
-#: includes/class-cpts.php:197
+#: includes/class-cpts.php:202
 msgid "List draft updated."
 msgstr ""
 
-#: includes/class-cpts.php:202, includes/class-cpts.php:205
+#: includes/class-cpts.php:207, includes/class-cpts.php:210
 msgid "Form updated."
 msgstr ""
 
-#: includes/class-cpts.php:206
+#. translators: formatted revision timestamp.
+#: includes/class-cpts.php:213
 msgid "Form restored to revision from %s"
 msgstr ""
 
-#: includes/class-cpts.php:207
+#. translators: form shortcode.
+#: includes/class-cpts.php:217
 msgid "Success! Here's the shortcode: %s. Just paste it into a post or page editor to publish"
 msgstr ""
 
-#: includes/class-cpts.php:208
+#: includes/class-cpts.php:220
 msgid "Form saved."
 msgstr ""
 
-#: includes/class-cpts.php:209
+#: includes/class-cpts.php:221
 msgid "Form submitted."
 msgstr ""
 
-#: includes/class-cpts.php:210
+#. translators: formatted post date timestamp.
+#: includes/class-cpts.php:223
 msgid "Form scheduled for: <strong>%1$s</strong>."
 msgstr ""
 
-#: includes/class-cpts.php:212
+#: includes/class-cpts.php:225
 msgid "Form draft updated."
 msgstr ""
 
-#: includes/class-cpts.php:240
+#: includes/class-cpts.php:253
 msgid "Enter a form name"
 msgstr ""
 
-#: includes/class-cpts.php:241
+#: includes/class-cpts.php:254
 msgid "(Examples: Join Our Email List, Contact Us)"
 msgstr ""
 
-#: includes/class-cpts.php:302
+#: includes/class-cpts.php:317
 msgid "No title"
 msgstr ""
 
 #. translators: Placeholders will be form title and then last modified date.
-#: includes/class-cpts.php:307
+#: includes/class-cpts.php:322
 msgid "%1$s (last modified %2$s ago)"
 msgstr ""
 
-#: includes/class-display.php:510
-msgid "Constant Contact Use."
+#: includes/class-display.php:527
+msgid "Select list(s) to subscribe to"
 msgstr ""
 
-#: includes/class-display.php:664, includes/class-display.php:1659
-msgid "Error: Please correct your entry."
+#: includes/class-display.php:560
+msgid "Constant Contact Use. Please leave this field blank."
 msgstr ""
 
-#: includes/class-display.php:666
+#: includes/class-display.php:720
 msgid " Error: Please fill out this field."
 msgstr ""
 
-#: includes/class-display.php:1130
+#: includes/class-display.php:718, includes/class-display.php:1841
+msgid "Error: Please correct your entry."
+msgstr ""
+
+#: includes/class-display.php:1088
+msgid "numbers, dashes, pluses, periods, and parentheses"
+msgstr ""
+
+#: includes/class-display.php:1289
 msgid "Send"
 msgstr ""
 
-#: includes/class-display.php:1238
+#: includes/class-display.php:1406
 msgid "Street Address"
 msgstr ""
 
-#: includes/class-display.php:1239
+#: includes/class-display.php:1407
 msgid "Address Line 2"
 msgstr ""
 
-#: includes/class-display.php:1240
+#: includes/class-display.php:1408
 msgid "City"
 msgstr ""
 
-#: includes/class-display.php:1241
+#: includes/class-display.php:1409
 msgid "State"
 msgstr ""
 
-#: includes/class-display.php:1242
+#: includes/class-display.php:1410
 msgid "ZIP Code"
 msgstr ""
 
-#: includes/class-display.php:1427
+#: includes/class-display.php:1600
 msgid "Month"
 msgstr ""
 
-#: includes/class-display.php:1428
+#: includes/class-display.php:1601
 msgid "Day"
 msgstr ""
 
-#: includes/class-display.php:1429
+#: includes/class-display.php:1602
 msgid "Year"
 msgstr ""
 
-#: includes/class-display.php:1545
+#: includes/class-display.php:1720
 msgid "January"
 msgstr ""
 
-#: includes/class-display.php:1546
+#: includes/class-display.php:1721
 msgid "February"
 msgstr ""
 
-#: includes/class-display.php:1547
+#: includes/class-display.php:1722
 msgid "March"
 msgstr ""
 
-#: includes/class-display.php:1548
+#: includes/class-display.php:1723
 msgid "April"
 msgstr ""
 
-#: includes/class-display.php:1549
+#: includes/class-display.php:1724
 msgid "May"
 msgstr ""
 
-#: includes/class-display.php:1550
+#: includes/class-display.php:1725
 msgid "June"
 msgstr ""
 
-#: includes/class-display.php:1551
+#: includes/class-display.php:1726
 msgid "July "
 msgstr ""
 
-#: includes/class-display.php:1552
+#: includes/class-display.php:1727
 msgid "August"
 msgstr ""
 
-#: includes/class-display.php:1553
+#: includes/class-display.php:1728
 msgid "September"
 msgstr ""
 
-#: includes/class-display.php:1554
+#: includes/class-display.php:1729
 msgid "October"
 msgstr ""
 
-#: includes/class-display.php:1555
+#: includes/class-display.php:1730
 msgid "November"
 msgstr ""
 
-#: includes/class-display.php:1556
+#: includes/class-display.php:1731
 msgid "December"
 msgstr ""
 
+#: includes/class-display.php:1828
+msgid "Limit 2000 Characters"
+msgstr ""
+
 #. translators: placeholder will hold company info for site owner.
-#: includes/class-display.php:1730
+#: includes/class-display.php:1918
 msgid "By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s"
 msgstr ""
 
-#: includes/class-display.php:1737
+#: includes/class-display.php:1926
 msgid "Emails are serviced by Constant Contact"
 msgstr ""
 
-#: includes/class-lists.php:78
+#: includes/class-lists.php:87
 msgid "List Information"
 msgstr ""
 
-#: includes/class-lists.php:159
+#: includes/class-lists.php:170
 msgid "List information will populate upon saving."
 msgstr ""
 
-#: includes/class-lists.php:760
+#: includes/class-lists.php:822
 msgid "You already have a list with that name."
 msgstr ""
 
-#: includes/class-lists.php:777
+#: includes/class-lists.php:839
 msgid "Sync Lists with Constant Contact"
 msgstr ""
 
-#: includes/class-logging.php:144
+#: includes/class-logging.php:155
 msgid "Are you sure you want to delete current logs?"
 msgstr ""
 
-#: includes/class-logging.php:164
-msgid "Debug logs"
+#: includes/class-logging.php:175, includes/class-logging.php:216
+msgid "Debug Logs"
+msgstr ""
+
+#: includes/class-logging.php:220
+msgid "No errors exists."
+msgstr ""
+
+#: includes/class-logging.php:223
+msgid "No error log exists."
 msgstr ""
 
 #. translators: placeholder holds the log location.
-#. translators: placeholder holds the log location.
-#: includes/class-logging.php:210, includes/class-logging.php:219
+#: includes/class-logging.php:229
 msgid "We are not able to write to the %s file."
 msgstr ""
 
-#: includes/class-logging.php:214
-msgid "No error log exists"
+#: includes/class-logging.php:239
+msgid "The error log below can be used with support requests to help identify issues with Constant Contact Forms."
 msgstr ""
 
-#: includes/class-logging.php:226
-msgid "Error log below can be used with support requests to help identify issues with Constant Contact Forms."
+#: includes/class-logging.php:240
+msgid "When available, you can share information by copying and pasting the content in the textarea, or by using the \"Download logs\" link below. Logs can be cleared by using the \"Delete logs\" link."
 msgstr ""
 
-#: includes/class-logging.php:227
-msgid "When available, you can share information by copying and pasting the content in the textarea, or by using the \"Download logs\" link at the end. Logs can be cleared by using the \"Delete logs\" link."
-msgstr ""
-
-#: includes/class-logging.php:234
+#: includes/class-logging.php:246
 msgid "Error log may still have content, even if an error is shown above. Please use the download link below."
 msgstr ""
 
-#: includes/class-logging.php:243
+#: includes/class-logging.php:257
 msgid "Download logs"
 msgstr ""
 
-#: includes/class-logging.php:251
+#: includes/class-logging.php:265
 msgid "Delete logs"
 msgstr ""
 
 #. translators: placeholder wil have error message.
-#: includes/class-logging.php:310
+#: includes/class-logging.php:325
 msgid "Log display error: %s"
 msgstr ""
 
 #. translators: this is only used when some debugging is enabled
-#: includes/class-mail.php:282
+#: includes/class-mail.php:288
 msgid "Duplicate send mail for: %1$s and: %2$s"
 msgstr ""
 
-#: includes/class-mail.php:313
+#: includes/class-mail.php:319
 msgid "Your Constant Contact Forms plugin has captured new information."
 msgstr ""
 
-#: includes/class-mail.php:317
+#: includes/class-mail.php:323
 msgid "Form title: "
 msgstr ""
 
-#: includes/class-mail.php:318
+#: includes/class-mail.php:324
 msgid "Form information: "
 msgstr ""
 
 #. translators: placeholders provide Constant Contact link information.
-#: includes/class-mail.php:324
+#: includes/class-mail.php:330
 msgid "Email marketing is a great way to stay connected and engage with visitors after they've left your site. Visit %1$shttps://www.constantcontact.com/index?pn=miwordpress%2$s to sign up for a Free Trial."
 msgstr ""
 
-#: includes/class-mail.php:361
+#: includes/class-mail.php:367
 msgid "Constant Contact Forms Notification"
 msgstr ""
 
 #. translators: placeholders simply meant for `<strong>` html tags
-#: includes/class-mail.php:451
-msgid "%1\$sNote:%2\$s You have disabled admin email notifications under the plugin settings, but are receiving this email because of the following reason."
-msgstr ""
-
-#: includes/class-mail.php:474
-msgid "Submitted to Constant Contact:"
+#: includes/class-mail.php:457
+msgid "%1$sNote:%2$s You have disabled admin email notifications under the plugin settings, but are receiving this email because of the following reason."
 msgstr ""
 
 #: includes/class-mail.php:480
+msgid "Submitted to Constant Contact:"
+msgstr ""
+
+#: includes/class-mail.php:486
 msgid "NO (Constant Contact list not selected for this form)"
 msgstr ""
 
-#: includes/class-mail.php:486
+#: includes/class-mail.php:492
 msgid "NO (User did not select the Email Opt-in checkbox)"
 msgstr ""
 
-#: includes/class-mail.php:486
+#: includes/class-mail.php:492
 msgid "You can disable this under Form options. Email Opt-in isn't required to add subscribers into your account"
 msgstr ""
 
-#. translators: Placeholder will hold "Constan Contact Forms" with <strong> tags.
-#: includes/class-notification-content.php:57
+#. translators: Placeholder will hold "Constant Contact Forms" with <strong> tags.
+#: includes/class-notification-content.php:65
 msgid "Get the most out of the %s plugin &mdash; use it with an active Constant Contact account."
 msgstr ""
 
-#: includes/class-notification-content.php:65
+#: includes/class-notification-content.php:66
+msgid "Constant Contact Forms"
+msgstr ""
+
+#: includes/class-notification-content.php:73
 msgid "Connect your account"
 msgstr ""
 
 #. translators: Placeholders around "Learn More" hold html `<a>` tag.
-#: includes/class-notification-content.php:76
+#: includes/class-notification-content.php:83
 msgid "%1$sLearn More%2$s about the power of email marketing."
 msgstr ""
 
-#: includes/class-notification-content.php:94
+#: includes/class-notification-content.php:101
 msgid "You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them."
 msgstr ""
 
-#: includes/class-notification-content.php:115
+#: includes/class-notification-content.php:118, includes/class-notification-content.php:156, includes/class-optin.php:129, includes/class-settings.php:1044
+msgctxt "img alt text"
+msgid "Constant Contact logo"
+msgstr ""
+
+#: includes/class-notification-content.php:122
 msgid "Constant Contact Forms for WordPress data tracking opt-in"
 msgstr ""
 
 #. translators: Placeholder here is a `<br />` HTML tag for formatting.
-#: includes/class-notification-content.php:123
+#: includes/class-notification-content.php:131
 msgid "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. %1$s You can change this opt-in within the plugin's settings page at any time."
 msgstr ""
 
 #. translators: Placeholders here are for `<strong>` HTML tags.
-#: includes/class-notification-content.php:156
+#: includes/class-notification-content.php:164
 msgid "You have been successfully using %1$sConstant Contact Forms%2$s to capture valuable site visitor information! Please consider leaving us a nice review. Reviews help fellow WordPress admins find our plugin and lets you provide us useful feedback."
 msgstr ""
 
-#: includes/class-notification-content.php:163
+#: includes/class-notification-content.php:171
 msgid "Leave a review"
 msgstr ""
 
 #. translators: placeholders will be html `<a>` links.
-#: includes/class-notification-content.php:182
-msgid "Constant Contact Forms has experienced issues that may need addressed and functionality may be missing. Please enable the \"Support\" checkbox in the %1$sConstant Contact settings%2$s and start a %3$sforum support thread%4$s. Our support team will aid with further steps."
+#: includes/class-notification-content.php:189
+msgid "Constant Contact Forms has experienced issues that may need addressed and functionality may be missing. Please enable the \"Support\" checkbox under the Support tab in %1$sConstant Contact settings%2$s and start a %3$sforum support thread%4$s. Our support team will aid with further steps."
 msgstr ""
 
-#: includes/class-notifications.php:403
+#: includes/class-notification-content.php:210
+msgid "References to one or more deleted Constant Contact forms are still present on your site. Please review the list below and update or remove the references to avoid issues on your site:"
+msgstr ""
+
+#: includes/class-notification-content.php:257
+msgid "Widget titled"
+msgstr ""
+
+#: includes/class-notification-content.php:259
+msgid "in"
+msgstr ""
+
+#: includes/class-notification-content.php:281
+msgid "Please note: the next upcoming version 2.0.0 of this plugin will be a significant release, including both security and feature updates. You will be required to reconnect the plugin to your Constant Contact account after installing version 2.0.0, once it is released."
+msgstr ""
+
+#: includes/class-notification-content.php:300
+msgid "Action Required! This Constant Contact Forms version is a significant release, including both security and feature updates. You must reconnect the plugin to your Constant Contact account & reselect the lists associated with your forms. For a full walkthrough of the steps to connect to your Constant Contact account, please see our Knowledge Base article."
+msgstr ""
+
+#: includes/class-notifications.php:423
 msgid "Dismiss this notice."
 msgstr ""
 
-#: includes/class-optin.php:137, includes/class-settings.php:744
+#: includes/class-optin.php:137, includes/class-settings.php:1050
 msgid "Agree"
 msgstr ""
 
-#: includes/class-optin.php:138, includes/class-settings.php:745
+#: includes/class-optin.php:138, includes/class-settings.php:1051
 msgid "Disagree"
 msgstr ""
 
-#: includes/class-process-form.php:103, includes/class-process-form.php:627
+#: includes/class-process-form.php:121, includes/class-process-form.php:736
 msgid "There was an error sending your form."
 msgstr ""
 
-#: includes/class-process-form.php:114, includes/class-process-form.php:645
+#: includes/class-process-form.php:133, includes/class-process-form.php:757
 msgid "Your information has been submitted."
 msgstr ""
 
-#: includes/class-process-form.php:129, includes/class-process-form.php:270, includes/class-process-form.php:659
+#: includes/class-process-form.php:150, includes/class-process-form.php:782, includes/class-process-form.php:789
 msgid "We had trouble processing your submission. Please review your entries and try again."
 msgstr ""
 
-#: includes/class-process-form.php:175
+#: includes/class-process-form.php:205
 msgid "No Constant Contact Forms form ID provided"
 msgstr ""
 
-#: includes/class-process-form.php:182
+#: includes/class-process-form.php:212
 msgid "No form verify value provided"
 msgstr ""
 
-#: includes/class-process-form.php:197
+#: includes/class-process-form.php:227
 msgid "Please properly fill out all required fields"
 msgstr ""
 
-#: includes/class-process-form.php:234
+#: includes/class-process-form.php:280
 msgid "Failed reCAPTCHA check"
 msgstr ""
 
-#: includes/class-process-form.php:278, includes/class-process-form.php:294
+#: includes/class-process-form.php:313, includes/class-process-form.php:329
 msgid "We had trouble processing your submission. Make sure you haven't changed the required form ID and try again."
 msgstr ""
 
-#: includes/class-process-form.php:286
+#: includes/class-process-form.php:321
 msgid "We had trouble processing your submission. Make sure you haven't changed the required Form ID and try again."
 msgstr ""
 
-#: includes/class-process-form.php:724
+#: includes/class-process-form.php:382
+msgid "Please select at least one list to subscribe to."
+msgstr ""
+
+#: includes/class-process-form.php:421
+msgid "An error occurred while attempting Constant Contact API request."
+msgstr ""
+
+#: includes/class-process-form.php:430
+msgid "An error occurred while attempting Constant Contact API request. Please check your details and try again."
+msgstr ""
+
+#: includes/class-process-form.php:856
 msgid "We do no think you are human"
 msgstr ""
 
-#: includes/class-settings.php:138, includes/class-settings.php:196
-msgid "Constant Contact Forms Settings"
+#: includes/class-settings.php:64
+msgid "General"
 msgstr ""
 
-#: includes/class-settings.php:139, includes/class-settings.php:199
-msgid "Settings"
+#: includes/class-settings.php:65
+msgid "Spam Control"
 msgstr ""
 
-#: includes/class-settings.php:216
+#: includes/class-settings.php:66, includes/class-settings.php:623
+msgid "Support"
+msgstr ""
+
+#: includes/class-settings.php:67
+msgid "Account"
+msgstr ""
+
+#: includes/class-settings.php:353
+msgid "General Settings"
+msgstr ""
+
+#: includes/class-settings.php:358
 msgid "Google Analytics&trade; tracking opt-in."
 msgstr ""
 
-#: includes/class-settings.php:219
+#: includes/class-settings.php:361
 msgid "Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin.<br/> NOTE &mdash; Your website and users will not be tracked. See our <a href=\"https://www.endurance.com/privacy\"> Privacy Statement</a> information about what is and is not tracked."
 msgstr ""
 
-#: includes/class-settings.php:225
+#: includes/class-settings.php:370
 msgid "Disable E-mail Notifications"
 msgstr ""
 
 #. translators: Placeholder is for a <br /> HTML tag.
-#: includes/class-settings.php:228
+#: includes/class-settings.php:373
 msgid "This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress \"General Settings\"."
 msgstr ""
 
-#: includes/class-settings.php:236
+#: includes/class-settings.php:384
 msgid "Bypass Constant Contact cron scheduling"
 msgstr ""
 
-#: includes/class-settings.php:237
+#: includes/class-settings.php:385
 msgid "This option will send form entries to Constant Contact right away instead of holding for one minute delay."
 msgstr ""
 
-#: includes/class-settings.php:249
+#: includes/class-settings.php:398
 msgid "Advanced Opt-in"
 msgstr ""
 
-#: includes/class-settings.php:253
+#: includes/class-settings.php:403
 msgid "Opt-in Location"
 msgstr ""
 
-#: includes/class-settings.php:260, includes/class-settings.php:267
+#: includes/class-settings.php:411, includes/class-settings.php:419
 msgid "Select a list"
 msgstr ""
 
-#: includes/class-settings.php:271
+#: includes/class-settings.php:415
+msgid "Add subscribers to"
+msgstr ""
+
+#: includes/class-settings.php:424
 msgid "Business Name"
 msgstr ""
 
 #. translators: placeholder will hold site owner's business name.
-#: includes/class-settings.php:285
+#: includes/class-settings.php:439
 msgid "Yes, I would like to receive emails from %s. Sign me up!"
 msgstr ""
 
-#: includes/class-settings.php:290
+#: includes/class-settings.php:446
 msgid "Disclosure Name"
 msgstr ""
 
-#: includes/class-settings.php:298
+#: includes/class-settings.php:456
 msgid "Disclosure Address"
 msgstr ""
 
-#: includes/class-settings.php:310
-msgid "Google reCAPTCHA"
-msgstr ""
-
-#: includes/class-settings.php:311
-msgid "Learn more and get an <a href=\"https://www.google.com/recaptcha/intro/\" target=\"_blank\">API site key</a>"
-msgstr ""
-
-#: includes/class-settings.php:315
-msgid "Version"
-msgstr ""
-
-#: includes/class-settings.php:321
-msgid "Version 2"
-msgstr ""
-
-#: includes/class-settings.php:322
-msgid "Version 3"
-msgstr ""
-
-#: includes/class-settings.php:327
-msgid "Site Key"
-msgstr ""
-
-#: includes/class-settings.php:337
-msgid "Secret Key"
-msgstr ""
-
-#: includes/class-settings.php:348
+#: includes/class-settings.php:469
 msgid "Global Form CSS Settings"
 msgstr ""
 
-#: includes/class-settings.php:355
+#: includes/class-settings.php:474
+msgid "CSS Classes"
+msgstr ""
+
+#: includes/class-settings.php:477
 msgid "Provide custom classes for the form separated by a single space."
 msgstr ""
 
-#: includes/class-settings.php:375
+#: includes/class-settings.php:499
 msgid "Choose the position for the labels of the form elements."
 msgstr ""
 
-#: includes/class-settings.php:383
-msgid "Support"
+#: includes/class-settings.php:508
+msgid "Disable Constant Contact CSS"
 msgstr ""
 
-#: includes/class-settings.php:386
-msgid "Enable logging for debugging purposes."
+#: includes/class-settings.php:509
+msgid "Disables Constant Contact stylesheets from loading on the frontend. Note you may need to clear server and client cache to see changes go into effect."
 msgstr ""
 
-#: includes/class-settings.php:387
-msgid "This option will turn on some logging functionality that can be used to deduce sources of issues with the use of Constant Contact Forms plugin."
+#: includes/class-settings.php:517
+msgid "Alternative Disclaimer Text"
 msgstr ""
 
-#: includes/class-settings.php:406
-msgid "Add a checkbox to the comment field in your posts"
+#: includes/class-settings.php:518
+msgid "Override default sign-up disclaimer text. (Supports HTML)"
 msgstr ""
 
-#: includes/class-settings.php:407
-msgid "Add a checkbox to the main WordPress login page"
+#: includes/class-settings.php:537
+msgid "Google reCAPTCHA"
 msgstr ""
 
-#: includes/class-settings.php:411
-msgid "Add a checkbox to the WordPress user registration page"
+#. translators: %s: recaptcha documentation URL
+#: includes/class-settings.php:545
+msgid "Learn more and get an <a href=\"%s\" target=\"_blank\">API site key</a>"
 msgstr ""
 
-#: includes/class-settings.php:487
-msgid "Sign up to our newsletter."
+#: includes/class-settings.php:559
+msgid "Version"
 msgstr ""
 
-#: includes/class-settings.php:780
-msgid "This message displays when the plugin detects spam data."
+#: includes/class-settings.php:565
+msgid "Version 2"
 msgstr ""
 
-#: includes/class-settings.php:781
-msgid "Note that this message may be overriden on a per-post basis."
+#: includes/class-settings.php:566
+msgid "Version 3"
 msgstr ""
 
-#: includes/class-settings.php:786
+#: includes/class-settings.php:573
+msgid "Site Key"
+msgstr ""
+
+#: includes/class-settings.php:585
+msgid "Secret Key"
+msgstr ""
+
+#: includes/class-settings.php:597
 msgid "Suspected Bot Error Message"
 msgstr ""
 
-#: includes/class-settings.php:792
+#: includes/class-settings.php:598
+msgid "This message displays when `the plugin detects spam data. Note that this message may be overriden on a per-post basis."
+msgstr ""
+
+#: includes/class-settings.php:603
 msgid "Error Message"
 msgstr ""
 
-#: includes/class-settings.php:853
+#: includes/class-settings.php:627
+msgid "Enable logging for debugging purposes."
+msgstr ""
+
+#: includes/class-settings.php:628
+msgid "This option will turn on some logging functionality that can be used to deduce sources of issues with the use of Constant Contact Forms plugin."
+msgstr ""
+
+#: includes/class-settings.php:649
+msgid "Account Settings"
+msgstr ""
+
+#: includes/class-settings.php:655
+msgid "Auth Code and State"
+msgstr ""
+
+#: includes/class-settings.php:677
+msgid "Add a checkbox to the comment field in your posts"
+msgstr ""
+
+#: includes/class-settings.php:678
+msgid "Add a checkbox to the main WordPress login page"
+msgstr ""
+
+#: includes/class-settings.php:682
+msgid "Add a checkbox to the WordPress user registration page"
+msgstr ""
+
+#: includes/class-settings.php:759
+msgid "Sign up to our newsletter."
+msgstr ""
+
+#: includes/class-settings.php:1133
 msgid "We do not think you are human"
 msgstr ""

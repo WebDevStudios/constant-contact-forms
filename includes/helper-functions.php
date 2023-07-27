@@ -185,6 +185,10 @@ function constant_contact_maybe_display_review_notification() {
  * @return bool
  */
 function constant_contact_maybe_display_exceptions_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
 	$maybe_has_error = get_option( 'ctct_exceptions_exist' );
 
 	return ( 'true' === $maybe_has_error );
@@ -196,8 +200,23 @@ function constant_contact_maybe_display_exceptions_notice() {
  * @since 1.2.0
  */
 function constant_contact_optin_ajax_handler() {
+	if (
+		! isset( $_REQUEST['ctct_option_from_notification'] ) ||
+		! wp_verify_nonce(
+			$_REQUEST['ctct_option_from_notification'],
+			'ctct_option_from_notification_action'
+		)
+	) {
+		wp_send_json_error( [ 'nonce' => 'nonce failure' ] );
+		exit();
+	}
 
-	$optin = filter_var( $_REQUEST['optin'], FILTER_SANITIZE_STRING );
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( [ 'user' => 'user can not manage options' ] );
+		exit();
+	}
+	$optin = filter_input( INPUT_GET, 'optin', FILTER_SANITIZE_SPECIAL_CHARS );
+	$optin = empty( $optin ) ? filter_input( INPUT_POST, 'optin', FILTER_SANITIZE_SPECIAL_CHARS ) : $optin;
 
 	if ( 'on' !== $optin ) {
 		wp_send_json_success( [ 'opted-in' => 'off' ] );
@@ -219,7 +238,19 @@ add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_opt
  */
 function constant_contact_privacy_ajax_handler() {
 
-	$agreed = filter_var( $_REQUEST['privacy_agree'], FILTER_SANITIZE_STRING );
+	if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'optin-privacy' ) ) {
+		wp_send_json_error( [ 'updated' => 'false' ] );
+		exit();
+	}
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		wp_send_json_error( [ 'updated' => 'false' ] );
+		exit();
+	}
+
+	$agreed = filter_input( INPUT_GET, 'privacy_agree', FILTER_SANITIZE_SPECIAL_CHARS );
+	$agreed = empty( $agreed ) ? filter_input( INPUT_POST, 'privacy_agree', FILTER_SANITIZE_SPECIAL_CHARS ) : $agreed;
+
 	update_option( 'ctct_privacy_policy_status', $agreed );
 
 	wp_send_json_success( [ 'updated' => 'true' ] );
@@ -269,16 +300,14 @@ function constant_contact_review_ajax_handler() {
 add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_review_ajax_handler' );
 
 /**
- * Process potential custom Constant Contact Forms action urls.
+ * Perform custom form processing.
  *
- * @since 1.2.3
+ * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+ * @since  1.9.0
  *
- * @throws Exception
- *
- * @return bool|array
+ * @return mixed Results of form processing, false if no processing performed.
  */
-function ctct_custom_form_action_processing() {
-
+function constant_contact_process_form_custom() {
 	$ctct_id = filter_input( INPUT_POST, 'ctct-id', FILTER_VALIDATE_INT );
 
 	if ( false === $ctct_id ) {
@@ -291,22 +320,24 @@ function ctct_custom_form_action_processing() {
 
 	return constant_contact()->process_form->process_form();
 }
-add_action( 'wp_head', 'ctct_custom_form_action_processing' );
+add_action( 'wp_head', 'constant_contact_process_form_custom' );
 
 /**
- * Determine if we have any Constant Contact Forms published.
+ * Check if any published Constant Contact forms exist.
  *
- * @since 1.2.5
+ * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+ * @since  1.9.0
  *
- * @return bool
+ * @return bool Whether published forms exist.
  */
-function ctct_has_forms() {
+function constant_contact_has_forms() {
 	$args  = [
 		'post_type'      => 'ctct_forms',
 		'post_status'    => 'publish',
 		'posts_per_page' => 1,
 	];
 	$forms = new WP_Query( $args );
+
 	return $forms->have_posts();
 }
 
@@ -384,7 +415,7 @@ function constant_contact_clean_url( $url = '' ) {
  * @return bool
  */
 function constant_contact_debugging_enabled() {
-	$debugging_enabled = ctct_get_settings_option( '_ctct_logging', '' );
+	$debugging_enabled = constant_contact_get_option( '_ctct_logging', '' );
 
 	if ( apply_filters( 'constant_contact_force_logging', false ) ) {
 		$debugging_enabled = 'on';
@@ -412,17 +443,25 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 		return;
 	}
 
-	if ( ! is_writable( constant_contact()->logger_location ) ) {
+	$logging_file = constant_contact()->logger_location;
+
+	// Create logging file and directory if they don't exist.
+	constant_contact()->logging->initialize_logging();
+
+	if ( ! is_writable( $logging_file ) ) {
 		return;
 	}
 
 	$logger = new Logger( $log_name );
-	$logger->pushHandler( new StreamHandler( constant_contact()->logger_location ) );
+	$logger->pushHandler( new StreamHandler( $logging_file ) );
 	$extra = [];
 
 	if ( $extra_data ) {
 		$extra = [ 'Extra information', [ $extra_data ] ];
 	}
+
+	$error = constant_contact()->logging->mask_api_key( $error );
+
 	$logger->addInfo( $error, $extra );
 }
 
@@ -532,8 +571,12 @@ function constant_contact_akismet_spam_check( $args ) {
 	if ( is_callable( [ 'Akismet', 'http_post' ] ) ) { // Akismet v3.0.
 		$response = Akismet::http_post( $query_string, 'comment-check' );
 	} else {
-		$response = akismet_http_post( $query_string, $akismet_api_host,
-			'/1.1/comment-check', $akismet_api_port );
+		$response = akismet_http_post(
+			$query_string,
+			$akismet_api_host,
+			'/1.1/comment-check',
+			$akismet_api_port
+		);
 	}
 
 	// It's spam if response status is true.
@@ -562,7 +605,7 @@ function constant_contact_emails_disabled( $form_id = 0 ) {
 		$disabled = true;
 	}
 
-	$global_form_disabled = ctct_get_settings_option( '_ctct_disable_email_notifications', '' );
+	$global_form_disabled = constant_contact_get_option( '_ctct_disable_email_notifications', '' );
 	if ( 'on' === $global_form_disabled ) {
 		$disabled = true;
 	}
@@ -621,7 +664,7 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
 		}
 	}
 
-	$global_setting = ctct_get_settings_option( $customization_key );
+	$global_setting = constant_contact_get_option( $customization_key );
 
 	return ! empty( $global_setting ) ? $global_setting : '';
 }
@@ -652,7 +695,7 @@ function constant_contact_privacy_policy_content() {
  *
  * @since 1.6.0
  *
- * @param string $status Status value to set
+ * @param string $status Status value to set.
  */
 function constant_contact_set_has_exceptions( $status = 'true' ) {
 	update_option( 'ctct_exceptions_exist', $status );
@@ -675,5 +718,239 @@ function constant_contact_location_and_line( $location = '', $line = '' ) {
 		'%s:%s ',
 		$location,
 		$line
+	);
+}
+
+/**
+ * Get posts containing specified form ID.
+ *
+ * @since 1.8.0
+ *
+ * @param  int $form_id Form ID.
+ * @return array        Array of posts containing the form ID.
+ */
+function constant_contact_get_posts_by_form( $form_id ) {
+	global $wpdb;
+
+	$shortcode_like      = $wpdb->esc_like( '[ctct' );
+	$post_id_like_single = $wpdb->esc_like( "form='{$form_id}'" );
+	$post_id_like_double = $wpdb->esc_like( "form=\"{$form_id}\"" );
+	$posts               = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT ID, post_title, post_type FROM {$wpdb->posts} WHERE (`post_content` LIKE %s OR `post_content` LIKE %s) AND `post_status` = %s ORDER BY post_type ASC",
+			"%{$shortcode_like}%{$post_id_like_single}%",
+			"%{$shortcode_like}%{$post_id_like_double}%",
+			'publish'
+		),
+		ARRAY_A
+	);
+
+	array_walk(
+		$posts,
+		function( &$value, $key ) {
+			$value = [
+				'type'  => 'post',
+				'url'   => get_edit_post_link( $value['ID'] ),
+				'label' => get_post_type_object( $value['post_type'] )->labels->singular_name,
+				'id'    => $value['ID'],
+			];
+		}
+	);
+
+	return $posts;
+}
+
+/**
+ * Get links and info on widgets containing specified form ID.
+ *
+ * @since  1.8.0
+ *
+ * @param  int $form_id Form ID.
+ * @return array        Array of widgets containing the form ID.
+ */
+function constant_contact_get_widgets_by_form( $form_id ) {
+	$return = [];
+
+	foreach ( [ 'ctct_form', 'text' ] as $widget_type ) {
+		$data    = [
+			'form_id' => $form_id,
+			'type'    => $widget_type,
+		];
+		$widgets = array_filter(
+			get_option( "widget_{$widget_type}", [] ),
+			function( $value ) use ( $data ) {
+				if ( 'ctct_form' === $data['type'] ) {
+					return absint( $value['ctct_form_id'] ) === $data['form_id'];
+				} elseif ( 'text' === $data['type'] ) {
+					if ( ! isset( $value['text'] ) || false === strpos( $value['text'], '[ctct' ) ) {
+						return false;
+					}
+					return ( false !== strpos( $value['text'], "form=\"{$data['form_id']}\"" ) || false !== strpos( $value['text'], "form='{$data['form_id']}'" ) );
+				}
+				return false;
+			}
+		);
+		array_walk( $widgets, 'constant_contact_walk_widget_references', $widget_type );
+		$return = array_merge( $return, $widgets );
+	}
+
+	return $return;
+}
+
+/**
+ * Walker callback for widget references of deleted forms.
+ *
+ * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+ * @since  1.8.0
+ *
+ * @param  array  $value Array of current widget settings.
+ * @param  string $key   Current widget key.
+ * @param  string $type  Type of widget.
+ */
+function constant_contact_walk_widget_references( array &$value, $key, $type ) {
+	global $wp_registered_sidebars, $wp_registered_widgets;
+
+	$widget_id = "{$type}-{$key}";
+	$sidebars  = array_keys(
+		array_filter(
+			get_option( 'sidebars_widgets', [] ),
+			function( $sidebar ) use ( $widget_id ) {
+				return is_array( $sidebar ) && in_array( $widget_id, $sidebar, true );
+			}
+		)
+	);
+	$value     = [
+		'type'    => 'widget',
+		'widget'  => $type,
+		'url'     => admin_url( 'widgets.php' ),
+		'name'    => $wp_registered_widgets[ $widget_id ]['name'],
+		'title'   => 'ctct_form' === $type ? $value['ctct_title'] : $value['title'],
+		'sidebar' => $wp_registered_sidebars[ array_shift( $sidebars ) ]['name'],
+	];
+}
+
+/**
+ * Check for affected posts and widgets for the newly trashed form post type.
+ *
+ * @since 1.8.0
+ *
+ * @param int $form_id Form ID being trashed.
+ * @return void
+ */
+function constant_contact_check_for_affected_forms_on_trash( $form_id ) {
+	$option             = get_option( ConstantContact_Notifications::$deleted_forms, [] );
+	$option[ $form_id ] = array_filter(
+		array_merge(
+			constant_contact_get_posts_by_form( $form_id ),
+			constant_contact_get_widgets_by_form( $form_id )
+		)
+	);
+
+	if ( empty( $option[ $form_id ] ) ) {
+		return;
+	}
+
+	update_option( ConstantContact_Notifications::$deleted_forms, $option );
+}
+add_action( 'trash_ctct_forms', 'constant_contact_check_for_affected_forms_on_trash' );
+
+/**
+ * Remove saved references to deleted form if restored from trash.
+ *
+ * @since  1.8.0
+ *
+ * @param  int $post_id Post ID being restored.
+ * @return void
+ */
+function constant_contact_remove_form_references_on_restore( $post_id ) {
+	if ( 'ctct_forms' !== get_post_type( $post_id ) ) {
+		return;
+	}
+
+	$option = get_option( ConstantContact_Notifications::$deleted_forms, [] );
+
+	unset( $option[ $post_id ] );
+
+	update_option( ConstantContact_Notifications::$deleted_forms, $option );
+}
+add_action( 'untrashed_post', 'constant_contact_remove_form_references_on_restore' );
+
+/**
+ * Determine whether to display the deleted forms notice in admin.
+ *
+ * @since  1.8.0
+ *
+ * @return bool Whether to display the deleted forms notice.
+ */
+function constant_contact_maybe_display_deleted_forms_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	return ! empty( get_option( ConstantContact_Notifications::$deleted_forms, [] ) );
+}
+
+/**
+ * Maybe set exception notice for admin notification.
+ *
+ * @since 1.13.0
+ *
+ * @param Exception $e
+ */
+function constant_contact_forms_maybe_set_exception_notice( $e = '' ) {
+
+	if ( ! empty( $e ) ) {
+		// Do not notify if the exception code is 400 or the message contains "Bad Request".
+		if (
+			( 400 === $e->getCode() ) ||
+			( false !== stripos( $e->getMessage(), 'Bad Request' ) )
+		) {
+			return;
+		}
+
+		// Do not notify if the exception code is 503 or the message contains "Service Unavailable".
+		if (
+			( 503 === $e->getCode() ) ||
+			( false !== stripos( $e->getMessage(), 'Service Unavailable' ) )
+		) {
+			return;
+		}
+	}
+
+	constant_contact_set_has_exceptions();
+}
+
+/**
+ * Maybe show notification about API v3 changes.
+ *
+ * @since 1.14.0
+ *
+ * @return bool|int
+ */
+function constant_contact_maybe_display_api3_upgrade_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	$current_version = get_option( 'ctct_plugin_version' );
+	return version_compare( $current_version, '2.0.0', '<' );
+}
+
+/**
+ * Maybe show notification about newly implemented API v3 changes.
+ *
+ * @since 2.0.0
+ *
+ * @return bool|int
+ */
+function constant_contact_maybe_display_api3_upgraded_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	$current_version = get_option( 'ctct_plugin_version' );
+	return (
+		version_compare( $current_version, '2.0.0', '=' ) ||
+		'' === get_option( 'CtctConstantContactState', '' )
 	);
 }

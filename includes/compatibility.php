@@ -41,6 +41,21 @@ function constant_contact_exclude_pum( $ignored ) {
 add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_exclude_pum' );
 
 /**
+ * Ignore a hidden field that Akismet adds to forms for their own protections.
+ *
+ * @since 1.14.0
+ *
+ * @param $ignored The array of fields that Constant Contact should ignore.
+ * @return array
+ */
+function constant_contact_support_exclude_akisment( $ignored ) {
+	$ignored[] = 'ak_bck';
+
+	return $ignored;
+}
+add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_support_exclude_akisment' );
+
+/**
  * Filter out fields we do not want in our form.
  *
  * Function originally coded specifically to handle WP-SpamShield $_POST values.
@@ -81,12 +96,27 @@ function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_
 
 	// This will grab all of the keys from the global $_POST, and then assign
 	// the difference between that and our intended keys.
-	$bad_keys = array_diff( array_keys( $_POST ), $good_keys ); // WPCS: CSRF ok.
+	$bad_keys = array_diff( array_keys( $_POST ), $good_keys ); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- CSRF OK.
 
 	// This will merge the passed ignored keys with our newly found bad keys,
 	// and then return all the unique values for our return value.
 	$new_ignore_keys = array_unique( array_merge( $ignored_keys, $bad_keys ) );
 
+	// Filter $new_ignore_keys array for items without `lists___`.
+	$new_ignore_keys = array_filter(
+		$new_ignore_keys,
+		function ( $item ) {
+			return false === strpos( $item, 'lists___' );
+		}
+	);
+
 	return $new_ignore_keys;
 }
 add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_wpspamshield_compatibility', 10, 2 );
+
+function constant_contact_exclude_cleantalk( $ignored ) {
+	$ignored[] = 'apbct_visible_fields';
+
+	return $ignored;
+}
+add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_exclude_cleantalk' );

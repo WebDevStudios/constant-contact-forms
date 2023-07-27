@@ -11,7 +11,8 @@
  */
 
 use \ReCaptcha\ReCaptcha;
-
+use \ReCaptcha\RequestMethod\CurlPost;
+use Ctct\Exceptions\CtctException;
 /**
  * Powers our form processing, validation, and value cleanup.
  *
@@ -53,26 +54,28 @@ class ConstantContact_Process_Form {
 	 * A wrapper to process our form via AJAX.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @return void|array Return array of error data if error encountered, void otherwise.
 	 */
 	public function process_form_ajax_wrapper() {
 
 		// See if we're passed in data.
-		//
-		// We set to ignore this from PHPCS, as our nonce is handled elsewhere
-		// @codingStandardsIgnoreLine
-		if ( isset( $_POST['data'] ) ) { // Input var okay.
+		// We set to ignore this from PHPCS, as our nonce is handled elsewhere.
+		if ( isset( $_POST['data'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
-			// Form data comes over serialzied, so break it apart
-			//
-			// We set to ignore this from PHPCS, as our nonce is handled elsewhere
-			// @codingStandardsIgnoreLine
-			$data = explode( '&', $_POST['data'] );
+			// Form data comes over serialzied, so break it apart.
+			// We set to ignore this from PHPCS, as our nonce is handled elsewhere.
+			$data = explode( '&', $_POST['data'] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			// Finish converting that ajax data to something we can use.
 			$json_data = [];
 
 			if ( is_array( $data ) ) {
 				foreach ( $data as $field ) {
+
+					// Decode characters in field string.
+					// Used to recover array field values.
+					$field = urldecode( $field );
 
 					// @codingStandardsIgnoreStart
 					// Our data looks like this:
@@ -86,8 +89,23 @@ class ConstantContact_Process_Form {
 					$exp_fields = explode( '=', $field, 2 );
 
 					if ( isset( $exp_fields[0] ) && $exp_fields[0] ) {
-						$value                                    = urldecode( isset( $exp_fields[1] ) ? $exp_fields[1] : '' );
-						$json_data[  esc_attr( $exp_fields[0] ) ] = sanitize_text_field( $value );
+						if ( false !== strpos( $exp_fields[0], 'email__' ) ) {
+							$value = ( is_email( $exp_fields[1] ) ) ? $exp_fields[1] : '';
+						} else {
+							$value = isset( $exp_fields[1] ) ? urldecode( $exp_fields[1] ) : '';
+						}
+						$field_key = $exp_fields[0];
+
+						if ( stristr( $field_key, '[]' ) ) {
+							$field_key = explode( '[]', $field_key );
+							$field_key = $field_key[0];
+
+							$json_data[ esc_attr( $field_key ) ][] = sanitize_text_field( $value );
+
+							continue;
+						}
+
+						$json_data[ esc_attr( $field_key ) ] = sanitize_text_field( $value );
 					}
 				}
 			}
@@ -109,10 +127,13 @@ class ConstantContact_Process_Form {
 			switch ( $status ) {
 
 				case 'success':
+					$form_id = (int) $json_data['ctct-id'];
+
+					/* This deprecated filter is documented in includes/class-process-form.php */
+					$message = apply_filters_deprecated( 'ctct_process_form_success', [ __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ], '1.9.0', 'constant_contact_process_form_success' );
+
 					/** This filter is documented in includes/class-process-form.php */
-					$message = apply_filters( 'ctct_process_form_success',
-						__( 'Your information has been submitted.', 'constant-contact-forms' ),
-						(int) $json_data['ctct-id'] );
+					$message = esc_html( apply_filters( 'constant_contact_process_form_success', $message, $form_id ) );
 					break;
 
 				case 'error':
@@ -130,16 +151,24 @@ class ConstantContact_Process_Form {
 						'errors'  => isset( $response['errors'] ) ? $response['errors'] : '',
 						'values'  => isset( $response['values'] ) ? $response['values'] : '',
 					];
+				case 'api_error':
+					return [
+						'status'  => 'error',
+						'message' => $response['message'],
+						'values'  => isset( $response['values'] ) ? $response['values'] : '',
+					];
 
 				default:
 					$message = $default_error;
 					break;
 			}
 
-			wp_send_json( [
-				'status'  => $status,
-				'message' => $message,
-			] );
+			wp_send_json(
+				[
+					'status'  => $status,
+					'message' => $message,
+				]
+			);
 
 			wp_die();
 		}
@@ -148,9 +177,10 @@ class ConstantContact_Process_Form {
 	/**
 	 * Process submitted form data.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to process form.
 	 *
 	 * @param array $data    Form data.
 	 * @param bool  $is_ajax Whether or not processing via AJAX.
@@ -201,26 +231,42 @@ class ConstantContact_Process_Form {
 		if ( isset( $data['g-recaptcha-response'] ) ) {
 			$method = null;
 			if ( ! ini_get( 'allow_url_fopen' ) ) {
-				$method = new ReCaptcha\RequestMethod\CurlPost();
+				$method = new CurlPost();
 			}
 			$ctctrecaptcha = new ConstantContact_reCAPTCHA();
 			$ctctrecaptcha->set_recaptcha_keys();
 			$keys = $ctctrecaptcha->get_recaptcha_keys();
 			$ctctrecaptcha->set_recaptcha_class( new ReCaptcha( $keys['secret_key'], $method ) );
 
-			$ctctrecaptcha->recaptcha->setExpectedHostname( parse_url( home_url(), PHP_URL_HOST ) );
+			$ctctrecaptcha->recaptcha->setExpectedHostname( wp_parse_url( home_url(), PHP_URL_HOST ) );
 			if ( 'v3' === $ctctrecaptcha->get_recaptcha_version() ) {
+
 				/**
 				 * Filters the default float value for the score threshold.
 				 *
 				 * This value should be between 0.0 and 1.0.
+				 *
+				 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
 				 *
 				 * @since 1.7.0
 				 *
 				 * @param float  $value Threshold to require for submission approval.
 				 * @param string $value The ID of the form that was submitted.
 				 */
-				$threshold = (float) apply_filters( 'ctct_recaptcha_threshold', 0.5, $data['ctct-id'] );
+				$threshold = apply_filters_deprecated( 'ctct_recaptcha_threshold', [ 0.5, $data['ctct-id'] ], '1.9.0', 'constant_contact_recaptcha_threshold' );
+
+				/**
+				 * Filters the default float value for the score threshold.
+				 *
+				 * This value should be between 0.0 and 1.0.
+				 *
+				 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+				 * @since  1.9.0
+				 *
+				 * @param  float  $value Required threshold value.
+				 * @param  string $value Form ID.
+				 */
+				$threshold = (float) apply_filters( 'constant_contact_recaptcha_threshold', $threshold, $data['ctct-id'] );
 
 				$ctctrecaptcha->recaptcha->setScoreThreshold( $threshold );
 				$ctctrecaptcha->recaptcha->setExpectedAction( 'constantcontactsubmit' );
@@ -247,6 +293,7 @@ class ConstantContact_Process_Form {
 		/**
 		 * Filters whether or not we think an entry is spam.
 		 *
+		 * @author Michael Beckwith <michael@webdevstudios.com>
 		 * @since 1.3.2
 		 *
 		 * @param bool  $value Whether or not we thing an entry is spam. Default not spam.
@@ -256,18 +303,6 @@ class ConstantContact_Process_Form {
 			return [
 				'status' => 'named_error',
 				'error'  => $this->get_spam_message( $data['ctct-id'] ),
-			];
-		}
-
-		if (
-			! isset( $data['ctct_form'] ) ||
-			! wp_verify_nonce( $data['ctct_form'], 'ctct_submit_form' )
-		) {
-			constant_contact_maybe_log_it( 'Nonces', 'ctct_submit_form nonce failed to verify.' );
-			// @todo Figure out a way to pass errors back.
-			return [
-				'status' => 'named_error',
-				'error'  => __( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
 			];
 		}
 
@@ -295,20 +330,25 @@ class ConstantContact_Process_Form {
 			];
 		}
 
-		$ignored_keys = apply_filters( 'constant_contact_ignored_post_form_values', [
-			'ctct-submitted',
-			'ctct_form',
-			'_wp_http_referer',
-			'ctct-verify',
-			'ctct_time',
-			'ctct_usage_field',
-			'g-recaptcha-response',
-			'ctct_must_opt_in',
-		], $orig_form_id );
+		$ignored_keys = apply_filters(
+			'constant_contact_ignored_post_form_values',
+			[
+				'ctct-submitted',
+				'ctct_form',
+				'_wp_http_referer',
+				'ctct-verify',
+				'ctct_time',
+				'ctct_usage_field',
+				'g-recaptcha-response',
+				'ctct_must_opt_in',
+				'ctct-instance',
+			],
+			$orig_form_id
+		);
 
 		foreach ( $data as $key => $value ) {
 
-			if ( ! is_string( $value ) ) {
+			if ( ! is_string( $value ) && ! is_array( $value ) ) {
 				continue;
 			}
 
@@ -318,7 +358,7 @@ class ConstantContact_Process_Form {
 
 			$return['values'][] = [
 				'key'   => sanitize_text_field( $key ),
-				'value' => sanitize_text_field( $value ),
+				'value' => is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value ),
 			];
 		}
 
@@ -326,7 +366,24 @@ class ConstantContact_Process_Form {
 			return;
 		}
 
-		$field_errors = $this->get_field_errors( $this->clean_values( $return['values'] ), $is_ajax );
+		$cleaned_values = $this->clean_values( $return['values'] );
+
+		// Require at least one list to be selected.
+		if (
+			constant_contact()->api->is_connected() &&
+			(
+				! isset( $cleaned_values['ctct-lists'] ) ||
+				empty( $cleaned_values['ctct-lists'] ) ||
+				empty( $cleaned_values['ctct-lists']['value'][0] )
+			)
+		) {
+			return [
+				'status' => 'named_error',
+				'error'  => __( 'Please select at least one list to subscribe to.', 'constant-contact-forms' ),
+			];
+		}
+
+		$field_errors = $this->get_field_errors( $cleaned_values, $is_ajax );
 
 		if ( is_array( $field_errors ) && ! empty( $field_errors ) ) {
 
@@ -336,20 +393,53 @@ class ConstantContact_Process_Form {
 				'values' => $return['values'],
 			];
 		}
-
-		if ( ! isset( $data['ctct-opt-in'] ) ) {
-			constant_contact()->mail->submit_form_values( $return['values'] );
-		} else {
-
-			// No need to check for opt in status because we would have returned early by now if false.
-			$maybe_bypass = ctct_get_settings_option( '_ctct_bypass_cron', '' );
-
-			if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass ) {
-				constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
-				constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
+		try {
+			if ( ! isset( $data['ctct-opt-in'] ) ) {
+				constant_contact()->mail->submit_form_values( $return['values'] );
 			} else {
-				constant_contact()->mail->submit_form_values( $return['values'], true );
+				// No need to check for opt in status because we would have returned early by now if false.
+				$maybe_bypass = constant_contact_get_option( '_ctct_bypass_cron', '' );
+				$cron_disabled = ( defined( 'DISABLE_WP_CRON' ) && true === DISABLE_WP_CRON );
+
+				if ( constant_contact()->api->is_connected() && 'on' === $maybe_bypass || $cron_disabled ) {
+					constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
+
+					$api_result = constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
+
+					// Send email if API request fails.
+					if ( false === $api_result ) {
+						$clean_values  = constant_contact()->process_form->clean_values( $return['values'] );
+						$pretty_values = constant_contact()->process_form->pretty_values( $clean_values );
+						$email_values  = constant_contact()->mail->format_values_for_email( $pretty_values, $orig_form_id );
+
+						$test = constant_contact()->mail->mail(
+							constant_contact()->mail->get_email( $orig_form_id ),
+							$email_values,
+							[
+								'form_id'         => $orig_form_id,
+								'submitted_email' => constant_contact()->mail->get_user_email_from_submission( $clean_values ),
+								'custom-reason'   => __( 'An error occurred while attempting Constant Contact API request.', 'constant-contact-forms' ),
+							],
+							true
+						);
+
+						// Also return API error.
+						return [
+							'status'  => 'api_error',
+							'values'  => $return['values'],
+							'message' => __( 'An error occurred while attempting Constant Contact API request. Please check your details and try again.', 'constant-contact-forms' ),
+						];
+					}
+				} else {
+					constant_contact()->mail->submit_form_values( $return['values'], true );
+				}
 			}
+		} catch ( CtctException $exception ) {
+			return [
+				'status'  => 'api_error',
+				'values'  => $return['values'],
+				'message' => $exception->getMessage(),
+			];
 		}
 
 		$return['status'] = 'success';
@@ -359,6 +449,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Pretty our values up.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param array $values Original values.
@@ -431,6 +522,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Gets our original field from a form id.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param int $form_id Form id.
@@ -464,38 +556,40 @@ class ConstantContact_Process_Form {
 				'required'    => isset( $field['_ctct_required_field'] ) && $field['_ctct_required_field'],
 			];
 
+			$hashed_key = md5( serialize( $field_key ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.serialize_serialize -- OK use of serialize().
+
 			switch ( $field['_ctct_map_select'] ) {
 				case 'address':
-					$return[ 'street_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'street_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'street';
+					$return[ 'street_address___' . $hashed_key ]                     = $field_key;
+					$return[ 'street_address___' . $hashed_key ]['_ctct_map_select'] = 'street';
 
-					$return[ 'line_2_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'line_2_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'line_2';
+					$return[ 'line_2_address___' . $hashed_key ]                     = $field_key;
+					$return[ 'line_2_address___' . $hashed_key ]['_ctct_map_select'] = 'line_2';
 
-					$return[ 'city_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'city_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'city';
+					$return[ 'city_address___' . $hashed_key ]                     = $field_key;
+					$return[ 'city_address___' . $hashed_key ]['_ctct_map_select'] = 'city';
 
-					$return[ 'state_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'state_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'state';
+					$return[ 'state_address___' . $hashed_key ]                     = $field_key;
+					$return[ 'state_address___' . $hashed_key ]['_ctct_map_select'] = 'state';
 
-					$return[ 'zip_address___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'zip_address___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'zip';
+					$return[ 'zip_address___' . $hashed_key ]                     = $field_key;
+					$return[ 'zip_address___' . $hashed_key ]['_ctct_map_select'] = 'zip';
 
 					break;
 				case 'anniversery':
 				case 'birthday':
-					$return[ 'month___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'month___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'month';
+					$return[ 'month___' . $hashed_key ]                     = $field_key;
+					$return[ 'month___' . $hashed_key ]['_ctct_map_select'] = 'month';
 
-					$return[ 'day___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'day___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'day';
+					$return[ 'day___' . $hashed_key ]                     = $field_key;
+					$return[ 'day___' . $hashed_key ]['_ctct_map_select'] = 'day';
 
-					$return[ 'year___' . md5( serialize( $field_key ) ) ]                     = $field_key;
-					$return[ 'year___' . md5( serialize( $field_key ) ) ]['_ctct_map_select'] = 'year';
+					$return[ 'year___' . $hashed_key ]                     = $field_key;
+					$return[ 'year___' . $hashed_key ]['_ctct_map_select'] = 'year';
 
 					break;
 				default:
-					$return[ $field['_ctct_map_select'] . '___' . md5( serialize( $field_key ) ) ] = $field_key;
+					$return[ $field['_ctct_map_select'] . '___' . $hashed_key ] = $field_key;
 					break;
 			}
 		}
@@ -506,6 +600,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Get field requirement errors.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param array $values Values.
@@ -565,6 +660,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Clean our values from form submission.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
 	 * @param array $values Values to clean.
@@ -591,9 +687,12 @@ class ConstantContact_Process_Form {
 				continue;
 			}
 
-			$return_values[ sanitize_text_field( $value['key'] ) ] = [
-				'key'      => sanitize_text_field( $key_break[0] ),
-				'value'    => sanitize_text_field( $value['value'] ),
+			$clean_key = $key_break[0];
+			$field_key = 'lists' === $clean_key ? 'ctct-lists' : $value['key'];
+
+			$return_values[ sanitize_text_field( $field_key ) ] = [
+				'key'      => sanitize_text_field( $clean_key ),
+				'value'    => is_array( $value['value'] ) ? array_map( 'sanitize_text_field', $value['value'] ) : sanitize_text_field( $value['value'] ),
 				'orig_key' => $value['key'],
 			];
 		}
@@ -604,26 +703,36 @@ class ConstantContact_Process_Form {
 	/**
 	 * Form submit success/error messages.
 	 *
+	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
 	 *
-	 * @throws Exception
+	 * @throws Exception Throws Exception if encountered while attempting to process form wrapper.
 	 *
-	 * @param array      $form_data Form data to process.
-	 * @param string|int $form_id   Form ID being processed.
+	 * @param  array      $form_data Form data to process.
+	 * @param  string|int $form_id   Form ID being processed.
+	 * @param  int        $instance  Current form instance.
 	 * @return false|array
 	 */
-	public function process_wrapper( $form_data = [], $form_id = 0 ) {
+	public function process_wrapper( $form_data = [], $form_id = 0, $instance = 0 ) {
+		$ctct_id = absint( filter_input( INPUT_POST, 'ctct-id', FILTER_SANITIZE_NUMBER_INT ) );
 
-		if ( empty( $_POST['ctct-id'] ) ) {
+		if ( empty( $ctct_id ) ) {
 			return false;
 		}
 
 		// @todo Utilize $form_data.
-		if ( isset( $_POST['ctct-id'] ) && $form_id !== absint( $_POST['ctct-id'] ) ) {
+		if ( $ctct_id !== $form_id ) {
 			return false;
 		}
 
-		$processed     = $this->process_form();
+		// Ensure calculated form instance matches POST form instance.
+		$posted_instance = absint( filter_input( INPUT_POST, 'ctct-instance', FILTER_SANITIZE_NUMBER_INT ) );
+
+		if ( $posted_instance !== $instance ) {
+			return false;
+		}
+
+		$processed     = $this->process_form( [], false );
 		$default_error = esc_html__( 'There was an error sending your form.', 'constant-contact-forms' );
 		$status        = false;
 
@@ -637,12 +746,26 @@ class ConstantContact_Process_Form {
 				/**
 				 * Filters the message for the successful processed form.
 				 *
-				 * @since 1.3.0
+				 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
 				 *
-				 * @param string     $value Success message.
-				 * @param string/int $form_id ID of the Constant Contact form being submitted to.
+				 * @author Michael Beckwith <michael@webdevstudios.com>
+				 * @since  1.3.0
+				 *
+				 * @param  string     $value Success message.
+				 * @param  string/int $form_id ID of the Constant Contact form being submitted to.
 				 */
-				$message = apply_filters( 'ctct_process_form_success', __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id );
+				$message = apply_filters_deprecated( 'ctct_process_form_success', [ __( 'Your information has been submitted.', 'constant-contact-forms' ), $form_id ], '1.9.0', 'constant_contact_process_form_success' );
+
+				/**
+				 * Filters the message for the successful processed form.
+				 *
+				 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+				 * @since  1.9.0
+				 *
+				 * @param  string     $value   Success message.
+				 * @param  string|int $form_id Constant Contact form ID.
+				 */
+				$message = esc_html( apply_filters( 'constant_contact_process_form_success', $message, $form_id ) );
 				break;
 
 			case 'error':
@@ -660,6 +783,12 @@ class ConstantContact_Process_Form {
 					'errors'  => isset( $processed['errors'] ) ? $processed['errors'] : '',
 					'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
 				];
+			case 'api_error':
+				return [
+					'status'  => 'error',
+					'message' => $processed['message'] ? esc_html( $processed['message'] ) : esc_html__( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
+					'values'  => isset( $processed['values'] ) ? $processed['values'] : '',
+				];
 
 			default:
 				$message = '';
@@ -675,6 +804,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Increment a counter for processed form submissions.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.2.2
 	 */
 	public function increment_processed_form_count() {
@@ -686,6 +816,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Check if we have all the required fields for a given form.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.3.5
 	 *
 	 * @param int   $form_id   ID of form to verify.
@@ -716,6 +847,7 @@ class ConstantContact_Process_Form {
 	/**
 	 * Gets the non-human error messeage dispalyed when we think there's a bot.
 	 *
+	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since 1.5.0
 	 * @param int $post_id The ID of the current post.
 	 * @return string
@@ -726,11 +858,26 @@ class ConstantContact_Process_Form {
 		/**
 		 * Filter the error message displayed for suspected non-humans.
 		 *
+		 * @deprecated 1.9.0 Deprecated in favor of properly-prefixed hookname.
+		 *
+		 * @author Michael Beckwith <michael@webdevstudios.com>
 		 * @since 1.5.0
 		 * @param string $error The error message dispalyed.
 		 * @param mixed  $post_id The ID of the current post.
 		 * @return string
 		 */
-		return apply_filters( 'ctct_custom_spam_message', $error, $post_id );
+		$error = apply_filters_deprecated( 'ctct_custom_spam_message', [ $error, $post_id ], '1.9.0', 'constant_contact_custom_spam_message' );
+
+		/**
+		 * Filters error message for suspected spam entries.
+		 *
+		 * @author Rebekah Van Epps <rebekah.vanepp@webdevstudios.com>
+		 * @since  1.9.0
+		 *
+		 * @param  string     $error   Error message.
+		 * @param  int|string $post_id Current post ID.
+		 * @return string              Error message.
+		 */
+		return apply_filters( 'constant_contact_custom_spam_message', $error, $post_id );
 	}
 }

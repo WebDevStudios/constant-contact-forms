@@ -1,7 +1,149 @@
 // sass-lint:disable class-name-format no-qualifying-elements id-name-format
+
 .ctct-twentyfourteen {
 
-	.ctct-form-field input {
+	.ctct-form-description ~ .ctct-button {
+		display: inline-block;
+		font-size: 1rem;
+		margin-bottom: 25px;
+	}
+
+	.ctct-form-field input:not(.ctct-checkbox) {
 		width: 100%;
+	}
+}
+
+.ctct-twentyfifteen {
+
+	.ctct-form-description ~ .ctct-button {
+		display: inline-block;
+		font-size: 1rem;
+		margin-bottom: 25px;
+	}
+
+	.ctct-form-field {
+
+		input[type="tel"] {
+			padding: 0.5278em;
+			width: 100%;
+		}
+	}
+
+	.ctct-form-wrapper {
+
+		.ctct-input-container {
+
+			label {
+				font-size: 75%;
+			}
+		}
+	}
+}
+
+.ctct-twentysixteen {
+
+	.ctct-form-description ~ .ctct-button {
+		display: inline-block;
+		margin-bottom: 25px;
+	}
+
+	.ctct-form-wrapper {
+
+		span.ctct-label-right {
+			width: 80%;
+		}
+	}
+}
+
+.ctct-twentyseventeen {
+
+	.ctct-form-description ~ .ctct-button {
+		display: inline-block;
+		margin-bottom: 25px;
+	}
+
+	.ctct-form-wrapper {
+
+		.ctct-input-container {
+
+			label {
+				display: inline;
+			}
+		}
+
+		span.ctct-label-right {
+			width: 80%;
+		}
+	}
+}
+
+.ctct-twentynineteen {
+
+	.ctct-form-description ~ .ctct-button {
+		margin-bottom: 25px;
+	}
+
+	.ctct-address {
+		margin-bottom: 1rem;
+	}
+
+	.ctct-form-field {
+
+		input[type="text"],
+		input[type="email"],
+		input[type="url"],
+		input[type="tel"] {
+			width: 100%;
+		}
+	}
+	@media screen and (max-width: 414px) {
+
+		.ctct-form-wrapper {
+
+			span.ctct-label-right {
+				width: 80%;
+			}
+		}
+	}
+}
+
+.ctct-twentytwenty {
+
+	.ctct-form-description ~ .ctct-button {
+		margin-bottom: 25px;
+	}
+
+	.ctct-form-wrapper {
+
+		.ctct-form {
+
+			abbr {
+			  font-size: 1.6rem;
+			}
+		}
+
+		.ctct-input-container {
+
+			label {
+			  font-size: 1.6rem;
+			}
+		}
+	} 
+}
+
+.ctct-twentytwentyone {
+
+	.ctct-button{
+			padding: 0 !important;
+	}
+
+	.ctct-form-field {
+
+		input[type="text"],
+		input[type="email"],
+		input[type="url"],
+		input[type="tel"] {
+			width: 100%;
+		}
 	}
 }

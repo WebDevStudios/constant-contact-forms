@@ -1,13 +1,27 @@
 {
   "name": "constant-contact-forms",
-  "version": "1.7.0",
+  "version": "2.0.3",
   "description": "",
-  "main": "gulpfile.js",
-  "dependencies": {},
+  "main": "./assets/index.js",
+  "engines": {
+    "node": ">=16",
+    "npm": ">=8"
+  },
   "scripts": {
-    "build": "NODE_ENV=production gulp",
-    "dev": "gulp",
-    "watch": "gulp watch"
+    "build": "wp-scripts build --output-path 'assets/js'",
+    "build:release": "run-s pot styles build",
+    "dev": "wp-scripts start --output-path 'assets/js'",
+    "watch": "wp-scripts start",
+    "lint": "run-p lint:*",
+    "lint:css": "wp-scripts lint-style '**/*.scss'",
+    "pot": "wp-pot --src './*.php --src './includes' --dest-file 'languages/constant-contact-forms.pot --domain 'constant-contact-forms'",
+    "plugin-zip": "wp-scripts plugin-zip",
+    "styles": "run-s styles:compile styles:compress",
+    "styles:compile": "node-sass assets/sass/style.scss -o assets/css/ --source-map true",
+    "styles:compress": "node-sass assets/css/style.css assets/css/style.min.css --output-style compressed",
+    "stylesadmin": "run-s stylesadmin:compile stylesadmin:compress",
+    "stylesadmin:compile": "node-sass assets/sass/admin-style.scss -o assets/css/ --source-map true",
+    "stylesadmin:compress": "node-sass assets/css/admin-style.css assets/css/admin-style.min.css --output-style compressed"
   },
   "repository": {
     "type": "git",
@@ -18,28 +32,29 @@
   "bugs": {
     "url": "https://github.com/WebDevStudios/constant-contact-forms/issues"
   },
+  "overrides": {
+    "graceful-fs": "^4.2.9"
+  },
+  "browserslist": [
+    "last 2 versions"
+  ],
   "homepage": "https://github.com/WebDevStudios/constant-contact-forms#readme",
   "devDependencies": {
-    "@babel/core": "^7.7.4",
-    "@babel/preset-env": "^7.7.4",
-    "@babel/preset-react": "^7.7.4",
-    "@wordpress/components": "^7.4.0",
-    "autoprefixer": "^9.7.3",
-    "babel-loader": "^8.0.6",
-    "browser-sync": "^2.26.7",
+    "@webdevstudios/css-coding-standards": "^1.0.1",
+    "@webdevstudios/js-coding-standards": "^1.3.0",
+    "@wordpress/prettier-config": "^2.18.0",
+    "@wordpress/scripts": "^26.6.0",
+    "autoprefixer": "^10.4.7",
+    "browser-sync": "^2.27.9",
     "css-mqpacker": "^7.0.0",
-    "del": "^3.0.0",
-    "gulp": "^4.0.2",
-    "gulp-cssnano": "^2.1.3",
-    "gulp-notify": "^3.2.0",
-    "gulp-plumber": "^1.2.1",
-    "gulp-postcss": "^8.0.0",
-    "gulp-rename": "^1.4.0",
-    "gulp-sass": "^4.0.2",
-    "gulp-sourcemaps": "^2.6.5",
-    "gulp-util": "^3.0.8",
-    "gulp-wp-pot": "^2.3.5",
-    "webpack": "^4.41.2",
-    "webpack-stream": "^5.2.1"
+    "cssnano": "^6.0.1",
+    "del": "^7.0.0",
+    "node-sass": "^9.0.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.13",
+    "stylelint-config-prettier": "^9.0.3",
+    "webpack": "^5.72.0",
+    "webpack-stream": "^7.0.0",
+    "wp-pot-cli": "^1.5.0"
   }
 }
