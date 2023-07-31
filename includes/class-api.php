@@ -1254,7 +1254,7 @@ class ConstantContact_API {
 		if ( empty( $parsed_code_state[0] ) || empty( $parsed_code_state[1] ) ) {
 			$this->status_code = 0;
 			$this->last_error  = 'Invalid state or auth code!';
-
+			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
 			return false;
 		} else {
 			$code  = $parsed_code_state[0];
@@ -1266,6 +1266,7 @@ class ConstantContact_API {
 		if ( ( $state ?? 'undefined' ) != $expected_state ) {
 			$this->status_code = 0;
 			$this->last_error  = 'state is not correct';
+			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
 			return false;
 		}
 		// Create full request URL
@@ -1342,6 +1343,7 @@ class ConstantContact_API {
 			// check if the body contains error
 			if ( isset( $data['error'] ) ) {
 				$this->last_error = $data['error'] . ': ' . ( $data['error_description'] ?? 'Undefined' );
+				constant_contact_maybe_log_it( 'Error: ', $this->last_error );
 			}
 
 			if ( ! empty( $data['access_token'] ) ) {
@@ -1369,6 +1371,7 @@ class ConstantContact_API {
 		} else {
 			$this->status_code = 0;
 			$this->last_error  = $response->get_error_message();
+			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
 		}
 
 		return false;
