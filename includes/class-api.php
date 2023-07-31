@@ -99,6 +99,7 @@ class ConstantContact_API {
 		) {
 
 			$this->acquire_access_token();
+			update_option( 'ctct_access_token_timestamp', time() );
 		}
 
 		// custom scheduling based on the expiry time returned with access token
