@@ -197,12 +197,12 @@ class ConstantContact_API {
 
 				$acct_data = $this->cc()->get_account_info();
 				if ( array_key_exists( 'error_key', $acct_data ) && 'unauthorized' === $acct_data['error_key'] ) {
-					set_transient( 'ctct_maybe_needs_reconnected', true, HOUR_IN_SECONDS );
+					set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 					return [];
 				}
 
 				if ( $acct_data ) {
-					set_transient( 'constant_contact_acct_info', $acct_data, 12 * HOUR_IN_SECONDS );
+					set_transient( 'constant_contact_acct_info', $acct_data, 12 * DAY_IN_SECONDS );
 				}
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
@@ -246,12 +246,12 @@ class ConstantContact_API {
 			try {
 				$contacts = $this->cc()->get_contacts( $this->get_api_token() );
 				if ( array_key_exists( 'error_key', $contacts ) && 'unauthorized' === $contacts['error_key'] ) {
-					set_transient( 'ctct_maybe_needs_reconnected', true, HOUR_IN_SECONDS );
+					set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 
 					return [];
 				}
 
-				set_transient( 'ctct_contact', $contacts, 1 * HOUR_IN_SECONDS );
+				set_transient( 'ctct_contact', $contacts, 1 * DAY_IN_SECONDS );
 				return $contacts;
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
@@ -305,13 +305,13 @@ class ConstantContact_API {
 				$lists = $results['lists'] ?? [];
 
 				if ( array_key_exists( 'error_key', $results ) && 'unauthorized' === $results['error_key'] ) {
-					set_transient( 'ctct_maybe_needs_reconnected', true, HOUR_IN_SECONDS );
+					set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 
 					return [];
 				}
 
 				if ( ! empty( $lists ) && is_array( $lists ) ) {
-					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
+					set_transient( 'ctct_lists', $lists, 1 * DAY_IN_SECONDS );
 					return $lists;
 				} elseif ( array_key_exists( 'error_key', $results ) ) {
 					set_transient( 'ctct_lists', $lists, 15 * MINUTE_IN_SECONDS );
@@ -373,7 +373,7 @@ class ConstantContact_API {
 				$list_x_refs = $this->cc()->get_updated_lists_ids( $old_ids_string );
 
 				if ( is_array( $list_x_refs ) ) {
-					set_transient('ctct_list_xrefs', $list_x_refs, 1 * HOUR_IN_SECONDS );
+					set_transient('ctct_list_xrefs', $list_x_refs, 1 * DAY_IN_SECONDS );
 					return $list_x_refs;
 				}
 			} catch ( CtctException $ex ) {
@@ -426,12 +426,12 @@ class ConstantContact_API {
 			try {
 				$list = $this->cc()->get_list( $id );
 				if ( array_key_exists( 'error_key', $list ) && 'unauthorized' === $list['error_key'] ) {
-					set_transient( 'ctct_maybe_needs_reconnected', true, HOUR_IN_SECONDS );
+					set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 
 					return [];
 				}
 
-				set_transient( 'ctct_lists_' . $id, $list, 1 * HOUR_IN_SECONDS );
+				set_transient( 'ctct_lists_' . $id, $list, 1 * DAY_IN_SECONDS );
 				return $list;
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
@@ -477,7 +477,7 @@ class ConstantContact_API {
 		try {
 			$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
 			if ( array_key_exists( 'error_key', $list ) && 'unauthorized' === $list['error_key'] ) {
-				set_transient( 'ctct_maybe_needs_reconnected', true, HOUR_IN_SECONDS );
+				set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 
 				return [];
 			}
@@ -579,7 +579,7 @@ class ConstantContact_API {
 
 			$return_list = $this->cc()->update_list( $list );
 			if ( array_key_exists( 'error_key', $return_list ) && 'unauthorized' === $return_list['error_key'] ) {
-				set_transient( 'ctct_maybe_needs_reconnected', true, HOUR_IN_SECONDS );
+				set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 
 				return [];
 			}
@@ -625,7 +625,7 @@ class ConstantContact_API {
 		try {
 			$list = $this->cc()->delete_list( $updated_list['id'] );
 			if ( array_key_exists( 'error_key', $list ) && 'unauthorized' === $list['error_key'] ) {
-				set_transient( 'ctct_maybe_needs_reconnected', true, HOUR_IN_SECONDS );
+				set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 
 				return [];
 			}
@@ -692,7 +692,7 @@ class ConstantContact_API {
 
 			$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
 			if ( array_key_exists( 'error_key', $return_contact ) && 'unauthorized' === $return_contact['error_key'] ) {
-				set_transient( 'ctct_maybe_needs_reconnected', true, HOUR_IN_SECONDS );
+				set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 
 				return [];
 			}
@@ -1334,7 +1334,9 @@ class ConstantContact_API {
 		$result = $this->exec( $url, $options );
 
 		if ( false === $result ) {
-			set_transient( 'ctct_maybe_needs_reconnected', true, HOUR_IN_SECONDS );
+			set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
+		} else {
+			delete_transient( 'ctct_maybe_needs_reconnected' );
 		}
 		return $result;
 	}
@@ -1362,7 +1364,15 @@ class ConstantContact_API {
 			'headers' => $headers,
 		];
 
-		return $this->exec( $url, $options );
+		$result = $this->exec( $url, $options );
+
+		if ( false === $result ) {
+			set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
+		} else {
+			delete_transient( 'ctct_maybe_needs_reconnected' );
+		}
+
+		return $result;
 	}
 
 	private function set_authorization(): array {
