@@ -470,11 +470,10 @@ class ConstantContact_Connect {
 	 * @throws Exception Exception.
 	 *
 	 * @param string $access_token API access token.
-	 * @return string
 	 */
 	public function update_token( $access_token, $refresh_token ) {
-		return $this->e_set( 'ctct_access_token', $access_token, true );
-		return $this->e_set( 'ctct_refresh_token', $refresh_token, true );
+		$this->e_set( 'ctct_access_token', $access_token, true );
+		$this->e_set( 'ctct_refresh_token', $refresh_token, true );
 	}
 
 	/**
