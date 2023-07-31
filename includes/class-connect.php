@@ -102,6 +102,7 @@ class ConstantContact_Connect {
 		if ( isset( $_GET['code'] ) && isset( $_GET['state'] ) && is_user_logged_in() ) {
 
 			$verified = constantcontact_api()->acquire_access_token();
+			update_option( 'ctct_access_token_timestamp', time() );
 
 			$redirect_args = [
 				'post_type' => 'ctct_forms',

@@ -151,6 +151,7 @@ class ConstantContact_API {
 			$token .= constant_contact()->connect->e_get( '_ctct_access_token' );
 		} else {
 			$this->acquire_access_token();
+			update_option( 'ctct_access_token_timestamp', time() );
 		}
 
 		return $token;
