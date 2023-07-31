@@ -1330,7 +1330,13 @@ class ConstantContact_API {
 			'headers' => $headers,
 		];
 
-		return $this->exec( $url, $options );
+		// This will be either true or false.
+		$result = $this->exec( $url, $options );
+
+		if ( false === $result ) {
+			set_transient( 'ctct_maybe_needs_reconnected', true, HOUR_IN_SECONDS );
+		}
+		return $result;
 	}
 
 	/**
