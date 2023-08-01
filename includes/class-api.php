@@ -375,7 +375,7 @@ class ConstantContact_API {
 				$list_x_refs = $this->cc()->get_updated_lists_ids( $old_ids_string );
 
 				if ( is_array( $list_x_refs ) ) {
-					set_transient('ctct_list_xrefs', $list_x_refs, 1 * DAY_IN_SECONDS );
+					set_transient('ctct_list_xrefs', $list_x_refs, 1 * HOUR_IN_SECONDS );
 					return $list_x_refs;
 				}
 			} catch ( CtctException $ex ) {
