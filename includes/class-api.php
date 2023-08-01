@@ -313,7 +313,7 @@ class ConstantContact_API {
 				}
 
 				if ( ! empty( $lists ) && is_array( $lists ) ) {
-					set_transient( 'ctct_lists', $lists, 1 * DAY_IN_SECONDS );
+					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
 					return $lists;
 				} elseif ( array_key_exists( 'error_key', $results ) ) {
 					set_transient( 'ctct_lists', $lists, 15 * MINUTE_IN_SECONDS );
