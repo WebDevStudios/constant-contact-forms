@@ -203,7 +203,7 @@ class ConstantContact_API {
 				}
 
 				if ( $acct_data ) {
-					set_transient( 'constant_contact_acct_info', $acct_data, 12 * DAY_IN_SECONDS );
+					set_transient( 'constant_contact_acct_info', $acct_data, 12 * HOUR_IN_SECONDS );
 				}
 			} catch ( CtctException $ex ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
