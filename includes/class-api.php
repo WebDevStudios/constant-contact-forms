@@ -1375,6 +1375,7 @@ class ConstantContact_API {
 		if ( false === $result ) {
 			set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 		} else {
+			update_option( 'ctct_access_token_timestamp', time() );
 			delete_transient( 'ctct_maybe_needs_reconnected' );
 		}
 
