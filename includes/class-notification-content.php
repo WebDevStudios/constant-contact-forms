@@ -316,7 +316,18 @@ class ConstantContact_Notification_Content {
 		?>
 		<div class="admin-notice admin-notice-message">
 			<p>
-				<?php esc_html_e( 'FILL ME IN', 'constant-contact-forms' ); ?>
+				<?php
+
+				printf(
+					esc_html__( 'Constant Contact Forms has detected errors that indicate a need to manually disconnect and reconnect your Constant Contact account. Visit the %sConnection Settings%s to manage.', 'constant-contact-forms' ),
+					sprintf(
+						'<a href="%s">',
+						esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' )
+						)
+					),
+					'</a>'
+				);
+				?>
 			</p>
 		</div>
 		<?php
