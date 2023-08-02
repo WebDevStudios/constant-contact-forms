@@ -1487,6 +1487,33 @@ class ConstantContact_API {
 		}
 		return $note;
 	}
+
+	/**
+	 * Check if our current access token is expired.
+	 *
+	 * Based on access token issued timestamp + expires in timestamp and current time.
+	 *
+	 * @since NEXT
+	 *
+	 * @return bool
+	 */
+	private function access_token_maybe_expired() {
+
+		$issued_time = get_option( 'ctct_access_token_timestamp', '' );
+		if ( empty( $issued_time ) ) {
+			return true;
+		}
+
+		$expires_in = constant_contact()->connect->e_get( '_ctct_expires_in' );
+		if ( ! empty( $this->expires_in ) ) {
+			// Prioritize our property over the option. If this is set, it's probably fresher.
+			$expires_in = $this->expires_in;
+		}
+		$current_time = time();
+		$expiration_time = $issued_time + $expires_in;
+
+		return $current_time >= $expiration_time;
+	}
 }
 
 /**
