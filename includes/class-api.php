@@ -98,8 +98,10 @@ class ConstantContact_API {
 			empty( $this->access_token )
 		) {
 
-			$this->acquire_access_token();
-			update_option( 'ctct_access_token_timestamp', time() );
+			$success = $this->acquire_access_token();
+			if ( $success ) {
+				update_option( 'ctct_access_token_timestamp', time() );
+			}
 		}
 
 		// custom scheduling based on the expiry time returned with access token
@@ -150,8 +152,10 @@ class ConstantContact_API {
 		if ( constant_contact()->connect->e_get( '_ctct_access_token' ) ) {
 			$token .= constant_contact()->connect->e_get( '_ctct_access_token' );
 		} else {
-			$this->acquire_access_token();
-			update_option( 'ctct_access_token_timestamp', time() );
+			$success = $this->acquire_access_token();
+			if ( $success ) {
+				update_option( 'ctct_access_token_timestamp', time() );
+			}
 		}
 
 		return $token;
