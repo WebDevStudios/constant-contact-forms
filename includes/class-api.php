@@ -124,6 +124,13 @@ class ConstantContact_API {
 		} else {
 			wp_unschedule_hook( 'refresh_token_job' );
 		}
+
+		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
+			if ( $this->access_token_maybe_expired() ) {
+				$this->refresh_token();
+			}
+		}
+
 	}
 
 	/**
@@ -1513,6 +1520,7 @@ class ConstantContact_API {
 		$current_time = time();
 		$expiration_time = $issued_time + $expires_in;
 
+		// If we're currently above the expiration time, we're expired.
 		return $current_time >= $expiration_time;
 	}
 }
