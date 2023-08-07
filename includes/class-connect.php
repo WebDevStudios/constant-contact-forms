@@ -102,6 +102,7 @@ class ConstantContact_Connect {
 		if ( isset( $_GET['code'] ) && isset( $_GET['state'] ) && is_user_logged_in() ) {
 
 			$verified = constantcontact_api()->acquire_access_token();
+			update_option( 'ctct_access_token_timestamp', time() );
 
 			$redirect_args = [
 				'post_type' => 'ctct_forms',
@@ -470,11 +471,10 @@ class ConstantContact_Connect {
 	 * @throws Exception Exception.
 	 *
 	 * @param string $access_token API access token.
-	 * @return string
 	 */
 	public function update_token( $access_token, $refresh_token ) {
-		return $this->e_set( 'ctct_access_token', $access_token, true );
-		return $this->e_set( 'ctct_refresh_token', $refresh_token, true );
+		$this->e_set( 'ctct_access_token', $access_token, true );
+		$this->e_set( 'ctct_refresh_token', $refresh_token, true );
 	}
 
 	/**

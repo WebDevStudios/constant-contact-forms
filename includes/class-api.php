@@ -98,7 +98,10 @@ class ConstantContact_API {
 			empty( $this->access_token )
 		) {
 
-			$this->acquire_access_token();
+			$success = $this->acquire_access_token();
+			if ( $success ) {
+				update_option( 'ctct_access_token_timestamp', time() );
+			}
 		}
 
 		// custom scheduling based on the expiry time returned with access token
@@ -121,6 +124,13 @@ class ConstantContact_API {
 		} else {
 			wp_unschedule_hook( 'refresh_token_job' );
 		}
+
+		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
+			if ( $this->access_token_maybe_expired() ) {
+				$this->refresh_token();
+			}
+		}
+
 	}
 
 	/**
@@ -149,7 +159,10 @@ class ConstantContact_API {
 		if ( constant_contact()->connect->e_get( '_ctct_access_token' ) ) {
 			$token .= constant_contact()->connect->e_get( '_ctct_access_token' );
 		} else {
-			$this->acquire_access_token();
+			$success = $this->acquire_access_token();
+			if ( $success ) {
+				update_option( 'ctct_access_token_timestamp', time() );
+			}
 		}
 
 		return $token;
@@ -1369,6 +1382,7 @@ class ConstantContact_API {
 		if ( false === $result ) {
 			set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 		} else {
+			update_option( 'ctct_access_token_timestamp', time() );
 			delete_transient( 'ctct_maybe_needs_reconnected' );
 		}
 
@@ -1480,6 +1494,34 @@ class ConstantContact_API {
 			}
 		}
 		return $note;
+	}
+
+	/**
+	 * Check if our current access token is expired.
+	 *
+	 * Based on access token issued timestamp + expires in timestamp and current time.
+	 *
+	 * @since NEXT
+	 *
+	 * @return bool
+	 */
+	private function access_token_maybe_expired() {
+
+		$issued_time = get_option( 'ctct_access_token_timestamp', '' );
+		if ( empty( $issued_time ) ) {
+			return true;
+		}
+
+		$expires_in = constant_contact()->connect->e_get( '_ctct_expires_in' );
+		if ( ! empty( $this->expires_in ) ) {
+			// Prioritize our property over the option. If this is set, it's probably fresher.
+			$expires_in = $this->expires_in;
+		}
+		$current_time = time();
+		$expiration_time = $issued_time + $expires_in;
+
+		// If we're currently above the expiration time, we're expired.
+		return $current_time >= $expiration_time;
 	}
 }
 

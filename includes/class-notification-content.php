@@ -315,19 +315,36 @@ class ConstantContact_Notification_Content {
 		ob_start();
 		?>
 		<div class="admin-notice admin-notice-message">
-			<p>
-				<?php
-
+		<p>
+			<?php
 				printf(
 					esc_html__( 'Constant Contact Forms has detected errors that indicate a need to manually disconnect and reconnect your Constant Contact account. Visit the %sConnection Settings%s to manage.', 'constant-contact-forms' ),
 					sprintf(
 						'<a href="%s">',
-						esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' )
-						)
+						esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' ) )
 					),
 					'</a>'
 				);
 				?>
+		</p>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
+	/**
+	 * Admin notice for WP_DISABLE_CRON constant being present.
+	 *
+	 * @since NEXT
+	 *
+	 * @return false|string
+	 */
+	public static function cron_notification() {
+		ob_start();
+		?>
+		<div class="admin-notice admin-notice-message">
+			<p>
+				<?php esc_html_e( 'It looks like you have `DISABLE_WP_CRON` enabled. Constant Contact Forms relies on it to keep access tokens refreshed. You may see functionality issues if you do not have any manually configured cron jobs on your hosting server.', 'constant-contact-forms' ); ?>
 			</p>
 		</div>
 		<?php
@@ -446,7 +463,7 @@ function constant_contact_api3_upgrade_notice( array $notifications = [] ) {
 	$notifications[] = [
 		'ID'         => 'api3_upgrade_notice',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'api3_upgrade_notice' ],
-		'require_cb' => 'constant_contact_maybe_display_api3_upgrade_notice'
+		'require_cb' => 'constant_contact_maybe_display_api3_upgrade_notice',
 	];
 
 	return $notifications;
@@ -465,7 +482,7 @@ function constant_contact_api3_upgraded_notice( array $notifications = [] ) {
 	$notifications[] = [
 		'ID'         => 'api3_upgraded_notice',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'api3_upgraded_notice' ],
-		'require_cb' => 'constant_contact_maybe_display_api3_upgraded_notice'
+		'require_cb' => 'constant_contact_maybe_display_api3_upgraded_notice',
 	];
 
 	return $notifications;
@@ -484,10 +501,26 @@ function constant_contact_account_disconnect_reconnect( array $notifications = [
 	$notifications[] = [
 		'ID'         => 'account_disconnect_reconnect',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'account_disconnect_reconnect' ],
-		'require_cb' => 'constant_contact_maybe_display_disconnect_reconnect_notice'
+		'require_cb' => 'constant_contact_maybe_display_disconnect_reconnect_notice',
 	];
-
 	return $notifications;
 }
-
 add_filter( 'constant_contact_notifications', 'constant_contact_account_disconnect_reconnect' );
+
+/**
+ * Add notification for `DISABLE_WP_CRON` constant.
+ *
+ * @since NEXT
+ *
+ * @param array $notifications Array of notifications to be shown.
+ * @return array               Array of notifications to be shown.
+ */
+function constant_contact_cron_notification( array $notifications = [] ) {
+	$notifications[] = [
+		'ID'         => 'cron_notification',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'cron_notification' ],
+		'require_cb' => 'constant_contact_maybe_show_cron_notification',
+	];
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_cron_notification' );

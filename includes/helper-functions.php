@@ -962,6 +962,7 @@ function constant_contact_maybe_display_api3_upgraded_notice() {
  *
  * @return bool
  */
+
 function constant_contact_maybe_display_disconnect_reconnect_notice() {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;
@@ -970,4 +971,27 @@ function constant_contact_maybe_display_disconnect_reconnect_notice() {
 	$maybe_display = get_transient( 'ctct_maybe_needs_reconnected' );
 
 	return true === $maybe_display;
+}
+
+/**
+ * Maybe show notification regarding `DISABLE_WP_CRON`.
+ *
+ * @since NEXT
+ *
+ * @return bool
+ */
+function constant_contact_maybe_show_cron_notification() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	if ( ! constant_contact()->is_constant_contact() ) {
+		return false;
+	}
+
+	if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
+		return true;
+	}
+
+	return false;
 }
