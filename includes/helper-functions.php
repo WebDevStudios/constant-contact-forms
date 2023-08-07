@@ -954,3 +954,20 @@ function constant_contact_maybe_display_api3_upgraded_notice() {
 		'' === get_option( 'CtctConstantContactState', '' )
 	);
 }
+
+/**
+ * Maybe show notification for need to manually disconnect/reconnect account.
+ *
+ * @since NEXT
+ *
+ * @return bool
+ */
+function constant_contact_maybe_display_disconnect_reconnect_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	$maybe_display = get_transient( 'ctct_maybe_needs_reconnected' );
+
+	return true === $maybe_display;
+}

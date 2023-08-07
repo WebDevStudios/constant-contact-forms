@@ -303,6 +303,25 @@ class ConstantContact_Notification_Content {
 		<?php
 		return ob_get_clean();
 	}
+
+	/**
+	 * Admin notice for need to disconnect/reconnect account.
+	 *
+	 * We hopefully won't show this one much.
+	 *
+	 * @since NEXT
+	 */
+	public static function account_disconnect_reconnect() {
+		ob_start();
+		?>
+		<div class="admin-notice admin-notice-message">
+			<p>
+				<?php esc_html_e( 'FILL ME IN', 'constant-contact-forms' ); ?>
+			</p>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
 }
 
 /**
@@ -441,3 +460,23 @@ function constant_contact_api3_upgraded_notice( array $notifications = [] ) {
 	return $notifications;
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_api3_upgraded_notice' );
+
+/**
+ * Add notification for need to manually disconnect/reconnect account..
+ *
+ * @since NEXT
+ *
+ * @param array $notifications Array of notifications to be shown.
+ * @return array               Array of notifications to be shown.
+ */
+function constant_contact_account_disconnect_reconnect( array $notifications = [] ) {
+	$notifications[] = [
+		'ID'         => 'account_disconnect_reconnect',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'account_disconnect_reconnect' ],
+		'require_cb' => 'constant_contact_maybe_display_disconnect_reconnect_notice'
+	];
+
+	return $notifications;
+}
+
+add_filter( 'constant_contact_notifications', 'constant_contact_account_disconnect_reconnect' );
