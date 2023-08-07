@@ -454,7 +454,7 @@ function constant_contact_api3_upgrade_notice( array $notifications = [] ) {
 	$notifications[] = [
 		'ID'         => 'api3_upgrade_notice',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'api3_upgrade_notice' ],
-		'require_cb' => 'constant_contact_maybe_display_api3_upgrade_notice'
+		'require_cb' => 'constant_contact_maybe_display_api3_upgrade_notice',
 	];
 
 	return $notifications;
@@ -473,7 +473,7 @@ function constant_contact_api3_upgraded_notice( array $notifications = [] ) {
 	$notifications[] = [
 		'ID'         => 'api3_upgraded_notice',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'api3_upgraded_notice' ],
-		'require_cb' => 'constant_contact_maybe_display_api3_upgraded_notice'
+		'require_cb' => 'constant_contact_maybe_display_api3_upgraded_notice',
 	];
 
 	return $notifications;
@@ -510,7 +510,7 @@ function constant_contact_cron_notification( array $notifications = [] ) {
 	$notifications[] = [
 		'ID'         => 'cron_notification',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'cron_notification' ],
-		'require_cb' => 'constant_contact_maybe_show_cron_notification'
+		'require_cb' => 'constant_contact_maybe_show_cron_notification',
 	];
 	return $notifications;
 }
