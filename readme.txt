@@ -45,6 +45,12 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 == Changelog ==
 
+= 2.2.0 =
+* Added: Admin notice if its been determined that the account connection needs human intervention.
+* Updated: Revised and improved access token refreshing in the background.
+* Updated: Removed Google Analytics opt-in option.
+* Updated: Prevent Constant Contact WooCommerce lists from being imported to local lists.
+
 = 2.1.0 =
 * Fixed: Option saving process for Multisite installs.
 * Fixed: Further touchups and fixes around reported security vulnerabilities.
