@@ -102,44 +102,6 @@ class ConstantContact_Notification_Content {
 	}
 
 	/**
-	 * Notification content for opt-in notice.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @return string
-	 */
-	public static function optin_admin_notice() {
-		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
-
-		ob_start();
-		?>
-
-		<div class="admin-notice-logo">
-			<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
-		</div>
-
-		<div class="admin-notice-message">
-			<h4 id="ctct-admin-notice-tracking-optin-header"><?php esc_html_e( 'Constant Contact Forms for WordPress data tracking opt-in', 'constant-contact-forms' ); ?></h4>
-			<div>
-				<input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" aria-labelledby="ctct-admin-notice-tracking-optin-header"/>
-				<?php wp_nonce_field( 'ctct_option_from_notification_action', 'ctct_option_from_notification' ); ?>
-			</div>
-			<div>
-				<?php
-					printf(
-						/* Translators: Placeholder here is a `<br />` HTML tag for formatting. */
-						esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. %1$s You can change this opt-in within the plugin\'s settings page at any time.', 'constant-contact-forms' ),
-						'<br />'
-					);
-				?>
-			</div>
-		</div>
-
-		<?php
-		return ob_get_clean();
-	}
-
-	/**
 	 * Admin notice regarding review requests.
 	 *
 	 * @since 1.2.2
@@ -371,26 +333,6 @@ function constant_contact_filter_html_tags_for_optin( $allowedtags = [] ) {
 
 	return $allowedtags;
 }
-
-/**
- * Adds our opt-in notification to the notification system.
- *
- * @since 1.2.0
- *
- * @param array $notifications Array of notifications pending to show.
- * @return array Array of notifications to show.
- */
-function constant_contact_add_optin_notification( $notifications = [] ) {
-
-	$notifications[] = [
-		'ID'         => 'optin_admin_notice',
-		'callback'   => [ 'ConstantContact_Notification_Content', 'optin_admin_notice' ],
-		'require_cb' => 'constant_contact_maybe_display_optin_notification',
-	];
-
-	return $notifications;
-}
-add_filter( 'constant_contact_notifications', 'constant_contact_add_optin_notification' );
 
 /**
  * Adds our opt-in notification to the notification system.

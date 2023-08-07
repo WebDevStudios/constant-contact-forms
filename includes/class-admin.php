@@ -608,19 +608,7 @@ class ConstantContact_Admin {
 			)
 		);
 
-		$privacy_settings = get_option( 'ctct_privacy_policy_status', '' );
-
-		wp_localize_script(
-			'ctct_form',
-			'ctct_settings',
-			[
-				'privacy_set'  => empty( $privacy_settings ) ? 'no' : 'yes',
-				'account'      => constant_contact()->api->get_settings_link( 'ctct_options_settings_auth' )
-			]
-		);
-
 		if (
-			constant_contact_maybe_display_optin_notification() ||
 			'ctct_options_settings' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS )
 		) {
 			wp_enqueue_script( 'ctct_form' );
