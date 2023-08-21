@@ -80,6 +80,7 @@ class ConstantContact_Uninstall {
 			'ctct_refresh_token',
 			'_ctct_refresh_token',
 			'_ctct_expires_in',
+			'ctct_access_token_timestamp',
 			'CtctConstantContactcode_verifier',
 			'CtctConstantContactState',
 			'ctct_auth_url',

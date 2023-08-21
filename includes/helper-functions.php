@@ -83,43 +83,6 @@ function constant_contact_display_shortcode( $form_id ) {
 }
 
 /**
- * Maybe display the opt-in notification on the dashboard.
- *
- * @since 1.2.0
- *
- * @return bool
- */
-function constant_contact_maybe_display_optin_notification() {
-
-	if ( ! function_exists( 'get_current_screen' ) ) {
-		return false;
-	}
-
-	$current_screen = get_current_screen();
-
-	if ( ! is_object( $current_screen ) || 'dashboard' !== $current_screen->base ) {
-		return false;
-	}
-
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return false;
-	}
-
-	$privacy       = get_option( 'ctct_privacy_policy_status', '' );
-	$ctct_settings = get_option( 'ctct_options_settings', [] );
-
-	if ( isset( $ctct_settings['_ctct_data_tracking'] ) && 'on' === $ctct_settings['_ctct_data_tracking'] ) {
-		return false;
-	}
-
-	if ( '' !== $privacy ) {
-		return false;
-	}
-
-	return true;
-}
-
-/**
  * Maybe display the review request notification in the Constant Contact areas.
  *
  * @since 1.2.2
@@ -193,70 +156,6 @@ function constant_contact_maybe_display_exceptions_notice() {
 
 	return ( 'true' === $maybe_has_error );
 }
-
-/**
- * Handle the optin checkbox for the admin notice.
- *
- * @since 1.2.0
- */
-function constant_contact_optin_ajax_handler() {
-	if (
-		! isset( $_REQUEST['ctct_option_from_notification'] ) ||
-		! wp_verify_nonce(
-			$_REQUEST['ctct_option_from_notification'],
-			'ctct_option_from_notification_action'
-		)
-	) {
-		wp_send_json_error( [ 'nonce' => 'nonce failure' ] );
-		exit();
-	}
-
-	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_send_json_error( [ 'user' => 'user can not manage options' ] );
-		exit();
-	}
-	$optin = filter_input( INPUT_GET, 'optin', FILTER_SANITIZE_SPECIAL_CHARS );
-	$optin = empty( $optin ) ? filter_input( INPUT_POST, 'optin', FILTER_SANITIZE_SPECIAL_CHARS ) : $optin;
-
-	if ( 'on' !== $optin ) {
-		wp_send_json_success( [ 'opted-in' => 'off' ] );
-	}
-
-	$options                        = get_option( constant_contact()->settings->key );
-	$options['_ctct_data_tracking'] = $optin;
-	update_option( constant_contact()->settings->key, $options );
-
-	wp_send_json_success( [ 'opted-in' => 'on' ] );
-	exit();
-}
-add_action( 'wp_ajax_constant_contact_optin_ajax_handler', 'constant_contact_optin_ajax_handler' );
-
-/**
- * Handle the privacy policy agreement or disagreement selection.
- *
- * @since 1.2.0
- */
-function constant_contact_privacy_ajax_handler() {
-
-	if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'optin-privacy' ) ) {
-		wp_send_json_error( [ 'updated' => 'false' ] );
-		exit();
-	}
-
-	if ( ! current_user_can( 'manage_options' ) ) {
-		wp_send_json_error( [ 'updated' => 'false' ] );
-		exit();
-	}
-
-	$agreed = filter_input( INPUT_GET, 'privacy_agree', FILTER_SANITIZE_SPECIAL_CHARS );
-	$agreed = empty( $agreed ) ? filter_input( INPUT_POST, 'privacy_agree', FILTER_SANITIZE_SPECIAL_CHARS ) : $agreed;
-
-	update_option( 'ctct_privacy_policy_status', $agreed );
-
-	wp_send_json_success( [ 'updated' => 'true' ] );
-	exit();
-}
-add_action( 'wp_ajax_constant_contact_privacy_ajax_handler', 'constant_contact_privacy_ajax_handler' );
 
 /**
  * Handle the ajax for the review admin notice.
@@ -953,4 +852,45 @@ function constant_contact_maybe_display_api3_upgraded_notice() {
 		version_compare( $current_version, '2.0.0', '=' ) ||
 		'' === get_option( 'CtctConstantContactState', '' )
 	);
+}
+
+/**
+ * Maybe show notification for need to manually disconnect/reconnect account.
+ *
+ * @since 2.2.0
+ *
+ * @return bool
+ */
+
+function constant_contact_maybe_display_disconnect_reconnect_notice() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	$maybe_display = get_transient( 'ctct_maybe_needs_reconnected' );
+
+	return true === $maybe_display;
+}
+
+/**
+ * Maybe show notification regarding `DISABLE_WP_CRON`.
+ *
+ * @since 2.2.0
+ *
+ * @return bool
+ */
+function constant_contact_maybe_show_cron_notification() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	if ( ! constant_contact()->is_constant_contact() ) {
+		return false;
+	}
+
+	if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
+		return true;
+	}
+
+	return false;
 }

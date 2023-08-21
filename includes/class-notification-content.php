@@ -102,44 +102,6 @@ class ConstantContact_Notification_Content {
 	}
 
 	/**
-	 * Notification content for opt-in notice.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @return string
-	 */
-	public static function optin_admin_notice() {
-		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
-
-		ob_start();
-		?>
-
-		<div class="admin-notice-logo">
-			<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
-		</div>
-
-		<div class="admin-notice-message">
-			<h4 id="ctct-admin-notice-tracking-optin-header"><?php esc_html_e( 'Constant Contact Forms for WordPress data tracking opt-in', 'constant-contact-forms' ); ?></h4>
-			<div>
-				<input type="checkbox" id="ctct_admin_notice_tracking_optin" name="ctct_admin_notice_tracking_optin" value="yes" aria-labelledby="ctct-admin-notice-tracking-optin-header"/>
-				<?php wp_nonce_field( 'ctct_option_from_notification_action', 'ctct_option_from_notification' ); ?>
-			</div>
-			<div>
-				<?php
-					printf(
-						/* Translators: Placeholder here is a `<br />` HTML tag for formatting. */
-						esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. %1$s You can change this opt-in within the plugin\'s settings page at any time.', 'constant-contact-forms' ),
-						'<br />'
-					);
-				?>
-			</div>
-		</div>
-
-		<?php
-		return ob_get_clean();
-	}
-
-	/**
 	 * Admin notice regarding review requests.
 	 *
 	 * @since 1.2.2
@@ -303,6 +265,53 @@ class ConstantContact_Notification_Content {
 		<?php
 		return ob_get_clean();
 	}
+
+	/**
+	 * Admin notice for need to disconnect/reconnect account.
+	 *
+	 * We hopefully won't show this one much.
+	 *
+	 * @since 2.2.0
+	 */
+	public static function account_disconnect_reconnect() {
+		ob_start();
+		?>
+		<div class="admin-notice admin-notice-message">
+		<p>
+			<?php
+				printf(
+					esc_html__( 'Constant Contact Forms has detected errors that indicate a need to manually disconnect and reconnect your Constant Contact account. Visit the %sConnection Settings%s to manage.', 'constant-contact-forms' ),
+					sprintf(
+						'<a href="%s">',
+						esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' ) )
+					),
+					'</a>'
+				);
+				?>
+		</p>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
+	/**
+	 * Admin notice for WP_DISABLE_CRON constant being present.
+	 *
+	 * @since 2.2.0
+	 *
+	 * @return false|string
+	 */
+	public static function cron_notification() {
+		ob_start();
+		?>
+		<div class="admin-notice admin-notice-message">
+			<p>
+				<?php esc_html_e( 'It looks like you have `DISABLE_WP_CRON` enabled. Constant Contact Forms relies on it to keep access tokens refreshed. You may see functionality issues if you do not have any manually configured cron jobs on your hosting server.', 'constant-contact-forms' ); ?>
+			</p>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
 }
 
 /**
@@ -324,26 +333,6 @@ function constant_contact_filter_html_tags_for_optin( $allowedtags = [] ) {
 
 	return $allowedtags;
 }
-
-/**
- * Adds our opt-in notification to the notification system.
- *
- * @since 1.2.0
- *
- * @param array $notifications Array of notifications pending to show.
- * @return array Array of notifications to show.
- */
-function constant_contact_add_optin_notification( $notifications = [] ) {
-
-	$notifications[] = [
-		'ID'         => 'optin_admin_notice',
-		'callback'   => [ 'ConstantContact_Notification_Content', 'optin_admin_notice' ],
-		'require_cb' => 'constant_contact_maybe_display_optin_notification',
-	];
-
-	return $notifications;
-}
-add_filter( 'constant_contact_notifications', 'constant_contact_add_optin_notification' );
 
 /**
  * Adds our opt-in notification to the notification system.
@@ -416,7 +405,7 @@ function constant_contact_api3_upgrade_notice( array $notifications = [] ) {
 	$notifications[] = [
 		'ID'         => 'api3_upgrade_notice',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'api3_upgrade_notice' ],
-		'require_cb' => 'constant_contact_maybe_display_api3_upgrade_notice'
+		'require_cb' => 'constant_contact_maybe_display_api3_upgrade_notice',
 	];
 
 	return $notifications;
@@ -435,9 +424,45 @@ function constant_contact_api3_upgraded_notice( array $notifications = [] ) {
 	$notifications[] = [
 		'ID'         => 'api3_upgraded_notice',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'api3_upgraded_notice' ],
-		'require_cb' => 'constant_contact_maybe_display_api3_upgraded_notice'
+		'require_cb' => 'constant_contact_maybe_display_api3_upgraded_notice',
 	];
 
 	return $notifications;
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_api3_upgraded_notice' );
+
+/**
+ * Add notification for need to manually disconnect/reconnect account..
+ *
+ * @since 2.2.0
+ *
+ * @param array $notifications Array of notifications to be shown.
+ * @return array               Array of notifications to be shown.
+ */
+function constant_contact_account_disconnect_reconnect( array $notifications = [] ) {
+	$notifications[] = [
+		'ID'         => 'account_disconnect_reconnect',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'account_disconnect_reconnect' ],
+		'require_cb' => 'constant_contact_maybe_display_disconnect_reconnect_notice',
+	];
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_account_disconnect_reconnect' );
+
+/**
+ * Add notification for `DISABLE_WP_CRON` constant.
+ *
+ * @since 2.2.0
+ *
+ * @param array $notifications Array of notifications to be shown.
+ * @return array               Array of notifications to be shown.
+ */
+function constant_contact_cron_notification( array $notifications = [] ) {
+	$notifications[] = [
+		'ID'         => 'cron_notification',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'cron_notification' ],
+		'require_cb' => 'constant_contact_maybe_show_cron_notification',
+	];
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_cron_notification' );

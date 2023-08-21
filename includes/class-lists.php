@@ -297,10 +297,16 @@ class ConstantContact_Lists {
 				}
 			}
 
+			$woo_lists = $this->excluded_woocommerce_lists();
+
 			foreach ( $lists_to_insert as $list ) {
 				$list = (object) $list;
 
 				if ( ! isset( $list->list_id ) ) {
+					continue;
+				}
+
+				if ( in_array( $list->name, $woo_lists ) ) {
 					continue;
 				}
 
@@ -1038,5 +1044,22 @@ class ConstantContact_Lists {
 		}
 
 		return null;
+	}
+
+	/**
+	 * Fetch a list of list names to exclude from availability for forms plugin.
+	 *
+	 * @since 2.2.0
+	 * @return string[]
+	 */
+	private function excluded_woocommerce_lists() {
+		return [
+			'WooCommerce - All Customers',
+			'WooCommerce - First time Customers',
+			'WooCommerce - Lapsed Customers',
+			'WooCommerce - Potential Customers',
+			'WooCommerce - Recent Customers',
+			'WooCommerce - Repeat Customers',
+		];
 	}
 }
