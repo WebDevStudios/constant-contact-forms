@@ -1049,7 +1049,7 @@ class ConstantContact_Lists {
 	/**
 	 * Fetch a list of list names to exclude from availability for forms plugin.
 	 *
-	 * @since NEXT
+	 * @since 2.2.0
 	 * @return string[]
 	 */
 	private function excluded_woocommerce_lists() {

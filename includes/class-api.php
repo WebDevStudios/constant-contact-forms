@@ -1501,7 +1501,7 @@ class ConstantContact_API {
 	 *
 	 * Based on access token issued timestamp + expires in timestamp and current time.
 	 *
-	 * @since NEXT
+	 * @since 2.2.0
 	 *
 	 * @return bool
 	 */

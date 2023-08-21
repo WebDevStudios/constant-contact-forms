@@ -271,7 +271,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * We hopefully won't show this one much.
 	 *
-	 * @since NEXT
+	 * @since 2.2.0
 	 */
 	public static function account_disconnect_reconnect() {
 		ob_start();
@@ -297,7 +297,7 @@ class ConstantContact_Notification_Content {
 	/**
 	 * Admin notice for WP_DISABLE_CRON constant being present.
 	 *
-	 * @since NEXT
+	 * @since 2.2.0
 	 *
 	 * @return false|string
 	 */
@@ -434,7 +434,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_api3_upgraded_no
 /**
  * Add notification for need to manually disconnect/reconnect account..
  *
- * @since NEXT
+ * @since 2.2.0
  *
  * @param array $notifications Array of notifications to be shown.
  * @return array               Array of notifications to be shown.
@@ -452,7 +452,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_account_disconne
 /**
  * Add notification for `DISABLE_WP_CRON` constant.
  *
- * @since NEXT
+ * @since 2.2.0
  *
  * @param array $notifications Array of notifications to be shown.
  * @return array               Array of notifications to be shown.

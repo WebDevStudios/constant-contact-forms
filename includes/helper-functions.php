@@ -857,7 +857,7 @@ function constant_contact_maybe_display_api3_upgraded_notice() {
 /**
  * Maybe show notification for need to manually disconnect/reconnect account.
  *
- * @since NEXT
+ * @since 2.2.0
  *
  * @return bool
  */
@@ -875,7 +875,7 @@ function constant_contact_maybe_display_disconnect_reconnect_notice() {
 /**
  * Maybe show notification regarding `DISABLE_WP_CRON`.
  *
- * @since NEXT
+ * @since 2.2.0
  *
  * @return bool
  */
