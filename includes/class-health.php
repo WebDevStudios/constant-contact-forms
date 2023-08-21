@@ -5,7 +5,7 @@ class ConstantContact_Health {
 	/**
 	 * Parent plugin class.
 	 *
-	 * @since NEXT
+	 * @since 2.3.0
 	 * @var object
 	 */
 	protected object $plugin;
@@ -16,6 +16,15 @@ class ConstantContact_Health {
 		add_filter( 'debug_information', [ $this, 'health_information' ], 1 );
 	}
 
+	/**
+	 * Callback to add in our own cusotm site health information.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param array $debug_info
+	 * @return array
+	 * @throws Exception
+	 */
 	public function health_information( $debug_info ) {
 
 		$logs = constant_contact()->logging->get_log_locations();
@@ -103,8 +112,10 @@ class ConstantContact_Health {
 
 	/**
 	 * Commission a cron job to check on server status.
+	 *
+	 * @since 2.3.0
+	 *
 	 * @return string
-	 * @since 1.0.0
 	 */
 	public function cron_spawn() {
 

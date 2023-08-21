@@ -345,7 +345,7 @@ class Constant_Contact {
 	/**
 	 * An instance of the ConstantContact_Health class.
 	 *
-	 * @since NEXT
+	 * @since 2.3.0
 	 * @var ConstantContact_Health
 	 */
 	private $health;
