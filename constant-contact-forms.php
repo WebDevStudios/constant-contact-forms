@@ -419,7 +419,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 */
 	public function minimum_version() {
-		echo '<div id="message" class="notice is-dismissible error"><p>' . esc_html__( 'Constant Contact Forms requires PHP 5.4 or higher. Your hosting provider or website administrator should be able to assist in updating your PHP version.', 'constant-contact-forms' ) . '</p></div>';
+		echo '<div id="message" class="notice is-dismissible error"><p>' . esc_html__( 'Constant Contact Forms requires PHP 7.4 or higher. Your hosting provider or website administrator should be able to assist in updating your PHP version.', 'constant-contact-forms' ) . '</p></div>';
 	}
 
 	/**
@@ -557,7 +557,7 @@ class Constant_Contact {
 	 * @return bool
 	 */
 	public function meets_php_requirements() {
-		return version_compare( PHP_VERSION, '5.6.0', '>=' );
+		return version_compare( PHP_VERSION, '7.4.0', '>=' );
 	}
 
 	/**
