@@ -1409,6 +1409,14 @@ class ConstantContact_Display {
 		$state    = apply_filters( 'constant_contact_address_state', esc_html__( 'State', 'constant-contact-forms' ) );
 		$zip      = apply_filters( 'constant_contact_address_zip_code', esc_html__( 'ZIP Code', 'constant-contact-forms' ) );
 
+		if ( ! empty( $form_id ) ) {
+			$included_address_fields = get_post_meta( $form_id, '_ctct_address_fields_include', true );
+			$required_address_fields = get_post_meta( $form_id, '_ctct_address_fields_require', true );
+		}
+
+		if ( empty( $included_address_fields ) && empty( $required_address_fields ) ) {
+
+		}
 		$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
 		$v_line_2 = isset( $value['line_2_address'] ) ? $value['line_2_address'] : '';
 		$v_city   = isset( $value['city_address'] ) ? $value['city_address'] : '';
