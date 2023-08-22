@@ -927,11 +927,11 @@ class ConstantContact_Builder_Fields {
 
 	public function get_individual_address_fields() {
 		return [
-			'country'     => esc_html__( 'Country', 'constant-contact-forms' ),
-			'street'      => esc_html__( 'Street', 'constant-contact-forms' ),
-			'city'        => esc_html__( 'City', 'constant-contact-forms' ),
-			'state'       => esc_html__( 'State/Province', 'constant-contact-forms' ),
-			'postal code' => esc_html__( 'Postal Code', 'constant-contact-forms' ),
+			'country'    => esc_html__( 'Country', 'constant-contact-forms' ),
+			'street'     => esc_html__( 'Street', 'constant-contact-forms' ),
+			'city'       => esc_html__( 'City', 'constant-contact-forms' ),
+			'state'      => esc_html__( 'State/Province', 'constant-contact-forms' ),
+			'postalcode' => esc_html__( 'Postal Code', 'constant-contact-forms' ),
 		];
 	}
 
