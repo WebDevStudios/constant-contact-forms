@@ -5,7 +5,7 @@
  * Added: Multi-select list options to "advanced optin" settings
  * Added: New setting to override default opt-in text
  * Added: Two new filters to override state and zipcode labels
- * Changed: Change <small> to <sub> for form disclaimer
+ * Changed: Change `<small>` to `<sub>` for form disclaimer
  * Fixed: Email field browser validation when form submits via AJAX
  * Fixed: Erroneous placeholder attribute on submit button
  * Fixed: Incomplete "ctct-label-" CSS class on submit button
