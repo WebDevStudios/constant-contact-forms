@@ -1409,185 +1409,285 @@ class ConstantContact_Display {
 		$state    = apply_filters( 'constant_contact_address_state', esc_html__( 'State', 'constant-contact-forms' ) );
 		$zip      = apply_filters( 'constant_contact_address_zip_code', esc_html__( 'ZIP Code', 'constant-contact-forms' ) );
 
-		if ( ! empty( $form_id ) ) {
-			$included_address_fields = get_post_meta( $form_id, '_ctct_address_fields_include', true );
-			$required_address_fields = get_post_meta( $form_id, '_ctct_address_fields_require', true );
-		}
-
-		if ( empty( $included_address_fields ) && empty( $required_address_fields ) ) {
-
-		}
-		$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
-		$v_line_2 = isset( $value['line_2_address'] ) ? $value['line_2_address'] : '';
-		$v_city   = isset( $value['city_address'] ) ? $value['city_address'] : '';
-		$v_state  = isset( $value['state_address'] ) ? $value['state_address'] : '';
-		$v_zip    = isset( $value['zip_address'] ) ? $value['zip'] : '';
-
 		$req_label             = $req ? ' ' . $this->display_required_indicator() : '';
 		$req_class             = $req ? ' ctct-form-field-required ' : '';
 		$req                   = $req ? ' required ' : '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$inline_font_styles    = $this->get_inline_font_color();
 
-		$label_street1 = sprintf(
-			'<span class="%1$s"><label for="street_%2$s" style="%3$s">%4$s</label></span>',
-			esc_attr( $label_placement_class ),
-			esc_attr( $field_id ),
-			esc_attr( $inline_font_styles ),
-			esc_attr( $street ) . $req_label
-		);
-		$input_street1 = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-street %2$s street_%3$s" name="street_%4$s" value="%5$s" id="street_%6$s">',
-			$req,
-			esc_attr( $label_placement_class ),
-			esc_attr( $field_key ),
-			esc_attr( $field_key ),
-			esc_attr( $v_street ),
-			esc_attr( $field_id )
-		);
-
-		$input_street1_whole = '';
-		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
-			$input_street1_whole = $label_street1 . $input_street1;
-		}
-		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
-			$input_street1_whole = $input_street1 . $label_street1;
+		if ( ! empty( $form_id ) ) {
+			$included_address_fields = get_post_meta( $form_id, '_ctct_address_fields_include', true );
+			$required_address_fields = get_post_meta( $form_id, '_ctct_address_fields_require', true );
 		}
 
-		$label_street2 = sprintf(
-			'<span class="%1$s"><label for="line_2_%2$s" style="%3$s">%4$s</label></span>',
-			$label_placement_class,
-			esc_attr( $field_id ),
-			esc_attr( $inline_font_styles ),
-			esc_attr( $line_2 )
-		);
+		// @TODO !!!!!!!!!!!! ACTUAL LABEL PLACEMENT BY SETTING !!!!!!!!!!!!!!!
+		if ( ! empty( $included_address_fields ) ) {
+			$fields = [];
+			foreach( $included_address_fields as $field ) {
+				// These can be left alone for each iteration. No need to make field-specific variables.
+				$is_required_bool = ( ! empty( $required_address_fields ) && in_array( $field, $required_address_fields, true ) );
+				$is_required = ( ! empty( $required_address_fields ) && in_array( $field, $required_address_fields, true ) ) ? 'required ' : '';
 
-		$input_street2 = sprintf(
-			'<input type="text" class="ctct-text ctct-address-line-2 %1$s line_2_%2$s" name="line_2_%3$s" value="%4$s" id="line_2_%5$s">',
-			esc_attr( $label_placement_class ),
-			esc_attr( $field_key ),
-			esc_attr( $field_key ),
-			esc_attr( $v_line_2 ),
-			esc_attr( $field_id )
-		);
+				switch ( $field ) {
+					case 'country':
+						$v_country        = isset( $value['country'] ) ? $value['country'] : '';
+						$label_country    = sprintf(
+							'<span class="%1$s"><label for="country_%2$s" style="%3$s">%4$s %5$s</label></span>',
+							esc_attr( $label_placement_class ),
+							esc_attr( $field_id ),
+							esc_attr( $inline_font_styles ),
+							esc_attr__( 'Country', 'constant-contact-forms' ),
+							( $is_required_bool ) ? $this->display_required_indicator() : ''
+						);
+						$fields[ $field ] = sprintf(
+							'%1$s<input %2$stype="text" class="ctct-text ctct-address-country %3$s country_%4$s" name="country_%5$s" value="%6$s" id="country_%7$s">',
+							$label_country,
+							$is_required,
+							esc_attr( $label_placement_class ),
+							esc_attr( $field_key ),
+							esc_attr( $field_key ),
+							esc_attr( $v_country ),
+							esc_attr( $field_id )
+						);
+						break;
+					case 'street':
+						$fields[ $field ] = '';
+						break;
+					case 'city':
+						$v_city = isset( $value['city'] ) ? $value['city'] : '';
+						$label_city    = sprintf(
+							'<span class="%1$s"><label for="city_%2$s" style="%3$s">%4$s %5$s</label></span>',
+							esc_attr( $label_placement_class ),
+							esc_attr( $field_id ),
+							esc_attr( $inline_font_styles ),
+							esc_attr__( 'City', 'constant-contact-forms' ),
+							( $is_required_bool ) ? $this->display_required_indicator() : ''
+						);
+						$fields[ $field ] = sprintf(
+							'%1$s<input %2$stype="text" class="ctct-text ctct-address-city %3$s city_%4$s" name="city_%5$s" value="%6$s" id="city_%7$s">',
+							$label_city,
+							$is_required,
+							esc_attr( $label_placement_class ),
+							esc_attr( $field_key ),
+							esc_attr( $field_key ),
+							esc_attr( $v_city ),
+							esc_attr( $field_id )
+						);
+						break;
+					case 'state':
+						$fields[ $field ] = '';
+						break;
+					case 'postalcode':
+						$fields[ $field ] = '';
+						break;
+					default:
+						break;
+				}
+			}
 
-		$input_street2_whole = '';
 
-		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
-			$input_street2_whole = $label_street2 . $input_street2;
+			$return = '<fieldset class="ctct-address"><legend style="%s">%s</legend>';
+			$return .= '<div class="ctct-form-field ctct-field-full address-line-1%s">%s</div>';
+			$return .= '<div class="ctct-form-field ctct-field-full address-line-2%s input_2_1_2_container">%s</div>';
+			$return .= '<div class="ctct-form-field ctct-field-third address-city%s input_2_1_3_container">%s</div>';
+			$return .= '<div class="ctct-form-field ctct-field-third address-state%s input_2_1_4_container">%s</div>';
+			$return .= '<div class="ctct-form-field ctct-field-third address-zip%s input_2_1_5_container">%s</div>';
+			$return .= '</fieldset>';
+
+			$return = '
+			<fieldset class="ctct-address">
+				<legend style="%s">%s</legend>
+				<div class="ctct-form-field ctct-field-full country-%s">%s</div>
+				<div class="ctct-form-field ctct-field-full address-%s">%s</div>
+				<div class="ctct-form-field ctct-field-full address-city%s input_2_1_3_container">%s</div>
+				<div class="ctct-form-field ctct-field-full address-state%s input_2_1_4_container">%s</div>
+				<div class="ctct-form-field ctct-field-full address-zip%s input_2_1_5_container">%s</div>
+			</fieldset>
+			';
+			return sprintf(
+				$return,
+				esc_attr( $inline_font_styles ),
+				esc_html( $name ),
+				$req_class,
+				$fields['country'],
+				$req_class,
+				$fields['street'],
+				$req_class,
+				$fields['city'],
+				$req_class,
+				$fields['state'],
+				$req_class,
+				$fields['postalcode']
+			);
+		} else {
+
+
+			$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
+			$v_line_2 = isset( $value['line_2_address'] ) ? $value['line_2_address'] : '';
+			$v_city   = isset( $value['city_address'] ) ? $value['city_address'] : '';
+			$v_state  = isset( $value['state_address'] ) ? $value['state_address'] : '';
+			$v_zip    = isset( $value['zip_address'] ) ? $value['zip'] : '';
+
+			$label_street1 = sprintf(
+				'<span class="%1$s"><label for="street_%2$s" style="%3$s">%4$s</label></span>',
+				esc_attr( $label_placement_class ),
+				esc_attr( $field_id ),
+				esc_attr( $inline_font_styles ),
+				esc_attr( $street ) . $req_label
+			);
+			$input_street1 = sprintf(
+				'<input %1$stype="text" class="ctct-text ctct-address-street %2$s street_%3$s" name="street_%4$s" value="%5$s" id="street_%6$s">',
+				$req,
+				esc_attr( $label_placement_class ),
+				esc_attr( $field_key ),
+				esc_attr( $field_key ),
+				esc_attr( $v_street ),
+				esc_attr( $field_id )
+			);
+
+			$input_street1_whole = '';
+			if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
+				$input_street1_whole = $label_street1 . $input_street1;
+			}
+			if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
+				$input_street1_whole = $input_street1 . $label_street1;
+			}
+
+			$label_street2 = sprintf(
+				'<span class="%1$s"><label for="line_2_%2$s" style="%3$s">%4$s</label></span>',
+				$label_placement_class,
+				esc_attr( $field_id ),
+				esc_attr( $inline_font_styles ),
+				esc_attr( $line_2 )
+			);
+
+			$input_street2 = sprintf(
+				'<input type="text" class="ctct-text ctct-address-line-2 %1$s line_2_%2$s" name="line_2_%3$s" value="%4$s" id="line_2_%5$s">',
+				esc_attr( $label_placement_class ),
+				esc_attr( $field_key ),
+				esc_attr( $field_key ),
+				esc_attr( $v_line_2 ),
+				esc_attr( $field_id )
+			);
+
+			$input_street2_whole = '';
+
+			if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
+				$input_street2_whole = $label_street2 . $input_street2;
+			}
+
+			if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
+				$input_street2_whole = $input_street2 . $label_street2;
+			}
+
+			$label_city = sprintf(
+				'<span class="%1$s"><label for="city_%2$s" style="%3$s">%4$s</label></span>',
+				$label_placement_class,
+				esc_attr( $field_id ),
+				esc_attr( $inline_font_styles ),
+				esc_attr( $city ) . $req_label
+			);
+
+			$input_city = sprintf(
+				'<input %1$stype="text" class="ctct-text ctct-address-city %2$s city_%3$s" name="city_%4$s" value="%5$s" id="city_%6$s">',
+				$req,
+				esc_attr( $label_placement_class ),
+				esc_attr( $field_key ),
+				esc_attr( $field_key ),
+				esc_attr( $v_city ),
+				esc_attr( $field_id )
+			);
+
+			$input_city_whole = '';
+
+			if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
+				$input_city_whole = $label_city . $input_city;
+			}
+
+			if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
+				$input_city_whole = $input_city . $label_city;
+			}
+
+			$label_state = sprintf(
+				'<span class="%1$s"><label for="state_%2$s" style="%3$s">%4$s</label></span>',
+				$label_placement_class,
+				esc_attr( $field_id ),
+				esc_attr( $inline_font_styles ),
+				esc_attr( $state ) . $req_label
+			);
+
+			$input_state = sprintf(
+				'<input %1$stype="text" class="ctct-text ctct-address-state %2$s state_%3$s" name="state_%4$s" value="%5$s" id="state_%6$s">',
+				$req,
+				esc_attr( $label_placement_class ),
+				esc_attr( $field_key ),
+				esc_attr( $field_key ),
+				esc_attr( $v_state ),
+				esc_attr( $field_id )
+			);
+
+			$input_state_whole = '';
+
+			if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
+				$input_state_whole = $label_state . $input_state;
+			}
+
+			if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
+				$input_state_whole = $input_state . $label_state;
+			}
+
+			$label_zip = sprintf(
+				'<span class="%1$s"><label for="zip_%2$s" style="%3$s">%4$s</label></span>',
+				$label_placement_class,
+				esc_attr( $field_id ),
+				esc_attr( $inline_font_styles ),
+				esc_attr( $zip ) . $req_label
+			);
+
+			$input_zip = sprintf(
+				'<input %1$stype="text" class="ctct-text ctct-address-zip %2$s zip_%3$s" name="zip_%4$s" value="%5$s" id="zip_%6$s">',
+				$req,
+				esc_attr( $label_placement_class ),
+				esc_attr( $field_key ),
+				esc_attr( $field_key ),
+				esc_attr( $v_zip ),
+				esc_attr( $field_id )
+			);
+
+			$input_zip_whole = '';
+
+			if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
+				$input_zip_whole = $label_zip . $input_zip;
+			}
+
+			if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
+				$input_zip_whole = $input_zip . $label_zip;
+			}
+
+			$return = '<fieldset class="ctct-address"><legend style="%s">%s</legend>';
+			$return .= '<div class="ctct-form-field ctct-field-full address-line-1%s">%s</div>';
+			$return .= '<div class="ctct-form-field ctct-field-full address-line-2%s input_2_1_2_container">%s</div>';
+			$return .= '<div class="ctct-form-field ctct-field-third address-city%s input_2_1_3_container">%s</div>';
+			$return .= '<div class="ctct-form-field ctct-field-third address-state%s input_2_1_4_container">%s</div>';
+			$return .= '<div class="ctct-form-field ctct-field-third address-zip%s input_2_1_5_container">%s</div>';
+			$return .= '</fieldset>';
+
+			return sprintf(
+				$return,
+				esc_attr( $inline_font_styles ),
+				esc_html( $name ),
+				$req_class,
+				$input_street1_whole,
+				$req_class,
+				$input_street2_whole,
+				$req_class,
+				$input_city_whole,
+				$req_class,
+				$input_state_whole,
+				$req_class,
+				$input_zip_whole
+			);
 		}
-
-		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
-			$input_street2_whole = $input_street2 . $label_street2;
-		}
-
-		$label_city = sprintf(
-			'<span class="%1$s"><label for="city_%2$s" style="%3$s">%4$s</label></span>',
-			$label_placement_class,
-			esc_attr( $field_id ),
-			esc_attr( $inline_font_styles ),
-			esc_attr( $city ) . $req_label
-		);
-
-		$input_city = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-city %2$s city_%3$s" name="city_%4$s" value="%5$s" id="city_%6$s">',
-			$req,
-			esc_attr( $label_placement_class ),
-			esc_attr( $field_key ),
-			esc_attr( $field_key ),
-			esc_attr( $v_city ),
-			esc_attr( $field_id )
-		);
-
-		$input_city_whole = '';
-
-		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
-			$input_city_whole = $label_city . $input_city;
-		}
-
-		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
-			$input_city_whole = $input_city . $label_city;
-		}
-
-		$label_state = sprintf(
-			'<span class="%1$s"><label for="state_%2$s" style="%3$s">%4$s</label></span>',
-			$label_placement_class,
-			esc_attr( $field_id ),
-			esc_attr( $inline_font_styles ),
-			esc_attr( $state ) . $req_label
-		);
-
-		$input_state = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-state %2$s state_%3$s" name="state_%4$s" value="%5$s" id="state_%6$s">',
-			$req,
-			esc_attr( $label_placement_class ),
-			esc_attr( $field_key ),
-			esc_attr( $field_key ),
-			esc_attr( $v_state ),
-			esc_attr( $field_id )
-		);
-
-		$input_state_whole = '';
-
-		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
-			$input_state_whole = $label_state . $input_state;
-		}
-
-		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
-			$input_state_whole = $input_state . $label_state;
-		}
-
-		$label_zip = sprintf(
-			'<span class="%1$s"><label for="zip_%2$s" style="%3$s">%4$s</label></span>',
-			$label_placement_class,
-			esc_attr( $field_id ),
-			esc_attr( $inline_font_styles ),
-			esc_attr( $zip ) . $req_label
-		);
-
-		$input_zip = sprintf(
-			'<input %1$stype="text" class="ctct-text ctct-address-zip %2$s zip_%3$s" name="zip_%4$s" value="%5$s" id="zip_%6$s">',
-			$req,
-			esc_attr( $label_placement_class ),
-			esc_attr( $field_key ),
-			esc_attr( $field_key ),
-			esc_attr( $v_zip ),
-			esc_attr( $field_id )
-		);
-
-		$input_zip_whole = '';
-
-		if ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) {
-			$input_zip_whole = $label_zip . $input_zip;
-		}
-
-		if ( 'bottom' === $label_placement || 'right' === $label_placement ) {
-			$input_zip_whole = $input_zip . $label_zip;
-		}
-
-		$return  = '<fieldset class="ctct-address"><legend style="%s">%s</legend>';
-		$return .= '<div class="ctct-form-field ctct-field-full address-line-1%s">%s</div>';
-		$return .= '<div class="ctct-form-field ctct-field-full address-line-2%s input_2_1_2_container">%s</div>';
-		$return .= '<div class="ctct-form-field ctct-field-third address-city%s input_2_1_3_container">%s</div>';
-		$return .= '<div class="ctct-form-field ctct-field-third address-state%s input_2_1_4_container">%s</div>';
-		$return .= '<div class="ctct-form-field ctct-field-third address-zip%s input_2_1_5_container">%s</div>';
-		$return .= '</fieldset>';
-
-		return sprintf(
-			$return,
-			esc_attr( $inline_font_styles ),
-			esc_html( $name ),
-			$req_class,
-			$input_street1_whole,
-			$req_class,
-			$input_street2_whole,
-			$req_class,
-			$input_city_whole,
-			$req_class,
-			$input_state_whole,
-			$req_class,
-			$input_zip_whole
-		);
 	}
 
 	/**
