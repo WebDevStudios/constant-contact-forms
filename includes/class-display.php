@@ -1421,6 +1421,7 @@ class ConstantContact_Display {
 		}
 
 		// @TODO !!!!!!!!!!!! ACTUAL LABEL PLACEMENT BY SETTING !!!!!!!!!!!!!!!
+		// @TODO "hidden" works already. The rest need work.
 		if ( ! empty( $included_address_fields ) ) {
 			$fields = [];
 			foreach( $included_address_fields as $field ) {
@@ -1428,99 +1429,106 @@ class ConstantContact_Display {
 				$is_required_bool = ( ! empty( $required_address_fields ) && in_array( $field, $required_address_fields, true ) );
 				$is_required = ( ! empty( $required_address_fields ) && in_array( $field, $required_address_fields, true ) ) ? 'required ' : '';
 
+				// Reassigning in this context
+				$req_class = $is_required_bool ? 'ctct-form-field-required' : '';
+				$field_label = '';
 				switch ( $field ) {
 					case 'country':
-						$v_country        = isset( $value['country'] ) ? $value['country'] : '';
-						$label_country    = sprintf(
-							'<span class="%1$s"><label for="country_%2$s" style="%3$s">%4$s %5$s</label></span>',
-							esc_attr( $label_placement_class ),
-							esc_attr( $field_id ),
-							esc_attr( $inline_font_styles ),
-							esc_attr__( 'Country', 'constant-contact-forms' ),
-							( $is_required_bool ) ? $this->display_required_indicator() : ''
-						);
-						$fields[ $field ] = sprintf(
-							'%1$s<input %2$stype="text" class="ctct-text ctct-address-country %3$s country_%4$s" name="country_%5$s" value="%6$s" id="country_%7$s">',
-							$label_country,
-							$is_required,
-							esc_attr( $label_placement_class ),
-							esc_attr( $field_key ),
-							esc_attr( $field_key ),
-							esc_attr( $v_country ),
-							esc_attr( $field_id )
-						);
+						$field_label = esc_html__( 'Country', 'constant-contact-forms' );
+						$input_numbered_class = 'input_2_1_2_container';
 						break;
 					case 'street':
-						$fields[ $field ] = '';
+						$field_label = esc_html__( 'Street', 'constant-contact-forms' );
+						$input_numbered_class = 'input_2_1_2_container';
 						break;
 					case 'city':
-						$v_city = isset( $value['city'] ) ? $value['city'] : '';
-						$label_city    = sprintf(
-							'<span class="%1$s"><label for="city_%2$s" style="%3$s">%4$s %5$s</label></span>',
-							esc_attr( $label_placement_class ),
-							esc_attr( $field_id ),
-							esc_attr( $inline_font_styles ),
-							esc_attr__( 'City', 'constant-contact-forms' ),
-							( $is_required_bool ) ? $this->display_required_indicator() : ''
-						);
-						$fields[ $field ] = sprintf(
-							'%1$s<input %2$stype="text" class="ctct-text ctct-address-city %3$s city_%4$s" name="city_%5$s" value="%6$s" id="city_%7$s">',
-							$label_city,
-							$is_required,
-							esc_attr( $label_placement_class ),
-							esc_attr( $field_key ),
-							esc_attr( $field_key ),
-							esc_attr( $v_city ),
-							esc_attr( $field_id )
-						);
+						$field_label = esc_html__( 'City', 'constant-contact-forms' );
+						$input_numbered_class = 'input_2_1_3_container';
 						break;
 					case 'state':
-						$fields[ $field ] = '';
+						$field_label = esc_html__( 'State/Province', 'constant-contact-forms' );
+						$input_numbered_class = 'input_2_1_4_container';
 						break;
 					case 'postalcode':
-						$fields[ $field ] = '';
+						$field_label = esc_html__( 'Postal Code', 'constant-contact-forms' );
+						$input_numbered_class = 'input_2_1_5_container';
 						break;
 					default:
 						break;
 				}
+				if ( 'country' !== $field ) {
+					$field_value      = isset( $value[ $field ] ) ? $value[ $field ] : '';
+					$fields[ $field ] = sprintf(
+						'<div class="ctct-form-field ctct-field-full address-%1$s %2$s %3$s">%4$s</div>',
+						$field,
+						esc_attr( $req_class ),
+						$input_numbered_class,
+						sprintf(
+							'<span class="%1$s"><label for="%2$s_%3$s" style="%4$s">%5$s %6$s</label></span><input %7$s type="text" class="ctct-text ctct-address-%2$s %1$s %2$s_%8$s" name="%2$s_%8$s" value="%9$s" id="%2$s_%3$s">',
+							esc_attr( $label_placement_class ), // 1
+							$field, // 2
+							esc_attr( $field_id ), // 3
+							esc_attr( $inline_font_styles ), // 4
+							$field_label, // 5
+							( $is_required_bool ) ? $this->display_required_indicator() : '', // 6
+							$is_required, // 7
+							esc_attr( $field_key ), // 8
+							esc_attr( $field_value ) // 9
+						)
+					);
+				} else {
+					$countries = constant_contact_countries_array();
+					$select_options = [
+						'<option value="">' . esc_html__( 'Please choose an option', 'constant-contact-forms' ) . '</option>'
+					];
+					$field_value = isset( $value[ $field ] ) ? $value[ $field ] : '';
+					foreach ( $countries as $country ) {
+						$select_options[] = sprintf(
+							'<option value="%1$s" %2$s>%3$s</option>',
+							esc_attr( $country ),
+							selected( $field_value, esc_attr( $country ) ),
+							esc_html( $country )
+						);
+					}
+
+					$fields[ $field ] = sprintf(
+						'<div class="ctct-form-field ctct-field-full address-%1$s %2$s %3$s">%4$s</div>',
+						$field,
+						esc_attr( $req_class ),
+						$input_numbered_class,
+						sprintf(
+							'<span class="%1$s"><label for="%2$s_%3$s" style="%4$s">%5$s %6$s</label></span>
+							<select %7$s class="ctct-dropdown ctct-address-%2$s %1$s %2$s_%8$s" name="%2$s_%8$s" id="%2$s_%3$s">
+							%9$s
+							</select>',
+							esc_attr( $label_placement_class ), // 1
+							$field, // 2
+							esc_attr( $field_id ), // 3
+							esc_attr( $inline_font_styles ), // 4
+							$field_label, // 5
+							( $is_required_bool ) ? $this->display_required_indicator() : '', // 6
+							$is_required, // 7
+							esc_attr( $field_key ), // 8
+							implode( $select_options ) // 9
+						)
+					);
+				}
 			}
-
-
-			$return = '<fieldset class="ctct-address"><legend style="%s">%s</legend>';
-			$return .= '<div class="ctct-form-field ctct-field-full address-line-1%s">%s</div>';
-			$return .= '<div class="ctct-form-field ctct-field-full address-line-2%s input_2_1_2_container">%s</div>';
-			$return .= '<div class="ctct-form-field ctct-field-third address-city%s input_2_1_3_container">%s</div>';
-			$return .= '<div class="ctct-form-field ctct-field-third address-state%s input_2_1_4_container">%s</div>';
-			$return .= '<div class="ctct-form-field ctct-field-third address-zip%s input_2_1_5_container">%s</div>';
-			$return .= '</fieldset>';
 
 			$return = '
 			<fieldset class="ctct-address">
 				<legend style="%s">%s</legend>
-				<div class="ctct-form-field ctct-field-full country-%s">%s</div>
-				<div class="ctct-form-field ctct-field-full address-%s">%s</div>
-				<div class="ctct-form-field ctct-field-full address-city%s input_2_1_3_container">%s</div>
-				<div class="ctct-form-field ctct-field-full address-state%s input_2_1_4_container">%s</div>
-				<div class="ctct-form-field ctct-field-full address-zip%s input_2_1_5_container">%s</div>
+				%s
 			</fieldset>
 			';
 			return sprintf(
 				$return,
 				esc_attr( $inline_font_styles ),
 				esc_html( $name ),
-				$req_class,
-				$fields['country'],
-				$req_class,
-				$fields['street'],
-				$req_class,
-				$fields['city'],
-				$req_class,
-				$fields['state'],
-				$req_class,
-				$fields['postalcode']
+				implode( '', $fields )
 			);
 		} else {
-
+			// !!!!!! LEGACY-ISH VERSION !!!!!!
 
 			$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
 			$v_line_2 = isset( $value['line_2_address'] ) ? $value['line_2_address'] : '';
