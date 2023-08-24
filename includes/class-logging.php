@@ -514,4 +514,11 @@ class ConstantContact_Logging {
 		$this->create_log_index_file();
 		$this->create_log_file();
 	}
+
+	public function get_log_locations() {
+		return [
+			'directory' => $this->log_location_dir,
+			'file'      => $this->log_location_file,
+		];
+	}
 }
