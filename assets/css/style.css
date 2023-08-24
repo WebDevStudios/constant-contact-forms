@@ -65,6 +65,9 @@
   border-color: #ff4136;
   padding-left: 40px; }
 
+.ctct-form-wrapper select.ctct-label-top, .ctct-form-wrapper select.ctct-label-bottom {
+  width: 100%; }
+
 .ctct-form-wrapper .ctct-field-error {
   font-size: 0.85rem;
   font-style: italic; }
@@ -194,10 +197,13 @@
 .ctct-twentynineteen .ctct-address {
   margin-bottom: 1rem; }
 
-.ctct-twentynineteen .ctct-form-field input[type="text"],
-.ctct-twentynineteen .ctct-form-field input[type="email"],
-.ctct-twentynineteen .ctct-form-field input[type="url"],
-.ctct-twentynineteen .ctct-form-field input[type="tel"] {
+.ctct-twentynineteen .ctct-form-field input[type="text"].ctct-label-top, .ctct-twentynineteen .ctct-form-field input[type="text"].ctct-label-bottom,
+.ctct-twentynineteen .ctct-form-field input[type="email"].ctct-label-top,
+.ctct-twentynineteen .ctct-form-field input[type="email"].ctct-label-bottom,
+.ctct-twentynineteen .ctct-form-field input[type="url"].ctct-label-top,
+.ctct-twentynineteen .ctct-form-field input[type="url"].ctct-label-bottom,
+.ctct-twentynineteen .ctct-form-field input[type="tel"].ctct-label-top,
+.ctct-twentynineteen .ctct-form-field input[type="tel"].ctct-label-bottom {
   width: 100%; }
 
 @media screen and (max-width: 414px) {
