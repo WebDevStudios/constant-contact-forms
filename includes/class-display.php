@@ -1420,8 +1420,6 @@ class ConstantContact_Display {
 			$required_address_fields = get_post_meta( $form_id, '_ctct_address_fields_require', true );
 		}
 
-		// @TODO !!!!!!!!!!!! ACTUAL LABEL PLACEMENT BY SETTING !!!!!!!!!!!!!!!
-		// @TODO "hidden" works already. The rest need work.
 		if ( ! empty( $included_address_fields ) ) {
 			$fields = [];
 			foreach( $included_address_fields as $field ) {
