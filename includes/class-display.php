@@ -1458,13 +1458,18 @@ class ConstantContact_Display {
 				}
 				if ( 'country' !== $field ) {
 					$field_value      = isset( $value[ $field ] ) ? $value[ $field ] : '';
+					$label_placement_tmpl = '<span class="%1$s"><label for="%2$s_%3$s" style="%4$s">%5$s %6$s</label></span><input %7$s type="text" class="ctct-text ctct-address-%2$s %1$s %2$s_%8$s" name="%2$s_%8$s" value="%9$s" id="%2$s_%3$s">';
+
+					if ( in_array( $label_placement_class, [ 'ctct-label-bottom', 'ctct-label-right'], true ) ) {
+						$label_placement_tmpl = '<input %7$s type="text" class="ctct-text ctct-address-%2$s %1$s %2$s_%8$s" name="%2$s_%8$s" value="%9$s" id="%2$s_%3$s"><span class="%1$s"><label for="%2$s_%3$s" style="%4$s">%5$s %6$s</label></span>';
+					}
 					$fields[ $field ] = sprintf(
 						'<div class="ctct-form-field ctct-field-full address-%1$s %2$s %3$s">%4$s</div>',
 						$field,
 						esc_attr( $req_class ),
 						$input_numbered_class,
 						sprintf(
-							'<span class="%1$s"><label for="%2$s_%3$s" style="%4$s">%5$s %6$s</label></span><input %7$s type="text" class="ctct-text ctct-address-%2$s %1$s %2$s_%8$s" name="%2$s_%8$s" value="%9$s" id="%2$s_%3$s">',
+							$label_placement_tmpl,
 							esc_attr( $label_placement_class ), // 1
 							$field, // 2
 							esc_attr( $field_id ), // 3
@@ -1491,16 +1496,19 @@ class ConstantContact_Display {
 						);
 					}
 
+					$label_placement_tmpl = '<span class="%1$s"><label for="%2$s_%3$s" style="%4$s">%5$s %6$s</label></span><select %7$s class="ctct-dropdown ctct-address-%2$s %1$s %2$s_%8$s" name="%2$s_%8$s" id="%2$s_%3$s">%9$s</select>';
+
+					if ( in_array( $label_placement_class, [ 'ctct-label-bottom', 'ctct-label-right' ], true ) ) {
+						$label_placement_tmpl = '<select %7$s class="ctct-dropdown ctct-address-%2$s %1$s %2$s_%8$s" name="%2$s_%8$s" id="%2$s_%3$s">%9$s</select><span class="%1$s"><label for="%2$s_%3$s" style="%4$s">%5$s %6$s</label></span>';
+					}
+
 					$fields[ $field ] = sprintf(
 						'<div class="ctct-form-field ctct-field-full address-%1$s %2$s %3$s">%4$s</div>',
 						$field,
 						esc_attr( $req_class ),
 						$input_numbered_class,
 						sprintf(
-							'<span class="%1$s"><label for="%2$s_%3$s" style="%4$s">%5$s %6$s</label></span>
-							<select %7$s class="ctct-dropdown ctct-address-%2$s %1$s %2$s_%8$s" name="%2$s_%8$s" id="%2$s_%3$s">
-							%9$s
-							</select>',
+							$label_placement_tmpl,
 							esc_attr( $label_placement_class ), // 1
 							$field, // 2
 							esc_attr( $field_id ), // 3
