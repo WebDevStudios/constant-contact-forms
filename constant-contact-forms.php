@@ -167,14 +167,6 @@ class Constant_Contact {
 	private $builder_fields;
 
 	/**
-	 * An instance of the ConstantContact_Check Class.
-	 *
-	 * @since 1.0.1
-	 * @var ConstantContact_Check
-	 */
-	private $check;
-
-	/**
 	 * An instance of the ConstantContact_CPTS Class.
 	 *
 	 * @since 1.0.1
@@ -443,7 +435,6 @@ class Constant_Contact {
 		}
 		$this->builder              = new ConstantContact_Builder( $this );
 		$this->builder_fields       = new ConstantContact_Builder_Fields( $this );
-		$this->check                = new ConstantContact_Check( $this );
 		$this->cpts                 = new ConstantContact_CPTS( $this );
 		$this->display              = new ConstantContact_Display( $this );
 		$this->shortcode            = new ConstantContact_Shortcode( $this );
