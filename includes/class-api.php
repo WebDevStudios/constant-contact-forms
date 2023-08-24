@@ -992,7 +992,7 @@ class ConstantContact_API {
 		} // End foreach.
 
 		if ( ! empty( $streets ) ) {
-			$address['street_address'] = implode( ', ', $streets );
+			$address['street'] = implode( ', ', $streets );
 		}
 
 		if ( null !== $address ) {
