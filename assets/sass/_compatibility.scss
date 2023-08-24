@@ -93,7 +93,10 @@
 		input[type="email"],
 		input[type="url"],
 		input[type="tel"] {
+		  &.ctct-label-top,
+		  &.ctct-label-bottom {
 			width: 100%;
+		  }
 		}
 	}
 	@media screen and (max-width: 414px) {
@@ -128,7 +131,7 @@
 			  font-size: 1.6rem;
 			}
 		}
-	} 
+	}
 }
 
 .ctct-twentytwentyone {
