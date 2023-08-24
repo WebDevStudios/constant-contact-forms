@@ -91,12 +91,14 @@
   width: 20%; }
 
 .ctct-form-wrapper input.ctct-label-right,
-.ctct-form-wrapper textarea.ctct-label-right {
+.ctct-form-wrapper textarea.ctct-label-right,
+.ctct-form-wrapper select.ctct-label-right {
   display: inline-block;
   margin-right: 5%;
   width: 75%; }
   .ctct-form-wrapper input.ctct-label-right[type="checkbox"],
-  .ctct-form-wrapper textarea.ctct-label-right[type="checkbox"] {
+  .ctct-form-wrapper textarea.ctct-label-right[type="checkbox"],
+  .ctct-form-wrapper select.ctct-label-right[type="checkbox"] {
     width: auto; }
 
 .ctct-form-wrapper span.ctct-label-right {
