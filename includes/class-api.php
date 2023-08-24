@@ -900,6 +900,7 @@ class ConstantContact_API {
 				case 'city_address':
 				case 'state_address':
 				case 'zip_address':
+				case 'country_address':
 					if ( null === $address ) {
 						$address = [];
 					}
@@ -917,11 +918,15 @@ class ConstantContact_API {
 							break;
 						case 'state_address':
 							$address['state']   = $value;
-							$address['country'] = 'United States';
+							if ( empty( $address['country'] ) ) {
+								$address['country'] = 'United States';
+							}
 							break;
 						case 'zip_address':
 							$address['postal_code'] = $value;
 							break;
+						case 'country_address':
+							$address['country'] = $value;
 					}
 					break;
 				case 'birthday_month':
