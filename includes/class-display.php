@@ -1449,7 +1449,7 @@ class ConstantContact_Display {
 						$field_label = esc_html__( 'State/Province', 'constant-contact-forms' );
 						$input_numbered_class = 'input_2_1_4_container';
 						break;
-					case 'postalcode':
+					case 'zip':
 						$field_label = esc_html__( 'Postal Code', 'constant-contact-forms' );
 						$input_numbered_class = 'input_2_1_5_container';
 						break;
