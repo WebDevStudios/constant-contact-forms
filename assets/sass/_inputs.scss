@@ -35,6 +35,13 @@
 
 	}
 
+	select {
+	  &.ctct-label-top,
+	  &.ctct-label-bottom {
+		width: 100%;
+	  }
+	}
+
 	.ctct-field-error {
 		font-size: 0.85rem;
 		font-style: italic;
