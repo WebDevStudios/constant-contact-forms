@@ -93,10 +93,6 @@ class ConstantContact_Health {
 					'value' => $logs_writeable,
 				],
 				[
-					'label' => esc_html__( 'Opt in cron scheduled?', 'constant-contact-forms' ),
-					'value' => ( wp_next_scheduled( 'ctct_schedule_form_opt_in' ) ) ? $yes : $no,
-				],
-				[
 					'label' => esc_html__( 'Token refresh cron scheduled?', 'constant-contact-forms' ),
 					'value' => ( wp_next_scheduled( 'refresh_token_job' ) ) ? $yes : $no,
 				],
