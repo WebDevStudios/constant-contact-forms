@@ -38,13 +38,11 @@ class ConstantContact_Mail {
 	}
 
 	/**
-	 * Fire hoosk for actions.
+	 * Fire hooks for actions.
 	 *
 	 * @since 1.0.0
 	 */
-	protected function hooks() {
-		add_action( 'ctct_schedule_form_opt_in', [ $this, 'opt_in_user' ] );
-	}
+	protected function hooks() {}
 
 	/**
 	 * Process our form values.
@@ -61,26 +59,7 @@ class ConstantContact_Mail {
 			return false;
 		}
 
-		$values = constant_contact()->process_form->clean_values( $values );
-
-		if ( $add_to_opt_in && constant_contact()->api->is_connected() ) {
-
-			$maybe_bypass = constant_contact_get_option( '_ctct_bypass_cron', '' );
-			$cron_disabled = ( defined( 'DISABLE_WP_CRON' ) && true === DISABLE_WP_CRON );
-			if ( 'on' !== $maybe_bypass && ! $cron_disabled ) {
-				/**
-				 * Filters the delay between scheduling of the opt-in e-mail event.
-				 *
-				 * @since 1.0.2
-				 *
-				 * @param int $schedule_delay The time to add to `time()` for the event.
-				 */
-				$schedule_delay = apply_filters( 'constant_contact_opt_in_delay', MINUTE_IN_SECONDS );
-
-				wp_schedule_single_event( current_time( 'timestamp' ) + absint( $schedule_delay ), 'ctct_schedule_form_opt_in', [ $values ] );
-			}
-		}
-
+		$values         = constant_contact()->process_form->clean_values( $values );
 		$opt_in_details = ( isset( $values['ctct-opt-in'] ) ) ? $values['ctct-opt-in'] : [];
 
 		// Preserve form ID for mail() method. Lost in pretty_values() pass.
