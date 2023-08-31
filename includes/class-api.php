@@ -76,6 +76,7 @@ class ConstantContact_API {
 
 		add_action( 'init', [ $this, 'cct_init' ] );
 		add_action( 'refresh_token_job', [ $this, 'refresh_token' ] );
+		add_action( 'ctct_access_token_acquired', [ $this, 'clear_missed_api_requests' ] );
 	}
 
 	/**
@@ -1349,8 +1350,18 @@ class ConstantContact_API {
 		if ( false === $result ) {
 			set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 		} else {
+
+			/**
+			 * Fires after successful access token acquisition.
+			 *
+			 * @since NEXT
+			 */
+			do_action( 'ctct_access_token_acquired' );
+
 			delete_transient( 'ctct_maybe_needs_reconnected' );
 		}
+
+
 		return $result;
 	}
 
@@ -1522,6 +1533,35 @@ class ConstantContact_API {
 
 		// If we're currently above the expiration time, we're expired.
 		return $current_time >= $expiration_time;
+	}
+
+	/**
+	 * Logs a missed API request to our overall log of missed requests.
+	 *
+	 * @since NEXT
+	 * @param $request
+	 */
+	private function log_missed_api_request( $request ) {
+		$missed_api_requests = get_option( 'ctct_missed_api_requests', [] );
+		$missed_api_requests[] = $request;
+		update_option( 'ctct_missed_api_requests', $missed_api_requests );
+	}
+
+	/**
+	 * Processes the list of missed API requests after successful reconnect to the API.
+	 *
+	 * @since NEXT
+	 */
+	public function clear_missed_api_requests() {
+		// @TODO Make this compatible with other interactions besides just contact adds.
+		// For now we can focus on just contact.
+
+		$missed_api_requests = get_option( 'ctct_missed_api_requests', [] );
+		if ( empty( $missed_api_requests ) ) {
+			return;
+		}
+
+		$g = '';
 	}
 }
 
