@@ -1572,18 +1572,40 @@ class ConstantContact_API {
 			return;
 		}
 
-		foreach ( $missed_api_requests as $request ) {
-			foreach( $request as $type => $request ) {
+		$result = [];
+		foreach ( $missed_api_requests as $key => $request ) {
+			foreach( $request as $type => $the_request ) {
 				switch ( $type ) {
 					case 'list_add':
 
 						break;
 					case 'contact_add_update':
-						#$this->create_update_contact( $list, $email, $new_contact, $form_id );
-						break;
+						$args = wp_parse_args(
+							$the_request,
+							[
+								'list' => '',
+								'email' => '',
+								'contact' => '',
+								'form_id' => ''
+							]
+						);
 
+						$result = $this->create_update_contact(
+							$args['list'],
+							$args['email'],
+							$args['new_contact'],
+							$args['form_id']
+						);
+						break;
+				}
+				if ( ! empty( $result ) && ! array_key_exists( 'error_key', $result ) ) {
+					unset( $missed_api_requests[ $key ] );
 				}
 			}
+		}
+
+		if ( empty( $missed_api_requests ) ) {
+			update_option( 'ctct_missed_api_requests', $missed_api_requests );
 		}
 	}
 }
