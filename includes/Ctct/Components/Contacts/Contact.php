@@ -55,6 +55,12 @@ class Contact extends Component
      */
     public $email_addresses = array();
 
+	/**
+	 * Contact email address
+	 * @var string
+	 */
+	public $email_address;
+
     /**
      * The prefix name of the contact
      * @var string
@@ -120,6 +126,12 @@ class Contact extends Component
      * @var ContactList[]
      */
     public $lists = array();
+
+	/**
+	 * Array of contact lists memberships this contact belongs to
+	 * @var array
+	 */
+	public $list_memberships = array();
 
     /**
      * Date the contact was created
