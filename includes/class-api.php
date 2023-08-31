@@ -709,7 +709,15 @@ class ConstantContact_API {
 				$this->refresh_token();
 
 				$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
-				$this->log_missed_api_request( 'contact_add_update', [ $list, $email, $new_contact, $form_id ] );
+				$this->log_missed_api_request(
+					'contact_add_update',
+					[
+						'list'    => $list,
+						'email'   => $email,
+						'contact' => $new_contact,
+						'form_id' => $form_id
+					]
+				);
 			}
 
 		} catch ( CtctException $ex ) {
