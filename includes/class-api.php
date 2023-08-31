@@ -77,7 +77,6 @@ class ConstantContact_API {
 		add_action( 'init', [ $this, 'cct_init' ] );
 		add_action( 'refresh_token_job', [ $this, 'refresh_token' ] );
 		add_action( 'ctct_access_token_acquired', [ $this, 'clear_missed_api_requests' ] );
-#add_action( 'admin_head', [ $this, 'clear_missed_api_requests' ] );
 	}
 
 	/**
@@ -704,7 +703,7 @@ class ConstantContact_API {
 			if ( array_key_exists( 'ctct-instance', $new_contact ) ) {
 				unset( $new_contact['ctct-instance'] );
 			}
-$this->log_missed_api_request( 'contact_add_update', [ $list, $email, $new_contact, $form_id ] );
+
 			$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
 			if ( array_key_exists( 'error_key', $return_contact ) && 'unauthorized' === $return_contact['error_key'] ) {
 				$this->refresh_token();
