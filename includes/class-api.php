@@ -1578,7 +1578,7 @@ class ConstantContact_API {
 
 		$result = [];
 		foreach ( $missed_api_requests as $key => $request ) {
-			foreach( $request as $type => $the_request ) {
+			foreach ( $request as $type => $the_request ) {
 				switch ( $type ) {
 					case 'list_add':
 
@@ -1587,8 +1587,8 @@ class ConstantContact_API {
 						$args = wp_parse_args(
 							$the_request,
 							[
-								'list' => '',
-								'email' => '',
+								'list'    => '',
+								'email'   => '',
 								'contact' => '',
 								'form_id' => ''
 							]
