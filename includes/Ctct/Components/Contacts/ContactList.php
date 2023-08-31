@@ -48,6 +48,12 @@ class ContactList extends Component
      */
     public $modified_date;
 
+	/**
+	 * Whether the list is favorited
+	 * @var mixed
+	 */
+	public $favorite;
+
     public function __construct($list_id = null)
     {
         if (!is_null($list_id)) {
