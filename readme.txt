@@ -45,6 +45,10 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 == Changelog ==
 
+= 2.3.0 =
+* Added: Site health integration to help with debugging and troubleshooting
+* Updated: Removed reliance on WP Cron for sending submissions. All API submission should be run right away from now on. "Bypass cron" setting negated.
+
 = 2.2.0 =
 * Added: Admin notice if its been determined that the account connection needs human intervention.
 * Updated: Revised and improved access token refreshing in the background.
