@@ -104,6 +104,7 @@ class ConstantContact_Builder_Fields {
 			add_action( 'cmb2_admin_init', [ $this, 'custom_form_css_metabox' ] );
 			add_action( 'cmb2_admin_init', [ $this, 'custom_input_css_metabox' ] );
 			add_action( 'cmb2_admin_init', [ $this, 'fields_metabox' ] );
+			add_action( 'cmb2_admin_init', [ $this, 'address_settings' ] );
 			add_action( 'cmb2_admin_init', [ $this, 'add_css_reset_metabox' ] );
 			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
 			add_action( 'cmb2_render_reset_css_button', [ $this, 'render_reset_css_button' ] );
@@ -881,6 +882,57 @@ class ConstantContact_Builder_Fields {
 				'type' => 'checkbox',
 			]
 		);
+	}
+
+	public function address_settings() {
+
+		$address_settings = new_cmb2_box(
+			[
+				'id'           => 'address_settings',
+				'title'        => esc_html__( 'Address Fields settings', 'constant-contact-forms' ),
+				'object_types' => [ 'ctct_forms' ],
+				'context'      => 'side',
+				'priority'     => 'low',
+				'show_on_cb'   => [ $this, 'show_address_metabox' ],
+			]
+		);
+
+		$address_settings->add_field( [
+			'name'    => esc_html__( 'Include:', 'constant-contact-forms' ),
+			'id'      => $this->prefix . 'address_fields_include',
+			'type'    => 'multicheck',
+			'select_all_button' => false,
+			'options' => [ $this, 'get_individual_address_fields' ],
+		] );
+
+		$address_settings->add_field( [
+			'name'              => esc_html__( 'Require:', 'constant-contact-forms' ),
+			'id'                => $this->prefix . 'address_fields_require',
+			'type'              => 'multicheck',
+			'select_all_button' => false,
+			'options'           => [ $this, 'get_individual_address_fields' ],
+		] );
+	}
+
+	public function show_address_metabox( $cmb ) {
+		$data = get_post_meta( $cmb->object_id(), 'custom_fields_group', true );
+		if ( empty( $data ) ) {
+			return false;
+		}
+
+		$fields = wp_list_pluck( $data, '_ctct_map_select' );
+
+		return in_array( 'address', $fields );
+	}
+
+	public function get_individual_address_fields() {
+		return [
+			'country' => esc_html__( 'Country', 'constant-contact-forms' ),
+			'street'  => esc_html__( 'Street', 'constant-contact-forms' ),
+			'city'    => esc_html__( 'City', 'constant-contact-forms' ),
+			'state'   => esc_html__( 'State/Province', 'constant-contact-forms' ),
+			'zip'     => esc_html__( 'Postal Code', 'constant-contact-forms' ),
+		];
 	}
 
 	/**
