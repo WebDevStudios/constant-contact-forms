@@ -1368,7 +1368,7 @@ class ConstantContact_API {
 			/**
 			 * Fires after successful access token acquisition.
 			 *
-			 * @since NEXT
+			 * @since 2.3.0
 			 */
 			do_action( 'ctct_access_token_acquired' );
 
@@ -1552,7 +1552,7 @@ class ConstantContact_API {
 	/**
 	 * Logs a missed API request to our overall log of missed requests.
 	 *
-	 * @since NEXT
+	 * @since 2.3.0
 	 *
 	 * @param string $type    API request type.
 	 * @param array  $request The request.
@@ -1566,7 +1566,7 @@ class ConstantContact_API {
 	/**
 	 * Processes the list of missed API requests after successful reconnect to the API.
 	 *
-	 * @since NEXT
+	 * @since 2.3.0
 	 */
 	public function clear_missed_api_requests() {
 		// @TODO Make this compatible with other interactions besides just contact adds.
