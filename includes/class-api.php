@@ -721,6 +721,7 @@ class ConstantContact_API {
 							'form_id' => $form_id
 						]
 					);
+					constant_contact_maybe_log_it( 'API', 'A failed API attempt was caught and will be retried after reconnection.' );
 				}
 			}
 
