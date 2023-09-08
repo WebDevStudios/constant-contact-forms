@@ -76,6 +76,7 @@ class ConstantContact_API {
 
 		add_action( 'init', [ $this, 'cct_init' ] );
 		add_action( 'refresh_token_job', [ $this, 'refresh_token' ] );
+		add_action( 'ctct_access_token_acquired', [ $this, 'clear_missed_api_requests' ] );
 	}
 
 	/**
@@ -708,6 +709,20 @@ class ConstantContact_API {
 				$this->refresh_token();
 
 				$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
+				if ( array_key_exists( 'error_key', $return_contact ) ) {
+					// At this point, omething is likely going on,
+					// so after the 2nd attempt, we will log the attempt for later.
+					$this->log_missed_api_request(
+						'contact_add_update',
+						[
+							'list'    => $list,
+							'email'   => $email,
+							'contact' => $new_contact,
+							'form_id' => $form_id
+						]
+					);
+					constant_contact_maybe_log_it( 'API', 'A failed API attempt was caught and will be retried after reconnection.' );
+				}
 			}
 
 		} catch ( CtctException $ex ) {
@@ -1354,8 +1369,18 @@ class ConstantContact_API {
 		if ( false === $result ) {
 			set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
 		} else {
+
+			/**
+			 * Fires after successful access token acquisition.
+			 *
+			 * @since 2.3.0
+			 */
+			do_action( 'ctct_access_token_acquired' );
+
 			delete_transient( 'ctct_maybe_needs_reconnected' );
 		}
+
+
 		return $result;
 	}
 
@@ -1527,6 +1552,71 @@ class ConstantContact_API {
 
 		// If we're currently above the expiration time, we're expired.
 		return $current_time >= $expiration_time;
+	}
+
+	/**
+	 * Logs a missed API request to our overall log of missed requests.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @param string $type    API request type.
+	 * @param array  $request The request.
+	 */
+	private function log_missed_api_request( string $type, array $request ) {
+		$missed_api_requests            = get_option( 'ctct_missed_api_requests', [] );
+		$missed_api_requests[][ $type ] = $request;
+		update_option( 'ctct_missed_api_requests', $missed_api_requests );
+	}
+
+	/**
+	 * Processes the list of missed API requests after successful reconnect to the API.
+	 *
+	 * @since 2.3.0
+	 */
+	public function clear_missed_api_requests() {
+		// @TODO Make this compatible with other interactions besides just contact adds.
+		// For now we can focus on just contact.
+
+		$missed_api_requests = get_option( 'ctct_missed_api_requests', [] );
+		if ( empty( $missed_api_requests ) ) {
+			return;
+		}
+
+		$result = [];
+		foreach ( $missed_api_requests as $key => $request ) {
+			foreach ( $request as $type => $the_request ) {
+				switch ( $type ) {
+					case 'list_add':
+
+						break;
+					case 'contact_add_update':
+						$args = wp_parse_args(
+							$the_request,
+							[
+								'list'    => '',
+								'email'   => '',
+								'contact' => '',
+								'form_id' => ''
+							]
+						);
+
+						$result = $this->create_update_contact(
+							$args['list'],
+							$args['email'],
+							$args['new_contact'],
+							$args['form_id']
+						);
+						break;
+				}
+				if ( ! empty( $result ) && ! array_key_exists( 'error_key', $result ) ) {
+					unset( $missed_api_requests[ $key ] );
+				}
+			}
+		}
+
+		if ( empty( $missed_api_requests ) ) {
+			update_option( 'ctct_missed_api_requests', $missed_api_requests );
+		}
 	}
 }
 
