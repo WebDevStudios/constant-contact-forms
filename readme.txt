@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: capture, contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, email, form, forms, marketing, mobile, newsletter, opt-in, plugin, signup, subscribe, subscription, widget
 Requires at least: 5.2.0
 Tested up to:      6.3.0
-Stable tag:        2.2.0
+Stable tag:        2.3.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -46,8 +46,10 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 == Changelog ==
 
 = 2.3.0 =
-* Added: Site health integration to help with debugging and troubleshooting
+* Added: Background catch for new contact API requests that fail due to need to re-authenticate. Requests will be re-tried once newly reconnected.
+* Added: Site health integration to help with debugging and troubleshooting.
 * Updated: Removed reliance on WP Cron for sending submissions. All API submission should be run right away from now on. "Bypass cron" setting negated.
+* Updated: Amended "address" field to allow for choosing which address components to use as well as allow requiring only certain components.
 
 = 2.2.0 =
 * Added: Admin notice if its been determined that the account connection needs human intervention.
