@@ -900,7 +900,7 @@ function constant_contact_maybe_show_cron_notification() {
  *
  * US and UK listed first and second, the rest are alphabetical.
  *
- * @since NEXT
+ * @since 2.3.0
  *
  * @return string[]
  */
