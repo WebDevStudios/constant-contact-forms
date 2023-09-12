@@ -24,8 +24,9 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 -  Effortlessly create sign-up forms to convert your site visitors into mailing list contacts.
 -  Customize data fields, so you can tailor the type of information you collect from your users.
 -  Captured email addresses will be automatically added to the Constant Contact email lists of your choosing.
+-  Have immediate access to all your Constant Contact lists to integrate with your signup forms, right from your WordPress dashboard
 
-**BONUS**: If you have a Constant Contact account, all new email addresses that you capture will be automatically added to the Constant Contact email lists of your choosing. Not a Constant Contact customer? Sign up for a [Free Trial](https://go.constantcontact.com/signup.jsp) right from the plugin.
+Not a Constant Contact customer? Sign up for a [Free Trial](https://go.constantcontact.com/signup.jsp) right from the plugin.
 
 ##How To Get Started.
 
