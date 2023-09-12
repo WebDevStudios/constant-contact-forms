@@ -27,7 +27,6 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 
 **BONUS**: If you have a Constant Contact account, all new email addresses that you capture will be automatically added to the Constant Contact email lists of your choosing. Not a Constant Contact customer? Sign up for a [Free Trial](https://go.constantcontact.com/signup.jsp) right from the plugin.
 
-
 ##How To Get Started.
 
 1. Signup for a [Free Trial](http://www.constantcontact.com/index?pn=miwordpress). ( Existing Constant Contact users can skip this step).
@@ -35,6 +34,10 @@ https://www.youtube.com/watch?v=Qqb0_zcRKnM
 3. [Create your first form](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18059-Create-a-Wordpress-Form?q=create%20a%20form%20wordpress&pnx=1&lang).
 4. [Add a form anywhere on your website](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/30850-Add-a-Form-Created-with-the-Constant-Contact-Plugin-to-a-WordPress-Page-or-Blog-Post?lang).
 5. Watch as your visitors turn into lifetime contacts!
+
+## Development
+
+Development of Constant Contact Forms plugin occurs on [GitHub](https://github.com/WebDevStudios/constant-contact-forms). Please see the security policy there to report any security issues. General support should start on our [WordPress forums](https://wordpress.org/support/plugin/constant-contact-forms/)
 
 == Screenshots ==
 1. Adding a New form when connected to Constant Contact account.
