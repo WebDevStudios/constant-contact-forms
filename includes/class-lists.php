@@ -130,6 +130,7 @@ class ConstantContact_Lists {
 
 		$list_info = constant_contact()->api->get_list( esc_attr( $list_id ) );
 
+		// Comes in as an array.
 		$list_info_obj = (object) $list_info;
 		if ( ! isset( $list_info_obj->list_id ) ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
@@ -300,6 +301,7 @@ class ConstantContact_Lists {
 			$woo_lists = $this->excluded_woocommerce_lists();
 
 			foreach ( $lists_to_insert as $list ) {
+				// Comes in as an array.
 				$list = (object) $list;
 
 				if ( ! isset( $list->list_id ) ) {
