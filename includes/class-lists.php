@@ -417,11 +417,7 @@ class ConstantContact_Lists {
 
 		$ctct_list = get_post( $post_id );
 
-		if ( ! $ctct_list ) {
-			return false;
-		}
-
-		if ( ! isset( $ctct_list->post_status ) ) {
+		if ( ! $ctct_list || ! isset( $ctct_list->post_status ) ) {
 			return false;
 		}
 
