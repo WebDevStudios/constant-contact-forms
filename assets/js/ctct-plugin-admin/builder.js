@@ -149,6 +149,36 @@ window.CTCTBuilder = {};
 				$( textFields[i] ).val( '' );
 			}
 		} );
+
+		$( document ).ready( () => {
+			var $addressbox = $('#address_settings');
+			if ( $addressbox.length > 0 ) {
+				var $includes_checked = $addressbox.find('.cmb2-id--ctct-address-fields-include input[type="checkbox"]:checked');
+				var required_items = $addressbox.find('.cmb2-id--ctct-address-fields-require input[type="checkbox"]');
+				if ( $includes_checked.length === 0 ) {
+					$(required_items).each( function(){
+						$(this).prop('disabled', true);
+					});
+				}
+
+				$addressbox.find('.cmb2-id--ctct-address-fields-include input[type="checkbox"]').on('change', function () {
+					if ( this.checked ) {
+						$(required_items).each(function () {
+							$(this).prop('disabled', false);
+						});
+					} else {
+						var secondary = $addressbox.find('.cmb2-id--ctct-address-fields-include input[type="checkbox"]:checked');
+						if ( secondary.length === 0 ) {
+							$(required_items).each(function () {
+								$(this).prop('checked', false);
+								$(this).prop('disabled', true);
+							});
+						}
+					}
+				})
+			}
+		} );
+
 	};
 
 	/**

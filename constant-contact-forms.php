@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     2.2.0
+ * Version:     2.3.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * Requires PHP: 7.4
@@ -76,7 +76,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '2.2.0';
+	const VERSION = '2.3.0';
 
 	/**
 	 * URL of plugin directory.
@@ -165,14 +165,6 @@ class Constant_Contact {
 	 * @var ConstantContact_Builder_Fields
 	 */
 	private $builder_fields;
-
-	/**
-	 * An instance of the ConstantContact_Check Class.
-	 *
-	 * @since 1.0.1
-	 * @var ConstantContact_Check
-	 */
-	private $check;
 
 	/**
 	 * An instance of the ConstantContact_CPTS Class.
@@ -343,6 +335,14 @@ class Constant_Contact {
 	private $elementor;
 
 	/**
+	 * An instance of the ConstantContact_Health class.
+	 *
+	 * @since 2.3.0
+	 * @var ConstantContact_Health
+	 */
+	private $health;
+
+	/**
 	 * Option name for where we store the timestamp of when the plugin was activated.
 	 *
 	 * @since 1.6.0
@@ -435,7 +435,6 @@ class Constant_Contact {
 		}
 		$this->builder              = new ConstantContact_Builder( $this );
 		$this->builder_fields       = new ConstantContact_Builder_Fields( $this );
-		$this->check                = new ConstantContact_Check( $this );
 		$this->cpts                 = new ConstantContact_CPTS( $this );
 		$this->display              = new ConstantContact_Display( $this );
 		$this->shortcode            = new ConstantContact_Shortcode( $this );
@@ -452,6 +451,7 @@ class Constant_Contact {
 		$this->updates              = new ConstantContact_Updates( $this );
 		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
+		$this->health               = new ConstantContact_Health( $this );
 		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 			// Load if Elementor is active.
 			$this->elementor = new ConstantContact_Elementor( $this );
@@ -668,6 +668,7 @@ class Constant_Contact {
 			case 'authserver':
 			case 'updates':
 			case 'shortcode':
+			case 'health':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
