@@ -506,8 +506,8 @@ class ConstantContact_Lists {
 
 		$list_id = false;
 
-		if ( isset( $list->id ) && $list->id ) {
-			add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list->id ) );
+		if ( ! empty( $list['list_id'] ) ) {
+			add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list['list_id'] ) );
 			$list_id = $list->id;
 		}
 
