@@ -497,10 +497,11 @@ class ConstantContact_Lists {
 		);
 
 		$list_id = false;
+		$list    = (object) $list;
 
-		if ( ! empty( $list['list_id'] ) ) {
-			add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list['list_id'] ) );
-			$list_id = $list['list_id'];
+		if ( ! empty( $list->list_id ) ) {
+			add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list->list_id ) );
+			$list_id = $list->list_id;
 		}
 
 		/**
@@ -528,7 +529,7 @@ class ConstantContact_Lists {
 		 */
 		do_action( 'constant_contact_update_list', $ctct_list->ID, $list_id, $list );
 
-		return is_array( $list ) && isset( $list['list_id'] );
+		return is_object( $list ) && isset( $list->list_id );
 	}
 
 	/**
