@@ -898,6 +898,7 @@ class ConstantContact_Builder_Fields {
 		);
 
 		$address_settings->add_field( [
+			'before' => '<p>' . esc_html__( 'Select which fields to include and which to require:', 'constant-contact-forms' ) . '</p>',
 			'name'    => esc_html__( 'Include:', 'constant-contact-forms' ),
 			'id'      => $this->prefix . 'address_fields_include',
 			'type'    => 'multicheck',
