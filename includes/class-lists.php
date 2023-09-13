@@ -497,7 +497,7 @@ class ConstantContact_Lists {
 		);
 
 		$list_id = false;
-		$list    = (object) $list;
+		$list    = (object) $list; // Comes in as array.
 
 		if ( ! empty( $list->list_id ) ) {
 			add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list->list_id ) );
