@@ -425,10 +425,6 @@ class ConstantContact_Lists {
 			return false;
 		}
 
-		if ( ! isset( $ctct_list->ID ) ) {
-			return false;
-		}
-
 		delete_post_meta( $ctct_list->ID, 'ctct_duplicate_list' );
 
 		$return = false;
