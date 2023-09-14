@@ -1,19 +1,19 @@
 /**
  * General-purpose utility stuff for CC plugin.
  */
-( function( global, $ ) {
+( function() {
+	window.addEventListener('load', function () {
+		let button = document.querySelector('.ctct-submitted');
 
-	/**
-	 * Temporarily prevent the submit button from being clicked.
-	 */
-	$( document ).ready( () => {
-
-		$( '.ctct-submitted' ).on( 'click', () => {
-			setTimeout( () => {
-				disableSendButton();
-				setTimeout( enableSendButton, 3000 );
-			}, 100 );
-		} );
+		if (null !== button) {
+			console.log('button 1');
+			button.addEventListener('click', (e) => {
+				setTimeout(() => {
+					disableSendButton();
+					setTimeout(enableSendButton, 3000);
+				}, 100);
+			});
+		}
 	} );
 
 	/**
@@ -25,7 +25,11 @@
 	 * @return {mixed} jQuery if attribute is set, undefined if not.
 	 */
 	function disableSendButton() {
-		return $( '.ctct-submitted' ).attr( 'disabled', 'disabled' );
+		let button = document.querySelector('.ctct-submitted');
+		if (null !== button) {
+			console.log('button 2');
+			button.setAttribute('disabled', 'disabled');
+		}
 	}
 
 	/**
@@ -37,7 +41,10 @@
 	 * @return {mixed} jQuery if attribute is set, undefined if not.
 	 */
 	function enableSendButton() {
-		return $( '.ctct-submitted' ).attr( 'disabled', null );
+		let button = document.querySelector('.ctct-submitted');
+		if (null !== button) {
+			console.log('button 3');
+			button.setAttribute('disabled', null);
+		}
 	}
-
-} ( window, jQuery ) );
+} () );
