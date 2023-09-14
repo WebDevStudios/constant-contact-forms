@@ -3,16 +3,16 @@
  */
 ( function() {
 	window.addEventListener('load', function () {
-		let button = document.querySelector('.ctct-submitted');
-
-		if (null !== button) {
-			console.log('button 1');
-			button.addEventListener('click', (e) => {
-				setTimeout(() => {
-					disableSendButton();
-					setTimeout(enableSendButton, 3000);
-				}, 100);
-			});
+		let buttons = document.querySelectorAll('.ctct-submitted');
+		if (buttons) {
+			buttons.forEach( (button, index ) => {
+				button.addEventListener('click', (e) => {
+					setTimeout(() => {
+						disableSendButton( button );
+						setTimeout(enableSendButton.bind(button), 300000);
+					}, 100);
+				});
+			} );
 		}
 	} );
 
@@ -24,12 +24,8 @@
 	 *
 	 * @return {mixed} jQuery if attribute is set, undefined if not.
 	 */
-	function disableSendButton() {
-		let button = document.querySelector('.ctct-submitted');
-		if (null !== button) {
-			console.log('button 2');
-			button.setAttribute('disabled', 'disabled');
-		}
+	function disableSendButton( button ) {
+		button.setAttribute('disabled', 'disabled');
 	}
 
 	/**
@@ -40,11 +36,7 @@
 	 *
 	 * @return {mixed} jQuery if attribute is set, undefined if not.
 	 */
-	function enableSendButton() {
-		let button = document.querySelector('.ctct-submitted');
-		if (null !== button) {
-			console.log('button 3');
-			button.setAttribute('disabled', null);
-		}
+	function enableSendButton( button ) {
+		button.setAttribute('disabled', null);
 	}
 } () );
