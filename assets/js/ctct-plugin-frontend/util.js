@@ -9,7 +9,7 @@
 				button.addEventListener('click', (e) => {
 					setTimeout(() => {
 						disableSendButton( button );
-						setTimeout(enableSendButton.bind(button), 300000);
+						setTimeout(enableSendButton.bind(button), 3000);
 					}, 100);
 				});
 			} );
