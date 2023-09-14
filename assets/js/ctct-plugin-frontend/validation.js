@@ -46,6 +46,16 @@
 			$forms: []
 		};
 
+		let wrapper = document.querySelectorAll('.ctct-form-wrapper');
+		if (wrapper.length) {
+			wrapper.forEach((formWrapper, index) => {
+				debugger;
+				app.$c.$forms.push(
+					formWrapper.find('form')
+				);
+			});
+			debugger;
+		}
 		// Cache each form on the page.
 		$( '.ctct-form-wrapper' ).each( function( i, formWrapper ) {
 			app.$c.$forms.push( $( formWrapper ).find( 'form' ) );
