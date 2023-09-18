@@ -390,11 +390,11 @@ class ConstantContact_Display {
 
 		$return .= $this->build_timestamp();
 
-		$return .= wp_kses_post( $this->maybe_add_disclose_note( $form_data ) );
-
 		$return .= $this->must_opt_in( $form_data );
 
 		$return .= '</form>';
+
+		$return .= wp_kses_post( $this->maybe_add_disclose_note( $form_data ) );
 
 		ob_start();
 
