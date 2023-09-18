@@ -130,6 +130,7 @@ class ConstantContact_Lists {
 
 		$list_info = constant_contact()->api->get_list( esc_attr( $list_id ) );
 
+		// Comes in as an array.
 		$list_info_obj = (object) $list_info;
 		if ( ! isset( $list_info_obj->list_id ) ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
@@ -300,6 +301,7 @@ class ConstantContact_Lists {
 			$woo_lists = $this->excluded_woocommerce_lists();
 
 			foreach ( $lists_to_insert as $list ) {
+				// Comes in as an array.
 				$list = (object) $list;
 
 				if ( ! isset( $list->list_id ) ) {
@@ -415,19 +417,11 @@ class ConstantContact_Lists {
 
 		$ctct_list = get_post( $post_id );
 
-		if ( ! $ctct_list ) {
-			return false;
-		}
-
-		if ( ! isset( $ctct_list->post_status ) ) {
+		if ( ! $ctct_list || ! isset( $ctct_list->post_status ) ) {
 			return false;
 		}
 
 		if ( 'auto-draft' === $ctct_list->post_status ) {
-			return false;
-		}
-
-		if ( ! isset( $ctct_list->ID ) ) {
 			return false;
 		}
 
@@ -503,10 +497,11 @@ class ConstantContact_Lists {
 		);
 
 		$list_id = false;
+		$list    = (object) $list; // Comes in as array.
 
-		if ( isset( $list->id ) && $list->id ) {
-			add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list->id ) );
-			$list_id = $list->id;
+		if ( ! empty( $list->list_id ) ) {
+			add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list->list_id ) );
+			$list_id = $list->list_id;
 		}
 
 		/**
@@ -534,7 +529,7 @@ class ConstantContact_Lists {
 		 */
 		do_action( 'constant_contact_update_list', $ctct_list->ID, $list_id, $list );
 
-		return is_object( $list ) && isset( $list->id );
+		return is_object( $list ) && isset( $list->list_id );
 	}
 
 	/**
