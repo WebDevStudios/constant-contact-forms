@@ -898,12 +898,12 @@ class ConstantContact_Builder_Fields {
 		);
 
 		$address_settings->add_field( [
-			'before' => '<p>' . esc_html__( 'Select which fields to include and which to require:', 'constant-contact-forms' ) . '</p>',
-			'name'    => esc_html__( 'Include:', 'constant-contact-forms' ),
-			'id'      => $this->prefix . 'address_fields_include',
-			'type'    => 'multicheck',
+			'before'            => '<p>' . esc_html__( 'Select which fields to include and which to require:', 'constant-contact-forms' ) . '</p>',
+			'name'              => esc_html__( 'Include:', 'constant-contact-forms' ),
+			'id'                => $this->prefix . 'address_fields_include',
+			'type'              => 'multicheck',
 			'select_all_button' => false,
-			'options' => [ $this, 'get_individual_address_fields' ],
+			'options_cb'        => [ $this, 'get_individual_address_fields' ],
 		] );
 
 		$address_settings->add_field( [
@@ -911,7 +911,7 @@ class ConstantContact_Builder_Fields {
 			'id'                => $this->prefix . 'address_fields_require',
 			'type'              => 'multicheck',
 			'select_all_button' => false,
-			'options'           => [ $this, 'get_individual_address_fields' ],
+			'options_cb'        => [ $this, 'get_individual_address_fields' ],
 		] );
 	}
 
