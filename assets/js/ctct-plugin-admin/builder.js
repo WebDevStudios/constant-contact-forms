@@ -162,18 +162,20 @@ window.CTCTBuilder = {};
 				}
 
 				$addressbox.find('.cmb2-id--ctct-address-fields-include input[type="checkbox"]').on('change', function () {
-					if ( this.checked ) {
+					var checked_value = this;
+					if ( checked_value.checked ) {
 						$(required_items).each(function () {
-							$(this).prop('disabled', false);
+							if ( checked_value.value === $(this).val() ) {
+								$(this).prop('disabled', false);
+							}
 						});
 					} else {
-						var secondary = $addressbox.find('.cmb2-id--ctct-address-fields-include input[type="checkbox"]:checked');
-						if ( secondary.length === 0 ) {
-							$(required_items).each(function () {
+						$(required_items).each(function () {
+							if (checked_value.value === $(this).val()) {
 								$(this).prop('checked', false);
 								$(this).prop('disabled', true);
-							});
-						}
+							}
+						});
 					}
 				})
 			}
