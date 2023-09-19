@@ -49,7 +49,6 @@
 		let wrapper = document.querySelectorAll('.ctct-form-wrapper');
 		if (wrapper.length) {
 			wrapper.forEach((formWrapper, index) => {
-				debugger;
 				app.$c.$forms.push(
 					formWrapper.find('form')
 				);
