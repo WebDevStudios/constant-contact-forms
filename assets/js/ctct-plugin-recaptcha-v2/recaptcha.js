@@ -6,10 +6,9 @@
  *
  * @param  {Object} submitBtn Submit DOM element.
  */
-var ctctEnableBtn = function( submitBtn ) {
-    jQuery( submitBtn ).attr( "disabled", false );
-}
-window.ctctEnableBtn = ctctEnableBtn;
+window.ctctEnableBtn = function (submitBtn) {
+    submitBtn.setAttribute('disabled', false);
+};
 
 /**
  * Disable submit button.
@@ -19,10 +18,9 @@ window.ctctEnableBtn = ctctEnableBtn;
  *
  * @param  {Object} submitBtn Submit DOM element.
  */
-var ctctDisableBtn = function( submitBtn ) {
-    jQuery( submitBtn ).attr( "disabled", "disabled" );
+window.ctctDisableBtn = function (submitBtn) {
+    submitBtn.setAttribute('disabled', true);
 }
-window.ctctDisableBtn = ctctDisableBtn;
 
 var renderReCaptcha = function() {
     jQuery( '.g-recaptcha' ).each( function( index, el ) {
