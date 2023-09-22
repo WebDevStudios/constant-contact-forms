@@ -161,7 +161,7 @@
 
 		wrapper.querySelector( '.ctct-dismiss-ajax-notice' ).addEventListener(
 			'click',
-			function(event) {
+			function() {
 				this.parentElement.remove();
 			}
 		);
