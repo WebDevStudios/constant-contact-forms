@@ -259,16 +259,15 @@
 					app.$c.$forms[ i ].$honeypot,
 					app.$c.$forms[ i ].$submitButton
 				);
-			} );
+			});
 
 			// Disable the submit button by default until the captcha is passed (if captcha exists).
 			if ( 0 < app.$c.$forms[ i ].$recaptcha.length ) {
 				app.$c.$forms[ i ].$submitButton.attr( 'disabled', 'disabled' );
 			}
-
-		} );
+		});
 	};
 
-	$( app.init );
+	app.init();
 
 } ( window, window.CTCTSupport ) );
