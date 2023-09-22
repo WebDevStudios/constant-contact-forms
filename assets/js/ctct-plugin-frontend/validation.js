@@ -132,31 +132,39 @@
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 *
-	 * @param {object} $form jQuery object for the form a message is being displayed for.
+	 * @param {object} form object for the form a message is being displayed for.
 	 * @param {string} message The message content.
 	 * @param {string} classes Optional. HTML classes to add to the message wrapper.
+	 * @param {string} role Role attribute for accessibility.
 	 */
-	app.showMessage = ( $form, message, classes = '', role = 'log' ) => {
+	app.showMessage = ( form, message, classes = '', role = 'log' ) => {
 
-		const $wrapper = $form.parents( '.ctct-form-wrapper' );
+		const wrapper = form.parentElement;
 
-		$wrapper.find( 'p.ctct-message' ).remove();
+		if ( wrapper.querySelector('p.ctct-message') ) {
+			wrapper.querySelector('p.ctct-message').remove();
+		}
 
-		var $p = $( '<p />', {
-			'class': 'ctct-message ' + classes,
-			'text': message,
-			'role': role
-		} ).prepend( $( '<button />', {
-			'class': 'button button-secondary ctct-dismiss ctct-dismiss-ajax-notice',
-			'html': '&#10005;',
-			'aria-label': 'Dismiss Notification'
-		} ) );
+		let message_tag = document.createElement('p');
+		message_tag.setAttribute('class', 'ctct-message ' + classes);
+		message_tag.setAttribute('role', 'role');
+		message_tag.innerHTML = message;
 
-		$p.insertBefore( $form ).fadeIn( 200 );
+		let dismiss_btn = document.createElement('button');
+		dismiss_btn.setAttribute('class', 'button button-secondary ctct-dismiss ctct-dismiss-ajax-notice');
+		dismiss_btn.setAttribute('aria-label', 'Dismiss notification');
+		dismiss_btn.innerHTML = '&#10005;';
 
-		$wrapper.find( '.ctct-dismiss-ajax-notice' ).on( 'click', function() {
-			$( this ).parents( '.ctct-message' ).remove();
-		} );
+		message_tag.prepend(dismiss_btn);
+
+		form.parentElement.prepend(message_tag);
+
+		wrapper.querySelector( '.ctct-dismiss-ajax-notice' ).addEventListener(
+			'click',
+			function(event) {
+				this.parentElement.remove();
+			}
+		);
 	};
 
 	/**
