@@ -26,7 +26,7 @@ window.ctctDisableBtn = function (submitBtn) {
 window.renderReCaptcha = function () {
     let grecaptchas = document.querySelectorAll( '.g-recaptcha' );
 
-    Array.from(grecaptchas).forEach(function (grecaptchaobj, index) {
+    Array.from(grecaptchas).forEach(function (grecaptchaobj) {
         let submitBtn = '';
         const siblings = [...grecaptchaobj.parentElement.children];
         siblings.forEach(function(item){
