@@ -69,7 +69,7 @@ class ConstantContact_Display {
 		wp_register_script(
 			'ctct_frontend_forms',
 			constant_contact()->url() . 'assets/js/ctct-plugin-frontend' . $suffix . '.js',
-			[ 'jquery' ],
+			[],
 			Constant_Contact::VERSION,
 			true
 		);
