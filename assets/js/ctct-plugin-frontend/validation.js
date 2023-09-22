@@ -57,7 +57,12 @@
 	 * @since 1.0.0
 	 */
 	app.setAllInputsValid = () => {
-		$( app.$c.$form + ' .ctct-invalid' ).removeClass( 'ctct-invalid' );
+		app.cache.forms.forEach((form) => {
+			let invalid = form.querySelectorAll('.ctct-invalid');
+			Array.from(invalid).forEach((field) => {
+				field.classList.remove('ctct-invalid');
+			});
+		});
 	};
 
 	/**
