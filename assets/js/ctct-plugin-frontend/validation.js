@@ -242,28 +242,29 @@
 	 * @since 1.0.0
 	 */
 	app.bindEvents = () => {
+		app.cache.forms.forEach((form, index) => {
+			let thesubmit = form.querySelector('[type=submit]');
+			thesubmit.addEventListener('click', (event) => {
+				app.handleSubmission(event, form);
+			});
 
-		// eslint-disable-next-line no-unused-vars
-		$.each( app.$c.$forms, function( i, form ) {
-
-			// Attach submission handler to each form's Submit button.
-			app.$c.$forms[ i ].on( 'click', 'input[type=submit]', ( e ) => {
-				app.handleSubmission( e, app.$c.$forms[ i ] );
-			} );
-
-			// Ensure each form's honeypot is checked.
-			app.$c.$forms[ i ].$honeypot.on( 'change keyup', ( e ) => {
-
+			form.honeypot.addEventListener('change', (event) => {
 				app.checkHoneypot(
-					e,
-					app.$c.$forms[ i ].$honeypot,
-					app.$c.$forms[ i ].$submitButton
+					event,
+					form.honeypot,
+					form.submitButton
+				);
+			});
+			form.honeypot.addEventListener('keyup', (event) => {
+				app.checkHoneypot(
+					event,
+					form.honeypot,
+					form.submitButton
 				);
 			});
 
-			// Disable the submit button by default until the captcha is passed (if captcha exists).
-			if ( 0 < app.$c.$forms[ i ].$recaptcha.length ) {
-				app.$c.$forms[ i ].$submitButton.attr( 'disabled', 'disabled' );
+			if ( form.recaptcha && 0 < form.recaptcha.length ) {
+				form.submitButton.setAttribute('disabled','disabled');
 			}
 		});
 	};
