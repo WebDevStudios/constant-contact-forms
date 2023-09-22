@@ -147,7 +147,7 @@
 
 		let message_tag = document.createElement('p');
 		message_tag.setAttribute('class', 'ctct-message ' + classes);
-		message_tag.setAttribute('role', 'role');
+		message_tag.setAttribute('role', role);
 		message_tag.innerHTML = message;
 
 		let dismiss_btn = document.createElement('button');
