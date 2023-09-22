@@ -173,42 +173,53 @@
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 *
-	 * @param {object} $form jQuery object for the form being submitted.
+	 * @param {object} form object for the form being submitted.
 	 */
-	app.submitForm = ( $form ) => {
+	app.submitForm = ( form ) => {
 
-		$form.find( '.ctct-submitted' ).prop( 'disabled', true );
+		let submitbtn = form.querySelector( '.ctct-submitted' );
+		submitbtn.setAttribute( 'disabled', 'disabled' );
 
-		var ajaxData = {
-			'action': 'ctct_process_form',
-			'data': $form.serialize()
+		const data = new FormData();
+		const formData = new FormData(form);
+		const formParams = new URLSearchParams(formData);
+
+		data.append('action', 'ctct_process_form');
+		data.append('data', formParams);
+
+		let options = {
+			method: 'POST',
+			body: data
 		};
 
-		$.post( window.ajaxurl, ajaxData, ( response ) => {
+		fetch(
+			window.ajaxurl,
+			options
+		)
+		.then((response)=>response.json())
+		.then((response)=>{
+			submitbtn.removeAttribute('disabled');
 
-			$form.find( '.ctct-submitted' ).prop( 'disabled', false );
-
-			if ( 'undefined' === typeof( response.status ) ) {
+			if ( 'undefined' === typeof response.status ) {
 				return false;
 			}
 
-			// Here we'll want to disable the submit button and add some error classes.
 			if ( 'success' !== response.status ) {
-
-				if ( 'undefined' !== typeof( response.errors ) ) {
+				if ('undefined' !== typeof (response.errors)) {
 					app.setAllInputsValid();
-					response.errors.forEach( app.processError );
+					response.errors.forEach(app.processError);
 				} else {
-					app.showMessage( $form, response.message, 'ctct-error', 'alert' );
+					app.showMessage(form, response.message, 'ctct-error', 'alert');
 				}
 
 				return false;
 			}
-			$form.hide();
+
+			form.style.display = 'none';
 			// If we're here, the submission was a success; show message and reset form fields.
-			app.showMessage( $form, response.message, 'ctct-success', 'status' );
-			$form[0].reset();
-		} );
+			app.showMessage(form, response.message, 'ctct-success', 'status');
+			form.reset();
+		});
 	};
 
 	/**
