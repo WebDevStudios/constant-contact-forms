@@ -77,7 +77,10 @@
 
 		// If we have an id property set.
 		if ( 'undefined' !== typeof( error.id ) ) {
-			$( '#' + error.id ).addClass( 'ctct-invalid' );
+			let invalid = document.querySelectorAll('#' + error.id);
+			Array.from(invalid).forEach((theInvalid) => {
+				theInvalid.classList.add('ctct-invalid');
+			});
 		}
 	};
 
