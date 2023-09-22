@@ -5,8 +5,8 @@
 	window.addEventListener('load', function () {
 		let buttons = document.querySelectorAll('.ctct-submitted');
 		if (buttons) {
-			buttons.forEach( (button, index ) => {
-				button.addEventListener('click', (e) => {
+			buttons.forEach( (button ) => {
+				button.addEventListener('click', () => {
 					setTimeout(() => {
 						disableSendButton( button );
 						setTimeout(() => { enableSendButton(button) }, 3000);
