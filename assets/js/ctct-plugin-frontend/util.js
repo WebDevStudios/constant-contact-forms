@@ -9,7 +9,7 @@
 				button.addEventListener('click', (e) => {
 					setTimeout(() => {
 						disableSendButton( button );
-						setTimeout(enableSendButton.bind(button), 3000);
+						setTimeout(() => { enableSendButton(button) }, 3000);
 					}, 100);
 				});
 			} );
@@ -37,6 +37,6 @@
 	 * @return {mixed} jQuery if attribute is set, undefined if not.
 	 */
 	function enableSendButton( button ) {
-		button.setAttribute('disabled', null);
+		button.setAttribute('disabled', false);
 	}
 } () );
