@@ -7,7 +7,7 @@
  * @param  {Object} submitBtn Submit DOM element.
  */
 window.ctctEnableBtn = function (submitBtn) {
-    submitBtn.setAttribute('disabled', false);
+    submitBtn.removeAttribute('disabled');
 };
 
 /**
@@ -19,7 +19,7 @@ window.ctctEnableBtn = function (submitBtn) {
  * @param  {Object} submitBtn Submit DOM element.
  */
 window.ctctDisableBtn = function (submitBtn) {
-    submitBtn.setAttribute('disabled', true);
+    submitBtn.setAttribute('disabled', 'disabled');
 }
 
 
