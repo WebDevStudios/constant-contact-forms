@@ -37,6 +37,6 @@
 	 * @return {mixed} jQuery if attribute is set, undefined if not.
 	 */
 	function enableSendButton( button ) {
-		button.setAttribute('disabled', false);
+		button.removeAttribute('disabled');
 	}
 } () );
