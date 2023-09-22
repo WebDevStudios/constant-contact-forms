@@ -90,17 +90,16 @@
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 *
-	 * @param {object} e The change or keyup event triggering this callback.
-	 * @param {object} $honeyPot The jQuery object for the actual input field being checked.
-	 * @param {object} $submitButton The jQuery object for the submit button in the same form as the honeypot field.
+	 * @param {object} event The change or keyup event triggering this callback.
+	 * @param {object} honeyPot The object for the actual input field being checked.
+	 * @param {object} submitButton The object for the submit button in the same form as the honeypot field.
 	 */
-	app.checkHoneypot = ( e, $honeyPot, $submitButton ) => {
-
+	app.checkHoneypot = ( event, honeyPot, submitButton ) => {
 		// If there is text in the honeypot, disable the submit button
-		if ( 0 < $honeyPot.val().length ) {
-			$submitButton.attr( 'disabled', 'disabled' );
+		if ( 0 < honeyPot.value.length ) {
+			submitButton.setAttribute('disabled','disabled');
 		} else {
-			$submitButton.attr( 'disabled', false );
+			submitButton.removeAttribute('disabled');
 		}
 	};
 
