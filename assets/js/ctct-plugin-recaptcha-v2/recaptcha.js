@@ -27,7 +27,7 @@ window.renderReCaptcha = function () {
     let grecaptchas = document.querySelectorAll( '.g-recaptcha' );
 
     Array.from(grecaptchas).forEach(function (grecaptchaobj, index) {
-        let submitBtn = ''; /*jQuery(grecaptchaobj).siblings('.ctct-form-field-submit').find('.ctct-submit');*/
+        let submitBtn = '';
         const siblings = [...grecaptchaobj.parentElement.children];
         siblings.forEach(function(item){
             if ( item.classList.contains('ctct-form-field-submit') ) {
@@ -39,10 +39,14 @@ window.renderReCaptcha = function () {
             'size'            : grecaptchaobj.getAttribute('data-size', ''),
             'tabindex'        : grecaptchaobj.getAttribute('data-tabindex', ''),
             'callback'        : function () {
-                window.ctctEnableBtn(submitBtn);
+                if ( submitBtn ) {
+                    window.ctctEnableBtn(submitBtn);
+                }
             },
             'expired-callback': function () {
-                window.ctctDisableBtn(submitBtn);
+                if ( submitBtn ) {
+                    window.ctctDisableBtn(submitBtn);
+                }
             },
             'isolated'        : true,
         });
