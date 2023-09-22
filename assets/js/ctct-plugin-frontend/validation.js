@@ -6,7 +6,7 @@
 
  window.CTCTSupport = {};
 
-( function( window, $, app ) {
+( function( window, app ) {
 
 	/**
 	 * @constructor
@@ -283,4 +283,4 @@
 
 	$( app.init );
 
-} ( window, jQuery, window.CTCTSupport ) );
+} ( window, window.CTCTSupport ) );
