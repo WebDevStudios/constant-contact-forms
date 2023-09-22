@@ -27,33 +27,25 @@
 	 */
 	app.cache = () => {
 
-		app.$c = {
-			$forms: []
+		app.cache = {
+			forms: []
 		};
 
 		let wrapper = document.querySelectorAll('.ctct-form-wrapper');
 		if (wrapper.length) {
-			wrapper.forEach((formWrapper, index) => {
-				app.$c.$forms.push(
-					formWrapper.find('form')
-				);
+			wrapper.forEach((formWrapper,index) => {
+				let found = formWrapper.querySelector('form');
+				if (found) {
+					app.cache.forms.push(found);
+				}
 			});
-			debugger;
 		}
-		// Cache each form on the page.
-		$( '.ctct-form-wrapper' ).each( function( i, formWrapper ) {
-			app.$c.$forms.push( $( formWrapper ).find( 'form' ) );
-		} );
 
-		// For each form, cache its common elements.
-		$.each( app.$c.$forms, function( i, form ) {
-
-			var $form = $( form );
-
-			app.$c.$forms[ i ].$honeypot     = $form.find( '.ctct_usage_field' );
-			app.$c.$forms[ i ].$submitButton = $form.find( 'input[type=submit]' );
-			app.$c.$forms[ i ].$recaptcha    = $form.find( '.g-recaptcha' );
-		} );
+		app.cache.forms.forEach((form, index) => {
+			app.cache.forms[index].honeypot = form.querySelector('.ctct_usage_field');
+			app.cache.forms[index].submitButton = form.querySelector('input[type=submit]');
+			app.cache.forms[index].recaptcha = form.querySelector('.g-recaptcha');
+		});
 
 		app.timeout = null;
 	};
