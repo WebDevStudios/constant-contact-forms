@@ -102,29 +102,26 @@
 			submitButton.removeAttribute('disabled');
 		}
 	};
-
 	/**
 	 * Ensures that we should use AJAX to process the specified form, and that all required fields are not empty.
 	 *
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 *
-	 * @param {object} $form jQuery object for the form being validated.
+	 * @param {object} form object for the form being validated.
 	 * @return {boolean} False if AJAX processing is disabled for this form or if a required field is empty.
 	 */
-	app.validateSubmission = ( $form ) => {
-
-		if ( 'on' !== $form.attr( 'data-doajax' ) ) {
+	app.validateSubmission = ( form ) => {
+		if ( 'on' !== form.getAttribute( 'data-doajax' ) ) {
 			return false;
 		}
 
-		// Ensure all required fields in this form are valid.
-		$.each( $form.find( '[required]' ), function( i, field ) {
-
-			if ( false === field.checkValidity() ) {
+		let fields = form.querySelectorAll('[required]');
+		Array.from(fields).forEach((field) => {
+			if (false === field.checkValidity()) {
 				return false;
 			}
-		} );
+		});
 
 		return true;
 	};
