@@ -17,21 +17,6 @@
 	app.init = () => {
 		app.cache();
 		app.bindEvents();
-		app.removePlaceholder();
-	};
-
-	/**
-	 * Remove placeholder text values.
-	 *
-	 * @author Constant Contact
-	 * @since 1.0.0
-	 */
-	app.removePlaceholder = () => {
-		$( '.ctct-form-field input, textarea' ).focus( () => {
-			$( this ).data( 'placeholder', $( this ).attr( 'placeholder' ) ).attr( 'placeholder', '' );
-		} ).blur( () => {
-			$( this ).attr( 'placeholder', $( this ).data( 'placeholder' ) );
-		} );
 	};
 
 	/**
