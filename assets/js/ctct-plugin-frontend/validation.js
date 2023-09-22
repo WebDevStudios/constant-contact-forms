@@ -217,22 +217,21 @@
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 *
-	 * @param {object} e The submit event.
-	 * @param {object} $form jQuery object for the current form being handled.
+	 * @param {object} event The submit event.
+	 * @param {object} form object for the current form being handled.
 	 * @return {boolean} False if unable to validate the form.
 	 */
-	app.handleSubmission = ( e, $form ) => {
+	app.handleSubmission = ( event, form ) => {
 
-
-		if ( ! app.validateSubmission( $form ) ) {
+		if ( ! app.validateSubmission( form ) ) {
 			return false;
 		}
 
 		clearTimeout( app.timeout );
 
-		if($form[0].checkValidity()){
-			e.preventDefault();
-			app.timeout = setTimeout( app.submitForm, 500, $form );
+		if(form.checkValidity()){
+			event.preventDefault();
+			app.timeout = setTimeout( app.submitForm, 500, form );
 		}
 	};
 
