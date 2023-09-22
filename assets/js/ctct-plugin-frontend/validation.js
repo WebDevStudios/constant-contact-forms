@@ -33,7 +33,7 @@
 
 		let wrapper = document.querySelectorAll('.ctct-form-wrapper');
 		if (wrapper.length) {
-			wrapper.forEach((formWrapper,index) => {
+			wrapper.forEach((formWrapper) => {
 				let found = formWrapper.querySelector('form');
 				if (found) {
 					app.cache.forms.push(found);
@@ -253,7 +253,7 @@
 	 * @since 1.0.0
 	 */
 	app.bindEvents = () => {
-		app.cache.forms.forEach((form, index) => {
+		app.cache.forms.forEach((form) => {
 			let thesubmit = form.querySelector('[type=submit]');
 			thesubmit.addEventListener('click', (event) => {
 				app.handleSubmission(event, form);
