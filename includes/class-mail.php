@@ -314,8 +314,6 @@ class ConstantContact_Mail {
 
 		$content_title .= '<strong>' . esc_html__( 'Form information: ', 'constant-contact-forms' ) . '</strong></p>';
 
-
-
 		$content = $content_title . $content;
 
 		$content_after = sprintf(
