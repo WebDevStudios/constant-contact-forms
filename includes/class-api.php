@@ -1493,6 +1493,10 @@ class ConstantContact_API {
 	 * @return bool
 	 */
 	private function has_note( $submission_data ) {
+		if ( ! is_array( $submission_data ) ) {
+			return false;
+		}
+
 		$keys = array_keys( $submission_data );
 		$has_text_area = false;
 		foreach( $keys as $key ) {
