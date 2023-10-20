@@ -308,7 +308,7 @@ class ConstantContact_Mail {
 		foreach ( $list_ids as $list_id ) {
 			$list_info = constant_contact()->api->cc()->get_list( $list_id );
 			if ( ! empty( $list_info ) && isset( $list_info['name'] ) ) {
-				$content_title .= '<strong>' . esc_html__( 'List name: ', 'constant-contact-forms' ) . '</strong>' . $list_info['name'] . '<br/>';
+				$content_title .= '<strong>' . esc_html__( 'List name: ', 'constant-contact-forms' ) . '</strong>' . esc_html( $list_info['name'] ) . '<br/>';
 			}
 		}
 
