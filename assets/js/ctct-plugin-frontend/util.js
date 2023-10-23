@@ -1,19 +1,19 @@
 /**
  * General-purpose utility stuff for CC plugin.
  */
-( function( global, $ ) {
-
-	/**
-	 * Temporarily prevent the submit button from being clicked.
-	 */
-	$( document ).ready( () => {
-
-		$( '.ctct-submitted' ).on( 'click', () => {
-			setTimeout( () => {
-				disableSendButton();
-				setTimeout( enableSendButton, 3000 );
-			}, 100 );
-		} );
+( function() {
+	window.addEventListener('load', function () {
+		let buttons = document.querySelectorAll('.ctct-submitted');
+		if (buttons) {
+			buttons.forEach( (button ) => {
+				button.addEventListener('click', () => {
+					setTimeout(() => {
+						disableSendButton( button );
+						setTimeout(() => { enableSendButton(button) }, 3000);
+					}, 100);
+				});
+			} );
+		}
 	} );
 
 	/**
@@ -24,8 +24,8 @@
 	 *
 	 * @return {mixed} jQuery if attribute is set, undefined if not.
 	 */
-	function disableSendButton() {
-		return $( '.ctct-submitted' ).attr( 'disabled', 'disabled' );
+	function disableSendButton( button ) {
+		button.setAttribute('disabled', 'disabled');
 	}
 
 	/**
@@ -36,8 +36,7 @@
 	 *
 	 * @return {mixed} jQuery if attribute is set, undefined if not.
 	 */
-	function enableSendButton() {
-		return $( '.ctct-submitted' ).attr( 'disabled', null );
+	function enableSendButton( button ) {
+		button.removeAttribute('disabled');
 	}
-
-} ( window, jQuery ) );
+} () );
