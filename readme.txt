@@ -50,10 +50,13 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 == Changelog ==
 
 = 2.4.0 =
+* Updated: Removed reliance on jQuery library for frontend scripts.
 * Updated: Individual address fields and available required fields match up to what's included.
 * Updated: Internal logging library.
 * Updated: Moved disclosure messaging to outside of the generated `<form>` tag.
+* Added: Include list name in sent admin emails.
 * Fixed: Empty list information when creating a list in WordPress Dashboard.
+* Fixed: Prevent fatal errors in functionality that checks for a note.
 
 = 2.3.0 =
 * Added: Background catch for new contact API requests that fail due to need to re-authenticate. Requests will be re-tried once newly reconnected.
