@@ -300,6 +300,18 @@ class ConstantContact_Mail {
 		$content_before = $content_notice_note . $content_before . $content_notice_reasons;
 
 		$content_title  = '<p><strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
+
+		$list_ids = get_post_meta( (int) $submission_details['form_id'], '_ctct_list', true );
+		if ( ! is_array( $list_ids ) ) {
+			$list_ids = [ $list_ids ];
+		}
+		foreach ( $list_ids as $list_id ) {
+			$list_info = constant_contact()->api->cc()->get_list( $list_id );
+			if ( ! empty( $list_info ) && isset( $list_info['name'] ) ) {
+				$content_title .= '<strong>' . esc_html__( 'List name: ', 'constant-contact-forms' ) . '</strong>' . esc_html( $list_info['name'] ) . '<br/>';
+			}
+		}
+
 		$content_title .= '<strong>' . esc_html__( 'Form information: ', 'constant-contact-forms' ) . '</strong></p>';
 
 		$content = $content_title . $content;
