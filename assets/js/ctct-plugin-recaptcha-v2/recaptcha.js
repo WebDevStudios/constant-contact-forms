@@ -6,10 +6,9 @@
  *
  * @param  {Object} submitBtn Submit DOM element.
  */
-var ctctEnableBtn = function( submitBtn ) {
-    jQuery( submitBtn ).attr( "disabled", false );
-}
-window.ctctEnableBtn = ctctEnableBtn;
+window.ctctEnableBtn = function (submitBtn) {
+    submitBtn.removeAttribute('disabled');
+};
 
 /**
  * Disable submit button.
@@ -19,27 +18,37 @@ window.ctctEnableBtn = ctctEnableBtn;
  *
  * @param  {Object} submitBtn Submit DOM element.
  */
-var ctctDisableBtn = function( submitBtn ) {
-    jQuery( submitBtn ).attr( "disabled", "disabled" );
+window.ctctDisableBtn = function (submitBtn) {
+    submitBtn.setAttribute('disabled', 'disabled');
 }
-window.ctctDisableBtn = ctctDisableBtn;
 
-var renderReCaptcha = function() {
-    jQuery( '.g-recaptcha' ).each( function( index, el ) {
-        const submitBtn = jQuery( el ).siblings( '.ctct-form-field-submit' ).find( '.ctct-submit' );
 
-        grecaptcha.render( el, {
-            'sitekey': jQuery( el ).attr( 'data-sitekey' ),
-            'size': jQuery( el ).attr( 'data-size' ),
-            'tabindex': jQuery( el ).attr( 'data-tabindex' ),
-            'callback': function() {
-                window.ctctEnableBtn( submitBtn );
+window.renderReCaptcha = function () {
+    let grecaptchas = document.querySelectorAll( '.g-recaptcha' );
+
+    Array.from(grecaptchas).forEach(function (grecaptchaobj) {
+        let submitBtn = '';
+        const siblings = [...grecaptchaobj.parentElement.children];
+        siblings.forEach(function(item){
+            if ( item.classList.contains('ctct-form-field-submit') ) {
+                submitBtn = document.querySelector("#" + item.children[0].id);
+            }
+        });
+        grecaptcha.render(grecaptchaobj, {
+            'sitekey'         : grecaptchaobj.getAttribute('data-sitekey', ''),
+            'size'            : grecaptchaobj.getAttribute('data-size', ''),
+            'tabindex'        : grecaptchaobj.getAttribute('data-tabindex', ''),
+            'callback'        : function () {
+                if ( submitBtn ) {
+                    window.ctctEnableBtn(submitBtn);
+                }
             },
-            'expired-callback': function() {
-                window.ctctDisableBtn( submitBtn );
+            'expired-callback': function () {
+                if ( submitBtn ) {
+                    window.ctctDisableBtn(submitBtn);
+                }
             },
-            'isolated': true,
-        } );
-    } );
+            'isolated'        : true,
+        });
+    });
 };
-window.renderReCaptcha = renderReCaptcha;
