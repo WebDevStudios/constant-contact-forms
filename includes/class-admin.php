@@ -184,6 +184,11 @@ class ConstantContact_Admin {
 			}
 		}
 
+		$tabs[] = [
+			'url' => 'https://wordpress.org/support/plugin/constant-contact-forms/reviews/#new-post',
+			'text' => esc_html__( 'Review Constant Contact Forms', 'constant-contact-forms' )
+		];
+
 		$connect_title = esc_html__( 'Connected', 'constant-contact-forms' );
 		$connect_alt   = esc_html__( 'Your Constant Contact account is connected!', 'constant-contact-forms' );
 		$api_status    = esc_html( 'connected' );
