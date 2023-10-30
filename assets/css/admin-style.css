@@ -15,7 +15,6 @@
     content: '';
     display: table; }
   .ctct-modal h2 {
-    color: #fff;
     font-size: 28px;
     font-weight: 400;
     line-height: 1.2;
@@ -68,7 +67,6 @@
       text-align: center;
       border-bottom: 1px solid #fff; }
       .ctct-modal .ctct-modal-content .ctct-modal-header p {
-        color: #fff;
         font-size: 16px;
         margin-bottom: 0; }
         .ctct-modal .ctct-modal-content .ctct-modal-header p .displayed-shortcode {
