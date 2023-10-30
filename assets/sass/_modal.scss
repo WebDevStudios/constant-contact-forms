@@ -17,7 +17,6 @@
 	z-index: 9999;
 
 	h2 {
-		color: $color-white;
 		font-size: 28px;
 		font-weight: 400;
 		line-height: 1.2;
@@ -75,7 +74,7 @@
 		border-radius: 8px;
 		box-shadow: 0 0 15px 0 $color-modal-background;
 		padding: 0;
-		position: relative; 
+		position: relative;
 
 		.ctct-modal-header {
 			background: $color-lighter-gray;
@@ -86,7 +85,6 @@
 			border-bottom: 1px solid $color-white;
 
 			p {
-				color: $color-white;
 				font-size: 16px;
 				margin-bottom: 0;
 
