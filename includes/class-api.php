@@ -1321,7 +1321,7 @@ class ConstantContact_API {
 	 */
 	public function acquire_access_token(): bool {
 
-		$code_state = constant_contact_get_option( '_ctct_form_state_authcode', '' );
+		$code_state = (string) constant_contact_get_option( '_ctct_form_state_authcode', '' );
 
 		parse_str( $code_state, $parsed_code_state );
 		$parsed_code_state = array_values( $parsed_code_state );
