@@ -237,9 +237,8 @@
 
 		clearTimeout( app.timeout );
 
-		if(form.checkValidity()){
-			event.preventDefault();
-			app.timeout = setTimeout( app.submitForm, 500, form );
+		if (form.checkValidity()) {
+			app.timeout = setTimeout(app.submitForm, 500, form);
 		}
 	};
 
@@ -253,7 +252,17 @@
 		app.cache.forms.forEach((form) => {
 			let thesubmit = form.querySelector('[type=submit]');
 			thesubmit.addEventListener('click', (event) => {
-				app.handleSubmission(event, form);
+				let doingajax = form.getAttribute( 'data-doajax' );
+				if ( doingajax && 'on' === doingajax ) {
+					event.preventDefault();
+				}
+
+				if ( form.classList.contains( 'ctct-submitted' ) ) {
+					return;
+				}
+				form.classList.add( 'ctct-submitted' );
+				app.handleSubmission( event, form );
+				form.classList.remove( 'ctct-submitted' );
 			});
 
 			form.honeypot.addEventListener('change', (event) => {
@@ -263,6 +272,7 @@
 					form.submitButton
 				);
 			});
+
 			form.honeypot.addEventListener('keyup', (event) => {
 				app.checkHoneypot(
 					event,
@@ -270,10 +280,6 @@
 					form.submitButton
 				);
 			});
-
-			if ( form.recaptcha && 0 < form.recaptcha.length ) {
-				form.submitButton.setAttribute('disabled','disabled');
-			}
 		});
 	};
 
