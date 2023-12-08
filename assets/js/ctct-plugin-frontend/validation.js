@@ -178,10 +178,6 @@
 	 * @param {object} form object for the form being submitted.
 	 */
 	app.submitForm = ( form ) => {
-
-		let submitbtn = form.querySelector( '.ctct-submitted' );
-		submitbtn.setAttribute( 'disabled', 'disabled' );
-
 		const data = new FormData();
 		const formData = new FormData(form);
 		const formParams = new URLSearchParams(formData);
@@ -200,7 +196,6 @@
 		)
 		.then((response)=>response.json())
 		.then((response)=>{
-			submitbtn.removeAttribute('disabled');
 
 			if ( 'undefined' === typeof response.status ) {
 				return false;
