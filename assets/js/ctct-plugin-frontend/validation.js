@@ -95,7 +95,9 @@
 	 * @param {object} submitButton The object for the submit button in the same form as the honeypot field.
 	 */
 	app.checkHoneypot = ( event, honeyPot, submitButton ) => {
-		// If there is text in the honeypot, disable the submit button
+		// If there is text in the honeypot, disable the submit button.
+
+		// Leaving this disabling in place because it should not be getting used by screen readers in the first place, and I feel it's going to help more than hurt to keep.
 		if ( 0 < honeyPot.value.length ) {
 			submitButton.setAttribute('disabled','disabled');
 		} else {
