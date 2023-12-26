@@ -49,6 +49,10 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= 2.4.2 =
+* Fixed: Extra early return check before we process form submissions.
+* Updated: Accessibility around disabled submit buttons during form processing.
+
 = 2.4.1 =
 * Fixed: White font on light gray in admin page modal popups.
 * Fixed: Prevent potential PHP fatal errors with access token fetching.
