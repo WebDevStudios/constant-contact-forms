@@ -190,6 +190,10 @@ class ConstantContact_Process_Form {
 
 		if ( empty( $data ) ) {
 
+			if ( empty( $_POST ) ) {
+				return;
+			}
+
 			$data = $_POST; // @codingStandardsIgnoreLine
 		}
 
