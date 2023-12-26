@@ -1,3 +1,99 @@
+= 2.4.2 =
+
+* Fixed: Extra early return check before we process form submissions.
+* Updated: Accessibility around disabled submit buttons during form processing.
+
+= 2.4.1 =
+
+* Fixed: White font on light gray in admin page modal popups.
+* Fixed: Prevent potential PHP fatal errors with access token fetching.
+
+= 2.4.0 =
+
+* Updated: Removed reliance on jQuery library for frontend scripts.
+* Updated: Individual address fields and available required fields match up to what's included.
+* Updated: Internal logging library.
+* Updated: Moved disclosure messaging to outside of the generated `<form>` tag.
+* Added: Include list name in sent admin emails.
+* Fixed: Empty list information when creating a list in WordPress Dashboard.
+* Fixed: Prevent fatal errors in functionality that checks for a note.
+
+= 2.3.0 =
+
+* Added: Background catch for new contact API requests that fail due to need to re-authenticate. Requests will be
+  re-tried once newly reconnected.
+* Added: Site health integration to help with debugging and troubleshooting.
+* Updated: Removed reliance on WP Cron for sending submissions. All API submission should be run right away from now
+  on. "Bypass cron" setting negated.
+* Updated: Amended "address" field to allow for choosing which address components to use as well as allow requiring only
+  certain components.
+
+= 2.2.0 =
+
+* Added: Admin notice if its been determined that the account connection needs human intervention.
+* Updated: Revised and improved access token refreshing in the background.
+* Updated: Removed Google Analytics opt-in option.
+* Updated: Prevent Constant Contact WooCommerce lists from being imported to local lists.
+
+= 2.1.0 =
+
+* Fixed: Option saving process for Multisite installs.
+* Fixed: Further touchups and fixes around reported security vulnerabilities.
+* Fixed: Prevent potential issues with `lists` property and contact actions.
+* Fixed: Compatibility with other oAuth2 based services. Specifically: Site Kit at this time.
+* Updated: Obfuscated API values in debug logs.
+* Updated: Adjusted account information lookup frequency. Reduced to every 12 hours.
+* Updated: Adjusted and fixed up details around custom field usage and needing unique labels.
+
+= 2.0.3 =
+
+* Updated: Resolution for fatal errors regarding autoloading.
+* Updated: Further security fixes for reported issues.
+
+= 2.0.2 =
+
+* Updated: Rate limits on API requests. Should help address list sync issues.
+* Added: Notifications of issues with list fetching with API version 3. Shorter transient cache time.
+* Added: More conditions to show "APIv3 upgrade needed" notice while needed.
+
+= 2.0.1 =
+
+* Fixed: Fatal error regarding objects and arrays upon update to 2.0.0
+
+= 2.0.0 =
+
+* Updated: Plugin has been migrated to use Constant Contact API version 3.0. This will require new authentication
+  workflow.
+* Updated: Addressed security issues with regards to opt-in notification.
+* Updated: Added support to check for DISABLE_WP_CRON constant usage and bypass cron scheduling if true.
+* Fixed: moved "Edit form" link to outside the `<form>` markup.
+* Fixed: Custom color choices were not applying to all parts of form text output.
+
+= 1.14.1 =
+
+* Fixed: Backport of security issue originally fixed in 2.0.0 release.
+
+= 1.14.0 =
+
+* Fixed: Issues around email submissions with "some+value@email.com" based addresses.
+* Fixed: Compatibility with Elementor Widget registration
+* Added: Notice regarding upcoming API changes in a later major plugin version.
+* Added: Compatibility with Cleantalk Spam Protect
+* Added: Extra compatibility with Akismet Spam protection
+* Updated: CMB2 internal library to 2.10.1
+
+= 1.13.0 =
+
+* Fixed: get_optin_list_options() defaults to an empty array instead of an empty string
+* Fixed: Prevent "CTCT has experienced issues" notifications for "503 Service Not Available" errors
+* Fixed: Fixes plugin sometimes causing errors due to trailing commas
+* Changed: Move styles inline for honeypot field to ensure field is hidden when option to disable CSS output is used
+* Updated: Mask API keys in error logs
+* Updated: Mask phone numbers in logs
+* Updated: Add noopener noreferrer to blank links
+* Updated: Refactor multiple translated strings
+* Updated: Added error messages on form submissions upon API faliures
+
 = 1.12.0 =
  * Added: “Limit 500 Characters” description below textarea fields
  * Added: CSS class selector to the div wrapping the list checkboxes
