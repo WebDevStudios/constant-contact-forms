@@ -95,7 +95,9 @@
 	 * @param {object} submitButton The object for the submit button in the same form as the honeypot field.
 	 */
 	app.checkHoneypot = ( event, honeyPot, submitButton ) => {
-		// If there is text in the honeypot, disable the submit button
+		// If there is text in the honeypot, disable the submit button.
+
+		// Leaving this disabling in place because it should not be getting used by screen readers in the first place, and I feel it's going to help more than hurt to keep.
 		if ( 0 < honeyPot.value.length ) {
 			submitButton.setAttribute('disabled','disabled');
 		} else {
@@ -176,10 +178,6 @@
 	 * @param {object} form object for the form being submitted.
 	 */
 	app.submitForm = ( form ) => {
-
-		let submitbtn = form.querySelector( '.ctct-submitted' );
-		submitbtn.setAttribute( 'disabled', 'disabled' );
-
 		const data = new FormData();
 		const formData = new FormData(form);
 		const formParams = new URLSearchParams(formData);
@@ -198,7 +196,6 @@
 		)
 		.then((response)=>response.json())
 		.then((response)=>{
-			submitbtn.removeAttribute('disabled');
 
 			if ( 'undefined' === typeof response.status ) {
 				return false;
@@ -240,9 +237,8 @@
 
 		clearTimeout( app.timeout );
 
-		if(form.checkValidity()){
-			event.preventDefault();
-			app.timeout = setTimeout( app.submitForm, 500, form );
+		if (form.checkValidity()) {
+			app.timeout = setTimeout(app.submitForm, 500, form);
 		}
 	};
 
@@ -256,7 +252,17 @@
 		app.cache.forms.forEach((form) => {
 			let thesubmit = form.querySelector('[type=submit]');
 			thesubmit.addEventListener('click', (event) => {
-				app.handleSubmission(event, form);
+				let doingajax = form.getAttribute( 'data-doajax' );
+				if ( doingajax && 'on' === doingajax ) {
+					event.preventDefault();
+				}
+
+				if ( form.classList.contains( 'ctct-submitted' ) ) {
+					return;
+				}
+				form.classList.add( 'ctct-submitted' );
+				app.handleSubmission( event, form );
+				form.classList.remove( 'ctct-submitted' );
 			});
 
 			form.honeypot.addEventListener('change', (event) => {
@@ -266,6 +272,7 @@
 					form.submitButton
 				);
 			});
+
 			form.honeypot.addEventListener('keyup', (event) => {
 				app.checkHoneypot(
 					event,
@@ -273,10 +280,6 @@
 					form.submitButton
 				);
 			});
-
-			if ( form.recaptcha && 0 < form.recaptcha.length ) {
-				form.submitButton.setAttribute('disabled','disabled');
-			}
 		});
 	};
 

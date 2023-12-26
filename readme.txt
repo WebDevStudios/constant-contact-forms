@@ -2,8 +2,8 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: contacts, constant contact, constant contact form, constant contact newsletter, constant contact official, contact forms, forms, marketing, newsletter, signup
 Requires at least: 5.2.0
-Tested up to:      6.4
-Stable tag:        2.4.1
+Tested up to:      6.4.2
+Stable tag:        2.4.2
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -48,6 +48,10 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.4.2 =
+* Fixed: Extra early return check before we process form submissions.
+* Updated: Accessibility around disabled submit buttons during form processing.
 
 = 2.4.1 =
 * Fixed: White font on light gray in admin page modal popups.
