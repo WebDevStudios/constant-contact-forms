@@ -38,7 +38,7 @@
          "rm -rf ./.git",
          "rm -rf ./.DS_Store",
          "rm -rf ./.distignore",
-         "rm -rf ./.githuh",
+         "rm -rf ./.github",
          "rm -rf ./.gitignore",
          "rm -rf ./.nvmrc",
          "rm -rf ./.prettierignore",
