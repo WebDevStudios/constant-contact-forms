@@ -118,7 +118,13 @@ class ConstantContact_Logging {
 		$this->plugin            = $plugin;
 		$this->options_url       = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
 		$uploads_dir             = wp_upload_dir();
-		$log_file_name           = 'constant-contact-errors.log';
+		$new_suffix              = $this->generate_random_string( 10 );
+		$suffix                  = get_option( 'ctct_log_suffix', '' );
+		if ( empty( $suffix ) ) {
+			$suffix = $new_suffix;
+			update_option( 'ctct_log_suffix', $suffix );
+		}
+		$log_file_name           = "constant-contact-errors-{$suffix}.log";
 		$this->log_location_url  = "{$uploads_dir['baseurl']}/{$this->log_file_dir}/{$log_file_name}";
 		$this->log_location_dir  = "{$uploads_dir['basedir']}/{$this->log_file_dir}";
 		$this->log_location_file = "{$this->log_location_dir}/{$log_file_name}";
@@ -571,5 +577,26 @@ class ConstantContact_Logging {
 			'directory' => $this->log_location_dir,
 			'file'      => $this->log_location_file,
 		];
+	}
+
+	/**
+	 * Generate a random string that we are NOT using for crypto security purposes.
+	 *
+	 * @since 4.2.3
+	 *
+	 * @param int $length How many characters to generate for our string.
+	 *
+	 * @return string Generated string of characters.
+	 * @throws \Random\RandomException
+	 */
+	public function generate_random_string( int $length = 10 ) {
+		$characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen( $characters );
+		$randomString     = '';
+		for ( $i = 0; $i < $length; $i ++ ) {
+			$randomString .= $characters[ random_int( 0, $charactersLength - 1 ) ];
+		}
+
+		return $randomString;
 	}
 }
