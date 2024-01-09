@@ -582,7 +582,7 @@ class ConstantContact_Logging {
 	/**
 	 * Generate a random string that we are NOT using for crypto security purposes.
 	 *
-	 * @since 4.2.3
+	 * @since 2.4.3
 	 *
 	 * @param int $length How many characters to generate for our string.
 	 *
