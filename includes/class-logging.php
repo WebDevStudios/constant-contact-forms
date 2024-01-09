@@ -84,6 +84,14 @@ class ConstantContact_Logging {
 	protected $log_index_file = '';
 
 	/**
+	 * The location of the log folder's htaccess file.
+	 *
+	 * @since 2.4.3
+	 * @var string
+	 */
+	protected $log_htaccess_file = '';
+
+	/**
 	 * The logging directory name.
 	 *
 	 * @since 1.8.2
@@ -115,6 +123,7 @@ class ConstantContact_Logging {
 		$this->log_location_dir  = "{$uploads_dir['basedir']}/{$this->log_file_dir}";
 		$this->log_location_file = "{$this->log_location_dir}/{$log_file_name}";
 		$this->log_index_file    = "{$this->log_location_dir}/index.php";
+		$this->log_htaccess_file = "{$this->log_location_dir}/.htaccess";
 
 		$this->hooks();
 	}
@@ -357,6 +366,22 @@ class ConstantContact_Logging {
 	}
 
 	/**
+	 * Delete the log htaccess protection file when logging is disabled.
+	 *
+	 * @since 2.4.3
+	 * @return void
+	 */
+	public function delete_log_htaccess_file() {
+		if ( constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		if ( file_exists( $this->log_htaccess_file ) ) {
+			unlink( $this->log_htaccess_file );
+		}
+	}
+
+	/**
 	 * Create the log folder.
 	 *
 	 * @since 1.5.0
@@ -381,6 +406,31 @@ class ConstantContact_Logging {
 		}
 
 		touch( $this->log_index_file );
+	}
+
+	/**
+	 * Create the log folder with a .htaccess` file.
+	 *
+	 * @since 2.4.3
+	 * @return void
+	 */
+	public function create_log_htaccess_file() {
+		if ( ! is_writable( $this->log_location_dir ) ) {
+			return;
+		}
+
+		if ( file_exists( $this->log_htaccess_file ) ) {
+			return;
+		}
+
+		touch( $this->log_htaccess_file );
+		file_put_contents(
+			$this->log_htaccess_file,
+			'<FilesMatch ".log">
+				Order Allow,Deny
+				Deny from All
+			</FilesMatch>'
+		);
 	}
 
 	/**
@@ -512,6 +562,7 @@ class ConstantContact_Logging {
 	public function initialize_logging() {
 		$this->create_log_folder();
 		$this->create_log_index_file();
+		$this->create_log_htaccess_file();
 		$this->create_log_file();
 	}
 
