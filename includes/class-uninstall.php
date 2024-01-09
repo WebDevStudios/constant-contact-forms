@@ -88,6 +88,7 @@ class ConstantContact_Uninstall {
 			'ctct_exceptions_exist',
 			'ctct_api_v2_v3_migrated',
 			'ctct_missed_api_requests',
+			'ctct_log_suffix',
 			Constant_Contact::$activated_date_option,
 			ConstantContact_Notifications::$dismissed_notices_option,
 			ConstantContact_Notifications::$review_dismissed_option,
