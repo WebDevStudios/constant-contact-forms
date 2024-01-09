@@ -84,6 +84,14 @@ class ConstantContact_Logging {
 	protected $log_index_file = '';
 
 	/**
+	 * The location of the log folder's htaccess file.
+	 *
+	 * @since 2.4.3
+	 * @var string
+	 */
+	protected $log_htaccess_file = '';
+
+	/**
 	 * The logging directory name.
 	 *
 	 * @since 1.8.2
@@ -110,11 +118,18 @@ class ConstantContact_Logging {
 		$this->plugin            = $plugin;
 		$this->options_url       = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
 		$uploads_dir             = wp_upload_dir();
-		$log_file_name           = 'constant-contact-errors.log';
+		$new_suffix              = $this->generate_random_string( 10 );
+		$suffix                  = get_option( 'ctct_log_suffix', '' );
+		if ( empty( $suffix ) ) {
+			$suffix = $new_suffix;
+			update_option( 'ctct_log_suffix', $suffix );
+		}
+		$log_file_name           = "constant-contact-errors-{$suffix}.log";
 		$this->log_location_url  = "{$uploads_dir['baseurl']}/{$this->log_file_dir}/{$log_file_name}";
 		$this->log_location_dir  = "{$uploads_dir['basedir']}/{$this->log_file_dir}";
 		$this->log_location_file = "{$this->log_location_dir}/{$log_file_name}";
 		$this->log_index_file    = "{$this->log_location_dir}/index.php";
+		$this->log_htaccess_file = "{$this->log_location_dir}/.htaccess";
 
 		$this->hooks();
 	}
@@ -357,6 +372,22 @@ class ConstantContact_Logging {
 	}
 
 	/**
+	 * Delete the log htaccess protection file when logging is disabled.
+	 *
+	 * @since 2.4.3
+	 * @return void
+	 */
+	public function delete_log_htaccess_file() {
+		if ( constant_contact_debugging_enabled() ) {
+			return;
+		}
+
+		if ( file_exists( $this->log_htaccess_file ) ) {
+			unlink( $this->log_htaccess_file );
+		}
+	}
+
+	/**
 	 * Create the log folder.
 	 *
 	 * @since 1.5.0
@@ -381,6 +412,31 @@ class ConstantContact_Logging {
 		}
 
 		touch( $this->log_index_file );
+	}
+
+	/**
+	 * Create the log folder with a .htaccess` file.
+	 *
+	 * @since 2.4.3
+	 * @return void
+	 */
+	public function create_log_htaccess_file() {
+		if ( ! is_writable( $this->log_location_dir ) ) {
+			return;
+		}
+
+		if ( file_exists( $this->log_htaccess_file ) ) {
+			return;
+		}
+
+		touch( $this->log_htaccess_file );
+		file_put_contents(
+			$this->log_htaccess_file,
+			'<FilesMatch ".log">
+				Order Allow,Deny
+				Deny from All
+			</FilesMatch>'
+		);
 	}
 
 	/**
@@ -512,6 +568,7 @@ class ConstantContact_Logging {
 	public function initialize_logging() {
 		$this->create_log_folder();
 		$this->create_log_index_file();
+		$this->create_log_htaccess_file();
 		$this->create_log_file();
 	}
 
@@ -520,5 +577,26 @@ class ConstantContact_Logging {
 			'directory' => $this->log_location_dir,
 			'file'      => $this->log_location_file,
 		];
+	}
+
+	/**
+	 * Generate a random string that we are NOT using for crypto security purposes.
+	 *
+	 * @since 2.4.3
+	 *
+	 * @param int $length How many characters to generate for our string.
+	 *
+	 * @return string Generated string of characters.
+	 * @throws \Random\RandomException
+	 */
+	public function generate_random_string( int $length = 10 ) {
+		$characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$charactersLength = strlen( $characters );
+		$randomString     = '';
+		for ( $i = 0; $i < $length; $i ++ ) {
+			$randomString .= $characters[ random_int( 0, $charactersLength - 1 ) ];
+		}
+
+		return $randomString;
 	}
 }
