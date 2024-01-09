@@ -1,3 +1,6 @@
+= 2.4.3 =
+* Fixed: Hardened up details around error log files and access.
+
 = 2.4.2 =
 
 * Fixed: Extra early return check before we process form submissions.
