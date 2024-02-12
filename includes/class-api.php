@@ -920,10 +920,11 @@ class ConstantContact_API {
 						$address = [];
 					}
 
+					$address['kind'] = 'home';
+
 					switch ( $key ) {
 						case 'street_address':
-							$address['kind'] = 'home';
-							$streets[]       = $value;
+							$streets[] = $value;
 							break;
 						case 'line_2_address':
 							$streets[] = $value;
