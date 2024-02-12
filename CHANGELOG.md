@@ -1,4 +1,9 @@
+= 2.4.4 =
+
+* Fixed: Consistently set address kind to "home".
+
 = 2.4.3 =
+
 * Fixed: Hardened up details around error log files and access.
 
 = 2.4.2 =
