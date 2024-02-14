@@ -402,12 +402,8 @@ class ConstantContact_Process_Form {
 				constant_contact()->mail->submit_form_values( $return['values'] );
 			} else {
 				// No need to check for opt in status because we would have returned early by now if false.
-
 				if ( constant_contact()->api->is_connected() ) {
-					constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
-
 					$api_result = constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
-
 					// Send email if API request fails.
 					if ( false === $api_result ) {
 						$clean_values  = constant_contact()->process_form->clean_values( $return['values'] );
@@ -431,6 +427,18 @@ class ConstantContact_Process_Form {
 							'values'  => $return['values'],
 							'message' => __( 'An error occurred while attempting Constant Contact API request. Please check your details and try again.', 'constant-contact-forms' ),
 						];
+					} else if ( is_array( $api_result ) && 1 === count( $api_result ) ) {
+						$api_error = $api_result[0];
+
+						if ( array_key_exists( 'error_key', $api_error ) && 'contacts.api.validation.error' === $api_error['error_key'] && 'Email address is invalid' === $api_error['error_message'] ) {
+							return [
+								'status'  => 'api_error',
+								'message' => __( 'An error occurred while attempting Constant Contact API request. Please check your details and try again.', 'constant-contact-forms' ),
+							];
+						}
+					} else {
+						// Only email if we have a successful API request.
+						constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
 					}
 				} else {
 					constant_contact()->mail->submit_form_values( $return['values'], true );
