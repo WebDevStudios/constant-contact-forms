@@ -430,7 +430,15 @@ class ConstantContact_Process_Form {
 					} else if ( is_array( $api_result ) && 1 === count( $api_result ) ) {
 						$api_error = $api_result[0];
 
-						if ( array_key_exists( 'error_key', $api_error ) && 'contacts.api.validation.error' === $api_error['error_key'] && ( 'Email address is invalid' === $api_error['error_message'] || 'Address format' === $api_error['error_message'] ) ) {
+						if (
+							array_key_exists( 'error_key', $api_error ) &&
+							array_key_exists( 'error_message', $api_error ) &&
+							'contacts.api.validation.error' === $api_error['error_key'] &&
+							(
+								'Email address is invalid' === $api_error['error_message'] ||
+								'Address format' === $api_error['error_message']
+							)
+						) {
 							return [
 								'status'  => 'api_error',
 								'message' => __( 'An error occurred while attempting Constant Contact API request. Please check your details and try again.', 'constant-contact-forms' ),
