@@ -749,10 +749,12 @@ class ConstantContact_API {
 			is_array( $return_contact ) &&
 			array_key_exists( 'action', $return_contact ) &&
 			in_array(
-				$return_contact['action'], [
+				$return_contact['action'],
+				[
 					'created',
 					'updated'
-				]
+				],
+				true
 			)
 		) {
 			$new_contact = $this->clear_email( $new_contact );
