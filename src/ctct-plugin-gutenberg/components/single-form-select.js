@@ -1,4 +1,5 @@
 import {__} from '@wordpress/i18n';
+import {useSelect} from '@wordpress/data';
 import {useBlockProps} from '@wordpress/block-editor';
 import { SelectControl, Spinner } from '@wordpress/components';
 
@@ -11,7 +12,7 @@ export default function Edit( props ) {
 		},
 	} = props;
 
-	/*const theforms = useSelect((select) => {
+	const theforms = useSelect((select) => {
 		const posts = select('core').getEntityRecords('postType', 'ctct_forms', {
 			per_page: -1,
 		});
@@ -25,7 +26,7 @@ export default function Edit( props ) {
 		formEntryObjs = theforms.posts?.map((form) => {
 			return {label: form.title.rendered, value: form.id};
 		});
-	}*/
+	}
 	return (
 		<div { ...useBlockProps() }>
 			{!formEntryObjs && <Spinner />}
@@ -40,13 +41,13 @@ export default function Edit( props ) {
 					<div className="ctct-block-container--selection">
 						<small>{__("Display Form Title", "constant-contact")}</small>
 						<div className="ctct-block-container--component">
-							<SelectControl value={displayTitle} options={this.state.displayTitle} onChange={(value) => this.props.setAttributes({displayTitle: value})} />
+
 						</div>
 					</div>
 					<div className="ctct-block-container--selection">
 						<small>{__("Choose the form to display with the dropdown below.", "constant-contact")}</small>
 						<div className="ctct-block-container--component">
-							<SelectControl value={selectedForm} options={this.state.forms} onChange={(value) => this.props.setAttributes({selectedForm: value})} />
+
 						</div>
 					</div>
 				</div>
