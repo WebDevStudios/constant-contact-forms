@@ -12,6 +12,10 @@ export default registerBlockType( 'constant-contact/single-contact-form', {
 	title: __( 'Constant Contact: Single Form', 'constant-contact' ),
 	icon: 'index-card',
 	category: 'layout',
+	keywords: [
+		'constant',
+		'form',
+	],
 	attributes: {
 		selectedForm: {
 			type: 'string',
