@@ -49,6 +49,9 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= 2.5.0 =
+* Updated: Better handling of email notifications around spam submission attemptes.
+
 = 2.4.4 =
 * Fixed: Consistently set address kind to "home".
 
