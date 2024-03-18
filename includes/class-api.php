@@ -745,9 +745,22 @@ class ConstantContact_API {
 			$this->log_errors( $our_errors );
 		}
 
-		$new_contact = $this->clear_email( $new_contact );
-		$new_contact = $this->clear_phone( $new_contact );
-		constant_contact_maybe_log_it( 'API', 'Submitted contact data', $new_contact );
+		if (
+			is_array( $return_contact ) &&
+			array_key_exists( 'action', $return_contact ) &&
+			in_array(
+				$return_contact['action'],
+				[
+					'created',
+					'updated'
+				],
+				true
+			)
+		) {
+			$new_contact = $this->clear_email( $new_contact );
+			$new_contact = $this->clear_phone( $new_contact );
+			constant_contact_maybe_log_it( 'API', 'Submitted contact data', $new_contact );
+		}
 
 		return $return_contact;
 	}
