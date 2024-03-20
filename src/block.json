@@ -1,0 +1,26 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "constant-contact/single-contact-form",
+  "version": "2.6.0",
+  "title": "Constant Contact: Single Form",
+  "category": "widgets",
+  "icon": "smiley",
+  "description": "Display a single Constant Contact form.",
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "textdomain": "example-static",
+  "editorScript": "file:./index.js",
+  "editorStyle": "file:./index.css",
+  "style": "file:./style-index.css",
+  "attributes": {
+    "selectedForm": {
+      "type": "string"
+    },
+    "displayTitle": {
+      "type": "string"
+    }
+  }
+}
