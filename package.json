@@ -36,8 +36,8 @@
     "stylesadmin:compress": "node-sass assets/css/admin-style.css assets/css/admin-style.min.css --output-style compressed",
     "start": "wp-scripts start",
     "watch": "wp-scripts start",
-    "scripts:watch": "wp-scripts start --webpack-src-dir=assets/js/ --config=assets/js/webpack.config.js --output-path=assets/js/build",
-    "scripts:build": "wp-scripts build --webpack-src-dir=assets/js/ --config=assets/js/webpack.config.js --output-path=assets/js/build"
+    "scripts:watch": "wp-scripts start --webpack-src-dir=assets/js/ --config=assets/js/webpack.config.js --output-path=assets/js/",
+    "scripts:build": "wp-scripts build --webpack-src-dir=assets/js/ --config=assets/js/webpack.config.js --output-path=assets/js/"
   },
   "devDependencies": {
     "@wordpress/prettier-config": "^3.10.0",
