@@ -5,7 +5,7 @@
   "version": "2.6.0",
   "title": "Constant Contact: Single Form",
   "category": "widgets",
-  "icon": "smiley",
+  "icon": "index-card",
   "description": "Display a single Constant Contact form.",
   "example": {},
   "supports": {
