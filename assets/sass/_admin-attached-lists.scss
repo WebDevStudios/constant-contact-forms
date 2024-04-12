@@ -63,6 +63,10 @@
 	padding: 0;
 	width: 100%;
 
+	&.attached {
+	  cursor: grab;
+	}
+
 	li {
 	  border-bottom: 1px solid #f1f1f1;
 	  margin: 0;
@@ -89,11 +93,19 @@
 
 	  .add-remove {
 		right: 10px;
+
+		&:hover {
+		  cursor: pointer;
+		}
 	  }
 
 	  .sort {
 		left: 10px;
 	  }
+	}
+
+	&.retrieved li .sort {
+	  display: none;
 	}
   }
 
