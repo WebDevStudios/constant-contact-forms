@@ -136,7 +136,7 @@ class ConstantContact_Attached_Lists_Field {
 				?>
 
 				<p>
-					<button type="button" class="button cmb2-attached-posts-search-button" data-search=" echo esc_attr( $js_data ); ?>">
+					<button type="button" class="button cmb2-attached-posts-search-button" data-search="<?php echo esc_attr( $js_data ); ?>">
 						<?php echo esc_html( $findtxt ); ?>
 						<span title="<?php echo esc_attr( $findtxt ); ?>" class="dashicons dashicons-search"></span>
 					</button>
