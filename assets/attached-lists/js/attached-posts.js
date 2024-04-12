@@ -11,7 +11,6 @@ window.CMBAP = window.CMBAP || {};
 		let $wrap            = $( '.attached-posts-wrap' );
 		app.$.retrievedPosts = $wrap.find( '.retrieved' );
 		app.$.attachedPosts  = $wrap.find( '.attached' );
-		app.doType           = $wrap.find( '.object-label' ).length;
 	};
 
 	app.init = function() {
@@ -190,8 +189,7 @@ window.CMBAP = window.CMBAP || {};
 	};
 
 	app.rowTmpl = function( row ) {
-		row.type = app.doType ? ' &mdash; <span class="object-label">'+ row.type +'</span>' : '';
-		return '<li data-id="'+ row.id +'" class="'+ row.class +' ui-draggable ui-draggable-handle"><span class="dashicons dashicons-sort sort"></span><a title="'+ app.editTitle +'" href="'+ app.edit_link_template.replace( 'REPLACEME', row.id ) +'">'+ row.title +'</a>'+ row.type +'<span class="dashicons dashicons-plus add-remove"></span></li>';
+		return '<li data-id="'+ row.id +'" class="'+ row.class +' ui-draggable ui-draggable-handle"><span class="dashicons dashicons-sort sort"></span>'+ row.title +'<span class="dashicons dashicons-plus add-remove"></span></li>';
 	};
 
 	app.$retrievedPosts = function() {
@@ -337,7 +335,6 @@ window.CMBAP = window.CMBAP || {};
 				let $row = $( this ).parents( '.found-posts' );
 				html += app.rowTmpl( {
 					title : $row.find( 'label' ).html(),
-					type  : $row.find( '> td' ).eq( 2 ).text(),
 					id    : this.value,
 					class : nextClass
 				} );
