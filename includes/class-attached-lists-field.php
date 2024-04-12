@@ -205,22 +205,21 @@ class ConstantContact_Attached_Lists_Field {
 	 * @return array
 	 * @since  1.2.5
 	 */
-	protected function display_attached( $attached ) {
+	protected function display_attached( $attached_lists ) {
 		$ids = [];
 
 		// Remove any empty values
-		$attached = array_filter( $attached );
+		$attached_lists = array_filter( $attached_lists );
 
-		if ( empty( $attached ) ) {
+		if ( empty( $attached_lists ) ) {
 			return $ids;
 		}
 
 		$count = 0;
 
 		// Loop through and build our existing display items
-		foreach ( $attached as $id ) {
-			$object = $this->get_object( $id );
-			$id     = $this->get_id( $object );
+		foreach ( $attached_lists as $list_id ) {
+			$object = $this->get_object_by_list_id( $list_id );
 
 			if ( empty( $object ) ) {
 				continue;
@@ -229,8 +228,8 @@ class ConstantContact_Attached_Lists_Field {
 			// Set our zebra stripes
 			$class = ++ $count % 2 == 0 ? 'even' : 'odd';
 
-			$this->list_item( $object, $class, 'dashicons-minus', 'right_list' );
-			$ids[ $id ] = $id;
+			$this->list_item( $object, $class, 'dashicons-minus' );
+			$ids[ $object->ID ] = $list_id;
 		}
 
 		return $ids;
