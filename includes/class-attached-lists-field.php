@@ -430,8 +430,12 @@ class ConstantContact_Attached_Lists_Field {
 		$query->set( 'post_type', $types );
 
 		if ( ! empty( $_POST['retrieved'] ) && is_array( $_POST['retrieved'] ) ) {
+			$obj_ids = [];
+			foreach( $_POST['retrieved'] as $list_id ) {
+				$obj_ids[] = $this->get_object_by_list_id( $list_id );
+			}
 			// Exclude posts/users already existing.
-			$ids = array_map( 'absint', $_POST['retrieved'] );
+			$ids = array_map( 'absint', $obj_ids );
 
 			if ( ! empty( $_POST['exclude'] ) && is_array( $_POST['exclude'] ) ) {
 				// Exclude the post that we're looking at.
