@@ -191,7 +191,7 @@ class ConstantContact_Attached_Lists_Field {
 			$class = ++ $count % 2 == 0 ? 'even' : 'odd';
 
 			// Set a class if our post is in our attached meta
-			$class .= ! empty ( $attached ) && in_array( $this->get_id( $object ), $attached ) ? ' added' : '';
+			$class .= ! empty ( $attached ) && in_array( $this->get_list_id_by_object( $object ), $attached ) ? ' added' : '';
 
 			$this->list_item( $object, $class );
 		}
@@ -234,6 +234,21 @@ class ConstantContact_Attached_Lists_Field {
 		}
 
 		return $ids;
+	}
+
+	protected function get_object_by_list_id( $list_id ) {
+		$args  = [
+			'post_type' => 'ctct_lists',
+			'posts_per_page' => 1,
+			'post_status' => 'publish',
+			'meta_key'   => '_ctct_list_id',
+			'meta_value' => $list_id
+		];
+		$query = new WP_Query( $args );
+		if ( $query->have_posts() ) {
+			return $query->post;
+		}
+		return false;
 	}
 
 	/**
