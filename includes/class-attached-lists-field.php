@@ -260,18 +260,13 @@ class ConstantContact_Attached_Lists_Field {
 	 * @return void
 	 * @since  1.2.5
 	 */
-	public function list_item( $object, $li_class, $icon_class = 'dashicons-plus', $list_side = 'left_list' ) {
-		// Determines if we should show the sorting icons. Only want on right list.
-		$sort_icon_left = 'right_list' === $list_side ? '<span class="dashicons dashicons-sort sort"></span>' : '';
+	public function list_item( $object, $li_class, $icon_class = 'dashicons-plus' ) {
 		// Build our list item
 		printf(
-			'<li data-id="%1$s" class="%2$s" target="_blank">%3$s<a title="' . __( 'Edit' ) . '" href="%4$s">%5$s</a>%6$s<span class="dashicons %7$s add-remove"></span></li>',
+			'<li data-id="%1$s" class="%2$s" target="_blank"><span class="dashicons dashicons-sort sort"></span> %3$s <span class="dashicons %4$s add-remove"></span></li>',
 			$this->get_list_id_by_object( $object ),
 			$li_class,
-			$sort_icon_left,
-			get_edit_post_link( $object ),
 			get_the_title( $object ),
-			$this->get_object_label( $object ),
 			$icon_class
 		);
 	}
