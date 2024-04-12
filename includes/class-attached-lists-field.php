@@ -54,6 +54,7 @@ class ConstantContact_Attached_Lists_Field {
 			'posts_per_page' => 100,
 		] );
 
+		// Most likely prevents listing a self post in the list.
 		if ( isset( $_POST['post'] ) ) {
 			$args['post__not_in'] = [ absint( $_POST['post'] ) ];
 		}
@@ -268,25 +269,6 @@ class ConstantContact_Attached_Lists_Field {
 
 	public function get_list_id_by_object( $object ) {
 		return get_post_meta( $object->ID, '_ctct_list_id', true );
-	}
-
-	/**
-	 * Get object label.
-	 *
-	 * @param mixed $object Post or User
-	 *
-	 * @return string         The object label.
-	 * @since  1.2.6
-	 */
-	public function get_object_label( $object ) {
-		if ( ! $this->do_type_label ) {
-			return '';
-		}
-
-		$post_type_obj = get_post_type_object( $object->post_type );
-		$label         = isset( $post_type_obj->labels->singular_name ) ? $post_type_obj->labels->singular_name : $post_type_obj->label;
-
-		return apply_filters( 'cmb2_attached_posts_field_label', ' &mdash; <span class="object-label">' . $label . '</span> ', $label, $object );
 	}
 
 	/**
