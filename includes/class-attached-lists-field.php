@@ -321,9 +321,8 @@ class ConstantContact_Attached_Lists_Field {
 		}
 
 		if ( ! empty( $attached ) ) {
-			$is_users                                        = $this->field->options( 'query_users' );
-			$args[ $is_users ? 'include' : 'post__in' ]      = $attached;
-			$args[ $is_users ? 'number' : 'posts_per_page' ] = count( $attached );
+			$args['post__in']       = $attached;
+			$args['posts_per_page'] = count( $attached );
 
 			$new = $this->get_objects( $args );
 
