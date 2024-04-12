@@ -83,12 +83,12 @@ window.CMBAP = window.CMBAP || {};
 
 	// Move Post to Attached column.
 	app.moveRowToAttached = function( $li ) {
-		let itemID = $li.data( 'id' );
-		let $wrap  = $li.parents( '.attached-posts-wrap' );
-
-		if ( $li.hasClass( 'added' ) ) {
+		if ($li.hasClass('added')) {
 			return;
 		}
+
+		let itemID = $li.data( 'id' );
+		let $wrap  = $li.parents( '.attached-posts-wrap' );
 
 		// If our item is in our post ID array, stop
 		if ( app.inputHasId( $wrap, itemID ) ) {
