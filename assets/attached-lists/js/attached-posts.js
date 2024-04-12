@@ -276,10 +276,9 @@ window.CMBAP = window.CMBAP || {};
 				return $( this ).data( 'id' );
 			} ).get();
 
-			var data = {
+			let data = {
 				ps                   : this.$input.val(),
 				action               : 'find_posts',
-				query_users          : this.queryUsers ? 1 : 0,
 				search_types         : this.types,
 				cmb_id               : this.cmbId,
 				group_id             : this.groupId,
