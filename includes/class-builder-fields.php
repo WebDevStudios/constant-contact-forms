@@ -235,7 +235,7 @@ class ConstantContact_Builder_Fields {
 				$list_metabox->add_field(
 					[
 						'name'    => esc_html__( 'Allow subscribers to select from lists. ( Select at least one )', 'constant-contact-forms' ),
-						'id'      => $this->prefix . 'list',
+						'id'      => $this->prefix . 'list_two',
 						'type'    => 'multicheck',
 						'options' => $lists,
 					]
