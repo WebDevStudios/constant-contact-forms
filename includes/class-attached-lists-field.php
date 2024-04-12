@@ -458,18 +458,13 @@ class ConstantContact_Attached_Lists_Field {
 	 * @since  1.2.4
 	 */
 	public function maybe_callback( $query, $post_args ) {
-		$cmb   = $post_args['cmb_id'] ?? '';
-		$group = $post_args['group_id'] ?? '';
+		$cmbID = $post_args['cmb_id'] ?? '';
 		$field = $post_args['field_id'] ?? '';
 
-		$cmb = cmb2_get_metabox( $cmb );
-		if ( $cmb && $group ) {
-			$group = $cmb->get_field( $group );
-		}
+		$cmb = cmb2_get_metabox( $cmbID );
 
 		if ( $cmb && $field ) {
-			$group = $group ? $group : null;
-			$field = $cmb->get_field( $field, $group );
+			$field = $cmb->get_field( $field );
 		}
 
 		if ( $field && ( $cb = $field->maybe_callback( 'attached_posts_search_query_cb' ) ) ) {
