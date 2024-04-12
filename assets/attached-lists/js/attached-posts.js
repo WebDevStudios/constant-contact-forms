@@ -263,7 +263,7 @@ window.CMBAP = window.CMBAP || {};
 		},
 
 		maybeStartSearch: function( evt ) {
-			if ( 13 == evt.which ) {
+			if ( 13 === evt.which ) {
 				this.send();
 				return false;
 			}
