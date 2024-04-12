@@ -326,6 +326,14 @@ class Constant_Contact {
 	 */
 	private $beaver_builder;
 
+	/**
+	 * An instance of the CTCT_CMB2_Attached_Lists_Field class
+	 *
+	 * @since NEXT
+	 * @var CTCT_CMB2_Attached_Lists_Field
+	 */
+	private $attached_lists;
+
 	/*
 	 * An instance of the ConstantContact_Elementor class.
 	 *
@@ -452,6 +460,7 @@ class Constant_Contact {
 		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
 		$this->health               = new ConstantContact_Health( $this );
+		$this->attached_lists       = new ConstantContact_Attached_Lists_Field();
 		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
 			// Load if Elementor is active.
 			$this->elementor = new ConstantContact_Elementor( $this );
