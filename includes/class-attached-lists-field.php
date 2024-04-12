@@ -99,70 +99,77 @@ class ConstantContact_Attached_Lists_Field {
 		}
 
 		// Wrap our lists
-		echo '<div class="attached-posts-wrap widefat" data-fieldname="' . $field_type->_name() . '">';
+		?>
+		<div class="attached-posts-wrap widefat" data-fieldname="<?php echo esc_attr( $field_type->_name() ); ?>">
+			<div class="retrieved-wrap column-wrap">
+				<p class="attached-posts-section">
+					<strong><?php printf( esc_html__( 'Available %s', 'cmb' ), $post_type_labels ); ?></strong>
+				</p>
 
-		// Open our retrieved, or found posts, list
-		echo '<div class="retrieved-wrap column-wrap">';
-		echo '<h4 class="attached-posts-section">' . sprintf( __( 'Available %s', 'cmb' ), $post_type_labels ) . '</h4>';
+				<?php
+				$hide_selected = $this->field->options( 'hide_selected' ) ? ' hide-selected' : '';
 
-		$hide_selected = $this->field->options( 'hide_selected' ) ? ' hide-selected' : '';
+				if ( $filter_boxes ) {
+					printf( $filter_boxes, 'available-search' );
+				}
+				?>
+				<ul class="retrieved connected <?php echo esc_attr( $hide_selected ); ?>">
+					<?php
 
-		if ( $filter_boxes ) {
-			printf( $filter_boxes, 'available-search' );
-		}
+					// Loop through our posts as list items
+					$this->display_retrieved( $objects, $attached );
+					?>
+				</ul><!-- .retrieved -->
+				<?php
 
-		echo '<ul class="retrieved connected' . esc_attr( $hide_selected ) . '">';
+				$findtxt = $field_type->_text( 'find_text', __( 'Search lists' ) );
 
-		// Loop through our posts as list items
-		$this->display_retrieved( $objects, $attached );
+				$js_data = json_encode( [
+					'types'      => $args['post_type'],
+					'cmbId'      => $this->field->cmb_id,
+					'errortxt'   => esc_attr( $field_type->_text( 'error_text', esc_html__( 'An error has occurred. Please reload the page and try again.', 'constant-contact-forms' ) ) ),
+					'findtxt'    => esc_attr( $field_type->_text( 'find_text', esc_html__( 'Find lists', 'constant-contact-forms' ) ) ),
+					'groupId'    => $this->field->group ? $this->field->group->id() : false,
+					'fieldId'    => $this->field->_id(),
+					'exclude'    => $args['post__not_in'] ?? [],
+				] );
+				?>
 
-		// Close our retrieved, or found, posts
-		echo '</ul><!-- .retrieved -->';
+				<p>
+					<button type="button" class="button cmb2-attached-posts-search-button" data-search=" echo esc_attr( $js_data ); ?>">
+						<?php echo esc_html( $findtxt ); ?>
+						<span title="<?php echo esc_attr( $findtxt ); ?>" class="dashicons dashicons-search"></span>
+					</button>
+				</p>
+			</div><!-- .retrieved-wrap -->
+			<div class="attached-wrap column-wrap">
+				<p class="attached-posts-section">
+					<strong><?php printf( esc_html__( 'Associated %s', 'constant-contact-forms' ), $post_type_labels ); ?></strong>
+				</p>
+			<?php
+			if ( $filter_boxes ) {
+				printf( $filter_boxes, 'attached-search' );
+			}
+			?>
+				<ul class="attached connected">
+					<?php
+					// If we have any ids saved already, display them
+					$ids = $this->display_attached( $attached );
+					?>
+				</ul><!-- #attached -->
+			</div><!-- .attached-wrap -->
 
-		$findtxt = $field_type->_text( 'find_text', __( 'Search lists' ) );
+			<?php
 
-		$js_data = json_encode( [
-			'types'      => $args['post_type'],
-			'cmbId'      => $this->field->cmb_id,
-			'errortxt'   => esc_attr( $field_type->_text( 'error_text', __( 'An error has occurred. Please reload the page and try again.' ) ) ),
-			'findtxt'    => esc_attr( $field_type->_text( 'find_text', __( 'Find lists' ) ) ),
-			'groupId'    => $this->field->group ? $this->field->group->id() : false,
-			'fieldId'    => $this->field->_id(),
-			'exclude'    => isset( $args['post__not_in'] ) ? $args['post__not_in'] : [],
-		] );
-
-		echo '<p><button type="button" class="button cmb2-attached-posts-search-button" data-search=\'' . $js_data . '\'>' . $findtxt . ' <span title="' . esc_attr( $findtxt ) . '" class="dashicons dashicons-search"></span></button></p>';
-
-		echo '</div><!-- .retrieved-wrap -->';
-
-		// Open our attached posts list
-		echo '<div class="attached-wrap column-wrap">';
-		echo '<h4 class="attached-posts-section">' . sprintf( __( 'Associated %s', 'cmb' ), $post_type_labels ) . '</h4>';
-
-		if ( $filter_boxes ) {
-			printf( $filter_boxes, 'attached-search' );
-		}
-
-		echo '<ul class="attached connected">';
-
-		// If we have any ids saved already, display them
-		$ids = $this->display_attached( $attached );
-
-		// Close up shop
-		echo '</ul><!-- #attached -->';
-		echo '</div><!-- .attached-wrap -->';
-
-		echo $field_type->input( [
-			'type'  => 'hidden',
-			'class' => 'attached-posts-ids',
-			'value' => ! empty( $ids ) ? implode( ',', $ids ) : '',
-			'desc'  => '',
-		] );
-
-		echo '</div><!-- .attached-posts-wrap -->';
-
-		// Display our description if one exists
-		$field_type->_desc( true, true );
+			echo $field_type->input( [
+				'type'  => 'hidden',
+				'class' => 'attached-posts-ids',
+				'value' => ! empty( $ids ) ? implode( ',', $ids ) : '',
+				'desc'  => '',
+			] );
+			?>
+		</div><!-- .attached-posts-wrap -->
+		<?php
 	}
 
 	/**
