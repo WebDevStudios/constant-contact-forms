@@ -38,6 +38,14 @@
 	width: 100%;
 }
 
+.cmb-type-custom-attached-posts .connected.attached {
+	cursor: grab;
+}
+
+.cmb-type-custom-attached-posts .connected.attached .add-remove {
+	cursor: pointer;
+}
+
 .cmb-type-custom-attached-posts .has-thumbnails.connected {
 	height: 150px;
 	overflow: scroll;
@@ -115,6 +123,10 @@
 
 .connected li .sort {
 	left: 10px;
+}
+
+.retrieved.connected li .sort {
+	display:none;
 }
 
 ul.hide-selected li.added{
