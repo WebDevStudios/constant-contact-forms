@@ -236,6 +236,10 @@ class ConstantContact_Attached_Lists_Field {
 	}
 
 	protected function get_object_by_list_id( $list_id ) {
+		if ( $this->doing_search() ) {
+			return false;
+		}
+
 		$args  = [
 			'post_type' => 'ctct_lists',
 			'posts_per_page' => 1,
@@ -408,13 +412,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @since  NEXT
 	 */
 	public function ajax_find_posts() {
-		if (
-			defined( 'DOING_AJAX' )
-			&& DOING_AJAX
-			&& isset( $_POST['cmb2_attached_search'], $_POST['retrieved'], $_POST['action'], $_POST['search_types'] )
-			&& 'find_posts' == $_POST['action']
-			&& ! empty( $_POST['search_types'] )
-		) {
+		if ( $this->doing_search() ) {
 			add_action( 'pre_get_posts', [ $this, 'modify_query' ] );
 		}
 	}
@@ -444,31 +442,24 @@ class ConstantContact_Attached_Lists_Field {
 
 			$query->set( 'post__not_in', $ids );
 		}
-
-		$this->maybe_callback( $query, $_POST );
 	}
 
 	/**
-	 * If field has a 'attached_posts_search_query_cb', run the callback.
+	 * Whether or not we are doing a list search.
 	 *
-	 * @param WP_Query $query     WP_Query instance during the pre_get_posts hook.
-	 * @param array    $post_args The $_POST array.
-	 *
-	 * @return void
-	 * @since  1.2.4
+	 * @since NEXT
+	 * @return bool
 	 */
-	public function maybe_callback( $query, $post_args ) {
-		$cmbID = $post_args['cmb_id'] ?? '';
-		$field = $post_args['field_id'] ?? '';
-
-		$cmb = cmb2_get_metabox( $cmbID );
-
-		if ( $cmb && $field ) {
-			$field = $cmb->get_field( $field );
+	protected function doing_search() {
+		if (
+			defined( 'DOING_AJAX' )
+			&& DOING_AJAX
+			&& isset( $_POST['cmb2_attached_search'], $_POST['retrieved'], $_POST['action'], $_POST['search_types'] )
+			&& 'find_posts' === $_POST['action']
+			&& ! empty( $_POST['search_types'] )
+		) {
+			return true;
 		}
-
-		if ( $field && ( $cb = $field->maybe_callback( 'attached_posts_search_query_cb' ) ) ) {
-			call_user_func( $cb, $query, $field, $this );
-		}
+		return false;
 	}
 }
