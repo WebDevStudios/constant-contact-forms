@@ -240,6 +240,19 @@ class ConstantContact_Builder_Fields {
 						'options' => $lists,
 					]
 				);
+
+				$list_metabox->add_field( array(
+					'name'    => esc_html__( 'Associated lists', 'constant-contact-forms' ),
+					'id'      => $this->prefix . 'list_two',
+					'type'    => 'custom_attached_posts',
+					'options' => array(
+						'filter_boxes'    => true, // Show a text box for filtering the results
+						'query_args'      => array(
+							'posts_per_page' => 10,
+							'post_type'      => 'ctct_lists',
+						),
+					),
+				) );
 			}
 		}
 	}
