@@ -36,7 +36,7 @@ class ConstantContact_Gutenberg {
 		$this->plugin = $plugin;
 
 		if ( $this->meets_requirements() ) {
-			$this->register_blocks();
+			add_action( 'init', [ $this, 'register_blocks' ] );
 		}
 	}
 
