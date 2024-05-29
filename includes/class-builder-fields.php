@@ -232,15 +232,6 @@ class ConstantContact_Builder_Fields {
 			}
 
 			if ( $lists ) {
-				$list_metabox->add_field(
-					[
-						'name'    => esc_html__( 'Allow subscribers to select from lists. ( Select at least one )', 'constant-contact-forms' ),
-						'id'      => $this->prefix . 'list_two',
-						'type'    => 'multicheck',
-						'options' => $lists,
-					]
-				);
-
 				$instructions[] = esc_html__( 'Click the plus character to add list. Click the minus character to remove list.', 'constant-contact-forms' );
 				$instructions[] = esc_html__( 'Click and drag added lists in "Associated Lists" to reorder. First one listed will be the default.', 'constant-contact-forms' );
 				$list_metabox->add_field( [
