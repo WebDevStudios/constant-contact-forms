@@ -135,12 +135,12 @@ class ConstantContact_Attached_Lists_Field {
 				] );
 				?>
 
-				<p>
+				<?php /*<p>
 					<button type="button" class="button cmb2-attached-posts-search-button" data-search="<?php echo esc_attr( $js_data ); ?>">
 						<?php echo esc_html( $findtxt ); ?>
 						<span title="<?php echo esc_attr( $findtxt ); ?>" class="dashicons dashicons-search"></span>
 					</button>
-				</p>
+				</p>*/ ?>
 			</div><!-- .retrieved-wrap -->
 			<div class="attached-wrap column-wrap">
 				<p class="attached-posts-section">
