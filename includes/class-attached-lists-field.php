@@ -367,7 +367,6 @@ class ConstantContact_Attached_Lists_Field {
 		];
 
 		wp_enqueue_script( 'cmb2-attached-posts-field', $url . 'js/attached-posts.js', $requirements, self::VERSION, true );
-		wp_enqueue_style( 'cmb2-attached-posts-field', $url . 'css/attached-posts-admin.css', [], self::VERSION );
 
 		if ( ! $once ) {
 			wp_localize_script( 'cmb2-attached-posts-field', 'CMBAP', [
