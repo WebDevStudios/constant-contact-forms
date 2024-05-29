@@ -206,17 +206,19 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function constant_contact_list_metabox() {
 
+		$list_metabox = new_cmb2_box(
+			[
+				'id'           => 'ctct_0_list_metabox',
+				'title'        => esc_html__( 'Constant Contact List', 'constant-contact-forms' ),
+				'object_types' => [ 'ctct_forms' ],
+				'context'      => 'normal',
+				'priority'     => 'high',
+				'show_names'   => true,
+			]
+		);
+
 		if ( constant_contact()->api->is_connected() ) {
-			$list_metabox = new_cmb2_box(
-				[
-					'id'           => 'ctct_0_list_metabox',
-					'title'        => esc_html__( 'Constant Contact List', 'constant-contact-forms' ),
-					'object_types' => [ 'ctct_forms' ],
-					'context'      => 'normal',
-					'priority'     => 'high',
-					'show_names'   => true,
-				]
-			);
+
 
 			$lists = $this->get_local_lists();
 
@@ -250,6 +252,13 @@ class ConstantContact_Builder_Fields {
 					],
 				] );
 			}
+		} else {
+			$list_metabox->add_field( [
+				'name' => esc_html__( 'No connected account', 'constant-contact-forms' ),
+				'desc' => esc_html__( 'Please connect to an intended Constant Contact account to start adding items to some lists', 'constant-contact-forms' ),
+				'type' => 'title',
+				'id'   => $this->prefix . 'no_connection'
+			] );
 		}
 	}
 
