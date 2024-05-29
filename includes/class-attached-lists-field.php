@@ -354,7 +354,7 @@ class ConstantContact_Attached_Lists_Field {
 	protected static function setup_scripts() {
 		static $once = false;
 
-		$url = constant_contact::url() . 'assets/attached-lists/';
+		$url = constant_contact::url() . 'assets/js/';
 
 		$requirements = [
 			'jquery-ui-core',
@@ -366,10 +366,10 @@ class ConstantContact_Attached_Lists_Field {
 			'wp-backbone',
 		];
 
-		wp_enqueue_script( 'cmb2-attached-posts-field', $url . 'js/attached-posts.js', $requirements, self::VERSION, true );
+		wp_enqueue_script( 'cmb2-attached-lists-field', $url . 'ctct-plugin-attached-lists.js', $requirements, self::VERSION, true );
 
 		if ( ! $once ) {
-			wp_localize_script( 'cmb2-attached-posts-field', 'CMBAP', [
+			wp_localize_script( 'cmb2-attached-lists-field', 'CMBAP', [
 				'edit_link_template' => str_replace( get_the_ID(), 'REPLACEME', get_edit_post_link( get_the_ID() ) ),
 				'ajaxurl'            => admin_url( 'admin-ajax.php', 'relative' ),
 			] );
