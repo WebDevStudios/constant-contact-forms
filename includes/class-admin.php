@@ -585,14 +585,6 @@ class ConstantContact_Admin {
 			true
 		);
 
-		wp_register_script(
-			'ctct_gutenberg',
-			constant_contact()->url() . 'assets/js/ctct-plugin-gutenberg' . $suffix . '.js',
-			[ 'wp-blocks', 'wp-element', 'wp-i18n' ],
-			Constant_Contact::VERSION,
-			true
-		);
-
 		wp_localize_script(
 			'ctct_form',
 			'ctctTexts',
@@ -632,9 +624,6 @@ class ConstantContact_Admin {
 		$allowed_pages = apply_filters( 'constant_contact_script_load_pages', [ 'post.php', 'post-new.php' ] );
 		if ( $pagenow && in_array( $pagenow, $allowed_pages, true ) && ! constant_contact()->is_constant_contact() ) {
 			wp_enqueue_script( 'ctct_form' );
-			if ( $is_gutenberg ) {
-				wp_enqueue_script( 'ctct_gutenberg' );
-			}
 		}
 
 		if ( ! is_array( $extra_localizations ) ) {

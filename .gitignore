@@ -20,7 +20,6 @@ Temporary Items
 /logs
 *.log
 /node_modules/
-build
 lib
 node_modules/
 
