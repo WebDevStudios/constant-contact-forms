@@ -151,7 +151,7 @@ class ConstantContact_CPTS {
 			'supports'            => [ 'title' ],
 			'taxonomies'          => [],
 			'hierarchical'        => false,
-			'public'              => false,
+			'public'              => true,
 			'show_ui'             => true,
 			'show_in_menu'        => 'edit.php?post_type=ctct_forms',
 			'menu_position'       => 20,
