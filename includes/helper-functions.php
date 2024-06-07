@@ -195,6 +195,10 @@ function constant_contact_review_ajax_handler() {
 				$dismissed['time'] = current_time( 'timestamp' );
 				if ( empty( $dismissed['count'] ) ) {
 					$dismissed['count'] = '1';
+				} elseif ( isset( $dismissed['count'] ) && '4' === $dismissed['count'] ) {
+					$dismissed['count'] = '5';
+				}elseif ( isset( $dismissed['count'] ) && '3' === $dismissed['count'] ) {
+					$dismissed['count'] = '4';
 				} elseif ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
 					$dismissed['count'] = '3';
 				} else {
