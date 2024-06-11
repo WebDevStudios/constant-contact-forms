@@ -192,7 +192,7 @@ function constant_contact_review_ajax_handler() {
 		switch ( $action ) {
 			case 'dismissed':
 				$dismissed         = get_option( ConstantContact_Notifications::$review_dismissed_option, [] );
-				$dismissed['time'] = current_time( 'timestamp' );
+				$dismissed['time'] = time();
 				if ( empty( $dismissed['count'] ) ) {
 					$dismissed['count'] = '1';
 				} elseif ( isset( $dismissed['count'] ) && '4' === $dismissed['count'] ) {
