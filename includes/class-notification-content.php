@@ -317,7 +317,7 @@ class ConstantContact_Notification_Content {
 		ob_start();
 		?>
 		<div class="admin-notice-message">
-			<p><?php esc_html_e( 'There is a pending update available for Constant Contact Forms. Please consider visiting the WordPress updates area and updating the plugin.', 'constant-contact-forms' ); ?></p>
+			<p><?php esc_html_e( 'We wanted to inform you that there is a pending update available for the Constant Contact Forms plugin. To ensure optimal performance and security, please visit the WordPress updates area and update the plugin at your earliest convenience.', 'constant-contact-forms' ); ?></p>
 		</div>
 		<?php
 		return ob_get_clean();
