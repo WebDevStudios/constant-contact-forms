@@ -322,7 +322,7 @@ class ConstantContact_Notification_Content {
 			$url = is_multisite() ? 'network/update-core.php' : 'update-core.php';
 			printf(
 				/* Translators: placeholders will be html `<a>` links. */
-				esc_html__( 'We wanted to inform you that there is a pending update available for the Constant Contact Forms plugin. To ensure optimal performance and security, please visit the %1$sWordPress updatess%2$s area and update the plugin at your earliest convenience.', 'constant-contact-forms' ),
+				esc_html__( 'We wanted to inform you that there is a pending update available for the Constant Contact Forms plugin. To ensure optimal performance and security, please visit the %1$sWordPress updates%2$s area and update the plugin at your earliest convenience.', 'constant-contact-forms' ),
 				sprintf( '<a href="%s">', esc_url( admin_url( $url ) ) ),
 				'</a>',
 			); ?>
