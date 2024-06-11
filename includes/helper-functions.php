@@ -896,6 +896,10 @@ function constant_contact_maybe_show_cron_notification() {
 }
 
 function constant_contact_maybe_show_update_available_notification() {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
 	$version = '';
 	$resp = wp_remote_get( 'https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&slug=constant-contact-forms' );
 	if ( ! is_wp_error( $resp ) ) {
