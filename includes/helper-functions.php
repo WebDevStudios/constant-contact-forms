@@ -130,6 +130,26 @@ function constant_contact_maybe_display_review_notification() {
 	}
 
 	if ( isset( $dismissed['count'] ) && '3' === $dismissed['count'] ) {
+		$thirty_days = strtotime( '-14 days' );
+		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $thirty_days
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	if ( isset( $dismissed['count'] ) && '4' === $dismissed['count'] ) {
+		$thirty_days = strtotime( '-30 days' );
+		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $thirty_days
+		) {
+			return true;
+		}
+
+		return false;
+	}
+
+	if ( isset( $dismissed['count'] ) && '5' === $dismissed['count'] ) {
 		return false;
 	}
 
@@ -172,9 +192,13 @@ function constant_contact_review_ajax_handler() {
 		switch ( $action ) {
 			case 'dismissed':
 				$dismissed         = get_option( ConstantContact_Notifications::$review_dismissed_option, [] );
-				$dismissed['time'] = current_time( 'timestamp' );
+				$dismissed['time'] = time();
 				if ( empty( $dismissed['count'] ) ) {
 					$dismissed['count'] = '1';
+				} elseif ( isset( $dismissed['count'] ) && '4' === $dismissed['count'] ) {
+					$dismissed['count'] = '5';
+				}elseif ( isset( $dismissed['count'] ) && '3' === $dismissed['count'] ) {
+					$dismissed['count'] = '4';
 				} elseif ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
 					$dismissed['count'] = '3';
 				} else {

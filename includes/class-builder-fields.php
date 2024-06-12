@@ -206,17 +206,19 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function constant_contact_list_metabox() {
 
+		$list_metabox = new_cmb2_box(
+			[
+				'id'           => 'ctct_0_list_metabox',
+				'title'        => esc_html__( 'Constant Contact List', 'constant-contact-forms' ),
+				'object_types' => [ 'ctct_forms' ],
+				'context'      => 'normal',
+				'priority'     => 'high',
+				'show_names'   => true,
+			]
+		);
+
 		if ( constant_contact()->api->is_connected() ) {
-			$list_metabox = new_cmb2_box(
-				[
-					'id'           => 'ctct_0_list_metabox',
-					'title'        => esc_html__( 'Constant Contact List', 'constant-contact-forms' ),
-					'object_types' => [ 'ctct_forms' ],
-					'context'      => 'normal',
-					'priority'     => 'high',
-					'show_names'   => true,
-				]
-			);
+
 
 			$lists = $this->get_local_lists();
 
@@ -232,15 +234,31 @@ class ConstantContact_Builder_Fields {
 			}
 
 			if ( $lists ) {
-				$list_metabox->add_field(
-					[
-						'name'    => esc_html__( 'Allow subscribers to select from lists. ( Select at least one )', 'constant-contact-forms' ),
-						'id'      => $this->prefix . 'list',
-						'type'    => 'multicheck',
-						'options' => $lists,
-					]
-				);
+				$instructions[] = esc_html__( 'Click the plus character to add list. Click the minus character to remove list.', 'constant-contact-forms' );
+				$instructions[] = esc_html__( 'Click and drag added lists in "Associated Lists" to reorder. First one listed will be the default.', 'constant-contact-forms' );
+				$list_metabox->add_field( [
+					'name'    => esc_html__( 'Associated lists ', 'constant-contact-forms' ),
+					'before'  => esc_html__( 'Allow subscribers to select from chosen lists. ( Add at least one ).', 'constant-contact-forms' ),
+					'before_field' => '<p>' . implode( '</p><p>', $instructions ) . '</p>',
+					'id'      => $this->prefix . 'list',
+					'type'    => 'custom_attached_posts',
+					'options' => [
+						'filter_boxes'  => true,
+						'query_args'    => [
+							'posts_per_page' => -1,
+							'post_type'      => 'ctct_lists',
+						],
+						'hide_selected' => true,
+					],
+				] );
 			}
+		} else {
+			$list_metabox->add_field( [
+				'name' => esc_html__( 'No connected account', 'constant-contact-forms' ),
+				'desc' => esc_html__( 'Please connect to an intended Constant Contact account to start adding items to some lists', 'constant-contact-forms' ),
+				'type' => 'title',
+				'id'   => $this->prefix . 'no_connection'
+			] );
 		}
 	}
 

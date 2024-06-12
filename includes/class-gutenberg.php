@@ -36,7 +36,7 @@ class ConstantContact_Gutenberg {
 		$this->plugin = $plugin;
 
 		if ( $this->meets_requirements() ) {
-			$this->register_blocks();
+			add_action( 'init', [ $this, 'register_blocks' ] );
 		}
 	}
 
@@ -61,18 +61,8 @@ class ConstantContact_Gutenberg {
 	 */
 	public function register_blocks() {
 		register_block_type(
-			'constant-contact/single-contact-form',
-			[
-				'attributes'      => [
-					'selectedForm' => [
-						'type' => 'number',
-					],
-					'displayTitle' => [
-						'type' => 'boolean',
-					],
-				],
-				'render_callback' => [ $this, 'display_single_contact_form' ],
-			]
+			plugin_dir_path( dirname( __FILE__ ) ) . 'build',
+			[ 'render_callback' => [ $this, 'display_single_contact_form' ] ]
 		);
 	}
 
