@@ -329,7 +329,7 @@ class Constant_Contact {
 	/**
 	 * An instance of the CTCT_CMB2_Attached_Lists_Field class
 	 *
-	 * @since NEXT
+	 * @since 2.6.0
 	 * @var CTCT_CMB2_Attached_Lists_Field
 	 */
 	private $attached_lists;
