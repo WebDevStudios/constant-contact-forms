@@ -765,3 +765,101 @@ function constant_contact_should_hide_disable_admin_email() : bool {
 
 	return $show;
 }
+
+function ctct_modal_script_styles() {
+	$current_screen = get_current_screen();
+
+	if ( 'plugins' !== $current_screen->base ) {
+		return;
+	}
+?>
+	<style>
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgb(0, 0, 0);
+			background-color: rgba(0, 0, 0, 0.4);
+		}
+
+		.modal-content {
+			background-color: #fefefe;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 50%;
+		}
+
+		.ctct-feedback-close {
+			color: #aaa;
+			float: right;
+			font-size: 28px;
+			font-weight: bold;
+		}
+
+		.ctct-feedback-close:hover,
+		.ctct-feedback-close:focus {
+			color: black;
+			text-decoration: none;
+			cursor: pointer;
+		}
+	</style>
+
+<script>
+	window.addEventListener('load', function () {
+		let modal = document.querySelector("#ctct-modal");
+		let closeBtn = document.querySelector('.ctct-feedback-close');
+		let deactivateLink = document.querySelector('#deactivate-constant-contact-forms');
+		let skipdeactivate = document.querySelector('#ctct-skip-deactivate');
+
+		if (deactivateLink) {
+			deactivateLink.addEventListener('click', (e) => {
+				e.preventDefault();
+				window.ctctDeactivationLink = e.target.href;
+				skipdeactivate.setAttribute('href', window.ctctDeactivationLink);
+				modal.style.display = 'block';
+			});
+		}
+		if (closeBtn) {
+			closeBtn.addEventListener('click', (e) => {
+				closeBtn.setAttribute('href', window.ctctDeactivationLink);
+				modal.style.display = 'none';
+			});
+		}
+
+		window.addEventListener('click', (e) => {
+			if (e.target === modal) {
+				modal.style.display = "none";
+			}
+		});
+	});
+</script>
+<?php
+}
+add_action( 'admin_head', 'ctct_modal_script_styles' );
+
+function ctct_modal_feedback() {
+	$current_screen = get_current_screen();
+
+	if ( 'plugins' !== $current_screen->base ) {
+		return;
+	}
+
+	ob_start();
+	?>
+	<div id="ctct-modal" class="modal">
+		<div class="modal-content">
+			<a id="ctct-feedback-close-btn" href="#" class="ctct-feedback-close">&times;</a>
+			<p><?php esc_html_e( 'If you have a moment, please let us know why you are deactivating Constant Contact Forms. INSERT LINK HERE.', 'constant-contact-forms' ); ?></p>
+			<p><a id="ctct-skip-deactivate" href="#"><?php esc_html_e( 'Skip and deactivate', 'constant-contact-forms' ); ?></a></p>
+		</div>
+
+	</div>
+<?php
+}
+add_action( 'admin_footer', 'ctct_modal_feedback' );
