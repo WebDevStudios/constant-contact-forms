@@ -908,9 +908,7 @@ function constant_contact_maybe_show_update_available_notification() {
 	}
 	$current_version = get_option( 'ctct_plugin_version' );
 
-	if ( $version && version_compare( $current_version, $version, '>=' ) ) {
-		return false;
-	} else if ( $version && version_compare( $current_version, $version, '<' ) ) {
+	if ( $version && version_compare( $current_version, $version, '<' ) ) {
 		return true;
 	}
 	// If we got this far, we just failed to get the current available version.
