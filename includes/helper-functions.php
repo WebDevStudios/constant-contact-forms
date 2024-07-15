@@ -775,7 +775,7 @@ function ctct_modal_script_styles() {
 ?>
 <style>
 	.modal {
-		display: block;
+		display: none;
 		position: fixed;
 		z-index: 1;
 		left: 0;
