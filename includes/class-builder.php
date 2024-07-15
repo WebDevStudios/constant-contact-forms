@@ -322,7 +322,7 @@ class ConstantContact_Builder {
 								<?php // Empty alt tag OK; decorative image. ?>
 								<img
 									class="ctct-modal-flare"
-									src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/question-mail.png' ); ?>"
+									src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/createAccount.svg' ); ?>"
 									alt=""
 								/>
 								<h3><?php esc_attr_e( 'Try email marketing.', 'constant-contact-forms' ); ?></h3>
@@ -337,7 +337,7 @@ class ConstantContact_Builder {
 								<?php // Empty alt tag OK; decorative image. ?>
 								<img
 									class="ctct-modal-flare"
-									src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/cc-login.png' ); ?>"
+									src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/login.svg' ); ?>"
 									alt=""
 								/>
 								<h3><?php esc_attr_e( 'Connect my account.', 'constant-contact-forms' ); ?></h3>
