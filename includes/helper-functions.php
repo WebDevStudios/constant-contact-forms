@@ -972,10 +972,7 @@ function ctct_modal_script_styles() {
 	}
 
 	.modal-content img {
-		position: absolute;
-		bottom: 20px;
-		right: 20px;
-		width: 50px;
+		width: 35%;
 	}
 
 	.ctct-feedback-close {
@@ -1030,7 +1027,10 @@ function ctct_modal_feedback() {
 	?>
 	<div id="ctct-modal" class="modal">
 		<div class="modal-content">
-			<a id="ctct-feedback-close-btn" href="#" class="ctct-feedback-close">&times;</a>
+			<div class="modal-title">
+				<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/CTCT_Logo_H_FC_RGB.svg" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
+				<a id="ctct-feedback-close-btn" href="#" class="ctct-feedback-close">&times;</a>
+			</div>
 			<p>
 				<?php esc_html_e( "We would love to have some feedback about why you are deactivating Constant Contact Forms, so that we can improve and better enhance the plugin to meet site owners' needs. Please use the link below to submit.", 'constant-contact-forms' ); ?>
 			</p>
@@ -1044,8 +1044,6 @@ function ctct_modal_feedback() {
 					<?php esc_html_e( 'Skip and deactivate', 'constant-contact-forms' ); ?>
 				</a>
 			</p>
-
-			<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/icon-2024.png" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
 		</div>
 
 	</div>
