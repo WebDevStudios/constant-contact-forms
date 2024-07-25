@@ -4,4 +4,5 @@ import './forms';
 import './modal';
 import './newsletter';
 import './optins';;
-import './clipboard'; 
+import './clipboard';
+import './feedback';
