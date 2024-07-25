@@ -774,7 +774,7 @@ function ctct_modal_script_styles() {
 	}
 ?>
 <style>
-	.modal {
+	.ctct-feedback-modal {
 		display: none;
 		position: fixed;
 		z-index: 1;
@@ -787,7 +787,7 @@ function ctct_modal_script_styles() {
 		background-color: rgba(0, 0, 0, 0.4);
 	}
 
-	.modal-content {
+	.ctct-feedback-modal-content {
 		border-left: solid #144bee 5px;
 		background-color: #fefefe;
 		margin: 15% auto;
@@ -795,15 +795,15 @@ function ctct_modal_script_styles() {
 		width: 50%;
 		position: relative;
 	}
-	.modal-content a {
+	.ctct-feedback-modal-content a {
 		color: #144bee;
 	}
 
-	.modal-content #ctct-skip-deactivate {
+	.ctct-feedback-modal-content .modal-footer {
 		font-size: 16px;
 	}
 
-	.modal-content img {
+	.ctct-feedback-modal-content img {
 		width: 35%;
 	}
 
@@ -813,14 +813,32 @@ function ctct_modal_script_styles() {
 		font-weight: bold;
 		text-decoration: none;
 	}
+	.ctct-feedback-modal-footer {
+		display: flex;
+		justify-content: space-between;
+		margin-top: 30px;
+	}
+	.ctct-feedback-modal-footer a {
+		margin: 0 10px;
+		padding: 8px 10px;
+	}
+	.ctct-feedback-modal-footer .ctct-privacy a {
+		font-size: 14px;
+	}
+	.ctct-feedback-modal-footer #ctct-feedback-modal-skip-deactivate {
+		background-color: #144bee;
+		color: #fff;
+		text-decoration: none;
+	}
 </style>
 
 <script>
 	window.addEventListener('load', function () {
-		let modal = document.querySelector("#ctct-modal");
-		let closeBtn = document.querySelector('.ctct-feedback-close');
+		let modal = document.querySelector("#ctct-feedback-modal");
+		let closeBtn = document.querySelector('#ctct-feedback-close-btn');
+		let cancelLink = document.querySelector('#ctct-feedback-cancel');
 		let deactivateLink = document.querySelector('#deactivate-constant-contact-forms');
-		let skipdeactivate = document.querySelector('#ctct-skip-deactivate');
+		let skipdeactivate = document.querySelector('#ctct-feedback-modal-skip-deactivate');
 
 		if (deactivateLink) {
 			deactivateLink.addEventListener('click', (e) => {
@@ -832,7 +850,14 @@ function ctct_modal_script_styles() {
 		}
 		if (closeBtn) {
 			closeBtn.addEventListener('click', (e) => {
-				closeBtn.setAttribute('href', window.ctctDeactivationLink);
+				e.preventDefault();
+				modal.style.display = 'none';
+			});
+		}
+
+		if (cancelLink) {
+			cancelLink.addEventListener('click', (e) => {
+				e.preventDefault();
 				modal.style.display = 'none';
 			});
 		}
@@ -857,25 +882,31 @@ function ctct_modal_feedback() {
 
 	ob_start();
 	?>
-	<div id="ctct-modal" class="modal">
-		<div class="modal-content">
-			<div class="modal-title">
+	<div id="ctct-feedback-modal" class="ctct-feedback-modal">
+		<div class="ctct-feedback-modal-content">
+			<div class="ctct-feedback-modal-title">
 				<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/CTCT_Logo_H_FC_RGB.svg" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
 				<a id="ctct-feedback-close-btn" href="#" class="ctct-feedback-close">&times;</a>
 			</div>
 			<p>
-				<?php esc_html_e( "We would love to have some feedback about why you are deactivating Constant Contact Forms, so that we can improve and better enhance the plugin to meet site owners' needs. Please consider offering your feedback using the link below.", 'constant-contact-forms' ); ?>
+				<?php esc_html_e( "We noticed you're thinking about deactivating the Constant Contact Forms plugin. Please consider offering your feedback using the link below. Understanding your experience helps us improve our services for you and others. We appreciate your input!", 'constant-contact-forms' ); ?>
 			</p>
 
 			<p>
 				<a href="#" target="_blank"><?php esc_html_e( 'INSERT LINK HERE.', 'constant-contact-forms' ); ?></a>
 			</p>
 
-			<p>
-				<a id="ctct-skip-deactivate" href="#">
-					<?php esc_html_e( 'Skip and deactivate', 'constant-contact-forms' ); ?>
-				</a>
-			</p>
+			<div class="ctct-feedback-modal-footer">
+				<div class="ctct-privacy">
+					<a href="https://www.constantcontact.com/legal/privacy-center" target="_blank"><?php esc_html_e( 'Privacy Center', 'constant-contact-forms' ); ?></a>
+				</div>
+				<div class="ctct-cancel-skip">
+					<a id="ctct-feedback-cancel" href="#"><?php esc_html_e( 'Cancel', 'constant-contact-forms' ); ?></a>
+					<a id="ctct-feedback-modal-skip-deactivate" href="#">
+						<?php esc_html_e( 'Skip and deactivate', 'constant-contact-forms' ); ?>
+					</a>
+				</div>
+			</div>
 		</div>
 
 	</div>
