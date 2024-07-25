@@ -956,7 +956,7 @@ function ctct_modal_script_styles() {
 	}
 
 	.modal-content {
-		border-left: solid #ff9e1a 5px;
+		border-left: solid #144bee 5px;
 		background-color: #fefefe;
 		margin: 15% auto;
 		padding: 20px;
