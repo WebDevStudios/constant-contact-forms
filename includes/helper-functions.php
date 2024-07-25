@@ -1032,7 +1032,7 @@ function ctct_modal_feedback() {
 				<a id="ctct-feedback-close-btn" href="#" class="ctct-feedback-close">&times;</a>
 			</div>
 			<p>
-				<?php esc_html_e( "We would love to have some feedback about why you are deactivating Constant Contact Forms, so that we can improve and better enhance the plugin to meet site owners' needs. Please use the link below to submit.", 'constant-contact-forms' ); ?>
+				<?php esc_html_e( "We would love to have some feedback about why you are deactivating Constant Contact Forms, so that we can improve and better enhance the plugin to meet site owners' needs. Please consider offering your feedback using the link below.", 'constant-contact-forms' ); ?>
 			</p>
 
 			<p>
