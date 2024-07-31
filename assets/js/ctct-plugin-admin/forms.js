@@ -1,6 +1,6 @@
 window.CTCTForms = {};
 
-( function( window, $, that ) {
+( function( window, that ) {
 
 	/**
 	 * @constructor
@@ -20,9 +20,8 @@ window.CTCTForms = {};
 	 * @since 1.0.0
 	 */
 	that.cache = () => {
-		that.$c = {
-			window: $( window ),
-			body: $( 'body' ),
+		that.cache = {
+			window: window,
 			disconnect: '.ctct-disconnect',
 			redirectToConnectionSettings: '.connection-settings-redirect'
 		};
@@ -35,18 +34,22 @@ window.CTCTForms = {};
 	 * @since 1.0.0
 	 */
 	that.bindEvents = () => {
-
-		$( that.$c.disconnect ).on( 'click', ( e ) => { // eslint-disable-line no-unused-vars
-			return confirm( window.ctctTexts.disconnectconfirm );
-		} );
-
-		$( that.$c.redirectToConnectionSettings ).on( 'click', ( e ) => {
-			e.preventDefault();
-			window.open(e.target.href, '_blank' )
-			window.open(window.ctct_settings.account, '_self' );
-		} );
+		let disconnect = document.querySelectorAll(that.cache.disconnect);
+		if (disconnect) {
+			disconnect.addEventListener('click', () => {
+				return confirm(window.ctctTexts.disconnectconfirm);
+			});
+		}
+		let redirectSetting = document.querySelectorAll(that.cache.redirectToConnectionSettings);
+		if (redirectSetting) {
+			redirectSetting.addEventListener('click', (e) => {
+				e.preventDefault();
+				window.open(e.target.href, '_blank');
+				window.open(window.ctct_settings.account, '_self');
+			});
+		}
 	};
 
-	$( that.init );
+	that.init();
 
-} ( window, jQuery, window.CTCTForms ) );
+} ( window, window.CTCTForms ) );
