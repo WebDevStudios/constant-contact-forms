@@ -23,7 +23,6 @@ window.CTCTForms = {};
 		that.cache = {
 			window: window,
 			disconnect: '.ctct-disconnect',
-			redirectToConnectionSettings: '.connection-settings-redirect'
 		};
 	};
 
@@ -38,14 +37,6 @@ window.CTCTForms = {};
 		if (disconnect) {
 			disconnect.addEventListener('click', () => {
 				return confirm(window.ctctTexts.disconnectconfirm);
-			});
-		}
-		let redirectSetting = document.querySelectorAll(that.cache.redirectToConnectionSettings);
-		if (redirectSetting) {
-			redirectSetting.addEventListener('click', (e) => {
-				e.preventDefault();
-				window.open(e.target.href, '_blank');
-				window.open(window.ctct_settings.account, '_self');
 			});
 		}
 	};
