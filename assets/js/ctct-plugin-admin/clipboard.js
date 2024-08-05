@@ -1,6 +1,6 @@
 window.CTCTClipboard = {};
 
-( function( window, $, app ) {
+( function( window, app ) {
 
 	/**
 	 * @constructor
@@ -20,33 +20,33 @@ window.CTCTClipboard = {};
 	 * @since 1.11.0
 	 */
 	 app.cache = () => {
-		app.$c = {
-			window: $( window ),
-			copyshortcode: $( '.ctct-shortcode-wrap' )
+		app.cache = {
+			window: window,
+			copyshortcode: document.querySelectorAll('.ctct-shortcode-wrap' ),
 		};
 	};
 
 	/**
 	 * Copy to clipboard click event.
 	 *
-	 * @param {object} e The clicked element.
+	 * @param {object} button The clicked element.
 	 * @param {HTMLElement} input The input element.
 	 * @author Constant Contact
 	 * @since 1.11.0
 	 */
 	app.copyClick = (button, input) => {
 
-		if(!button || !input){
+		if (!button || !input) {
 			return;
 		}
 
 		// Select the input.
 		input.select();
 		input.setSelectionRange(0, 99999); // For mobile devices.
-	 
+
 		// Copy the text inside the text field.
 		document.execCommand("copy");
-		var reset = button.innerHTML;
+		let reset = button.innerHTML;
 		button.innerHTML = button.dataset.copied;
 
 		// Reset button text.
@@ -65,21 +65,22 @@ window.CTCTClipboard = {};
 	 app.bindEvents = () => {
 
 		// Add click event for copy buttons.
-		if(app.$c.copyshortcode){
-			app.$c.copyshortcode.each(function(index, element) {
-				var input = element.querySelector('input');
-				var button = element.querySelector('button');
-				if(input && button){
-					button.addEventListener('click', function( e ){
-						e.preventDefault();
-						app.copyClick( this, input);
-					});
-				}
-			})
-		}
+		 if (app.cache.copyshortcode) {
+			 Array.from(app.cache.copyshortcode).forEach((element) => {
+				 let input = element.querySelector('input');
+				 let button = element.querySelector('button');
+
+				 if (input && button) {
+					 button.addEventListener('click', function (e) {
+						 e.preventDefault();
+						 app.copyClick(this, input);
+					 });
+				 }
+			 });
+		 }
 	};
 
 	app.init();
 
-} ( window, jQuery, window.CTCTClipboard ) );
+} ( window, window.CTCTClipboard ) );
 
