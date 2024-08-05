@@ -25,53 +25,29 @@ window.CTCTAJAX = {};
 					'ctct-review-action': ctctAction
 				}
 
-				if ($(this).hasClass('ctct-review')) {
+				if ( e.target.classList.contains( 'ctct-review' ) ) {
 					ctctAction = 'reviewed';
 				}
 
-				$.ajax({
-					url     : window.ajaxurl,
-					data    : ctctReviewAjax,
-					dataType: 'json',
-					success : (resp) => {
-						if (window.console) {
-							console.log(resp); // eslint-disable-line no-console
-						}
-						e.preventDefault();
-						reviewRequest.hide();
-					},
-					error   : (x, t, m) => {
-						if (window.console) {
-							console.log([t, m]); // eslint-disable-line no-console
-						}
+				const args = new URLSearchParams( ctctReviewAjax ).toString();
+
+				const request = new XMLHttpRequest();
+
+				request.open('POST', window.ajaxurl, true);
+				request.setRequestHeader('Content-Type', 'application/json;');
+				request.onload = function () {
+					if (this.status >= 200 && this.status < 400) {
+						console.log(this.response);
+					} else {
+						console.log(this.response);
 					}
-				});
+				};
+				request.onerror = function () {
+					console.log('update failed');
+				};
+				request.send(args);
 			})
 		}
-		$( '#ctct-admin-notice-review_request' ).on( 'click', 'a', ( e ) => {
-
-			if ( $( this ).hasClass( 'ctct-review' ) ) {
-				ctctAction = 'reviewed';
-			}
-
-			$.ajax( {
-				url: window.ajaxurl,
-				data: ctctReviewAjax,
-				dataType: 'json',
-				success: ( resp ) => {
-					if ( window.console ) {
-						console.log( resp ); // eslint-disable-line no-console
-					}
-					e.preventDefault();
-					$( '#ctct-admin-notice-review_request' ).hide();
-				},
-				error: ( x, t, m ) => {
-					if ( window.console ) {
-						console.log( [ t, m ] ); // eslint-disable-line no-console
-					}
-				}
-			} );
-		} );
 	};
 
 	that.init();
