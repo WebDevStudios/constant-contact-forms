@@ -1,6 +1,6 @@
 window.CTCTAJAX = {};
 
-( function( window, $, that ) {
+( function( window, that ) {
 
 	/**
 	 * @constructor
@@ -51,4 +51,4 @@ window.CTCTAJAX = {};
 	};
 
 	that.init();
-} ( window, jQuery, window.CTCTAJAX ) );
+} ( window, window.CTCTAJAX ) );
