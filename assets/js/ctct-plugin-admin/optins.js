@@ -44,9 +44,11 @@ window.CTCT_OptIns = {};
 			app.toggleNoConnectionFields();
 
 			// Bind to fire when needed.
-			app.cache.optinNoConn.change( () => {
-				app.toggleNoConnectionFields();
-			} );
+			Array.from(app.cache.optinNoConn).forEach((item) => {
+				item.addEventListener('change', () => {
+					app.toggleNoConnectionFields();
+				});
+			});
 		}
 
 		// Only fire show/hide if we have the normal checkbox.
@@ -56,9 +58,12 @@ window.CTCT_OptIns = {};
 			app.toggleConnectionFields();
 
 			// Bind to fire when needed.
-			app.cache.list.change( () => {
-				app.toggleConnectionFields();
-			} );
+			Array.from(app.cache.list).forEach((item) => {
+				item.addEventListener('change', () => {
+					app.toggleConnectionFields();
+				});
+			})
+
 		}
 	};
 
