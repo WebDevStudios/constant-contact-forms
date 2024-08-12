@@ -1,6 +1,6 @@
 window.CTCT_OptIns = {};
 
-( function( window, $, app ) {
+( function( window, app ) {
 
 	/**
 	 * @constructor
@@ -20,12 +20,12 @@ window.CTCT_OptIns = {};
 	 * @since 1.0.0
 	 */
 	app.cache = () => {
-		app.$c = {
-			optinNoConn: $( '#cmb2-metabox-ctct_1_optin_metabox #_ctct_opt_in_not_connected' ),
-			list: $( '#cmb2-metabox-ctct_0_list_metabox [name="_ctct_list[]"]' ),
-			title: $( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id-email-optin-title' ),
-			optin: $( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in' ),
-			instruct: $( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in-instructions' )
+		app.cache = {
+			optinNoConn: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox #_ctct_opt_in_not_connected' ),
+			list: document.querySelectorAll('#cmb2-metabox-ctct_0_list_metabox .attached-posts-wrap .attached li'),
+			title: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id-email-optin-title' ),
+			optin: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in' ),
+			instruct: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in-instructions' )
 		};
 	};
 
@@ -38,25 +38,25 @@ window.CTCT_OptIns = {};
 	app.bindEvents = () => {
 
 		// Only fire show/hide if we have the normal checkbox.
-		if ( app.$c.optinNoConn.length ) {
+		if ( app.cache.optinNoConn.length ) {
 
 			// Fire once to get our loaded state set up.
 			app.toggleNoConnectionFields();
 
 			// Bind to fire when needed.
-			app.$c.optinNoConn.change( () => {
+			app.cache.optinNoConn.change( () => {
 				app.toggleNoConnectionFields();
 			} );
 		}
 
 		// Only fire show/hide if we have the normal checkbox.
-		if ( app.$c.list.length ) {
+		if ( app.cache.list.length ) {
 
 			// Fire once to get our loaded state set up.
 			app.toggleConnectionFields();
 
 			// Bind to fire when needed.
-			app.$c.list.change( () => {
+			app.cache.list.change( () => {
 				app.toggleConnectionFields();
 			} );
 		}
@@ -69,11 +69,14 @@ window.CTCT_OptIns = {};
 	 * @since 1.0.0
 	 */
 	app.toggleNoConnectionFields = () => {
-
-		if ( app.$c.optinNoConn.prop( 'checked' ) ) {
-			app.$c.instruct.slideDown();
+		if ( app.cache.optinNoConn.checked ) {
+			Array.from(app.cache.instruct).forEach((item) => {
+				item.style.display = 'block';
+			});
 		} else {
-			app.$c.instruct.slideUp();
+			Array.from(app.cache.instruct).forEach((item) => {
+				item.style.display = 'none';
+			});
 		}
 	};
 
@@ -86,17 +89,29 @@ window.CTCT_OptIns = {};
 	app.toggleConnectionFields = () => {
 
 		// If checked, show them, else hide it.
-		if ( '' !== app.$c.list.val() ) {
-			app.$c.title.slideDown();
-			app.$c.optin.slideDown();
-			app.$c.instruct.slideDown();
+		if ( 0 <= app.cache.list.length ) {
+			Array.from(app.cache.title).forEach((item) => {
+				item.style.display = 'block';
+			});
+			Array.from(app.cache.optin).forEach((item) => {
+				item.style.display = 'block';
+			});
+			Array.from(app.cache.instruct).forEach((item) => {
+				item.style.display = 'block';
+			});
+			//app.cache.instruct.slideDown();
 		} else {
-			app.$c.title.slideUp();
-			app.$c.optin.slideUp();
-			app.$c.instruct.slideUp();
+			Array.from(app.cache.title).forEach((item) => {
+				item.style.display = 'none';
+			});
+			Array.from(app.cache.optin).forEach((item) => {
+				item.style.display = 'none';
+			});
+			Array.from(app.cache.instruct).forEach((item) => {
+				item.style.display = 'none';
+			});
 		}
 	};
 
-	$( app.init );
-
-} ( window, jQuery, window.CTCT_OptIns ) );
+	app.init();
+} ( window, window.CTCT_OptIns ) );
