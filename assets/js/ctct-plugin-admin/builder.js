@@ -11,8 +11,12 @@ window.CTCTBuilder = {};
 	that.init = () => {
 
 		// If we do actually have an email field set, then remove our error.
-		if ( $( '#cmb2-metabox-ctct_2_fields_metabox option[value="email"]:selected' ).length ) {
-			$( '#ctct-no-email-error' ).remove();
+		let emailField = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox option[value="email"]');
+		if ( emailField.length ) {
+			let noEmailError = document.querySelector('#ctct-no-email-error');
+			if (noEmailError) {
+				noEmailError.style.display = 'none';
+			}
 		}
 
 		// Cache it all.
@@ -28,11 +32,22 @@ window.CTCTBuilder = {};
 		that.modifyFields();
 
 		// Make description non-draggable, so we don't run into weird cmb2 issues.
-		$( '#ctct_0_description_metabox h2.hndle' ).removeClass( 'ui-sortable-handle, hndle' );
+		let cmb2handle = document.querySelectorAll('#ctct_0_description_metabox h2.hndle');
+		if (cmb2handle) {
+			Array.from(cmb2handle).forEach((hndle) => {
+				hndle.classList.remove('ui-sortable-handle','hndle');
+			});
+		}
 
 		// Inject our new labels for the up/down CMB2 buttons, so they can be properly localized.
 		// Because we're using :after, we can't use .css() to do this, we need to inject a style tag.
-		$( 'head' ).append( '<style> #cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "' + window.ctctTexts.move_up + '" } #cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "' + window.ctctTexts.move_down + '" }</style>' );
+		let headTag = document.querySelector('head');
+		let styleTag = document.createElement('style');
+		styleTag.textContent =
+			`#cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "` + window.ctctTexts.move_up + `" }`;
+		styleTag.textContent +=
+			`#cmb2-metabox-ctct_2_fields_metabox a.move-down::after { content: "` + window.ctctTexts.move_down + `" }`;
+		headTag.appendChild(styleTag);
 	};
 
 	/**
@@ -43,9 +58,9 @@ window.CTCTBuilder = {};
 	 */
 	that.cache = () => {
 
-		that.$c = {
-			window: $( window ),
-			body: $( 'body' )
+		that.cache = {
+			window: window,
+			body: document.querySelector('body'),
 		};
 
 		that.isLeaveWarningBound = false;
@@ -58,9 +73,9 @@ window.CTCTBuilder = {};
 		if ( ! that.isLeaveWarningBound ) {
 
 			// Bind our error that displays before leaving page.
-			$( window ).bind( 'beforeunload', () => {
+			that.cache.window.addEventListener('beforeunload', () => {
 				return window.ctctTexts.leavewarning;
-			} );
+			});
 
 			// Save our state.
 			that.isLeaveWarningBound = true;
@@ -121,13 +136,13 @@ window.CTCTBuilder = {};
 		$( '#ctct-reset-css' ).on( 'click', ( event ) => {
 			event.preventDefault();
 
-			var selectFields = [
+			let selectFields = [
 				'#_ctct_form_description_font_size',
 				'#_ctct_form_submit_button_font_size',
 				'#_ctct_form_label_placement'
 			];
 
-			var textFields = [
+			let textFields = [
 				'#_ctct_form_padding_top',
 				'#_ctct_form_padding_bottom',
 				'#_ctct_form_padding_left',
@@ -140,21 +155,21 @@ window.CTCTBuilder = {};
 				$( this ).click();
 			} );
 
-			for ( var i = selectFields.length; i--; ) {
-				var firstOption = $( selectFields[i] ).children( 'option' ).first();
+			for ( let i = selectFields.length; i--; ) {
+				let firstOption = $( selectFields[i] ).children( 'option' ).first();
 				$( selectFields[i] ).val( firstOption.val() );
 			}
 
-			for ( var i = textFields.length; i--; ) {
+			for ( let i = textFields.length; i--; ) {
 				$( textFields[i] ).val( '' );
 			}
 		} );
 
 		$( document ).ready( () => {
-			var $addressbox = $('#address_settings');
+			let $addressbox = $('#address_settings');
 			if ( $addressbox.length > 0 ) {
-				var $includes_checked = $addressbox.find('.cmb2-id--ctct-address-fields-include input[type="checkbox"]:checked');
-				var required_items = $addressbox.find('.cmb2-id--ctct-address-fields-require input[type="checkbox"]');
+				let $includes_checked = $addressbox.find('.cmb2-id--ctct-address-fields-include input[type="checkbox"]:checked');
+				let required_items = $addressbox.find('.cmb2-id--ctct-address-fields-require input[type="checkbox"]');
 				if ( $includes_checked.length === 0 ) {
 					$(required_items).each( function(){
 						$(this).prop('disabled', true);
@@ -162,7 +177,7 @@ window.CTCTBuilder = {};
 				}
 
 				$addressbox.find('.cmb2-id--ctct-address-fields-include input[type="checkbox"]').on('change', function () {
-					var checked_value = this;
+					let checked_value = this;
 					if ( checked_value.checked ) {
 						$(required_items).each(function () {
 							if ( checked_value.value === $(this).val() ) {
@@ -240,21 +255,21 @@ window.CTCTBuilder = {};
 	that.modifyFields = () => {
 
 		// Set that we haven't found an email.
-		var foundEmail = false;
-		var cfnumber = 1;
+		let foundEmail = false;
+		let cfnumber = 1;
 
 		// Loop through all fields to modify them.
 		$( '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping' ).each( function( key, value ) {
 			// Set some of our helper paramaters.
-			var $fieldParent = $( this ).find( '.cmb-field-list' );
-			var $button       = $( $fieldParent ).find( '.cmb-remove-group-row' );
-			var $required     = $( $fieldParent ).find( '.required input[type=checkbox]' );
-			var $requiredRow  = $required.closest( '.cmb-row' );
-			var $map          = $( $fieldParent ).find( '.map select option:selected' );
-			var $mapName      = $map.text();
-			var $fieldTitle   = $( this ).find( 'h3' );
-			var $labelField   = $( this ).find( 'input[name*="_ctct_field_label"]' );
-			var $descField    = $( this ).find( 'input[name*="_ctct_field_desc"]' );
+			let $fieldParent = $( this ).find( '.cmb-field-list' );
+			let $button       = $( $fieldParent ).find( '.cmb-remove-group-row' );
+			let $required     = $( $fieldParent ).find( '.required input[type=checkbox]' );
+			let $requiredRow  = $required.closest( '.cmb-row' );
+			let $map          = $( $fieldParent ).find( '.map select option:selected' );
+			let $mapName      = $map.text();
+			let $fieldTitle   = $( this ).find( 'h3' );
+			let $labelField   = $( this ).find( 'input[name*="_ctct_field_label"]' );
+			let $descField    = $( this ).find( 'input[name*="_ctct_field_desc"]' );
 
 			if ( $mapName === 'Custom Text Field' ) {
 				$mapName += ' ';
@@ -311,7 +326,7 @@ window.CTCTBuilder = {};
 
 			// Set the placeholder text if there's something to set.
 			if ( window.ctct_admin_placeholders ) {
-				var placeholder = window.ctct_admin_placeholders[ $( value ).find( 'select' ).val() ];
+				let placeholder = window.ctct_admin_placeholders[ $( value ).find( 'select' ).val() ];
 
 				// If we have a valid placeholder, display it or try the fallback.
 				if ( placeholder && placeholder.length && $descField.length ) {
@@ -331,9 +346,9 @@ window.CTCTBuilder = {};
 	 */
 	that.removeDuplicateMappings = () => {
 
-		var usedMappings = [];
-		var dropdowns    = '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select';
-		var $dropdowns   = $( dropdowns );
+		let usedMappings = [];
+		let dropdowns    = '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select';
+		let $dropdowns   = $( dropdowns );
 
 		// For each dropdown, build up our array of used values.
 		$dropdowns.each( function( key, value ) {
