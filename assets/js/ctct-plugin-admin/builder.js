@@ -383,6 +383,6 @@ window.CTCTBuilder = {};
 		} );
 	};
 
-	$( that.init );
+	that.init();
 
 } ( window, jQuery, window.CTCTBuilder ) );
