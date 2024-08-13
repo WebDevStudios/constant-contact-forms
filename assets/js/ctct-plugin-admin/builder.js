@@ -223,6 +223,9 @@ window.CTCTBuilder = {};
 		} );
 	};
 
+	/**
+	 * Validates whether or not all of our custom field labels all have unique labels.
+	 */
 	that.validateUniqueFieldLabels = () => {
 		let cfValues = $('.form-field-is-custom-field').map(function(){
 			return $(this).val();
@@ -238,6 +241,10 @@ window.CTCTBuilder = {};
 		return cfValuesTotal === cfValuesFilteredTotal;
 	}
 
+	/**
+	 * Toggle inline warning that a given custom field label is not a unique value.
+	 * @param event
+	 */
 	that.noUniqueWarning = function(event) {
 		const ctctCustomField = event.currentTarget;
 		const siblings = [...ctctCustomField.parentElement.children];
