@@ -238,11 +238,24 @@ window.CTCTBuilder = {};
 		return cfValuesTotal === cfValuesFilteredTotal;
 	}
 
-	that.noUniqueWarning = function() {
+	that.noUniqueWarning = function(event) {
+		const ctctCustomField = event.currentTarget;
+		const siblings = [...ctctCustomField.parentElement.children];
+		if (siblings.length === 0) {
+			return;
+		}
 		if (that.validateUniqueFieldLabels()) {
-			$(this).siblings('.ctct-warning').removeClass('ctct-warning-no-unqiue');
+			siblings.forEach((sibling) => {
+				if (sibling.classList.contains('ctct-warning')) {
+					sibling.classList.remove('ctct-warning-no-unqiue');
+				}
+			});
 		} else {
-			$(this).siblings('.ctct-warning').addClass('ctct-warning-no-unqiue');
+			siblings.forEach((sibling) => {
+				if (sibling.classList.contains('ctct-warning')) {
+					sibling.classList.add('ctct-warning-no-unqiue');
+				}
+			});
 		}
 	}
 
