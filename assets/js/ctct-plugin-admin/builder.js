@@ -227,12 +227,17 @@ window.CTCTBuilder = {};
 	 * Validates whether or not all of our custom field labels all have unique labels.
 	 */
 	that.validateUniqueFieldLabels = () => {
-		let cfValues = $('.form-field-is-custom-field').map(function(){
-			return $(this).val();
-		}).get();
+		const cfValuesOrig = document.querySelectorAll('.form-field-is-custom-field');
+		let cfValues;
+		if (cfValuesOrig) {
+			cfValues = Array.from(cfValuesOrig).map((item)=> {
+				return item.value;
+			});
+		}
+
 		let cfValuesTotal = cfValues.length;
 		let cfValuesFiltered = cfValues.filter(
-			function(item,position) {
+			(item,position) => {
 				return cfValues.indexOf(item) === position;
 			}
 		);
