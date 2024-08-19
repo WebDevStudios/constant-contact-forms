@@ -285,84 +285,79 @@ window.CTCTBuilder = {};
 		let foundEmail = false;
 		let cfnumber = 1;
 
-		// Loop through all fields to modify them.
-		$( '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping' ).each( function( key, value ) {
-			// Set some of our helper paramaters.
-			let $fieldParent = $( this ).find( '.cmb-field-list' );
-			let $button       = $( $fieldParent ).find( '.cmb-remove-group-row' );
-			let $required     = $( $fieldParent ).find( '.required input[type=checkbox]' );
-			let $requiredRow  = $required.closest( '.cmb-row' );
-			let $map          = $( $fieldParent ).find( '.map select option:selected' );
-			let $mapName      = $map.text();
-			let $fieldTitle   = $( this ).find( 'h3' );
-			let $labelField   = $( this ).find( 'input[name*="_ctct_field_label"]' );
-			let $descField    = $( this ).find( 'input[name*="_ctct_field_desc"]' );
+		let fieldgroups = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping');
+		if (fieldgroups) {
+			Array.from(fieldgroups).forEach((field, key) => {
+				let fieldList = field.querySelector('.cmb-field-list');
+				let removeButton = fieldList.querySelector('.cmb-remove-group-row');
+				let requiredToggle = fieldList.querySelector('.required input[type=checkbox]');
+				let requiredRow = requiredToggle.closest('.cmb-row');
+				let map = fieldList.querySelector('.map select option:checked');
+				let mapName = '';
+				if (map && map.text) {
+					mapName = map.text;
+				}
+				let fieldTitle = field.querySelector('h3');
+				let fieldLabel = field.querySelector('input[name*="_ctct_field_label"]');
+				let fieldDesc = field.querySelector('input[name*="_ctct_field_desc"]');
 
-			if ( $mapName === 'Custom Text Field' ) {
-				$mapName += ' ';
-				$mapName += cfnumber.toString();
-				cfnumber++;
-			}
+				if (mapName === 'Custom Text Field') {
+					mapName += ' ' + cfnumber.toString();
+					cfnumber++;
+				}
 
-			// Set our field row to be the name of the selected option.
-			$fieldTitle.text( $mapName );
+				// Set our field row to be the name of the selected option.
+				fieldTitle.innerText = mapName;
+				// If we have a blank field label, then use the name of the field to fill it in.
+				if (mapName && 0 === fieldLabel.value.length) {
+					fieldLabel.value = mapName;
+				}
+				fieldLabel.classList.add('ctct-label-filled');
 
-			// If we have a blank field label, then use the name of the field to fill it in.
-			if ( 0 === $labelField.val().length ) {
-				$labelField.val( $mapName ).addClass( 'ctct-label-filled' );
-			} else {
-				$labelField.addClass( 'ctct-label-filled' );
-			}
+				let fieldDropdown = field.querySelector('select');
+				// If we haven't yet found an email field, and this is our email field.
+				if (!foundEmail && (map !== null)) {
+					if ('email' === map.value) {
+						// Set that we found an email field.
+						foundEmail = true;
 
-			// If we haven't yet found an email field, and this is our email field.
-			if ( ! foundEmail && ( 'email' === $( $map ).val() ) ) {
+						// Make it required.
+						requiredToggle.checked = true;
 
-				// Set that we found an email field.
-				foundEmail = true;
-
-				// Make it required.
-				$required.prop( 'checked', true );
-
-				// Set it to be 'disabled'.
-				$( value ).find( 'select' ).addClass( 'disabled ctct-email-disabled' ).prop( 'disabled', true );
-
-				// Hide the required row.
-				$requiredRow.hide();
-
-				// Hide the remove row button.
-				$button.hide();
-
-			} else {
-
-				// Verify its not disabled.
-				$( value ).find( 'select' ).removeClass( 'disabled ctct-email-disabled' ).prop( 'disabled', false );
-
-				// If we're not an email field, reshow the required field.
-				$requiredRow.show();
-
-				// and the remove button.
-				$button.show();
-
-				let mapvalue = $($map).val();
-				if ( 'custom' === $( $map ).val() ) {
-					$labelField.addClass('form-field-is-custom-field');
+						if (fieldDropdown) {
+							fieldDropdown.classList.add('disabled', 'ctct-email-disabled');
+							fieldDropdown.disabled = true;
+						}
+						requiredRow.style.display = 'none';
+						removeButton.style.display = 'none';
+					}
 				} else {
-					$labelField.removeClass('form-field-is-custom-field')
-				}
-			}
+					if (fieldDropdown) {
+						fieldDropdown.classList.remove('disabled', 'ctct-email-disabled');
+						fieldDropdown.disabled = false;
+					}
+					requiredRow.style.display = 'block';
+					removeButton.style.display = 'block';
 
-			// Set the placeholder text if there's something to set.
-			if ( window.ctct_admin_placeholders ) {
-				let placeholder = window.ctct_admin_placeholders[ $( value ).find( 'select' ).val() ];
-
-				// If we have a valid placeholder, display it or try the fallback.
-				if ( placeholder && placeholder.length && $descField.length ) {
-					$descField.attr( 'placeholder', 'Example: ' + placeholder );
-				} else if ( window.ctct_admin_placeholders.default ) {
-					$descField.attr( 'placeholder', window.ctct_admin_placeholders.default );
+					if (map !== null) {
+						if ('custom' === map.value) {
+							fieldLabel.classList.add('form-field-is-custom-field');
+						} else {
+							fieldLabel.classList.remove('form-field-is-custom-field')
+						}
+					}
 				}
-			}
-		} );
+
+				if (window.ctct_admin_placeholders) {
+					let placeholder = window.ctct_admin_placeholders[fieldDropdown.value];
+					if (placeholder && placeholder.length && fieldDesc) {
+						fieldDesc.setAttribute('placeholder', 'Example: ' + placeholder);
+					} else if (window.ctct_admin_placeholders.default) {
+						fieldDesc.setAttribute('placeholder', window.ctct_admin_placeholders.default);
+					}
+				}
+			});
+		}
 	};
 
 	/**
