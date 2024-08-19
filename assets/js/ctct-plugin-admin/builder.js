@@ -89,7 +89,7 @@ window.CTCTBuilder = {};
 	 * @since 1.0.0
 	 */
 	that.unbindLeaveWarning = () => {
-		$( window ).unbind( 'beforeunload' );
+		that.cache.window.removeEventListener('beforeunload');
 	};
 
 	/**
