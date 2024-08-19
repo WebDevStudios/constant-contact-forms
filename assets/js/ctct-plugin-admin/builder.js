@@ -73,13 +73,15 @@ window.CTCTBuilder = {};
 		if (!that.isLeaveWarningBound) {
 
 			// Bind our error that displays before leaving page.
-			that.cache.window.addEventListener('beforeunload', () => {
-				return window.ctctTexts.leavewarning;
-			});
+			that.cache.window.addEventListener('beforeunload', that.bindMessage);
 
 			// Save our state.
 			that.isLeaveWarningBound = true;
 		}
+	};
+
+	that.bindMessage = () => {
+		return window.ctctTexts.leavewarning;
 	};
 
 	/**
@@ -89,7 +91,7 @@ window.CTCTBuilder = {};
 	 * @since 1.0.0
 	 */
 	that.unbindLeaveWarning = () => {
-		that.cache.window.removeEventListener('beforeunload');
+		that.cache.window.removeEventListener('beforeunload',that.bindMessage);
 	};
 
 	/**
