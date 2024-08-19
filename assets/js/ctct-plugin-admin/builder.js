@@ -60,7 +60,7 @@ window.CTCTBuilder = {};
 
 		that.cache = {
 			window: window,
-			body: document.querySelector('body'),
+			body  : document.querySelector('body'),
 		};
 
 		that.isLeaveWarningBound = false;
@@ -70,7 +70,7 @@ window.CTCTBuilder = {};
 	that.bindLeaveWarning = () => {
 
 		// Don't double-bind it.
-		if ( ! that.isLeaveWarningBound ) {
+		if (!that.isLeaveWarningBound) {
 
 			// Bind our error that displays before leaving page.
 			that.cache.window.addEventListener('beforeunload', () => {
@@ -230,14 +230,14 @@ window.CTCTBuilder = {};
 		const cfValuesOrig = document.querySelectorAll('.form-field-is-custom-field');
 		let cfValues;
 		if (cfValuesOrig) {
-			cfValues = Array.from(cfValuesOrig).map((item)=> {
+			cfValues = Array.from(cfValuesOrig).map((item) => {
 				return item.value;
 			});
 		}
 
 		let cfValuesTotal = cfValues.length;
 		let cfValuesFiltered = cfValues.filter(
-			(item,position) => {
+			(item, position) => {
 				return cfValues.indexOf(item) === position;
 			}
 		);
@@ -250,7 +250,7 @@ window.CTCTBuilder = {};
 	 * Toggle inline warning that a given custom field label is not a unique value.
 	 * @param event
 	 */
-	that.noUniqueWarning = function(event) {
+	that.noUniqueWarning = function (event) {
 		const ctctCustomField = event.currentTarget;
 		const siblings = [...ctctCustomField.parentElement.children];
 		if (siblings.length === 0) {
@@ -372,17 +372,17 @@ window.CTCTBuilder = {};
 	that.removeDuplicateMappings = () => {
 
 		let usedMappings = [];
-		let dropdowns    = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select' );
+		let dropdowns = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select');
 
 		// For each dropdown, build up our array of used values.
-		Array.from(dropdowns).forEach( ( dropdown, index ) => {
-			usedMappings.push( dropdown.value );
+		Array.from(dropdowns).forEach((dropdown, index) => {
+			usedMappings.push(dropdown.value);
 
 			// Re-show all the children options we may have hidden.
-			Array.from(dropdown.options).forEach( (item) => {
+			Array.from(dropdown.options).forEach((item) => {
 				item.style.display = 'inline';
-			} );
-		} );
+			});
+		});
 		usedMappings.forEach((mapping) => {
 			// But only do it if the value isn't one of our custom ones.
 			if ('custom' === mapping || 'custom_text_area' === mapping) {
