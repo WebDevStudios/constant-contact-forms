@@ -372,27 +372,32 @@ window.CTCTBuilder = {};
 	that.removeDuplicateMappings = () => {
 
 		let usedMappings = [];
-		let dropdowns    = '#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select';
-		let $dropdowns   = $( dropdowns );
+		let dropdowns    = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select' );
 
 		// For each dropdown, build up our array of used values.
-		$dropdowns.each( function( key, value ) {
-			usedMappings.push( $( value ).val() );
+		Array.from(dropdowns).forEach( ( dropdown, index ) => {
+			usedMappings.push( dropdown.value );
+
+			// Re-show all the children options we may have hidden.
+			Array.from(dropdown.options).forEach( (item) => {
+				item.style.display = 'inline';
+			} );
 		} );
-
-		// Re-show all the children options we may have hidden.
-		$dropdowns.children().show();
-
-		// For each of our mappings that we already have, remove them from all selects.
-		usedMappings.forEach( function( value ) {
-
+		usedMappings.forEach((mapping) => {
 			// But only do it if the value isn't one of our custom ones.
-			if ( ( 'custom_text_area' !== value ) && ( 'custom' !== value ) ) {
-
-				// Remove all options from our dropdowns with the value.
-				$( dropdowns + ' option[value=' + value + ']:not( :selected )' ).hide();
+			if ('custom' === mapping || 'custom_text_area' === mapping) {
+				return;
 			}
-		} );
+
+			// Remove all options from our dropdowns with the value.
+			Array.from(dropdowns).forEach((dropdown) => {
+				Array.from(dropdown.options).forEach((item) => {
+					if (item.value === mapping && item.selected !== true) {
+						item.style.display = 'none';
+					}
+				});
+			});
+		});
 	};
 
 	that.init();
