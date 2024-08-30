@@ -508,7 +508,7 @@ class ConstantContact_Admin {
 			return $links;
 		}
 
-		$twitter_cta = esc_html__( 'Check out the official WordPress plugin from @constantcontact:', 'constant-contact-forms' );
+		$x_cta = esc_html__( 'Check out the official WordPress plugin from @constantcontact:', 'constant-contact-forms' );
 
 		$add_links[] = $this->get_admin_link( esc_html__( 'About', 'constant-contact-forms' ), 'about' );
 		$add_links[] = $this->get_admin_link( esc_html__( 'License', 'constant-contact-forms' ), 'license' );
@@ -520,10 +520,11 @@ class ConstantContact_Admin {
 		 *
 		 * @param string $value Social URL base.
 		 */
-		$site_link = apply_filters( 'constant_contact_social_base_url', 'https://constantcontact.com/' );
+		$site_link = esc_url( apply_filters( 'constant_contact_social_base_url', 'https://constantcontact.com/' ) );
 
 		$social_share = esc_html__( 'Spread the word!', 'constant-contact-forms' );
 		$add_links[]  = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( $site_link ) . '" target="_blank" rel="noopener noreferrer" class="dashicons-before dashicons-facebook"></a>';
+		$add_links[] = '<a title="' . $social_share . '" href="https://x.com/intent/post?text=' . $x_cta . ' ' . $site_link . '" target="_blank" rel="noopener noreferrer"><img src="' . esc_url( constant_contact()->url ) . '/assets/images/logo-black.png" alt="' . esc_attr__( 'X logo', 'constant-contact-forms' ) . '" style="height:16px;width:16px;float:none;"></a>';
 
 		/**
 		 * Filters the final custom social links.
