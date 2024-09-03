@@ -51,6 +51,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 = 2.6.1 =
 * Fixed: Issues around opt-in option display that were introduced with version 2.6.0.
+* Fixed: Issues regarding lists display in admin emails after user signup.
 * Updated: Removed unused images and changed some.
 * Updated: Social sharing icons in plugin list page.
 
