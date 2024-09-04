@@ -22,7 +22,7 @@ window.CTCT_OptIns = {};
 	app.cache = () => {
 		app.cache = {
 			optinNoConn: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox #_ctct_opt_in_not_connected' ),
-			list: document.querySelectorAll('#cmb2-metabox-ctct_0_list_metabox .attached-posts-wrap .attached li'),
+			list: document.querySelectorAll('#cmb2-metabox-ctct_0_list_metabox .attached-posts-wrap .retrieved li'),
 			title: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id-email-optin-title' ),
 			optin: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in' ),
 			instruct: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in-instructions' )
@@ -37,7 +37,6 @@ window.CTCT_OptIns = {};
 	 */
 	app.bindEvents = () => {
 
-		// Only fire show/hide if we have the normal checkbox.
 		if ( app.cache.optinNoConn.length ) {
 
 			// Fire once to get our loaded state set up.
@@ -51,9 +50,7 @@ window.CTCT_OptIns = {};
 			});
 		}
 
-		// Only fire show/hide if we have the normal checkbox.
 		if ( app.cache.list.length ) {
-
 			// Fire once to get our loaded state set up.
 			app.toggleConnectionFields();
 
