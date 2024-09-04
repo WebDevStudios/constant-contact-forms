@@ -185,8 +185,8 @@ function constant_contact_maybe_display_exceptions_notice() {
 function constant_contact_review_ajax_handler() {
 
 	//  phpcs:disable WordPress.Security.NonceVerification -- OK accessing of $_REQUEST.
-	if ( isset( $_REQUEST['ctct-review-action'] ) ) {
-		$action = strtolower( sanitize_text_field( $_REQUEST['ctct-review-action'] ) );
+	if ( isset( $_REQUEST['ctct_review_action'] ) ) {
+		$action = strtolower( sanitize_text_field( $_REQUEST['ctct_review_action'] ) );
 		// phpcs:enable WordPress.Security.NonceVerification
 
 		switch ( $action ) {
