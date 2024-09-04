@@ -18,35 +18,65 @@ window.CTCTAJAX = {};
 	that.handleReviewAJAX = () => {
 		let reviewRequest = document.querySelector('#ctct-admin-notice-review_request');
 		if (reviewRequest) {
-			reviewRequest.addEventListener('click', (e) => {  //figure out link target specifically.
+			let dismissLink = reviewRequest.querySelector('a.ctct-notice-dismiss');
+			dismissLink.addEventListener('click', (e) => { e.preventDefault();
 				let ctctAction = 'dismissed';
+				if (e.target.classList.contains('ctct-review')) {
+					ctctAction = 'reviewed';
+				}
 				let ctctReviewAjax = {
 					'action'            : 'constant_contact_review_ajax_handler',
 					'ctct-review-action': ctctAction
 				}
+				const data = new FormData();
+				const formParams = new URLSearchParams(ctctReviewAjax);
 
-				if ( e.target.classList.contains( 'ctct-review' ) ) {
-					ctctAction = 'reviewed';
-				}
+				data.append('action', 'constant_contact_review_ajax_handler');
+				data.append('ctct-review-action', ctctAction);
+				data.append('data', formParams);
 
-				const args = new URLSearchParams( ctctReviewAjax ).toString();
+				let options = {
+					method: 'POST',
+					headers: {'Content-Type': 'application/x-www-form-urlencoded;'},
+					body  : data,
+				};
 
-				const request = new XMLHttpRequest();
-
-				request.open('POST', window.ajaxurl, true);
-				request.setRequestHeader('Content-Type', 'application/json;');
-				request.onload = function () {
-					if (this.status >= 200 && this.status < 400) {
-						console.log(this.response);
-					} else {
-						console.log(this.response);
+				wp.ajax.send('constant_contact_review_ajax_handler', {
+					success: function( thing ) {
+						e.preventDefault();
+						reviewRequest.style.display = 'none';
+						console.log(thing);
+					},
+					error: function( thing ) {
+						console.log(thing);
+					},
+					data: {
+						ctct_review_action: ctctAction
 					}
-				};
-				request.onerror = function () {
-					console.log('update failed');
-				};
-				request.send(args);
-			})
+				});
+
+				/*fetch(
+					window.ajaxurl,
+					options
+				)
+					.then((response) => response.json())
+					.then((response) => {
+
+
+
+
+
+
+
+
+						if (response.success) {
+							e.preventDefault();
+							reviewRequest.style.display = 'none';
+						}
+					}).catch((error)=>{
+						console.log(error);
+				});*/
+			});
 		}
 	};
 

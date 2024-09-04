@@ -20,7 +20,7 @@ window.CTCTModal = {};
 	 * @since 1.0.0
 	 */
 	app.cache = () => {
-		app.$c = {
+		app.cache = {
 			window: $( window ),
 			modalSelector: $( '.ctct-modal' ),
 			modalClose: $( '.ctct-modal-close' ),
@@ -38,11 +38,18 @@ window.CTCTModal = {};
 	 */
 	app.bindEvents = () => {
 
-		app.$c.modalClose.on( 'click', () => {
+		app.cache.modalClose.addEventListener('click', () => {
+			app.cache.modalSelector.classList.remove('ctct-modal-open');
 
-			app.$c.modalSelector.removeClass( 'ctct-modal-open' );
+			if (app.cache.modalSelector.classList.contains('ctct-custom-textarea-modal')) {
+				return;
+			}
+		});
+		app.cache.modalClose.on( 'click', () => {
 
-			if ( app.$c.modalSelector.hasClass( 'ctct-custom-textarea-modal' ) ) {
+			app.cache.modalSelector.removeClass( 'ctct-modal-open' );
+
+			if ( app.cache.modalSelector.hasClass( 'ctct-custom-textarea-modal' ) ) {
 				return;
 			}
 
@@ -57,15 +64,21 @@ window.CTCTModal = {};
 			} );
 		} );
 
-		app.$c.textareaLink.on( 'click', () => {
-			app.$c.textareaModal.addClass( 'ctct-modal-open' );
-		} );
+		app.cache.textareaLink.addEventListener('click', () => {
+			app.cache.textareaModal.classList.add('ctct-modal-open');
+		});
 
-		app.$c.deleteLogLink.on( 'click', ( event ) => {
+		app.cache.deleteLogLink.addEventListener('click', (event) => {
 			event.preventDefault();
 
 			// Get the link that was clicked on so we can redirect to it if the user confirms.
-			var deleteLogLink = $( event.currentTarget ).attr( 'href' );
+			let deleteLogLink = event.currentTarget.getAttribute('href');
+		});
+		app.cache.deleteLogLink.on( 'click', ( event ) => {
+			event.preventDefault();
+
+			// Get the link that was clicked on so we can redirect to it if the user confirms.
+			let deleteLogLink = event.currentTarget.getAttribute( 'href' );
 
 			$( '#confirmdelete' ).dialog( {
 				resizable: false,

@@ -209,20 +209,29 @@ window.CTCTBuilder = {};
 	that.selectBinds = () => {
 
 		// For each fields select.
-		$( '#cmb2-metabox-ctct_2_fields_metabox .cmb2_select' ).change( () => {
+		const selects = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox .cmb2_select');
+		if (selects) {
+			Array.from(selects).forEach((select) => {
+				select.addEventListener('change', () => {
 
-			// Modify our fields.
-			that.modifyFields();
+					// Modify our fields.
+					that.modifyFields();
 
-			// Don't allow duplicate mappings in form.
-			that.removeDuplicateMappings();
+					// Don't allow duplicate mappings in form.
+					that.removeDuplicateMappings();
 
-			// Bind our leave warning.
-			that.bindLeaveWarning();
+					// Bind our leave warning.
+					that.bindLeaveWarning();
 
-			// Cached? Need to somehow listen for changed amounts.
-			$('.form-field-is-custom-field').on('keyup', that.noUniqueWarning);
-		} );
+					const customField = document.querySelectorAll('.form-field-is-custom-field');
+					if (customField) {
+						Array.from(customField).forEach((field) => {
+							field.addEventListener('keyup', that.noUniqueWarning);
+						});
+					}
+				});
+			});
+		}
 	};
 
 	/**
