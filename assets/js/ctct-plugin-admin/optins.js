@@ -48,9 +48,7 @@ window.CTCT_OptIns = {};
 					app.toggleNoConnectionFields();
 				});
 			});
-		}
-
-		if ( app.cache.list.length ) {
+		} else {
 			// Fire once to get our loaded state set up.
 			app.toggleConnectionFields();
 
@@ -91,7 +89,7 @@ window.CTCT_OptIns = {};
 	app.toggleConnectionFields = () => {
 
 		// If checked, show them, else hide it.
-		if ( 0 <= app.cache.list.length ) {
+		if ( 0 < app.cache.list.length ) {
 			Array.from(app.cache.title).forEach((item) => {
 				item.style.display = 'block';
 			});
