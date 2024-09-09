@@ -746,12 +746,14 @@ class ConstantContact_Settings {
 		if ( ! constant_contact()->api->is_connected() ) {
 			return;
 		}
+		$lists = $this->get_optin_list_options();
+
+		if ( empty( $lists ) ) {
+			return;
+		}
 
 		$saved_label = constant_contact_get_option( '_ctct_optin_label', '' );
-
-		$lists = $this->get_optin_list_options();
-		$label = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
-
+		$label       = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 		?>
 		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
 			<p><?php echo esc_attr( $label ); ?></p>
