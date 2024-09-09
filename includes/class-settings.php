@@ -1138,7 +1138,7 @@ function constant_contact_get_option( $key = '', $default = null ) {
 		return cmb2_get_option( constant_contact()->settings->key, $key, $default );
 	}
 
-	$options = get_option( constant_contact()->settings->key, $key, $default );
+	$options = get_option( $key, $default );
 	$value   = $default;
 
 	if ( 'all' === $key ) {
