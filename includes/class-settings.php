@@ -404,8 +404,6 @@ class ConstantContact_Settings {
 					]
 				);
 
-				$lists[0] = esc_html__( 'Select a list', 'constant-contact-forms' );
-
 				$cmb->add_field(
 					[
 						'name'             => esc_html__( 'Add subscribers to', 'constant-contact-forms' ),
