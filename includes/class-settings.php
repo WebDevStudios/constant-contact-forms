@@ -372,7 +372,20 @@ class ConstantContact_Settings {
 				]
 			);
 
-			$lists = constant_contact()->builder->get_lists();
+			$lists     = constant_contact()->builder->get_lists();
+			$woo_lists = [
+				'WooCommerce - All Customers',
+				'WooCommerce - First time Customers',
+				'WooCommerce - Lapsed Customers',
+				'WooCommerce - Potential Customers',
+				'WooCommerce - Recent Customers',
+				'WooCommerce - Repeat Customers',
+			];
+			foreach( $lists as $list_id => $list_name ) {
+				if ( in_array( $list_name, $woo_lists ) ) {
+					unset( $lists[ $list_id ] );
+				}
+			}
 
 			if ( $lists && is_array( $lists ) ) {
 
