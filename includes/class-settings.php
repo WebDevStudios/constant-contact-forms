@@ -1091,7 +1091,7 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Returns formated list of available lists during opt-in.
+	 * Returns formatted list of available lists during opt-in.
 	 *
 	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
 	 * @since  1.12.0
@@ -1112,8 +1112,11 @@ class ConstantContact_Settings {
 			];
 			$list      = get_posts( $list_args );
 
-			$formatted_lists[ $list_id ] = $list[0]->post_title;
+			if ( ! empty( $list ) ) {
+				$formatted_lists[ $list_id ] = $list[0]->post_title;
+			}
 		}
+
 		return $formatted_lists;
 	}
 }
