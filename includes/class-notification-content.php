@@ -312,6 +312,25 @@ class ConstantContact_Notification_Content {
 		<?php
 		return ob_get_clean();
 	}
+
+	public static function update_available_notice() {
+		ob_start();
+		?>
+		<div class="admin-notice-message">
+			<p>
+			<?php
+			$url = is_multisite() ? 'network/update-core.php' : 'update-core.php';
+			printf(
+				/* Translators: placeholders will be html `<a>` links. */
+				esc_html__( 'We wanted to inform you that there is a pending update available for the Constant Contact Forms plugin. To ensure optimal performance and security, please visit the %1$sWordPress updates%2$s area and update the plugin at your earliest convenience.', 'constant-contact-forms' ),
+				sprintf( '<a href="%s">', esc_url( admin_url( $url ) ) ),
+				'</a>',
+			); ?>
+			</p>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
 }
 
 /**
@@ -466,3 +485,14 @@ function constant_contact_cron_notification( array $notifications = [] ) {
 	return $notifications;
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_cron_notification' );
+
+function constant_contact_update_available_notification( array $notifications = [] ) {
+	$notifications[] = [
+		'ID'         => 'update_available_notice',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'update_available_notice' ],
+		'require_cb' => 'constant_contact_maybe_show_update_available_notification',
+	];
+
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_update_available_notification' );
