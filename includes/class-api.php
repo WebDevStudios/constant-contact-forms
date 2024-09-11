@@ -1580,7 +1580,7 @@ class ConstantContact_API {
 	 * @param string $type    API request type.
 	 * @param array  $request The request.
 	 */
-	private function log_missed_api_request( string $type, array $request ) {
+	public function log_missed_api_request( string $type, array $request ) {
 		$missed_api_requests            = get_option( 'ctct_missed_api_requests', [] );
 		$missed_api_requests[][ $type ] = $request;
 		update_option( 'ctct_missed_api_requests', $missed_api_requests );
