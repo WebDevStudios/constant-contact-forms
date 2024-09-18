@@ -83,4 +83,3 @@ window.CTCTClipboard = {};
 	app.init();
 
 } ( window, window.CTCTClipboard ) );
-
