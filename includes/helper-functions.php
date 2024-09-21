@@ -206,18 +206,22 @@ function constant_contact_review_ajax_handler() {
 				}
 				update_option( ConstantContact_Notifications::$review_dismissed_option, $dismissed );
 
+				$review_action = 'processed dismiss success';
 				break;
 
 			case 'reviewed':
 				update_option( ConstantContact_Notifications::$reviewed_option, 'true' );
+
+				$review_action = 'processed reviewed success';
 				break;
 
 			default:
+				$review_action = 'nothing processed';
 				break;
 		}
 	}
 
-	wp_send_json_success( [ 'review-action' => 'processed' ] );
+	wp_send_json_success( [ 'review-action' => $review_action ] );
 	exit();
 }
 add_action( 'wp_ajax_constant_contact_review_ajax_handler', 'constant_contact_review_ajax_handler' );
