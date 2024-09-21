@@ -18,64 +18,30 @@ window.CTCTAJAX = {};
 	that.handleReviewAJAX = () => {
 		let reviewRequest = document.querySelector('#ctct-admin-notice-review_request');
 		if (reviewRequest) {
-			let dismissLink = reviewRequest.querySelector('a.ctct-notice-dismiss');
-			dismissLink.addEventListener('click', (e) => { e.preventDefault();
-				let ctctAction = 'dismissed';
-				if (e.target.classList.contains('ctct-review')) {
+			reviewRequest.addEventListener('click', (e) => {
+				e.preventDefault();
+				let ctctAction;
+				if (e.target.matches('.ctct-notice-dismiss')) {
+					ctctAction = 'dismissed';
+				} else if (e.target.matches('.ctct-review')) {
 					ctctAction = 'reviewed';
 				}
-				let ctctReviewAjax = {
-					'action'            : 'constant_contact_review_ajax_handler',
-					'ctct-review-action': ctctAction
-				}
+
 				const data = new FormData();
-				const formParams = new URLSearchParams(ctctReviewAjax);
-
 				data.append('action', 'constant_contact_review_ajax_handler');
-				data.append('ctct-review-action', ctctAction);
-				data.append('data', formParams);
+				data.append('ctct_review_action', ctctAction);
 
-				let options = {
-					method: 'POST',
-					headers: {'Content-Type': 'application/x-www-form-urlencoded;'},
-					body  : data,
-				};
-
-				wp.ajax.send('constant_contact_review_ajax_handler', {
-					success: function( thing ) {
-						e.preventDefault();
-						reviewRequest.style.display = 'none';
-						console.log(thing);
-					},
-					error: function( thing ) {
-						console.log(thing);
-					},
-					data: {
-						ctct_review_action: ctctAction
-					}
-				});
-
-				/*fetch(
-					window.ajaxurl,
-					options
-				)
+				fetch(window.ajaxurl, options = {
+					method: 'POST', body: data,
+				})
 					.then((response) => response.json())
 					.then((response) => {
-
-
-
-
-
-
-
-
 						if (response.success) {
-							e.preventDefault();
 							reviewRequest.style.display = 'none';
 						}
-					}).catch((error)=>{
-						console.log(error);
-				});*/
+					}).catch((error) => {
+					console.log(error);
+				});
 			});
 		}
 	};
