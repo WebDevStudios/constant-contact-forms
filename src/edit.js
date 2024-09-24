@@ -34,6 +34,7 @@ export default function Edit(props) {
 			defaultForm = formEntryObjs[0];
 		}
 	}
+	let smMsg = (formEntryObjs && formEntryObjs.length > 0 ) ? __('Choose the form to display with the dropdown below.', 'constant-contact-forms' ) : __('Please create a Constant Contact Form.', 'constant-contact-forms');
 
 	return (
 		<div {...blockProps}>
@@ -56,7 +57,7 @@ export default function Edit(props) {
 						</div>
 					</div>
 					<div className="ctct-block-container--selection">
-						<small>{__('Choose the form to display with the dropdown below.', 'constant-contact-forms')}</small>
+						<small>{smMsg}</small>
 						<div className="ctct-block-container--component">
 							<SelectControl
 								label={__('Chosen form', 'constant-contact-forms')}
