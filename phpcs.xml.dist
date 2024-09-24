@@ -30,7 +30,7 @@
 	<config name="minimum_supported_wp_version" value="7.4"/>
 
 	<!-- Use WP standards. -->
-	<rule ref="WordPress"/>
+	<rule ref="WordPress-Extra"/>
 
     <rule ref="Generic.Arrays">
         <exclude name="Generic.Arrays.DisallowShortArraySyntax.Found" />
@@ -56,6 +56,7 @@
 	<exclude-pattern>/node_modules/*</exclude-pattern>
 	<exclude-pattern>/tests/*</exclude-pattern>
 	<exclude-pattern>/vendor/*</exclude-pattern>
+	<exclude-pattern>/includes/Ctct/*</exclude-pattern>
 
 	<!-- Ignore InvalidClassFileName warnings. -->
 	<rule ref="WordPress.Files.FileName">
