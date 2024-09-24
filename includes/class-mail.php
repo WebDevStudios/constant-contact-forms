@@ -301,10 +301,15 @@ class ConstantContact_Mail {
 
 		$content_title  = '<p><strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
 
-		$list_ids = get_post_meta( (int) $submission_details['form_id'], '_ctct_list', true );
-		if ( ! is_array( $list_ids ) ) {
-			$list_ids = [ $list_ids ];
+		if ( ! empty( $_POST ) && is_array( $_POST ) ) { //phpcs:ignore
+			foreach( $_POST as $key => $value ) { //phpcs:ignore
+				if ( false !== strpos( $key, 'lists' ) ) {
+					$list_ids = array_map( 'sanitize_text_field', array_values( $value ) );
+					break;
+				}
+			}
 		}
+
 		foreach ( $list_ids as $list_id ) {
 			$list_info = constant_contact()->api->cc()->get_list( $list_id );
 			if ( ! empty( $list_info ) && isset( $list_info['name'] ) ) {

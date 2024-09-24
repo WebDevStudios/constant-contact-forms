@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 5.2.0
 Tested up to:      6.5.4
-Stable tag:        2.6.0
+Stable tag:        2.6.1
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -48,6 +48,12 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.6.1 =
+* Fixed: Issues around opt-in option display that were introduced with version 2.6.0.
+* Fixed: Issues regarding lists display in admin emails after user signup.
+* Updated: Removed unused images and changed some.
+* Updated: Social sharing icons in plugin list page.
 
 = 2.6.0 =
 * Updated: Amended the list selection process for a given form. Should not break existing forms, and now you can make use of drag-n-drop to order the list selection when offering multiple lists.
