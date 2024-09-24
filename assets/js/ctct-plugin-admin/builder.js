@@ -1,6 +1,6 @@
 window.CTCTBuilder = {};
 
-( function( window, $, that ) {
+(function (window, $, that) {
 
 	let required_items;
 
@@ -14,7 +14,7 @@ window.CTCTBuilder = {};
 
 		// If we do actually have an email field set, then remove our error.
 		let emailField = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox option[value="email"]');
-		if ( emailField.length ) {
+		if (emailField.length) {
 			let noEmailError = document.querySelector('#ctct-no-email-error');
 			if (noEmailError) {
 				noEmailError.style.display = 'none';
@@ -37,7 +37,7 @@ window.CTCTBuilder = {};
 		let cmb2handle = document.querySelectorAll('#ctct_0_description_metabox h2.hndle');
 		if (cmb2handle) {
 			Array.from(cmb2handle).forEach((hndle) => {
-				hndle.classList.remove('ui-sortable-handle','hndle');
+				hndle.classList.remove('ui-sortable-handle', 'hndle');
 			});
 		}
 
@@ -70,7 +70,6 @@ window.CTCTBuilder = {};
 
 	// Triggers our leave warning if we modify things in the form.
 	that.bindLeaveWarning = () => {
-
 		// Don't double-bind it.
 		if (!that.isLeaveWarningBound) {
 
@@ -117,7 +116,6 @@ window.CTCTBuilder = {};
 				let disabledEmails = document.querySelectorAll('.ctct-email-disabled');
 				if (disabledEmails) {
 					Array.from(disabledEmails).forEach((item) => {
-						debugger;
 						item.classList.remove('disabled');
 						item.removeAttribute('disabled');
 					});
@@ -137,15 +135,15 @@ window.CTCTBuilder = {};
 
 		// Disable email options on row change trigger.
 		// `cmb2_shift_rows_complete` is a custom jQuery based event, so we are leaving this selector.
-		$( document ).on( 'cmb2_shift_rows_complete', () => {
+		$(document).on('cmb2_shift_rows_complete', () => {
 			that.modifyFields();
 			that.bindLeaveWarning();
 			that.removeDuplicateMappings();
-		} );
+		});
 
 		// If we get a row added, then do our stuff.
 		// `cmb2_add_row` is a custom jQuery based event, so we are leaving this selector.
-		$( document ).on( 'cmb2_add_row', ( newRow ) => { // eslint-disable-line no-unused-vars
+		$(document).on('cmb2_add_row', (newRow) => { // eslint-disable-line no-unused-vars
 			const groupPostBoxes = document.querySelectorAll('#custom_fields_group_repeat .postbox');
 			if (groupPostBoxes) {
 				const lastBox = [...groupPostBoxes].pop();
@@ -158,7 +156,7 @@ window.CTCTBuilder = {};
 			that.modifyFields();
 			that.selectBinds();
 			that.removeDuplicateMappings();
-		} );
+		});
 
 		that.removeDuplicateMappings();
 
@@ -219,10 +217,10 @@ window.CTCTBuilder = {};
 				}
 
 				Array.from(includeItems).forEach((item) => {
-					item.addEventListener( 'change', that.addressChange );
+					item.addEventListener('change', that.addressChange);
 				});
 			}
-		} );
+		});
 	};
 
 	/**
@@ -456,4 +454,4 @@ window.CTCTBuilder = {};
 
 	that.init();
 
-} ( window, jQuery, window.CTCTBuilder ) );
+}(window, jQuery, window.CTCTBuilder));
