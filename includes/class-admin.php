@@ -216,8 +216,8 @@ class ConstantContact_Admin {
 					echo wp_kses( '</ul>', [ 'ul' => [] ] );
 				}
 				?>
-				<a href="edit.php?post_type=ctct_forms&page=ctct_options_connect" class="ctct-status ctct-<?php echo $api_status; ?>" title="<?php echo $connect_alt; ?>">
-					<?php echo $connect_title; ?>
+				<a href="edit.php?post_type=ctct_forms&page=ctct_options_connect" class="ctct-status ctct-<?php echo $api_status; ?>" title="<?php echo $connect_alt; ?>"> <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already handled earlier. ?>
+					<?php echo $connect_title; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already handled earlier. ?>
 				</a>
 			</div>
 		<?php
