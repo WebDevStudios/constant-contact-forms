@@ -524,7 +524,7 @@ class ConstantContact_Admin {
 
 		$social_share = esc_html__( 'Spread the word!', 'constant-contact-forms' );
 		$add_links[]  = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( $site_link ) . '" target="_blank" rel="noopener noreferrer" class="dashicons-before dashicons-facebook"></a>';
-		$add_links[] = '<a title="' . $social_share . '" href="https://x.com/intent/post?text=' . $x_cta . ' ' . $site_link . '" target="_blank" rel="noopener noreferrer"><img src="' . esc_url( constant_contact()->url ) . '/assets/images/logo-black.png" alt="' . esc_attr__( 'X logo', 'constant-contact-forms' ) . '" style="height:16px;width:16px;float:none;"></a>';
+		$add_links[]  = '<a title="' . $social_share . '" href="https://x.com/intent/post?text=' . $x_cta . ' ' . $site_link . '" target="_blank" rel="noopener noreferrer"><img src="' . esc_url( constant_contact()->url ) . '/assets/images/logo-black.png" alt="' . esc_attr__( 'X logo', 'constant-contact-forms' ) . '" style="height:16px;width:16px;float:none;"></a>';
 
 		/**
 		 * Filters the final custom social links.
