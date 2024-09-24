@@ -406,7 +406,7 @@ class ConstantContact_Admin {
 				echo '<div class="ctct-shortcode-wrap"><input class="ctct-shortcode" type="text" value="';
 				echo esc_html( '[ctct form="' . $post_id . '" show_title="false"]' );
 				echo '" readonly="readonly">';
-				echo '<button type="button" class="button" data-copied="' . esc_html( 'Copied!', 'constant-contact-forms' ) . '">';
+				echo '<button type="button" class="button" data-copied="' . esc_html__( 'Copied!', 'constant-contact-forms' ) . '">';
 				echo esc_html__( 'Copy', 'constant-contact-forms' );
 				echo '</button>';
 				echo '</div>';
