@@ -2,6 +2,8 @@ window.CTCTBuilder = {};
 
 ( function( window, $, that ) {
 
+	let required_items;
+
 	/**
 	 * @constructor
 	 *
@@ -102,21 +104,32 @@ window.CTCTBuilder = {};
 	 */
 	that.bindEvents = () => {
 
-		$( '#post' ).submit( () => {
+		let submitted = document.querySelector('#post');
+		if (submitted) {
+			document.addEventListener('submit', () => {
+				let disabledEmails = document.querySelectorAll('.ctct-email-disabled');
+				if (disabledEmails) {
+					Array.from(disabledEmails).forEach((item) => {
+						debugger;
+						item.classList.remove('disabled');
+						item.removeAttribute('disabled');
+					});
+				}
+				that.unbindLeaveWarning();
+			});
+		}
 
-			// Make sure our email dropdown reverts from disbled, as CMB2 doesn't save those values.
-			$( '.ctct-email-disabled' ).removeClass( 'disabled' ).prop( 'disabled', false );
-
-			that.unbindLeaveWarning();
-		} );
-
-		$( '.cmb2-wrap input, .cmb2-wrap textarea' ).on( 'input', () => {
-			if ( 'undefined' !== typeof( tinyMCE ) ) {
-				that.bindLeaveWarning();
-			}
-		} );
+		let cmb2inputs = document.querySelectorAll('.cmb2-wrap input, .cmb2-wrap textarea');
+		Array.from(cmb2inputs).forEach((input_item) => {
+			input_item.addEventListener('input', () => {
+				if ('undefined' !== typeof (tinyMCE)) {
+					that.bindLeaveWarning();
+				}
+			});
+		});
 
 		// Disable email options on row change trigger.
+		// `cmb2_shift_rows_complete` is a custom jQuery based event, so we are leaving this selector.
 		$( document ).on( 'cmb2_shift_rows_complete', () => {
 			that.modifyFields();
 			that.bindLeaveWarning();
@@ -124,9 +137,16 @@ window.CTCTBuilder = {};
 		} );
 
 		// If we get a row added, then do our stuff.
+		// `cmb2_add_row` is a custom jQuery based event, so we are leaving this selector.
 		$( document ).on( 'cmb2_add_row', ( newRow ) => { // eslint-disable-line no-unused-vars
-
-			$( '#custom_fields_group_repeat .postbox' ).last().find( '.map select' ).val( 'none' );
+			const groupPostBoxes = document.querySelectorAll('#custom_fields_group_repeat .postbox');
+			if (groupPostBoxes) {
+				const lastBox = [...groupPostBoxes].pop();
+				const boxSelect = lastBox.querySelector('.map select');
+				if (boxSelect) {
+					boxSelect.value = 'none';
+				}
+			}
 
 			that.modifyFields();
 			that.selectBinds();
@@ -135,70 +155,91 @@ window.CTCTBuilder = {};
 
 		that.removeDuplicateMappings();
 
-		$( '#ctct-reset-css' ).on( 'click', ( event ) => {
-			event.preventDefault();
+		const cssReset = document.querySelector('#ctct-reset-css');
+		if (cssReset) {
+			cssReset.addEventListener('click', (e) => {
+				e.preventDefault();
 
-			let selectFields = [
-				'#_ctct_form_description_font_size',
-				'#_ctct_form_submit_button_font_size',
-				'#_ctct_form_label_placement'
-			];
+				let selectFields = [
+					'#_ctct_form_description_font_size',
+					'#_ctct_form_submit_button_font_size',
+					'#_ctct_form_label_placement'
+				];
 
-			let textFields = [
-				'#_ctct_form_padding_top',
-				'#_ctct_form_padding_bottom',
-				'#_ctct_form_padding_left',
-				'#_ctct_form_padding_right',
-				'#_ctct_input_custom_classes'
-			];
+				selectFields.forEach((fieldSelector) => {
+					const field = document.querySelector(fieldSelector);
+					if (field) {
+						field.selectedIndex = 0;
+					}
+				});
 
-			// Reset color pickers.
-			$( '.wp-picker-clear' ).each( function() {
-				$( this ).click();
-			} );
+				let textFields = [
+					'#_ctct_form_padding_top',
+					'#_ctct_form_padding_bottom',
+					'#_ctct_form_padding_left',
+					'#_ctct_form_padding_right',
+					'#_ctct_input_custom_classes'
+				];
 
-			for ( let i = selectFields.length; i--; ) {
-				let firstOption = $( selectFields[i] ).children( 'option' ).first();
-				$( selectFields[i] ).val( firstOption.val() );
-			}
+				textFields.forEach((textSelector) => {
+					const text = document.querySelector(textSelector);
+					if (text) {
+						text.value = '';
+					}
+				});
 
-			for ( let i = textFields.length; i--; ) {
-				$( textFields[i] ).val( '' );
-			}
-		} );
+				// Clear out color pickers.
+				let pickerClears = document.querySelectorAll('.wp-picker-clear');
+				if (pickerClears) {
+					Array.from(pickerClears).forEach((picker) => {
+						picker.click();
+					});
+				}
+			});
+		}
 
-		$( document ).ready( () => {
-			let $addressbox = $('#address_settings');
-			if ( $addressbox.length > 0 ) {
-				let $includes_checked = $addressbox.find('.cmb2-id--ctct-address-fields-include input[type="checkbox"]:checked');
-				let required_items = $addressbox.find('.cmb2-id--ctct-address-fields-require input[type="checkbox"]');
-				if ( $includes_checked.length === 0 ) {
-					$(required_items).each( function(){
-						$(this).prop('disabled', true);
+		window.addEventListener('load', function () {
+			const addressBox = document.querySelector('#address_settings');
+			if (addressBox) {
+				let includeItems = addressBox.querySelectorAll('.cmb2-id--ctct-address-fields-include input[type="checkbox"]');
+				let checkedItems = addressBox.querySelectorAll('.cmb2-id--ctct-address-fields-include input[type="checkbox"]:checked');
+				required_items = addressBox.querySelectorAll('.cmb2-id--ctct-address-fields-require input[type="checkbox"]');
+
+				if (checkedItems.length === 0) {
+					Array.from(required_items).forEach((item) => {
+						item.setAttribute('disabled', true);
 					});
 				}
 
-				$addressbox.find('.cmb2-id--ctct-address-fields-include input[type="checkbox"]').on('change', function () {
-					let checked_value = this;
-					if ( checked_value.checked ) {
-						$(required_items).each(function () {
-							if ( checked_value.value === $(this).val() ) {
-								$(this).prop('disabled', false);
-							}
-						});
-					} else {
-						$(required_items).each(function () {
-							if (checked_value.value === $(this).val()) {
-								$(this).prop('checked', false);
-								$(this).prop('disabled', true);
-							}
-						});
-					}
-				})
+				Array.from(includeItems).forEach((item) => {
+					item.addEventListener( 'change', that.addressChange );
+				});
 			}
 		} );
-
 	};
+
+	/**
+	 * Handle the enabled/disabled state of rwquired items when address "include" options change.
+	 *
+	 * @param e Checkbox being checked.
+	 */
+	that.addressChange = (e) => {
+		let item = e.target;
+		if (item.checked) {
+			Array.from(required_items).forEach((required_item) => {
+				if (item.value === required_item.value) {
+					required_item.removeAttribute('disabled');
+				}
+			});
+		} else {
+			Array.from(required_items).forEach((required_item) => {
+				if (item.value === required_item.value) {
+					required_item.checked = false;
+					required_item.setAttribute('disabled', true);
+				}
+			});
+		}
+	}
 
 	/**
 	 * When .cmb2_select <selects> get changed, do some actions.
