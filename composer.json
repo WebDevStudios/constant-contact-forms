@@ -34,7 +34,7 @@
       "dist":[
          "rm -rf ./vendor",
          "npm install",
-         "npm run build",
+         "npm run build:release",
          "rm -rf ./.git",
          "rm -rf ./.DS_Store",
          "rm -rf ./.distignore",
