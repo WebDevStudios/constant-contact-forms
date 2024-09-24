@@ -851,7 +851,7 @@ class ConstantContact_Builder_Fields {
 				'id'         => $this->prefix . 'generated_shortcode',
 				'type'       => 'text_medium',
 				'desc'       => sprintf(
-					 /* Translators: Placeholders here represent `<em>` and `<strong>` HTML tags. */
+					/* Translators: Placeholders here represent `<em>` and `<strong>` HTML tags. */
 					esc_html__( 'Shortcode to embed — %1$s%2$sYou can copy and paste this in a post to display your form.%3$s%4$s', 'constant-contact-forms' ),
 					'<small>',
 					'<em>',

@@ -2,10 +2,10 @@
 /**
  * Admin
  *
- * @package ConstantContact
+ * @package    ConstantContact
  * @subpackage Admin
- * @author Constant Contact
- * @since 1.0.1
+ * @author     Constant Contact
+ * @since      1.0.1
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */

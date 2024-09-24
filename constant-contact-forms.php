@@ -2,11 +2,11 @@
 /**
  * Constant Contact Main Plugin File
  *
- * @package ConstantContactForms
+ * @package    Constant Contact Forms
  * @subpackage Loader
- * @author Constant Contact
- * @since 1.0.1
- * @license GPLv3
+ * @author     Constant Contact
+ * @since      1.0.1
+ * @license    GPLv3
  *
  * @wordpress-plugin
  * Plugin Name: Constant Contact Forms for WordPress
