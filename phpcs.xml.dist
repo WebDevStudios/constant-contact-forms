@@ -27,7 +27,7 @@
 	<file>.</file>
 
 	<!-- Minimum WordPress version. -->
-	<config name="minimum_supported_wp_version" value="5.2"/>
+	<config name="minimum_supported_wp_version" value="7.4"/>
 
 	<!-- Use WP standards. -->
 	<rule ref="WordPress"/>
