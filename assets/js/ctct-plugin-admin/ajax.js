@@ -1,6 +1,6 @@
 window.CTCTAJAX = {};
 
-( function( window, that ) {
+(function (window, that) {
 
 	/**
 	 * @constructor
@@ -47,4 +47,4 @@ window.CTCTAJAX = {};
 	};
 
 	that.init();
-} ( window, window.CTCTAJAX ) );
+}(window, window.CTCTAJAX));

@@ -75,7 +75,7 @@ window.CTCTModal = {};
 			});
 		}
 
-		if ( app.cache.deleteLogLink ) {
+		if (app.cache.deleteLogLink) {
 			app.cache.deleteLogLink.addEventListener('click', (event) => {
 				event.preventDefault();
 

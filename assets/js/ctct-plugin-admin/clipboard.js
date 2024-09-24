@@ -1,6 +1,6 @@
 window.CTCTClipboard = {};
 
-( function( window, app ) {
+(function (window, app) {
 
 	/**
 	 * @constructor
@@ -8,7 +8,7 @@ window.CTCTClipboard = {};
 	 * @author Constant Contact
 	 * @since 1.0.0
 	 */
-	 app.init = () => {
+	app.init = () => {
 		app.cache();
 		app.bindEvents();
 	};
@@ -19,10 +19,10 @@ window.CTCTClipboard = {};
 	 * @author Constant Contact
 	 * @since 1.11.0
 	 */
-	 app.cache = () => {
+	app.cache = () => {
 		app.cache = {
-			window: window,
-			copyshortcode: document.querySelectorAll('.ctct-shortcode-wrap' ),
+			window       : window,
+			copyshortcode: document.querySelectorAll('.ctct-shortcode-wrap'),
 		};
 	};
 
@@ -50,7 +50,7 @@ window.CTCTClipboard = {};
 		button.innerHTML = button.dataset.copied;
 
 		// Reset button text.
-		setTimeout(function(){
+		setTimeout(function () {
 			button.innerHTML = reset;
 		}, 3000);
 
@@ -62,24 +62,24 @@ window.CTCTClipboard = {};
 	 * @author Constant Contact
 	 * @since 1.11.0
 	 */
-	 app.bindEvents = () => {
+	app.bindEvents = () => {
 
 		// Add click event for copy buttons.
-		 if (app.cache.copyshortcode) {
-			 Array.from(app.cache.copyshortcode).forEach((element) => {
-				 let input = element.querySelector('input');
-				 let button = element.querySelector('button');
+		if (app.cache.copyshortcode) {
+			Array.from(app.cache.copyshortcode).forEach((element) => {
+				let input = element.querySelector('input');
+				let button = element.querySelector('button');
 
-				 if (input && button) {
-					 button.addEventListener('click', function (e) {
-						 e.preventDefault();
-						 app.copyClick(this, input);
-					 });
-				 }
-			 });
-		 }
+				if (input && button) {
+					button.addEventListener('click', function (e) {
+						e.preventDefault();
+						app.copyClick(this, input);
+					});
+				}
+			});
+		}
 	};
 
 	app.init();
 
-} ( window, window.CTCTClipboard ) );
+}(window, window.CTCTClipboard));

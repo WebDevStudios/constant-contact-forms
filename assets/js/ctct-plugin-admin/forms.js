@@ -1,6 +1,6 @@
 window.CTCTForms = {};
 
-( function( window, that ) {
+(function (window, that) {
 
 	/**
 	 * @constructor
@@ -21,7 +21,7 @@ window.CTCTForms = {};
 	 */
 	that.cache = () => {
 		that.cache = {
-			window: window,
+			window    : window,
 			disconnect: '.ctct-disconnect',
 		};
 	};
@@ -35,7 +35,7 @@ window.CTCTForms = {};
 	that.bindEvents = () => {
 		let disconnect = document.querySelectorAll(that.cache.disconnect);
 		if (disconnect) {
-			Array.from(disconnect).forEach((item)=>{
+			Array.from(disconnect).forEach((item) => {
 				item.addEventListener('click', () => {
 					return confirm(window.ctctTexts.disconnectconfirm);
 				});
@@ -45,4 +45,4 @@ window.CTCTForms = {};
 
 	that.init();
 
-} ( window, window.CTCTForms ) );
+}(window, window.CTCTForms));
