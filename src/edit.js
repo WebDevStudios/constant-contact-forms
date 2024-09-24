@@ -20,6 +20,8 @@ export default function Edit(props) {
 		}
 	)
 
+	let defaultForm = '';
+
 	const theforms = useSelect((select) => {
 		return select('core').getEntityRecords('postType', 'ctct_forms', {per_page: -1});
 	}, []);
@@ -28,6 +30,9 @@ export default function Edit(props) {
 		formEntryObjs = theforms.map((form) => {
 			return {label: form.title.rendered, value: form.id};
 		});
+		if (theforms.length === 1 && !selectedForm) {
+			defaultForm = formEntryObjs[0];
+		}
 	}
 
 	return (
@@ -55,7 +60,7 @@ export default function Edit(props) {
 						<div className="ctct-block-container--component">
 							<SelectControl
 								label={__('Chosen form', 'constant-contact-forms')}
-								value={selectedForm ?? ''}
+								value={selectedForm ?? defaultForm}
 								options={formEntryObjs}
 								onChange={(selectedForm) => setAttributes({selectedForm})}
 							/>
