@@ -215,8 +215,6 @@ class ConstantContact_Connect {
 					</div>
 				</div>
 
-				<?php // if ( ! constant_contact_has_forms() ) : ?>
-
 				<hr />
 
 				<?php // phpcs:disable WordPress.WP.EnqueuedResources -- Ok use of inline scripts. ?>
@@ -263,8 +261,6 @@ class ConstantContact_Connect {
 						<a class="button" data-allow="off"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
 					</div>
 				</div>
-
-				<?php // endif; ?>
 			</div>
 
 		<?php else : ?>
