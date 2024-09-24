@@ -82,10 +82,6 @@ window.CTCTBuilder = {};
 		}
 	};
 
-	that.bindMessage = () => {
-		return window.ctctTexts.leavewarning;
-	};
-
 	/**
 	 * Removes our binding of our leave warning.
 	 *
@@ -93,7 +89,18 @@ window.CTCTBuilder = {};
 	 * @since 1.0.0
 	 */
 	that.unbindLeaveWarning = () => {
-		that.cache.window.removeEventListener('beforeunload',that.bindMessage);
+		that.cache.window.removeEventListener('beforeunload', that.bindMessage);
+	};
+
+	/**
+	 * Handles the beforeunload callback and display.
+	 *
+	 * @param e beforeunload event.
+	 * @since NEXT
+	 */
+	that.bindMessage = (e) => {
+		e.preventDefault();
+		e.returnValue = '';
 	};
 
 	/**
