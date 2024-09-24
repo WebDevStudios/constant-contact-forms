@@ -155,7 +155,7 @@ class ConstantContact_Admin {
 				}
 
 				// Ignore "Add New".
-				if ( $i === 10 ) {
+				if ( 10 === $i ) {
 					continue;
 				}
 
@@ -176,7 +176,7 @@ class ConstantContact_Admin {
 				}
 
 				// Special case for "Add New" page.
-				if ( $i === 5 && $submenu_file === "post-new.php?post_type=$cpt_slug" ) {
+				if ( 5 === $i && "post-new.php?post_type=$cpt_slug" === $submenu_file ) {
 					$tab['is_active'] = true;
 				}
 
@@ -185,8 +185,8 @@ class ConstantContact_Admin {
 		}
 
 		$tabs[] = [
-			'url' => 'https://wordpress.org/support/plugin/constant-contact-forms/reviews/#new-post',
-			'text' => esc_html__( 'Review Constant Contact Forms', 'constant-contact-forms' )
+			'url'  => 'https://wordpress.org/support/plugin/constant-contact-forms/reviews/#new-post',
+			'text' => esc_html__( 'Review Constant Contact Forms', 'constant-contact-forms' ),
 		];
 
 		$connect_title = esc_html__( 'Connected', 'constant-contact-forms' );
