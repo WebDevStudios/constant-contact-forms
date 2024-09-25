@@ -46,17 +46,20 @@ class ConstantContact_Attached_Lists_Field {
 
 		add_action( 'admin_footer', 'find_posts_div' );
 
-		$query_args  = (array) $this->field->options( 'query_args' );
+		$query_args = (array) $this->field->options( 'query_args' );
 
 		// Setup our args
-		$args = wp_parse_args( $query_args, [
-			'post_type'      => 'post',
-			'posts_per_page' => 100,
-		] );
+		$args = wp_parse_args(
+			$query_args,
+			[
+				'post_type'      => 'post',
+				'posts_per_page' => 100,
+			]
+		);
 
 		// Most likely prevents listing a self post in the list.
-		if ( isset( $_POST['post'] ) ) {
-			$args['post__not_in'] = [ absint( $_POST['post'] ) ];
+		if ( isset( $_POST['post'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$args['post__not_in'] = [ absint( $_POST['post'] ) ]; // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		}
 
 		// loop through post types to get labels for all.
@@ -85,7 +88,8 @@ class ConstantContact_Attached_Lists_Field {
 		$filter_boxes = '';
 		// Check 'filter' setting
 		if ( $this->field->options( 'filter_boxes' ) ) {
-			$filter_boxes = '<div class="search-wrap"><input type="text" placeholder="' . sprintf( __( 'Filter %s', 'cmb' ), $post_type_labels ) . '" class="regular-text search" name="%s" /></div>';
+			// translators: the placeholder will hold a post type label.
+			$filter_boxes = '<div class="search-wrap"><input type="text" placeholder="' . sprintf( __( 'Filter %s', 'constant-contact-forms' ), $post_type_labels ) . '" class="regular-text search" name="%s" /></div>';
 		}
 
 		// Check to see if we have any meta values saved yet
@@ -103,52 +107,55 @@ class ConstantContact_Attached_Lists_Field {
 		<div class="attached-posts-wrap widefat" data-fieldname="<?php echo esc_attr( $field_type->_name() ); ?>">
 			<div class="retrieved-wrap column-wrap">
 				<p class="attached-posts-section">
-					<strong><?php printf( esc_html__( 'Available %s', 'cmb' ), $post_type_labels ); ?></strong>
+					<strong>
+						<?php
+						// translators: the placeholder will hold a post type label.
+						printf( esc_html__( 'Available %s', 'constant-contact-forms' ), $post_type_labels ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						?>
+					</strong>
 				</p>
 
 				<?php
 				$hide_selected = $this->field->options( 'hide_selected' ) ? ' hide-selected' : '';
 
 				if ( $filter_boxes ) {
-					printf( $filter_boxes, 'available-search' );
+					printf( $filter_boxes, 'available-search' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 				}
 				?>
 				<ul class="retrieved connected <?php echo esc_attr( $hide_selected ); ?>">
 					<?php
 
 					// Loop through our posts as list items
-					$this->display_retrieved( $objects, $attached );
+					$this->display_retrieved( $objects, $attached ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					?>
 				</ul><!-- .retrieved -->
 				<?php
 
-				$findtxt = $field_type->_text( 'find_text', __( 'Search lists' ) );
-
-				$js_data = json_encode( [
-					'types'      => $args['post_type'],
-					'cmbId'      => $this->field->cmb_id,
-					'errortxt'   => esc_attr( $field_type->_text( 'error_text', esc_html__( 'An error has occurred. Please reload the page and try again.', 'constant-contact-forms' ) ) ),
-					'findtxt'    => esc_attr( $field_type->_text( 'find_text', esc_html__( 'Find lists', 'constant-contact-forms' ) ) ),
-					'groupId'    => $this->field->group ? $this->field->group->id() : false,
-					'fieldId'    => $this->field->_id(),
-					'exclude'    => $args['post__not_in'] ?? [],
-				] );
+				$js_data = wp_json_encode(
+					[
+						'types'    => $args['post_type'],
+						'cmbId'    => $this->field->cmb_id,
+						'errortxt' => esc_attr( $field_type->_text( 'error_text', esc_html__( 'An error has occurred. Please reload the page and try again.', 'constant-contact-forms' ) ) ),
+						'findtxt'  => esc_attr( $field_type->_text( 'find_text', esc_html__( 'Find lists', 'constant-contact-forms' ) ) ),
+						'groupId'  => $this->field->group ? $this->field->group->id() : false,
+						'fieldId'  => $this->field->_id(),
+						'exclude'  => $args['post__not_in'] ?? [],
+					]
+				);
 				?>
-
-				<?php /*<p>
-					<button type="button" class="button cmb2-attached-posts-search-button" data-search="<?php echo esc_attr( $js_data ); ?>">
-						<?php echo esc_html( $findtxt ); ?>
-						<span title="<?php echo esc_attr( $findtxt ); ?>" class="dashicons dashicons-search"></span>
-					</button>
-				</p>*/ ?>
 			</div><!-- .retrieved-wrap -->
 			<div class="attached-wrap column-wrap">
 				<p class="attached-posts-section">
-					<strong><?php printf( esc_html__( 'Associated %s', 'constant-contact-forms' ), $post_type_labels ); ?></strong>
+					<strong>
+						<?php
+						// translators: the placeholder will hold a post type label.
+						printf( esc_html__( 'Associated %s', 'constant-contact-forms' ), $post_type_labels ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						?>
+					</strong>
 				</p>
 			<?php
 			if ( $filter_boxes ) {
-				printf( $filter_boxes, 'attached-search' );
+				printf( $filter_boxes, 'attached-search' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 			}
 			?>
 				<ul class="attached connected">
@@ -161,12 +168,14 @@ class ConstantContact_Attached_Lists_Field {
 
 			<?php
 
-			echo $field_type->input( [
-				'type'  => 'hidden',
-				'class' => 'attached-posts-ids',
-				'value' => ! empty( $ids ) ? implode( ',', $ids ) : '',
-				'desc'  => '',
-			] );
+			echo $field_type->input( // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+				[
+					'type'  => 'hidden',
+					'class' => 'attached-posts-ids',
+					'value' => ! empty( $ids ) ? implode( ',', $ids ) : '', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'desc'  => '',
+				]
+			);
 			?>
 		</div><!-- .attached-posts-wrap -->
 		<?php
@@ -188,10 +197,10 @@ class ConstantContact_Attached_Lists_Field {
 		foreach ( $objects as $object ) {
 
 			// Set our zebra stripes
-			$class = ++ $count % 2 == 0 ? 'even' : 'odd';
+			$class = ++ $count % 2 === 0 ? 'even' : 'odd'; // phpcs:ignore WordPress.PHP.YodaConditions.NotYoda
 
 			// Set a class if our post is in our attached meta
-			$class .= ! empty ( $attached ) && in_array( $this->get_list_id_by_object( $object ), $attached ) ? ' added' : '';
+			$class .= ! empty( $attached ) && in_array( $this->get_list_id_by_object( $object ), $attached, true ) ? ' added' : '';
 
 			$this->list_item( $object, $class );
 		}
@@ -226,7 +235,7 @@ class ConstantContact_Attached_Lists_Field {
 			}
 
 			// Set our zebra stripes
-			$class = ++ $count % 2 == 0 ? 'even' : 'odd';
+			$class = ++ $count % 2 === 0 ? 'even' : 'odd'; // phpcs:ignore WordPress.PHP.YodaConditions.NotYoda
 
 			$this->list_item( $object, $class, 'dashicons-minus' );
 			$ids[ $object->ID ] = $list_id;
@@ -241,11 +250,11 @@ class ConstantContact_Attached_Lists_Field {
 		}
 
 		$args  = [
-			'post_type' => 'ctct_lists',
+			'post_type'      => 'ctct_lists',
 			'posts_per_page' => 1,
-			'post_status' => 'publish',
-			'meta_key'   => '_ctct_list_id',
-			'meta_value' => $list_id
+			'post_status'    => 'publish',
+			'meta_key'       => '_ctct_list_id',
+			'meta_value'     => $list_id,
 		];
 		$query = new WP_Query( $args );
 		if ( $query->have_posts() ) {
@@ -268,10 +277,10 @@ class ConstantContact_Attached_Lists_Field {
 		// Build our list item
 		printf(
 			'<li data-id="%1$s" class="%2$s" target="_blank"><span class="dashicons dashicons-sort sort"></span> %3$s <span class="dashicons %4$s add-remove"></span></li>',
-			$this->get_list_id_by_object( $object ),
-			$li_class,
-			get_the_title( $object ),
-			$icon_class
+			esc_attr( $this->get_list_id_by_object( $object ) ),
+			esc_attr( $li_class ),
+			esc_html( get_the_title( $object ) ),
+			esc_attr( $icon_class )
 		);
 	}
 
@@ -322,7 +331,7 @@ class ConstantContact_Attached_Lists_Field {
 
 		if ( ! empty( $attached ) ) {
 			$args['post__in']       = $attached;
-			$args['posts_per_page'] = count( $attached );
+			$args['posts_per_page'] = count( $attached ); // phpcs:ignore WordPress.WP.PostsPerPage.posts_per_page_posts_per_page
 
 			$new = $this->get_objects( $args );
 
@@ -369,10 +378,14 @@ class ConstantContact_Attached_Lists_Field {
 		wp_enqueue_script( 'cmb2-attached-lists-field', $url . 'ctct-plugin-attached-lists.js', $requirements, self::VERSION, true );
 
 		if ( ! $once ) {
-			wp_localize_script( 'cmb2-attached-lists-field', 'CMBAP', [
-				'edit_link_template' => str_replace( get_the_ID(), 'REPLACEME', get_edit_post_link( get_the_ID() ) ),
-				'ajaxurl'            => admin_url( 'admin-ajax.php', 'relative' ),
-			] );
+			wp_localize_script(
+				'cmb2-attached-lists-field',
+				'CMBAP',
+				[
+					'edit_link_template' => str_replace( get_the_ID(), 'REPLACEME', get_edit_post_link( get_the_ID() ) ),
+					'ajaxurl'            => admin_url( 'admin-ajax.php', 'relative' ),
+				]
+			);
 
 			$once = true;
 		}
@@ -430,7 +443,7 @@ class ConstantContact_Attached_Lists_Field {
 
 		if ( ! empty( $_POST['retrieved'] ) && is_array( $_POST['retrieved'] ) ) {
 			$obj_ids = [];
-			foreach( $_POST['retrieved'] as $list_id ) {
+			foreach ( $_POST['retrieved'] as $list_id ) {
 				$obj_ids[] = $this->get_object_by_list_id( $list_id );
 			}
 			// Exclude posts/users already existing.
