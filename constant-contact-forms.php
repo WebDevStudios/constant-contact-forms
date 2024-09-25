@@ -820,7 +820,7 @@ class Constant_Contact {
 	 */
 	public function register_front_assets() {
 
-		if ( disable_frontend_css() ) {
+		if ( constant_contact_disable_frontend_css() ) {
 			return;
 		}
 
