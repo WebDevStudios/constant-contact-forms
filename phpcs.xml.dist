@@ -36,6 +36,7 @@
 
 		<!-- Allow array short syntax. -->
 		<exclude name="Generic.Arrays.DisallowShortArraySyntax" />
+		<exclude name="WordPress.PHP.DisallowShortTernary.Found" />
 	</rule>
 
 	<!-- Configure text domain. -->
