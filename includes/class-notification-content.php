@@ -44,15 +44,18 @@ class ConstantContact_Notification_Content {
 	 * @return string
 	 */
 	public static function activation() {
-		$auth_url = add_query_arg( [
-			'post_type' => 'ctct_forms',
-			'page'      => 'ctct_options_connect',
-			'ctct-dismiss-action' => 'activation'
-		], admin_url( 'edit.php' ) );
+		$auth_url = add_query_arg(
+			[
+				'post_type'           => 'ctct_forms',
+				'page'                => 'ctct_options_connect',
+				'ctct-dismiss-action' => 'activation',
+			],
+			admin_url( 'edit.php' )
+		);
 		$auth_url = wp_nonce_url( $auth_url, 'ctct-user-is-dismissing', 'ctct-dismiss' );
 		$try_url  = constant_contact()->api->get_signup_link();
 
-		if ( ! empty( $_GET['page'] ) && 'ctct_options_connect' === sanitize_text_field( $_GET['page'] ) ) {
+		if ( ! empty( $_GET['page'] ) && 'ctct_options_connect' === sanitize_text_field( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return '';
 		}
 
@@ -279,15 +282,16 @@ class ConstantContact_Notification_Content {
 		<div class="admin-notice admin-notice-message">
 		<p>
 			<?php
-				printf(
-					esc_html__( 'Constant Contact Forms has detected errors that indicate a need to manually disconnect and reconnect your Constant Contact account. Visit the %sConnection Settings%s to manage.', 'constant-contact-forms' ),
-					sprintf(
-						'<a href="%s">',
-						esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' ) )
-					),
-					'</a>'
-				);
-				?>
+			printf(
+			// translators: placeholders hold link HTML tags.
+				esc_html__( 'Constant Contact Forms has detected errors that indicate a need to manually disconnect and reconnect your Constant Contact account. Visit the %1$sConnection Settings%2$s to manage.', 'constant-contact-forms' ),
+				sprintf(
+					'<a href="%s">',
+					esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' ) )
+				),
+				'</a>'
+			);
+			?>
 		</p>
 		</div>
 		<?php
