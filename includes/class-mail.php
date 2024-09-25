@@ -299,7 +299,7 @@ class ConstantContact_Mail {
 
 		$content_before = $content_notice_note . $content_before . $content_notice_reasons;
 
-		$content_title  = '<p><strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
+		$content_title = '<p><strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
 
 		if ( ! empty( $_POST ) && is_array( $_POST ) ) { //phpcs:ignore
 			foreach( $_POST as $key => $value ) { //phpcs:ignore
