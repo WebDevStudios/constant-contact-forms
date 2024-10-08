@@ -49,6 +49,12 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= 2.7.0 =
+* Fixed: Issues around opt-in options not showing until a list was chosen and the form saved.
+* Fixed: PHP warnings with login/register/comment signup integrations.
+* Added: Extra form submission catching if connection issues detected. Will notify administrators right away when detected as well.
+* Updated: Dismissable admin notice recommending to update the Constant Contact Forms plugin when one is available.
+
 = 2.6.1 =
 * Fixed: Issues around opt-in option display that were introduced with version 2.6.0.
 * Fixed: Issues regarding lists display in admin emails after user signup.
