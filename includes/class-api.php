@@ -1647,7 +1647,7 @@ class ConstantContact_API {
 	 * form submission that will be re-processed once new tokens are established. We are
 	 * not going to worry about listing the form name, because all forms would be affected.
 	 *
-	 * @since NEXT
+	 * @since 2.7.0
 	 *
 	 * @param $form_id
 	 */
@@ -1679,7 +1679,7 @@ class ConstantContact_API {
 				/**
 				 * Filters the email subject to be sent to an admin.
 				 *
-				 * @since NEXT
+				 * @since 2.7.0
 				 *
 				 * @param string $value Constructed email subject.
 				 * @param string $value Constant Contact Form ID.
@@ -1694,7 +1694,7 @@ class ConstantContact_API {
 	/**
 	 * Set our email's content type.
 	 *
-	 * @since NEXT
+	 * @since 2.7.0
 	 *
 	 * @return string
 	 */
