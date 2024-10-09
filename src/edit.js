@@ -20,8 +20,6 @@ export default function Edit(props) {
 		}
 	)
 
-	let defaultForm = '';
-
 	const theforms = useSelect((select) => {
 		return select('core').getEntityRecords('postType', 'ctct_forms', {per_page: -1});
 	}, []);
