@@ -37,7 +37,7 @@ export default function Edit(props) {
 			}
 		)
 	}
-	let smMsg = (formEntryObjs && formEntryObjs.length > 0 ) ? __('Choose the form to display with the dropdown below.', 'constant-contact-forms' ) : __('Please create a Constant Contact Form.', 'constant-contact-forms');
+	let smMsg = (formEntryObjs && formEntryObjs.length > 1 ) ? __('Choose the form to display with the dropdown below.', 'constant-contact-forms' ) : __('Please create a Constant Contact Form.', 'constant-contact-forms');
 
 	return (
 		<div {...blockProps}>
