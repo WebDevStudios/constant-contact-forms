@@ -30,9 +30,12 @@ export default function Edit(props) {
 		formEntryObjs = theforms.map((form) => {
 			return {label: form.title.rendered, value: form.id};
 		});
-		if (theforms.length === 1 && !selectedForm) {
-			defaultForm = formEntryObjs[0];
-		}
+		formEntryObjs.unshift(
+			{
+				label: __('Select Form', 'constant-contact-forms'),
+				value: 0,
+			}
+		)
 	}
 	let smMsg = (formEntryObjs && formEntryObjs.length > 0 ) ? __('Choose the form to display with the dropdown below.', 'constant-contact-forms' ) : __('Please create a Constant Contact Form.', 'constant-contact-forms');
 
@@ -61,7 +64,7 @@ export default function Edit(props) {
 						<div className="ctct-block-container--component">
 							<SelectControl
 								label={__('Chosen form', 'constant-contact-forms')}
-								value={selectedForm ?? defaultForm}
+								value={selectedForm ?? ''}
 								options={formEntryObjs}
 								onChange={(selectedForm) => setAttributes({selectedForm})}
 							/>
