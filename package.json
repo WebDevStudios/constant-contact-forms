@@ -1,6 +1,6 @@
 {
   "name": "constant-contact-forms",
-  "version": "2.6.1",
+  "version": "2.7.0",
   "description": "",
   "main": "build/index.js",
   "engines": {
@@ -14,7 +14,7 @@
     "dev": "wp-scripts start --output-path 'assets/js'",
     "lint": "run-p lint:*",
     "lint:css": "wp-scripts lint-style '**/*.scss'",
-    "lint:js": "wp-scripts  lint-js",
+    "lint:js": "wp-scripts lint-js",
     "packages-update": "wp-scripts packages-update",
     "pot": "wp-pot --src './*.php --src './includes' --dest-file 'languages/constant-contact-forms.pot --domain 'constant-contact-forms'",
     "plugin-zip": "wp-scripts plugin-zip",
