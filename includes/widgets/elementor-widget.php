@@ -128,7 +128,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 		$settings = $this->get_settings_for_display();
 
 		if ( empty( $settings['form_id'] ) ) {
-			echo __( 'Please select a form.', 'constant-contact-forms' );
+			echo esc_html__( 'Please select a form.', 'constant-contact-forms' );
 			return;
 		}
 

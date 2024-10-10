@@ -35,23 +35,23 @@ class ConstantContact_Health {
 		$yes          = esc_html__( 'Yes', 'constant-contact-forms' );
 		$no           = esc_html__( 'No', 'constant-contact-forms' );
 
-		$logs_writeable = sprintf(
+		$logs_writeable  = sprintf(
 			'Folder: %s, File: %s',
 			( is_writable( $logs['directory'] ) ) ? $can_write : $cannot_write,
 			( is_writable( $logs['file'] ) ) ? $can_write : $cannot_write
 		);
 		$token_timestamp = get_option( 'ctct_access_token_timestamp', '' );
-		$expires = constant_contact()->connect->e_get( '_ctct_expires_in' );
-		$expires_on = esc_html__( 'Access token needs refreshed', 'constant-contact-forms' );
+		$expires         = constant_contact()->connect->e_get( '_ctct_expires_in' );
+		$expires_on      = esc_html__( 'Access token needs refreshed', 'constant-contact-forms' );
 		if ( ! empty( $token_timestamp ) && ! empty( $expires ) ) {
 			$expires_on_ts = $token_timestamp + $expires;
-			$expires_on = date( 'Y-m-d, h:ia', $expires_on_ts );
+			$expires_on    = date( 'Y-m-d, h:ia', $expires_on_ts ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		}
 
 		$debug_info['constant-contact-forms'] = [
-			'label' => esc_html__( 'Constant Contact Forms', 'constant-contact-forms' ),
+			'label'       => esc_html__( 'Constant Contact Forms', 'constant-contact-forms' ),
 			'description' => esc_html__( 'Debugging and troubleshooting information for support purposes', 'constant-contact-forms' ),
-			'fields' => [
+			'fields'      => [
 				[
 					'label' => esc_html__( 'Plugin version', 'constant-contact-forms' ),
 					'value' => constant_contact()::VERSION,
@@ -99,8 +99,8 @@ class ConstantContact_Health {
 				[
 					'label' => esc_html__( 'Cron check', 'constant-contact-forms' ),
 					'value' => $this->cron_spawn(),
-				]
-			]
+				],
+			],
 		];
 
 		return $debug_info;

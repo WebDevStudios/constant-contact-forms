@@ -83,7 +83,7 @@ class ConstantContact_Client {
 		$fields = $this->get_custom_fields();
 		if ( ! empty( $fields ) && array_key_exists( 'custom_fields', $fields ) ) {
 			$field_keys = wp_list_pluck( $fields['custom_fields'], 'label' );
-			return in_array( $field_name, $field_keys );
+			return in_array( $field_name, $field_keys, true );
 		}
 		return false;
 	}
@@ -91,7 +91,7 @@ class ConstantContact_Client {
 	public function get_custom_field_by_name( $field_name ) {
 		$fields = $this->get_custom_fields();
 		if ( ! empty( $fields ) && array_key_exists( 'custom_fields', $fields ) ) {
-			foreach( $fields['custom_fields'] as $field ) {
+			foreach ( $fields['custom_fields'] as $field ) {
 				if ( $field['label'] === $field_name ) {
 					return $field;
 				}
@@ -106,7 +106,7 @@ class ConstantContact_Client {
 
 	public function add_note( $updated_contact_data ) {
 		$contact_id = $updated_contact_data['contact_id'];
-		return $this->put( "contacts/{$contact_id}", $this->base_args, $updated_contact_data  );
+		return $this->put( "contacts/{$contact_id}", $this->base_args, $updated_contact_data );
 	}
 
 	public function get_lists() {

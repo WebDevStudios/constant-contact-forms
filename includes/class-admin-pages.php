@@ -201,7 +201,8 @@ class ConstantContact_Admin_Pages {
 	 */
 	public function about_page() {
 
-		$auth_link = $new_link = '';
+		$auth_link = '';
+		$new_link  = '';
 
 		if ( ! constant_contact()->api->is_connected() ) {
 			$new_link  = constant_contact()->api->get_signup_link();

@@ -219,7 +219,6 @@ class ConstantContact_Builder_Fields {
 
 		if ( constant_contact()->api->is_connected() ) {
 
-
 			$lists = $this->get_local_lists();
 
 			if ( empty( $lists ) ) {
@@ -236,29 +235,33 @@ class ConstantContact_Builder_Fields {
 			if ( $lists ) {
 				$instructions[] = esc_html__( 'Click the plus character to add list. Click the minus character to remove list.', 'constant-contact-forms' );
 				$instructions[] = esc_html__( 'Click and drag added lists in "Associated Lists" to reorder. First one listed will be the default.', 'constant-contact-forms' );
-				$list_metabox->add_field( [
-					'name'    => esc_html__( 'Associated lists ', 'constant-contact-forms' ),
-					'before'  => esc_html__( 'Allow subscribers to select from chosen lists. ( Add at least one ).', 'constant-contact-forms' ),
-					'before_field' => '<p>' . implode( '</p><p>', $instructions ) . '</p>',
-					'id'      => $this->prefix . 'list',
-					'type'    => 'custom_attached_posts',
-					'options' => [
-						'filter_boxes'  => true,
-						'query_args'    => [
-							'posts_per_page' => -1,
-							'post_type'      => 'ctct_lists',
+				$list_metabox->add_field(
+					[
+						'name'         => esc_html__( 'Associated lists ', 'constant-contact-forms' ),
+						'before'       => esc_html__( 'Allow subscribers to select from chosen lists. ( Add at least one ).', 'constant-contact-forms' ),
+						'before_field' => '<p>' . implode( '</p><p>', $instructions ) . '</p>',
+						'id'           => $this->prefix . 'list',
+						'type'         => 'custom_attached_posts',
+						'options'      => [
+							'filter_boxes'  => true,
+							'query_args'    => [
+								'posts_per_page' => - 1,
+								'post_type'      => 'ctct_lists',
+							],
+							'hide_selected' => true,
 						],
-						'hide_selected' => true,
-					],
-				] );
+					]
+				);
 			}
 		} else {
-			$list_metabox->add_field( [
-				'name' => esc_html__( 'No connected account', 'constant-contact-forms' ),
-				'desc' => esc_html__( 'Please connect to an intended Constant Contact account to start adding items to some lists', 'constant-contact-forms' ),
-				'type' => 'title',
-				'id'   => $this->prefix . 'no_connection'
-			] );
+			$list_metabox->add_field(
+				[
+					'name' => esc_html__( 'No connected account', 'constant-contact-forms' ),
+					'desc' => esc_html__( 'Please connect to an intended Constant Contact account to start adding items to some lists', 'constant-contact-forms' ),
+					'type' => 'title',
+					'id'   => $this->prefix . 'no_connection',
+				]
+			);
 		}
 	}
 
@@ -751,10 +754,10 @@ class ConstantContact_Builder_Fields {
 
 		$custom_group = $fields_metabox->add_field(
 			[
-				'id'         => 'custom_fields_group',
-				'type'       => 'group',
-				'repeatable' => true,
-				'options'    => [
+				'id'          => 'custom_fields_group',
+				'type'        => 'group',
+				'repeatable'  => true,
+				'options'     => [
 					'group_title'   => esc_html__( 'Field {#}', 'constant-contact-forms' ),
 					'add_button'    => esc_html__( 'Add Another Field', 'constant-contact-forms' ),
 					'remove_button' => esc_html__( 'Remove Field', 'constant-contact-forms' ),
@@ -821,7 +824,7 @@ class ConstantContact_Builder_Fields {
 			'<p>%s</p>',
 			sprintf(
 				// translators: Placeholders are for html link markup.
-				esc_html__( 'Custom fields created within Constant Contact with field type "%sdate field%s" are not supported.', 'constant-contact-forms' ),
+				esc_html__( 'Custom fields created within Constant Contact with field type "%1$ssdate field%2$s" are not supported.', 'constant-contact-forms' ),
 				'<a target="_blank" rel="noopener" href="' . esc_url( 'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/33120-Create-and-Manage-Custom-Contact-Fields?lang=en_US#Types' ) . '">',
 				'</a>'
 			)
@@ -851,7 +854,7 @@ class ConstantContact_Builder_Fields {
 				'id'         => $this->prefix . 'generated_shortcode',
 				'type'       => 'text_medium',
 				'desc'       => sprintf(
-					 /* Translators: Placeholders here represent `<em>` and `<strong>` HTML tags. */
+					/* Translators: Placeholders here represent `<em>` and `<strong>` HTML tags. */
 					esc_html__( 'Shortcode to embed — %1$s%2$sYou can copy and paste this in a post to display your form.%3$s%4$s', 'constant-contact-forms' ),
 					'<small>',
 					'<em>',
@@ -915,22 +918,26 @@ class ConstantContact_Builder_Fields {
 			]
 		);
 
-		$address_settings->add_field( [
-			'before'            => '<p>' . esc_html__( 'Select which fields to include and which to require:', 'constant-contact-forms' ) . '</p>',
-			'name'              => esc_html__( 'Include:', 'constant-contact-forms' ),
-			'id'                => $this->prefix . 'address_fields_include',
-			'type'              => 'multicheck',
-			'select_all_button' => false,
-			'options_cb'        => [ $this, 'get_individual_address_fields' ],
-		] );
+		$address_settings->add_field(
+			[
+				'before'            => '<p>' . esc_html__( 'Select which fields to include and which to require:', 'constant-contact-forms' ) . '</p>',
+				'name'              => esc_html__( 'Include:', 'constant-contact-forms' ),
+				'id'                => $this->prefix . 'address_fields_include',
+				'type'              => 'multicheck',
+				'select_all_button' => false,
+				'options_cb'        => [ $this, 'get_individual_address_fields' ],
+			]
+		);
 
-		$address_settings->add_field( [
-			'name'              => esc_html__( 'Require:', 'constant-contact-forms' ),
-			'id'                => $this->prefix . 'address_fields_require',
-			'type'              => 'multicheck',
-			'select_all_button' => false,
-			'options_cb'        => [ $this, 'get_individual_address_fields' ],
-		] );
+		$address_settings->add_field(
+			[
+				'name'              => esc_html__( 'Require:', 'constant-contact-forms' ),
+				'id'                => $this->prefix . 'address_fields_require',
+				'type'              => 'multicheck',
+				'select_all_button' => false,
+				'options_cb'        => [ $this, 'get_individual_address_fields' ],
+			]
+		);
 	}
 
 	public function show_address_metabox( $cmb ) {
@@ -941,7 +948,7 @@ class ConstantContact_Builder_Fields {
 
 		$fields = wp_list_pluck( $data, '_ctct_map_select' );
 
-		return in_array( 'address', $fields );
+		return in_array( 'address', $fields, true );
 	}
 
 	public function get_individual_address_fields() {

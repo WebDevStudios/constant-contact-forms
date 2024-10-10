@@ -291,10 +291,13 @@ class ConstantContact_Builder {
 	 * @param int $post_id Post ID.
 	 */
 	public function output_not_connected_modal( $post_id = 0 ) {
-		$auth_link = add_query_arg( [
-			'post_type' => 'ctct_forms',
-			'page'      => 'ctct_options_connect',
-		], admin_url( 'edit.php' ) );
+		$auth_link = add_query_arg(
+			[
+				'post_type' => 'ctct_forms',
+				'page'      => 'ctct_options_connect',
+			],
+			admin_url( 'edit.php' )
+		);
 		?>
 			<div class="ctct-modal ctct-modal-open">
 

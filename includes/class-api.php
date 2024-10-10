@@ -1092,7 +1092,7 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 */
 	public function pause_api_calls() {
-		 sleep( 1 );
+		sleep( 1 );
 	}
 
 	/**

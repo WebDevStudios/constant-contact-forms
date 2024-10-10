@@ -190,7 +190,7 @@ class ConstantContact_Process_Form {
 
 		if ( empty( $data ) ) {
 
-			if ( empty( $_POST ) ) {
+			if ( empty( $_POST ) ) { //phpcs:ignore WordPress.Security.NonceVerification.Missing -- We sanitze data later on in processes. This returns early.
 				return;
 			}
 
@@ -427,7 +427,7 @@ class ConstantContact_Process_Form {
 							'values'  => $return['values'],
 							'message' => __( 'An error occurred while attempting Constant Contact API request. Please check your details and try again.', 'constant-contact-forms' ),
 						];
-					} else if ( is_array( $api_result ) && 1 === count( $api_result ) ) {
+					} elseif ( is_array( $api_result ) && 1 === count( $api_result ) ) {
 						$api_error = $api_result[0];
 
 						if (

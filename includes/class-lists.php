@@ -142,11 +142,11 @@ class ConstantContact_Lists {
 		unset( $list_info['id'], $list_info['status'] );
 
 		if ( isset( $list_info['created_at'] ) && $list_info['created_at'] ) {
-			$list_info['created_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['created_at'] ) );
+			$list_info['created_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['created_at'] ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		}
 
 		if ( isset( $list_info['updated_at'] ) && $list_info['updated_at'] ) {
-			$list_info['updated_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['updated_at'] ) );
+			$list_info['updated_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['updated_at'] ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		}
 
 		foreach ( $list_info as $key => $value ) {
@@ -205,7 +205,7 @@ class ConstantContact_Lists {
 		//
 		// Currently, the rate limit for this is a refresh every 2 minutes. This can be filtered to be
 		// less or more time.
-		$last_synced = get_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) - DAY_IN_SECONDS );
+		$last_synced = get_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) - DAY_IN_SECONDS ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 
 		/**
 		 * Filters the rate limit to use for syncing lists.
@@ -219,7 +219,7 @@ class ConstantContact_Lists {
 		// If our last synced time plus our rate limit is less than or equal to right now,
 		// then we don't want to refresh. If we refreshed less than 15 minutes ago, we do not want to
 		// redo it. Also allow forcing a bypass of this check.
-		if ( ( ! $force ) && ( $last_synced + $sync_rate_limit_time ) >= current_time( 'timestamp' ) ) {
+		if ( ( ! $force ) && ( $last_synced + $sync_rate_limit_time ) >= current_time( 'timestamp' ) ) { // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 			return;
 		}
 
@@ -308,7 +308,7 @@ class ConstantContact_Lists {
 					continue;
 				}
 
-				if ( in_array( $list->name, $woo_lists ) ) {
+				if ( in_array( $list->name, $woo_lists, true ) ) {
 					continue;
 				}
 
@@ -371,7 +371,7 @@ class ConstantContact_Lists {
 			}
 		}
 
-		update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) );
+		update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 
 		/**
 		 * Hook when a ctct list is updated.
@@ -435,7 +435,7 @@ class ConstantContact_Lists {
 
 			if ( 'trash' === $ctct_list->post_status ) {
 				$return = wp_delete_post( $ctct_list->ID );
-			} else if ( 'draft' !== $ctct_list->post_status ) {
+			} elseif ( 'draft' !== $ctct_list->post_status ) {
 				$return = wp_update_post(
 					[
 						'ID'          => absint( $ctct_list->ID ),
@@ -457,7 +457,7 @@ class ConstantContact_Lists {
 
 		$this->sync_lists( true );
 
-		update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) );
+		update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 
 		return $return;
 
@@ -775,8 +775,8 @@ class ConstantContact_Lists {
 			return;
 		}
 
-		if ( is_null( $post ) && isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) {
-			$post = get_post( sanitize_text_field( $_GET['post'] ) );
+		if ( is_null( $post ) && isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Not using value as anything inserted into database.
+			$post = get_post( sanitize_text_field( $_GET['post'] ) ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited, WordPress.Security.NonceVerification.Recommended
 		}
 
 		if (
@@ -862,7 +862,7 @@ class ConstantContact_Lists {
 		}
 
 		if ( sanitize_text_field( wp_unslash( $ctct_resyncing ) ) ) {
-			update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) - HOUR_IN_SECONDS );
+			update_option( 'constant_contact_lists_last_synced', current_time( 'timestamp' ) - HOUR_IN_SECONDS ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 
 			$url = remove_query_arg( [ 'ctct_resyncing', 'ctct_list_sync' ] );
 
@@ -910,7 +910,7 @@ class ConstantContact_Lists {
 
 		$forms_query = new WP_Query(
 			[
-				'post_status'            => ['publish', 'draft'],
+				'post_status'            => [ 'publish', 'draft' ],
 				'post_type'              => 'ctct_forms',
 				'update_post_term_cache' => false,
 			]
@@ -923,14 +923,14 @@ class ConstantContact_Lists {
 
 		// Get all the v2 List IDs.
 		$v2_list_ids = [];
-		while( $forms_query->have_posts() ) {
+		while ( $forms_query->have_posts() ) {
 			$forms_query->the_post();
-			$list_ids  = get_post_meta( get_the_ID(), '_ctct_list', true );
+			$list_ids = get_post_meta( get_the_ID(), '_ctct_list', true );
 
 			if ( is_array( $list_ids ) && ! empty( $list_ids[0] ) ) {
 				foreach ( $list_ids as $list_id ) {
 					// Only update v2 list IDs.
-					if ( $this->is_v2_list_id( $list_id ) && ! in_array( $list_id , $v2_list_ids ) ) {
+					if ( $this->is_v2_list_id( $list_id ) && ! in_array( $list_id, $v2_list_ids, true ) ) {
 						$v2_list_ids[] = $list_id;
 					}
 				}
@@ -946,7 +946,7 @@ class ConstantContact_Lists {
 		$list_x_refs = $this->get_v2_list_id_x_refs( $v2_list_ids_string );
 
 		// Iterate over forms and update list IDs.
-		while( $forms_query->have_posts() ) {
+		while ( $forms_query->have_posts() ) {
 			$forms_query->the_post();
 			$list_ids         = get_post_meta( get_the_ID(), '_ctct_list', true );
 			$updated_list_ids = [];
@@ -954,13 +954,13 @@ class ConstantContact_Lists {
 			if ( is_array( $list_ids ) && ! empty( $list_ids[0] ) ) {
 				foreach ( $list_ids as $list_id ) {
 					// V3 List IDs do not need to be modified. We will save them as-is.
-					if ( ! $this->is_v2_list_id( $list_id ) && ! in_array( $list_id , $updated_list_ids ) ) {
+					if ( ! $this->is_v2_list_id( $list_id ) && ! in_array( $list_id, $updated_list_ids, true ) ) {
 						$updated_list_ids[] = $list_id;
 						continue;
 					}
 
 					// Handle v2 list IDs. We need to get their corrsesponding v3 ID.
-					if ( $this->is_v2_list_id( $list_id ) && ! in_array( $list_id , $updated_list_ids ) ) {
+					if ( $this->is_v2_list_id( $list_id ) && ! in_array( $list_id, $updated_list_ids, true ) ) {
 						$updated_list_id = $this->get_v3_list_id_for_v2_list( $list_id, $list_x_refs );
 						if ( ! empty( $updated_list_id ) ) {
 							$updated_list_ids[] = $updated_list_id;

@@ -115,11 +115,11 @@ class ConstantContact_Logging {
 	 * @param object $plugin Parent class.
 	 */
 	public function __construct( $plugin ) {
-		$this->plugin            = $plugin;
-		$this->options_url       = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
-		$uploads_dir             = wp_upload_dir();
-		$new_suffix              = $this->generate_random_string( 10 );
-		$suffix                  = get_option( 'ctct_log_suffix', '' );
+		$this->plugin      = $plugin;
+		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
+		$uploads_dir       = wp_upload_dir();
+		$new_suffix        = $this->generate_random_string( 10 );
+		$suffix            = get_option( 'ctct_log_suffix', '' );
 		if ( empty( $suffix ) ) {
 			$suffix = $new_suffix;
 			update_option( 'ctct_log_suffix', $suffix );
@@ -430,7 +430,7 @@ class ConstantContact_Logging {
 		}
 
 		touch( $this->log_htaccess_file );
-		file_put_contents(
+		file_put_contents( // phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_read_file_put_contents
 			$this->log_htaccess_file,
 			'<FilesMatch ".log">
 				Order Allow,Deny
@@ -590,13 +590,13 @@ class ConstantContact_Logging {
 	 * @throws \Random\RandomException
 	 */
 	public function generate_random_string( int $length = 10 ) {
-		$characters       = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-		$charactersLength = strlen( $characters );
-		$randomString     = '';
+		$characters        = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+		$characters_length = strlen( $characters );
+		$random_string     = '';
 		for ( $i = 0; $i < $length; $i ++ ) {
-			$randomString .= $characters[ random_int( 0, $charactersLength - 1 ) ];
+			$random_string .= $characters[ random_int( 0, $characters_length - 1 ) ];
 		}
 
-		return $randomString;
+		return $random_string;
 	}
 }
