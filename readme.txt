@@ -2,8 +2,8 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 5.2.0
-Tested up to:      6.5.4
-Stable tag:        2.6.1
+Tested up to:      6.6.2
+Stable tag:        2.7.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -48,6 +48,12 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.7.0 =
+* Fixed: Issues around opt-in options not showing until a list was chosen and the form saved.
+* Fixed: PHP warnings with login/register/comment signup integrations.
+* Added: Extra form submission catching if connection issues detected. Will notify administrators right away when detected as well.
+* Updated: Dismissable admin notice recommending to update the Constant Contact Forms plugin when one is available.
 
 = 2.6.1 =
 * Fixed: Issues around opt-in option display that were introduced with version 2.6.0.

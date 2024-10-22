@@ -1,3 +1,27 @@
+= 2.7.0 =
+
+* Fixed: Issues around opt-in options not showing until a list was chosen and the form saved.
+* Fixed: PHP warnings with login/register/comment signup integrations.
+* Added: Extra form submission catching if connection issues detected. Will notify administrators right away when
+  detected as well.
+* Updated: Dismissable admin notice recommending to update the Constant Contact Forms plugin when one is available.
+
+= 2.6.1 =
+
+* Fixed: Issues around opt-in option display that were introduced with version 2.6.0.
+* Fixed: Issues regarding lists display in admin emails after user signup.
+* Updated: Removed unused images and changed some.
+* Updated: Social sharing icons in plugin list page.
+
+= 2.6.0 =
+
+* Updated: Amended the list selection process for a given form. Should not break existing forms, and now you can make
+  use of drag-n-drop to order the list selection when offering multiple lists.
+* Updated: reworked the underpinning of the Constant Contact block to be more in line with modern WordPress coding
+  patterns, including block.json based. Should not break existing forms.
+* Updated: Show general List metabox regardless of connected status. Messaging will reflect connection state.
+* Added: New duration timing for a review request and displayed notification.
+
 = 2.5.0 =
 
 * Updated: Better handling of email notifications around spam submission attemptes.

@@ -449,6 +449,53 @@ class ConstantContact_Process_Form {
 						constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
 					}
 				} else {
+					// We have at least one list, but are not considered connected.
+					if (
+						! constant_contact()->api->is_connected() &&
+						! empty( $cleaned_values['ctct-lists']['value'][0] )
+					) {
+						$email = '';
+						foreach ( $cleaned_values as $index => $string ) {
+							if ( false !== strpos( $index, 'email' ) ) {
+								$email = $string['value'];
+							}
+						}
+
+						$new_contact = [];
+						foreach ( $cleaned_values as $key => $val ) {
+							$key  = sanitize_text_field( $val['key'] ?? '' );
+							$orig = sanitize_text_field( $val['orig_key'] ?? '' );
+							$val  = sanitize_text_field( $val['value'] ?? '' );
+
+							if ( empty( $key ) || in_array( $key, [ 'ctct-opt-in', 'ctct-id', 'ctct-lists' ], true ) ) {
+								continue;
+							}
+
+							$new_contact[ $orig ] = [
+								'key' => $key,
+								'val' => $val,
+							];
+
+							if ( 'email' === $key ) {
+								$new_contact['email'] = $val;
+							}
+						}
+
+						// At this point, something is likely going on,
+						// so after the 2nd attempt, we will log the attempt for later.
+						foreach( $cleaned_values['ctct-lists']['value'] as $chosen => $list ) {
+							constant_contact()->api->log_missed_api_request(
+								'contact_add_update',
+								[
+									'list'    => $list,
+									'email'   => $email,
+									'contact' => $new_contact, // all of the field info
+									'form_id' => $cleaned_values['ctct-id']['value'],
+								]
+							);
+						}
+						constant_contact_maybe_log_it( 'API', 'A failed API attempt was caught and will be retried after reconnection.' );
+					}
 					constant_contact()->mail->submit_form_values( $return['values'], true );
 				}
 			}
