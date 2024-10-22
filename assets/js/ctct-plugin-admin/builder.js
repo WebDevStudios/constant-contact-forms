@@ -13,9 +13,9 @@ window.CTCTBuilder = {};
 	that.init = () => {
 
 		// If we do actually have an email field set, then remove our error.
-		let emailField = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox option[value="email"]');
+		const emailField = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox option[value="email"]');
 		if (emailField.length) {
-			let noEmailError = document.querySelector('#ctct-no-email-error');
+			const noEmailError = document.querySelector('#ctct-no-email-error');
 			if (noEmailError) {
 				noEmailError.style.display = 'none';
 			}
@@ -34,7 +34,7 @@ window.CTCTBuilder = {};
 		that.modifyFields();
 
 		// Make description non-draggable, so we don't run into weird cmb2 issues.
-		let cmb2handle = document.querySelectorAll('#ctct_0_description_metabox h2.hndle');
+		const cmb2handle = document.querySelectorAll('#ctct_0_description_metabox h2.hndle');
 		if (cmb2handle) {
 			Array.from(cmb2handle).forEach((hndle) => {
 				hndle.classList.remove('ui-sortable-handle', 'hndle');
@@ -43,8 +43,8 @@ window.CTCTBuilder = {};
 
 		// Inject our new labels for the up/down CMB2 buttons, so they can be properly localized.
 		// Because we're using :after, we can't use .css() to do this, we need to inject a style tag.
-		let headTag = document.querySelector('head');
-		let styleTag = document.createElement('style');
+		const headTag = document.querySelector('head');
+		const styleTag = document.createElement('style');
 		styleTag.textContent =
 			`#cmb2-metabox-ctct_2_fields_metabox a.move-up::after { content: "` + window.ctctTexts.move_up + `" }`;
 		styleTag.textContent +=
@@ -110,10 +110,10 @@ window.CTCTBuilder = {};
 	 */
 	that.bindEvents = () => {
 
-		let submitted = document.querySelector('#post');
+		const submitted = document.querySelector('#post');
 		if (submitted) {
 			document.addEventListener('submit', () => {
-				let disabledEmails = document.querySelectorAll('.ctct-email-disabled');
+				const disabledEmails = document.querySelectorAll('.ctct-email-disabled');
 				if (disabledEmails) {
 					Array.from(disabledEmails).forEach((item) => {
 						item.classList.remove('disabled');
@@ -124,7 +124,7 @@ window.CTCTBuilder = {};
 			});
 		}
 
-		let cmb2inputs = document.querySelectorAll('.cmb2-wrap input, .cmb2-wrap textarea');
+		const cmb2inputs = document.querySelectorAll('.cmb2-wrap input, .cmb2-wrap textarea');
 		Array.from(cmb2inputs).forEach((input_item) => {
 			input_item.addEventListener('input', () => {
 				if ('undefined' !== typeof (tinyMCE)) {
@@ -165,7 +165,7 @@ window.CTCTBuilder = {};
 			cssReset.addEventListener('click', (e) => {
 				e.preventDefault();
 
-				let selectFields = [
+				const selectFields = [
 					'#_ctct_form_description_font_size',
 					'#_ctct_form_submit_button_font_size',
 					'#_ctct_form_label_placement'
@@ -178,7 +178,7 @@ window.CTCTBuilder = {};
 					}
 				});
 
-				let textFields = [
+				const textFields = [
 					'#_ctct_form_padding_top',
 					'#_ctct_form_padding_bottom',
 					'#_ctct_form_padding_left',
@@ -194,7 +194,7 @@ window.CTCTBuilder = {};
 				});
 
 				// Clear out color pickers.
-				let pickerClears = document.querySelectorAll('.wp-picker-clear');
+				const pickerClears = document.querySelectorAll('.wp-picker-clear');
 				if (pickerClears) {
 					Array.from(pickerClears).forEach((picker) => {
 						picker.click();
@@ -206,8 +206,8 @@ window.CTCTBuilder = {};
 		window.addEventListener('load', function () {
 			const addressBox = document.querySelector('#address_settings');
 			if (addressBox) {
-				let includeItems = addressBox.querySelectorAll('.cmb2-id--ctct-address-fields-include input[type="checkbox"]');
-				let checkedItems = addressBox.querySelectorAll('.cmb2-id--ctct-address-fields-include input[type="checkbox"]:checked');
+				const includeItems = addressBox.querySelectorAll('.cmb2-id--ctct-address-fields-include input[type="checkbox"]');
+				const checkedItems = addressBox.querySelectorAll('.cmb2-id--ctct-address-fields-include input[type="checkbox"]:checked');
 				required_items = addressBox.querySelectorAll('.cmb2-id--ctct-address-fields-require input[type="checkbox"]');
 
 				if (checkedItems.length === 0) {
@@ -229,7 +229,7 @@ window.CTCTBuilder = {};
 	 * @param e Checkbox being checked.
 	 */
 	that.addressChange = (e) => {
-		let item = e.target;
+		const item = e.target;
 		if (item.checked) {
 			Array.from(required_items).forEach((required_item) => {
 				if (item.value === required_item.value) {
@@ -285,20 +285,20 @@ window.CTCTBuilder = {};
 	 */
 	that.validateUniqueFieldLabels = () => {
 		const cfValuesOrig = document.querySelectorAll('.form-field-is-custom-field');
-		let cfValues;
+		let cfValues; // Leaving as `let` since we are need some hoisting.
 		if (cfValuesOrig) {
 			cfValues = Array.from(cfValuesOrig).map((item) => {
 				return item.value;
 			});
 		}
 
-		let cfValuesTotal = cfValues.length;
-		let cfValuesFiltered = cfValues.filter(
+		const cfValuesTotal = cfValues.length;
+		const cfValuesFiltered = cfValues.filter(
 			(item, position) => {
 				return cfValues.indexOf(item) === position;
 			}
 		);
-		let cfValuesFilteredTotal = cfValuesFiltered.length;
+		const cfValuesFilteredTotal = cfValuesFiltered.length;
 
 		return cfValuesTotal === cfValuesFilteredTotal;
 	}
@@ -337,24 +337,24 @@ window.CTCTBuilder = {};
 	that.modifyFields = () => {
 
 		// Set that we haven't found an email.
-		let foundEmail = false;
-		let cfnumber = 1;
+		let foundEmail = false; // Leaving as let due to use as boolean flag.
+		let cfnumber = 1; // Leaving as let due to incrementor usage.
 
-		let fieldgroups = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping');
+		const fieldgroups = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping');
 		if (fieldgroups) {
 			Array.from(fieldgroups).forEach((field, key) => {
-				let fieldList = field.querySelector('.cmb-field-list');
-				let removeButton = fieldList.querySelector('.cmb-remove-group-row');
-				let requiredToggle = fieldList.querySelector('.required input[type=checkbox]');
-				let requiredRow = requiredToggle.closest('.cmb-row');
-				let map = fieldList.querySelector('.map select option:checked');
-				let mapName = '';
+				const fieldList = field.querySelector('.cmb-field-list');
+				const removeButton = fieldList.querySelector('.cmb-remove-group-row');
+				const requiredToggle = fieldList.querySelector('.required input[type=checkbox]');
+				const requiredRow = requiredToggle.closest('.cmb-row');
+				const map = fieldList.querySelector('.map select option:checked');
+				let mapName = ''; // Leaving as `let` due to conditional assignment
 				if (map && map.text) {
 					mapName = map.text;
 				}
-				let fieldTitle = field.querySelector('h3');
-				let fieldLabel = field.querySelector('input[name*="_ctct_field_label"]');
-				let fieldDesc = field.querySelector('input[name*="_ctct_field_desc"]');
+				const fieldTitle = field.querySelector('h3');
+				const fieldLabel = field.querySelector('input[name*="_ctct_field_label"]');
+				const fieldDesc  = field.querySelector('input[name*="_ctct_field_desc"]');
 
 				if (mapName === 'Custom Text Field') {
 					mapName += ' ' + cfnumber.toString();
@@ -369,7 +369,7 @@ window.CTCTBuilder = {};
 				}
 				fieldLabel.classList.add('ctct-label-filled');
 
-				let fieldDropdown = field.querySelector('select');
+				const fieldDropdown = field.querySelector('select');
 				// If we haven't yet found an email field, and this is our email field.
 				if (!foundEmail && (map !== null)) {
 					if ('email' === map.value) {
@@ -404,7 +404,7 @@ window.CTCTBuilder = {};
 				}
 
 				if (window.ctct_admin_placeholders) {
-					let placeholder = window.ctct_admin_placeholders[fieldDropdown.value];
+					const placeholder = window.ctct_admin_placeholders[fieldDropdown.value];
 					if (placeholder && placeholder.length && fieldDesc) {
 						fieldDesc.setAttribute('placeholder', 'Example: ' + placeholder);
 					} else if (window.ctct_admin_placeholders.default) {
@@ -423,8 +423,8 @@ window.CTCTBuilder = {};
 	 */
 	that.removeDuplicateMappings = () => {
 
-		let usedMappings = [];
-		let dropdowns = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select');
+		let usedMappings = []; // Leaving as `let` due to changing array indices.
+		const dropdowns = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping select');
 
 		// For each dropdown, build up our array of used values.
 		Array.from(dropdowns).forEach((dropdown, index) => {

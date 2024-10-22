@@ -46,7 +46,7 @@ window.CTCTClipboard = {};
 
 		// Copy the text inside the text field.
 		document.execCommand("copy");
-		let reset = button.innerHTML;
+		const reset = button.innerHTML;
 		button.innerHTML = button.dataset.copied;
 
 		// Reset button text.
@@ -67,8 +67,8 @@ window.CTCTClipboard = {};
 		// Add click event for copy buttons.
 		if (app.cache.copyshortcode) {
 			Array.from(app.cache.copyshortcode).forEach((element) => {
-				let input = element.querySelector('input');
-				let button = element.querySelector('button');
+				const input = element.querySelector('input');
+				const button = element.querySelector('button');
 
 				if (input && button) {
 					button.addEventListener('click', function (e) {

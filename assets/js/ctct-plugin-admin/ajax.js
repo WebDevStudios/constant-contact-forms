@@ -16,7 +16,7 @@ window.CTCTAJAX = {};
 
 	// Handle saving the decision regarding the review prompt admin notice.
 	that.handleReviewAJAX = () => {
-		let reviewRequest = document.querySelector('#ctct-admin-notice-review_request');
+		const reviewRequest = document.querySelector('#ctct-admin-notice-review_request');
 		if (reviewRequest) {
 			reviewRequest.addEventListener('click', (e) => {
 				e.preventDefault();

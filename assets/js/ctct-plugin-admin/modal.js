@@ -80,7 +80,7 @@ window.CTCTModal = {};
 				event.preventDefault();
 
 				// Get the link that was clicked on so we can redirect to it if the user confirms.
-				let deleteLogLink = event.currentTarget.getAttribute('href');
+				const deleteLogLinkHref = event.currentTarget.getAttribute('href');
 
 				$('#confirmdelete').dialog({
 					resizable: false,
@@ -91,7 +91,7 @@ window.CTCTModal = {};
 						'Yes'   : () => {
 
 							// If the user confirms the action, redirect them to the deletion page.
-							window.location.replace(deleteLogLink);
+							window.location.replace(deleteLogLinkHref);
 						},
 						'Cancel': () => {
 							$('#confirmdelete').closest('.ui-dialog-content').dialog('close');
