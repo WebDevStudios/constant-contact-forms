@@ -1623,7 +1623,7 @@ class ConstantContact_API {
 						$result = $this->create_update_contact(
 							$args['list'],
 							$args['email'],
-							$args['new_contact'],
+							$args['contact'],
 							$args['form_id']
 						);
 						break;
