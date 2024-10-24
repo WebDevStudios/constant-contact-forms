@@ -1633,10 +1633,7 @@ class ConstantContact_API {
 				}
 			}
 		}
-
-		if ( empty( $missed_api_requests ) ) {
-			update_option( 'ctct_missed_api_requests', $missed_api_requests );
-		}
+		update_option( 'ctct_missed_api_requests', $missed_api_requests );
 	}
 
 	/**
