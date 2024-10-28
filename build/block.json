@@ -2,7 +2,7 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "constant-contact/single-contact-form",
-  "version": "2.6.0",
+  "version": "2.7.0",
   "title": "Constant Contact: Single Form",
   "category": "widgets",
   "icon": "index-card",
