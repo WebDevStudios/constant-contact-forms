@@ -215,8 +215,6 @@ class ConstantContact_Connect {
 					</div>
 				</div>
 
-				<?php // if ( ! constant_contact_has_forms() ) : ?>
-
 				<hr />
 
 				<?php // phpcs:disable WordPress.WP.EnqueuedResources -- Ok use of inline scripts. ?>
@@ -263,8 +261,6 @@ class ConstantContact_Connect {
 						<a class="button" data-allow="off"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
 					</div>
 				</div>
-
-				<?php // endif; ?>
 			</div>
 
 		<?php else : ?>
@@ -296,10 +292,13 @@ class ConstantContact_Connect {
 					$auth_link = constantcontact_api()->get_authorization_url();
 					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
 
-					$code_link = add_query_arg( [
-						'post_type' => 'ctct_forms',
-						'page'      => 'ctct_options_settings_auth',
-					], admin_url( 'edit.php' ) );
+					$code_link = add_query_arg(
+						[
+							'post_type' => 'ctct_forms',
+							'page'      => 'ctct_options_settings_auth',
+						],
+						admin_url( 'edit.php' )
+					);
 
 					if ( $auth_link ) :
 						?>
@@ -324,8 +323,11 @@ class ConstantContact_Connect {
 			<p class="ctct-description">
 				<?php
 				printf(
+				// translators: the placeholders hold `<a>` HTML tags.
 					esc_html__(
-						"For a full walkthrough of the steps to install this plugin &amp; connect it to your Constant Contact account, please see our %sKnowledge Base article here%s.", 'constant-contact-forms' ),
+						'For a full walkthrough of the steps to install this plugin &amp; connect it to your Constant Contact account, please see our %1$sKnowledge Base article here%1$s.',
+						'constant-contact-forms'
+					),
 					sprintf(
 						'<a target="_blank" rel="noopener" href="%s">',
 						esc_url(

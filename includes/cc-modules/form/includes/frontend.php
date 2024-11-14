@@ -6,7 +6,7 @@
  */
 
 if ( empty( $settings->cc_form ) ) {
-	echo __( 'Please select a form.', 'constant-contact-forms' );
+	echo esc_html__( 'Please select a form.', 'constant-contact-forms' );
 	return;
 }
 

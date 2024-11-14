@@ -350,7 +350,7 @@ class ConstantContact_Settings {
 				[
 					'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
 					'desc'       => sprintf(
-					 /* Translators: Placeholder is for a <br /> HTML tag. */
+					/* Translators: Placeholder is for a <br /> HTML tag. */
 						esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ),
 						'<br/>'
 					),
@@ -372,7 +372,20 @@ class ConstantContact_Settings {
 				]
 			);
 
-			$lists = constant_contact()->builder->get_lists();
+			$lists     = constant_contact()->builder->get_lists();
+			$woo_lists = [
+				'WooCommerce - All Customers',
+				'WooCommerce - First time Customers',
+				'WooCommerce - Lapsed Customers',
+				'WooCommerce - Potential Customers',
+				'WooCommerce - Recent Customers',
+				'WooCommerce - Repeat Customers',
+			];
+			foreach( $lists as $list_id => $list_name ) {
+				if ( in_array( $list_name, $woo_lists ) ) {
+					unset( $lists[ $list_id ] );
+				}
+			}
 
 			if ( $lists && is_array( $lists ) ) {
 
@@ -390,8 +403,6 @@ class ConstantContact_Settings {
 						'before_row' => $before_optin,
 					]
 				);
-
-				$lists[0] = esc_html__( 'Select a list', 'constant-contact-forms' );
 
 				$cmb->add_field(
 					[
@@ -735,12 +746,14 @@ class ConstantContact_Settings {
 		if ( ! constant_contact()->api->is_connected() ) {
 			return;
 		}
+		$lists = $this->get_optin_list_options();
+
+		if ( empty( $lists ) ) {
+			return;
+		}
 
 		$saved_label = constant_contact_get_option( '_ctct_optin_label', '' );
-
-		$lists = $this->get_optin_list_options();
-		$label = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
-
+		$label       = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 		?>
 		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
 			<p><?php echo esc_attr( $label ); ?></p>
@@ -1078,7 +1091,7 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Returns formated list of available lists during opt-in.
+	 * Returns formatted list of available lists during opt-in.
 	 *
 	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
 	 * @since  1.12.0
@@ -1099,8 +1112,11 @@ class ConstantContact_Settings {
 			];
 			$list      = get_posts( $list_args );
 
-			$formatted_lists[ $list_id ] = $list[0]->post_title;
+			if ( ! empty( $list ) ) {
+				$formatted_lists[ $list_id ] = $list[0]->post_title;
+			}
 		}
+
 		return $formatted_lists;
 	}
 }
@@ -1122,7 +1138,7 @@ function constant_contact_get_option( $key = '', $default = null ) {
 		return cmb2_get_option( constant_contact()->settings->key, $key, $default );
 	}
 
-	$options = get_option( constant_contact()->settings->key, $key, $default );
+	$options = get_option( $key, $default );
 	$value   = $default;
 
 	if ( 'all' === $key ) {
@@ -1167,6 +1183,6 @@ function constant_contact_delete_option( $key = '' ) {
  * @since 1.10.0
  * @return bool
  */
-function disable_frontend_css() {
+function constant_contact_disable_frontend_css() {
 	return 'on' === constant_contact_get_option( '_ctct_disable_css' );
 }

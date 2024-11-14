@@ -2,17 +2,17 @@
 /**
  * Constant Contact Main Plugin File
  *
- * @package ConstantContactForms
+ * @package    Constant Contact Forms
  * @subpackage Loader
- * @author Constant Contact
- * @since 1.0.1
- * @license GPLv3
+ * @author     Constant Contact
+ * @since      1.0.1
+ * @license    GPLv3
  *
  * @wordpress-plugin
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     2.6.1
+ * Version:     2.7.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * Requires PHP: 7.4
@@ -76,7 +76,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '2.6.1';
+	const VERSION = '2.7.0';
 
 	/**
 	 * URL of plugin directory.
@@ -461,7 +461,7 @@ class Constant_Contact {
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
 		$this->health               = new ConstantContact_Health( $this );
 		$this->attached_lists       = new ConstantContact_Attached_Lists_Field();
-		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			// Load if Elementor is active.
 			$this->elementor = new ConstantContact_Elementor( $this );
 		}
@@ -628,7 +628,7 @@ class Constant_Contact {
 
 		if ( 'ctct_dismiss_first_modal' === filter_input( INPUT_POST, 'action', FILTER_SANITIZE_SPECIAL_CHARS ) ) {
 			// Save our dismiss for the first form modal.
-			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) );
+			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 		}
 
 		wp_die();
@@ -820,7 +820,7 @@ class Constant_Contact {
 	 */
 	public function register_front_assets() {
 
-		if ( disable_frontend_css() ) {
+		if ( constant_contact_disable_frontend_css() ) {
 			return;
 		}
 

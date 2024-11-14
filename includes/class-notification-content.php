@@ -44,15 +44,18 @@ class ConstantContact_Notification_Content {
 	 * @return string
 	 */
 	public static function activation() {
-		$auth_url = add_query_arg( [
-			'post_type' => 'ctct_forms',
-			'page'      => 'ctct_options_connect',
-			'ctct-dismiss-action' => 'activation'
-		], admin_url( 'edit.php' ) );
+		$auth_url = add_query_arg(
+			[
+				'post_type'           => 'ctct_forms',
+				'page'                => 'ctct_options_connect',
+				'ctct-dismiss-action' => 'activation',
+			],
+			admin_url( 'edit.php' )
+		);
 		$auth_url = wp_nonce_url( $auth_url, 'ctct-user-is-dismissing', 'ctct-dismiss' );
 		$try_url  = constant_contact()->api->get_signup_link();
 
-		if ( ! empty( $_GET['page'] ) && 'ctct_options_connect' === sanitize_text_field( $_GET['page'] ) ) {
+		if ( ! empty( $_GET['page'] ) && 'ctct_options_connect' === sanitize_text_field( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return '';
 		}
 
@@ -279,15 +282,16 @@ class ConstantContact_Notification_Content {
 		<div class="admin-notice admin-notice-message">
 		<p>
 			<?php
-				printf(
-					esc_html__( 'Constant Contact Forms has detected errors that indicate a need to manually disconnect and reconnect your Constant Contact account. Visit the %sConnection Settings%s to manage.', 'constant-contact-forms' ),
-					sprintf(
-						'<a href="%s">',
-						esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' ) )
-					),
-					'</a>'
-				);
-				?>
+			printf(
+			// translators: placeholders hold link HTML tags.
+				esc_html__( 'Constant Contact Forms has detected errors that indicate a need to manually disconnect and reconnect your Constant Contact account. Visit the %1$sConnection Settings%2$s to manage.', 'constant-contact-forms' ),
+				sprintf(
+					'<a href="%s">',
+					esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' ) )
+				),
+				'</a>'
+			);
+			?>
 		</p>
 		</div>
 		<?php
@@ -307,6 +311,25 @@ class ConstantContact_Notification_Content {
 		<div class="admin-notice admin-notice-message">
 			<p>
 				<?php esc_html_e( 'It looks like you have `DISABLE_WP_CRON` enabled. Constant Contact Forms relies on it to keep access tokens refreshed. You may see functionality issues if you do not have any manually configured cron jobs on your hosting server.', 'constant-contact-forms' ); ?>
+			</p>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
+	public static function update_available_notice() {
+		ob_start();
+		?>
+		<div class="admin-notice-message">
+			<p>
+			<?php
+			$url = is_multisite() ? 'network/update-core.php' : 'update-core.php';
+			printf(
+				/* Translators: placeholders will be html `<a>` links. */
+				esc_html__( 'We wanted to inform you that there is a pending update available for the Constant Contact Forms plugin. To ensure optimal performance and security, please visit the %1$sWordPress updates%2$s area and update the plugin at your earliest convenience.', 'constant-contact-forms' ),
+				sprintf( '<a href="%s">', esc_url( admin_url( $url ) ) ),
+				'</a>',
+			); ?>
 			</p>
 		</div>
 		<?php
@@ -466,3 +489,14 @@ function constant_contact_cron_notification( array $notifications = [] ) {
 	return $notifications;
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_cron_notification' );
+
+function constant_contact_update_available_notification( array $notifications = [] ) {
+	$notifications[] = [
+		'ID'         => 'update_available_notice',
+		'callback'   => [ 'ConstantContact_Notification_Content', 'update_available_notice' ],
+		'require_cb' => 'constant_contact_maybe_show_update_available_notification',
+	];
+
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_update_available_notification' );
