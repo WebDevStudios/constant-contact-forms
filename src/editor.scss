@@ -1,3 +1,8 @@
+// sass-lint:disable class-name-format no-qualifying-elements id-name-format
+//--------------------------------------------------------------
+// EDIT VIEW
+//--------------------------------------------------------------
+
 .ctct-block-title {
   margin: 0;
 }
@@ -47,5 +52,152 @@
   &--component {
 	max-width: 400px;
 	width: 100%;
+  }
+}
+
+//--------------------------------------------------------------
+// PREVIEW VIEW -- Approximately how it'll appear on the frontend.
+//--------------------------------------------------------------
+
+// Primary palette
+$color-green: #2ecc40;
+$color-red: #ff4136;
+
+// Grayscale
+$color-gray: #aaa;
+$color-white: #fff;
+
+// Theming
+$color-error: $color-red;
+$color-success: $color-green;
+
+@mixin clearfix {
+  &::after {
+	clear: both;
+	content: '';
+	display: table;
+  }
+}
+
+.ctct-form-wrapper {
+  input {
+	&[type='text'],
+	&[type='email'],
+	&[type='password'],
+	&[type='tel'],
+	&[type='number'] {
+	  &:required:valid {
+		background-image: url(../assets/images/check_circle.svg);
+		background-position: 8px 50%;
+		background-repeat: no-repeat;
+		background-size: 18px;
+		border-color: $color-success;
+		padding-left: 32px;
+	  }
+
+	  &:required.ctct-invalid,
+	  &.ctct-invalid {
+		background: $color-white url(../assets/images/error.svg) no-repeat;
+		background-color: fade-out($color-error, 0.98);
+		background-position: 8px 50%;
+		background-size: 24px;
+		border-color: $color-error;
+		padding-left: 40px;
+	  }
+	}
+  }
+
+  select {
+	&.ctct-label-top,
+	&.ctct-label-bottom {
+	  width: 100%;
+	}
+  }
+
+  .ctct-field-error {
+	color: $color-red;
+	font-size: 0.85rem;
+	font-style: italic;
+  }
+
+  input.ctct-label-left,
+  textarea.ctct-label-left {
+	display: inline-block;
+	width: 75%;
+  }
+
+  span.ctct-label-left {
+	display: inline-block;
+	margin-right: 5%;
+	width: 20%;
+  }
+
+  input.ctct-label-right,
+  textarea.ctct-label-right,
+  select.ctct-label-right {
+	display: inline-block;
+	margin-right: 5%;
+	width: 75%;
+
+	&[type="checkbox"] {
+	  width: auto;
+	}
+  }
+
+  span.ctct-label-right {
+	display: inline-block;
+	width: 20%;
+  }
+
+  span.ctct-label-hidden {
+	left: -9999px !important;
+	position: absolute !important;
+	top: -9999px !important;
+  }
+
+  .ctct-form {
+	@include clearfix;
+
+	.ctct-label-top label,
+	.ctct-label-bottom label {
+	  display: block;
+	}
+
+	.ctct-label-left label,
+	.ctct-label-right label {
+	  display: inline-block;
+	}
+
+	abbr {
+	  border: none;
+	  color: $color-red;
+	  font-size: 0.9rem;
+	}
+
+  }
+
+  .ctct-input-container {
+
+	label {
+	  color: $color-gray;
+	  font-size: 0.8rem;
+	}
+  }
+
+  .ctct-submit {
+	cursor: pointer;
+  }
+
+  .ctct-form-field-checkbox {
+
+	fieldset {
+	  border: none;
+	  padding: 0;
+
+	  legend {
+		font-weight: normal;
+		padding: 0;
+	  }
+	}
   }
 }
