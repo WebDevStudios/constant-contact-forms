@@ -1,12 +1,8 @@
-.wp-block-constant-contact-single-contact-form {
-  border: 1px dotted #f00;
-}
-
 .ctct-block-title {
   margin: 0;
 }
 
-.ctct-block-container {
+.ctct-block-container-edit {
   display: flex;
   flex-direction: column;
   text-align: center;
@@ -51,12 +47,5 @@
   &--component {
 	max-width: 400px;
 	width: 100%;
-  }
-
-  .ctct-block-logo {
-	max-width: 80%;
-	margin: auto;
-	margin-bottom: 20px;
-	margin-top: 20px;
   }
 }
