@@ -1698,69 +1698,6 @@ class ConstantContact_API {
 	public function set_email_type() {
 		return 'text/html';
 	}
-
-	/**
-	 * Email site administrator email and any custom email address set to be notified of new entries.
-	 *
-	 * This method is meant to notify that there are API errors being detected, and that
-	 * a new connection should be established. This will be after temporarily storing a
-	 * form submission that will be re-processed once new tokens are established. We are
-	 * not going to worry about listing the form name, because all forms would be affected.
-	 *
-	 * @since 2.7.0
-	 *
-	 * @param $form_id
-	 */
-	protected function api_errors_admin_email( $form_id ) {
-		$send_to_addresses[] = get_option( 'admin_email' );
-		$custom              = get_post_meta( $form_id, '_ctct_email_settings', true );
-		if ( ! empty( $custom ) ) {
-			$send_to_addresses[] = $custom;
-		}
-		$title = get_bloginfo( 'blogname' );
-
-		$content = esc_html__(
-			'We have detected potential connection errors for your site, %s%s%s. A failed signup has been detected and will be retried automatically once a new connection has been established. Please visit your site and perform the steps to reconnect the plugin at your earliest convenience.',
-			'constant-contact-forms'
-		);
-		$content = sprintf(
-			$content,
-			sprintf(
-				'<a href="%s">',
-				get_bloginfo( 'url' )
-			),
-			$title,
-			'</a>'
-		);
-		add_filter( 'wp_mail_content_type', [ $this, 'set_email_type' ] );
-		foreach ( $send_to_addresses as $address ) {
-			wp_mail(
-				$address,
-				/**
-				 * Filters the email subject to be sent to an admin.
-				 *
-				 * @since 2.7.0
-				 *
-				 * @param string $value Constructed email subject.
-				 * @param string $value Constant Contact Form ID.
-				 */
-				apply_filters( 'constant_contact_api_errors_admin_email_subject', esc_html__( 'Potential Constant Contact Forms issues.', 'constant-contact-forms' ), $form_id ),
-				$content
-			);
-		}
-		remove_filter( 'wp_mail_content_type', [ $this, 'set_email_type' ] );
-	}
-
-	/**
-	 * Set our email's content type.
-	 *
-	 * @since 2.7.0
-	 *
-	 * @return string
-	 */
-	public function set_email_type() {
-		return 'text/html';
-	}
 }
 
 /**
