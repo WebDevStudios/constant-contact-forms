@@ -315,7 +315,7 @@ class ConstantContact_CPTS {
 					isset( $form->post_modified )
 				) {
 					$title         = $form->post_title ?: __( 'No title', 'constant-contact-forms' );
-					$last_modified = human_time_diff( strtotime( $form->post_modified ), current_time( 'timestamp' ) );
+					$last_modified = human_time_diff( strtotime( $form->post_modified ), current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 
 					$title = sprintf(
 						// translators: Placeholders will be form title and then last modified date.

@@ -350,7 +350,7 @@ class ConstantContact_Settings {
 				[
 					'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
 					'desc'       => sprintf(
-					 /* Translators: Placeholder is for a <br /> HTML tag. */
+					/* Translators: Placeholder is for a <br /> HTML tag. */
 						esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ),
 						'<br/>'
 					),
@@ -1183,6 +1183,6 @@ function constant_contact_delete_option( $key = '' ) {
  * @since 1.10.0
  * @return bool
  */
-function disable_frontend_css() {
+function constant_contact_disable_frontend_css() {
 	return 'on' === constant_contact_get_option( '_ctct_disable_css' );
 }

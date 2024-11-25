@@ -2,10 +2,10 @@
 /**
  * Admin
  *
- * @package ConstantContact
+ * @package    ConstantContact
  * @subpackage Admin
- * @author Constant Contact
- * @since 1.0.1
+ * @author     Constant Contact
+ * @since      1.0.1
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
@@ -155,7 +155,7 @@ class ConstantContact_Admin {
 				}
 
 				// Ignore "Add New".
-				if ( $i === 10 ) {
+				if ( 10 === $i ) {
 					continue;
 				}
 
@@ -176,7 +176,7 @@ class ConstantContact_Admin {
 				}
 
 				// Special case for "Add New" page.
-				if ( $i === 5 && $submenu_file === "post-new.php?post_type=$cpt_slug" ) {
+				if ( 5 === $i && "post-new.php?post_type=$cpt_slug" === $submenu_file ) {
 					$tab['is_active'] = true;
 				}
 
@@ -185,8 +185,8 @@ class ConstantContact_Admin {
 		}
 
 		$tabs[] = [
-			'url' => 'https://wordpress.org/support/plugin/constant-contact-forms/reviews/#new-post',
-			'text' => esc_html__( 'Review Constant Contact Forms', 'constant-contact-forms' )
+			'url'  => 'https://wordpress.org/support/plugin/constant-contact-forms/reviews/#new-post',
+			'text' => esc_html__( 'Review Constant Contact Forms', 'constant-contact-forms' ),
 		];
 
 		$connect_title = esc_html__( 'Connected', 'constant-contact-forms' );
@@ -216,8 +216,8 @@ class ConstantContact_Admin {
 					echo wp_kses( '</ul>', [ 'ul' => [] ] );
 				}
 				?>
-				<a href="edit.php?post_type=ctct_forms&page=ctct_options_connect" class="ctct-status ctct-<?php echo $api_status; ?>" title="<?php echo $connect_alt; ?>">
-					<?php echo $connect_title; ?>
+				<a href="edit.php?post_type=ctct_forms&page=ctct_options_connect" class="ctct-status ctct-<?php echo $api_status; ?>" title="<?php echo $connect_alt; ?>"> <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already handled earlier. ?>
+					<?php echo $connect_title; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already handled earlier. ?>
 				</a>
 			</div>
 		<?php
@@ -406,7 +406,7 @@ class ConstantContact_Admin {
 				echo '<div class="ctct-shortcode-wrap"><input class="ctct-shortcode" type="text" value="';
 				echo esc_html( '[ctct form="' . $post_id . '" show_title="false"]' );
 				echo '" readonly="readonly">';
-				echo '<button type="button" class="button" data-copied="' . esc_html( 'Copied!', 'constant-contact-forms' ) . '">';
+				echo '<button type="button" class="button" data-copied="' . esc_html__( 'Copied!', 'constant-contact-forms' ) . '">';
 				echo esc_html__( 'Copy', 'constant-contact-forms' );
 				echo '</button>';
 				echo '</div>';
@@ -420,10 +420,10 @@ class ConstantContact_Admin {
 				foreach ( $table_list_ids as $list_id ) {
 					$list = $this->get_associated_list_by_id( $list_id );
 					if ( ! empty( $list ) ) {
-						$edit_url = ( null !== get_edit_post_link( $list->ID ) ) ?
+						$edit_url    = ( null !== get_edit_post_link( $list->ID ) ) ?
 							get_edit_post_link( $list->ID ) :
 							'';
-						$title = get_the_title( $list->ID );
+						$title       = get_the_title( $list->ID );
 						$list_html[] = sprintf(
 							'<a href="%s">%s</a>',
 							esc_url( $edit_url ),
@@ -524,7 +524,7 @@ class ConstantContact_Admin {
 
 		$social_share = esc_html__( 'Spread the word!', 'constant-contact-forms' );
 		$add_links[]  = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( $site_link ) . '" target="_blank" rel="noopener noreferrer" class="dashicons-before dashicons-facebook"></a>';
-		$add_links[] = '<a title="' . $social_share . '" href="https://x.com/intent/post?text=' . $x_cta . ' ' . $site_link . '" target="_blank" rel="noopener noreferrer"><img src="' . esc_url( constant_contact()->url ) . '/assets/images/logo-black.png" alt="' . esc_attr__( 'X logo', 'constant-contact-forms' ) . '" style="height:16px;width:16px;float:none;"></a>';
+		$add_links[]  = '<a title="' . $social_share . '" href="https://x.com/intent/post?text=' . $x_cta . ' ' . $site_link . '" target="_blank" rel="noopener noreferrer"><img src="' . esc_url( constant_contact()->url ) . '/assets/images/logo-black.png" alt="' . esc_attr__( 'X logo', 'constant-contact-forms' ) . '" style="height:16px;width:16px;float:none;"></a>';
 
 		/**
 		 * Filters the final custom social links.

@@ -28,7 +28,16 @@ export default function Edit(props) {
 		formEntryObjs = theforms.map((form) => {
 			return {label: form.title.rendered, value: form.id};
 		});
+		const isDisabled = (formEntryObjs && formEntryObjs.length === 0);
+		formEntryObjs.unshift(
+			{
+				label: __('Select Form', 'constant-contact-forms'),
+				value: 0,
+				disabled: isDisabled,
+			}
+		)
 	}
+	let smMsg = (formEntryObjs && formEntryObjs.length > 1 ) ? __('Choose the form to display with the dropdown below.', 'constant-contact-forms' ) : __('Please create a Constant Contact Form.', 'constant-contact-forms');
 
 	return (
 		<div {...blockProps}>
@@ -51,7 +60,7 @@ export default function Edit(props) {
 						</div>
 					</div>
 					<div className="ctct-block-container--selection">
-						<small>{__('Choose the form to display with the dropdown below.', 'constant-contact-forms')}</small>
+						<small>{smMsg}</small>
 						<div className="ctct-block-container--component">
 							<SelectControl
 								label={__('Chosen form', 'constant-contact-forms')}

@@ -2,11 +2,11 @@
 /**
  * Constant Contact Main Plugin File
  *
- * @package ConstantContactForms
+ * @package    Constant Contact Forms
  * @subpackage Loader
- * @author Constant Contact
- * @since 1.0.1
- * @license GPLv3
+ * @author     Constant Contact
+ * @since      1.0.1
+ * @license    GPLv3
  *
  * @wordpress-plugin
  * Plugin Name: Constant Contact Forms for WordPress
@@ -461,7 +461,7 @@ class Constant_Contact {
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
 		$this->health               = new ConstantContact_Health( $this );
 		$this->attached_lists       = new ConstantContact_Attached_Lists_Field();
-		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( in_array( 'elementor/elementor.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ), true ) ) { // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			// Load if Elementor is active.
 			$this->elementor = new ConstantContact_Elementor( $this );
 		}
@@ -828,7 +828,7 @@ class Constant_Contact {
 	 */
 	public function register_front_assets() {
 
-		if ( disable_frontend_css() ) {
+		if ( constant_contact_disable_frontend_css() ) {
 			return;
 		}
 
