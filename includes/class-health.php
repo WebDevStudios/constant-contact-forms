@@ -33,6 +33,8 @@ class ConstantContact_Health {
 		$can_write    = esc_html__( 'Writable', 'constant-contact-forms' );
 		$cannot_write = esc_html__( 'Not writable', 'constant-contact-forms' );
 		$yes          = esc_html__( 'Yes', 'constant-contact-forms' );
+		/* translators: placeholder will hold a number */
+		$yes_count    = esc_html__( 'Yes, %s', 'constant-contact-forms' );
 		$no           = esc_html__( 'No', 'constant-contact-forms' );
 
 		$logs_writeable  = sprintf(
@@ -47,6 +49,8 @@ class ConstantContact_Health {
 			$expires_on_ts = $token_timestamp + $expires;
 			$expires_on    = date( 'Y-m-d, h:ia', $expires_on_ts ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		}
+
+		$missed_submissions = get_site_option( 'ctct_missed_api_requests' );
 
 		$debug_info['constant-contact-forms'] = [
 			'label'       => esc_html__( 'Constant Contact Forms', 'constant-contact-forms' ),
@@ -99,6 +103,14 @@ class ConstantContact_Health {
 				[
 					'label' => esc_html__( 'Cron check', 'constant-contact-forms' ),
 					'value' => $this->cron_spawn(),
+				],
+				[
+					'label' => esc_html__( 'Has missed submissions', 'constant-contact-forms' ),
+					'value' => ( empty( $missed_submissions ) ) ? $no : sprintf( $yes_count, count( $missed_submissions ) )
+				],
+				[
+					'label' => esc_html__( 'Constant Contact Status page', 'constant-contact-forms' ),
+					'value' => 'https://status.constantcontact.com/'
 				],
 			],
 		];
