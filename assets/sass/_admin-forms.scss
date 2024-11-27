@@ -60,6 +60,16 @@ body.post-type-ctct_forms #titlediv #title {
 	}
 }
 
+#ctct_0_description_metabox {
+	.cmb2-id--ctct-admin-only-description {
+		padding: 0;
+
+		.cmb-td {
+			padding: 1em 0;
+		}
+	}
+}
+
 #ctct_0_description_metabox,
 #ctct_1_optin_metabox,
 #ctct_2_fields_metabox {
