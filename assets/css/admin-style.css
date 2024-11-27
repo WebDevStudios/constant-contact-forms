@@ -648,6 +648,11 @@ body.post-type-ctct_forms #titlediv #title {
 #ctct_1_custom_form_css_metabox .cmb2-id-form-title-title {
   padding: 0.8rem 0 1rem; }
 
+#ctct_0_description_metabox .cmb2-id--ctct-admin-only-description {
+  padding: 0; }
+  #ctct_0_description_metabox .cmb2-id--ctct-admin-only-description .cmb-td {
+    padding: 1em 0; }
+
 #ctct_0_description_metabox #custom_fields_group_repeat .cmb-field-list .cmb-row:not(:last-of-type),
 #ctct_1_optin_metabox #custom_fields_group_repeat .cmb-field-list .cmb-row:not(:last-of-type),
 #ctct_2_fields_metabox #custom_fields_group_repeat .cmb-field-list .cmb-row:not(:last-of-type) {
