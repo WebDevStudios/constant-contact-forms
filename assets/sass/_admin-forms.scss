@@ -61,12 +61,19 @@ body.post-type-ctct_forms #titlediv #title {
 }
 
 #ctct_0_description_metabox {
-	.cmb2-id--ctct-admin-only-description {
+	.cmb2-id--ctct-description-visibility {
 		padding: 0;
 
 		.cmb-td {
 			padding: 1em 0;
 		}
+	}
+
+	.cmb2-id--ctct-description-visibility,
+	.cmb2-id--ctct-description-visibility .cmb-td {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
 	}
 }
 
