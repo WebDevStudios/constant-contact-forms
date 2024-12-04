@@ -231,7 +231,11 @@
       border-bottom: 1px solid #c3c4c7;
       display: flex;
       width: 100%;
-      align-items: center; } }
+      align-items: center; }
+      [dir="rtl"] .ctct-header {
+        color: red !important;
+        margin: 0 -20px 0 0;
+        padding: 0 20px 0 0; } }
   .ctct-header h2 {
     margin: 0;
     padding: 0 0 0 39px;
@@ -324,6 +328,9 @@
       background-color: #ff4136;
       margin-right: 7px;
       box-shadow: 0 0 5px rgba(0, 0, 0, 0.2); }
+      [dir="rtl"] .ctct-header .ctct-status::before {
+        margin-left: 7px;
+        margin-right: 0; }
     .ctct-header .ctct-status.ctct-connected::before {
       background-color: #2ecc40; }
 
