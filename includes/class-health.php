@@ -27,8 +27,6 @@ class ConstantContact_Health {
 	 */
 	public function health_information( array $debug_info ): array {
 
-		$logs = constant_contact()->logging->get_log_locations();
-
 		// Reused strings.
 		$can_write    = esc_html__( 'Writable', 'constant-contact-forms' );
 		$cannot_write = esc_html__( 'Not writable', 'constant-contact-forms' );
@@ -37,6 +35,7 @@ class ConstantContact_Health {
 		$yes_count    = esc_html__( 'Yes, %s', 'constant-contact-forms' );
 		$no           = esc_html__( 'No', 'constant-contact-forms' );
 
+		$logs            = constant_contact()->logging->get_log_locations();
 		$logs_writeable  = sprintf(
 			'Folder: %s, File: %s',
 			( is_writable( $logs['directory'] ) ) ? $can_write : $cannot_write,
@@ -52,11 +51,11 @@ class ConstantContact_Health {
 
 		$missed_submissions = get_site_option( 'ctct_missed_api_requests' );
 
-		$recaptcha = new ConstantContact_reCAPTCHA();
+		$recaptcha         = new ConstantContact_reCAPTCHA();
 		$recaptcha_version = $recaptcha->get_recaptcha_version();
-		$has_recaptcha = ( ConstantContact_reCAPTCHA::has_recaptcha_keys() ) ? $yes : $no ;
-		$recaptcha_status = sprintf(
-			/* Translators: Placeholders will store the current values from each */
+		$has_recaptcha     = ( ConstantContact_reCAPTCHA::has_recaptcha_keys() ) ? $yes : $no;
+		$recaptcha_status  = sprintf(
+		/* Translators: Placeholders will store the current values from each */
 			esc_html__( 'Has reCAPTCHA: %1$s, Version: %2$s', 'constant-contact-forms' ),
 			$has_recaptcha,
 			$recaptcha_version
