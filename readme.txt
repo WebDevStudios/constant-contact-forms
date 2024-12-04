@@ -50,7 +50,6 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 == Changelog ==
 
 = 2.8.0 =
-
 * Fixed: Touched up CSS for the WP Admin and RTL based languages.
 * Added: Ability to toggle frontend visibility for a form's description field. Allows to use as admin-only description.
 * Updated: CMB2 and Encryption internal libraries.
