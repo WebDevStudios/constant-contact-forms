@@ -17,15 +17,15 @@ class ConstantContact_Health {
 	}
 
 	/**
-	 * Callback to add in our own cusotm site health information.
+	 * Callback to add in our own custom site health information.
 	 *
 	 * @since 2.3.0
 	 *
-	 * @param array $debug_info
+	 * @param array $debug_info Array of debug info sections to add to.
 	 * @return array
 	 * @throws Exception
 	 */
-	public function health_information( $debug_info ) {
+	public function health_information( array $debug_info ): array {
 
 		$logs = constant_contact()->logging->get_log_locations();
 
@@ -125,7 +125,7 @@ class ConstantContact_Health {
 	 *
 	 * @return string
 	 */
-	public function cron_spawn() {
+	public function cron_spawn(): string {
 
 		global $wp_version;
 
