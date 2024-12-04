@@ -49,6 +49,9 @@ class ConstantContact_CPTS {
 
 		add_filter( 'post_updated_messages', [ $this, 'post_updated_messages' ] );
 		add_filter( 'enter_title_here', [ $this, 'change_default_title' ] );
+
+		add_filter( 'post_row_actions', [ $this, 'duplicate_form_link' ], 10, 2 );
+		add_action( 'admin_init', [ $this, 'maybe_duplicate_form' ] );
 	}
 
 	/**
@@ -332,5 +335,46 @@ class ConstantContact_CPTS {
 		}
 
 		return $forms;
+	}
+
+	public function duplicate_form_link( $actions, $post ) {
+		if ( 'ctct_forms' !== $post->post_type ) {
+			return $actions;
+		}
+
+		if ( current_user_can( 'edit_posts' ) ) {
+			$duplicate_url_args = [
+				'action'  => 'duplicate_ctct_form',
+				'post_id' => absint( $post->ID ),
+			];
+			$duplicate_url = add_query_arg(
+				$duplicate_url_args, admin_url( 'edit.php?post_type=ctct_forms' )
+			);
+
+			$actions['ctct-forms-duplicate'] = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( wp_nonce_url( $duplicate_url, 'ctct_duplicate_form', 'ctct_duplicate_form' ) ),
+				esc_html__( 'Duplicate form', 'constant-contact-forms' )
+			);
+		}
+
+		return $actions;
+	}
+
+	public function maybe_duplicate_form() {
+		if ( empty( $_GET ) ) {
+			return;
+		}
+
+		if (
+			isset( $_GET['ctct_duplicate_form'] ) &&
+			check_admin_referer( 'ctct_duplicate_form', 'ctct_duplicate_form' )
+		) {
+			if ( ! isset( $_GET['post_id'] ) ) {
+				wp_die( esc_html__( 'No form to duplicate has been supplied.', 'constant-contact-forms' ) );
+			}
+
+			$this->duplicate_form( absint( $_GET['post_id'] ) );
+		}
 	}
 }
