@@ -648,10 +648,16 @@ body.post-type-ctct_forms #titlediv #title {
 #ctct_1_custom_form_css_metabox .cmb2-id-form-title-title {
   padding: 0.8rem 0 1rem; }
 
-#ctct_0_description_metabox .cmb2-id--ctct-admin-only-description {
+#ctct_0_description_metabox .cmb2-id--ctct-description-visibility {
   padding: 0; }
-  #ctct_0_description_metabox .cmb2-id--ctct-admin-only-description .cmb-td {
+  #ctct_0_description_metabox .cmb2-id--ctct-description-visibility .cmb-td {
     padding: 1em 0; }
+
+#ctct_0_description_metabox .cmb2-id--ctct-description-visibility,
+#ctct_0_description_metabox .cmb2-id--ctct-description-visibility .cmb-td {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center; }
 
 #ctct_0_description_metabox #custom_fields_group_repeat .cmb-field-list .cmb-row:not(:last-of-type),
 #ctct_1_optin_metabox #custom_fields_group_repeat .cmb-field-list .cmb-row:not(:last-of-type),
