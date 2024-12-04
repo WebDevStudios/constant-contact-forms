@@ -355,8 +355,8 @@ class ConstantContact_Display {
 		if (
 			! empty( $form_data['options']['description'] ) &&
 			(
-				empty( $form_data['options']['admin_only_description'] ) ||
-				'on' !== $form_data['options']['admin_only_description']
+				empty( $form_data['options']['description_visibility'] ) ||
+				'on' !== $form_data['options']['description_visibility']
 			)
 		) {
 			$return .= $this->description( $form_data['options']['description'], $form_id );

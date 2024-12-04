@@ -298,8 +298,8 @@ class ConstantContact_Builder_Fields {
 
 		$description_metabox->add_field(
 			[
-				'name'        => esc_html__( 'Admin-only description', 'constant-contact-forms' ),
-				'id'          => $this->prefix . 'admin_only_description',
+				'name'        => esc_html__( 'Description visibility', 'constant-contact-forms' ),
+				'id'          => $this->prefix . 'description_visibility',
 				'type'        => 'checkbox',
 				'description' => esc_html__( 'Hide description on the frontend.', 'constant-contact-forms' ),
 			]
