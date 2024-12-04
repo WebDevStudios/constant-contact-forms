@@ -54,6 +54,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: Ability to toggle frontend visibility for a form's description field. Allows to use as admin-only description.
 * Added: Missed signup connection attempts count and reCAPTCHA status to Constant Contact Forms's Site Health Panel.
 * Fixed: Touched up CSS for the WP Admin and RTL based languages.
+* Updated: Converted majority of Constant Contact Forms admin-side Javascript away from jQuery base.
 * Updated: CMB2 and Encryption internal libraries.
 
 = 2.7.0 =
