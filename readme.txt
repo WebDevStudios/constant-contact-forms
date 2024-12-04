@@ -2,7 +2,7 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 5.2.0
-Tested up to:      6.6.2
+Tested up to:      6.7.1
 Stable tag:        2.7.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
