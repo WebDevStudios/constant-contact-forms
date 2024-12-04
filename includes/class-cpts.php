@@ -377,4 +377,42 @@ class ConstantContact_CPTS {
 			$this->duplicate_form( absint( $_GET['post_id'] ) );
 		}
 	}
+
+	protected function duplicate_form( $post_id ) {
+		$to_copy_post = get_post( $post_id );
+		$curr_user    = wp_get_current_user();
+		$to_be_author = $curr_user->ID;
+
+		if ( ! empty( $to_copy_post ) ) {
+			$form_args = [
+				'comment_status' => $to_copy_post->comment_status,
+				'ping_status'    => $to_copy_post->ping_status,
+				'post_author'    => $to_be_author,
+				'post_content'   => $to_copy_post->post_content,
+				'post_excerpt'   => $to_copy_post->post_excerpt,
+				'post_name'      => $to_copy_post->post_name,
+				'post_status'    => 'publish',
+				'post_title'     => $to_copy_post->post_title,
+				'post_type'      => 'ctct_forms',
+			];
+
+			$copied_form_post_id = wp_insert_post( $form_args );
+
+			/*
+			 * Need to get all of OUR meta keys, and iterate over them. Fetch from builder fields page.
+			 * Instead of trying a $wpdb call, since we're not hitting all at once
+			 * let's use update_post_meta() with our $copied_form_post_id
+			 *
+			 * Current known:
+			 * _ctct_verify_key
+				_ctct_has_email_field
+				_ctct_list
+				_ctct_button_text
+				_ctct_form_submission_success
+				_ctct_opt_in_instructions
+				custom_fields_group
+				_ctct_description
+			 */
+		}
+	}
 }
