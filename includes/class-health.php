@@ -52,6 +52,16 @@ class ConstantContact_Health {
 
 		$missed_submissions = get_site_option( 'ctct_missed_api_requests' );
 
+		$recaptcha = new ConstantContact_reCAPTCHA();
+		$recaptcha_version = $recaptcha->get_recaptcha_version();
+		$has_recaptcha = ( ConstantContact_reCAPTCHA::has_recaptcha_keys() ) ? $yes : $no ;
+		$recaptcha_status = sprintf(
+			/* Translators: Placeholders will store the current values from each */
+			esc_html__( 'Has reCAPTCHA: %1$s, Version: %2$s', 'constant-contact-forms' ),
+			$has_recaptcha,
+			$recaptcha_version
+		);
+
 		$debug_info['constant-contact-forms'] = [
 			'label'       => esc_html__( 'Constant Contact Forms', 'constant-contact-forms' ),
 			'description' => esc_html__( 'Debugging and troubleshooting information for support purposes', 'constant-contact-forms' ),
@@ -103,6 +113,10 @@ class ConstantContact_Health {
 				[
 					'label' => esc_html__( 'Cron check', 'constant-contact-forms' ),
 					'value' => $this->cron_spawn(),
+				],
+				[
+					'label' => esc_html__( 'reCAPTCHA Status', 'constant-contact-forms' ),
+					'value' => $recaptcha_status,
 				],
 				[
 					'label' => esc_html__( 'Has missed submissions', 'constant-contact-forms' ),
