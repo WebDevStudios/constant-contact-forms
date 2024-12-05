@@ -52,6 +52,7 @@ class ConstantContact_CPTS {
 
 		add_filter( 'post_row_actions', [ $this, 'duplicate_form_link' ], 10, 2 );
 		add_action( 'admin_menu', [ $this, 'maybe_duplicate_form' ] );
+		add_action( 'admin_notices', [ $this, 'admin_notices' ] );
 	}
 
 	/**
@@ -428,5 +429,33 @@ class ConstantContact_CPTS {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Add an admin notice with success or failure messaging for form duplication attempts.
+	 *
+	 * @since NEXT
+	 */
+	public function admin_notices() {
+		if ( empty( $_GET ) ) {
+			return;
+		}
+
+		if ( empty( $_GET['ctct_duplicate_form_success'] ) ) {
+			return;
+		}
+
+		$message = ( 'true' === sanitize_text_field( $_GET['ctct_duplicate_form_success'] ) ) ?
+			esc_html__( 'Constant Contact Forms form duplication succeeded.', 'constant-contact-forms' ) :
+			esc_html__( 'Constant Contact Forms form duplication failed.', 'constant-contact-forms' );
+		$type    = ( 'true' === sanitize_text_field( $_GET['ctct_duplicate_form_success'] ) ) ? 'success' : 'error';
+		wp_admin_notice(
+			$message,
+			array(
+				'id'          => 'ctct_form_duplication_notice',
+				'type'        => $type,
+				'dismissible' => true,
+			)
+		);
 	}
 }
