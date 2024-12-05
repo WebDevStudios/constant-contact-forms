@@ -338,6 +338,16 @@ class ConstantContact_CPTS {
 		return $forms;
 	}
 
+	/**
+	 * Add a "Duplicate form" action to forms in our `ctct_forms` list table.
+	 *
+	 * @since NEXT
+	 *
+	 * @param array   $actions Current array of actions for a post in the list table,
+	 * @param WP_Post $post    Post object for the current post being listed.
+	 *
+	 * @return array
+	 */
 	public function duplicate_form_link( $actions, $post ) {
 		if ( 'ctct_forms' !== $post->post_type ) {
 			return $actions;
@@ -362,6 +372,11 @@ class ConstantContact_CPTS {
 		return $actions;
 	}
 
+	/**
+	 * Maybe prrocess a clicked "Duplicate form" link.
+	 *
+	 * @since NEXT
+	 */
 	public function maybe_duplicate_form() {
 		if ( empty( $_GET ) ) {
 			return;
@@ -391,7 +406,16 @@ class ConstantContact_CPTS {
 		}
 	}
 
-	protected function duplicate_form( $post_id ) {
+	/**
+	 * Perform a duplication of a clicked form.
+	 *
+	 * @since NEXT
+	 *
+	 * @param int $post_id Form ID to duplicate.
+	 *
+	 * @return false|int|WP_Error
+	 */
+	protected function duplicate_form( int $post_id ) {
 		$to_copy_post = get_post( $post_id );
 		$curr_user    = wp_get_current_user();
 		$to_be_author = $curr_user->ID;
