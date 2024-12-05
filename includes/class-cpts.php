@@ -392,17 +392,20 @@ class ConstantContact_CPTS {
 
 			$returned_id = $this->duplicate_form( absint( $_GET['post_id'] ) );
 
+			$success = 'false';
 			if ( $returned_id ) {
-				wp_safe_redirect(
-					add_query_arg(
-						[
-							'success' => 'true'
-						],
-						admin_url( 'edit.php?post_type=ctct_forms' )
-					)
-				);
-				exit();
+				$success = 'true';
 			}
+
+			wp_safe_redirect(
+				add_query_arg(
+					[
+						'ctct_duplicate_form_success' => $success
+					],
+					admin_url( 'edit.php?post_type=ctct_forms' )
+				)
+			);
+			exit();
 		}
 	}
 
