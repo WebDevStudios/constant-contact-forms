@@ -51,7 +51,7 @@ class ConstantContact_CPTS {
 		add_filter( 'enter_title_here', [ $this, 'change_default_title' ] );
 
 		add_filter( 'post_row_actions', [ $this, 'duplicate_form_link' ], 10, 2 );
-		add_action( 'admin_init', [ $this, 'maybe_duplicate_form' ] );
+		add_action( 'admin_menu', [ $this, 'maybe_duplicate_form' ] );
 	}
 
 	/**
