@@ -374,7 +374,19 @@ class ConstantContact_CPTS {
 				wp_die( esc_html__( 'No form to duplicate has been supplied.', 'constant-contact-forms' ) );
 			}
 
-			$this->duplicate_form( absint( $_GET['post_id'] ) );
+			$returned_id = $this->duplicate_form( absint( $_GET['post_id'] ) );
+
+			if ( $returned_id ) {
+				wp_safe_redirect(
+					add_query_arg(
+						[
+							'success' => 'true'
+						],
+						admin_url( 'edit.php?post_type=ctct_forms' )
+					)
+				);
+				exit();
+			}
 		}
 	}
 
