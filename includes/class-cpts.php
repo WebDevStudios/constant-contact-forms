@@ -410,21 +410,23 @@ class ConstantContact_CPTS {
 
 			$copied_form_post_id = wp_insert_post( $form_args );
 
-			/*
-			 * Need to get all of OUR meta keys, and iterate over them. Fetch from builder fields page.
-			 * Instead of trying a $wpdb call, since we're not hitting all at once
-			 * let's use update_post_meta() with our $copied_form_post_id
-			 *
-			 * Current known:
-			 * _ctct_verify_key
-				_ctct_has_email_field
-				_ctct_list
-				_ctct_button_text
-				_ctct_form_submission_success
-				_ctct_opt_in_instructions
-				custom_fields_group
-				_ctct_description
-			 */
+			$meta_keys   = get_post_meta( $to_copy_post->ID );
+			$copied_meta = [];
+			foreach ( $meta_keys as $meta_key => $meta_key_value ) {
+				// WP has a polyfill for this PHP8 function
+				if ( str_starts_with( $meta_key, '_ctct_' ) ) {
+					$copied_meta[ $meta_key ] = maybe_unserialize( $meta_key_value[0] );
+				}
+			}
+			$copied_meta['custom_fields_group'] = maybe_unserialize( $meta_keys['custom_fields_group'][0] );
+
+			foreach( $copied_meta as $meta_key => $meta_value ) {
+				update_post_meta( $copied_form_post_id, $meta_key, $meta_value );
+			}
+
+			return $copied_form_post_id;
 		}
+
+		return false;
 	}
 }
