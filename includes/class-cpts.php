@@ -448,7 +448,7 @@ class ConstantContact_CPTS {
 			}
 			$copied_meta['custom_fields_group'] = maybe_unserialize( $meta_keys['custom_fields_group'][0] );
 
-			foreach( $copied_meta as $meta_key => $meta_value ) {
+			foreach ( $copied_meta as $meta_key => $meta_value ) {
 				update_post_meta( $copied_form_post_id, $meta_key, $meta_value );
 			}
 
