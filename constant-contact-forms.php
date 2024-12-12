@@ -628,10 +628,18 @@ class Constant_Contact {
 
 		if ( 'ctct_dismiss_first_modal' === filter_input( INPUT_POST, 'action', FILTER_SANITIZE_SPECIAL_CHARS ) ) {
 			// Save our dismiss for the first form modal.
-			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) );
+
+			wp_send_json_success(
+				[ 'message' => esc_html__( 'Dismiss successsful', 'constant-contact-forms' ) ]
+			);
+			exit();
 		}
 
-		wp_die();
+		wp_send_json_error(
+			[ 'message' => esc_html__( 'Dismiss failed', 'constant-contact-forms' ) ]
+		);
+		exit();
 	}
 
 	/**

@@ -5,9 +5,9 @@ Since we want to add in support for Gutenberg,  webpack has been integrated into
 responsible for transpiling and bundling all JavaScript files. You can also write `JSX` out of the box! 
 
 ## EntryPoints
-- `ctct-plugin-admin` - Contains all the original JavaScript for the admin area.
-- `ctct-plugin-admin` - Contains all original JavaScript for the frontend.
-- `ctct-plugin-gutenberg` - Contains all related Gutenberg JavaScript. Note that both the `gutenberg` and `admin` JS only
+- `assets/js/ctct-plugin-admin` - Contains all the original JavaScript for the admin area.
+- `assets/js/ctct-plugin-frontend` - Contains all original JavaScript for the frontend.
+- `src` - Contains all related block JavaScript. Note that both the `block` and `admin` JS only
 load on new page/post pages in the admin.
 
 ## Getting Started
@@ -29,7 +29,13 @@ LBF->Preferences->Advanced menu and toggle on the `IPv6 Loopback` option. This s
 ## Start Scripts
 - `npm run watch` - will watch all JS/SCSS files and reload when changed.
 - `npm run dev` - will build all CSS files plus non-minified JS files.
-- `npm run build` - will build all CSS files plus minified JS files.
+- `npm run build` - will build all /src/ assets.
+- `npm run styles` - will compile and compress assets/sass source file into the resulting css and minified css.
+- `npm run styles:compile` - will compile assets/sass source file into the resulting unminified css
+- `npm run styles:compress` - will compress the resulting css from the compile script.
+- `npm run stylesadmin` - will compile and compress admin assets/sass source file into the resulting css and minified css.
+- `npm run stylesadmin:compile` - will compile admin assets/sass source file into the resulting unminified css
+- `npm run stylesadmin:compress` - will compress the resulting admin css from the compile script.
 
 ## Steps for local development setup
 

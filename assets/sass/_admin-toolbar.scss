@@ -7,10 +7,16 @@
 		padding: 0 0 0 20px;
 		background-color: $color-white;
 		border-bottom: 1px solid #c3c4c7;
-		display: flex; 
-		width: 100%; 
+		display: flex;
+		width: 100%;
 		align-items: center;
+
+		[dir="rtl"] & {
+			margin: 0 -20px 0 0;
+			padding: 0 20px 0 0;
+		}
 	}
+
 
 	h2{
 		margin: 0;
@@ -18,7 +24,7 @@
 		min-height: 32px;
 		line-height: 32px;
 		background: $color-white url( ../images/ctct-icon-2x.png ) no-repeat 0 48%;
-      background-size: 32px 32px;
+		background-size: 32px 32px;
 		text-indent: -9999px;
 		@include wider-than('small') {
 			text-indent: 0;
@@ -47,7 +53,7 @@
 					font-weight: 600;
 					text-decoration: underline;
 
-					&::after, 
+					&::after,
 					&::before {
 						top: 100%;
 						left: 50%;
@@ -57,7 +63,7 @@
 						width: 0;
 						position: absolute;
 						pointer-events: none;
-					}					
+					}
 
 					&::after {
 						border-color: rgba(255, 255, 255, 0);
@@ -90,7 +96,7 @@
 
 				&.ctct-disconnect{
 
-					a{					
+					a{
 						background-color: $color-orange;
 						border: 1px solid $color-orange-alt;
 
@@ -98,11 +104,11 @@
 						&:focus{
 							background-color: $color-orange-alt;
 						}
-					} 
+					}
 				}
 			}
 		}
-	} 
+	}
 
 	.ctct-status{
 		display: none;
@@ -137,15 +143,20 @@
 			width: 10px;
 			height: 10px;
 			border-radius: 100%;
-			background-color: $color-red; 
+			background-color: $color-red;
 			margin-right: 7px;
 			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+
+			[dir="rtl"] & {
+				margin-left: 7px;
+				margin-right: 0;
+			}
 		}
 
 		&.ctct-connected{
 
 			&::before{
-				background-color: $color-green;;
+				background-color: $color-green;
 			}
 		}
 	}

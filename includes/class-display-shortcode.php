@@ -137,7 +137,7 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @param array $form_meta Post meta.
 	 * @param int   $form_id   Form ID.
-	 * @return string Form field data.
+	 * @return mixed Form field data.
 	 */
 	public function get_field_meta( $form_meta, $form_id ) {
 
@@ -174,6 +174,8 @@ class ConstantContact_Display_Shortcode {
 		}
 
 		$fields['options']['description'] = $this->get_nested_value_from_data( '_ctct_description', $full_data );
+
+		$fields['options']['description_visibility'] = $this->get_nested_value_from_data( '_ctct_description_visibility', $full_data );
 
 		$fields['options']['optin'] = $this->generate_optin_data( $full_data );
 

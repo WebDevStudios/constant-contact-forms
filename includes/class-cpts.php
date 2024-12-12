@@ -49,6 +49,10 @@ class ConstantContact_CPTS {
 
 		add_filter( 'post_updated_messages', [ $this, 'post_updated_messages' ] );
 		add_filter( 'enter_title_here', [ $this, 'change_default_title' ] );
+
+		add_filter( 'post_row_actions', [ $this, 'duplicate_form_link' ], 10, 2 );
+		add_action( 'admin_menu', [ $this, 'maybe_duplicate_form' ] );
+		add_action( 'admin_notices', [ $this, 'admin_notices' ] );
 	}
 
 	/**
@@ -332,5 +336,152 @@ class ConstantContact_CPTS {
 		}
 
 		return $forms;
+	}
+
+	/**
+	 * Add a "Duplicate form" action to forms in our `ctct_forms` list table.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param array   $actions Current array of actions for a post in the list table,
+	 * @param WP_Post $post    Post object for the current post being listed.
+	 *
+	 * @return array
+	 */
+	public function duplicate_form_link( $actions, $post ) {
+		if ( 'ctct_forms' !== $post->post_type ) {
+			return $actions;
+		}
+
+		if ( current_user_can( 'edit_posts' ) ) {
+			$duplicate_url_args = [
+				'action'  => 'duplicate_ctct_form',
+				'post_id' => absint( $post->ID ),
+			];
+			$duplicate_url = add_query_arg(
+				$duplicate_url_args, admin_url( 'edit.php?post_type=ctct_forms' )
+			);
+
+			$actions['ctct-forms-duplicate'] = sprintf(
+				'<a href="%1$s">%2$s</a>',
+				esc_url( wp_nonce_url( $duplicate_url, 'ctct_duplicate_form', 'ctct_duplicate_form' ) ),
+				esc_html__( 'Duplicate form', 'constant-contact-forms' )
+			);
+		}
+
+		return $actions;
+	}
+
+	/**
+	 * Maybe prrocess a clicked "Duplicate form" link.
+	 *
+	 * @since 2.8.0
+	 */
+	public function maybe_duplicate_form() {
+		if ( empty( $_GET ) ) {
+			return;
+		}
+
+		if (
+			isset( $_GET['ctct_duplicate_form'] ) &&
+			check_admin_referer( 'ctct_duplicate_form', 'ctct_duplicate_form' )
+		) {
+			if ( ! isset( $_GET['post_id'] ) ) {
+				wp_die( esc_html__( 'No form to duplicate has been supplied.', 'constant-contact-forms' ) );
+			}
+
+			$returned_id = $this->duplicate_form( absint( $_GET['post_id'] ) );
+
+			$success = 'false';
+			if ( $returned_id ) {
+				$success = 'true';
+			}
+
+			wp_safe_redirect(
+				add_query_arg(
+					[
+						'ctct_duplicate_form_success' => $success
+					],
+					admin_url( 'edit.php?post_type=ctct_forms' )
+				)
+			);
+			exit();
+		}
+	}
+
+	/**
+	 * Perform a duplication of a clicked form.
+	 *
+	 * @since 2.8.0
+	 *
+	 * @param int $post_id Form ID to duplicate.
+	 * @return false|int|WP_Error
+	 */
+	protected function duplicate_form( int $post_id ) {
+		$to_copy_post = get_post( $post_id );
+		$curr_user    = wp_get_current_user();
+		$to_be_author = $curr_user->ID;
+
+		if ( ! empty( $to_copy_post ) ) {
+			$form_args = [
+				'comment_status' => $to_copy_post->comment_status,
+				'ping_status'    => $to_copy_post->ping_status,
+				'post_author'    => $to_be_author,
+				'post_content'   => $to_copy_post->post_content,
+				'post_excerpt'   => $to_copy_post->post_excerpt,
+				'post_name'      => $to_copy_post->post_name,
+				'post_status'    => 'publish',
+				'post_title'     => $to_copy_post->post_title,
+				'post_type'      => 'ctct_forms',
+			];
+
+			$copied_form_post_id = wp_insert_post( $form_args );
+
+			$meta_keys   = get_post_meta( $to_copy_post->ID );
+			$copied_meta = [];
+			foreach ( $meta_keys as $meta_key => $meta_key_value ) {
+				// WP has a polyfill for this PHP8 function
+				if ( str_starts_with( $meta_key, '_ctct_' ) ) {
+					$copied_meta[ $meta_key ] = maybe_unserialize( $meta_key_value[0] );
+				}
+			}
+			$copied_meta['custom_fields_group'] = maybe_unserialize( $meta_keys['custom_fields_group'][0] );
+
+			foreach ( $copied_meta as $meta_key => $meta_value ) {
+				update_post_meta( $copied_form_post_id, $meta_key, $meta_value );
+			}
+
+			return $copied_form_post_id;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Add an admin notice with success or failure messaging for form duplication attempts.
+	 *
+	 * @since 2.8.0
+	 */
+	public function admin_notices() {
+		if ( empty( $_GET ) ) {
+			return;
+		}
+
+		if ( empty( $_GET['ctct_duplicate_form_success'] ) ) {
+			return;
+		}
+
+		$message = ( 'true' === sanitize_text_field( $_GET['ctct_duplicate_form_success'] ) ) ?
+			esc_html__( 'Constant Contact Forms form duplication succeeded.', 'constant-contact-forms' ) :
+			esc_html__( 'Constant Contact Forms form duplication failed.', 'constant-contact-forms' );
+		$type    = ( 'true' === sanitize_text_field( $_GET['ctct_duplicate_form_success'] ) ) ? 'success' : 'error';
+		wp_admin_notice(
+			$message,
+			array(
+				'id'          => 'ctct_form_duplication_notice',
+				'type'        => $type,
+				'dismissible' => true,
+			)
+		);
 	}
 }
