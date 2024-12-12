@@ -341,7 +341,7 @@ class ConstantContact_CPTS {
 	/**
 	 * Add a "Duplicate form" action to forms in our `ctct_forms` list table.
 	 *
-	 * @since NEXT
+	 * @since 2.8.0
 	 *
 	 * @param array   $actions Current array of actions for a post in the list table,
 	 * @param WP_Post $post    Post object for the current post being listed.
@@ -375,7 +375,7 @@ class ConstantContact_CPTS {
 	/**
 	 * Maybe prrocess a clicked "Duplicate form" link.
 	 *
-	 * @since NEXT
+	 * @since 2.8.0
 	 */
 	public function maybe_duplicate_form() {
 		if ( empty( $_GET ) ) {
@@ -412,10 +412,9 @@ class ConstantContact_CPTS {
 	/**
 	 * Perform a duplication of a clicked form.
 	 *
-	 * @since NEXT
+	 * @since 2.8.0
 	 *
 	 * @param int $post_id Form ID to duplicate.
-	 *
 	 * @return false|int|WP_Error
 	 */
 	protected function duplicate_form( int $post_id ) {
@@ -461,7 +460,7 @@ class ConstantContact_CPTS {
 	/**
 	 * Add an admin notice with success or failure messaging for form duplication attempts.
 	 *
-	 * @since NEXT
+	 * @since 2.8.0
 	 */
 	public function admin_notices() {
 		if ( empty( $_GET ) ) {
