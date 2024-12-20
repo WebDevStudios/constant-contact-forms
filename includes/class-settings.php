@@ -526,6 +526,78 @@ class ConstantContact_Settings {
 	protected function register_fields_spam() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'spam' ) );
 
+		$before_captcha_service = sprintf(
+			'<h2>%s</h2>',
+			esc_html__( 'Captcha Service', 'constant-contact-forms' )
+		);
+
+		$before_captcha_service .= '<div class="description"><p>';
+		$before_captcha_service .= esc_html__( 'Select the captcha service to use.', 'constant-contact-forms' );
+		$before_captcha_service .= '</div></p>';
+
+		$cmb->add_field(
+			[
+				'name'             => esc_html__( 'Captcha Service', 'constant-contact-forms' ),
+				'id'               => '_ctct_captcha_service',
+				'type'             => 'select',
+				'default'          => false,
+				'before_row'       => $before_captcha_service,
+				'show_option_none' => true,
+				'options'          => [
+					'recaptcha' => esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
+					'hcaptcha'  => esc_html__( 'hCaptcha', 'constant-contact-forms' ),
+				],
+			]
+		);
+
+		$before_hcaptcha = sprintf(
+			'<h2>%s</h2>',
+			esc_html__( 'hCaptcha', 'constant-contact-forms' )
+		);
+
+		$before_hcaptcha .= '<div class="description">';
+
+		$before_hcaptcha .= sprintf(
+			wp_kses(
+				/* translators: %s: hcaptcha signup URL */
+				__( 'Sign up and get your <a href="%s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
+				[
+					'a' => [
+						'href'   => [],
+						'target' => [],
+					],
+				]
+			),
+			esc_url( 'https://www.hcaptcha.com/pricing/' )
+		);
+
+		$before_hcaptcha .= '</div>';
+
+		$cmb->add_field(
+			[
+				'name'            => esc_html__( 'Site Key', 'constant-contact-forms' ),
+				'id'              => '_ctct_hcaptcha_site_key',
+				'type'            => 'text',
+				'before_row'      => $before_hcaptcha,
+				'sanitization_cb' => [ $this, 'sanitize_hcaptcha_api_key_string' ],
+				'attributes'      => [
+					'maxlength' => 50,
+				],
+			]
+		);
+
+		$cmb->add_field(
+			[
+				'name'            => esc_html__( 'Secret Key', 'constant-contact-forms' ),
+				'id'              => '_ctct_hcaptcha_secret_key',
+				'type'            => 'text',
+				'sanitization_cb' => [ $this, 'sanitize_hcaptcha_api_key_string' ],
+				'attributes'      => [
+					'maxlength' => 50,
+				],
+			]
+		);
+
 		$before_recaptcha = sprintf(
 			'<h2>%s</h2>',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' )
@@ -1071,6 +1143,27 @@ class ConstantContact_Settings {
 	 * @return string
 	 */
 	public function sanitize_recaptcha_api_key_string( $value, $field_args, $field ) {
+		$value = trim( $value );
+
+		// Keys need to be under 50 chars long and have no spaces inside them.
+		if ( false !== strpos( $value, ' ' ) || 50 <= strlen( $value ) ) {
+			return '';
+		}
+
+		return sanitize_text_field( $value );
+	}
+
+	/**
+	 * Sanitize API key strings for hCaptcha. Length is enforced
+	 *
+	 * @since NEXT
+	 *
+	 * @param  mixed      $value      The unsanitized value from the form.
+	 * @param  array      $field_args Array of field arguments.
+	 * @param  CMB2_Field $field      The field object.
+	 * @return string
+	 */
+	public function sanitize_hcaptcha_api_key_string( $value, $field_args, $field ) {
 		$value = trim( $value );
 
 		// Keys need to be under 50 chars long and have no spaces inside them.
