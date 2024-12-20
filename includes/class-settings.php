@@ -536,10 +536,11 @@ class ConstantContact_Settings {
 		$before_recaptcha .= sprintf(
 			wp_kses(
 				/* translators: %s: recaptcha documentation URL */
-				__( 'Learn more and get an <a href="%s" target="_blank">API site key</a>', 'constant-contact-forms' ),
+				__( 'Learn more and get an <a href="%s" target="_blank">API site key</a>.', 'constant-contact-forms' ),
 				[
 					'a' => [
-						'href' => [],
+						'href'   => [],
+						'target' => [],
 					],
 				]
 			),
