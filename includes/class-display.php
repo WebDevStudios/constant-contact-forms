@@ -82,6 +82,10 @@ class ConstantContact_Display {
 		$recaptcha = new $recaptcha_class_name();
 		$recaptcha->enqueue_scripts();
 
+		// TODO: only load if hCaptcha is the selected service. Do the same for reCAPTCHA above.
+		$hcaptcha = new ConstantContact_hCaptcha();
+		$hcaptcha->enqueue_scripts();
+
 		wp_enqueue_script( 'ctct_frontend_forms' );
 	}
 
