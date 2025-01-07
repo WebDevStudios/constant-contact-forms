@@ -542,8 +542,9 @@ class ConstantContact_Settings {
 				'type'             => 'select',
 				'default'          => false,
 				'before_row'       => $before_captcha_service,
-				'show_option_none' => true,
+				//'show_option_none' => true,
 				'options'          => [
+					'disabled'  => esc_html__( 'None - Captcha Disabled', 'constant-contact-forms' ),
 					'recaptcha' => esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
 					'hcaptcha'  => esc_html__( 'hCaptcha', 'constant-contact-forms' ),
 				],
