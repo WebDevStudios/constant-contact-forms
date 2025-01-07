@@ -316,9 +316,11 @@ class ConstantContact_Display {
 		$form_action              = apply_filters( 'constant_contact_front_form_action', '', $form_id );
 		$should_do_ajax           = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax                  = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
+		// TODO: handle hcaptcha disable functionality.
 		$should_disable_recaptcha = get_post_meta( $form_id, '_ctct_disable_recaptcha', true );
 		$disable_recaptcha        = 'on' === $should_disable_recaptcha;
 		$form_classes             = 'ctct-form ctct-form-' . $form_id;
+			// TODO: handle hcaptcha classes.
 		$form_classes            .= ConstantContact_reCAPTCHA::has_recaptcha_keys() ? ' has-recaptcha' : ' no-recaptcha';
 		$form_classes            .= $this->build_custom_form_classes();
 
@@ -382,6 +384,11 @@ class ConstantContact_Display {
 			if ( 'v2' === $recaptcha_version ) {
 				$return .= $this->build_recaptcha( $form_id );
 			}
+		}
+
+		// TODO: Create and handle generalized $disable_captcha option similar to $disable_recaptcha.
+		if ( ConstantContact_hCaptcha::has_hcaptcha_keys() ) {
+			$return .= $this->build_hcaptcha( $form_id );
 		}
 
 		$return .= $this->submit( $form_id );
@@ -606,6 +613,49 @@ class ConstantContact_Display {
 
 		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
 		$return = $recaptcha->get_inline_markup();
+		// phpcs:enable WordPress.WP.EnqueuedResources
+
+		return $return;
+	}
+
+	/**
+	 * Display an hCaptcha field.
+	 *
+	 * @since NEXT
+	 *
+	 * @param int $form_id ID of form being rendered.
+	 * @return string
+	 */
+	public function build_hcaptcha( $form_id ) {
+		$hcaptcha = new ConstantContact_hCaptcha();
+
+		$hcaptcha->set_hcaptcha_keys();
+
+		$hcaptcha->set_size(
+			/**
+			 * Filters the hCaptcha size to render.
+			 *
+			 * @since NEXT
+			 *
+			 * @param string $value Size to render. Options: `normal`, `compact`. Default `normal`.
+			 */
+			apply_filters( 'constant_contact_hcaptcha_size', 'normal', $form_id )
+		);
+
+		/**
+		 * Filters the language code to be used with hCaptcha.
+		 *
+		 * See https://docs.hcaptcha.com/languages for available values.
+		 *
+		 * @since NEXT
+		 *
+		 * @param string $value   Language code to use. Default 'en'.
+		 * @param int    $form_id ID of the form being rendered.
+		 */
+		$hcaptcha->set_language( apply_filters( 'constant_contact_hcaptcha_lang', 'en', $form_id ) );
+
+		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
+		$return = $hcaptcha->get_inline_markup();
 		// phpcs:enable WordPress.WP.EnqueuedResources
 
 		return $return;
