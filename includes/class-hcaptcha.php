@@ -45,8 +45,8 @@ class ConstantContact_hCaptcha {
 
 	/**
 	 * Size to use for the hCaptcha box.
-	 * Options are 'normal', 'compact', and 'invisible';
-
+	 * Options are 'normal', 'compact', and 'invisible'.
+	 *
 	 * @var string
 	 * @since NEXT
 	 */
@@ -54,8 +54,8 @@ class ConstantContact_hCaptcha {
 
 	/**
 	 * Language code to use.
+	 * @See https://docs.hcaptcha.com/languages.
 	 * Use 'auto' (default), or specify the language.
-	 * @See https://docs.hcaptcha.com/languages
 	 *
 	 * @var string
 	 * @since NEXT
