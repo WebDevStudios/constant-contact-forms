@@ -25,7 +25,7 @@ window.renderhCaptcha = function () {
 	console.log('renderhCaptcha');
 
 
-	let hcaptchas = document.querySelectorAll( '.h-recaptcha' );
+	let hcaptchas = document.querySelectorAll( '.h-captcha' );
 
 	Array.from(hcaptchas).forEach(function (hcaptchaobj) {
 			let submitBtn = '';
