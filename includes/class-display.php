@@ -637,7 +637,7 @@ class ConstantContact_Display {
 			 *
 			 * @since NEXT
 			 *
-			 * @param string $value Size to render. Options: `normal`, `compact`. Default `normal`.
+			 * @param string $value Size to render. Options are 'normal', 'compact', and 'invisible'.
 			 */
 			apply_filters( 'constant_contact_hcaptcha_size', 'normal', $form_id )
 		);
