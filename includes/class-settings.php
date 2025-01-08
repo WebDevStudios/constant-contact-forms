@@ -23,7 +23,7 @@ class ConstantContact_Settings {
 	 * @since 1.0.0
 	 * @var   string
 	 */
-	private $key = 'ctct_options_settings';
+	public $key = 'ctct_options_settings';
 
 	/**
 	 * Settings page metabox id.
