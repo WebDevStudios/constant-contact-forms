@@ -56,6 +56,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: Quick links to duplicate a chosen form.
 * Fixed: Touched up CSS for the WP Admin and RTL based languages.
 * Updated: Converted majority of Constant Contact Forms admin-side Javascript away from jQuery base.
+* Updated: amended admin email notifications to not promote email marketing, if site owner is already a Constant Contact account holder.
 * Updated: CMB2 and Encryption internal libraries.
 
 = 2.7.0 =
