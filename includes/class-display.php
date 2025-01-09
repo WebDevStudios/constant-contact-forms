@@ -74,17 +74,21 @@ class ConstantContact_Display {
 			true
 		);
 
-		$recaptcha_base       = new ConstantContact_reCAPTCHA();
-		$version              = $recaptcha_base->get_recaptcha_version();
-		$version              = $version ?: 'v2';
-		$recaptcha_class_name = "ConstantContact_reCAPTCHA_{$version}";
+		$captcha_service = new ConstantContact_CaptchaService();
+		if ( $captcha_service->is_captcha_enabled() ) {
+			if  ( 'recaptcha' === $captcha_service->get_selected_captcha_service() ) {
+				$recaptcha_base       = new ConstantContact_reCAPTCHA();
+				$version              = $recaptcha_base->get_recaptcha_version();
+				$version              = $version ?: 'v2';
+				$recaptcha_class_name = "ConstantContact_reCAPTCHA_{$version}";
 
-		$recaptcha = new $recaptcha_class_name();
-		$recaptcha->enqueue_scripts();
-
-		// TODO: only load if hCaptcha is the selected service. Do the same for reCAPTCHA above.
-		$hcaptcha = new ConstantContact_hCaptcha();
-		$hcaptcha->enqueue_scripts();
+				$recaptcha = new $recaptcha_class_name();
+				$recaptcha->enqueue_scripts();
+			} elseif ( 'hcaptcha' === $captcha_service->get_selected_captcha_service() ) {
+				$hcaptcha = new ConstantContact_hCaptcha();
+				$hcaptcha->enqueue_scripts();
+			}
+		}
 
 		wp_enqueue_script( 'ctct_frontend_forms' );
 	}
@@ -272,6 +276,9 @@ class ConstantContact_Display {
 		$status           = false;
 		$form_title       = $this->set_form_title( $show_title, $form_id );
 
+		$captcha_service          = new ConstantContact_CaptchaService();
+		$selected_captcha_service = $captcha_service->get_selected_captcha_service();
+
 		// Get a potential response from our processing wrapper
 		// This returns an array that has 'status' and 'message keys'
 		// if the status is success, then we sent the form correctly
@@ -316,12 +323,12 @@ class ConstantContact_Display {
 		$form_action              = apply_filters( 'constant_contact_front_form_action', '', $form_id );
 		$should_do_ajax           = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax                  = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
-		// TODO: handle hcaptcha disable functionality.
-		$should_disable_recaptcha = get_post_meta( $form_id, '_ctct_disable_recaptcha', true );
-		$disable_recaptcha        = 'on' === $should_disable_recaptcha;
+		$should_disable_captcha   = get_post_meta( $form_id, '_ctct_disable_recaptcha', true ); // Note: Despite option name, this applies to whatever the enabled captcha service is.
+		$disable_captcha          = 'on' === $should_disable_captcha;
 		$form_classes             = 'ctct-form ctct-form-' . $form_id;
-			// TODO: handle hcaptcha classes.
-		$form_classes            .= ConstantContact_reCAPTCHA::has_recaptcha_keys() ? ' has-recaptcha' : ' no-recaptcha';
+
+		// TODO?: Rename this to has-captcha/no-captcha?
+		$form_classes            .= $captcha_service->is_captcha_enabled() && ! $disable_captcha ? ' has-recaptcha' : ' no-recaptcha';
 		$form_classes            .= $this->build_custom_form_classes();
 
 		$form_styles = '';
@@ -379,16 +386,15 @@ class ConstantContact_Display {
 
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors, $instance );
 
-		if ( ! $disable_recaptcha && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
-			$recaptcha_version = constant_contact_get_option( '_ctct_recaptcha_version', '' );
-			if ( 'v2' === $recaptcha_version ) {
-				$return .= $this->build_recaptcha( $form_id );
+		if ( $captcha_service->is_captcha_enabled() && ! $disable_captcha ) {
+			if ( 'recaptcha' === $selected_captcha_service ) {
+				$recaptcha_version = constant_contact_get_option( '_ctct_recaptcha_version', '' );
+				if ( 'v2' === $recaptcha_version ) {
+					$return .= $this->build_recaptcha( $form_id );
+				}
+			} elseif ( 'hcaptcha' === $selected_captcha_service ) {
+				$return .= $this->build_hcaptcha( $form_id );
 			}
-		}
-
-		// TODO: Create and handle generalized $disable_captcha option similar to $disable_recaptcha.
-		if ( ConstantContact_hCaptcha::has_hcaptcha_keys() ) {
-			$return .= $this->build_hcaptcha( $form_id );
 		}
 
 		$return .= $this->submit( $form_id );
