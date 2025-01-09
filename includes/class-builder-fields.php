@@ -366,13 +366,14 @@ class ConstantContact_Builder_Fields {
 			]
 		);
 
-		if ( ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
+		$captcha_service = new ConstantContact_CaptchaService();
+		if ( $captcha_service->is_captcha_enabled() ) {
 			$options_metabox->add_field(
 				[
-					'name'        => esc_html__( 'Disable Google reCAPTCHA for this form?', 'constant-contact-forms' ),
-					'id'          => $this->prefix . 'disable_recaptcha',
+					'name'        => esc_html__( 'Disable captcha for this form?', 'constant-contact-forms' ),
+					'id'          => $this->prefix . 'disable_recaptcha', // Note: This applies to the currently enabled captcha service, not just reCAPTCHA. Originally, only reCAPTCHA was available.
 					'type'        => 'checkbox',
-					'description' => esc_html__( "Checking will disable Google's reCAPTCHA output for this form. Only valid if using Google reCAPTCHA version 2", 'constant-contact-forms' ),
+					'description' => esc_html__( 'Checking will disable the currently enabled captcha output for this form. Only valid if using Google reCAPTCHA version 2 or hCaptcha.', 'constant-contact-forms' ),
 				]
 			);
 		}
