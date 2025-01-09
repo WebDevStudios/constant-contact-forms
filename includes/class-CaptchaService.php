@@ -90,36 +90,35 @@ class ConstantContact_CaptchaService {
 
 	/**
 	 * Set the Captcha service option based on previously existing
-	 * set up from before NEXT version.
+	 * setup from before NEXT version.
+	 *
+	 * With version NEXT, we've introduced the ability to use hCaptcha or disable the captcha service globally
+	 * in addition to maintining support for Google reCAPTCHA.
 	 *
 	 * @since NEXT
 	 */
 	private function maybe_initialize_captcha_service_option() {
 		$plugin_settings = get_option( $this->plugin_settings_key );
-		error_log( '$plugin_settings ' . var_export( $plugin_settings, true ) );
 
-		// Bail if no options have been saved yet.
+		// Bail if no options have been saved yet. We'll let the user set the options manually since nothing needs to be migrated.
 		if ( empty( $plugin_settings ) ) {
 			return;
 		}
 
 		$captcha_service_option_value = $plugin_settings[ $this->captcha_service_option_key ] ?? null;
-		error_log( '$captcha_service_option_value ' . var_export( $captcha_service_option_value, true ) );
 
 		// Bail if the captcha service option has already been set.
 		if ( ! empty( $captcha_service_option_value ) ) {
-			error_log( 'Captcha service already set!' );
 			return;
 		}
 
 		$has_recaptcha_keys = ConstantContact_reCAPTCHA::has_recaptcha_keys();
-		error_log( '$has_recaptcha_keys ' . var_export( $has_recaptcha_keys, true ) );
 
 		// If the Google reCAPTCHA Site Key and Secret Key are set, set the Captcha Service to Google reCAPTCHA.
 		if ( ! empty( $has_recaptcha_keys ) ) {
 			$plugin_settings[ $this->captcha_service_option_key ] = 'recaptcha';
 		} else {
-			// Otherwise, set the Captcha Service option to None - Captcha Disabled, since no keys were present.
+			// Otherwise, set the Captcha Service option to 'None - Captcha Disabled', since no keys were present.
 			$plugin_settings[ $this->captcha_service_option_key ] = 'disabled';
 		}
 
