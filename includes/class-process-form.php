@@ -242,6 +242,9 @@ class ConstantContact_Process_Form {
 			$keys = $ctctrecaptcha->get_recaptcha_keys();
 			$ctctrecaptcha->set_recaptcha_class( new ReCaptcha( $keys['secret_key'], $method ) );
 
+			// Note: The following line will cause the test key to fail as it expects the host to be testkey.google.com.
+			// This line can be commented out for testing purposes.
+			// @See https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
 			$ctctrecaptcha->recaptcha->setExpectedHostname( wp_parse_url( home_url(), PHP_URL_HOST ) );
 			if ( 'v3' === $ctctrecaptcha->get_recaptcha_version() ) {
 
