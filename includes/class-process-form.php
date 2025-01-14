@@ -232,7 +232,15 @@ class ConstantContact_Process_Form {
 			];
 		}
 
-		if ( isset( $data['g-recaptcha-response'] ) ) {
+		$spam_error_response = [
+			'status' => 'named_error',
+			'error'  => $this->get_spam_message( $data['ctct-id'] ),
+		];
+
+		$captcha_sevice        = new ConstantContact_CaptchaService;
+		$maybe_disable_captcha = 'on' === get_post_meta( $data['ctct-id'], '_ctct_disable_recaptcha', true ); // Note: This option applies to whichever captcha sevice is enabled, despite the option name referencing reCAPTCHA.
+
+		if ( isset( $data['g-recaptcha-response'] ) && 'recaptcha' === $captcha_sevice->get_selected_captcha_service() ) {
 			$method = null;
 			if ( ! ini_get( 'allow_url_fopen' ) ) {
 				$method = new CurlPost();
@@ -289,12 +297,58 @@ class ConstantContact_Process_Form {
 			}
 		}
 
-		$maybe_disable_recaptcha = 'on' === get_post_meta( $data['ctct-id'], '_ctct_disable_recaptcha', true );
-		if ( ! $maybe_disable_recaptcha && empty( $data['g-recaptcha-response'] ) && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
-			return [
-				'status' => 'named_error',
-				'error'  => $this->get_spam_message( $data['ctct-id'] ),
+		// Check for case where reCAPTCHA is enabled but response was missing.
+		if (
+			! $maybe_disable_captcha &&
+			empty( $data['g-recaptcha-response'] )
+			&& ConstantContact_reCAPTCHA::has_recaptcha_keys() &&
+			'recaptcha' === $captcha_sevice->get_selected_captcha_service()
+		) {
+			return $spam_error_response;
+		}
+
+		// Handle verifying hCaptcha response.
+		if ( isset( $data['h-captcha-response'] ) && 'hcaptcha' === $captcha_sevice->get_selected_captcha_service() ) {
+			error_log( 'h-captcha-response $data ' . var_export( $data, true ) );
+
+			$ctcthcaptcha = new ConstantContact_hCaptcha();
+			$ctcthcaptcha->set_hcaptcha_keys();
+			$keys = $ctcthcaptcha->get_hcaptcha_keys();
+
+			$hcaptcha_data = [
+				'secret'   => $keys['secret_key'],
+				'response' => $data['h-captcha-response']
 			];
+
+			$verify = curl_init();
+			curl_setopt( $verify, CURLOPT_URL, 'https://hcaptcha.com/siteverify' );
+			curl_setopt( $verify, CURLOPT_POST, true );
+			curl_setopt( $verify, CURLOPT_POSTFIELDS, http_build_query( $hcaptcha_data ) );
+			curl_setopt( $verify, CURLOPT_RETURNTRANSFER, true );
+			$response = curl_exec( $verify );
+
+			error_log( '$response ' . var_export( $response, true ) );
+
+			$hcaptcha_response_data = json_decode( $response );
+			error_log( '$hcaptcha_response_data ' . var_export( $hcaptcha_response_data, true ) );
+
+			if ( ! $hcaptcha_response_data->success ) {
+				constant_contact_maybe_log_it( 'hCaptcha', 'Failed to verify with hCaptcha', $hcaptcha_response_data->{'error-codes'} );
+				return [
+					'status' => 'named_error',
+					'error'  => __( 'Failed hCaptcha check', 'constant-contact-forms' ),
+				];
+			}
+		}
+
+		// Check for case where hCaptcha is enabled but response was missing.
+		if (
+			! $maybe_disable_captcha &&
+			empty( $data['h-captcha-response'] )
+			&& ConstantContact_hCaptcha::has_hcaptcha_keys() &&
+			'hcaptcha' === $captcha_sevice->get_selected_captcha_service()
+		) {
+			return $spam_error_response;
 		}
 
 		/**
