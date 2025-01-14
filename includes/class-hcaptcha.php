@@ -72,14 +72,6 @@ class ConstantContact_hCaptcha {
 	protected $mode;
 
 	/**
-	 * Force hCaptcha check before submit.
-	 *
-	 * @var bool
-	 * @since NEXT
-	 */
-	protected $force;
-
-	/**
 	 * Return an array of our site key pair.
 	 *
 	 * @since NEXT
@@ -206,27 +198,6 @@ class ConstantContact_hCaptcha {
 	 */
 	public function set_mode( $mode ) {
 		$this->mode = $mode;
-	}
-
-	/**
-	 * Get the force setting.
-	 *
-	 * @since NEXT
-	 * @return bool the force setting.
-	 */
-	public function get_force() {
-		return $this->force;
-	}
-
-	/**
-	 * Set the hCaptcha force.
-	 *
-	 * @since NEXT
-	 *
-	 * @param bool $force Use true to Force hCaptcha check before submit.
-	 */
-	public function set_force( $force ) {
-		$this->force = $force;
 	}
 
 	/**
