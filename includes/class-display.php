@@ -637,6 +637,20 @@ class ConstantContact_Display {
 
 		$hcaptcha->set_hcaptcha_keys();
 
+		$hcaptcha->set_theme(
+			/**
+			 * Filters the theme to be used with hCaptcha.
+			 *
+			 * Options are 'light', 'dark', and 'auto';
+			 *
+			 * @since NEXT
+			 *
+			 * @param string $value   Theme to use. Default 'auto'.
+			 * @param int    $form_id ID of the form being rendered.
+			 */
+			apply_filters( 'constant_contact_hcaptcha_theme', 'auto', $form_id )
+		);
+
 		$hcaptcha->set_size(
 			/**
 			 * Filters the hCaptcha size to render.
@@ -648,17 +662,31 @@ class ConstantContact_Display {
 			apply_filters( 'constant_contact_hcaptcha_size', 'normal', $form_id )
 		);
 
-		/**
-		 * Filters the language code to be used with hCaptcha.
-		 *
-		 * See https://docs.hcaptcha.com/languages for available values.
-		 *
-		 * @since NEXT
-		 *
-		 * @param string $value   Language code to use. Default 'en'.
-		 * @param int    $form_id ID of the form being rendered.
-		 */
-		$hcaptcha->set_language( apply_filters( 'constant_contact_hcaptcha_lang', 'en', $form_id ) );
+		$hcaptcha->set_language(
+			/**
+			 * Filters the language code to be used with hCaptcha.
+			 *
+			 * See https://docs.hcaptcha.com/languages for available values.
+			 *
+			 * @since NEXT
+			 *
+			 * @param string $value   Language code to use. Default '' for automatic detection.
+			 * @param int    $form_id ID of the form being rendered.
+			 */
+			apply_filters( 'constant_contact_hcaptcha_lang', '', $form_id )
+		);
+
+		$hcaptcha->set_mode(
+			/**
+			 * Set the hCaptcha Mode to use.
+			 *
+			 * @since NEXT
+			 *
+			 * @param string $value   Use 'live' (default) or 'test' mode. In 'test' mode, predefined keys are used.
+			 * @param int    $form_id ID of the form being rendered.
+			 */
+			apply_filters( 'constant_contact_hcaptcha_mode', 'live', $form_id )
+		);
 
 		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
 		$return = $hcaptcha->get_inline_markup();
