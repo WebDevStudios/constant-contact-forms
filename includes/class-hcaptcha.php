@@ -227,7 +227,7 @@ class ConstantContact_hCaptcha {
 			'hcaptcha-api',
 			add_query_arg(
 				[
-					'hl'     => $this->language,
+					'hl'     => $this->get_language(),
 					'onload' => 'renderhCaptcha',
 					'render' => 'explicit',
 				],
