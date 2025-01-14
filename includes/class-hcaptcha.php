@@ -250,9 +250,18 @@ class ConstantContact_hCaptcha {
 	 */
 	public function get_inline_markup() {
 		return sprintf(
-			'<div class="h-captcha" data-sitekey="%1$s" data-callback="ctcthCaptchaEnableBtn" data-expired-callback="ctcthCaptchaDisableBtn" data-size="%2$s"></div>',
-			$this->site_key,
-			$this->size
+			'<div class="h-captcha"
+				data-sitekey="%1$s"
+				data-theme="%2$s"
+				data-size="%3$s"
+				data-mode="%4$s"
+				data-callback="ctcthCaptchaEnableBtn"
+				data-expired-callback="ctcthCaptchaDisableBtn"
+			></div>',
+			esc_attr( $this->site_key ),
+			esc_attr( $this->get_theme() ),
+			esc_attr( $this->get_size() ),
+			esc_attr( $this->get_mode() )
 		);
 	}
 
