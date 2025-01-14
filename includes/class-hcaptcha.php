@@ -124,6 +124,7 @@ class ConstantContact_hCaptcha {
 	 * Get the theme to use.
 	 *
 	 * @since NEXT
+	 *
 	 * @return string $theme Theme for the hCaptcha object.
 	 */
 	public function get_theme() {
@@ -145,6 +146,7 @@ class ConstantContact_hCaptcha {
 	 * Get the size to use.
 	 *
 	 * @since NEXT
+	 *
 	 * @return string $size Size for the hCaptcha object.
 	 */
 	public function get_size() {
@@ -166,6 +168,7 @@ class ConstantContact_hCaptcha {
 	 * Get our language.
 	 *
 	 * @since NEXT
+	 *
 	 * @return string $language Language for the hCaptcha object.
 	 */
 	public function get_language() {
@@ -176,6 +179,7 @@ class ConstantContact_hCaptcha {
 	 * Set our language to use.
 	 *
 	 * @since NEXT
+	 *
 	 * @param string $language Language code for the hCaptcha object.
 	 */
 	public function set_language( $language ) {
@@ -186,6 +190,7 @@ class ConstantContact_hCaptcha {
 	 * Get the mode to use.
 	 *
 	 * @since NEXT
+	 *
 	 * @return string $mode The mode for the hCaptcha object.
 	 */
 	public function get_mode() {
