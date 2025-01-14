@@ -401,6 +401,7 @@ class ConstantContact_Process_Form {
 				'ctct_time',
 				'ctct_usage_field',
 				'g-recaptcha-response',
+				'h-recaptcha-response',
 				'ctct_must_opt_in',
 				'ctct-instance',
 			],
