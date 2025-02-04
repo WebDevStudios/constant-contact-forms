@@ -2,7 +2,7 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 5.2.0
-Tested up to:      6.6.2
+Tested up to:      6.7.1
 Stable tag:        2.7.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,6 +48,16 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.8.0 =
+* Added: Form frontend preview when working with Forms Block and block is not selected.
+* Added: Ability to toggle frontend visibility for a form's description field. Allows to use as admin-only description.
+* Added: Missed signup connection attempts count and reCAPTCHA status to Constant Contact Forms's Site Health Panel.
+* Added: Quick links to duplicate a chosen form.
+* Fixed: Touched up CSS for the WP Admin and RTL based languages.
+* Updated: Converted majority of Constant Contact Forms admin-side Javascript away from jQuery base.
+* Updated: amended admin email notifications to not promote email marketing, if site owner is already a Constant Contact account holder.
+* Updated: CMB2 and Encryption internal libraries.
 
 = 2.7.0 =
 * Fixed: Issues around opt-in options not showing until a list was chosen and the form saved.

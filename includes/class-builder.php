@@ -299,8 +299,7 @@ class ConstantContact_Builder {
 			admin_url( 'edit.php' )
 		);
 		?>
-			<div class="ctct-modal ctct-modal-open">
-
+			<div id="ctct-not-connected-modal" class="ctct-modal ctct-modal-open">
 				<div class="ctct-modal-dialog" role="document">
 					<div class="ctct-modal-content">
 						<div class="ctct-modal-header">

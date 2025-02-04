@@ -2,6 +2,7 @@ import {__} from '@wordpress/i18n';
 import {useSelect} from '@wordpress/data';
 import {useBlockProps} from '@wordpress/block-editor';
 import {SelectControl, Spinner} from '@wordpress/components';
+import ServerSideRender from '@wordpress/server-side-render';
 
 import './editor.scss';
 
@@ -11,7 +12,8 @@ export default function Edit(props) {
 			selectedForm,
 			displayTitle,
 		},
-		setAttributes
+		setAttributes,
+		isSelected
 	} = props;
 
 	const blockProps = useBlockProps(
@@ -42,8 +44,8 @@ export default function Edit(props) {
 	return (
 		<div {...blockProps}>
 			{!formEntryObjs && <Spinner />}
-			{formEntryObjs &&
-				<div>
+			{isSelected ? (
+				<div className="ctct-block-container-edit">
 					<div className="ctct-block-container--header">
 						<img
 							alt={__('Constant Contact Forms', 'constant-contact-forms')}
@@ -71,6 +73,17 @@ export default function Edit(props) {
 						</div>
 					</div>
 				</div>
+			) : (
+				<div className="ctct-block-container-preview">
+					<ServerSideRender
+						block="constant-contact/single-contact-form"
+						attributes={{
+							selectedForm,
+							displayTitle
+						}}
+					/>
+				</div>
+			)
 			}
 		</div>
 	)

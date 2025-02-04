@@ -1,6 +1,6 @@
 window.CTCT_OptIns = {};
 
-( function( window, app ) {
+(function (window, app) {
 
 	/**
 	 * @constructor
@@ -21,11 +21,11 @@ window.CTCT_OptIns = {};
 	 */
 	app.cache = () => {
 		app.cache = {
-			optinNoConn: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox #_ctct_opt_in_not_connected' ),
-			list: document.querySelectorAll('#cmb2-metabox-ctct_0_list_metabox .attached-posts-wrap .retrieved li'),
-			title: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id-email-optin-title' ),
-			optin: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in' ),
-			instruct: document.querySelectorAll( '#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in-instructions' )
+			optinNoConn: document.querySelectorAll('#cmb2-metabox-ctct_1_optin_metabox #_ctct_opt_in_not_connected'),
+			list       : document.querySelectorAll('#cmb2-metabox-ctct_0_list_metabox .attached-posts-wrap .retrieved li'),
+			title      : document.querySelectorAll('#cmb2-metabox-ctct_1_optin_metabox .cmb2-id-email-optin-title'),
+			optin      : document.querySelectorAll('#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in'),
+			instruct   : document.querySelectorAll('#cmb2-metabox-ctct_1_optin_metabox .cmb2-id--ctct-opt-in-instructions')
 		};
 	};
 
@@ -37,9 +37,8 @@ window.CTCT_OptIns = {};
 	 */
 	app.bindEvents = () => {
 
-		if ( app.cache.optinNoConn.length ) {
+		if (app.cache.optinNoConn.length) {
 
-			// Fire once to get our loaded state set up.
 			app.toggleNoConnectionFields();
 
 			// Bind to fire when needed.
@@ -58,7 +57,6 @@ window.CTCT_OptIns = {};
 					app.toggleConnectionFields();
 				});
 			})
-
 		}
 	};
 
@@ -69,7 +67,7 @@ window.CTCT_OptIns = {};
 	 * @since 1.0.0
 	 */
 	app.toggleNoConnectionFields = () => {
-		if ( app.cache.optinNoConn.checked ) {
+		if (app.cache.optinNoConn.checked) {
 			Array.from(app.cache.instruct).forEach((item) => {
 				item.style.display = 'block';
 			});
@@ -89,7 +87,7 @@ window.CTCT_OptIns = {};
 	app.toggleConnectionFields = () => {
 
 		// If checked, show them, else hide it.
-		if ( 0 < app.cache.list.length ) {
+		if (0 < app.cache.list.length) {
 			Array.from(app.cache.title).forEach((item) => {
 				item.style.display = 'block';
 			});
@@ -114,4 +112,4 @@ window.CTCT_OptIns = {};
 	};
 
 	app.init();
-} ( window, window.CTCT_OptIns ) );
+}(window, window.CTCT_OptIns));
