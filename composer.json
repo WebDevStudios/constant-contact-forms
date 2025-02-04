@@ -59,6 +59,7 @@
          "rm -rf ./phpcompat.xml.dist",
          "rm -rf ./phpunit.xml.dist",
          "rm -rf ./plugin-config.js",
+         "rm -rf ./src",
          "rm -rf ./tests",
          "rm -rf ./webpack.config.js",
          "@composer install --no-dev -a",
