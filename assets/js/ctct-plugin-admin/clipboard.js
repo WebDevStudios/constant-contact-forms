@@ -44,7 +44,7 @@ window.CTCTClipboard = {};
 		input.select();
 		input.setSelectionRange(0, 99999); // For mobile devices.
 
-		if (navigator.clipboard) {
+		if (window.isSecureContext && navigator.clipboard) {
 			button.addEventListener('click', async (e) => {
 				e.preventDefault();
 				await copyCode(input, button);
