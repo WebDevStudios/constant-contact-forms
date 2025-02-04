@@ -44,16 +44,29 @@ window.CTCTClipboard = {};
 		input.select();
 		input.setSelectionRange(0, 99999); // For mobile devices.
 
-		// Copy the text inside the text field.
-		document.execCommand("copy");
-		const reset = button.innerHTML;
-		button.innerHTML = button.dataset.copied;
+		if (navigator.clipboard) {
+			button.addEventListener('click', async (e) => {
+				e.preventDefault();
+				await copyCode(input, button);
+			});
+		}
+	}
 
-		// Reset button text.
-		setTimeout(function () {
-			button.innerHTML = reset;
-		}, 3000);
+	async function copyCode(field, button) {
+		try {
+			await navigator.clipboard.writeText(field.value);
 
+			// visual feedback that task is completed.
+			const reset = button.innerHTML;
+			button.innerHTML = button.dataset.copied;
+
+			// Reset button text.
+			setTimeout(function () {
+				button.innerHTML = reset;
+			}, 700);
+		} catch (err) {
+			console.error(err.message);
+		}
 	}
 
 	/**
