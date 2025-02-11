@@ -33,7 +33,6 @@
    "scripts":{
       "dist":[
          "rm -rf ./vendor",
-         "nvm use",
          "npm install",
          "npm run build:release",
          "rm -rf ./.git",
