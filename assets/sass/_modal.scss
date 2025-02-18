@@ -1,6 +1,7 @@
 // sass-lint:disable class-name-format no-qualifying-elements id-name-format
-@import 'variables';
-@import 'mixins';
+@use "sass:color";
+@use 'variables';
+@use 'mixins';
 
 .ctct-modal {
 	@include clearfix;

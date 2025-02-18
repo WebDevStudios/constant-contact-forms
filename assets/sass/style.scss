@@ -3,13 +3,13 @@
 //   Let's import all the things - style.css
 //--------------------------------------------------------------
 
-@import 'variables';
-@import 'mixins';
+@use 'variables';
+@use 'mixins';
 
-@import 'global';
-@import 'layout';
+@use 'global';
+@use 'layout';
 
-@import 'inputs';
-@import 'forms';
+@use 'inputs';
+@use 'forms';
 
-@import 'compatibility';
+@use 'compatibility';
