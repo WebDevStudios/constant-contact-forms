@@ -31,7 +31,7 @@ a.ctct-notice-dismiss {
 	overflow: hidden;
 
 	&.updated {
-		border-left-color: $color-cc-blue;
+		border-left-color: variables.$color-cc-blue;
 	}
 
 	> div {
@@ -43,7 +43,7 @@ a.ctct-notice-dismiss {
 		width: 80%;
 
 		h4 {
-			color: $color-cc-blue;
+			color: variables.$color-cc-blue;
 			margin: 0 0 10px;
 		}
 

@@ -14,18 +14,18 @@
 
 	.ctct-message {
 		border: 1px solid;
-		padding: $padding;
+		padding: variables.$padding;
 
 		&.ctct-error {
-			background-color: fade-out( $color-error, 0.98 );
-			border-color: $color-error;
-			color: darken( $color-error, 20% );
+			background-color: color.adjust( variables.$color-error, $alpha: -0.98 );
+			border-color: variables.$color-error;
+			color: color.adjust( variables.$color-error, $lightness: -20% );
 		}
 
 		&.ctct-success {
-			background-color: fade-out( $color-success, 0.98 );
-			border-color: $color-green;
-			color: darken( $color-success, 20% );
+			background-color: color.adjust( variables.$color-success, $alpha: -0.98 );
+			border-color: variables.$color-green;
+			color: color.adjust( variables.$color-success, $lightness: -20% );
 		}
 
 		.ctct-dismiss-ajax-notice {

@@ -17,7 +17,7 @@
 
 	.ctct-field-half {
 
-		@include wider-than( 'medium' ) {
+		@include mixins.wider-than( 'medium' ) {
 			float: left;
 			margin-right: 2%;
 			width: 48%;
@@ -31,7 +31,7 @@
 
 	.ctct-field-third {
 
-		@include wider-than( 'medium' ) {
+		@include mixins.wider-than( 'medium' ) {
 			float: left;
 			margin-right: 2%;
 			width: 32%;
@@ -45,7 +45,7 @@
 
 	.ctct-field-fourth {
 
-		@include wider-than('medium') {
+		@include mixins.wider-than('medium') {
 			float: left;
 			margin-right: 2%;
 			width: 24%;

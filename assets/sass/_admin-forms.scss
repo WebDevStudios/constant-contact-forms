@@ -104,7 +104,7 @@ body.post-type-ctct_forms #titlediv #title {
 				padding-top: 0.5em;
 
 				&:not(:last-of-type)  {
-					border-bottom: 1px solid $color-light-gray;
+					border-bottom: 1px solid variables.$color-light-gray;
 					padding-bottom: 0.1rem;
 				}
 			}
@@ -144,13 +144,13 @@ body.post-type-ctct_forms #titlediv #title {
 	button {
 
 		&.cmb-add-group-row {
-			background: $color-cmb-button-light-blue !important;
-			border-color: $color-cmb-button-blue !important;
-			color: $color-white !important;
+			background: variables.$color-cmb-button-light-blue !important;
+			border-color: variables.$color-cmb-button-blue !important;
+			color: variables.$color-white !important;
 		}
 
 		&.cmb-remove-group-row {
-			background: $color-cmb-button-pale-yellow !important;
+			background: variables.$color-cmb-button-pale-yellow !important;
 			display: none;
 		}
 	}
@@ -187,7 +187,7 @@ body.post-type-ctct_forms #titlediv #title {
 #ctct_option_metabox_settings {
 
 	span.cmb2-metabox-description {
-		color: $color-cmb-description-text;
+		color: variables.$color-cmb-description-text;
 	}
 }
 
@@ -267,12 +267,12 @@ body.post-type-ctct_forms #titlediv #title {
 
 	.cmb2-list {
 		background:
-			linear-gradient($color-white 33%, transparent),
-			linear-gradient(transparent, $color-white 66%) 0 100%,
-			radial-gradient(farthest-side at 50% 0, $color-black-translucent, transparent),
-			radial-gradient(farthest-side at 50% 100%, $color-black-translucent, transparent) 0 100%;
+			linear-gradient(variables.$color-white 33%, transparent),
+			linear-gradient(transparent, variables.$color-white 66%) 0 100%,
+			radial-gradient(farthest-side at 50% 0, variables.$color-black-translucent, transparent),
+			radial-gradient(farthest-side at 50% 100%, variables.$color-black-translucent, transparent) 0 100%;
 		background-attachment: local, local, scroll, scroll;
-		background-color: $color-white;
+		background-color: variables.$color-white;
 		background-repeat: no-repeat;
 		background-size: 100% 30px, 100% 30px, 100% 10px, 100% 10px;
 		max-height: 10rem;

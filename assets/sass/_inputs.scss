@@ -21,17 +21,17 @@
 				background-position: 8px 50%;
 				background-repeat: no-repeat;
 				background-size: 18px;
-				border-color: $color-success;
+				border-color: variables.$color-success;
 				padding-left: 32px;
 			}
 
 			&:required.ctct-invalid,
 			&.ctct-invalid {
-				background: $color-white url( ../images/error.svg ) no-repeat;
-				background-color: fade-out($color-error, 0.98);
+				background: variables.$color-white url( ../images/error.svg ) no-repeat;
+				background-color: color.adjust(variables.$color-error, $alpha: -0.98);
 				background-position: 8px 50%;
 				background-size: 24px;
-				border-color: $color-error;
+				border-color: variables.$color-error;
 				padding-left: 40px;
 			}
 		}
@@ -51,11 +51,11 @@
 	}
 
 	input.ctct-invalid {
-		background: $color-white url( ../images/error.svg ) no-repeat;
-		background-color: fade-out($color-error, 0.98);
+		background: variables.$color-white url( ../images/error.svg ) no-repeat;
+		background-color: color.adjust(variables.$color-error, $alpha: -0.98);
 		background-position: 8px 50%;
 		background-size: 24px;
-		border-color: $color-error;
+		border-color: variables.$color-error;
 		padding-left: 40px;
 	}
 
