@@ -647,14 +647,14 @@ class ConstantContact_Display {
 			/**
 			 * Filters the theme to be used with hCaptcha.
 			 *
-			 * Options are 'light', 'dark', and 'auto';
+			 * Options are 'light' and 'dark';
 			 *
 			 * @since NEXT
 			 *
-			 * @param string $value   Theme to use. Default 'auto'.
+			 * @param string $value   Theme to use. Default 'light'.
 			 * @param int    $form_id ID of the form being rendered.
 			 */
-			apply_filters( 'constant_contact_hcaptcha_theme', 'auto', $form_id )
+			apply_filters( 'constant_contact_hcaptcha_theme', 'light', $form_id )
 		);
 
 		$hcaptcha->set_size(
