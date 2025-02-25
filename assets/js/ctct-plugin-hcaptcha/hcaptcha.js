@@ -10,20 +10,24 @@ window.ctcthCaptchaEnableBtn = function (submitBtn) {
 };
 
 /**
-* Disable submit button.
-*
-* @since NEXT
-*
-* @param {Object} submitBtn Submit DOM element.
-*/
+ * Disable submit button.
+ *
+ * @since NEXT
+ *
+ * @param {Object} submitBtn Submit DOM element.
+ */
 window.ctcthCaptchaDisableBtn = function (submitBtn) {
 	submitBtn.setAttribute('disabled', 'disabled');
 }
 
-
+/**
+ * Render hCaptchas.
+ *
+ * @since NEXT
+ *
+ */
 window.renderhCaptcha = function () {
 	console.log('renderhCaptcha');
-
 
 	let hcaptchas = document.querySelectorAll( '.h-captcha' );
 
