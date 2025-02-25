@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     2.7.0
+ * Version:     2.8.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * Requires PHP: 7.4
@@ -76,7 +76,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '2.7.0';
+	const VERSION = '2.8.0';
 
 	/**
 	 * URL of plugin directory.
@@ -628,10 +628,18 @@ class Constant_Contact {
 
 		if ( 'ctct_dismiss_first_modal' === filter_input( INPUT_POST, 'action', FILTER_SANITIZE_SPECIAL_CHARS ) ) {
 			// Save our dismiss for the first form modal.
-			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
+			update_option( 'ctct_first_form_modal_dismissed', current_time( 'timestamp' ) );
+
+			wp_send_json_success(
+				[ 'message' => esc_html__( 'Dismiss successsful', 'constant-contact-forms' ) ]
+			);
+			exit();
 		}
 
-		wp_die();
+		wp_send_json_error(
+			[ 'message' => esc_html__( 'Dismiss failed', 'constant-contact-forms' ) ]
+		);
+		exit();
 	}
 
 	/**
