@@ -1,6 +1,6 @@
 {
   "name": "constant-contact-forms",
-  "version": "2.8.0",
+  "version": "2.9.0",
   "description": "",
   "main": "build/index.js",
   "engines": {
@@ -18,12 +18,13 @@
     "packages-update": "wp-scripts packages-update",
     "pot": "wp-pot --src './*.php --src './includes' --dest-file 'languages/constant-contact-forms.pot --domain 'constant-contact-forms'",
     "plugin-zip": "wp-scripts plugin-zip",
-    "styles": "run-s styles:compile styles:compress",
-    "styles:compile": "node-sass assets/sass/style.scss -o assets/css/ --source-map true",
-    "styles:compress": "node-sass assets/css/style.css assets/css/style.min.css --output-style compressed",
+    "stylesfront": "run-s stylesfront:compile stylesfront:compress",
+    "stylesfront:compile": "sass assets/sass/style.scss assets/css/style.css",
+    "stylesfront:compress": "sass --style=compressed assets/sass/style.scss assets/css/style.min.css",
     "stylesadmin": "run-s stylesadmin:compile stylesadmin:compress",
-    "stylesadmin:compile": "node-sass assets/sass/admin-style.scss -o assets/css/ --source-map true",
-    "stylesadmin:compress": "node-sass assets/css/admin-style.css assets/css/admin-style.min.css --output-style compressed",
+    "stylesadmin:compile": "sass assets/sass/admin-style.scss assets/css/admin-style.css",
+    "stylesadmin:compress": "sass --style=compressed assets/sass/admin-style.scss assets/css/admin-style.min.css",
+    "styles": "run-s stylesfront stylesadmin",
     "start": "wp-scripts start",
     "watch": "wp-scripts start",
     "scripts:watch": "wp-scripts start --webpack-src-dir=assets/js/ --config=assets/js/webpack.config.js --output-path=assets/js/",
@@ -51,8 +52,8 @@
     "autoprefixer": "^10.4.20",
     "browser-sync": "^3.0.3",
     "browserslist": "^4.24.4",
-    "node-sass": "^9.0.0",
     "npm-run-all": "^4.1.5",
+    "sass": "^1.85.0",
     "stylelint-config-prettier": "^9.0.5",
     "wp-pot-cli": "^1.5.0"
   }

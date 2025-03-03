@@ -1,3 +1,7 @@
+@use "sass:color";
+@use "mixins";
+@use "variables";
+
 //--------------------------------------------------------------
 // About Page
 //--------------------------------------------------------------
@@ -10,7 +14,7 @@
 
 	.ctct-video-cta{
 		padding: 0;
-		@include wider-than('small') {
+		@include mixins.wider-than('small') {
 			display: flex;
 			align-items: center;
 			justify-content: space-between;
@@ -22,7 +26,7 @@
 		}
 
 		h3{
-			@include wider-than('small') {
+			@include mixins.wider-than('small') {
 				margin: 0 0 15px;
 			}
 		} 
@@ -35,9 +39,9 @@
  
 	.section-try-us{
 		padding: 20px;
-		border-radius: $radius;
-		background-color: $color-white;
-		border: 1px solid $color-silver;
+		border-radius: variables.$radius;
+		background-color: variables.$color-white;
+		border: 1px solid variables.$color-silver;
 
 		h2, p{
 			margin: 0 0 15px;
@@ -63,7 +67,7 @@
 
 		.button {
 			border-radius: 4px;
-			color: $color-white;
+			color: variables.$color-white;
 			font-size: 16px;
 			font-weight: 600;
 			height: auto;
@@ -73,22 +77,22 @@
 			text-align: center;
 		
 			&.button-orange {
-				background-color: $color-chrome-yellow;
-				border: 1px solid darken($color-chrome-yellow, 10%);
+				background-color: variables.$color-chrome-yellow;
+				border: 1px solid color.adjust(variables.$color-chrome-yellow, $lightness: -10%);
 		
 				&:hover,
 				&:focus {
-					background-color: darken($color-chrome-yellow, 10%);
+					background-color: color.adjust(variables.$color-chrome-yellow, $lightness: -10%);
 				}
 			}
 		
 			&.button-blue {
-				background-color: $color-prussian-blue;
-				border: 1px solid darken($color-prussian-blue, 10%);
+				background-color: variables.$color-prussian-blue;
+				border: 1px solid color.adjust(variables.$color-prussian-blue, $lightness: -10%);
 		
 				&:hover,
 				&:focus {
-					background-color: darken($color-prussian-blue, 10%);
+					background-color: color.adjust(variables.$color-prussian-blue, $lightness: -10%);
 				}
 			}
 		}
@@ -97,7 +101,7 @@
 	.ctct-license{
 		margin-top: 30px;
 		padding: 20px 0 0;
-		border-top: 1px solid $color-silver;
+		border-top: 1px solid variables.$color-silver;
 	}
 
 	.small-text{

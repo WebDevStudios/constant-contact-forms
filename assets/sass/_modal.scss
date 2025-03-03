@@ -1,12 +1,13 @@
 // sass-lint:disable class-name-format no-qualifying-elements id-name-format
-@import 'variables';
-@import 'mixins';
+@use "sass:color";
+@use 'variables';
+@use 'mixins';
 
 .ctct-modal {
-	@include clearfix;
+	@include mixins.clearfix;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
-	background-color: $color-modal-background;
+	background-color: variables.$color-modal-background;
 	bottom: 0;
 	display: none;
 	left: 0;
@@ -29,7 +30,7 @@
 	}
 
 	h3 {
-		color: darken( $color-prussian-blue, 10% );
+		color: color.adjust( variables.$color-prussian-blue, $lightness: -10% );
 		font-size: 18px;
 		line-height: 1.2;
 		margin-bottom: 15px;
@@ -37,7 +38,7 @@
 	}
 
 	p {
-		color: $color-modal-text;
+		color: variables.$color-modal-text;
 		font-size: 14.7px;
 	}
 
@@ -70,32 +71,32 @@
 
 	.ctct-modal-content {
 		background-clip: padding-box;
-		background-color: $color-white;
+		background-color: variables.$color-white;
 		border-radius: 8px;
-		box-shadow: 0 0 15px 0 $color-modal-background;
+		box-shadow: 0 0 15px 0 variables.$color-modal-background;
 		padding: 0;
 		position: relative;
 
 		.ctct-modal-header {
-			background: $color-lighter-gray;
+			background: variables.$color-lighter-gray;
 			border-top-left-radius: 8px;
 			border-top-right-radius: 8px;
 			padding: 30px;
 			text-align: center;
-			border-bottom: 1px solid $color-white;
+			border-bottom: 1px solid variables.$color-white;
 
 			p {
 				font-size: 16px;
 				margin-bottom: 0;
 
 				.displayed-shortcode {
-					color: $color-modal-header;
+					color: variables.$color-modal-header;
 				}
 			}
 
 			.ctct-modal-close {
-				@include clearfix;
-				color: $color-black;
+				@include mixins.clearfix;
+				color: variables.$color-black;
 				cursor: pointer;
 				font-size: 26px;
 				line-height: 0;
@@ -114,10 +115,10 @@
 		}
 
 		.ctct-modal-footer {
-			background-color: $color-lighter-gray;
+			background-color: variables.$color-lighter-gray;
 			border-bottom-left-radius: 8px;
 			border-bottom-right-radius: 8px;
-			border-top: 1px solid $color-white;
+			border-top: 1px solid variables.$color-white;
 			padding: 20px;
 			text-align: center;
 
@@ -127,11 +128,11 @@
 			}
 
 			a {
-				color: $color-prussian-blue;
+				color: variables.$color-prussian-blue;
 				text-decoration: underline;
 
 				&:focus {
-					outline: 1px dotted $color-black;
+					outline: 1px dotted variables.$color-black;
 				}
 			}
 
@@ -139,13 +140,13 @@
 				text-decoration: none;
 
 				&:focus {
-					outline: 1px dotted $color-black;
+					outline: 1px dotted variables.$color-black;
 				}
 			}
 
 			.button {
 				border-radius: 4px;
-				color: $color-white;
+				color: variables.$color-white;
 				font-size: 16px;
 				font-weight: 600;
 				height: auto;
@@ -157,34 +158,34 @@
 				&.no-bg {
 					border: none;
 					box-shadow: none;
-					color: $color-prussian-blue;
-					background-color: $color-white;
+					color: variables.$color-prussian-blue;
+					background-color: variables.$color-white;
 				}
 
 				&.button-orange {
-					background-color: $color-chrome-yellow;
-					border: 1px solid darken( $color-chrome-yellow, 10% );
+					background-color: variables.$color-chrome-yellow;
+					border: 1px solid color.adjust( variables.$color-chrome-yellow, $lightness: -10% );
 
 					&:hover,
 					&:focus {
-						background-color: darken( $color-chrome-yellow, 10% );
+						background-color: color.adjust( variables.$color-chrome-yellow, $lightness: -10% );
 					}
 				}
 
 				&.button-blue {
-					background-color: $color-prussian-blue;
-					border: 1px solid darken( $color-prussian-blue, 10% );
+					background-color: variables.$color-prussian-blue;
+					border: 1px solid color.adjust( variables.$color-prussian-blue, $lightness: -10% );
 
 					&:hover,
 					&:focus {
-						background-color: darken( $color-prussian-blue, 10% );
+						background-color: color.adjust( variables.$color-prussian-blue, $lightness: -10% );
 					}
 				}
 			}
 		}
 
 		.ctct-modal-body {
-			@include clearfix;
+			@include mixins.clearfix;
 			padding: 15px;
 			position: relative;
 
@@ -236,20 +237,20 @@
 			}
 
 			.ctct-modal-left {
-				border-right: 1px solid $color-alt-silver;
+				border-right: 1px solid variables.$color-alt-silver;
 
 				@media screen and (max-width: 782px) {
-					border-bottom: 1px solid $color-alt-silver;
+					border-bottom: 1px solid variables.$color-alt-silver;
 					border-right: 0;
 				}
 			}
 
 			.ctct-modal-right {
-				border-left: 2px solid $color-alt-silver;
+				border-left: 2px solid variables.$color-alt-silver;
 
 				@media screen and (max-width: 782px) {
 					border-left: 0;
-					border-top: 1px solid $color-alt-silver;
+					border-top: 1px solid variables.$color-alt-silver;
 				}
 			}
 
@@ -269,7 +270,7 @@
 
 			.button {
 				border-radius: 4px;
-				color: $color-white;
+				color: variables.$color-white;
 				font-size: 16px;
 				font-weight: 600;
 				height: auto;
@@ -279,28 +280,28 @@
 				padding: 14px 30px;
 
 				&.button-orange {
-					background-color: $color-chrome-yellow;
-					border: 1px solid darken($color-chrome-yellow, 10%);
+					background-color: variables.$color-chrome-yellow;
+					border: 1px solid color.adjust(variables.$color-chrome-yellow, $lightness: -10%);
 
 					&:hover,
 					&:focus {
-						background-color: darken($color-chrome-yellow, 10%);
+						background-color: color.adjust(variables.$color-chrome-yellow, $lightness: -10%);
 					}
 				}
 
 				&.button-blue {
-					background-color: $color-prussian-blue;
-					border: 1px solid darken($color-prussian-blue, 10%);
+					background-color: variables.$color-prussian-blue;
+					border: 1px solid color.adjust(variables.$color-prussian-blue, $lightness: -10%);
 
 					&:hover,
 					&:focus {
-						background-color: darken($color-prussian-blue, 10%);
+						background-color: color.adjust(variables.$color-prussian-blue, $lightness: -10%);
 					}
 				}
 			}
 
 			.privacy-center-container a.button {
-				color: $color-modal-text;
+				color: variables.$color-modal-text;
 			}
 		}
 	}
