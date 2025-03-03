@@ -27,36 +27,6 @@ window.CTCTClipboard = {};
 	};
 
 	/**
-	 * Copy to clipboard click event.
-	 *
-	 * @param {object} button The clicked element.
-	 * @param {HTMLElement} input The input element.
-	 * @author Constant Contact
-	 * @since 1.11.0
-	 */
-	app.copyClick = (button, input) => {
-
-		if (!button || !input) {
-			return;
-		}
-
-		// Select the input.
-		input.select();
-		input.setSelectionRange(0, 99999); // For mobile devices.
-
-		// Copy the text inside the text field.
-		document.execCommand("copy");
-		const reset = button.innerHTML;
-		button.innerHTML = button.dataset.copied;
-
-		// Reset button text.
-		setTimeout(function () {
-			button.innerHTML = reset;
-		}, 3000);
-
-	}
-
-	/**
 	 * Attach callbacks to events.
 	 *
 	 * @author Constant Contact
@@ -71,9 +41,30 @@ window.CTCTClipboard = {};
 				const button = element.querySelector('button');
 
 				if (input && button) {
-					button.addEventListener('click', function (e) {
+					button.addEventListener('click', async (e) => {
+						if (!window.isSecureContext || !navigator.clipboard) {
+							return;
+						}
+
 						e.preventDefault();
-						app.copyClick(this, input);
+						// Select the input.
+						input.select();
+						input.setSelectionRange(0, 99999); // For mobile devices.
+
+						const text = input.value;
+						try {
+							await navigator.clipboard.writeText(text);
+							// visual feedback that task is completed.
+							const reset = button.innerHTML;
+							e.target.textContent = button.dataset.copied;
+
+							// Reset button text.
+							setTimeout(function () {
+								e.target.textContent = reset;
+							}, 700);
+						} catch (err) {
+							console.error('Failed to copy!', err);
+						}
 					});
 				}
 			});
