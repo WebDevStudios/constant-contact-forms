@@ -15,6 +15,7 @@ const config = {
 		'ctct-plugin-frontend': [ './assets/js/ctct-plugin-frontend/index.js' ],
 		'ctct-plugin-recaptcha': [ './assets/js/ctct-plugin-recaptcha/index.js' ],
 		'ctct-plugin-recaptcha-v2': [ './assets/js/ctct-plugin-recaptcha-v2/index.js' ],
+		'ctct-plugin-hcaptcha': [ './assets/js/ctct-plugin-hcaptcha/index.js' ],
 	},
 	output: {
 		filename: isProduction ? './[name].min.js' : './[name].js',
