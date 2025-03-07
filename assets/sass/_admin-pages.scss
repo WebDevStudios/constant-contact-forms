@@ -1,3 +1,6 @@
+@use "mixins";
+@use "variables";
+
 // sass-lint:disable class-name-format no-qualifying-elements id-name-format
 
 // Settings form table.
@@ -29,7 +32,7 @@
     max-width: 1000px;
     margin: 0;
     padding: 20px 10px 0 2px;
-    @include wider-than('small') {
+    @include mixins.wider-than('small') {
       padding-right: 20px;
     }
 
@@ -72,7 +75,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        border-radius: $radius;
+        border-radius: variables.$radius;
       }
 
     }
@@ -80,7 +83,7 @@
 
   hr{
     border-top: none;
-    border-color: $color-silver;
+    border-color: variables.$color-silver;
   }
 
   // Align elements in settings form tables.
@@ -122,14 +125,14 @@
   .ctct-shortcode-wrap{ 
     display: flex;
     width: 100%;
-    background-color: $color-white;
-    border: 1px solid $color-silver;
-    border-radius: $radius;
+    background-color: variables.$color-white;
+    border: 1px solid variables.$color-silver;
+    border-radius: variables.$radius;
     padding: 3px; 
     position: relative;
 
     &:focus-within{
-      border-color: $color-light-silver;
+      border-color: variables.$color-light-silver;
     }
 
     input, button{ 
@@ -156,7 +159,7 @@
     }
 
     button{
-      border-radius: $radius;
+      border-radius: variables.$radius;
       z-index: 1;
     }
   }
