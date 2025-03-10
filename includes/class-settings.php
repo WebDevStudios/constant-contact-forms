@@ -63,6 +63,7 @@ class ConstantContact_Settings {
 		$this->metabox_titles = [
 			'general' => esc_html__( 'General', 'constant-contact-forms' ),
 			'styles'  => esc_html__( 'Styles', 'constant-contact-forms' ),
+			'optin'   => esc_html__( 'Opt-in', 'constant-contact-forms' ),
 			'spam'    => esc_html__( 'Spam Control', 'constant-contact-forms' ),
 			'support' => esc_html__( 'Support', 'constant-contact-forms' ),
 			'auth'    => esc_html__( 'Account', 'constant-contact-forms' ),
@@ -346,7 +347,6 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'general' ) );
 
 		if ( constant_contact()->api->is_connected() ) {
-
 			$cmb->add_field(
 				[
 					'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
@@ -360,91 +360,6 @@ class ConstantContact_Settings {
 					'before_row' => '<hr/>',
 				]
 			);
-
-			$lists     = constant_contact()->builder->get_lists();
-			$woo_lists = [
-				'WooCommerce - All Customers',
-				'WooCommerce - First time Customers',
-				'WooCommerce - Lapsed Customers',
-				'WooCommerce - Potential Customers',
-				'WooCommerce - Recent Customers',
-				'WooCommerce - Repeat Customers',
-			];
-			foreach( $lists as $list_id => $list_name ) {
-				if ( in_array( $list_name, $woo_lists ) ) {
-					unset( $lists[ $list_id ] );
-				}
-			}
-
-			if ( $lists && is_array( $lists ) ) {
-
-				$before_optin = sprintf(
-					'<hr><h2>%s</h2>',
-					esc_html__( 'Advanced Opt-in', 'constant-contact-forms' )
-				);
-
-				$cmb->add_field(
-					[
-						'name'       => esc_html__( 'Opt-in Location', 'constant-contact-forms' ),
-						'id'         => '_ctct_optin_forms',
-						'type'       => 'multicheck',
-						'options'    => $this->get_optin_show_options(),
-						'before_row' => $before_optin,
-					]
-				);
-
-				$cmb->add_field(
-					[
-						'name'             => esc_html__( 'Add subscribers to', 'constant-contact-forms' ),
-						'id'               => '_ctct_optin_list',
-						'type'             => 'multicheck',
-						'show_option_none' => false,
-						'default'          => esc_html__( 'Select a list', 'constant-contact-forms' ),
-						'options'          => $lists,
-					]
-				);
-
-				$business_name = get_bloginfo( 'name' ) ?: esc_html__( 'Business Name', 'constant-contact-forms' );
-				$business_addr = '';
-
-				$disclosure_info = $this->plugin->api->get_disclosure_info( true );
-				if ( ! empty( $disclosure_info ) ) {
-					$business_name = $disclosure_info['name'] ?: $business_name;
-					$business_addr = isset( $disclosure_info['address'] ) ?: '';
-				}
-
-				$cmb->add_field(
-					[
-						'name'    => esc_html__( 'Opt-in Affirmation', 'constant-contact-forms' ),
-						'id'      => '_ctct_optin_label',
-						'type'    => 'text',
-						// translators: placeholder will hold site owner's business name.
-						'default' => sprintf( esc_html__( 'Yes, I would like to receive emails from %s. Sign me up!', 'constant-contact-forms' ), $business_name ),
-					]
-				);
-
-				if ( empty( $disclosure_info ) ) {
-					$cmb->add_field(
-						[
-							'name'       => esc_html__( 'Disclosure Name', 'constant-contact-forms' ),
-							'id'         => '_ctct_disclose_name',
-							'type'       => 'text',
-							'default'    => $business_name,
-							'attributes' => ! empty( $business_name ) ? [ 'readonly' => 'readonly' ] : [],
-						]
-					);
-
-					$cmb->add_field(
-						[
-							'name'       => esc_html__( 'Disclosure Address', 'constant-contact-forms' ),
-							'id'         => '_ctct_disclose_address',
-							'type'       => 'text',
-							'default'    => $business_addr,
-							'attributes' => ! empty( $business_addr ) ? [ 'readonly' => 'readonly' ] : [],
-						]
-					);
-				}
-			}
 		}
 
 		$cmb->add_field(
@@ -513,6 +428,102 @@ class ConstantContact_Settings {
 				'type' => 'checkbox',
 			]
 		);
+	}
+
+	/**
+	 * Render a tab for the "Advanced Optin" settings.
+	 *
+	 * @since 2.9.0
+	 */
+	protected function register_fields_optin() {
+		$cmb = new_cmb2_box( $this->get_cmb_args( 'optin' ) );
+
+		if ( constant_contact()->api->is_connected() ) {
+			$lists     = constant_contact()->builder->get_lists();
+			$woo_lists = [
+				'WooCommerce - All Customers',
+				'WooCommerce - First time Customers',
+				'WooCommerce - Lapsed Customers',
+				'WooCommerce - Potential Customers',
+				'WooCommerce - Recent Customers',
+				'WooCommerce - Repeat Customers',
+			];
+			foreach( $lists as $list_id => $list_name ) {
+				if ( in_array( $list_name, $woo_lists ) ) {
+					unset( $lists[ $list_id ] );
+				}
+			}
+
+			if ( $lists && is_array( $lists ) ) {
+
+				$before_optin = sprintf(
+					'<hr><h2>%s</h2>',
+					esc_html__( 'Advanced Opt-in', 'constant-contact-forms' )
+				);
+
+				$business_name = get_bloginfo( 'name' ) ?: esc_html__( 'Business Name', 'constant-contact-forms' );
+				$business_addr = '';
+
+				$disclosure_info = $this->plugin->api->get_disclosure_info( true );
+				if ( ! empty( $disclosure_info ) ) {
+					$business_name = $disclosure_info['name'] ?: $business_name;
+					$business_addr = isset( $disclosure_info['address'] ) ?: '';
+				}
+
+				$cmb->add_field(
+					[
+						'name'    => esc_html__( 'Opt-in Affirmation', 'constant-contact-forms' ),
+						'id'      => '_ctct_optin_label',
+						'type'    => 'text',
+						// translators: placeholder will hold site owner's business name.
+						'default' => sprintf( esc_html__( 'Yes, I would like to receive emails from %s. Sign me up!', 'constant-contact-forms' ), $business_name ),
+						'before_row' => $before_optin,
+					]
+				);
+
+				if ( empty( $disclosure_info ) ) {
+					$cmb->add_field(
+						[
+							'name'       => esc_html__( 'Disclosure Name', 'constant-contact-forms' ),
+							'id'         => '_ctct_disclose_name',
+							'type'       => 'text',
+							'default'    => $business_name,
+							'attributes' => ! empty( $business_name ) ? [ 'readonly' => 'readonly' ] : [],
+						]
+					);
+
+					$cmb->add_field(
+						[
+							'name'       => esc_html__( 'Disclosure Address', 'constant-contact-forms' ),
+							'id'         => '_ctct_disclose_address',
+							'type'       => 'text',
+							'default'    => $business_addr,
+							'attributes' => ! empty( $business_addr ) ? [ 'readonly' => 'readonly' ] : [],
+						]
+					);
+				}
+
+				$cmb->add_field(
+					[
+						'name'       => esc_html__( 'Opt-in Location', 'constant-contact-forms' ),
+						'id'         => '_ctct_optin_forms',
+						'type'       => 'multicheck',
+						'options'    => $this->get_optin_show_options(),
+					]
+				);
+
+				$cmb->add_field(
+					[
+						'name'             => esc_html__( 'Add subscribers to', 'constant-contact-forms' ),
+						'id'               => '_ctct_optin_list',
+						'type'             => 'multicheck',
+						'show_option_none' => false,
+						'default'          => esc_html__( 'Select a list', 'constant-contact-forms' ),
+						'options'          => $lists,
+					]
+				);
+			}
+		}
 	}
 
 	/**
