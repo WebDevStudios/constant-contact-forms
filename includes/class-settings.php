@@ -62,6 +62,7 @@ class ConstantContact_Settings {
 		// Init CMB2 metabox titles, used as tab titles on settings page.
 		$this->metabox_titles = [
 			'general' => esc_html__( 'General', 'constant-contact-forms' ),
+			'styles'  => esc_html__( 'Styles', 'constant-contact-forms' ),
 			'spam'    => esc_html__( 'Spam Control', 'constant-contact-forms' ),
 			'support' => esc_html__( 'Support', 'constant-contact-forms' ),
 			'auth'    => esc_html__( 'Account', 'constant-contact-forms' ),
@@ -446,6 +447,25 @@ class ConstantContact_Settings {
 			}
 		}
 
+		$cmb->add_field(
+			[
+				'name' => esc_html__( 'Alternative Disclaimer Text', 'constant-contact-forms' ),
+				'desc' => esc_html__( 'Override default sign-up disclaimer text. (Supports HTML)', 'constant-contact-forms' ),
+				'id'   => '_ctct_alternative_legal_text',
+				'type' => 'textarea',
+			]
+		);
+
+	}
+
+	/**
+	 * Render a tab for the "Styles" settings.
+	 *
+	 * @since 2.9.0
+	 */
+	protected function register_fields_styles() {
+		$cmb = new_cmb2_box( $this->get_cmb_args( 'styles' ) );
+
 		$before_global_css = sprintf(
 			'<hr><h2>%s</h2>',
 			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
@@ -493,16 +513,6 @@ class ConstantContact_Settings {
 				'type' => 'checkbox',
 			]
 		);
-
-		$cmb->add_field(
-			[
-				'name' => esc_html__( 'Alternative Disclaimer Text', 'constant-contact-forms' ),
-				'desc' => esc_html__( 'Override default sign-up disclaimer text. (Supports HTML)', 'constant-contact-forms' ),
-				'id'   => '_ctct_alternative_legal_text',
-				'type' => 'textarea',
-			]
-		);
-
 	}
 
 	/**
