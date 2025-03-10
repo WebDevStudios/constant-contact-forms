@@ -470,6 +470,11 @@ class ConstantContact_Settings {
 
 	}
 
+	/**
+	 * Render a tab for the "Styles" settings.
+	 *
+	 * @since 2.9.0
+	 */
 	protected function register_fields_styles() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'styles' ) );
 
