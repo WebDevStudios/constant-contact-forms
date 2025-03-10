@@ -360,18 +360,6 @@ class ConstantContact_Settings {
 				]
 			);
 
-			$cmb->add_field(
-				[
-					'name'       => esc_html__( 'Bypass Constant Contact cron scheduling', 'constant-contact-forms' ),
-					'desc'       => esc_html__( 'Version 2.3.0 introduces bypassing by default for all submissions. This setting is disabled. It will be removed in a future version.', 'constant-contact-forms' ),
-					'id'         => '_ctct_bypass_cron',
-					'type'       => 'checkbox',
-					'before_row' => '<hr/>',
-					'default'    => 'on',
-					'attributes' => [ 'disabled' => true ],
-				]
-			);
-
 			$lists     = constant_contact()->builder->get_lists();
 			$woo_lists = [
 				'WooCommerce - All Customers',
