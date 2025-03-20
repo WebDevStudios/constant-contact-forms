@@ -113,10 +113,13 @@ class ConstantContact_CaptchaService {
 		}
 
 		$has_recaptcha_keys = ConstantContact_reCAPTCHA::has_recaptcha_keys();
+		$has_hcaptcha_keys  = ConstantContact_hCaptcha::has_hcaptcha_keys();
 
 		// If the Google reCAPTCHA Site Key and Secret Key are set, set the Captcha Service to Google reCAPTCHA.
 		if ( ! empty( $has_recaptcha_keys ) ) {
 			$plugin_settings[ $this->captcha_service_option_key ] = 'recaptcha';
+		} elseif ( ! empty( $has_hcaptcha_keys ) ) {
+			$plugin_settings[ $this->captcha_service_option_key ] = 'hcaptcha';
 		} else {
 			// Otherwise, set the Captcha Service option to 'None - Captcha Disabled', since no keys were present.
 			$plugin_settings[ $this->captcha_service_option_key ] = 'disabled';
