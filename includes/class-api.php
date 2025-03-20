@@ -759,6 +759,7 @@ class ConstantContact_API {
 		) {
 			$new_contact = $this->clear_email( $new_contact );
 			$new_contact = $this->clear_phone( $new_contact );
+			$new_contact = $this->clear_hcaptcha( $new_contact );
 			constant_contact_maybe_log_it( 'API', 'Submitted contact data', $new_contact );
 		}
 
@@ -804,7 +805,24 @@ class ConstantContact_API {
 				$clean[ $contact_key ]['val'] = '***-***-****';
 			}
 		}
+
 		return $clean;
+	}
+
+	/**
+	 * Remove hCaptcha data from logged data.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param array $contact Contact data.
+	 * @return array
+	 */
+	private function clear_hcaptcha( array $contact ) {
+		if ( array_key_exists( 'h-captcha-response', $contact ) ) {
+			unset( $contact['h-captcha-response'] );
+		}
+
+		return $contact;
 	}
 
 	/**
