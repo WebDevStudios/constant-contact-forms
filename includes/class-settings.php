@@ -551,54 +551,6 @@ class ConstantContact_Settings {
 			]
 		);
 
-		$before_hcaptcha = sprintf(
-			'<h2>%s</h2>',
-			esc_html__( 'hCaptcha', 'constant-contact-forms' )
-		);
-
-		$before_hcaptcha .= '<div class="description">';
-
-		$before_hcaptcha .= sprintf(
-			wp_kses(
-				/* translators: %s: hcaptcha signup URL */
-				__( 'Sign up and get your <a href="%s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
-				[
-					'a' => [
-						'href'   => [],
-						'target' => [],
-					],
-				]
-			),
-			esc_url( 'https://www.hcaptcha.com/pricing/' )
-		);
-
-		$before_hcaptcha .= '</div>';
-
-		$cmb->add_field(
-			[
-				'name'            => esc_html__( 'Site Key', 'constant-contact-forms' ),
-				'id'              => '_ctct_hcaptcha_site_key',
-				'type'            => 'text',
-				'before_row'      => $before_hcaptcha,
-				'sanitization_cb' => [ $this, 'sanitize_hcaptcha_api_key_string' ],
-				'attributes'      => [
-					'maxlength' => 50,
-				],
-			]
-		);
-
-		$cmb->add_field(
-			[
-				'name'            => esc_html__( 'Secret Key', 'constant-contact-forms' ),
-				'id'              => '_ctct_hcaptcha_secret_key',
-				'type'            => 'text',
-				'sanitization_cb' => [ $this, 'sanitize_hcaptcha_api_key_string' ],
-				'attributes'      => [
-					'maxlength' => 50,
-				],
-			]
-		);
-
 		$before_recaptcha = sprintf(
 			'<h2>%s</h2>',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' )
@@ -654,6 +606,54 @@ class ConstantContact_Settings {
 				'id'              => '_ctct_recaptcha_secret_key',
 				'type'            => 'text',
 				'sanitization_cb' => [ $this, 'sanitize_recaptcha_api_key_string' ],
+				'attributes'      => [
+					'maxlength' => 50,
+				],
+			]
+		);
+
+		$before_hcaptcha = sprintf(
+			'<h2>%s</h2>',
+			esc_html__( 'hCaptcha', 'constant-contact-forms' )
+		);
+
+		$before_hcaptcha .= '<div class="description">';
+
+		$before_hcaptcha .= sprintf(
+			wp_kses(
+			/* translators: %s: hcaptcha signup URL */
+				__( 'Sign up and get your <a href="%s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
+				[
+					'a' => [
+						'href'   => [],
+						'target' => [],
+					],
+				]
+			),
+			esc_url( 'https://www.hcaptcha.com/pricing/' )
+		);
+
+		$before_hcaptcha .= '</div>';
+
+		$cmb->add_field(
+			[
+				'name'            => esc_html__( 'Site Key', 'constant-contact-forms' ),
+				'id'              => '_ctct_hcaptcha_site_key',
+				'type'            => 'text',
+				'before_row'      => $before_hcaptcha,
+				'sanitization_cb' => [ $this, 'sanitize_hcaptcha_api_key_string' ],
+				'attributes'      => [
+					'maxlength' => 50,
+				],
+			]
+		);
+
+		$cmb->add_field(
+			[
+				'name'            => esc_html__( 'Secret Key', 'constant-contact-forms' ),
+				'id'              => '_ctct_hcaptcha_secret_key',
+				'type'            => 'text',
+				'sanitization_cb' => [ $this, 'sanitize_hcaptcha_api_key_string' ],
 				'attributes'      => [
 					'maxlength' => 50,
 				],
