@@ -1,7 +1,7 @@
 /**
  * Enable submit button.
  *
- * @since NEXT
+ * @since 2.9.0
  *
  * @param {Object} submitBtn Submit DOM element.
  */
@@ -27,8 +27,6 @@ window.ctcthCaptchaDisableBtn = function (submitBtn) {
  *
  */
 window.renderhCaptcha = function () {
-	console.log('renderhCaptcha');
-
 	let hcaptchas = document.querySelectorAll( '.h-captcha' );
 
 	Array.from(hcaptchas).forEach(function (hcaptchaobj) {
