@@ -318,17 +318,18 @@ class ConstantContact_Process_Form {
 				'response' => $data['h-captcha-response']
 			];
 
-			$verify = curl_init();
-			curl_setopt( $verify, CURLOPT_URL, 'https://hcaptcha.com/siteverify' );
-			curl_setopt( $verify, CURLOPT_POST, true );
-			curl_setopt( $verify, CURLOPT_POSTFIELDS, http_build_query( $hcaptcha_data ) );
-			curl_setopt( $verify, CURLOPT_RETURNTRANSFER, true );
-			$response = curl_exec( $verify );
+			$response = wp_remote_post(
+				'https://hcaptcha.com/siteverify',
+				[
+					'body' => http_build_query( $hcaptcha_data )
+				]
+			);
 
-			$hcaptcha_response_data = json_decode( $response );
+			$hcaptcha_response_data = json_decode( wp_remote_retrieve_body( $response ) );
+			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) || false === $hcaptcha_response_data->success ) {
 
-			if ( ! $hcaptcha_response_data->success ) {
 				constant_contact_maybe_log_it( 'hCaptcha', 'Failed to verify with hCaptcha', $hcaptcha_response_data->{'error-codes'} );
+
 				return [
 					'status' => 'named_error',
 					'error'  => __( 'Failed hCaptcha check', 'constant-contact-forms' ),
