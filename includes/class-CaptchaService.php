@@ -90,12 +90,12 @@ class ConstantContact_CaptchaService {
 
 	/**
 	 * Set the Captcha service option based on previously existing
-	 * setup from before NEXT version.
+	 * setup from before 2.9.0 version.
 	 *
-	 * With version NEXT, we've introduced the ability to use hCaptcha or disable the captcha service globally
+	 * With version 2.9.0, we've introduced the ability to use hCaptcha or disable the captcha service globally
 	 * in addition to maintining support for Google reCAPTCHA.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 */
 	private function maybe_initialize_captcha_service_option() {
 		$plugin_settings = get_option( $this->plugin_settings_key );
