@@ -237,7 +237,7 @@ class ConstantContact_Process_Form {
 			'error'  => $this->get_spam_message( $data['ctct-id'] ),
 		];
 
-		$captcha_sevice        = new ConstantContact_CaptchaService;
+		$captcha_sevice        = new ConstantContact_CaptchaService();
 		$maybe_disable_captcha = 'on' === get_post_meta( $data['ctct-id'], '_ctct_disable_recaptcha', true ); // Note: This option applies to whichever captcha sevice is enabled, despite the option name referencing reCAPTCHA.
 
 		if ( isset( $data['g-recaptcha-response'] ) && 'recaptcha' === $captcha_sevice->get_selected_captcha_service() ) {
