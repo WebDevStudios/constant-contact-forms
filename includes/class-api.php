@@ -933,6 +933,8 @@ class ConstantContact_API {
 				case 'email':
 				case 'custom_text_area':
 				case 'lists':
+				case 'h-captcha-response':
+				case 'g-captcha-response':
 					// Do nothing, as we already captured or handled elsewhere.
 					break;
 				case 'phone_number':
