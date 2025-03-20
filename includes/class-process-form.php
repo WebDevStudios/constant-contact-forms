@@ -309,8 +309,6 @@ class ConstantContact_Process_Form {
 
 		// Handle verifying hCaptcha response.
 		if ( isset( $data['h-captcha-response'] ) && 'hcaptcha' === $captcha_sevice->get_selected_captcha_service() ) {
-			error_log( 'h-captcha-response $data ' . var_export( $data, true ) );
-
 			$ctcthcaptcha = new ConstantContact_hCaptcha();
 			$ctcthcaptcha->set_hcaptcha_keys();
 			$keys = $ctcthcaptcha->get_hcaptcha_keys();
@@ -327,10 +325,7 @@ class ConstantContact_Process_Form {
 			curl_setopt( $verify, CURLOPT_RETURNTRANSFER, true );
 			$response = curl_exec( $verify );
 
-			error_log( '$response ' . var_export( $response, true ) );
-
 			$hcaptcha_response_data = json_decode( $response );
-			error_log( '$hcaptcha_response_data ' . var_export( $hcaptcha_response_data, true ) );
 
 			if ( ! $hcaptcha_response_data->success ) {
 				constant_contact_maybe_log_it( 'hCaptcha', 'Failed to verify with hCaptcha', $hcaptcha_response_data->{'error-codes'} );
