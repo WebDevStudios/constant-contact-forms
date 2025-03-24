@@ -84,7 +84,7 @@ class ConstantContact_Lists {
 		$cmb = new_cmb2_box(
 			[
 				'id'           => 'ctct_list_metabox',
-				'title'        => __( 'List Information', 'constant-contact-forms' ),
+				'title'        => esc_html__( 'List Information', 'constant-contact-forms' ),
 				'object_types' => [ 'ctct_lists' ],
 				'context'      => 'normal',
 				'priority'     => 'high',
@@ -168,7 +168,7 @@ class ConstantContact_Lists {
 	 * @return string
 	 */
 	public function get_list_info_no_data() {
-		return '<em>' . __( 'List information will populate upon saving.', 'constant-contact-forms' ) . '</em>';
+		return '<em>' . esc_html__( 'List information will populate upon saving.', 'constant-contact-forms' ) . '</em>';
 	}
 
 	/**
