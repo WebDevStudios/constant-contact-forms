@@ -236,12 +236,10 @@ class ConstantContact_CPTS {
 	 * @since 1.0.0
 	 *
 	 * @param string $title Desired placeholder text.
+	 * @param WP_Post $post Post object.
 	 * @return string $title output string
 	 */
-	public function change_default_title( $title, $post ) {
-		if ( ! isset( $post ) ) {
-			return $title;
-		}
+	public function change_default_title( string $title, WP_Post $post ) {
 
 		if ( 'ctct_forms' === $post->post_type ) {
 			$title = sprintf(
