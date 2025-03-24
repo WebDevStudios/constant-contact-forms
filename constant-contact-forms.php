@@ -688,15 +688,12 @@ class Constant_Contact {
 			$filename = 'class-' . $filename;
 		}
 
-		// Get the file.
 		$file = self::dir( 'includes/' . $filename . '.php' );
 
-		// If its there, include it.
 		if ( file_exists( $file ) ) {
 			return include_once $file;
 		}
 
-		// Wasn't there.
 		return false;
 	}
 
