@@ -752,7 +752,7 @@ class Constant_Contact {
 	 * @return array Amended body classes.
 	 */
 	public function body_classes( $classes = [] ) {
-		$theme     = wp_get_theme()->template;
+		$theme     = wp_get_theme()->get_template();
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
 		return $classes;
