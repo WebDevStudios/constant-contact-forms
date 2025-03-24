@@ -25,7 +25,7 @@ class ConstantContact_CPTS {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Constructor.
