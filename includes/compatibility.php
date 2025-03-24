@@ -115,6 +115,14 @@ function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_
 }
 add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_wpspamshield_compatibility', 10, 2 );
 
+/**
+ * Add Cleantalk field to our ignored form values.
+ *
+ * @since 1.14.0
+ *
+ * @param $ignored
+ * @return mixed
+ */
 function constant_contact_exclude_cleantalk( $ignored ) {
 	$ignored[] = 'apbct_visible_fields';
 
