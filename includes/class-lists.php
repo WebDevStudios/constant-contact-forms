@@ -63,7 +63,7 @@ class ConstantContact_Lists {
 		add_filter( 'views_edit-ctct_lists', [ $this, 'add_force_sync_button' ] );
 		add_action( 'admin_init', [ $this, 'check_for_list_sync_request' ] );
 
-		add_filter( 'post_row_actions', [ $this, 'remove_quick_edit_from_lists' ] );
+		add_filter( 'post_row_actions', [ $this, 'remove_quick_edit_from_lists' ], 10, 2 );
 
 		add_action( 'admin_init', [ $this, 'maybe_display_duplicate_list_error' ] );
 
@@ -842,12 +842,11 @@ class ConstantContact_Lists {
 	 * @since 1.0.0
 	 *
 	 * @param array $actions Current actions.
+	 * @param WP_Post $post Post object being rendered.
 	 * @return array Modified actions.
 	 */
-	public function remove_quick_edit_from_lists( $actions ) {
-		global $post;
-
-		if ( $post && isset( $post->post_type ) && $post->post_type && 'ctct_lists' === $post->post_type ) {
+	public function remove_quick_edit_from_lists( $actions, $post ) {
+		if ( 'ctct_lists' === $post->post_type ) {
 			unset( $actions['inline hide-if-no-js'] );
 		}
 
