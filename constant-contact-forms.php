@@ -47,7 +47,7 @@
  * @return null
  */
 function constant_contact_autoload_classes( $class_name ) {
-	if ( 0 !== strpos( $class_name, 'ConstantContact_' ) ) {
+	if ( ! str_starts_with( $class_name, 'ConstantContact_' ) ) {
 		return;
 	}
 
