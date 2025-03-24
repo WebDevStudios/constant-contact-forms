@@ -765,10 +765,6 @@ class ConstantContact_Lists {
 		}
 
 		if (
-			isset( $post->ID ) &&
-			$post->ID &&
-			isset( $post->post_type ) &&
-			$post->post_type &&
 			'ctct_lists' === $post->post_type &&
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
