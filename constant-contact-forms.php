@@ -360,6 +360,15 @@ class Constant_Contact {
 	public static $activated_date_option = 'ctct_plugin_activated_date';
 
 	/**
+	 * An instance of the ConstantContact_Inline_Forms class.
+	 *
+	 * @since NEXT
+	 *
+	 * @var ConstantContact_Inline_Forms
+	 */
+	private $inline_forms;
+
+	/**
 	 * License file.
 	 *
 	 * @since 1.0.1
@@ -441,6 +450,7 @@ class Constant_Contact {
 			// Load if Beaver Builder is active.
 			$this->beaver_builder = new ConstantContact_Beaver_Builder( $this );
 		}
+		$this->inline_forms         = new ConstantContact_Inline_Forms( $this );
 		$this->builder              = new ConstantContact_Builder( $this );
 		$this->builder_fields       = new ConstantContact_Builder_Fields( $this );
 		$this->cpts                 = new ConstantContact_CPTS( $this );
@@ -856,7 +866,7 @@ class Constant_Contact {
 			return false;
 		}
 
-		$ctct_types = [ 'ctct_forms', 'ctct_lists' ];
+		$ctct_types = [ 'ctct_forms', 'ctct_lists', 'ctct_inline_forms' ];
 		$post_type  = filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_SPECIAL_CHARS );
 		$post       = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
 

@@ -46,6 +46,7 @@ class ConstantContact_CPTS {
 	public function hooks() {
 		add_action( 'init', [ $this, 'forms_post_type' ] );
 		add_action( 'init', [ $this, 'lists_post_type' ] );
+		add_action( 'init', [ $this, 'signup_post_type' ] );
 
 		add_filter( 'post_updated_messages', [ $this, 'post_updated_messages' ] );
 		add_filter( 'enter_title_here', [ $this, 'change_default_title' ] );
@@ -175,7 +176,64 @@ class ConstantContact_CPTS {
 	}
 
 	/**
-	 * Custom post udate messages to match CPT naming.
+	 * Register Custom Post Type.
+	 * @since 1.0.0
+	 */
+	public function signup_post_type() {
+
+		$labels = [
+			'name'                         => _x( 'Inline Forms', 'Post Type General Name', 'constant-contact-forms' ),
+			'singular_name'                => _x( 'Inline Form', 'Post Type Singular Name', 'constant-contact-forms' ),
+			'menu_name'                    => __( 'Inline Forms', 'constant-contact-forms' ),
+			'name_admin_bar'               => __( 'Inline Forms', 'constant-contact-forms' ),
+			'archives'                     => __( 'Inline Form Archives', 'constant-contact-forms' ),
+			'parent_item_colon'            => __( 'Parent Inline Form:', 'constant-contact-forms' ),
+			'all_items'                    => __( 'Inline Forms', 'constant-contact-forms' ),
+			'add_new_item'                 => __( 'Add New Inline Form', 'constant-contact-forms' ),
+			'add_new'                      => __( 'Add New Inline Form', 'constant-contact-forms' ),
+			'new_item'                     => __( 'New Inline Form', 'constant-contact-forms' ),
+			'edit_item'                    => __( 'Edit Inline Form', 'constant-contact-forms' ),
+			'update_item'                  => __( 'Update Inline Form', 'constant-contact-forms' ),
+			'view_item'                    => __( 'View Inline Form', 'constant-contact-forms' ),
+			'search_items'                 => __( 'Search Inline Form', 'constant-contact-forms' ),
+			'not_found'                    => __( 'Not found', 'constant-contact-forms' ),
+			'not_found_in_trash'           => __( 'Not found in Trash', 'constant-contact-forms' ),
+			'featured_image'               => __( 'Featured Image', 'constant-contact-forms' ),
+			'set_featured_image'           => __( 'Set featured image', 'constant-contact-forms' ),
+			'remove_featured_image'        => __( 'Remove featured image', 'constant-contact-forms' ),
+			'use_featured_image'           => __( 'Use as featured image', 'constant-contact-forms' ),
+			'insert_into_item'             => __( 'Insert into Inline Form', 'constant-contact-forms' ),
+			'uploaded_to_this_item'        => __( 'Uploaded to this Inline Form', 'constant-contact-forms' ),
+			'items_inline_form'            => __( 'Inline Forms list', 'constant-contact-forms' ),
+			'items_inline_form_navigation' => __( 'Inline Forms list navigation', 'constant-contact-forms' ),
+			'filter_items_list'            => __( 'Filter Inline forms list', 'constant-contact-forms' ),
+		];
+		$args   = [
+			'label'               => __( 'Constant Contact', 'constant-contact-forms' ),
+			'description'         => __( 'Constant Contact inline forms.', 'constant-contact-forms' ),
+			'labels'              => $labels,
+			'supports'            => [ 'title' ],
+			'taxonomies'          => [],
+			'hierarchical'        => false,
+			'public'              => false,
+			'show_ui'             => true,
+			'show_in_menu'        => 'edit.php?post_type=ctct_forms',
+			'menu_position'       => 20,
+			'menu_icon'           => 'dashicons-megaphone',
+			'show_in_admin_bar'   => false,
+			'show_in_nav_menus'   => false,
+			'can_export'          => true,
+			'has_archive'         => false,
+			'exclude_from_search' => true,
+			'publicly_queryable'  => false,
+			'capability_type'     => 'page',
+		];
+
+		register_post_type( 'ctct_inline_forms', $args );
+	}
+
+	/**
+	 * Custom post update messages to match CPT naming.
 	 *
 	 * @since 1.0.0
 	 *

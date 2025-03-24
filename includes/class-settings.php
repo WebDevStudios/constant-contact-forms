@@ -515,6 +515,29 @@ class ConstantContact_Settings {
 			]
 		);
 
+		$before_signup_css = sprintf(
+		/* translators: 1: horizontal rule and opening heading tag, 2: signup section H, 3: closing heading tag */
+			'%1$s%2$s%3$s',
+			'<hr><h2>',
+			esc_html__( 'Sign-up Form Settings', 'constant-contact-forms' ),
+			'</h2>'
+		);
+
+		$cmb->add_field( [
+			'name'       => esc_html__( 'Universal Code', 'constant-contact-forms' ),
+			'desc'       => esc_html__( 'Universal Code found in Constant Contact Sign-up Dashboard.', 'constant-contact-forms' ),
+			'id'         => '_ctct_signup_universal_code',
+			'type'       => 'textarea_code',
+			'before_row' => $before_signup_css,
+		] );
+
+		$cmb->add_field( [
+			'name' => esc_html__( 'Disable Universal Code', 'constant-contact-forms' ),
+			'desc' => esc_html__( 'Temporarily disable Universal Code for debugging.', 'constant-contact-forms' ),
+			'id'   => '_ctct_signup_uc_disable',
+			'type' => 'checkbox',
+		] );
+
 	}
 
 	/**

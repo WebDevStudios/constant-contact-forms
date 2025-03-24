@@ -119,8 +119,6 @@ class ConstantContact_Admin {
 	 */
 	public function current_screen( $screen ) {
 
-		$post_type_array = [ 'ctct_forms', 'ctct_lists' ];
-
 		// Determine if the current page being viewed is Constant Contact.
 		if ( constant_contact()->is_constant_contact() ) {
 			add_action( 'in_admin_header', [ $this, 'admin_page_toolbar' ] );
