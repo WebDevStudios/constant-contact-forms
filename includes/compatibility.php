@@ -46,7 +46,7 @@ add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_exclu
  *
  * @since 1.14.0
  *
- * @param $ignored The array of fields that Constant Contact should ignore.
+ * @param array $ignored The array of fields that Constant Contact should ignore.
  * @return array
  */
 function constant_contact_support_exclude_akisment( $ignored ) {
