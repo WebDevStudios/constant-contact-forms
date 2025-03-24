@@ -501,27 +501,6 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
 }
 
 /**
- * Fetch and return the content of our Endurance privacy policy.
- *
- * @since 1.4.3
- *
- * @return string
- */
-function constant_contact_privacy_policy_content() {
-	$policy_output = wp_remote_get( 'https://www.endurance.com/privacy' );
-	if ( ! is_wp_error( $policy_output ) && 200 === wp_remote_retrieve_response_code( $policy_output ) ) {
-		$content = wp_remote_retrieve_body( $policy_output );
-		preg_match( '/<body[^>]*>(.*?)<\/body>/si', $content, $match );
-		$output = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $match[1] );
-		preg_match_all( '@<section class="container privacy-center-container">.*?</section>@si', $output, $final );
-
-		return $final[0][0] . $final[0][2];
-	}
-
-	return '';
-}
-
-/**
  * Set if we have an exception to deal with.
  *
  * @since 1.6.0
