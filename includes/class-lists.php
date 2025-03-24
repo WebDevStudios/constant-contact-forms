@@ -768,6 +768,10 @@ class ConstantContact_Lists {
 			'ctct_lists' === $post->post_type &&
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
+			add_filter('admin_body_class',function($classes){
+				$classes .= ' ctct-duplicate-list';
+				return $classes;
+			});
 			add_action( 'admin_notices', [ $this, 'show_duplicate_list_message' ] );
 		}
 	}
