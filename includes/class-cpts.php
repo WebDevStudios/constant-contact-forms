@@ -48,7 +48,7 @@ class ConstantContact_CPTS {
 		add_action( 'init', [ $this, 'lists_post_type' ] );
 
 		add_filter( 'post_updated_messages', [ $this, 'post_updated_messages' ] );
-		add_filter( 'enter_title_here', [ $this, 'change_default_title' ] );
+		add_filter( 'enter_title_here', [ $this, 'change_default_title' ], 10, 2 );
 
 		add_filter( 'post_row_actions', [ $this, 'duplicate_form_link' ], 10, 2 );
 		add_action( 'admin_menu', [ $this, 'maybe_duplicate_form' ] );
@@ -238,22 +238,16 @@ class ConstantContact_CPTS {
 	 * @param string $title Desired placeholder text.
 	 * @return string $title output string
 	 */
-	public function change_default_title( $title ) {
-		global $post;
-
+	public function change_default_title( $title, $post ) {
 		if ( ! isset( $post ) ) {
-			return $title;
-		}
-
-		if ( ! isset( $post->post_type ) ) {
 			return $title;
 		}
 
 		if ( 'ctct_forms' === $post->post_type ) {
 			$title = sprintf(
 				'%s <span class="ctct-admin-title-details">%s</span>',
-				__( 'Enter a form name', 'constant-contact-forms' ),
-				__( '(Examples: Join Our Email List, Contact Us)', 'constant-contact-forms' )
+				esc_html__( 'Enter a form name', 'constant-contact-forms' ),
+				esc_html__( '(Examples: Join Our Email List, Contact Us)', 'constant-contact-forms' )
 			);
 
 		}
