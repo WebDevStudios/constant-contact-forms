@@ -111,14 +111,6 @@ class Constant_Contact {
 	public $plugin_name = '';
 
 	/**
-	 * Menu Icon.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	public $menu_icon = 'dashicons-megaphone';
-
-	/**
 	 * Log location.
 	 *
 	 * @since 1.3.7
@@ -756,31 +748,6 @@ class Constant_Contact {
 		}
 
 		return esc_html__( 'Error loading license.', 'constant-contact-forms' );
-	}
-
-	/**
-	 * Check if we are editing a Constant Contact post type post.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param int $post_id Post ID to check for.
-	 * @return bool
-	 */
-	public function is_ctct_editor_screen( $post_id = 0 ) {
-
-		if ( 0 === $post_id ) {
-			$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
-		}
-
-		if ( 'ctct_forms' === filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_SPECIAL_CHARS ) ) {
-			return true;
-		}
-
-		if ( 'ctct_forms' === get_post_type( $post_id ) ) {
-			return true;
-		}
-
-		return false;
 	}
 
 	/**
