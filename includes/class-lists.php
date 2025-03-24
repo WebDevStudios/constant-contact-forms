@@ -772,29 +772,8 @@ class ConstantContact_Lists {
 			'ctct_lists' === $post->post_type &&
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
-			add_action( 'admin_head', [ $this, 'list_css' ] );
 			add_action( 'admin_notices', [ $this, 'show_duplicate_list_message' ] );
 		}
-	}
-
-	/**
-	 * Output some embedded CSS for our error.
-	 *
-	 * @since 1.4.0
-	 */
-	public function list_css() {
-		?>
-		<style>
-			.post-type-ctct_lists #titlediv #title {
-				background: url( "<?php echo esc_url_raw( $this->plugin->url . 'assets/images/error.svg' ); ?>" ) no-repeat;
-				background-color: fade-out( #FF4136, 0.98);
-				background-position: 8px 50%;
-				background-size: 24px;
-				border-color: #FF4136;
-				padding-left: 40px;
-			}
-		</style>
-		<?php
 	}
 
 	/**
