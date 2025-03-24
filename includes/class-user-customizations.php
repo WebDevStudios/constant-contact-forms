@@ -55,9 +55,10 @@ class ConstantContact_User_Customizations {
 	 *
 	 * @param string $content Current success message text.
 	 * @param int    $form_id Form ID.
+	 *
 	 * @return mixed
 	 */
-	public function process_form_success( $content = '', $form_id = 0 ) {
+	public function process_form_success( string $content = '', int $form_id = 0 ) {
 		$custom = get_post_meta( $form_id, '_ctct_form_submission_success', true );
 		if ( empty( $custom ) ) {
 			return $content;
@@ -73,9 +74,10 @@ class ConstantContact_User_Customizations {
 	 *
 	 * @param string $url     Current URI to redirect user to on form submission.
 	 * @param int    $form_id Form ID.
-	 * @return mixed
+	 *
+	 * @return string
 	 */
-	public function custom_redirect( $url, $form_id ) {
+	public function custom_redirect( string $url, int $form_id ) {
 		$custom = get_post_meta( $form_id, '_ctct_redirect_uri', true );
 		if ( ! constant_contact_is_valid_url( $custom ) ) {
 			return $url;
@@ -91,9 +93,9 @@ class ConstantContact_User_Customizations {
 	 *
 	 * @param string     $destination_email Current set destination email.
 	 * @param string|int $form_id           ID of the form we're checking.
-	 * @return mixed|string
+	 * @return string
 	 */
-	public function custom_email( $destination_email, $form_id ) {
+	public function custom_email( string $destination_email, int $form_id ) {
 		$custom_email = get_post_meta( $form_id, '_ctct_email_settings', true );
 
 		if ( empty( $custom_email ) ) {
