@@ -615,35 +615,20 @@ class ConstantContact_Lists {
 	 * @param string $new_status Transitioned to status.
 	 * @param string $old_status Transitioned from status.
 	 * @param object $post       Post object.
-	 * @return bool
+	 * @return void
 	 */
 	public function post_status_transition( $new_status, $old_status, $post ) {
 
-		if ( ! $post ) {
-			return false;
-		}
-
-		if ( ! isset( $post->post_type ) ) {
-			return false;
-		}
-
-		if ( ! $post->ID ) {
-			return false;
-		}
-
-		if ( 'ctct_lists' !== $post->post_type ) {
-			return false;
-		}
-
-		if ( $new_status === $old_status ) {
-			return false;
+		if (
+			'ctct_lists' !== $post->post_type ||
+			$new_status === $old_status
+		) {
+			return;
 		}
 
 		if ( 'trash' === $old_status ) {
-			return $this->add_list( $post );
+			$this->add_list( $post );
 		}
-
-		return true;
 	}
 
 	/**
