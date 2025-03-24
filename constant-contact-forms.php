@@ -392,6 +392,9 @@ class Constant_Contact {
 		// Set logging location.
 		$this->logger_location = $this->logging->get_logging_location();
 
+		// Include our notifications logic.
+		self::include_file( 'notification-logic', false );
+
 		// Include our helper functions function for end-users.
 		self::include_file( 'helper-functions', false );
 
