@@ -482,7 +482,7 @@ class Constant_Contact {
 		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_assets' ], 1 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_front_assets' ], 1 );
 		add_action( 'init', [ $this->shortcode, 'register_shortcode' ] );
-		add_action( 'save_post', [ $this->shortcode, 'clear_forms_list_transient' ] );
+		add_action( 'save_post', [ $this->shortcode, 'clear_forms_list_transient' ], 10, 2 );
 
 		if ( is_admin() ) {
 			add_action( 'wp_ajax_ctct_dismiss_first_modal', [ $this, 'ajax_save_clear_first_form' ] );
