@@ -184,7 +184,7 @@ function constant_contact_has_forms() {
 function constant_contact_has_redirect_uri( $form_id = 0 ) {
 	$maybe_redirect_uri = get_post_meta( $form_id, '_ctct_redirect_uri', true );
 
-	return constant_contact_is_valid_url( $maybe_redirect_uri ) ? true : false;
+	return constant_contact_is_valid_url( $maybe_redirect_uri );
 }
 
 /**
@@ -363,9 +363,7 @@ function constant_contact_akismet( $is_spam, $data ) {
 		}
 	}
 
-	$is_spam = constant_contact_akismet_spam_check( $args );
-
-	return $is_spam;
+	return constant_contact_akismet_spam_check( $args );
 }
 add_filter( 'constant_contact_maybe_spam', 'constant_contact_akismet', 10, 2 );
 
