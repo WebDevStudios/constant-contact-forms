@@ -12,6 +12,8 @@
 /**
  * Add the Constant Contact post type to an array of excluded post types.
  *
+ * If the WordPress Calls to Action plug-in is installed, exclude our post type to conflict.
+ *
  * @since 1.4.0
  *
  * @param array $excluded The post types to exclude.
@@ -19,10 +21,9 @@
  */
 function constant_contact_exclude_ctct_forms( $excluded ) {
 	$excluded[] = 'ctct_forms';
+	$excluded[] = 'ctct_lists';
 	return $excluded;
 }
-
-// If the WordPress Calls to Action plug-in is installed, exclude our post type to conflict.
 add_filter( 'cta_excluded_post_types', 'constant_contact_exclude_ctct_forms' );
 
 /**
