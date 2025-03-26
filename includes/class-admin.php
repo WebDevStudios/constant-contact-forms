@@ -644,10 +644,10 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param string $list_id Constant Contact list ID value.
+	 * @param string $list_id Constant Contact list ID value. NOT a WP Post ID.
 	 * @return mixed
 	 */
-	public function get_associated_list_by_id( $list_id ) {
+	public function get_associated_list_by_id( string $list_id ) {
 		global $wpdb;
 
 		$rs = $wpdb->get_results(
