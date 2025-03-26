@@ -242,6 +242,7 @@ class ConstantContact_Admin {
 			[ $this, 'admin_page_display' ]
 		);
 
+		// This is for the GPLv3 license, not a premium product license.
 		add_submenu_page(
 			$this->parent_menu_slug,
 			esc_html__( 'License', 'constant-contact-forms' ),
@@ -251,6 +252,7 @@ class ConstantContact_Admin {
 			[ $this, 'admin_page_display' ]
 		);
 
+		// This page is ultimately linked to from the About page content.
 		remove_submenu_page( $this->parent_menu_slug, $this->key . '_license' );
 
 		// Include CMB CSS in the head to avoid FOUC.
