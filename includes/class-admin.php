@@ -118,10 +118,6 @@ class ConstantContact_Admin {
 	 * @author Darren Cooney <darren.cooney@webdevstudios.com>
 	 */
 	public function current_screen( $screen ) {
-
-		$post_type_array = [ 'ctct_forms', 'ctct_lists' ];
-
-		// Determine if the current page being viewed is Constant Contact.
 		if ( constant_contact()->is_constant_contact() ) {
 			add_action( 'in_admin_header', [ $this, 'admin_page_toolbar' ] );
 		}
@@ -139,11 +135,9 @@ class ConstantContact_Admin {
 
 		global $submenu, $submenu_file, $plugin_page, $pagenow;
 
-		// Vars.
 		$cpt_slug    = 'ctct_forms';
 		$parent_slug = "edit.php?post_type=$cpt_slug";
 
-		// Generate array of menu items.
 		$tabs = [];
 
 		if ( isset( $submenu[ $parent_slug ] ) ) {
