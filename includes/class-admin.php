@@ -361,12 +361,13 @@ class ConstantContact_Admin {
 	 *
 	 * @internal
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param array $columns post list columns.
+	 *
 	 * @return array $columns Array of columns to add.
+	 *
+	 * @since 1.0.0
 	 */
-	public function set_custom_columns( $columns ) {
+	public function set_custom_columns( array $columns ) {
 
 		$columns['description'] = esc_html__( 'Description', 'constant-contact-forms' );
 		$columns['shortcodes']  = esc_html__( 'Shortcode', 'constant-contact-forms' );
@@ -387,7 +388,7 @@ class ConstantContact_Admin {
 	 *
 	 * @return void
 	 */
-	public function custom_columns( $column, $post_id ) {
+	public function custom_columns( string $column, int $post_id ) {
 		$post_id = absint( $post_id );
 
 		if ( ! $post_id ) {
