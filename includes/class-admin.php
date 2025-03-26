@@ -443,12 +443,14 @@ class ConstantContact_Admin {
 	 * Add our contact count column for ctct_lists.
 	 *
 	 * @internal
+	 *
 	 * @since 1.3.0
 	 *
 	 * @param array $columns WP_List_Table columns.
+	 *
 	 * @return mixed
 	 */
-	public function set_custom_lists_columns( $columns ) {
+	public function set_custom_lists_columns( array $columns ) {
 		$columns['ctct_total'] = esc_html__( 'Contact Count', 'constant-contact-forms' );
 
 		unset( $columns['date'] );
@@ -467,7 +469,7 @@ class ConstantContact_Admin {
 	 *
 	 * @return void
 	 */
-	public function custom_lists_columns( $column, $post_id ) {
+	public function custom_lists_columns( string $column, int $post_id ) {
 
 		$post_id = absint( $post_id );
 
@@ -497,9 +499,10 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 *
 	 * @param array $links plugin action links.
+	 *
 	 * @return array
 	 */
-	public function add_social_links( $links ) {
+	public function add_social_links( $links ): array {
 
 		if ( ! is_array( $links ) ) {
 			return $links;
