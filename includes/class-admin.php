@@ -23,7 +23,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $key = 'ctct_options';
+	private string $key = 'ctct_options';
 
 	/**
 	 * Options page metabox id.
@@ -31,7 +31,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $metabox_id = 'ctct_option_metabox';
+	private string $metabox_id = 'ctct_option_metabox';
 
 	/**
 	 * Options Page title.
@@ -39,7 +39,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $title = '';
+	protected string $title = '';
 
 	/**
 	 * Options Page hook.
@@ -47,7 +47,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $options_page = '';
+	protected string $options_page = '';
 
 	/**
 	 * Parent plugin class.
@@ -71,7 +71,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.1
 	 * @var string
 	 */
-	protected $parent_menu_slug = 'edit.php?post_type=ctct_forms';
+	protected string $parent_menu_slug = 'edit.php?post_type=ctct_forms';
 
 	/**
 	 * Constructor.
