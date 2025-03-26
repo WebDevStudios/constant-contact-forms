@@ -552,7 +552,6 @@ class ConstantContact_Admin {
 		static $link_template = '<a title="%1$s" href="%2$s" target="_blank" rel="noopener noreferrer">%1$s</a>';
 		static $link_args     = [
 			'post_type' => 'ctct_forms',
-			'page'      => '',
 		];
 
 		$link_args['page'] = 'ctct_options_' . $link_slug;
