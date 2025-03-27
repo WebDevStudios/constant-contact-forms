@@ -218,7 +218,7 @@ class ConstantContact_Admin_Pages {
 
 			<div class="ctct-section section-about">
 				<p class="large-text">
-					<?php echo wp_kses_post( __( "This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account.", 'constant-contact-forms' ) ); ?>
+					<?php echo wp_kses_post( esc_html__( "This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account.", 'constant-contact-forms' ) ); ?>
 				</p>
 			</div>
 			<div class="ctct-section ctct-features">
@@ -290,14 +290,14 @@ class ConstantContact_Admin_Pages {
 			<?php } ?>
 
 			<?php
-				$license_link = $this->plugin->admin->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
+				$license_link = $this->plugin->admin->get_admin_link( esc_html__( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
 			if ( $license_link ) :
 				?>
 				<div class="ctct-license">
 					<p class="small-text">
 				<?php
 					/* Translators: Placholder here is a link to the license. */
-					$license_message = sprintf( __( 'This software is released under a modified %s.', 'constant-contact-forms' ), $license_link );
+					$license_message = sprintf( esc_html__( 'This software is released under a modified %s.', 'constant-contact-forms' ), $license_link );
 					echo wp_kses_post( $license_message );
 				?>
 					</p>
