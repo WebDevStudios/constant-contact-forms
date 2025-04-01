@@ -69,9 +69,7 @@
   padding-left: 32px;
 }
 .ctct-form-wrapper input[type=text]:required.ctct-invalid, .ctct-form-wrapper input[type=text].ctct-invalid, .ctct-form-wrapper input[type=email]:required.ctct-invalid, .ctct-form-wrapper input[type=email].ctct-invalid, .ctct-form-wrapper input[type=password]:required.ctct-invalid, .ctct-form-wrapper input[type=password].ctct-invalid, .ctct-form-wrapper input[type=tel]:required.ctct-invalid, .ctct-form-wrapper input[type=tel].ctct-invalid, .ctct-form-wrapper input[type=number]:required.ctct-invalid, .ctct-form-wrapper input[type=number].ctct-invalid {
-  background: #fff url(../images/error.svg) no-repeat;
-  background-color: rgba(255, 65, 54, 0.02);
-  background-position: 8px 50%;
+  background: rgba(255, 65, 54, 0.02) url(../images/error.svg) no-repeat 8px 50%;
   background-size: 24px;
   border-color: #ff4136;
   padding-left: 40px;
