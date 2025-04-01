@@ -12,7 +12,7 @@ window.ctcthCaptchaEnableBtn = function (submitBtn) {
 /**
  * Disable submit button.
  *
- * @since NEXT
+ * @since 2.9.0
  *
  * @param {Object} submitBtn Submit DOM element.
  */
@@ -23,7 +23,7 @@ window.ctcthCaptchaDisableBtn = function (submitBtn) {
 /**
  * Render hCaptchas.
  *
- * @since NEXT
+ * @since 2.9.0
  *
  */
 window.renderhCaptcha = function () {
