@@ -5,7 +5,7 @@
  * @package    ConstantContact
  * @subpackage hCaptcha
  * @author     Constant Contact
- * @since      NEXT
+ * @since      2.9.0
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
@@ -14,7 +14,7 @@
 /**
  * Class ConstantContact_hCaptcha.
  *
- * @since NEXT
+ * @since 2.9.0
  */
 class ConstantContact_hCaptcha {
 
@@ -22,7 +22,7 @@ class ConstantContact_hCaptcha {
 	 * hCaptcha site key.
 	 *
 	 * @var string
-	 * @since NEXT
+	 * @since 2.9.0
 	 */
 	protected $site_key;
 
@@ -30,7 +30,7 @@ class ConstantContact_hCaptcha {
 	 * hCaptcha secret key.
 	 *
 	 * @var string
-	 * @since NEXT
+	 * @since 2.9.0
 	 */
 	protected $secret_key;
 
@@ -39,7 +39,7 @@ class ConstantContact_hCaptcha {
 	 * Options are 'light', 'dark', and 'auto';
 	 *
 	 * @var string
-	 * @since NEXT
+	 * @since 2.9.0
 	 */
 	protected $theme;
 
@@ -48,7 +48,7 @@ class ConstantContact_hCaptcha {
 	 * Options are 'normal', 'compact', and 'invisible'.
 	 *
 	 * @var string
-	 * @since NEXT
+	 * @since 2.9.0
 	 */
 	public $size;
 
@@ -58,7 +58,7 @@ class ConstantContact_hCaptcha {
 	 * Use 'auto' (default), or specify the language.
 	 *
 	 * @var string
-	 * @since NEXT
+	 * @since 2.9.0
 	 */
 	protected $language;
 
@@ -67,14 +67,14 @@ class ConstantContact_hCaptcha {
 	 * Use 'live' or 'test' mode. In 'test' mode, predefined keys are used.
 	 *
 	 * @var string
-	 * @since NEXT
+	 * @since 2.9.0
 	 */
 	protected $mode;
 
 	/**
 	 * Return an array of our site key pair.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @return array
 	 */
@@ -89,7 +89,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Set our key properties.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 */
 	public function set_hcaptcha_keys() {
 		$keys = $this->get_hcaptcha_keys();
@@ -101,7 +101,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Check if we have hCaptcha keys set.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @return bool
 	 */
@@ -115,7 +115,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Get the theme to use.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @return string $theme Theme for the hCaptcha object.
 	 */
@@ -126,7 +126,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Set the hCaptcha theme.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @param string $theme hCaptcha theme to use.
 	 */
@@ -137,7 +137,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Get the size to use.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @return string $size Size for the hCaptcha object.
 	 */
@@ -148,7 +148,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Set the hCaptcha size.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @param string $size hCaptcha size to specify.
 	 */
@@ -159,7 +159,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Get our language.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @return string $language Language for the hCaptcha object.
 	 */
@@ -170,7 +170,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Set our language to use.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @param string $language Language code for the hCaptcha object.
 	 */
@@ -181,7 +181,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Get the mode to use.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @return string $mode The mode for the hCaptcha object.
 	 */
@@ -192,7 +192,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Set the hCaptcha mode.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @param string $mode hCaptcha mode to use.
 	 */
@@ -203,7 +203,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Retrieve inline scripts for the hCaptcha form instance.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 */
 	public function enqueue_scripts() {
 		$this->set_hcaptcha_keys();
@@ -244,7 +244,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Retrieve the hCaptcha markup.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @return string
 	 */
@@ -268,7 +268,7 @@ class ConstantContact_hCaptcha {
 	/**
 	 * Add script attributes.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @param  string $tag    Script tag.
 	 * @param  string $handle Script handle.

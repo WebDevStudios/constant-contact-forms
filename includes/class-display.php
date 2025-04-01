@@ -633,7 +633,7 @@ class ConstantContact_Display {
 	/**
 	 * Display an hCaptcha field.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @param int $form_id ID of form being rendered.
 	 * @return string
@@ -649,7 +649,7 @@ class ConstantContact_Display {
 			 *
 			 * Options are 'light' and 'dark';
 			 *
-			 * @since NEXT
+			 * @since 2.9.0
 			 *
 			 * @param string $value   Theme to use. Default 'light'.
 			 * @param int    $form_id ID of the form being rendered.
@@ -661,7 +661,7 @@ class ConstantContact_Display {
 			/**
 			 * Filters the hCaptcha size to render.
 			 *
-			 * @since NEXT
+			 * @since 2.9.0
 			 *
 			 * @param string $value Size to render. Options are 'normal', 'compact', and 'invisible'.
 			 */
@@ -674,7 +674,7 @@ class ConstantContact_Display {
 			 *
 			 * See https://docs.hcaptcha.com/languages for available values.
 			 *
-			 * @since NEXT
+			 * @since 2.9.0
 			 *
 			 * @param string $value   Language code to use. Default '' for automatic detection.
 			 * @param int    $form_id ID of the form being rendered.
@@ -686,7 +686,7 @@ class ConstantContact_Display {
 			/**
 			 * Set the hCaptcha Mode to use.
 			 *
-			 * @since NEXT
+			 * @since 2.9.0
 			 *
 			 * @param string $value   Use 'live' (default) or 'test' mode. In 'test' mode, predefined keys are used.
 			 * @param int    $form_id ID of the form being rendered.
