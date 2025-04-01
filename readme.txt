@@ -2,7 +2,7 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 5.2.0
-Tested up to:      6.7.1
+Tested up to:      6.7.2
 Stable tag:        2.9.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -50,6 +50,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 == Changelog ==
 
 = 2.9.0 =
+* Added: hCAPTHCA support.
 * Updated: Moved global styles and opt-in settings to dedicated tabs.
 * Updated: Removed old "bypass cron job" setting.
 * Updated: "Click to copy" code behind the scenes.
