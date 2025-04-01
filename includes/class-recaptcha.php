@@ -10,6 +10,7 @@
  */
 
 // phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid -- OK classname.
+use ReCaptcha\ReCaptcha;
 
 /**
  * Class ConstantContact_reCAPTCHA.
@@ -24,7 +25,7 @@ class ConstantContact_reCAPTCHA {
 	 * @var string
 	 * @since 1.7.0
 	 */
-	protected $version;
+	protected string $version;
 
 	/**
 	 * Google reCAPTCHA site key.
@@ -32,7 +33,7 @@ class ConstantContact_reCAPTCHA {
 	 * @var string
 	 * @since 1.7.0
 	 */
-	protected $site_key;
+	protected string $site_key;
 
 	/**
 	 * Google reCAPTCHA secret key.
@@ -40,7 +41,7 @@ class ConstantContact_reCAPTCHA {
 	 * @var string
 	 * @since 1.7.0
 	 */
-	protected $secret_key;
+	protected string $secret_key;
 
 	/**
 	 * Language code to use.
@@ -53,19 +54,19 @@ class ConstantContact_reCAPTCHA {
 	/**
 	 * Google reCAPTCHA instance.
 	 *
-	 * @var \ReCaptcha\ReCaptcha
+	 * @var ReCaptcha
 	 * @since 1.7.0
 	 */
-	public $recaptcha;
+	public ReCaptcha $recaptcha;
 
 	/**
 	 * Set our reCAPTCHA instance.
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param \ReCaptcha\ReCaptcha|string $recaptcha Google reCAPTCHA instance.
+	 * @param ReCaptcha $recaptcha Google reCAPTCHA instance.
 	 */
-	public function set_recaptcha_class( $recaptcha = '' ) {
+	public function set_recaptcha_class( ReCaptcha $recaptcha ) {
 		$this->recaptcha = $recaptcha;
 	}
 
@@ -75,7 +76,7 @@ class ConstantContact_reCAPTCHA {
 	 * @since 1.7.0
 	 * @param string $lang_code Language code for the reCAPTCHA object.
 	 */
-	public function set_language( $lang_code ) {
+	public function set_language( string $lang_code ) {
 		$this->lang_code = $lang_code;
 	}
 
