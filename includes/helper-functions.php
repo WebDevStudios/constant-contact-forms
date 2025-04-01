@@ -55,8 +55,8 @@ function constant_contact_get_form( $form_id, $show_title = false ) {
  * @param int  $form_id Form post ID to grab.
  * @param bool $show_title If true, show the title.
  */
-function constant_contact_display_form( $form_id, $show_title = false ) {
-	constant_contact()->display_shortcode->display_form( $form_id, $show_title );
+function constant_contact_display_form( int $form_id, bool $show_title = false ) {
+	constant_contact()->display_shortcode->display_form( absint( $form_id ), $show_title );
 }
 
 /**
