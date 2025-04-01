@@ -74,13 +74,21 @@ class ConstantContact_Display {
 			true
 		);
 
-		$recaptcha_base       = new ConstantContact_reCAPTCHA();
-		$version              = $recaptcha_base->get_recaptcha_version();
-		$version              = $version ?: 'v2';
-		$recaptcha_class_name = "ConstantContact_reCAPTCHA_{$version}";
+		$captcha_service = new ConstantContact_CaptchaService();
+		if ( $captcha_service->is_captcha_enabled() ) {
+			if  ( 'recaptcha' === $captcha_service->get_selected_captcha_service() ) {
+				$recaptcha_base       = new ConstantContact_reCAPTCHA();
+				$version              = $recaptcha_base->get_recaptcha_version();
+				$version              = $version ?: 'v2';
+				$recaptcha_class_name = "ConstantContact_reCAPTCHA_{$version}";
 
-		$recaptcha = new $recaptcha_class_name();
-		$recaptcha->enqueue_scripts();
+				$recaptcha = new $recaptcha_class_name();
+				$recaptcha->enqueue_scripts();
+			} elseif ( 'hcaptcha' === $captcha_service->get_selected_captcha_service() ) {
+				$hcaptcha = new ConstantContact_hCaptcha();
+				$hcaptcha->enqueue_scripts();
+			}
+		}
 
 		wp_enqueue_script( 'ctct_frontend_forms' );
 	}
@@ -268,6 +276,9 @@ class ConstantContact_Display {
 		$status           = false;
 		$form_title       = $this->set_form_title( $show_title, $form_id );
 
+		$captcha_service          = new ConstantContact_CaptchaService();
+		$selected_captcha_service = $captcha_service->get_selected_captcha_service();
+
 		// Get a potential response from our processing wrapper
 		// This returns an array that has 'status' and 'message keys'
 		// if the status is success, then we sent the form correctly
@@ -312,10 +323,12 @@ class ConstantContact_Display {
 		$form_action              = apply_filters( 'constant_contact_front_form_action', '', $form_id );
 		$should_do_ajax           = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax                  = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
-		$should_disable_recaptcha = get_post_meta( $form_id, '_ctct_disable_recaptcha', true );
-		$disable_recaptcha        = 'on' === $should_disable_recaptcha;
+		$should_disable_captcha   = get_post_meta( $form_id, '_ctct_disable_recaptcha', true ); // Note: Despite option name, this applies to whatever the enabled captcha service is.
+		$disable_captcha          = 'on' === $should_disable_captcha;
 		$form_classes             = 'ctct-form ctct-form-' . $form_id;
-		$form_classes            .= ConstantContact_reCAPTCHA::has_recaptcha_keys() ? ' has-recaptcha' : ' no-recaptcha';
+
+		// TODO?: Rename this to has-captcha/no-captcha?
+		$form_classes            .= $captcha_service->is_captcha_enabled() && ! $disable_captcha ? ' has-recaptcha' : ' no-recaptcha';
 		$form_classes            .= $this->build_custom_form_classes();
 
 		$form_styles = '';
@@ -379,10 +392,14 @@ class ConstantContact_Display {
 
 		$return .= $this->build_form_fields( $form_data, $old_values, $req_errors, $instance );
 
-		if ( ! $disable_recaptcha && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
-			$recaptcha_version = constant_contact_get_option( '_ctct_recaptcha_version', '' );
-			if ( 'v2' === $recaptcha_version ) {
-				$return .= $this->build_recaptcha( $form_id );
+		if ( $captcha_service->is_captcha_enabled() && ! $disable_captcha ) {
+			if ( 'recaptcha' === $selected_captcha_service ) {
+				$recaptcha_version = constant_contact_get_option( '_ctct_recaptcha_version', '' );
+				if ( 'v2' === $recaptcha_version ) {
+					$return .= $this->build_recaptcha( $form_id );
+				}
+			} elseif ( 'hcaptcha' === $selected_captcha_service ) {
+				$return .= $this->build_hcaptcha( $form_id );
 			}
 		}
 
@@ -608,6 +625,77 @@ class ConstantContact_Display {
 
 		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
 		$return = $recaptcha->get_inline_markup();
+		// phpcs:enable WordPress.WP.EnqueuedResources
+
+		return $return;
+	}
+
+	/**
+	 * Display an hCaptcha field.
+	 *
+	 * @since 2.9.0
+	 *
+	 * @param int $form_id ID of form being rendered.
+	 * @return string
+	 */
+	public function build_hcaptcha( $form_id ) {
+		$hcaptcha = new ConstantContact_hCaptcha();
+
+		$hcaptcha->set_hcaptcha_keys();
+
+		$hcaptcha->set_theme(
+			/**
+			 * Filters the theme to be used with hCaptcha.
+			 *
+			 * Options are 'light' and 'dark';
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $value   Theme to use. Default 'light'.
+			 * @param int    $form_id ID of the form being rendered.
+			 */
+			apply_filters( 'constant_contact_hcaptcha_theme', 'light', $form_id )
+		);
+
+		$hcaptcha->set_size(
+			/**
+			 * Filters the hCaptcha size to render.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $value Size to render. Options are 'normal', 'compact', and 'invisible'.
+			 */
+			apply_filters( 'constant_contact_hcaptcha_size', 'normal', $form_id )
+		);
+
+		$hcaptcha->set_language(
+			/**
+			 * Filters the language code to be used with hCaptcha.
+			 *
+			 * See https://docs.hcaptcha.com/languages for available values.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $value   Language code to use. Default '' for automatic detection.
+			 * @param int    $form_id ID of the form being rendered.
+			 */
+			apply_filters( 'constant_contact_hcaptcha_lang', '', $form_id )
+		);
+
+		$hcaptcha->set_mode(
+			/**
+			 * Set the hCaptcha Mode to use.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $value   Use 'live' (default) or 'test' mode. In 'test' mode, predefined keys are used.
+			 * @param int    $form_id ID of the form being rendered.
+			 */
+			apply_filters( 'constant_contact_hcaptcha_mode', 'live', $form_id )
+		);
+
+		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
+		$return = $hcaptcha->get_inline_markup();
 		// phpcs:enable WordPress.WP.EnqueuedResources
 
 		return $return;

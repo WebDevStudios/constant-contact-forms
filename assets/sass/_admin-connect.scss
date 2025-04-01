@@ -1,7 +1,11 @@
+@use "sass:color";
+@use "mixins";
+@use "variables";
+
 // sass-lint:disable class-name-format no-qualifying-elements id-name-format
 
 #adminmenu .wp-submenu a[href='edit.php?post_type=ctct_forms&page=ctct_options_connect'] {
-	color: $color-light-green;
+	color: variables.$color-light-green;
 }
 
 //--------------------------------------------------------------
@@ -14,19 +18,24 @@
 	* {
 	  box-sizing: border-box;
 	}
-	margin: 35px auto 0; 
-	padding: 35px;
-	@include wider-than('small') {
+
+  	& {
+	  margin: 35px auto 0;
+	  padding: 35px;
+	}
+	@include mixins.wider-than('small') {
 	  margin: 55px auto 0;
-	} 
-	max-width: 850px;
-	position: relative;
-	background-color: $color-white;
-	border: 1px solid $color-silver;
-	border-radius: 8px;
-	box-shadow: $shadow_lg;
-	text-align: center;
-	z-index: 1;
+	}
+	& {
+	  max-width: 850px;
+	  position: relative;
+	  background-color: variables.$color-white;
+	  border: 1px solid variables.$color-silver;
+	  border-radius: 8px;
+	  box-shadow: variables.$shadow_lg;
+	  text-align: center;
+	  z-index: 1;
+	}
 
 	&.text-left{
 		text-align: left;
@@ -43,10 +52,10 @@
 		border-radius: 100%;
 		content: '';
 		z-index: -1;
-		border-top: 1px solid $color-silver;
-		background: $color-white url( ../images/ctct-icon-2x.png ) no-repeat center 45%;
-	} 
- 
+		border-top: 1px solid variables.$color-silver;
+		background: variables.$color-white url( ../images/ctct-icon-2x.png ) no-repeat center 45%;
+	}
+
 	h2{
 	  font-size: 24px;
 	  font-weight: 700;
@@ -67,17 +76,17 @@
 			left: 50%;
 			bottom: 0;
 			margin-left: -25px;
-			background-color: $color-silver;
+			background-color: variables.$color-silver;
 		 }
 	  }
-	} 
+	}
 
 	.ctct-connected-wrap{
 		padding: 45px 35px;
-		background-color: $color-lighter-gray;
-		border-radius: $radius;
+		background-color: variables.$color-lighter-gray;
+		border-radius: variables.$radius;
 	}
-	
+
 	.ctct-call-to-actions{
 		display: flex;
 		flex-wrap: wrap;
@@ -87,20 +96,22 @@
 		&--item {
 			width: 100%;
 			margin: 0 0 25px;
-			@include wider-than('small') {
+			@include mixins.wider-than('small') {
 				width: calc(50% - 5px);
 			}
-			padding: 30px 25px 25px;
-			background-color: $color-lighter-gray;
-			display: flex;
-			justify-content: center;
-			flex-wrap: wrap;
-			border-radius: 6px;
-			border: 1px solid $color-light-gray;	
-			transition: all 0.15s ease;
+			& {
+			  padding: 30px 25px 25px;
+			  background-color: variables.$color-lighter-gray;
+			  display: flex;
+			  justify-content: center;
+			  flex-wrap: wrap;
+			  border-radius: 6px;
+			  border: 1px solid variables.$color-light-gray;
+			  transition: all 0.15s ease;
+			}
 
 			&:hover{
-				box-shadow: $shadow_lg;
+				box-shadow: variables.$shadow_lg;
 			}
 
 			&.connect-account{
@@ -110,7 +121,7 @@
 				&:hover{
 					border-color: #90afc3;
 				}
-			}		
+			}
 
 			&.no-account{
 				border-color: #e2d9c4;
@@ -119,13 +130,13 @@
 				&:hover{
 					border-color: #c7ba9a;
 				}
-			}	
+			}
 
 			p{
 				margin-bottom: 15px;
 				line-height: 1.6;
 				padding: 0 5px;
-			}	
+			}
 		}
 	}
 
@@ -137,12 +148,12 @@
 	}
 
 	p {
-		color: $color-modal-alt-text;
+		color: variables.$color-modal-alt-text;
 		font-size: 14px;
 		margin-top: 0;
 
 		&.small {
-			color: $color-light-silver;
+			color: variables.$color-light-silver;
 			font-size: 12px;
 			margin: 0 auto;
 			padding: 0 10%;
@@ -150,14 +161,14 @@
 			text-align: center;
 		}
 	}
-	
+
 	hr{
 		margin: 35px 0;
 	}
 
 	.button.ctct-button {
 		border-radius: 4px;
-		color: $color-prussian-blue;
+		color: variables.$color-prussian-blue;
 		font-size: 16px;
 		font-weight: 600;
 		height: auto;
@@ -170,26 +181,26 @@
 		transition: all 0.15s ease;
 
 		&.button-orange {
-			background-color: $color-chrome-yellow;
-			border: 1px solid darken($color-chrome-yellow, 10%);
-			color: $color-white;
+			background-color: variables.$color-chrome-yellow;
+			border: 1px solid color.adjust(variables.$color-chrome-yellow, $lightness: -10%);
+			color: variables.$color-white;
 
 			&:hover,
 			&:focus {
-				color: $color-white;
-				background-color: lighten($color-chrome-yellow, 10%);
+				color: variables.$color-white;
+				background-color: color.adjust(variables.$color-chrome-yellow, $lightness: 10%);
 			}
 		}
 
 		&.button-blue {
-			background-color: $color-prussian-blue;
-			border: 1px solid darken($color-prussian-blue, 10%);
-			color: $color-white;
+			background-color: variables.$color-prussian-blue;
+			border: 1px solid color.adjust(variables.$color-prussian-blue, $lightness: -10%);
+			color: variables.$color-white;
 
 			&:hover,
 			&:focus {
-				color: $color-white;
-				background-color: lighten($color-prussian-blue, 10%);
+				color: variables.$color-white;
+				background-color: color.adjust(variables.$color-prussian-blue, $lightness: 10%);
 			}
 		}
 	}
@@ -252,21 +263,21 @@
 
 	> div{
 		width: 100%;
-		@include wider-than('small') {
+		@include mixins.wider-than('small') {
 			width: calc(50% - 10px);
 		}
 	}
 
 	.ctct-video{
 		margin-bottom: 15px;
-		@include wider-than('small') {
+		@include mixins.wider-than('small') {
 			margin-bottom: 0;
 			padding-right: 5px;
 		}
 
 		.wistia_embed{
 			max-width: 100%;
-			border-radius: $radius;
+			border-radius: variables.$radius;
 			overflow: hidden;
 		}
 	}
@@ -295,15 +306,15 @@
 
 .ctct-error {
 	background: none !important;
-	border: 1px solid $color-red;
-	border-radius: $radius;
+	border: 1px solid variables.$color-red;
+	border-radius: variables.$radius;
 	box-shadow: none !important;
 	display: inline-block;
 	padding: 15px;
 	margin: 0 0 25px 0 !important;
 
 	p {
-		color: $color-red !important;
+		color: variables.$color-red !important;
 	}
 
 }

@@ -3,15 +3,15 @@
 //   Let's import all the things - admin-style.css
 //--------------------------------------------------------------
 
-@import 'variables';
-@import 'mixins';
-@import 'modal';
+@use 'variables';
+@use 'mixins';
+@use 'modal';
 
-@import 'admin-toolbar';
-@import 'admin-connect';
-@import 'admin-debug';
-@import 'admin-about';
-@import 'admin-forms';
-@import 'admin-notices';
-@import 'admin-pages';
-@import 'admin-attached-lists';
+@use 'admin-toolbar';
+@use 'admin-connect';
+@use 'admin-debug';
+@use 'admin-about';
+@use 'admin-forms';
+@use 'admin-notices';
+@use 'admin-pages';
+@use 'admin-attached-lists';

@@ -1,3 +1,6 @@
+@use "mixins";
+@use "variables";
+
 // sass-lint:disable class-name-format no-qualifying-elements id-name-format
 //--------------------------------------------------------------
 //   FORMS
@@ -6,7 +9,7 @@
 .ctct-form-wrapper {
 
 	.ctct-form {
-		@include clearfix;
+		@include mixins.clearfix;
 
 		.ctct-label-top label,
 		.ctct-label-bottom label {
@@ -20,7 +23,7 @@
 
 		abbr {
 			border: none;
-			color: $color-red;
+			color: variables.$color-red;
 			font-size: 0.9rem;
 		}
 
@@ -29,13 +32,13 @@
 	.ctct-input-container {
 
 		label {
-			color: $color-gray;
+			color: variables.$color-gray;
 			font-size: 0.8rem;
 		}
 	}
 
 	.ctct-field-error {
-		color: $color-red;
+		color: variables.$color-red;
 	}
 
 	.ctct-submit {
