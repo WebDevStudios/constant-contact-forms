@@ -188,7 +188,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @param array $attached Array of attached posts/users.
 	 *
 	 * @return void
-	 * @since  NEXT
+	 * @since  2.6.0
 	 */
 	protected function display_retrieved( $objects, $attached ) {
 		$count = 0;
@@ -212,7 +212,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @param array $attached Array of attached posts/users.
 	 *
 	 * @return array
-	 * @since  NEXT
+	 * @since  2.6.0
 	 */
 	protected function display_attached( $attached_lists ) {
 		$ids = [];
@@ -271,7 +271,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @param string $icon_class The icon class. Either 'dashicons-plus' or 'dashicons-minus'.
 	 *
 	 * @return void
-	 * @since  NEXT
+	 * @since  2.6.0
 	 */
 	public function list_item( $object, $li_class, $icon_class = 'dashicons-plus' ) {
 		// Build our list item
@@ -290,7 +290,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @param mixed $object Post or User
 	 *
 	 * @return int            The object ID.
-	 * @since  NEXT
+	 * @since  2.6.0
 	 */
 	public function get_id( $object ) {
 		return $object->ID;
@@ -306,7 +306,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @param int $id Post or User ID.
 	 *
 	 * @return mixed     Post or User if found.
-	 * @since  NEXT
+	 * @since  2.6.0
 	 */
 	public function get_object( $id ) {
 		return get_post( absint( $id ) );
@@ -319,7 +319,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @param array $attached Array of attached object ids.
 	 *
 	 * @return array            Array of attached object ids.
-	 * @since  NEXT
+	 * @since  2.6.0
 	 */
 	public function get_all_objects( $args, $attached = [] ) {
 		$objects = $this->get_objects( $args );
@@ -351,7 +351,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @param array $args Array of query args.
 	 *
 	 * @return array        Array of results.
-	 * @since  NEXT
+	 * @since  2.6.0
 	 */
 	public function get_objects( $args ) {
 		return call_user_func( 'get_posts', $args );
@@ -406,7 +406,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @param string $val           The unsanitized value.
 	 *
 	 * @return string                 The (maybe-modified) sanitized value to be saved.
-	 * @since  NEXT
+	 * @since  2.6.0
 	 */
 	public function sanitize( $sanitized_val, $val ) {
 		if ( ! empty( $val ) ) {
@@ -420,7 +420,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * Check to see if we have a post type set and, if so, add the
 	 * pre_get_posts action to set the queried post type
 	 * @return void
-	 * @since  NEXT
+	 * @since  2.6.0
 	 */
 	public function ajax_find_posts() {
 		if ( $this->doing_search() ) {
@@ -434,7 +434,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @param WP_Query $query WP_Query instance during the pre_get_posts hook.
 	 *
 	 * @return void
-	 * @since  NEXT
+	 * @since  2.6.0
 	 */
 	public function modify_query( $query ) {
 		$types = $_POST['search_types'];
@@ -462,7 +462,7 @@ class ConstantContact_Attached_Lists_Field {
 	/**
 	 * Whether or not we are doing a list search.
 	 *
-	 * @since NEXT
+	 * @since 2.6.0
 	 * @return bool
 	 */
 	protected function doing_search() {
