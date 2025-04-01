@@ -77,7 +77,7 @@ class ConstantContact_Display_Shortcode {
 			return '';
 		}
 
-		$show_title = ( isset( $atts['show_title'] ) && 'true' === $atts['show_title'] ) ? true : false;
+		$show_title = isset( $atts['show_title'] ) && 'true' === $atts['show_title'];
 
 		return $this->get_form( $atts['form'], $show_title );
 	}
