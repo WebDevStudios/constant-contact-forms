@@ -241,23 +241,31 @@ class ConstantContact_Admin {
 
 		add_submenu_page(
 			$this->parent_menu_slug,
-			esc_html__( 'About', 'constant-contact-forms' ),
-			esc_html__( 'About', 'constant-contact-forms' ),
-			'manage_options',
-			$this->key . '_about',
-			[ $this, 'admin_page_display' ]
-		);
-
-		add_submenu_page(
-			$this->parent_menu_slug,
 			esc_html__( 'License', 'constant-contact-forms' ),
 			esc_html__( 'License', 'constant-contact-forms' ),
 			'manage_options',
 			$this->key . '_license',
 			[ $this, 'admin_page_display' ]
 		);
-
 		remove_submenu_page( $this->parent_menu_slug, $this->key . '_license' );
+
+		add_submenu_page(
+			$this->parent_menu_slug,
+			esc_html__( 'Help', 'constant-contact-forms' ),
+			esc_html__( 'Help', 'constant-contact-forms' ),
+			'manage_options',
+			$this->key . '_help',
+			[ $this, 'admin_page_display' ]
+		);
+
+		add_submenu_page(
+			$this->parent_menu_slug,
+			esc_html__( 'About', 'constant-contact-forms' ),
+			esc_html__( 'About', 'constant-contact-forms' ),
+			'manage_options',
+			$this->key . '_about',
+			[ $this, 'admin_page_display' ]
+		);
 
 		// Include CMB CSS in the head to avoid FOUC.
 		add_action( "admin_print_styles-{$this->options_page}", [ 'CMB2_hookup', 'enqueue_cmb_css' ] );
