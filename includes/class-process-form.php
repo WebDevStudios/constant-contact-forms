@@ -232,7 +232,15 @@ class ConstantContact_Process_Form {
 			];
 		}
 
-		if ( isset( $data['g-recaptcha-response'] ) ) {
+		$spam_error_response = [
+			'status' => 'named_error',
+			'error'  => $this->get_spam_message( $data['ctct-id'] ),
+		];
+
+		$captcha_sevice        = new ConstantContact_CaptchaService();
+		$maybe_disable_captcha = 'on' === get_post_meta( $data['ctct-id'], '_ctct_disable_recaptcha', true ); // Note: This option applies to whichever captcha sevice is enabled, despite the option name referencing reCAPTCHA.
+
+		if ( isset( $data['g-recaptcha-response'] ) && 'recaptcha' === $captcha_sevice->get_selected_captcha_service() ) {
 			$method = null;
 			if ( ! ini_get( 'allow_url_fopen' ) ) {
 				$method = new CurlPost();
@@ -242,6 +250,9 @@ class ConstantContact_Process_Form {
 			$keys = $ctctrecaptcha->get_recaptcha_keys();
 			$ctctrecaptcha->set_recaptcha_class( new ReCaptcha( $keys['secret_key'], $method ) );
 
+			// Note: The following line will cause the test key to fail as it expects the host to be testkey.google.com.
+			// This line can be commented out for testing purposes.
+			// @See https://developers.google.com/recaptcha/docs/faq#id-like-to-run-automated-tests-with-recaptcha.-what-should-i-do
 			$ctctrecaptcha->recaptcha->setExpectedHostname( wp_parse_url( home_url(), PHP_URL_HOST ) );
 			if ( 'v3' === $ctctrecaptcha->get_recaptcha_version() ) {
 
@@ -286,12 +297,54 @@ class ConstantContact_Process_Form {
 			}
 		}
 
-		$maybe_disable_recaptcha = 'on' === get_post_meta( $data['ctct-id'], '_ctct_disable_recaptcha', true );
-		if ( ! $maybe_disable_recaptcha && empty( $data['g-recaptcha-response'] ) && ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {
-			return [
-				'status' => 'named_error',
-				'error'  => $this->get_spam_message( $data['ctct-id'] ),
+		// Check for case where reCAPTCHA is enabled but response was missing.
+		if (
+			! $maybe_disable_captcha &&
+			empty( $data['g-recaptcha-response'] )
+			&& ConstantContact_reCAPTCHA::has_recaptcha_keys() &&
+			'recaptcha' === $captcha_sevice->get_selected_captcha_service()
+		) {
+			return $spam_error_response;
+		}
+
+		// Handle verifying hCaptcha response.
+		if ( isset( $data['h-captcha-response'] ) && 'hcaptcha' === $captcha_sevice->get_selected_captcha_service() ) {
+			$ctcthcaptcha = new ConstantContact_hCaptcha();
+			$ctcthcaptcha->set_hcaptcha_keys();
+			$keys = $ctcthcaptcha->get_hcaptcha_keys();
+
+			$hcaptcha_data = [
+				'secret'   => $keys['secret_key'],
+				'response' => $data['h-captcha-response']
 			];
+
+			$response = wp_remote_post(
+				'https://hcaptcha.com/siteverify',
+				[
+					'body' => http_build_query( $hcaptcha_data )
+				]
+			);
+
+			$hcaptcha_response_data = json_decode( wp_remote_retrieve_body( $response ) );
+			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) || false === $hcaptcha_response_data->success ) {
+
+				constant_contact_maybe_log_it( 'hCaptcha', 'Failed to verify with hCaptcha', $hcaptcha_response_data->{'error-codes'} );
+
+				return [
+					'status' => 'named_error',
+					'error'  => __( 'Failed hCaptcha check', 'constant-contact-forms' ),
+				];
+			}
+		}
+
+		// Check for case where hCaptcha is enabled but response was missing.
+		if (
+			! $maybe_disable_captcha &&
+			empty( $data['h-captcha-response'] )
+			&& ConstantContact_hCaptcha::has_hcaptcha_keys() &&
+			'hcaptcha' === $captcha_sevice->get_selected_captcha_service()
+		) {
+			return $spam_error_response;
 		}
 
 		/**
@@ -344,6 +397,7 @@ class ConstantContact_Process_Form {
 				'ctct_time',
 				'ctct_usage_field',
 				'g-recaptcha-response',
+				'h-recaptcha-response',
 				'ctct_must_opt_in',
 				'ctct-instance',
 			],
