@@ -274,7 +274,7 @@
   color: #555;
 }
 
-.post-type-ctct_lists #titlediv #title {
+.ctct-duplicate-list .post-type-ctct_lists #titlediv #title {
   background: rgba(255, 65, 54, 0.02) url("../images/error.svg") no-repeat 8px 50%;
   background-size: 24px;
   border-color: #FF4136;
