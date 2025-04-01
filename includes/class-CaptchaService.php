@@ -5,7 +5,7 @@
  * @package    ConstantContact
  * @subpackage CaptchaService
  * @author     Constant Contact
- * @since      NEXT
+ * @since      2.9.0
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
@@ -14,14 +14,14 @@
 /**
  * Class ConstantContact_CaptchaService.
  *
- * @since NEXT
+ * @since 2.9.0
  */
 class ConstantContact_CaptchaService {
 
 	/**
 	 * The key that plugin options are stored under.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @var string
 	 */
@@ -30,7 +30,7 @@ class ConstantContact_CaptchaService {
 	/**
 	 * The option key used to store the user-selected captcha service.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @var string
 	 */
@@ -39,7 +39,7 @@ class ConstantContact_CaptchaService {
 	/**
 	 * Constructor.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 */
 	public function __construct() {
 		$this->plugin_settings_key = constant_contact()->settings->key;
@@ -49,7 +49,7 @@ class ConstantContact_CaptchaService {
 	/**
 	 * Get the selected captcha service.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @return string The captcha service in use.
 	 */
@@ -62,7 +62,7 @@ class ConstantContact_CaptchaService {
 	/**
 	 * Returns true if a captcha service is selected and keys are present, or false otherwise.
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @return bool True if a captcha service is selected and keys are present, or false otherwise.
 	 */

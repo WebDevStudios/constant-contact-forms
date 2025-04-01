@@ -1157,7 +1157,7 @@ class ConstantContact_Settings {
 	/**
 	 * Sanitize API key strings for hCaptcha. Length is enforced
 	 *
-	 * @since NEXT
+	 * @since 2.9.0
 	 *
 	 * @param  mixed      $value      The unsanitized value from the form.
 	 * @param  array      $field_args Array of field arguments.
