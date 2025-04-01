@@ -135,21 +135,20 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @param array $form_meta Post meta.
 	 * @param int   $form_id   Form ID.
-	 * @return mixed Form field data.
+	 * @return array|string Form field data.
 	 */
-	public function get_field_meta( $form_meta, $form_id ) {
+	public function get_field_meta( array $form_meta, int $form_id ) {
 
-		if ( empty( $form_meta ) || ! is_array( $form_meta ) ) {
+		if ( empty( $form_meta ) ) {
 			return '';
 		}
 
 		if (
-			isset( $form_meta['custom_fields_group'] ) &&
-			$form_meta['custom_fields_group'] &&
-			isset( $form_meta['custom_fields_group'][0] )
+			isset( $form_meta['custom_fields_group'][0] ) && $form_meta['custom_fields_group']
 		) {
 			return $this->get_field_values( $form_meta['custom_fields_group'][0], $form_meta, $form_id );
 		}
+
 		return '';
 	}
 
@@ -158,9 +157,9 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $custom_fields Custom fields to parse through.
-	 * @param array $full_data     Array of full data.
-	 * @param int   $form_id       Form ID.
+	 * @param string $custom_fields Custom fields to parse through.
+	 * @param array  $full_data     Array of full data.
+	 * @param int    $form_id       Form ID.
 	 * @return array Form field markup.
 	 */
 	public function get_field_values( $custom_fields, $full_data, $form_id ) {
@@ -197,7 +196,7 @@ class ConstantContact_Display_Shortcode {
 		}
 
 		foreach ( $custom_fields as $key => $value ) {
-			if ( ! isset( $custom_fields ) || ! isset( $custom_fields[ $key ] ) ) {
+			if ( ! isset( $custom_fields[ $key ] ) ) {
 				continue;
 			}
 
