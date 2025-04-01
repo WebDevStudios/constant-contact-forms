@@ -79,7 +79,7 @@ class ConstantContact_Display_Shortcode {
 
 		$show_title = isset( $atts['show_title'] ) && 'true' === $atts['show_title'];
 
-		return $this->get_form( $atts['form'], $show_title );
+		return $this->get_form( absint( $atts['form'] ), $show_title );
 	}
 
 	/**
@@ -91,9 +91,7 @@ class ConstantContact_Display_Shortcode {
 	 * @param bool $show_title If true, show the form title.
 	 * @return string
 	 */
-	public function get_form( $form_id, $show_title = false ) {
-
-		$form_id = absint( $form_id );
+	public function get_form( int $form_id, bool $show_title = false ) {
 
 		if ( ! $form_id ) {
 			return '';
@@ -126,8 +124,8 @@ class ConstantContact_Display_Shortcode {
 	 * @param int  $form_id Form ID to display.
 	 * @param bool $show_title If true, show the title.
 	 */
-	public function display_form( $form_id, $show_title = false ) {
-		echo $this->get_form( absint( $form_id ), $show_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
+	public function display_form( int $form_id, bool $show_title = false ) {
+		echo $this->get_form( $form_id, $show_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
 	}
 
 	/**
