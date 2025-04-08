@@ -507,9 +507,7 @@ class ConstantContact_API {
 	 */
 	public function get_list( string $id ) {
 
-		$id = esc_attr( $id );
-
-		if ( ! $id ) {
+		if ( ! esc_attr( $id ) ) {
 			return [];
 		}
 
@@ -713,7 +711,7 @@ class ConstantContact_API {
 	public function delete_list( array $updated_list = [] ) {
 
 		if ( ! isset( $updated_list['id'] ) ) {
-			return [];
+			return false;
 		}
 
 		$list = false;
