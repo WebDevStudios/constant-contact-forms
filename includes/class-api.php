@@ -448,8 +448,9 @@ class ConstantContact_API {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $old_ids_string Comma separated list of old (v2 API) list ids.
+	 * @param string $old_ids_string   Comma separated list of old (v2 API) list ids.
 	 * @param bool   $force_skip_cache Whether or not to skip cache.
+	 *
 	 * @return array API v2 to v3 List ID cross references.
 	 */
 	public function get_v2_list_id_x_refs( string $old_ids_string, bool $force_skip_cache = false ) {
