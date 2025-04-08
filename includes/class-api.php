@@ -157,7 +157,7 @@ class ConstantContact_API {
 	 *
 	 * @param object $plugin Parent plugin class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		$this->scopes = array_flip( $this->valid_scopes );
 
