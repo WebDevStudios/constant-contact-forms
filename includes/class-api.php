@@ -1030,8 +1030,6 @@ class ConstantContact_API {
 
 					switch ( $key ) {
 						case 'street_address':
-							$streets[] = $value;
-							break;
 						case 'line_2_address':
 							$streets[] = $value;
 							break;
