@@ -1169,17 +1169,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Helper method to output a link for our Account Tab.
-	 *
-	 * @since 1.0.0
-	 * @return string Connect URL.
-	 */
-	public function get_account_link() {
-
-		return admin_url( 'edit.php' );
-	}
-
-	/**
 	 * Helper method to output a link for our settings page tabs.
 	 *
 	 * @since 2022-10-24
@@ -1192,7 +1181,7 @@ class ConstantContact_API {
 				'post_type' => 'ctct_forms',
 				'page' => sanitize_text_field( $settings_tab ),
 			],
-			$this->get_account_link()
+			admin_url( 'edit.php' )
 		);
 	}
 
