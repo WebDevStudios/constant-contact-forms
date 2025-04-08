@@ -185,7 +185,6 @@ class ConstantContact_API {
 			empty( $this->refresh_token ) ||
 			empty( $this->access_token )
 		) {
-
 			$success = $this->acquire_access_token();
 			if ( $success ) {
 				update_option( 'ctct_access_token_timestamp', time() );
@@ -193,14 +192,13 @@ class ConstantContact_API {
 		}
 
 		// custom scheduling based on the expiry time returned with access token
-
 		if ( ! empty( $this->expires_in ) ) {
 			add_filter(
 				'cron_schedules',
 				function ( $schedules ) {
 					$schedules['pkce_expiry'] = [
 						'interval' => $this->expires_in - 3600, // refreshing token before 1 hour of expiry
-						'display'  => __( 'Token Expiry' ),
+						'display'  => esc_html__( 'Token Expiry', 'constant-contact-forms' ),
 					];
 					return $schedules;
 				}
