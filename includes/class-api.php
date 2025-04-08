@@ -760,10 +760,6 @@ class ConstantContact_API {
 	 */
 	public function add_contact( $new_contact = [], $form_id = 0 ) {
 
-		if ( empty( $new_contact ) ) {
-			return [];
-		}
-
 		if ( ! isset( $new_contact['email'] ) ) {
 			return [];
 		}
