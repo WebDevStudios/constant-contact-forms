@@ -235,7 +235,6 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $type api key type.
 	 * @return string Access API token.
 	 */
 	public function get_api_token() {
@@ -257,7 +256,7 @@ class ConstantContact_API {
 	/**
 	 * Returns Refresh API token.
 	 *
-	 * @since 1.0.0
+	 * @since 2.0.0
 	 *
 	 * @param string $type api key type.
 	 * @return string Refresh Token.
