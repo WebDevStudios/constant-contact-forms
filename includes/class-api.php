@@ -292,7 +292,6 @@ class ConstantContact_API {
 		if ( false === $acct_data || $bypass_acct_cache ) {
 
 			try {
-
 				$acct_data = $this->cc()->get_account_info();
 				if ( array_key_exists( 'error_key', $acct_data ) && 'unauthorized' === $acct_data['error_key'] ) {
 					$this->refresh_token();
@@ -399,7 +398,6 @@ class ConstantContact_API {
 		if ( false === $lists ) {
 
 			try {
-
 				$results = $this->cc()->get_lists();
 				$lists = $results['lists'] ?? [];
 
