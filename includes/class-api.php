@@ -953,9 +953,9 @@ class ConstantContact_API {
 		);
 
 		if ( $this->has_note( $user_data ) ) {
-			$fetched_contact = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
-			$note_content = $this->get_note_content( $user_data );
-			$fetched_contact['notes'][] = [ 'content' => $note_content ];
+			$fetched_contact                  = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
+			$note_content                     = $this->get_note_content( $user_data );
+			$fetched_contact['notes'][]       = [ 'content' => $note_content ];
 			$fetched_contact['update_source'] = 'Contact';
 			$this->cc()->add_note( $fetched_contact );
 		}
