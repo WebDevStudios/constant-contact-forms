@@ -383,7 +383,7 @@ class ConstantContact_API {
 	 * @param bool $force_skip_cache Whether or not to skip cache.
 	 * @return array Current connect ctct lists.
 	 */
-	public function get_lists( $force_skip_cache = false ) {
+	public function get_lists( bool $force_skip_cache = false ) {
 
 		if ( ! $this->is_connected() ) {
 			return [];
@@ -452,7 +452,7 @@ class ConstantContact_API {
 	 * @param bool   $force_skip_cache Whether or not to skip cache.
 	 * @return array API v2 to v3 List ID cross references.
 	 */
-	public function get_v2_list_id_x_refs( $old_ids_string, $force_skip_cache = false ) {
+	public function get_v2_list_id_x_refs( string $old_ids_string, bool $force_skip_cache = false ) {
 
 		if ( ! $this->is_connected() ) {
 			return [];
@@ -506,7 +506,7 @@ class ConstantContact_API {
 	 * @param string $id List ID.
 	 * @return mixed
 	 */
-	public function get_list( $id ) {
+	public function get_list( string $id ) {
 
 		$id = esc_attr( $id );
 
@@ -654,7 +654,7 @@ class ConstantContact_API {
 	 * @param array $updated_list api data for list.
 	 * @return array current connect ctct list
 	 */
-	public function update_list( $updated_list = [] ) {
+	public function update_list( array $updated_list = [] ) {
 
 		$return_list = false;
 
@@ -711,7 +711,7 @@ class ConstantContact_API {
 	 * @param array $updated_list API data for list.
 	 * @return array Current connect ctct list.
 	 */
-	public function delete_list( $updated_list = [] ) {
+	public function delete_list( array $updated_list = [] ) {
 
 		if ( ! isset( $updated_list['id'] ) ) {
 			return [];
