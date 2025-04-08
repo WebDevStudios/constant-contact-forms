@@ -27,40 +27,127 @@ class ConstantContact_API {
 
 	/**
 	 * Parent plugin class.
-	 *
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Access token.
-	 *
 	 * @since 1.3.0
 	 * @var bool
 	 */
-	public string $access_token  = '';
-	public string $refresh_token = '';
-	public string $expires_in    = '';
+	public string $access_token = '';
 
-	private string $oauth2_url    = 'https://authz.constantcontact.com/oauth2/default/v1/token';
+	/**
+	 * Refresh token.
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public string $refresh_token = '';
+
+	/**
+	 * Expires timestamp.
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public string $expires_in = '';
+
+	/**
+	 * OAuth2 URL
+	 * @since 2.0.0
+	 * @var string
+	 */
+	private string $oauth2_url = 'https://authz.constantcontact.com/oauth2/default/v1/token';
+
+	/**
+	 * Authorize URL
+	 * @since 2.0.0
+	 * @var string
+	 */
 	private string $authorize_url = 'https://authz.constantcontact.com/oauth2/default/v1/authorize';
 
+	/**
+	 * Last error message.
+	 * @since 2.0.0
+	 * @var string
+	 */
 	private string $last_error = '';
-	private string $body       = '';
-	private string $host       = '';
-	private int $status_code   = 200;
-	private string $next       = '';
 
+	/**
+	 * Body value.
+	 * @since 2.0.0
+	 * @var string
+	 */
+	private string $body = '';
+
+	/**
+	 * Host value.
+	 * @since 2.0.0
+	 * @var string
+	 */
+	private string $host = '';
+
+	/**
+	 * Status code for a request
+	 * @since 2.0.0
+	 * @var int
+	 */
+	private int $status_code = 200;
+
+	/**
+	 * Session callback value.
+	 * @since 2.0.0
+	 * @var null
+	 */
 	private $session_callback = null;
 
-	public bool $PKCE           = true;
-	private array $scopes       = [];
-	private array $valid_scopes = [ 'account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access' ];
+	/**
+	 * PKCE
+	 * @since 2.0.0
+	 * @var bool
+	 */
+	public bool $PKCE = true;
 
-	private $client_api_key = 'a001418d-73c6-4ecb-9f8b-d5773d29b6e4'; // Managed by Constant Contact. Plain text OK due to PCKE auth method.
-	private $redirect_URI   = 'https://app.constantcontact.com/pages/dma/portal/oauth2';
+	/**
+	 * Scopes for authorization usage.
+	 * @since 2.0.0
+	 * @var array|int[]|string[]
+	 */
+	private array $scopes = [];
 
+	/**
+	 * Valid scope values
+	 * @since 2.0.0
+	 * @var array|string[]
+	 */
+	private array $valid_scopes = [
+		'account_read',
+		'account_update',
+		'contact_data',
+		'campaign_data',
+		'offline_access'
+	];
+
+	/**
+	 * Constant Contact's API Key
+	 * @since 2.0.0
+	 * @var string
+	 */
+	private string $client_api_key = 'a001418d-73c6-4ecb-9f8b-d5773d29b6e4'; // Managed by Constant Contact. Plain text OK due to PCKE auth method.
+
+	/**
+	 * OAuth2 redirect URI
+	 * @since 2.0.0
+	 * @var string
+	 */
+	private string $redirect_URI = 'https://app.constantcontact.com/pages/dma/portal/oauth2';
+
+	/**
+	 * Current User ID
+	 * @since 2.0.0
+	 * @var int
+	 */
 	public int $this_user_id = 0;
 
 	/**
