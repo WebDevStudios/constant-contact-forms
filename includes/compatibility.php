@@ -120,3 +120,36 @@ function constant_contact_exclude_cleantalk( $ignored ) {
 	return $ignored;
 }
 add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_exclude_cleantalk' );
+
+/**
+ * Filter in the current WPML language code used for the page.
+ *
+ * @since NEXT
+ *
+ * @param string $original_language_code Current language code for the page.
+ * @return mixed
+ */
+function constant_contact_wpml_and_recaptcha( string $original_language_code ) {
+	$new_language_code = apply_filters( 'wpml_current_language', null );
+
+	return ! empty( $new_language_code ) ? $new_language_code : $original_language_code;
+}
+add_filter( 'constant_contact_recaptcha_lang', 'constant_contact_wpml_and_recaptcha' );
+
+/**
+ * Filter in the current Polylang language code used for the page.
+ *
+ * @since NEXT
+ *
+ * @param string $original_language_code Current language code for the page.
+ * @return string
+ */
+function constant_contact_polylang_and_recaptcha( string $original_language_code ) {
+	if ( ! function_exists( 'pll_current_language' ) ) {
+		return $original_language_code;
+	}
+	$new_language_code = pll_current_language();
+
+	return ! empty( $new_language_code ) ? $new_language_code : $original_language_code;
+}
+add_filter( 'constant_contact_recaptcha_lang', 'constant_contact_polylang_and_recaptcha' );
