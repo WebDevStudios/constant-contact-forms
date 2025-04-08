@@ -995,8 +995,8 @@ class ConstantContact_API {
 		}
 
 		foreach ( $user_data as $original => $value ) {
-			$key   = sanitize_text_field( isset( $value['key'] ) ? $value['key'] : false );
-			$value = sanitize_text_field( isset( $value['val'] ) ? $value['val'] : false );
+			$key   = sanitize_text_field( $value['key'] ?? false );
+			$value = sanitize_text_field( $value['val'] ?? false );
 
 			if ( ! $key || ! $value ) {
 				continue;
