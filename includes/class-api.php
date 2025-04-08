@@ -1143,41 +1143,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Process api error response.
-	 *
-	 * @since 1.0.0
-	 * @since 1.8.6 Deprected
-	 *
-	 * @throws Exception Throws Exception if encountered while attempting to process error message.
-	 *
-	 * @param array $error API error repsonse.
-	 * @return mixed
-	 */
-	private function api_error_message( $error ) {
-
-		if ( ! isset( $error->error_key ) ) {
-			return false;
-		}
-
-		constant_contact_maybe_log_it(
-			'API',
-			$error->error_key . ': ' . $error->error_message,
-			$error
-		);
-
-		switch ( $error->error_key ) {
-			case 'http.status.authentication.invalid_token':
-				$this->access_token = false;
-				return esc_html__( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constant-contact-forms' );
-			case 'mashery.not.authorized.over.qps':
-				$this->pause_api_calls();
-				return;
-			default:
-				return false;
-		}
-	}
-
-	/**
 	 * Rate limit ourselves to not bust API call rate limit.
 	 *
 	 * @since 1.0.0
