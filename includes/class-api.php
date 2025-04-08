@@ -764,9 +764,7 @@ class ConstantContact_API {
 			return [];
 		}
 
-		$api_token = $this->get_api_token();
-		$email     = sanitize_email( $new_contact['email'] );
-
+		$email = sanitize_email( $new_contact['email'] );
 		// Set our list data. If we didn't get passed a list and got this far, just generate a random ID.
 		$list = isset( $new_contact['list'] ) ? $new_contact['list'] : 'cc_' . wp_generate_password( 15, false );
 
