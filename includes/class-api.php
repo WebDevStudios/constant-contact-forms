@@ -706,7 +706,7 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 *
 	 * @param array $updated_list API data for list.
-	 * @return array Current connect ctct list.
+	 * @return mixed Current connect ctct list.
 	 */
 	public function delete_list( array $updated_list = [] ) {
 
