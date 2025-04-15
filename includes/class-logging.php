@@ -23,7 +23,7 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 * @var string
 	 */
-	private $key = 'ctct_options_logging';
+	private string $key = 'ctct_options_logging';
 
 	/**
 	 * Parent plugin class.
@@ -31,7 +31,7 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Logging admin page URL.
@@ -39,7 +39,7 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 * @var string
 	 */
-	public $options_url = '';
+	public string $options_url = '';
 
 	/**
 	 * Options page.
@@ -47,7 +47,7 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 * @var string
 	 */
-	public $options_page = '';
+	public string $options_page = '';
 
 	/**
 	 * Log location, URL path.
@@ -55,7 +55,7 @@ class ConstantContact_Logging {
 	 * @since 1.4.5
 	 * @var string
 	 */
-	protected $log_location_url = '';
+	protected string $log_location_url = '';
 
 	/**
 	 * Log location, server path.
@@ -65,7 +65,7 @@ class ConstantContact_Logging {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	protected $log_location_file = '';
+	protected string $log_location_file = '';
 
 	/**
 	 * Log directory location, server path.
@@ -73,7 +73,7 @@ class ConstantContact_Logging {
 	 * @since 1.4.5
 	 * @var string
 	 */
-	protected $log_location_dir = '';
+	protected string $log_location_dir = '';
 
 	/**
 	 * The location of the log folder's index file.
@@ -81,7 +81,7 @@ class ConstantContact_Logging {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	protected $log_index_file = '';
+	protected string $log_index_file = '';
 
 	/**
 	 * The location of the log folder's htaccess file.
@@ -89,7 +89,7 @@ class ConstantContact_Logging {
 	 * @since 2.4.3
 	 * @var string
 	 */
-	protected $log_htaccess_file = '';
+	protected string $log_htaccess_file = '';
 
 	/**
 	 * The logging directory name.
@@ -97,7 +97,7 @@ class ConstantContact_Logging {
 	 * @since 1.8.2
 	 * @var   string
 	 */
-	protected $log_file_dir = 'ctct-logs';
+	protected string $log_file_dir = 'ctct-logs';
 
 	/**
 	 * WP_Filesystem
