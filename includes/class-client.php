@@ -199,7 +199,7 @@ class ConstantContact_Client {
 
 	private function delete( string $endpoint, $args = [] ) : array {
 		$options = [
-			'headers' => $this->base_args,
+			'headers' => $args,
 		];
 
 		$url = $this->base_url . $endpoint;
