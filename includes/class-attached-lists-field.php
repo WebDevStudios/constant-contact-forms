@@ -172,7 +172,7 @@ class ConstantContact_Attached_Lists_Field {
 				[
 					'type'  => 'hidden',
 					'class' => 'attached-posts-ids',
-					'value' => ! empty( $ids ) ? implode( ',', $ids ) : '', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'value' => implode( ',', $ids ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					'desc'  => '',
 				]
 			);
