@@ -169,9 +169,9 @@ class ConstantContact_Notifications {
 			return false;
 		}
 
-		$notif_id     = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
-		$callback     = isset( $notif['callback'] ) ? $notif['callback'] : false;
-		$require_cb   = isset( $notif['require_cb'] ) ? $notif['require_cb'] : false;
+		$notif_id   = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
+		$callback   = $notif['callback'] ?? false;
+		$require_cb = $notif['require_cb'] ?? false;
 
 		// We want to show the dismiss UI by default.
 		$show_dismiss = true;
@@ -206,7 +206,6 @@ class ConstantContact_Notifications {
 		$this->show_notice( $notif_id, $notif_content, $show_dismiss );
 
 		return true;
-
 	}
 
 	/**
