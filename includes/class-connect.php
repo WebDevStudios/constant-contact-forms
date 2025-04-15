@@ -218,28 +218,6 @@ class ConstantContact_Connect {
 					</div>
 				</div>
 				<?php // phpcs:enable WordPress.WP.EnqueuedResources ?>
-
-				<div class="ctct-connected-opt-in">
-					<div>
-						<h3><?php esc_html_e( 'Please Help to Improve this Plugin', 'constant-contact-forms' ); ?></h3>
-						<p>
-							<?php
-								printf(
-									/* Translators: Placeholder will hold link to Constant Contact privacy statement. */
-									esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %1$s.', 'constant-contact-forms' ),
-									sprintf(
-										'<a href="https://www.constantcontact.com/legal/privacy-statement">%1$s</a>',
-										esc_html__( 'Privacy Statement', 'constant-contact-forms' )
-									)
-								);
-							?>
-						</p>
-					</div>
-					<div id="ctct-connect-ga-optin" class="ctct-connect-ga-optin">
-						<a class="button button-primary ctct-connect" data-allow="on"><?php esc_html_e( 'Allow', 'constant-contact-forms' ); ?></a>
-						<a class="button" data-allow="off"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
-					</div>
-				</div>
 			</div>
 
 		<?php else : ?>
