@@ -162,10 +162,9 @@ class ConstantContact_Connect {
 						</p>
 						<p>
 							<?php
-							$token = constant_contact()->api->get_api_token();
-
+							$account = false;
 							try {
-								$account = (object) constant_contact()->api->get_account_info( $token );
+								$account = (object) constant_contact()->api->get_account_info();
 								if ( $account ) {
 									echo esc_html( $account->first_name . ' ' . $account->last_name );
 								}
