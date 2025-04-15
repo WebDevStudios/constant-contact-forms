@@ -137,14 +137,8 @@ class ConstantContact_Connect {
 	 * Admin page markup. Mostly handled by CMB2.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return mixed page markup or false if not admin.
 	 */
 	public function admin_page_display() {
-
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
-		}
 
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 
@@ -334,7 +328,6 @@ class ConstantContact_Connect {
 			</p>
 		<?php endif; ?>
 		<?php
-		return true;
 	}
 
 	/**
