@@ -118,7 +118,7 @@ class ConstantContact_Logging {
 		$this->plugin      = $plugin;
 		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
 		$uploads_dir       = wp_upload_dir();
-		$new_suffix        = $this->generate_random_string( 10 );
+		$new_suffix        = $this->generate_random_string();
 		$suffix            = get_option( 'ctct_log_suffix', '' );
 		if ( empty( $suffix ) ) {
 			$suffix = $new_suffix;
