@@ -142,7 +142,7 @@ class ConstantContact_Connect {
 
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 
-		wp_localize_script( 'ctct_form', 'ctctTexts', [ 'disconnectconfirm' => __( 'Are you sure you want to disconnect?', 'constant-contact-forms' ) ] );
+		wp_localize_script( 'ctct_form', 'ctctTexts', [ 'disconnectconfirm' => esc_html__( 'Are you sure you want to disconnect?', 'constant-contact-forms' ) ] );
 
 		wp_enqueue_script( 'ctct_form' );
 		?>
