@@ -176,8 +176,6 @@ class ConstantContact_Logging {
 	 * Add menu options page.
 	 *
 	 * @since 1.3.7
-	 *
-	 * @return null
 	 */
 	public function add_options_page() {
 
@@ -216,8 +214,6 @@ class ConstantContact_Logging {
 	 * Admin page markup.
 	 *
 	 * @since 1.3.7
-	 *
-	 * @return mixed page markup or false if not admin.
 	 */
 	public function admin_page_display() {
 
