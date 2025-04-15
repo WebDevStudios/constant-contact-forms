@@ -498,7 +498,7 @@ class ConstantContact_Logging {
 	 * @param  string $dir Directory path.
 	 * @return void
 	 */
-	protected function delete_log_dir( $dir = '' ) {
+	protected function delete_log_dir( string $dir = '' ) {
 		if ( empty( $dir ) || ! is_dir( $dir ) ) {
 			return;
 		}
