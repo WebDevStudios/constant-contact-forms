@@ -124,12 +124,12 @@ class ConstantContact_Logging {
 			$suffix = $new_suffix;
 			update_option( 'ctct_log_suffix', $suffix );
 		}
-		$log_file_name           = "constant-contact-errors-{$suffix}.log";
-		$this->log_location_url  = "{$uploads_dir['baseurl']}/{$this->log_file_dir}/{$log_file_name}";
-		$this->log_location_dir  = "{$uploads_dir['basedir']}/{$this->log_file_dir}";
-		$this->log_location_file = "{$this->log_location_dir}/{$log_file_name}";
-		$this->log_index_file    = "{$this->log_location_dir}/index.php";
-		$this->log_htaccess_file = "{$this->log_location_dir}/.htaccess";
+		$log_file_name           = "constant-contact-errors-$suffix.log";
+		$this->log_location_url  = "{$uploads_dir['baseurl']}/$this->log_file_dir/$log_file_name";
+		$this->log_location_dir  = "{$uploads_dir['basedir']}/$this->log_file_dir";
+		$this->log_location_file = "$this->log_location_dir/$log_file_name";
+		$this->log_index_file    = "$this->log_location_dir/index.php";
+		$this->log_htaccess_file = "$this->log_location_dir/.htaccess";
 
 		$this->hooks();
 	}
