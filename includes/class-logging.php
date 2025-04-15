@@ -222,7 +222,7 @@ class ConstantContact_Logging {
 
 		?>
 		<div class="wrap ctct-page-wrap <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php esc_html_e( 'Debug Logs', 'constant-contact-forms' ); ?></h2>
+			<h1><?php echo get_admin_page_title(); ?></h1>
 
 			<?php
 
