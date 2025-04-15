@@ -25,7 +25,7 @@ class ConstantContact_Elementor {
 	 * @since 1.11.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Constructor.
@@ -34,7 +34,7 @@ class ConstantContact_Elementor {
 	 *
 	 * @param object $plugin Parent plugin.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
