@@ -23,7 +23,7 @@ class ConstantContact_Notifications {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Option name where dismissed notices are logged.
@@ -32,7 +32,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @var string
 	 */
-	public static $dismissed_notices_option = 'ctct_notices_dismissed';
+	public static string $dismissed_notices_option = 'ctct_notices_dismissed';
 
 	/**
 	 * Option name where the "Leave a Review" notice is dismissed.
@@ -41,7 +41,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @var string
 	 */
-	public static $review_dismissed_option = 'ctct-review-dismissed';
+	public static string $review_dismissed_option = 'ctct-review-dismissed';
 
 	/**
 	 * Option name for when the "Leave a Review" button has been clicked (we assume the user has left a review).
@@ -50,7 +50,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @var string
 	 */
-	public static $reviewed_option = 'ctct-reviewed';
+	public static string $reviewed_option = 'ctct-reviewed';
 
 	/**
 	 * Option name for deleted forms, containing IDs for post and widget instances of forms.
@@ -59,7 +59,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @var string
 	 */
-	public static $deleted_forms = 'ctct_deleted_forms';
+	public static string $deleted_forms = 'ctct_deleted_forms';
 
 	/**
 	 * Constructor.
@@ -68,7 +68,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @param object $plugin Parent plugin class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
