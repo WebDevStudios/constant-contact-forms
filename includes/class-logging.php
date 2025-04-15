@@ -186,10 +186,8 @@ class ConstantContact_Logging {
 		}
 
 		$connect_title = esc_html__( 'Debug Logs', 'constant-contact-forms' );
-		$connect_link  = 'edit.php?post_type=ctct_forms';
-
 		$this->options_page = add_submenu_page(
-			$connect_link,
+			'edit.php?post_type=ctct_forms',
 			$connect_title,
 			$connect_title,
 			'manage_options',
