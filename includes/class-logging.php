@@ -566,6 +566,13 @@ class ConstantContact_Logging {
 		$this->create_log_file();
 	}
 
+	/**
+	 * Return an array of our log directory and file location.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @return array
+	 */
 	public function get_log_locations() {
 		return [
 			'directory' => $this->log_location_dir,
