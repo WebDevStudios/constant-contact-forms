@@ -281,7 +281,6 @@ class ConstantContact_Logging {
 			?>
 		</div>
 		<?php
-		return true;
 	}
 
 	/**
