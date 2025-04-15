@@ -105,7 +105,11 @@ class ConstantContact_Notifications {
 					'ID'         => 'activation',
 					'callback'   => [ 'ConstantContact_Notification_Content', 'activation' ],
 					'require_cb' => function() {
-						return constant_contact_is_not_connected() && ( isset( $_GET['page'] ) && sanitize_text_field( $_GET['page'] ) ?? '' ) !== 'ctct_options_settings_auth'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only used for boolean checks.
+						return constant_contact_is_not_connected() &&
+							   (
+								   isset( $_GET['page'] ) &&
+								   sanitize_text_field( $_GET['page'] ) ?? ''
+							   ) !== 'ctct_options_settings_auth'; // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only used for boolean checks.
 					},
 				],
 			]
