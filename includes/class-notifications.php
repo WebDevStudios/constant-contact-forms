@@ -165,7 +165,7 @@ class ConstantContact_Notifications {
 	 */
 	public function maybe_show_notification( array $notif ) {
 
-		if ( ! is_array( $notif ) ) {
+		if ( empty( $notif ) ) {
 			return false;
 		}
 
