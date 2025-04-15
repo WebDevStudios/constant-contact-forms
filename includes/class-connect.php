@@ -204,20 +204,16 @@ class ConstantContact_Connect {
 
 				<div class="ctct-connected-next-step">
 					<div>
-						<?php $form_url = admin_url( 'post-new.php?post_type=ctct_forms' ); ?>
 						<h3><?php esc_html_e( 'Turn Contacts into Customers!', 'constant-contact-forms' ); ?></h3>
 						<p><?php esc_html_e( 'Your site is connected to Constant Contact and ready to start collecting visitor information.', 'constant-contact-forms' ); ?></p>
 						<p><?php esc_html_e( 'Create a form that meets your visitors\' needs here:', 'constant-contact-forms' ); ?></p>
-						<a href="<?php echo esc_url( $form_url ); ?>" class="button"><?php esc_html_e( 'Add Form', 'constant-contact-forms' ); ?></a>
+						<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=ctct_forms' ) ); ?>" class="button"><?php esc_html_e( 'Add Form', 'constant-contact-forms' ); ?></a>
 					</div>
 					<div>
 						<?php if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) : ?>
-							<?php
-								$plugin_url = network_admin_url( 'plugin-install.php?s=constant+contact+woocommerce&tab=search&type=term' );
-							?>
 							<h3><?php esc_html_e( 'You have a WooCommerce store.', 'constant-contact-forms' ); ?></h3>
 							<p><?php esc_html_e( 'We have a plugin for that, too! With Constant Contact + WooCommerce, you can import order, product and customer information into Constant Contact for use in your campaigns.', 'constant-contact-forms' ); ?></p>
-							<a href="<?php echo esc_url( $plugin_url ); ?>" class="button"><?php esc_html_e( 'Install the WooCommerce plugin', 'constant-contact-forms' ); ?></a>
+							<a href="<?php echo esc_url( network_admin_url( 'plugin-install.php?s=constant+contact+woocommerce&tab=search&type=term' ) ); ?>" class="button"><?php esc_html_e( 'Install the WooCommerce plugin', 'constant-contact-forms' ); ?></a>
 						<?php endif; ?>
 					</div>
 				</div>
