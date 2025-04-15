@@ -5,7 +5,7 @@
  * @package ConstantContact
  * @subpackage Client
  * @author WDS
- * @since 1.0.0
+ * @since 2.0.0
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
@@ -13,14 +13,14 @@
 /**
  * Interfaces with necessary Constant Contact V3 Endpoints, utlizing WordPress HTTP APIs as needed.
  *
- * @since 1.14.0
+ * @since 2.0.0
  */
 class ConstantContact_Client {
 
 	/**
 	 * Base URL for V3.
 	 *
-	 * @since 1.14.0
+	 * @since 2.0.0
 	 * @var string
 	 */
 	private string $base_url = 'https://api.cc.email/v3/';
@@ -28,7 +28,7 @@ class ConstantContact_Client {
 	/**
 	 * Base args for V3 requests.
 	 *
-	 * @since 1.14.0
+	 * @since 2.0.0
 	 * @var array
 	 */
 	private array $base_args = [
@@ -40,19 +40,34 @@ class ConstantContact_Client {
 	/**
 	 * Constructor.
 	 *
-	 * @since 1.14.0
+	 * @since 2.0.0
 	 *
-	 * @param object $plugin Parent class.
+	 * @param string $access_token Access token.
 	 */
-	public function __construct( $access_token ) {
+	public function __construct( string $access_token ) {
 		$this->base_args['authorization'] = 'Bearer ' . $access_token;
 	}
 
+	/**
+	 * Get account information from Constant Contact for connected account.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return array
+	 */
 	public function get_account_info() {
 		return $this->get( 'account/summary', $this->base_args );
 	}
 
-	public function get_contacts( $args = [] ) {
+	/**
+	 * Get a list of contacts based on arguments.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $args Array of arguments for contacts request
+	 * @return array
+	 */
+	public function get_contacts( array $args = [] ) {
 
 		if ( empty( $args ) ) {
 			$args = [ 'status' => 'all' ];
@@ -62,24 +77,63 @@ class ConstantContact_Client {
 		return $this->get( "contacts?$args", $this->base_args );
 	}
 
-	public function get_contact( $contact_id, $args = [] ) {
+	/**
+	 * Get a specific contact.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $contact_id Contact ID
+	 * @param array  $args       Array of arguments for the contact request.
+	 * @return array
+	 */
+	public function get_contact( string $contact_id, array $args = [] ) {
 		$args = http_build_query( $args );
 		return $this->get( "contacts/{$contact_id}?$args", $this->base_args );
 	}
 
-	public function create_update_contact( $args = [] ) {
+	/**
+	 * Create or update a contact in Constant Contact.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $args Array of arguments for the contact.
+	 * @return array
+	 */
+	public function create_update_contact( array $args = [] ) {
 		return $this->post( 'contacts/sign_up_form', $this->base_args, $args );
 	}
 
+	/**
+	 * Get configured custom fields for contacts.
+	 *
+	 * @since 2.0.0
+	 * @return array
+	 */
 	public function get_custom_fields() {
 		return $this->get( 'contact_custom_fields', $this->base_args );
 	}
 
-	public function get_custom_field( $field_id ) {
+	/**
+	 * Get specific custom field for a contact.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $field_id Custom Field ID.
+	 * @return array
+	 */
+	public function get_custom_field( string $field_id ) {
 		return $this->get( "contact_custom_fields/{$field_id}", $this->base_args );
 	}
 
-	public function custom_field_exists( $field_name ) {
+	/**
+	 * Check if a specific custom field exists.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $field_name The name of the field to check for.
+	 * @return bool
+	 */
+	public function custom_field_exists( string $field_name ) {
 		$fields = $this->get_custom_fields();
 		if ( ! empty( $fields ) && array_key_exists( 'custom_fields', $fields ) ) {
 			$field_keys = wp_list_pluck( $fields['custom_fields'], 'label' );
@@ -88,7 +142,15 @@ class ConstantContact_Client {
 		return false;
 	}
 
-	public function get_custom_field_by_name( $field_name ) {
+	/**
+	 * Get a custom field value by custom field name.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $field_name Field name to get value for.
+	 * @return mixed|string
+	 */
+	public function get_custom_field_by_name( string $field_name ) {
 		$fields = $this->get_custom_fields();
 		if ( ! empty( $fields ) && array_key_exists( 'custom_fields', $fields ) ) {
 			foreach ( $fields['custom_fields'] as $field ) {
@@ -100,41 +162,114 @@ class ConstantContact_Client {
 		return '';
 	}
 
-	public function add_custom_field( $field_data ) {
+	/**
+	 * Add a custom field.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $field_data Array of custom field data.
+	 * @return array
+	 */
+	public function add_custom_field( array $field_data ) {
 		return $this->post( 'contact_custom_fields', $this->base_args, $field_data );
 	}
 
-	public function add_note( $updated_contact_data ) {
+	/**
+	 * Add a note to a specific contact.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param array $updated_contact_data Contact data.
+	 * @return array
+	 */
+	public function add_note( array $updated_contact_data ) {
 		$contact_id = $updated_contact_data['contact_id'];
 		return $this->put( "contacts/{$contact_id}", $this->base_args, $updated_contact_data );
 	}
 
+	/**
+	 * Get lists associated with the connected account.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return array
+	 */
 	public function get_lists() {
 		// Note: probably want to support pulling all the lists, e.g. set limit to 1000, rather than default of 50. Marketers gonna market.
 		return $this->get( 'contact_lists?include_membership_count=all', $this->base_args );
 	}
 
-	public function get_list( $list_id ) {
+	/**
+	 * Get a specific list by list ID.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $list_id ID of the list to retrieve.
+	 * @return array
+	 */
+	public function get_list( string $list_id ) {
 		return $this->get( "contact_lists/$list_id?include_membership_count=all", $this->base_args );
 	}
 
-	public function add_list( $list ) {
+	/**
+	 * Create a new list.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param object $list List data.
+	 * @return array
+	 */
+	public function add_list( object $list ) {
 		return $this->post( 'contact_lists', $this->base_args, $list );
 	}
 
-	public function update_list( $list ) {
+	/**
+	 * Update an existing list.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param object $list List data.
+	 * @return array
+	 */
+	public function update_list( object $list ) {
 		return $this->put( "contact_lists/$list->id", $this->base_args, $list );
 	}
 
-	public function delete_list( $list_id ) {
+	/**
+	 * Delete an existing list.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $list_id ID of the list to delete.
+	 * @return array
+	 */
+	public function delete_list( string $list_id ) {
 		return $this->delete( "contact_lists/$list_id", $this->base_args );
 	}
 
+	/**
+	 * Get a list of updated list IDs.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $old_ids_string Comma separated string of version2 list IDs
+	 * @return array Version3 list IDs for provided lists.
+	 */
 	public function get_updated_lists_ids( $old_ids_string ) {
 		return $this->get( "contact_lists/list_id_xrefs?sequence_ids={$old_ids_string}", $this->base_args );
 	}
 
-	private function get( string $endpoint, $args = [] ) : array {
+	/**
+	 * GET method for API requests.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $endpoint Endpoint to query.
+	 * @param array  $args     Arguments to use with query.
+	 *
+	 * @return array
+	 */
+	private function get( string $endpoint, array $args = [] ) : array {
 
 		$options = [
 			'headers' => $args,
@@ -151,7 +286,18 @@ class ConstantContact_Client {
 		return json_decode( $response['body'], true );
 	}
 
-	private function post( string $endpoint, $args = [], $body = [] ) : array {
+	/**
+	 * POST method for API requests.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $endpoint Endpoint to query.
+	 * @param array  $args     Arguments to use with query.
+	 * @param array  $body     POST body content to send.
+	 *
+	 * @return array
+	 */
+	private function post( string $endpoint, array $args = [], array $body = [] ) : array {
 
 		$options = [
 			'headers' => $args,
@@ -173,7 +319,18 @@ class ConstantContact_Client {
 		return json_decode( $response['body'], true );
 	}
 
-	private function put( string $endpoint, $args = [], $body = [] ) : array {
+	/**
+	 * PUT method for API requests.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $endpoint Endpoint to query.
+	 * @param array  $args     Arguments to use with query.
+	 * @param array  $body     PUT body content to send.
+	 *
+	 * @return array
+	 */
+	private function put( string $endpoint, array $args = [], array $body = [] ) : array {
 
 		$options = [
 			'headers' => $args,
@@ -197,7 +354,17 @@ class ConstantContact_Client {
 		return json_decode( $response['body'], true );
 	}
 
-	private function delete( string $endpoint, $args = [] ) : array {
+	/**
+	 * DELETE method for API requests.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $endpoint Endpoint to query.
+	 * @param array  $args     Arguments to use with query.
+	 *
+	 * @return array
+	 */
+	private function delete( string $endpoint, array $args = [] ) : array {
 		$options = [
 			'headers' => $args,
 		];
@@ -215,5 +382,4 @@ class ConstantContact_Client {
 
 		return json_decode( $response['body'], true );
 	}
-
 }
