@@ -459,7 +459,7 @@ class ConstantContact_Notifications {
 	 * @param  string $key Notice option key.
 	 */
 	protected function delete_dismissed_option( string $key ) {
-		delete_option( "ctct_{$key}" );
+		delete_option( "ctct_$key" );
 		wp_safe_redirect( remove_query_arg( [ 'ctct-dismiss-action', 'ctct-dismiss' ] ) );
 		exit;
 	}
