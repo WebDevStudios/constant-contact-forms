@@ -525,16 +525,16 @@ class ConstantContact_Logging {
 	 *
 	 * @return string $message with masked api_key value.
 	 */
-	public function mask_api_key( $message ) {
+	public function mask_api_key( string $message ) {
 		if ( empty( $message ) ) {
 			return $message;
 		}
 
-		if ( strpos( $message, 'api_key' ) === false ) {
+		if ( false === strpos( $message, 'api_key' ) ) {
 			return $message;
 		}
 
-		$key_pattern = '/(?<=api_key=)([^\s]+)/m';
+		$key_pattern = '/(?<=api_key=)(\S+)/m';
 		preg_match( $key_pattern, $message, $matches );
 		$key = ! empty( $matches[0] ) ? $matches[0] : false;
 
