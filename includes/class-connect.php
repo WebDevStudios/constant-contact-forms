@@ -25,7 +25,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $key = 'ctct_options_connect';
+	private string $key = 'ctct_options_connect';
 
 	/**
 	 * Api Error message.
@@ -33,7 +33,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public $error_message = '';
+	public string $error_message = '';
 
 	/**
 	 * Current page redirect Url.
@@ -41,7 +41,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $redirect_url = '';
+	private string $redirect_url = '';
 
 	/**
 	 * Parent plugin class.
@@ -49,15 +49,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
-
-	/**
-	 * Whether or not to encrypt.
-	 *
-	 * @since 1.0.0
-	 * @var bool
-	 */
-	public $should_encrypt = false;
+	protected object $plugin;
 
 	/**
 	 * Options page.
@@ -65,7 +57,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public $options_page = '';
+	public string $options_page = '';
 
 	/**
 	 * Constructor.
@@ -74,7 +66,7 @@ class ConstantContact_Connect {
 	 *
 	 * @param object $plugin Parent class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
