@@ -134,9 +134,6 @@ class ConstantContact_Notifications {
 		// Get our potentically dismissed notif ID.
 		$notif_id = $this->get_dismissal_id();
 
-		// Get current action to ensure dismissing on correct load.
-		$action = filter_input( INPUT_GET, 'action', FILTER_SANITIZE_SPECIAL_CHARS );
-
 		if ( $this->check_dismissal_nonce() && $notif_id ) {
 			$this->save_dismissed_notification( $notif_id );
 		}
