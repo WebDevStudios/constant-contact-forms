@@ -346,6 +346,7 @@ class ConstantContact_Logging {
 		if ( ! empty( $log_content_dir ) && is_string( $log_content_dir ) ) {
 			return $log_content_dir;
 		}
+		return '';
 	}
 
 	/**
