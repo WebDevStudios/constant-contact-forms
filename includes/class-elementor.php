@@ -10,6 +10,8 @@
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
+use Elementor\Plugin;
+
 /**
  * This class get's everything up an running for Elementor support.
  *
@@ -53,7 +55,7 @@ class ConstantContact_Elementor {
 	 */
 	public function register_widget() {
 		require_once __DIR__ . '/widgets/elementor-widget.php';
-		\Elementor\Plugin::instance()->widgets_manager->register_widget_type( new ConstantContact_Elementor_Widget() );
+		Plugin::instance()->widgets_manager->register( new ConstantContact_Elementor_Widget() );
 	}
 
 }
