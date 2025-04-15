@@ -508,7 +508,7 @@ class ConstantContact_Logging {
 			return;
 		}
 
-		array_map( 'unlink', glob( "{$dir}/*" ) );
+		array_map( 'unlink', glob( "$dir/*" ) );
 		rmdir( $dir );
 	}
 
