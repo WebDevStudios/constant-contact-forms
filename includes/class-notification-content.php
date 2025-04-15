@@ -79,12 +79,13 @@ class ConstantContact_Notification_Content {
 				</a>
 
 				<?php
-					$link_start = sprintf( '<a href="%1$s">', admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_about' ) );
-
 					printf(
 						/* Translators: Placeholders around "Learn More" hold html `<a>` tag. */
 						esc_html__( '%1$sLearn More%2$s about the power of email marketing.', 'constant-contact-forms' ),
-						sprintf( '<a href="%1$s">', esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_about' ) ) ),
+						sprintf(
+							'<a href="%1$s">',
+							esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_about' ) )
+						),
 						'</a>'
 					)
 				?>
