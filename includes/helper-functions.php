@@ -631,6 +631,17 @@ function constant_contact_set_has_exceptions( $status = 'true' ) {
 }
 
 /**
+ * Check whether or not we have an exception to handle.
+ *
+ * @since NEXT
+ * @return bool
+ */
+function constant_contact_get_has_exceptions(): bool {
+	// force string true to be the only way to return true
+	return 'true' === get_option( 'ctct_exceptions_exist', 'false' );
+}
+
+/**
  * Contactenate passed in log location and line number.
  *
  * Line number may not be 100% accurate, depending on how data is combined.
