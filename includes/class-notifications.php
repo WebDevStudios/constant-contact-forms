@@ -168,9 +168,10 @@ class ConstantContact_Notifications {
 			return false;
 		}
 
-		$notif_id   = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
-		$callback   = isset( $notif['callback'] ) ? $notif['callback'] : false;
-		$require_cb = isset( $notif['require_cb'] ) ? $notif['require_cb'] : false;
+		$notif_id     = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
+		$callback     = isset( $notif['callback'] ) ? $notif['callback'] : false;
+		$require_cb   = isset( $notif['require_cb'] ) ? $notif['require_cb'] : false;
+		$show_dismiss = ! empty( $notif['show_dismiss'] ) && true === $notif['show_dismiss'];
 
 		if ( ! $notif_id || ! $callback ) {
 			return false;
@@ -195,7 +196,7 @@ class ConstantContact_Notifications {
 
 		$notif_content = call_user_func( $callback );
 
-		$this->show_notice( $notif_id, $notif_content );
+		$this->show_notice( $notif_id, $notif_content, $show_dismiss );
 
 		return true;
 
@@ -378,7 +379,7 @@ class ConstantContact_Notifications {
 	 * @param string $content Admin notice content.
 	 * @return void
 	 */
-	public function show_notice( $key, $content = '' ) {
+	public function show_notice( $key, $content = '', $allow_dismiss = true ) {
 
 		if ( ! $content ) {
 			return;
@@ -389,7 +390,11 @@ class ConstantContact_Notifications {
 		?>
 		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
 			<?php echo wp_kses_post( $content ); ?>
-			<?php constant_contact()->notifications->do_dismiss_link( esc_attr( $key ) ); ?>
+			<?php
+			if ( $allow_dismiss ) {
+				constant_contact()->notifications->do_dismiss_link( esc_attr( $key ) );
+			}
+			?>
 		</div>
 		<?php
 	}
