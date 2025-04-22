@@ -326,8 +326,8 @@ class ConstantContact_API {
 					$lists   = $results['lists'] ?? [];
 				}
 
-				if ( ! empty( $lists ) && is_array( $lists ) ) {
-					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
+				if ( ! empty( $lists ) ) {
+					set_transient( 'ctct_lists', $lists, 12 * HOUR_IN_SECONDS );
 					return $lists;
 				} elseif ( array_key_exists( 'error_key', $results ) ) {
 					set_transient( 'ctct_lists', $lists, 15 * MINUTE_IN_SECONDS );
