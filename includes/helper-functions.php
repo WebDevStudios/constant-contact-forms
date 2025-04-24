@@ -634,11 +634,33 @@ function constant_contact_set_has_exceptions( $status = 'true' ) {
  * Check whether or not we have an exception to handle.
  *
  * @since 2.10.0
+ *
  * @return bool
  */
 function constant_contact_get_has_exceptions(): bool {
 	// force string true to be the only way to return true
 	return 'true' === get_option( 'ctct_exceptions_exist', 'false' );
+}
+
+/**
+ * Whether or not we need to manually reconnect.
+ *
+ * @since NEXT
+ *
+ * @return bool
+ */
+function constant_contact_get_needs_manual_reconnect() {
+	return true === (bool) get_option( 'ctct_maybe_needs_reconnected', false );
+}
+/**
+ * Set if we need to manually reconnect.
+ *
+ * @param bool $status Status value to set.
+ *
+ * @since NEXT
+ */
+function constant_contact_set_needs_manual_reconnect( bool $status ) {
+	update_option( 'ctct_maybe_needs_reconnected', $status );
 }
 
 /**
