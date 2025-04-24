@@ -1688,7 +1688,7 @@ class ConstantContact_API {
 		$title = get_bloginfo( 'blogname' );
 
 		$content = esc_html__(
-			'We have detected connection errors for your site, %s%s%s. A failed signup has been detected and will be retried automatically once a new connection has been established. Please visit your site and perform the steps to reconnect the plugin at your earliest convenience.',
+			'We have detected connection errors for your site, %s%s%s. Potentially a failed signup has been detected and will be retried automatically once a new connection has been established. Otherwise, issues with token refreshing have been detected. Please visit your site and perform the steps to reconnect the plugin at your earliest convenience.',
 			'constant-contact-forms'
 		);
 		$content = sprintf(
