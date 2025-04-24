@@ -63,7 +63,6 @@ class ConstantContact_Builder_Fields {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 		$this->init();
-		$this->init_field_defaults();
 	}
 
 	/**
@@ -73,6 +72,7 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function init() {
 		add_action( 'init', [ $this, 'hooks' ] );
+		add_action( 'init', [ $this, 'init_field_defaults' ] );
 	}
 
 	/**
