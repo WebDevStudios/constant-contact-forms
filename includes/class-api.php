@@ -1423,6 +1423,10 @@ class ConstantContact_API {
 	 */
 	public function refresh_token(): bool {
 
+		if ( constant_contact_get_needs_manual_reconnect() ) {
+			return false;
+		}
+
 		constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token triggered' );
 
 		// Create full request URL
