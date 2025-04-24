@@ -930,9 +930,7 @@ function constant_contact_maybe_display_disconnect_reconnect_notice() {
 		return false;
 	}
 
-	$maybe_display = get_transient( 'ctct_maybe_needs_reconnected' );
-
-	return true === $maybe_display;
+	return true === constant_contact_get_needs_manual_reconnect();
 }
 
 /**
