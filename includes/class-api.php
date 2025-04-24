@@ -1484,6 +1484,7 @@ class ConstantContact_API {
 			if ( isset( $data['error'] ) ) {
 				$this->last_error = $data['error'] . ': ' . ( $data['error_description'] ?? 'Undefined' );
 				constant_contact_maybe_log_it( 'Error: ', $this->last_error );
+				return false;
 			}
 
 			if ( ! empty( $data['access_token'] ) ) {
