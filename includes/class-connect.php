@@ -377,6 +377,7 @@ class ConstantContact_Connect {
 			delete_option( 'ctct_refresh_token' );
 			delete_option( '_ctct_refresh_token' );
 			delete_option( '_ctct_expires_in' );
+			delete_option( 'ctct_maybe_needs_reconnected' );
 
 			delete_option( 'CtctConstantContactcode_verifier' );
 			delete_option( 'CtctConstantContactState' );
