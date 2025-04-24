@@ -168,7 +168,7 @@ class ConstantContact_Connect {
 
 			<div class="ctct-connected">
 				<div class="ctct-connected-wrap">
-					<h2><?php esc_html_e( 'Account Connected!', 'constant-contact-forms' ); ?></h2>
+					<h3><?php esc_html_e( 'Account Connected!', 'constant-contact-forms' ); ?></h3>
 					<p class="ctct-description">
 						<?php esc_html_e( 'You are connected to the Constant Contact account shown below.', 'constant-contact-forms' ); ?>
 					</p>
