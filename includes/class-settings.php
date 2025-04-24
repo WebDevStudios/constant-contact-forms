@@ -59,16 +59,6 @@ class ConstantContact_Settings {
 	public function __construct( $plugin ) {
 		$this->plugin = $plugin;
 
-		// Init CMB2 metabox titles, used as tab titles on settings page.
-		$this->metabox_titles = [
-			'general' => esc_html__( 'General', 'constant-contact-forms' ),
-			'styles'  => esc_html__( 'Styles', 'constant-contact-forms' ),
-			'optin'   => esc_html__( 'Opt-in', 'constant-contact-forms' ),
-			'spam'    => esc_html__( 'Spam Control', 'constant-contact-forms' ),
-			'support' => esc_html__( 'Support', 'constant-contact-forms' ),
-			'auth'    => esc_html__( 'Account', 'constant-contact-forms' ),
-		];
-
 		$this->register_hooks();
 	}
 
@@ -78,6 +68,7 @@ class ConstantContact_Settings {
 	 * @since 1.0.0
 	 */
 	public function register_hooks() {
+		add_action( 'cmb2_admin_init', [ $this, 'set_metabox_titles' ] );
 		add_action( 'cmb2_admin_init', [ $this, 'add_options_page_metaboxes' ] );
 
 		add_action( 'admin_menu', [ $this, 'remove_extra_menu_items' ], 999 );
@@ -91,6 +82,23 @@ class ConstantContact_Settings {
 		add_filter( 'user_register', [ $this, 'process_optin_register_form' ], 10, 1 );
 		add_action( 'cmb2_save_field__ctct_logging', [ $this, 'maybe_init_logs' ], 10, 3 );
 		add_filter( 'constant_contact_custom_spam_message', [ $this, 'get_spam_error_message' ], 10, 2 );
+	}
+
+	/**
+	 * Set metabox tab titles.
+	 *
+	 * @since NEXT
+	 */
+	public function set_metabox_titles() {
+		// Init CMB2 metabox titles, used as tab titles on settings page.
+		$this->metabox_titles = [
+			'general' => esc_html__( 'General', 'constant-contact-forms' ),
+			'styles'  => esc_html__( 'Styles', 'constant-contact-forms' ),
+			'optin'   => esc_html__( 'Opt-in', 'constant-contact-forms' ),
+			'spam'    => esc_html__( 'Spam Control', 'constant-contact-forms' ),
+			'support' => esc_html__( 'Support', 'constant-contact-forms' ),
+			'auth'    => esc_html__( 'Account', 'constant-contact-forms' ),
+		];
 	}
 
 	/**
