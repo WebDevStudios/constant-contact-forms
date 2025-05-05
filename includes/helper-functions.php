@@ -991,10 +991,12 @@ function constant_contact_maybe_show_list_notes_notification() :bool {
 		return false;
 	}
 
+	// Technically already checked for in is_constant_contact() but re-checking for just
+	// this screen should also limit it to JUST our lists list.
 	$screen = get_current_screen();
 	if ( is_null( $screen ) || 'edit-ctct_lists' !== $screen->id ) {
 		return false;
 	}
 
-	return true;
+	return constant_contact_get_has_exceptions();
 }
