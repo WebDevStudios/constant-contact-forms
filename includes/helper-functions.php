@@ -645,7 +645,7 @@ function constant_contact_get_has_exceptions(): bool {
 /**
  * Whether or not we need to manually reconnect.
  *
- * @since NEXT
+ * @since 2.10.0
  *
  * @return bool
  */
@@ -657,7 +657,7 @@ function constant_contact_get_needs_manual_reconnect() {
  *
  * @param bool $status Status value to set.
  *
- * @since NEXT
+ * @since 2.10.0
  */
 function constant_contact_set_needs_manual_reconnect( bool $status ) {
 	update_option( 'ctct_maybe_needs_reconnected', $status );
