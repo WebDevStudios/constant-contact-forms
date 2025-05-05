@@ -335,6 +335,21 @@ class ConstantContact_Notification_Content {
 		<?php
 		return ob_get_clean();
 	}
+
+	public static function lists_notes_notice() {
+		ob_start();
+		?>
+		<div class="admin-notice-message">
+			<?php
+			// Since we are keeping this permanently shown, we are removing the paragraph tag to reduce vertical space sightly.
+			esc_html_e( 'If you recently created a list in your Constant Contact Dashboard and do not see it here, please use the "Sync Lists with Constant Contact" link.', 'constant-contact-forms' );
+			echo '<br/>';
+			esc_html_e( 'Your lists should automatically sync every twelve hours.', 'constant-contact-forms' );
+			?>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
 }
 
 /**
@@ -490,6 +505,14 @@ function constant_contact_cron_notification( array $notifications = [] ) {
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_cron_notification' );
 
+/**
+ * Add notification regarding available updates.
+ *
+ * @since 2.7.0
+ *
+ * @param array $notifications Array of notifications to be shown.
+ * @return array               Array of notifications to be shown.
+ */
 function constant_contact_update_available_notification( array $notifications = [] ) {
 	$notifications[] = [
 		'ID'         => 'update_available_notice',
@@ -500,3 +523,23 @@ function constant_contact_update_available_notification( array $notifications = 
 	return $notifications;
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_update_available_notification' );
+
+/**
+ * Add notification regarding notes about list syncing.
+ *
+ * @since 2.10.0
+ *
+ * @param array $notifications Array of notifications to be shown.
+ * @return array               Array of notifications to be shown.
+ */
+function constant_contact_lists_notes_notification( array $notifications = [] ) {
+	$notifications[] = [
+		'ID'           => 'list_notes',
+		'callback'     => [ 'ConstantContact_Notification_Content', 'lists_notes_notice' ],
+		'require_cb'   => 'constant_contact_maybe_show_list_notes_notification',
+		'show_dismiss' => false,
+	];
+
+	return $notifications;
+}
+add_filter( 'constant_contact_notifications', 'constant_contact_lists_notes_notification' );

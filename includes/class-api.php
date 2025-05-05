@@ -326,11 +326,11 @@ class ConstantContact_API {
 					$lists   = $results['lists'] ?? [];
 				}
 
-				if ( ! empty( $lists ) && is_array( $lists ) ) {
-					set_transient( 'ctct_lists', $lists, 1 * HOUR_IN_SECONDS );
+				if ( ! empty( $lists ) ) {
+					set_transient( 'ctct_lists', $lists, 12 * HOUR_IN_SECONDS );
 					return $lists;
 				} elseif ( array_key_exists( 'error_key', $results ) ) {
-					set_transient( 'ctct_lists', $lists, 15 * MINUTE_IN_SECONDS );
+					set_transient( 'ctct_lists', $lists, DAY_IN_SECONDS );
 					add_filter( 'constant_contact_force_logging', '__return_true' );
 					$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
 					$our_errors[] = $extra . $results['error_key'] . ': ' . $results['error_message'];
