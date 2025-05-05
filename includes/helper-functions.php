@@ -991,5 +991,10 @@ function constant_contact_maybe_show_list_notes_notification() :bool {
 		return false;
 	}
 
-	return constant_contact_get_has_exceptions();
+	$screen = get_current_screen();
+	if ( is_null( $screen ) || 'edit-ctct_lists' !== $screen->id ) {
+		return false;
+	}
+
+	return true;
 }
