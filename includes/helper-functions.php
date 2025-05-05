@@ -642,16 +642,7 @@ function constant_contact_get_has_exceptions(): bool {
 	return 'true' === get_option( 'ctct_exceptions_exist', 'false' );
 }
 
-/**
- * Whether or not we need to manually reconnect.
- *
- * @since 2.10.0
- *
- * @return bool
- */
-function constant_contact_get_needs_manual_reconnect() {
-	return true === (bool) get_option( 'ctct_maybe_needs_reconnected', false );
-}
+
 /**
  * Set if we need to manually reconnect.
  *
@@ -659,8 +650,20 @@ function constant_contact_get_needs_manual_reconnect() {
  *
  * @since 2.10.0
  */
-function constant_contact_set_needs_manual_reconnect( bool $status ) {
+function constant_contact_set_needs_manual_reconnect( $status = 'true' ) {
 	update_option( 'ctct_maybe_needs_reconnected', $status );
+}
+
+/**
+ * Whether or not we need to manually reconnect.
+ *
+ * @since 2.10.0
+ *
+ * @return bool
+ */
+function constant_contact_get_needs_manual_reconnect(): bool {
+	// force string true to be the only way to return true
+	return 'true' === get_option( 'ctct_maybe_needs_reconnected', 'false' );
 }
 
 /**
