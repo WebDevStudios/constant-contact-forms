@@ -978,7 +978,7 @@ function constant_contact_countries_array() {
 /**
  * Maybe display our list notes notification.
  *
- * @since NEXT
+ * @since 2.10.0
  *
  * @return bool
  */
