@@ -835,12 +835,13 @@ class ConstantContact_Lists {
 	 */
 	public function add_force_sync_button( $views ) {
 
-		$link = wp_nonce_url( add_query_arg( [ 'ctct_list_sync' => 'true' ] ), 'ctct_resyncing', 'ctct_resyncing' );
+		$reconnect_link = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' );
+		$sync_link = wp_nonce_url( add_query_arg( [ 'ctct_list_sync' => 'true' ] ), 'ctct_resyncing', 'ctct_resyncing' );
 
-		if ( constant_contact()->api->is_connected() ) {
-			$views['sync'] = '<strong><a href="' . $link . '">' . esc_html__( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
-		} elseif ( constant_contact_get_has_exceptions() ) {
-			$views['sync'] = '<strong><a href="' . $link . '">' . esc_html__( 'Fix connectivity issues', 'constant-contact-forms' ) . '</a></strong>';
+		if ( constant_contact_get_needs_manual_reconnect() ) {
+			$views['reconnect'] = '<strong><a href="' . $reconnect_link . '">' . esc_html__( 'Fix connectivity issues', 'constant-contact-forms' ) . '</a></strong>';
+		} else if ( constant_contact()->api->is_connected() ) {
+			$views['sync'] = '<strong><a href="' . $sync_link . '">' . esc_html__( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
 		}
 
 		return $views;
