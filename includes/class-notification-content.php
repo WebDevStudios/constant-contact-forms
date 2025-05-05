@@ -337,14 +337,21 @@ class ConstantContact_Notification_Content {
 	}
 
 	public static function lists_notes_notice() {
+		if ( constant_contact_get_needs_manual_reconnect() ) {
+			return '';
+		}
 		ob_start();
 		?>
 		<div class="admin-notice-message">
 			<?php
-			// Since we are keeping this permanently shown, we are removing the paragraph tag to reduce vertical space sightly.
-			esc_html_e( 'If you recently created a list in your Constant Contact Dashboard and do not see it here, please use the "Sync Lists with Constant Contact" link.', 'constant-contact-forms' );
-			echo '<br/>';
-			esc_html_e( 'Your lists should automatically sync every twelve hours.', 'constant-contact-forms' );
+			if ( ! constant_contact()->api->is_connected() ) {
+				esc_html_e( 'If you want to make use of lists, sign up for an account or connect your existing account.', 'constant-contact-forms' );
+			} else {
+				// Since we are keeping this permanently shown, we are removing the paragraph tag to reduce vertical space sightly.
+				esc_html_e( 'If you recently created a list in your Constant Contact Dashboard and do not see it here, please use the "Sync Lists with Constant Contact" link.', 'constant-contact-forms' );
+				echo '<br/>';
+				esc_html_e( 'Your lists should automatically sync every twelve hours.', 'constant-contact-forms' );
+			}
 			?>
 		</div>
 		<?php
