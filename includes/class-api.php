@@ -1401,7 +1401,7 @@ class ConstantContact_API {
 		$result = $this->exec( $url, $options );
 
 		if ( false === $result ) {
-			constant_contact_set_needs_manual_reconnect( true );
+			constant_contact_set_needs_manual_reconnect( 'true' );
 		} else {
 
 			/**
@@ -1411,7 +1411,7 @@ class ConstantContact_API {
 			 */
 			do_action( 'ctct_access_token_acquired' );
 
-			constant_contact_set_needs_manual_reconnect( false );
+			constant_contact_set_needs_manual_reconnect( 'false' );
 		}
 
 
@@ -1448,10 +1448,10 @@ class ConstantContact_API {
 		$result = $this->exec( $url, $options );
 
 		if ( false === $result ) {
-			constant_contact_set_needs_manual_reconnect( true );
+			constant_contact_set_needs_manual_reconnect( 'true' );
 		} else {
 			update_option( 'ctct_access_token_timestamp', time() );
-			constant_contact_set_needs_manual_reconnect( false );
+			constant_contact_set_needs_manual_reconnect( 'false' );
 		}
 
 		return $result;
