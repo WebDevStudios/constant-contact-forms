@@ -1401,7 +1401,7 @@ class ConstantContact_API {
 		$result = $this->exec( $url, $options );
 
 		if ( false === $result ) {
-			set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
+			constant_contact_set_needs_manual_reconnect( 'true' );
 		} else {
 
 			/**
@@ -1411,7 +1411,7 @@ class ConstantContact_API {
 			 */
 			do_action( 'ctct_access_token_acquired' );
 
-			delete_transient( 'ctct_maybe_needs_reconnected' );
+			constant_contact_set_needs_manual_reconnect( 'false' );
 		}
 
 
@@ -1422,6 +1422,11 @@ class ConstantContact_API {
 	 * Refresh the access token.
 	 */
 	public function refresh_token(): bool {
+
+		// Force prevent any further attempts until humans interject.
+		if ( constant_contact_get_needs_manual_reconnect() ) {
+			return false;
+		}
 
 		constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token triggered' );
 
@@ -1444,10 +1449,10 @@ class ConstantContact_API {
 		$result = $this->exec( $url, $options );
 
 		if ( false === $result ) {
-			set_transient( 'ctct_maybe_needs_reconnected', true, DAY_IN_SECONDS );
+			constant_contact_set_needs_manual_reconnect( 'true' );
 		} else {
 			update_option( 'ctct_access_token_timestamp', time() );
-			delete_transient( 'ctct_maybe_needs_reconnected' );
+			constant_contact_set_needs_manual_reconnect( 'false' );
 		}
 
 		return $result;
@@ -1478,8 +1483,12 @@ class ConstantContact_API {
 
 			// check if the body contains error
 			if ( isset( $data['error'] ) ) {
+				if ( 'invalid_grant' === $data['error'] ) {
+					$this->api_errors_admin_email();
+				}
 				$this->last_error = $data['error'] . ': ' . ( $data['error_description'] ?? 'Undefined' );
 				constant_contact_maybe_log_it( 'Error: ', $this->last_error );
+				return false;
 			}
 
 			if ( ! empty( $data['access_token'] ) ) {
@@ -1658,26 +1667,29 @@ class ConstantContact_API {
 
 	/**
 	 * Email site administrator email and any custom email address set to be notified of new entries.
-	 *
 	 * This method is meant to notify that there are API errors being detected, and that
 	 * a new connection should be established. This will be after temporarily storing a
-	 * form submission that will be re-processed once new tokens are established. We are
-	 * not going to worry about listing the form name, because all forms would be affected.
+	 * form submission that will be re-processed once new tokens are established or if API
+	 * responses are returning errors. We are not going to worry about listing the form name,
+	 * because all forms would be affected.
 	 *
 	 * @since 2.7.0
+	 * @since 2.10.0 Re-using for general API request issues.
 	 *
-	 * @param $form_id
+	 * @param int $form_id Form ID to use.
 	 */
-	protected function api_errors_admin_email( $form_id ) {
+	protected function api_errors_admin_email( int $form_id = 0 ) {
 		$send_to_addresses[] = get_option( 'admin_email' );
-		$custom              = get_post_meta( $form_id, '_ctct_email_settings', true );
+		if ( $form_id ) {
+			$custom = get_post_meta( $form_id, '_ctct_email_settings', true );
+		}
 		if ( ! empty( $custom ) ) {
 			$send_to_addresses[] = $custom;
 		}
 		$title = get_bloginfo( 'blogname' );
 
 		$content = esc_html__(
-			'We have detected potential connection errors for your site, %s%s%s. A failed signup has been detected and will be retried automatically once a new connection has been established. Please visit your site and perform the steps to reconnect the plugin at your earliest convenience.',
+			'We have detected connection errors for your site, %s%s%s. Potentially a failed signup has been detected and will be retried automatically once a new connection has been established. Otherwise, issues with token refreshing have been detected. Please visit your site and perform the steps to reconnect the plugin at your earliest convenience.',
 			'constant-contact-forms'
 		);
 		$content = sprintf(
@@ -1701,7 +1713,7 @@ class ConstantContact_API {
 				 * @param string $value Constructed email subject.
 				 * @param string $value Constant Contact Form ID.
 				 */
-				apply_filters( 'constant_contact_api_errors_admin_email_subject', esc_html__( 'Potential Constant Contact Forms issues.', 'constant-contact-forms' ), $form_id ),
+				apply_filters( 'constant_contact_api_errors_admin_email_subject', esc_html__( 'Detected Constant Contact Forms issues.', 'constant-contact-forms' ), $form_id ),
 				$content
 			);
 		}

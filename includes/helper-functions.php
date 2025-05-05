@@ -634,11 +634,36 @@ function constant_contact_set_has_exceptions( $status = 'true' ) {
  * Check whether or not we have an exception to handle.
  *
  * @since 2.10.0
+ *
  * @return bool
  */
 function constant_contact_get_has_exceptions(): bool {
 	// force string true to be the only way to return true
 	return 'true' === get_option( 'ctct_exceptions_exist', 'false' );
+}
+
+
+/**
+ * Set if we need to manually reconnect.
+ *
+ * @param bool $status Status value to set.
+ *
+ * @since 2.10.0
+ */
+function constant_contact_set_needs_manual_reconnect( $status = 'true' ) {
+	update_option( 'ctct_maybe_needs_reconnected', $status );
+}
+
+/**
+ * Whether or not we need to manually reconnect.
+ *
+ * @since 2.10.0
+ *
+ * @return bool
+ */
+function constant_contact_get_needs_manual_reconnect(): bool {
+	// force string true to be the only way to return true
+	return 'true' === get_option( 'ctct_maybe_needs_reconnected', 'false' );
 }
 
 /**
@@ -908,9 +933,7 @@ function constant_contact_maybe_display_disconnect_reconnect_notice() {
 		return false;
 	}
 
-	$maybe_display = get_transient( 'ctct_maybe_needs_reconnected' );
-
-	return true === $maybe_display;
+	return true === constant_contact_get_needs_manual_reconnect();
 }
 
 /**
@@ -998,5 +1021,5 @@ function constant_contact_maybe_show_list_notes_notification() :bool {
 		return false;
 	}
 
-	return constant_contact_get_has_exceptions();
+	return true;
 }
