@@ -192,10 +192,10 @@ class ConstantContact_Admin {
 		$connect_title = esc_html__( 'Connected', 'constant-contact-forms' );
 		$connect_alt   = esc_html__( 'Your Constant Contact account is connected!', 'constant-contact-forms' );
 		$api_status    = esc_html( 'connected' );
-		if ( ! constant_contact()->api->is_connected() ) {
+		if ( ! constant_contact()->api->is_connected() || constant_contact_get_needs_manual_reconnect() ) {
 			$connect_title = esc_html__( 'Disconnected', 'constant-contact-forms' );
 			$connect_alt   = esc_html__( 'Your Constant Contact account is not connected.', 'constant-contact-forms' );
-			$api_status    = esc_html( 'disconnected' );
+			$api_status    = esc_attr( 'disconnected' );
 		}
 		?>
 			<div class="ctct-header">
@@ -216,8 +216,8 @@ class ConstantContact_Admin {
 					echo wp_kses( '</ul>', [ 'ul' => [] ] );
 				}
 				?>
-				<a href="edit.php?post_type=ctct_forms&page=ctct_options_connect" class="ctct-status ctct-<?php echo $api_status; ?>" title="<?php echo $connect_alt; ?>"> <?php // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already handled earlier. ?>
-					<?php echo $connect_title; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already handled earlier. ?>
+				<a href="edit.php?post_type=ctct_forms&page=ctct_options_connect" class="ctct-status ctct-<?php echo esc_attr( $api_status ); ?>" title="<?php echo esc_attr( $connect_alt ); ?>">
+					<?php echo esc_html( $connect_title ); ?>
 				</a>
 			</div>
 		<?php
