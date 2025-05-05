@@ -379,7 +379,7 @@ class ConstantContact_Notifications {
 	 * @param string $content Admin notice content.
 	 * @return void
 	 */
-	public function show_notice( $key, $content = '', $allow_dismiss = true ) {
+	public function show_notice( $key, $content = '', $show_dismiss = true ) {
 
 		if ( ! $content ) {
 			return;
@@ -391,7 +391,7 @@ class ConstantContact_Notifications {
 		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
 			<?php echo wp_kses_post( $content ); ?>
 			<?php
-			if ( $allow_dismiss ) {
+			if ( $show_dismiss ) {
 				constant_contact()->notifications->do_dismiss_link( esc_attr( $key ) );
 			}
 			?>
