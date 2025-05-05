@@ -89,8 +89,8 @@ class ConstantContact_Display {
 				 * See https://developers.google.com/recaptcha/docs/language for available values.
 				 *
 				 * @since 1.2.4
-				 * @since 1.7.0 Added form ID for conditional amending.
-				 * @since NEXT  Removed form ID due to changing where we invoke and use language code.
+				 * @since 1.7.0  Added form ID for conditional amending.
+				 * @since 2.10.0 Removed form ID due to changing where we invoke and use language code.
 				 *
 				 * @param string $value Language code to use. Default 'en'.
 				 */

@@ -87,7 +87,7 @@ class ConstantContact_Settings {
 	/**
 	 * Set metabox tab titles.
 	 *
-	 * @since NEXT
+	 * @since 2.10.0
 	 */
 	public function set_metabox_titles() {
 		// Init CMB2 metabox titles, used as tab titles on settings page.

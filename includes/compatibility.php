@@ -124,7 +124,7 @@ add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_exclu
 /**
  * Filter in the current WPML language code used for the page.
  *
- * @since NEXT
+ * @since 2.10.0
  *
  * @param string $original_language_code Current language code for the page.
  * @return mixed
@@ -139,7 +139,7 @@ add_filter( 'constant_contact_recaptcha_lang', 'constant_contact_wpml_and_recapt
 /**
  * Filter in the current Polylang language code used for the page.
  *
- * @since NEXT
+ * @since 2.10.0
  *
  * @param string $original_language_code Current language code for the page.
  * @return string
