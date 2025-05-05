@@ -169,9 +169,7 @@ class ConstantContact_CPTS {
 			'capability_type'     => 'page',
 		];
 
-		if ( constantcontact_api()->is_connected() ) {
-			register_post_type( 'ctct_lists', $args );
-		}
+		register_post_type( 'ctct_lists', $args );
 	}
 
 	/**
