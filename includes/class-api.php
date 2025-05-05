@@ -1423,6 +1423,7 @@ class ConstantContact_API {
 	 */
 	public function refresh_token(): bool {
 
+		// Force prevent any further attempts until humans interject.
 		if ( constant_contact_get_needs_manual_reconnect() ) {
 			return false;
 		}
