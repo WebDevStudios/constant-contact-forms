@@ -527,7 +527,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_update_available
 /**
  * Add notification regarding notes about list syncing.
  *
- * @since NEXT
+ * @since 2.10.0
  *
  * @param array $notifications Array of notifications to be shown.
  * @return array               Array of notifications to be shown.
