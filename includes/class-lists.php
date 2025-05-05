@@ -837,7 +837,11 @@ class ConstantContact_Lists {
 
 		$link = wp_nonce_url( add_query_arg( [ 'ctct_list_sync' => 'true' ] ), 'ctct_resyncing', 'ctct_resyncing' );
 
-		$views['sync'] = '<strong><a href="' . $link . '">' . __( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
+		if ( constant_contact()->api->is_connected() ) {
+			$views['sync'] = '<strong><a href="' . $link . '">' . esc_html__( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
+		} elseif ( constant_contact_get_has_exceptions() ) {
+			$views['sync'] = '<strong><a href="' . $link . '">' . esc_html__( 'Fix connectivity issues', 'constant-contact-forms' ) . '</a></strong>';
+		}
 
 		return $views;
 	}
