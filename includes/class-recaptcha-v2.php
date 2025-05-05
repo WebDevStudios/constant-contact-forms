@@ -49,7 +49,7 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 			'recaptcha-lib-v2',
 			add_query_arg(
 				[
-					'hl'     => $this->lang_code,
+					'hl'     => $this->get_language(),
 					'onload' => 'renderReCaptcha',
 					'render' => 'explicit',
 				],
