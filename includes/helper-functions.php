@@ -633,7 +633,7 @@ function constant_contact_set_has_exceptions( $status = 'true' ) {
 /**
  * Check whether or not we have an exception to handle.
  *
- * @since NEXT
+ * @since 2.10.0
  * @return bool
  */
 function constant_contact_get_has_exceptions(): bool {
