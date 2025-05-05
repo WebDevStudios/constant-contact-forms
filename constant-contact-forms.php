@@ -103,14 +103,6 @@ class Constant_Contact {
 	protected $basename = '';
 
 	/**
-	 * Plugin name.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	public $plugin_name = '';
-
-	/**
 	 * Menu Icon.
 	 *
 	 * @since 1.0.0
@@ -390,9 +382,6 @@ class Constant_Contact {
 	 * @return void
 	 */
 	protected function __construct() {
-
-		// Set up our plugin name.
-		$this->plugin_name = esc_html__( 'Constant Contact', 'constant-contact-forms' );
 
 		// Set up some helper properties.
 		$this->basename = plugin_basename( __FILE__ );
@@ -675,7 +664,6 @@ class Constant_Contact {
 			case 'lists':
 			case 'logging':
 			case 'path':
-			case 'plugin_name':
 			case 'process_form':
 			case 'settings':
 			case 'url':
