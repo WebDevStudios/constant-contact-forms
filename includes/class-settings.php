@@ -70,11 +70,11 @@ class ConstantContact_Settings {
 	public function register_hooks() {
 		add_action( 'cmb2_admin_init', [ $this, 'set_metabox_titles' ] );
 		add_action( 'cmb2_admin_init', [ $this, 'add_options_page_metaboxes' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'register_metabox_override_hooks' ] );
 
 		add_action( 'admin_menu', [ $this, 'remove_extra_menu_items' ], 999 );
 		add_filter( 'parent_file', [ $this, 'select_primary_menu_item' ] );
 
-		$this->register_metabox_override_hooks();
 		$this->inject_optin_form_hooks();
 
 		add_filter( 'preprocess_comment', [ $this, 'process_optin_comment_form' ] );
@@ -109,11 +109,7 @@ class ConstantContact_Settings {
 	 *
 	 * @return void
 	 */
-	protected function register_metabox_override_hooks() {
-		if ( ! is_array( $this->metabox_titles ) ) {
-			return;
-		}
-
+	public function register_metabox_override_hooks() {
 		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
 			add_filter( "cmb2_override_option_get_{$this->key}_{$cmb_key}", [ $this, 'get_override' ], 10, 2 );
 			add_filter( "cmb2_override_option_save_{$this->key}_{$cmb_key}", [ $this, 'update_override' ], 10, 2 );
