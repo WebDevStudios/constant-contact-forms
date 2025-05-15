@@ -336,6 +336,13 @@ class ConstantContact_Notification_Content {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Admin notice regarding syncing for new lists.
+	 *
+	 * @since 2.10.0
+	 *
+	 * @return false|string
+	 */
 	public static function lists_notes_notice() {
 		ob_start();
 		?>
