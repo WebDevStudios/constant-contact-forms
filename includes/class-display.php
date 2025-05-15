@@ -2136,8 +2136,9 @@ class ConstantContact_Display {
 				),
 				$this->plugin->api->get_disclosure_info(),
 				sprintf(
-					'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-					esc_url( 'https://www.constantcontact.com/legal/service-provider' ),
+					'<a href="%1$s" target="_blank" rel="noopener noreferrer" aria-label="%2$s">%3$s</a>',
+					esc_url( 'https://www.constantcontact.com/legal/about-constant-contact' ),
+					esc_attr__( 'About Constant Contact, opens a new window', 'constant-contact-forms' ),
 					esc_html__( 'Emails are serviced by Constant Contact', 'constant-contact-forms' )
 				)
 			);
