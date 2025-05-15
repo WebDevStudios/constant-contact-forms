@@ -171,7 +171,13 @@ class ConstantContact_Notifications {
 		$notif_id     = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
 		$callback     = isset( $notif['callback'] ) ? $notif['callback'] : false;
 		$require_cb   = isset( $notif['require_cb'] ) ? $notif['require_cb'] : false;
-		$show_dismiss = ! empty( $notif['show_dismiss'] ) && true === $notif['show_dismiss'];
+
+		// We want to show the dismiss UI by default.
+		$show_dismiss = true;
+		// show_dismiss should only be set to false if we explicitly pass false. Anything else should evaluate to true.
+		if ( false === $notif['show_dismiss'] ) {
+			$show_dismiss = false;
+		}
 
 		if ( ! $notif_id || ! $callback ) {
 			return false;
