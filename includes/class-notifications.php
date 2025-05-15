@@ -175,7 +175,7 @@ class ConstantContact_Notifications {
 		// We want to show the dismiss UI by default.
 		$show_dismiss = true;
 		// show_dismiss should only be set to false if we explicitly pass false. Anything else should evaluate to true.
-		if ( false === $notif['show_dismiss'] ) {
+		if ( array_key_exists( 'show_dismiss', $notif ) && false === $notif['show_dismiss'] ) {
 			$show_dismiss = false;
 		}
 
