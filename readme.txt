@@ -49,6 +49,16 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= 2.10.0 =
+* Added: Use current displayed language with Google reCAPTCHA when using WPML or PolyLang.
+* Fixed: Issues around language specifications for Google reCAPTCHA.
+* Fixed: WordPress notices around textdomain loading.
+* Fixed: Added aria-label to disclosure external links for better ADA compliance
+* Updated: Amended processes regarding failing API communications when human intervention needed. Includes preventing excessive attempts to refresh tokens in states where the attempt will fail.
+* Updated: Increased notification chances if human intervention needed.
+* Updated: Register list post type for Constant Contact Lists even if not yet connected.
+* Updated: Notice regarding list management details.
+
 = 2.9.1 =
 * Fixed: Fatal error regarding autoloading classes and filename capitalization mismatch.
 
