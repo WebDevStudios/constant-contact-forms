@@ -403,12 +403,12 @@ window.CTCTBuilder = {};
 					}
 				}
 
-				if (window.ctct_admin_placeholders) {
-					const placeholder = window.ctct_admin_placeholders[fieldDropdown.value];
+				if (ctct_admin_placeholders) {
+					const placeholder = ctct_admin_placeholders[fieldDropdown.value];
 					if (placeholder && placeholder.length && fieldDesc) {
 						fieldDesc.setAttribute('placeholder', 'Example: ' + placeholder);
-					} else if (window.ctct_admin_placeholders.default) {
-						fieldDesc.setAttribute('placeholder', window.ctct_admin_placeholders.default);
+					} else if (ctct_admin_placeholders.default) {
+						fieldDesc.setAttribute('placeholder', ctct_admin_placeholders.default);
 					}
 				}
 			});

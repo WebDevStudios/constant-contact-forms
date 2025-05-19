@@ -196,7 +196,7 @@ class ConstantContact_Builder_Fields {
 	 * @since 1.6.0
 	 */
 	public function add_placeholders_to_js() {
-		wp_localize_script( 'ctct_form', 'ctct_admin_placeholders', $this->filtered['placeholders'] );
+		wp_add_inline_script( 'ctct_form', 'const ctct_admin_placeholders = ' . json_encode( $this->filtered['placeholders'] ), 'before' );
 	}
 
 	/**
