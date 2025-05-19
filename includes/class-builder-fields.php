@@ -230,7 +230,11 @@ class ConstantContact_Builder_Fields {
 				$list_metabox->add_field(
 					[
 						'name' => esc_html__( 'No Lists Found', 'constant-contact-forms' ),
-						'desc' => '<a href="/wp-admin/edit.php?post_type=ctct_lists">' . esc_html__( 'Create a List', 'constant-contact-forms' ) . '</a>',
+						'desc' => sprintf(
+							'<a href="%s">%s</a>',
+							esc_url( admin_url( 'edit.php?post_type=ctct_lists' ) ),
+							esc_html__( 'Create a List', 'constant-contact-forms' )
+						),
 						'type' => 'title',
 						'id'   => $this->prefix . 'tip',
 					]
