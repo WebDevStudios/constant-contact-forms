@@ -130,13 +130,9 @@ class ConstantContact_Builder {
 		global $post;
 
 		if (
-			isset( $post->ID ) &&
-			$post->ID &&
-			isset( $post->post_type ) &&
-			$post->post_type &&
+			! empty( $post ) &&
 			'ctct_forms' === $post->post_type &&
 			$cmbobj &&
-			isset( $cmbobj->data_to_save ) &&
 			isset( $cmbobj->data_to_save['custom_fields_group'] ) &&
 			is_array( $cmbobj->data_to_save['custom_fields_group'] )
 		) {
@@ -169,10 +165,7 @@ class ConstantContact_Builder {
 
 		if (
 			$post &&
-			isset( $post->ID ) &&
-			isset( $post->post_type ) &&
 			'ctct_forms' === $post->post_type &&
-			isset( $post->post_status ) &&
 			'auto-draft' !== $post->post_status
 		) {
 			$has_email = get_post_meta( $post->ID, '_ctct_has_email_field', true );
@@ -244,9 +237,6 @@ class ConstantContact_Builder {
 		// what we want to deal with, which is saving a form
 		// and not connected to constant contact.
 		if (
-			$post &&
-			$post_id &&
-			isset( $post->post_type ) &&
 			'ctct_forms' === $post->post_type &&
 			! wp_is_post_revision( $post ) &&
 			! constant_contact()->api->is_connected()
