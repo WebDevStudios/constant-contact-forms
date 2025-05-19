@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     2.9.1
+ * Version:     2.10.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * Requires PHP: 7.4
@@ -76,7 +76,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '2.9.1';
+	const VERSION = '2.10.0';
 
 	/**
 	 * URL of plugin directory.
@@ -101,14 +101,6 @@ class Constant_Contact {
 	 * @var string
 	 */
 	protected $basename = '';
-
-	/**
-	 * Plugin name.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	public $plugin_name = '';
 
 	/**
 	 * Menu Icon.
@@ -391,9 +383,6 @@ class Constant_Contact {
 	 */
 	protected function __construct() {
 
-		// Set up our plugin name.
-		$this->plugin_name = esc_html__( 'Constant Contact', 'constant-contact-forms' );
-
 		// Set up some helper properties.
 		$this->basename = plugin_basename( __FILE__ );
 		$this->url      = plugin_dir_url( __FILE__ );
@@ -675,7 +664,6 @@ class Constant_Contact {
 			case 'lists':
 			case 'logging':
 			case 'path':
-			case 'plugin_name':
 			case 'process_form':
 			case 'settings':
 			case 'url':

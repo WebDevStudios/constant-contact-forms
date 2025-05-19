@@ -168,9 +168,16 @@ class ConstantContact_Notifications {
 			return false;
 		}
 
-		$notif_id   = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
-		$callback   = isset( $notif['callback'] ) ? $notif['callback'] : false;
-		$require_cb = isset( $notif['require_cb'] ) ? $notif['require_cb'] : false;
+		$notif_id     = isset( $notif['ID'] ) ? esc_attr( $notif['ID'] ) : false;
+		$callback     = isset( $notif['callback'] ) ? $notif['callback'] : false;
+		$require_cb   = isset( $notif['require_cb'] ) ? $notif['require_cb'] : false;
+
+		// We want to show the dismiss UI by default.
+		$show_dismiss = true;
+		// show_dismiss should only be set to false if we explicitly pass false. Anything else should evaluate to true.
+		if ( array_key_exists( 'show_dismiss', $notif ) && false === $notif['show_dismiss'] ) {
+			$show_dismiss = false;
+		}
 
 		if ( ! $notif_id || ! $callback ) {
 			return false;
@@ -195,7 +202,7 @@ class ConstantContact_Notifications {
 
 		$notif_content = call_user_func( $callback );
 
-		$this->show_notice( $notif_id, $notif_content );
+		$this->show_notice( $notif_id, $notif_content, $show_dismiss );
 
 		return true;
 
@@ -378,7 +385,7 @@ class ConstantContact_Notifications {
 	 * @param string $content Admin notice content.
 	 * @return void
 	 */
-	public function show_notice( $key, $content = '' ) {
+	public function show_notice( $key, $content = '', $show_dismiss = true ) {
 
 		if ( ! $content ) {
 			return;
@@ -389,7 +396,11 @@ class ConstantContact_Notifications {
 		?>
 		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
 			<?php echo wp_kses_post( $content ); ?>
-			<?php constant_contact()->notifications->do_dismiss_link( esc_attr( $key ) ); ?>
+			<?php
+			if ( $show_dismiss ) {
+				constant_contact()->notifications->do_dismiss_link( esc_attr( $key ) );
+			}
+			?>
 		</div>
 		<?php
 	}

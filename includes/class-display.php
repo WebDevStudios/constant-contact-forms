@@ -83,6 +83,18 @@ class ConstantContact_Display {
 				$recaptcha_class_name = "ConstantContact_reCAPTCHA_{$version}";
 
 				$recaptcha = new $recaptcha_class_name();
+
+				/**
+				 * Filters the language code to be used with Google reCAPTCHA.
+				 * See https://developers.google.com/recaptcha/docs/language for available values.
+				 *
+				 * @since 1.2.4
+				 * @since 1.7.0  Added form ID for conditional amending.
+				 * @since 2.10.0 Removed form ID due to changing where we invoke and use language code.
+				 *
+				 * @param string $value Language code to use. Default 'en'.
+				 */
+				$recaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', 'en' ) );
 				$recaptcha->enqueue_scripts();
 			} elseif ( 'hcaptcha' === $captcha_service->get_selected_captcha_service() ) {
 				$hcaptcha = new ConstantContact_hCaptcha();
@@ -609,19 +621,6 @@ class ConstantContact_Display {
 			 */
 			apply_filters( 'constant_contact_recaptcha_size', 'normal', $form_id )
 		);
-
-		/**
-		 * Filters the language code to be used with Google reCAPTCHA.
-		 *
-		 * See https://developers.google.com/recaptcha/docs/language for available values.
-		 *
-		 * @since 1.2.4
-		 * @since 1.7.0 Added form ID for conditional amending.
-		 *
-		 * @param string $value   Language code to use. Default 'en'.
-		 * @param int    $form_id ID of the form being rendered.
-		 */
-		$recaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', 'en', $form_id ) );
 
 		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
 		$return = $recaptcha->get_inline_markup();
@@ -2137,8 +2136,9 @@ class ConstantContact_Display {
 				),
 				$this->plugin->api->get_disclosure_info(),
 				sprintf(
-					'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-					esc_url( 'https://www.constantcontact.com/legal/service-provider' ),
+					'<a href="%1$s" target="_blank" rel="noopener noreferrer" aria-label="%2$s">%3$s</a>',
+					esc_url( 'https://www.constantcontact.com/legal/about-constant-contact' ),
+					esc_attr__( 'About Constant Contact, opens a new window', 'constant-contact-forms' ),
 					esc_html__( 'Emails are serviced by Constant Contact', 'constant-contact-forms' )
 				)
 			);

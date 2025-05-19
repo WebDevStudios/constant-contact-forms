@@ -631,6 +631,42 @@ function constant_contact_set_has_exceptions( $status = 'true' ) {
 }
 
 /**
+ * Check whether or not we have an exception to handle.
+ *
+ * @since 2.10.0
+ *
+ * @return bool
+ */
+function constant_contact_get_has_exceptions(): bool {
+	// force string true to be the only way to return true
+	return 'true' === get_option( 'ctct_exceptions_exist', 'false' );
+}
+
+
+/**
+ * Set if we need to manually reconnect.
+ *
+ * @param bool $status Status value to set.
+ *
+ * @since 2.10.0
+ */
+function constant_contact_set_needs_manual_reconnect( $status = 'true' ) {
+	update_option( 'ctct_maybe_needs_reconnected', $status );
+}
+
+/**
+ * Whether or not we need to manually reconnect.
+ *
+ * @since 2.10.0
+ *
+ * @return bool
+ */
+function constant_contact_get_needs_manual_reconnect(): bool {
+	// force string true to be the only way to return true
+	return 'true' === get_option( 'ctct_maybe_needs_reconnected', 'false' );
+}
+
+/**
  * Contactenate passed in log location and line number.
  *
  * Line number may not be 100% accurate, depending on how data is combined.
@@ -897,9 +933,7 @@ function constant_contact_maybe_display_disconnect_reconnect_notice() {
 		return false;
 	}
 
-	$maybe_display = get_transient( 'ctct_maybe_needs_reconnected' );
-
-	return true === $maybe_display;
+	return true === constant_contact_get_needs_manual_reconnect();
 }
 
 /**
@@ -962,4 +996,30 @@ function constant_contact_countries_array() {
 	return [
 		esc_html__( 'United States', 'constant-contact-forms' ), esc_html__( 'Canada', 'constant-contact-forms' ), esc_html__( 'Afghanistan', 'constant-contact-forms' ), esc_html__( 'Albania', 'constant-contact-forms' ), esc_html__( 'Algeria', 'constant-contact-forms' ), esc_html__( 'Andorra', 'constant-contact-forms' ), esc_html__( 'Angola', 'constant-contact-forms' ), esc_html__( 'Antigua and Barbuda', 'constant-contact-forms' ), esc_html__( 'Argentina', 'constant-contact-forms' ), esc_html__( 'Armenia', 'constant-contact-forms' ), esc_html__( 'Australia', 'constant-contact-forms' ), esc_html__( 'Austria', 'constant-contact-forms' ), esc_html__( 'Azerbaijan', 'constant-contact-forms' ), esc_html__( 'The Bahamas', 'constant-contact-forms' ), esc_html__( 'Bahrain', 'constant-contact-forms' ), esc_html__( 'Bangladesh', 'constant-contact-forms' ), esc_html__( 'Barbados', 'constant-contact-forms' ), esc_html__( 'Belarus', 'constant-contact-forms' ), esc_html__( 'Belgium', 'constant-contact-forms' ), esc_html__( 'Belize', 'constant-contact-forms' ), esc_html__( 'Benin', 'constant-contact-forms' ), esc_html__( 'Bhutan', 'constant-contact-forms' ), esc_html__( 'Bolivia', 'constant-contact-forms' ), esc_html__( 'Bosnia and Herzegovina', 'constant-contact-forms' ), esc_html__( 'Botswana', 'constant-contact-forms' ), esc_html__( 'Brazil', 'constant-contact-forms' ), esc_html__( 'Brunei', 'constant-contact-forms' ), esc_html__( 'Bulgaria', 'constant-contact-forms' ), esc_html__( 'Burkina Faso', 'constant-contact-forms' ), esc_html__( 'Burundi', 'constant-contact-forms' ), esc_html__( 'Cabo Verde', 'constant-contact-forms' ), esc_html__( 'Cambodia', 'constant-contact-forms' ), esc_html__( 'Cameroon', 'constant-contact-forms' ), esc_html__( 'Central African Republic', 'constant-contact-forms' ), esc_html__( 'Chad', 'constant-contact-forms' ), esc_html__( 'Chile', 'constant-contact-forms' ), esc_html__( 'China', 'constant-contact-forms' ), esc_html__( 'Colombia', 'constant-contact-forms' ), esc_html__( 'Comoros', 'constant-contact-forms' ), esc_html__( 'Congo, Democratic Republic of the', 'constant-contact-forms' ), esc_html__( 'Congo, Republic of the', 'constant-contact-forms' ), esc_html__( 'Costa Rica', 'constant-contact-forms' ), esc_html__( 'Côte d’Ivoire', 'constant-contact-forms' ), esc_html__( 'Croatia', 'constant-contact-forms' ), esc_html__( 'Cuba', 'constant-contact-forms' ), esc_html__( 'Cyprus', 'constant-contact-forms' ), esc_html__( 'Czech Republic', 'constant-contact-forms' ), esc_html__( 'Denmark', 'constant-contact-forms' ), esc_html__( 'Djibouti', 'constant-contact-forms' ), esc_html__( 'Dominica', 'constant-contact-forms' ), esc_html__( 'Dominican Republic', 'constant-contact-forms' ), esc_html__( 'East Timor (Timor-Leste)', 'constant-contact-forms' ), esc_html__( 'Ecuador', 'constant-contact-forms' ), esc_html__( 'Egypt', 'constant-contact-forms' ), esc_html__( 'El Salvador', 'constant-contact-forms' ), esc_html__( 'Equatorial Guinea', 'constant-contact-forms' ), esc_html__( 'Eritrea', 'constant-contact-forms' ), esc_html__( 'Estonia', 'constant-contact-forms' ), esc_html__( 'Eswatini', 'constant-contact-forms' ), esc_html__( 'Ethiopia', 'constant-contact-forms' ), esc_html__( 'Fiji', 'constant-contact-forms' ), esc_html__( 'Finland', 'constant-contact-forms' ), esc_html__( 'France', 'constant-contact-forms' ), esc_html__( 'Gabon', 'constant-contact-forms' ), esc_html__( 'The Gambia', 'constant-contact-forms' ), esc_html__( 'Georgia', 'constant-contact-forms' ), esc_html__( 'Germany', 'constant-contact-forms' ), esc_html__( 'Ghana', 'constant-contact-forms' ), esc_html__( 'Greece', 'constant-contact-forms' ), esc_html__( 'Grenada', 'constant-contact-forms' ), esc_html__( 'Guatemala', 'constant-contact-forms' ), esc_html__( 'Guinea', 'constant-contact-forms' ), esc_html__( 'Guinea-Bissau', 'constant-contact-forms' ), esc_html__( 'Guyana', 'constant-contact-forms' ), esc_html__( 'Haiti', 'constant-contact-forms' ), esc_html__( 'Honduras', 'constant-contact-forms' ), esc_html__( 'Hungary', 'constant-contact-forms' ), esc_html__( 'Iceland', 'constant-contact-forms' ), esc_html__( 'India', 'constant-contact-forms' ), esc_html__( 'Indonesia', 'constant-contact-forms' ), esc_html__( 'Iran', 'constant-contact-forms' ), esc_html__( 'Iraq', 'constant-contact-forms' ), esc_html__( 'Ireland', 'constant-contact-forms' ), esc_html__( 'Israel', 'constant-contact-forms' ), esc_html__( 'Italy', 'constant-contact-forms' ), esc_html__( 'Jamaica', 'constant-contact-forms' ), esc_html__( 'Japan', 'constant-contact-forms' ), esc_html__( 'Jordan', 'constant-contact-forms' ), esc_html__( 'Kazakhstan', 'constant-contact-forms' ), esc_html__( 'Kenya', 'constant-contact-forms' ), esc_html__( 'Kiribati', 'constant-contact-forms' ), esc_html__( 'Korea, North', 'constant-contact-forms' ), esc_html__( 'Korea, South', 'constant-contact-forms' ), esc_html__( 'Kosovo', 'constant-contact-forms' ), esc_html__( 'Kuwait', 'constant-contact-forms' ), esc_html__( 'Kyrgyzstan', 'constant-contact-forms' ), esc_html__( 'Laos', 'constant-contact-forms' ), esc_html__( 'Latvia', 'constant-contact-forms' ), esc_html__( 'Lebanon', 'constant-contact-forms' ), esc_html__( 'Lesotho', 'constant-contact-forms' ), esc_html__( 'Liberia', 'constant-contact-forms' ), esc_html__( 'Libya', 'constant-contact-forms' ), esc_html__( 'Liechtenstein', 'constant-contact-forms' ), esc_html__( 'Lithuania', 'constant-contact-forms' ), esc_html__( 'Luxembourg', 'constant-contact-forms' ), esc_html__( 'Madagascar', 'constant-contact-forms' ), esc_html__( 'Malawi', 'constant-contact-forms' ), esc_html__( 'Malaysia', 'constant-contact-forms' ), esc_html__( 'Maldives', 'constant-contact-forms' ), esc_html__( 'Mali', 'constant-contact-forms' ), esc_html__( 'Malta', 'constant-contact-forms' ), esc_html__( 'Marshall Islands', 'constant-contact-forms' ), esc_html__( 'Mauritania', 'constant-contact-forms' ), esc_html__( 'Mauritius', 'constant-contact-forms' ), esc_html__( 'Mexico', 'constant-contact-forms' ), esc_html__( 'Micronesia, Federated States of', 'constant-contact-forms' ), esc_html__( 'Moldova', 'constant-contact-forms' ), esc_html__( 'Monaco', 'constant-contact-forms' ), esc_html__( 'Mongolia', 'constant-contact-forms' ), esc_html__( 'Montenegro', 'constant-contact-forms' ), esc_html__( 'Morocco', 'constant-contact-forms' ), esc_html__( 'Mozambique', 'constant-contact-forms' ), esc_html__( 'Myanmar (Burma)', 'constant-contact-forms' ), esc_html__( 'Namibia', 'constant-contact-forms' ), esc_html__( 'Nauru', 'constant-contact-forms' ), esc_html__( 'Nepal', 'constant-contact-forms' ), esc_html__( 'Netherlands', 'constant-contact-forms' ), esc_html__( 'New Zealand', 'constant-contact-forms' ), esc_html__( 'Nicaragua', 'constant-contact-forms' ), esc_html__( 'Niger', 'constant-contact-forms' ), esc_html__( 'Nigeria', 'constant-contact-forms' ), esc_html__( 'North Macedonia', 'constant-contact-forms' ), esc_html__( 'Norway', 'constant-contact-forms' ), esc_html__( 'Oman', 'constant-contact-forms' ), esc_html__( 'Pakistan', 'constant-contact-forms' ), esc_html__( 'Palau', 'constant-contact-forms' ), esc_html__( 'Panama', 'constant-contact-forms' ), esc_html__( 'Papua New Guinea', 'constant-contact-forms' ), esc_html__( 'Paraguay', 'constant-contact-forms' ), esc_html__( 'Peru', 'constant-contact-forms' ), esc_html__( 'Philippines', 'constant-contact-forms' ), esc_html__( 'Poland', 'constant-contact-forms' ), esc_html__( 'Portugal', 'constant-contact-forms' ), esc_html__( 'Qatar', 'constant-contact-forms' ), esc_html__( 'Romania', 'constant-contact-forms' ), esc_html__( 'Russia', 'constant-contact-forms' ), esc_html__( 'Rwanda', 'constant-contact-forms' ), esc_html__( 'Saint Kitts and Nevis', 'constant-contact-forms' ), esc_html__( 'Saint Lucia', 'constant-contact-forms' ), esc_html__( 'Saint Vincent and the Grenadines', 'constant-contact-forms' ), esc_html__( 'Samoa', 'constant-contact-forms' ), esc_html__( 'San Marino', 'constant-contact-forms' ), esc_html__( 'Sao Tome and Principe', 'constant-contact-forms' ), esc_html__( 'Saudi Arabia', 'constant-contact-forms' ), esc_html__( 'Senegal', 'constant-contact-forms' ), esc_html__( 'Serbia', 'constant-contact-forms' ), esc_html__( 'Seychelles', 'constant-contact-forms' ), esc_html__( 'Sierra Leone', 'constant-contact-forms' ), esc_html__( 'Singapore', 'constant-contact-forms' ), esc_html__( 'Slovakia', 'constant-contact-forms' ), esc_html__( 'Slovenia', 'constant-contact-forms' ), esc_html__( 'Solomon Islands', 'constant-contact-forms' ), esc_html__( 'Somalia', 'constant-contact-forms' ), esc_html__( 'South Africa', 'constant-contact-forms' ), esc_html__( 'Spain', 'constant-contact-forms' ), esc_html__( 'Sri Lanka', 'constant-contact-forms' ), esc_html__( 'Sudan', 'constant-contact-forms' ), esc_html__( 'Sudan, South', 'constant-contact-forms' ), esc_html__( 'Suriname', 'constant-contact-forms' ), esc_html__( 'Sweden', 'constant-contact-forms' ), esc_html__( 'Switzerland', 'constant-contact-forms' ), esc_html__( 'Syria', 'constant-contact-forms' ), esc_html__( 'Taiwan', 'constant-contact-forms' ), esc_html__( 'Tajikistan', 'constant-contact-forms' ), esc_html__( 'Tanzania', 'constant-contact-forms' ), esc_html__( 'Thailand', 'constant-contact-forms' ), esc_html__( 'Togo', 'constant-contact-forms' ), esc_html__( 'Tonga', 'constant-contact-forms' ), esc_html__( 'Trinidad and Tobago', 'constant-contact-forms' ), esc_html__( 'Tunisia', 'constant-contact-forms' ), esc_html__( 'Turkey', 'constant-contact-forms' ), esc_html__( 'Turkmenistan', 'constant-contact-forms' ), esc_html__( 'Tuvalu', 'constant-contact-forms' ), esc_html__( 'Uganda', 'constant-contact-forms' ), esc_html__( 'Ukraine', 'constant-contact-forms' ), esc_html__( 'United Arab Emirates', 'constant-contact-forms' ), esc_html__( 'United Kingdom', 'constant-contact-forms' ), esc_html__( 'Uruguay', 'constant-contact-forms' ), esc_html__( 'Uzbekistan', 'constant-contact-forms' ), esc_html__( 'Vanuatu', 'constant-contact-forms' ), esc_html__( 'Vatican City', 'constant-contact-forms' ), esc_html__( 'Venezuela', 'constant-contact-forms' ), esc_html__( 'Vietnam', 'constant-contact-forms' ), esc_html__( 'Yemen', 'constant-contact-forms' ), esc_html__( 'Zambia', 'constant-contact-forms' ), esc_html__( 'Zimbabwe', 'constant-contact-forms' ), // phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine -- This is REALLY long list. Keeping it condensed.
 	];
+}
+
+/**
+ * Maybe display our list notes notification.
+ *
+ * @since 2.10.0
+ *
+ * @return bool
+ */
+function constant_contact_maybe_show_list_notes_notification() :bool {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	if ( ! constant_contact()->is_constant_contact() ) {
+		return false;
+	}
+
+	// Technically already checked for in is_constant_contact() but re-checking for just
+	// this screen should also limit it to JUST our lists list.
+	$screen = get_current_screen();
+	if ( is_null( $screen ) || 'edit-ctct_lists' !== $screen->id ) {
+		return false;
+	}
+
+	return true;
 }
