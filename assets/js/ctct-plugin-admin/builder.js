@@ -14,7 +14,8 @@ window.CTCTBuilder = {};
 
 		// If we do actually have an email field set, then remove our error.
 		const emailField = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox option[value="email"]');
-		if (emailField.length) {
+		const selectedField = Array.from(emailField).filter(option => option.selected);
+		if (selectedField.length) {
 			const noEmailError = document.querySelector('#ctct-no-email-error');
 			if (noEmailError) {
 				noEmailError.style.display = 'none';
