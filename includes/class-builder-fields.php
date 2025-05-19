@@ -83,6 +83,10 @@ class ConstantContact_Builder_Fields {
 	public function hooks() {
 		global $pagenow;
 
+		if ( ! $pagenow ) {
+			return;
+		}
+
 		/**
 		 * Filters the pages to add our form builder content to.
 		 *
@@ -95,22 +99,23 @@ class ConstantContact_Builder_Fields {
 			[ 'post-new.php', 'post.php' ]
 		);
 
-		if ( $pagenow && in_array( $pagenow, $form_builder_pages, true ) ) {
-			add_action( 'cmb2_admin_init', [ $this, 'description_metabox' ] );
-			add_action( 'cmb2_admin_init', [ $this, 'constant_contact_list_metabox' ] );
-			add_action( 'cmb2_admin_init', [ $this, 'opt_ins_metabox' ] );
-			add_action( 'cmb2_admin_init', [ $this, 'generated_shortcode' ] );
-			add_action( 'cmb2_admin_init', [ $this, 'email_settings' ] );
-			add_action( 'cmb2_admin_init', [ $this, 'custom_form_css_metabox' ] );
-			add_action( 'cmb2_admin_init', [ $this, 'custom_input_css_metabox' ] );
-			add_action( 'cmb2_admin_init', [ $this, 'fields_metabox' ] );
-			add_action( 'cmb2_admin_init', [ $this, 'address_settings' ] );
-			add_action( 'cmb2_admin_init', [ $this, 'add_css_reset_metabox' ] );
-			add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
-			add_action( 'cmb2_render_reset_css_button', [ $this, 'render_reset_css_button' ] );
-			add_action( 'admin_enqueue_scripts', [ $this, 'add_placeholders_to_js' ] );
+		if ( ! in_array( $pagenow, $form_builder_pages, true ) ) {
+			return;
 		}
 
+		add_action( 'cmb2_admin_init', [ $this, 'description_metabox' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'constant_contact_list_metabox' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'opt_ins_metabox' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'generated_shortcode' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'email_settings' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'custom_form_css_metabox' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'custom_input_css_metabox' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'fields_metabox' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'address_settings' ] );
+		add_action( 'cmb2_admin_init', [ $this, 'add_css_reset_metabox' ] );
+		add_filter( 'cmb2_override__ctct_generated_shortcode_meta_save', '__return_empty_string' );
+		add_action( 'cmb2_render_reset_css_button', [ $this, 'render_reset_css_button' ] );
+		add_action( 'admin_enqueue_scripts', [ $this, 'add_placeholders_to_js' ] );
 	}
 	/**
 	 * Init default placeholder text and field types for fields.
