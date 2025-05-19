@@ -24,7 +24,7 @@ class ConstantContact_Builder {
 	 *
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Prefix for our meta fields/boxes.
@@ -33,7 +33,7 @@ class ConstantContact_Builder {
 	 *
 	 * @var string
 	 */
-	public $prefix = '_ctct_';
+	public string $prefix = '_ctct_';
 
 	/**
 	 * Constructor.
@@ -42,7 +42,7 @@ class ConstantContact_Builder {
 	 *
 	 * @param object $plugin Parent plugin class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		$this->init();
 	}
@@ -64,17 +64,20 @@ class ConstantContact_Builder {
 	public function hooks() {
 		global $pagenow;
 
-		$form_builder_pages = apply_filters( 'constant_contact_form_builder_pages', [ 'post-new.php', 'post.php' ] );
-
-		if ( in_array( $pagenow, $form_builder_pages, true ) ) {
-
-			add_action( 'cmb2_after_post_form_ctct_0_description_metabox', [ $this, 'add_form_css' ] );
-
-			add_action( 'cmb2_save_field', [ $this, 'override_save' ], 10, 4 );
-			add_action( 'admin_notices', [ $this, 'admin_notice' ] );
-			add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
+		if ( empty( $pagenow ) ) {
+			return;
 		}
 
+		$form_builder_pages = apply_filters( 'constant_contact_form_builder_pages', [ 'post-new.php', 'post.php' ] );
+
+		if ( ! in_array( $pagenow, $form_builder_pages, true ) ) {
+			return;
+		}
+
+		add_action( 'cmb2_after_post_form_ctct_0_description_metabox', [ $this, 'add_form_css' ] );
+		add_action( 'cmb2_save_field', [ $this, 'override_save' ], 10, 4 );
+		add_action( 'admin_notices', [ $this, 'admin_notice' ] );
+		add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
 	}
 
 	/**
@@ -84,7 +87,7 @@ class ConstantContact_Builder {
 	 *
 	 * @return array array of lists
 	 */
-	public function get_lists() {
+	public function get_lists() : array {
 
 		$lists     = constant_contact()->lists->get_lists();
 		$get_lists = [];
@@ -117,23 +120,19 @@ class ConstantContact_Builder {
 	 * @since 1.0.0
 	 *
 	 * @param string $field_id CMB2 Field id.
-	 * @param object $updated CMB2 object representation of the updated data.
+	 * @param mixed  $updated CMB2 object representation of the updated data.
 	 * @param string $action CMB2 action calling this.
 	 * @param object $cmbobj CMB2 field object.
 	 * @return void
 	 */
-	public function override_save( $field_id, $updated, $action, $cmbobj ) {
+	public function override_save( string $field_id, $updated, string $action, object $cmbobj ) {
 
 		global $post;
 
 		if (
-			isset( $post->ID ) &&
-			$post->ID &&
-			isset( $post->post_type ) &&
-			$post->post_type &&
+			! empty( $post ) &&
 			'ctct_forms' === $post->post_type &&
 			$cmbobj &&
-			isset( $cmbobj->data_to_save ) &&
 			isset( $cmbobj->data_to_save['custom_fields_group'] ) &&
 			is_array( $cmbobj->data_to_save['custom_fields_group'] )
 		) {
@@ -147,7 +146,13 @@ class ConstantContact_Builder {
 
 			foreach ( $cmbobj->data_to_save['custom_fields_group'] as $data ) {
 
-				if ( ( isset( $data['_ctct_map_select'] ) && 'email' === $data['_ctct_map_select'] ) || ! isset( $data['_ctct_map_select'] ) ) {
+				if (
+					(
+						isset( $data['_ctct_map_select'] ) &&
+						'email' === $data['_ctct_map_select']
+					) ||
+					! isset( $data['_ctct_map_select'] ) // we didn't edit the email field at all, thus it's there by default.
+				) {
 					update_post_meta( $post->ID, '_ctct_has_email_field', 'true' );
 					return;
 				}
@@ -166,10 +171,7 @@ class ConstantContact_Builder {
 
 		if (
 			$post &&
-			isset( $post->ID ) &&
-			isset( $post->post_type ) &&
 			'ctct_forms' === $post->post_type &&
-			isset( $post->post_status ) &&
 			'auto-draft' !== $post->post_status
 		) {
 			$has_email = get_post_meta( $post->ID, '_ctct_has_email_field', true );
@@ -232,18 +234,15 @@ class ConstantContact_Builder {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int    $post_id Post id.
-	 * @param object $post    Post object.
+	 * @param int     $post_id Post id.
+	 * @param WP_Post $post    Post object.
 	 */
-	public function save_post( $post_id, $post ) {
+	public function save_post( int $post_id, WP_Post $post ) {
 
 		// Sanity checks to make sure it only applies to
 		// what we want to deal with, which is saving a form
 		// and not connected to constant contact.
 		if (
-			$post &&
-			$post_id &&
-			isset( $post->post_type ) &&
 			'ctct_forms' === $post->post_type &&
 			! wp_is_post_revision( $post ) &&
 			! constant_contact()->api->is_connected()
@@ -260,26 +259,9 @@ class ConstantContact_Builder {
 	 * @param string $location URL to add query args to.
 	 * @return string
 	 */
-	public function add_not_conn_query_arg( $location ) {
+	public function add_not_conn_query_arg( string $location ) : string {
 		remove_filter( 'redirect_post_location', [ $this, 'add_notice_query_var' ], 99 );
 		return add_query_arg( [ 'ctct_not_connected' => 'true' ], $location );
-	}
-
-	/**
-	 * Gets our form title for our connect modal window.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Markup with form title.
-	 */
-	public function get_form_name_markup_for_modal() {
-
-		global $post;
-
-		if ( isset( $post->post_title ) ) {
-			return esc_attr( $post->post_title );
-		}
-		return '';
 	}
 
 	/**
@@ -290,7 +272,7 @@ class ConstantContact_Builder {
 	 *
 	 * @param int $post_id Post ID.
 	 */
-	public function output_not_connected_modal( $post_id = 0 ) {
+	public function output_not_connected_modal( int $post_id = 0 ) {
 		$auth_link = add_query_arg(
 			[
 				'post_type' => 'ctct_forms',

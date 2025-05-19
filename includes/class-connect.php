@@ -25,7 +25,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $key = 'ctct_options_connect';
+	private string $key = 'ctct_options_connect';
 
 	/**
 	 * Api Error message.
@@ -33,7 +33,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public $error_message = '';
+	public string $error_message = '';
 
 	/**
 	 * Current page redirect Url.
@@ -41,7 +41,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $redirect_url = '';
+	private string $redirect_url = '';
 
 	/**
 	 * Parent plugin class.
@@ -49,15 +49,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
-
-	/**
-	 * Whether or not to encrypt.
-	 *
-	 * @since 1.0.0
-	 * @var bool
-	 */
-	public $should_encrypt = false;
+	protected object $plugin;
 
 	/**
 	 * Options page.
@@ -65,7 +57,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	public $options_page = '';
+	public string $options_page = '';
 
 	/**
 	 * Constructor.
@@ -74,7 +66,7 @@ class ConstantContact_Connect {
 	 *
 	 * @param object $plugin Parent class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
@@ -127,14 +119,12 @@ class ConstantContact_Connect {
 	public function add_options_page() {
 
 		$connect_title = esc_html__( 'Disconnect', 'constant-contact-forms' );
-		$connect_link  = 'edit.php?post_type=ctct_forms';
-
 		if ( ! constant_contact()->api->is_connected() ) {
 			$connect_title = esc_html__( 'Connect Now', 'constant-contact-forms' );
 		}
 
 		$this->options_page = add_submenu_page(
-			$connect_link,
+			'edit.php?post_type=ctct_forms',
 			$connect_title,
 			$connect_title,
 			'manage_options',
@@ -147,18 +137,12 @@ class ConstantContact_Connect {
 	 * Admin page markup. Mostly handled by CMB2.
 	 *
 	 * @since 1.0.0
-	 *
-	 * @return mixed page markup or false if not admin.
 	 */
 	public function admin_page_display() {
 
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
-		}
-
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 
-		wp_localize_script( 'ctct_form', 'ctctTexts', [ 'disconnectconfirm' => __( 'Are you sure you want to disconnect?', 'constant-contact-forms' ) ] );
+		wp_localize_script( 'ctct_form', 'ctctTexts', [ 'disconnectconfirm' => esc_html__( 'Are you sure you want to disconnect?', 'constant-contact-forms' ) ] );
 
 		wp_enqueue_script( 'ctct_form' );
 		?>
@@ -178,10 +162,9 @@ class ConstantContact_Connect {
 						</p>
 						<p>
 							<?php
-							$token = constant_contact()->api->get_api_token();
-
+							$account = false;
 							try {
-								$account = (object) constant_contact()->api->get_account_info( $token );
+								$account = (object) constant_contact()->api->get_account_info();
 								if ( $account ) {
 									echo esc_html( $account->first_name . ' ' . $account->last_name );
 								}
@@ -221,46 +204,20 @@ class ConstantContact_Connect {
 
 				<div class="ctct-connected-next-step">
 					<div>
-						<?php $form_url = admin_url( 'post-new.php?post_type=ctct_forms' ); ?>
 						<h3><?php esc_html_e( 'Turn Contacts into Customers!', 'constant-contact-forms' ); ?></h3>
 						<p><?php esc_html_e( 'Your site is connected to Constant Contact and ready to start collecting visitor information.', 'constant-contact-forms' ); ?></p>
 						<p><?php esc_html_e( 'Create a form that meets your visitors\' needs here:', 'constant-contact-forms' ); ?></p>
-						<a href="<?php echo esc_url( $form_url ); ?>" class="button"><?php esc_html_e( 'Add Form', 'constant-contact-forms' ); ?></a>
+						<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=ctct_forms' ) ); ?>" class="button"><?php esc_html_e( 'Add Form', 'constant-contact-forms' ); ?></a>
 					</div>
 					<div>
 						<?php if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) : ?>
-							<?php
-								$plugin_url = network_admin_url( 'plugin-install.php?s=constant+contact+woocommerce&tab=search&type=term' );
-							?>
 							<h3><?php esc_html_e( 'You have a WooCommerce store.', 'constant-contact-forms' ); ?></h3>
 							<p><?php esc_html_e( 'We have a plugin for that, too! With Constant Contact + WooCommerce, you can import order, product and customer information into Constant Contact for use in your campaigns.', 'constant-contact-forms' ); ?></p>
-							<a href="<?php echo esc_url( $plugin_url ); ?>" class="button"><?php esc_html_e( 'Install the WooCommerce plugin', 'constant-contact-forms' ); ?></a>
+							<a href="<?php echo esc_url( network_admin_url( 'plugin-install.php?s=constant+contact+woocommerce&tab=search&type=term' ) ); ?>" class="button"><?php esc_html_e( 'Install the WooCommerce plugin', 'constant-contact-forms' ); ?></a>
 						<?php endif; ?>
 					</div>
 				</div>
 				<?php // phpcs:enable WordPress.WP.EnqueuedResources ?>
-
-				<div class="ctct-connected-opt-in">
-					<div>
-						<h3><?php esc_html_e( 'Please Help to Improve this Plugin', 'constant-contact-forms' ); ?></h3>
-						<p>
-							<?php
-								printf(
-									/* Translators: Placeholder will hold link to Constant Contact privacy statement. */
-									esc_html__( 'Allow Constant Contact to use Google Analytics&trade; to track your usage across the Constant Contact Forms plugin. You can opt-out within the Settings page. See our %1$s.', 'constant-contact-forms' ),
-									sprintf(
-										'<a href="https://www.constantcontact.com/legal/privacy-statement">%1$s</a>',
-										esc_html__( 'Privacy Statement', 'constant-contact-forms' )
-									)
-								);
-							?>
-						</p>
-					</div>
-					<div id="ctct-connect-ga-optin" class="ctct-connect-ga-optin">
-						<a class="button button-primary ctct-connect" data-allow="on"><?php esc_html_e( 'Allow', 'constant-contact-forms' ); ?></a>
-						<a class="button" data-allow="off"><?php esc_html_e( 'Dismiss', 'constant-contact-forms' ); ?></a>
-					</div>
-				</div>
 			</div>
 
 		<?php else : ?>
@@ -344,7 +301,6 @@ class ConstantContact_Connect {
 			</p>
 		<?php endif; ?>
 		<?php
-		return true;
 	}
 
 	/**
