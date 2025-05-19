@@ -146,7 +146,13 @@ class ConstantContact_Builder {
 
 			foreach ( $cmbobj->data_to_save['custom_fields_group'] as $data ) {
 
-				if ( ( isset( $data['_ctct_map_select'] ) && 'email' === $data['_ctct_map_select'] ) || ! isset( $data['_ctct_map_select'] ) ) {
+				if (
+					(
+						isset( $data['_ctct_map_select'] ) &&
+						'email' === $data['_ctct_map_select']
+					) ||
+					! isset( $data['_ctct_map_select'] ) // we didn't edit the email field at all, thus it's there by default.
+				) {
 					update_post_meta( $post->ID, '_ctct_has_email_field', 'true' );
 					return;
 				}
