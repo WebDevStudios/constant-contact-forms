@@ -18,33 +18,6 @@
 class ConstantContact_Uninstall {
 
 	/**
-	 * Names of options to delete.
-	 *
-	 * @since 1.6.0
-	 *
-	 * @var array
-	 */
-	private $options = [];
-
-	/**
-	 * Names of transients to delete.
-	 *
-	 * @since 1.6.0
-	 *
-	 * @var array
-	 */
-	private $transients = [];
-
-	/**
-	 * Names of cron hooks to delete.
-	 *
-	 * @since 1.6.0
-	 *
-	 * @var array
-	 */
-	private $cron_hooks = [];
-
-	/**
 	 * A public function for running the uninstallation processes.
 	 *
 	 * @since 1.6.0
@@ -64,7 +37,7 @@ class ConstantContact_Uninstall {
 	 * @return array
 	 */
 	private function get_option_names() {
-		$this->options = [
+		$default_options = [
 			'ctct_first_form_modal_dismissed',
 			'ctct_options_settings',
 			'ctct_key',
@@ -105,7 +78,7 @@ class ConstantContact_Uninstall {
 		 *
 		 * @param array $options One-dimensional array of option names to delete.
 		 */
-		$options = apply_filters_deprecated( 'ctct_option_names_to_uninstall', [ $this->options ], '1.9.0', 'constant_contact_option_names_to_uninstall' );
+		$options = apply_filters_deprecated( 'ctct_option_names_to_uninstall', [ $default_options ], '1.9.0', 'constant_contact_option_names_to_uninstall' );
 
 		/**
 		 * Filters which options are deleted when plugin is uninstalled.
@@ -126,7 +99,7 @@ class ConstantContact_Uninstall {
 	 * @return array
 	 */
 	private function get_transient_names() {
-		$this->transients = [
+		$default_transients = [
 			'constant_contact_acct_info',
 			'ctct_contact',
 			'ctct_lists',
@@ -142,7 +115,7 @@ class ConstantContact_Uninstall {
 		 *
 		 * @param array $transients One-dimensional array of transient names to delete.
 		 */
-		$transients = apply_filters_deprecated( 'ctct_transient_names_to_uninstall', [ $this->transients ], '1.9.0', 'constant_contact_transient_names_to_uninstall' );
+		$transients = apply_filters_deprecated( 'ctct_transient_names_to_uninstall', [ $default_transients ], '1.9.0', 'constant_contact_transient_names_to_uninstall' );
 
 		/**
 		 * Filters which transients are deleted when plugin is uninstalled.
@@ -163,7 +136,7 @@ class ConstantContact_Uninstall {
 	 * @return array
 	 */
 	private function get_cron_hook_names() {
-		$this->cron_hooks = [
+		$default_cron_hooks = [
 			'ctct_schedule_form_opt_in',
 		];
 
@@ -176,7 +149,7 @@ class ConstantContact_Uninstall {
 		 *
 		 * @param array $cron_hooks One-dimensional array of cron hook names to delete.
 		 */
-		$cron_hooks = apply_filters_deprecated( 'ctct_cron_hook_names_to_uninstall', [ $this->cron_hooks ], '1.9.0', 'constant_contact_cron_hook_names_to_uninstall' );
+		$cron_hooks = apply_filters_deprecated( 'ctct_cron_hook_names_to_uninstall', [ $default_cron_hooks ], '1.9.0', 'constant_contact_cron_hook_names_to_uninstall' );
 
 		/**
 		 * Filters which cron hooks are deleted when plugin is uninstalled.
