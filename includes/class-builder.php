@@ -265,23 +265,6 @@ class ConstantContact_Builder {
 	}
 
 	/**
-	 * Gets our form title for our connect modal window.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Markup with form title.
-	 */
-	public function get_form_name_markup_for_modal() {
-
-		global $post;
-
-		if ( isset( $post->post_title ) ) {
-			return esc_attr( $post->post_title );
-		}
-		return '';
-	}
-
-	/**
 	 * Displays our not connected modal to the user.
 	 *
 	 * @since 1.0.0
