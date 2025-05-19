@@ -231,3 +231,27 @@ function constant_contact_maybe_show_update_available_notification() {
 	// If we got this far, we just failed to get the current available version.
 	return false;
 }
+
+/**
+ * Maybe display our list notes notification.
+ * @return bool
+ * @since 2.10.0
+ */
+function constant_contact_maybe_show_list_notes_notification(): bool {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	if ( ! constant_contact()->is_constant_contact() ) {
+		return false;
+	}
+
+	// Technically already checked for in is_constant_contact() but re-checking for just
+	// this screen should also limit it to JUST our lists list.
+	$screen = get_current_screen();
+	if ( is_null( $screen ) || 'edit-ctct_lists' !== $screen->id ) {
+		return false;
+	}
+
+	return true;
+}
