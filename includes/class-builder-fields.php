@@ -252,7 +252,7 @@ class ConstantContact_Builder_Fields {
 						'options'      => [
 							'filter_boxes'  => true,
 							'query_args'    => [
-								'posts_per_page' => - 1,
+								'posts_per_page' => -1,
 								'post_type'      => 'ctct_lists',
 							],
 							'hide_selected' => true,
@@ -663,30 +663,6 @@ class ConstantContact_Builder_Fields {
 		);
 
 		$this->show_enable_show_checkbox_field( $options_metabox );
-		$this->show_affirmation_field( $options_metabox );
-	}
-
-	/**
-	 * Helper method to show our non connected optin fields.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param object $options_metabox CMB2 options metabox object.
-	 */
-	public function show_optin_not_connected_fields( $options_metabox ) {
-
-		$options_metabox->add_field(
-			[
-				'name'        => esc_html__( 'Enable email subscriber opt-in', 'constant-contact-forms' ),
-				'id'          => $this->prefix . 'opt_in_not_connected',
-				'description' => esc_html__( 'Adds an opt-in to the bottom of your form.', 'constant-contact-forms' ),
-				'type'        => 'checkbox',
-				'attributes'  => [
-					'disabled' => 'disabled',
-				],
-			]
-		);
-
 		$this->show_affirmation_field( $options_metabox );
 	}
 
