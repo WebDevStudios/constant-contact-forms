@@ -24,7 +24,7 @@ class ConstantContact_Builder {
 	 *
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Prefix for our meta fields/boxes.
@@ -33,7 +33,7 @@ class ConstantContact_Builder {
 	 *
 	 * @var string
 	 */
-	public $prefix = '_ctct_';
+	public string $prefix = '_ctct_';
 
 	/**
 	 * Constructor.
@@ -42,7 +42,7 @@ class ConstantContact_Builder {
 	 *
 	 * @param object $plugin Parent plugin class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		$this->init();
 	}
@@ -84,7 +84,7 @@ class ConstantContact_Builder {
 	 *
 	 * @return array array of lists
 	 */
-	public function get_lists() {
+	public function get_lists() : array {
 
 		$lists     = constant_contact()->lists->get_lists();
 		$get_lists = [];
@@ -117,12 +117,12 @@ class ConstantContact_Builder {
 	 * @since 1.0.0
 	 *
 	 * @param string $field_id CMB2 Field id.
-	 * @param object $updated CMB2 object representation of the updated data.
+	 * @param mixed  $updated CMB2 object representation of the updated data.
 	 * @param string $action CMB2 action calling this.
 	 * @param object $cmbobj CMB2 field object.
 	 * @return void
 	 */
-	public function override_save( $field_id, $updated, $action, $cmbobj ) {
+	public function override_save( string $field_id, $updated, string $action, object $cmbobj ) {
 
 		global $post;
 
@@ -232,10 +232,10 @@ class ConstantContact_Builder {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param int    $post_id Post id.
-	 * @param object $post    Post object.
+	 * @param int     $post_id Post id.
+	 * @param WP_Post $post    Post object.
 	 */
-	public function save_post( $post_id, $post ) {
+	public function save_post( int $post_id, WP_Post $post ) {
 
 		// Sanity checks to make sure it only applies to
 		// what we want to deal with, which is saving a form
@@ -260,7 +260,7 @@ class ConstantContact_Builder {
 	 * @param string $location URL to add query args to.
 	 * @return string
 	 */
-	public function add_not_conn_query_arg( $location ) {
+	public function add_not_conn_query_arg( string $location ) : string {
 		remove_filter( 'redirect_post_location', [ $this, 'add_notice_query_var' ], 99 );
 		return add_query_arg( [ 'ctct_not_connected' => 'true' ], $location );
 	}
@@ -290,7 +290,7 @@ class ConstantContact_Builder {
 	 *
 	 * @param int $post_id Post ID.
 	 */
-	public function output_not_connected_modal( $post_id = 0 ) {
+	public function output_not_connected_modal( int $post_id = 0 ) {
 		$auth_link = add_query_arg(
 			[
 				'post_type' => 'ctct_forms',
