@@ -826,7 +826,7 @@ class ConstantContact_Builder_Fields {
 			sprintf(
 				// translators: Placeholders are for html link markup.
 				esc_html__( 'Custom fields created within Constant Contact with field type "%1$sdate field%2$s" are not supported.', 'constant-contact-forms' ),
-				'<a target="_blank" rel="noopener" href="' . esc_url( 'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/33120-Create-and-Manage-Custom-Contact-Fields?lang=en_US#Types' ) . '">',
+				'<a target="_blank" rel="noopener" href="' . esc_url( 'https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/33120-Create-and-Manage-Custom-Contact-Fields?lang=en_US' ) . '">',
 				'</a>'
 			)
 		);
