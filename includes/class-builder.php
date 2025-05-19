@@ -64,17 +64,20 @@ class ConstantContact_Builder {
 	public function hooks() {
 		global $pagenow;
 
-		$form_builder_pages = apply_filters( 'constant_contact_form_builder_pages', [ 'post-new.php', 'post.php' ] );
-
-		if ( in_array( $pagenow, $form_builder_pages, true ) ) {
-
-			add_action( 'cmb2_after_post_form_ctct_0_description_metabox', [ $this, 'add_form_css' ] );
-
-			add_action( 'cmb2_save_field', [ $this, 'override_save' ], 10, 4 );
-			add_action( 'admin_notices', [ $this, 'admin_notice' ] );
-			add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
+		if ( empty( $pagenow ) ) {
+			return;
 		}
 
+		$form_builder_pages = apply_filters( 'constant_contact_form_builder_pages', [ 'post-new.php', 'post.php' ] );
+
+		if ( ! in_array( $pagenow, $form_builder_pages, true ) ) {
+			return;
+		}
+
+		add_action( 'cmb2_after_post_form_ctct_0_description_metabox', [ $this, 'add_form_css' ] );
+		add_action( 'cmb2_save_field', [ $this, 'override_save' ], 10, 4 );
+		add_action( 'admin_notices', [ $this, 'admin_notice' ] );
+		add_action( 'save_post', [ $this, 'save_post' ], 10, 2 );
 	}
 
 	/**
