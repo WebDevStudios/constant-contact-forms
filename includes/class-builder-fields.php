@@ -239,9 +239,7 @@ class ConstantContact_Builder_Fields {
 						'id'   => $this->prefix . 'tip',
 					]
 				);
-			}
-
-			if ( $lists ) {
+			} else {
 				$instructions[] = esc_html__( 'Click the plus character to add list. Click the minus character to remove list.', 'constant-contact-forms' );
 				$instructions[] = esc_html__( 'Click and drag added lists in "Associated Lists" to reorder. First one listed will be the default.', 'constant-contact-forms' );
 				$list_metabox->add_field(
