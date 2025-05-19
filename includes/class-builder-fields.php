@@ -699,7 +699,7 @@ class ConstantContact_Builder_Fields {
 	public function show_affirmation_field( object $options_metabox ) {
 
 		$business_name = get_bloginfo( 'name' );
-		$business_name ? ( $business_name ) : __( 'Your Business Name', 'constant-contact-forms' );
+		$business_name = ( $business_name ) ?: __( 'Your Business Name', 'constant-contact-forms' );
 
 		$options_metabox->add_field(
 			[
