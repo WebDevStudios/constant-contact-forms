@@ -217,7 +217,7 @@ class ConstantContact_hCaptcha {
 
 		wp_enqueue_script(
 			'hcaptcha',
-			constant_contact()->url() . "assets/js/ctct-plugin-hcaptcha{$suffix}.js",
+			constant_contact()->url() . "assets/js/ctct-plugin-hcaptcha$suffix.js",
 			[],
 			Constant_Contact::VERSION,
 			true
