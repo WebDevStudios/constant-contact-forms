@@ -244,7 +244,7 @@ class ConstantContact_Mail {
 		} else {
 			$temp_destination_email = $destination_email;
 		}
-		$mail_key = md5( "{$temp_destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
+		$mail_key = md5( "$temp_destination_email:$content:" . ( $screen->id ?? '' ) );
 
 		if ( is_array( $destination_email ) ) {
 			$partial_email = array_map( [ $this, 'get_email_part' ], $destination_email );
@@ -264,7 +264,7 @@ class ConstantContact_Mail {
 			$this->maybe_log_mail_status(
 				vsprintf(
 					/* translators: this is only used when some debugging is enabled */
-					__( 'Duplicate send mail for: %1$s and: %2$s', 'constant-contact-forms' ),
+					esc_html__( 'Duplicate send mail for: %1$s and: %2$s', 'constant-contact-forms' ),
 					[
 						$partial_email,
 						$mail_key,
@@ -301,6 +301,7 @@ class ConstantContact_Mail {
 
 		$content_title = '<p><strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
 
+		$list_ids = [];
 		if ( ! empty( $_POST ) && is_array( $_POST ) ) { //phpcs:ignore
 			foreach( $_POST as $key => $value ) { //phpcs:ignore
 				if ( false !== strpos( $key, 'lists' ) ) {
@@ -428,13 +429,14 @@ class ConstantContact_Mail {
 	 * @param array $values Values submitted to form.
 	 * @return mixed
 	 */
-	public function get_user_email_from_submission( $values = [] ) {
+	public function get_user_email_from_submission( array $values = [] ) {
 		foreach ( $values as $key => $value ) {
 			if ( false === strpos( $key, 'email___' ) ) {
 				continue;
 			}
 			return $value['value'];
 		}
+		return '';
 	}
 
 	/**
