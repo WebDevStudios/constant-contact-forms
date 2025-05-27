@@ -312,7 +312,7 @@ class ConstantContact_Connect {
 	 *
 	 * @return boolean
 	 */
-	public function maybe_disconnect() {
+	public function maybe_disconnect() : bool {
 
 		if ( ! isset( $_POST['ctct-admin-disconnect'] ) ) {
 			return false;
@@ -367,7 +367,7 @@ class ConstantContact_Connect {
 	 * @param boolean $fallback_to_ctct_opt Fall back maybe.
 	 * @return boolean|string
 	 */
-	public function e_get( $check_key, $fallback_to_ctct_opt = false ) {
+	public function e_get( string $check_key, bool $fallback_to_ctct_opt = false ) {
 
 		if ( ! $this->is_encryption_ready() ) {
 			return get_option( $check_key, '' );
@@ -411,7 +411,7 @@ class ConstantContact_Connect {
 	 * @param boolean $autoload  Autoload it.
 	 * @return string
 	 */
-	public function e_set( $check_key, $data, $autoload = false ) {
+	public function e_set( string $check_key, string $data, bool $autoload = false ) : string {
 
 		if ( ! $this->is_encryption_ready() ) {
 			update_option( $check_key, $data );
@@ -436,7 +436,7 @@ class ConstantContact_Connect {
 	 *
 	 * @param string $access_token API access token.
 	 */
-	public function update_token( $access_token, $refresh_token ) {
+	public function update_token( string $access_token, string $refresh_token ) {
 		$this->e_set( 'ctct_access_token', $access_token, true );
 		$this->e_set( 'ctct_refresh_token', $refresh_token, true );
 	}
@@ -547,7 +547,7 @@ class ConstantContact_Connect {
 	 *
 	 * @return boolean If we can encrpyt or not.
 	 */
-	public function check_crypto_class() {
+	public function check_crypto_class() : bool {
 
 		try {
 			$return = false;
