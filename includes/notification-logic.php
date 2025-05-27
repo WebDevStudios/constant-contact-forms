@@ -82,8 +82,9 @@ function constant_contact_maybe_display_review_notification() : bool {
 		return false;
 	}
 
-	if ( absint( get_option( 'ctct-processed-forms' ) ) >= 10 ) {
-		return true;
+	$processed = absint( get_option( 'ctct-processed-forms' ) );
+	if ( $processed >= 10 && $processed < 100 ) {
+		return false;
 	}
 
 	return true;
