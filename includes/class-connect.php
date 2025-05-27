@@ -479,12 +479,12 @@ class ConstantContact_Connect {
 	 *
 	 * @throws Exception Exception.
 	 *
-	 * @return string Key to use for encrypt.
+	 * @return false|Defuse\Crypto\Key Key to use for encrypt.
 	 */
 	public function get_encrpyt_key() {
 
 		if ( ! $this->is_encryption_ready() ) {
-			return 'ctct_key';
+			return false;
 		}
 
 		$key = get_option( 'ctct_key', false );
@@ -560,14 +560,10 @@ class ConstantContact_Connect {
 				// If we have our Crpyto class, we'll run the included
 				// runtime tests and see if we get the correct response.
 				$tests  = new Defuse\Crypto\RuntimeTests();
-				$tests  = $tests->runtimeTest();
+				$tests::runtimeTest();
 				$return = true;
 			}
-		} catch ( Exception $exception ) {
-			if ( $exception ) {
-				$return = false;
-			}
-		}
+		} catch ( Exception $exception ) {}
 
 		return $return;
 	}
