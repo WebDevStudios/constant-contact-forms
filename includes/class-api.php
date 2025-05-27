@@ -10,7 +10,10 @@
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
-require 'Ctct/autoload.php';
+require_once 'Ctct/Components/Component.php';
+require_once 'Ctct/Components/Contacts/Contact.php';
+require_once 'Ctct/Components/Contacts/ContactList.php';
+require_once 'Ctct/Exceptions/CtctException.php';
 
 use Ctct\Components\Contacts\Contact;
 use Ctct\Components\Contacts\ContactList;
