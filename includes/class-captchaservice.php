@@ -77,11 +77,9 @@ class ConstantContact_CaptchaService {
 		switch ( $captcha_service ) {
 			case 'recaptcha' :
 				return ConstantContact_reCAPTCHA::has_recaptcha_keys();
-				break;
 
 			case 'hcaptcha' :
 				return ConstantContact_hCaptcha::has_hcaptcha_keys();
-				break;
 
 			default:
 				return false;
