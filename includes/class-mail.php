@@ -23,7 +23,7 @@ class ConstantContact_Mail {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Constructor.
@@ -32,7 +32,7 @@ class ConstantContact_Mail {
 	 *
 	 * @param object $plugin Parent plugin class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
@@ -53,7 +53,7 @@ class ConstantContact_Mail {
 	 * @param bool  $add_to_opt_in Whether or not to add to opt in.
 	 * @return bool
 	 */
-	public function submit_form_values( $values = [], $add_to_opt_in = false ) {
+	public function submit_form_values( array $values = [], bool $add_to_opt_in = false ) : bool {
 
 		if ( ! is_array( $values ) ) {
 			return false;
@@ -119,7 +119,7 @@ class ConstantContact_Mail {
 	 * @param  array $values Submitted values.
 	 * @return array|void    Response from API.
 	 */
-	public function opt_in_user( $values ) {
+	public function opt_in_user( array $values ) {
 
 		foreach ( $values as $key => $val ) {
 			$key  = sanitize_text_field( isset( $val['key'] ) ? $val['key'] : '' );
@@ -161,7 +161,7 @@ class ConstantContact_Mail {
 	 * @param string $form_id Form ID being submitted to.
 	 * @return string HTML content for email.
 	 */
-	public function format_values_for_email( $pretty_vals, $form_id ) {
+	public function format_values_for_email( array $pretty_vals, string $form_id ) : string {
 
 		$return = '';
 
@@ -200,7 +200,7 @@ class ConstantContact_Mail {
 	 *
 	 * @return string Email address to send to.
 	 */
-	public function get_email( $form_id ) {
+	public function get_email( string $form_id ) : string {
 
 		$email = get_option( 'admin_email' );
 
@@ -224,13 +224,13 @@ class ConstantContact_Mail {
 	 *
 	 * @throws Exception Throws Exception if encountered while attempting to send email.
 	 *
-	 * @param string $destination_email  Intended mail address.
+	 * @param mixed $destination_email  Intended mail address.
 	 * @param string $content            Data from clean values.
 	 * @param array  $submission_details Details for submission to process.
 	 * @param bool   $was_forced         Whether or not we are force sending. Default false.
 	 * @return bool Whether or not sent.
 	 */
-	public function mail( $destination_email, $content, $submission_details, $was_forced = false ) {
+	public function mail( $destination_email, string $content, array $submission_details, bool $was_forced = false ) : bool {
 
 		static $last_sent = false;
 		$screen           = '';
@@ -395,7 +395,7 @@ class ConstantContact_Mail {
 	 *
 	 * @return string
 	 */
-	public function set_email_type() {
+	public function set_email_type() : string {
 		return 'text/html';
 	}
 
@@ -410,7 +410,7 @@ class ConstantContact_Mail {
 	 * @param string $dest_email Destination email.
 	 * @param string $content    Content of email.
 	 */
-	public function maybe_log_mail_status( $status, $dest_email, $content ) {
+	public function maybe_log_mail_status( string $status, string $dest_email, string $content ) {
 
 		constant_contact_maybe_log_it(
 			'Mail',
@@ -445,7 +445,7 @@ class ConstantContact_Mail {
 	 * @param  bool $was_forced Whether or not we have to force send an email.
 	 * @return string $value      Message to explain why an email was received.
 	 */
-	public function maybe_append_forced_email_notice_note( $was_forced = false ) {
+	public function maybe_append_forced_email_notice_note( bool $was_forced = false ) : string {
 
 		if ( ! $was_forced ) {
 			return '';
@@ -469,7 +469,7 @@ class ConstantContact_Mail {
 	 * @param array $submission_details Array of submission details that we tack reasons to send email in.
 	 * @return string
 	 */
-	public function maybe_append_forced_email_notice_reasons( $was_forced = false, $submission_details = [] ) {
+	public function maybe_append_forced_email_notice_reasons( bool $was_forced = false, array $submission_details = [] ) : string {
 
 		if ( ! $was_forced ) {
 			return '';
@@ -510,9 +510,9 @@ class ConstantContact_Mail {
 	 * @since 1.3.7
 	 *
 	 * @param string $email Email address to parse.
-	 * @return mixed Part of a provided email.
+	 * @return string Part of a provided email.
 	 */
-	public function get_email_part( $email ) {
+	public function get_email_part( string $email ) : string {
 		if ( ! is_email( $email ) ) {
 			return $email;
 		}
