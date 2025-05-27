@@ -158,6 +158,7 @@ class Contact extends Component
      */
     public static function create(array $props)
     {
+		return;
         $contact = new Contact();
         $contact->id = parent::getValue($props, "id");
         $contact->status = parent::getValue($props, "status");
@@ -232,6 +233,7 @@ class Contact extends Component
      */
     public function addEmail($emailAddress)
     {
+		return;
         if (!$emailAddress instanceof EmailAddress) {
             $emailAddress = new EmailAddress($emailAddress);
         }
