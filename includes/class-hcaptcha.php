@@ -24,7 +24,7 @@ class ConstantContact_hCaptcha {
 	 * @var string
 	 * @since 2.9.0
 	 */
-	protected $site_key;
+	protected string $site_key;
 
 	/**
 	 * hCaptcha secret key.
@@ -32,7 +32,7 @@ class ConstantContact_hCaptcha {
 	 * @var string
 	 * @since 2.9.0
 	 */
-	protected $secret_key;
+	protected string $secret_key;
 
 	/**
 	 * hCaptcha theme to use.
@@ -41,7 +41,7 @@ class ConstantContact_hCaptcha {
 	 * @var string
 	 * @since 2.9.0
 	 */
-	protected $theme;
+	protected string $theme;
 
 	/**
 	 * Size to use for the hCaptcha box.
@@ -50,7 +50,7 @@ class ConstantContact_hCaptcha {
 	 * @var string
 	 * @since 2.9.0
 	 */
-	public $size;
+	public string $size;
 
 	/**
 	 * Language code to use.
@@ -60,7 +60,7 @@ class ConstantContact_hCaptcha {
 	 * @var string
 	 * @since 2.9.0
 	 */
-	protected $language;
+	protected string $language;
 
 	/**
 	 * Mode to use.
@@ -69,7 +69,7 @@ class ConstantContact_hCaptcha {
 	 * @var string
 	 * @since 2.9.0
 	 */
-	protected $mode;
+	protected string $mode;
 
 	/**
 	 * Return an array of our site key pair.
@@ -78,7 +78,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @return array
 	 */
-	public function get_hcaptcha_keys() {
+	public function get_hcaptcha_keys() : array {
 		$keys               = [];
 		$keys['site_key']   = constant_contact_get_option( '_ctct_hcaptcha_site_key', '' );
 		$keys['secret_key'] = constant_contact_get_option( '_ctct_hcaptcha_secret_key', '' );
@@ -105,7 +105,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @return bool
 	 */
-	public static function has_hcaptcha_keys() {
+	public static function has_hcaptcha_keys() : bool {
 		$site_key   = constant_contact_get_option( '_ctct_hcaptcha_site_key', '' );
 		$secret_key = constant_contact_get_option( '_ctct_hcaptcha_secret_key', '' );
 
@@ -119,7 +119,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @return string $theme Theme for the hCaptcha object.
 	 */
-	public function get_theme() {
+	public function get_theme() : string {
 		return $this->theme;
 	}
 
@@ -130,7 +130,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @param string $theme hCaptcha theme to use.
 	 */
-	public function set_theme( $theme ) {
+	public function set_theme( string $theme ) {
 		$this->theme = $theme;
 	}
 
@@ -141,7 +141,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @return string $size Size for the hCaptcha object.
 	 */
-	public function get_size() {
+	public function get_size() : string {
 		return $this->size;
 	}
 
@@ -152,7 +152,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @param string $size hCaptcha size to specify.
 	 */
-	public function set_size( $size ) {
+	public function set_size( string $size ) {
 		$this->size = $size;
 	}
 
@@ -163,7 +163,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @return string $language Language for the hCaptcha object.
 	 */
-	public function get_language() {
+	public function get_language() : string {
 		return $this->language;
 	}
 
@@ -174,7 +174,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @param string $language Language code for the hCaptcha object.
 	 */
-	public function set_language( $language ) {
+	public function set_language( string $language ) {
 		$this->language = $language;
 	}
 
@@ -185,7 +185,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @return string $mode The mode for the hCaptcha object.
 	 */
-	public function get_mode() {
+	public function get_mode() : string {
 		return $this->mode;
 	}
 
@@ -196,7 +196,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @param string $mode hCaptcha mode to use.
 	 */
-	public function set_mode( $mode ) {
+	public function set_mode( string $mode ) {
 		$this->mode = $mode;
 	}
 
@@ -248,7 +248,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @return string
 	 */
-	public function get_inline_markup() {
+	public function get_inline_markup() : string {
 		return sprintf(
 			'<div class="h-captcha"
 				data-sitekey="%1$s"
@@ -274,7 +274,7 @@ class ConstantContact_hCaptcha {
 	 * @param  string $handle Script handle.
 	 * @return string         Script tag.
 	 */
-	public function add_script_attributes( $tag, $handle ) {
+	public function add_script_attributes( string $tag, string $handle ) : string {
 		if ( 'hcaptcha-api' !== $handle ) {
 			return $tag;
 		}
