@@ -39,7 +39,7 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 
 		wp_enqueue_script(
 			'recaptcha-v2',
-			constant_contact()->url() . "assets/js/ctct-plugin-recaptcha-v2{$suffix}.js",
+			constant_contact()->url() . "assets/js/ctct-plugin-recaptcha-v2$suffix.js",
 			[],
 			Constant_Contact::VERSION,
 			true
