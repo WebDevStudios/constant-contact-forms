@@ -984,11 +984,15 @@ class ConstantContact_Settings {
 		$email = '';
 		$name  = '';
 
-		if ( $user && isset( $user->data, $user->data->user_email ) ) {
+		if ( ! $user ) {
+			return;
+		}
+
+		if ( isset( $user->data->user_email ) ) {
 			$email = sanitize_email( $user->data->user_email );
 		}
 
-		if ( $user && isset( $user->data, $user->data->display_name ) ) {
+		if ( isset( $user->data->display_name ) ) {
 			$name = sanitize_text_field( $user->data->display_name );
 		}
 
@@ -997,10 +1001,6 @@ class ConstantContact_Settings {
 		}
 
 		$lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
-
-		if ( empty( $lists ) ) {
-			return;
-		}
 
 		if ( $email ) {
 			foreach ( $lists as $list ) {
