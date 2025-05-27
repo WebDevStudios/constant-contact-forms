@@ -1139,7 +1139,7 @@ class ConstantContact_Settings {
 			return $post_error;
 		}
 
-		$option_error = cmb2_get_option( '_ctct_spam_error' );
+		$option_error = constant_contact_get_option( '_ctct_spam_error' );
 
 		if ( ! empty( $option_error ) ) {
 			return $option_error;
