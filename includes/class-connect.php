@@ -374,7 +374,9 @@ class ConstantContact_Connect {
 		}
 
 		$key = $this->get_encrpyt_key();
-
+		if ( ! $key ) {
+			return false;
+		}
 		if ( $fallback_to_ctct_opt ) {
 			$options = get_option( 'ctct_options_settings', false );
 			if ( $options && isset( $options[ $check_key ] ) ) {
