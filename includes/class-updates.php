@@ -23,7 +23,7 @@ class ConstantContact_Updates {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Constructor.
@@ -32,7 +32,7 @@ class ConstantContact_Updates {
 	 *
 	 * @param object $plugin Plugin to store.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
@@ -88,7 +88,7 @@ class ConstantContact_Updates {
 	 *
 	 * @param string $update_id Update key to use for version.
 	 */
-	public function add_notification( $update_id ) {
+	public function add_notification( string $update_id ) {
 
 		$current_notifs = get_option( 'ctct_update_notifications', [] );
 		$compare_notifs = $current_notifs;

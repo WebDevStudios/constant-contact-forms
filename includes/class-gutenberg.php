@@ -23,7 +23,7 @@ class ConstantContact_Gutenberg {
 	 * @since 1.5.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Constructor.
@@ -32,7 +32,7 @@ class ConstantContact_Gutenberg {
 	 *
 	 * @param object $plugin Parent plugin.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 
 		if ( $this->meets_requirements() ) {
@@ -47,7 +47,7 @@ class ConstantContact_Gutenberg {
 	 * @since  1.5.0
 	 * @return bool
 	 */
-	private function meets_requirements() {
+	private function meets_requirements() : bool {
 		global $wp_version;
 
 		return version_compare( $wp_version, '5.0.0' ) >= 0;
@@ -75,7 +75,7 @@ class ConstantContact_Gutenberg {
 	 * @param array $attributes The block attributes.
 	 * @return string
 	 */
-	public function display_single_contact_form( $attributes ) {
+	public function display_single_contact_form( array $attributes ) : string {
 		if ( empty( $attributes['selectedForm'] ) ) {
 			return '';
 		}

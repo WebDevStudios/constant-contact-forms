@@ -22,7 +22,7 @@ class ConstantContact_Middleware {
 	 * @since 1.0.1
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Constructor.
@@ -31,7 +31,7 @@ class ConstantContact_Middleware {
 	 *
 	 * @param object $plugin Main plugin object.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 	}
 
@@ -44,7 +44,7 @@ class ConstantContact_Middleware {
 	 * @param array  $extra_args Array of extra arguements.
 	 * @return string Auth server link.
 	 */
-	public function do_connect_url( $proof = '', $extra_args = [] ) {
+	public function do_connect_url( string $proof = '', array $extra_args = [] ) {
 
 		$auth_server_link = $this->get_auth_server_link();
 
