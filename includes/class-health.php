@@ -61,6 +61,13 @@ class ConstantContact_Health {
 			$recaptcha_version
 		);
 
+		$has_hcaptcha = ( ConstantContact_hCaptcha::has_hcaptcha_keys() ) ? $yes : $no;
+		$hcaptcha_status = sprintf(
+		/* Translators: Placeholders will store the current values from each */
+			esc_html__( 'Has hCaptcha: %1$s', 'constant-contact-forms' ),
+			$has_hcaptcha,
+		);
+
 		$debug_info['constant-contact-forms'] = [
 			'label'       => esc_html__( 'Constant Contact Forms', 'constant-contact-forms' ),
 			'description' => esc_html__( 'Debugging and troubleshooting information for support purposes', 'constant-contact-forms' ),
@@ -116,6 +123,10 @@ class ConstantContact_Health {
 				[
 					'label' => esc_html__( 'reCAPTCHA Status', 'constant-contact-forms' ),
 					'value' => $recaptcha_status,
+				],
+				[
+					'label' => esc_html__( 'hCaptcha Status', 'constant-contact-forms' ),
+					'value' => $hcaptcha_status,
 				],
 				[
 					'label' => esc_html__( 'Has missed submissions', 'constant-contact-forms' ),
