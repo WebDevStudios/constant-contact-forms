@@ -111,9 +111,9 @@ class ConstantContact_Settings {
 	 */
 	public function register_metabox_override_hooks() {
 		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
-			add_filter( "cmb2_override_option_get_{$this->key}_{$cmb_key}", [ $this, 'get_override' ], 10, 2 );
-			add_filter( "cmb2_override_option_save_{$this->key}_{$cmb_key}", [ $this, 'update_override' ], 10, 2 );
-			add_action( "cmb2_save_options-page_fields_{$this->metabox_id}_{$cmb_key}", [ $this, 'settings_notices' ], 10, 2 );
+			add_filter( "cmb2_override_option_get_{$this->key}_$cmb_key", [ $this, 'get_override' ], 10, 2 );
+			add_filter( "cmb2_override_option_save_{$this->key}_$cmb_key", [ $this, 'update_override' ], 10, 2 );
+			add_action( "cmb2_save_options-page_fields_{$this->metabox_id}_$cmb_key", [ $this, 'settings_notices' ], 10, 2 );
 		}
 	}
 
@@ -180,7 +180,7 @@ class ConstantContact_Settings {
 	 */
 	public function add_options_page_metaboxes() {
 		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
-			$method = "register_fields_{$cmb_key}";
+			$method = "register_fields_$cmb_key";
 
 			if ( ! method_exists( $this, $method ) ) {
 				continue;
@@ -202,7 +202,7 @@ class ConstantContact_Settings {
 				continue;
 			}
 
-			remove_submenu_page( 'edit.php?post_type=ctct_forms', "{$this->key}_{$cmb_key}" );
+			remove_submenu_page( 'edit.php?post_type=ctct_forms', "{$this->key}_$cmb_key" );
 		}
 	}
 
@@ -285,7 +285,7 @@ class ConstantContact_Settings {
 			}
 
 			$tab_title                         = $cmb->prop( 'tab_title' );
-			$tabs[ "{$this->key}_{$cmb_key}" ] = empty( $tab_title ) ? $cmb->prop( 'title' ) : $tab_title;
+			$tabs[ "{$this->key}_$cmb_key" ] = empty( $tab_title ) ? $cmb->prop( 'title' ) : $tab_title;
 		}
 
 		return $tabs;
@@ -329,11 +329,11 @@ class ConstantContact_Settings {
 	 */
 	protected function get_cmb_args( string $cmb_id ) : array {
 		return [
-			'id'           => "{$this->metabox_id}_{$cmb_id}",
+			'id'           => "{$this->metabox_id}_$cmb_id",
 			'title'        => esc_html__( 'Settings', 'constant-contact-forms' ),
 			'menu_title'   => esc_html__( 'Settings', 'constant-contact-forms' ),
 			'object_types' => [ 'options-page' ],
-			'option_key'   => "{$this->key}_{$cmb_id}",
+			'option_key'   => "{$this->key}_$cmb_id",
 			'parent_slug'  => add_query_arg( 'post_type', 'ctct_forms', 'edit.php' ),
 			'tab_group'    => $this->key,
 			'tab_title'    => $this->metabox_titles[ $cmb_id ],
