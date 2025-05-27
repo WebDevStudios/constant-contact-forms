@@ -886,13 +886,9 @@ class ConstantContact_Settings {
 
 		if ( isset( $comment_data['comment_author_email'] ) && $comment_data['comment_author_email'] ) {
 
-			$name    = isset( $comment_data['comment_author'] ) ? $comment_data['comment_author'] : '';
-			$website = isset( $comment_data['comment_author_url'] ) ? $comment_data['comment_author_url'] : '';
+			$name    = $comment_data['comment_author'] ?? '';
+			$website = $comment_data['comment_author_url'] ?? '';
 			$lists   = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
-
-			if ( empty( $lists ) ) {
-				return $comment_data;
-			}
 
 			foreach ( $lists as $list ) {
 				$args = [
