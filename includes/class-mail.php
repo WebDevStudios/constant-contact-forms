@@ -67,7 +67,7 @@ class ConstantContact_Mail {
 		$submission_details['form_id']         = $values['ctct-id']['value'];
 		$submission_details['submitted_email'] = $this->get_user_email_from_submission( $values );
 
-		$lists  = isset( $values['ctct-lists'] ) ? $values['ctct-lists'] : [];
+		$lists  = isset( $values['ctct-lists'] ) ?? [];
 		$values = constant_contact()->process_form->pretty_values( $values );
 
 		$email_values = $this->format_values_for_email( $values, $submission_details['form_id'] );
@@ -122,9 +122,9 @@ class ConstantContact_Mail {
 	public function opt_in_user( array $values ) {
 
 		foreach ( $values as $key => $val ) {
-			$key  = sanitize_text_field( isset( $val['key'] ) ? $val['key'] : '' );
-			$orig = sanitize_text_field( isset( $val['orig_key'] ) ? $val['orig_key'] : '' );
-			$val  = sanitize_text_field( isset( $val['value'] ) ? $val['value'] : '' );
+			$key  = sanitize_text_field( $val['key'] ?? '' );
+			$orig = sanitize_text_field( $val['orig_key'] ?? '' );
+			$val  = sanitize_text_field( $val['value'] ?? '' );
 
 			if ( empty( $key ) || in_array( $key, [ 'ctct-opt-in', 'ctct-id', 'ctct-lists' ], true ) ) {
 				continue;
@@ -140,12 +140,12 @@ class ConstantContact_Mail {
 			}
 		}
 
-		if ( ! isset( $values['ctct-opt-in'] ) || ! isset( $values['ctct-lists'] ) || empty( $values['ctct-lists'] ) ) {
+		if ( ! isset( $values['ctct-opt-in'] ) || empty( $values['ctct-lists'] ) ) {
 			return;
 		}
 
-		$lists        = isset( $values['ctct-lists'] ) ? $values['ctct-lists'] : [];
-		$lists        = isset( $lists['value'] ) ? $lists['value'] : [];
+		$lists        = $values['ctct-lists'] ?? [];
+		$lists        = $lists['value'] ?? [];
 		$args['list'] = is_array( $lists ) ? array_map( 'sanitize_text_field', $lists ) : sanitize_text_field( $lists );
 
 		return constantcontact_api()->add_contact( $args, $values['ctct-id']['value'] );
@@ -168,7 +168,7 @@ class ConstantContact_Mail {
 		$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
 		foreach ( $pretty_vals as $val ) {
 
-			$label = isset( $val['orig_key'] ) ? $val['orig_key'] : false;
+			$label = $val['orig_key'] ?? false;
 
 			$custom_field_name = '';
 			if ( false !== strpos( $label, 'custom___' ) ) {
@@ -182,7 +182,7 @@ class ConstantContact_Mail {
 			} else {
 				$label = $custom_field_name;
 			}
-			$value = isset( $val['post'] ) ? $val['post'] : '&nbsp;';
+			$value = $val['post'] ?? '&nbsp;';
 
 			$return .= '<p>' . sanitize_text_field( $label ) . ': ' . sanitize_text_field( $value ) . '</p>';
 		}
@@ -491,7 +491,7 @@ class ConstantContact_Mail {
 					esc_html__( 'NO (User did not select the Email Opt-in checkbox)', 'constant-contact-forms' ) . '<br/>' . esc_html__( "You can disable this under Form options. Email Opt-in isn't required to add subscribers into your account", 'constant-contact-forms' )
 				);
 			}
-		} elseif ( isset( $submission_details['custom-reason'] ) && ! empty( $submission_details['custom-reason'] ) ) {
+		} elseif ( ! empty( $submission_details['custom-reason'] ) ) {
 			$content_notice .= sprintf(
 				$template,
 				esc_html( $submission_details['custom-reason'] )
