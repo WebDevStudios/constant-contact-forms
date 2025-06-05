@@ -589,7 +589,7 @@ class ConstantContact_Display {
 	public function build_honeypot_field() : string {
 		return sprintf(
 			'<div ' .
-				'class="ctct_usage"' .
+				'class="ctct_usage" ' .
 				'style="border: 0 none; clip: rect( 0, 0, 0, 0 ); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px;"' .
 			'><label for="ctct_usage_field">%s</label><input type="text" value="" id="ctct_usage_field" name="ctct_usage_field" class="ctct_usage_field" tabindex="-1" /></div>',
 			esc_html__( 'Constant Contact Use. Please leave this field blank.', 'constant-contact-forms' )
@@ -993,7 +993,11 @@ class ConstantContact_Display {
 			$classes[] = 'ctct-form-field-required';
 		}
 
-		$markup = '<' . $tag . ' class="' . implode( ' ', $classes ) . '">';
+		$markup = sprintf(
+			'<%1$s class="%2$s">',
+			$tag,
+			esc_attr( implode( ' ', $classes ) )
+		);
 
 		if ( ! $use_label ) {
 			$markup .= '<span class="ctct-input-container">';
@@ -1175,7 +1179,7 @@ class ConstantContact_Display {
 		$class_attr = '';
 
 		if ( count( $classes ) ) {
-			$class_attr = 'class="' . implode( ' ', $classes ) . '"';
+			$class_attr = esc_attr( implode( ' ', $classes ) );
 		}
 
 		$tel_pattern_title = apply_filters( 'constant_contact_tel_pattern_title', esc_html__( 'numbers, dashes, pluses, periods, and parentheses', 'constant-contact-forms' ) );
@@ -1184,23 +1188,23 @@ class ConstantContact_Display {
 		$placeholder = '';
 
 		if ( 'submit' !== $type ) {
-			$placeholder = "placeholder=\"{$label}\"";
+			$placeholder = "placeholder=\"$label\"";
 		}
 
 		/* 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID., 10: Tel Regex Pattern. */
-		$field   = '<input %1$s type="%2$s" name="%3$s" %4$s value="%5$s" %6$s %7$s %8$s %9$s %10$s />';
+		$field   = '<input %1$s type="%2$s" id="%3$s" name="%4$s" %5$s value="%6$s" class="%7$s" %8$s %9$s %10$s />';
 		$markup .= sprintf(
 			$field,
-			$req_text,
+			$req_text, // %1$s starts here.
 			$type,
+			$field_id,
 			$field_key,
 			$input_inline_styles,
 			$value,
+			$class_attr,
 			$max_length,
 			$placeholder,
-			$class_attr,
-			"id=\"{$field_id}\"",
-			$tel_regex_pattern ? "pattern=\"{$tel_regex_pattern}\" title=\"{$tel_pattern_title}\"" : ''
+			$tel_regex_pattern ? "pattern=\"$tel_regex_pattern\" title=\"$tel_pattern_title\"" : ''
 		);
 
 		// Reassign because if we want "field only", like for hidden inputs, we need to still pass a value that went through sprintf().
@@ -1321,7 +1325,7 @@ class ConstantContact_Display {
 			}
 
 			$markup .= sprintf(
-				'<input type="%s" name="%s[]" id="%s" value="%s" %s %s />',
+				'<input type="%1$s" name="%2$s[]" id="%3$s" value="%4$s" %5$s %6$s />',
 				$type,
 				$field_key,
 				"{$field_id}_$i",
@@ -1614,12 +1618,7 @@ class ConstantContact_Display {
 				}
 			}
 
-			$return = '
-			<fieldset class="ctct-address">
-				<legend style="%s">%s</legend>
-				%s
-			</fieldset>
-			';
+			$return = '<fieldset class="ctct-address"><legend style="%1$s">%2$s</legend>%3$s</fieldset>';
 			return sprintf(
 				$return,
 				esc_attr( $inline_font_styles ),
