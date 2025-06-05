@@ -300,8 +300,8 @@ class ConstantContact_Display {
 		// with our error messages.
 		$response = constant_contact()->process_form->process_wrapper( $form_data, $form_id, $instance );
 
-		$old_values = isset( $response['values'] ) ? $response['values'] : '';
-		$req_errors = isset( $response['errors'] ) ? $response['errors'] : '';
+		$old_values = $response['values'] ?? [];
+		$req_errors = $response['errors'] ?? [];
 
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
@@ -783,11 +783,11 @@ class ConstantContact_Display {
 
 		$name  = sanitize_text_field( $field['name'] );
 		$map   = sanitize_text_field( $field['map_to'] );
-		$desc  = sanitize_text_field( isset( $field['description'] ) ? $field['description'] : '' );
-		$type  = sanitize_text_field( isset( $field['type'] ) ? $field['type'] : 'text_field' );
-		$value = isset( $field['value'] ) ? $field['value'] : false;
+		$desc  = sanitize_text_field( $field['description'] ?? '' );
+		$type  = sanitize_text_field( $field['type'] ?? 'text_field' );
+		$value = $field['value'] ?? false;
 		$value = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
-		$req   = isset( $field['required'] ) ? $field['required'] : false;
+		$req   = $field['required'] ?? false;
 
 		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions -- Okay use of serialize() here.
 		if ( 'submit' !== $type ) {
@@ -1436,7 +1436,7 @@ class ConstantContact_Display {
 	 */
 	private function optin_display( array $optin, int $instance = 0 ) : string {
 
-		$label = sanitize_text_field( isset( $optin['instructions'] ) ? $optin['instructions'] : '' );
+		$label = sanitize_text_field( $optin['instructions'] ?? '' );
 
 		$show = false;
 		if ( isset( $optin['show'] ) && 'on' === $optin['show'] ) {
@@ -1550,7 +1550,7 @@ class ConstantContact_Display {
 						break;
 				}
 				if ( 'country' !== $field ) {
-					$field_value          = isset( $value[ $field ] ) ? $value[ $field ] : '';
+					$field_value          = $value[ $field ] ?? '';
 					$label_placement_tmpl = '<span class="%1$s"><label for="%2$s_%3$s" style="%4$s">%5$s %6$s</label></span><input %7$s type="text" class="ctct-text ctct-address-%2$s %1$s %2$s_%8$s" name="%2$s_%8$s" value="%9$s" id="%2$s_%3$s">';
 
 					if ( in_array( $label_placement_class, [ 'ctct-label-bottom', 'ctct-label-right' ], true ) ) {
@@ -1579,7 +1579,7 @@ class ConstantContact_Display {
 					$select_options = [
 						'<option value="">' . esc_html__( 'Please choose an option', 'constant-contact-forms' ) . '</option>',
 					];
-					$field_value    = isset( $value[ $field ] ) ? $value[ $field ] : '';
+					$field_value    = $value[ $field ] ?? '';
 					foreach ( $countries as $country ) {
 						$select_options[] = sprintf(
 							'<option value="%1$s" %2$s>%3$s</option>',
@@ -1631,10 +1631,10 @@ class ConstantContact_Display {
 		} else {
 			// LEGACY-ISH VERSION
 
-			$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
-			$v_line_2 = isset( $value['line_2_address'] ) ? $value['line_2_address'] : '';
-			$v_city   = isset( $value['city_address'] ) ? $value['city_address'] : '';
-			$v_state  = isset( $value['state_address'] ) ? $value['state_address'] : '';
+			$v_street = $value['street_address'] ?? '';
+			$v_line_2 = $value['line_2_address'] ?? '';
+			$v_city   = $value['city_address'] ?? '';
+			$v_state  = $value['state_address'] ?? '';
 			$v_zip    = isset( $value['zip_address'] ) ? $value['zip'] : '';
 
 			$label_street1 = sprintf(
@@ -1818,9 +1818,9 @@ class ConstantContact_Display {
 		$day   = esc_html__( 'Day', 'constant-contact-forms' );
 		$year  = esc_html__( 'Year', 'constant-contact-forms' );
 
-		$v_month = isset( $value['month'] ) ? $value['month'] : '';
-		$v_day   = isset( $value['day'] ) ? $value['day'] : '';
-		$v_year  = isset( $value['year'] ) ? $value['year'] : '';
+		$v_month = $value['month'] ?? '';
+		$v_day   = $value['day'] ?? '';
+		$v_year  = $value['year'] ?? '';
 
 		$req_class = $req ? ' ctct-form-field-required ' : '';
 
@@ -1891,9 +1891,9 @@ class ConstantContact_Display {
 
 		foreach ( $values as $key => $value ) {
 
-			$key = sanitize_text_field( isset( $key ) ? $key : '' );
+			$key = sanitize_text_field( $key ?? '' );
 
-			$value = sanitize_text_field( isset( $value ) ? $value : '' );
+			$value = sanitize_text_field( $value ?? '' );
 
 			$return .= '<option value="' . $key . '">' . $value . '</option>';
 		}
@@ -2071,19 +2071,19 @@ class ConstantContact_Display {
 	 */
 	public function maybe_add_disclose_note( array $form_data ) : string {
 
-		$opts = isset( $form_data['options'] ) ? $form_data['options'] : false;
+		$opts = $form_data['options'] ?? false;
 
 		if ( ! $opts ) {
 			return '';
 		}
 
-		$optin = isset( $opts['optin'] ) ? $opts['optin'] : false;
+		$optin = $opts['optin'] ?? false;
 
 		if ( ! $optin ) {
 			return '';
 		}
 
-		$list = isset( $optin['list'] ) ? $optin['list'] : false;
+		$list = $optin['list'] ?? false;
 
 		if ( ! $list ) {
 			return '';
