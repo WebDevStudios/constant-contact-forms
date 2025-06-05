@@ -23,7 +23,7 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 * @var string
 	 */
-	private $key = 'ctct_options_logging';
+	private string $key = 'ctct_options_logging';
 
 	/**
 	 * Parent plugin class.
@@ -31,7 +31,7 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Logging admin page URL.
@@ -39,7 +39,7 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 * @var string
 	 */
-	public $options_url = '';
+	public string $options_url = '';
 
 	/**
 	 * Options page.
@@ -47,7 +47,7 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 * @var string
 	 */
-	public $options_page = '';
+	public string $options_page = '';
 
 	/**
 	 * Log location, URL path.
@@ -55,7 +55,7 @@ class ConstantContact_Logging {
 	 * @since 1.4.5
 	 * @var string
 	 */
-	protected $log_location_url = '';
+	protected string $log_location_url = '';
 
 	/**
 	 * Log location, server path.
@@ -65,7 +65,7 @@ class ConstantContact_Logging {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	protected $log_location_file = '';
+	protected string $log_location_file = '';
 
 	/**
 	 * Log directory location, server path.
@@ -73,7 +73,7 @@ class ConstantContact_Logging {
 	 * @since 1.4.5
 	 * @var string
 	 */
-	protected $log_location_dir = '';
+	protected string $log_location_dir = '';
 
 	/**
 	 * The location of the log folder's index file.
@@ -81,7 +81,7 @@ class ConstantContact_Logging {
 	 * @since 1.5.0
 	 * @var string
 	 */
-	protected $log_index_file = '';
+	protected string $log_index_file = '';
 
 	/**
 	 * The location of the log folder's htaccess file.
@@ -89,7 +89,7 @@ class ConstantContact_Logging {
 	 * @since 2.4.3
 	 * @var string
 	 */
-	protected $log_htaccess_file = '';
+	protected string $log_htaccess_file = '';
 
 	/**
 	 * The logging directory name.
@@ -97,7 +97,7 @@ class ConstantContact_Logging {
 	 * @since 1.8.2
 	 * @var   string
 	 */
-	protected $log_file_dir = 'ctct-logs';
+	protected string $log_file_dir = 'ctct-logs';
 
 	/**
 	 * WP_Filesystem
@@ -118,18 +118,18 @@ class ConstantContact_Logging {
 		$this->plugin      = $plugin;
 		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
 		$uploads_dir       = wp_upload_dir();
-		$new_suffix        = $this->generate_random_string( 10 );
+		$new_suffix        = $this->generate_random_string();
 		$suffix            = get_option( 'ctct_log_suffix', '' );
 		if ( empty( $suffix ) ) {
 			$suffix = $new_suffix;
 			update_option( 'ctct_log_suffix', $suffix );
 		}
-		$log_file_name           = "constant-contact-errors-{$suffix}.log";
-		$this->log_location_url  = "{$uploads_dir['baseurl']}/{$this->log_file_dir}/{$log_file_name}";
-		$this->log_location_dir  = "{$uploads_dir['basedir']}/{$this->log_file_dir}";
-		$this->log_location_file = "{$this->log_location_dir}/{$log_file_name}";
-		$this->log_index_file    = "{$this->log_location_dir}/index.php";
-		$this->log_htaccess_file = "{$this->log_location_dir}/.htaccess";
+		$log_file_name           = "constant-contact-errors-$suffix.log";
+		$this->log_location_url  = "{$uploads_dir['baseurl']}/$this->log_file_dir/$log_file_name";
+		$this->log_location_dir  = "{$uploads_dir['basedir']}/$this->log_file_dir";
+		$this->log_location_file = "$this->log_location_dir/$log_file_name";
+		$this->log_index_file    = "$this->log_location_dir/index.php";
+		$this->log_htaccess_file = "$this->log_location_dir/.htaccess";
 
 		$this->hooks();
 	}
@@ -176,8 +176,6 @@ class ConstantContact_Logging {
 	 * Add menu options page.
 	 *
 	 * @since 1.3.7
-	 *
-	 * @return null
 	 */
 	public function add_options_page() {
 
@@ -188,10 +186,8 @@ class ConstantContact_Logging {
 		}
 
 		$connect_title = esc_html__( 'Debug Logs', 'constant-contact-forms' );
-		$connect_link  = 'edit.php?post_type=ctct_forms';
-
 		$this->options_page = add_submenu_page(
-			$connect_link,
+			'edit.php?post_type=ctct_forms',
 			$connect_title,
 			$connect_title,
 			'manage_options',
@@ -216,8 +212,6 @@ class ConstantContact_Logging {
 	 * Admin page markup.
 	 *
 	 * @since 1.3.7
-	 *
-	 * @return mixed page markup or false if not admin.
 	 */
 	public function admin_page_display() {
 
@@ -228,7 +222,7 @@ class ConstantContact_Logging {
 
 		?>
 		<div class="wrap ctct-page-wrap <?php echo esc_attr( $this->key ); ?>">
-			<h2><?php esc_html_e( 'Debug Logs', 'constant-contact-forms' ); ?></h2>
+			<h1><?php echo get_admin_page_title(); ?></h1>
 
 			<?php
 
@@ -253,7 +247,7 @@ class ConstantContact_Logging {
 			?>
 			<p class="large-text"><?php esc_html_e( 'The error log below can be used with support requests to help identify issues with Constant Contact Forms.', 'constant-contact-forms' ); ?></p>
 			<p><?php esc_html_e( 'When available, you can share information by copying and pasting the content in the textarea, or by using the "Download logs" link below. Logs can be cleared by using the "Delete logs" link.', 'constant-contact-forms' ); ?></p>
-			<textarea name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea>
+			<label for="ctct_error_logs"><textarea name="ctct_error_logs" id="ctct_error_logs" cols="80" rows="40" onclick="this.focus();this.select();" onfocus="this.focus();this.select();" readonly="readonly" aria-readonly="true"><?php echo esc_html( $contents ); ?></textarea></label>
 			<?php
 
 			if ( is_file( $this->log_location_file ) && ! is_readable( $this->log_location_file ) ) {
@@ -287,7 +281,6 @@ class ConstantContact_Logging {
 			?>
 		</div>
 		<?php
-		return true;
 	}
 
 	/**
@@ -353,6 +346,7 @@ class ConstantContact_Logging {
 		if ( ! empty( $log_content_dir ) && is_string( $log_content_dir ) ) {
 			return $log_content_dir;
 		}
+		return '';
 	}
 
 	/**
@@ -504,7 +498,7 @@ class ConstantContact_Logging {
 	 * @param  string $dir Directory path.
 	 * @return void
 	 */
-	protected function delete_log_dir( $dir = '' ) {
+	protected function delete_log_dir( string $dir = '' ) {
 		if ( empty( $dir ) || ! is_dir( $dir ) ) {
 			return;
 		}
@@ -514,7 +508,7 @@ class ConstantContact_Logging {
 			return;
 		}
 
-		array_map( 'unlink', glob( "{$dir}/*" ) );
+		array_map( 'unlink', glob( "$dir/*" ) );
 		rmdir( $dir );
 	}
 
@@ -531,16 +525,16 @@ class ConstantContact_Logging {
 	 *
 	 * @return string $message with masked api_key value.
 	 */
-	public function mask_api_key( $message ) {
+	public function mask_api_key( string $message ) {
 		if ( empty( $message ) ) {
 			return $message;
 		}
 
-		if ( strpos( $message, 'api_key' ) === false ) {
+		if ( false === strpos( $message, 'api_key' ) ) {
 			return $message;
 		}
 
-		$key_pattern = '/(?<=api_key=)([^\s]+)/m';
+		$key_pattern = '/(?<=api_key=)(\S+)/m';
 		preg_match( $key_pattern, $message, $matches );
 		$key = ! empty( $matches[0] ) ? $matches[0] : false;
 
@@ -572,6 +566,13 @@ class ConstantContact_Logging {
 		$this->create_log_file();
 	}
 
+	/**
+	 * Return an array of our log directory and file location.
+	 *
+	 * @since 2.3.0
+	 *
+	 * @return array
+	 */
 	public function get_log_locations() {
 		return [
 			'directory' => $this->log_location_dir,

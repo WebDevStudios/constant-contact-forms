@@ -63,7 +63,7 @@ class ConstantContact_Lists {
 		add_filter( 'views_edit-ctct_lists', [ $this, 'add_force_sync_button' ] );
 		add_action( 'admin_init', [ $this, 'check_for_list_sync_request' ] );
 
-		add_filter( 'post_row_actions', [ $this, 'remove_quick_edit_from_lists' ] );
+		add_filter( 'post_row_actions', [ $this, 'remove_quick_edit_from_lists' ], 10, 2 );
 
 		add_action( 'admin_init', [ $this, 'maybe_display_duplicate_list_error' ] );
 
@@ -84,7 +84,7 @@ class ConstantContact_Lists {
 		$cmb = new_cmb2_box(
 			[
 				'id'           => 'ctct_list_metabox',
-				'title'        => __( 'List Information', 'constant-contact-forms' ),
+				'title'        => esc_html__( 'List Information', 'constant-contact-forms' ),
 				'object_types' => [ 'ctct_lists' ],
 				'context'      => 'normal',
 				'priority'     => 'high',
@@ -168,7 +168,7 @@ class ConstantContact_Lists {
 	 * @return string
 	 */
 	public function get_list_info_no_data() {
-		return '<em>' . __( 'List information will populate upon saving.', 'constant-contact-forms' ) . '</em>';
+		return '<em>' . esc_html__( 'List information will populate upon saving.', 'constant-contact-forms' ) . '</em>';
 	}
 
 	/**
@@ -615,35 +615,20 @@ class ConstantContact_Lists {
 	 * @param string $new_status Transitioned to status.
 	 * @param string $old_status Transitioned from status.
 	 * @param object $post       Post object.
-	 * @return bool
+	 * @return void
 	 */
 	public function post_status_transition( $new_status, $old_status, $post ) {
 
-		if ( ! $post ) {
-			return false;
-		}
-
-		if ( ! isset( $post->post_type ) ) {
-			return false;
-		}
-
-		if ( ! $post->ID ) {
-			return false;
-		}
-
-		if ( 'ctct_lists' !== $post->post_type ) {
-			return false;
-		}
-
-		if ( $new_status === $old_status ) {
-			return false;
+		if (
+			'ctct_lists' !== $post->post_type ||
+			$new_status === $old_status
+		) {
+			return;
 		}
 
 		if ( 'trash' === $old_status ) {
-			return $this->add_list( $post );
+			$this->add_list( $post );
 		}
-
-		return true;
 	}
 
 	/**
@@ -780,36 +765,15 @@ class ConstantContact_Lists {
 		}
 
 		if (
-			isset( $post->ID ) &&
-			$post->ID &&
-			isset( $post->post_type ) &&
-			$post->post_type &&
 			'ctct_lists' === $post->post_type &&
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
-			add_action( 'admin_head', [ $this, 'list_css' ] );
+			add_filter('admin_body_class',function($classes){
+				$classes .= ' ctct-duplicate-list';
+				return $classes;
+			});
 			add_action( 'admin_notices', [ $this, 'show_duplicate_list_message' ] );
 		}
-	}
-
-	/**
-	 * Output some embedded CSS for our error.
-	 *
-	 * @since 1.4.0
-	 */
-	public function list_css() {
-		?>
-		<style>
-			.post-type-ctct_lists #titlediv #title {
-				background: url( "<?php echo esc_url_raw( $this->plugin->url . 'assets/images/error.svg' ); ?>" ) no-repeat;
-				background-color: fade-out( #FF4136, 0.98);
-				background-position: 8px 50%;
-				background-size: 24px;
-				border-color: #FF4136;
-				padding-left: 40px;
-			}
-		</style>
-		<?php
 	}
 
 	/**
@@ -882,12 +846,11 @@ class ConstantContact_Lists {
 	 * @since 1.0.0
 	 *
 	 * @param array $actions Current actions.
+	 * @param WP_Post $post Post object being rendered.
 	 * @return array Modified actions.
 	 */
-	public function remove_quick_edit_from_lists( $actions ) {
-		global $post;
-
-		if ( $post && isset( $post->post_type ) && $post->post_type && 'ctct_lists' === $post->post_type ) {
+	public function remove_quick_edit_from_lists( $actions, $post ) {
+		if ( 'ctct_lists' === $post->post_type ) {
 			unset( $actions['inline hide-if-no-js'] );
 		}
 

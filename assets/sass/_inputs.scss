@@ -27,10 +27,8 @@
 
 			&:required.ctct-invalid,
 			&.ctct-invalid {
-				background: variables.$color-white url( ../images/error.svg ) no-repeat;
-				background-color: color.adjust(variables.$color-error, $alpha: -0.98);
-				background-position: 8px 50%;
-				background-size: 24px;
+			  background: color.adjust(variables.$color-error, $alpha: -0.98) url(../images/error.svg) no-repeat 8px 50%;
+			  background-size: 24px;
 				border-color: variables.$color-error;
 				padding-left: 40px;
 			}
