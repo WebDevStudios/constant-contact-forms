@@ -23,7 +23,7 @@ class ConstantContact_Display {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * The global custom styles.
@@ -31,7 +31,7 @@ class ConstantContact_Display {
 	 * @since 1.4.0
 	 * @var array
 	 */
-	protected $global_form_styles = [];
+	protected array $global_form_styles = [];
 
 	/**
 	 * Styles set for a particular form.
@@ -39,7 +39,7 @@ class ConstantContact_Display {
 	 * @since 1.4.0
 	 * @var array
 	 */
-	protected $specific_form_styles = [];
+	protected array $specific_form_styles = [];
 
 	/**
 	 * Constructor.
