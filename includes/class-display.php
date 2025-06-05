@@ -836,6 +836,7 @@ class ConstantContact_Display {
 			case 'submit':
 				return $this->input( 'submit', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'address':
+				$value = ! empty( $value ) ? $value : [];
 				return $this->address( $name, $map, $value, $desc, $req, $field_error, $form_id, $label_placement, $instance );
 			case 'anniversery':
 			case 'birthday':
@@ -1022,7 +1023,7 @@ class ConstantContact_Display {
 			$markup .= '</span>';
 		}
 
-		return $markup . "</{$tag}>";
+		return $markup . "</$tag>"; // opening markup for `$tag` variable set in `field_top()`
 	}
 
 	/**
@@ -1541,6 +1542,7 @@ class ConstantContact_Display {
 						$input_numbered_class = 'input_2_1_5_container';
 						break;
 					default:
+						$input_numbered_class = '';
 						break;
 				}
 				if ( 'country' !== $field ) {
