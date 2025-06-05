@@ -80,7 +80,7 @@ class ConstantContact_Display {
 				$recaptcha_base       = new ConstantContact_reCAPTCHA();
 				$version              = $recaptcha_base->get_recaptcha_version();
 				$version              = $version ?: 'v2';
-				$recaptcha_class_name = "ConstantContact_reCAPTCHA_{$version}";
+				$recaptcha_class_name = "ConstantContact_reCAPTCHA_$version";
 
 				$recaptcha = new $recaptcha_class_name();
 
@@ -170,32 +170,32 @@ class ConstantContact_Display {
 
 		$ctct_form_background_color = get_post_meta( $form_id, '_ctct_form_background_color', true );
 		if ( ! empty( $ctct_form_background_color ) ) {
-			$specific_form_css['form_background_color'] = "background-color: {$ctct_form_background_color};";
+			$specific_form_css['form_background_color'] = "background-color: $ctct_form_background_color;";
 		}
 
 		$ctct_form_description_font_size = get_post_meta( $form_id, '_ctct_form_description_font_size', true );
 		if ( ! empty( $ctct_form_description_font_size ) ) {
-			$specific_form_css['form_description_font_size'] = "font-size: {$ctct_form_description_font_size};";
+			$specific_form_css['form_description_font_size'] = "font-size: $ctct_form_description_font_size;";
 		}
 
 		$ctct_form_description_color = get_post_meta( $form_id, '_ctct_form_description_color', true );
 		if ( ! empty( $ctct_form_description_color ) ) {
-			$specific_form_css['form_description_color'] = "color: {$ctct_form_description_color};";
+			$specific_form_css['form_description_color'] = "color: $ctct_form_description_color;";
 		}
 
 		$ctct_form_submit_button_font_size = get_post_meta( $form_id, '_ctct_form_submit_button_font_size', true );
 		if ( ! empty( $ctct_form_submit_button_font_size ) ) {
-			$specific_form_css['form_submit_button_font_size'] = "font-size: {$ctct_form_submit_button_font_size};";
+			$specific_form_css['form_submit_button_font_size'] = "font-size: $ctct_form_submit_button_font_size;";
 		}
 
 		$ctct_form_submit_button_text_color = get_post_meta( $form_id, '_ctct_form_submit_button_text_color', true );
 		if ( ! empty( $ctct_form_submit_button_text_color ) ) {
-			$specific_form_css['form_submit_button_text_color'] = "color: {$ctct_form_submit_button_text_color};";
+			$specific_form_css['form_submit_button_text_color'] = "color: $ctct_form_submit_button_text_color;";
 		}
 
 		$ctct_form_submit_button_background_color = get_post_meta( $form_id, '_ctct_form_submit_button_background_color', true );
 		if ( ! empty( $ctct_form_submit_button_background_color ) ) {
-			$specific_form_css['form_submit_button_background_color'] = "background-color: {$ctct_form_submit_button_background_color};";
+			$specific_form_css['form_submit_button_background_color'] = "background-color: $ctct_form_submit_button_background_color;";
 		}
 
 		$ctct_form_padding_top = get_post_meta( $form_id, '_ctct_form_padding_top', true );
@@ -1098,7 +1098,7 @@ class ConstantContact_Display {
 		$id_salt               = wp_rand();
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
-		$field_id              = "{$field_key}_{$instance}_{$id_salt}";
+		$field_id              = "{$field_key}_{$instance}_$id_salt";
 		$input_inline_styles   = '';
 		$tel_regex_pattern     = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
@@ -1265,7 +1265,7 @@ class ConstantContact_Display {
 	public function checkbox( string $name = '', string $id = '', array $value = [], string $label = '', bool $req = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ) : string {
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
-		$field_id              = "{$field_key}_{$instance}";
+		$field_id              = "{$field_key}_$instance";
 		$label_placement_class = 'ctct-label-top';
 		$value                 = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
 		$value                 = is_array( $value ) ? $value : [ $value ];
@@ -1326,13 +1326,13 @@ class ConstantContact_Display {
 				'<input type="%s" name="%s[]" id="%s" value="%s" %s %s />',
 				$type,
 				$field_key,
-				"{$field_id}_{$i}",
+				"{$field_id}_$i",
 				$value[ $i ],
 				$class_attr,
 				0 === $count ? 'checked' : ''
 			);
 			$markup .= '<span class="ctct-label-right">';
-			$markup .= $this->get_label( "{$field_id}_{$i}", $input_label );
+			$markup .= $this->get_label( "{$field_id}_$i", $input_label );
 			$markup .= '</span>';
 
 			if ( $i < ( count( $value ) - 1 ) ) {
@@ -1352,7 +1352,7 @@ class ConstantContact_Display {
 
 		// If only one list displayed, hide input.
 		if ( 'lists' === $key_pieces[0] && $count <= 1 ) {
-			$markup = "<div class='ctct-list-selector' style='display:none;'>{$markup}</div>";
+			$markup = "<div class='ctct-list-selector' style='display:none;'>$markup</div>";
 		}
 
 		return $markup;
@@ -1472,7 +1472,7 @@ class ConstantContact_Display {
 	public function get_optin_markup( string $label, string $value, string $show, int $instance = 0 ) : string {
 		$checked   = $show ? '' : 'checked';
 		$field_key = 'ctct-opt-in';
-		$field_id  = "{$field_key}_{$instance}";
+		$field_id  = "{$field_key}_$instance";
 
 		$markup  = $this->field_top( 'checkbox', $field_key, $field_key, $label, false, false );
 		$markup .= '<input type="checkbox" ' . $checked . ' name="' . esc_attr( $field_key ) . '" class="ctct-checkbox ' . esc_attr( $field_key ) . '" value="' . esc_attr( $value ) . '" id="' . esc_attr( $field_id ) . '" />';
@@ -2021,7 +2021,7 @@ class ConstantContact_Display {
 
 		$classes          = [ 'ctct-form-field' ];
 		$textarea_classes = [ 'ctct-textarea' ];
-		$field_id         = "{$map}_{$instance}";
+		$field_id         = "{$map}_$instance";
 		$req_text         = $req ? 'required' : '';
 
 		if ( $req ) {
