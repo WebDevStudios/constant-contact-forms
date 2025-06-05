@@ -622,11 +622,7 @@ class ConstantContact_Display {
 			apply_filters( 'constant_contact_recaptcha_size', 'normal', $form_id )
 		);
 
-		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
-		$return = $recaptcha->get_inline_markup();
-		// phpcs:enable WordPress.WP.EnqueuedResources
-
-		return $return;
+		return $recaptcha->get_inline_markup();
 	}
 
 	/**
@@ -693,11 +689,7 @@ class ConstantContact_Display {
 			apply_filters( 'constant_contact_hcaptcha_mode', 'live', $form_id )
 		);
 
-		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
-		$return = $hcaptcha->get_inline_markup();
-		// phpcs:enable WordPress.WP.EnqueuedResources
-
-		return $return;
+		return $hcaptcha->get_inline_markup();
 	}
 
 	/**
