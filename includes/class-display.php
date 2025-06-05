@@ -317,7 +317,7 @@ class ConstantContact_Display {
 			}
 		}
 
-		if ( 'error' === $status || $error_message ) {
+		if ( 'error' === $status ) {
 			if ( ! empty( $error_message ) ) {
 				$form_err_display = $this->message( 'error', $error_message, 'alert' );
 			}
@@ -503,8 +503,6 @@ class ConstantContact_Display {
 	 */
 	public function add_verify_fields( array $form_data ) {
 		if (
-			isset( $form_data ) &&
-			isset( $form_data['options'] ) &&
 			isset( $form_data['options']['form_id'] )
 		) {
 
@@ -872,7 +870,7 @@ class ConstantContact_Display {
 			return $value;
 		}
 
-		if ( ! is_array( $submitted_vals ) ) {
+		if ( ! is_array( $submitted_vals ) || empty( $submitted_vals ) ) {
 			return '';
 		}
 
