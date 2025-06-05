@@ -80,9 +80,12 @@ class ConstantContact_Shortcode {
 	 * Additional cache invalidation for form list transient; runs on save_post.
 	 *
 	 * @since 1.6.0
-	 * @since NEXT added method parameters.
+	 * @since 2.11.0 added method parameters.
+	 *
+	 * @param int     $post_id Post ID.
+	 * @param WP_Post $post    Post object.
 	 */
-	public function clear_forms_list_transient( $post_id, $post ) {
+	public function clear_forms_list_transient( int $post_id, WP_Post $post ) {
 		if ( ! in_array( $post->post_type, [ 'ctct_forms', 'ctct_lists' ], true ) ) {
 			return;
 		}
