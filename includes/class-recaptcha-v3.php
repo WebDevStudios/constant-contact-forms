@@ -24,8 +24,6 @@ class ConstantContact_reCAPTCHA_v3 extends ConstantContact_reCAPTCHA {
 	 * Enqueue our needed scripts.
 	 *
 	 * @since 1.7.0
-	 *
-	 * @return null
 	 */
 	public function enqueue_scripts() {
 		$this->set_recaptcha_keys();
@@ -39,7 +37,7 @@ class ConstantContact_reCAPTCHA_v3 extends ConstantContact_reCAPTCHA {
 
 		wp_enqueue_script(
 			'recaptcha-lib',
-			"//www.google.com/recaptcha/api.js?render={$this->site_key}",
+			"//www.google.com/recaptcha/api.js?render=$this->site_key",
 			[],
 			Constant_Contact::VERSION,
 			true
@@ -47,11 +45,11 @@ class ConstantContact_reCAPTCHA_v3 extends ConstantContact_reCAPTCHA {
 
 		wp_enqueue_script(
 			'recaptcha-v3',
-			constant_contact()->url() . "assets/js/ctct-plugin-recaptcha{$suffix}.js",
+			constant_contact()->url() . "assets/js/ctct-plugin-recaptcha$suffix.js",
 			[ 'recaptcha-lib' ],
 			Constant_Contact::VERSION,
 			true
 		);
-		wp_add_inline_script( 'recaptcha-v3', "recaptchav3 = {\"site_key\":\"{$this->site_key}\"}" );
+		wp_add_inline_script( 'recaptcha-v3', "recaptchav3 = {\"site_key\":\"$this->site_key\"}" );
 	}
 }

@@ -14,7 +14,8 @@ window.CTCTBuilder = {};
 
 		// If we do actually have an email field set, then remove our error.
 		const emailField = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox option[value="email"]');
-		if (emailField.length) {
+		const selectedField = Array.from(emailField).filter(option => option.selected);
+		if (selectedField.length) {
 			const noEmailError = document.querySelector('#ctct-no-email-error');
 			if (noEmailError) {
 				noEmailError.style.display = 'none';
@@ -403,12 +404,12 @@ window.CTCTBuilder = {};
 					}
 				}
 
-				if (window.ctct_admin_placeholders) {
-					const placeholder = window.ctct_admin_placeholders[fieldDropdown.value];
+				if (ctct_admin_placeholders) {
+					const placeholder = ctct_admin_placeholders[fieldDropdown.value];
 					if (placeholder && placeholder.length && fieldDesc) {
 						fieldDesc.setAttribute('placeholder', 'Example: ' + placeholder);
-					} else if (window.ctct_admin_placeholders.default) {
-						fieldDesc.setAttribute('placeholder', window.ctct_admin_placeholders.default);
+					} else if (ctct_admin_placeholders.default) {
+						fieldDesc.setAttribute('placeholder', ctct_admin_placeholders.default);
 					}
 				}
 			});

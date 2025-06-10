@@ -25,7 +25,7 @@ class ConstantContact_CaptchaService {
 	 *
 	 * @var string
 	 */
-	protected $plugin_settings_key;
+	protected string $plugin_settings_key;
 
 	/**
 	 * The option key used to store the user-selected captcha service.
@@ -34,7 +34,7 @@ class ConstantContact_CaptchaService {
 	 *
 	 * @var string
 	 */
-	protected $captcha_service_option_key = '_ctct_captcha_service';
+	protected string $captcha_service_option_key = '_ctct_captcha_service';
 
 	/**
 	 * Constructor.
@@ -53,7 +53,7 @@ class ConstantContact_CaptchaService {
 	 *
 	 * @return string The captcha service in use.
 	 */
-	public function get_selected_captcha_service() {
+	public function get_selected_captcha_service() : string {
 		$settings_values = get_option( $this->plugin_settings_key );
 
 		return $settings_values[ $this->captcha_service_option_key ] ?? '';
@@ -66,7 +66,7 @@ class ConstantContact_CaptchaService {
 	 *
 	 * @return bool True if a captcha service is selected and keys are present, or false otherwise.
 	 */
-	public function is_captcha_enabled() {
+	public function is_captcha_enabled() : bool {
 		$captcha_service = $this->get_selected_captcha_service();
 
 		// Bail early if the settings aren't available.
@@ -77,11 +77,9 @@ class ConstantContact_CaptchaService {
 		switch ( $captcha_service ) {
 			case 'recaptcha' :
 				return ConstantContact_reCAPTCHA::has_recaptcha_keys();
-				break;
 
 			case 'hcaptcha' :
 				return ConstantContact_hCaptcha::has_hcaptcha_keys();
-				break;
 
 			default:
 				return false;

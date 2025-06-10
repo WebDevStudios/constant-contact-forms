@@ -23,7 +23,7 @@ class ConstantContact_Mail {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Constructor.
@@ -32,7 +32,7 @@ class ConstantContact_Mail {
 	 *
 	 * @param object $plugin Parent plugin class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
@@ -53,7 +53,7 @@ class ConstantContact_Mail {
 	 * @param bool  $add_to_opt_in Whether or not to add to opt in.
 	 * @return bool
 	 */
-	public function submit_form_values( $values = [], $add_to_opt_in = false ) {
+	public function submit_form_values( array $values = [], bool $add_to_opt_in = false ) : bool {
 
 		if ( ! is_array( $values ) ) {
 			return false;
@@ -67,7 +67,7 @@ class ConstantContact_Mail {
 		$submission_details['form_id']         = $values['ctct-id']['value'];
 		$submission_details['submitted_email'] = $this->get_user_email_from_submission( $values );
 
-		$lists  = isset( $values['ctct-lists'] ) ? $values['ctct-lists'] : [];
+		$lists  = isset( $values['ctct-lists'] ) ?? [];
 		$values = constant_contact()->process_form->pretty_values( $values );
 
 		$email_values = $this->format_values_for_email( $values, $submission_details['form_id'] );
@@ -119,12 +119,12 @@ class ConstantContact_Mail {
 	 * @param  array $values Submitted values.
 	 * @return array|void    Response from API.
 	 */
-	public function opt_in_user( $values ) {
+	public function opt_in_user( array $values ) {
 
 		foreach ( $values as $key => $val ) {
-			$key  = sanitize_text_field( isset( $val['key'] ) ? $val['key'] : '' );
-			$orig = sanitize_text_field( isset( $val['orig_key'] ) ? $val['orig_key'] : '' );
-			$val  = sanitize_text_field( isset( $val['value'] ) ? $val['value'] : '' );
+			$key  = sanitize_text_field( $val['key'] ?? '' );
+			$orig = sanitize_text_field( $val['orig_key'] ?? '' );
+			$val  = sanitize_text_field( $val['value'] ?? '' );
 
 			if ( empty( $key ) || in_array( $key, [ 'ctct-opt-in', 'ctct-id', 'ctct-lists' ], true ) ) {
 				continue;
@@ -140,12 +140,12 @@ class ConstantContact_Mail {
 			}
 		}
 
-		if ( ! isset( $values['ctct-opt-in'] ) || ! isset( $values['ctct-lists'] ) || empty( $values['ctct-lists'] ) ) {
+		if ( ! isset( $values['ctct-opt-in'] ) || empty( $values['ctct-lists'] ) ) {
 			return;
 		}
 
-		$lists        = isset( $values['ctct-lists'] ) ? $values['ctct-lists'] : [];
-		$lists        = isset( $lists['value'] ) ? $lists['value'] : [];
+		$lists        = $values['ctct-lists'] ?? [];
+		$lists        = $lists['value'] ?? [];
 		$args['list'] = is_array( $lists ) ? array_map( 'sanitize_text_field', $lists ) : sanitize_text_field( $lists );
 
 		return constantcontact_api()->add_contact( $args, $values['ctct-id']['value'] );
@@ -161,14 +161,14 @@ class ConstantContact_Mail {
 	 * @param string $form_id Form ID being submitted to.
 	 * @return string HTML content for email.
 	 */
-	public function format_values_for_email( $pretty_vals, $form_id ) {
+	public function format_values_for_email( array $pretty_vals, string $form_id ) : string {
 
 		$return = '';
 
 		$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
 		foreach ( $pretty_vals as $val ) {
 
-			$label = isset( $val['orig_key'] ) ? $val['orig_key'] : false;
+			$label = $val['orig_key'] ?? false;
 
 			$custom_field_name = '';
 			if ( false !== strpos( $label, 'custom___' ) ) {
@@ -182,7 +182,7 @@ class ConstantContact_Mail {
 			} else {
 				$label = $custom_field_name;
 			}
-			$value = isset( $val['post'] ) ? $val['post'] : '&nbsp;';
+			$value = $val['post'] ?? '&nbsp;';
 
 			$return .= '<p>' . sanitize_text_field( $label ) . ': ' . sanitize_text_field( $value ) . '</p>';
 		}
@@ -200,7 +200,7 @@ class ConstantContact_Mail {
 	 *
 	 * @return string Email address to send to.
 	 */
-	public function get_email( $form_id ) {
+	public function get_email( string $form_id ) : string {
 
 		$email = get_option( 'admin_email' );
 
@@ -224,13 +224,13 @@ class ConstantContact_Mail {
 	 *
 	 * @throws Exception Throws Exception if encountered while attempting to send email.
 	 *
-	 * @param string $destination_email  Intended mail address.
+	 * @param mixed $destination_email  Intended mail address.
 	 * @param string $content            Data from clean values.
 	 * @param array  $submission_details Details for submission to process.
 	 * @param bool   $was_forced         Whether or not we are force sending. Default false.
 	 * @return bool Whether or not sent.
 	 */
-	public function mail( $destination_email, $content, $submission_details, $was_forced = false ) {
+	public function mail( $destination_email, string $content, array $submission_details, bool $was_forced = false ) : bool {
 
 		static $last_sent = false;
 		$screen           = '';
@@ -244,7 +244,7 @@ class ConstantContact_Mail {
 		} else {
 			$temp_destination_email = $destination_email;
 		}
-		$mail_key = md5( "{$temp_destination_email}:{$content}:" . ( isset( $screen->id ) ? $screen->id : '' ) );
+		$mail_key = md5( "$temp_destination_email:$content:" . ( $screen->id ?? '' ) );
 
 		if ( is_array( $destination_email ) ) {
 			$partial_email = array_map( [ $this, 'get_email_part' ], $destination_email );
@@ -264,7 +264,7 @@ class ConstantContact_Mail {
 			$this->maybe_log_mail_status(
 				vsprintf(
 					/* translators: this is only used when some debugging is enabled */
-					__( 'Duplicate send mail for: %1$s and: %2$s', 'constant-contact-forms' ),
+					esc_html__( 'Duplicate send mail for: %1$s and: %2$s', 'constant-contact-forms' ),
 					[
 						$partial_email,
 						$mail_key,
@@ -301,6 +301,7 @@ class ConstantContact_Mail {
 
 		$content_title = '<p><strong>' . esc_html__( 'Form title: ', 'constant-contact-forms' ) . '</strong>' . get_the_title( $submission_details['form_id'] ) . '<br/>';
 
+		$list_ids = [];
 		if ( ! empty( $_POST ) && is_array( $_POST ) ) { //phpcs:ignore
 			foreach( $_POST as $key => $value ) { //phpcs:ignore
 				if ( false !== strpos( $key, 'lists' ) ) {
@@ -395,7 +396,7 @@ class ConstantContact_Mail {
 	 *
 	 * @return string
 	 */
-	public function set_email_type() {
+	public function set_email_type() : string {
 		return 'text/html';
 	}
 
@@ -410,7 +411,7 @@ class ConstantContact_Mail {
 	 * @param string $dest_email Destination email.
 	 * @param string $content    Content of email.
 	 */
-	public function maybe_log_mail_status( $status, $dest_email, $content ) {
+	public function maybe_log_mail_status( string $status, string $dest_email, string $content ) {
 
 		constant_contact_maybe_log_it(
 			'Mail',
@@ -428,13 +429,14 @@ class ConstantContact_Mail {
 	 * @param array $values Values submitted to form.
 	 * @return mixed
 	 */
-	public function get_user_email_from_submission( $values = [] ) {
+	public function get_user_email_from_submission( array $values = [] ) {
 		foreach ( $values as $key => $value ) {
 			if ( false === strpos( $key, 'email___' ) ) {
 				continue;
 			}
 			return $value['value'];
 		}
+		return '';
 	}
 
 	/**
@@ -445,7 +447,7 @@ class ConstantContact_Mail {
 	 * @param  bool $was_forced Whether or not we have to force send an email.
 	 * @return string $value      Message to explain why an email was received.
 	 */
-	public function maybe_append_forced_email_notice_note( $was_forced = false ) {
+	public function maybe_append_forced_email_notice_note( bool $was_forced = false ) : string {
 
 		if ( ! $was_forced ) {
 			return '';
@@ -469,7 +471,7 @@ class ConstantContact_Mail {
 	 * @param array $submission_details Array of submission details that we tack reasons to send email in.
 	 * @return string
 	 */
-	public function maybe_append_forced_email_notice_reasons( $was_forced = false, $submission_details = [] ) {
+	public function maybe_append_forced_email_notice_reasons( bool $was_forced = false, array $submission_details = [] ) : string {
 
 		if ( ! $was_forced ) {
 			return '';
@@ -491,7 +493,7 @@ class ConstantContact_Mail {
 					esc_html__( 'NO (User did not select the Email Opt-in checkbox)', 'constant-contact-forms' ) . '<br/>' . esc_html__( "You can disable this under Form options. Email Opt-in isn't required to add subscribers into your account", 'constant-contact-forms' )
 				);
 			}
-		} elseif ( isset( $submission_details['custom-reason'] ) && ! empty( $submission_details['custom-reason'] ) ) {
+		} elseif ( ! empty( $submission_details['custom-reason'] ) ) {
 			$content_notice .= sprintf(
 				$template,
 				esc_html( $submission_details['custom-reason'] )
@@ -510,9 +512,9 @@ class ConstantContact_Mail {
 	 * @since 1.3.7
 	 *
 	 * @param string $email Email address to parse.
-	 * @return mixed Part of a provided email.
+	 * @return string Part of a provided email.
 	 */
-	public function get_email_part( $email ) {
+	public function get_email_part( string $email ) : string {
 		if ( ! is_email( $email ) ) {
 			return $email;
 		}
