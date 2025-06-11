@@ -649,7 +649,6 @@ class Constant_Contact {
 			case 'basename':
 			case 'path':
 			case 'url':
-			case 'notifications':
 			case 'notification_content':
 			case 'authserver':
 			case 'updates':
@@ -824,6 +823,16 @@ class Constant_Contact {
 	 */
 	public function get_mail(): ConstantContact_Mail {
 		return $this->mail;
+	}
+
+	/**
+	 * Notifications getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Notifications
+	 */
+	public function get_notifications(): ConstantContact_Notifications {
+		return $this->notifications;
 	}
 
 	/**
