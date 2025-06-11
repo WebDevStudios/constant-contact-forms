@@ -647,7 +647,6 @@ class Constant_Contact {
 				return self::VERSION;
 			case 'auth_redirect':
 			case 'basename':
-			case 'check':
 			case 'cpts':
 			case 'customizations':
 			case 'display':
