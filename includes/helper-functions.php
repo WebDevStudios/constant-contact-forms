@@ -20,7 +20,7 @@ use Monolog\Handler\StreamHandler;
  * @return boolean Whether or not they are connected.
  */
 function constant_contact_is_connected() {
-	return constant_contact()->api->is_connected();
+	return constant_contact()->get_api()->is_connected();
 }
 
 /**
@@ -31,7 +31,7 @@ function constant_contact_is_connected() {
  * @return boolean Whether or not they are NOT connected.
  */
 function constant_contact_is_not_connected() {
-	return ! constant_contact()->api->is_connected();
+	return ! constant_contact()->get_api()->is_connected();
 }
 
 /**
