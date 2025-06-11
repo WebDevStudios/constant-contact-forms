@@ -68,9 +68,9 @@ class ConstantContact_Display_Shortcode {
 	public function render_shortcode( $atts ) {
 
 		$atts = shortcode_atts(
-			$this->plugin->shortcode->get_atts(),
+			$this->plugin->get_shortcode()->get_atts(),
 			$atts,
-			$this->plugin->shortcode->tag
+			$this->plugin->get_shortcode()->tag
 		);
 
 		if ( ! isset( $atts['form'] ) ) {

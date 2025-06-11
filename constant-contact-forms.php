@@ -650,7 +650,6 @@ class Constant_Contact {
 			case 'path':
 			case 'url':
 			case 'authserver':
-			case 'shortcode':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
@@ -861,6 +860,16 @@ class Constant_Contact {
 	 */
 	public function get_settings(): ConstantContact_Settings {
 		return $this->settings;
+	}
+
+	/**
+	 * Shortcode getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Shortcode
+	 */
+	public function get_shortcode(): ConstantContact_Shortcode {
+		return $this->shortcode;
 	}
 
 	/**
