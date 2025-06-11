@@ -295,13 +295,13 @@ class ConstantContact_Admin {
 
 				switch ( esc_attr( $page[1] ) ) {
 					case 'about':
-						constant_contact()->admin_pages->about_page();
+						constant_contact()->get_admin_pages()->about_page();
 						break;
 					case 'help':
-						constant_contact()->admin_pages->help_page();
+						constant_contact()->get_admin_pages()->help_page();
 						break;
 					case 'license':
-						constant_contact()->admin_pages->license_page();
+						constant_contact()->get_admin_pages()->license_page();
 						break;
 				}
 			} else {
