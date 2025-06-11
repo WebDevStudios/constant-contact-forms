@@ -645,13 +645,8 @@ class Constant_Contact {
 		switch ( $field ) {
 			case 'version':
 				return self::VERSION;
-			case 'admin':
-			case 'admin_pages':
 			case 'auth_redirect':
-			case 'api':
 			case 'basename':
-			case 'beaver_builder':
-			case 'builder':
 			case 'builder_fields':
 			case 'connect':
 			case 'check':
@@ -678,6 +673,62 @@ class Constant_Contact {
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
 		}
+	}
+
+	/**
+	 * Admin getter
+	 * @since NEXT
+	 * @return ConstantContact_Admin
+	 */
+	public function get_admin() : ConstantContact_Admin {
+		return $this->admin;
+	}
+
+	/**
+	 * Admin pages getter
+	 * @since NEXT
+	 * @return ConstantContact_Admin_Pages
+	 */
+	public function get_admin_pages(): ConstantContact_Admin_Pages {
+		return $this->admin_pages;
+	}
+
+	/**
+	 * API getter
+	 * @since NEXT
+	 * @return ConstantContact_API
+	 */
+	public function get_api(): ConstantContact_API {
+		return $this->api;
+	}
+
+	/**
+	 * Beaver Builder getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Beaver_Builder
+	 */
+	public function get_beaver_builder(): ConstantContact_Beaver_Builder {
+		return $this->beaver_builder;
+	}
+
+	/**
+	 * Form Builder getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Builder
+	 */
+	public function get_builder(): ConstantContact_Builder {
+		return $this->builder;
+	}
+
+	/**
+	 * Health getter.
+	 * @since NEXT
+	 * @return ConstantContact_Health
+	 */
+	public function get_health() : ConstantContact_Health {
+		return $this->health;
 	}
 
 	/**
