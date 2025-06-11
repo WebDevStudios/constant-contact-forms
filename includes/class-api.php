@@ -1740,5 +1740,5 @@ class ConstantContact_API {
  * @return object ConstantContact_API
  */
 function constantcontact_api() {
-	return constant_contact()->api;
+	return constant_contact()->get_api();
 }

@@ -79,7 +79,7 @@ class ConstantContact_Mail {
 		if ( ! empty( $lists['value'][0] ) ) {
 
 			// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in.
-			if ( constant_contact()->api->is_connected() && constant_contact_emails_disabled( $submission_details['form_id'] ) ) {
+			if ( constant_contact()->get_api()->is_connected() && constant_contact_emails_disabled( $submission_details['form_id'] ) ) {
 				if ( $add_to_opt_in ) {
 					return true;
 				}
@@ -94,7 +94,7 @@ class ConstantContact_Mail {
 
 		$emails_disabled = constant_contact_emails_disabled( $submission_details['form_id'] );
 
-		if ( ( ! constant_contact()->api->is_connected() || empty( $lists ) ) && $emails_disabled ) {
+		if ( ( ! constant_contact()->get_api()->is_connected() || empty( $lists ) ) && $emails_disabled ) {
 
 			// If we're not connected or have no list set AND we've disabled. Override.
 			$submission_details['list-available'] = 'no';
@@ -311,7 +311,7 @@ class ConstantContact_Mail {
 		}
 
 		foreach ( $list_ids as $list_id ) {
-			$list_info = constant_contact()->api->cc()->get_list( $list_id );
+			$list_info = constant_contact()->get_api()->cc()->get_list( $list_id );
 			if ( ! empty( $list_info ) && isset( $list_info['name'] ) ) {
 				$content_title .= '<strong>' . esc_html__( 'List name: ', 'constant-contact-forms' ) . '</strong>' . esc_html( $list_info['name'] ) . '<br/>';
 			}
@@ -322,7 +322,7 @@ class ConstantContact_Mail {
 		$content = $content_title . $content;
 
 		$content_after = '';
-		if ( ! constant_contact()->api->is_connected() ) {
+		if ( ! constant_contact()->get_api()->is_connected() ) {
 			$content_after = sprintf(
 				/* Translators: placeholders provide Constant Contact link information. */
 				esc_html__( "Email marketing is a great way to stay connected and engage with visitors after they've left your site. Visit %1\$shttps://www.constantcontact.com/index?pn=miwordpress%2\$s to sign up for a Free Trial.", 'constant-contact-forms' ),

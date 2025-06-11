@@ -2134,7 +2134,7 @@ class ConstantContact_Display {
 					'By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s',
 					'constant-contact-forms'
 				),
-				$this->plugin->api->get_disclosure_info(),
+				$this->plugin->get_api()->get_disclosure_info(),
 				sprintf(
 					'<a href="%1$s" target="_blank" rel="noopener noreferrer" aria-label="%2$s">%3$s</a>',
 					esc_url( 'https://www.constantcontact.com/legal/about-constant-contact' ),

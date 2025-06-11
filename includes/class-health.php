@@ -71,7 +71,7 @@ class ConstantContact_Health {
 				],
 				[
 					'label' => esc_html__( 'API: Is connected?', 'constant-contact-forms' ),
-					'value' => ( constant_contact()->api->is_connected() ) ? $yes : $no,
+					'value' => ( constant_contact()->get_api()->is_connected() ) ? $yes : $no,
 				],
 				[
 					'label' => esc_html__( 'API: Has access token?', 'constant-contact-forms' ),

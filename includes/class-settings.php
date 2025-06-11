@@ -350,7 +350,7 @@ class ConstantContact_Settings {
 	protected function register_fields_general() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'general' ) );
 
-		if ( constant_contact()->api->is_connected() ) {
+		if ( constant_contact()->get_api()->is_connected() ) {
 			$cmb->add_field(
 				[
 					'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
@@ -442,8 +442,8 @@ class ConstantContact_Settings {
 	protected function register_fields_optin() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'optin' ) );
 
-		if ( constant_contact()->api->is_connected() ) {
-			$lists     = constant_contact()->builder->get_lists();
+		if ( constant_contact()->get_api()->is_connected() ) {
+			$lists     = constant_contact()->get_builder()->get_lists();
 			$woo_lists = [
 				'WooCommerce - All Customers',
 				'WooCommerce - First time Customers',
@@ -468,7 +468,7 @@ class ConstantContact_Settings {
 				$business_name = get_bloginfo( 'name' ) ?: esc_html__( 'Business Name', 'constant-contact-forms' );
 				$business_addr = '';
 
-				$disclosure_info = $this->plugin->api->get_disclosure_info( true );
+				$disclosure_info = $this->plugin->get_api()->get_disclosure_info( true );
 				if ( ! empty( $disclosure_info ) ) {
 					$business_name = $disclosure_info['name'] ?: $business_name;
 					$business_addr = isset( $disclosure_info['address'] ) ?: '';
@@ -830,7 +830,7 @@ class ConstantContact_Settings {
 	 * @return void
 	 */
 	public function optin_form_field() {
-		if ( ! constant_contact()->api->is_connected() ) {
+		if ( ! constant_contact()->get_api()->is_connected() ) {
 			return;
 		}
 		$lists = $this->get_optin_list_options();

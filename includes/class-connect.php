@@ -129,7 +129,7 @@ class ConstantContact_Connect {
 		$connect_title = esc_html__( 'Disconnect', 'constant-contact-forms' );
 		$connect_link  = 'edit.php?post_type=ctct_forms';
 
-		if ( ! constant_contact()->api->is_connected() ) {
+		if ( ! constant_contact()->get_api()->is_connected() ) {
 			$connect_title = esc_html__( 'Connect Now', 'constant-contact-forms' );
 		}
 
@@ -178,10 +178,10 @@ class ConstantContact_Connect {
 						</p>
 						<p>
 							<?php
-							$token = constant_contact()->api->get_api_token();
+							$token = constant_contact()->get_api()->get_api_token();
 
 							try {
-								$account = (object) constant_contact()->api->get_account_info( $token );
+								$account = (object) constant_contact()->get_api()->get_account_info( $token );
 								if ( $account ) {
 									echo esc_html( $account->first_name . ' ' . $account->last_name );
 								}
@@ -316,7 +316,7 @@ class ConstantContact_Connect {
 						<h3><?php esc_html_e( 'No Constant Contact Account?', 'constant-contact-forms' ); ?></h3>
 						<p><?php esc_html_e( 'Create professional emails to nurture relationships with contacts even after they leave your website. Sign up for a free 60-day trial.', 'constant-contact-forms' ); ?></p>
 					</div>
-					<a class="button ctct-button button-orange" href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>" target="_blank"><?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?></a>
+					<a class="button ctct-button button-orange" href="<?php echo esc_url_raw( constant_contact()->get_api()->get_signup_link() ); ?>" target="_blank"><?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?></a>
 				</div>
 			</div>
 

@@ -193,7 +193,7 @@ class ConstantContact_Builder {
 					}
 				}
 
-				if ( $custom_textareas_count > 1 && constant_contact()->api->is_connected() ) :
+				if ( $custom_textareas_count > 1 && constant_contact()->get_api()->is_connected() ) :
 					?>
 						<div id="ctct-too-many-textareas" class="notice notice-warning">
 							<p>
@@ -216,7 +216,7 @@ class ConstantContact_Builder {
 
 			// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
 			if ( isset( $_GET['ctct_not_connected'] ) && sanitize_text_field( wp_unslash( $_GET['ctct_not_connected'] ) ) ) {
-				if ( ! constant_contact()->api->is_connected() ) {
+				if ( ! constant_contact()->get_api()->is_connected() ) {
 
 					if ( ! get_option( 'ctct_first_form_modal_dismissed', false ) ) {
 						$this->output_not_connected_modal( $post->ID );
@@ -246,7 +246,7 @@ class ConstantContact_Builder {
 			isset( $post->post_type ) &&
 			'ctct_forms' === $post->post_type &&
 			! wp_is_post_revision( $post ) &&
-			! constant_contact()->api->is_connected()
+			! constant_contact()->get_api()->is_connected()
 		) {
 			add_filter( 'redirect_post_location', [ $this, 'add_not_conn_query_arg' ], 99 );
 		}
@@ -331,7 +331,7 @@ class ConstantContact_Builder {
 								<p>
 									<?php esc_attr_e( 'Import everything into Constant Contact so I can see what email marketing can do for me.', 'constant-contact-forms' ); ?>
 								</p>
-								<a href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>" target="_blank" rel="noopener noreferrer" class="button button-orange" title="<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>"><?php esc_html_e( 'Try Us Free', 'constant-contact-forms' ); ?></a><br/>
+								<a href="<?php echo esc_url_raw( constant_contact()->get_api()->get_signup_link() ); ?>" target="_blank" rel="noopener noreferrer" class="button button-orange" title="<?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?>"><?php esc_html_e( 'Try Us Free', 'constant-contact-forms' ); ?></a><br/>
 
 							</div>
 							<div class="ctct-modal-right">

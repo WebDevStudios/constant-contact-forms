@@ -128,7 +128,7 @@ class ConstantContact_Lists {
 			return;
 		}
 
-		$list_info = constant_contact()->api->get_list( esc_attr( $list_id ) );
+		$list_info = constant_contact()->get_api()->get_list( esc_attr( $list_id ) );
 
 		// Comes in as an array.
 		$list_info_obj = (object) $list_info;
@@ -840,7 +840,7 @@ class ConstantContact_Lists {
 
 		if ( constant_contact_get_needs_manual_reconnect() ) {
 			$views['reconnect'] = '<strong><a href="' . $reconnect_link . '">' . esc_html__( 'Fix connectivity issues', 'constant-contact-forms' ) . '</a></strong>';
-		} else if ( constant_contact()->api->is_connected() ) {
+		} else if ( constant_contact()->get_api()->is_connected() ) {
 			$views['sync'] = '<strong><a href="' . $sync_link . '">' . esc_html__( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
 		}
 
@@ -903,7 +903,7 @@ class ConstantContact_Lists {
 	 */
 	public function migrate_v2_v3_form_lists() {
 
-		if ( ! constant_contact()->api->is_connected() ) {
+		if ( ! constant_contact()->get_api()->is_connected() ) {
 			return false;
 		}
 

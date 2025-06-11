@@ -192,7 +192,7 @@ class ConstantContact_Admin {
 		$connect_title = esc_html__( 'Connected', 'constant-contact-forms' );
 		$connect_alt   = esc_html__( 'Your Constant Contact account is connected!', 'constant-contact-forms' );
 		$api_status    = esc_html( 'connected' );
-		if ( ! constant_contact()->api->is_connected() || constant_contact_get_needs_manual_reconnect() ) {
+		if ( ! constant_contact()->get_api()->is_connected() || constant_contact_get_needs_manual_reconnect() ) {
 			$connect_title = esc_html__( 'Disconnected', 'constant-contact-forms' );
 			$connect_alt   = esc_html__( 'Your Constant Contact account is not connected.', 'constant-contact-forms' );
 			$api_status    = esc_attr( 'disconnected' );
@@ -482,7 +482,7 @@ class ConstantContact_Admin {
 
 		switch ( $column ) {
 			case 'ctct_total':
-				$list_info = constant_contact()->api->get_list( esc_attr( $table_list_id ) );
+				$list_info = constant_contact()->get_api()->get_list( esc_attr( $table_list_id ) );
 				$list_info = (object) $list_info;
 				if ( isset( $list_info->membership_count ) ) {
 					echo esc_html( $list_info->membership_count );

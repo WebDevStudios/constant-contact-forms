@@ -428,7 +428,7 @@ class ConstantContact_Process_Form {
 
 		// Require at least one list to be selected.
 		if (
-			constant_contact()->api->is_connected() &&
+			constant_contact()->get_api()->is_connected() &&
 			(
 				! isset( $cleaned_values['ctct-lists'] ) ||
 				empty( $cleaned_values['ctct-lists'] ) ||
@@ -456,7 +456,7 @@ class ConstantContact_Process_Form {
 				constant_contact()->mail->submit_form_values( $return['values'] );
 			} else {
 				// No need to check for opt in status because we would have returned early by now if false.
-				if ( constant_contact()->api->is_connected() ) {
+				if ( constant_contact()->get_api()->is_connected() ) {
 					$api_result = constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
 					// Send email if API request fails.
 					if ( false === $api_result ) {
@@ -505,7 +505,7 @@ class ConstantContact_Process_Form {
 				} else {
 					// We have at least one list, but are not considered connected.
 					if (
-						! constant_contact()->api->is_connected() &&
+						! constant_contact()->get_api()->is_connected() &&
 						! empty( $cleaned_values['ctct-lists']['value'][0] )
 					) {
 						$email = '';
@@ -538,7 +538,7 @@ class ConstantContact_Process_Form {
 						// At this point, something is likely going on,
 						// so after the 2nd attempt, we will log the attempt for later.
 						foreach( $cleaned_values['ctct-lists']['value'] as $chosen => $list ) {
-							constant_contact()->api->log_missed_api_request(
+							constant_contact()->get_api()->log_missed_api_request(
 								'contact_add_update',
 								[
 									'list'    => $list,

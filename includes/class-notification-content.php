@@ -53,7 +53,7 @@ class ConstantContact_Notification_Content {
 			admin_url( 'edit.php' )
 		);
 		$auth_url = wp_nonce_url( $auth_url, 'ctct-user-is-dismissing', 'ctct-dismiss' );
-		$try_url  = constant_contact()->api->get_signup_link();
+		$try_url  = constant_contact()->get_api()->get_signup_link();
 
 		if ( ! empty( $_GET['page'] ) && 'ctct_options_connect' === sanitize_text_field( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return '';
@@ -352,7 +352,7 @@ class ConstantContact_Notification_Content {
 		<div class="admin-notice-message">
 			<?php
 			// Since we are keeping this permanently shown, we are removing the paragraph tag to reduce vertical space sightly.
-			if ( ! constant_contact()->api->is_connected() ) {
+			if ( ! constant_contact()->get_api()->is_connected() ) {
 				esc_html_e( 'If you want to make use of lists, sign up for an account or connect your existing account.', 'constant-contact-forms' );
 			} else {
 
