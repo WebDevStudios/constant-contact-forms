@@ -647,7 +647,6 @@ class Constant_Contact {
 				return self::VERSION;
 			case 'auth_redirect':
 			case 'basename':
-			case 'display':
 			case 'display_shortcode':
 			case 'elementor':
 			case 'gutenberg':
@@ -755,6 +754,16 @@ class Constant_Contact {
 	 */
 	public function get_customizations(): ConstantContact_User_Customizations {
 		return $this->customizations;
+	}
+
+	/**
+	 * Display getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Display
+	 */
+	public function get_display(): ConstantContact_Display {
+		return $this->display;
 	}
 
 	/**

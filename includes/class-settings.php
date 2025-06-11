@@ -850,7 +850,7 @@ class ConstantContact_Settings {
 				</label>
 				<br/>
 			<?php } ?>
-			<?php echo wp_kses_post( constant_contact()->display->get_disclose_text() ); ?>
+			<?php echo wp_kses_post( constant_contact()->get_display()->get_disclose_text() ); ?>
 		</p>
 		<?php
 
