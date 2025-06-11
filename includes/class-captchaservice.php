@@ -42,7 +42,7 @@ class ConstantContact_CaptchaService {
 	 * @since 2.9.0
 	 */
 	public function __construct() {
-		$this->plugin_settings_key = constant_contact()->settings->key;
+		$this->plugin_settings_key = constant_contact()->get_settings()->key;
 		$this->maybe_initialize_captcha_service_option();
 	}
 

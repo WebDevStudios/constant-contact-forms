@@ -1243,7 +1243,7 @@ class ConstantContact_Settings {
  */
 function constant_contact_get_option( $key = '', $default = null ) {
 	if ( function_exists( 'cmb2_get_option' ) ) {
-		return cmb2_get_option( constant_contact()->settings->key, $key, $default );
+		return cmb2_get_option( constant_contact()->get_settings()->key, $key, $default );
 	}
 
 	$options = get_option( $key, $default );
@@ -1271,12 +1271,12 @@ function constant_contact_get_option( $key = '', $default = null ) {
  */
 function constant_contact_delete_option( $key = '' ) {
 
-	$options = get_option( constant_contact()->settings->key, $key );
+	$options = get_option( constant_contact()->get_settings()->key, $key );
 
 	if ( is_array( $options ) && array_key_exists( $key, $options ) && false !== $options[ $key ] ) {
 
 		$options[ $key ] = null;
-		update_option( constant_contact()->settings->key, $options );
+		update_option( constant_contact()->get_settings()->key, $options );
 
 		return true;
 	}
