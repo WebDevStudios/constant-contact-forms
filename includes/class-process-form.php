@@ -453,23 +453,23 @@ class ConstantContact_Process_Form {
 		}
 		try {
 			if ( ! isset( $data['ctct-opt-in'] ) ) {
-				constant_contact()->mail->submit_form_values( $return['values'] );
+				constant_contact()->get_mail()->submit_form_values( $return['values'] );
 			} else {
 				// No need to check for opt in status because we would have returned early by now if false.
 				if ( constant_contact()->get_api()->is_connected() ) {
-					$api_result = constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
+					$api_result = constant_contact()->get_mail()->opt_in_user( $this->clean_values( $return['values'] ) );
 					// Send email if API request fails.
 					if ( false === $api_result ) {
 						$clean_values  = $this->clean_values( $return['values'] );
 						$pretty_values = $this->pretty_values( $clean_values );
-						$email_values  = constant_contact()->mail->format_values_for_email( $pretty_values, $orig_form_id );
+						$email_values  = constant_contact()->get_mail()->format_values_for_email( $pretty_values, $orig_form_id );
 
-						$test = constant_contact()->mail->mail(
-							constant_contact()->mail->get_email( $orig_form_id ),
+						$test = constant_contact()->get_mail()->mail(
+							constant_contact()->get_mail()->get_email( $orig_form_id ),
 							$email_values,
 							[
 								'form_id'         => $orig_form_id,
-								'submitted_email' => constant_contact()->mail->get_user_email_from_submission( $clean_values ),
+								'submitted_email' => constant_contact()->get_mail()->get_user_email_from_submission( $clean_values ),
 								'custom-reason'   => __( 'An error occurred while attempting Constant Contact API request.', 'constant-contact-forms' ),
 							],
 							true
@@ -500,7 +500,7 @@ class ConstantContact_Process_Form {
 						}
 					} else {
 						// Only email if we have a successful API request.
-						constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
+						constant_contact()->get_mail()->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
 					}
 				} else {
 					// We have at least one list, but are not considered connected.
@@ -550,7 +550,7 @@ class ConstantContact_Process_Form {
 						}
 						constant_contact_maybe_log_it( 'API', 'A failed API attempt was caught and will be retried after reconnection.' );
 					}
-					constant_contact()->mail->submit_form_values( $return['values'], true );
+					constant_contact()->get_mail()->submit_form_values( $return['values'], true );
 				}
 			}
 		} catch ( CtctException $exception ) {
