@@ -647,8 +647,6 @@ class Constant_Contact {
 				return self::VERSION;
 			case 'auth_redirect':
 			case 'basename':
-			case 'builder_fields':
-			case 'connect':
 			case 'check':
 			case 'cpts':
 			case 'customizations':
@@ -720,6 +718,26 @@ class Constant_Contact {
 	 */
 	public function get_builder(): ConstantContact_Builder {
 		return $this->builder;
+	}
+
+	/**
+	 * Form Builder Fields getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Builder_Fields
+	 */
+	public function get_builder_fields(): ConstantContact_Builder_Fields {
+		return $this->builder_fields;
+	}
+
+	/**
+	 * Connect getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Connect
+	 */
+	public function get_connect(): ConstantContact_Connect {
+		return $this->connect;
 	}
 
 	/**
