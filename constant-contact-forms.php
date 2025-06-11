@@ -647,7 +647,6 @@ class Constant_Contact {
 				return self::VERSION;
 			case 'auth_redirect':
 			case 'basename':
-			case 'logging':
 			case 'path':
 			case 'process_form':
 			case 'settings':
@@ -808,6 +807,16 @@ class Constant_Contact {
 	 */
 	public function get_lists(): ConstantContact_Lists {
 		return $this->lists;
+	}
+
+	/**
+	 * Logging getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Logging
+	 */
+	public function get_logging(): ConstantContact_Logging {
+		return $this->logging;
 	}
 
 	/**

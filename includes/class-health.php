@@ -35,7 +35,7 @@ class ConstantContact_Health {
 		$yes_count    = esc_html__( 'Yes, %s', 'constant-contact-forms' );
 		$no           = esc_html__( 'No', 'constant-contact-forms' );
 
-		$logs            = constant_contact()->logging->get_log_locations();
+		$logs            = constant_contact()->get_logging()->get_log_locations();
 		$logs_writeable  = sprintf(
 			'Folder: %s, File: %s',
 			( is_writable( $logs['directory'] ) ) ? $can_write : $cannot_write,

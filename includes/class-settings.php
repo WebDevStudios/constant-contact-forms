@@ -1119,7 +1119,7 @@ class ConstantContact_Settings {
 			return;
 		}
 
-		$this->plugin->logging->initialize_logging();
+		$this->plugin->get_logging()->initialize_logging();
 	}
 
 	/**

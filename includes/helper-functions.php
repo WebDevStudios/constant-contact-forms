@@ -373,7 +373,7 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 	$logging_file = constant_contact()->logger_location;
 
 	// Create logging file and directory if they don't exist.
-	constant_contact()->logging->initialize_logging();
+	constant_contact()->get_logging()->initialize_logging();
 
 	if ( ! is_writable( $logging_file ) ) {
 		return;
@@ -387,7 +387,7 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 		$extra = [ 'Extra information', [ $extra_data ] ];
 	}
 
-	$error = constant_contact()->logging->mask_api_key( $error );
+	$error = constant_contact()->get_logging()->mask_api_key( $error );
 
 	$logger->info( $error, $extra );
 }
