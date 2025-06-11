@@ -679,5 +679,5 @@ class ConstantContact_Admin {
  * @return mixed Option value.
  */
 function constantcontact_get_option( $key = '' ) {
-	return cmb2_get_option( constant_contact()->admin->key, $key );
+	return cmb2_get_option( constant_contact()->get_admin()->key, $key );
 }

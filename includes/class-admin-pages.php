@@ -290,7 +290,7 @@ class ConstantContact_Admin_Pages {
 			<?php } ?>
 
 			<?php
-				$license_link = $this->plugin->admin->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
+				$license_link = $this->plugin->get_admin()->get_admin_link( __( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
 			if ( $license_link ) :
 				?>
 				<div class="ctct-license">
