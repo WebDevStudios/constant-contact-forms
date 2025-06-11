@@ -660,7 +660,6 @@ class Constant_Contact {
 			case 'authserver':
 			case 'updates':
 			case 'shortcode':
-			case 'health':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
