@@ -649,9 +649,7 @@ class Constant_Contact {
 			case 'basename':
 			case 'path':
 			case 'url':
-			case 'notification_content':
 			case 'authserver':
-			case 'updates':
 			case 'shortcode':
 				return $this->$field;
 			default:
@@ -836,6 +834,16 @@ class Constant_Contact {
 	}
 
 	/**
+	 * Notification Content getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Notification_Content
+	 */
+	public function get_notification_content(): ConstantContact_Notification_Content {
+		return $this->notification_content;
+	}
+
+	/**
 	 * Process Form getter.
 	 *
 	 * @since NEXT
@@ -853,6 +861,16 @@ class Constant_Contact {
 	 */
 	public function get_settings(): ConstantContact_Settings {
 		return $this->settings;
+	}
+
+	/**
+	 * Updates getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Updates
+	 */
+	public function get_updates(): ConstantContact_Updates {
+		return $this->updates;
 	}
 
 	/**
