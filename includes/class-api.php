@@ -992,7 +992,7 @@ class ConstantContact_API {
 					}
 
 					// Retrieve our original label to send with API request.
-					$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
+					$original_field_data = $this->plugin->get_process_form()->get_original_fields( $form_id );
 					$custom_field_name   = '';
 					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 					$custom_field        = ( $original_field_data[ $original ] );

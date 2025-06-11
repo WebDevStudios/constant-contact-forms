@@ -245,7 +245,7 @@ function constant_contact_process_form_custom() {
 		return false;
 	}
 
-	return constant_contact()->process_form->process_form();
+	return constant_contact()->get_process_form()->process_form();
 }
 add_action( 'wp_head', 'constant_contact_process_form_custom' );
 

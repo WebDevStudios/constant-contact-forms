@@ -648,7 +648,6 @@ class Constant_Contact {
 			case 'auth_redirect':
 			case 'basename':
 			case 'path':
-			case 'process_form':
 			case 'settings':
 			case 'url':
 			case 'mail':
@@ -817,6 +816,16 @@ class Constant_Contact {
 	 */
 	public function get_logging(): ConstantContact_Logging {
 		return $this->logging;
+	}
+
+	/**
+	 * Process Form getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Process_Form
+	 */
+	public function get_process_form(): ConstantContact_Process_Form {
+		return $this->process_form;
 	}
 
 	/**

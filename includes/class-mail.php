@@ -59,7 +59,7 @@ class ConstantContact_Mail {
 			return false;
 		}
 
-		$values         = constant_contact()->process_form->clean_values( $values );
+		$values         = constant_contact()->get_process_form()->clean_values( $values );
 		$opt_in_details = ( isset( $values['ctct-opt-in'] ) ) ? $values['ctct-opt-in'] : [];
 
 		// Preserve form ID for mail() method. Lost in pretty_values() pass.
@@ -68,12 +68,12 @@ class ConstantContact_Mail {
 		$submission_details['submitted_email'] = $this->get_user_email_from_submission( $values );
 
 		$lists  = isset( $values['ctct-lists'] ) ? $values['ctct-lists'] : [];
-		$values = constant_contact()->process_form->pretty_values( $values );
+		$values = constant_contact()->get_process_form()->pretty_values( $values );
 
 		$email_values = $this->format_values_for_email( $values, $submission_details['form_id'] );
 		$was_forced   = false; // Set a value regardless of status.
 
-		constant_contact()->process_form->increment_processed_form_count();
+		constant_contact()->get_process_form()->increment_processed_form_count();
 
 		// Check if no list is selected, if so skip to force email logic regardless of connection.
 		if ( ! empty( $lists['value'][0] ) ) {
@@ -165,7 +165,7 @@ class ConstantContact_Mail {
 
 		$return = '';
 
-		$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
+		$original_field_data = $this->plugin->get_process_form()->get_original_fields( $form_id );
 		foreach ( $pretty_vals as $val ) {
 
 			$label = isset( $val['orig_key'] ) ? $val['orig_key'] : false;

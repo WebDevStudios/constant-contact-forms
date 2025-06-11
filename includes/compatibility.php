@@ -88,7 +88,7 @@ function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_
 	];
 
 	// Grab all the original fields from our form.
-	$original_fields = constant_contact()->process_form->get_original_fields( $form_id );
+	$original_fields = constant_contact()->get_process_form()->get_original_fields( $form_id );
 
 	// This will merge our two misc keys above with our original fields, and
 	// then return just their keys.
