@@ -227,7 +227,7 @@ class ConstantContact_Lists {
 			return;
 		}
 
-		if ( ! constantcontact_api()->get_api_token() ) {
+		if ( ! constant_contact()->get_api()->get_api_token() ) {
 			return;
 		}
 
@@ -285,7 +285,7 @@ class ConstantContact_Lists {
 			}
 		}
 
-		$lists_to_insert = constantcontact_api()->get_lists( true );
+		$lists_to_insert = constant_contact()->get_api()->get_lists( true );
 
 		if ( $lists_to_insert && is_array( $lists_to_insert ) ) {
 
@@ -489,7 +489,7 @@ class ConstantContact_Lists {
 
 		// Push our list into the API. For the list ID, we append a string of random numbers
 		// to make sure its unique.
-		$list = constantcontact_api()->add_list(
+		$list = constant_contact()->get_api()->add_list(
 			[
 				'id'   => absint( $ctct_list->ID ) . wp_rand( 0, 1000 ),
 				'name' => esc_attr( $name ),
@@ -665,7 +665,7 @@ class ConstantContact_Lists {
 			return false;
 		}
 
-		$list = constantcontact_api()->update_list(
+		$list = constant_contact()->get_api()->update_list(
 			[
 				'id'   => esc_attr( $list_id ),
 				'name' => esc_attr( $ctct_list->post_title ),
@@ -703,7 +703,7 @@ class ConstantContact_Lists {
 			return false;
 		}
 
-		$list = constantcontact_api()->delete_list(
+		$list = constant_contact()->get_api()->delete_list(
 			[
 				'id' => esc_attr( $list_id ),
 			]
@@ -747,7 +747,7 @@ class ConstantContact_Lists {
 
 		$get_lists = [];
 
-		$lists = constantcontact_api()->get_lists( $skip_cache );
+		$lists = constant_contact()->get_api()->get_lists( $skip_cache );
 
 		if ( $lists && is_array( $lists ) ) {
 
@@ -1014,7 +1014,7 @@ class ConstantContact_Lists {
 	 * @return array of v2 to v3 list ID cross references.
 	 */
 	private function get_v2_list_id_x_refs( $list_of_ids ) {
-		$x_refs = constantcontact_api()->get_v2_list_id_x_refs(
+		$x_refs = constant_contact()->get_api()->get_v2_list_id_x_refs(
 			$list_of_ids,
 			true
 		);

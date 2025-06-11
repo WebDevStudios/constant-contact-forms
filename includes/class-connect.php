@@ -101,7 +101,7 @@ class ConstantContact_Connect {
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
 		if ( isset( $_GET['code'] ) && isset( $_GET['state'] ) && is_user_logged_in() ) {
 
-			$verified = constantcontact_api()->acquire_access_token();
+			$verified = constant_contact()->get_api()->acquire_access_token();
 			update_option( 'ctct_access_token_timestamp', time() );
 
 			$redirect_args = [
@@ -164,7 +164,7 @@ class ConstantContact_Connect {
 		?>
 		<div class="wrap <?php echo esc_attr( $this->key ); ?>">
 
-			<?php if ( constantcontact_api()->get_api_token() ) : ?>
+			<?php if ( constant_contact()->get_api()->get_api_token() ) : ?>
 
 			<div class="ctct-connected">
 				<div class="ctct-connected-wrap">
@@ -289,7 +289,7 @@ class ConstantContact_Connect {
 					</div>
 					<?php
 
-					$auth_link = constantcontact_api()->get_authorization_url();
+					$auth_link = constant_contact()->get_api()->get_authorization_url();
 					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
 
 					$code_link = add_query_arg(

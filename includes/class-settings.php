@@ -902,7 +902,7 @@ class ConstantContact_Settings {
 					'last_name'  => '',
 					'website'    => sanitize_text_field( $website ),
 				];
-				constantcontact_api()->add_contact( $args );
+				constant_contact()->get_api()->add_contact( $args );
 			}
 		}
 
@@ -1009,7 +1009,7 @@ class ConstantContact_Settings {
 					'first_name' => $name,
 					'last_name'  => '',
 				];
-				constantcontact_api()->add_contact( $args );
+				constant_contact()->get_api()->add_contact( $args );
 			}
 		}
 

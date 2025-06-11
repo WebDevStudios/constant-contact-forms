@@ -148,7 +148,7 @@ class ConstantContact_Mail {
 		$lists        = isset( $lists['value'] ) ? $lists['value'] : [];
 		$args['list'] = is_array( $lists ) ? array_map( 'sanitize_text_field', $lists ) : sanitize_text_field( $lists );
 
-		return constantcontact_api()->add_contact( $args, $values['ctct-id']['value'] );
+		return constant_contact()->get_api()->add_contact( $args, $values['ctct-id']['value'] );
 	}
 
 	/**
