@@ -44,7 +44,7 @@ function constant_contact_is_not_connected() {
  * @return string HTML markup
  */
 function constant_contact_get_form( $form_id, $show_title = false ) {
-	return constant_contact()->display_shortcode->get_form( $form_id, $show_title );
+	return constant_contact()->get_display_shortcode()->get_form( $form_id, $show_title );
 }
 
 /**
@@ -56,7 +56,7 @@ function constant_contact_get_form( $form_id, $show_title = false ) {
  * @param bool $show_title If true, show the title.
  */
 function constant_contact_display_form( $form_id, $show_title = false ) {
-	constant_contact()->display_shortcode->display_form( $form_id, $show_title );
+	constant_contact()->get_display_shortcode()->display_form( $form_id, $show_title );
 }
 
 /**
