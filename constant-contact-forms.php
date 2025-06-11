@@ -647,8 +647,6 @@ class Constant_Contact {
 				return self::VERSION;
 			case 'auth_redirect':
 			case 'basename':
-			case 'gutenberg':
-			case 'lists':
 			case 'logging':
 			case 'path':
 			case 'process_form':
@@ -784,12 +782,32 @@ class Constant_Contact {
 	}
 
 	/**
+	 * Gutenberg getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Gutenberg
+	 */
+	public function get_gutenberg(): ConstantContact_Gutenberg {
+		return $this->gutenberg;
+	}
+
+	/**
 	 * Health getter.
 	 * @since NEXT
 	 * @return ConstantContact_Health
 	 */
 	public function get_health() : ConstantContact_Health {
 		return $this->health;
+	}
+
+	/**
+	 * Lists getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_Lists
+	 */
+	public function get_lists(): ConstantContact_Lists {
+		return $this->lists;
 	}
 
 	/**
