@@ -67,7 +67,7 @@ function constant_contact_display_form( $form_id, $show_title = false ) {
  * @return array WP_Query results of forms.
  */
 function constant_contact_get_forms() {
-	return constant_contact()->cpts->get_forms( false, true );
+	return constant_contact()->get_cpts()->get_forms( false, true );
 }
 
 /**

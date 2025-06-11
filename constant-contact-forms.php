@@ -647,8 +647,6 @@ class Constant_Contact {
 				return self::VERSION;
 			case 'auth_redirect':
 			case 'basename':
-			case 'cpts':
-			case 'customizations':
 			case 'display':
 			case 'display_shortcode':
 			case 'elementor':
@@ -737,6 +735,26 @@ class Constant_Contact {
 	 */
 	public function get_connect(): ConstantContact_Connect {
 		return $this->connect;
+	}
+
+	/**
+	 * CPTS getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_CPTS
+	 */
+	public function get_cpts(): ConstantContact_CPTS {
+		return $this->cpts;
+	}
+
+	/**
+	 * User Customizations getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_User_Customizations
+	 */
+	public function get_customizations(): ConstantContact_User_Customizations {
+		return $this->customizations;
 	}
 
 	/**
