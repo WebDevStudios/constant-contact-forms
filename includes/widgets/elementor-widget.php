@@ -32,7 +32,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 	 * @since 1.10.0
 	 */
 	public function get_title() {
-		return 'Constant Contact Form';
+		return esc_html__( 'Constant Contact Form', 'constant-contact-forms' );
 	}
 
 	/**
@@ -63,17 +63,17 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 		$this->start_controls_section(
 			'section_title',
 			[
-				'label' => __( 'Constant Contact Form Settings', 'constant-contact-forms' ),
+				'label' => esc_html__( 'Constant Contact Form Settings', 'constant-contact-forms' ),
 			]
 		);
 
 		$this->add_control(
 			'show_title',
 			[
-				'label'        => __( 'Show Title', 'constant-contact-forms' ),
+				'label'        => esc_html__( 'Show Title', 'constant-contact-forms' ),
 				'type'         => \Elementor\Controls_Manager::SWITCHER,
-				'label_on'     => __( 'Show', 'constant-contact-forms' ),
-				'label_off'    => __( 'Hide', 'constant-contact-forms' ),
+				'label_on'     => esc_html__( 'Show', 'constant-contact-forms' ),
+				'label_off'    => esc_html__( 'Hide', 'constant-contact-forms' ),
 				'return_value' => true,
 				'default'      => true,
 			]
@@ -82,7 +82,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 		$this->add_control(
 			'form_id',
 			[
-				'label'   => __( 'Form', 'constant-contact-forms' ),
+				'label'   => esc_html__( 'Form', 'constant-contact-forms' ),
 				'type'    => \Elementor\Controls_Manager::SELECT,
 				'options' => $this->get_form_options(),
 			]
@@ -113,7 +113,7 @@ class ConstantContact_Elementor_Widget extends \Elementor\Widget_Base {
 		}
 
 		if ( empty( $options ) ) {
-			$options[''] = __( 'No forms currently published.', 'constant-contact-forms' );
+			$options[''] = esc_html__( 'No forms currently published.', 'constant-contact-forms' );
 		}
 
 		return $options;

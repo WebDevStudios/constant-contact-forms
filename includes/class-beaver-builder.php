@@ -49,18 +49,18 @@ class ConstantContact_Beaver_Builder {
 			'CCForm',
 			[
 				'ccm-tab-1' => [
-					'title'    => __( 'Settings', 'constant-contact-forms' ),
+					'title'    => esc_html__( 'Settings', 'constant-contact-forms' ),
 					'sections' => [
 						'ccm-section-1' => [
-							'title'  => __( 'Settings', 'constant-contact-forms' ),
+							'title'  => esc_html__( 'Settings', 'constant-contact-forms' ),
 							'fields' => [
 								'cc_display_title' => [
 									'type'    => 'select',
-									'label'   => __( 'Title', 'constant-contact-forms' ),
+									'label'   => esc_html__( 'Title', 'constant-contact-forms' ),
 									'default' => 'true',
 									'options' => [
-										'true'  => __( 'Display', 'constant-contact-forms' ),
-										'false' => __( 'Hide', 'constant-contact-forms' ),
+										'true'  => esc_html__( 'Display', 'constant-contact-forms' ),
+										'false' => esc_html__( 'Hide', 'constant-contact-forms' ),
 									],
 								],
 								'cc_form'          => [
@@ -98,7 +98,7 @@ class ConstantContact_Beaver_Builder {
 		}
 
 		if ( empty( $options ) ) {
-			$options[''] = __( 'No forms currently published.', 'constant-contact-forms' );
+			$options[''] = esc_html__( 'No forms currently published.', 'constant-contact-forms' );
 		}
 
 		return $options;
@@ -110,9 +110,9 @@ class CCForm extends FLBuilderModule {
 	public function __construct() {
 		parent::__construct(
 			[
-				'name'        => __( 'Constant Contact Form', 'constant-contact-forms' ),
-				'description' => __( 'Display a Constant Contact Form', 'constant-contact-forms' ),
-				'category'    => __( 'Constant Contact', 'constant-contact-forms' ),
+				'name'        => esc_html__( 'Constant Contact Form', 'constant-contact-forms' ),
+				'description' => esc_html__( 'Display a Constant Contact Form', 'constant-contact-forms' ),
+				'category'    => esc_html__( 'Constant Contact', 'constant-contact-forms' ),
 				'dir'         => __DIR__ . '/cc-modules/form/',
 				'url'         => __DIR__ . '/cc-modules/form/',
 			]

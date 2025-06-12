@@ -10,7 +10,10 @@
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
-require 'Ctct/autoload.php';
+require_once 'Ctct/Components/Component.php';
+require_once 'Ctct/Components/Contacts/Contact.php';
+require_once 'Ctct/Components/Contacts/ContactList.php';
+require_once 'Ctct/Exceptions/CtctException.php';
 
 use Ctct\Components\Contacts\Contact;
 use Ctct\Components\Contacts\ContactList;
@@ -27,40 +30,127 @@ class ConstantContact_API {
 
 	/**
 	 * Parent plugin class.
-	 *
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Access token.
-	 *
 	 * @since 1.3.0
 	 * @var bool
 	 */
-	public string $access_token  = '';
-	public string $refresh_token = '';
-	public string $expires_in    = '';
+	public string $access_token = '';
 
-	private string $oauth2_url    = 'https://authz.constantcontact.com/oauth2/default/v1/token';
+	/**
+	 * Refresh token.
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public string $refresh_token = '';
+
+	/**
+	 * Expires timestamp.
+	 * @since 2.0.0
+	 * @var string
+	 */
+	public string $expires_in = '';
+
+	/**
+	 * OAuth2 URL
+	 * @since 2.0.0
+	 * @var string
+	 */
+	private string $oauth2_url = 'https://authz.constantcontact.com/oauth2/default/v1/token';
+
+	/**
+	 * Authorize URL
+	 * @since 2.0.0
+	 * @var string
+	 */
 	private string $authorize_url = 'https://authz.constantcontact.com/oauth2/default/v1/authorize';
 
+	/**
+	 * Last error message.
+	 * @since 2.0.0
+	 * @var string
+	 */
 	private string $last_error = '';
-	private string $body       = '';
-	private string $host       = '';
-	private int $status_code   = 200;
-	private string $next       = '';
 
+	/**
+	 * Body value.
+	 * @since 2.0.0
+	 * @var string
+	 */
+	private string $body = '';
+
+	/**
+	 * Host value.
+	 * @since 2.0.0
+	 * @var string
+	 */
+	private string $host = '';
+
+	/**
+	 * Status code for a request
+	 * @since 2.0.0
+	 * @var int
+	 */
+	private int $status_code = 200;
+
+	/**
+	 * Session callback value.
+	 * @since 2.0.0
+	 * @var null
+	 */
 	private $session_callback = null;
 
-	public bool $PKCE           = true;
-	private array $scopes       = [];
-	private array $valid_scopes = [ 'account_read', 'account_update', 'contact_data', 'campaign_data', 'offline_access' ];
+	/**
+	 * PKCE
+	 * @since 2.0.0
+	 * @var bool
+	 */
+	public bool $PKCE = true;
 
-	private $client_api_key = 'a001418d-73c6-4ecb-9f8b-d5773d29b6e4'; // Managed by Constant Contact. Plain text OK due to PCKE auth method.
-	private $redirect_URI   = 'https://app.constantcontact.com/pages/dma/portal/oauth2';
+	/**
+	 * Scopes for authorization usage.
+	 * @since 2.0.0
+	 * @var array|int[]|string[]
+	 */
+	private array $scopes = [];
 
+	/**
+	 * Valid scope values
+	 * @since 2.0.0
+	 * @var array|string[]
+	 */
+	private array $valid_scopes = [
+		'account_read',
+		'account_update',
+		'contact_data',
+		'campaign_data',
+		'offline_access'
+	];
+
+	/**
+	 * Constant Contact's API Key
+	 * @since 2.0.0
+	 * @var string
+	 */
+	private string $client_api_key = 'a001418d-73c6-4ecb-9f8b-d5773d29b6e4'; // Managed by Constant Contact. Plain text OK due to PCKE auth method.
+
+	/**
+	 * OAuth2 redirect URI
+	 * @since 2.0.0
+	 * @var string
+	 */
+	private string $redirect_URI = 'https://app.constantcontact.com/pages/dma/portal/oauth2';
+
+	/**
+	 * Current User ID
+	 * @since 2.0.0
+	 * @var int
+	 */
 	public int $this_user_id = 0;
 
 	/**
@@ -70,7 +160,7 @@ class ConstantContact_API {
 	 *
 	 * @param object $plugin Parent plugin class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		$this->scopes = array_flip( $this->valid_scopes );
 
@@ -98,7 +188,6 @@ class ConstantContact_API {
 			empty( $this->refresh_token ) ||
 			empty( $this->access_token )
 		) {
-
 			$success = $this->acquire_access_token();
 			if ( $success ) {
 				update_option( 'ctct_access_token_timestamp', time() );
@@ -106,14 +195,13 @@ class ConstantContact_API {
 		}
 
 		// custom scheduling based on the expiry time returned with access token
-
 		if ( ! empty( $this->expires_in ) ) {
 			add_filter(
 				'cron_schedules',
 				function ( $schedules ) {
 					$schedules['pkce_expiry'] = [
 						'interval' => $this->expires_in - 3600, // refreshing token before 1 hour of expiry
-						'display'  => __( 'Token Expiry' ),
+						'display'  => esc_html__( 'Token Expiry', 'constant-contact-forms' ),
 					];
 					return $schedules;
 				}
@@ -150,7 +238,6 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $type api key type.
 	 * @return string Access API token.
 	 */
 	public function get_api_token() {
@@ -172,7 +259,7 @@ class ConstantContact_API {
 	/**
 	 * Returns Refresh API token.
 	 *
-	 * @since 1.0.0
+	 * @since 2.0.0
 	 *
 	 * @param string $type api key type.
 	 * @return string Refresh Token.
@@ -208,7 +295,6 @@ class ConstantContact_API {
 		if ( false === $acct_data || $bypass_acct_cache ) {
 
 			try {
-
 				$acct_data = $this->cc()->get_account_info();
 				if ( array_key_exists( 'error_key', $acct_data ) && 'unauthorized' === $acct_data['error_key'] ) {
 					$this->refresh_token();
@@ -300,7 +386,7 @@ class ConstantContact_API {
 	 * @param bool $force_skip_cache Whether or not to skip cache.
 	 * @return array Current connect ctct lists.
 	 */
-	public function get_lists( $force_skip_cache = false ) {
+	public function get_lists( bool $force_skip_cache = false ) {
 
 		if ( ! $this->is_connected() ) {
 			return [];
@@ -315,7 +401,6 @@ class ConstantContact_API {
 		if ( false === $lists ) {
 
 			try {
-
 				$results = $this->cc()->get_lists();
 				$lists = $results['lists'] ?? [];
 
@@ -366,11 +451,12 @@ class ConstantContact_API {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param string $old_ids_string Comma separated list of old (v2 API) list ids.
+	 * @param string $old_ids_string   Comma separated list of old (v2 API) list ids.
 	 * @param bool   $force_skip_cache Whether or not to skip cache.
+	 *
 	 * @return array API v2 to v3 List ID cross references.
 	 */
-	public function get_v2_list_id_x_refs( $old_ids_string, $force_skip_cache = false ) {
+	public function get_v2_list_id_x_refs( string $old_ids_string, bool $force_skip_cache = false ) {
 
 		if ( ! $this->is_connected() ) {
 			return [];
@@ -385,11 +471,9 @@ class ConstantContact_API {
 		if ( false === $list_x_refs ) {
 
 			try {
-
 				$list_x_refs = $this->cc()->get_updated_lists_ids( $old_ids_string );
-
 				if ( is_array( $list_x_refs ) ) {
-					set_transient('ctct_list_xrefs', $list_x_refs, 1 * HOUR_IN_SECONDS );
+					set_transient('ctct_list_xrefs', $list_x_refs, HOUR_IN_SECONDS );
 					return $list_x_refs;
 				}
 			} catch ( CtctException $ex ) {
@@ -424,11 +508,9 @@ class ConstantContact_API {
 	 * @param string $id List ID.
 	 * @return mixed
 	 */
-	public function get_list( $id ) {
+	public function get_list( string $id ) {
 
-		$id = esc_attr( $id );
-
-		if ( ! $id ) {
+		if ( ! esc_attr( $id ) ) {
 			return [];
 		}
 
@@ -572,7 +654,7 @@ class ConstantContact_API {
 	 * @param array $updated_list api data for list.
 	 * @return array current connect ctct list
 	 */
-	public function update_list( $updated_list = [] ) {
+	public function update_list( array $updated_list = [] ) {
 
 		$return_list = false;
 
@@ -627,12 +709,12 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 *
 	 * @param array $updated_list API data for list.
-	 * @return array Current connect ctct list.
+	 * @return mixed Current connect ctct list.
 	 */
-	public function delete_list( $updated_list = [] ) {
+	public function delete_list( array $updated_list = [] ) {
 
 		if ( ! isset( $updated_list['id'] ) ) {
-			return [];
+			return false;
 		}
 
 		$list = false;
@@ -681,19 +763,13 @@ class ConstantContact_API {
 	 */
 	public function add_contact( $new_contact = [], $form_id = 0 ) {
 
-		if ( empty( $new_contact ) ) {
-			return [];
-		}
-
 		if ( ! isset( $new_contact['email'] ) ) {
 			return [];
 		}
 
-		$api_token = $this->get_api_token();
-		$email     = sanitize_email( $new_contact['email'] );
-
+		$email = sanitize_email( $new_contact['email'] );
 		// Set our list data. If we didn't get passed a list and got this far, just generate a random ID.
-		$list = isset( $new_contact['list'] ) ? $new_contact['list'] : 'cc_' . wp_generate_password( 15, false );
+		$list = $new_contact['list'] ?? 'cc_' . wp_generate_password( 15, false );
 
 		$return_contact = false;
 
@@ -880,9 +956,9 @@ class ConstantContact_API {
 		);
 
 		if ( $this->has_note( $user_data ) ) {
-			$fetched_contact = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
-			$note_content = $this->get_note_content( $user_data );
-			$fetched_contact['notes'][] = [ 'content' => $note_content ];
+			$fetched_contact                  = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
+			$note_content                     = $this->get_note_content( $user_data );
+			$fetched_contact['notes'][]       = [ 'content' => $note_content ];
 			$fetched_contact['update_source'] = 'Contact';
 			$this->cc()->add_note( $fetched_contact );
 		}
@@ -922,8 +998,8 @@ class ConstantContact_API {
 		}
 
 		foreach ( $user_data as $original => $value ) {
-			$key   = sanitize_text_field( isset( $value['key'] ) ? $value['key'] : false );
-			$value = sanitize_text_field( isset( $value['val'] ) ? $value['val'] : false );
+			$key   = sanitize_text_field( $value['key'] ?? false );
+			$value = sanitize_text_field( $value['val'] ?? false );
 
 			if ( ! $key || ! $value ) {
 				continue;
@@ -957,8 +1033,6 @@ class ConstantContact_API {
 
 					switch ( $key ) {
 						case 'street_address':
-							$streets[] = $value;
-							break;
 						case 'line_2_address':
 							$streets[] = $value;
 							break;
@@ -1072,41 +1146,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Process api error response.
-	 *
-	 * @since 1.0.0
-	 * @since 1.8.6 Deprected
-	 *
-	 * @throws Exception Throws Exception if encountered while attempting to process error message.
-	 *
-	 * @param array $error API error repsonse.
-	 * @return mixed
-	 */
-	private function api_error_message( $error ) {
-
-		if ( ! isset( $error->error_key ) ) {
-			return false;
-		}
-
-		constant_contact_maybe_log_it(
-			'API',
-			$error->error_key . ': ' . $error->error_message,
-			$error
-		);
-
-		switch ( $error->error_key ) {
-			case 'http.status.authentication.invalid_token':
-				$this->access_token = false;
-				return esc_html__( 'Your API access token is invalid. Reconnect to Constant Contact to receive a new token.', 'constant-contact-forms' );
-			case 'mashery.not.authorized.over.qps':
-				$this->pause_api_calls();
-				return;
-			default:
-				return false;
-		}
-	}
-
-	/**
 	 * Rate limit ourselves to not bust API call rate limit.
 	 *
 	 * @since 1.0.0
@@ -1133,17 +1172,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Helper method to output a link for our Account Tab.
-	 *
-	 * @since 1.0.0
-	 * @return string Connect URL.
-	 */
-	public function get_account_link() {
-
-		return admin_url( 'edit.php' );
-	}
-
-	/**
 	 * Helper method to output a link for our settings page tabs.
 	 *
 	 * @since 2022-10-24
@@ -1156,7 +1184,7 @@ class ConstantContact_API {
 				'post_type' => 'ctct_forms',
 				'page' => sanitize_text_field( $settings_tab ),
 			],
-			$this->get_account_link()
+			admin_url( 'edit.php' )
 		);
 	}
 

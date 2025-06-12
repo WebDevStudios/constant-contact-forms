@@ -266,15 +266,8 @@ body.post-type-ctct_forms #titlediv #title {
 .cmb2-id--ctct-list {
 
 	.cmb2-list {
-		background:
-			linear-gradient(variables.$color-white 33%, transparent),
-			linear-gradient(transparent, variables.$color-white 66%) 0 100%,
-			radial-gradient(farthest-side at 50% 0, variables.$color-black-translucent, transparent),
-			radial-gradient(farthest-side at 50% 100%, variables.$color-black-translucent, transparent) 0 100%;
-		background-attachment: local, local, scroll, scroll;
-		background-color: variables.$color-white;
-		background-repeat: no-repeat;
-		background-size: 100% 30px, 100% 30px, 100% 10px, 100% 10px;
+	  background: variables.$color-white linear-gradient(variables.$color-white 33%, transparent) linear-gradient(transparent, variables.$color-white 66%) radial-gradient(farthest-side at 50% 0, variables.$color-black-translucent, transparent) radial-gradient(farthest-side at 50% 100%, variables.$color-black-translucent, transparent) no-repeat local, local, scroll, scroll 0 100% 0 100%;
+	  background-size: 100% 30px, 100% 30px, 100% 10px, 100% 10px;
 		max-height: 10rem;
 		overflow-y: auto;
 	}
