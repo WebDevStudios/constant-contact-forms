@@ -640,39 +640,241 @@ class Constant_Contact {
 		switch ( $field ) {
 			case 'version':
 				return self::VERSION;
-			case 'admin':
-			case 'admin_pages':
 			case 'auth_redirect':
-			case 'api':
 			case 'basename':
-			case 'beaver_builder':
-			case 'builder':
-			case 'builder_fields':
-			case 'connect':
-			case 'check':
-			case 'cpts':
-			case 'customizations':
-			case 'display':
-			case 'display_shortcode':
-			case 'elementor':
-			case 'gutenberg':
-			case 'lists':
-			case 'logging':
 			case 'path':
-			case 'process_form':
-			case 'settings':
 			case 'url':
-			case 'mail':
-			case 'notifications':
-			case 'notification_content':
 			case 'authserver':
-			case 'updates':
-			case 'shortcode':
-			case 'health':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
 		}
+	}
+
+	/**
+	 * Admin getter
+	 * @since 2.11.0
+	 * @return ConstantContact_Admin
+	 */
+	public function get_admin() : ConstantContact_Admin {
+		return $this->admin;
+	}
+
+	/**
+	 * Admin pages getter
+	 * @since 2.11.0
+	 * @return ConstantContact_Admin_Pages
+	 */
+	public function get_admin_pages(): ConstantContact_Admin_Pages {
+		return $this->admin_pages;
+	}
+
+	/**
+	 * API getter
+	 * @since 2.11.0
+	 * @return ConstantContact_API
+	 */
+	public function get_api(): ConstantContact_API {
+		return $this->api;
+	}
+
+	/**
+	 * Beaver Builder getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Beaver_Builder
+	 */
+	public function get_beaver_builder(): ConstantContact_Beaver_Builder {
+		return $this->beaver_builder;
+	}
+
+	/**
+	 * Form Builder getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Builder
+	 */
+	public function get_builder(): ConstantContact_Builder {
+		return $this->builder;
+	}
+
+	/**
+	 * Form Builder Fields getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Builder_Fields
+	 */
+	public function get_builder_fields(): ConstantContact_Builder_Fields {
+		return $this->builder_fields;
+	}
+
+	/**
+	 * Connect getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Connect
+	 */
+	public function get_connect(): ConstantContact_Connect {
+		return $this->connect;
+	}
+
+	/**
+	 * CPTS getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_CPTS
+	 */
+	public function get_cpts(): ConstantContact_CPTS {
+		return $this->cpts;
+	}
+
+	/**
+	 * User Customizations getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_User_Customizations
+	 */
+	public function get_customizations(): ConstantContact_User_Customizations {
+		return $this->customizations;
+	}
+
+	/**
+	 * Display getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Display
+	 */
+	public function get_display(): ConstantContact_Display {
+		return $this->display;
+	}
+
+	/**
+	 * Display shortcode getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Display_Shortcode
+	 */
+	public function get_display_shortcode(): ConstantContact_Display_Shortcode {
+		return $this->display_shortcode;
+	}
+
+	/**
+	 * Elementor getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Elementor
+	 */
+	public function get_elementor() : ConstantContact_Elementor {
+		return $this->elementor;
+	}
+
+	/**
+	 * Gutenberg getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Gutenberg
+	 */
+	public function get_gutenberg(): ConstantContact_Gutenberg {
+		return $this->gutenberg;
+	}
+
+	/**
+	 * Health getter.
+	 * @since 2.11.0
+	 * @return ConstantContact_Health
+	 */
+	public function get_health() : ConstantContact_Health {
+		return $this->health;
+	}
+
+	/**
+	 * Lists getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Lists
+	 */
+	public function get_lists(): ConstantContact_Lists {
+		return $this->lists;
+	}
+
+	/**
+	 * Logging getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Logging
+	 */
+	public function get_logging(): ConstantContact_Logging {
+		return $this->logging;
+	}
+
+	/**
+	 * Mail getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Mail
+	 */
+	public function get_mail(): ConstantContact_Mail {
+		return $this->mail;
+	}
+
+	/**
+	 * Notifications getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Notifications
+	 */
+	public function get_notifications(): ConstantContact_Notifications {
+		return $this->notifications;
+	}
+
+	/**
+	 * Notification Content getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Notification_Content
+	 */
+	public function get_notification_content(): ConstantContact_Notification_Content {
+		return $this->notification_content;
+	}
+
+	/**
+	 * Process Form getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Process_Form
+	 */
+	public function get_process_form(): ConstantContact_Process_Form {
+		return $this->process_form;
+	}
+
+	/**
+	 * Settings getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Settings
+	 */
+	public function get_settings(): ConstantContact_Settings {
+		return $this->settings;
+	}
+
+	/**
+	 * Shortcode getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Shortcode
+	 */
+	public function get_shortcode(): ConstantContact_Shortcode {
+		return $this->shortcode;
+	}
+
+	/**
+	 * Updates getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Updates
+	 */
+	public function get_updates(): ConstantContact_Updates {
+		return $this->updates;
 	}
 
 	/**

@@ -426,7 +426,7 @@ class ConstantContact_Process_Form {
 
 		// Require at least one list to be selected.
 		if (
-			constant_contact()->api->is_connected() &&
+			constant_contact()->get_api()->is_connected() &&
 			(
 				empty( $cleaned_values['ctct-lists'] ) ||
 				empty( $cleaned_values['ctct-lists']['value'][0] )
@@ -450,23 +450,23 @@ class ConstantContact_Process_Form {
 		}
 		try {
 			if ( ! isset( $data['ctct-opt-in'] ) ) {
-				constant_contact()->mail->submit_form_values( $return['values'] );
+				constant_contact()->get_mail()->submit_form_values( $return['values'] );
 			} else {
 				// No need to check for opt in status because we would have returned early by now if false.
-				if ( constant_contact()->api->is_connected() ) {
-					$api_result = constant_contact()->mail->opt_in_user( $this->clean_values( $return['values'] ) );
+				if ( constant_contact()->get_api()->is_connected() ) {
+					$api_result = constant_contact()->get_mail()->opt_in_user( $this->clean_values( $return['values'] ) );
 					// Send email if API request fails.
 					if ( false === $api_result ) {
-						$clean_values  = constant_contact()->process_form->clean_values( $return['values'] );
-						$pretty_values = constant_contact()->process_form->pretty_values( $clean_values );
-						$email_values  = constant_contact()->mail->format_values_for_email( $pretty_values, $orig_form_id );
+						$clean_values  = $this->clean_values( $return['values'] );
+						$pretty_values = $this->pretty_values( $clean_values );
+						$email_values  = constant_contact()->get_mail()->format_values_for_email( $pretty_values, $orig_form_id );
 
-						$test = constant_contact()->mail->mail(
-							constant_contact()->mail->get_email( $orig_form_id ),
+						$test = constant_contact()->get_mail()->mail(
+							constant_contact()->get_mail()->get_email( $orig_form_id ),
 							$email_values,
 							[
 								'form_id'         => $orig_form_id,
-								'submitted_email' => constant_contact()->mail->get_user_email_from_submission( $clean_values ),
+								'submitted_email' => constant_contact()->get_mail()->get_user_email_from_submission( $clean_values ),
 								'custom-reason'   => esc_html__( 'An error occurred while attempting Constant Contact API request.', 'constant-contact-forms' ),
 							],
 							true
@@ -497,12 +497,12 @@ class ConstantContact_Process_Form {
 						}
 					} else {
 						// Only email if we have a successful API request.
-						constant_contact()->mail->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
+						constant_contact()->get_mail()->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
 					}
 				} else {
 					// We have at least one list, but are not considered connected.
 					if (
-						! constant_contact()->api->is_connected() &&
+						! constant_contact()->get_api()->is_connected() &&
 						! empty( $cleaned_values['ctct-lists']['value'][0] )
 					) {
 						$email = '';
@@ -535,7 +535,7 @@ class ConstantContact_Process_Form {
 						// At this point, something is likely going on,
 						// so after the 2nd attempt, we will log the attempt for later.
 						foreach( $cleaned_values['ctct-lists']['value'] as $chosen => $list ) {
-							constant_contact()->api->log_missed_api_request(
+							constant_contact()->get_api()->log_missed_api_request(
 								'contact_add_update',
 								[
 									'list'    => $list,
@@ -547,7 +547,7 @@ class ConstantContact_Process_Form {
 						}
 						constant_contact_maybe_log_it( 'API', 'A failed API attempt was caught and will be retried after reconnection.' );
 					}
-					constant_contact()->mail->submit_form_values( $return['values'], true );
+					constant_contact()->get_mail()->submit_form_values( $return['values'], true );
 				}
 			}
 		} catch ( CtctException $exception ) {

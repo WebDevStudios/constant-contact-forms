@@ -128,7 +128,7 @@ class ConstantContact_Lists {
 			return;
 		}
 
-		$list_info = constant_contact()->api->get_list( esc_attr( $list_id ) );
+		$list_info = constant_contact()->get_api()->get_list( esc_attr( $list_id ) );
 
 		// Comes in as an array.
 		$list_info_obj = (object) $list_info;
@@ -227,7 +227,7 @@ class ConstantContact_Lists {
 			return;
 		}
 
-		if ( ! constantcontact_api()->get_api_token() ) {
+		if ( ! constant_contact()->get_api()->get_api_token() ) {
 			return;
 		}
 
@@ -285,12 +285,12 @@ class ConstantContact_Lists {
 			}
 		}
 
-		$lists_to_insert = constantcontact_api()->get_lists( true );
+		$lists_to_insert = constant_contact()->get_api()->get_lists( true );
 
 		if ( $lists_to_insert && is_array( $lists_to_insert ) ) {
 
 			if ( count( $lists_to_insert ) >= 1001 ) {
-				$this->plugin->updates->add_notification( 'too_many_lists' );
+				$this->plugin->get_updates()->add_notification( 'too_many_lists' );
 
 				$lists_to_insert = array_chunk( $lists_to_insert, 1000 );
 				if ( isset( $lists_to_insert[0] ) ) {
@@ -489,7 +489,7 @@ class ConstantContact_Lists {
 
 		// Push our list into the API. For the list ID, we append a string of random numbers
 		// to make sure its unique.
-		$list = constantcontact_api()->add_list(
+		$list = constant_contact()->get_api()->add_list(
 			[
 				'id'   => absint( $ctct_list->ID ) . wp_rand( 0, 1000 ),
 				'name' => esc_attr( $name ),
@@ -650,7 +650,7 @@ class ConstantContact_Lists {
 			return false;
 		}
 
-		$list = constantcontact_api()->update_list(
+		$list = constant_contact()->get_api()->update_list(
 			[
 				'id'   => esc_attr( $list_id ),
 				'name' => esc_attr( $ctct_list->post_title ),
@@ -688,7 +688,7 @@ class ConstantContact_Lists {
 			return false;
 		}
 
-		$list = constantcontact_api()->delete_list(
+		$list = constant_contact()->get_api()->delete_list(
 			[
 				'id' => esc_attr( $list_id ),
 			]
@@ -732,7 +732,7 @@ class ConstantContact_Lists {
 
 		$get_lists = [];
 
-		$lists = constantcontact_api()->get_lists( $skip_cache );
+		$lists = constant_contact()->get_api()->get_lists( $skip_cache );
 
 		if ( $lists && is_array( $lists ) ) {
 
@@ -804,7 +804,7 @@ class ConstantContact_Lists {
 
 		if ( constant_contact_get_needs_manual_reconnect() ) {
 			$views['reconnect'] = '<strong><a href="' . $reconnect_link . '">' . esc_html__( 'Fix connectivity issues', 'constant-contact-forms' ) . '</a></strong>';
-		} else if ( constant_contact()->api->is_connected() ) {
+		} else if ( constant_contact()->get_api()->is_connected() ) {
 			$views['sync'] = '<strong><a href="' . $sync_link . '">' . esc_html__( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
 		}
 
@@ -866,7 +866,7 @@ class ConstantContact_Lists {
 	 */
 	public function migrate_v2_v3_form_lists() {
 
-		if ( ! constant_contact()->api->is_connected() ) {
+		if ( ! constant_contact()->get_api()->is_connected() ) {
 			return false;
 		}
 
@@ -977,7 +977,7 @@ class ConstantContact_Lists {
 	 * @return array of v2 to v3 list ID cross references.
 	 */
 	private function get_v2_list_id_x_refs( $list_of_ids ) {
-		$x_refs = constantcontact_api()->get_v2_list_id_x_refs(
+		$x_refs = constant_contact()->get_api()->get_v2_list_id_x_refs(
 			$list_of_ids,
 			true
 		);

@@ -59,7 +59,7 @@ class ConstantContact_Mail {
 			return false;
 		}
 
-		$values         = constant_contact()->process_form->clean_values( $values );
+		$values         = constant_contact()->get_process_form()->clean_values( $values );
 		$opt_in_details = ( isset( $values['ctct-opt-in'] ) ) ? $values['ctct-opt-in'] : [];
 
 		// Preserve form ID for mail() method. Lost in pretty_values() pass.
@@ -68,18 +68,18 @@ class ConstantContact_Mail {
 		$submission_details['submitted_email'] = $this->get_user_email_from_submission( $values );
 
 		$lists  = isset( $values['ctct-lists'] ) ?? [];
-		$values = constant_contact()->process_form->pretty_values( $values );
+		$values = constant_contact()->get_process_form()->pretty_values( $values );
 
 		$email_values = $this->format_values_for_email( $values, $submission_details['form_id'] );
 		$was_forced   = false; // Set a value regardless of status.
 
-		constant_contact()->process_form->increment_processed_form_count();
+		constant_contact()->get_process_form()->increment_processed_form_count();
 
 		// Check if no list is selected, if so skip to force email logic regardless of connection.
 		if ( ! empty( $lists['value'][0] ) ) {
 
 			// Skip sending e-mail if we're connected, the site owner has opted out of notification emails, and the user has opted in.
-			if ( constant_contact()->api->is_connected() && constant_contact_emails_disabled( $submission_details['form_id'] ) ) {
+			if ( constant_contact()->get_api()->is_connected() && constant_contact_emails_disabled( $submission_details['form_id'] ) ) {
 				if ( $add_to_opt_in ) {
 					return true;
 				}
@@ -94,7 +94,7 @@ class ConstantContact_Mail {
 
 		$emails_disabled = constant_contact_emails_disabled( $submission_details['form_id'] );
 
-		if ( ( ! constant_contact()->api->is_connected() || empty( $lists ) ) && $emails_disabled ) {
+		if ( ( ! constant_contact()->get_api()->is_connected() || empty( $lists ) ) && $emails_disabled ) {
 
 			// If we're not connected or have no list set AND we've disabled. Override.
 			$submission_details['list-available'] = 'no';
@@ -148,7 +148,7 @@ class ConstantContact_Mail {
 		$lists        = $lists['value'] ?? [];
 		$args['list'] = is_array( $lists ) ? array_map( 'sanitize_text_field', $lists ) : sanitize_text_field( $lists );
 
-		return constantcontact_api()->add_contact( $args, $values['ctct-id']['value'] );
+		return constant_contact()->get_api()->add_contact( $args, $values['ctct-id']['value'] );
 	}
 
 	/**
@@ -165,7 +165,7 @@ class ConstantContact_Mail {
 
 		$return = '';
 
-		$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
+		$original_field_data = $this->plugin->get_process_form()->get_original_fields( $form_id );
 		foreach ( $pretty_vals as $val ) {
 
 			$label = $val['orig_key'] ?? false;
@@ -312,7 +312,7 @@ class ConstantContact_Mail {
 		}
 
 		foreach ( $list_ids as $list_id ) {
-			$list_info = constant_contact()->api->cc()->get_list( $list_id );
+			$list_info = constant_contact()->get_api()->cc()->get_list( $list_id );
 			if ( ! empty( $list_info ) && isset( $list_info['name'] ) ) {
 				$content_title .= '<strong>' . esc_html__( 'List name: ', 'constant-contact-forms' ) . '</strong>' . esc_html( $list_info['name'] ) . '<br/>';
 			}
@@ -323,7 +323,7 @@ class ConstantContact_Mail {
 		$content = $content_title . $content;
 
 		$content_after = '';
-		if ( ! constant_contact()->api->is_connected() ) {
+		if ( ! constant_contact()->get_api()->is_connected() ) {
 			$content_after = sprintf(
 				/* Translators: placeholders provide Constant Contact link information. */
 				esc_html__( "Email marketing is a great way to stay connected and engage with visitors after they've left your site. Visit %1\$shttps://www.constantcontact.com/index?pn=miwordpress%2\$s to sign up for a Free Trial.", 'constant-contact-forms' ),

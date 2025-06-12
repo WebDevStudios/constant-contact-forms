@@ -20,7 +20,7 @@ use Monolog\Handler\StreamHandler;
  * @return boolean Whether or not they are connected.
  */
 function constant_contact_is_connected() {
-	return constant_contact()->api->is_connected();
+	return constant_contact()->get_api()->is_connected();
 }
 
 /**
@@ -31,7 +31,7 @@ function constant_contact_is_connected() {
  * @return boolean Whether or not they are NOT connected.
  */
 function constant_contact_is_not_connected() {
-	return ! constant_contact()->api->is_connected();
+	return ! constant_contact()->get_api()->is_connected();
 }
 
 /**
@@ -44,7 +44,7 @@ function constant_contact_is_not_connected() {
  * @return string HTML markup
  */
 function constant_contact_get_form( $form_id, $show_title = false ) {
-	return constant_contact()->display_shortcode->get_form( $form_id, $show_title );
+	return constant_contact()->get_display_shortcode()->get_form( $form_id, $show_title );
 }
 
 /**
@@ -56,7 +56,7 @@ function constant_contact_get_form( $form_id, $show_title = false ) {
  * @param bool $show_title If true, show the title.
  */
 function constant_contact_display_form( int $form_id, bool $show_title = false ) {
-	constant_contact()->display_shortcode->display_form( absint( $form_id ), $show_title );
+	constant_contact()->get_display_shortcode()->display_form( $form_id, $show_title );
 }
 
 /**
@@ -67,7 +67,7 @@ function constant_contact_display_form( int $form_id, bool $show_title = false )
  * @return array WP_Query results of forms.
  */
 function constant_contact_get_forms() {
-	return constant_contact()->cpts->get_forms( false, true );
+	return constant_contact()->get_cpts()->get_forms( false, true );
 }
 
 /**
@@ -150,7 +150,7 @@ function constant_contact_process_form_custom() {
 		return false;
 	}
 
-	return constant_contact()->process_form->process_form();
+	return constant_contact()->get_process_form()->process_form();
 }
 add_action( 'wp_head', 'constant_contact_process_form_custom' );
 
@@ -278,7 +278,7 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 	$logging_file = constant_contact()->logger_location;
 
 	// Create logging file and directory if they don't exist.
-	constant_contact()->logging->initialize_logging();
+	constant_contact()->get_logging()->initialize_logging();
 
 	if ( ! is_writable( $logging_file ) ) {
 		return;
@@ -292,7 +292,7 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 		$extra = [ 'Extra information', [ $extra_data ] ];
 	}
 
-	$error = constant_contact()->logging->mask_api_key( $error );
+	$error = constant_contact()->get_logging()->mask_api_key( $error );
 
 	$logger->info( $error, $extra );
 }

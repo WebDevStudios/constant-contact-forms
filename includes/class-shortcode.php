@@ -73,7 +73,7 @@ class ConstantContact_Shortcode {
 	 * @since 1.6.0
 	 */
 	public function register_shortcode() {
-		add_shortcode( $this->tag, [ $this->plugin->display_shortcode, 'render_shortcode' ] );
+		add_shortcode( $this->tag, [ $this->plugin->get_display_shortcode(), 'render_shortcode' ] );
 	}
 
 	/**

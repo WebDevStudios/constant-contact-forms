@@ -202,6 +202,6 @@ class ConstantContact_Uninstall {
 	 * @since  1.8.2
 	 */
 	private function delete_log_dir() {
-		constant_contact()->logging->delete_current_log_dir();
+		constant_contact()->get_logging()->delete_current_log_dir();
 	}
 }

@@ -298,7 +298,7 @@ class ConstantContact_Display {
 		// if the status is success, then we sent the form correctly
 		// if the status is error, then we will re-show the form, but also
 		// with our error messages.
-		$response = constant_contact()->process_form->process_wrapper( $form_data, $form_id, $instance );
+		$response = constant_contact()->get_process_form()->process_wrapper( $form_data, $form_id, $instance );
 
 		$old_values = $response['values'] ?? [];
 		$req_errors = $response['errors'] ?? [];
@@ -2127,7 +2127,7 @@ class ConstantContact_Display {
 					'By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s',
 					'constant-contact-forms'
 				),
-				$this->plugin->api->get_disclosure_info(),
+				$this->plugin->get_api()->get_disclosure_info(),
 				sprintf(
 					'<a href="%1$s" target="_blank" rel="noopener noreferrer" aria-label="%2$s">%3$s</a>',
 					esc_url( 'https://www.constantcontact.com/legal/about-constant-contact' ),

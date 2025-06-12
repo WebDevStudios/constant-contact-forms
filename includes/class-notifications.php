@@ -398,7 +398,7 @@ class ConstantContact_Notifications {
 			<?php echo wp_kses_post( $content ); ?>
 			<?php
 			if ( $show_dismiss ) {
-				constant_contact()->notifications->do_dismiss_link( esc_attr( $key ) );
+				$this->do_dismiss_link( esc_attr( $key ) );
 			}
 			?>
 		</div>

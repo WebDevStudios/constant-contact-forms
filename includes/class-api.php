@@ -177,9 +177,9 @@ class ConstantContact_API {
 
 		$this->this_user_id = get_current_user_id();
 
-		$this->expires_in    = constant_contact()->connect->e_get( '_ctct_expires_in' );
-		$this->refresh_token = constant_contact()->connect->e_get( '_ctct_refresh_token' );
-		$this->access_token  = constant_contact()->connect->e_get( '_ctct_access_token' );
+		$this->expires_in    = constant_contact()->get_connect()->e_get( '_ctct_expires_in' );
+		$this->refresh_token = constant_contact()->get_connect()->e_get( '_ctct_refresh_token' );
+		$this->access_token  = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 
 		// Attempt to acquire access token if we don't have it already.
 		// This fixes an issue where authorization does not work sometimes when switching between different accounts.
@@ -244,8 +244,8 @@ class ConstantContact_API {
 
 		$token = '';
 
-		if ( constant_contact()->connect->e_get( '_ctct_access_token' ) ) {
-			$token .= constant_contact()->connect->e_get( '_ctct_access_token' );
+		if ( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) {
+			$token .= constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 		} else {
 			$success = $this->acquire_access_token();
 			if ( $success ) {
@@ -1066,7 +1066,7 @@ class ConstantContact_API {
 					}
 
 					// Retrieve our original label to send with API request.
-					$original_field_data = $this->plugin->process_form->get_original_fields( $form_id );
+					$original_field_data = $this->plugin->get_process_form()->get_original_fields( $form_id );
 					$custom_field_name   = '';
 					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 					$custom_field        = ( $original_field_data[ $original ] );
@@ -1164,8 +1164,8 @@ class ConstantContact_API {
 	public function is_connected() {
 		static $token = null;
 
-		if ( constant_contact()->connect->e_get( '_ctct_access_token' ) ) {
-			$token = constant_contact()->connect->e_get( '_ctct_access_token' ) ? true : false;
+		if ( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) {
+			$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ? true : false;
 		}
 
 		return $token;
@@ -1461,7 +1461,7 @@ class ConstantContact_API {
 		// Create full request URL
 		$body = [
 			'client_id'     => $this->client_api_key,
-			'refresh_token' => constant_contact()->connect->e_get( '_ctct_refresh_token' ),
+			'refresh_token' => constant_contact()->get_connect()->e_get( '_ctct_refresh_token' ),
 			'redirect_uri'  => $this->redirect_URI,
 			'grant_type'    => 'refresh_token',
 		];
@@ -1524,9 +1524,9 @@ class ConstantContact_API {
 				constant_contact_maybe_log_it( 'Refresh Token:', 'Old Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
 				constant_contact_maybe_log_it( 'Access Token:', 'Old Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
 
-				constant_contact()->connect->e_set( '_ctct_access_token', $data['access_token'] );
-				constant_contact()->connect->e_set( '_ctct_refresh_token', $data['refresh_token'] );
-				constant_contact()->connect->e_set( '_ctct_expires_in', (string) $data['expires_in'] );
+				constant_contact()->get_connect()->e_set( '_ctct_access_token', $data['access_token'] );
+				constant_contact()->get_connect()->e_set( '_ctct_refresh_token', $data['refresh_token'] );
+				constant_contact()->get_connect()->e_set( '_ctct_expires_in', (string) $data['expires_in'] );
 
 				$this->access_token  = $data['access_token'] ?? '';
 				$this->refresh_token = $data['refresh_token'] ?? '';
@@ -1617,7 +1617,7 @@ class ConstantContact_API {
 			return true;
 		}
 
-		$expires_in = constant_contact()->connect->e_get( '_ctct_expires_in' );
+		$expires_in = constant_contact()->get_connect()->e_get( '_ctct_expires_in' );
 		if ( ! empty( $this->expires_in ) ) {
 			// Prioritize our property over the option. If this is set, it's probably fresher.
 			$expires_in = $this->expires_in;
@@ -1764,9 +1764,11 @@ class ConstantContact_API {
  * Helper function to get/return the ConstantContact_API object.
  *
  * @since 1.0.0
+ * @deprecated 2.11.0
  *
  * @return object ConstantContact_API
  */
 function constantcontact_api() {
-	return constant_contact()->api;
+	_deprecated_function( __FUNCTION__, '2.11.0', 'constant_contact()->get_api()' );
+	return constant_contact()->get_api();
 }

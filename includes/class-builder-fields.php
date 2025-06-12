@@ -222,7 +222,7 @@ class ConstantContact_Builder_Fields {
 			]
 		);
 
-		if ( constant_contact()->api->is_connected() ) {
+		if ( constant_contact()->get_api()->is_connected() ) {
 
 			$lists = $this->get_local_lists();
 
@@ -412,7 +412,7 @@ class ConstantContact_Builder_Fields {
 			]
 		);
 
-		if ( constant_contact()->api->is_connected() ) {
+		if ( constant_contact()->get_api()->is_connected() ) {
 			$this->show_optin_connected_fields( $options_metabox );
 		}
 	}

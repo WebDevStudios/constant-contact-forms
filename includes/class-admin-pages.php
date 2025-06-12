@@ -204,8 +204,8 @@ class ConstantContact_Admin_Pages {
 		$auth_link = '';
 		$new_link  = '';
 
-		if ( ! constant_contact()->api->is_connected() ) {
-			$new_link  = constant_contact()->api->get_signup_link();
+		if ( ! constant_contact()->get_api()->is_connected() ) {
+			$new_link  = constant_contact()->get_api()->get_signup_link();
 			$auth_link = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' );
 		}
 
@@ -290,7 +290,7 @@ class ConstantContact_Admin_Pages {
 			<?php } ?>
 
 			<?php
-				$license_link = $this->plugin->admin->get_admin_link( esc_html__( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
+				$license_link = $this->plugin->get_admin()->get_admin_link( esc_html__( 'GPLv3 license', 'constant-contact-forms' ), 'license' );
 			if ( $license_link ) :
 				?>
 				<div class="ctct-license">

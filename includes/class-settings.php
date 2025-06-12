@@ -350,7 +350,7 @@ class ConstantContact_Settings {
 	protected function register_fields_general() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'general' ) );
 
-		if ( constant_contact()->api->is_connected() ) {
+		if ( constant_contact()->get_api()->is_connected() ) {
 			$cmb->add_field(
 				[
 					'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
@@ -442,8 +442,8 @@ class ConstantContact_Settings {
 	protected function register_fields_optin() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'optin' ) );
 
-		if ( constant_contact()->api->is_connected() ) {
-			$lists     = constant_contact()->builder->get_lists();
+		if ( constant_contact()->get_api()->is_connected() ) {
+			$lists     = constant_contact()->get_builder()->get_lists();
 			$woo_lists = [
 				'WooCommerce - All Customers',
 				'WooCommerce - First time Customers',
@@ -468,7 +468,7 @@ class ConstantContact_Settings {
 				$business_name = get_bloginfo( 'name' ) ?: esc_html__( 'Business Name', 'constant-contact-forms' );
 				$business_addr = '';
 
-				$disclosure_info = $this->plugin->api->get_disclosure_info( true );
+				$disclosure_info = $this->plugin->get_api()->get_disclosure_info( true );
 				if ( ! empty( $disclosure_info ) ) {
 					$business_name = $disclosure_info['name'] ?: $business_name;
 					$business_addr = isset( $disclosure_info['address'] ) ?: '';
@@ -830,7 +830,7 @@ class ConstantContact_Settings {
 	 * @return void
 	 */
 	public function optin_form_field() {
-		if ( ! constant_contact()->api->is_connected() ) {
+		if ( ! constant_contact()->get_api()->is_connected() ) {
 			return;
 		}
 		$lists = $this->get_optin_list_options();
@@ -850,7 +850,7 @@ class ConstantContact_Settings {
 				</label>
 				<br/>
 			<?php } ?>
-			<?php echo wp_kses_post( constant_contact()->display->get_disclose_text() ); ?>
+			<?php echo wp_kses_post( constant_contact()->get_display()->get_disclose_text() ); ?>
 		</p>
 		<?php
 
@@ -898,7 +898,7 @@ class ConstantContact_Settings {
 					'last_name'  => '',
 					'website'    => sanitize_text_field( $website ),
 				];
-				constantcontact_api()->add_contact( $args );
+				constant_contact()->get_api()->add_contact( $args );
 			}
 		}
 
@@ -1010,7 +1010,7 @@ class ConstantContact_Settings {
 					'first_name' => $name,
 					'last_name'  => '',
 				];
-				constantcontact_api()->add_contact( $args );
+				constant_contact()->get_api()->add_contact( $args );
 			}
 		}
 
@@ -1120,7 +1120,7 @@ class ConstantContact_Settings {
 			return;
 		}
 
-		$this->plugin->logging->initialize_logging();
+		$this->plugin->get_logging()->initialize_logging();
 	}
 
 	/**
@@ -1245,7 +1245,7 @@ class ConstantContact_Settings {
  */
 function constant_contact_get_option( string $key = '', $default = null ) {
 	if ( function_exists( 'cmb2_get_option' ) ) {
-		return cmb2_get_option( constant_contact()->settings->key, $key, $default );
+		return cmb2_get_option( constant_contact()->get_settings()->key, $key, $default );
 	}
 
 	$options = get_option( $key, $default );
@@ -1273,12 +1273,12 @@ function constant_contact_get_option( string $key = '', $default = null ) {
  */
 function constant_contact_delete_option( string $key = '' ) : bool {
 
-	$options = get_option( constant_contact()->settings->key, $key );
+	$options = get_option( constant_contact()->get_settings()->key, $key );
 
 	if ( is_array( $options ) && array_key_exists( $key, $options ) && false !== $options[ $key ] ) {
 
 		$options[ $key ] = null;
-		update_option( constant_contact()->settings->key, $options );
+		update_option( constant_contact()->get_settings()->key, $options );
 
 		return true;
 	}

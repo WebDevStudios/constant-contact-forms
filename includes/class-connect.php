@@ -93,7 +93,7 @@ class ConstantContact_Connect {
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
 		if ( isset( $_GET['code'] ) && isset( $_GET['state'] ) && is_user_logged_in() ) {
 
-			$verified = constantcontact_api()->acquire_access_token();
+			$verified = constant_contact()->get_api()->acquire_access_token();
 			update_option( 'ctct_access_token_timestamp', time() );
 
 			$redirect_args = [
@@ -119,7 +119,7 @@ class ConstantContact_Connect {
 	public function add_options_page() {
 
 		$connect_title = esc_html__( 'Disconnect', 'constant-contact-forms' );
-		if ( ! constant_contact()->api->is_connected() ) {
+		if ( ! constant_contact()->get_api()->is_connected() ) {
 			$connect_title = esc_html__( 'Connect Now', 'constant-contact-forms' );
 		}
 
@@ -148,7 +148,7 @@ class ConstantContact_Connect {
 		?>
 		<div class="wrap <?php echo esc_attr( $this->key ); ?>">
 
-			<?php if ( constantcontact_api()->get_api_token() ) : ?>
+			<?php if ( constant_contact()->get_api()->get_api_token() ) : ?>
 
 			<div class="ctct-connected">
 				<div class="ctct-connected-wrap">
@@ -162,9 +162,10 @@ class ConstantContact_Connect {
 						</p>
 						<p>
 							<?php
-							$account = false;
+              $account = false;
+
 							try {
-								$account = (object) constant_contact()->api->get_account_info();
+								$account = (object) constant_contact()->get_api()->get_account_info();
 								if ( $account ) {
 									echo esc_html( $account->first_name . ' ' . $account->last_name );
 								}
@@ -246,7 +247,7 @@ class ConstantContact_Connect {
 					</div>
 					<?php
 
-					$auth_link = constantcontact_api()->get_authorization_url();
+					$auth_link = constant_contact()->get_api()->get_authorization_url();
 					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
 
 					$code_link = add_query_arg(
@@ -273,7 +274,7 @@ class ConstantContact_Connect {
 						<h3><?php esc_html_e( 'No Constant Contact Account?', 'constant-contact-forms' ); ?></h3>
 						<p><?php esc_html_e( 'Create professional emails to nurture relationships with contacts even after they leave your website. Sign up for a free 60-day trial.', 'constant-contact-forms' ); ?></p>
 					</div>
-					<a class="button ctct-button button-orange" href="<?php echo esc_url_raw( constant_contact()->api->get_signup_link() ); ?>" target="_blank"><?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?></a>
+					<a class="button ctct-button button-orange" href="<?php echo esc_url_raw( constant_contact()->get_api()->get_signup_link() ); ?>" target="_blank"><?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?></a>
 				</div>
 			</div>
 

@@ -68,9 +68,9 @@ class ConstantContact_Display_Shortcode {
 	public function render_shortcode( $atts ) {
 
 		$atts = shortcode_atts(
-			$this->plugin->shortcode->get_atts(),
+			$this->plugin->get_shortcode()->get_atts(),
 			$atts,
-			$this->plugin->shortcode->tag
+			$this->plugin->get_shortcode()->tag
 		);
 
 		if ( ! isset( $atts['form'] ) ) {
@@ -108,7 +108,7 @@ class ConstantContact_Display_Shortcode {
 			'<div data-form-id="%1$s" id="ctct-form-wrapper-%2$s" class="ctct-form-wrapper">%3$s</div>',
 			esc_attr( $form_id ),
 			esc_attr( self::$form_instance ),
-			constant_contact()->display->form( $form_data, $form_id, $show_title, self::$form_instance )
+			constant_contact()->get_display()->form( $form_data, $form_id, $show_title, self::$form_instance )
 		);
 
 		++self::$form_instance;
@@ -287,6 +287,6 @@ class ConstantContact_Display_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function enqueue_display_styles() {
-		constant_contact()->display->styles( true );
+		constant_contact()->get_display()->styles( true );
 	}
 }
