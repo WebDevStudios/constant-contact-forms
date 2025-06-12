@@ -653,7 +653,7 @@ class Constant_Contact {
 
 	/**
 	 * Admin getter
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Admin
 	 */
 	public function get_admin() : ConstantContact_Admin {
@@ -662,7 +662,7 @@ class Constant_Contact {
 
 	/**
 	 * Admin pages getter
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Admin_Pages
 	 */
 	public function get_admin_pages(): ConstantContact_Admin_Pages {
@@ -671,7 +671,7 @@ class Constant_Contact {
 
 	/**
 	 * API getter
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_API
 	 */
 	public function get_api(): ConstantContact_API {
@@ -681,7 +681,7 @@ class Constant_Contact {
 	/**
 	 * Beaver Builder getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Beaver_Builder
 	 */
 	public function get_beaver_builder(): ConstantContact_Beaver_Builder {
@@ -691,7 +691,7 @@ class Constant_Contact {
 	/**
 	 * Form Builder getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Builder
 	 */
 	public function get_builder(): ConstantContact_Builder {
@@ -701,7 +701,7 @@ class Constant_Contact {
 	/**
 	 * Form Builder Fields getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Builder_Fields
 	 */
 	public function get_builder_fields(): ConstantContact_Builder_Fields {
@@ -711,7 +711,7 @@ class Constant_Contact {
 	/**
 	 * Connect getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Connect
 	 */
 	public function get_connect(): ConstantContact_Connect {
@@ -721,7 +721,7 @@ class Constant_Contact {
 	/**
 	 * CPTS getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_CPTS
 	 */
 	public function get_cpts(): ConstantContact_CPTS {
@@ -731,7 +731,7 @@ class Constant_Contact {
 	/**
 	 * User Customizations getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_User_Customizations
 	 */
 	public function get_customizations(): ConstantContact_User_Customizations {
@@ -741,7 +741,7 @@ class Constant_Contact {
 	/**
 	 * Display getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Display
 	 */
 	public function get_display(): ConstantContact_Display {
@@ -751,7 +751,7 @@ class Constant_Contact {
 	/**
 	 * Display shortcode getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Display_Shortcode
 	 */
 	public function get_display_shortcode(): ConstantContact_Display_Shortcode {
@@ -761,7 +761,7 @@ class Constant_Contact {
 	/**
 	 * Elementor getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Elementor
 	 */
 	public function get_elementor() : ConstantContact_Elementor {
@@ -771,7 +771,7 @@ class Constant_Contact {
 	/**
 	 * Gutenberg getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Gutenberg
 	 */
 	public function get_gutenberg(): ConstantContact_Gutenberg {
@@ -780,7 +780,7 @@ class Constant_Contact {
 
 	/**
 	 * Health getter.
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Health
 	 */
 	public function get_health() : ConstantContact_Health {
@@ -790,7 +790,7 @@ class Constant_Contact {
 	/**
 	 * Lists getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Lists
 	 */
 	public function get_lists(): ConstantContact_Lists {
@@ -800,7 +800,7 @@ class Constant_Contact {
 	/**
 	 * Logging getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Logging
 	 */
 	public function get_logging(): ConstantContact_Logging {
@@ -810,7 +810,7 @@ class Constant_Contact {
 	/**
 	 * Mail getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Mail
 	 */
 	public function get_mail(): ConstantContact_Mail {
@@ -820,7 +820,7 @@ class Constant_Contact {
 	/**
 	 * Notifications getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Notifications
 	 */
 	public function get_notifications(): ConstantContact_Notifications {
@@ -830,7 +830,7 @@ class Constant_Contact {
 	/**
 	 * Notification Content getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Notification_Content
 	 */
 	public function get_notification_content(): ConstantContact_Notification_Content {
@@ -840,7 +840,7 @@ class Constant_Contact {
 	/**
 	 * Process Form getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Process_Form
 	 */
 	public function get_process_form(): ConstantContact_Process_Form {
@@ -850,7 +850,7 @@ class Constant_Contact {
 	/**
 	 * Settings getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Settings
 	 */
 	public function get_settings(): ConstantContact_Settings {
@@ -860,7 +860,7 @@ class Constant_Contact {
 	/**
 	 * Shortcode getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Shortcode
 	 */
 	public function get_shortcode(): ConstantContact_Shortcode {
@@ -870,7 +870,7 @@ class Constant_Contact {
 	/**
 	 * Updates getter.
 	 *
-	 * @since NEXT
+	 * @since 2.11.0
 	 * @return ConstantContact_Updates
 	 */
 	public function get_updates(): ConstantContact_Updates {
