@@ -1764,11 +1764,11 @@ class ConstantContact_API {
  * Helper function to get/return the ConstantContact_API object.
  *
  * @since 1.0.0
- * @deprecated NEXT
+ * @deprecated 2.11.0
  *
  * @return object ConstantContact_API
  */
 function constantcontact_api() {
-	_deprecated_function( __FUNCTION__, 'NEXT', 'constant_contact()->get_api()' );
+	_deprecated_function( __FUNCTION__, '2.11.0', 'constant_contact()->get_api()' );
 	return constant_contact()->get_api();
 }
