@@ -2074,6 +2074,10 @@ class ConstantContact_Display {
 			return '';
 		}
 
+		if ( ! constant_contact()->get_api()->is_connected() ) {
+			return '';
+		}
+
 		$list = $optin['list'] ?? false;
 
 		if ( ! $list ) {
