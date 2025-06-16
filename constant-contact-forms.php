@@ -199,14 +199,6 @@ class Constant_Contact {
 	private ConstantContact_Settings $settings;
 
 	/**
-	 * An instance of the ConstantContact_Auth_Redirect Class.
-	 *
-	 * @since 1.0.1
-	 * @var ConstantContact_Auth_Redirect
-	 */
-	private ConstantContact_Auth_Redirect $auth_redirect;
-
-	/**
 	 * An instance of the ConstantContact_Connect Class.
 	 *
 	 * @since 1.0.1
@@ -237,14 +229,6 @@ class Constant_Contact {
 	 * @var ConstantContact_Notification_Content
 	 */
 	private ConstantContact_Notification_Content $notification_content;
-
-	/**
-	 * An instance of the ConstantContact_Middleware Class.
-	 *
-	 * @since 1.0.1
-	 * @var ConstantContact_Middleware
-	 */
-	private ConstantContact_Middleware $authserver;
 
 	/**
 	 * An instance of the ConstantContact_Updates Class.
@@ -434,12 +418,10 @@ class Constant_Contact {
 		$this->lists                = new ConstantContact_Lists( $this );
 		$this->process_form         = new ConstantContact_Process_Form( $this );
 		$this->settings             = new ConstantContact_Settings( $this );
-		$this->auth_redirect        = new ConstantContact_Auth_Redirect( $this );
 		$this->connect              = new ConstantContact_Connect( $this );
 		$this->mail                 = new ConstantContact_Mail( $this );
 		$this->notifications        = new ConstantContact_Notifications( $this );
 		$this->notification_content = new ConstantContact_Notification_Content( $this );
-		$this->authserver           = new ConstantContact_Middleware( $this );
 		$this->updates              = new ConstantContact_Updates( $this );
 		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
