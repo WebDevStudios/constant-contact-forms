@@ -393,16 +393,19 @@ class ConstantContact_Notifications {
 
 		$this->do_styles();
 
-		?>
-		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
-			<?php echo wp_kses_post( $content ); ?>
-			<?php
-			if ( $show_dismiss ) {
-				$this->do_dismiss_link( esc_attr( $key ) );
-			}
-			?>
-		</div>
-		<?php
+		wp_admin_notice(
+			$content,
+			[
+				'id'                 => "ctct-admin-notice-$key",
+				'type'               => 'success',
+				'additional_classes' => [
+					'ctct-admin-notice',
+					'updated',
+				],
+				'dismissible'        => $show_dismiss,
+				'paragraph_wrap'     => false,
+			]
+		);
 	}
 
 	/**
@@ -437,7 +440,7 @@ class ConstantContact_Notifications {
 	}
 
 	/**
-	 * Helper method to get our dimiss activation message url.
+	 * Helper method to get our dismiss activation message url.
 	 *
 	 * @since 1.0.0
 	 *
