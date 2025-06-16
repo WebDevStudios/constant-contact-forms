@@ -21,7 +21,7 @@ window.CTCTAJAX = {};
 			reviewRequest.addEventListener('click', (e) => {
 				e.preventDefault();
 				let ctctAction;
-				if (e.target.matches('.ctct-notice-dismiss')) {
+				if (e.target.matches('.notice-dismiss')) {
 					ctctAction = 'dismissed';
 				} else if (e.target.matches('.ctct-review')) {
 					ctctAction = 'reviewed';
