@@ -205,7 +205,7 @@ class ConstantContact_Connect {
 
 				<div class="ctct-connected-next-step">
 					<div>
-						<h3><?php esc_html_e( 'Turn Contacts into Customers!', 'constant-contact-forms' ); ?></h3>
+						<h3><?php esc_html_e( 'Turn contacts into customers!', 'constant-contact-forms' ); ?></h3>
 						<p><?php esc_html_e( 'Your site is connected to Constant Contact and ready to start collecting visitor information.', 'constant-contact-forms' ); ?></p>
 						<p><?php esc_html_e( 'Create a form that meets your visitors\' needs here:', 'constant-contact-forms' ); ?></p>
 						<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=ctct_forms' ) ); ?>" class="button"><?php esc_html_e( 'Add Form', 'constant-contact-forms' ); ?></a>
