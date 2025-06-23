@@ -302,7 +302,7 @@ class ConstantContact_API {
 					$acct_data = $this->cc()->get_account_info();
 				}
 
-				if ( $acct_data ) {
+				if ( $acct_data && ! array_key_exists( 'error_key', $acct_data ) ) {
 					set_transient( 'constant_contact_acct_info', $acct_data, 12 * HOUR_IN_SECONDS );
 				}
 			} catch ( CtctException $ex ) {
