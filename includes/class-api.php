@@ -1479,6 +1479,7 @@ class ConstantContact_API {
 		if ( false === $result ) {
 			constant_contact_set_needs_manual_reconnect( 'true' );
 		} else {
+			delete_transient( 'ctct_lists' );
 			update_option( 'ctct_access_token_timestamp', time() );
 			constant_contact_set_needs_manual_reconnect( 'false' );
 		}
