@@ -622,11 +622,9 @@ class Constant_Contact {
 		switch ( $field ) {
 			case 'version':
 				return self::VERSION;
-			case 'auth_redirect':
 			case 'basename':
 			case 'path':
 			case 'url':
-			case 'authserver':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
