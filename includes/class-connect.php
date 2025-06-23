@@ -162,7 +162,7 @@ class ConstantContact_Connect {
 						</p>
 						<p>
 							<?php
-              $account = false;
+							$account = false;
 
 							try {
 								$account = (object) constant_contact()->get_api()->get_account_info();
