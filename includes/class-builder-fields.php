@@ -699,7 +699,7 @@ class ConstantContact_Builder_Fields {
 	public function show_affirmation_field( object $options_metabox ) {
 
 		$business_name = get_bloginfo( 'name' );
-		$business_name = ( $business_name ) ?: __( 'Your Business Name', 'constant-contact-forms' );
+		$business_name = ( $business_name ) ?: esc_html__( 'Your Business Name', 'constant-contact-forms' );
 
 		$options_metabox->add_field(
 			[
@@ -707,7 +707,7 @@ class ConstantContact_Builder_Fields {
 				'id'      => $this->prefix . 'opt_in_instructions',
 				'type'    => 'textarea_small',
 				// translators: placeholder has a business name from Constant Contact.
-				'default' => sprintf( __( 'Example: Yes, I would like to receive emails from %s. (You can unsubscribe anytime)', 'constant-contact-forms' ), $business_name ),
+				'default' => sprintf( esc_html__( 'Example: Yes, I would like to receive emails from %s. (You can unsubscribe anytime)', 'constant-contact-forms' ), $business_name ),
 			]
 		);
 	}
