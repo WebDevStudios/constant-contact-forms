@@ -837,7 +837,7 @@ class ConstantContact_Process_Form {
 		}
 
 		// @todo Utilize $form_data.
-		if ( $ctct_id !== $form_id ) {
+		if ( $ctct_id !== absint( $form_id ) ) {
 			return false;
 		}
 
