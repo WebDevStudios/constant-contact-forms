@@ -89,7 +89,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @return array
 	 */
-	public function get_notifications() {
+	public function get_notifications() : array {
 
 		/**
 		 * Filters our notifications.
@@ -123,7 +123,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @return array Update notifications we should surface.
 	 */
-	public function get_update_notifications() {
+	public function get_update_notifications() : array {
 		return get_option( 'ctct_update_notifications', [] );
 	}
 
