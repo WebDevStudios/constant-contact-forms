@@ -89,6 +89,13 @@ function constant_contact_display_shortcode( $form_id ) {
  */
 function constant_contact_review_ajax_handler() {
 
+	if ( ! wp_verify_nonce( $_REQUEST['ctct_nonce'], 'ctct-user-is-dismissing' ) ) {
+		wp_send_json_error( [ 'nonce-result' => 'failed' ] );
+		exit();
+	}
+
+	$review_action = 'nothing processed';
+
 	//  phpcs:disable WordPress.Security.NonceVerification -- OK accessing of $_REQUEST.
 	if ( isset( $_REQUEST['ctct_review_action'] ) ) {
 		$action = strtolower( sanitize_text_field( $_REQUEST['ctct_review_action'] ) );
@@ -118,10 +125,6 @@ function constant_contact_review_ajax_handler() {
 				update_option( ConstantContact_Notifications::$reviewed_option, 'true' );
 
 				$review_action = 'processed reviewed success';
-				break;
-
-			default:
-				$review_action = 'nothing processed';
 				break;
 		}
 	}

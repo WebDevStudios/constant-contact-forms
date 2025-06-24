@@ -402,6 +402,7 @@ class ConstantContact_Notifications {
 					'ctct-admin-notice',
 					'updated',
 				],
+				'attributes'         => [ 'data-nonce' => wp_create_nonce( 'ctct-user-is-dismissing' ) ],
 				'dismissible'        => $show_dismiss,
 				'paragraph_wrap'     => false,
 			]

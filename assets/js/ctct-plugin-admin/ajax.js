@@ -21,7 +21,7 @@ window.CTCTAJAX = {};
 			reviewRequest.addEventListener('click', (e) => {
 				e.preventDefault();
 				let ctctAction;
-				if (e.target.matches('.notice-dismiss')) {
+				if (e.target.matches('button.notice-dismiss')) {
 					ctctAction = 'dismissed';
 				} else if (e.target.matches('.ctct-review')) {
 					ctctAction = 'reviewed';
@@ -30,6 +30,10 @@ window.CTCTAJAX = {};
 				const data = new FormData();
 				data.append('action', 'constant_contact_review_ajax_handler');
 				data.append('ctct_review_action', ctctAction);
+
+				if (reviewRequest.dataset.nonce) {
+					data.append('ctct_nonce', reviewRequest.dataset.nonce);
+				}
 
 				fetch(window.ajaxurl, options = {
 					method: 'POST', body: data,
