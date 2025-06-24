@@ -89,7 +89,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @return array
 	 */
-	public function get_notifications() {
+	public function get_notifications() : array {
 
 		/**
 		 * Filters our notifications.
@@ -123,7 +123,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @return array Update notifications we should surface.
 	 */
-	public function get_update_notifications() {
+	public function get_update_notifications() : array {
 		return get_option( 'ctct_update_notifications', [] );
 	}
 
@@ -138,7 +138,7 @@ class ConstantContact_Notifications {
 		// Get our potentically dismissed notif ID.
 		$notif_id = $this->get_dismissal_id();
 
-		if ( $this->check_dismissal_nonce() && $notif_id ) {
+		if ( $notif_id ) {
 			$this->save_dismissed_notification( $notif_id );
 		}
 
@@ -223,26 +223,6 @@ class ConstantContact_Notifications {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Checks to see if we have a dismissal nonce, and if it is valid.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return bool Whether or not nonce is verified.
-	 */
-	public function check_dismissal_nonce() {
-
-		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
-		if ( ! isset( $_GET['ctct-dismiss'] ) ) {
-			return false;
-		}
-
-		$nonce = sanitize_text_field( wp_unslash( $_GET['ctct-dismiss'] ) );
-		// phpcs:enable WordPress.Security.NonceVerification
-
-		return wp_verify_nonce( $nonce, 'ctct-user-is-dismissing' );
 	}
 
 	/**
@@ -393,16 +373,20 @@ class ConstantContact_Notifications {
 
 		$this->do_styles();
 
-		?>
-		<div id="ctct-admin-notice-<?php echo esc_attr( $key ); ?>" class="ctct-admin-notice updated notice">
-			<?php echo wp_kses_post( $content ); ?>
-			<?php
-			if ( $show_dismiss ) {
-				$this->do_dismiss_link( esc_attr( $key ) );
-			}
-			?>
-		</div>
-		<?php
+		wp_admin_notice(
+			$content,
+			[
+				'id'                 => "ctct-admin-notice-$key",
+				'type'               => 'success',
+				'additional_classes' => [
+					'ctct-admin-notice',
+					'updated',
+				],
+				'attributes'         => [ 'data-nonce' => wp_create_nonce( 'ctct-user-is-dismissing' ) ],
+				'dismissible'        => $show_dismiss,
+				'paragraph_wrap'     => false,
+			]
+		);
 	}
 
 	/**
@@ -418,35 +402,6 @@ class ConstantContact_Notifications {
 			wp_enqueue_style( 'constant-contact-forms-admin' );
 			$have_styles = true;
 		}
-	}
-
-	/**
-	 * Display our dismiss link for a notfication.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $notif_id ID of notification.
-	 */
-	public function do_dismiss_link( string $notif_id ) {
-
-		?>
-		<a class="ctct-notice-dismiss notice-dismiss" href="<?php echo esc_url_raw( $this->get_activation_dismiss_url( esc_attr( $notif_id ) ) ); ?>">
-			<span class="screen-reader-text"><?php esc_attr_e( 'Dismiss this notice.', 'constant-contact-forms' ); ?></span>
-		</a>
-		<?php
-	}
-
-	/**
-	 * Helper method to get our dimiss activation message url.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param string $type Dismiss action type.
-	 * @return string URL to dismiss prompt.
-	 */
-	public function get_activation_dismiss_url( string $type ) {
-		$link = add_query_arg( [ 'ctct-dismiss-action' => esc_attr( $type ) ] );
-		return wp_nonce_url( $link, 'ctct-user-is-dismissing', 'ctct-dismiss' );
 	}
 
 	/**

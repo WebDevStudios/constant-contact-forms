@@ -1,7 +1,7 @@
 === Constant Contact Forms ===
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
-Requires at least: 5.2.0
+Requires at least: 6.4.0
 Tested up to:      6.8.1
 Stable tag:        2.11.0
 License:           GPLv3
