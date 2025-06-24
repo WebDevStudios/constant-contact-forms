@@ -898,10 +898,11 @@ class ConstantContact_Builder_Fields {
 
 		$email_settings->add_field(
 			[
-				'name' => esc_html__( 'Disable email notifications for this form?', 'constant-contact-forms' ),
-				'desc' => esc_html__( 'Check this option to disable emails for this Constant Contact Forms form.', 'constant-contact-forms' ),
-				'id'   => $this->prefix . 'disable_emails_for_form',
-				'type' => 'checkbox',
+				'name'       => esc_html__( 'Disable email notifications for this form?', 'constant-contact-forms' ),
+				'desc'       => esc_html__( 'Check this option to disable emails for this Constant Contact Forms form.', 'constant-contact-forms' ),
+				'id'         => $this->prefix . 'disable_emails_for_form',
+				'type'       => 'checkbox',
+				'show_on_cb' => 'constant_contact_should_hide_disable_admin_email'
 			]
 		);
 	}
