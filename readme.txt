@@ -53,6 +53,8 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: hCaptcha data to Site Health Panel
 * Updated: Lots of internal code cleanup
 * Updated: Removed old Constant Contact SDK code.
+* Updated: Hide disclosure text below form if not connected to Constant Contact.
+* Updated: Internal, switch to wp_admin_notice() usage.
 
 = 2.10.0 =
 * Added: Use current displayed language with Google reCAPTCHA when using WPML or PolyLang.
