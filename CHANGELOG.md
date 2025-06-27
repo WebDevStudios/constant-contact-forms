@@ -1,3 +1,23 @@
+= 2.11.0 =
+
+* Added: hCaptcha data to Site Health Panel
+* Updated: Lots of internal code cleanup
+* Updated: Removed old Constant Contact SDK code.
+* Updated: Hide disclosure text below form if not connected to Constant Contact.
+* Updated: Internal, switch to wp_admin_notice() usage.
+
+= 2.10.0 =
+
+* Added: Use current displayed language with Google reCAPTCHA when using WPML or PolyLang.
+* Fixed: Issues around language specifications for Google reCAPTCHA.
+* Fixed: WordPress notices around textdomain loading.
+* Fixed: Added aria-label to disclosure external links for better ADA compliance
+* Updated: Amended processes regarding failing API communications when human intervention needed. Includes preventing
+  excessive attempts to refresh tokens in states where the attempt will fail.
+* Updated: Increased notification chances if human intervention needed.
+* Updated: Register list post type for Constant Contact Lists even if not yet connected.
+* Updated: Notice regarding list management details.
+
 = 2.9.0 =
 
 * Added: hCAPTHCA support.
