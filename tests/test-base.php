@@ -37,7 +37,6 @@ class BaseTest extends WP_UnitTestCase {
 		$this->assertInstanceOf( ConstantContact_API::class, $this->plugin->api );
 		$this->assertInstanceOf( ConstantContact_Builder::class, $this->plugin->builder );
 		$this->assertInstanceOf( ConstantContact_Builder_Fields::class, $this->plugin->builder_fields );
-		$this->assertInstanceOf( ConstantContact_Check::class, $this->plugin->check );
 		$this->assertInstanceOf( ConstantContact_CPTS::class, $this->plugin->cpts );
 		$this->assertInstanceOf( ConstantContact_Display::class, $this->plugin->display );
 		$this->assertInstanceOf( ConstantContact_Shortcode::class, $this->plugin->shortcode );
@@ -45,14 +44,11 @@ class BaseTest extends WP_UnitTestCase {
 		$this->assertInstanceOf( ConstantContact_Lists::class, $this->plugin->lists );
 		$this->assertInstanceOf( ConstantContact_Process_Form::class, $this->plugin->process_form );
 		$this->assertInstanceOf( ConstantContact_Settings::class, $this->plugin->settings );
-		$this->assertInstanceOf( ConstantContact_Auth_Redirect::class, $this->plugin->auth_redirect );
 		$this->assertInstanceOf( ConstantContact_Connect::class, $this->plugin->connect );
 		$this->assertInstanceOf( ConstantContact_Mail::class, $this->plugin->mail );
 		$this->assertInstanceOf( ConstantContact_Notifications::class, $this->plugin->notifications );
 		$this->assertInstanceOf( ConstantContact_Notification_Content::class, $this->plugin->notification_content );
-		$this->assertInstanceOf( ConstantContact_Middleware::class, $this->plugin->authserver );
 		$this->assertInstanceOf( ConstantContact_Updates::class, $this->plugin->updates );
-		$this->assertInstanceOf( ConstantContact_Optin::class, $this->plugin->optin );
 		$this->assertInstanceOf( ConstantContact_Logging::class, $this->plugin->logging );
 		$this->assertInstanceOf( ConstantContact_User_Customizations::class, $this->plugin->customizations );
 		$this->assertInstanceOf( ConstantContact_Admin::class, $this->plugin->admin );

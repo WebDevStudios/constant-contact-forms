@@ -23,7 +23,7 @@ class ConstantContact_Notification_Content {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * Constructor.
@@ -32,7 +32,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @param object $plugin Plugin primary object.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 	}
 
@@ -53,7 +53,7 @@ class ConstantContact_Notification_Content {
 			admin_url( 'edit.php' )
 		);
 		$auth_url = wp_nonce_url( $auth_url, 'ctct-user-is-dismissing', 'ctct-dismiss' );
-		$try_url  = constant_contact()->api->get_signup_link();
+		$try_url  = constant_contact()->get_api()->get_signup_link();
 
 		if ( ! empty( $_GET['page'] ) && 'ctct_options_connect' === sanitize_text_field( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return '';
@@ -79,12 +79,13 @@ class ConstantContact_Notification_Content {
 				</a>
 
 				<?php
-					$link_start = sprintf( '<a href="%1$s">', admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_about' ) );
-
 					printf(
 						/* Translators: Placeholders around "Learn More" hold html `<a>` tag. */
 						esc_html__( '%1$sLearn More%2$s about the power of email marketing.', 'constant-contact-forms' ),
-						sprintf( '<a href="%1$s">', esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_about' ) ) ),
+						sprintf(
+							'<a href="%1$s">',
+							esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_about' ) )
+						),
 						'</a>'
 					)
 				?>
@@ -191,7 +192,7 @@ class ConstantContact_Notification_Content {
 	 * @param  int   $form_id    Current form ID.
 	 * @param  array $references Current form references.
 	 */
-	protected static function display_deleted_form_reference_markup( $form_id, array $references ) {
+	protected static function display_deleted_form_reference_markup( int $form_id, array $references ) {
 		printf(
 			'%1$s #%2$d: ',
 			esc_html__( 'Form', 'constant-contact-forms' ),
@@ -303,7 +304,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @since 2.2.0
 	 *
-	 * @return false|string
+	 * @return string
 	 */
 	public static function cron_notification() {
 		ob_start();
@@ -352,7 +353,7 @@ class ConstantContact_Notification_Content {
 		<div class="admin-notice-message">
 			<?php
 			// Since we are keeping this permanently shown, we are removing the paragraph tag to reduce vertical space sightly.
-			if ( ! constant_contact()->api->is_connected() ) {
+			if ( ! constant_contact()->get_api()->is_connected() ) {
 				esc_html_e( 'If you want to make use of lists, sign up for an account or connect your existing account.', 'constant-contact-forms' );
 			} else {
 
@@ -375,7 +376,7 @@ class ConstantContact_Notification_Content {
  * @param array $allowedtags Allowed HTML.
  * @return array
  */
-function constant_contact_filter_html_tags_for_optin( $allowedtags = [] ) {
+function constant_contact_filter_html_tags_for_optin( array $allowedtags = [] ) {
 
 	$allowedtags['input'] = [
 		'type'  => true,
@@ -395,7 +396,7 @@ function constant_contact_filter_html_tags_for_optin( $allowedtags = [] ) {
  * @param array $notifications Array of notifications pending to show.
  * @return array Array of notifications to show.
  */
-function constant_contact_add_review_notification( $notifications = [] ) {
+function constant_contact_add_review_notification( array $notifications = [] ) {
 
 	$notifications[] = [
 		'ID'         => 'review_request',
@@ -415,7 +416,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_add_review_notif
  * @param array $notifications Array of notifications pending to show.
  * @return array Array of notifications to show.
  */
-function constant_contact_exceptions_thrown( $notifications = [] ) {
+function constant_contact_exceptions_thrown( array $notifications = [] ) {
 
 	$notifications[] = [
 		'ID'         => 'exceptions',

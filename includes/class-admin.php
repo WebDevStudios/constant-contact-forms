@@ -23,7 +23,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $key = 'ctct_options';
+	private string $key = 'ctct_options';
 
 	/**
 	 * Options page metabox id.
@@ -31,7 +31,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $metabox_id = 'ctct_option_metabox';
+	private string $metabox_id = 'ctct_option_metabox';
 
 	/**
 	 * Options Page title.
@@ -39,7 +39,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $title = '';
+	protected string $title = '';
 
 	/**
 	 * Options Page hook.
@@ -47,7 +47,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $options_page = '';
+	protected string $options_page = '';
 
 	/**
 	 * Parent plugin class.
@@ -71,7 +71,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.1
 	 * @var string
 	 */
-	protected $parent_menu_slug = 'edit.php?post_type=ctct_forms';
+	protected string $parent_menu_slug = 'edit.php?post_type=ctct_forms';
 
 	/**
 	 * Constructor.
@@ -118,10 +118,6 @@ class ConstantContact_Admin {
 	 * @author Darren Cooney <darren.cooney@webdevstudios.com>
 	 */
 	public function current_screen( $screen ) {
-
-		$post_type_array = [ 'ctct_forms', 'ctct_lists' ];
-
-		// Determine if the current page being viewed is Constant Contact.
 		if ( constant_contact()->is_constant_contact() ) {
 			add_action( 'in_admin_header', [ $this, 'admin_page_toolbar' ] );
 		}
@@ -139,11 +135,9 @@ class ConstantContact_Admin {
 
 		global $submenu, $submenu_file, $plugin_page, $pagenow;
 
-		// Vars.
 		$cpt_slug    = 'ctct_forms';
 		$parent_slug = "edit.php?post_type=$cpt_slug";
 
-		// Generate array of menu items.
 		$tabs = [];
 
 		if ( isset( $submenu[ $parent_slug ] ) ) {
@@ -192,7 +186,7 @@ class ConstantContact_Admin {
 		$connect_title = esc_html__( 'Connected', 'constant-contact-forms' );
 		$connect_alt   = esc_html__( 'Your Constant Contact account is connected!', 'constant-contact-forms' );
 		$api_status    = esc_html( 'connected' );
-		if ( ! constant_contact()->api->is_connected() || constant_contact_get_needs_manual_reconnect() ) {
+		if ( ! constant_contact()->get_api()->is_connected() || constant_contact_get_needs_manual_reconnect() ) {
 			$connect_title = esc_html__( 'Disconnected', 'constant-contact-forms' );
 			$connect_alt   = esc_html__( 'Your Constant Contact account is not connected.', 'constant-contact-forms' );
 			$api_status    = esc_attr( 'disconnected' );
@@ -248,6 +242,7 @@ class ConstantContact_Admin {
 			[ $this, 'admin_page_display' ]
 		);
 
+		// This is for the GPLv3 license, not a premium product license.
 		add_submenu_page(
 			$this->parent_menu_slug,
 			esc_html__( 'License', 'constant-contact-forms' ),
@@ -257,6 +252,7 @@ class ConstantContact_Admin {
 			[ $this, 'admin_page_display' ]
 		);
 
+		// This page is ultimately linked to from the About page content.
 		remove_submenu_page( $this->parent_menu_slug, $this->key . '_license' );
 
 		// Include CMB CSS in the head to avoid FOUC.
@@ -295,13 +291,13 @@ class ConstantContact_Admin {
 
 				switch ( esc_attr( $page[1] ) ) {
 					case 'about':
-						constant_contact()->admin_pages->about_page();
+						constant_contact()->get_admin_pages()->about_page();
 						break;
 					case 'help':
-						constant_contact()->admin_pages->help_page();
+						constant_contact()->get_admin_pages()->help_page();
 						break;
 					case 'license':
-						constant_contact()->admin_pages->license_page();
+						constant_contact()->get_admin_pages()->license_page();
 						break;
 				}
 			} else {
@@ -365,12 +361,13 @@ class ConstantContact_Admin {
 	 *
 	 * @internal
 	 *
-	 * @since 1.0.0
-	 *
 	 * @param array $columns post list columns.
+	 *
 	 * @return array $columns Array of columns to add.
+	 *
+	 * @since 1.0.0
 	 */
-	public function set_custom_columns( $columns ) {
+	public function set_custom_columns( array $columns ) {
 
 		$columns['description'] = esc_html__( 'Description', 'constant-contact-forms' );
 		$columns['shortcodes']  = esc_html__( 'Shortcode', 'constant-contact-forms' );
@@ -391,7 +388,7 @@ class ConstantContact_Admin {
 	 *
 	 * @return void
 	 */
-	public function custom_columns( $column, $post_id ) {
+	public function custom_columns( string $column, int $post_id ) {
 		$post_id = absint( $post_id );
 
 		if ( ! $post_id ) {
@@ -446,12 +443,14 @@ class ConstantContact_Admin {
 	 * Add our contact count column for ctct_lists.
 	 *
 	 * @internal
+	 *
 	 * @since 1.3.0
 	 *
 	 * @param array $columns WP_List_Table columns.
+	 *
 	 * @return mixed
 	 */
-	public function set_custom_lists_columns( $columns ) {
+	public function set_custom_lists_columns( array $columns ) {
 		$columns['ctct_total'] = esc_html__( 'Contact Count', 'constant-contact-forms' );
 
 		unset( $columns['date'] );
@@ -470,7 +469,7 @@ class ConstantContact_Admin {
 	 *
 	 * @return void
 	 */
-	public function custom_lists_columns( $column, $post_id ) {
+	public function custom_lists_columns( string $column, int $post_id ) {
 
 		$post_id = absint( $post_id );
 
@@ -482,7 +481,7 @@ class ConstantContact_Admin {
 
 		switch ( $column ) {
 			case 'ctct_total':
-				$list_info = constant_contact()->api->get_list( esc_attr( $table_list_id ) );
+				$list_info = constant_contact()->get_api()->get_list( esc_attr( $table_list_id ) );
 				$list_info = (object) $list_info;
 				if ( isset( $list_info->membership_count ) ) {
 					echo esc_html( $list_info->membership_count );
@@ -500,9 +499,10 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 *
 	 * @param array $links plugin action links.
+	 *
 	 * @return array
 	 */
-	public function add_social_links( $links ) {
+	public function add_social_links( $links ): array {
 
 		if ( ! is_array( $links ) ) {
 			return $links;
@@ -552,7 +552,6 @@ class ConstantContact_Admin {
 		static $link_template = '<a title="%1$s" href="%2$s" target="_blank" rel="noopener noreferrer">%1$s</a>';
 		static $link_args     = [
 			'post_type' => 'ctct_forms',
-			'page'      => '',
 		];
 
 		$link_args['page'] = 'ctct_options_' . $link_slug;
@@ -645,10 +644,10 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param string $list_id Constant Contact list ID value.
+	 * @param string $list_id Constant Contact list ID value. NOT a WP Post ID.
 	 * @return mixed
 	 */
-	public function get_associated_list_by_id( $list_id ) {
+	public function get_associated_list_by_id( string $list_id ) {
 		global $wpdb;
 
 		$rs = $wpdb->get_results(
@@ -679,5 +678,5 @@ class ConstantContact_Admin {
  * @return mixed Option value.
  */
 function constantcontact_get_option( $key = '' ) {
-	return cmb2_get_option( constant_contact()->admin->key, $key );
+	return cmb2_get_option( constant_contact()->get_admin()->key, $key );
 }

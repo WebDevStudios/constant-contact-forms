@@ -23,7 +23,7 @@ class ConstantContact_Display {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected object $plugin;
 
 	/**
 	 * The global custom styles.
@@ -31,7 +31,7 @@ class ConstantContact_Display {
 	 * @since 1.4.0
 	 * @var array
 	 */
-	protected $global_form_styles = [];
+	protected array $global_form_styles = [];
 
 	/**
 	 * Styles set for a particular form.
@@ -39,7 +39,7 @@ class ConstantContact_Display {
 	 * @since 1.4.0
 	 * @var array
 	 */
-	protected $specific_form_styles = [];
+	protected array $specific_form_styles = [];
 
 	/**
 	 * Constructor.
@@ -48,7 +48,7 @@ class ConstantContact_Display {
 	 *
 	 * @param object $plugin Parent plugin.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 		add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'styles' ] );
@@ -62,7 +62,7 @@ class ConstantContact_Display {
 	 *
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
-	public function scripts( $enqueue = false ) {
+	public function scripts( bool $enqueue = false ) {
 		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 		$suffix = ( true === $debug ) ? '' : '.min';
 
@@ -80,7 +80,7 @@ class ConstantContact_Display {
 				$recaptcha_base       = new ConstantContact_reCAPTCHA();
 				$version              = $recaptcha_base->get_recaptcha_version();
 				$version              = $version ?: 'v2';
-				$recaptcha_class_name = "ConstantContact_reCAPTCHA_{$version}";
+				$recaptcha_class_name = "ConstantContact_reCAPTCHA_$version";
 
 				$recaptcha = new $recaptcha_class_name();
 
@@ -113,7 +113,7 @@ class ConstantContact_Display {
 	 *
 	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
-	public function styles( $enqueue = false ) {
+	public function styles( bool $enqueue = false ) {
 		wp_enqueue_style( 'ctct_form_styles' );
 	}
 
@@ -151,7 +151,7 @@ class ConstantContact_Display {
 	 *
 	 * @since  1.4.0
 	 */
-	public function set_specific_form_css( $form_id ) {
+	public function set_specific_form_css( int $form_id ) {
 		$defaults = [
 			'form_background_color'               => '',
 			'form_description_font_size'          => '',
@@ -170,32 +170,32 @@ class ConstantContact_Display {
 
 		$ctct_form_background_color = get_post_meta( $form_id, '_ctct_form_background_color', true );
 		if ( ! empty( $ctct_form_background_color ) ) {
-			$specific_form_css['form_background_color'] = "background-color: {$ctct_form_background_color};";
+			$specific_form_css['form_background_color'] = "background-color: $ctct_form_background_color;";
 		}
 
 		$ctct_form_description_font_size = get_post_meta( $form_id, '_ctct_form_description_font_size', true );
 		if ( ! empty( $ctct_form_description_font_size ) ) {
-			$specific_form_css['form_description_font_size'] = "font-size: {$ctct_form_description_font_size};";
+			$specific_form_css['form_description_font_size'] = "font-size: $ctct_form_description_font_size;";
 		}
 
 		$ctct_form_description_color = get_post_meta( $form_id, '_ctct_form_description_color', true );
 		if ( ! empty( $ctct_form_description_color ) ) {
-			$specific_form_css['form_description_color'] = "color: {$ctct_form_description_color};";
+			$specific_form_css['form_description_color'] = "color: $ctct_form_description_color;";
 		}
 
 		$ctct_form_submit_button_font_size = get_post_meta( $form_id, '_ctct_form_submit_button_font_size', true );
 		if ( ! empty( $ctct_form_submit_button_font_size ) ) {
-			$specific_form_css['form_submit_button_font_size'] = "font-size: {$ctct_form_submit_button_font_size};";
+			$specific_form_css['form_submit_button_font_size'] = "font-size: $ctct_form_submit_button_font_size;";
 		}
 
 		$ctct_form_submit_button_text_color = get_post_meta( $form_id, '_ctct_form_submit_button_text_color', true );
 		if ( ! empty( $ctct_form_submit_button_text_color ) ) {
-			$specific_form_css['form_submit_button_text_color'] = "color: {$ctct_form_submit_button_text_color};";
+			$specific_form_css['form_submit_button_text_color'] = "color: $ctct_form_submit_button_text_color;";
 		}
 
 		$ctct_form_submit_button_background_color = get_post_meta( $form_id, '_ctct_form_submit_button_background_color', true );
 		if ( ! empty( $ctct_form_submit_button_background_color ) ) {
-			$specific_form_css['form_submit_button_background_color'] = "background-color: {$ctct_form_submit_button_background_color};";
+			$specific_form_css['form_submit_button_background_color'] = "background-color: $ctct_form_submit_button_background_color;";
 		}
 
 		$ctct_form_padding_top = get_post_meta( $form_id, '_ctct_form_padding_top', true );
@@ -233,7 +233,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string $title_styles The title styles.
 	 */
-	private function set_title_styles() {
+	private function set_title_styles() : string {
 		$title_styles = '';
 
 		if ( ! empty( $this->specific_form_styles['form_description_color'] ) ) {
@@ -252,7 +252,7 @@ class ConstantContact_Display {
 	 * @param int  $form_id The form id.
 	 * @return string The form title.
 	 */
-	private function set_form_title( $show_title, $form_id ) {
+	private function set_form_title( bool $show_title, int $form_id ) : string {
 		if ( ! $show_title ) {
 			return '';
 		}
@@ -268,13 +268,15 @@ class ConstantContact_Display {
 	 * @since  1.0.0
 	 * @since  1.8.3 Added $instance param to help properly track multiple instances of the same form.
 	 *
+	 * @throws Exception
+	 *
 	 * @param  array  $form_data  Array of form data.
 	 * @param  string $form_id    Form ID.
 	 * @param  bool   $show_title Show title if true.
 	 * @param  int    $instance   Current form instance.
 	 * @return string Form markup.
 	 */
-	public function form( $form_data, $form_id = '', $show_title = false, $instance = 0 ) {
+	public function form( array $form_data, string $form_id = '', bool $show_title = false, int $instance = 0 ) : string {
 		if ( 'publish' !== get_post_status( $form_id ) ) {
 			return '';
 		}
@@ -296,10 +298,10 @@ class ConstantContact_Display {
 		// if the status is success, then we sent the form correctly
 		// if the status is error, then we will re-show the form, but also
 		// with our error messages.
-		$response = constant_contact()->process_form->process_wrapper( $form_data, $form_id, $instance );
+		$response = constant_contact()->get_process_form()->process_wrapper( $form_data, $form_id, $instance );
 
-		$old_values = isset( $response['values'] ) ? $response['values'] : '';
-		$req_errors = isset( $response['errors'] ) ? $response['errors'] : '';
+		$old_values = $response['values'] ?? [];
+		$req_errors = $response['errors'] ?? [];
 
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
@@ -315,7 +317,7 @@ class ConstantContact_Display {
 			}
 		}
 
-		if ( 'error' === $status || $error_message ) {
+		if ( 'error' === $status ) {
 			if ( ! empty( $error_message ) ) {
 				$form_err_display = $this->message( 'error', $error_message, 'alert' );
 			}
@@ -470,7 +472,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string URL of current page.
 	 */
-	public function get_current_page() {
+	public function get_current_page() : string {
 		global $wp;
 
 		$request = ( isset( $wp->request ) && $wp->request ) ? $wp->request : null;
@@ -497,12 +499,10 @@ class ConstantContact_Display {
 	 * @since 1.0.0
 	 *
 	 * @param array $form_data Form data for the current form.
-	 * @return mixed.
+	 * @return string|bool.
 	 */
-	public function add_verify_fields( $form_data ) {
+	public function add_verify_fields( array $form_data ) {
 		if (
-			isset( $form_data ) &&
-			isset( $form_data['options'] ) &&
 			isset( $form_data['options']['form_id'] )
 		) {
 
@@ -539,7 +539,7 @@ class ConstantContact_Display {
 	 * @param  int   $instance   Current form instance.
 	 * @return string
 	 */
-	public function build_form_fields( $form_data, $old_values, $req_errors, $instance ) {
+	public function build_form_fields( array $form_data, array $old_values, array $req_errors, int $instance ) : string {
 		$return  = '';
 		$form_id = absint( $form_data['options']['form_id'] );
 
@@ -586,10 +586,10 @@ class ConstantContact_Display {
 	 *
 	 * @return string
 	 */
-	public function build_honeypot_field() {
+	public function build_honeypot_field() : string {
 		return sprintf(
 			'<div ' .
-				'class="ctct_usage"' .
+				'class="ctct_usage" ' .
 				'style="border: 0 none; clip: rect( 0, 0, 0, 0 ); height: 1px; margin: -1px; overflow: hidden; padding: 0; position: absolute; width: 1px;"' .
 			'><label for="ctct_usage_field">%s</label><input type="text" value="" id="ctct_usage_field" name="ctct_usage_field" class="ctct_usage_field" tabindex="-1" /></div>',
 			esc_html__( 'Constant Contact Use. Please leave this field blank.', 'constant-contact-forms' )
@@ -606,7 +606,7 @@ class ConstantContact_Display {
 	 * @param int $form_id ID of form being rendered.
 	 * @return string
 	 */
-	public function build_recaptcha( $form_id ) {
+	public function build_recaptcha( int $form_id ) : string {
 		$recaptcha = new ConstantContact_reCAPTCHA_v2();
 
 		$recaptcha->set_recaptcha_keys();
@@ -622,11 +622,7 @@ class ConstantContact_Display {
 			apply_filters( 'constant_contact_recaptcha_size', 'normal', $form_id )
 		);
 
-		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
-		$return = $recaptcha->get_inline_markup();
-		// phpcs:enable WordPress.WP.EnqueuedResources
-
-		return $return;
+		return $recaptcha->get_inline_markup();
 	}
 
 	/**
@@ -637,7 +633,7 @@ class ConstantContact_Display {
 	 * @param int $form_id ID of form being rendered.
 	 * @return string
 	 */
-	public function build_hcaptcha( $form_id ) {
+	public function build_hcaptcha( int $form_id ) : string {
 		$hcaptcha = new ConstantContact_hCaptcha();
 
 		$hcaptcha->set_hcaptcha_keys();
@@ -693,11 +689,7 @@ class ConstantContact_Display {
 			apply_filters( 'constant_contact_hcaptcha_mode', 'live', $form_id )
 		);
 
-		// phpcs:disable WordPress.WP.EnqueuedResources -- Okay use of inline script.
-		$return = $hcaptcha->get_inline_markup();
-		// phpcs:enable WordPress.WP.EnqueuedResources
-
-		return $return;
+		return $hcaptcha->get_inline_markup();
 	}
 
 	/**
@@ -707,7 +699,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string
 	 */
-	public function build_timestamp() {
+	public function build_timestamp() : string {
 		return '<input type="hidden" name="ctct_time" value="' . current_time( 'timestamp' ) . '" />'; // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 	}
 
@@ -718,7 +710,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string
 	 */
-	public function build_custom_form_classes() {
+	public function build_custom_form_classes() : string {
 		$custom = '';
 
 		if ( ! empty( $this->global_form_styles['global_form_classes'] ) ) {
@@ -740,7 +732,7 @@ class ConstantContact_Display {
 	 * @param array $form_data Options for the form.
 	 * @return string
 	 */
-	public function must_opt_in( array $form_data ) {
+	public function must_opt_in( array $form_data ) : string {
 		if ( empty( $form_data['options']['optin']['show'] ) ) {
 			return '';
 		}
@@ -762,7 +754,7 @@ class ConstantContact_Display {
 	 * @param  int    $instance        Current form instance.
 	 * @return string                  HTML markup
 	 */
-	public function field( $field, $old_values = [], $req_errors = [], $form_id = 0, $label_placement = 'top', $instance = 0 ) {
+	public function field( array $field, array $old_values = [], array $req_errors = [], int $form_id = 0, string $label_placement = 'top', int $instance = 0 ) : string {
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
 			return '';
 		}
@@ -781,11 +773,11 @@ class ConstantContact_Display {
 
 		$name  = sanitize_text_field( $field['name'] );
 		$map   = sanitize_text_field( $field['map_to'] );
-		$desc  = sanitize_text_field( isset( $field['description'] ) ? $field['description'] : '' );
-		$type  = sanitize_text_field( isset( $field['type'] ) ? $field['type'] : 'text_field' );
-		$value = isset( $field['value'] ) ? $field['value'] : false;
+		$desc  = sanitize_text_field( $field['description'] ?? '' );
+		$type  = sanitize_text_field( $field['type'] ?? 'text_field' );
+		$value = $field['value'] ?? false;
 		$value = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
-		$req   = isset( $field['required'] ) ? $field['required'] : false;
+		$req   = $field['required'] ?? false;
 
 		// phpcs:disable WordPress.PHP.DiscouragedPHPFunctions -- Okay use of serialize() here.
 		if ( 'submit' !== $type ) {
@@ -844,6 +836,7 @@ class ConstantContact_Display {
 			case 'submit':
 				return $this->input( 'submit', $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'address':
+				$value = ! empty( $value ) ? $value : [];
 				return $this->address( $name, $map, $value, $desc, $req, $field_error, $form_id, $label_placement, $instance );
 			case 'anniversery':
 			case 'birthday':
@@ -863,14 +856,14 @@ class ConstantContact_Display {
 	 * @param string       $map            Map value.
 	 * @param array        $field          Array of fields.
 	 * @param array        $submitted_vals Array of submitted values.
-	 * @return mixed Submitted value.
+	 * @return array|string Submitted value.
 	 */
-	public function get_submitted_value( $value = '', $map = '', $field = [], $submitted_vals = [] ) {
+	public function get_submitted_value( $value = '', string $map = '', array $field = [], array $submitted_vals = [] ) {
 		if ( $value ) {
 			return $value;
 		}
 
-		if ( ! is_array( $submitted_vals ) ) {
+		if ( ! is_array( $submitted_vals ) || empty( $submitted_vals ) ) {
 			return '';
 		}
 
@@ -913,7 +906,7 @@ class ConstantContact_Display {
 	 * @param  string $role    Message role.
 	 * @return string          HTML markup.
 	 */
-	public function message( $type, $message, $role = 'log' ) {
+	public function message( string $type, string $message, string $role = 'log' ) : string {
 		return sprintf(
 			'<p class="ctct-message %s ctct-%s" role="%s">%s</p>',
 			esc_attr( $type ),
@@ -930,7 +923,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string The inline style tag for the form's description.
 	 */
-	public function get_description_inline_styles() {
+	public function get_description_inline_styles() : string {
 		$inline_style = '';
 		$styles       = [];
 
@@ -960,7 +953,7 @@ class ConstantContact_Display {
 	 * @param int|boolean $form_id Form ID.
 	 * @return string Form description markup.
 	 */
-	public function description( $desc = '', $form_id = false ) {
+	public function description( string $desc = '', $form_id = false ) : string {
 
 		$display      = '';
 		$inline_style = $this->get_description_inline_styles();
@@ -983,7 +976,7 @@ class ConstantContact_Display {
 	 * @param  string  $tag            HTML tag for field.
 	 * @return string HTML markup.
 	 */
-	public function field_top( $type = '', $name = '', $f_id = '', $label = '', $req = false, $use_label = true, $tag = 'p' ) {
+	public function field_top( string $type = '', string $name = '', string $f_id = '', string $label = '', bool $req = false, bool $use_label = true, string $tag = 'p' ) : string {
 
 		$classes = [
 			'ctct-form-field',
@@ -993,7 +986,11 @@ class ConstantContact_Display {
 			$classes[] = 'ctct-form-field-required';
 		}
 
-		$markup = '<' . $tag . ' class="' . implode( ' ', $classes ) . '">';
+		$markup = sprintf(
+			'<%1$s class="%2$s">',
+			$tag,
+			esc_attr( implode( ' ', $classes ) )
+		);
 
 		if ( ! $use_label ) {
 			$markup .= '<span class="ctct-input-container">';
@@ -1015,7 +1012,7 @@ class ConstantContact_Display {
 	 * @param  string $tag         HTML tag for field.
 	 * @return string HTML markup
 	 */
-	public function field_bottom( $name = '', $field_label = '', $use_label = true, $tag = 'p' ) {
+	public function field_bottom( string $name = '', string $field_label = '', bool $use_label = true, string $tag = 'p' ) : string {
 
 		$markup = '';
 		if ( ! empty( $name ) && ! empty( $field_label ) ) {
@@ -1026,7 +1023,7 @@ class ConstantContact_Display {
 			$markup .= '</span>';
 		}
 
-		return $markup . "</{$tag}>";
+		return $markup . "</$tag>"; // opening markup for `$tag` variable set in `field_top()`
 	}
 
 	/**
@@ -1036,7 +1033,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string
 	 */
-	public function get_submit_inline_styles() {
+	public function get_submit_inline_styles() : string {
 		$inline_style = '';
 		$styles       = [];
 
@@ -1070,7 +1067,7 @@ class ConstantContact_Display {
 	 * @param string $field_label Text to display as label.
 	 * @return string HTML markup
 	 */
-	public function get_label( $f_id, $field_label ) {
+	public function get_label( string $f_id, string $field_label ) : string {
 		return '<label for="' . $f_id . '">' . $field_label . '</label>';
 	}
 
@@ -1092,11 +1089,11 @@ class ConstantContact_Display {
 	 * @param  int     $instance        Current form instance.
 	 * @return string                   HTML markup for field.
 	 */
-	public function input( $type = 'text', $name = '', $id = '', $value = '', $label = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '', $instance = 0 ) {
+	public function input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ) : string {
 		$id_salt               = wp_rand();
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
-		$field_id              = "{$field_key}_{$instance}_{$id_salt}";
+		$field_id              = "{$field_key}_{$instance}_$id_salt";
 		$input_inline_styles   = '';
 		$tel_regex_pattern     = '';
 		$label_placement_class = 'ctct-label-' . $label_placement;
@@ -1175,7 +1172,7 @@ class ConstantContact_Display {
 		$class_attr = '';
 
 		if ( count( $classes ) ) {
-			$class_attr = 'class="' . implode( ' ', $classes ) . '"';
+			$class_attr = esc_attr( implode( ' ', $classes ) );
 		}
 
 		$tel_pattern_title = apply_filters( 'constant_contact_tel_pattern_title', esc_html__( 'numbers, dashes, pluses, periods, and parentheses', 'constant-contact-forms' ) );
@@ -1184,23 +1181,23 @@ class ConstantContact_Display {
 		$placeholder = '';
 
 		if ( 'submit' !== $type ) {
-			$placeholder = "placeholder=\"{$label}\"";
+			$placeholder = "placeholder=\"$label\"";
 		}
 
 		/* 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID., 10: Tel Regex Pattern. */
-		$field   = '<input %1$s type="%2$s" name="%3$s" %4$s value="%5$s" %6$s %7$s %8$s %9$s %10$s />';
+		$field   = '<input %1$s type="%2$s" id="%3$s" name="%4$s" %5$s value="%6$s" class="%7$s" %8$s %9$s %10$s />';
 		$markup .= sprintf(
 			$field,
-			$req_text,
+			$req_text, // %1$s starts here.
 			$type,
+			$field_id,
 			$field_key,
 			$input_inline_styles,
 			$value,
+			$class_attr,
 			$max_length,
 			$placeholder,
-			$class_attr,
-			"id=\"{$field_id}\"",
-			$tel_regex_pattern ? "pattern=\"{$tel_regex_pattern}\" title=\"{$tel_pattern_title}\"" : ''
+			$tel_regex_pattern ? "pattern=\"$tel_regex_pattern\" title=\"$tel_pattern_title\"" : ''
 		);
 
 		// Reassign because if we want "field only", like for hidden inputs, we need to still pass a value that went through sprintf().
@@ -1235,7 +1232,7 @@ class ConstantContact_Display {
 	 * @param  string $value Field value.
 	 * @return string        HTML markup for field.
 	 */
-	public function input_hidden( $name = '', $value = '' ) {
+	public function input_hidden( string $name = '', string $value = '' ) : string {
 		return sprintf(
 			'<input type="hidden" name="%1$s" value="%2$s" />',
 			sanitize_text_field( $name ),
@@ -1260,10 +1257,10 @@ class ConstantContact_Display {
 	 * @param  int          $instance        Current form instance.
 	 * @return string                        HTML markup for checkbox.
 	 */
-	public function checkbox( $name = '', $id = '', $value = '', $label = '', $req = false, $field_error = false, $form_id = 0, $label_placement = '', $instance = 0 ) {
+	public function checkbox( string $name = '', string $id = '', array $value = [], string $label = '', bool $req = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ) : string {
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
-		$field_id              = "{$field_key}_{$instance}";
+		$field_id              = "{$field_key}_$instance";
 		$label_placement_class = 'ctct-label-top';
 		$value                 = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
 		$value                 = is_array( $value ) ? $value : [ $value ];
@@ -1321,16 +1318,16 @@ class ConstantContact_Display {
 			}
 
 			$markup .= sprintf(
-				'<input type="%s" name="%s[]" id="%s" value="%s" %s %s />',
+				'<input type="%1$s" name="%2$s[]" id="%3$s" value="%4$s" %5$s %6$s />',
 				$type,
 				$field_key,
-				"{$field_id}_{$i}",
+				"{$field_id}_$i",
 				$value[ $i ],
 				$class_attr,
 				0 === $count ? 'checked' : ''
 			);
 			$markup .= '<span class="ctct-label-right">';
-			$markup .= $this->get_label( "{$field_id}_{$i}", $input_label );
+			$markup .= $this->get_label( "{$field_id}_$i", $input_label );
 			$markup .= '</span>';
 
 			if ( $i < ( count( $value ) - 1 ) ) {
@@ -1350,7 +1347,7 @@ class ConstantContact_Display {
 
 		// If only one list displayed, hide input.
 		if ( 'lists' === $key_pieces[0] && $count <= 1 ) {
-			$markup = "<div class='ctct-list-selector' style='display:none;'>{$markup}</div>";
+			$markup = "<div class='ctct-list-selector' style='display:none;'>$markup</div>";
 		}
 
 		return $markup;
@@ -1365,7 +1362,7 @@ class ConstantContact_Display {
 	 * @param int $form_id Rendered form ID.
 	 * @return string HTML markup.
 	 */
-	public function submit( $form_id = 0 ) {
+	public function submit( int $form_id = 0 ) : string {
 		$button_text = get_post_meta( $form_id, '_ctct_button_text', true );
 		$button_text =
 		! empty( $button_text ) ?
@@ -1401,7 +1398,7 @@ class ConstantContact_Display {
 	 * @param  int   $instance  Current form instance.
 	 * @return string           Markup of optin form.
 	 */
-	public function opt_in( $form_data, $instance = 0 ) {
+	public function opt_in( array $form_data, int $instance = 0 ) : string {
 
 		if ( ! isset( $form_data['optin'] ) ) {
 			return '';
@@ -1432,9 +1429,9 @@ class ConstantContact_Display {
 	 * @param  int   $instance Current form instance.
 	 * @return string          HTML markup.
 	 */
-	public function optin_display( $optin, $instance = 0 ) {
+	private function optin_display( array $optin, int $instance = 0 ) : string {
 
-		$label = sanitize_text_field( isset( $optin['instructions'] ) ? $optin['instructions'] : '' );
+		$label = sanitize_text_field( $optin['instructions'] ?? '' );
 
 		$show = false;
 		if ( isset( $optin['show'] ) && 'on' === $optin['show'] ) {
@@ -1467,10 +1464,10 @@ class ConstantContact_Display {
 	 * @param  int    $instance Current form instance.
 	 * @return string           HTML markup
 	 */
-	public function get_optin_markup( $label, $value, $show, $instance = 0 ) {
+	public function get_optin_markup( string $label, string $value, string $show, int $instance = 0 ) : string {
 		$checked   = $show ? '' : 'checked';
 		$field_key = 'ctct-opt-in';
-		$field_id  = "{$field_key}_{$instance}";
+		$field_id  = "{$field_key}_$instance";
 
 		$markup  = $this->field_top( 'checkbox', $field_key, $field_key, $label, false, false );
 		$markup .= '<input type="checkbox" ' . $checked . ' name="' . esc_attr( $field_key ) . '" class="ctct-checkbox ' . esc_attr( $field_key ) . '" value="' . esc_attr( $value ) . '" id="' . esc_attr( $field_id ) . '" />';
@@ -1494,8 +1491,8 @@ class ConstantContact_Display {
 	 * @param  int     $instance        Current form instance.
 	 * @return string                   HTML markup.
 	 */
-	public function address( $name = '', $field_key = '', $value = [], $desc = '', $req = false, $field_error = '', $form_id = 0, $label_placement = 'top', $instance = 0 ) {
-		$field_id = "{$field_key}_{$instance}";
+	public function address( string $name = '', string $field_key = '', array $value = [], string $desc = '', bool $req = false, string $field_error = '', int $form_id = 0, string $label_placement = 'top', int $instance = 0 ) : string {
+		$field_id = "{$field_key}_$instance";
 		$street   = esc_html__( 'Street Address', 'constant-contact-forms' );
 		$line_2   = esc_html__( 'Address Line 2', 'constant-contact-forms' );
 		$city     = esc_html__( 'City', 'constant-contact-forms' );
@@ -1545,10 +1542,11 @@ class ConstantContact_Display {
 						$input_numbered_class = 'input_2_1_5_container';
 						break;
 					default:
+						$input_numbered_class = '';
 						break;
 				}
 				if ( 'country' !== $field ) {
-					$field_value          = isset( $value[ $field ] ) ? $value[ $field ] : '';
+					$field_value          = $value[ $field ] ?? '';
 					$label_placement_tmpl = '<span class="%1$s"><label for="%2$s_%3$s" style="%4$s">%5$s %6$s</label></span><input %7$s type="text" class="ctct-text ctct-address-%2$s %1$s %2$s_%8$s" name="%2$s_%8$s" value="%9$s" id="%2$s_%3$s">';
 
 					if ( in_array( $label_placement_class, [ 'ctct-label-bottom', 'ctct-label-right' ], true ) ) {
@@ -1577,7 +1575,7 @@ class ConstantContact_Display {
 					$select_options = [
 						'<option value="">' . esc_html__( 'Please choose an option', 'constant-contact-forms' ) . '</option>',
 					];
-					$field_value    = isset( $value[ $field ] ) ? $value[ $field ] : '';
+					$field_value    = $value[ $field ] ?? '';
 					foreach ( $countries as $country ) {
 						$select_options[] = sprintf(
 							'<option value="%1$s" %2$s>%3$s</option>',
@@ -1614,12 +1612,7 @@ class ConstantContact_Display {
 				}
 			}
 
-			$return = '
-			<fieldset class="ctct-address">
-				<legend style="%s">%s</legend>
-				%s
-			</fieldset>
-			';
+			$return = '<fieldset class="ctct-address"><legend style="%1$s">%2$s</legend>%3$s</fieldset>';
 			return sprintf(
 				$return,
 				esc_attr( $inline_font_styles ),
@@ -1629,10 +1622,10 @@ class ConstantContact_Display {
 		} else {
 			// LEGACY-ISH VERSION
 
-			$v_street = isset( $value['street_address'] ) ? $value['street_address'] : '';
-			$v_line_2 = isset( $value['line_2_address'] ) ? $value['line_2_address'] : '';
-			$v_city   = isset( $value['city_address'] ) ? $value['city_address'] : '';
-			$v_state  = isset( $value['state_address'] ) ? $value['state_address'] : '';
+			$v_street = $value['street_address'] ?? '';
+			$v_line_2 = $value['line_2_address'] ?? '';
+			$v_city   = $value['city_address'] ?? '';
+			$v_state  = $value['state_address'] ?? '';
 			$v_zip    = isset( $value['zip_address'] ) ? $value['zip'] : '';
 
 			$label_street1 = sprintf(
@@ -1811,14 +1804,14 @@ class ConstantContact_Display {
 	 * @param  int     $instance    Current form instance.
 	 * @return string               Fields HTML markup.
 	 */
-	public function dates( $name = '', $f_id = '', $value = [], $desc = '', $req = false, $field_error = '', $instance = 0 ) {
+	public function dates( string $name = '', string $f_id = '', array $value = [], string $desc = '', bool $req = false, string $field_error = '', int $instance = 0 ) : string {
 		$month = esc_html__( 'Month', 'constant-contact-forms' );
 		$day   = esc_html__( 'Day', 'constant-contact-forms' );
 		$year  = esc_html__( 'Year', 'constant-contact-forms' );
 
-		$v_month = isset( $value['month'] ) ? $value['month'] : '';
-		$v_day   = isset( $value['day'] ) ? $value['day'] : '';
-		$v_year  = isset( $value['year'] ) ? $value['year'] : '';
+		$v_month = $value['month'] ?? '';
+		$v_day   = $value['day'] ?? '';
+		$v_year  = $value['year'] ?? '';
 
 		$req_class = $req ? ' ctct-form-field-required ' : '';
 
@@ -1852,7 +1845,7 @@ class ConstantContact_Display {
 	 * @param  int     $instance       Current form instance.
 	 * @return string                  Field markup.
 	 */
-	public function get_date_dropdown( $text = '', $field_key = '', $type = '', $selected_value = '', $req = false, $instance = 0 ) {
+	public function get_date_dropdown( string $text = '', string $field_key = '', string $type = '', string $selected_value = '', bool $req = false, int $instance = 0 ) : string {
 		$field_key = str_replace( 'birthday', 'birthday_' . $type, $field_key );
 		$field_key = str_replace( 'anniversary', 'anniversary_' . $type, $field_key );
 		$field_id  = "{$field_key}_{$instance}";
@@ -1880,7 +1873,7 @@ class ConstantContact_Display {
 	 * @param array  $prev_selected_values Previous selected values.
 	 * @return string HTML markup.
 	 */
-	public function get_date_options( $text = '', $values = [], $prev_selected_values = [] ) {
+	public function get_date_options( string $text = '', array $values = [], $prev_selected_values = [] ) : string {
 		$return = '<option value="">' . sanitize_text_field( $text ) . '</option>';
 
 		if ( ! is_array( $values ) ) {
@@ -1889,9 +1882,9 @@ class ConstantContact_Display {
 
 		foreach ( $values as $key => $value ) {
 
-			$key = sanitize_text_field( isset( $key ) ? $key : '' );
+			$key = sanitize_text_field( $key ?? '' );
 
-			$value = sanitize_text_field( isset( $value ) ? $value : '' );
+			$value = sanitize_text_field( $value ?? '' );
 
 			$return .= '<option value="' . $key . '">' . $value . '</option>';
 		}
@@ -1907,7 +1900,7 @@ class ConstantContact_Display {
 	 * @param string $type Day, month, or year.
 	 * @return array Array of data.
 	 */
-	public function get_date_values( $type ) {
+	public function get_date_values( string $type ) : array {
 		$return = [];
 
 		switch ( $type ) {
@@ -1969,7 +1962,7 @@ class ConstantContact_Display {
 	 *
 	 * @return array Years from 1910-current year.
 	 */
-	public function get_years() {
+	public function get_years() : array {
 		$years      = [];
 		$year_range = range( 1910, gmdate( 'Y' ) );
 		$year_range = array_reverse( $year_range );
@@ -1988,7 +1981,7 @@ class ConstantContact_Display {
 	 *
 	 * @return array Array of days.
 	 */
-	public function get_days() {
+	public function get_days() : array {
 		$days      = [];
 		$day_range = range( 1, 31 );
 
@@ -2015,11 +2008,11 @@ class ConstantContact_Display {
 	 * @param  int     $instance        Current form instance.
 	 * @return string                   HTML markup.
 	 */
-	public function textarea( $name = '', $map = '', $value = '', $desc = '', $req = false, $field_error = '', $extra_attrs = '', $label_placement = 'top', $instance = 0 ) {
+	public function textarea( string $name = '', string $map = '', string $value = '', string $desc = '', bool $req = false, string $field_error = '', string $extra_attrs = '', string $label_placement = 'top', int $instance = 0 ) : string {
 
 		$classes          = [ 'ctct-form-field' ];
 		$textarea_classes = [ 'ctct-textarea' ];
-		$field_id         = "{$map}_{$instance}";
+		$field_id         = "{$map}_$instance";
 		$req_text         = $req ? 'required' : '';
 
 		if ( $req ) {
@@ -2067,21 +2060,25 @@ class ConstantContact_Display {
 	 * @param array $form_data Form data.
 	 * @return string HTML markup
 	 */
-	public function maybe_add_disclose_note( $form_data ) {
+	public function maybe_add_disclose_note( array $form_data ) : string {
 
-		$opts = isset( $form_data['options'] ) ? $form_data['options'] : false;
+		$opts = $form_data['options'] ?? false;
 
 		if ( ! $opts ) {
 			return '';
 		}
 
-		$optin = isset( $opts['optin'] ) ? $opts['optin'] : false;
+		$optin = $opts['optin'] ?? false;
 
 		if ( ! $optin ) {
 			return '';
 		}
 
-		$list = isset( $optin['list'] ) ? $optin['list'] : false;
+		if ( ! constant_contact()->get_api()->is_connected() ) {
+			return '';
+		}
+
+		$list = $optin['list'] ?? false;
 
 		if ( ! $list ) {
 			return '';
@@ -2097,7 +2094,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string HTML markup.
 	 */
-	public function get_disclose_text() {
+	public function get_disclose_text() : string {
 
 		/**
 		 * Filters the content used to display the disclose text.
@@ -2123,7 +2120,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string
 	 */
-	public function get_inner_disclose_text() {
+	public function get_inner_disclose_text() : string {
 
 		$alternative_legal_text = constant_contact_get_option( '_ctct_alternative_legal_text' );
 
@@ -2134,7 +2131,7 @@ class ConstantContact_Display {
 					'By submitting this form, you are consenting to receive marketing emails from: %1$s. You can revoke your consent to receive emails at any time by using the SafeUnsubscribe&reg; link, found at the bottom of every email. %2$s',
 					'constant-contact-forms'
 				),
-				$this->plugin->api->get_disclosure_info(),
+				$this->plugin->get_api()->get_disclosure_info(),
 				sprintf(
 					'<a href="%1$s" target="_blank" rel="noopener noreferrer" aria-label="%2$s">%3$s</a>',
 					esc_url( 'https://www.constantcontact.com/legal/about-constant-contact' ),
@@ -2155,7 +2152,7 @@ class ConstantContact_Display {
 	 * @param string $optional_label Optional label.
 	 * @return string
 	 */
-	public function get_max_length_attr( $optional_label = '' ) {
+	public function get_max_length_attr( string $optional_label = '' ) : string {
 		$length       = 253; // Two less than 255char custom field limit for ": ".
 		$label_length = 0;
 
@@ -2177,7 +2174,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string
 	 */
-	private function get_inline_font_color() {
+	private function get_inline_font_color() : string {
 		$inline_font_styles = '';
 		if ( ! empty( $this->specific_form_styles['form_description_color'] ) ) {
 			$inline_font_styles = $this->specific_form_styles['form_description_color'];
@@ -2193,7 +2190,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string The required indicator markup.
 	 */
-	public function display_required_indicator() {
+	public function display_required_indicator() : string {
 		/**
 		 * Filters the markup used for the required indicator.
 		 *
@@ -2212,7 +2209,7 @@ class ConstantContact_Display {
 	 * @param  int $instance Current instance of form.
 	 * @return string HTML markup for instance field.
 	 */
-	protected function create_instance_field( $instance ) {
+	protected function create_instance_field( int $instance ) : string {
 		return $this->input_hidden( 'ctct-instance', absint( $instance ) );
 	}
 }

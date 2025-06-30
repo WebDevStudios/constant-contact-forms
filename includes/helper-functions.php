@@ -20,7 +20,7 @@ use Monolog\Handler\StreamHandler;
  * @return boolean Whether or not they are connected.
  */
 function constant_contact_is_connected() {
-	return constant_contact()->api->is_connected();
+	return constant_contact()->get_api()->is_connected();
 }
 
 /**
@@ -31,7 +31,7 @@ function constant_contact_is_connected() {
  * @return boolean Whether or not they are NOT connected.
  */
 function constant_contact_is_not_connected() {
-	return ! constant_contact()->api->is_connected();
+	return ! constant_contact()->get_api()->is_connected();
 }
 
 /**
@@ -44,7 +44,7 @@ function constant_contact_is_not_connected() {
  * @return string HTML markup
  */
 function constant_contact_get_form( $form_id, $show_title = false ) {
-	return constant_contact()->display_shortcode->get_form( $form_id, $show_title );
+	return constant_contact()->get_display_shortcode()->get_form( $form_id, $show_title );
 }
 
 /**
@@ -55,8 +55,8 @@ function constant_contact_get_form( $form_id, $show_title = false ) {
  * @param int  $form_id Form post ID to grab.
  * @param bool $show_title If true, show the title.
  */
-function constant_contact_display_form( $form_id, $show_title = false ) {
-	constant_contact()->display_shortcode->display_form( $form_id, $show_title );
+function constant_contact_display_form( int $form_id, bool $show_title = false ) {
+	constant_contact()->get_display_shortcode()->display_form( $form_id, $show_title );
 }
 
 /**
@@ -67,7 +67,7 @@ function constant_contact_display_form( $form_id, $show_title = false ) {
  * @return array WP_Query results of forms.
  */
 function constant_contact_get_forms() {
-	return constant_contact()->cpts->get_forms( false, true );
+	return constant_contact()->get_cpts()->get_forms( false, true );
 }
 
 /**
@@ -83,106 +83,18 @@ function constant_contact_display_shortcode( $form_id ) {
 }
 
 /**
- * Maybe display the review request notification in the Constant Contact areas.
- *
- * @since 1.2.2
- *
- * @return bool
- */
-function constant_contact_maybe_display_review_notification() {
-
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return false;
-	}
-
-	if ( ! constant_contact()->is_constant_contact() ) {
-		return false;
-	}
-
-	if ( 'true' === get_option( ConstantContact_Notifications::$reviewed_option, 'false' ) ) {
-		return false;
-	}
-
-	$activated_time = get_option( Constant_Contact::$activated_date_option );
-
-	if ( ! $activated_time || time() < strtotime( '+14 days', $activated_time ) ) {
-		return false;
-	}
-
-	$dismissed = get_option( ConstantContact_Notifications::$review_dismissed_option, [] );
-
-	if ( isset( $dismissed['count'] ) && '1' === $dismissed['count'] ) {
-		$fourteen_days = strtotime( '-14 days' );
-
-		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $fourteen_days ) {
-			return true;
-		}
-		return false;
-	}
-
-	if ( isset( $dismissed['count'] ) && '2' === $dismissed['count'] ) {
-		$thirty_days = strtotime( '-30 days' );
-		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $thirty_days
-		) {
-			return true;
-		}
-		return false;
-	}
-
-	if ( isset( $dismissed['count'] ) && '3' === $dismissed['count'] ) {
-		$thirty_days = strtotime( '-14 days' );
-		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $thirty_days
-		) {
-			return true;
-		}
-
-		return false;
-	}
-
-	if ( isset( $dismissed['count'] ) && '4' === $dismissed['count'] ) {
-		$thirty_days = strtotime( '-30 days' );
-		if ( isset( $dismissed['time'] ) && $dismissed['time'] < $thirty_days
-		) {
-			return true;
-		}
-
-		return false;
-	}
-
-	if ( isset( $dismissed['count'] ) && '5' === $dismissed['count'] ) {
-		return false;
-	}
-
-	if ( absint( get_option( 'ctct-processed-forms' ) ) >= 10 ) {
-		return true;
-	}
-
-	return true;
-}
-
-/**
- * Handles the notice of if we have exceptions existing.
- *
- * @since 1.6.0
- *
- * @return bool
- */
-function constant_contact_maybe_display_exceptions_notice() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return false;
-	}
-
-	$maybe_has_error = get_option( 'ctct_exceptions_exist' );
-
-	return ( 'true' === $maybe_has_error );
-}
-
-/**
  * Handle the ajax for the review admin notice.
  *
  * @since 1.2.2
  */
 function constant_contact_review_ajax_handler() {
+
+	if ( ! wp_verify_nonce( $_REQUEST['ctct_nonce'], 'ctct-user-is-dismissing' ) ) {
+		wp_send_json_error( [ 'nonce-result' => 'failed' ] );
+		exit();
+	}
+
+	$review_action = 'nothing processed';
 
 	//  phpcs:disable WordPress.Security.NonceVerification -- OK accessing of $_REQUEST.
 	if ( isset( $_REQUEST['ctct_review_action'] ) ) {
@@ -214,10 +126,6 @@ function constant_contact_review_ajax_handler() {
 
 				$review_action = 'processed reviewed success';
 				break;
-
-			default:
-				$review_action = 'nothing processed';
-				break;
 		}
 	}
 
@@ -245,7 +153,7 @@ function constant_contact_process_form_custom() {
 		return false;
 	}
 
-	return constant_contact()->process_form->process_form();
+	return constant_contact()->get_process_form()->process_form();
 }
 add_action( 'wp_head', 'constant_contact_process_form_custom' );
 
@@ -279,7 +187,7 @@ function constant_contact_has_forms() {
 function constant_contact_has_redirect_uri( $form_id = 0 ) {
 	$maybe_redirect_uri = get_post_meta( $form_id, '_ctct_redirect_uri', true );
 
-	return constant_contact_is_valid_url( $maybe_redirect_uri ) ? true : false;
+	return constant_contact_is_valid_url( $maybe_redirect_uri );
 }
 
 /**
@@ -373,7 +281,7 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 	$logging_file = constant_contact()->logger_location;
 
 	// Create logging file and directory if they don't exist.
-	constant_contact()->logging->initialize_logging();
+	constant_contact()->get_logging()->initialize_logging();
 
 	if ( ! is_writable( $logging_file ) ) {
 		return;
@@ -387,7 +295,7 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 		$extra = [ 'Extra information', [ $extra_data ] ];
 	}
 
-	$error = constant_contact()->logging->mask_api_key( $error );
+	$error = constant_contact()->get_logging()->mask_api_key( $error );
 
 	$logger->info( $error, $extra );
 }
@@ -458,9 +366,7 @@ function constant_contact_akismet( $is_spam, $data ) {
 		}
 	}
 
-	$is_spam = constant_contact_akismet_spam_check( $args );
-
-	return $is_spam;
+	return constant_contact_akismet_spam_check( $args );
 }
 add_filter( 'constant_contact_maybe_spam', 'constant_contact_akismet', 10, 2 );
 
@@ -584,8 +490,7 @@ function constant_contact_get_font_dropdown_sizes() {
  */
 function constant_contact_get_css_customization( $form_id, $customization_key = '' ) {
 
-	$form_id  = absint( $form_id );
-	$form_css = get_post_meta( $form_id );
+	$form_css = get_post_meta( absint( $form_id ) );
 
 	if ( is_array( $form_css ) && array_key_exists( $customization_key, $form_css ) ) {
 		if ( ! empty( $form_css[ $customization_key ][0] ) ) {
@@ -596,27 +501,6 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
 	$global_setting = constant_contact_get_option( $customization_key );
 
 	return ! empty( $global_setting ) ? $global_setting : '';
-}
-
-/**
- * Fetch and return the content of our Endurance privacy policy.
- *
- * @since 1.4.3
- *
- * @return string
- */
-function constant_contact_privacy_policy_content() {
-	$policy_output = wp_remote_get( 'https://www.endurance.com/privacy' );
-	if ( ! is_wp_error( $policy_output ) && 200 === wp_remote_retrieve_response_code( $policy_output ) ) {
-		$content = wp_remote_retrieve_body( $policy_output );
-		preg_match( '/<body[^>]*>(.*?)<\/body>/si', $content, $match );
-		$output = preg_replace( '@<(script|style)[^>]*?>.*?</\\1>@si', '', $match[1] );
-		preg_match_all( '@<section class="container privacy-center-container">.*?</section>@si', $output, $final );
-
-		return $final[0][0] . $final[0][2];
-	}
-
-	return '';
 }
 
 /**
@@ -841,149 +725,6 @@ function constant_contact_remove_form_references_on_restore( $post_id ) {
 add_action( 'untrashed_post', 'constant_contact_remove_form_references_on_restore' );
 
 /**
- * Determine whether to display the deleted forms notice in admin.
- *
- * @since  1.8.0
- *
- * @return bool Whether to display the deleted forms notice.
- */
-function constant_contact_maybe_display_deleted_forms_notice() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return false;
-	}
-
-	return ! empty( get_option( ConstantContact_Notifications::$deleted_forms, [] ) );
-}
-
-/**
- * Maybe set exception notice for admin notification.
- *
- * @since 1.13.0
- *
- * @param Exception $e
- */
-function constant_contact_forms_maybe_set_exception_notice( $e = '' ) {
-
-	if ( ! empty( $e ) ) {
-		// Do not notify if the exception code is 400 or the message contains "Bad Request".
-		if (
-			( 400 === $e->getCode() ) ||
-			( false !== stripos( $e->getMessage(), 'Bad Request' ) )
-		) {
-			return;
-		}
-
-		// Do not notify if the exception code is 503 or the message contains "Service Unavailable".
-		if (
-			( 503 === $e->getCode() ) ||
-			( false !== stripos( $e->getMessage(), 'Service Unavailable' ) )
-		) {
-			return;
-		}
-	}
-
-	constant_contact_set_has_exceptions();
-}
-
-/**
- * Maybe show notification about API v3 changes.
- *
- * @since 1.14.0
- *
- * @return bool|int
- */
-function constant_contact_maybe_display_api3_upgrade_notice() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return false;
-	}
-
-	$current_version = get_option( 'ctct_plugin_version' );
-	return version_compare( $current_version, '2.0.0', '<' );
-}
-
-/**
- * Maybe show notification about newly implemented API v3 changes.
- *
- * @since 2.0.0
- *
- * @return bool|int
- */
-function constant_contact_maybe_display_api3_upgraded_notice() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return false;
-	}
-
-	$current_version = get_option( 'ctct_plugin_version' );
-	return (
-		version_compare( $current_version, '2.0.0', '=' ) ||
-		'' === get_option( 'CtctConstantContactState', '' )
-	);
-}
-
-/**
- * Maybe show notification for need to manually disconnect/reconnect account.
- *
- * @since 2.2.0
- *
- * @return bool
- */
-
-function constant_contact_maybe_display_disconnect_reconnect_notice() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return false;
-	}
-
-	return true === constant_contact_get_needs_manual_reconnect();
-}
-
-/**
- * Maybe show notification regarding `DISABLE_WP_CRON`.
- *
- * @since 2.2.0
- *
- * @return bool
- */
-function constant_contact_maybe_show_cron_notification() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return false;
-	}
-
-	if ( ! constant_contact()->is_constant_contact() ) {
-		return false;
-	}
-
-	if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
-		return true;
-	}
-
-	return false;
-}
-
-function constant_contact_maybe_show_update_available_notification() {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return false;
-	}
-
-	if ( ! constant_contact()->is_constant_contact() ) {
-		return false;
-	}
-
-	$version = '';
-	$resp = wp_remote_get( 'https://api.wordpress.org/plugins/info/1.2/?action=plugin_information&slug=constant-contact-forms' );
-	if ( ! is_wp_error( $resp ) ) {
-		$data    = json_decode( wp_remote_retrieve_body( $resp ) );
-		$version = $data->version;
-	}
-	$current_version = get_option( 'ctct_plugin_version' );
-
-	if ( $version && version_compare( $current_version, $version, '<' ) ) {
-		return true;
-	}
-	// If we got this far, we just failed to get the current available version.
-	return false;
-}
-
-/**
  * Return an array of countries.
  *
  * US and UK listed first and second, the rest are alphabetical.
@@ -999,27 +740,28 @@ function constant_contact_countries_array() {
 }
 
 /**
- * Maybe display our list notes notification.
+ * CMB2 callback function to hide the "Disable email" setting if not connected.
  *
- * @since 2.10.0
+ * @since 2.11.0
  *
  * @return bool
  */
-function constant_contact_maybe_show_list_notes_notification() :bool {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return false;
+function constant_contact_should_hide_disable_admin_email() : bool {
+	$show = true;
+
+	/**
+	 * We're not connected, don't allow.
+	 */
+	if ( empty( constant_contact()->get_api()->is_connected() ) ) {
+		$show = false;
 	}
 
-	if ( ! constant_contact()->is_constant_contact() ) {
-		return false;
+	/**
+	 * We were connected at some point, show after all.
+	 */
+	if ( constant_contact_get_needs_manual_reconnect() ) {
+		$show = true;
 	}
 
-	// Technically already checked for in is_constant_contact() but re-checking for just
-	// this screen should also limit it to JUST our lists list.
-	$screen = get_current_screen();
-	if ( is_null( $screen ) || 'edit-ctct_lists' !== $screen->id ) {
-		return false;
-	}
-
-	return true;
+	return $show;
 }

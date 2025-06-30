@@ -35,14 +35,14 @@ class ConstantContact_Health {
 		$yes_count    = esc_html__( 'Yes, %s', 'constant-contact-forms' );
 		$no           = esc_html__( 'No', 'constant-contact-forms' );
 
-		$logs            = constant_contact()->logging->get_log_locations();
+		$logs            = constant_contact()->get_logging()->get_log_locations();
 		$logs_writeable  = sprintf(
 			'Folder: %s, File: %s',
 			( is_writable( $logs['directory'] ) ) ? $can_write : $cannot_write,
 			( is_writable( $logs['file'] ) ) ? $can_write : $cannot_write
 		);
 		$token_timestamp = get_option( 'ctct_access_token_timestamp', '' );
-		$expires         = constant_contact()->connect->e_get( '_ctct_expires_in' );
+		$expires         = constant_contact()->get_connect()->e_get( '_ctct_expires_in' );
 		$expires_on      = esc_html__( 'Access token needs refreshed', 'constant-contact-forms' );
 		if ( ! empty( $token_timestamp ) && ! empty( $expires ) ) {
 			$expires_on_ts = $token_timestamp + $expires;
@@ -61,6 +61,13 @@ class ConstantContact_Health {
 			$recaptcha_version
 		);
 
+		$has_hcaptcha    = ( ConstantContact_hCaptcha::has_hcaptcha_keys() ) ? $yes : $no;
+		$hcaptcha_status = sprintf(
+		/* Translators: Placeholders will store the current values from each */
+			esc_html__( 'Has hCaptcha: %1$s', 'constant-contact-forms' ),
+			$has_hcaptcha,
+		);
+
 		$debug_info['constant-contact-forms'] = [
 			'label'       => esc_html__( 'Constant Contact Forms', 'constant-contact-forms' ),
 			'description' => esc_html__( 'Debugging and troubleshooting information for support purposes', 'constant-contact-forms' ),
@@ -71,19 +78,19 @@ class ConstantContact_Health {
 				],
 				[
 					'label' => esc_html__( 'API: Is connected?', 'constant-contact-forms' ),
-					'value' => ( constant_contact()->api->is_connected() ) ? $yes : $no,
+					'value' => ( constant_contact()->get_api()->is_connected() ) ? $yes : $no,
 				],
 				[
 					'label' => esc_html__( 'API: Has access token?', 'constant-contact-forms' ),
-					'value' => ( ! empty( constant_contact()->connect->e_get( '_ctct_access_token' ) ) ) ? $yes : $no,
+					'value' => ( ! empty( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) ) ? $yes : $no,
 				],
 				[
 					'label' => esc_html__( 'API: Has refresh token?', 'constant-contact-forms' ),
-					'value' => ( ! empty( constant_contact()->connect->e_get( '_ctct_refresh_token' ) ) ) ? $yes : $no,
+					'value' => ( ! empty( constant_contact()->get_connect()->e_get( '_ctct_refresh_token' ) ) ) ? $yes : $no,
 				],
 				[
 					'label' => esc_html__( 'API: Has expiration time?', 'constant-contact-forms' ),
-					'value' => ( ! empty( constant_contact()->connect->e_get( '_ctct_expires_in' ) ) ) ? $yes : $no,
+					'value' => ( ! empty( constant_contact()->get_connect()->e_get( '_ctct_expires_in' ) ) ) ? $yes : $no,
 				],
 				[
 					'label' => esc_html__( 'API: Token should expire on:', 'constant-contact-forms' ),
@@ -116,6 +123,10 @@ class ConstantContact_Health {
 				[
 					'label' => esc_html__( 'reCAPTCHA Status', 'constant-contact-forms' ),
 					'value' => $recaptcha_status,
+				],
+				[
+					'label' => esc_html__( 'hCaptcha Status', 'constant-contact-forms' ),
+					'value' => $hcaptcha_status,
 				],
 				[
 					'label' => esc_html__( 'Has missed submissions', 'constant-contact-forms' ),

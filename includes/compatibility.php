@@ -12,6 +12,8 @@
 /**
  * Add the Constant Contact post type to an array of excluded post types.
  *
+ * If the WordPress Calls to Action plug-in is installed, exclude our post type to conflict.
+ *
  * @since 1.4.0
  *
  * @param array $excluded The post types to exclude.
@@ -19,10 +21,9 @@
  */
 function constant_contact_exclude_ctct_forms( $excluded ) {
 	$excluded[] = 'ctct_forms';
+	$excluded[] = 'ctct_lists';
 	return $excluded;
 }
-
-// If the WordPress Calls to Action plug-in is installed, exclude our post type to conflict.
 add_filter( 'cta_excluded_post_types', 'constant_contact_exclude_ctct_forms' );
 
 /**
@@ -45,7 +46,7 @@ add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_exclu
  *
  * @since 1.14.0
  *
- * @param $ignored The array of fields that Constant Contact should ignore.
+ * @param array $ignored The array of fields that Constant Contact should ignore.
  * @return array
  */
 function constant_contact_support_exclude_akisment( $ignored ) {
@@ -88,7 +89,7 @@ function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_
 	];
 
 	// Grab all the original fields from our form.
-	$original_fields = constant_contact()->process_form->get_original_fields( $form_id );
+	$original_fields = constant_contact()->get_process_form()->get_original_fields( $form_id );
 
 	// This will merge our two misc keys above with our original fields, and
 	// then return just their keys.
@@ -114,6 +115,14 @@ function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_
 }
 add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_wpspamshield_compatibility', 10, 2 );
 
+/**
+ * Add Cleantalk field to our ignored form values.
+ *
+ * @since 1.14.0
+ *
+ * @param $ignored
+ * @return mixed
+ */
 function constant_contact_exclude_cleantalk( $ignored ) {
 	$ignored[] = 'apbct_visible_fields';
 

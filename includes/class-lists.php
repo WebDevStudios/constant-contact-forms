@@ -63,7 +63,7 @@ class ConstantContact_Lists {
 		add_filter( 'views_edit-ctct_lists', [ $this, 'add_force_sync_button' ] );
 		add_action( 'admin_init', [ $this, 'check_for_list_sync_request' ] );
 
-		add_filter( 'post_row_actions', [ $this, 'remove_quick_edit_from_lists' ] );
+		add_filter( 'post_row_actions', [ $this, 'remove_quick_edit_from_lists' ], 10, 2 );
 
 		add_action( 'admin_init', [ $this, 'maybe_display_duplicate_list_error' ] );
 
@@ -84,7 +84,7 @@ class ConstantContact_Lists {
 		$cmb = new_cmb2_box(
 			[
 				'id'           => 'ctct_list_metabox',
-				'title'        => __( 'List Information', 'constant-contact-forms' ),
+				'title'        => esc_html__( 'List Information', 'constant-contact-forms' ),
 				'object_types' => [ 'ctct_lists' ],
 				'context'      => 'normal',
 				'priority'     => 'high',
@@ -128,7 +128,7 @@ class ConstantContact_Lists {
 			return;
 		}
 
-		$list_info = constant_contact()->api->get_list( esc_attr( $list_id ) );
+		$list_info = constant_contact()->get_api()->get_list( esc_attr( $list_id ) );
 
 		// Comes in as an array.
 		$list_info_obj = (object) $list_info;
@@ -168,7 +168,7 @@ class ConstantContact_Lists {
 	 * @return string
 	 */
 	public function get_list_info_no_data() {
-		return '<em>' . __( 'List information will populate upon saving.', 'constant-contact-forms' ) . '</em>';
+		return '<em>' . esc_html__( 'List information will populate upon saving.', 'constant-contact-forms' ) . '</em>';
 	}
 
 	/**
@@ -227,7 +227,7 @@ class ConstantContact_Lists {
 			return;
 		}
 
-		if ( ! constantcontact_api()->get_api_token() ) {
+		if ( ! constant_contact()->get_api()->get_api_token() ) {
 			return;
 		}
 
@@ -285,12 +285,12 @@ class ConstantContact_Lists {
 			}
 		}
 
-		$lists_to_insert = constantcontact_api()->get_lists( true );
+		$lists_to_insert = constant_contact()->get_api()->get_lists( true );
 
 		if ( $lists_to_insert && is_array( $lists_to_insert ) ) {
 
 			if ( count( $lists_to_insert ) >= 1001 ) {
-				$this->plugin->updates->add_notification( 'too_many_lists' );
+				$this->plugin->get_updates()->add_notification( 'too_many_lists' );
 
 				$lists_to_insert = array_chunk( $lists_to_insert, 1000 );
 				if ( isset( $lists_to_insert[0] ) ) {
@@ -489,7 +489,7 @@ class ConstantContact_Lists {
 
 		// Push our list into the API. For the list ID, we append a string of random numbers
 		// to make sure its unique.
-		$list = constantcontact_api()->add_list(
+		$list = constant_contact()->get_api()->add_list(
 			[
 				'id'   => absint( $ctct_list->ID ) . wp_rand( 0, 1000 ),
 				'name' => esc_attr( $name ),
@@ -615,35 +615,20 @@ class ConstantContact_Lists {
 	 * @param string $new_status Transitioned to status.
 	 * @param string $old_status Transitioned from status.
 	 * @param object $post       Post object.
-	 * @return bool
+	 * @return void
 	 */
 	public function post_status_transition( $new_status, $old_status, $post ) {
 
-		if ( ! $post ) {
-			return false;
-		}
-
-		if ( ! isset( $post->post_type ) ) {
-			return false;
-		}
-
-		if ( ! $post->ID ) {
-			return false;
-		}
-
-		if ( 'ctct_lists' !== $post->post_type ) {
-			return false;
-		}
-
-		if ( $new_status === $old_status ) {
-			return false;
+		if (
+			'ctct_lists' !== $post->post_type ||
+			$new_status === $old_status
+		) {
+			return;
 		}
 
 		if ( 'trash' === $old_status ) {
-			return $this->add_list( $post );
+			$this->add_list( $post );
 		}
-
-		return true;
 	}
 
 	/**
@@ -665,7 +650,7 @@ class ConstantContact_Lists {
 			return false;
 		}
 
-		$list = constantcontact_api()->update_list(
+		$list = constant_contact()->get_api()->update_list(
 			[
 				'id'   => esc_attr( $list_id ),
 				'name' => esc_attr( $ctct_list->post_title ),
@@ -703,7 +688,7 @@ class ConstantContact_Lists {
 			return false;
 		}
 
-		$list = constantcontact_api()->delete_list(
+		$list = constant_contact()->get_api()->delete_list(
 			[
 				'id' => esc_attr( $list_id ),
 			]
@@ -747,7 +732,7 @@ class ConstantContact_Lists {
 
 		$get_lists = [];
 
-		$lists = constantcontact_api()->get_lists( $skip_cache );
+		$lists = constant_contact()->get_api()->get_lists( $skip_cache );
 
 		if ( $lists && is_array( $lists ) ) {
 
@@ -780,36 +765,15 @@ class ConstantContact_Lists {
 		}
 
 		if (
-			isset( $post->ID ) &&
-			$post->ID &&
-			isset( $post->post_type ) &&
-			$post->post_type &&
 			'ctct_lists' === $post->post_type &&
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
-			add_action( 'admin_head', [ $this, 'list_css' ] );
+			add_filter('admin_body_class',function($classes){
+				$classes .= ' ctct-duplicate-list';
+				return $classes;
+			});
 			add_action( 'admin_notices', [ $this, 'show_duplicate_list_message' ] );
 		}
-	}
-
-	/**
-	 * Output some embedded CSS for our error.
-	 *
-	 * @since 1.4.0
-	 */
-	public function list_css() {
-		?>
-		<style>
-			.post-type-ctct_lists #titlediv #title {
-				background: url( "<?php echo esc_url_raw( $this->plugin->url . 'assets/images/error.svg' ); ?>" ) no-repeat;
-				background-color: fade-out( #FF4136, 0.98);
-				background-position: 8px 50%;
-				background-size: 24px;
-				border-color: #FF4136;
-				padding-left: 40px;
-			}
-		</style>
-		<?php
 	}
 
 	/**
@@ -840,7 +804,7 @@ class ConstantContact_Lists {
 
 		if ( constant_contact_get_needs_manual_reconnect() ) {
 			$views['reconnect'] = '<strong><a href="' . $reconnect_link . '">' . esc_html__( 'Fix connectivity issues', 'constant-contact-forms' ) . '</a></strong>';
-		} else if ( constant_contact()->api->is_connected() ) {
+		} else if ( constant_contact()->get_api()->is_connected() ) {
 			$views['sync'] = '<strong><a href="' . $sync_link . '">' . esc_html__( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
 		}
 
@@ -882,12 +846,11 @@ class ConstantContact_Lists {
 	 * @since 1.0.0
 	 *
 	 * @param array $actions Current actions.
+	 * @param WP_Post $post Post object being rendered.
 	 * @return array Modified actions.
 	 */
-	public function remove_quick_edit_from_lists( $actions ) {
-		global $post;
-
-		if ( $post && isset( $post->post_type ) && $post->post_type && 'ctct_lists' === $post->post_type ) {
+	public function remove_quick_edit_from_lists( $actions, $post ) {
+		if ( 'ctct_lists' === $post->post_type ) {
 			unset( $actions['inline hide-if-no-js'] );
 		}
 
@@ -903,7 +866,7 @@ class ConstantContact_Lists {
 	 */
 	public function migrate_v2_v3_form_lists() {
 
-		if ( ! constant_contact()->api->is_connected() ) {
+		if ( ! constant_contact()->get_api()->is_connected() ) {
 			return false;
 		}
 
@@ -1014,7 +977,7 @@ class ConstantContact_Lists {
 	 * @return array of v2 to v3 list ID cross references.
 	 */
 	private function get_v2_list_id_x_refs( $list_of_ids ) {
-		$x_refs = constantcontact_api()->get_v2_list_id_x_refs(
+		$x_refs = constant_contact()->get_api()->get_v2_list_id_x_refs(
 			$list_of_ids,
 			true
 		);

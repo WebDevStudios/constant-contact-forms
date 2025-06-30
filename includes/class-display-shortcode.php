@@ -68,18 +68,18 @@ class ConstantContact_Display_Shortcode {
 	public function render_shortcode( $atts ) {
 
 		$atts = shortcode_atts(
-			$this->plugin->shortcode->get_atts(),
+			$this->plugin->get_shortcode()->get_atts(),
 			$atts,
-			$this->plugin->shortcode->tag
+			$this->plugin->get_shortcode()->tag
 		);
 
 		if ( ! isset( $atts['form'] ) ) {
 			return '';
 		}
 
-		$show_title = ( isset( $atts['show_title'] ) && 'true' === $atts['show_title'] ) ? true : false;
+		$show_title = isset( $atts['show_title'] ) && 'true' === $atts['show_title'];
 
-		return $this->get_form( $atts['form'], $show_title );
+		return $this->get_form( absint( $atts['form'] ), $show_title );
 	}
 
 	/**
@@ -91,9 +91,7 @@ class ConstantContact_Display_Shortcode {
 	 * @param bool $show_title If true, show the form title.
 	 * @return string
 	 */
-	public function get_form( $form_id, $show_title = false ) {
-
-		$form_id = absint( $form_id );
+	public function get_form( int $form_id, bool $show_title = false ) {
 
 		if ( ! $form_id ) {
 			return '';
@@ -110,7 +108,7 @@ class ConstantContact_Display_Shortcode {
 			'<div data-form-id="%1$s" id="ctct-form-wrapper-%2$s" class="ctct-form-wrapper">%3$s</div>',
 			esc_attr( $form_id ),
 			esc_attr( self::$form_instance ),
-			constant_contact()->display->form( $form_data, $form_id, $show_title, self::$form_instance )
+			constant_contact()->get_display()->form( $form_data, $form_id, $show_title, self::$form_instance )
 		);
 
 		++self::$form_instance;
@@ -126,8 +124,8 @@ class ConstantContact_Display_Shortcode {
 	 * @param int  $form_id Form ID to display.
 	 * @param bool $show_title If true, show the title.
 	 */
-	public function display_form( $form_id, $show_title = false ) {
-		echo $this->get_form( absint( $form_id ), $show_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
+	public function display_form( int $form_id, bool $show_title = false ) {
+		echo $this->get_form( $form_id, $show_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
 	}
 
 	/**
@@ -137,21 +135,20 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @param array $form_meta Post meta.
 	 * @param int   $form_id   Form ID.
-	 * @return mixed Form field data.
+	 * @return array|string Form field data.
 	 */
-	public function get_field_meta( $form_meta, $form_id ) {
+	public function get_field_meta( array $form_meta, int $form_id ) {
 
-		if ( empty( $form_meta ) || ! is_array( $form_meta ) ) {
+		if ( empty( $form_meta ) ) {
 			return '';
 		}
 
 		if (
-			isset( $form_meta['custom_fields_group'] ) &&
-			$form_meta['custom_fields_group'] &&
-			isset( $form_meta['custom_fields_group'][0] )
+			isset( $form_meta['custom_fields_group'][0] ) && $form_meta['custom_fields_group']
 		) {
 			return $this->get_field_values( $form_meta['custom_fields_group'][0], $form_meta, $form_id );
 		}
+
 		return '';
 	}
 
@@ -160,9 +157,9 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $custom_fields Custom fields to parse through.
-	 * @param array $full_data     Array of full data.
-	 * @param int   $form_id       Form ID.
+	 * @param string $custom_fields Custom fields to parse through.
+	 * @param array  $full_data     Array of full data.
+	 * @param int    $form_id       Form ID.
 	 * @return array Form field markup.
 	 */
 	public function get_field_values( $custom_fields, $full_data, $form_id ) {
@@ -199,7 +196,7 @@ class ConstantContact_Display_Shortcode {
 		}
 
 		foreach ( $custom_fields as $key => $value ) {
-			if ( ! isset( $custom_fields ) || ! isset( $custom_fields[ $key ] ) ) {
+			if ( ! isset( $custom_fields[ $key ] ) ) {
 				continue;
 			}
 
@@ -290,6 +287,6 @@ class ConstantContact_Display_Shortcode {
 	 * @since 1.0.0
 	 */
 	public function enqueue_display_styles() {
-		constant_contact()->display->styles( true );
+		constant_contact()->get_display()->styles( true );
 	}
 }

@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     2.10.0
+ * Version:     2.11.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * Requires PHP: 7.4
@@ -47,7 +47,7 @@
  * @return null
  */
 function constant_contact_autoload_classes( $class_name ) {
-	if ( 0 !== strpos( $class_name, 'ConstantContact_' ) ) {
+	if ( ! str_starts_with( $class_name, 'ConstantContact_' ) ) {
 		return;
 	}
 
@@ -76,7 +76,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '2.10.0';
+	const VERSION = '2.11.0';
 
 	/**
 	 * URL of plugin directory.
@@ -84,7 +84,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $url = '';
+	protected string $url = '';
 
 	/**
 	 * Path of plugin directory.
@@ -92,7 +92,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $path = '';
+	protected string $path = '';
 
 	/**
 	 * Plugin basename.
@@ -100,7 +100,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	protected $basename = '';
+	protected string $basename = '';
 
 	/**
 	 * Menu Icon.
@@ -116,15 +116,7 @@ class Constant_Contact {
 	 * @since 1.3.7
 	 * @var string
 	 */
-	public $logger_location = '';
-
-	/**
-	 * Does site support encrpytions?
-	 *
-	 * @since 1.0.1
-	 * @var boolean
-	 */
-	public $is_encryption_ready = false;
+	public string $logger_location = '';
 
 	/**
 	 * Singleton instance of plugin.
@@ -140,7 +132,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_API
 	 */
-	private $api;
+	private ConstantContact_API $api;
 
 	/**
 	 * An instance of the ConstantContact_Builder Class.
@@ -148,7 +140,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Builder
 	 */
-	private $builder;
+	private ConstantContact_Builder $builder;
 
 	/**
 	 * An instance of the ConstantContact_Builder_Fields Class.
@@ -156,7 +148,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Builder_Fields
 	 */
-	private $builder_fields;
+	private ConstantContact_Builder_Fields $builder_fields;
 
 	/**
 	 * An instance of the ConstantContact_CPTS Class.
@@ -164,7 +156,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_CPTS
 	 */
-	private $cpts;
+	private ConstantContact_CPTS $cpts;
 
 	/**
 	 * An instance of the ConstantContact_Display Class.
@@ -172,7 +164,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Display
 	 */
-	private $display;
+	private ConstantContact_Display $display;
 
 	/**
 	 * An instance of the ConstantContact_Display_Shortcode Class.
@@ -180,7 +172,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Display_Shortcode
 	 */
-	private $display_shortcode;
+	private ConstantContact_Display_Shortcode $display_shortcode;
 
 	/**
 	 * An instance of the ConstantContact_Lists Class.
@@ -188,7 +180,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Lists
 	 */
-	private $lists;
+	private ConstantContact_Lists $lists;
 
 	/**
 	 * An instance of the ConstantContact_Process_Form Class.
@@ -196,7 +188,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Process_Form
 	 */
-	private $process_form;
+	private ConstantContact_Process_Form $process_form;
 
 	/**
 	 * An instance of the ConstantContact_Settings Class.
@@ -204,15 +196,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Settings
 	 */
-	private $settings;
-
-	/**
-	 * An instance of the ConstantContact_Auth_Redirect Class.
-	 *
-	 * @since 1.0.1
-	 * @var ConstantContact_Auth_Redirect
-	 */
-	private $auth_redirect;
+	private ConstantContact_Settings $settings;
 
 	/**
 	 * An instance of the ConstantContact_Connect Class.
@@ -220,7 +204,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Connect
 	 */
-	private $connect;
+	private ConstantContact_Connect $connect;
 
 	/**
 	 * An instance of the ConstantContact_Mail Class.
@@ -228,7 +212,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Mail
 	 */
-	private $mail;
+	private ConstantContact_Mail $mail;
 
 	/**
 	 * An instance of the ConstantContact_Notifications Class.
@@ -236,7 +220,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Notifications
 	 */
-	private $notifications;
+	private ConstantContact_Notifications $notifications;
 
 	/**
 	 * An instance of the ConstantContact_Notification_Content Class.
@@ -244,15 +228,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Notification_Content
 	 */
-	private $notification_content;
-
-	/**
-	 * An instance of the ConstantContact_Middleware Class.
-	 *
-	 * @since 1.0.1
-	 * @var ConstantContact_Middleware
-	 */
-	private $authserver;
+	private ConstantContact_Notification_Content $notification_content;
 
 	/**
 	 * An instance of the ConstantContact_Updates Class.
@@ -260,7 +236,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Updates
 	 */
-	private $updates;
+	private ConstantContact_Updates $updates;
 
 	/**
 	 * An instance of the ConstantContact_User_Customizations Class.
@@ -268,7 +244,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_User_Customizations
 	 */
-	private $customizations;
+	private ConstantContact_User_Customizations $customizations;
 
 	/**
 	 * An instance of the ConstantContact_Logging Class.
@@ -276,7 +252,7 @@ class Constant_Contact {
 	 * @since 1.3.7
 	 * @var ConstantContact_Logging
 	 */
-	private $logging;
+	private ConstantContact_Logging $logging;
 
 	/**
 	 * An instance of the ConstantContact_Admin Class.
@@ -284,7 +260,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Admin
 	 */
-	private $admin;
+	private ConstantContact_Admin $admin;
 
 	/**
 	 * An instance of the ConstantContact_Admin_Pages class.
@@ -292,7 +268,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Admin_Pages
 	 */
-	private $admin_pages;
+	private ConstantContact_Admin_Pages $admin_pages;
 
 	/**
 	 * An instance of the ConstantContact_Shortcode class.
@@ -300,7 +276,7 @@ class Constant_Contact {
 	 * @since 1.0.1
 	 * @var ConstantContact_Shortcode
 	 */
-	private $shortcode;
+	private ConstantContact_Shortcode $shortcode;
 
 	/**
 	 * An instance of the ConstantContact_Gutenberg class.
@@ -308,23 +284,23 @@ class Constant_Contact {
 	 * @since 1.5.0
 	 * @var ConstantContact_Gutenberg
 	 */
-	private $gutenberg;
+	private ConstantContact_Gutenberg $gutenberg;
 
 	/**
-	 * An instance of the ConstantContact_BeaverBuilder class.
+	 * An instance of the ConstantContact_Beaver_Builder class.
 	 *
 	 * @since 1.5.0
-	 * @var ConstantContact_BeaverBuilder
+	 * @var ConstantContact_Beaver_Builder
 	 */
-	private $beaver_builder;
+	private ConstantContact_Beaver_Builder $beaver_builder;
 
 	/**
-	 * An instance of the CTCT_CMB2_Attached_Lists_Field class
+	 * An instance of the ConstantContact_Attached_Lists_Field class
 	 *
 	 * @since 2.6.0
-	 * @var CTCT_CMB2_Attached_Lists_Field
+	 * @var ConstantContact_Attached_Lists_Field
 	 */
-	private $attached_lists;
+	private ConstantContact_Attached_Lists_Field $attached_lists;
 
 	/*
 	 * An instance of the ConstantContact_Elementor class.
@@ -332,7 +308,7 @@ class Constant_Contact {
 	 * @since 1.5.0
 	 * @var ConstantContact_Elementor
 	 */
-	private $elementor;
+	private ConstantContact_Elementor $elementor;
 
 	/**
 	 * An instance of the ConstantContact_Health class.
@@ -340,7 +316,7 @@ class Constant_Contact {
 	 * @since 2.3.0
 	 * @var ConstantContact_Health
 	 */
-	private $health;
+	private ConstantContact_Health $health;
 
 	/**
 	 * Option name for where we store the timestamp of when the plugin was activated.
@@ -349,7 +325,7 @@ class Constant_Contact {
 	 *
 	 * @var string
 	 */
-	public static $activated_date_option = 'ctct_plugin_activated_date';
+	public static string $activated_date_option = 'ctct_plugin_activated_date';
 
 	/**
 	 * License file.
@@ -400,6 +376,9 @@ class Constant_Contact {
 		// Set logging location.
 		$this->logger_location = $this->logging->get_logging_location();
 
+		// Include our notifications logic.
+		self::include_file( 'notification-logic', false );
+
 		// Include our helper functions function for end-users.
 		self::include_file( 'helper-functions', false );
 
@@ -439,12 +418,10 @@ class Constant_Contact {
 		$this->lists                = new ConstantContact_Lists( $this );
 		$this->process_form         = new ConstantContact_Process_Form( $this );
 		$this->settings             = new ConstantContact_Settings( $this );
-		$this->auth_redirect        = new ConstantContact_Auth_Redirect( $this );
 		$this->connect              = new ConstantContact_Connect( $this );
 		$this->mail                 = new ConstantContact_Mail( $this );
 		$this->notifications        = new ConstantContact_Notifications( $this );
 		$this->notification_content = new ConstantContact_Notification_Content( $this );
-		$this->authserver           = new ConstantContact_Middleware( $this );
 		$this->updates              = new ConstantContact_Updates( $this );
 		$this->logging              = new ConstantContact_Logging( $this );
 		$this->customizations       = new ConstantContact_User_Customizations( $this );
@@ -490,7 +467,7 @@ class Constant_Contact {
 		add_action( 'admin_enqueue_scripts', [ $this, 'register_admin_assets' ], 1 );
 		add_action( 'wp_enqueue_scripts', [ $this, 'register_front_assets' ], 1 );
 		add_action( 'init', [ $this->shortcode, 'register_shortcode' ] );
-		add_action( 'save_post', [ $this->shortcode, 'clear_forms_list_transient' ] );
+		add_action( 'save_post', [ $this->shortcode, 'clear_forms_list_transient' ], 10, 2 );
 
 		if ( is_admin() ) {
 			add_action( 'wp_ajax_ctct_dismiss_first_modal', [ $this, 'ajax_save_clear_first_form' ] );
@@ -645,39 +622,239 @@ class Constant_Contact {
 		switch ( $field ) {
 			case 'version':
 				return self::VERSION;
-			case 'admin':
-			case 'admin_pages':
-			case 'auth_redirect':
-			case 'api':
 			case 'basename':
-			case 'beaver_builder':
-			case 'builder':
-			case 'builder_fields':
-			case 'connect':
-			case 'check':
-			case 'cpts':
-			case 'customizations':
-			case 'display':
-			case 'display_shortcode':
-			case 'elementor':
-			case 'gutenberg':
-			case 'lists':
-			case 'logging':
 			case 'path':
-			case 'process_form':
-			case 'settings':
 			case 'url':
-			case 'mail':
-			case 'notifications':
-			case 'notification_content':
-			case 'authserver':
-			case 'updates':
-			case 'shortcode':
-			case 'health':
 				return $this->$field;
 			default:
 				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
 		}
+	}
+
+	/**
+	 * Admin getter
+	 * @since 2.11.0
+	 * @return ConstantContact_Admin
+	 */
+	public function get_admin() : ConstantContact_Admin {
+		return $this->admin;
+	}
+
+	/**
+	 * Admin pages getter
+	 * @since 2.11.0
+	 * @return ConstantContact_Admin_Pages
+	 */
+	public function get_admin_pages(): ConstantContact_Admin_Pages {
+		return $this->admin_pages;
+	}
+
+	/**
+	 * API getter
+	 * @since 2.11.0
+	 * @return ConstantContact_API
+	 */
+	public function get_api(): ConstantContact_API {
+		return $this->api;
+	}
+
+	/**
+	 * Beaver Builder getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Beaver_Builder
+	 */
+	public function get_beaver_builder(): ConstantContact_Beaver_Builder {
+		return $this->beaver_builder;
+	}
+
+	/**
+	 * Form Builder getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Builder
+	 */
+	public function get_builder(): ConstantContact_Builder {
+		return $this->builder;
+	}
+
+	/**
+	 * Form Builder Fields getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Builder_Fields
+	 */
+	public function get_builder_fields(): ConstantContact_Builder_Fields {
+		return $this->builder_fields;
+	}
+
+	/**
+	 * Connect getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Connect
+	 */
+	public function get_connect(): ConstantContact_Connect {
+		return $this->connect;
+	}
+
+	/**
+	 * CPTS getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_CPTS
+	 */
+	public function get_cpts(): ConstantContact_CPTS {
+		return $this->cpts;
+	}
+
+	/**
+	 * User Customizations getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_User_Customizations
+	 */
+	public function get_customizations(): ConstantContact_User_Customizations {
+		return $this->customizations;
+	}
+
+	/**
+	 * Display getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Display
+	 */
+	public function get_display(): ConstantContact_Display {
+		return $this->display;
+	}
+
+	/**
+	 * Display shortcode getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Display_Shortcode
+	 */
+	public function get_display_shortcode(): ConstantContact_Display_Shortcode {
+		return $this->display_shortcode;
+	}
+
+	/**
+	 * Elementor getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Elementor
+	 */
+	public function get_elementor() : ConstantContact_Elementor {
+		return $this->elementor;
+	}
+
+	/**
+	 * Gutenberg getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Gutenberg
+	 */
+	public function get_gutenberg(): ConstantContact_Gutenberg {
+		return $this->gutenberg;
+	}
+
+	/**
+	 * Health getter.
+	 * @since 2.11.0
+	 * @return ConstantContact_Health
+	 */
+	public function get_health() : ConstantContact_Health {
+		return $this->health;
+	}
+
+	/**
+	 * Lists getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Lists
+	 */
+	public function get_lists(): ConstantContact_Lists {
+		return $this->lists;
+	}
+
+	/**
+	 * Logging getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Logging
+	 */
+	public function get_logging(): ConstantContact_Logging {
+		return $this->logging;
+	}
+
+	/**
+	 * Mail getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Mail
+	 */
+	public function get_mail(): ConstantContact_Mail {
+		return $this->mail;
+	}
+
+	/**
+	 * Notifications getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Notifications
+	 */
+	public function get_notifications(): ConstantContact_Notifications {
+		return $this->notifications;
+	}
+
+	/**
+	 * Notification Content getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Notification_Content
+	 */
+	public function get_notification_content(): ConstantContact_Notification_Content {
+		return $this->notification_content;
+	}
+
+	/**
+	 * Process Form getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Process_Form
+	 */
+	public function get_process_form(): ConstantContact_Process_Form {
+		return $this->process_form;
+	}
+
+	/**
+	 * Settings getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Settings
+	 */
+	public function get_settings(): ConstantContact_Settings {
+		return $this->settings;
+	}
+
+	/**
+	 * Shortcode getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Shortcode
+	 */
+	public function get_shortcode(): ConstantContact_Shortcode {
+		return $this->shortcode;
+	}
+
+	/**
+	 * Updates getter.
+	 *
+	 * @since 2.11.0
+	 * @return ConstantContact_Updates
+	 */
+	public function get_updates(): ConstantContact_Updates {
+		return $this->updates;
 	}
 
 	/**
@@ -696,15 +873,12 @@ class Constant_Contact {
 			$filename = 'class-' . $filename;
 		}
 
-		// Get the file.
 		$file = self::dir( 'includes/' . $filename . '.php' );
 
-		// If its there, include it.
 		if ( file_exists( $file ) ) {
 			return include_once $file;
 		}
 
-		// Wasn't there.
 		return false;
 	}
 
@@ -755,31 +929,6 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Check if we are editing a Constant Contact post type post.
-	 *
-	 * @since 1.1.0
-	 *
-	 * @param int $post_id Post ID to check for.
-	 * @return bool
-	 */
-	public function is_ctct_editor_screen( $post_id = 0 ) {
-
-		if ( 0 === $post_id ) {
-			$post_id = filter_input( INPUT_GET, 'post', FILTER_SANITIZE_NUMBER_INT );
-		}
-
-		if ( 'ctct_forms' === filter_input( INPUT_GET, 'post_type', FILTER_SANITIZE_SPECIAL_CHARS ) ) {
-			return true;
-		}
-
-		if ( 'ctct_forms' === get_post_type( $post_id ) ) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Add some custom body classes for our needs.
 	 *
 	 * @since 1.2.0
@@ -788,7 +937,7 @@ class Constant_Contact {
 	 * @return array Amended body classes.
 	 */
 	public function body_classes( $classes = [] ) {
-		$theme     = wp_get_theme()->template;
+		$theme     = wp_get_theme()->get_template();
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
 		return $classes;

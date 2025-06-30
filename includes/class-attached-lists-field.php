@@ -14,14 +14,14 @@ class ConstantContact_Attached_Lists_Field {
 	 * CMB2_Field object
 	 * @var CMB2_Field
 	 */
-	protected $field;
+	protected CMB2_Field $field;
 
 	/**
 	 * Whether to output the type label.
 	 * Determined when multiple post types exist in the query_args field arg.
 	 * @var bool
 	 */
-	protected $do_type_label = false;
+	protected bool $do_type_label = false;
 
 	/**
 	 * Initialize the plugin by hooking into CMB2
@@ -37,7 +37,7 @@ class ConstantContact_Attached_Lists_Field {
 
 	/**
 	 * Add a CMB custom field to allow for the selection of multiple posts
-	 * attached to a single page
+	 * attached to a single page.
 	 */
 	public function render( $field, $escaped_value, $object_id, $object_type, $field_type ) {
 		self::setup_scripts();
@@ -82,8 +82,7 @@ class ConstantContact_Attached_Lists_Field {
 		}
 
 		$this->do_type_label = count( $post_type_labels ) > 1;
-
-		$post_type_labels = implode( '/', $post_type_labels );
+		$post_type_labels    = implode( '/', $post_type_labels );
 
 		$filter_boxes = '';
 		// Check 'filter' setting
@@ -172,7 +171,7 @@ class ConstantContact_Attached_Lists_Field {
 				[
 					'type'  => 'hidden',
 					'class' => 'attached-posts-ids',
-					'value' => ! empty( $ids ) ? implode( ',', $ids ) : '', // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+					'value' => implode( ',', $ids ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 					'desc'  => '',
 				]
 			);
