@@ -4,3 +4,4 @@ import './forms';
 import './modal';
 import './optins';
 import './clipboard';
+import './required-lists';
