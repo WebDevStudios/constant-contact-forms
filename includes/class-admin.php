@@ -603,6 +603,20 @@ class ConstantContact_Admin {
 			)
 		);
 
+		global $post;
+		wp_add_inline_script(
+			'ctct_form',
+			'var ctct_admin_required_lists = ' . wp_json_encode(
+				[
+					'is_connected'                => constant_contact()->get_api()->is_connected(),
+					'current_form_email_disabled' => 'on' === get_post_meta( $post->ID, '_ctct_disable_emails_for_form', true ),
+					'settings_email_disabled'     => 'on' === constant_contact_get_option( '_ctct_disable_email_notifications' ),
+				]
+			),
+			'before'
+		);
+
+
 		if (
 			'ctct_options_settings' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS )
 		) {
