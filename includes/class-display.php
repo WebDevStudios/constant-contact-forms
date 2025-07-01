@@ -1257,7 +1257,7 @@ class ConstantContact_Display {
 	 * @param  int          $instance        Current form instance.
 	 * @return string                        HTML markup for checkbox.
 	 */
-	public function checkbox( string $name = '', string $id = '', array $value = [], string $label = '', bool $req = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ) : string {
+	public function checkbox( string $name = '', string $id = '', $value = [], string $label = '', bool $req = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ) : string {
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
 		$field_id              = "{$field_key}_$instance";
