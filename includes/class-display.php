@@ -1257,12 +1257,12 @@ class ConstantContact_Display {
 	 * @param  int          $instance        Current form instance.
 	 * @return string                        HTML markup for checkbox.
 	 */
-	public function checkbox( string $name = '', string $id = '', array $value = [], string $label = '', bool $req = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ) : string {
+	public function checkbox( string $name = '', string $id = '', $value = [], string $label = '', bool $req = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ) : string {
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
 		$field_id              = "{$field_key}_$instance";
 		$label_placement_class = 'ctct-label-top';
-		$value                 = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
+		$value                 = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value ); // Somehow could get string for `$value` with this, so we do some juggling here.
 		$value                 = is_array( $value ) ? $value : [ $value ];
 		$label                 = esc_attr( $label );
 		$type                  = 'checkbox';

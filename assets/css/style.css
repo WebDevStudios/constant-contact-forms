@@ -250,5 +250,8 @@
 .ctct-twentytwentyone .ctct-form-field input[type=tel] {
   width: 100%;
 }
+.ctct-twentytwentyone .ctct-form-wrapper input.ctct-label-right[type=checkbox] {
+  width: 25px;
+}
 
 /*# sourceMappingURL=style.css.map */
