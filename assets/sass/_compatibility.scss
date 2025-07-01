@@ -149,4 +149,10 @@
 			width: 100%;
 		}
 	}
+
+	.ctct-form-wrapper {
+		input.ctct-label-right[type="checkbox"] {
+			width: 25px;
+		}
+	}
 }
