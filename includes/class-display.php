@@ -1262,7 +1262,7 @@ class ConstantContact_Display {
 		$field_key             = sanitize_title( $id );
 		$field_id              = "{$field_key}_$instance";
 		$label_placement_class = 'ctct-label-top';
-		$value                 = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value );
+		$value                 = is_array( $value ) ? array_map( 'sanitize_text_field', $value ) : sanitize_text_field( $value ); // Somehow could get string for `$value` with this, so we do some juggling here.
 		$value                 = is_array( $value ) ? $value : [ $value ];
 		$label                 = esc_attr( $label );
 		$type                  = 'checkbox';
