@@ -603,16 +603,18 @@ class ConstantContact_Admin {
 			)
 		);
 
+		$required_lists_data = [
+			'is_connected'                => constant_contact()->get_api()->is_connected(),
+			'settings_email_disabled'     => 'on' === constant_contact_get_option( '_ctct_disable_email_notifications' ),
+		];
+
 		global $post;
+		if ( ! empty( $post ) ) {
+			$required_lists_data['current_form_email_disabled'] = 'on' === get_post_meta( $post->ID, '_ctct_disable_emails_for_form', true );
+		}
 		wp_add_inline_script(
 			'ctct_form',
-			'var ctct_admin_required_lists = ' . wp_json_encode(
-				[
-					'is_connected'                => constant_contact()->get_api()->is_connected(),
-					'current_form_email_disabled' => 'on' === get_post_meta( $post->ID, '_ctct_disable_emails_for_form', true ),
-					'settings_email_disabled'     => 'on' === constant_contact_get_option( '_ctct_disable_email_notifications' ),
-				]
-			),
+			'var ctct_admin_required_lists = ' . wp_json_encode( $required_lists_data ) . ';',
 			'before'
 		);
 
