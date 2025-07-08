@@ -938,6 +938,11 @@ body.post-type-ctct_forms #titlediv #title {
   width: 70%;
 }
 
+#ctct_1_optin_metabox .cmb2-metabox-title,
+#ctct_2_fields_metabox .cmb2-metabox-title {
+  font-size: 18px;
+}
+
 #ctct_option_metabox_settings span.cmb2-metabox-description {
   color: rgb(68, 68, 68);
 }
