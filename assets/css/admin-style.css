@@ -306,7 +306,7 @@
   padding: 0 0 0 39px;
   min-height: 32px;
   line-height: 32px;
-  background: #fff url(../images/ctct-icon-2x.png) no-repeat 0 48%;
+  background: #fff url("../images/ctct_ripple.svg") no-repeat 0 48%;
   background-size: 32px 32px;
   text-indent: -9999px;
 }
@@ -467,7 +467,8 @@
   content: "";
   z-index: -1;
   border-top: 1px solid #ddd;
-  background: #fff url(../images/ctct-icon-2x.png) no-repeat center 45%;
+  background: #fff url("../images/ctct_ripple.svg") no-repeat center 45%;
+  background-size: 60%;
 }
 .wrap.ctct_options_connect h2 {
   font-size: 24px;
@@ -1030,6 +1031,10 @@ a.ctct-notice-dismiss {
 }
 .ctct-admin-notice > div {
   float: left;
+}
+.ctct-admin-notice .ctct-review-notice-logo {
+  height: 72px;
+  width: 72px;
 }
 .ctct-admin-notice .admin-notice-message {
   margin-left: 15px;
