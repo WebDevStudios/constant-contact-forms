@@ -18,6 +18,14 @@
   padding: 40px;
   color: #fff;
 
+  &--component {
+	max-width: 400px;
+	width: 100%;
+  }
+}
+
+.ctct-block-container {
+
   &--header,
   &--selection {
 	display: flex;
@@ -35,6 +43,7 @@
   }
 
   &--selection {
+	width: 75%;
 	padding: 20px;
 	background-color: rgba(255, 255, 255, 0.1);
 	border-radius: 4px;
@@ -48,13 +57,7 @@
 	  display: block;
 	}
   }
-
-  &--component {
-	max-width: 400px;
-	width: 100%;
-  }
 }
-
 //--------------------------------------------------------------
 // PREVIEW VIEW -- Approximately how it'll appear on the frontend.
 //--------------------------------------------------------------
@@ -98,7 +101,7 @@ $color-success: $color-green;
 	  &:required.ctct-invalid,
 	  &.ctct-invalid {
 		background: $color-white url(../assets/images/error.svg) no-repeat;
-		background-color: fade-out($color-error, 0.98);
+		background-color: rgba($color-error, 0.50);
 		background-position: 8px 50%;
 		background-size: 24px;
 		border-color: $color-error;
