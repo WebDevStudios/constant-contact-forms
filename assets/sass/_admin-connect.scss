@@ -53,7 +53,8 @@
 		content: '';
 		z-index: -1;
 		border-top: 1px solid variables.$color-silver;
-		background: variables.$color-white url( ../images/ctct-icon-2x.png ) no-repeat center 45%;
+		background: variables.$color-white url('../images/ctct_ripple.svg') no-repeat center 45%;
+		background-size: 60%;
 	}
 
 	h2{
