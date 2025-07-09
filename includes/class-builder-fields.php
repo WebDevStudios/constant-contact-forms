@@ -841,7 +841,7 @@ class ConstantContact_Builder_Fields {
 		$generated = new_cmb2_box(
 			[
 				'id'           => 'ctct_2_generated_metabox',
-				'title'        => esc_html__( 'Shortcode', 'constant-contact-forms' ),
+				'title'        => esc_html__( 'Embed Shortcode', 'constant-contact-forms' ),
 				'object_types' => [ 'ctct_forms' ],
 				'context'      => 'side',
 				'priority'     => 'low',
@@ -856,11 +856,9 @@ class ConstantContact_Builder_Fields {
 				'type'       => 'text_medium',
 				'desc'       => sprintf(
 					/* Translators: Placeholders here represent `<em>` and `<strong>` HTML tags. */
-					esc_html__( 'Shortcode to embed — %1$s%2$sYou can copy and paste this in a post to display your form.%3$s%4$s', 'constant-contact-forms' ),
-					'<small>',
-					'<em>',
-					'</em>',
-					'</small>'
+					esc_html__( '%1$sCopy and paste wherever shortcodes are supported.%2$s', 'constant-contact-forms' ),
+					'<small><em>',
+					'</em></small>',
 				),
 				'default'    => ( $generated->object_id > 0 ) ? '[ctct form="' . $generated->object_id . '" show_title="false"]' : '',
 				'attributes' => [
@@ -889,8 +887,8 @@ class ConstantContact_Builder_Fields {
 
 		$email_settings->add_field(
 			[
-				'name' => esc_html__( 'Email destination', 'constant-contact-forms' ),
-				'desc' => esc_html__( 'Who should receive email notifications for this form. Separate multiple emails by a comma. Leave blank to default to admin email.', 'constant-contact-forms' ),
+				'name' => esc_html__( 'Email recipients', 'constant-contact-forms' ),
+				'desc' => esc_html__( 'Addresses that should receive notifications for the form. Separate multiple emails by a comma, leave blank to default to admin email.', 'constant-contact-forms' ),
 				'id'   => $this->prefix . 'email_settings',
 				'type' => 'text_medium',
 			]
@@ -898,8 +896,8 @@ class ConstantContact_Builder_Fields {
 
 		$email_settings->add_field(
 			[
-				'name'       => esc_html__( 'Disable email notifications for this form?', 'constant-contact-forms' ),
-				'desc'       => esc_html__( 'Check this option to disable emails for this Constant Contact Forms form.', 'constant-contact-forms' ),
+				'name'       => esc_html__( 'Disable form\'s email notifications', 'constant-contact-forms' ),
+				'desc'       => esc_html__( 'Check this option to disable emails for this form.', 'constant-contact-forms' ),
 				'id'         => $this->prefix . 'disable_emails_for_form',
 				'type'       => 'checkbox',
 				'show_on_cb' => 'constant_contact_should_hide_disable_admin_email'

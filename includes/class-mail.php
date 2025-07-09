@@ -67,7 +67,7 @@ class ConstantContact_Mail {
 		$submission_details['form_id']         = $values['ctct-id']['value'];
 		$submission_details['submitted_email'] = $this->get_user_email_from_submission( $values );
 
-		$lists  = isset( $values['ctct-lists'] ) ?? [];
+		$lists  = $values['ctct-lists'] ?? [];
 		$values = constant_contact()->get_process_form()->pretty_values( $values );
 
 		$email_values = $this->format_values_for_email( $values, $submission_details['form_id'] );

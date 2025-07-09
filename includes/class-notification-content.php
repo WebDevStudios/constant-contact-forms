@@ -119,7 +119,7 @@ class ConstantContact_Notification_Content {
 		?>
 
 		<div class="admin-notice-logo">
-			<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct-admin-notice-logo.png" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
+			<img class="ctct-review-notice-logo" src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct_ripple.svg" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
 		</div>
 
 		<div class="admin-notice-message">
