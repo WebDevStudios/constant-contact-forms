@@ -11,7 +11,7 @@
   "supports": {
     "html": false
   },
-  "textdomain": "example-static",
+  "textdomain": "constant-contact-forms",
   "editorScript": "file:./index.js",
   "editorStyle": "file:./index.css",
   "style": "file:./style-index.css",
