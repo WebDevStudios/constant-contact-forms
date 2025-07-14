@@ -19,7 +19,7 @@ window.CTCTRequiredLists = {};
 	app.cache = () => {
 		app.cache = {
 			publishButton: document.querySelector('#publish') ?? '',
-			status: ctct_admin_required_lists,
+			status       : ctct_admin_required_lists,
 			noListMessage: ctctTexts.no_selected_list,
 		};
 	};
@@ -69,7 +69,7 @@ window.CTCTRequiredLists = {};
 		}
 
 		// We have a list, don't alert.
-		if ( true === app.hasLists() ) {
+		if (true === app.hasLists()) {
 			should_alert = false;
 		}
 
