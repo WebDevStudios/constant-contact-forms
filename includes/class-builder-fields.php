@@ -214,7 +214,7 @@ class ConstantContact_Builder_Fields {
 		$list_metabox = new_cmb2_box(
 			[
 				'id'           => 'ctct_0_list_metabox',
-				'title'        => esc_html__( 'Constant Contact List', 'constant-contact-forms' ),
+				'title'        => esc_html__( 'Constant Contact Lists', 'constant-contact-forms' ),
 				'object_types' => [ 'ctct_forms' ],
 				'context'      => 'normal',
 				'priority'     => 'high',
