@@ -4,14 +4,10 @@ window.CTCTRequiredLists = {};
 
 	/**
 	 * @constructor
-	 *
-	 * @author Constant Contact
-	 * @since 1.0.0
 	 */
 	app.init = () => {
 		app.cache();
 		app.bindEvents();
-		app.initialDisabledPublish();
 	};
 
 	/**
@@ -22,10 +18,9 @@ window.CTCTRequiredLists = {};
 	 */
 	app.cache = () => {
 		app.cache = {
-			window       : window,
-			publishButton: document.querySelector('#publish'),
-			status: window.ctct_admin_required_lists,
-			initialLists: document.querySelectorAll('#cmb2-metabox-ctct_0_list_metabox .attached-posts-wrap .retrieved li')
+			publishButton: document.querySelector('#publish') ?? '',
+			status: ctct_admin_required_lists,
+			noListMessage: ctctTexts.no_selected_list,
 		};
 	};
 
@@ -36,58 +31,73 @@ window.CTCTRequiredLists = {};
 	 * @since 1.11.0
 	 */
 	app.bindEvents = () => {
-		// Upon initial load of our builder page.
-		if (app.initialDisabledPublish() ) {
-			app.cache.publishButton.setAttribute('disabled', 'disabled');
-		}
+		if (app.cache.publishButton) {
+			app.cache.publishButton.addEventListener('click', (event) => {
+				if (!app.maybeAlert()) {
+					return;
+				}
 
-		let pluses = document.querySelectorAll('.retrieved-wrap .add-remove');
-		if(pluses){
-			Array.from(pluses).forEach( (plus) => {
-				plus.addEventListener( 'click', (event) => {
-					app.maybeEnablePublish();
-				});
+				event.preventDefault();
+				alert(app.cache.noListMessage);
 			});
 		}
 	};
 
 	/**
-	 * Maybe disable the publish button initially.
+	 * Determine if we should show an alert.
 	 *
 	 * @returns {boolean}
 	 */
-	app.initialDisabledPublish = () => {
-		let should_disable = false;
-		// We're not connected, so we do not risk losing anything.
+	app.maybeAlert = () => {
+		let should_alert = false;
+
+		// Let it act like a basic contact form.
 		if (!app.cache.status.is_connected) {
-			return should_disable;
+			return should_alert;
 		}
 
+		// If the current form has emails disabled or
+		// the setting is disabling
 		if (
-			app.cache.status.current_form_email_disabled ||
+			app.currentFormEmailDisabled() ||
 			app.cache.status.settings_email_disabled
 		) {
-			should_disable = true;
-		}
-		if (
-			app.cache.initialLists.length === 0
-		) {
-			should_disable = true;
+			// but only if we don't have a list already set.
+			if (false === app.hasLists()) {
+				should_alert = true;
+			}
 		}
 
-		return should_disable;
-	}
+		// We have a list, don't alert.
+		if ( true === app.hasLists() ) {
+			should_alert = false;
+		}
 
-	app.maybeEnablePublish = () => {
-		//not finding correct amount on initial click
-		let newListCount = document.querySelectorAll('#cmb2-metabox-ctct_0_list_metabox .attached-posts-wrap .attached li');
+		return should_alert;
 	};
 
-	app.init();
+	/**
+	 * Check if our disable emails checkbox is checked.
+	 *
+	 * @returns bool
+	 */
+	app.currentFormEmailDisabled = () => {
+		return document.querySelector('#_ctct_disable_emails_for_form').checked;
+	}
 
 	/**
-	 * TODO: enable if "Disable email notifications for this form?" is clicked and result is NOT CHECKED.
-	 * TODO: enable if "Associated Lists" is not empty.
+	 * Check if we have one to many lists chosen.
+	 *
+	 * @returns {boolean}
 	 */
+	app.hasLists = () => {
+		let lists = document.querySelectorAll('#cmb2-metabox-ctct_0_list_metabox .attached-posts-wrap .attached li');
 
+		return lists.length > 0;
+	}
+
+	/**
+	 * 3...2...1...Contact Constantly!
+	 */
+	app.init();
 }(window, window.CTCTRequiredLists));
