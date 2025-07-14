@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
 Tested up to:      6.8.1
-Stable tag:        2.11.2
+Stable tag:        2.11.3
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -48,6 +48,10 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.11.3 =
+* Fixed: Email notifications being sent even when toggled off.
+* Updated: Wording in various metaboxes and some fuzzy/blurry icons.
 
 = 2.11.2 =
 * Fixed: PHP errors regarding passed variable types expecting array but getting string
