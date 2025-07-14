@@ -49,6 +49,10 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= 2.11.3 =
+* Fixed: Email notifications being sent even when toggled off.
+* Updated: Wording in various metaboxes and some fuzzy/blurry icons.
+
 = 2.11.2 =
 * Fixed: PHP errors regarding passed variable types expecting array but getting string
 * Fixed: Checkbox widths with TwentyTwentyOne theme.

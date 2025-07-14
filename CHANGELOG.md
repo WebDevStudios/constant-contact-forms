@@ -1,3 +1,17 @@
+= 2.11.3 =
+
+* Fixed: Email notifications being sent even when toggled off.
+* Updated: Wording in various metaboxes and some fuzzy/blurry icons.
+
+= 2.11.2 =
+
+* Fixed: PHP errors regarding passed variable types expecting array but getting string
+* Fixed: Checkbox widths with TwentyTwentyOne theme.
+
+= 2.11.1 =
+
+* Updated: restored missed php file that was causing fatal errors.
+
 = 2.11.0 =
 
 * Added: hCaptcha data to Site Health Panel
