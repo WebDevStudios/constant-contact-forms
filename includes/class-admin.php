@@ -596,9 +596,10 @@ class ConstantContact_Admin {
 			apply_filters(
 				'constant_contact_localized_js_texts',
 				[
-					'leavewarning' => esc_html__( 'You have unsaved changes.', 'constant-contact-forms' ),
-					'move_up'      => esc_html__( 'move up', 'constant-contact-forms' ),
-					'move_down'    => esc_html__( 'move down', 'constant-contact-forms' ),
+					'leavewarning'     => esc_html__( 'You have unsaved changes.', 'constant-contact-forms' ),
+					'move_up'          => esc_html__( 'move up', 'constant-contact-forms' ),
+					'move_down'        => esc_html__( 'move down', 'constant-contact-forms' ),
+					'no_selected_list' => esc_html__( 'Please select a list for this form', 'constant-contact-forms' ),
 				]
 			)
 		);
