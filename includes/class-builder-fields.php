@@ -214,7 +214,7 @@ class ConstantContact_Builder_Fields {
 		$list_metabox = new_cmb2_box(
 			[
 				'id'           => 'ctct_0_list_metabox',
-				'title'        => esc_html__( 'Constant Contact List', 'constant-contact-forms' ),
+				'title'        => esc_html__( 'Constant Contact Lists', 'constant-contact-forms' ),
 				'object_types' => [ 'ctct_forms' ],
 				'context'      => 'normal',
 				'priority'     => 'high',
@@ -240,11 +240,10 @@ class ConstantContact_Builder_Fields {
 					]
 				);
 			} else {
-				$instructions[] = esc_html__( 'Click the plus character to add list. Click the minus character to remove list.', 'constant-contact-forms' );
-				$instructions[] = esc_html__( 'Click and drag added lists in "Associated Lists" to reorder. First one listed will be the default.', 'constant-contact-forms' );
+				$instructions[] = esc_html__( 'Click the plus/minus character to add or remove list. Click and drag lists in "Chosen Lists" to reorder. First listed will be the default.', 'constant-contact-forms' );
 				$list_metabox->add_field(
 					[
-						'name'         => esc_html__( 'Associated lists ', 'constant-contact-forms' ),
+						'name'         => esc_html__( 'Associated lists', 'constant-contact-forms' ),
 						'before'       => esc_html__( 'Allow subscribers to select from chosen lists. ( Add at least one ).', 'constant-contact-forms' ),
 						'before_field' => '<p>' . implode( '</p><p>', $instructions ) . '</p>',
 						'id'           => $this->prefix . 'list',
