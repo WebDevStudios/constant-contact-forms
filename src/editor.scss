@@ -18,13 +18,17 @@
   padding: 40px;
   color: #fff;
 
+	label {
+	  color: #fff;
+	}
+}
+
+.ctct-block-container {
+
   &--component {
 	max-width: 400px;
 	width: 100%;
   }
-}
-
-.ctct-block-container {
 
   &--header,
   &--selection {
@@ -35,7 +39,7 @@
 
   &--header {
 	margin: 0 0 10px;
-
+	width: 100%;
 	img {
 	  max-width: 280px;
 	  display: block;
