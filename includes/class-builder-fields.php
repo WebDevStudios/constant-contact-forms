@@ -243,7 +243,7 @@ class ConstantContact_Builder_Fields {
 				$instructions[] = esc_html__( 'Click the plus/minus character to add or remove list. Click and drag lists in "Chosen Lists" to reorder. First listed will be the default.', 'constant-contact-forms' );
 				$list_metabox->add_field(
 					[
-						'name'         => esc_html__( 'Associated lists ', 'constant-contact-forms' ),
+						'name'         => esc_html__( 'Associated lists', 'constant-contact-forms' ),
 						'before'       => esc_html__( 'Allow subscribers to select from chosen lists. ( Add at least one ).', 'constant-contact-forms' ),
 						'before_field' => '<p>' . implode( '</p><p>', $instructions ) . '</p>',
 						'id'           => $this->prefix . 'list',
