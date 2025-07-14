@@ -279,12 +279,12 @@ class Constant_Contact {
 	private ConstantContact_Shortcode $shortcode;
 
 	/**
-	 * An instance of the ConstantContact_Gutenberg class.
+	 * An instance of the ConstantContact_Block class.
 	 *
 	 * @since 1.5.0
-	 * @var ConstantContact_Gutenberg
+	 * @var ConstantContact_Block
 	 */
-	private ConstantContact_Gutenberg $gutenberg;
+	private ConstantContact_Block $block;
 
 	/**
 	 * An instance of the ConstantContact_Beaver_Builder class.
@@ -441,7 +441,7 @@ class Constant_Contact {
 	public function admin_plugin_classes() {
 		$this->admin       = new ConstantContact_Admin( $this, $this->basename );
 		$this->admin_pages = new ConstantContact_Admin_Pages( $this );
-		$this->gutenberg   = new ConstantContact_Gutenberg( $this );
+		$this->block       = new ConstantContact_Block( $this );
 	}
 
 	/**
@@ -749,13 +749,13 @@ class Constant_Contact {
 	}
 
 	/**
-	 * Gutenberg getter.
+	 * Block getter.
 	 *
 	 * @since 2.11.0
-	 * @return ConstantContact_Gutenberg
+	 * @return ConstantContact_Block
 	 */
-	public function get_gutenberg(): ConstantContact_Gutenberg {
-		return $this->gutenberg;
+	public function get_block(): ConstantContact_Block {
+		return $this->block;
 	}
 
 	/**

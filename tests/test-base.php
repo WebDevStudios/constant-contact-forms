@@ -53,7 +53,7 @@ class BaseTest extends WP_UnitTestCase {
 		$this->assertInstanceOf( ConstantContact_User_Customizations::class, $this->plugin->customizations );
 		$this->assertInstanceOf( ConstantContact_Admin::class, $this->plugin->admin );
 		$this->assertInstanceOf( ConstantContact_Admin_Pages::class, $this->plugin->admin_pages );
-		$this->assertInstanceOf( ConstantContact_Gutenberg::class, $this->plugin->gutenberg );
+		$this->assertInstanceOf( ConstantContact_Block::class, $this->plugin->block );
 	}
 
 }
