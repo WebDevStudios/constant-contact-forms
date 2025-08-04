@@ -3,7 +3,7 @@ grecaptcha.ready(function () {
 	Array.from(forms).forEach(function (form) {
 		form.addEventListener('submit', (e) => {
 			e.preventDefault();
-			debugger;
+
 			try {
 				grecaptcha.execute(recaptchav3.site_key, {action: 'constantcontactsubmit'}).then(function (token) {
 					let recaptchaResponse = document.createElement('input');
@@ -12,11 +12,20 @@ grecaptcha.ready(function () {
 					recaptchaResponse.setAttribute('value', token);
 
 					form.append(recaptchaResponse.cloneNode(true));
-					debugger;
+
+					// Because of how we're ending up submitting at this point. we are losing
+					// the original name attribute and "value" from the original submit button.
+					// Here we are instead just creating a hidden element with the "ctct-submitted"
+					// name attribute to met things proceed on the server.
+					let origBtnVal = document.createElement('input');
+					origBtnVal.setAttribute('type', 'hidden');
+					origBtnVal.setAttribute('name', 'ctct-submitted');
+					origBtnVal.setAttribute('value', 'true');
+					form.append(origBtnVal);
+
 					form.submit();
 				});
 			} catch (error) {
-				debugger;
 				console.log(error);
 				return false;
 			}
