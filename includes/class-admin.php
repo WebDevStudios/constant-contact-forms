@@ -293,9 +293,6 @@ class ConstantContact_Admin {
 					case 'about':
 						constant_contact()->get_admin_pages()->about_page();
 						break;
-					case 'help':
-						constant_contact()->get_admin_pages()->help_page();
-						break;
 					case 'license':
 						constant_contact()->get_admin_pages()->license_page();
 						break;
