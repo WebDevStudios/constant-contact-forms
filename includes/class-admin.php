@@ -81,7 +81,7 @@ class ConstantContact_Admin {
 	 * @param Constant_Contact $plugin Primary class file.
 	 * @param string           $basename Primary class basename.
 	 */
-	public function __construct( $plugin, $basename ) {
+	public function __construct( Constant_Contact $plugin, string $basename ) {
 		$this->plugin   = $plugin;
 		$this->basename = $basename;
 		$this->hooks();
@@ -112,12 +112,12 @@ class ConstantContact_Admin {
 	/**
 	 * Adds functionality to Constant Contact admin screen.
 	 *
-	 * @param array $screen Details on the current admin screen.
+	 * @param WP_Screen $screen Details on the current admin screen.
 	 * @return void
 	 * @since 1.11.0
 	 * @author Darren Cooney <darren.cooney@webdevstudios.com>
 	 */
-	public function current_screen( $screen ) {
+	public function current_screen( WP_Screen $screen ) {
 		if ( constant_contact()->is_constant_contact() ) {
 			add_action( 'in_admin_header', [ $this, 'admin_page_toolbar' ] );
 		}
@@ -133,7 +133,7 @@ class ConstantContact_Admin {
 	 */
 	public function admin_page_toolbar() {
 
-		global $submenu, $submenu_file, $plugin_page, $pagenow;
+		global $submenu, $submenu_file, $plugin_page;
 
 		$cpt_slug    = 'ctct_forms';
 		$parent_slug = "edit.php?post_type=$cpt_slug";
@@ -256,7 +256,7 @@ class ConstantContact_Admin {
 		remove_submenu_page( $this->parent_menu_slug, $this->key . '_license' );
 
 		// Include CMB CSS in the head to avoid FOUC.
-		add_action( "admin_print_styles-{$this->options_page}", [ 'CMB2_hookup', 'enqueue_cmb_css' ] );
+		add_action( "admin_print_styles-$this->options_page", [ 'CMB2_hookup', 'enqueue_cmb_css' ] );
 
 	}
 
@@ -278,7 +278,6 @@ class ConstantContact_Admin {
 		<div class="wrap cmb2-options-page <?php echo esc_attr( $this->key ); ?> ctct-page-wrap">
 
 			<?php
-
 			$page = [];
 			// phpcs:disable WordPress.Security.NonceVerification -- OK accessing of $_GET values.
 			if ( isset( $_GET['page'] ) ) {
@@ -313,26 +312,6 @@ class ConstantContact_Admin {
 	}
 
 	/**
-	 * Register settings notices for display.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param int   $object_id Option key.
-	 * @param array $updated   Array of updated fields.
-	 *
-	 * @return void
-	 */
-	public function settings_notices( $object_id, $updated ) {
-
-		if ( $object_id !== $this->key || empty( $updated ) ) {
-			return;
-		}
-
-		add_settings_error( $this->key . '-notices', '', esc_html__( 'Settings updated.', 'constant-contact-forms' ), 'updated' );
-		settings_errors( $this->key . '-notices' );
-	}
-
-	/**
 	 * Public getter method for retrieving protected/private variables.
 	 *
 	 * @since 1.0.0
@@ -364,7 +343,7 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function set_custom_columns( array $columns ) {
+	public function set_custom_columns( array $columns ) : array {
 
 		$columns['description'] = esc_html__( 'Description', 'constant-contact-forms' );
 		$columns['shortcodes']  = esc_html__( 'Shortcode', 'constant-contact-forms' );
@@ -445,9 +424,9 @@ class ConstantContact_Admin {
 	 *
 	 * @param array $columns WP_List_Table columns.
 	 *
-	 * @return mixed
+	 * @return array
 	 */
-	public function set_custom_lists_columns( array $columns ) {
+	public function set_custom_lists_columns( array $columns ) : array {
 		$columns['ctct_total'] = esc_html__( 'Contact Count', 'constant-contact-forms' );
 
 		unset( $columns['date'] );
@@ -544,7 +523,7 @@ class ConstantContact_Admin {
 	 * @param string $link_slug The slug of the admin page.
 	 * @return string
 	 */
-	public function get_admin_link( $text, $link_slug ) {
+	public function get_admin_link( string $text, string $link_slug ) : string {
 
 		static $link_template = '<a title="%1$s" href="%2$s" target="_blank" rel="noopener noreferrer">%1$s</a>';
 		static $link_args     = [
