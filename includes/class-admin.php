@@ -572,12 +572,25 @@ class ConstantContact_Admin {
 			apply_filters(
 				'constant_contact_localized_js_texts',
 				[
-					'leavewarning' => esc_html__( 'You have unsaved changes.', 'constant-contact-forms' ),
-					'move_up'      => esc_html__( 'move up', 'constant-contact-forms' ),
-					'move_down'    => esc_html__( 'move down', 'constant-contact-forms' ),
+					'leavewarning'     => esc_html__( 'You have unsaved changes.', 'constant-contact-forms' ),
+					'move_up'          => esc_html__( 'move up', 'constant-contact-forms' ),
+					'move_down'        => esc_html__( 'move down', 'constant-contact-forms' ),
+					'no_selected_list' => esc_html__( 'Please select a list for this form', 'constant-contact-forms' ),
 				]
 			)
 		);
+
+		$required_lists_data = [
+			'is_connected'            => constant_contact()->get_api()->is_connected(),
+			'settings_email_disabled' => 'on' === constant_contact_get_option( '_ctct_disable_email_notifications' ),
+		];
+
+		wp_add_inline_script(
+			'ctct_form',
+			'const ctct_admin_required_lists = ' . wp_json_encode( $required_lists_data ) . ';',
+			'before'
+		);
+
 
 		if (
 			'ctct_options_settings' === filter_input( INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS )
