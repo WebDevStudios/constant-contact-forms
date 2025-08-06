@@ -540,6 +540,27 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field(
 			[
+				'name'        => esc_html__( 'Form title heading level', 'constant-contact-forms' ),
+				'id'          => $this->prefix . 'form_title_heading_level',
+				'type'        => 'select',
+				'default'     => 'h3',
+				'options'     => [
+					'h1' => esc_html__( 'H1', 'constant-contact-forms' ),
+					'h2' => esc_html__( 'H2', 'constant-contact-forms' ),
+					'h3' => esc_html__( 'H3', 'constant-contact-forms' ),
+					'h4' => esc_html__( 'H4', 'constant-contact-forms' ),
+					'h5' => esc_html__( 'H5', 'constant-contact-forms' ),
+					'h6' => esc_html__( 'H6', 'constant-contact-forms' ),
+				],
+				'description' => esc_html__(
+					'Set the heading level for the title.',
+					'constant-contact-forms'
+				),
+			]
+		);
+
+		$custom_css_metabox->add_field(
+			[
 				'name'        => esc_html__( 'Form Padding', 'constant-contact-forms' ),
 				'type'        => 'title',
 				'id'          => 'form-padding-title',
