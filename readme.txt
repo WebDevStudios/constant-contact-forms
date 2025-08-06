@@ -2,8 +2,8 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
-Tested up to:      6.8.1
-Stable tag:        2.11.3
+Tested up to:      6.8
+Stable tag:        2.12.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -48,6 +48,13 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.12.0 =
+* Fixed: Touchups and style bugs around Forms block.
+* Fixed: Require list selection if site has a connected account but no list is chosen for form.
+* Added: Ability to select the heading level when showing form title
+* Updated: Touched up styles and wording in form editor.
+* Updated: Adjusted Google reCAPTCHA version 3 token timing. Assigned upon submit instead of pageload, to help avoid 2 minute expiration issues.
 
 = 2.11.3 =
 * Fixed: Email notifications being sent even when toggled off.
