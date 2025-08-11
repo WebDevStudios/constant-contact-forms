@@ -53,9 +53,8 @@ export default function Edit(props) {
 						/>
 					</div>
 					<div className="ctct-block-container--selection">
-						<small>{__('Display Form Title', 'constant-contact-forms')}</small>
 						<div className="ctct-block-container--component">
-							<SelectControl value={displayTitle} options={[
+							<SelectControl label={__('Display Form Title', 'constant-contact-forms')} value={displayTitle} options={[
 								{label: __('Display Title', 'constant-contact-forms'), value: 'true'},
 								{label: __('Hide Title', 'constant-contact-forms'), value: 'false'},
 							]} onChange={(displayTitle) => setAttributes({displayTitle})} />

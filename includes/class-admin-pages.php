@@ -56,145 +56,6 @@ class ConstantContact_Admin_Pages {
 	}
 
 	/**
-	 * Gets the help text for help page.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Array of all the help text.
-	 */
-	public function get_help_texts() {
-
-		/**
-		 * Filters our default help texts.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param array $value Array of arrays with title/content values.
-		 */
-		return apply_filters(
-			'constant_contact_help_texts',
-			[
-				[
-					'title'   => esc_html__( 'This is a sample help header', 'constant-contact-forms' ),
-					'content' => esc_html__( 'This is some sample help text.', 'constant-contact-forms' ),
-				],
-				[
-					'title'   => esc_html__( 'This is another sample header', 'constant-contact-forms' ),
-					'content' => esc_html__( 'This is also some sample help text.', 'constant-contact-forms' ),
-				],
-			]
-		);
-	}
-
-	/**
-	 * Get faq text for help page.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return array Array of all the text.
-	 */
-	public function get_faq_texts() {
-
-		/**
-		 * Filters our FAQ text for the help page.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param array $value Array of arrays for help text.
-		 */
-		return apply_filters(
-			'constant_contact_faq_texts',
-			[
-				[
-					'title'   => esc_html__( 'Is this a sample question?', 'constant-contact-forms' ),
-					'content' => esc_html__( 'This is a sample answer', 'constant-contact-forms' ),
-				],
-				[
-					'title'   => esc_html__( 'This is also a sample question', 'constant-contact-forms' ),
-					'content' => esc_html__( 'This is another sample answer', 'constant-contact-forms' ),
-				],
-			]
-		);
-	}
-
-	/**
-	 * Display our help page.
-	 *
-	 * @since 1.0.0
-	 */
-	public function help_page() {
-		?>
-		<h2>
-			<?php esc_attr_e( 'Help / FAQ', 'constant-contact-forms' ); ?>
-		</h2>
-		<div class="ctct-wrap wrap">
-			<table id="ctct-support" class="ctct-form-table">
-				<tr>
-					<td class="outer outer-first">
-						<h2>
-							<?php esc_html_e( 'Help', 'constant-contact-forms' ); ?>
-						</h2>
-						<ol id="help_ctct">
-						<?php
-						$helps = $this->get_help_texts();
-
-						if ( is_array( $helps ) ) {
-
-							foreach ( $helps as $help ) {
-								if ( ! isset( $help['title'] ) || ! isset( $help['content'] ) ) {
-									continue;
-								}
-								?>
-								<li>
-									<span class="question" aria-controls="q1" aria-expanded="false">
-										<?php echo esc_html( $help['title'] ); ?>
-									</span>
-									<div class="answer">
-										<?php echo esc_html( $help['content'] ); ?>
-									</div>
-								</li>
-								<?php
-							}
-						}
-						?>
-						</ol>
-					</td>
-					<td class="outter">
-						<h2>
-							<?php esc_html_e( 'FAQ', 'constant-contact-forms' ); ?>
-						</h2>
-						<ol id="faq_ctct">
-						<?php
-						$faqs = $this->get_faq_texts();
-
-						if ( is_array( $faqs ) ) {
-
-							foreach ( $faqs as $faq ) {
-								if ( ! isset( $faq['title'] ) || ! isset( $faq['content'] ) ) {
-									continue;
-								}
-								?>
-							<li>
-								<span class="question" aria-controls="q1" aria-expanded="false">
-									<?php echo esc_html( $faq['title'] ); ?>
-								</span>
-								<div class="answer">
-									<?php echo esc_html( $faq['content'] ); ?>
-								</div>
-							</li>
-								<?php
-							}
-						}
-						?>
-						</ol>
-					</td>
-				</tr>
-			</table>
-		</div>
-		<?php
-	}
-
-	/**
 	 * Display our about page.
 	 *
 	 * @since 1.0.0
@@ -208,14 +69,10 @@ class ConstantContact_Admin_Pages {
 			$new_link  = constant_contact()->get_api()->get_signup_link();
 			$auth_link = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' );
 		}
-
 		?>
 
-
 		<h2><?php esc_html_e( 'About Constant Contact Forms', 'constant-contact-forms' ); ?></h2>
-
 		<div class="constant-contact-about">
-
 			<div class="ctct-section section-about">
 				<p class="large-text">
 					<?php echo wp_kses_post( esc_html__( "This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account.", 'constant-contact-forms' ) ); ?>

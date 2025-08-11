@@ -214,7 +214,7 @@ class ConstantContact_Builder_Fields {
 		$list_metabox = new_cmb2_box(
 			[
 				'id'           => 'ctct_0_list_metabox',
-				'title'        => esc_html__( 'Constant Contact List', 'constant-contact-forms' ),
+				'title'        => esc_html__( 'Constant Contact Lists', 'constant-contact-forms' ),
 				'object_types' => [ 'ctct_forms' ],
 				'context'      => 'normal',
 				'priority'     => 'high',
@@ -240,11 +240,10 @@ class ConstantContact_Builder_Fields {
 					]
 				);
 			} else {
-				$instructions[] = esc_html__( 'Click the plus character to add list. Click the minus character to remove list.', 'constant-contact-forms' );
-				$instructions[] = esc_html__( 'Click and drag added lists in "Associated Lists" to reorder. First one listed will be the default.', 'constant-contact-forms' );
+				$instructions[] = esc_html__( 'Click the plus/minus character to add or remove list. Click and drag lists in "Chosen Lists" to reorder. First listed will be the default.', 'constant-contact-forms' );
 				$list_metabox->add_field(
 					[
-						'name'         => esc_html__( 'Associated lists ', 'constant-contact-forms' ),
+						'name'         => esc_html__( 'Associated lists', 'constant-contact-forms' ),
 						'before'       => esc_html__( 'Allow subscribers to select from chosen lists. ( Add at least one ).', 'constant-contact-forms' ),
 						'before_field' => '<p>' . implode( '</p><p>', $instructions ) . '</p>',
 						'id'           => $this->prefix . 'list',
@@ -535,6 +534,27 @@ class ConstantContact_Builder_Fields {
 				'object_types' => [ 'ctct_forms' ],
 				'context'      => 'side',
 				'priority'     => 'low',
+			]
+		);
+
+		$custom_css_metabox->add_field(
+			[
+				'name'        => esc_html__( 'Form title heading level', 'constant-contact-forms' ),
+				'id'          => $this->prefix . 'form_title_heading_level',
+				'type'        => 'select',
+				'default'     => 'h3',
+				'options'     => [
+					'h1' => esc_html__( 'H1', 'constant-contact-forms' ),
+					'h2' => esc_html__( 'H2', 'constant-contact-forms' ),
+					'h3' => esc_html__( 'H3', 'constant-contact-forms' ),
+					'h4' => esc_html__( 'H4', 'constant-contact-forms' ),
+					'h5' => esc_html__( 'H5', 'constant-contact-forms' ),
+					'h6' => esc_html__( 'H6', 'constant-contact-forms' ),
+				],
+				'description' => esc_html__(
+					'Set the heading level for the title.',
+					'constant-contact-forms'
+				),
 			]
 		);
 

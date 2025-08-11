@@ -159,6 +159,7 @@ class ConstantContact_Display {
 			'form_submit_button_font_size'        => '',
 			'form_submit_button_text_color'       => '',
 			'form_submit_button_background_color' => '',
+			'form_title_heading_level'            => 'h3',
 			'form_padding_top'                    => '',
 			'form_padding_right'                  => '',
 			'form_padding_bottom'                 => '',
@@ -196,6 +197,11 @@ class ConstantContact_Display {
 		$ctct_form_submit_button_background_color = get_post_meta( $form_id, '_ctct_form_submit_button_background_color', true );
 		if ( ! empty( $ctct_form_submit_button_background_color ) ) {
 			$specific_form_css['form_submit_button_background_color'] = "background-color: $ctct_form_submit_button_background_color;";
+		}
+
+		$ctct_form_title_heading_level = get_post_meta( $form_id, '_ctct_form_title_heading_level', true );
+		if ( ! empty( $ctct_form_title_heading_level ) ) {
+			$specific_form_css['form_title_heading_level'] = $ctct_form_title_heading_level;
 		}
 
 		$ctct_form_padding_top = get_post_meta( $form_id, '_ctct_form_padding_top', true );
@@ -257,9 +263,16 @@ class ConstantContact_Display {
 			return '';
 		}
 
+		$heading_level = $this->specific_form_styles['form_title_heading_level'];
 		$title_styles = $this->set_title_styles();
 
-		return '<h3' . $title_styles . '>' . esc_html( get_the_title( $form_id ) ) . '</h3>';
+		return sprintf(
+			'<%1$s%2$s>%3$s</%4$s>',
+			$heading_level,
+			$title_styles,
+			esc_html( get_the_title( $form_id ) ),
+			$heading_level
+		);
 	}
 
 	/**

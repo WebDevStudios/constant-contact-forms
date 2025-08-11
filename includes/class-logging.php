@@ -154,6 +154,10 @@ class ConstantContact_Logging {
 	 * @since 1.3.7
 	 */
 	public function scripts() {
+		$screen = get_current_screen();
+		if ( 'ctct_forms_page_ctct_options_logging' !== $screen->base ) {
+			return;
+		}
 		wp_enqueue_script( 'jquery-ui-core' );
 		wp_enqueue_script( 'jquery-ui-dialog' );
 		wp_enqueue_style( 'wp-jquery-ui-dialog' );

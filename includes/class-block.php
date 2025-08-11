@@ -1,9 +1,9 @@
 <?php
 /**
- * Gutenberg Support
+ * Block Support
  *
  * @package ConstantContact
- * @subpackage Gutenberg
+ * @subpackage Block
  * @author Constant Contact
  * @since 1.5.0
  *
@@ -11,11 +11,11 @@
  */
 
 /**
- * This class get's everything up an running for Gutenberg support.
+ * This class get's everything up an running for Block support.
  *
  * @since 1.5.0
  */
-class ConstantContact_Gutenberg {
+class ConstantContact_Block {
 
 	/**
 	 * Parent plugin class.
@@ -54,7 +54,7 @@ class ConstantContact_Gutenberg {
 	}
 
 	/**
-	 * Register Gutenberg blocks.
+	 * Register blocks.
 	 *
 	 * @author Eric Fuller
 	 * @since 1.5.0
@@ -77,7 +77,7 @@ class ConstantContact_Gutenberg {
 	 */
 	public function display_single_contact_form( array $attributes ) : string {
 		if ( empty( $attributes['selectedForm'] ) ) {
-			return '';
+			return wpautop( esc_html__( 'Select a form to see a preview', 'constant-contact-forms' ) );
 		}
 
 		$display_title = true;

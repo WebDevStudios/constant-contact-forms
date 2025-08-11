@@ -219,7 +219,7 @@ class ConstantContact_Client {
 	 * @param object $list List data.
 	 * @return array
 	 */
-	public function add_list( object $list ) {
+	public function add_list( array $list ) {
 		return $this->post( 'contact_lists', $this->base_args, $list );
 	}
 
@@ -231,8 +231,8 @@ class ConstantContact_Client {
 	 * @param object $list List data.
 	 * @return array
 	 */
-	public function update_list( object $list ) {
-		return $this->put( "contact_lists/$list->id", $this->base_args, $list );
+	public function update_list( array $list ) {
+		return $this->put( "contact_lists/{$list['id']}", $this->base_args, $list );
 	}
 
 	/**

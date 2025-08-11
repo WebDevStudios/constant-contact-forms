@@ -618,7 +618,7 @@ class ConstantContact_API {
 			 */
 			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
-			$return_list = $this->cc()->add_list( $list );
+			$return_list = $this->cc()->add_list( (array) $list );
 			if ( isset( $return_list[0]['error_message'] ) ) {
 				// TODO: check why it's not going to catch
 				throw new Exception( $return_list[0]['error_message'] );
@@ -675,7 +675,7 @@ class ConstantContact_API {
 			 */
 			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
-			$return_list = $this->cc()->update_list( $list );
+			$return_list = $this->cc()->update_list( (array) $list );
 			if ( array_key_exists( 'error_key', $return_list ) && 'unauthorized' === $return_list['error_key'] ) {
 				$this->refresh_token();
 				$return_list = $this->cc()->update_list( $list );

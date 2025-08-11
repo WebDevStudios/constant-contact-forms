@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "wp-scripts build",
-    "build:release": "run-s pot styles build stylesadmin scripts:build",
+    "build:release": "run-s pot styles build stylesfront stylesadmin scripts:build",
     "format": "wp-scripts format",
     "dev": "wp-scripts start --output-path 'assets/js'",
     "lint": "run-p lint:*",
