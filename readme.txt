@@ -50,6 +50,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 == Changelog ==
 
 = 2.12.0 =
+* Fixed: Fatal errors around list creation within WordPress dashboard.
 * Fixed: Touchups and style bugs around Forms block.
 * Fixed: Require list selection if site has a connected account but no list is chosen for form.
 * Added: Ability to select the heading level when showing form title
