@@ -232,7 +232,7 @@ class ConstantContact_Client {
 	 * @return array
 	 */
 	public function update_list( array $list ) {
-		return $this->put( "contact_lists/$list->id", $this->base_args, $list );
+		return $this->put( "contact_lists/{$list['id']}", $this->base_args, $list );
 	}
 
 	/**
