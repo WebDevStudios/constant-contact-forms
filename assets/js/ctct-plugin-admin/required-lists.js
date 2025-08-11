@@ -14,7 +14,7 @@ window.CTCTRequiredLists = {};
 	 * Cache DOM elements.
 	 *
 	 * @author Constant Contact
-	 * @since 1.11.0
+	 * @since 2.12.0
 	 */
 	app.cache = () => {
 		app.cache = {
@@ -28,7 +28,7 @@ window.CTCTRequiredLists = {};
 	 * Attach callbacks to events.
 	 *
 	 * @author Constant Contact
-	 * @since 1.11.0
+	 * @since 2.12.0
 	 */
 	app.bindEvents = () => {
 		if (app.cache.publishButton) {
@@ -45,6 +45,8 @@ window.CTCTRequiredLists = {};
 
 	/**
 	 * Determine if we should show an alert.
+	 *
+	 * @since 2.12.0
 	 *
 	 * @returns {boolean}
 	 */
@@ -79,6 +81,8 @@ window.CTCTRequiredLists = {};
 	/**
 	 * Check if our disable emails checkbox is checked.
 	 *
+	 * @since 2.12.0
+	 *
 	 * @returns bool
 	 */
 	app.currentFormEmailDisabled = () => {
@@ -87,6 +91,8 @@ window.CTCTRequiredLists = {};
 
 	/**
 	 * Check if we have one to many lists chosen.
+	 *
+	 * @since 2.12.0
 	 *
 	 * @returns {boolean}
 	 */
