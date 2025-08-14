@@ -179,3 +179,24 @@
 	}
 
 }
+
+/* Avada */
+.ctct-Avada {
+	.ctct-form-wrapper {
+		.ctct-checkbox {
+		  min-width: auto;
+		}
+		.ctct-checkbox.ctct-label-right {
+			margin-right: 5px;
+		}
+
+		.ctct-form-field {
+			input[type="text"],
+			input[type="email"],
+			input[type="url"],
+			input[type="tel"] {
+				width: 100%;
+			}
+		}
+	}
+}
