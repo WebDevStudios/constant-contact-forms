@@ -200,3 +200,25 @@
 		}
 	}
 }
+
+/* Hello Elementor and Hello Biz */
+.ctct-hello-elementor,
+.ctct-hello-biz {
+	.ctct-form-wrapper {
+		.ctct-button {
+			display: inline-block;
+			margin-bottom: 15px;
+		}
+		fieldset {
+			margin-bottom: 15px;
+		}
+		.ctct-label-top {
+			label {
+				margin-bottom: 5px;
+			}
+		}
+		.ctct-checkbox.ctct-label-right {
+			margin-right: 5px;
+		}
+	}
+}
