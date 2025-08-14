@@ -353,6 +353,7 @@ class ConstantContact_Display {
 		$should_disable_captcha   = get_post_meta( $form_id, '_ctct_disable_recaptcha', true ); // Note: Despite option name, this applies to whatever the enabled captcha service is.
 		$disable_captcha          = 'on' === $should_disable_captcha;
 		$form_classes             = 'ctct-form ctct-form-' . $form_id;
+		$form_classes            .= ' comment-form';
 
 		// TODO?: Rename this to has-captcha/no-captcha?
 		$form_classes            .= $captcha_service->is_captcha_enabled() && ! $disable_captcha ? ' has-recaptcha' : ' no-recaptcha';
@@ -2023,7 +2024,7 @@ class ConstantContact_Display {
 	 */
 	public function textarea( string $name = '', string $map = '', string $value = '', string $desc = '', bool $req = false, string $field_error = '', string $extra_attrs = '', string $label_placement = 'top', int $instance = 0 ) : string {
 
-		$classes          = [ 'ctct-form-field' ];
+		$classes          = [ 'ctct-form-field', 'comment-form-comment' ];
 		$textarea_classes = [ 'ctct-textarea' ];
 		$field_id         = "{$map}_$instance";
 		$req_text         = $req ? 'required' : '';
