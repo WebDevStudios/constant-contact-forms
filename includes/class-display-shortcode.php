@@ -304,6 +304,7 @@ class ConstantContact_Display_Shortcode {
 	private function wrapper_classes() {
 		$classes = [];
 
+		// Divi
 		if ( defined( 'ET_CORE_VERSION' ) ) {
 			$classes[] = 'et_pb_contact';
 		}
