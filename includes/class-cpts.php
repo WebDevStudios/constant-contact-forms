@@ -173,7 +173,7 @@ class ConstantContact_CPTS {
 	}
 
 	/**
-	 * Custom post udate messages to match CPT naming.
+	 * Custom post update messages to match CPT naming.
 	 *
 	 * @since 1.0.0
 	 *
