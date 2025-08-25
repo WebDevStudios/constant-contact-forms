@@ -100,7 +100,11 @@ export default function Edit(props) {
 				<PanelBody
 					title={__('Form settings', 'constant-contact-forms')}
 				>
-					<ExternalLink href={getURL(selectedForm)}>{__('Edit selected form', 'cptuiext')}</ExternalLink>
+						{(Number.isInteger(parseInt(selectedForm)) && parseInt(selectedForm) > 0
+								?
+								<ExternalLink href={getURL(selectedForm)}>{__('Edit selected form', 'cptuiext')}</ExternalLink>
+								: <div>{__('Please select a form', 'constant-contact-forms')}</div>
+						)}
 				</PanelBody>
 			</InspectorControls>
 		</div>
