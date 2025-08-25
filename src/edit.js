@@ -1,8 +1,9 @@
 import {__} from '@wordpress/i18n';
 import {useSelect} from '@wordpress/data';
-import {useBlockProps} from '@wordpress/block-editor';
-import {SelectControl, Spinner} from '@wordpress/components';
+import {useBlockProps, InspectorControls} from '@wordpress/block-editor';
+import {SelectControl, Spinner, PanelBody, ExternalLink} from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
+import {addQueryArgs} from '@wordpress/url';
 
 import './editor.scss';
 
@@ -40,6 +41,17 @@ export default function Edit(props) {
 		)
 	}
 	let smMsg = (formEntryObjs && formEntryObjs.length > 1 ) ? __('Choose the form to display with the dropdown below.', 'constant-contact-forms' ) : __('Please create a Constant Contact Form.', 'constant-contact-forms');
+
+	const getURL = (form) => {
+		const adminRoot = ajaxurl.replace(/\/admin-ajax\.php$/, '/post.php');
+		return addQueryArgs(
+			adminRoot,
+			{
+				post  : form,
+				action: 'edit',
+			}
+		)
+	}
 
 	return (
 		<div {...blockProps}>
@@ -84,6 +96,13 @@ export default function Edit(props) {
 				</div>
 			)
 			}
+			<InspectorControls>
+				<PanelBody
+					title={__('Form settings', 'constant-contact-forms')}
+				>
+					<ExternalLink href={getURL(selectedForm)}>{__('Edit selected form', 'cptuiext')}</ExternalLink>
+				</PanelBody>
+			</InspectorControls>
 		</div>
 	)
 }
