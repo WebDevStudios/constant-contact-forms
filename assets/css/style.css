@@ -169,6 +169,7 @@
   padding: 0;
 }
 
+/* TwentyFourteen */
 .ctct-twentyfourteen .ctct-form-description ~ .ctct-button {
   display: inline-block;
   font-size: 1rem;
@@ -178,6 +179,7 @@
   width: 100%;
 }
 
+/* TwentyFifteen */
 .ctct-twentyfifteen .ctct-form-description ~ .ctct-button {
   display: inline-block;
   font-size: 1rem;
@@ -191,6 +193,7 @@
   font-size: 75%;
 }
 
+/* TwentySixteen */
 .ctct-twentysixteen .ctct-form-description ~ .ctct-button {
   display: inline-block;
   margin-bottom: 25px;
@@ -199,6 +202,7 @@
   width: 80%;
 }
 
+/* TwentySeventeen */
 .ctct-twentyseventeen .ctct-form-description ~ .ctct-button {
   display: inline-block;
   margin-bottom: 25px;
@@ -210,6 +214,7 @@
   width: 80%;
 }
 
+/* TwentyNineteen */
 .ctct-twentynineteen .ctct-form-description ~ .ctct-button {
   margin-bottom: 25px;
 }
@@ -231,6 +236,7 @@
   }
 }
 
+/* TwentyTwenty */
 .ctct-twentytwenty .ctct-form-description ~ .ctct-button {
   margin-bottom: 25px;
 }
@@ -241,6 +247,7 @@
   font-size: 1.6rem;
 }
 
+/* TwentyTwentyOne */
 .ctct-twentytwentyone .ctct-button {
   padding: 0 !important;
 }
@@ -252,6 +259,50 @@
 }
 .ctct-twentytwentyone .ctct-form-wrapper input.ctct-label-right[type=checkbox] {
   width: 25px;
+}
+
+/* Astra */
+.ctct-astra .ctct-form-wrapper .ctct-button {
+  margin-bottom: 15px;
+}
+.ctct-astra .ctct-form-wrapper fieldset {
+  margin-bottom: 15px;
+}
+.ctct-astra .ctct-form-wrapper .ctct-checkbox.ctct-label-right {
+  margin-right: 5px;
+}
+
+/* Avada */
+.ctct-Avada .ctct-form-wrapper .ctct-checkbox {
+  min-width: auto;
+}
+.ctct-Avada .ctct-form-wrapper .ctct-checkbox.ctct-label-right {
+  margin-right: 5px;
+}
+.ctct-Avada .ctct-form-wrapper .ctct-form-field input[type=text],
+.ctct-Avada .ctct-form-wrapper .ctct-form-field input[type=email],
+.ctct-Avada .ctct-form-wrapper .ctct-form-field input[type=url],
+.ctct-Avada .ctct-form-wrapper .ctct-form-field input[type=tel] {
+  width: 100%;
+}
+
+/* Hello Elementor and Hello Biz */
+.ctct-hello-elementor .ctct-form-wrapper .ctct-button,
+.ctct-hello-biz .ctct-form-wrapper .ctct-button {
+  display: inline-block;
+  margin-bottom: 15px;
+}
+.ctct-hello-elementor .ctct-form-wrapper fieldset,
+.ctct-hello-biz .ctct-form-wrapper fieldset {
+  margin-bottom: 15px;
+}
+.ctct-hello-elementor .ctct-form-wrapper .ctct-label-top label,
+.ctct-hello-biz .ctct-form-wrapper .ctct-label-top label {
+  margin-bottom: 5px;
+}
+.ctct-hello-elementor .ctct-form-wrapper .ctct-checkbox.ctct-label-right,
+.ctct-hello-biz .ctct-form-wrapper .ctct-checkbox.ctct-label-right {
+  margin-right: 5px;
 }
 
 /*# sourceMappingURL=style.css.map */
