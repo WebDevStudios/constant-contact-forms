@@ -1,5 +1,33 @@
 // sass-lint:disable class-name-format no-qualifying-elements id-name-format
 
+/* TwentyTen */
+.wp-theme-twentyten {
+  input[type="tel"] {
+	background: #f9f9f9;
+	border: 1px solid #ccc;
+	box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+	padding: 2px;
+  }
+}
+
+/* TwentyEleven */
+.wp-theme-twentyeleven {
+  input[type="tel"] {
+	background: #fafafa;
+	border: 1px solid #ddd;
+	box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+	padding: 3px;
+  }
+}
+
+/* TwentyThirteen */
+.wp-theme-twentythirteen {
+  input[type="tel"] {
+	max-width: 270px;
+	width: 60%;
+  }
+}
+
 /* TwentyFourteen */
 .ctct-twentyfourteen {
 
