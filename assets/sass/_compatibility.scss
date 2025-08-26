@@ -31,10 +31,12 @@
 /* TwentyFourteen */
 .ctct-twentyfourteen {
 
-	.ctct-form-description ~ .ctct-button {
-		display: inline-block;
-		font-size: 1rem;
-		margin-bottom: 25px;
+	.ctct-form-wrapper {
+		.ctct-button {
+			display: inline-block;
+			font-size: 1rem;
+			margin-bottom: 25px;
+		}
 	}
 
 	.ctct-form-field input:not(.ctct-checkbox) {
