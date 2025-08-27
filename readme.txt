@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
 Tested up to:      6.8
-Stable tag:        2.12.0
+Stable tag:        2.13.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -48,6 +48,11 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.13.0 =
+* Updated: Added extra theme compatibility for popular themes.
+* Updated: Removed "edit" link on frontend form display to avoid potential confusion.
+* Added: Edit link output for chosen form in Constant Contact Forms Block.
 
 = 2.12.0 =
 * Fixed: Fatal errors around list creation within WordPress dashboard.
