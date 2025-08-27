@@ -402,13 +402,6 @@ class ConstantContact_Display {
 			$return .= $this->description( $form_data['options']['description'], $form_id );
 		}
 
-		if ( $form_id && current_user_can( 'edit_posts' ) ) {
-			$edit_link = get_edit_post_link( absint( $form_id ) );
-			if ( $edit_link ) {
-				$return .= '<a class="button ctct-button" href="' . esc_url( $edit_link ) . '">' . esc_html__( 'Edit Form', 'constant-contact-forms' ) . '</a>';
-			}
-		}
-
 		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
 		$return .= 'data-doajax="' . esc_attr( $do_ajax ) . '" ';
 		$return .= 'style="' . esc_attr( $form_styles ) . '" ';
