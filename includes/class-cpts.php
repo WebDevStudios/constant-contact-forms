@@ -137,7 +137,7 @@ class ConstantContact_CPTS {
 			'edit_item'             => esc_html__( 'Edit list', 'constant-contact-forms' ),
 			'update_item'           => esc_html__( 'Update list', 'constant-contact-forms' ),
 			'view_item'             => esc_html__( 'View list', 'constant-contact-forms' ),
-			'search_items'          => esc_html__( 'Search list', 'constant-contact-forms' ),
+			'search_items'          => esc_html__( 'Search lists', 'constant-contact-forms' ),
 			'not_found'             => esc_html__( 'Not found', 'constant-contact-forms' ),
 			'not_found_in_trash'    => esc_html__( 'Not found in trash', 'constant-contact-forms' ),
 			'insert_into_item'      => esc_html__( 'Insert into list', 'constant-contact-forms' ),
