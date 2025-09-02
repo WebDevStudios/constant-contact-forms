@@ -427,7 +427,7 @@ class ConstantContact_Admin {
 	 * @return array
 	 */
 	public function set_custom_lists_columns( array $columns ) : array {
-		$columns['ctct_total'] = esc_html__( 'Contact Count', 'constant-contact-forms' );
+		$columns['ctct_total'] = esc_html__( 'Contact count', 'constant-contact-forms' );
 
 		unset( $columns['date'] );
 
