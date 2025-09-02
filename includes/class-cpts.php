@@ -177,7 +177,7 @@ class ConstantContact_CPTS {
 	 * @param array $messages Default update messages.
 	 * @return array appended update messages with custom post types.
 	 */
-	public function post_updated_messages( $messages ) {
+	public function post_updated_messages( $messages ) : array {
 		global $post;
 
 		$revision = filter_input( INPUT_GET, 'revision', FILTER_SANITIZE_NUMBER_INT );
@@ -236,7 +236,7 @@ class ConstantContact_CPTS {
 	 * @param WP_Post $post Post object.
 	 * @return string $title output string
 	 */
-	public function change_default_title( string $title, WP_Post $post ) {
+	public function change_default_title( string $title, WP_Post $post ) : string {
 
 		if ( 'ctct_forms' === $post->post_type ) {
 			$title = sprintf(
@@ -335,7 +335,7 @@ class ConstantContact_CPTS {
 	 *
 	 * @return array
 	 */
-	public function duplicate_form_link( $actions, $post ) {
+	public function duplicate_form_link( $actions, $post ) : array {
 		if ( 'ctct_forms' !== $post->post_type ) {
 			return $actions;
 		}

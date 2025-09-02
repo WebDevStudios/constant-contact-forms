@@ -523,7 +523,7 @@ class Constant_Contact {
 	 *
 	 * @return bool
 	 */
-	public function meets_php_requirements() {
+	public function meets_php_requirements() : bool {
 		return version_compare( PHP_VERSION, '7.4.0', '>=' );
 	}
 
@@ -858,7 +858,7 @@ class Constant_Contact {
 	 * @param bool   $include_class Whether or ot to include the class.
 	 * @return bool Result of include call.
 	 */
-	public static function include_file( $filename, $include_class = true ) {
+	public static function include_file( string $filename, bool $include_class = true ) {
 
 		// By default, all files are named 'class-something.php'.
 		if ( $include_class ) {
@@ -882,7 +882,7 @@ class Constant_Contact {
 	 * @param string $path Appended path. Optional.
 	 * @return string Directory and path.
 	 */
-	public static function dir( $path = '' ) {
+	public static function dir( string $path = '' ) : string {
 		static $dir;
 		$dir = $dir ? $dir : trailingslashit( __DIR__ );
 		return $dir . $path;
@@ -896,7 +896,7 @@ class Constant_Contact {
 	 * @param string $path Appended path. Optional.
 	 * @return string URL and path
 	 */
-	public static function url( $path = '' ) {
+	public static function url( string $path = '' ) : string {
 		static $url;
 		$url = $url ? $url : trailingslashit( plugin_dir_url( __FILE__ ) );
 		return $url . $path;
@@ -928,7 +928,7 @@ class Constant_Contact {
 	 * @param array $classes Existing body classes.
 	 * @return array Amended body classes.
 	 */
-	public function body_classes( $classes = [] ) {
+	public function body_classes( $classes = [] ) : array {
 		$theme     = wp_get_theme()->get_template();
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
@@ -976,7 +976,7 @@ class Constant_Contact {
 	 *
 	 * @return bool
 	 */
-	public function is_constant_contact() {
+	public function is_constant_contact() : bool {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 			return false;
 		}
