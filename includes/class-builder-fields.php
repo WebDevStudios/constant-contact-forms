@@ -668,7 +668,7 @@ class ConstantContact_Builder_Fields {
 			),
 			sprintf(
 				'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-				'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options',
+				'https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/18260-Add-email-opt-in-to-a-WordPress-Form-created-with-the-Constant-Contact-plugin',
 				esc_html__( 'Learn more', 'constant-contact-forms' )
 			)
 		);
