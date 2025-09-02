@@ -52,7 +52,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 = 2.13.0 =
 * Updated: Added extra theme compatibility for popular themes.
 * Updated: Removed "edit" link on frontend form display to avoid potential confusion.
-* Added: Edit link output for chosen form in Constant Contact Forms Block.
+* Added: Admin area "edit form" link output for chosen form in Constant Contact Forms Block.
 
 = 2.12.0 =
 * Fixed: Fatal errors around list creation within WordPress dashboard.
