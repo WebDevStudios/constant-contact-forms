@@ -157,7 +157,6 @@ class ConstantContact_CPTS {
 			'show_ui'             => true,
 			'show_in_menu'        => 'edit.php?post_type=ctct_forms',
 			'menu_position'       => 20,
-			'menu_icon'           => 'dashicons-megaphone',
 			'show_in_admin_bar'   => false,
 			'show_in_nav_menus'   => false,
 			'can_export'          => true,

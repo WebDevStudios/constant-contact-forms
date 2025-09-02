@@ -103,14 +103,6 @@ class Constant_Contact {
 	protected string $basename = '';
 
 	/**
-	 * Menu Icon.
-	 *
-	 * @since 1.0.0
-	 * @var string
-	 */
-	public $menu_icon = 'dashicons-megaphone';
-
-	/**
 	 * Log location.
 	 *
 	 * @since 1.3.7
