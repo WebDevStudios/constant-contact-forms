@@ -476,7 +476,7 @@ class ConstantContact_Settings {
 
 				$cmb->add_field(
 					[
-						'name'    => esc_html__( 'Opt-in Affirmation', 'constant-contact-forms' ),
+						'name'    => esc_html__( 'Opt-in affirmation', 'constant-contact-forms' ),
 						'id'      => '_ctct_optin_label',
 						'type'    => 'text',
 						// translators: placeholder will hold site owner's business name.
@@ -509,7 +509,7 @@ class ConstantContact_Settings {
 
 				$cmb->add_field(
 					[
-						'name'       => esc_html__( 'Opt-in Location', 'constant-contact-forms' ),
+						'name'       => esc_html__( 'Opt-in location', 'constant-contact-forms' ),
 						'id'         => '_ctct_optin_forms',
 						'type'       => 'multicheck',
 						'options'    => $this->get_optin_show_options(),
