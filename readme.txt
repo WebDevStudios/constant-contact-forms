@@ -197,22 +197,22 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 == Frequently Asked Questions ==
 
 #### Installation and Setup
-[HELP: Install the Constant Contact Forms Plugin for WordPress to Gather Sign-Ups and Feedback](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integration-with-Constant-Contact)
+[HELP: Install the Constant Contact Forms Plugin for WordPress to Gather Sign-Ups and Feedback](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/10054-Install-the-Constant-Contact-Forms-plugin-for-WordPress-to-gather-sign-ups-and-feedback?lang=en_US)
 
 #### Constant Contact Forms Options
-[HELP: Add email opt-in to a WordPress Form created with the Constant Contact plugin](http://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options)
+[HELP: Add email opt-in to a WordPress Form created with the Constant Contact plugin](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/18260-Add-email-opt-in-to-a-WordPress-Form-created-with-the-Constant-Contact-plugin?lang=en_US)
 
 #### Frequently Asked Questions
-[HELP: Enable Logging in the Constant Contact Forms for WordPress Plugin](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18491-Enable-Logging-in-the-Constant-Contact-Forms-for-WordPress-Plugin)
+[HELP: Enable Logging in the Constant Contact Forms for WordPress Plugin](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/18491-Enable-logging-in-the-Constant-Contact-Forms-for-WordPress-Plugin?lang=en_US)
 
 #### Constant Contact List Addition Issues
-[HELP: Troubleshooting List Addition Issues in the Constant Contact Forms Plugin for WordPress](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18539-WordPress-Constant-Contact-List-Addition-Issues)
+[HELP: Troubleshooting List Addition Issues in the Constant Contact Forms Plugin for WordPress](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/18539-Troubleshooting-list-addition-issues-in-the-Constant-Contact-Forms-Plugin-for-WordPress?lang=en_US)
 
 #### cURL error 60: SSL certificate problem
-[HELP: WordPress cURL Error 60: SSL Certificate Problem](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18159-WordPress-Error-60)
+[HELP: WordPress cURL Error 60: SSL Certificate Problem](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/18159-WordPress-cURL-error-60-SSL-certificate-problem?lang=en_US)
 
 #### Add Google reCAPTCHA to Constant Contact Forms
-[HELP: Add Google reCAPTCHA to Your WordPress Sign-up Form to Prevent Spam Entries](http://knowledgebase.constantcontact.com/articles/KnowledgeBase/17880)
+[HELP: Add Google reCAPTCHA to Your WordPress Sign-up Form to Prevent Spam Entries](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/17880-Add-Google-reCAPTCHA-to-your-WordPress-sign-up-form-to-prevent-spam-entries?lang=en_US)
 
 #### How do I include which custom fields labels are which custom field values in my Constant Contact Account?
 You can add this to your active theme or custom plugin: `add_filter( 'constant_contact_include_custom_field_label', '__return_true' );`. Note: custom fields have a max length of 50 characters. Including the labels will subtract from the 50 character total available.
