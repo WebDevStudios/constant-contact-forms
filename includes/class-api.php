@@ -1215,7 +1215,7 @@ class ConstantContact_API {
 		 * ]
 		 */
 
-		static $address_fields = [ 'line1', 'city', 'state_code', 'postal_code' ];
+		static $address_fields = [ 'address_line1', 'address_line2', 'address_line3', 'city', 'state_code', 'postal_code' ];
 
 		// Grab disclosure info from the API.
 		$account_info = $this->get_account_info();
@@ -1235,10 +1235,10 @@ class ConstantContact_API {
 
 		// Determine the address to use for disclosure from the API.
 		if (
-			isset( $account_info->organization_addresses )
-			&& count( $account_info->organization_addresses )
+			isset( $account_info['physical_address'] )
+			&& count( $account_info['physical_address'] )
 		) {
-			$organization_address = array_shift( $account_info->organization_addresses );
+			$organization_address = $account_info['physical_address'];
 			$disclosure_address   = [];
 
 			if ( is_array( $address_fields ) ) {
@@ -1254,8 +1254,8 @@ class ConstantContact_API {
 			unset( $disclosure['address'] );
 		}
 
-		if ( ! empty( $account_info->website ) ) {
-			$disclosure['website'] = $account_info->website;
+		if ( ! empty( $account_info['website'] ) ) {
+			$disclosure['website'] = $account_info['website'];
 		}
 
 		return $as_parts ? $disclosure : implode( ', ', array_values( $disclosure ) );

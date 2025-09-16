@@ -471,7 +471,7 @@ class ConstantContact_Settings {
 				$disclosure_info = $this->plugin->get_api()->get_disclosure_info( true );
 				if ( ! empty( $disclosure_info ) ) {
 					$business_name = $disclosure_info['name'] ?: $business_name;
-					$business_addr = isset( $disclosure_info['address'] ) ?: '';
+					$business_addr = $disclosure_info['address'] ?: '';
 				}
 
 				$cmb->add_field(
