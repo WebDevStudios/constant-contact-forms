@@ -194,6 +194,9 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Fixed: moved "Edit form" link to outside the `<form>` markup.
 * Fixed: Custom color choices were not applying to all parts of form text output.
 
+== Upgrade Notice ==
+* We will soon be releasing a version of Constant Contact Forms that has a major upgrade to our API behind the scenes. Information will be provided at the time to help ease the process. You should not need to recreate any existing forms, but will need to re-authenticate.
+
 == Frequently Asked Questions ==
 
 #### Installation and Setup
@@ -222,6 +225,3 @@ You will need to make the connection to Constant Contact using the credentials o
 
 ### Error: Please select at least one list to subscribe to.
 Some users are experiencing errors when upgrading from an older version of the plugin. If you are receiving an error "Please select at least one list to subscribe to" on your form submissions we recommend "Sync Lists with Constant Contact", this can be found in your admin dashboard Contact Form > Lists. If problem still persists we recommend recreating the form from scratch.
-
-== Upgrade Notice ==
-* We will soon be releasing a version of Constant Contact Forms that has a major upgrade to our API behind the scenes. Information will be provided at the time to help ease the process. You should not need to recreate any existing forms, but will need to re-authenticate.
