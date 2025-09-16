@@ -50,6 +50,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 == Changelog ==
 
 = 2.13.0 =
+* Fixed: Details around address data retrieval from Constant Contact, used in disclosure text.
 * Updated: Added extra theme compatibility for popular themes.
 * Updated: Removed "edit" link on frontend form display to avoid potential confusion.
 * Added: Admin area "edit form" link output for chosen form in Constant Contact Forms Block.
