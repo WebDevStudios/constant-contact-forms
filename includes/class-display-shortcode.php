@@ -297,7 +297,7 @@ class ConstantContact_Display_Shortcode {
 	/**
 	 * Helper method for custom wrapper classes for popular theme compatibility.
 	 *
-	 * @since NEXT
+	 * @since 2.13.0
 	 *
 	 * @return array
 	 */
