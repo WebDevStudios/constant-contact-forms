@@ -765,6 +765,15 @@ class ConstantContact_Builder_Fields {
 			]
 		);
 
+		$fields_metabox->add_field(
+			[
+				'name'       => esc_html__( 'Display inline?', 'constant-contact-forms' ),
+				'desc'       => esc_html__( 'Show fields in a horizontal line instead of column. Only available when using just email field.', 'constant-contact-forms' ),
+				'id'         => $this->prefix . 'inline_display',
+				'type'       => 'checkbox',
+			]
+		);
+
 		$custom_group = $fields_metabox->add_field(
 			[
 				'id'          => 'custom_fields_group',
