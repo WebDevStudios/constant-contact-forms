@@ -60,6 +60,10 @@
   }
 }
 
+.ctct-form-wrapper .ctct-form.ctct-inline-form {
+  display: flex;
+  align-items: flex-end;
+}
 .ctct-form-wrapper input[type=text]:required:valid, .ctct-form-wrapper input[type=email]:required:valid, .ctct-form-wrapper input[type=password]:required:valid, .ctct-form-wrapper input[type=tel]:required:valid, .ctct-form-wrapper input[type=number]:required:valid {
   background-image: url(../images/check_circle.svg);
   background-position: 8px 50%;
@@ -78,6 +82,7 @@
   width: 100%;
 }
 .ctct-form-wrapper .ctct-field-error {
+  color: #ff4136;
   font-size: 0.85rem;
   font-style: italic;
 }
@@ -153,9 +158,6 @@
 .ctct-form-wrapper .ctct-input-container label {
   color: #aaa;
   font-size: 0.8rem;
-}
-.ctct-form-wrapper .ctct-field-error {
-  color: #ff4136;
 }
 .ctct-form-wrapper .ctct-submit {
   cursor: pointer;
