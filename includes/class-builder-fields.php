@@ -772,8 +772,8 @@ class ConstantContact_Builder_Fields {
 				'repeatable'  => true,
 				'options'     => [
 					'group_title'   => esc_html__( 'Field {#}', 'constant-contact-forms' ),
-					'add_button'    => esc_html__( 'Add Another Field', 'constant-contact-forms' ),
-					'remove_button' => esc_html__( 'Remove Field', 'constant-contact-forms' ),
+					'add_button'    => esc_html__( 'Add another field', 'constant-contact-forms' ),
+					'remove_button' => esc_html__( 'Remove field', 'constant-contact-forms' ),
 					'sortable'      => true,
 				],
 				'after_group' => [ $this, 'unique_label_messaging' ],
