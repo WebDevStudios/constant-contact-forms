@@ -348,14 +348,17 @@ class ConstantContact_Display {
 		 * @param int    $form_id ID of the Constant Contact form being rendered.
 		 */
 		$form_action              = apply_filters( 'constant_contact_front_form_action', '', $form_id );
+		$inline_form              = get_post_meta( $form_id, '_ctct_inline_display', true );
 		$should_do_ajax           = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax                  = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$should_disable_captcha   = get_post_meta( $form_id, '_ctct_disable_recaptcha', true ); // Note: Despite option name, this applies to whatever the enabled captcha service is.
 		$disable_captcha          = 'on' === $should_disable_captcha;
+
 		$form_classes             = [ 'ctct-form ctct-form-' . $form_id, 'comment-form' ];
 
 		// TODO?: Rename this to has-captcha/no-captcha?
-		$form_classes[] = $captcha_service->is_captcha_enabled() && ! $disable_captcha ? ' has-recaptcha' : ' no-recaptcha';;
+		$form_classes[] = $captcha_service->is_captcha_enabled() && ! $disable_captcha ? ' has-recaptcha' : ' no-recaptcha';
+		$form_classes[] = 'on' === $inline_form ? 'ctct-inline' : 'ctct-default';
 		$form_classes = array_merge( $form_classes, $this->build_custom_form_classes() );
 
 		$form_styles = '';
