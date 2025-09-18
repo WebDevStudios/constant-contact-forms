@@ -8,6 +8,13 @@
 
 .ctct-form-wrapper {
 
+	.ctct-form {
+		&.ctct-inline-form {
+			display: flex;
+			align-items: flex-end;
+		}
+	}
+
 	input {
 
 		&[type='text'],
