@@ -195,7 +195,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Fixed: Custom color choices were not applying to all parts of form text output.
 
 == Upgrade Notice ==
-* We will soon be releasing a version of Constant Contact Forms that has a major upgrade to our API behind the scenes. Information will be provided at the time to help ease the process. You should not need to recreate any existing forms, but will need to re-authenticate.
+* Fixes around account details, improved compatibility with popular themes, and little details.
 
 == Frequently Asked Questions ==
 
