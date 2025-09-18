@@ -9,9 +9,13 @@
 .ctct-form-wrapper {
 
 	.ctct-form {
-		&.ctct-inline-form {
+		&.ctct-inline {
 			display: flex;
 			align-items: flex-end;
+
+			.ctct-form-field-submit {
+				margin-left: 10px;
+			}
 		}
 	}
 
