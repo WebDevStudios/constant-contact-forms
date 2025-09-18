@@ -60,9 +60,12 @@
   }
 }
 
-.ctct-form-wrapper .ctct-form.ctct-inline-form {
+.ctct-form-wrapper .ctct-form.ctct-inline {
   display: flex;
   align-items: flex-end;
+}
+.ctct-form-wrapper .ctct-form.ctct-inline .ctct-form-field-submit {
+  margin-left: 10px;
 }
 .ctct-form-wrapper input[type=text]:required:valid, .ctct-form-wrapper input[type=email]:required:valid, .ctct-form-wrapper input[type=password]:required:valid, .ctct-form-wrapper input[type=tel]:required:valid, .ctct-form-wrapper input[type=number]:required:valid {
   background-image: url(../images/check_circle.svg);
