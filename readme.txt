@@ -53,10 +53,11 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Fixed: Details around address data retrieval from Constant Contact, used in disclosure text.
 * Updated: Added extra theme compatibility for popular themes.
 * Updated: Removed "edit" link on frontend form display to avoid potential confusion.
+* Updated: Adjusted details around cron jobs related to API token tasks.
 * Added: Admin area "edit form" link output for chosen form in Constant Contact Forms Block.
 * Added: Keywords for Elementor widget integration.
 * Added: Dedicated color picker for form title display.
-* Added: Ability to display form horizontally when just using just the email field.
+* Added: Ability to display form horizontally when using just the email field.
 
 = 2.12.0 =
 * Fixed: Fatal errors around list creation within WordPress dashboard.
