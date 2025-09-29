@@ -353,16 +353,18 @@ class ConstantContact_Display {
 		 * @param int    $form_id ID of the Constant Contact form being rendered.
 		 */
 		$form_action              = apply_filters( 'constant_contact_front_form_action', '', $form_id );
+		$inline_form              = get_post_meta( $form_id, '_ctct_inline_display', true );
 		$should_do_ajax           = get_post_meta( $form_id, '_ctct_do_ajax', true );
 		$do_ajax                  = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
 		$should_disable_captcha   = get_post_meta( $form_id, '_ctct_disable_recaptcha', true ); // Note: Despite option name, this applies to whatever the enabled captcha service is.
 		$disable_captcha          = 'on' === $should_disable_captcha;
-		$form_classes             = 'ctct-form ctct-form-' . $form_id;
-		$form_classes            .= ' comment-form';
+
+		$form_classes             = [ 'ctct-form ctct-form-' . $form_id, 'comment-form' ];
 
 		// TODO?: Rename this to has-captcha/no-captcha?
-		$form_classes            .= $captcha_service->is_captcha_enabled() && ! $disable_captcha ? ' has-recaptcha' : ' no-recaptcha';
-		$form_classes            .= $this->build_custom_form_classes();
+		$form_classes[] = $captcha_service->is_captcha_enabled() && ! $disable_captcha ? ' has-recaptcha' : ' no-recaptcha';
+		$form_classes[] = 'on' === $inline_form ? 'ctct-inline' : 'ctct-default';
+		$form_classes = array_merge( $form_classes, $this->build_custom_form_classes() );
 
 		$form_styles = '';
 		if ( ! empty( $this->specific_form_styles['form_background_color'] ) ) {
@@ -408,7 +410,7 @@ class ConstantContact_Display {
 			$return .= $this->description( $form_data['options']['description'], $form_id );
 		}
 
-		$return .= '<form class="' . esc_attr( $form_classes ) . '" id="' . $rf_id . '" ';
+		$return .= '<form class="' . esc_attr( implode( ' ', $form_classes ) ) . '" id="' . $rf_id . '" ';
 		$return .= 'data-doajax="' . esc_attr( $do_ajax ) . '" ';
 		$return .= 'style="' . esc_attr( $form_styles ) . '" ';
 		$return .= 'action="' . esc_attr( $form_action ) . '" ';
@@ -720,20 +722,27 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return string
+	 * @return array
 	 */
-	public function build_custom_form_classes() : string {
-		$custom = '';
-
+	public function build_custom_form_classes() : array {
+		$custom   = [];
+		$global   = [];
+		$per_form = [];
 		if ( ! empty( $this->global_form_styles['global_form_classes'] ) ) {
-			$custom .= ' ' . esc_attr( $this->global_form_styles['global_form_classes'] );
+			$global = explode( ' ', $this->global_form_styles['global_form_classes'] );
+			if ( ! empty( $global ) ) {
+				$custom = array_merge( $custom, $global );
+			}
 		}
 
 		if ( ! empty( $this->specific_form_styles['input_custom_classes'] ) ) {
-			$custom .= ' ' . esc_attr( $this->specific_form_styles['input_custom_classes'] );
+			$per_form = explode( ' ', $this->specific_form_styles['input_custom_classes'] );
+			if ( ! empty( $per_form ) ) {
+				$custom = array_merge( $custom, $per_form );
+			}
 		}
 
-		return $custom;
+		return array_unique( array_filter( array_merge( $custom, $global, $per_form ) ) );
 	}
 
 	/**

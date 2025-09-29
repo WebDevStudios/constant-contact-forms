@@ -777,6 +777,15 @@ class ConstantContact_Builder_Fields {
 			]
 		);
 
+		$fields_metabox->add_field(
+			[
+				'name'       => esc_html__( 'Display inline?', 'constant-contact-forms' ),
+				'desc'       => esc_html__( 'Show fields in a horizontal row instead of column. Only available when using just email field.', 'constant-contact-forms' ),
+				'id'         => $this->prefix . 'inline_display',
+				'type'       => 'checkbox',
+			]
+		);
+
 		$custom_group = $fields_metabox->add_field(
 			[
 				'id'          => 'custom_fields_group',
@@ -784,8 +793,8 @@ class ConstantContact_Builder_Fields {
 				'repeatable'  => true,
 				'options'     => [
 					'group_title'   => esc_html__( 'Field {#}', 'constant-contact-forms' ),
-					'add_button'    => esc_html__( 'Add Another Field', 'constant-contact-forms' ),
-					'remove_button' => esc_html__( 'Remove Field', 'constant-contact-forms' ),
+					'add_button'    => esc_html__( 'Add another field', 'constant-contact-forms' ),
+					'remove_button' => esc_html__( 'Remove field', 'constant-contact-forms' ),
 					'sortable'      => true,
 				],
 				'after_group' => [ $this, 'unique_label_messaging' ],

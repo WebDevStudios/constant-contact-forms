@@ -142,6 +142,7 @@ window.CTCTBuilder = {};
 			that.removeDuplicateMappings();
 		});
 
+		const inlineForm = document.querySelector('#_ctct_inline_display');
 		// If we get a row added, then do our stuff.
 		// `cmb2_add_row` is a custom jQuery based event, so we are leaving this selector.
 		$(document).on('cmb2_add_row', (newRow) => { // eslint-disable-line no-unused-vars
@@ -154,9 +155,22 @@ window.CTCTBuilder = {};
 				}
 			}
 
+			if (groupPostBoxes.length > 1) {
+				inlineForm.checked = false;
+				inlineForm.setAttribute('disabled',true);
+			}
+
 			that.modifyFields();
 			that.selectBinds();
 			that.removeDuplicateMappings();
+		});
+
+		$(document).on('cmb2_remove_row', () => { // eslint-disable-line no-unused-vars
+			// Maybe enable inline checkbox.
+			const groupPostBoxes = document.querySelectorAll('#custom_fields_group_repeat .postbox');
+			if (groupPostBoxes.length === 1) {
+				inlineForm.removeAttribute('disabled');
+			}
 		});
 
 		that.removeDuplicateMappings();
@@ -220,6 +234,12 @@ window.CTCTBuilder = {};
 				Array.from(includeItems).forEach((item) => {
 					item.addEventListener('change', that.addressChange);
 				});
+			}
+
+			const groupPostBoxes = document.querySelectorAll('#custom_fields_group_repeat .postbox');
+			if (groupPostBoxes.length > 1) {
+				inlineForm.checked = false;
+				inlineForm.setAttribute('disabled', true);
 			}
 		});
 	};
