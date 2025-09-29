@@ -446,6 +446,18 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field(
 			[
+				'name'        => esc_html__( 'Title font color', 'constant-contact-forms' ),
+				'id'          => $this->prefix . 'form_title_font_color',
+				'type'        => 'colorpicker',
+				'description' => esc_html__(
+					'Applies to the form title, if shown.',
+					'constant-contact-forms'
+				),
+			]
+		);
+
+		$custom_css_metabox->add_field(
+			[
 				'name' => esc_html__( 'Form Fonts', 'constant-contact-forms' ),
 				'type' => 'title',
 				'id'   => 'form-description-title',
