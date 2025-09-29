@@ -55,6 +55,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Updated: Removed "edit" link on frontend form display to avoid potential confusion.
 * Added: Admin area "edit form" link output for chosen form in Constant Contact Forms Block.
 * Added: Keywords for Elementor widget integration.
+* Added: Dedicated color picker for form title display.
 
 = 2.12.0 =
 * Fixed: Fatal errors around list creation within WordPress dashboard.
