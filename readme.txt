@@ -56,12 +56,13 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: Admin area "edit form" link output for chosen form in Constant Contact Forms Block.
 * Added: Keywords for Elementor widget integration.
 * Added: Dedicated color picker for form title display.
+* Added: Ability to display form horizontally when just using just the email field.
 
 = 2.12.0 =
 * Fixed: Fatal errors around list creation within WordPress dashboard.
 * Fixed: Touchups and style bugs around Forms block.
 * Fixed: Require list selection if site has a connected account but no list is chosen for form.
-* Added: Ability to select the heading level when showing form title
+* Added: Ability to select the heading level when showing form title.
 * Updated: Touched up styles and wording in form editor.
 * Updated: Adjusted Google reCAPTCHA version 3 token timing. Assigned upon submit instead of pageload, to help avoid 2 minute expiration issues.
 
