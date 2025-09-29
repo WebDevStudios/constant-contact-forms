@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
 Tested up to:      6.8
-Stable tag:        2.12.0
+Stable tag:        2.13.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -49,11 +49,21 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= 2.13.0 =
+* Fixed: Details around address data retrieval from Constant Contact, used in disclosure text.
+* Updated: Added extra theme compatibility for popular themes.
+* Updated: Removed "edit" link on frontend form display to avoid potential confusion.
+* Updated: Adjusted details around cron jobs related to API token tasks.
+* Added: Admin area "edit form" link output for chosen form in Constant Contact Forms Block.
+* Added: Keywords for Elementor widget integration.
+* Added: Dedicated color picker for form title display.
+* Added: Ability to display form horizontally when using just the email field.
+
 = 2.12.0 =
 * Fixed: Fatal errors around list creation within WordPress dashboard.
 * Fixed: Touchups and style bugs around Forms block.
 * Fixed: Require list selection if site has a connected account but no list is chosen for form.
-* Added: Ability to select the heading level when showing form title
+* Added: Ability to select the heading level when showing form title.
 * Updated: Touched up styles and wording in form editor.
 * Updated: Adjusted Google reCAPTCHA version 3 token timing. Assigned upon submit instead of pageload, to help avoid 2 minute expiration issues.
 
@@ -188,25 +198,28 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Fixed: moved "Edit form" link to outside the `<form>` markup.
 * Fixed: Custom color choices were not applying to all parts of form text output.
 
+== Upgrade Notice ==
+* Fixes around account details, improved compatibility with popular themes, and little details.
+
 == Frequently Asked Questions ==
 
 #### Installation and Setup
-[HELP: Install the Constant Contact Forms Plugin for WordPress to Gather Sign-Ups and Feedback](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integration-with-Constant-Contact)
+[HELP: Install the Constant Contact Forms Plugin for WordPress to Gather Sign-Ups and Feedback](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/10054-Install-the-Constant-Contact-Forms-plugin-for-WordPress-to-gather-sign-ups-and-feedback?lang=en_US)
 
 #### Constant Contact Forms Options
-[HELP: Add email opt-in to a WordPress Form created with the Constant Contact plugin](http://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options)
+[HELP: Add email opt-in to a WordPress Form created with the Constant Contact plugin](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/18260-Add-email-opt-in-to-a-WordPress-Form-created-with-the-Constant-Contact-plugin?lang=en_US)
 
 #### Frequently Asked Questions
-[HELP: Enable Logging in the Constant Contact Forms for WordPress Plugin](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18491-Enable-Logging-in-the-Constant-Contact-Forms-for-WordPress-Plugin)
+[HELP: Enable Logging in the Constant Contact Forms for WordPress Plugin](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/18491-Enable-logging-in-the-Constant-Contact-Forms-for-WordPress-Plugin?lang=en_US)
 
 #### Constant Contact List Addition Issues
-[HELP: Troubleshooting List Addition Issues in the Constant Contact Forms Plugin for WordPress](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18539-WordPress-Constant-Contact-List-Addition-Issues)
+[HELP: Troubleshooting List Addition Issues in the Constant Contact Forms Plugin for WordPress](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/18539-Troubleshooting-list-addition-issues-in-the-Constant-Contact-Forms-Plugin-for-WordPress?lang=en_US)
 
 #### cURL error 60: SSL certificate problem
-[HELP: WordPress cURL Error 60: SSL Certificate Problem](https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18159-WordPress-Error-60)
+[HELP: WordPress cURL Error 60: SSL Certificate Problem](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/18159-WordPress-cURL-error-60-SSL-certificate-problem?lang=en_US)
 
 #### Add Google reCAPTCHA to Constant Contact Forms
-[HELP: Add Google reCAPTCHA to Your WordPress Sign-up Form to Prevent Spam Entries](http://knowledgebase.constantcontact.com/articles/KnowledgeBase/17880)
+[HELP: Add Google reCAPTCHA to Your WordPress Sign-up Form to Prevent Spam Entries](https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/17880-Add-Google-reCAPTCHA-to-your-WordPress-sign-up-form-to-prevent-spam-entries?lang=en_US)
 
 #### How do I include which custom fields labels are which custom field values in my Constant Contact Account?
 You can add this to your active theme or custom plugin: `add_filter( 'constant_contact_include_custom_field_label', '__return_true' );`. Note: custom fields have a max length of 50 characters. Including the labels will subtract from the 50 character total available.
@@ -216,6 +229,3 @@ You will need to make the connection to Constant Contact using the credentials o
 
 ### Error: Please select at least one list to subscribe to.
 Some users are experiencing errors when upgrading from an older version of the plugin. If you are receiving an error "Please select at least one list to subscribe to" on your form submissions we recommend "Sync Lists with Constant Contact", this can be found in your admin dashboard Contact Form > Lists. If problem still persists we recommend recreating the form from scratch.
-
-== Upgrade Notice ==
-* We will soon be releasing a version of Constant Contact Forms that has a major upgrade to our API behind the scenes. Information will be provided at the time to help ease the process. You should not need to recreate any existing forms, but will need to re-authenticate.

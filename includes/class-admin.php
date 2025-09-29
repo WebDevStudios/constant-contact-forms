@@ -427,7 +427,7 @@ class ConstantContact_Admin {
 	 * @return array
 	 */
 	public function set_custom_lists_columns( array $columns ) : array {
-		$columns['ctct_total'] = esc_html__( 'Contact Count', 'constant-contact-forms' );
+		$columns['ctct_total'] = esc_html__( 'Contact count', 'constant-contact-forms' );
 
 		unset( $columns['date'] );
 
@@ -573,8 +573,8 @@ class ConstantContact_Admin {
 				'constant_contact_localized_js_texts',
 				[
 					'leavewarning'     => esc_html__( 'You have unsaved changes.', 'constant-contact-forms' ),
-					'move_up'          => esc_html__( 'move up', 'constant-contact-forms' ),
-					'move_down'        => esc_html__( 'move down', 'constant-contact-forms' ),
+					'move_up'          => esc_html__( 'Move up', 'constant-contact-forms' ),
+					'move_down'        => esc_html__( 'Move down', 'constant-contact-forms' ),
 					'no_selected_list' => esc_html__( 'Please select a list for this form', 'constant-contact-forms' ),
 				]
 			)

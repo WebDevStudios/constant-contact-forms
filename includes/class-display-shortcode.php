@@ -104,10 +104,14 @@ class ConstantContact_Display_Shortcode {
 		}
 
 		$form_data = $this->get_field_meta( $meta, $form_id );
+		$classes = [ 'ctct-form-wrapper' ];
+		$custom  = $this->wrapper_classes();
+		$all_classes = array_merge( $classes, $custom );
 		$form      = sprintf(
-			'<div data-form-id="%1$s" id="ctct-form-wrapper-%2$s" class="ctct-form-wrapper">%3$s</div>',
+			'<div data-form-id="%1$s" id="ctct-form-wrapper-%2$s" class="%3$s">%4$s</div>',
 			esc_attr( $form_id ),
 			esc_attr( self::$form_instance ),
+			esc_attr( implode( ' ', $all_classes ) ),
 			constant_contact()->get_display()->form( $form_data, $form_id, $show_title, self::$form_instance )
 		);
 
@@ -288,5 +292,23 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function enqueue_display_styles() {
 		constant_contact()->get_display()->styles( true );
+	}
+
+	/**
+	 * Helper method for custom wrapper classes for popular theme compatibility.
+	 *
+	 * @since 2.13.0
+	 *
+	 * @return array
+	 */
+	private function wrapper_classes() {
+		$classes = [];
+
+		// Divi
+		if ( defined( 'ET_CORE_VERSION' ) ) {
+			$classes[] = 'et_pb_contact';
+		}
+
+		return $classes;
 	}
 }

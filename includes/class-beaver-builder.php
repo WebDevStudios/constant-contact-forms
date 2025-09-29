@@ -81,7 +81,7 @@ class ConstantContact_Beaver_Builder {
 	 *
 	 * @since 1.10.0
 	 */
-	private function get_form_options() {
+	private function get_form_options() : array {
 
 		$options = [];
 

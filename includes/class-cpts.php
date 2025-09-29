@@ -63,35 +63,37 @@ class ConstantContact_CPTS {
 	public function forms_post_type() {
 
 		$labels = [
-			'name'                  => esc_html_x( 'Forms', 'Post Type General Name', 'constant-contact-forms' ),
-			'singular_name'         => esc_html_x( 'Form', 'Post Type Singular Name', 'constant-contact-forms' ),
-			'menu_name'             => esc_html__( 'Contact Form', 'constant-contact-forms' ),
-			'name_admin_bar'        => esc_html__( 'Contact Form', 'constant-contact-forms' ),
-			'archives'              => esc_html__( 'Form Archives', 'constant-contact-forms' ),
-			'parent_item_colon'     => esc_html__( 'Parent Form:', 'constant-contact-forms' ),
-			'all_items'             => esc_html__( 'Forms', 'constant-contact-forms' ),
-			'add_new_item'          => esc_html__( 'Add New Form', 'constant-contact-forms' ),
-			'add_new'               => esc_html__( 'Add Form', 'constant-contact-forms' ),
-			'new_item'              => esc_html__( 'New Form', 'constant-contact-forms' ),
-			'edit_item'             => esc_html__( 'Edit Form', 'constant-contact-forms' ),
-			'update_item'           => esc_html__( 'Update Form', 'constant-contact-forms' ),
-			'view_item'             => esc_html__( 'View Form', 'constant-contact-forms' ),
-			'search_items'          => esc_html__( 'Search Form', 'constant-contact-forms' ),
-			'not_found'             => esc_html__( 'No forms found', 'constant-contact-forms' ),
-			'not_found_in_trash'    => esc_html__( 'No forms found in Trash', 'constant-contact-forms' ),
-			'featured_image'        => esc_html__( 'Featured Image', 'constant-contact-forms' ),
-			'set_featured_image'    => esc_html__( 'Set featured image', 'constant-contact-forms' ),
-			'remove_featured_image' => esc_html__( 'Remove featured image', 'constant-contact-forms' ),
-			'use_featured_image'    => esc_html__( 'Use as featured image', 'constant-contact-forms' ),
-			'insert_into_item'      => esc_html__( 'Insert into Form', 'constant-contact-forms' ),
-			'uploaded_to_this_item' => esc_html__( 'Uploaded to this Form', 'constant-contact-forms' ),
-			'items_list'            => esc_html__( 'Forms list', 'constant-contact-forms' ),
-			'items_list_navigation' => esc_html__( 'Forms list navigation', 'constant-contact-forms' ),
-			'filter_items_list'     => esc_html__( 'Filter forms list', 'constant-contact-forms' ),
+			'name'                     => esc_html_x( 'Forms', 'Post type general name', 'constant-contact-forms' ),
+			'singular_name'            => esc_html_x( 'Form', 'Post type singular name', 'constant-contact-forms' ),
+			'menu_name'                => esc_html__( 'Contact form', 'constant-contact-forms' ),
+			'name_admin_bar'           => esc_html__( 'Contact form', 'constant-contact-forms' ),
+			'archives'                 => esc_html__( 'Form archives', 'constant-contact-forms' ),
+			'parent_item_colon'        => esc_html__( 'Parent form:', 'constant-contact-forms' ),
+			'all_items'                => esc_html__( 'Forms', 'constant-contact-forms' ),
+			'add_new_item'             => esc_html__( 'Add new form', 'constant-contact-forms' ),
+			'add_new'                  => esc_html__( 'Add form', 'constant-contact-forms' ),
+			'new_item'                 => esc_html__( 'New form', 'constant-contact-forms' ),
+			'edit_item'                => esc_html__( 'Edit form', 'constant-contact-forms' ),
+			'update_item'              => esc_html__( 'Update form', 'constant-contact-forms' ),
+			'view_item'                => esc_html__( 'View form', 'constant-contact-forms' ),
+			'search_items'             => esc_html__( 'Search forms', 'constant-contact-forms' ),
+			'not_found'                => esc_html__( 'No forms found', 'constant-contact-forms' ),
+			'not_found_in_trash'       => esc_html__( 'No forms found in trash', 'constant-contact-forms' ),
+			'insert_into_item'         => esc_html__( 'Insert into form', 'constant-contact-forms' ),
+			'uploaded_to_this_item'    => esc_html__( 'Uploaded to this form', 'constant-contact-forms' ),
+			'items_list'               => esc_html__( 'Forms list', 'constant-contact-forms' ),
+			'items_list_navigation'    => esc_html__( 'Forms list navigation', 'constant-contact-forms' ),
+			'filter_items_list'        => esc_html__( 'Filter forms list', 'constant-contact-forms' ),
+			'item_published'           => esc_html__( 'Form published', 'constant-contact-forms' ),
+			'item_published_privately' => esc_html__( 'Form published privately', 'constant-contact-forms' ),
+			'item_reverted_to_draft'   => esc_html__( 'Form reverted to draft', 'constant-contact-forms' ),
+			'item_scheduled'           => esc_html__( 'Form scheduled', 'constant-contact-forms' ),
+			'item_trashed'             => esc_html__( 'Form trashed', 'constant-contact-forms' ),
+			'item_updated'             => esc_html__( 'Form updated', 'constant-contact-forms' ),
 		];
 		$args   = [
 			'label'               => esc_html__( 'Constant Contact', 'constant-contact-forms' ),
-			'description'         => esc_html__( 'Constant Contact forms.', 'constant-contact-forms' ),
+			'description'         => esc_html__( 'Constant Contact Forms.', 'constant-contact-forms' ),
 			'labels'              => $labels,
 			'supports'            => [ 'title' ],
 			'taxonomies'          => [],
@@ -122,28 +124,24 @@ class ConstantContact_CPTS {
 	public function lists_post_type() {
 
 		$labels = [
-			'name'                  => esc_html_x( 'Lists', 'Post Type General Name', 'constant-contact-forms' ),
-			'singular_name'         => esc_html_x( 'List', 'Post Type Singular Name', 'constant-contact-forms' ),
+			'name'                  => esc_html_x( 'Lists', 'Post type general name', 'constant-contact-forms' ),
+			'singular_name'         => esc_html_x( 'List', 'Post type singular name', 'constant-contact-forms' ),
 			'menu_name'             => esc_html__( 'Lists', 'constant-contact-forms' ),
 			'name_admin_bar'        => esc_html__( 'Lists', 'constant-contact-forms' ),
-			'archives'              => esc_html__( 'List Archives', 'constant-contact-forms' ),
-			'parent_item_colon'     => esc_html__( 'Parent List:', 'constant-contact-forms' ),
+			'archives'              => esc_html__( 'List archives', 'constant-contact-forms' ),
+			'parent_item_colon'     => esc_html__( 'Parent list:', 'constant-contact-forms' ),
 			'all_items'             => esc_html__( 'Lists', 'constant-contact-forms' ),
-			'add_new_item'          => esc_html__( 'Add New List', 'constant-contact-forms' ),
-			'add_new'               => esc_html__( 'Add New List', 'constant-contact-forms' ),
-			'new_item'              => esc_html__( 'New List', 'constant-contact-forms' ),
-			'edit_item'             => esc_html__( 'Edit List', 'constant-contact-forms' ),
-			'update_item'           => esc_html__( 'Update List', 'constant-contact-forms' ),
-			'view_item'             => esc_html__( 'View List', 'constant-contact-forms' ),
-			'search_items'          => esc_html__( 'Search List', 'constant-contact-forms' ),
+			'add_new_item'          => esc_html__( 'Add new list', 'constant-contact-forms' ),
+			'add_new'               => esc_html__( 'Add new list', 'constant-contact-forms' ),
+			'new_item'              => esc_html__( 'New list', 'constant-contact-forms' ),
+			'edit_item'             => esc_html__( 'Edit list', 'constant-contact-forms' ),
+			'update_item'           => esc_html__( 'Update list', 'constant-contact-forms' ),
+			'view_item'             => esc_html__( 'View list', 'constant-contact-forms' ),
+			'search_items'          => esc_html__( 'Search lists', 'constant-contact-forms' ),
 			'not_found'             => esc_html__( 'Not found', 'constant-contact-forms' ),
-			'not_found_in_trash'    => esc_html__( 'Not found in Trash', 'constant-contact-forms' ),
-			'featured_image'        => esc_html__( 'Featured Image', 'constant-contact-forms' ),
-			'set_featured_image'    => esc_html__( 'Set featured image', 'constant-contact-forms' ),
-			'remove_featured_image' => esc_html__( 'Remove featured image', 'constant-contact-forms' ),
-			'use_featured_image'    => esc_html__( 'Use as featured image', 'constant-contact-forms' ),
-			'insert_into_item'      => esc_html__( 'Insert into List', 'constant-contact-forms' ),
-			'uploaded_to_this_item' => esc_html__( 'Uploaded to this List', 'constant-contact-forms' ),
+			'not_found_in_trash'    => esc_html__( 'Not found in trash', 'constant-contact-forms' ),
+			'insert_into_item'      => esc_html__( 'Insert into list', 'constant-contact-forms' ),
+			'uploaded_to_this_item' => esc_html__( 'Uploaded to this list', 'constant-contact-forms' ),
 			'items_list'            => esc_html__( 'Lists list', 'constant-contact-forms' ),
 			'items_list_navigation' => esc_html__( 'Lists list navigation', 'constant-contact-forms' ),
 			'filter_items_list'     => esc_html__( 'Filter lists list', 'constant-contact-forms' ),
@@ -159,7 +157,6 @@ class ConstantContact_CPTS {
 			'show_ui'             => true,
 			'show_in_menu'        => 'edit.php?post_type=ctct_forms',
 			'menu_position'       => 20,
-			'menu_icon'           => 'dashicons-megaphone',
 			'show_in_admin_bar'   => false,
 			'show_in_nav_menus'   => false,
 			'can_export'          => true,
@@ -173,14 +170,14 @@ class ConstantContact_CPTS {
 	}
 
 	/**
-	 * Custom post udate messages to match CPT naming.
+	 * Custom post update messages to match CPT naming.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param array $messages Default update messages.
 	 * @return array appended update messages with custom post types.
 	 */
-	public function post_updated_messages( $messages ) {
+	public function post_updated_messages( $messages ) : array {
 		global $post;
 
 		$revision = filter_input( INPUT_GET, 'revision', FILTER_SANITIZE_NUMBER_INT );
@@ -239,7 +236,7 @@ class ConstantContact_CPTS {
 	 * @param WP_Post $post Post object.
 	 * @return string $title output string
 	 */
-	public function change_default_title( string $title, WP_Post $post ) {
+	public function change_default_title( string $title, WP_Post $post ) : string {
 
 		if ( 'ctct_forms' === $post->post_type ) {
 			$title = sprintf(
@@ -338,7 +335,7 @@ class ConstantContact_CPTS {
 	 *
 	 * @return array
 	 */
-	public function duplicate_form_link( $actions, $post ) {
+	public function duplicate_form_link( $actions, $post ) : array {
 		if ( 'ctct_forms' !== $post->post_type ) {
 			return $actions;
 		}

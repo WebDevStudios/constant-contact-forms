@@ -92,7 +92,7 @@ class ConstantContactWidget extends WP_Widget {
 	 * @param array $old_instance Original data.
 	 * @return array Updated data.
 	 */
-	public function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) : array {
 		$instance                 = $old_instance;
 		$instance['ctct_title']   = trim( wp_strip_all_tags( $new_instance['ctct_title'] ) );
 		$instance['ctct_form_id'] = trim( wp_strip_all_tags( $new_instance['ctct_form_id'] ) );
@@ -138,7 +138,7 @@ class ConstantContactWidget extends WP_Widget {
 	 *
 	 * @return array
 	 */
-	public function get_forms() {
+	public function get_forms() : array {
 
 		$args = [
 			'post_type'      => 'ctct_forms',
@@ -163,7 +163,7 @@ class ConstantContactWidget extends WP_Widget {
 	 * @param WP_Post $post Post object.
 	 * @return array
 	 */
-	public function get_form_fields( $post ) {
+	public function get_form_fields( WP_Post $post ) :array {
 		return [ $post->ID => $post->post_title ];
 	}
 
@@ -174,7 +174,7 @@ class ConstantContactWidget extends WP_Widget {
 	 *
 	 * @param array $args Arguments for checkbox.
 	 */
-	public function form_input_checkbox( $args = [] ) {
+	public function form_input_checkbox( array $args = [] ) {
 
 		if ( ! empty( $args ) ) {
 			$label_text = esc_attr( $args['label_text'] );
@@ -200,7 +200,7 @@ class ConstantContactWidget extends WP_Widget {
 	 *
 	 * @param array $args Arguments for text input.
 	 */
-	public function form_input_text( $args = [] ) {
+	public function form_input_text( array $args = [] ) {
 
 		if ( ! empty( $args ) ) {
 			$label_text = esc_attr( $args['label_text'] );
@@ -226,7 +226,7 @@ class ConstantContactWidget extends WP_Widget {
 	 *
 	 * @param array $args Arguments for select input.
 	 */
-	public function form_input_select( $args = [] ) {
+	public function form_input_select( array $args = [] ) {
 		if ( ! empty( $args ) ) {
 			$label_text = esc_attr( $args['label_text'] );
 			$name       = esc_attr( $args['name'] );

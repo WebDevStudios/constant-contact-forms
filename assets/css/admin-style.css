@@ -1,3 +1,8 @@
+.ctct-modal::after {
+  clear: both;
+  content: "";
+  display: table;
+}
 .ctct-modal {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
@@ -10,11 +15,6 @@
   right: 0;
   top: 0;
   z-index: 9999;
-}
-.ctct-modal::after {
-  clear: both;
-  content: "";
-  display: table;
 }
 .ctct-modal h2 {
   font-size: 28px;
@@ -87,6 +87,11 @@
 .ctct-modal .ctct-modal-content .ctct-modal-header p .displayed-shortcode {
   color: #333;
 }
+.ctct-modal .ctct-modal-content .ctct-modal-header .ctct-modal-close::after {
+  clear: both;
+  content: "";
+  display: table;
+}
 .ctct-modal .ctct-modal-content .ctct-modal-header .ctct-modal-close {
   color: #000;
   cursor: pointer;
@@ -103,11 +108,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.ctct-modal .ctct-modal-content .ctct-modal-header .ctct-modal-close::after {
-  clear: both;
-  content: "";
-  display: table;
 }
 .ctct-modal .ctct-modal-content .ctct-modal-footer {
   background-color: #f7f7f7;
@@ -165,14 +165,14 @@
 .ctct-modal .ctct-modal-content .ctct-modal-footer .button.button-blue:hover, .ctct-modal .ctct-modal-content .ctct-modal-footer .button.button-blue:focus {
   background-color: rgb(0, 88.6153846154, 144);
 }
-.ctct-modal .ctct-modal-content .ctct-modal-body {
-  padding: 15px;
-  position: relative;
-}
 .ctct-modal .ctct-modal-content .ctct-modal-body::after {
   clear: both;
   content: "";
   display: table;
+}
+.ctct-modal .ctct-modal-content .ctct-modal-body {
+  padding: 15px;
+  position: relative;
 }
 .ctct-modal .ctct-modal-content .ctct-modal-body.ctct-privacy-modal-body {
   height: 350px;

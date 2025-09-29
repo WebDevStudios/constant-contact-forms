@@ -139,8 +139,8 @@ class ConstantContact_Admin_Pages {
 
 				<div class="ctct-section">
 					<div class="ctct-button-actions">
-						<a href="post-new.php?post_type=ctct_forms" class="button button-primary"><?php esc_html_e( 'Add Contact Form', 'constant-contact-forms' ); ?></a>
-						<a href="edit.php?post_type=ctct_lists" class="button"><?php esc_html_e( 'View Lists', 'constant-contact-forms' ); ?></a>
+						<a href="post-new.php?post_type=ctct_forms" class="button button-primary"><?php esc_html_e( 'Add contact form', 'constant-contact-forms' ); ?></a>
+						<a href="edit.php?post_type=ctct_lists" class="button"><?php esc_html_e( 'View lists', 'constant-contact-forms' ); ?></a>
 					</div>
 				</div>
 

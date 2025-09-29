@@ -471,12 +471,12 @@ class ConstantContact_Settings {
 				$disclosure_info = $this->plugin->get_api()->get_disclosure_info( true );
 				if ( ! empty( $disclosure_info ) ) {
 					$business_name = $disclosure_info['name'] ?: $business_name;
-					$business_addr = isset( $disclosure_info['address'] ) ?: '';
+					$business_addr = $disclosure_info['address'] ?: '';
 				}
 
 				$cmb->add_field(
 					[
-						'name'    => esc_html__( 'Opt-in Affirmation', 'constant-contact-forms' ),
+						'name'    => esc_html__( 'Opt-in affirmation', 'constant-contact-forms' ),
 						'id'      => '_ctct_optin_label',
 						'type'    => 'text',
 						// translators: placeholder will hold site owner's business name.
@@ -509,7 +509,7 @@ class ConstantContact_Settings {
 
 				$cmb->add_field(
 					[
-						'name'       => esc_html__( 'Opt-in Location', 'constant-contact-forms' ),
+						'name'       => esc_html__( 'Opt-in location', 'constant-contact-forms' ),
 						'id'         => '_ctct_optin_forms',
 						'type'       => 'multicheck',
 						'options'    => $this->get_optin_show_options(),

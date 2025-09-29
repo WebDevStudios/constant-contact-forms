@@ -165,7 +165,7 @@ class ConstantContact_API {
 		$this->scopes = array_flip( $this->valid_scopes );
 
 		add_action( 'init', [ $this, 'cct_init' ] );
-		add_action( 'refresh_token_job', [ $this, 'refresh_token' ] );
+		add_action( 'ctct_refresh_token_job', [ $this, 'refresh_token' ] );
 		add_action( 'ctct_access_token_acquired', [ $this, 'clear_missed_api_requests' ] );
 	}
 
@@ -194,24 +194,25 @@ class ConstantContact_API {
 			}
 		}
 
-		// custom scheduling based on the expiry time returned with access token
-		if ( ! empty( $this->expires_in ) ) {
-			add_filter(
-				'cron_schedules',
-				function ( $schedules ) {
-					$schedules['pkce_expiry'] = [
-						'interval' => $this->expires_in - 3600, // refreshing token before 1 hour of expiry
-						'display'  => esc_html__( 'Token Expiry', 'constant-contact-forms' ),
-					];
-					return $schedules;
-				}
-			);
+		// custom scheduling based on the expiry time returned with access token.
+		add_filter(
+			'cron_schedules',
+			function ( $schedules ) {
+				$schedules['pkce_expiry'] = [
+					'interval' => 82800, // refreshing token before 1 hour of expiry.
+					'display'  => esc_html__( 'Constant Contact token expiry', 'constant-contact-forms' ),
+				];
 
-			if ( ! wp_next_scheduled( 'refresh_token_job' ) ) { // if it hasn't been scheduled
-				wp_schedule_event( time(), 'pkce_expiry', 'refresh_token_job' ); // schedule it
+				return $schedules;
+			}
+		);
+
+		if ( ! empty( $this->expires_in ) ) {
+			if ( ! wp_next_scheduled( 'ctct_refresh_token_job' ) ) { // if it hasn't been scheduled
+				wp_schedule_event( time(), 'pkce_expiry', 'ctct_refresh_token_job' ); // schedule it
 			}
 		} else {
-			wp_unschedule_hook( 'refresh_token_job' );
+			wp_unschedule_hook( 'ctct_refresh_token_job' );
 		}
 
 		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
@@ -219,7 +220,6 @@ class ConstantContact_API {
 				$this->refresh_token();
 			}
 		}
-
 	}
 
 	/**
@@ -1215,7 +1215,7 @@ class ConstantContact_API {
 		 * ]
 		 */
 
-		static $address_fields = [ 'line1', 'city', 'state_code', 'postal_code' ];
+		static $address_fields = [ 'address_line1', 'address_line2', 'address_line3', 'city', 'state_code', 'postal_code' ];
 
 		// Grab disclosure info from the API.
 		$account_info = $this->get_account_info();
@@ -1235,10 +1235,10 @@ class ConstantContact_API {
 
 		// Determine the address to use for disclosure from the API.
 		if (
-			isset( $account_info->organization_addresses )
-			&& count( $account_info->organization_addresses )
+			isset( $account_info['physical_address'] )
+			&& count( $account_info['physical_address'] )
 		) {
-			$organization_address = array_shift( $account_info->organization_addresses );
+			$organization_address = $account_info['physical_address'];
 			$disclosure_address   = [];
 
 			if ( is_array( $address_fields ) ) {
@@ -1254,8 +1254,8 @@ class ConstantContact_API {
 			unset( $disclosure['address'] );
 		}
 
-		if ( ! empty( $account_info->website ) ) {
-			$disclosure['website'] = $account_info->website;
+		if ( ! empty( $account_info['website'] ) ) {
+			$disclosure['website'] = $account_info['website'];
 		}
 
 		return $as_parts ? $disclosure : implode( ', ', array_values( $disclosure ) );

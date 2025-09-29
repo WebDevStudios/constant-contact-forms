@@ -446,6 +446,18 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field(
 			[
+				'name'        => esc_html__( 'Title font color', 'constant-contact-forms' ),
+				'id'          => $this->prefix . 'form_title_font_color',
+				'type'        => 'colorpicker',
+				'description' => esc_html__(
+					'Applies to the form title, if shown.',
+					'constant-contact-forms'
+				),
+			]
+		);
+
+		$custom_css_metabox->add_field(
+			[
 				'name' => esc_html__( 'Form Fonts', 'constant-contact-forms' ),
 				'type' => 'title',
 				'id'   => 'form-description-title',
@@ -668,7 +680,7 @@ class ConstantContact_Builder_Fields {
 			),
 			sprintf(
 				'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
-				'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/18260-WordPress-Constant-Contact-Forms-Options',
+				'https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/18260-Add-email-opt-in-to-a-WordPress-Form-created-with-the-Constant-Contact-plugin',
 				esc_html__( 'Learn more', 'constant-contact-forms' )
 			)
 		);
@@ -765,6 +777,15 @@ class ConstantContact_Builder_Fields {
 			]
 		);
 
+		$fields_metabox->add_field(
+			[
+				'name'       => esc_html__( 'Display inline?', 'constant-contact-forms' ),
+				'desc'       => esc_html__( 'Show fields in a horizontal row instead of column. Only available when using just email field.', 'constant-contact-forms' ),
+				'id'         => $this->prefix . 'inline_display',
+				'type'       => 'checkbox',
+			]
+		);
+
 		$custom_group = $fields_metabox->add_field(
 			[
 				'id'          => 'custom_fields_group',
@@ -772,8 +793,8 @@ class ConstantContact_Builder_Fields {
 				'repeatable'  => true,
 				'options'     => [
 					'group_title'   => esc_html__( 'Field {#}', 'constant-contact-forms' ),
-					'add_button'    => esc_html__( 'Add Another Field', 'constant-contact-forms' ),
-					'remove_button' => esc_html__( 'Remove Field', 'constant-contact-forms' ),
+					'add_button'    => esc_html__( 'Add another field', 'constant-contact-forms' ),
+					'remove_button' => esc_html__( 'Remove field', 'constant-contact-forms' ),
 					'sortable'      => true,
 				],
 				'after_group' => [ $this, 'unique_label_messaging' ],

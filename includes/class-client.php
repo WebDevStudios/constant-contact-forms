@@ -56,7 +56,7 @@ class ConstantContact_Client {
 	 * @return array
 	 */
 	public function get_account_info() {
-		return $this->get( 'account/summary', $this->base_args );
+		return $this->get( 'account/summary?extra_fields=physical_address', $this->base_args );
 	}
 
 	/**

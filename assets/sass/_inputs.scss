@@ -8,6 +8,17 @@
 
 .ctct-form-wrapper {
 
+	.ctct-form {
+		&.ctct-inline {
+			display: flex;
+			align-items: flex-end;
+
+			.ctct-form-field-submit {
+				margin-left: 10px;
+			}
+		}
+	}
+
 	input {
 
 		&[type='text'],
@@ -44,6 +55,7 @@
 	}
 
 	.ctct-field-error {
+		color: variables.$color-red;
 		font-size: 0.85rem;
 		font-style: italic;
 	}
