@@ -777,7 +777,7 @@ function constant_contact_global_admin_css() {
 	}
 ?>
 	<style>
-		.ctct-menu-icon {
+		.dashicons.ctct-menu-icon {
 			margin: 0 5px;
 		}
 	</style>
