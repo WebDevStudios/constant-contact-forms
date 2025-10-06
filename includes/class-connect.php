@@ -152,13 +152,20 @@ class ConstantContact_Connect {
 		?>
 		<div class="wrap <?php echo esc_attr( $this->key ); ?>">
 
-			<?php if ( constant_contact()->get_api()->get_api_token() ) : ?>
+			<?php if ( constant_contact()->get_api()->get_api_token() ) :
 
+			$heading     = esc_html__( 'Account connected!', 'constant-contact-forms' );
+			$description = esc_html__( 'You are connected to the Constant Contact account shown below.', 'constant-contact-forms' );
+			if ( constant_contact_get_needs_manual_reconnect() ) {
+				$heading     = esc_html__( 'Manual reconnection required', 'constant-contact-forms' );
+				$description = esc_html__( 'Issues with reauthentication for tokens occurred and a manual disconnect and reconnect is needed.', 'constant-contact-forms' );
+			}
+			?>
 			<div class="ctct-connected">
 				<div class="ctct-connected-wrap">
-					<h3><?php esc_html_e( 'Account Connected!', 'constant-contact-forms' ); ?></h3>
+					<h3><?php echo esc_html( $heading ); ?></h3>
 					<p class="ctct-description">
-						<?php esc_html_e( 'You are connected to the Constant Contact account shown below.', 'constant-contact-forms' ); ?>
+						<?php echo esc_html( $description ); ?>
 					</p>
 					<div class="ctct-connection-details">
 						<p class="ctct-label">
