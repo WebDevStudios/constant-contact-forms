@@ -772,6 +772,9 @@ function constant_contact_should_hide_disable_admin_email() : bool {
  * @since NEXT
  */
 function constant_contact_global_admin_css() {
+	if ( ! constant_contact_get_needs_manual_reconnect() ) {
+		return;
+	}
 ?>
 	<style>
 		.ctct-menu-icon {
