@@ -1132,7 +1132,7 @@ class ConstantContact_Display {
 		$type     = sanitize_text_field( $type );
 		$value    = sanitize_text_field( $value );
 		$label    = esc_html( sanitize_text_field( $label ) );
-		$req_text = $req ? 'required' : '';
+		$req_text = $req ? 'required aria-required="true"' : 'aria-required="false"';
 
 		$markup = $this->field_top( $type, $name, $field_key, $label, $req );
 
