@@ -2212,6 +2212,8 @@ class ConstantContact_Display {
 	 * @return string The required indicator markup.
 	 */
 	public function display_required_indicator() : string {
+
+		$title_attr = esc_attr__( 'This is a required field', 'constant-contact-forms' );
 		/**
 		 * Filters the markup used for the required indicator.
 		 *
@@ -2219,7 +2221,7 @@ class ConstantContact_Display {
 		 *
 		 * @param string $value A `<span>` tag with an asterisk indicating required status.
 		 */
-		return apply_filters( 'constant_contact_required_label', '<span class="ctct-required-indicatior" title="required">*</span>' );
+		return apply_filters( 'constant_contact_required_label', '<span class="ctct-required-indicatior" title="' . esc_attr( $title_attr ) .'">*</span>' );
 	}
 
 	/**
