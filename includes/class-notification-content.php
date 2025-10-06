@@ -357,7 +357,7 @@ class ConstantContact_Notification_Content {
 				esc_html_e( 'If you want to make use of lists, sign up for an account or connect your existing account.', 'constant-contact-forms' );
 			} else {
 
-				esc_html_e( 'If you recently created a list in your Constant Contact Dashboard and do not see it here, please use the "Sync Lists with Constant Contact" link.', 'constant-contact-forms' );
+				esc_html_e( 'If you recently created a list in your Constant Contact dashboard and do not see it here, please use the "Sync lists with Constant Contact" link.', 'constant-contact-forms' );
 				echo '<br/>';
 				esc_html_e( 'Your lists should automatically sync every twelve hours.', 'constant-contact-forms' );
 			}

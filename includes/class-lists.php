@@ -805,7 +805,7 @@ class ConstantContact_Lists {
 		if ( constant_contact_get_needs_manual_reconnect() ) {
 			$views['reconnect'] = '<strong><a href="' . $reconnect_link . '">' . esc_html__( 'Fix connectivity issues', 'constant-contact-forms' ) . '</a></strong>';
 		} else if ( constant_contact()->get_api()->is_connected() ) {
-			$views['sync'] = '<strong><a href="' . $sync_link . '">' . esc_html__( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
+			$views['sync'] = '<strong><a href="' . $sync_link . '">' . esc_html__( 'Sync lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
 		}
 
 		return $views;
