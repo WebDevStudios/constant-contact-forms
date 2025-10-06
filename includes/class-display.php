@@ -1132,7 +1132,7 @@ class ConstantContact_Display {
 		$type     = sanitize_text_field( $type );
 		$value    = sanitize_text_field( $value );
 		$label    = esc_html( sanitize_text_field( $label ) );
-		$req_text = $req ? 'required' : '';
+		$req_text = $req ? 'required aria-required="true" ' : 'aria-required="false" ';
 
 		$markup = $this->field_top( $type, $name, $field_key, $label, $req );
 
@@ -1522,7 +1522,7 @@ class ConstantContact_Display {
 
 		$req_label             = $req ? ' ' . $this->display_required_indicator() : '';
 		$req_class             = $req ? ' ctct-form-field-required ' : '';
-		$req                   = $req ? ' required ' : '';
+		$req                   = $req ? ' required aria-required="true" ' : 'aria-required="false" ';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$inline_font_styles    = $this->get_inline_font_color();
 
@@ -1536,7 +1536,7 @@ class ConstantContact_Display {
 			foreach ( $included_address_fields as $field ) {
 				// These can be left alone for each iteration. No need to make field-specific variables.
 				$is_required_bool = ( ! empty( $required_address_fields ) && in_array( $field, $required_address_fields, true ) );
-				$is_required      = ( ! empty( $required_address_fields ) && in_array( $field, $required_address_fields, true ) ) ? 'required ' : '';
+				$is_required      = ( ! empty( $required_address_fields ) && in_array( $field, $required_address_fields, true ) ) ? 'required aria-required="true" ' : 'aria-required="false" ';
 
 				// Reassigning in this context
 				$req_class   = $is_required_bool ? 'ctct-form-field-required' : '';
@@ -2034,7 +2034,7 @@ class ConstantContact_Display {
 		$classes          = [ 'ctct-form-field', 'comment-form-comment' ];
 		$textarea_classes = [ 'ctct-textarea' ];
 		$field_id         = "{$map}_$instance";
-		$req_text         = $req ? 'required' : '';
+		$req_text         = $req ? 'required aria-required="true" ' : 'aria-required="false" ';
 
 		if ( $req ) {
 			$classes[] = 'ctct-form-field-required';
@@ -2212,14 +2212,16 @@ class ConstantContact_Display {
 	 * @return string The required indicator markup.
 	 */
 	public function display_required_indicator() : string {
+
+		$title_attr = esc_attr__( 'This is a required field', 'constant-contact-forms' );
 		/**
 		 * Filters the markup used for the required indicator.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+		 * @param string $value A `<span>` tag with an asterisk indicating required status.
 		 */
-		return apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+		return apply_filters( 'constant_contact_required_label', '<span class="ctct-required-indicatior" title="' . esc_attr( $title_attr ) .'">*</span>' );
 	}
 
 	/**
