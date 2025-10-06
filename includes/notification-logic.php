@@ -186,15 +186,12 @@ function constant_contact_maybe_display_api3_upgraded_notice() : bool {
  * @return bool
  * @since 2.2.0
  */
-
 function constant_contact_maybe_display_disconnect_reconnect_notice() : bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;
 	}
 
-	$maybe_display = get_transient( 'ctct_maybe_needs_reconnected' );
-
-	return true === $maybe_display;
+	return constant_contact_get_needs_manual_reconnect();
 }
 
 /**
