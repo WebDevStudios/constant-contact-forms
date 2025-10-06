@@ -95,7 +95,7 @@ class ConstantContact_Settings {
 			'general' => esc_html__( 'General', 'constant-contact-forms' ),
 			'styles'  => esc_html__( 'Styles', 'constant-contact-forms' ),
 			'optin'   => esc_html__( 'Opt-in', 'constant-contact-forms' ),
-			'spam'    => esc_html__( 'Spam Control', 'constant-contact-forms' ),
+			'spam'    => esc_html__( 'Spam control', 'constant-contact-forms' ),
 			'support' => esc_html__( 'Support', 'constant-contact-forms' ),
 			'auth'    => esc_html__( 'Account', 'constant-contact-forms' ),
 		];
@@ -353,7 +353,7 @@ class ConstantContact_Settings {
 		if ( constant_contact()->get_api()->is_connected() ) {
 			$cmb->add_field(
 				[
-					'name'       => esc_html__( 'Disable E-mail Notifications', 'constant-contact-forms' ),
+					'name'       => esc_html__( 'Disable e-mail notifications', 'constant-contact-forms' ),
 					'desc'       => sprintf(
 					/* Translators: Placeholder is for a <br /> HTML tag. */
 						esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ),
@@ -368,7 +368,7 @@ class ConstantContact_Settings {
 
 		$cmb->add_field(
 			[
-				'name' => esc_html__( 'Alternative Disclaimer Text', 'constant-contact-forms' ),
+				'name' => esc_html__( 'Alternative disclaimer text', 'constant-contact-forms' ),
 				'desc' => esc_html__( 'Override default sign-up disclaimer text. (Supports HTML)', 'constant-contact-forms' ),
 				'id'   => '_ctct_alternative_legal_text',
 				'type' => 'textarea',
@@ -392,7 +392,7 @@ class ConstantContact_Settings {
 
 		$cmb->add_field(
 			[
-				'name'        => esc_html__( 'CSS Classes', 'constant-contact-forms' ),
+				'name'        => esc_html__( 'CSS classes', 'constant-contact-forms' ),
 				'id'          => '_ctct_form_custom_classes',
 				'type'        => 'text',
 				'description' => esc_html__(
@@ -405,7 +405,7 @@ class ConstantContact_Settings {
 
 		$cmb->add_field(
 			[
-				'name'             => esc_html__( 'Label Placement', 'constant-contact-forms' ),
+				'name'             => esc_html__( 'Label placement', 'constant-contact-forms' ),
 				'id'               => '_ctct_form_label_placement',
 				'type'             => 'select',
 				'default'          => 'top',
@@ -462,7 +462,7 @@ class ConstantContact_Settings {
 
 				$before_optin = sprintf(
 					'<hr><h2>%s</h2>',
-					esc_html__( 'Advanced Opt-in', 'constant-contact-forms' )
+					esc_html__( 'Advanced opt-in', 'constant-contact-forms' )
 				);
 
 				$business_name = get_bloginfo( 'name' ) ?: esc_html__( 'Business Name', 'constant-contact-forms' );
@@ -531,7 +531,7 @@ class ConstantContact_Settings {
 	}
 
 	/**
-	 * Register 'Spam Control' (incl. Google reCAPTCHA) settings tab fields.
+	 * Register 'Spam control' (incl. Google reCAPTCHA) settings tab fields.
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.0
@@ -541,7 +541,7 @@ class ConstantContact_Settings {
 
 		$before_captcha_service = sprintf(
 			'<h2>%s</h2>',
-			esc_html__( 'Captcha Service', 'constant-contact-forms' )
+			esc_html__( 'Captcha service', 'constant-contact-forms' )
 		);
 
 		$before_captcha_service .= '<div class="description"><p>';
@@ -550,14 +550,14 @@ class ConstantContact_Settings {
 
 		$cmb->add_field(
 			[
-				'name'             => esc_html__( 'Captcha Service', 'constant-contact-forms' ),
+				'name'             => esc_html__( 'Captcha service', 'constant-contact-forms' ),
 				'id'               => '_ctct_captcha_service',
 				'type'             => 'select',
 				'default'          => false,
 				'before_row'       => $before_captcha_service,
 				//'show_option_none' => true,
 				'options'          => [
-					'disabled'  => esc_html__( 'None - Captcha Disabled', 'constant-contact-forms' ),
+					'disabled'  => esc_html__( 'None - captcha disabled', 'constant-contact-forms' ),
 					'recaptcha' => esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
 					'hcaptcha'  => esc_html__( 'hCaptcha', 'constant-contact-forms' ),
 				],
@@ -603,7 +603,7 @@ class ConstantContact_Settings {
 
 		$cmb->add_field(
 			[
-				'name'            => esc_html__( 'Site Key', 'constant-contact-forms' ),
+				'name'            => esc_html__( 'Site key', 'constant-contact-forms' ),
 				'id'              => '_ctct_recaptcha_site_key',
 				'type'            => 'text',
 				'sanitization_cb' => [ $this, 'sanitize_recaptcha_api_key_string' ],
@@ -615,7 +615,7 @@ class ConstantContact_Settings {
 
 		$cmb->add_field(
 			[
-				'name'            => esc_html__( 'Secret Key', 'constant-contact-forms' ),
+				'name'            => esc_html__( 'Secret key', 'constant-contact-forms' ),
 				'id'              => '_ctct_recaptcha_secret_key',
 				'type'            => 'text',
 				'sanitization_cb' => [ $this, 'sanitize_recaptcha_api_key_string' ],
@@ -681,7 +681,7 @@ class ConstantContact_Settings {
 
 		$cmb->add_field(
 			[
-				'name'       => esc_html__( 'Error Message', 'constant-contact-forms' ),
+				'name'       => esc_html__( 'Error message', 'constant-contact-forms' ),
 				'id'         => '_ctct_spam_error',
 				'type'       => 'text',
 				'before_row' => $before_message,
@@ -727,13 +727,13 @@ class ConstantContact_Settings {
 			/* translators: 1: horizontal rule and opening heading tag, 2: global css section heading, 3: closing heading tag */
 			'%1$s%2$s%3$s',
 			'<h2>',
-			esc_html__( 'Account Settings', 'constant-contact-forms' ),
+			esc_html__( 'Account settings', 'constant-contact-forms' ),
 			'</h2>'
 		);
 
 		$cmb->add_field(
 			[
-				'name'       => esc_html__( 'Auth Code and State', 'constant-contact-forms' ),
+				'name'       => esc_html__( 'Auth code and state', 'constant-contact-forms' ),
 				'id'         => '_ctct_form_state_authcode',
 				'type'       => 'text',
 				'desc'       => 'Paste the string you copied from the app',
