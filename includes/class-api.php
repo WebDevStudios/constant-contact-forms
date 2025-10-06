@@ -1286,10 +1286,31 @@ class ConstantContact_API {
 		return [ $code, $this->base64url_encode( pack( 'H*', hash( 'sha256', $code ) ) ) ];
 	}
 
+	/**
+	 * Base64 encode URL.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $data
+	 *
+	 * @return string
+	 */
 	private function base64url_encode( string $data ): string {
 		return rtrim( strtr( base64_encode( $data ), '+/', '-_' ), '=' );
 	}
 
+	/**
+	 * Handle user session details.
+	 *
+	 * Not used.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string      $key
+	 * @param string|null $value
+	 *
+	 * @return mixed|string
+	 */
 	public function session( string $key, ?string $value ) {
 		if ( $this->session_callback ) {
 			return call_user_func( $this->session_callback, $key, $value );
@@ -1448,6 +1469,11 @@ class ConstantContact_API {
 
 	/**
 	 * Refresh the access token.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @return bool
+	 * @throws Exception
 	 */
 	public function refresh_token(): bool {
 
@@ -1487,6 +1513,12 @@ class ConstantContact_API {
 		return $result;
 	}
 
+	/**
+	 * Set our authorization headers.
+	 *
+	 * @since 2.0.0
+	 * @return string[]
+	 */
 	private function set_authorization(): array {
 
 		// Set authorization header
@@ -1500,6 +1532,17 @@ class ConstantContact_API {
 		return $headers;
 	}
 
+	/**
+	 * Execute our API request for token acquisition.
+	 *
+	 * @since 2.0.0
+	 *
+	 * @param string $url     URL to make request to.
+	 * @param array  $options Request options.
+	 *
+	 * @return bool
+	 * @throws Exception
+	 */
 	private function exec( $url, $options ): bool {
 		$response = wp_safe_remote_post( $url, $options );
 
@@ -1551,7 +1594,18 @@ class ConstantContact_API {
 		return false;
 	}
 
-	private function obfuscate_api_data_item( $data_item ) {
+	/**
+	 * Obfuscate a value in our debug logs.
+	 *
+	 * Helps keep things private and not put into a potentially publicly accessed file.
+	 *
+	 * @since 2.1.0
+	 *
+	 * @param string $data_item Item to obfuscate.
+	 *
+	 * @return string
+	 */
+	private function obfuscate_api_data_item( string $data_item ): string {
 		$start = substr( $data_item, 0, 8 );
 		return $start . '***';
 	}
