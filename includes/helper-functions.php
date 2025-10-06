@@ -769,7 +769,7 @@ function constant_contact_should_hide_disable_admin_email() : bool {
 /**
  * Touch of CSS that needs to be added regardless of place in WP admin.
  *
- * @since NEXT
+ * @since 2.14.0
  */
 function constant_contact_global_admin_css() {
 	if ( ! constant_contact_get_needs_manual_reconnect() ) {
