@@ -2217,9 +2217,9 @@ class ConstantContact_Display {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+		 * @param string $value A `<span>` tag with an asterisk indicating required status.
 		 */
-		return apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+		return apply_filters( 'constant_contact_required_label', '<span class="ctct-required-indicatior" title="required">*</span>' );
 	}
 
 	/**
