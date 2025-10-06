@@ -675,8 +675,8 @@ class ConstantContact_Settings {
 
 		$before_message = sprintf(
 			'<hr/><h2>%s</h2><div class="description">%s</div>',
-			esc_html__( 'Suspected Bot Error Message', 'constant-contact-forms' ),
-			esc_html__( 'This message displays when `the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' )
+			esc_html__( 'Suspected bot error message', 'constant-contact-forms' ),
+			esc_html__( 'This message displays when the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' )
 		);
 
 		$cmb->add_field(
