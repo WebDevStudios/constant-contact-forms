@@ -155,6 +155,7 @@ class ConstantContact_Display {
 		$defaults = [
 			'form_background_color'               => '',
 			'form_description_font_size'          => '',
+			'form_max_width'                      => '',
 			'form_description_color'              => '',
 			'form_submit_button_font_size'        => '',
 			'form_submit_button_text_color'       => '',
@@ -177,6 +178,11 @@ class ConstantContact_Display {
 		$ctct_form_title_font_color = get_post_meta( $form_id, '_ctct_form_title_font_color', true );
 		if ( ! empty( $ctct_form_title_font_color ) ) {
 			$specific_form_css['form_title_font_color'] = "color: $ctct_form_title_font_color;";
+		}
+
+		$ctct_form_max_width = get_post_meta( $form_id, '_ctct_form_max_width', true );
+		if ( ! empty( $ctct_form_max_width ) ) {
+			$specific_form_css['max_width'] = "max-width: $ctct_form_max_width%;";
 		}
 
 		$ctct_form_description_font_size = get_post_meta( $form_id, '_ctct_form_description_font_size', true );
@@ -369,6 +375,10 @@ class ConstantContact_Display {
 		$form_styles = '';
 		if ( ! empty( $this->specific_form_styles['form_background_color'] ) ) {
 			$form_styles = $this->specific_form_styles['form_background_color'];
+		}
+
+		if ( ! empty( $this->specific_form_styles['max_width'] ) ) {
+			$form_styles .= $this->specific_form_styles['max_width'];
 		}
 
 		foreach ( [ 'bottom', 'left', 'right', 'top' ] as $pos ) {
