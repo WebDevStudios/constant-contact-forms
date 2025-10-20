@@ -990,13 +990,17 @@ class ConstantContact_API {
 
 		unset( $user_data['list'] );
 
-		$address   = null;
+		$address   = [];
 		$count     = 1;
 		$streets   = [];
 		if ( ! $updated ) {
 			$contact->notes = [];
 		}
 
+		$address_type = get_post_meta( $form_id, '_ctct_address_type', true );
+		if ( empty( $address_type ) ) {
+			$address_type = 'home';
+		}
 		foreach ( $user_data as $original => $value ) {
 			$key   = sanitize_text_field( $value['key'] ?? false );
 			$value = sanitize_text_field( $value['val'] ?? false );
@@ -1025,11 +1029,7 @@ class ConstantContact_API {
 				case 'state_address':
 				case 'zip_address':
 				case 'country_address':
-					if ( null === $address ) {
-						$address = [];
-					}
-
-					$address['kind'] = 'home';
+					$address['kind'] = $address_type;
 
 					switch ( $key ) {
 						case 'street_address':
