@@ -50,6 +50,6 @@ class ConstantContact_reCAPTCHA_v3 extends ConstantContact_reCAPTCHA {
 			Constant_Contact::VERSION,
 			true
 		);
-		wp_add_inline_script( 'recaptcha-v3', "recaptchav3 = {\"site_key\":\"$this->site_key\"}" );
+		wp_add_inline_script( 'ctct_frontend_forms', "recaptchav3 = {\"site_key\":\"$this->site_key\"}" );
 	}
 }
