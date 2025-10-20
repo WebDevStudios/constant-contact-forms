@@ -104,6 +104,7 @@
 			submitButton.removeAttribute('disabled');
 		}
 	};
+
 	/**
 	 * Ensures that we should use AJAX to process the specified form, and that all required fields are not empty.
 	 *
@@ -255,6 +256,8 @@
 				let doingajax = form.getAttribute( 'data-doajax' );
 				if ( doingajax && 'on' === doingajax ) {
 					event.preventDefault();
+
+					app.handlerecaptcha(form);
 				}
 
 				if ( form.classList.contains( 'ctct-submitted' ) ) {
@@ -282,6 +285,32 @@
 			});
 		});
 	};
+
+	/**
+	 * Custom handling within our validation file, for cases of reCAPTCHA v3 + AJAX submit.
+	 *
+	 * @param form Form being submitted.
+	 */
+	app.handlerecaptcha = (form) => {
+		if ('undefined' === typeof (recaptchav3.site_key)) {
+			return;
+		}
+
+		grecaptcha.ready(function () {
+			try {
+				grecaptcha.execute(recaptchav3.site_key, {action: 'constantcontactsubmit'}).then(function (token) {
+					let recaptchaResponse = document.createElement('input');
+					recaptchaResponse.setAttribute('type', 'hidden');
+					recaptchaResponse.setAttribute('name', 'g-recaptcha-response');
+					recaptchaResponse.setAttribute('value', token);
+
+					form.append(recaptchaResponse.cloneNode(true));
+				});
+			} catch (error) {
+				console.log(error);
+			}
+		});
+	}
 
 	app.init();
 
