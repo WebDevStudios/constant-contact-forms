@@ -870,9 +870,9 @@ class ConstantContact_Display {
 				$value = ! empty( $value ) ? $value : [];
 				return $this->address( $name, $map, $value, $desc, $req, $field_error, $form_id, $label_placement, $instance );
 			case 'anniversery':
-			case 'birthday':
-				// Need this to be month / day / year.
 				return $this->dates( $name, $map, $value, $desc, $req, $field_error, $instance );
+			case 'birthday':
+				return $this->birthday( $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			default:
 				return $this->input( 'text', $name, $map, $value, $desc, $req, false, $field_error );
 		}
@@ -1120,7 +1120,7 @@ class ConstantContact_Display {
 	 * @param  int     $instance        Current form instance.
 	 * @return string                   HTML markup for field.
 	 */
-	public function input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ) : string {
+	public function input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0, bool $show_label = true, string $birthday_part = '' ) : string {
 		$id_salt               = wp_rand();
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
@@ -1157,7 +1157,9 @@ class ConstantContact_Display {
 			} else {
 				$markup .= '<span class="' . $label_placement_class . '">';
 			}
-			$markup .= $this->get_label( $field_id, $name . ' ' . $req_label );
+			if ( $show_label ) {
+				$markup .= $this->get_label( $field_id, $name . ' ' . $req_label );
+			}
 			$markup .= '</span>';
 		}
 
@@ -1215,8 +1217,17 @@ class ConstantContact_Display {
 			$placeholder = "placeholder=\"$label\"";
 		}
 
+		$minmax = '';
+		if ( 'month' === $birthday_part ) {
+			$minmax = 'min="1" max="12"';
+		}
+
+		if ( 'day' === $birthday_part ) {
+			$minmax = 'min="1" max="31"';
+		}
+
 		/* 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID., 10: Tel Regex Pattern. */
-		$field   = '<input %1$s type="%2$s" id="%3$s" name="%4$s" %5$s value="%6$s" class="%7$s" %8$s %9$s %10$s />';
+		$field   = '<input %1$s type="%2$s" id="%3$s" name="%4$s" %5$s value="%6$s" class="%7$s" %8$s %9$s %10$s %11$s />';
 		$markup .= sprintf(
 			$field,
 			$req_text, // %1$s starts here.
@@ -1228,7 +1239,8 @@ class ConstantContact_Display {
 			$class_attr,
 			$max_length,
 			$placeholder,
-			$tel_regex_pattern ? "pattern=\"$tel_regex_pattern\" title=\"$tel_pattern_title\"" : ''
+			$tel_regex_pattern ? "pattern=\"$tel_regex_pattern\" title=\"$tel_pattern_title\"" : '',
+			$minmax
 		);
 
 		// Reassign because if we want "field only", like for hidden inputs, we need to still pass a value that went through sprintf().
@@ -1821,6 +1833,39 @@ class ConstantContact_Display {
 		}
 	}
 
+	public function birthday( $name = '', $map = '', $value = '', $desc = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '', $instance = 0 ) {
+		/*$map = str_replace( 'birthday', '', $map );
+		$return = sprintf(
+			'<label for="%1$s">%2$s</label>',
+			esc_attr( $name . '_month_' . $instance ),
+			esc_html__( 'Birthday', 'constant-contact-forms' )
+		);
+
+		$return .= $this->get_label()
+
+		$return .= sprintf(
+			'<input id="%1$s" name="%2$s" type="number" min="1" max="12" placeholder="%3$s"/>',
+			esc_attr( $name . '_month_' . $instance ),
+			esc_attr( 'birthday_month' . $map ),
+			esc_attr__('MM', 'constant-contact-forms' )
+		);
+
+		$return .= '/';
+
+		$return .= sprintf(
+			'<input id="%1$s" name="%2$s" type="number" min="1" max="31" placeholder="%3$s"/>',
+			esc_attr( $name . '_day_' . $instance ),
+			esc_attr( 'birthday_day' . $map ),
+			esc_attr__( 'DD', 'constant-contact-forms' )
+		);*/
+
+		// input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 )
+
+		$return .= $this->input( 'number', $name, $map, $value, 'MM', $req, false, $field_error, $form_id, $label_placement, $instance, true, 'month' );
+		$return .= $this->input( 'number', $name, $map, $value, 'DD', $req, false, $field_error, $form_id, $label_placement, $instance, false, 'day' );
+
+		return $return;
+	}
 	/**
 	 * Gets and return a 3-part date selector.
 	 *
@@ -1835,7 +1880,7 @@ class ConstantContact_Display {
 	 * @param  int     $instance    Current form instance.
 	 * @return string               Fields HTML markup.
 	 */
-	public function dates( string $name = '', string $f_id = '', array $value = [], string $desc = '', bool $req = false, string $field_error = '', int $instance = 0 ) : string {
+	public function dates( string $name = '', string $f_id = '', $value = [], string $desc = '', bool $req = false, string $field_error = '', int $instance = 0 ) : string {
 		$month = esc_html__( 'Month', 'constant-contact-forms' );
 		$day   = esc_html__( 'Day', 'constant-contact-forms' );
 		$year  = esc_html__( 'Year', 'constant-contact-forms' );
@@ -1849,13 +1894,13 @@ class ConstantContact_Display {
 		$return  = '<p class="ctct-date"><fieldset>';
 		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline month' . $req_class . '">';
-		$return .= $this->get_date_dropdown( $month, $f_id, 'month', $v_month, $req, $instance );
+		//$return .= $this->get_date_dropdown( $month, $f_id, 'month', $v_month, $req, $instance );
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline day' . $req_class . '">';
-		$return .= $this->get_date_dropdown( $day, $f_id, 'day', $v_day, $req, $instance );
+		//$return .= $this->get_date_dropdown( $day, $f_id, 'day', $v_day, $req, $instance );
 		$return .= ' </div>';
 		$return .= ' <div class="ctct-form-field ctct-field-inline year' . $req_class . '">';
-		$return .= $this->get_date_dropdown( $year, $f_id, 'year', $v_year, $req, $instance );
+		//$return .= $this->get_date_dropdown( $year, $f_id, 'year', $v_year, $req, $instance );
 		$return .= ' </div>';
 
 		$return .= '</fieldset></p>';
