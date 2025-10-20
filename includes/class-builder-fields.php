@@ -458,6 +458,22 @@ class ConstantContact_Builder_Fields {
 
 		$custom_css_metabox->add_field(
 			[
+				'name'       => esc_html__( 'Max-width, as percentage', 'constant-contact-forms' ),
+				'id'         => $this->prefix . 'form_max_width',
+				'type'       => 'text_small',
+				'show_names' => true,
+				'attributes' => [
+					'type' => 'number',
+				],
+				'description' => esc_html__(
+					'Applies to the form tag.',
+					'constant-contact-forms'
+				),
+			]
+		);
+
+		$custom_css_metabox->add_field(
+			[
 				'name' => esc_html__( 'Form Fonts', 'constant-contact-forms' ),
 				'type' => 'title',
 				'id'   => 'form-description-title',
