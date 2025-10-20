@@ -982,6 +982,19 @@ class ConstantContact_Builder_Fields {
 
 		$address_settings->add_field(
 			[
+				'name'        => esc_html__( 'Type', 'constant-contact-forms' ),
+				'id'          => $this->prefix . 'address_type',
+				'type'        => 'select',
+				'options'     => [
+					'home'  => esc_html__( 'Home', 'constant-contact-forms' ),
+					'work'  => esc_html__( 'Work', 'constant-contact-forms' ),
+					'other' => esc_html__( 'Other', 'constant-contact-forms' ),
+				]
+			]
+		);
+
+		$address_settings->add_field(
+			[
 				'before'            => '<p>' . esc_html__( 'Select which fields to include and which to require:', 'constant-contact-forms' ) . '</p>',
 				'name'              => esc_html__( 'Include:', 'constant-contact-forms' ),
 				'id'                => $this->prefix . 'address_fields_include',
