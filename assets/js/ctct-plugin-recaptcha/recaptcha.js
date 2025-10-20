@@ -1,6 +1,11 @@
 grecaptcha.ready(function () {
 	let forms = document.querySelectorAll('.ctct-form-wrapper form');
 	Array.from(forms).forEach(function (form) {
+		// Do not attempt to process if form is submitting via ajax.
+		let doingajax = form.getAttribute('data-doajax');
+		if (doingajax && 'on' === doingajax) {
+			return;
+		}
 		form.addEventListener('submit', (e) => {
 			e.preventDefault();
 
