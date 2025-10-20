@@ -49,6 +49,14 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= 2.14.0 =
+* Fixed: Issues with Google reCAPTCHA version 3 and forms submitted without page refresh.
+* Fixed: Logic around notification display in case manual intervention is needed.
+* Added: Per-form field setting for a max-width value as a percentage.
+* Added: Ability to choose the address type for address field. Example: home, work, other.
+* Updated: Small visual indicators and wording for if connection issues exist.
+* Updated: Visual details around "required" field indicators on forms, as well as accessibility improvements.
+
 = 2.13.0 =
 * Fixed: Details around address data retrieval from Constant Contact, used in disclosure text.
 * Updated: Added extra theme compatibility for popular themes.
