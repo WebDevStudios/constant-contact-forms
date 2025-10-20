@@ -1053,8 +1053,11 @@ class ConstantContact_API {
 					}
 					break;
 				case 'birthday_month':
+					$contact->birthday_month = absint( $value );
+					break;
 				case 'birthday_day':
-				case 'birthday_year':
+					$contact->birthday_day = absint( $value );
+					break;
 				case 'anniversery_day':
 				case 'anniversary_month':
 				case 'anniversary_year':
