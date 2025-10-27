@@ -765,13 +765,15 @@ class ConstantContact_Lists {
 		}
 
 		if (
+			$post &&
 			'ctct_lists' === $post->post_type &&
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
-			add_filter('admin_body_class',function($classes){
+			add_filter( 'admin_body_class', function ( $classes ) {
 				$classes .= ' ctct-duplicate-list';
+
 				return $classes;
-			});
+			} );
 			add_action( 'admin_notices', [ $this, 'show_duplicate_list_message' ] );
 		}
 	}
@@ -784,7 +786,7 @@ class ConstantContact_Lists {
 	public function show_duplicate_list_message() {
 		?>
 		<div class="notice notice-error">
-				<p><?php esc_attr_e( 'You already have a list with that name.', 'constant-contact-forms' ); ?></p>
+			<p><?php esc_attr_e( 'You already have a list with that name.', 'constant-contact-forms' ); ?></p>
 		</div>
 		<?php
 	}
