@@ -56,6 +56,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: Ability to choose the address type for address field. Example: home, work, other.
 * Updated: Small visual indicators and wording for if connection issues exist.
 * Updated: Visual details around "required" field indicators on forms, as well as accessibility improvements.
+* Updated: Various PHP warnings and notices.
 
 = 2.13.0 =
 * Fixed: Details around address data retrieval from Constant Contact, used in disclosure text.
