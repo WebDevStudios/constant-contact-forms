@@ -1864,10 +1864,10 @@ class ConstantContact_Display {
 		);*/
 
 		// input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 )
-
+		$separator = $this->get_form_date_separator();
 		$return .= '<div class="ctct-form-fields ctct-birthday-fields">';
 		$return .= $this->input( 'number', $name, $map, $value, 'MM', $req, false, $field_error, $form_id, $label_placement, $instance, true, 'month' );
-		$return .= '<span class="ctct-birthday-field-separator"> / </span>';
+		$return .= '<span class="ctct-birthday-field-separator"> ' . esc_html( $separator ) . ' </span>';
 		$return .= $this->input( 'number', $name, $map, $value, 'DD', $req, false, $field_error, $form_id, $label_placement, $instance, false, 'day' );
 		$return .= '</div>';
 
@@ -2088,6 +2088,26 @@ class ConstantContact_Display {
 		}
 
 		return 'maxlength="' . $length . '"';
+	}
+
+	/**
+	 * Return the character to use to seprate out date fields visually.
+	 *
+	 * Used between year, month, date fields display, as needed.
+	 *
+	 * @since NEXT
+	 * @return string
+	 */
+	public function get_form_date_separator() : string {
+		/**
+		 * Filters the character to use to separate out the date fields visually.
+		 *
+		 * @since NEXT
+		 *
+		 * @param  string $value Character to use for visual separator.
+		 * @return string
+		 */
+		return (string) apply_filters( 'constant_contact_form_date_separator', '/' );
 	}
 
 	/**
