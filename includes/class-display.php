@@ -1219,11 +1219,11 @@ class ConstantContact_Display {
 
 		$minmax = '';
 		if ( 'month' === $date_part ) {
-			$minmax = 'min="1" max="12"';
+			$minmax = 'maxlength= "2" min="1" max="12"';
 		}
 
 		if ( 'day' === $date_part ) {
-			$minmax = 'min="1" max="31"';
+			$minmax = 'maxlength= "2" min="1" max="31"';
 		}
 
 		/* 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID., 10: Tel Regex Pattern. */
