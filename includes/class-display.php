@@ -2099,6 +2099,7 @@ class ConstantContact_Display {
 	 * @return string
 	 */
 	public function get_form_date_separator() : string {
+		// https://en.wikipedia.org/wiki/List_of_date_formats_by_country
 		/**
 		 * Filters the character to use to separate out the date fields visually.
 		 *
