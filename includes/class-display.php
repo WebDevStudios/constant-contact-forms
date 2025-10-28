@@ -1837,6 +1837,7 @@ class ConstantContact_Display {
 	}
 
 	public function birthday( $name = '', $map = '', $value = '', $desc = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '', $instance = 0 ) {
+		$return = '';
 		/*$map = str_replace( 'birthday', '', $map );
 		$return = sprintf(
 			'<label for="%1$s">%2$s</label>',
@@ -1864,8 +1865,11 @@ class ConstantContact_Display {
 
 		// input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 )
 
+		$return .= '<div class="ctct-form-fields ctct-birthday-fields">';
 		$return .= $this->input( 'number', $name, $map, $value, 'MM', $req, false, $field_error, $form_id, $label_placement, $instance, true, 'month' );
+		$return .= '<span class="ctct-birthday-field-separator"> / </span>';
 		$return .= $this->input( 'number', $name, $map, $value, 'DD', $req, false, $field_error, $form_id, $label_placement, $instance, false, 'day' );
+		$return .= '</div>';
 
 		return $return;
 	}
