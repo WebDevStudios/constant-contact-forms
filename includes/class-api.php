@@ -1058,9 +1058,8 @@ class ConstantContact_API {
 				case 'birthday_day':
 					$contact->birthday_day = absint( $value );
 					break;
-				case 'anniversery_day':
-				case 'anniversary_month':
-				case 'anniversary_year':
+				case 'anniversary':
+					break;
 				case 'website':
 				case 'custom':
 					// Dont overload custom fields.

@@ -869,8 +869,8 @@ class ConstantContact_Display {
 			case 'address':
 				$value = ! empty( $value ) ? $value : [];
 				return $this->address( $name, $map, $value, $desc, $req, $field_error, $form_id, $label_placement, $instance );
-			case 'anniversery':
-				return $this->dates( $name, $map, $value, $desc, $req, $field_error, $instance );
+			case 'anniversary':
+				return $this->anniversary( $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			case 'birthday':
 				return $this->birthday( $name, $map, $value, $desc, $req, false, $field_error, $form_id, $label_placement, $instance );
 			default:
@@ -1872,6 +1872,22 @@ class ConstantContact_Display {
 
 		return $return;
 	}
+
+	public function anniversary( $name = '', $map = '', $value = '', $desc = '', $req = false, $f_only = false, $field_error = false, $form_id = 0, $label_placement = '', $instance = 0 ) {
+		$return = '';
+
+		$separator = $this->get_form_date_separator();
+		$return    .= '<div class="ctct-form-fields ctct-anniversary-fields ctct-anniversary-label-' . $label_placement . '">';
+		$return    .= $this->input( 'number', $name, $map, $value, 'MM', $req, false, $field_error, $form_id, $label_placement, $instance, true, 'month' );
+		$return    .= '<span class="ctct-date-field-separator"> ' . esc_html( $separator ) . ' </span>';
+		$return    .= $this->input( 'number', $name, $map, $value, 'DD', $req, false, $field_error, $form_id, $label_placement, $instance, false, 'day' );
+		$return .= '<span class="ctct-date-field-separator"> ' . esc_html( $separator ) . ' </span>';
+		$return .= $this->input( 'number', $name, $map, $value, 'YYYY', $req, false, $field_error, $form_id, $label_placement, $instance, false, 'year' );
+		$return    .= '</div>';
+
+		return $return;
+	}
+
 	/**
 	 * Gets and return a 3-part date selector.
 	 *
