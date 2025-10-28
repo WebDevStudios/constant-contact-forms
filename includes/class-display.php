@@ -1866,7 +1866,7 @@ class ConstantContact_Display {
 		$separator = $this->get_form_date_separator();
 		$return .= '<div class="ctct-form-fields ctct-birthday-fields ctct-birthday-label-' . $label_placement . '">';
 		$return .= $this->input( 'number', $name, $map, $value, 'MM', $req, false, $field_error, $form_id, $label_placement, $instance, true, 'month' );
-		$return .= '<span class="ctct-birthday-field-separator"> ' . esc_html( $separator ) . ' </span>';
+		$return .= '<span class="ctct-date-field-separator"> ' . esc_html( $separator ) . ' </span>';
 		$return .= $this->input( 'number', $name, $map, $value, 'DD', $req, false, $field_error, $form_id, $label_placement, $instance, false, 'day' );
 		$return .= '</div>';
 

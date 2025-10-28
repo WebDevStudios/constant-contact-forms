@@ -50,14 +50,16 @@
 	}
   }
 
-  .ctct-birthday-fields {
+  .ctct-birthday-fields,
+  .ctct-anniversary-fields {
 	display: flex;
 
-	&.ctct-birthday-label- {
+	&.ctct-birthday-label-,
+	&.ctct-anniversary-label- {
 	  &top {
 		align-items: flex-end;
 
-		.ctct-birthday-field-separator {
+		.ctct-date-field-separator {
 		  margin: 0 10px 1.5rem;
 		}
 	  }
@@ -65,7 +67,7 @@
 	  &bottom {
 		align-items: flex-start;
 
-		.ctct-birthday-field-separator {
+		.ctct-date-field-separator {
 		  margin: 0.5rem 10px 0;
 		}
 	  }
