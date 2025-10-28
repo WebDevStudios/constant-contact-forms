@@ -1059,6 +1059,7 @@ class ConstantContact_API {
 					$contact->birthday_day = absint( $value );
 					break;
 				case 'anniversary':
+					$contact->anniversary = date( 'Y-m-d', strtotime('1900/01/01') );
 					break;
 				case 'website':
 				case 'custom':
