@@ -1151,15 +1151,14 @@ class ConstantContact_Display {
 		if ( $req ) {
 			$req_label = $this->display_required_indicator();
 		}
-		if ( ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) ) {
+		if ( $show_label && ( 'top' === $label_placement || 'left' === $label_placement || 'hidden' === $label_placement ) && ( 'submit' !== $type ) ) {
 			if ( $inline_font_styles ) {
 				$markup .= '<span class="' . $label_placement_class . '"  style="' . $inline_font_styles . '">';
 			} else {
 				$markup .= '<span class="' . $label_placement_class . '">';
 			}
-			if ( $show_label ) {
-				$markup .= $this->get_label( $field_id, $name . ' ' . $req_label );
-			}
+
+			$markup .= $this->get_label( $field_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
 		}
 
@@ -1249,7 +1248,7 @@ class ConstantContact_Display {
 		// Reassign because if we want "field only", like for hidden inputs, we need to still pass a value that went through sprintf().
 		$field = $markup;
 
-		if ( ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) ) {
+		if ( $show_label && ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) ) {
 			$markup .= '<span class="' . $label_placement_class . '">';
 			$markup .= $this->get_label( $field_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
