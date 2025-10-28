@@ -1120,7 +1120,7 @@ class ConstantContact_Display {
 	 * @param  int     $instance        Current form instance.
 	 * @return string                   HTML markup for field.
 	 */
-	public function input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0, bool $show_label = true, string $birthday_part = '' ) : string {
+	public function input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0, bool $show_label = true, string $date_part = '' ) : string {
 		$id_salt               = wp_rand();
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
@@ -1218,11 +1218,11 @@ class ConstantContact_Display {
 		}
 
 		$minmax = '';
-		if ( 'month' === $birthday_part ) {
+		if ( 'month' === $date_part ) {
 			$minmax = 'min="1" max="12"';
 		}
 
-		if ( 'day' === $birthday_part ) {
+		if ( 'day' === $date_part ) {
 			$minmax = 'min="1" max="31"';
 		}
 
