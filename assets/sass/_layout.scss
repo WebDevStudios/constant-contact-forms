@@ -56,4 +56,24 @@
 		}
 
 	}
+
+	.ctct-birthday-fields {
+		display: flex;
+	  	&.ctct-birthday-label- {
+	  		&top {
+			  align-items: flex-end;
+
+			  .ctct-birthday-field-separator {
+				margin: 0 10px 1.5rem;
+			  }
+			}
+	  		&bottom {
+				align-items: flex-start;
+
+				.ctct-birthday-field-separator {
+				  margin: 0.5rem 10px 0;
+				}
+			}
+		}
+	}
 }
