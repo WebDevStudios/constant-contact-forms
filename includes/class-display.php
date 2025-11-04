@@ -1867,48 +1867,6 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Gets and return a 3-part date selector.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @param  string  $name        Name of field.
-	 * @param  string  $f_id        Field ID.
-	 * @param  array   $value       Values to pre-fill.
-	 * @param  string  $desc        Description of fields.
-	 * @param  boolean $req         If is required.
-	 * @param  string  $field_error Field error text.
-	 * @param  int     $instance    Current form instance.
-	 * @return string               Fields HTML markup.
-	 */
-	public function dates( string $name = '', string $f_id = '', $value = [], string $desc = '', bool $req = false, string $field_error = '', int $instance = 0 ) : string {
-		$month = esc_html__( 'Month', 'constant-contact-forms' );
-		$day   = esc_html__( 'Day', 'constant-contact-forms' );
-		$year  = esc_html__( 'Year', 'constant-contact-forms' );
-
-		$v_month = $value['month'] ?? '';
-		$v_day   = $value['day'] ?? '';
-		$v_year  = $value['year'] ?? '';
-
-		$req_class = $req ? ' ctct-form-field-required ' : '';
-
-		$return  = '<p class="ctct-date"><fieldset>';
-		$return .= ' <legend>' . esc_attr( $name ) . '</legend>';
-		$return .= ' <div class="ctct-form-field ctct-field-inline month' . $req_class . '">';
-		//$return .= $this->get_date_dropdown( $month, $f_id, 'month', $v_month, $req, $instance );
-		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-inline day' . $req_class . '">';
-		//$return .= $this->get_date_dropdown( $day, $f_id, 'day', $v_day, $req, $instance );
-		$return .= ' </div>';
-		$return .= ' <div class="ctct-form-field ctct-field-inline year' . $req_class . '">';
-		//$return .= $this->get_date_dropdown( $year, $f_id, 'year', $v_year, $req, $instance );
-		$return .= ' </div>';
-
-		$return .= '</fieldset></p>';
-
-		return $return;
-	}
-
-	/**
 	 * Displays text area field.
 	 *
 	 * @since 1.0.0
