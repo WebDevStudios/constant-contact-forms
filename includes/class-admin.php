@@ -203,7 +203,7 @@ class ConstantContact_Admin {
 							'<a class="ctct-item%s" href="%s">%s</a>',
 							! empty( $tab['is_active'] ) ? ' is-active' : '',
 							esc_url( $tab['url'] ),
-							esc_html( $tab['text'] )
+							wp_kses( $tab['text'], [ 'span' => [ 'class' => [] ] ] )
 						);
 						echo wp_kses( '</li>', [ 'li' => [] ] );
 					}
