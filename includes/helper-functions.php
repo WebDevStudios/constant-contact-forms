@@ -784,3 +784,47 @@ function constant_contact_global_admin_css() {
 <?php
 }
 add_action( 'admin_head', 'constant_contact_global_admin_css' );
+
+/**
+ * Get the order in which a date format is in.
+ *
+ * @since NEXT
+ *
+ * @param string $format Date format string.
+ *
+ * @return array
+ */
+function constant_contact_get_date_field_order( $format = '' ) {
+	if ( empty( $format ) ) {
+		$format = get_option( 'date_format' );
+	}
+	$order  = [];
+	$length = strlen( $format );
+
+	for ( $i = 0; $i < $length; $i ++ ) {
+		$char = $format[ $i ];
+
+		// Check if it's a year character and we haven't added year yet
+		$isYear       = in_array( $char, [ 'Y', 'y' ] );
+		$yearNotAdded = ! in_array( 'year', $order );
+		if ( $isYear && $yearNotAdded ) {
+			$order[] = 'year';
+		}
+
+		// Check if it's a month character and we haven't added month yet
+		$isMonth       = in_array( $char, [ 'm', 'n', 'M', 'F' ] );
+		$monthNotAdded = ! in_array( 'month', $order );
+		if ( $isMonth && $monthNotAdded ) {
+			$order[] = 'month';
+		}
+
+		// Check if it's a day character and we haven't added day yet
+		$isDay       = in_array( $char, [ 'd', 'j' ] );
+		$dayNotAdded = ! in_array( 'day', $order );
+		if ( $isDay && $dayNotAdded ) {
+			$order[] = 'day';
+		}
+	}
+
+	return $order;
+}
