@@ -2046,7 +2046,7 @@ class ConstantContact_Display {
 	 *
 	 * Used between year, month, date fields display, as needed.
 	 *
-	 * @since NEXT
+	 * @since 2.15.0
 	 * @return string
 	 */
 	public function get_form_date_separator() : string {
@@ -2054,7 +2054,7 @@ class ConstantContact_Display {
 		/**
 		 * Filters the character to use to separate out the date fields visually.
 		 *
-		 * @since NEXT
+		 * @since 2.15.0
 		 *
 		 * @param  string $value Character to use for visual separator.
 		 * @return string

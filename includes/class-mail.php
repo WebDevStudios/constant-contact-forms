@@ -164,7 +164,7 @@ class ConstantContact_Mail {
 	/**
 	 * Take an array of year, month, day values and return as `YYYY/MM/DD` string.
 	 *
-	 * @since NEXT
+	 * @since 2.15.0
 	 * @param array $date_parts Array of date parts
 	 *
 	 * @return string

@@ -788,7 +788,9 @@ add_action( 'admin_head', 'constant_contact_global_admin_css' );
 /**
  * Get the order in which a date format is in.
  *
- * @since NEXT
+ * Not used yet as of 2.15.0
+ *
+ * @since 2.15.0
  *
  * @param string $format Date format string.
  *
