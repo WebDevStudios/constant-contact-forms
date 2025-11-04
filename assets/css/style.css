@@ -153,11 +153,6 @@
 .ctct-form-wrapper .ctct-form .ctct-label-right label {
   display: inline-block;
 }
-.ctct-form-wrapper .ctct-form abbr {
-  border: none;
-  color: #ff4136;
-  font-size: 0.9rem;
-}
 .ctct-form-wrapper .ctct-input-container label {
   color: #aaa;
   font-size: 0.8rem;

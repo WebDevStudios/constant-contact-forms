@@ -155,6 +155,7 @@ class ConstantContact_Display {
 		$defaults = [
 			'form_background_color'               => '',
 			'form_description_font_size'          => '',
+			'form_max_width'                      => '',
 			'form_description_color'              => '',
 			'form_submit_button_font_size'        => '',
 			'form_submit_button_text_color'       => '',
@@ -177,6 +178,11 @@ class ConstantContact_Display {
 		$ctct_form_title_font_color = get_post_meta( $form_id, '_ctct_form_title_font_color', true );
 		if ( ! empty( $ctct_form_title_font_color ) ) {
 			$specific_form_css['form_title_font_color'] = "color: $ctct_form_title_font_color;";
+		}
+
+		$ctct_form_max_width = get_post_meta( $form_id, '_ctct_form_max_width', true );
+		if ( ! empty( $ctct_form_max_width ) ) {
+			$specific_form_css['max_width'] = "max-width: $ctct_form_max_width%;";
 		}
 
 		$ctct_form_description_font_size = get_post_meta( $form_id, '_ctct_form_description_font_size', true );
@@ -369,6 +375,10 @@ class ConstantContact_Display {
 		$form_styles = '';
 		if ( ! empty( $this->specific_form_styles['form_background_color'] ) ) {
 			$form_styles = $this->specific_form_styles['form_background_color'];
+		}
+
+		if ( ! empty( $this->specific_form_styles['max_width'] ) ) {
+			$form_styles .= $this->specific_form_styles['max_width'];
 		}
 
 		foreach ( [ 'bottom', 'left', 'right', 'top' ] as $pos ) {
@@ -1132,7 +1142,7 @@ class ConstantContact_Display {
 		$type     = sanitize_text_field( $type );
 		$value    = sanitize_text_field( $value );
 		$label    = esc_html( sanitize_text_field( $label ) );
-		$req_text = $req ? 'required' : '';
+		$req_text = $req ? 'required aria-required="true" ' : 'aria-required="false" ';
 
 		$markup = $this->field_top( $type, $name, $field_key, $label, $req );
 
@@ -1522,7 +1532,7 @@ class ConstantContact_Display {
 
 		$req_label             = $req ? ' ' . $this->display_required_indicator() : '';
 		$req_class             = $req ? ' ctct-form-field-required ' : '';
-		$req                   = $req ? ' required ' : '';
+		$req                   = $req ? ' required aria-required="true" ' : 'aria-required="false" ';
 		$label_placement_class = 'ctct-label-' . $label_placement;
 		$inline_font_styles    = $this->get_inline_font_color();
 
@@ -1536,7 +1546,7 @@ class ConstantContact_Display {
 			foreach ( $included_address_fields as $field ) {
 				// These can be left alone for each iteration. No need to make field-specific variables.
 				$is_required_bool = ( ! empty( $required_address_fields ) && in_array( $field, $required_address_fields, true ) );
-				$is_required      = ( ! empty( $required_address_fields ) && in_array( $field, $required_address_fields, true ) ) ? 'required ' : '';
+				$is_required      = ( ! empty( $required_address_fields ) && in_array( $field, $required_address_fields, true ) ) ? 'required aria-required="true" ' : 'aria-required="false" ';
 
 				// Reassigning in this context
 				$req_class   = $is_required_bool ? 'ctct-form-field-required' : '';
@@ -2034,7 +2044,7 @@ class ConstantContact_Display {
 		$classes          = [ 'ctct-form-field', 'comment-form-comment' ];
 		$textarea_classes = [ 'ctct-textarea' ];
 		$field_id         = "{$map}_$instance";
-		$req_text         = $req ? 'required' : '';
+		$req_text         = $req ? 'required aria-required="true" ' : 'aria-required="false" ';
 
 		if ( $req ) {
 			$classes[] = 'ctct-form-field-required';
@@ -2212,14 +2222,16 @@ class ConstantContact_Display {
 	 * @return string The required indicator markup.
 	 */
 	public function display_required_indicator() : string {
+
+		$title_attr = esc_attr__( 'This is a required field', 'constant-contact-forms' );
 		/**
 		 * Filters the markup used for the required indicator.
 		 *
 		 * @since 1.0.0
 		 *
-		 * @param string $value An `<abbr>` tag with an asterisk indicating required status.
+		 * @param string $value A `<span>` tag with an asterisk indicating required status.
 		 */
-		return apply_filters( 'constant_contact_required_label', '<abbr title="required">*</abbr>' );
+		return apply_filters( 'constant_contact_required_label', '<span class="ctct-required-indicatior" title="' . esc_attr( $title_attr ) .'">*</span>' );
 	}
 
 	/**

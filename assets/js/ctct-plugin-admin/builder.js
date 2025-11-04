@@ -198,7 +198,8 @@ window.CTCTBuilder = {};
 					'#_ctct_form_padding_bottom',
 					'#_ctct_form_padding_left',
 					'#_ctct_form_padding_right',
-					'#_ctct_input_custom_classes'
+					'#_ctct_input_custom_classes',
+					'#_ctct_form_max_width'
 				];
 
 				textFields.forEach((textSelector) => {

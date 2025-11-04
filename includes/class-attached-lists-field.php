@@ -109,7 +109,7 @@ class ConstantContact_Attached_Lists_Field {
 					<strong>
 						<?php
 						// translators: the placeholder will hold a post type label.
-						printf( esc_html__( 'Available %s', 'constant-contact-forms' ), $post_type_labels ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						printf( esc_html__( 'Available %s', 'constant-contact-forms' ), strtolower( $post_type_labels ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						?>
 					</strong>
 				</p>
@@ -148,7 +148,7 @@ class ConstantContact_Attached_Lists_Field {
 					<strong>
 						<?php
 						// translators: the placeholder will hold a post type label.
-						printf( esc_html__( 'Chosen %s', 'constant-contact-forms' ), $post_type_labels ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+						printf( esc_html__( 'Chosen %s', 'constant-contact-forms' ), strtolower( $post_type_labels ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 						?>
 					</strong>
 				</p>

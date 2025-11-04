@@ -43,7 +43,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @return string
 	 */
-	public static function activation() {
+	public static function activation(): string {
 		$auth_url = add_query_arg(
 			[
 				'post_type'           => 'ctct_forms',
@@ -101,7 +101,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @return string Notification text.
 	 */
-	public static function too_many_lists() {
+	public static function too_many_lists(): string {
 		return esc_html__( 'You currently have a large number of lists in your Constant Contact account. You may experience some issues with syncing them.', 'constant-contact-forms' );
 	}
 
@@ -112,7 +112,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @return string
 	 */
-	public static function review_request() {
+	public static function review_request(): string {
 		add_filter( 'wp_kses_allowed_html', 'constant_contact_filter_html_tags_for_optin' );
 
 		ob_start();
@@ -149,7 +149,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @return string
 	 */
-	public static function exceptions() {
+	public static function exceptions(): string {
 		return sprintf(
 			/* Translators: placeholders will be html `<a>` links. */
 			esc_html__( 'Constant Contact Forms has experienced issues that may need addressed and functionality may be missing. Please enable the "Support" checkbox under the Support tab in %1$sConstant Contact settings%2$s and start a %3$sforum support thread%4$s. Our support team will aid with further steps.', 'constant-contact-forms' ),
@@ -167,7 +167,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @return string Deleted forms notice HTML.
 	 */
-	public static function deleted_forms() {
+	public static function deleted_forms(): string {
 		$option = get_option( ConstantContact_Notifications::$deleted_forms, [] );
 
 		ob_start();
@@ -239,7 +239,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @return false|string
 	 */
-	public static function api3_upgrade_notice() {
+	public static function api3_upgrade_notice(): string {
 		ob_start();
 		?>
 		<div class="admin-notice admin-notice-message">
@@ -258,7 +258,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @return false|string
 	 */
-	public static function api3_upgraded_notice() {
+	public static function api3_upgraded_notice(): string {
 		ob_start();
 		?>
 		<div class="admin-notice admin-notice-message">
@@ -277,7 +277,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @since 2.2.0
 	 */
-	public static function account_disconnect_reconnect() {
+	public static function account_disconnect_reconnect(): string {
 		ob_start();
 		?>
 		<div class="admin-notice admin-notice-message">
@@ -306,7 +306,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @return string
 	 */
-	public static function cron_notification() {
+	public static function cron_notification(): string {
 		ob_start();
 		?>
 		<div class="admin-notice admin-notice-message">
@@ -318,7 +318,7 @@ class ConstantContact_Notification_Content {
 		return ob_get_clean();
 	}
 
-	public static function update_available_notice() {
+	public static function update_available_notice(): string {
 		ob_start();
 		?>
 		<div class="admin-notice-message">
@@ -344,7 +344,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @return false|string
 	 */
-	public static function lists_notes_notice() {
+	public static function lists_notes_notice(): string {
 		if ( constant_contact_get_needs_manual_reconnect() ) {
 			return '';
 		}
@@ -357,7 +357,7 @@ class ConstantContact_Notification_Content {
 				esc_html_e( 'If you want to make use of lists, sign up for an account or connect your existing account.', 'constant-contact-forms' );
 			} else {
 
-				esc_html_e( 'If you recently created a list in your Constant Contact Dashboard and do not see it here, please use the "Sync Lists with Constant Contact" link.', 'constant-contact-forms' );
+				esc_html_e( 'If you recently created a list in your Constant Contact dashboard and do not see it here, please use the "Sync lists with Constant Contact" link.', 'constant-contact-forms' );
 				echo '<br/>';
 				esc_html_e( 'Your lists should automatically sync every twelve hours.', 'constant-contact-forms' );
 			}
@@ -376,7 +376,7 @@ class ConstantContact_Notification_Content {
  * @param array $allowedtags Allowed HTML.
  * @return array
  */
-function constant_contact_filter_html_tags_for_optin( array $allowedtags = [] ) {
+function constant_contact_filter_html_tags_for_optin( array $allowedtags = [] ): array {
 
 	$allowedtags['input'] = [
 		'type'  => true,
@@ -396,7 +396,7 @@ function constant_contact_filter_html_tags_for_optin( array $allowedtags = [] ) 
  * @param array $notifications Array of notifications pending to show.
  * @return array Array of notifications to show.
  */
-function constant_contact_add_review_notification( array $notifications = [] ) {
+function constant_contact_add_review_notification( array $notifications = [] ): array {
 
 	$notifications[] = [
 		'ID'         => 'review_request',
@@ -416,7 +416,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_add_review_notif
  * @param array $notifications Array of notifications pending to show.
  * @return array Array of notifications to show.
  */
-function constant_contact_exceptions_thrown( array $notifications = [] ) {
+function constant_contact_exceptions_thrown( array $notifications = [] ): array {
 
 	$notifications[] = [
 		'ID'         => 'exceptions',
@@ -436,7 +436,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_exceptions_throw
  * @param  array $notifications Array of notifications to be shown.
  * @return array                Array of notifications to be shown.
  */
-function constant_contact_form_deleted( array $notifications = [] ) {
+function constant_contact_form_deleted( array $notifications = [] ): array {
 	$notifications[] = [
 		'ID'         => 'deleted_forms',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'deleted_forms' ],
@@ -455,7 +455,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_form_deleted' );
  * @param array $notifications Array of notifications to be shown.
  * @return array               Array of notifications to be shown.
  */
-function constant_contact_api3_upgrade_notice( array $notifications = [] ) {
+function constant_contact_api3_upgrade_notice( array $notifications = [] ): array {
 	$notifications[] = [
 		'ID'         => 'api3_upgrade_notice',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'api3_upgrade_notice' ],
@@ -474,7 +474,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_api3_upgrade_not
  * @param array $notifications Array of notifications to be shown.
  * @return array               Array of notifications to be shown.
  */
-function constant_contact_api3_upgraded_notice( array $notifications = [] ) {
+function constant_contact_api3_upgraded_notice( array $notifications = [] ): array {
 	$notifications[] = [
 		'ID'         => 'api3_upgraded_notice',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'api3_upgraded_notice' ],
@@ -493,7 +493,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_api3_upgraded_no
  * @param array $notifications Array of notifications to be shown.
  * @return array               Array of notifications to be shown.
  */
-function constant_contact_account_disconnect_reconnect( array $notifications = [] ) {
+function constant_contact_account_disconnect_reconnect( array $notifications = [] ): array {
 	$notifications[] = [
 		'ID'         => 'account_disconnect_reconnect',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'account_disconnect_reconnect' ],
@@ -511,7 +511,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_account_disconne
  * @param array $notifications Array of notifications to be shown.
  * @return array               Array of notifications to be shown.
  */
-function constant_contact_cron_notification( array $notifications = [] ) {
+function constant_contact_cron_notification( array $notifications = [] ): array {
 	$notifications[] = [
 		'ID'         => 'cron_notification',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'cron_notification' ],
@@ -529,7 +529,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_cron_notificatio
  * @param array $notifications Array of notifications to be shown.
  * @return array               Array of notifications to be shown.
  */
-function constant_contact_update_available_notification( array $notifications = [] ) {
+function constant_contact_update_available_notification( array $notifications = [] ): array {
 	$notifications[] = [
 		'ID'         => 'update_available_notice',
 		'callback'   => [ 'ConstantContact_Notification_Content', 'update_available_notice' ],
@@ -548,7 +548,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_update_available
  * @param array $notifications Array of notifications to be shown.
  * @return array               Array of notifications to be shown.
  */
-function constant_contact_lists_notes_notification( array $notifications = [] ) {
+function constant_contact_lists_notes_notification( array $notifications = [] ): array {
 	$notifications[] = [
 		'ID'           => 'list_notes',
 		'callback'     => [ 'ConstantContact_Notification_Content', 'lists_notes_notice' ],

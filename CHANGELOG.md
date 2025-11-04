@@ -1,3 +1,33 @@
+= 2.14.0 =
+
+* Fixed: Issues with Google reCAPTCHA version 3 and forms submitted without page refresh.
+* Fixed: Logic around notification display in case manual intervention is needed.
+* Added: Per-form field setting for a max-width value as a percentage.
+* Added: Ability to choose the address type for address field. Example: home, work, other.
+* Updated: Small visual indicators and wording for if connection issues exist.
+* Updated: Visual details around "required" field indicators on forms, as well as accessibility improvements.
+* Updated: Various PHP warnings and notices.
+
+= 2.13.0 =
+
+* Fixed: Details around address data retrieval from Constant Contact, used in disclosure text.
+* Updated: Added extra theme compatibility for popular themes.
+* Updated: Removed "edit" link on frontend form display to avoid potential confusion.
+* Updated: Adjusted details around cron jobs related to API token tasks.
+* Added: Admin area "edit form" link output for chosen form in Constant Contact Forms Block.
+* Added: Keywords for Elementor widget integration.
+* Added: Dedicated color picker for form title display.
+* Added: Ability to display form horizontally when using just the email field.
+
+= 2.12.0 =
+
+* Fixed: Fatal errors around list creation within WordPress dashboard.
+* Fixed: Touchups and style bugs around Forms block.
+* Fixed: Require list selection if site has a connected account but no list is chosen for form.
+* Added: Ability to select the heading level when showing form title.
+* Updated: Touched up styles and wording in form editor.
+* Updated: Adjusted Google reCAPTCHA version 3 token timing. Assigned upon submit instead of pageload, to help avoid 2 minute expiration issues.
+
 = 2.11.3 =
 
 * Fixed: Email notifications being sent even when toggled off.

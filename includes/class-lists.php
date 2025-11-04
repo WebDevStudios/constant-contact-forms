@@ -765,13 +765,15 @@ class ConstantContact_Lists {
 		}
 
 		if (
+			$post &&
 			'ctct_lists' === $post->post_type &&
 			get_post_meta( $post->ID, 'ctct_duplicate_list', true )
 		) {
-			add_filter('admin_body_class',function($classes){
+			add_filter( 'admin_body_class', function ( $classes ) {
 				$classes .= ' ctct-duplicate-list';
+
 				return $classes;
-			});
+			} );
 			add_action( 'admin_notices', [ $this, 'show_duplicate_list_message' ] );
 		}
 	}
@@ -784,7 +786,7 @@ class ConstantContact_Lists {
 	public function show_duplicate_list_message() {
 		?>
 		<div class="notice notice-error">
-				<p><?php esc_attr_e( 'You already have a list with that name.', 'constant-contact-forms' ); ?></p>
+			<p><?php esc_attr_e( 'You already have a list with that name.', 'constant-contact-forms' ); ?></p>
 		</div>
 		<?php
 	}
@@ -805,7 +807,7 @@ class ConstantContact_Lists {
 		if ( constant_contact_get_needs_manual_reconnect() ) {
 			$views['reconnect'] = '<strong><a href="' . $reconnect_link . '">' . esc_html__( 'Fix connectivity issues', 'constant-contact-forms' ) . '</a></strong>';
 		} else if ( constant_contact()->get_api()->is_connected() ) {
-			$views['sync'] = '<strong><a href="' . $sync_link . '">' . esc_html__( 'Sync Lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
+			$views['sync'] = '<strong><a href="' . $sync_link . '">' . esc_html__( 'Sync lists with Constant Contact', 'constant-contact-forms' ) . '</a></strong>';
 		}
 
 		return $views;

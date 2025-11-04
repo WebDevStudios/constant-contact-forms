@@ -765,3 +765,22 @@ function constant_contact_should_hide_disable_admin_email() : bool {
 
 	return $show;
 }
+
+/**
+ * Touch of CSS that needs to be added regardless of place in WP admin.
+ *
+ * @since 2.14.0
+ */
+function constant_contact_global_admin_css() {
+	if ( ! constant_contact_get_needs_manual_reconnect() ) {
+		return;
+	}
+?>
+	<style>
+		.dashicons.ctct-menu-icon {
+			margin: 0 5px;
+		}
+	</style>
+<?php
+}
+add_action( 'admin_head', 'constant_contact_global_admin_css' );
