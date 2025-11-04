@@ -59,6 +59,21 @@
     margin-right: 0;
   }
 }
+.ctct-form-wrapper .ctct-birthday-fields {
+  display: flex;
+}
+.ctct-form-wrapper .ctct-birthday-fields.ctct-birthday-label-top {
+  align-items: flex-end;
+}
+.ctct-form-wrapper .ctct-birthday-fields.ctct-birthday-label-top .ctct-birthday-field-separator {
+  margin: 0 10px 1.5rem;
+}
+.ctct-form-wrapper .ctct-birthday-fields.ctct-birthday-label-bottom {
+  align-items: flex-start;
+}
+.ctct-form-wrapper .ctct-birthday-fields.ctct-birthday-label-bottom .ctct-birthday-field-separator {
+  margin: 0.5rem 10px 0;
+}
 
 .ctct-form-wrapper .ctct-form.ctct-inline {
   display: flex;

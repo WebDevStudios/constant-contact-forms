@@ -6,74 +6,69 @@
 //--------------------------------------------------------------
 
 .ctct-form-wrapper {
+  .ctct-form-field {
+	margin: 0 0 1rem;
+  }
 
-	.ctct-form-field {
-		margin: 0 0 1rem;
+  .ctct-field-inline {
+	display: inline-block;
+  }
+
+  .ctct-field-half {
+	@include mixins.wider-than("medium") {
+	  float: left;
+	  margin-right: 2%;
+	  width: 48%;
+
+	  &:last-of-type {
+		margin-right: 0;
+	  }
 	}
+  }
 
-	.ctct-field-inline {
-		display: inline-block;
+  .ctct-field-third {
+	@include mixins.wider-than("medium") {
+	  float: left;
+	  margin-right: 2%;
+	  width: 32%;
+
+	  &:last-of-type {
+		margin-right: 0;
+	  }
 	}
+  }
 
-	.ctct-field-half {
+  .ctct-field-fourth {
+	@include mixins.wider-than("medium") {
+	  float: left;
+	  margin-right: 2%;
+	  width: 24%;
 
-		@include mixins.wider-than( 'medium' ) {
-			float: left;
-			margin-right: 2%;
-			width: 48%;
+	  &:last-of-type {
+		margin-right: 0;
+	  }
+	}
+  }
 
-			&:last-of-type {
-				margin-right: 0;
-			}
+  .ctct-birthday-fields {
+	display: flex;
+
+	&.ctct-birthday-label- {
+	  &top {
+		align-items: flex-end;
+
+		.ctct-birthday-field-separator {
+		  margin: 0 10px 1.5rem;
 		}
+	  }
 
-	}
+	  &bottom {
+		align-items: flex-start;
 
-	.ctct-field-third {
-
-		@include mixins.wider-than( 'medium' ) {
-			float: left;
-			margin-right: 2%;
-			width: 32%;
-
-			&:last-of-type {
-				margin-right: 0;
-			}
+		.ctct-birthday-field-separator {
+		  margin: 0.5rem 10px 0;
 		}
-
+	  }
 	}
-
-	.ctct-field-fourth {
-
-		@include mixins.wider-than('medium') {
-			float: left;
-			margin-right: 2%;
-			width: 24%;
-
-			&:last-of-type {
-				margin-right: 0;
-			}
-		}
-
-	}
-
-	.ctct-birthday-fields {
-		display: flex;
-	  	&.ctct-birthday-label- {
-	  		&top {
-			  align-items: flex-end;
-
-			  .ctct-birthday-field-separator {
-				margin: 0 10px 1.5rem;
-			  }
-			}
-	  		&bottom {
-				align-items: flex-start;
-
-				.ctct-birthday-field-separator {
-				  margin: 0.5rem 10px 0;
-				}
-			}
-		}
-	}
+  }
 }
