@@ -1217,15 +1217,18 @@ class ConstantContact_Display {
 		}
 
 		$minmax = '';
-		if ( 'year' === $date_part ) {
-			$minmax = 'maxlength="4" min="1900" max="2035"';
-		}
-		if ( 'month' === $date_part ) {
-			$minmax = 'maxlength="2" min="1" max="12"';
-		}
-
-		if ( 'day' === $date_part ) {
-			$minmax = 'maxlength="2" min="1" max="31"';
+		if ( ! empty( $date_part ) ) {
+			if ( 'year' === $date_part ) {
+				$minmax = 'maxlength="4" min="1900" max="2035"';
+			}
+			if ( 'month' === $date_part ) {
+				$minmax = 'maxlength="2" min="1" max="12"';
+			}
+			if ( 'day' === $date_part ) {
+				$minmax = 'maxlength="2" min="1" max="31"';
+			}
+			// Preprend our date part to get unique field name
+			$field_key = $date_part . '_' . $field_key;
 		}
 
 		/* 1: Required text, 2: Field type, 3: Field name, 4: Inline styles, 5: Field value, 6: Max length, 7: Placeholder, 8: Field class(es), 9: Field ID., 10: Tel Regex Pattern. */
