@@ -1052,10 +1052,10 @@ class ConstantContact_API {
 							$address['country'] = $value;
 					}
 					break;
-				case 'birthday_month':
+				case 'month_birthday':
 					$contact->birthday_month = absint( $value );
 					break;
-				case 'birthday_day':
+				case 'day_birthday':
 					$contact->birthday_day = absint( $value );
 					break;
 				case 'anniversary':
