@@ -527,6 +527,23 @@ class ConstantContact_Settings {
 					]
 				);
 			}
+		} else {
+			$cmb->add_field( array(
+				'name' => '',
+				'desc' => esc_html__( 'Options regarding user opt-in settings are only available when a Constant Contact account has been connected.', 'constant-contact-forms' ),
+				'type' => 'title',
+				'id'   => 'not-connected-optin'
+			) );
+			?>
+			<script>
+				window.addEventListener('load', function () {
+					const optinBtn = document.querySelector('#ctct_option_metabox_settings_optin input[type="submit"]');
+					if (optinBtn) {
+						optinBtn.setAttribute('disabled', true);
+					}
+				} );
+			</script>
+			<?php
 		}
 	}
 
