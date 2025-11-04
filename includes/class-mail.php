@@ -121,6 +121,8 @@ class ConstantContact_Mail {
 	 */
 	public function opt_in_user( array $values ) {
 
+		$args = [];
+		$date_parts = [];
 		foreach ( $values as $key => $val ) {
 			$key  = sanitize_text_field( $val['key'] ?? '' );
 			$orig = sanitize_text_field( $val['orig_key'] ?? '' );
@@ -128,6 +130,11 @@ class ConstantContact_Mail {
 
 			if ( empty( $key ) || in_array( $key, [ 'ctct-opt-in', 'ctct-id', 'ctct-lists' ], true ) ) {
 				continue;
+			}
+
+			if ( in_array( $key, [ 'month_anniversary', 'day_anniversary', 'year_anniversary' ], true ) ) {
+				$parts = explode( '_', $key );
+				$date_parts[ $parts[0] ] = $val;
 			}
 
 			$args[ $orig ] = [
@@ -147,8 +154,33 @@ class ConstantContact_Mail {
 		$lists        = $values['ctct-lists'] ?? [];
 		$lists        = $lists['value'] ?? [];
 		$args['list'] = is_array( $lists ) ? array_map( 'sanitize_text_field', $lists ) : sanitize_text_field( $lists );
-
+		$args['anniversary'] = [
+			'key' => 'anniversary',
+			'val' => $this->format_anniversary_date( $date_parts ),
+		];
 		return constant_contact()->get_api()->add_contact( $args, $values['ctct-id']['value'] );
+	}
+
+	/**
+	 * Take an array of year, month, day values and return as `YYYY/MM/DD` string.
+	 *
+	 * @since NEXT
+	 * @param array $date_parts Array of date parts
+	 *
+	 * @return string
+	 */
+	private function format_anniversary_date( array $date_parts ) {
+		$date = '';
+		if ( ! empty( $date_parts['year'] ) ) {
+			$date .= $date_parts['year'] . '/';
+		}
+		if ( ! empty( $date_parts['month'] ) ) {
+			$date .= $date_parts['month'] . '/';
+		}
+		if ( ! empty( $date_parts['day'] ) ) {
+			$date .= $date_parts['day'];
+		}
+		return $date;
 	}
 
 	/**
