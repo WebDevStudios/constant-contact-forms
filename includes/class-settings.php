@@ -536,16 +536,6 @@ class ConstantContact_Settings {
 				'type' => 'title',
 				'id'   => 'not-connected-optin'
 			) );
-			?>
-			<script>
-				window.addEventListener('load', function () {
-					const optinBtn = document.querySelector('#ctct_option_metabox_settings_optin input[type="submit"]');
-					if (optinBtn) {
-						optinBtn.setAttribute('disabled', true);
-					}
-				} );
-			</script>
-			<?php
 		}
 	}
 
