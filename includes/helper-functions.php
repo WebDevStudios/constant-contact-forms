@@ -9,6 +9,7 @@
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
+use Monolog\Formatter\LineFormatter;
 use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 
@@ -287,8 +288,11 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
 		return;
 	}
 
-	$logger = new Logger( $log_name );
-	$logger->pushHandler( new StreamHandler( $logging_file ) );
+	$logger    = new Logger( $log_name );
+	$formatter = new LineFormatter( null, 'Y-n-d, H:i' );
+	$stream    = new StreamHandler( $logging_file );
+	$stream->setFormatter( $formatter );
+	$logger->pushHandler( $stream );
 	$extra = [];
 
 	if ( $extra_data ) {
