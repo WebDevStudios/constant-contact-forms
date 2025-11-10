@@ -159,9 +159,11 @@ class ConstantContact_Builder_Fields {
 			],
 			'anniversary' => [
 				'option'      => esc_html__( 'Anniversary', 'constant-contact-forms' ),
+				'placeholder' => '',
 			],
 			'birthday' => [
 				'option'      => esc_html__( 'Birthday', 'constant-contact-forms' ),
+				'placeholder' => '',
 			],
 			'custom'           => [
 				'option'      => esc_html__( 'Custom text field', 'constant-contact-forms' ),
