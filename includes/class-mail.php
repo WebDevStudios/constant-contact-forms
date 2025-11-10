@@ -195,8 +195,9 @@ class ConstantContact_Mail {
 	 */
 	public function format_values_for_email( array $pretty_vals, string $form_id ) : string {
 
-		$return = '';
-
+		$return              = '';
+		$date_birthday       = [];
+		$date_anniversary    = [];
 		$original_field_data = $this->plugin->get_process_form()->get_original_fields( $form_id );
 		foreach ( $pretty_vals as $val ) {
 
@@ -210,11 +211,38 @@ class ConstantContact_Mail {
 
 			if ( $label && empty( $custom_field_name ) ) {
 				$label = explode( '___', $label );
-				$label = ucwords( str_replace( '_', ' ', $label[0] ) );
+				if ( false === strpos( $label[0], 'anniversary' ) && false === strpos( $label[0], 'birthday' ) ) {
+					$label = ucwords( str_replace( '_', ' ', $label[0] ) );
+				} else {
+					if ( false !== strpos( $label[0], 'anniversary' ) ) {
+						$date_anniversary[] = $val['post'];
+					}
+
+					if ( false !== strpos( $label[0], 'birthday' ) ) {
+						$date_birthday[] = $val['post'];
+					}
+
+					$parts = explode( '_', $label[0] );
+					$label = ucwords( $parts[1] );
+				}
 			} else {
 				$label = $custom_field_name;
 			}
 			$value = $val['post'] ?? '&nbsp;';
+
+			if ( ! empty( $date_anniversary ) ) {
+				$value = implode( constant_contact()->get_display()->get_form_date_separator(), $date_anniversary );
+				if ( count( $date_anniversary ) < 3 ) {
+					continue; // Prevent multiple lines for dates. Anniversary expects 3 total.
+				}
+			}
+
+			if ( ! empty( $date_birthday ) ) {
+				$value = implode( constant_contact()->get_display()->get_form_date_separator(), $date_birthday );
+				if ( count( $date_birthday ) < 2 ) {
+					continue; // Prevent multiple lines for dates. Birthday expects 2 total.
+				}
+			}
 
 			$return .= '<p>' . sanitize_text_field( $label ) . ': ' . sanitize_text_field( $value ) . '</p>';
 		}
