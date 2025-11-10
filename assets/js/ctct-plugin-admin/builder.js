@@ -420,7 +420,12 @@ window.CTCTBuilder = {};
 						if ('custom' === map.value) {
 							fieldLabel.classList.add('form-field-is-custom-field');
 						} else {
-							fieldLabel.classList.remove('form-field-is-custom-field')
+							fieldLabel.classList.remove('form-field-is-custom-field');
+						}
+						if ('custom' === map.value || 'custom_text_area' === map.value) {
+							fieldLabel.setAttribute('maxlength', '50');
+						} else {
+							fieldLabel.removeAttribute('maxlength');
 						}
 					}
 				}

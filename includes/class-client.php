@@ -107,10 +107,24 @@ class ConstantContact_Client {
 	 * Get configured custom fields for contacts.
 	 *
 	 * @since 2.0.0
+	 * @since NEXT Added limit parameter.
+	 *
+	 * @param  string $limit How many custom fields to retrieve. Default 50. Max 100.
 	 * @return array
 	 */
-	public function get_custom_fields() {
-		return $this->get( 'contact_custom_fields', $this->base_args );
+	public function get_custom_fields( $limit = '50' ) {
+		$endpoint = 'contact_custom_fields';
+
+		if ( ! empty( $limit ) ) {
+			if ( ! is_numeric( $limit ) ) {
+				$limit = '50'; //fallback in case non-numbers got passed in.
+			}
+			$endpoint = add_query_arg(
+				[ 'limit' => $limit ],
+				'contact_custom_fields'
+			);
+		}
+		return $this->get( $endpoint, $this->base_args );
 	}
 
 	/**
@@ -134,7 +148,7 @@ class ConstantContact_Client {
 	 * @return bool
 	 */
 	public function custom_field_exists( string $field_name ) {
-		$fields = $this->get_custom_fields();
+		$fields = $this->get_custom_fields( '100' );
 		if ( ! empty( $fields ) && array_key_exists( 'custom_fields', $fields ) ) {
 			$field_keys = wp_list_pluck( $fields['custom_fields'], 'label' );
 			return in_array( $field_name, $field_keys, true );
@@ -151,7 +165,7 @@ class ConstantContact_Client {
 	 * @return mixed|string
 	 */
 	public function get_custom_field_by_name( string $field_name ) {
-		$fields = $this->get_custom_fields();
+		$fields = $this->get_custom_fields( '100' );
 		if ( ! empty( $fields ) && array_key_exists( 'custom_fields', $fields ) ) {
 			foreach ( $fields['custom_fields'] as $field ) {
 				if ( $field['label'] === $field_name ) {
