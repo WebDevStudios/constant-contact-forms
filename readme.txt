@@ -6,7 +6,7 @@ Tested up to:      6.8
 Stable tag:        2.15.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
-Requires PHP:      7.4
+Requires PHP:      8.1
 
 The official Constant Contact plugin adds a contact form to your WordPress site to quickly capture information from visitors.
 
