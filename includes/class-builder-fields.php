@@ -895,20 +895,23 @@ class ConstantContact_Builder_Fields {
 				'</a>'
 			)
 		);
-		$custom_fields_data = constant_contact()->get_api()->cc()->get_custom_fields();
-		if (
-			is_array( $custom_fields_data['custom_fields'] ) &&
-			! empty( $custom_fields_data['custom_fields'] )
-		) {
-			if ( array_key_exists( 'label', $custom_fields_data['custom_fields'][0] ) ) {
-				$labels = wp_list_pluck( $custom_fields_data['custom_fields'], 'label' );
-				sort( $labels );
 
-				printf(
-					'<p>%1$s<br/><strong>%2$s</strong></p>',
-					esc_html__( 'Available fields from your account:', 'constant-contact-forms' ),
-					implode( ', ', $labels )
-				);
+		if ( constant_contact()->get_api()->is_connected() ) {
+			$custom_fields_data = constant_contact()->get_api()->cc()->get_custom_fields();
+			if (
+				is_array( $custom_fields_data['custom_fields'] ) &&
+				! empty( $custom_fields_data['custom_fields'] )
+			) {
+				if ( array_key_exists( 'label', $custom_fields_data['custom_fields'][0] ) ) {
+					$labels = wp_list_pluck( $custom_fields_data['custom_fields'], 'label' );
+					sort( $labels );
+
+					printf(
+						'<p>%1$s<br/><strong>%2$s</strong></p>',
+						esc_html__( 'Available fields from your account:', 'constant-contact-forms' ),
+						implode( ', ', $labels )
+					);
+				}
 			}
 		}
 	}
