@@ -4,7 +4,7 @@
    "license":"GPL-3.0-or-later",
    "homepage":"https://www.constantcontact.com",
    "require":{
-      "monolog/monolog":"2.9.3",
+      "monolog/monolog":"3.9.0",
       "cmb2/cmb2":"2.11.0",
       "defuse/php-encryption":"2.4.0",
       "google/recaptcha":"1.2.4",
