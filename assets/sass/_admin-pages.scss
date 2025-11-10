@@ -20,6 +20,12 @@
       width: 500px;
     }
   }
+
+  #ctct_option_metabox_settings_optin {
+	.button-ctct-not-connected {
+	  display: none;
+	}
+  }
 }
 
 // Global admin styles.
@@ -63,7 +69,7 @@
     .text-centered{
       text-align: center;
     }
-    
+
     .iframe-wrap{
       position: relative;
       padding-bottom: 56.25%; /* 16:9 */
@@ -98,7 +104,7 @@
     .description,
     p.submit{
       padding: 0 14px;
-      margin-bottom: 10px; 
+      margin-bottom: 10px;
     }
 
     .cmb-th,
@@ -122,24 +128,24 @@
 
   // Copy shortcode on form listing.
 
-  .ctct-shortcode-wrap{ 
+  .ctct-shortcode-wrap{
     display: flex;
     width: 100%;
     background-color: variables.$color-white;
     border: 1px solid variables.$color-silver;
     border-radius: variables.$radius;
-    padding: 3px; 
+    padding: 3px;
     position: relative;
 
     &:focus-within{
       border-color: variables.$color-light-silver;
     }
 
-    input, button{ 
+    input, button{
       min-height: auto;
       height: 30px;
       font-size: 12px;
-    } 
+    }
 
     input{
       background-color: transparent;
@@ -155,7 +161,7 @@
 
       &:focus{
         box-shadow: none;
-      } 
+      }
     }
 
     button{

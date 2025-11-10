@@ -254,7 +254,9 @@ class ConstantContact_Settings {
 			<form class="cmb-form" action="<?php echo esc_url( admin_url( 'admin-post.php' ) ); ?>" method="POST" id="<?php echo esc_attr( $cmb_options->cmb->cmb_id ); ?>" enctype="multipart/form-data" encoding="multipart/form-data">
 				<input type="hidden" name="action" value="<?php echo esc_attr( $cmb_options->option_key ); ?>">
 				<?php $cmb_options->options_page_metabox(); ?>
-				<?php submit_button( esc_attr( $cmb_options->cmb->prop( 'save_button' ) ), 'primary', 'submit-cmb' ); ?>
+				<?php
+				$status = constant_contact()->get_api()->is_connected() ? 'connected' : 'not-connected';
+				submit_button( esc_attr( $cmb_options->cmb->prop( 'save_button' ) ), "primary button-ctct-$status", 'submit-cmb' ); ?>
 			</form>
 		</div>
 		<?php
@@ -527,6 +529,13 @@ class ConstantContact_Settings {
 					]
 				);
 			}
+		} else {
+			$cmb->add_field( array(
+				'name' => '',
+				'desc' => esc_html__( 'Options regarding user opt-in settings are only available when a Constant Contact account has been connected.', 'constant-contact-forms' ),
+				'type' => 'title',
+				'id'   => 'not-connected-optin'
+			) );
 		}
 	}
 
