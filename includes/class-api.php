@@ -1015,6 +1015,9 @@ class ConstantContact_API {
 				case 'lists':
 				case 'h-captcha-response':
 				case 'g-captcha-response':
+				case 'day_anniversary': // Anniversary is already pieced together.
+				case 'nonth_anniversary':
+				case 'year_anniversary':
 					// Do nothing, as we already captured or handled elsewhere.
 					break;
 				case 'phone_number':
