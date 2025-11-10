@@ -151,6 +151,30 @@ class Contact extends Component
      */
     public $source_details;
 
+	/**
+	 * Contact anniversary month
+	 * @var string
+	 */
+	public $month_anniversary;
+
+	/**
+	 * Contact anniversary day
+	 * @var string
+	 */
+	public $day_anniversary;
+
+	/**
+	 * Contact anniversary year
+	 * @var string
+	 */
+	public $year_anniversary;
+
+	/**
+	 * Contact street address
+	 * @var string
+	 */
+	public $street_address;
+
     /**
      * Factory method to create a Contact object from an array
      * @param array $props - Associative array of initial properties to set

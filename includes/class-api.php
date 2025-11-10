@@ -1015,6 +1015,9 @@ class ConstantContact_API {
 				case 'lists':
 				case 'h-captcha-response':
 				case 'g-captcha-response':
+				case 'day_anniversary': // Anniversary is already pieced together.
+				case 'nonth_anniversary':
+				case 'year_anniversary':
 					// Do nothing, as we already captured or handled elsewhere.
 					break;
 				case 'phone_number':
@@ -1052,12 +1055,15 @@ class ConstantContact_API {
 							$address['country'] = $value;
 					}
 					break;
-				case 'birthday_month':
-				case 'birthday_day':
-				case 'birthday_year':
-				case 'anniversery_day':
-				case 'anniversary_month':
-				case 'anniversary_year':
+				case 'month_birthday':
+					$contact->birthday_month = absint( $value );
+					break;
+				case 'day_birthday':
+					$contact->birthday_day = absint( $value );
+					break;
+				case 'anniversary':
+					$contact->anniversary = date( 'Y/m/d', strtotime( $value ) );
+					break;
 				case 'website':
 				case 'custom':
 					// Dont overload custom fields.

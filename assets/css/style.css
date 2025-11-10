@@ -59,6 +59,30 @@
     margin-right: 0;
   }
 }
+.ctct-form-wrapper .ctct-birthday-fields,
+.ctct-form-wrapper .ctct-anniversary-fields {
+  display: flex;
+}
+.ctct-form-wrapper .ctct-birthday-fields.ctct-birthday-label-top, .ctct-form-wrapper .ctct-birthday-fields.ctct-anniversary-label-top,
+.ctct-form-wrapper .ctct-anniversary-fields.ctct-birthday-label-top,
+.ctct-form-wrapper .ctct-anniversary-fields.ctct-anniversary-label-top {
+  align-items: flex-end;
+}
+.ctct-form-wrapper .ctct-birthday-fields.ctct-birthday-label-top .ctct-date-field-separator, .ctct-form-wrapper .ctct-birthday-fields.ctct-anniversary-label-top .ctct-date-field-separator,
+.ctct-form-wrapper .ctct-anniversary-fields.ctct-birthday-label-top .ctct-date-field-separator,
+.ctct-form-wrapper .ctct-anniversary-fields.ctct-anniversary-label-top .ctct-date-field-separator {
+  margin: 0 10px 1.5rem;
+}
+.ctct-form-wrapper .ctct-birthday-fields.ctct-birthday-label-bottom, .ctct-form-wrapper .ctct-birthday-fields.ctct-anniversary-label-bottom,
+.ctct-form-wrapper .ctct-anniversary-fields.ctct-birthday-label-bottom,
+.ctct-form-wrapper .ctct-anniversary-fields.ctct-anniversary-label-bottom {
+  align-items: flex-start;
+}
+.ctct-form-wrapper .ctct-birthday-fields.ctct-birthday-label-bottom .ctct-date-field-separator, .ctct-form-wrapper .ctct-birthday-fields.ctct-anniversary-label-bottom .ctct-date-field-separator,
+.ctct-form-wrapper .ctct-anniversary-fields.ctct-birthday-label-bottom .ctct-date-field-separator,
+.ctct-form-wrapper .ctct-anniversary-fields.ctct-anniversary-label-bottom .ctct-date-field-separator {
+  margin: 0.5rem 10px 0;
+}
 
 .ctct-form-wrapper .ctct-form.ctct-inline {
   display: flex;

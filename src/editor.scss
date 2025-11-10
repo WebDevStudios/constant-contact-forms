@@ -207,4 +207,28 @@ $color-success: $color-green;
 	  }
 	}
   }
+
+  .ctct-birthday-fields,
+  .ctct-anniversary-fields {
+	display: flex;
+
+	&.ctct-birthday-label-,
+	&.ctct-anniversary-label- {
+	  &top {
+		align-items: flex-end;
+
+		.ctct-date-field-separator {
+		  margin: 0 10px 2rem;
+		}
+	  }
+
+	  &bottom {
+		align-items: flex-start;
+
+		.ctct-date-field-separator {
+		  margin: 0.5rem 10px 0;
+		}
+	  }
+	}
+  }
 }
