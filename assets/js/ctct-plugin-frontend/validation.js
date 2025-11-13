@@ -292,7 +292,15 @@
 	 * @param form Form being submitted.
 	 */
 	app.handlerecaptcha = (form) => {
+		if ('undefined' === typeof (recaptchav3)) {
+			return;
+		}
+
 		if ('undefined' === typeof (recaptchav3.site_key)) {
+			return;
+		}
+
+		if ('undefined' === typeof (grecaptcha)) {
 			return;
 		}
 
