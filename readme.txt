@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
 Tested up to:      6.8
-Stable tag:        2.14.1
+Stable tag:        2.14.2
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      7.4
@@ -48,6 +48,9 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.14.2 =
+* Fixed: errors regarding Google reCAPTCHA v3 javascript variables.
 
 = 2.14.1 =
 * Fixed: Dashicon getting escaped instead of displaying, in custom menu spot.
@@ -108,7 +111,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Updated: Notice regarding list management details.
 
 == Upgrade Notice ==
-* Fixes issues around reCAPTCHA, details related to connection issues, and PHP notices. Adds ability to choose address type.
+* Fixes issues around reCAPTCHA
 
 == Frequently Asked Questions ==
 
