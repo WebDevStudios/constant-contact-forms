@@ -111,7 +111,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Updated: Notice regarding list management details.
 
 == Upgrade Notice ==
-* Fixes issues around reCAPTCHA, details related to connection issues, and PHP notices. Adds ability to choose address type.
+* Fixes issues around reCAPTCHA
 
 == Frequently Asked Questions ==
 
