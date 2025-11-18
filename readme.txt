@@ -51,6 +51,8 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 = 2.15.0 =
 * Added: Anniversary and birthday form fields.
+* Added: Max length limit to Form builder and our custom field inputs.
+* Updated: Show messaging in "Opt in" setting tab when not connected.
 
 = 2.14.2 =
 * Fixed: errors regarding Google reCAPTCHA v3 javascript variables.
