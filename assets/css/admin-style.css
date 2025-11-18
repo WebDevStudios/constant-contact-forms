@@ -1065,6 +1065,9 @@ a.ctct-notice-dismiss {
 .cmb2-options-page[class*=option-ctct_options_settings_] .regular-text {
   width: 500px;
 }
+.cmb2-options-page #ctct_option_metabox_settings_optin .button-ctct-not-connected {
+  display: none;
+}
 
 .wp-admin .wrap.ctct-page-wrap {
   max-width: 1000px;
