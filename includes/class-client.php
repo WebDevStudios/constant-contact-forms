@@ -107,7 +107,7 @@ class ConstantContact_Client {
 	 * Get configured custom fields for contacts.
 	 *
 	 * @since 2.0.0
-	 * @since NEXT Added limit parameter.
+	 * @since 2.15.0 Added limit parameter.
 	 *
 	 * @param  string $limit How many custom fields to retrieve. Default 50. Max 100.
 	 * @return array
