@@ -50,9 +50,14 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 == Changelog ==
 
 = 2.15.0 =
+* Added: Moves PHP minimum requirement to version 8.1 or higher.
 * Added: Anniversary and birthday form fields.
 * Added: Max length limit to Form builder and our custom field inputs.
+* Added: List display of existing custom fields from your Constant Contact Accout at bottom of form builder.
+* Updated: Adjusted logic regarding version 2.0.0 "major upgrade" admin notification.
 * Updated: Show messaging in "Opt in" setting tab when not connected.
+* Updated: Log library version.
+* Updated: Improved log timestamp formats to make more visual sense.
 
 = 2.14.2 =
 * Fixed: errors regarding Google reCAPTCHA v3 javascript variables.
