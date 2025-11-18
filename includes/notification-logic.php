@@ -267,3 +267,36 @@ function constant_contact_maybe_show_list_notes_notification(): bool {
 
 	return true;
 }
+
+/**
+ * Maybe display our list selection reminder.
+ *
+ * @since NEXT
+ *
+ * @return bool
+ */
+function constant_contact_maybe_show_lists_selection_notification(): bool {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	if ( ! constant_contact()->is_constant_contact() ) {
+		return false;
+	}
+
+	if ( ! constant_contact()->get_api()->is_connected() ) {
+		return false;
+	}
+
+	if ( empty( $_GET ) ) {
+		return false;
+	}
+
+	if ( isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) {
+		$thepostmeta = get_post_meta( absint( $_GET['post'] ) );
+
+		return empty( $thepostmeta['_ctct_list'] );
+	}
+
+	return false;
+}
