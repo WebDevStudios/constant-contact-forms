@@ -174,10 +174,14 @@ function constant_contact_maybe_display_api3_upgraded_notice() : bool {
 	}
 
 	$current_version = get_option( 'ctct_plugin_version' );
+	$migrated        = get_option( 'ctct_api_v2_v3_migrated' );
 
 	return (
-		version_compare( $current_version, '2.0.0', '=' ) ||
-		'' === get_option( 'CtctConstantContactState', '' )
+		version_compare($current_version, '2.0.1', '<' ) ||
+		(
+			empty( $migrated ) ||
+			'1' !== $migrated
+		)
 	);
 }
 
