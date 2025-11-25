@@ -379,7 +379,7 @@ class ConstantContact_Notification_Content {
 		?>
 		<div class="admin-notice-message">
 			<?php
-				esc_html_e( 'Do not forget to asign a list to use with the form!', 'constant-contact-forms' );
+				esc_html_e( 'Do not forget to assign a list to use with the form!', 'constant-contact-forms' );
 			?>
 		</div>
 		<?php
