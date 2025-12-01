@@ -370,7 +370,7 @@ class ConstantContact_Notification_Content {
 	/**
 	 * Admin notice regarding selecting a list.
 	 *
-	 * @since NEXT
+	 * @since 2.15.0
 	 *
 	 * @return false|string
 	 */
@@ -582,7 +582,7 @@ add_filter( 'constant_contact_notifications', 'constant_contact_lists_notes_noti
 /**
  * Add notification regarding list assignment
  *
- * @since NEXT
+ * @since 2.15.0
  *
  * @param array $notifications Array of notifications to be shown.
  * @return array               Array of notifications to be shown.

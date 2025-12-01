@@ -271,7 +271,7 @@ function constant_contact_maybe_show_list_notes_notification(): bool {
 /**
  * Maybe display our list selection reminder.
  *
- * @since NEXT
+ * @since 2.15.0
  *
  * @return bool
  */
