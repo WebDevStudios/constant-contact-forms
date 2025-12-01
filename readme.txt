@@ -54,10 +54,12 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: Anniversary and birthday form fields.
 * Added: Max length limit to Form builder and our custom field inputs.
 * Added: List display of existing custom fields from your Constant Contact Accout at bottom of form builder.
+* Added: Reminder to set a list for a form, when connected.
 * Updated: Adjusted logic regarding version 2.0.0 "major upgrade" admin notification.
 * Updated: Show messaging in "Opt in" setting tab when not connected.
 * Updated: Log library version.
 * Updated: Improved log timestamp formats to make more visual sense.
+* Updated: Removed internationalization files to rely on wordpress.org translations.
 
 = 2.14.2 =
 * Fixed: errors regarding Google reCAPTCHA v3 javascript variables.
