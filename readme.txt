@@ -3,10 +3,10 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
 Tested up to:      6.8
-Stable tag:        2.14.2
+Stable tag:        2.15.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
-Requires PHP:      7.4
+Requires PHP:      8.1
 
 The official Constant Contact plugin adds a contact form to your WordPress site to quickly capture information from visitors.
 
@@ -48,6 +48,16 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.15.0 =
+* Added: Moves PHP minimum requirement to version 8.1 or higher.
+* Added: Anniversary and birthday form fields.
+* Added: Max length limit to Form builder and our custom field inputs.
+* Added: List display of existing custom fields from your Constant Contact Accout at bottom of form builder.
+* Updated: Adjusted logic regarding version 2.0.0 "major upgrade" admin notification.
+* Updated: Show messaging in "Opt in" setting tab when not connected.
+* Updated: Log library version.
+* Updated: Improved log timestamp formats to make more visual sense.
 
 = 2.14.2 =
 * Fixed: errors regarding Google reCAPTCHA v3 javascript variables.
