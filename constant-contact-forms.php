@@ -18,7 +18,6 @@
  * Requires PHP: 8.1
  * License:     GPLv3
  * Text Domain: constant-contact-forms
- * Domain Path: /languages
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  *
@@ -533,7 +532,6 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 */
 	public function init() {
-		load_plugin_textdomain( 'constant-contact-forms', false, dirname( $this->basename ) . '/languages/' );
 		$this->init_debug_log();
 	}
 
