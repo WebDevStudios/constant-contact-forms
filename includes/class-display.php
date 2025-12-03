@@ -1252,7 +1252,12 @@ class ConstantContact_Display {
 		$field = $markup;
 
 		if ( $show_label && ( 'bottom' === $label_placement || 'right' === $label_placement ) && ( 'submit' !== $type ) ) {
-			$markup .= '<span class="' . $label_placement_class . '">';
+			if ( $inline_font_styles ) {
+				$markup .= '<span class="' . $label_placement_class . '"  style="' . $inline_font_styles . '">';
+			} else {
+				$markup .= '<span class="' . $label_placement_class . '">';
+			}
+
 			$markup .= $this->get_label( $field_id, $name . ' ' . $req_label );
 			$markup .= '</span>';
 		}
