@@ -17,9 +17,9 @@ $color-black: #000;
 $color-gray: #aaa;
 $color-silver: #ddd;
 $color-light-gray: #e9e9e9;
-$color-lighter-gray: #f7f7f7; 
+$color-lighter-gray: #f7f7f7;
 $color-white: #fff;
-$color-black-translucent: rgba(0,0,0, 0.5); 
+$color-black-translucent: rgba(0,0,0, 0.5);
 
 // Theming
 $color-error: $color-red;
@@ -37,6 +37,13 @@ $color-modal-alt-text: #646970;
 $color-modal-header: #333;
 $color-modal-text: #555;
 $color-light-silver: #747e88;
+
+// connect page
+$color-connect-border: #DCE2EC;
+$color-connect-background: #f7f9fd;
+$color-connect-text: #3F4B63;
+$color-connect-button-primary: #186DED;
+$color-connect-button-secondary: #8D9BB6;
 
 // box model
 $padding: 1em;
