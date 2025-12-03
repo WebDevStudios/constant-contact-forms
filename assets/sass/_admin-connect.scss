@@ -41,7 +41,7 @@
 		text-align: left;
 	}
 
-	&::before{
+  	&.connected::before {
 		width: 46px;
 		height: 46px;
 		position: absolute;
@@ -207,9 +207,90 @@
 	}
 }
 
+.ctct-wrap.not-connected {
+  box-sizing: border-box;
+
+  * {
+	box-sizing: border-box;
+  }
+
+  a {
+	color: variables.$color-connect-button-primary;
+  }
+
+  border: solid variables.$color-connect-border 1px;
+  color: variables.$color-connect-text;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 0 2px variables.$color-connect-text;
+
+  margin: 35px auto 0;
+  padding: 35px 45px 0;
+
+  max-width: 850px;
+  background-color: variables.$color-connect-background;
+  border-radius: 12px;
+
+  h2 {
+	color: variables.$color-connect-text;
+	font-size: 1.8rem;
+	line-height: 1.5;
+	margin-top: 0;
+  }
+
+  .ctct-logo {
+	background: transparent url('../images/ctct_ripple.svg') no-repeat;
+	background-size: 75%;
+	height: 50px;
+	width: 50px;
+  }
+  .ctct-cta-left,
+  .ctct-cta-right {
+	flex: 2 1;
+
+	.button.ctct-button {
+	  border-radius: 8px;
+	  color: variables.$color-connect-button-secondary;
+	  font-size: 16px;
+	  height: auto;
+	  line-height: 1;
+	  padding: 14px 30px;
+	  transition: all 0.15s ease;
+
+	  &.button-blue {
+		background-color: variables.$color-connect-button-primary;
+		border: 1px solid color.adjust(variables.$color-connect-button-primary, $lightness: -10%);
+		color: variables.$color-white;
+
+		&:hover,
+		&:focus {
+		  color: variables.$color-white;
+		  background-color: color.adjust(variables.$color-connect-button-primary, $lightness: 10%);
+		}
+	  }
+	  &.ctct-signup {
+		background: transparent;
+		border-color: variables.$color-connect-button-secondary;
+		color: variables.$color-connect-button-secondary;
+	  }
+	}
+  }
+
+  .ctct-cta-left {
+	flex: 2;
+	.cta-buttons {
+	  display: flex;
+	  gap: 10px;
+	}
+  }
+
+  .ctct-cta-right {
+	flex: 1;
+  }
+}
 
 // Connection Details
-
 .ctct-connected-wrap{
 
 	.ctct-connection-details{
