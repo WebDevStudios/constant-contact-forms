@@ -55,6 +55,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: Max length limit to Form builder and our custom field inputs.
 * Added: List display of existing custom fields from your Constant Contact Accout at bottom of form builder.
 * Added: Reminder to set a list for a form, when connected.
+* Fixed: Label style application for some positions.
 * Updated: Adjusted logic regarding version 2.0.0 "major upgrade" admin notification.
 * Updated: Show messaging in "Opt in" setting tab when not connected.
 * Updated: Log library version.
