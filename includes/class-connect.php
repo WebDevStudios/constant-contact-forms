@@ -149,10 +149,7 @@ class ConstantContact_Connect {
 		wp_localize_script( 'ctct_form', 'ctctTexts', [ 'disconnectconfirm' => esc_html__( 'Are you sure you want to disconnect?', 'constant-contact-forms' ) ] );
 
 		wp_enqueue_script( 'ctct_form' );
-		?>
-		<div class="wrap <?php echo esc_attr( $this->key ); ?>">
-
-			<?php if ( constant_contact()->get_api()->get_api_token() ) :
+			if ( constant_contact()->get_api()->get_api_token() ) :
 
 			$heading     = esc_html__( 'Account connected!', 'constant-contact-forms' );
 			$description = esc_html__( 'You are connected to the Constant Contact account shown below.', 'constant-contact-forms' );
@@ -161,158 +158,138 @@ class ConstantContact_Connect {
 				$description = esc_html__( 'Issues with reauthentication for tokens occurred and a manual disconnect and reconnect is needed.', 'constant-contact-forms' );
 			}
 			?>
-			<div class="ctct-connected">
-				<div class="ctct-connected-wrap">
-					<h3><?php echo esc_html( $heading ); ?></h3>
-					<p class="ctct-description">
-						<?php echo esc_html( $description ); ?>
-					</p>
-					<div class="ctct-connection-details">
-						<p class="ctct-label">
-							<strong><?php esc_html_e( 'Account Name:', 'constant-contact-forms' ); ?></strong>
+			<div class="wrap connected <?php echo esc_attr( $this->key ); ?>">
+				<div class="ctct-connected">
+					<div class="ctct-connected-wrap">
+						<h3><?php echo esc_html( $heading ); ?></h3>
+						<p class="ctct-description">
+							<?php echo esc_html( $description ); ?>
 						</p>
-						<p>
-							<?php
-							$account = false;
+						<div class="ctct-connection-details">
+							<p class="ctct-label">
+								<strong><?php esc_html_e( 'Account Name:', 'constant-contact-forms' ); ?></strong>
+							</p>
+							<p>
+								<?php
+								$account = false;
 
-							try {
-								$account = (object) constant_contact()->get_api()->get_account_info();
-								if ( $account ) {
-									echo esc_html( $account->first_name . ' ' . $account->last_name );
+								try {
+									$account = (object) constant_contact()->get_api()->get_account_info();
+									if ( $account ) {
+										echo esc_html( $account->first_name . ' ' . $account->last_name );
+									}
+								} catch ( Exception $ex ) {
+									esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
 								}
-							} catch ( Exception $ex ) {
-								esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
-							}
-							?>
-						</p>
+								?>
+							</p>
+						</div>
+						<div class="ctct-connection-details">
+							<p class="ctct-label">
+								<strong><?php esc_html_e( 'Email Address:', 'constant-contact-forms' ); ?></strong>
+							</p>
+							<p>
+								<?php
+								if ( $account ) {
+									echo '<a href="mailto:' . esc_html( $account->contact_email ) . '">' . esc_html( $account->contact_email ) . '</a>';
+								}
+								?>
+							</p>
+						</div>
+						<div class="ctct-connection-details">
+							<p class="ctct-label">
+								<strong><?php esc_html_e( 'Status:', 'constant-contact-forms' ); ?></strong>
+							</p>
+							<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
+								<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
+								<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
+								<input type="submit" class="button button-primary ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constant-contact-forms' ); ?>">
+							</form>
+						</div>
 					</div>
-					<div class="ctct-connection-details">
-						<p class="ctct-label">
-							<strong><?php esc_html_e( 'Email Address:', 'constant-contact-forms' ); ?></strong>
-						</p>
-						<p>
-							<?php
-							if ( $account ) {
-								echo '<a href="mailto:' . esc_html( $account->contact_email ) . '">' . esc_html( $account->contact_email ) . '</a>';
-							}
-							?>
-						</p>
-					</div>
-					<div class="ctct-connection-details">
-						<p class="ctct-label">
-							<strong><?php esc_html_e( 'Status:', 'constant-contact-forms' ); ?></strong>
-						</p>
-						<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
-							<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
-							<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
-							<input type="submit" class="button button-primary ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constant-contact-forms' ); ?>">
-						</form>
-					</div>
-				</div>
 
-				<hr />
+					<hr />
 
-				<?php // phpcs:disable WordPress.WP.EnqueuedResources -- Ok use of inline scripts. ?>
+					<?php // phpcs:disable WordPress.WP.EnqueuedResources -- Ok use of inline scripts. ?>
 
-				<div class="ctct-connected-next-step">
-					<div>
-						<h3><?php esc_html_e( 'Turn contacts into customers!', 'constant-contact-forms' ); ?></h3>
-						<p><?php esc_html_e( 'Your site is connected to Constant Contact and ready to start collecting visitor information.', 'constant-contact-forms' ); ?></p>
-						<p><?php esc_html_e( 'Create a form that meets your visitors\' needs here:', 'constant-contact-forms' ); ?></p>
-						<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=ctct_forms' ) ); ?>" class="button"><?php esc_html_e( 'Add Form', 'constant-contact-forms' ); ?></a>
+					<div class="ctct-connected-next-step">
+						<div>
+							<h3><?php esc_html_e( 'Turn contacts into customers!', 'constant-contact-forms' ); ?></h3>
+							<p><?php esc_html_e( 'Your site is connected to Constant Contact and ready to start collecting visitor information.', 'constant-contact-forms' ); ?></p>
+							<p><?php esc_html_e( 'Create a form that meets your visitors\' needs here:', 'constant-contact-forms' ); ?></p>
+							<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=ctct_forms' ) ); ?>" class="button"><?php esc_html_e( 'Add Form', 'constant-contact-forms' ); ?></a>
+						</div>
+						<div>
+							<?php if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) : ?>
+								<h3><?php esc_html_e( 'You have a WooCommerce store.', 'constant-contact-forms' ); ?></h3>
+								<p><?php esc_html_e( 'We have a plugin for that, too! With Constant Contact + WooCommerce, you can import order, product and customer information into Constant Contact for use in your campaigns.', 'constant-contact-forms' ); ?></p>
+								<a href="<?php echo esc_url( network_admin_url( 'plugin-install.php?s=constant+contact+woocommerce&tab=search&type=term' ) ); ?>" class="button"><?php esc_html_e( 'Install the WooCommerce plugin', 'constant-contact-forms' ); ?></a>
+							<?php endif; ?>
+						</div>
 					</div>
-					<div>
-						<?php if ( is_plugin_active( 'woocommerce/woocommerce.php' ) ) : ?>
-							<h3><?php esc_html_e( 'You have a WooCommerce store.', 'constant-contact-forms' ); ?></h3>
-							<p><?php esc_html_e( 'We have a plugin for that, too! With Constant Contact + WooCommerce, you can import order, product and customer information into Constant Contact for use in your campaigns.', 'constant-contact-forms' ); ?></p>
-							<a href="<?php echo esc_url( network_admin_url( 'plugin-install.php?s=constant+contact+woocommerce&tab=search&type=term' ) ); ?>" class="button"><?php esc_html_e( 'Install the WooCommerce plugin', 'constant-contact-forms' ); ?></a>
-						<?php endif; ?>
-					</div>
-				</div>
 				<?php // phpcs:enable WordPress.WP.EnqueuedResources ?>
 			</div>
 
-		<?php else : ?>
+		<?php else :
 
-			<?php
-			// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
-			if ( isset( $_GET['ctct_connect_error'] ) ) :
-				?>
-			<div id="message" class="ctct-error"><p>
-				<?php esc_html_e( 'There was an error connecting your account. Please try again.', 'constant-contact-forms' ); ?>
-			</p></div>
-				<?php
-			endif;
-			// phpcs:enable WordPress.Security.NonceVerification
+			$auth_link = constant_contact()->get_api()->get_authorization_url();
+			$auth_link = add_query_arg(
+				[
+					'rmc' => 'wp_connect_connect'
+				],
+				$auth_link
+			);
+
+			$code_link = add_query_arg(
+				[
+					'post_type' => 'ctct_forms',
+					'page'      => 'ctct_options_settings_auth',
+				],
+				admin_url( 'edit.php' )
+			);
 			?>
-
-			<h2><?php esc_html_e( 'Connect Now', 'constant-contact-forms' ); ?></h2>
-			<p class="ctct-description">
-				<?php esc_html_e( "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers.", 'constant-contact-forms' ); ?>
-			</p>
-			<div class="ctct-call-to-actions">
-				<div class="ctct-call-to-actions--item connect-account">
-					<div>
-						<h3><?php esc_html_e( 'Connect to Constant Contact', 'constant-contact-forms' ); ?></h3>
-						<p><?php esc_html_e( 'By connecting to Constant Contact, you authorize this plugin to access your account.', 'constant-contact-forms' ); ?></p>
-					</div>
+			<div class="ctct-wrap not-connected <?php echo esc_attr( $this->key ); ?>">
+				<div class="ctct-cta-left">
 					<?php
-
-					$auth_link = constant_contact()->get_api()->get_authorization_url();
-					$auth_link = add_query_arg( [ 'rmc' => 'wp_connect_connect' ], $auth_link );
-
-					$code_link = add_query_arg(
-						[
-							'post_type' => 'ctct_forms',
-							'page'      => 'ctct_options_settings_auth',
-						],
-						admin_url( 'edit.php' )
-					);
-
-					if ( $auth_link ) :
+					// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
+					if ( isset( $_GET['ctct_connect_error'] ) ) :
 						?>
-						<a href="<?php echo esc_url_raw( $auth_link ); ?>" target="_blank" rel="noopener" class="button ctct-button button-blue ctct-connect">
-							<?php esc_html_e( 'Get Code', 'constant-contact-forms' ); ?>
-						</a>
-						<a href="<?php echo esc_url_raw( $code_link ); ?>" class="button ctct-button button-blue ctct-connect">
-							<?php esc_html_e( 'Paste Code', 'constant-contact-forms' ); ?>
-						</a>
-					<?php endif; ?>
-				</div>
+						<div id="message" class="ctct-error">
+							<p>
+								<?php esc_html_e( 'There was an error connecting your account. Please try again.', 'constant-contact-forms' ); ?>
+							</p>
+						</div>
+					<?php
+					endif;
+					// phpcs:enable WordPress.Security.NonceVerification
+					?>
+					<div class="ctct-logo"></div>
+					<h2><?php esc_html_e( 'Connect Constant Contact to your website', 'constant-contact-forms' ); ?></h2>
+					<p><?php esc_html_e( 'Log in to your Constant Contact account, or create a new one with a 30-day free trial to get started.', 'constant-contact-forms' ); ?></p>
 
-				<div class="ctct-call-to-actions--item no-account">
-					<div>
-						<h3><?php esc_html_e( 'No Constant Contact Account?', 'constant-contact-forms' ); ?></h3>
-						<p><?php esc_html_e( 'Create professional emails to nurture relationships with contacts even after they leave your website. Sign up for a free 60-day trial.', 'constant-contact-forms' ); ?></p>
+					<div class="cta-buttons">
+						<?php
+						if ( $auth_link ) :
+							?>
+							<a href="<?php echo esc_url_raw( $auth_link ); ?>" target="_blank" class="button ctct-button button-blue ctct-connect">
+								<?php esc_html_e( 'Connect', 'constant-contact-forms' ); ?>
+							</a>
+						<?php endif; ?>
+						<a href="https://www.constantcontact.xom/signup" target="_blank" class="button ctct-button ctct-signup">
+							<?php esc_html_e( 'Start a free trial', 'constant-contact-forms' ); ?>
+						</a>
 					</div>
-					<a class="button ctct-button button-orange" href="<?php echo esc_url_raw( constant_contact()->get_api()->get_signup_link() ); ?>" target="_blank"><?php esc_attr_e( 'Try Us Free', 'constant-contact-forms' ); ?></a>
+
+					<p>If you already have your code, paste it into your <a href="<?php echo esc_url( $code_link ); ?>">Account settings</a></p>
+				</div>
+				<div class="ctct-cta-right">
+					<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/form-example-connect.png" alt="FILL ME IN BEFORE RELEASE">
+
+					<p>To learn more about this pluging read our <a href="<?php echo esc_url( 'https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/10054-Install-the-Constant-Contact-Forms-plugin-for-WordPress-to-gather-sign-ups-and-feedback?lang=en_US' ) ?>">help article</a></p>
 				</div>
 			</div>
-
-			<p class="ctct-description">
-				<?php
-				printf(
-				// translators: the placeholders hold `<a>` HTML tags.
-					esc_html__(
-						'For a full walkthrough of the steps to install this plugin &amp; connect it to your Constant Contact account, please see our %1$sKnowledge Base article here%1$s.',
-						'constant-contact-forms'
-					),
-					sprintf(
-						'<a target="_blank" rel="noopener" href="%s">',
-						esc_url(
-							'https://knowledgebase.constantcontact.com/articles/KnowledgeBase/10054-WordPress-Integration-with-Constant-Contact'
-						)
-					),
-					'</a>'
-				);
-				?>
-			</p>
-
-			<p class="small">
-				<strong><?php esc_html_e( 'NOTE: ', 'constant-contact-forms' ); ?></strong><?php esc_html_e( "It's possible to use the plugin without connecting to a Constant Contact account. In this case, all information collected by the forms will be individually emailed to the Site Admin.", 'constant-contact-forms' ); ?>
-			</p>
-		<?php endif; ?>
-		<?php
+			<?php
+		endif;
 	}
 
 	/**
