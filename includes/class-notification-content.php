@@ -366,6 +366,25 @@ class ConstantContact_Notification_Content {
 		<?php
 		return ob_get_clean();
 	}
+
+	/**
+	 * Admin notice regarding selecting a list.
+	 *
+	 * @since 2.15.0
+	 *
+	 * @return false|string
+	 */
+	public static function list_selection_notice(): string {
+		ob_start();
+		?>
+		<div class="admin-notice-message">
+			<?php
+				esc_html_e( 'No list selected. Assign a list to capture email leads.', 'constant-contact-forms' );
+			?>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
 }
 
 /**
@@ -559,3 +578,24 @@ function constant_contact_lists_notes_notification( array $notifications = [] ):
 	return $notifications;
 }
 add_filter( 'constant_contact_notifications', 'constant_contact_lists_notes_notification' );
+
+/**
+ * Add notification regarding list assignment
+ *
+ * @since 2.15.0
+ *
+ * @param array $notifications Array of notifications to be shown.
+ * @return array               Array of notifications to be shown.
+ */
+function constant_contact_lists_selection_notification( array $notifications = [] ): array {
+	$notifications[] = [
+		'ID'           => 'list_selection_notice',
+		'callback'     => [ 'ConstantContact_Notification_Content', 'list_selection_notice' ],
+		'require_cb'   => 'constant_contact_maybe_show_lists_selection_notification',
+		'show_dismiss' => true,
+	];
+
+	return $notifications;
+}
+
+add_filter( 'constant_contact_notifications', 'constant_contact_lists_selection_notification' );

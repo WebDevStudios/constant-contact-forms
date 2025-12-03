@@ -692,17 +692,22 @@ class ConstantContact_Process_Form {
 					$return[ 'zip_address___' . $hashed_key ]['_ctct_map_select'] = 'zip';
 
 					break;
-				case 'anniversery':
+				case 'anniversary':
+					$return[ 'month_anniversary___' . $hashed_key ]                     = $field_key;
+					$return[ 'month_anniversary___' . $hashed_key ]['_ctct_map_select'] = 'month_anniversary';
+
+					$return[ 'day_anniversary___' . $hashed_key ]                     = $field_key;
+					$return[ 'day_anniversary___' . $hashed_key ]['_ctct_map_select'] = 'day_anniversary';
+
+					$return[ 'year_anniversary___' . $hashed_key ]                     = $field_key;
+					$return[ 'year_anniversary___' . $hashed_key ]['_ctct_map_select'] = 'year_anniversary';
+					break;
 				case 'birthday':
-					$return[ 'month___' . $hashed_key ]                     = $field_key;
-					$return[ 'month___' . $hashed_key ]['_ctct_map_select'] = 'month';
+					$return[ 'month_birthday___' . $hashed_key ]                     = $field_key;
+					$return[ 'month_birthday___' . $hashed_key ]['_ctct_map_select'] = 'month_birthday';
 
-					$return[ 'day___' . $hashed_key ]                     = $field_key;
-					$return[ 'day___' . $hashed_key ]['_ctct_map_select'] = 'day';
-
-					$return[ 'year___' . $hashed_key ]                     = $field_key;
-					$return[ 'year___' . $hashed_key ]['_ctct_map_select'] = 'year';
-
+					$return[ 'day_birthday___' . $hashed_key ]                     = $field_key;
+					$return[ 'day_birthday___' . $hashed_key ]['_ctct_map_select'] = 'day_birthday';
 					break;
 				default:
 					$return[ $field['_ctct_map_select'] . '___' . $hashed_key ] = $field_key;

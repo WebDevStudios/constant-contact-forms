@@ -174,10 +174,14 @@ function constant_contact_maybe_display_api3_upgraded_notice() : bool {
 	}
 
 	$current_version = get_option( 'ctct_plugin_version' );
+	$migrated        = get_option( 'ctct_api_v2_v3_migrated' );
 
 	return (
-		version_compare( $current_version, '2.0.0', '=' ) ||
-		'' === get_option( 'CtctConstantContactState', '' )
+		version_compare($current_version, '2.0.1', '<' ) ||
+		(
+			empty( $migrated ) ||
+			'1' !== $migrated
+		)
 	);
 }
 
@@ -262,4 +266,37 @@ function constant_contact_maybe_show_list_notes_notification(): bool {
 	}
 
 	return true;
+}
+
+/**
+ * Maybe display our list selection reminder.
+ *
+ * @since 2.15.0
+ *
+ * @return bool
+ */
+function constant_contact_maybe_show_lists_selection_notification(): bool {
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return false;
+	}
+
+	if ( ! constant_contact()->is_constant_contact() ) {
+		return false;
+	}
+
+	if ( ! constant_contact()->get_api()->is_connected() ) {
+		return false;
+	}
+
+	if ( empty( $_GET ) ) {
+		return false;
+	}
+
+	if ( isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) {
+		$thepostmeta = get_post_meta( absint( $_GET['post'] ) );
+
+		return empty( $thepostmeta['_ctct_list'] );
+	}
+
+	return false;
 }
