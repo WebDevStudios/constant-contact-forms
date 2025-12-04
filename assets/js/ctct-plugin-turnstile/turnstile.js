@@ -43,15 +43,15 @@ window.onload = function () {
 					'tabindex' : turnstileobj.getAttribute('data-tabindex', ''),
 					'callback' : function () {
 							if ( submitBtn ) {
-								window.ctctturnstileEnableBtn(submitBtn);
+								window.ctctTurnstileEnableBtn(submitBtn);
 							}
 					},
 					'expired-callback': function () {
 							if ( submitBtn ) {
-								window.ctctturnstileDisableBtn(submitBtn);
+								window.ctctTurnstileDisableBtn(submitBtn);
 							}
 					},
-					'isolated'        : true,
+					'isolated' : true,
 			});
 	});
 };
