@@ -177,6 +177,7 @@ class ConstantContact_Process_Form {
 	 *
 	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
+	 * @since 2.15.1 Added Cloudflare Turnstile support
 	 *
 	 * @throws Exception Throws Exception if encountered while attempting to process form.
 	 *
@@ -345,6 +346,48 @@ class ConstantContact_Process_Form {
 			return $spam_error_response;
 		}
 
+		// Handle verifying turnstile response.
+		if ( isset( $data['cf-turnstile-response'] ) && 'turnstile' === $captcha_sevice->get_selected_captcha_service() ) {
+			$ctctturnstile = new ConstantContact_turnstile();
+			$ctctturnstile->set_turnstile_keys();
+			$keys = $ctctturnstile->get_turnstile_keys();
+
+			$turnstile_data = [
+				'secret'   => $keys['secret_key'],
+				'response' => $data['cf-turnstile-response']
+			];
+
+			$response = wp_remote_post(
+				'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+				[
+					'headers' => 'Content-type: application/x-www-form-urlencoded',
+					'method' => 'POST',
+					'body' => http_build_query( $turnstile_data )
+				]
+			);
+
+			$turnstile_response_data = json_decode( wp_remote_retrieve_body( $response ) );
+			if ( is_wp_error( $response ) || 200 !== wp_remote_retrieve_response_code( $response ) || false === $turnstile_response_data->success ) {
+
+				constant_contact_maybe_log_it( 'turnstile', 'Failed to verify with Cloudflare Turnstile', $turnstile_response_data->{'error-codes'} );
+
+				return [
+					'status' => 'named_error',
+					'error'  => __( 'Failed Cloudflare Turnstile check', 'constant-contact-forms' ),
+				];
+			}
+		}
+
+		// Check for case where turnstile is enabled but response was missing.
+		if (
+			! $maybe_disable_captcha &&
+			empty( $data['cf-turnstile-response'] )
+			&& ConstantContact_turnstile::has_turnstile_keys() &&
+			'turnstile' === $captcha_sevice->get_selected_captcha_service()
+		) {
+			return $spam_error_response;
+		}
+
 		/**
 		 * Filters whether or not we think an entry is spam.
 		 *
@@ -395,7 +438,8 @@ class ConstantContact_Process_Form {
 				'ctct_time',
 				'ctct_usage_field',
 				'g-recaptcha-response',
-				'h-recaptcha-response',
+				'h-captcha-response',
+				'cf-turnstile-response',
 				'ctct_must_opt_in',
 				'ctct-instance',
 			],
