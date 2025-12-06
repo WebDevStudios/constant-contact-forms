@@ -98,6 +98,7 @@ class ConstantContact_Display {
 				$recaptcha->enqueue_scripts();
 			} elseif ( 'hcaptcha' === $captcha_service->get_selected_captcha_service() ) {
 				$hcaptcha = new ConstantContact_hCaptcha();
+				$hcaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', 'en' ) );
 				$hcaptcha->enqueue_scripts();
 			} elseif ( 'turnstile' === $captcha_service->get_selected_captcha_service() ) {
 				$turnstile = new ConstantContact_turnstile();
