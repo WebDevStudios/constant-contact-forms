@@ -560,7 +560,7 @@ class Constant_Contact {
 	public function load_libs() {
 
 		// Load what we can, automagically.
-		require_once $this->dir( 'vendor/autoload.php' );
+		require_once $this->dir( 'vendor_prefixed/autoload.php' );
 
 		require_once $this->dir( 'vendor/cmb2/cmb2/init.php' );
 	}
