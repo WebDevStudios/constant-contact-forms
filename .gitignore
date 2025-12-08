@@ -6,6 +6,8 @@
 .gitmodules
 plugin-config.js
 
+/bin
+
 # Logs
 /logs
 *.log
