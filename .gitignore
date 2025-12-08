@@ -16,6 +16,7 @@ plugin-config.js
 
 # Composer
 /vendor
+/vendor_prefixed
 
 ### Xcode ###
 
