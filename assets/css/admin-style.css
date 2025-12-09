@@ -455,7 +455,7 @@
 .wrap.ctct_options_connect.text-left {
   text-align: left;
 }
-.wrap.ctct_options_connect::before {
+.wrap.ctct_options_connect.connected::before {
   width: 46px;
   height: 46px;
   position: absolute;
@@ -597,6 +597,83 @@
 .wrap.ctct_options_connect .button.ctct-button.button-blue:hover, .wrap.ctct_options_connect .button.ctct-button.button-blue:focus {
   color: #fff;
   background-color: rgb(0, 151.3846153846, 246);
+}
+
+.ctct-wrap.not-connected {
+  box-sizing: border-box;
+}
+.ctct-wrap.not-connected * {
+  box-sizing: border-box;
+}
+.ctct-wrap.not-connected a {
+  color: #186DED;
+}
+.ctct-wrap.not-connected {
+  border: solid #DCE2EC 1px;
+  color: #3F4B63;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  box-shadow: 0 0 2px #3F4B63;
+  margin: 35px auto 0;
+  padding: 35px 45px 0;
+  max-width: 850px;
+  background-color: #f7f9fd;
+  border-radius: 12px;
+}
+.ctct-wrap.not-connected h2 {
+  color: #3F4B63;
+  font-size: 1.8rem;
+  line-height: 1.5;
+  margin-top: 0;
+}
+.ctct-wrap.not-connected .ctct-logo {
+  background: transparent url("../images/ctct_ripple.svg") no-repeat;
+  background-size: 75%;
+  height: 50px;
+  width: 50px;
+}
+.ctct-wrap.not-connected .ctct-cta-left,
+.ctct-wrap.not-connected .ctct-cta-right {
+  flex: 2 1;
+}
+.ctct-wrap.not-connected .ctct-cta-left .button.ctct-button,
+.ctct-wrap.not-connected .ctct-cta-right .button.ctct-button {
+  border-radius: 8px;
+  color: #8D9BB6;
+  font-size: 16px;
+  height: auto;
+  line-height: 1;
+  padding: 14px 30px;
+  transition: all 0.15s ease;
+}
+.ctct-wrap.not-connected .ctct-cta-left .button.ctct-button.button-blue,
+.ctct-wrap.not-connected .ctct-cta-right .button.ctct-button.button-blue {
+  background-color: #186DED;
+  border: 1px solid rgb(15.1807228916, 86.8674698795, 194.8192771084);
+  color: #fff;
+}
+.ctct-wrap.not-connected .ctct-cta-left .button.ctct-button.button-blue:hover, .ctct-wrap.not-connected .ctct-cta-left .button.ctct-button.button-blue:focus,
+.ctct-wrap.not-connected .ctct-cta-right .button.ctct-button.button-blue:hover,
+.ctct-wrap.not-connected .ctct-cta-right .button.ctct-button.button-blue:focus {
+  color: #fff;
+  background-color: rgb(71.313253012, 138.9036144578, 240.686746988);
+}
+.ctct-wrap.not-connected .ctct-cta-left .button.ctct-button.ctct-signup,
+.ctct-wrap.not-connected .ctct-cta-right .button.ctct-button.ctct-signup {
+  background: transparent;
+  border-color: #8D9BB6;
+  color: #8D9BB6;
+}
+.ctct-wrap.not-connected .ctct-cta-left {
+  flex: 2;
+}
+.ctct-wrap.not-connected .ctct-cta-left .cta-buttons {
+  display: flex;
+  gap: 10px;
+}
+.ctct-wrap.not-connected .ctct-cta-right {
+  flex: 1;
 }
 
 .ctct-connected-wrap .ctct-connection-details {
