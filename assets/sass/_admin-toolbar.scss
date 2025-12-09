@@ -9,7 +9,7 @@
 		margin: 0 0 0 -20px;
 		padding: 0 0 0 20px;
 		background-color: variables.$color-white;
-		border-bottom: 1px solid #c3c4c7;
+		border-bottom: 1px solid variables.$header-toolbar-border;
 		display: flex;
 		width: 100%;
 		align-items: center;
@@ -69,15 +69,15 @@
 					}
 
 					&::after {
-						border-color: rgba(255, 255, 255, 0);
+						border-color: transparent;
 						border-top-color: variables.$color-white;
 						border-width: 7px;
 						margin-left: -7px;
 					}
 
 					&::before {
-						border-color: rgba( #c3c4c7, 0);
-						border-top-color: #c3c4c7;
+						border-color: transparent;
+						border-top-color: variables.$header-toolbar-border;
 						border-width: 8px;
 						margin-left: -8px;
 					}
@@ -150,7 +150,7 @@
 			border-radius: 100%;
 			background-color: variables.$color-red;
 			margin-right: 7px;
-			box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+			box-shadow: 0 0 5px variables.$box-shadow-02;
 
 			[dir="rtl"] & {
 				margin-left: 7px;
