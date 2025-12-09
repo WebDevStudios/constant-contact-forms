@@ -280,12 +280,35 @@ class ConstantContact_Connect {
 						</a>
 					</div>
 
-					<p>If you already have your code, paste it into your <a href="<?php echo esc_url( $code_link ); ?>">Account settings</a></p>
+					<p>
+					<?php
+						printf(
+							// translators: Placeholders are for html link markup.
+							esc_html__( 'If you already have your code, paste it into your %1$sAccount settings%2$s', 'constant-contact-forms' ),
+							sprintf(
+								'<a href="%1$s">',
+								esc_url( $code_link ),
+							),
+							'</a>'
+						)
+					?>
+					</p>
 				</div>
 				<div class="ctct-cta-right">
-					<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/form-example-connect.png" alt="FILL ME IN BEFORE RELEASE">
-
-					<p>To learn more about this pluging read our <a href="<?php echo esc_url( 'https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/10054-Install-the-Constant-Contact-Forms-plugin-for-WordPress-to-gather-sign-ups-and-feedback?lang=en_US' ) ?>">help article</a></p>
+					<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/form-example-connect.png" alt="<?php esc_attr_e( 'Picture of a a signup form builder from Constant Contact', 'constant-contact-forms' ); ?>') ?>">
+					<p>
+					<?php
+						printf(
+							// translators: Placeholders are for html link markup.
+							esc_html__( 'To learn more about this pluging read our %1$shelp article%2$s', 'constant-contact-forms' ),
+							sprintf(
+								'<a href="%1$s">',
+								esc_url( 'https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/10054-Install-the-Constant-Contact-Forms-plugin-for-WordPress-to-gather-sign-ups-and-feedback?lang=en_US' ),
+							),
+							'</a>'
+						)
+					?>
+					</p>
 				</div>
 			</div>
 			<?php
