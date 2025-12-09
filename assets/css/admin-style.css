@@ -275,9 +275,9 @@
 }
 
 .ctct-duplicate-list .post-type-ctct_lists #titlediv #title {
-  background: rgba(255, 65, 54, 0.02) url("../images/error.svg") no-repeat 8px 50%;
+  background: rgba(255, 0, 0, 0.02) url("../images/error.svg") no-repeat 8px 50%;
   background-size: 24px;
-  border-color: #FF4136;
+  border-color: #ff0000;
   padding-left: 40px;
 }
 
@@ -348,13 +348,13 @@
   pointer-events: none;
 }
 .ctct-header ul li a.is-active::after {
-  border-color: rgba(255, 255, 255, 0);
+  border-color: transparent;
   border-top-color: #fff;
   border-width: 7px;
   margin-left: -7px;
 }
 .ctct-header ul li a.is-active::before {
-  border-color: rgba(195, 196, 199, 0);
+  border-color: transparent;
   border-top-color: #c3c4c7;
   border-width: 8px;
   margin-left: -8px;
@@ -411,7 +411,7 @@
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  background-color: #ff4136;
+  background-color: #ff0000;
   margin-right: 7px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
 }
@@ -683,7 +683,7 @@
 
 .ctct-error {
   background: none !important;
-  border: 1px solid #ff4136;
+  border: 1px solid #ff0000;
   border-radius: 4px;
   box-shadow: none !important;
   display: inline-block;
@@ -691,7 +691,7 @@
   margin: 0 0 25px 0 !important;
 }
 .ctct-error p {
-  color: #ff4136 !important;
+  color: #ff0000 !important;
 }
 
 .ctct_options_logging #ctct_error_logs {

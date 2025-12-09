@@ -8,18 +8,19 @@ $color-blue: #1856ed; // #265ae5;
 $color-blue-alt: #2a57d5;
 $color-green: #2ecc40;
 $color-light-green: rgb(58, 209, 130);
-$color-red: #ff4136;
+$color-red: #ff0000;
 $color-orange: #ff9500;
 $color-orange-alt: #e38400;
 
 // Grayscale
 $color-black: #000;
 $color-gray: #aaa;
+$color-also-silver: #ccc;
 $color-silver: #ddd;
 $color-light-gray: #e9e9e9;
-$color-lighter-gray: #f7f7f7; 
+$color-lighter-gray: #f7f7f7;
 $color-white: #fff;
-$color-black-translucent: rgba(0,0,0, 0.5); 
+$color-black-translucent: rgba(0,0,0, 0.5);
 
 // Theming
 $color-error: $color-red;
@@ -52,6 +53,27 @@ $color-cmb-description-text: rgb(68, 68, 68);
 
 // Modal
 $color-modal-background: rgba( 0, 0, 0, 0.3 );
+
+// Box Shadows
+$box-shadow-02: rgba(0, 0, 0, 0.2);
+
+// Admin header toolbar
+$header-toolbar-border: #c3c4c7;
+
+// Admin Connect
+$connect-border: #d1dfe8;
+$connect-background: #f5faff;
+$connect-border-hover: #90afc3;
+$noaccount-border: #e2d9c4;
+$noaccount-background: #fff8e9;
+$noaccount-border-hover: #c7ba9a;
+
+// TwentyTen
+$color-twentyten-border: #ccc;
+$color-twentyten-background: #f9f9f9;
+
+// TwentyEleven
+$color-twentyeleven-background: #fafafa;
 
 // Breakpoints
 $breakpoints: (

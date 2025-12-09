@@ -119,7 +119,7 @@ body.post-type-ctct_forms #titlediv #title {
 
 	.ctct-warning {
 		display: none;
-		color: #ff0000;
+		color: variables.$color-red;
 		vertical-align: top;
 	}
 	.ctct-warning.ctct-warning-no-unqiue {
