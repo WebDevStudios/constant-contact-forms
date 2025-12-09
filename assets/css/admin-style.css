@@ -612,9 +612,17 @@
   border: solid #DCE2EC 1px;
   color: #3F4B63;
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   gap: 20px;
   box-shadow: 0 0 2px #3F4B63;
+}
+@media (min-width: 767px) {
+  .ctct-wrap.not-connected {
+    flex-direction: row;
+  }
+}
+.ctct-wrap.not-connected {
   margin: 35px auto 0;
   padding: 35px 45px 0;
   max-width: 850px;
