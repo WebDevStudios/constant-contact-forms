@@ -1176,48 +1176,48 @@ a.ctct-notice-dismiss {
   z-index: 1;
 }
 
-.postbox-container .cmb-type-custom-attached-posts .cmb-th + .cmb-td {
+.postbox-container .cmb-type-ctct-forms-list-selection .cmb-th + .cmb-td {
   width: 100%;
 }
 
-.cmb-type-custom-attached-posts .cmb-type-custom_attached_posts {
+.cmb-type-ctct-forms-list-selection .cmb-type-custom_attached_posts {
   padding-top: 0;
 }
-.cmb-type-custom-attached-posts .attached-posts-wrap {
+.cmb-type-ctct-forms-list-selection .attached-posts-wrap {
   display: inline-block;
   width: 100%;
 }
-.cmb-type-custom-attached-posts .attached-posts-wrap .attached {
+.cmb-type-ctct-forms-list-selection .attached-posts-wrap .attached {
   float: right;
 }
-.cmb-type-custom-attached-posts .attached-posts-wrap .attached li {
+.cmb-type-ctct-forms-list-selection .attached-posts-wrap .attached li {
   padding-left: 35px;
 }
-.cmb-type-custom-attached-posts .attached-posts-wrap .retrieved li.added {
+.cmb-type-ctct-forms-list-selection .attached-posts-wrap .retrieved li.added {
   opacity: 0.5;
 }
-.cmb-type-custom-attached-posts .attached-posts-wrap .retrieved li.added:hover {
+.cmb-type-ctct-forms-list-selection .attached-posts-wrap .retrieved li.added:hover {
   background: #fff;
   cursor: initial;
 }
-.cmb-type-custom-attached-posts .attached-posts-wrap .retrieved li.added:hover .add-remove {
+.cmb-type-ctct-forms-list-selection .attached-posts-wrap .retrieved li.added:hover .add-remove {
   background-position: 0 -22px;
 }
-.cmb-type-custom-attached-posts .column-wrap {
+.cmb-type-ctct-forms-list-selection .column-wrap {
   float: left;
   width: 45%;
 }
-.cmb-type-custom-attached-posts .retrieved-wrap {
+.cmb-type-ctct-forms-list-selection .retrieved-wrap {
   margin-right: 10%;
 }
-.cmb-type-custom-attached-posts .attached-posts-section {
+.cmb-type-ctct-forms-list-selection .attached-posts-section {
   margin-bottom: 5px;
 }
-.cmb-type-custom-attached-posts .search-wrap .regular-text {
+.cmb-type-ctct-forms-list-selection .search-wrap .regular-text {
   width: 100%;
   margin: 0 0 7px 0;
 }
-.cmb-type-custom-attached-posts .connected {
+.cmb-type-ctct-forms-list-selection .connected {
   background: #F4F4F4;
   cursor: pointer;
   height: 300px;
@@ -1225,23 +1225,23 @@ a.ctct-notice-dismiss {
   padding: 0;
   width: 100%;
 }
-.cmb-type-custom-attached-posts .connected.attached {
+.cmb-type-ctct-forms-list-selection .connected.attached {
   cursor: grab;
 }
-.cmb-type-custom-attached-posts .connected li {
+.cmb-type-ctct-forms-list-selection .connected li {
   border-bottom: 1px solid #f1f1f1;
   margin: 0;
   padding: 10px 40px 10px 10px;
   position: relative;
 }
-.cmb-type-custom-attached-posts .connected li.odd {
+.cmb-type-ctct-forms-list-selection .connected li.odd {
   background-color: #f9f9f9;
 }
-.cmb-type-custom-attached-posts .connected li:hover {
+.cmb-type-ctct-forms-list-selection .connected li:hover {
   background: #e6e6e6;
 }
-.cmb-type-custom-attached-posts .connected li .add-remove,
-.cmb-type-custom-attached-posts .connected li .sort {
+.cmb-type-ctct-forms-list-selection .connected li .add-remove,
+.cmb-type-ctct-forms-list-selection .connected li .sort {
   display: block;
   height: 17px;
   margin-top: -8px;
@@ -1250,22 +1250,22 @@ a.ctct-notice-dismiss {
   top: 50%;
   width: 22px;
 }
-.cmb-type-custom-attached-posts .connected li .add-remove {
+.cmb-type-ctct-forms-list-selection .connected li .add-remove {
   right: 10px;
 }
-.cmb-type-custom-attached-posts .connected li .add-remove:hover {
+.cmb-type-ctct-forms-list-selection .connected li .add-remove:hover {
   cursor: pointer;
 }
-.cmb-type-custom-attached-posts .connected li .sort {
+.cmb-type-ctct-forms-list-selection .connected li .sort {
   left: 10px;
 }
-.cmb-type-custom-attached-posts .connected.retrieved li .sort {
+.cmb-type-ctct-forms-list-selection .connected.retrieved li .sort {
   display: none;
 }
-.cmb-type-custom-attached-posts ul.hide-selected li.added {
+.cmb-type-ctct-forms-list-selection ul.hide-selected li.added {
   display: none;
 }
-.cmb-type-custom-attached-posts .cmb2-attached-posts-search-button span {
+.cmb-type-ctct-forms-list-selection .cmb2-attached-posts-search-button span {
   color: #999;
   margin: 0.2em -0.2em 0 1px;
 }
