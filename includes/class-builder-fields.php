@@ -255,7 +255,7 @@ class ConstantContact_Builder_Fields {
 						'before'       => esc_html__( 'Allow subscribers to select from chosen lists. ( Add at least one ).', 'constant-contact-forms' ),
 						'before_field' => '<p>' . implode( '</p><p>', $instructions ) . '</p>',
 						'id'           => $this->prefix . 'list',
-						'type'         => 'custom_attached_posts',
+						'type'         => 'ctct_forms_list_selection',
 						'options'      => [
 							'filter_boxes'  => true,
 							'query_args'    => [

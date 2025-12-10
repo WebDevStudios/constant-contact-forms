@@ -1,12 +1,10 @@
-.postbox-container .cmb-type-custom-attached-posts .cmb-th + .cmb-td {
+@use "variables";
+
+.postbox-container .cmb-type-ctct-forms-list-selection .cmb-th + .cmb-td {
 	width: 100%;
 }
 
-.cmb-type-custom-attached-posts {
-  .cmb-type-custom_attached_posts {
-	padding-top: 0;
-  }
-
+.cmb-type-ctct-forms-list-selection {
   .attached-posts-wrap {
 	display: inline-block;
 	width: 100%;
@@ -25,7 +23,7 @@
 		  opacity: .5;
 
 		  &:hover {
-			background: #fff;
+			background: variables.$color-white;
 			cursor: initial;
 
 			.add-remove {
@@ -56,7 +54,7 @@
   }
 
   .connected {
-	background: #F4F4F4;
+	background: variables.$color-connected;
 	cursor: pointer;
 	height: 300px;
 	overflow-y: scroll;
@@ -68,16 +66,16 @@
 	}
 
 	li {
-	  border-bottom: 1px solid #f1f1f1;
+	  border-bottom: 1px solid variables.$color-list-item;
 	  margin: 0;
 	  padding: 10px 40px 10px 10px;
 	  position: relative;
 
 	  &.odd {
-		background-color: #f9f9f9;
+		background-color: variables.$color-list-item-odd;
 	  }
 	  &:hover {
-		background: #e6e6e6;
+		background: variables.$color-list-item-hover;
 	  }
 
 	  .add-remove,
@@ -114,7 +112,7 @@
   }
 
   .cmb2-attached-posts-search-button span {
-	color: #999;
+	color: variables.$color-med-gray;
 	margin: .2em -.2em 0 1px;
   }
 }
