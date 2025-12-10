@@ -2014,7 +2014,7 @@ class ConstantContact_Display {
 				sprintf(
 					'<a href="%1$s" target="_blank" rel="noopener noreferrer" aria-label="%2$s">%3$s</a>',
 					esc_url( 'https://www.constantcontact.com/legal/about-constant-contact' ),
-					esc_attr__( 'About Constant Contact, opens a new window', 'constant-contact-forms' ),
+					esc_attr__( 'Emails are serviced by Constant Contact, opens a new window', 'constant-contact-forms' ),
 					esc_html__( 'Emails are serviced by Constant Contact', 'constant-contact-forms' )
 				)
 			);
