@@ -396,7 +396,7 @@ class ConstantContact_Builder_Fields {
 					'name'        => esc_html__( 'Disable captcha for this form?', 'constant-contact-forms' ),
 					'id'          => $this->prefix . 'disable_recaptcha', // Note: This applies to the currently enabled captcha service, not just reCAPTCHA. Originally, only reCAPTCHA was available.
 					'type'        => 'checkbox',
-					'description' => esc_html__( 'Checking will disable the currently enabled captcha output for this form. Only valid if using Google reCAPTCHA version 2 or hCaptcha.', 'constant-contact-forms' ),
+					'description' => esc_html__( 'Checking will disable the currently enabled captcha output for this form. Only valid if using Google reCAPTCHA version 2, hCaptcha, or Cloudflare Turnstile.', 'constant-contact-forms' ),
 				]
 			);
 		}
