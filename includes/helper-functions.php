@@ -9,9 +9,9 @@
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
-use Monolog\Formatter\LineFormatter;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
+use ConstantContact\ConstantContactForms\Monolog\Formatter\LineFormatter;
+use ConstantContact\ConstantContactForms\Monolog\Logger;
+use ConstantContact\ConstantContactForms\Monolog\Handler\StreamHandler;
 
 /**
  * Checks to see if a user is connected to Constant Contact or not.

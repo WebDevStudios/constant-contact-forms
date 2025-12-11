@@ -28,11 +28,23 @@
       }
    ],
    "extra":{
-      "phpcodesniffer-search-depth":5
+      "phpcodesniffer-search-depth":5,
+      "strauss": {
+      "target_directory": "vendor_prefixed",
+      "namespace_prefix": "ConstantContact\\ConstantContactForms\\",
+      "packages": [
+        "defuse/php-encryption",
+        "google/recaptcha",
+        "psr/log",
+        "monolog/monolog"
+      ],
+      "delete_vendor_files": false
+    }
    },
    "scripts":{
       "dist":[
          "rm -rf ./vendor",
+         "rm -rf ./vendor_prefixed",
          "npm install",
          "npm run build:release",
          "rm -rf ./.git",
@@ -50,10 +62,8 @@
          "rm -rf ./node_modules",
          "rm -rf ./readme.md",
          "rm -rf ./CHANGELOG.md",
-         "rm -rf ./CODEOWNERS",
          "rm -rf ./phpcompat.xml.dist",
          "rm -rf ./phpcs.xml.dist",
-         "rm -rf ./gulpfile.js",
          "rm -rf ./package.json",
          "rm -rf ./package-lock.json",
          "rm -rf ./phpcompat.xml.dist",
@@ -61,8 +71,8 @@
          "rm -rf ./plugin-config.js",
          "rm -rf ./src",
          "rm -rf ./tests",
-         "rm -rf ./webpack.config.js",
          "@composer install --no-dev -a",
+         "@composer run prefix-namespaces",
          "@composer archive --format=zip --file constant-contact-forms",
          "rm -rf ./composer.json",
          "rm -rf ./composer.lock",
@@ -77,6 +87,11 @@
       ],
       "post-update-cmd":[
          "@install-codestandards"
+      ],
+      "prefix-namespaces": [
+        "sh -c 'test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/latest/download/strauss.phar'",
+        "@php bin/strauss.phar",
+        "@composer dump-autoload"
       ]
    },
    "config": {
