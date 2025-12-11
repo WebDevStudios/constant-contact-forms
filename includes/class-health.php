@@ -71,7 +71,7 @@ class ConstantContact_Health {
 		$has_turnstile    = ( ConstantContact_turnstile::has_turnstile_keys() ) ? $yes : $no;
 		$turnstile_status = sprintf(
 		/* Translators: Placeholders will store the current values from each */
-			esc_html__( 'Has turnstile: %1$s', 'constant-contact-forms' ),
+			esc_html__( 'Has Turnstile: %1$s', 'constant-contact-forms' ),
 			$has_turnstile,
 		);
 
