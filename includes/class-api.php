@@ -1684,7 +1684,7 @@ class ConstantContact_API {
 			$expires_in = $this->expires_in;
 		}
 		$current_time = time();
-		$expiration_time = $issued_time + $expires_in;
+		$expiration_time = (int) $issued_time + (int) $expires_in;
 
 		// If we're currently above the expiration time, we're expired.
 		return $current_time >= $expiration_time;
