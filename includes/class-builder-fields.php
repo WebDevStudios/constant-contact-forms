@@ -255,7 +255,7 @@ class ConstantContact_Builder_Fields {
 						'before'       => esc_html__( 'Allow subscribers to select from chosen lists. ( Add at least one ).', 'constant-contact-forms' ),
 						'before_field' => '<p>' . implode( '</p><p>', $instructions ) . '</p>',
 						'id'           => $this->prefix . 'list',
-						'type'         => 'custom_attached_posts',
+						'type'         => 'ctct_forms_list_selection',
 						'options'      => [
 							'filter_boxes'  => true,
 							'query_args'    => [
@@ -899,8 +899,8 @@ class ConstantContact_Builder_Fields {
 		if ( constant_contact()->get_api()->is_connected() ) {
 			$custom_fields_data = constant_contact()->get_api()->cc()->get_custom_fields();
 			if (
-				is_array( $custom_fields_data['custom_fields'] ) &&
-				! empty( $custom_fields_data['custom_fields'] )
+				! empty( $custom_fields_data['custom_fields'] ) &&
+				is_array( $custom_fields_data['custom_fields'] )
 			) {
 				if ( array_key_exists( 'label', $custom_fields_data['custom_fields'][0] ) ) {
 					$labels = wp_list_pluck( $custom_fields_data['custom_fields'], 'label' );

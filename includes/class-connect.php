@@ -9,8 +9,8 @@
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
-use Defuse\Crypto\Key;
-use Defuse\Crypto\Crypto;
+use ConstantContact\ConstantContactForms\Defuse\Crypto\Key;
+use ConstantContact\ConstantContactForms\Defuse\Crypto\Crypto;
 
 /**
  * Powers our admin connect page, as well as misc functionality around connecting to Constant Contact.

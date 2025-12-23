@@ -10,7 +10,7 @@
  */
 
 // phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid -- OK classname.
-use ReCaptcha\ReCaptcha;
+use ConstantContact\ConstantContactForms\ReCaptcha\ReCaptcha as ReCaptcha;
 
 /**
  * Class ConstantContact_reCAPTCHA.

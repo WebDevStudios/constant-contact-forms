@@ -10,8 +10,8 @@
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
-use \ReCaptcha\ReCaptcha;
-use \ReCaptcha\RequestMethod\CurlPost;
+use ConstantContact\ConstantContactForms\ReCaptcha\ReCaptcha;
+use ConstantContact\ConstantContactForms\ReCaptcha\RequestMethod\CurlPost;
 use Ctct\Exceptions\CtctException;
 /**
  * Powers our form processing, validation, and value cleanup.

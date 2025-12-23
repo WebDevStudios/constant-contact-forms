@@ -27,9 +27,9 @@ class ConstantContact_Attached_Lists_Field {
 	 * Initialize the plugin by hooking into CMB2
 	 */
 	public function __construct() {
-		// Required to create custom field types. In this case: "custom_attached_post"
-		add_action( 'cmb2_render_custom_attached_posts', [ $this, 'render' ], 10, 5 );
-		add_action( 'cmb2_sanitize_custom_attached_posts', [ $this, 'sanitize' ], 10, 2 );
+		// Required to create custom field types. In this case: "ctct_forms_list_selection"
+		add_action( 'cmb2_render_ctct_forms_list_selection', [ $this, 'render' ], 10, 5 );
+		add_action( 'cmb2_sanitize_ctct_forms_list_selection', [ $this, 'sanitize' ], 10, 2 );
 
 		add_action( 'cmb2_attached_posts_field_add_find_posts_div', [ $this, 'add_find_posts_div' ] );
 		add_action( 'cmb2_after_init', [ $this, 'ajax_find_posts' ] );

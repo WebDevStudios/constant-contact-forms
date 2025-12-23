@@ -17,9 +17,9 @@ $color-black: #000;
 $color-gray: #aaa;
 $color-silver: #ddd;
 $color-light-gray: #e9e9e9;
-$color-lighter-gray: #f7f7f7; 
+$color-lighter-gray: #f7f7f7;
 $color-white: #fff;
-$color-black-translucent: rgba(0,0,0, 0.5); 
+$color-black-translucent: rgba(0,0,0, 0.5);
 
 // Theming
 $color-error: $color-red;
@@ -37,6 +37,7 @@ $color-modal-alt-text: #646970;
 $color-modal-header: #333;
 $color-modal-text: #555;
 $color-light-silver: #747e88;
+$color-med-gray: #999;
 
 // box model
 $padding: 1em;
@@ -52,6 +53,12 @@ $color-cmb-description-text: rgb(68, 68, 68);
 
 // Modal
 $color-modal-background: rgba( 0, 0, 0, 0.3 );
+
+// Attached lists
+$color-connected: #F4F4F4;
+$color-list-item: #f1f1f1;
+$color-list-item-odd: #f9f9f9;
+$color-list-item-hover: #e6e6e6;
 
 // Breakpoints
 $breakpoints: (
