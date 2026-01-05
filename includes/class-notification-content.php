@@ -523,24 +523,6 @@ function constant_contact_account_disconnect_reconnect( array $notifications = [
 add_filter( 'constant_contact_notifications', 'constant_contact_account_disconnect_reconnect' );
 
 /**
- * Add notification for `DISABLE_WP_CRON` constant.
- *
- * @since 2.2.0
- *
- * @param array $notifications Array of notifications to be shown.
- * @return array               Array of notifications to be shown.
- */
-function constant_contact_cron_notification( array $notifications = [] ): array {
-	$notifications[] = [
-		'ID'         => 'cron_notification',
-		'callback'   => [ 'ConstantContact_Notification_Content', 'cron_notification' ],
-		'require_cb' => 'constant_contact_maybe_show_cron_notification',
-	];
-	return $notifications;
-}
-add_filter( 'constant_contact_notifications', 'constant_contact_cron_notification' );
-
-/**
  * Add notification regarding available updates.
  *
  * @since 2.7.0
