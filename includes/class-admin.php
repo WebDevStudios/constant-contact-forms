@@ -209,6 +209,12 @@ class ConstantContact_Admin {
 					}
 					echo wp_kses( '</ul>', [ 'ul' => [] ] );
 				}
+
+				if ( constant_contact_maybe_show_cron_notification() ) {
+				?>
+				<div class="ctct-status ctct-cron-status" title="<?php esc_attr_e( 'It looks like you have DISABLE_WP_CRON enabled. Constant Contact Forms relies on it to keep access tokens refreshed. You may see functionality issues if you do not have any manually configured cron jobs on your hosting server.', 'constant-contact-forms' ); ?>"><?php esc_html_e( 'WP CRON Disabled', 'constant-contact-forms' ); ?></div>
+				<?php
+				}
 				?>
 				<a href="edit.php?post_type=ctct_forms&page=ctct_options_connect" class="ctct-status ctct-<?php echo esc_attr( $api_status ); ?>" title="<?php echo esc_attr( $connect_alt ); ?>">
 					<?php echo esc_html( $connect_title ); ?>
