@@ -1511,8 +1511,7 @@ class ConstantContact_API {
 		$result = $this->exec( $url, $options );
 
 		if ( false === $result ) {
-			$dateObj = current_datetime();
-			constant_contact_maybe_log_it( 'Refresh Token:', 'Expired. Refresh attempted at ' . $dateObj->format( 'Y-n-d, H:i' ) );
+			constant_contact_maybe_log_it( 'Refresh Token:', 'Expired. Refresh attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
 			constant_contact_set_needs_manual_reconnect( 'true' );
 		} else {
 			delete_transient( 'ctct_lists' );
