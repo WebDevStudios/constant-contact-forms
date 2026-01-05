@@ -240,16 +240,19 @@ class ConstantContact_API {
 	 * @return string Access API token.
 	 */
 	public function get_api_token() {
-
 		$token = '';
 
 		if ( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) {
-			$token .= constant_contact()->get_connect()->e_get( '_ctct_access_token' );
-		} else {
-			$success = $this->acquire_access_token();
-			if ( $success ) {
-				update_option( 'ctct_access_token_timestamp', time() );
-			}
+			$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
+		}
+
+		$issued_time = (int) get_option( 'ctct_access_token_timestamp', '' );
+		$current     = time();
+		$threshold = $current - $issued_time;
+		if ( $threshold >= 82800 && $threshold <= 86400 ) {
+			$this->refresh_token();
+
+			$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 		}
 
 		return $token;
