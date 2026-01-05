@@ -63,7 +63,7 @@ class ConstantContact_CaptchaService {
 	 * Returns true if a captcha service is selected and keys are present, or false otherwise.
 	 *
 	 * @since 2.9.0
-	 * @since 2.15.1 Added Cloudflare Turnstile support
+	 * @since 2.16.0 Added Cloudflare Turnstile support
 	 *
 	 * @return bool True if a captcha service is selected and keys are present, or false otherwise.
 	 */
@@ -124,6 +124,8 @@ class ConstantContact_CaptchaService {
 			$plugin_settings[ $this->captcha_service_option_key ] = 'recaptcha';
 		} elseif ( ! empty( $has_hcaptcha_keys ) ) {
 			$plugin_settings[ $this->captcha_service_option_key ] = 'hcaptcha';
+		} elseif ( ! empty( $has_turnstile_keys ) ) {
+			$plugin_settings[ $this->captcha_service_option_key ] = 'turnstile';
 		} else {
 			// Otherwise, set the Captcha Service option to 'None - Captcha Disabled', since no keys were present.
 			$plugin_settings[ $this->captcha_service_option_key ] = 'disabled';

@@ -1,7 +1,7 @@
 /**
  * Enable submit button.
  *
- * @since 2.15.1
+ * @since 2.16.0
  *
  * @param {Object} submitBtn Submit DOM element.
  */
@@ -12,7 +12,7 @@ window.ctctTurnstileEnableBtn = function (submitBtn) {
 /**
  * Disable submit button.
  *
- * @since 2.15.1
+ * @since 2.16.0
  *
  * @param {Object} submitBtn Submit DOM element.
  */
@@ -23,7 +23,7 @@ window.ctctTurnstileDisableBtn = function (submitBtn) {
 /**
  * Render turnstiles.
  *
- * @since 2.15.1
+ * @since 2.16.0
  *
  */
 window.onload = function () {

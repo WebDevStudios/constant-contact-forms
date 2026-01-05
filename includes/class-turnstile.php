@@ -1,11 +1,11 @@
 <?php
 /**
- * turnstile class.
+ * Turnstile class.
  *
  * @package    ConstantContact
  * @subpackage turnstile
  * @author     Constant Contact
- * @since      2.15.1
+ * @since      2.16.0
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
@@ -14,41 +14,41 @@
 /**
  * Class ConstantContact_turnstile.
  *
- * @since 2.15.1
+ * @since 2.16.0
  */
 class ConstantContact_turnstile {
 
 	/**
-	 * turnstile site key.
+	 * Turnstile site key.
 	 *
 	 * @var string
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 */
 	protected string $site_key;
 
 	/**
-	 * turnstile secret key.
+	 * Turnstile secret key.
 	 *
 	 * @var string
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 */
 	protected string $secret_key;
 
 	/**
-	 * turnstile theme to use.
+	 * Turnstile theme to use.
 	 * Options are 'light', 'dark', and 'auto';
 	 *
 	 * @var string
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 */
 	protected string $theme;
 
 	/**
-	 * Size to use for the turnstile box.
+	 * Size to use for the Turnstile box.
 	 * Options are 'normal', 'compact', and 'flexible'.
 	 *
 	 * @var string
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 */
 	public string $size;
 
@@ -58,7 +58,7 @@ class ConstantContact_turnstile {
 	 * Use 'auto' (default), or specify the language.
 	 *
 	 * @var string
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 */
 	protected string $language;
 
@@ -67,14 +67,14 @@ class ConstantContact_turnstile {
 	 * Use 'live' or 'test' mode. In 'test' mode, predefined keys are used.
 	 *
 	 * @var string
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 */
 	protected string $mode;
 
 	/**
 	 * Return an array of our site key pair.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
 	 * @return array
 	 */
@@ -89,7 +89,7 @@ class ConstantContact_turnstile {
 	/**
 	 * Set our key properties.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 */
 	public function set_turnstile_keys() {
 		$keys = $this->get_turnstile_keys();
@@ -99,9 +99,9 @@ class ConstantContact_turnstile {
 	}
 
 	/**
-	 * Check if we have turnstile keys set.
+	 * Check if we have Turnstile keys set.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
 	 * @return bool
 	 */
@@ -115,20 +115,20 @@ class ConstantContact_turnstile {
 	/**
 	 * Get the theme to use.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
-	 * @return string $theme Theme for the turnstile object.
+	 * @return string $theme Theme for the Turnstile object.
 	 */
 	public function get_theme() : string {
 		return $this->theme;
 	}
 
 	/**
-	 * Set the turnstile theme.
+	 * Set the Turnstile theme.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
-	 * @param string $theme turnstile theme to use.
+	 * @param string $theme Turnstile theme to use.
 	 */
 	public function set_theme( string $theme ) {
 		$this->theme = $theme;
@@ -137,20 +137,20 @@ class ConstantContact_turnstile {
 	/**
 	 * Get the size to use.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
-	 * @return string $size Size for the turnstile object.
+	 * @return string $size Size for the Turnstile object.
 	 */
 	public function get_size() : string {
 		return $this->size;
 	}
 
 	/**
-	 * Set the turnstile size.
+	 * Set the Turnstile size.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
-	 * @param string $size turnstile size to specify.
+	 * @param string $size Turnstile size to specify.
 	 */
 	public function set_size( string $size ) {
 		$this->size = $size;
@@ -159,9 +159,9 @@ class ConstantContact_turnstile {
 	/**
 	 * Get our language.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
-	 * @return string $language Language for the turnstile object.
+	 * @return string $language Language for the Turnstile object.
 	 */
 	public function get_language() : string {
 		return $this->language;
@@ -170,9 +170,9 @@ class ConstantContact_turnstile {
 	/**
 	 * Set our language to use.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
-	 * @param string $language Language code for the turnstile object.
+	 * @param string $language Language code for the Turnstile object.
 	 */
 	public function set_language( string $language ) {
 		$this->language = $language;
@@ -181,29 +181,29 @@ class ConstantContact_turnstile {
 	/**
 	 * Get the mode to use.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
-	 * @return string $mode The mode for the turnstile object.
+	 * @return string $mode The mode for the Turnstile object.
 	 */
 	public function get_mode() : string {
 		return $this->mode;
 	}
 
 	/**
-	 * Set the turnstile mode.
+	 * Set the Turnstile mode.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
-	 * @param string $mode turnstile mode to use.
+	 * @param string $mode Turnstile mode to use.
 	 */
 	public function set_mode( string $mode ) {
 		$this->mode = $mode;
 	}
 
 	/**
-	 * Retrieve inline scripts for the turnstile form instance.
+	 * Retrieve inline scripts for the Turnstile form instance.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 */
 	public function enqueue_scripts() {
 		$this->set_turnstile_keys();
@@ -240,9 +240,9 @@ class ConstantContact_turnstile {
 	}
 
 	/**
-	 * Retrieve the turnstile markup.
+	 * Retrieve the Turnstile markup.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
 	 * @return string
 	 */
@@ -264,7 +264,7 @@ class ConstantContact_turnstile {
 	/**
 	 * Add script attributes.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
 	 * @param  string $tag    Script tag.
 	 * @param  string $handle Script handle.

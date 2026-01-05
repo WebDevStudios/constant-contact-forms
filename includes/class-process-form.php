@@ -177,7 +177,6 @@ class ConstantContact_Process_Form {
 	 *
 	 * @author Brad Parbs <bradparbs@webdevstudios.com>
 	 * @since 1.0.0
-	 * @since 2.15.1 Added Cloudflare Turnstile support
 	 *
 	 * @throws Exception Throws Exception if encountered while attempting to process form.
 	 *
@@ -331,7 +330,7 @@ class ConstantContact_Process_Form {
 
 				return [
 					'status' => 'named_error',
-					'error'  => __( 'Failed hCaptcha check', 'constant-contact-forms' ),
+					'error'  => esc_html__( 'Failed hCaptcha check', 'constant-contact-forms' ),
 				];
 			}
 		}
@@ -361,7 +360,6 @@ class ConstantContact_Process_Form {
 				'https://challenges.cloudflare.com/turnstile/v0/siteverify',
 				[
 					'headers' => 'Content-type: application/x-www-form-urlencoded',
-					'method' => 'POST',
 					'body' => http_build_query( $turnstile_data )
 				]
 			);
@@ -373,7 +371,7 @@ class ConstantContact_Process_Form {
 
 				return [
 					'status' => 'named_error',
-					'error'  => __( 'Failed Cloudflare Turnstile check', 'constant-contact-forms' ),
+					'error'  => esc_html__( 'Failed Cloudflare Turnstile check', 'constant-contact-forms' ),
 				];
 			}
 		}

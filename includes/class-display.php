@@ -725,7 +725,7 @@ class ConstantContact_Display {
 	/**
 	 * Display an turnstile field.
 	 *
-	 * @since 2.15.1
+	 * @since 2.16.0
 	 *
 	 * @param int $form_id ID of form being rendered.
 	 * @return string
@@ -741,7 +741,7 @@ class ConstantContact_Display {
 			 *
 			 * Options are 'light' and 'dark';
 			 *
-			 * @since 2.9.0
+			 * @since 2.16.0
 			 *
 			 * @param string $value   Theme to use. Default 'light'.
 			 * @param int    $form_id ID of the form being rendered.
@@ -753,7 +753,7 @@ class ConstantContact_Display {
 			/**
 			 * Filters the turnstile size to render.
 			 *
-			 * @since 2.9.0
+			 * @since 2.16.0
 			 *
 			 * @param string $value Size to render. Options are 'normal', 'compact', and 'invisible'.
 			 */
@@ -766,7 +766,7 @@ class ConstantContact_Display {
 			 *
 			 * See https://developers.cloudflare.com/turnstile/reference/supported-languages/ for available values.
 			 *
-			 * @since 2.9.0
+			 * @since 2.16.0
 			 *
 			 * @param string $value   Language code to use. Default '' for automatic detection.
 			 * @param int    $form_id ID of the form being rendered.
@@ -778,7 +778,7 @@ class ConstantContact_Display {
 			/**
 			 * Set the turnstile Mode to use.
 			 *
-			 * @since 2.9.0
+			 * @since 2.16.0
 			 *
 			 * @param string $value   Use 'live' (default) or 'test' mode. In 'test' mode, predefined keys are used.
 			 * @param int    $form_id ID of the form being rendered.

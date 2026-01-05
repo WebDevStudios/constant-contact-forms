@@ -544,7 +544,7 @@ class ConstantContact_Settings {
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.0
-	 * @since  2.15.1 Added Cloudflare Turnstile support
+	 * @since  2.16.0 Added Cloudflare Turnstile support
 	 */
 	protected function register_fields_spam() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'spam' ) );
