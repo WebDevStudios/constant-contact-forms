@@ -1587,7 +1587,6 @@ class ConstantContact_API {
 				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token successfully received' );
 				constant_contact_maybe_log_it( 'Refresh Token:', 'New Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
 				constant_contact_maybe_log_it( 'Access Token:', 'New Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
-				constant_contact_maybe_log_it( 'Expires in:', 'Expiry: ' . $this->expires_in );
 
 				return isset( $data['access_token'], $data['refresh_token'] );
 			}
