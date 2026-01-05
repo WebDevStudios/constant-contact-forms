@@ -184,7 +184,6 @@ class ConstantContact_API {
 		// Attempt to acquire access token if we don't have it already.
 		// This fixes an issue where authorization does not work sometimes when switching between different accounts.
 		if (
-			empty( $this->expires_in ) ||
 			empty( $this->refresh_token ) ||
 			empty( $this->access_token )
 		) {
