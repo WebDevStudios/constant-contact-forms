@@ -98,7 +98,7 @@ class ConstantContact_CaptchaService {
 	 * in addition to maintining support for Google reCAPTCHA.
 	 *
 	 * @since 2.9.0
-	 * @since 2.15.1 Added Cloudflare Turnstile support
+	 * @since 2.16.0 Added Cloudflare Turnstile support
 	 */
 	private function maybe_initialize_captcha_service_option() {
 		$plugin_settings = get_option( $this->plugin_settings_key );
