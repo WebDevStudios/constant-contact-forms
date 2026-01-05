@@ -116,20 +116,20 @@
 			}
 
 			&.connect-account{
-				border-color: #d1dfe8;
-				background-color:#f5faff;
+				border-color: variables.$connect-border;
+				background-color: variables.$connect-background;
 
 				&:hover{
-					border-color: #90afc3;
+					border-color: variables.$connect-border-hover;
 				}
 			}
 
 			&.no-account{
-				border-color: #e2d9c4;
-				background-color:#fff8e9;
+				border-color: variables.$noaccount-border;
+				background-color: variables.$noaccount-background;
 
 				&:hover{
-					border-color: #c7ba9a;
+					border-color: variables.$noaccount-border-hover;
 				}
 			}
 

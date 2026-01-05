@@ -6,9 +6,9 @@
   padding: 1em;
 }
 .ctct-form-wrapper .ctct-message.ctct-error {
-  background-color: rgba(255, 65, 54, 0.02);
-  border-color: #ff4136;
-  color: rgb(207, 11.328358209, 0);
+  background-color: rgba(255, 0, 0, 0.02);
+  border-color: #ff0000;
+  color: #990000;
 }
 .ctct-form-wrapper .ctct-message.ctct-success {
   background-color: rgba(46, 204, 64, 0.02);
@@ -100,25 +100,25 @@
   padding-left: 32px;
 }
 .ctct-form-wrapper input[type=text]:required.ctct-invalid, .ctct-form-wrapper input[type=text].ctct-invalid, .ctct-form-wrapper input[type=email]:required.ctct-invalid, .ctct-form-wrapper input[type=email].ctct-invalid, .ctct-form-wrapper input[type=password]:required.ctct-invalid, .ctct-form-wrapper input[type=password].ctct-invalid, .ctct-form-wrapper input[type=tel]:required.ctct-invalid, .ctct-form-wrapper input[type=tel].ctct-invalid, .ctct-form-wrapper input[type=number]:required.ctct-invalid, .ctct-form-wrapper input[type=number].ctct-invalid {
-  background: rgba(255, 65, 54, 0.02) url(../images/error.svg) no-repeat 8px 50%;
+  background: rgba(255, 0, 0, 0.02) url(../images/error.svg) no-repeat 8px 50%;
   background-size: 24px;
-  border-color: #ff4136;
+  border-color: #ff0000;
   padding-left: 40px;
 }
 .ctct-form-wrapper select.ctct-label-top, .ctct-form-wrapper select.ctct-label-bottom {
   width: 100%;
 }
 .ctct-form-wrapper .ctct-field-error {
-  color: #ff4136;
+  color: #ff0000;
   font-size: 0.85rem;
   font-style: italic;
 }
 .ctct-form-wrapper input.ctct-invalid {
   background: #fff url(../images/error.svg) no-repeat;
-  background-color: rgba(255, 65, 54, 0.02);
+  background-color: rgba(255, 0, 0, 0.02);
   background-position: 8px 50%;
   background-size: 24px;
-  border-color: #ff4136;
+  border-color: #ff0000;
   padding-left: 40px;
 }
 .ctct-form-wrapper input.ctct-label-left,
@@ -197,7 +197,7 @@
 .wp-theme-twentyten input[type=tel] {
   background: #f9f9f9;
   border: 1px solid #ccc;
-  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
   padding: 2px;
 }
 
@@ -205,7 +205,7 @@
 .wp-theme-twentyeleven input[type=tel] {
   background: #fafafa;
   border: 1px solid #ddd;
-  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 1px 1px 1px rgba(0, 0, 0, 0.2);
   padding: 3px;
 }
 
