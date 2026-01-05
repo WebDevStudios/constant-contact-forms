@@ -211,7 +211,7 @@ class ConstantContact_API {
 			if ( ! wp_next_scheduled( 'ctct_refresh_token_job' ) ) { // if it hasn't been scheduled
 				$result = wp_schedule_event( time(), 'pkce_expiry', 'ctct_refresh_token_job' ); // schedule it
 				$success = ( false === $result ) ? 'no' : 'yes';
-				constant_contact_maybe_log_it( 'Cron scheduled: ', $success);
+				constant_contact_maybe_log_it( 'Cron scheduled: ', $success );
 			}
 		} else {
 			wp_unschedule_hook( 'ctct_refresh_token_job' );
