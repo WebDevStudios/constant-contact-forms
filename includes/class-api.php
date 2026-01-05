@@ -344,11 +344,11 @@ class ConstantContact_API {
 
 		if ( false === $contacts ) {
 			try {
-				$contacts = $this->cc()->get_contacts( $this->get_api_token() );
+				$contacts = $this->cc()->get_contacts();
 				if ( array_key_exists( 'error_key', $contacts ) && 'unauthorized' === $contacts['error_key'] ) {
 					$this->refresh_token();
 
-					$contacts = $this->cc()->get_contacts( $this->get_api_token() );
+					$contacts = $this->cc()->get_contacts();
 				}
 
 				set_transient( 'ctct_contact', $contacts, 1 * DAY_IN_SECONDS );
