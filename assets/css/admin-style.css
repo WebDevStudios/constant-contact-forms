@@ -395,6 +395,10 @@
   text-decoration: none;
   color: #646970;
 }
+.ctct-header .ctct-status.ctct-cron-status {
+  margin-right: 0;
+  cursor: help;
+}
 .ctct-header .ctct-status:hover, .ctct-header .ctct-status:focus {
   color: #000;
   border-color: #ddd;
