@@ -299,25 +299,6 @@ class ConstantContact_Notification_Content {
 		return ob_get_clean();
 	}
 
-	/**
-	 * Admin notice for WP_DISABLE_CRON constant being present.
-	 *
-	 * @since 2.2.0
-	 *
-	 * @return string
-	 */
-	public static function cron_notification(): string {
-		ob_start();
-		?>
-		<div class="admin-notice admin-notice-message">
-			<p>
-				<?php esc_html_e( 'It looks like you have `DISABLE_WP_CRON` enabled. Constant Contact Forms relies on it to keep access tokens refreshed. You may see functionality issues if you do not have any manually configured cron jobs on your hosting server.', 'constant-contact-forms' ); ?>
-			</p>
-		</div>
-		<?php
-		return ob_get_clean();
-	}
-
 	public static function update_available_notice(): string {
 		ob_start();
 		?>
