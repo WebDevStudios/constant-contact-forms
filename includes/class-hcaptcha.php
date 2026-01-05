@@ -223,14 +223,19 @@ class ConstantContact_hCaptcha {
 			true
 		);
 
+		$query_args = [
+			'onload' => 'renderhCaptcha',
+			'render' => 'explicit',
+		];
+		$lang = $this->get_language();
+		if ( ! empty( $lang ) ) {
+			$query_args['hl'] = $lang;
+		}
+
 		wp_enqueue_script(
 			'hcaptcha-api',
 			add_query_arg(
-				[
-					'hl'     => $this->get_language(),
-					'onload' => 'renderhCaptcha',
-					'render' => 'explicit',
-				],
+				$query_args,
 				'https://js.hcaptcha.com/1/api.js'
 			),
 			[ 'hcaptcha' ],
