@@ -98,7 +98,11 @@ class ConstantContact_Display {
 				$recaptcha->enqueue_scripts();
 			} elseif ( 'hcaptcha' === $captcha_service->get_selected_captcha_service() ) {
 				$hcaptcha = new ConstantContact_hCaptcha();
+				$hcaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', 'en' ) );
 				$hcaptcha->enqueue_scripts();
+			} elseif ( 'turnstile' === $captcha_service->get_selected_captcha_service() ) {
+				$turnstile = new ConstantContact_turnstile();
+				$turnstile->enqueue_scripts();
 			}
 		}
 
@@ -438,6 +442,8 @@ class ConstantContact_Display {
 				}
 			} elseif ( 'hcaptcha' === $selected_captcha_service ) {
 				$return .= $this->build_hcaptcha( $form_id );
+			} elseif ( 'turnstile' === $selected_captcha_service ) {
+				$return .= $this->build_turnstile( $form_id );
 			}
 		}
 
@@ -714,6 +720,73 @@ class ConstantContact_Display {
 		);
 
 		return $hcaptcha->get_inline_markup();
+	}
+
+	/**
+	 * Display an turnstile field.
+	 *
+	 * @since 2.15.1
+	 *
+	 * @param int $form_id ID of form being rendered.
+	 * @return string
+	 */
+	public function build_turnstile( int $form_id ) : string {
+		$turnstile = new ConstantContact_turnstile();
+
+		$turnstile->set_turnstile_keys();
+
+		$turnstile->set_theme(
+			/**
+			 * Filters the theme to be used with turnstile.
+			 *
+			 * Options are 'light' and 'dark';
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $value   Theme to use. Default 'light'.
+			 * @param int    $form_id ID of the form being rendered.
+			 */
+			apply_filters( 'constant_contact_turnstile_theme', 'light', $form_id )
+		);
+
+		$turnstile->set_size(
+			/**
+			 * Filters the turnstile size to render.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $value Size to render. Options are 'normal', 'compact', and 'invisible'.
+			 */
+			apply_filters( 'constant_contact_turnstile_size', 'normal', $form_id )
+		);
+
+		$turnstile->set_language(
+			/**
+			 * Filters the language code to be used with turnstile.
+			 *
+			 * See https://developers.cloudflare.com/turnstile/reference/supported-languages/ for available values.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $value   Language code to use. Default '' for automatic detection.
+			 * @param int    $form_id ID of the form being rendered.
+			 */
+			apply_filters( 'constant_contact_turnstile_lang', '', $form_id )
+		);
+
+		$turnstile->set_mode(
+			/**
+			 * Set the turnstile Mode to use.
+			 *
+			 * @since 2.9.0
+			 *
+			 * @param string $value   Use 'live' (default) or 'test' mode. In 'test' mode, predefined keys are used.
+			 * @param int    $form_id ID of the form being rendered.
+			 */
+			apply_filters( 'constant_contact_turnstile_mode', 'live', $form_id )
+		);
+
+		return $turnstile->get_inline_markup();
 	}
 
 	/**

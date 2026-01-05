@@ -544,6 +544,7 @@ class ConstantContact_Settings {
 	 *
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.0
+	 * @since  2.15.1 Added Cloudflare Turnstile support
 	 */
 	protected function register_fields_spam() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'spam' ) );
@@ -569,6 +570,7 @@ class ConstantContact_Settings {
 					'disabled'  => esc_html__( 'None - captcha disabled', 'constant-contact-forms' ),
 					'recaptcha' => esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' ),
 					'hcaptcha'  => esc_html__( 'hCaptcha', 'constant-contact-forms' ),
+					'turnstile' => esc_html__( 'Cloudflare Turnstile', 'constant-contact-forms' ),
 				],
 			]
 		);
@@ -676,6 +678,54 @@ class ConstantContact_Settings {
 				'id'              => '_ctct_hcaptcha_secret_key',
 				'type'            => 'text',
 				'sanitization_cb' => [ $this, 'sanitize_hcaptcha_api_key_string' ],
+				'attributes'      => [
+					'maxlength' => 50,
+				],
+			]
+		);
+
+		$before_cf_turnstile = sprintf(
+			'<h2>%s</h2>',
+			esc_html__( 'Cloudflare Turnstile', 'constant-contact-forms' )
+		);
+
+		$before_cf_turnstile .= '<div class="description">';
+
+		$before_cf_turnstile .= sprintf(
+			wp_kses(
+			/* translators: %s: turnstile signup URL */
+				__( 'Sign up and get your <a href="%s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
+				[
+					'a' => [
+						'href'   => [],
+						'target' => [],
+					],
+				]
+			),
+			esc_url( 'https://www.cloudflare.com/application-services/products/turnstile/' )
+		);
+
+		$before_cf_turnstile .= '</div>';
+
+		$cmb->add_field(
+			[
+				'name'            => esc_html__( 'Site Key', 'constant-contact-forms' ),
+				'id'              => '_ctct_turnstile_site_key',
+				'type'            => 'text',
+				'before_row'      => $before_cf_turnstile,
+				'sanitization_cb' => [ $this, 'sanitize_turnstile_api_key_string' ],
+				'attributes'      => [
+					'maxlength' => 50,
+				],
+			]
+		);
+
+		$cmb->add_field(
+			[
+				'name'            => esc_html__( 'Secret Key', 'constant-contact-forms' ),
+				'id'              => '_ctct_turnstile_secret_key',
+				'type'            => 'text',
+				'sanitization_cb' => [ $this, 'sanitize_turnstile_api_key_string' ],
 				'attributes'      => [
 					'maxlength' => 50,
 				],

@@ -63,6 +63,7 @@ class ConstantContact_CaptchaService {
 	 * Returns true if a captcha service is selected and keys are present, or false otherwise.
 	 *
 	 * @since 2.9.0
+	 * @since 2.15.1 Added Cloudflare Turnstile support
 	 *
 	 * @return bool True if a captcha service is selected and keys are present, or false otherwise.
 	 */
@@ -81,6 +82,9 @@ class ConstantContact_CaptchaService {
 			case 'hcaptcha' :
 				return ConstantContact_hCaptcha::has_hcaptcha_keys();
 
+			case 'turnstile' :
+				return ConstantContact_turnstile::has_turnstile_keys();
+
 			default:
 				return false;
 		}
@@ -94,6 +98,7 @@ class ConstantContact_CaptchaService {
 	 * in addition to maintining support for Google reCAPTCHA.
 	 *
 	 * @since 2.9.0
+	 * @since 2.15.1 Added Cloudflare Turnstile support
 	 */
 	private function maybe_initialize_captcha_service_option() {
 		$plugin_settings = get_option( $this->plugin_settings_key );
@@ -112,6 +117,7 @@ class ConstantContact_CaptchaService {
 
 		$has_recaptcha_keys = ConstantContact_reCAPTCHA::has_recaptcha_keys();
 		$has_hcaptcha_keys  = ConstantContact_hCaptcha::has_hcaptcha_keys();
+		$has_turnstile_keys = ConstantContact_turnstile::has_turnstile_keys();
 
 		// If the Google reCAPTCHA Site Key and Secret Key are set, set the Captcha Service to Google reCAPTCHA.
 		if ( ! empty( $has_recaptcha_keys ) ) {
