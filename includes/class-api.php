@@ -1596,7 +1596,6 @@ class ConstantContact_API {
 				constant_contact_maybe_log_it( 'Refresh Token: ', 'Refresh token successfully received' );
 				constant_contact_maybe_log_it( 'Refresh Token: ', 'New Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
 				constant_contact_maybe_log_it( 'Access Token: ', 'New Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
-				$thedate = current_datetime();
 				constant_contact_maybe_log_it(
 					'Expiration time:',
 					'Current time: ' . $dateObj->format( 'Y-n-d, H:i' ) . ' Estimated expiration time: ' . $expDateObj->format( 'Y-n-d, H:i' )
