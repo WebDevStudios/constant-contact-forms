@@ -86,15 +86,17 @@ class ConstantContact_Display {
 
 				/**
 				 * Filters the language code to be used with Google reCAPTCHA.
+				 *
 				 * See https://developers.google.com/recaptcha/docs/language for available values.
 				 *
 				 * @since 1.2.4
 				 * @since 1.7.0  Added form ID for conditional amending.
 				 * @since 2.10.0 Removed form ID due to changing where we invoke and use language code.
+				 * @since 2.16.0 Removed forced use of English, allowing for Google to autodetect.
 				 *
-				 * @param string $value Language code to use. Default 'en'.
+				 * @param string $value Language code to use. Default '' (makes Google autodetect).
 				 */
-				$recaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', 'en' ) );
+				$recaptcha->set_language( apply_filters( 'constant_contact_recaptcha_lang', '' ) );
 				$recaptcha->enqueue_scripts();
 			} elseif ( 'hcaptcha' === $captcha_service->get_selected_captcha_service() ) {
 				$hcaptcha = new ConstantContact_hCaptcha();
