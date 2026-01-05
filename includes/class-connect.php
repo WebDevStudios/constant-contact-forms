@@ -178,7 +178,14 @@ class ConstantContact_Connect {
 							try {
 								$account = (object) constant_contact()->get_api()->get_account_info();
 								if ( $account ) {
-									echo esc_html( $account->first_name . ' ' . $account->last_name );
+									$name = '';
+									if ( ! empty( $account->first_name ) ) {
+										$name .= $account->first_name;
+									}
+									if ( ! empty( $account->last_name ) ) {
+										$name .= $account->last_name;
+									}
+									echo esc_html( $name );
 								}
 							} catch ( Exception $ex ) {
 								esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
