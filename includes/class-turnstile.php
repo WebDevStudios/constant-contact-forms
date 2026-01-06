@@ -254,10 +254,12 @@ class ConstantContact_turnstile {
 				data-size="%3$s"
 				data-callback="ctctTurnstileEnableBtn"
 				data-expired-callback="ctctTurnstileDisableBtn"
+				data-language="%4$s"
 			></div>',
 			esc_attr( $this->site_key ),
 			esc_attr( $this->get_theme() ),
-			esc_attr( $this->get_size() )
+			esc_attr( $this->get_size() ),
+			esc_attr( $this->get_language() )
 		);
 	}
 
