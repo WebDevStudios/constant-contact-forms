@@ -209,7 +209,9 @@ class ConstantContact_API {
 
 		if ( ! empty( $this->expires_in ) ) {
 			if ( ! wp_next_scheduled( 'ctct_refresh_token_job' ) ) { // if it hasn't been scheduled
-				wp_schedule_event( time(), 'pkce_expiry', 'ctct_refresh_token_job' ); // schedule it
+				$result = wp_schedule_event( time(), 'pkce_expiry', 'ctct_refresh_token_job' ); // schedule it
+				$success = ( false === $result ) ? 'no' : 'yes';
+				constant_contact_maybe_log_it( 'Cron scheduled: ', $success );
 			}
 		} else {
 			wp_unschedule_hook( 'ctct_refresh_token_job' );
@@ -1509,6 +1511,7 @@ class ConstantContact_API {
 		$result = $this->exec( $url, $options );
 
 		if ( false === $result ) {
+			constant_contact_maybe_log_it( 'Refresh Token:', 'Expired. Refresh attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
 			constant_contact_set_needs_manual_reconnect( 'true' );
 		} else {
 			delete_transient( 'ctct_lists' );
@@ -1557,7 +1560,11 @@ class ConstantContact_API {
 
 		if ( ! is_wp_error( $response ) ) {
 
-			$data = json_decode( $response['body'], true );
+			$data            = json_decode( $response['body'], true );
+			$json_last_error = $this->get_json_error_message( json_last_error() );
+			if ( ! empty( $json_last_error ) ) {
+				constant_contact_maybe_log_it( 'JSON Error: ', $json_last_error );
+			}
 
 			// check if the body contains error
 			if ( isset( $data['error'] ) ) {
@@ -1571,8 +1578,8 @@ class ConstantContact_API {
 
 			if ( ! empty( $data['access_token'] ) ) {
 
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Old Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
-				constant_contact_maybe_log_it( 'Access Token:', 'Old Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
+				constant_contact_maybe_log_it( 'Refresh Token: ', 'Old Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
+				constant_contact_maybe_log_it( 'Access Token: ', 'Old Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
 
 				constant_contact()->get_connect()->e_set( '_ctct_access_token', $data['access_token'] );
 				constant_contact()->get_connect()->e_set( '_ctct_refresh_token', $data['refresh_token'] );
@@ -1583,11 +1590,16 @@ class ConstantContact_API {
 				$this->expires_in    = $data['expires_in'] ?? '';
 
 				delete_option( 'ctct_auth_url' );
+				$dateObj    = current_datetime();
+				$expDateObj = $dateObj->modify( '+' . $data['expires_in'] . ' seconds' );
 
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token successfully received' );
-				constant_contact_maybe_log_it( 'Refresh Token:', 'New Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
-				constant_contact_maybe_log_it( 'Access Token:', 'New Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
-				constant_contact_maybe_log_it( 'Expires in:', 'Expiry: ' . $this->expires_in );
+				constant_contact_maybe_log_it( 'Refresh Token: ', 'Refresh token successfully received' );
+				constant_contact_maybe_log_it( 'Refresh Token: ', 'New Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
+				constant_contact_maybe_log_it( 'Access Token: ', 'New Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
+				constant_contact_maybe_log_it(
+					'Expiration time:',
+					'Current time: ' . $dateObj->format( 'Y-n-d, H:i' ) . ' Estimated expiration time: ' . $expDateObj->format( 'Y-n-d, H:i' )
+				);
 
 				return isset( $data['access_token'], $data['refresh_token'] );
 			}
@@ -1818,6 +1830,36 @@ class ConstantContact_API {
 	 */
 	public function set_email_type() {
 		return 'text/html';
+	}
+
+	/**
+	 * Set a message for potential JSON errors with our API request.
+	 *
+	 * @since 2.16.0
+	 *
+	 * @param $error_code JSON Error
+	 *
+	 * @return string
+	 */
+	private function get_json_error_message( $error_code ) {
+		$msg = '';
+		switch ( json_last_error() ) {
+			case JSON_ERROR_NONE:
+				break;
+			case JSON_ERROR_CTRL_CHAR:
+				$msg .= 'Unexpected control character found';
+				break;
+			case JSON_ERROR_SYNTAX:
+				$msg .= 'Syntax error, malformed JSON';
+				break;
+			case JSON_ERROR_UTF8:
+				$msg .= 'Malformed UTF-8 characters, possibly incorrectly encoded';
+				break;
+			default:
+				break;
+		}
+
+		return $msg;
 	}
 }
 
