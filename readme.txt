@@ -52,6 +52,8 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 = 2.16.0 =
 * Added: Cloudflare Turnstile support
 * Fixed: PHP warnings about name values from connected Constant Contact account.
+* Updated: Logging messages and data for troubleshooting API issues.
+* Updated: Default language values for CAPTCHA services. Let the service autodetect instead of force English.
 
 = 2.15.2 =
 * Fixed: Fatal errors regarding strings and addition vs concatenation.
