@@ -282,7 +282,7 @@ class ConstantContact_Connect {
 								<?php esc_html_e( 'Connect', 'constant-contact-forms' ); ?>
 							</a>
 						<?php endif; ?>
-						<a href="https://www.constantcontact.xom/signup" target="_blank" class="button ctct-button ctct-signup">
+						<a href="https://www.constantcontact.com/signup" target="_blank" class="button ctct-button ctct-signup">
 							<?php esc_html_e( 'Start a free trial', 'constant-contact-forms' ); ?>
 						</a>
 					</div>
