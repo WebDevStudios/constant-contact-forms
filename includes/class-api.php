@@ -1170,15 +1170,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Rate limit ourselves to not bust API call rate limit.
-	 *
-	 * @since 1.0.0
-	 */
-	public function pause_api_calls() {
-		sleep( 1 );
-	}
-
-	/**
 	 * Make sure we don't over-do API requests, helper method to check if we're connected.
 	 *
 	 * @since 1.0.0
