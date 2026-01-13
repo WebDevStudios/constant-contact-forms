@@ -186,7 +186,10 @@ class ConstantContact_API {
 		if (
 			empty( $this->refresh_token ) ||
 			empty( $this->access_token )
-		) {
+		) { //POST action=ctct_options_settings_auth
+			//POST ctct-disconnect=true
+			//REQUEST: settings-updated=true
+			//doing cron check? since we have a dedicated cron callback.
 			$success = $this->acquire_access_token();
 			if ( $success ) {
 				update_option( 'ctct_access_token_timestamp', time() );
