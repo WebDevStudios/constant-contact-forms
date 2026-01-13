@@ -1431,6 +1431,10 @@ class ConstantContact_API {
 	 */
 	public function acquire_access_token(): bool {
 
+		if ( ! empty( $_POST['action'] ) && 'heartbeat' === sanitize_text_field( $_POST['action'] ) ) {
+			return false;
+		}
+
 		$code_state = (string) constant_contact_get_option( '_ctct_form_state_authcode', '' );
 
 		parse_str( $code_state, $parsed_code_state );
