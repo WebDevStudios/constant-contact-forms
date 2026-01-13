@@ -242,17 +242,30 @@ class ConstantContact_API {
 	public function get_api_token() {
 		$token = '';
 
+		// Fetch current access token, expired or not.
 		if ( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) {
 			$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 		}
 
-		$issued_time = (int) get_option( 'ctct_access_token_timestamp', '' );
+		$issued_time = (int) get_option( 'ctct_access_token_timestamp', 0 );
 		$current     = time();
-		$threshold = $current - $issued_time;
-		if ( $threshold >= 82800 && $threshold <= 86400 ) {
-			$this->refresh_token();
+		$threshold   = $current - $issued_time;
+		// Check if we should attempt a refresh, beyond just cron checks.
+		if ( $issued_time > 0 && $threshold >= 82800 && $threshold <= 86400 ) {
+			// This should not be reached constantly. Once we have a new token,
+			// the threshold won't be within time.
+			// This method is more readily called than potential cron requests, so
+			// hopefully we're more actively refreshed.
+			$result = $this->refresh_token();
 
-			$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
+			if ( ! $result ) {
+				constant_contact_maybe_log_it( 'API', 'Refresh token attempt failed in get_api_token.' );
+				$token = ''; // Reset to default from this method.
+			}
+
+			if ( $result ) {
+				$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
+			}
 		}
 
 		return $token;
