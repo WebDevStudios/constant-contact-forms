@@ -175,6 +175,11 @@ class ConstantContact_API {
 	 */
 	public function ctct_init() {
 
+		// Early exit for heartbeat API.
+		if ( ! empty( $_POST['action'] ) && 'heartbeat' === sanitize_text_field( $_POST['action'] ) ) {
+			return false;
+		}
+
 		$this->this_user_id = get_current_user_id();
 
 		$this->expires_in    = constant_contact()->get_connect()->e_get( '_ctct_expires_in' );
