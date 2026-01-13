@@ -467,6 +467,8 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @TODO Remove. Unused.
+	 *
 	 * @throws Exception Throws Exception if encountered while attempting to save API token.
 	 *
 	 * @return string Token.
@@ -479,6 +481,8 @@ class ConstantContact_Connect {
 
 	/**
 	 * If we have a legacy token, let's re-save it.
+	 *
+	 * @TODO Remove. Unused.
 	 *
 	 * @since 1.0.0
 	 */
