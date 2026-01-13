@@ -1435,6 +1435,10 @@ class ConstantContact_API {
 			return false;
 		}
 
+		if ( ! empty( $_POST['ctct-disconnect'] ) && 'true' === sanitize_text_field( $_POST['ctct-disconnect'] ) ) {
+			return false;
+		}
+
 		$code_state = (string) constant_contact_get_option( '_ctct_form_state_authcode', '' );
 
 		parse_str( $code_state, $parsed_code_state );
