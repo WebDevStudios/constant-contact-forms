@@ -198,6 +198,10 @@ class ConstantContact_API {
 			}
 		}
 
+		// Future API work. Perhaps a `$this->access_token_maybe_expired()` check here.
+		// Keep frequency of `init` hook in mind.
+		// Would also remove need to check for DISABLE_WP_CRON later.
+
 		// custom scheduling based on the expiry time returned with access token.
 		add_filter(
 			'cron_schedules',
