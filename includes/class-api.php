@@ -1692,7 +1692,9 @@ class ConstantContact_API {
 
 		$issued_time = get_option( 'ctct_access_token_timestamp', '' );
 		if ( empty( $issued_time ) ) {
-			return true;
+			// It's not expired because it doesn't exist.
+			// This should be filled in by now though.
+			return false;
 		}
 
 		$expires_in = constant_contact()->get_connect()->e_get( '_ctct_expires_in' );
