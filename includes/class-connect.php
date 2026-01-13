@@ -453,6 +453,8 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @TODO Remove. Unused.
+	 *
 	 * @throws Exception Exception.
 	 *
 	 * @param string $access_token API access token.
