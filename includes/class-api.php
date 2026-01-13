@@ -1697,13 +1697,8 @@ class ConstantContact_API {
 			return false;
 		}
 
-		$expires_in = constant_contact()->get_connect()->e_get( '_ctct_expires_in' );
-		if ( ! empty( $this->expires_in ) ) {
-			// Prioritize our property over the option. If this is set, it's probably fresher.
-			$expires_in = $this->expires_in;
-		}
 		$current_time = time();
-		$expiration_time = (int) $issued_time + (int) $expires_in;
+		$expiration_time = (int) $issued_time + (int) $this->expires_in;
 
 		// If we're currently above the expiration time, we're expired.
 		return $current_time >= $expiration_time;
