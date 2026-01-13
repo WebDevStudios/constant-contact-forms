@@ -264,6 +264,7 @@ class ConstantContact_API {
 			}
 
 			if ( $result ) {
+				// Should be new access token.
 				$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 			}
 		}
