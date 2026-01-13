@@ -262,7 +262,7 @@ class ConstantContact_API {
 		$current     = time();
 		$threshold   = $current - $issued_time;
 		// Check if we should attempt a refresh, beyond just cron checks.
-		if ( $issued_time > 0 && $threshold >= 82800 && $threshold <= 86400 ) {
+		if ( $issued_time > 0 && $threshold >= 82800 ) {
 			// This should not be reached constantly. Once we have a new token,
 			// the threshold won't be within time.
 			// This method is more readily called than potential cron requests, so
