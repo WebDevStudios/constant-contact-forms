@@ -247,6 +247,8 @@ class ConstantContact_API {
 			$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 		}
 
+		// We are accepting that we may still have "one hour" of potential valid access token time.
+		// We would rather refresh early than risk getting expired.
 		$issued_time = (int) get_option( 'ctct_access_token_timestamp', 0 );
 		$current     = time();
 		$threshold   = $current - $issued_time;
