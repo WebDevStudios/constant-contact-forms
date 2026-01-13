@@ -124,7 +124,7 @@ class ConstantContact_Connect {
 		}
 
 		if ( constant_contact_get_needs_manual_reconnect() ) {
-			$connect_title .= '<span class="dashicons dashicons-warning ctct-menu-icon"></span>';
+			$connect_title = esc_html__( 'Disconnected', 'constant-contact-forms' ) . '<span class="dashicons dashicons-warning ctct-menu-icon"></span>';
 		}
 
 		$this->options_page = add_submenu_page(
