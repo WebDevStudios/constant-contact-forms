@@ -164,7 +164,7 @@ class ConstantContact_API {
 		$this->plugin = $plugin;
 		$this->scopes = array_flip( $this->valid_scopes );
 
-		add_action( 'init', [ $this, 'cct_init' ] );
+		add_action( 'cmb2_init', [ $this, 'cct_init' ] );
 		add_action( 'ctct_refresh_token_job', [ $this, 'refresh_token' ] );
 		add_action( 'ctct_access_token_acquired', [ $this, 'clear_missed_api_requests' ] );
 	}
