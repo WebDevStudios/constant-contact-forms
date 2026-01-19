@@ -113,7 +113,7 @@
 		}
 	}
 
-	.ctct-status{
+	.ctct-status {
 		display: none;
 		@include mixins.wider-than('medium') {
 			display: flex;
@@ -127,6 +127,11 @@
 		  border-radius: variables.$radius;
 		  text-decoration: none;
 		  color: variables.$color-modal-alt-text;
+		}
+
+		&.ctct-cron-status {
+		  margin-right: 0;
+		  cursor: help;
 		}
 
 		&:hover,
