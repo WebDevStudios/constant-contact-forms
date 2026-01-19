@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
 Tested up to:      6.9
-Stable tag:        2.15.2
+Stable tag:        2.16.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      8.1
@@ -48,6 +48,14 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.16.0 =
+* Added: Cloudflare Turnstile support
+* Fixed: PHP warnings about name values from connected Constant Contact account.
+* Updated: Revised API refresh token process to try and take a more active approach instead of just WP Cron based.
+* Updated: Logging messages and data for troubleshooting API issues.
+* Updated: Default language values for CAPTCHA services. Let the service autodetect instead of force English.
+* Updated: Moved messaging about DISABLE_WP_CRON out of a notification and into Constant Contact Forms area top bar.
 
 = 2.15.2 =
 * Fixed: Fatal errors regarding strings and addition vs concatenation.

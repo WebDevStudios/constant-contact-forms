@@ -77,7 +77,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-		add_action( 'init', [ $this, 'maybe_connect' ] );
+		add_action( 'cmb2_init', [ $this, 'maybe_connect' ] );
 		add_action( 'plugins_loaded', [ $this, 'maybe_disconnect' ] );
 		add_action( 'admin_menu', [ $this, 'add_options_page' ] );
 	}
@@ -124,7 +124,7 @@ class ConstantContact_Connect {
 		}
 
 		if ( constant_contact_get_needs_manual_reconnect() ) {
-			$connect_title .= '<span class="dashicons dashicons-warning ctct-menu-icon"></span>';
+			$connect_title = esc_html__( 'Disconnected', 'constant-contact-forms' ) . '<span class="dashicons dashicons-warning ctct-menu-icon"></span>';
 		}
 
 		$this->options_page = add_submenu_page(
@@ -178,7 +178,14 @@ class ConstantContact_Connect {
 							try {
 								$account = (object) constant_contact()->get_api()->get_account_info();
 								if ( $account ) {
-									echo esc_html( $account->first_name . ' ' . $account->last_name );
+									$name = '';
+									if ( ! empty( $account->first_name ) ) {
+										$name .= $account->first_name;
+									}
+									if ( ! empty( $account->last_name ) ) {
+										$name .= $account->last_name;
+									}
+									echo esc_html( $name );
 								}
 							} catch ( Exception $ex ) {
 								esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
@@ -446,6 +453,8 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @TODO Remove. Unused.
+	 *
 	 * @throws Exception Exception.
 	 *
 	 * @param string $access_token API access token.
@@ -460,6 +469,8 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @TODO Remove. Unused.
+	 *
 	 * @throws Exception Throws Exception if encountered while attempting to save API token.
 	 *
 	 * @return string Token.
@@ -472,6 +483,8 @@ class ConstantContact_Connect {
 
 	/**
 	 * If we have a legacy token, let's re-save it.
+	 *
+	 * @TODO Remove. Unused.
 	 *
 	 * @since 1.0.0
 	 */

@@ -45,14 +45,19 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 			true
 		);
 
+		$query_args = [
+			'onload' => 'renderReCaptcha',
+			'render' => 'explicit',
+		];
+		$lang       = $this->get_language();
+		if ( ! empty( $lang ) ) {
+			$query_args['hl'] = $lang;
+		}
+
 		wp_enqueue_script(
 			'recaptcha-lib-v2',
 			add_query_arg(
-				[
-					'hl'     => $this->get_language(),
-					'onload' => 'renderReCaptcha',
-					'render' => 'explicit',
-				],
+				$query_args,
 				'//www.google.com/recaptcha/api.js'
 			),
 			[ 'recaptcha-v2' ],
