@@ -54,6 +54,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Fixed: PHP warnings about name values from connected Constant Contact account.
 * Updated: Logging messages and data for troubleshooting API issues.
 * Updated: Default language values for CAPTCHA services. Let the service autodetect instead of force English.
+* Updated: Moved messaging about DISABLE_WP_CRON out of a notification and into Constant Contact Forms area top bar.
 
 = 2.15.2 =
 * Fixed: Fatal errors regarding strings and addition vs concatenation.
