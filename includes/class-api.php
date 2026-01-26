@@ -164,7 +164,7 @@ class ConstantContact_API {
 		$this->plugin = $plugin;
 		$this->scopes = array_flip( $this->valid_scopes );
 
-		add_action( 'cmb2_init', [ $this, 'ctct_init' ] );
+		add_action( 'init', [ $this, 'ctct_init' ] );
 		add_action( 'ctct_refresh_token_job', [ $this, 'refresh_token' ] );
 		add_action( 'ctct_access_token_acquired', [ $this, 'clear_missed_api_requests' ] );
 	}
@@ -1437,8 +1437,8 @@ class ConstantContact_API {
 		if ( ! empty( $_POST['ctct-disconnect'] ) && 'true' === sanitize_text_field( $_POST['ctct-disconnect'] ) ) {
 			return false;
 		}
-
-		$code_state = (string) constant_contact_get_option( '_ctct_form_state_authcode', '' );
+		$options = get_option('ctct_options_settings');
+		$code_state = $options['_ctct_form_state_authcode'];
 
 		parse_str( $code_state, $parsed_code_state );
 		$parsed_code_state = array_values( $parsed_code_state );
