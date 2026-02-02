@@ -400,7 +400,7 @@ class ConstantContact_Admin {
 					$remote_list = constant_contact()->get_api()->get_list( $list_id );
 					$list = $this->get_associated_list_by_id( $list_id );
 					$message = '';
-					if ( ! array_key_exists( 'name', $remote_list ) ) {
+					if ( ! array_key_exists( 'name', $remote_list ) || array_key_exists( 'deleted_at', $remote_list ) ) {
 						$message = esc_html__( '(Not found in account)', 'constant-contact-forms' );
 					}
 					if ( ! empty( $list ) ) {
