@@ -1445,7 +1445,7 @@ class ConstantContact_API {
 
 		if ( empty( $parsed_code_state[0] ) || empty( $parsed_code_state[1] ) ) {
 			$this->status_code = 0;
-			$this->last_error  = 'Invalid state or auth code!';
+			$this->last_error  = 'Invalid state or auth code';
 			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
 			return false;
 		} else {
