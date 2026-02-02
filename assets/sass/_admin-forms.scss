@@ -149,12 +149,6 @@ body.post-type-ctct_forms #titlediv #title {
 
 	button {
 
-		&.cmb-add-group-row {
-			background: variables.$color-cmb-button-light-blue !important;
-			border-color: variables.$color-cmb-button-blue !important;
-			color: variables.$color-white !important;
-		}
-
 		&.cmb-remove-group-row {
 			background: variables.$color-cmb-button-pale-yellow !important;
 			display: none;

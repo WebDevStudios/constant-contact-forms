@@ -362,6 +362,11 @@ window.CTCTBuilder = {};
 		let foundEmail = false; // Leaving as let due to use as boolean flag.
 		let cfnumber = 1; // Leaving as let due to incrementor usage.
 
+		const cmb2GroupAddBtn = document.querySelector('.cmb-add-group-row.button-secondary');
+		if (cmb2GroupAddBtn) {
+			cmb2GroupAddBtn.classList.remove('button-secondary');
+			cmb2GroupAddBtn.classList.add('button-primary');
+		}
 		const fieldgroups = document.querySelectorAll('#cmb2-metabox-ctct_2_fields_metabox #custom_fields_group_repeat .cmb-repeatable-grouping');
 		if (fieldgroups) {
 			Array.from(fieldgroups).forEach((field, key) => {
