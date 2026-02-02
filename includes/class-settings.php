@@ -576,7 +576,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_recaptcha = sprintf(
-			'<h2>%s</h2>',
+			'<div id="recaptcha"><h2>%s</h2>',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' )
 		);
 
@@ -633,11 +633,12 @@ class ConstantContact_Settings {
 				'attributes'      => [
 					'maxlength' => 50,
 				],
+				'after_row'       => '</div>',
 			]
 		);
 
 		$before_hcaptcha = sprintf(
-			'<h2>%s</h2>',
+			'<div id="hcaptcha"><h2>%s</h2>',
 			esc_html__( 'hCaptcha', 'constant-contact-forms' )
 		);
 
@@ -681,11 +682,12 @@ class ConstantContact_Settings {
 				'attributes'      => [
 					'maxlength' => 50,
 				],
+				'after_row'       => '</div>',
 			]
 		);
 
 		$before_cf_turnstile = sprintf(
-			'<h2>%s</h2>',
+			'<div id="turnstile"><h2>%s</h2>',
 			esc_html__( 'Cloudflare Turnstile', 'constant-contact-forms' )
 		);
 
@@ -729,6 +731,7 @@ class ConstantContact_Settings {
 				'attributes'      => [
 					'maxlength' => 50,
 				],
+				'after_row'       => '</div>',
 			]
 		);
 
