@@ -789,12 +789,6 @@ class ConstantContact_Builder_Fields {
 		$fields_metabox->add_field(
 			[
 				'name'        => esc_html__( 'Add fields', 'constant-contact-forms' ),
-				/**
-				 * No birthdays or anniversarys in CC API V2, keeping this for later.
-				 * "You can also collect birthday and anniversary dates to use with Constant Contact autoresponders! "
-				 *
-				 * @since 1.0.2
-				 */
 				'description' => esc_html__( 'Create a field for each piece of information you want to collect. Good basics include email address, first name, and last name.', 'constant-contact-forms' ),
 				'id'          => $this->prefix . 'title',
 				'type'        => 'title',
