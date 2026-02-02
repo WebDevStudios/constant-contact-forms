@@ -1271,4 +1271,10 @@ a.ctct-notice-dismiss {
   margin: 0.2em -0.2em 0 1px;
 }
 
+#ctct-recaptcha > div .cmb-th,
+#ctct-hcaptcha > div .cmb-th,
+#ctct-turnstile > div .cmb-th {
+  padding-left: 14px;
+}
+
 /*# sourceMappingURL=admin-style.css.map */
