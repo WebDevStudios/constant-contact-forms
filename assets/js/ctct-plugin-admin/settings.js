@@ -23,9 +23,9 @@ window.settings = {};
 		that.cache = {
 			window   : window,
 			service: '#_ctct_captcha_service',
-			recaptcha: '#recaptcha',
-			hcaptcha : '#hcaptcha',
-			turnstile: '#turnstile',
+			recaptcha: '#ctct-recaptcha',
+			hcaptcha : '#ctct-hcaptcha',
+			turnstile: '#ctct-turnstile',
 		};
 	};
 
