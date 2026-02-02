@@ -12,9 +12,7 @@ The official Constant Contact plugin adds a contact form to your WordPress site 
 
 == Description ==
 
-Please note: Version 2.0.0 of this plugin is a significant release, including both security and feature updates. After updating to version 2.0.0, you will be required to reconnect the plugin to your Constant Contact account & reselect the lists associated with your forms.
-
-##Work smarter, not harder. The Constant Contact Way
+## Work smarter, not harder. The Constant Contact Way
 Create branded emails, build a website, sell online, and make it easy for people to find you—all from one place.
 
 https://www.youtube.com/watch?v=Qqb0_zcRKnM
@@ -138,5 +136,8 @@ You can add this to your active theme or custom plugin: `add_filter( 'constant_c
 #### Which account level access is needed to connect my WordPress account to Constant Contact?
 You will need to make the connection to Constant Contact using the credentials of the account owner. Campaign manager credentials will not have enough access.
 
-### Error: Please select at least one list to subscribe to.
+#### Error: Please select at least one list to subscribe to.
 Some users are experiencing errors when upgrading from an older version of the plugin. If you are receiving an error "Please select at least one list to subscribe to" on your form submissions we recommend "Sync Lists with Constant Contact", this can be found in your admin dashboard Contact Form > Lists. If problem still persists we recommend recreating the form from scratch.
+
+#### Version 2.0.x
+Version 2.0.0 of this plugin is a significant release, including both security and feature updates. After updating to version 2.0.0, you will be required to reconnect the plugin to your Constant Contact account & reselect the lists associated with your forms.
