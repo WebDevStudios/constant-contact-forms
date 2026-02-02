@@ -77,7 +77,7 @@ class ConstantContact_Connect {
 	 * @since 1.0.0
 	 */
 	public function hooks() {
-		add_action( 'cmb2_init', [ $this, 'maybe_connect' ] );
+		add_action( 'init', [ $this, 'maybe_connect' ] );
 		add_action( 'plugins_loaded', [ $this, 'maybe_disconnect' ] );
 		add_action( 'admin_menu', [ $this, 'add_options_page' ] );
 	}
