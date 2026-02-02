@@ -908,13 +908,6 @@ body.post-type-ctct_forms #titlediv #title {
   padding-bottom: 0.8em;
   padding-top: 0.8em;
 }
-#ctct_0_description_metabox button.cmb-add-group-row,
-#ctct_1_optin_metabox button.cmb-add-group-row,
-#ctct_2_fields_metabox button.cmb-add-group-row {
-  background: #008ec2 !important;
-  border-color: #006799 !important;
-  color: #fff !important;
-}
 #ctct_0_description_metabox button.cmb-remove-group-row,
 #ctct_1_optin_metabox button.cmb-remove-group-row,
 #ctct_2_fields_metabox button.cmb-remove-group-row {
@@ -998,8 +991,9 @@ body.post-type-ctct_forms #titlediv #title {
 #side-sortables #ctct_1_custom_input_css_metabox .cmb-type-text-small .cmb-th {
   padding-bottom: 0;
 }
-#side-sortables .cmb2-id--ctct-generated-shortcode > .cmb-th {
-  display: none;
+#side-sortables .cmb2-id--ctct-generated-shortcode > .cmb-th label {
+  font-weight: normal;
+  font-style: italic;
 }
 
 .cmb2-id--ctct-list .cmb2-list {
