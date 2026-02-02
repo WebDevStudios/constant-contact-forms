@@ -397,16 +397,22 @@ class ConstantContact_Admin {
 				$list_html = [];
 
 				foreach ( $table_list_ids as $list_id ) {
+					$remote_list = constant_contact()->get_api()->get_list( $list_id );
 					$list = $this->get_associated_list_by_id( $list_id );
+					$message = '';
+					if ( ! array_key_exists( 'name', $remote_list ) ) {
+						$message = esc_html__( '(Not found in account)', 'constant-contact-forms' );
+					}
 					if ( ! empty( $list ) ) {
 						$edit_url    = ( null !== get_edit_post_link( $list->ID ) ) ?
 							get_edit_post_link( $list->ID ) :
 							'';
 						$title       = get_the_title( $list->ID );
 						$list_html[] = sprintf(
-							'<a href="%s">%s</a>',
+							'<a href="%1$s">%2$s</a> %3$s',
 							esc_url( $edit_url ),
-							esc_html( $title )
+							esc_html( $title ),
+							esc_html( $message )
 						);
 					}
 				}
