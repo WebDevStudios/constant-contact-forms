@@ -47,10 +47,26 @@ window.ctctsettings = {};
 			turnstile
 		];
 
-		// Initial hiding
-		sections.forEach((section) => {
-			section.style.display = 'none';
-		});
+		if ('recaptcha' === service.value) {
+			recaptcha.style.display = 'block';
+			hcaptcha.style.display = 'none';
+			turnstile.style.display = 'none';
+		}
+		if ('hcaptcha' === service.value) {
+			recaptcha.style.display = 'none';
+			hcaptcha.style.display = 'block';
+			turnstile.style.display = 'none';
+		}
+		if ('turnstile' === service.value) {
+			recaptcha.style.display = 'none';
+			hcaptcha.style.display = 'none';
+			turnstile.style.display = 'block';
+		}
+		if ('disabled' === service.value) {
+			recaptcha.style.display = 'none';
+			hcaptcha.style.display = 'none';
+			turnstile.style.display = 'none';
+		}
 
 		service.addEventListener('change', (e) => {
 			if ('recaptcha' === e.currentTarget.value) {
