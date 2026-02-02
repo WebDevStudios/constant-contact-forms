@@ -1,4 +1,4 @@
-window.settings = {};
+window.ctctsettings = {};
 
 (function (window, that) {
 
@@ -78,4 +78,4 @@ window.settings = {};
 
 	that.init();
 
-}(window, window.settings));
+}(window, window.ctctsettings));
