@@ -49,6 +49,11 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= 2.16.1 =
+* Updated: Amended some approaches in authentication process after previous release caused issues.
+* Updated: return values for more precise troubleshooting
+* Updated: delete code flag for manual reconnection on plugin deactivation.
+
 = 2.16.0 =
 * Added: Cloudflare Turnstile support
 * Fixed: PHP warnings about name values from connected Constant Contact account.
@@ -141,7 +146,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Updated: Notice regarding list management details.
 
 == Upgrade Notice ==
-* Fixed issues around Monolog compatibility and little details.
+* Authentication process edits after 2.16.0 release.
 
 == Frequently Asked Questions ==
 
