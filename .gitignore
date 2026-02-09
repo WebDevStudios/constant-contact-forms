@@ -12,6 +12,7 @@ plugin-config.js
 /logs
 *.log
 /node_modules/
+/build/
 
 # PHPStorm
 .idea
