@@ -33,8 +33,11 @@ plugin-config.js
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
 
+## Build copies
 assets/js/ctct-plugin*.js
 assets/js/ctct-plugin*.min.js
 assets/js/ctct-plugin*.min.js.map
 
 !assets/js/ctct-plugin-attached-lists.js
+
+assets/css/*
