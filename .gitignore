@@ -32,3 +32,6 @@ plugin-config.js
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
+
+assets/js/ctct-plugin*.min.js
+assets/js/ctct-plugin*.min.js.map
