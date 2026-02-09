@@ -358,7 +358,7 @@ class ConstantContact_Settings {
 					'name'       => esc_html__( 'Disable e-mail notifications', 'constant-contact-forms' ),
 					'desc'       => sprintf(
 					/* Translators: Placeholder is for a <br /> HTML tag. */
-						esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ),
+						esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under WordPress "General Settings".', 'constant-contact-forms' ),
 						'<br/>'
 					),
 					'id'         => '_ctct_disable_email_notifications',
