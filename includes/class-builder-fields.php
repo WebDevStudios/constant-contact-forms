@@ -1089,7 +1089,7 @@ class ConstantContact_Builder_Fields {
 				'type'        => 'reset_css_button',
 				'title'       => esc_html__( 'Reset', 'constant-contact-forms' ),
 				'description' => esc_html__(
-					'Reset the styles for this Form.',
+					'Reset the styles for this form.',
 					'constant-contact-forms'
 				),
 			]
