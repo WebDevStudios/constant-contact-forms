@@ -164,7 +164,7 @@ class ConstantContact_API {
 		$this->plugin = $plugin;
 		$this->scopes = array_flip( $this->valid_scopes );
 
-		add_action( 'cmb2_init', [ $this, 'ctct_init' ] );
+		add_action( 'init', [ $this, 'ctct_init' ] );
 		add_action( 'ctct_refresh_token_job', [ $this, 'refresh_token' ] );
 		add_action( 'ctct_access_token_acquired', [ $this, 'clear_missed_api_requests' ] );
 	}
@@ -271,12 +271,12 @@ class ConstantContact_API {
 			// hopefully we're more actively refreshed.
 			$result = $this->refresh_token();
 
-			if ( ! $result ) {
+			if ( ! $result['success'] && $result['reason'] === 'expired' ) {
 				constant_contact_maybe_log_it( 'API', 'Refresh token attempt failed in get_api_token.' );
 				$token = ''; // Reset to default from this method.
 			}
 
-			if ( $result ) {
+			if ( $result['success'] ) {
 				// Should be new access token.
 				$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 			}
@@ -1437,8 +1437,8 @@ class ConstantContact_API {
 		if ( ! empty( $_POST['ctct-disconnect'] ) && 'true' === sanitize_text_field( $_POST['ctct-disconnect'] ) ) {
 			return false;
 		}
-
-		$code_state = (string) constant_contact_get_option( '_ctct_form_state_authcode', '' );
+		$options = get_option('ctct_options_settings');
+		$code_state = $options['_ctct_form_state_authcode'];
 
 		parse_str( $code_state, $parsed_code_state );
 		$parsed_code_state = array_values( $parsed_code_state );
@@ -1506,14 +1506,25 @@ class ConstantContact_API {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return bool
+	 * @return array
 	 * @throws Exception
 	 */
-	public function refresh_token(): bool {
+	public function refresh_token() {
 
+		$status = [];
 		// Force prevent any further attempts until humans interject.
 		if ( constant_contact_get_needs_manual_reconnect() ) {
-			return false;
+			$status['success'] = false;
+			$status['reason']  = 'manual_reconnect';
+
+			return $status;
+		}
+
+		$token = constant_contact()->get_connect()->e_get( '_ctct_refresh_token' );
+		if ( empty( $token ) ) {
+			$status['success'] = false;
+			$status['reason']  = 'no available token';
+			return $status;
 		}
 
 		constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token triggered' );
@@ -1539,13 +1550,18 @@ class ConstantContact_API {
 		if ( false === $result ) {
 			constant_contact_maybe_log_it( 'Refresh Token:', 'Expired. Refresh attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
 			constant_contact_set_needs_manual_reconnect( 'true' );
+			$status['success'] = false;
+			$status['reason']  = 'expired';
 		} else {
 			delete_transient( 'ctct_lists' );
 			update_option( 'ctct_access_token_timestamp', time() );
 			constant_contact_set_needs_manual_reconnect( 'false' );
+
+			$status['success'] = true;
+			$status['reason']  = 'refreshed';
 		}
 
-		return $result;
+		return $status;
 	}
 
 	/**
