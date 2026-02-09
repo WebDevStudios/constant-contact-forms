@@ -12,6 +12,7 @@ const config = {
 	mode: isProduction ? 'production' : 'development',
 	entry: {
 		'ctct-plugin-admin': [ './assets/js/ctct-plugin-admin/index.js' ],
+		'ctct-plugin-attached-lists': ['./assets/js/ctct-plugin-attached-lists/index.js'],
 		'ctct-plugin-frontend': [ './assets/js/ctct-plugin-frontend/index.js' ],
 		'ctct-plugin-recaptcha': [ './assets/js/ctct-plugin-recaptcha/index.js' ],
 		'ctct-plugin-recaptcha-v2': [ './assets/js/ctct-plugin-recaptcha-v2/index.js' ],
