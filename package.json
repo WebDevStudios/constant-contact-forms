@@ -55,5 +55,8 @@
     "sass": "^1.97.1",
     "stylelint-config-prettier": "^9.0.5",
     "wp-pot-cli": "^1.5.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.28.6"
   }
 }
