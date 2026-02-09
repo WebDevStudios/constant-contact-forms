@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     2.16.0
+ * Version:     2.16.1
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * Requires PHP: 8.1
@@ -75,7 +75,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '2.16.0';
+	const VERSION = '2.16.1';
 
 	/**
 	 * URL of plugin directory.
@@ -498,6 +498,7 @@ class Constant_Contact {
 		delete_option( 'CtctConstantContactState' );
 		delete_option( 'ctct_auth_url' );
 		delete_option( 'ctct_key' );
+		delete_option( 'ctct_maybe_needs_reconnected' );
 		constant_contact_delete_option( '_ctct_form_state_authcode' );
 		wp_clear_scheduled_hook( 'refresh_token_job' );
 		wp_unschedule_hook( 'refresh_token_job' );
