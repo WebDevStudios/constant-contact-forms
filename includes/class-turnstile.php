@@ -12,11 +12,11 @@
 // phpcs:disable PEAR.NamingConventions.ValidClassName.Invalid -- OK classname.
 
 /**
- * Class ConstantContact_turnstile.
+ * Class ConstantContact_Turnstile.
  *
  * @since 2.16.0
  */
-class ConstantContact_turnstile {
+class ConstantContact_Turnstile {
 
 	/**
 	 * Turnstile site key.

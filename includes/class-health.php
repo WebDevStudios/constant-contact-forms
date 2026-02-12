@@ -68,7 +68,7 @@ class ConstantContact_Health {
 			$has_hcaptcha,
 		);
 
-		$has_turnstile    = ( ConstantContact_turnstile::has_turnstile_keys() ) ? $yes : $no;
+		$has_turnstile    = ( ConstantContact_Turnstile::has_turnstile_keys() ) ? $yes : $no;
 		$turnstile_status = sprintf(
 		/* Translators: Placeholders will store the current values from each */
 			esc_html__( 'Has Turnstile: %1$s', 'constant-contact-forms' ),

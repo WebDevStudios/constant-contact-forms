@@ -347,7 +347,7 @@ class ConstantContact_Process_Form {
 
 		// Handle verifying turnstile response.
 		if ( isset( $data['cf-turnstile-response'] ) && 'turnstile' === $captcha_sevice->get_selected_captcha_service() ) {
-			$ctctturnstile = new ConstantContact_turnstile();
+			$ctctturnstile = new ConstantContact_Turnstile();
 			$ctctturnstile->set_turnstile_keys();
 			$keys = $ctctturnstile->get_turnstile_keys();
 
@@ -380,7 +380,7 @@ class ConstantContact_Process_Form {
 		if (
 			! $maybe_disable_captcha &&
 			empty( $data['cf-turnstile-response'] )
-			&& ConstantContact_turnstile::has_turnstile_keys() &&
+			&& ConstantContact_Turnstile::has_turnstile_keys() &&
 			'turnstile' === $captcha_sevice->get_selected_captcha_service()
 		) {
 			return $spam_error_response;
