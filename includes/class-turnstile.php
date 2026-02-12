@@ -60,7 +60,7 @@ class ConstantContact_turnstile {
 	 * @var string
 	 * @since 2.16.0
 	 */
-	protected string $language;
+	protected string $language = '';
 
 	/**
 	 * Mode to use.
