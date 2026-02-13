@@ -33,7 +33,7 @@ class ConstantContact_API_Utility {
 	 *
 	 * @param object $plugin Parent plugin class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 	}
 
@@ -46,7 +46,7 @@ class ConstantContact_API_Utility {
 	 * @param array $contact Contact data.
 	 * @return array
 	 */
-	public function clear_email( array $contact ) {
+	public function clear_email( array $contact ): array {
 		$clean = [];
 		foreach ( $contact as $contact_key => $contact_value ) {
 			if ( is_array( $contact_value ) ) {
@@ -70,7 +70,7 @@ class ConstantContact_API_Utility {
 	 * @param array $contact Contact data.
 	 * @return array
 	 */
-	public function clear_phone( array $contact ) {
+	public function clear_phone( array $contact ): array {
 		$clean = $contact;
 		foreach ( $contact as $contact_key => $contact_value ) {
 			if ( is_array( $contact_value ) && ! empty( $contact_value['key'] ) && $contact_value['key'] === 'phone_number' ) {
@@ -90,7 +90,7 @@ class ConstantContact_API_Utility {
 	 * @param array $contact Contact data.
 	 * @return array
 	 */
-	public function clear_hcaptcha( array $contact ) {
+	public function clear_hcaptcha( array $contact ): array {
 		if ( array_key_exists( 'h-captcha-response', $contact ) ) {
 			unset( $contact['h-captcha-response'] );
 		}
@@ -108,7 +108,7 @@ class ConstantContact_API_Utility {
 	 *
 	 * @param array $errors Errors from API.
 	 */
-	public function log_errors( $errors ) {
+	public function log_errors( $errors ): void {
 		if ( is_array( $errors ) ) {
 			foreach ( $errors as $error ) {
 				constant_contact_maybe_log_it(
@@ -127,7 +127,7 @@ class ConstantContact_API_Utility {
 	 *
 	 * @return string Signup URL.
 	 */
-	public function get_signup_link() {
+	public function get_signup_link(): string {
 		return 'https://www.constantcontact.com/signup';
 	}
 
