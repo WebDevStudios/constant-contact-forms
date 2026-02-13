@@ -27,7 +27,6 @@ use Ctct\Exceptions\CtctException;
  */
 class ConstantContact_API {
 
-
 	/**
 	 * Parent plugin class.
 	 * @since 1.0.0
@@ -286,15 +285,315 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Returns Refresh API token.
+	 * Exchange an authorization code for an access token.
+	 * Make this call by passing in the code present when the account owner is redirected back to you.
+	 * The response will contain an 'access_token' and 'refresh_token'
 	 *
-	 * @since 2.0.0
-	 *
-	 * @param string $type api key type.
-	 * @return string Refresh Token.
+	 * @param array of get parameters passed to redirect URL
 	 */
-	public function get_refresh_token() {
-		return $this->refresh_token;
+	public function acquire_access_token(): bool {
+
+		if ( ! empty( $_POST['action'] ) && 'heartbeat' === sanitize_text_field( $_POST['action'] ) ) {
+			return false;
+		}
+
+		if ( ! empty( $_POST['ctct-disconnect'] ) && 'true' === sanitize_text_field( $_POST['ctct-disconnect'] ) ) {
+			return false;
+		}
+		$options    = get_option( 'ctct_options_settings' );
+		$code_state = $options['_ctct_form_state_authcode'] ?: '';
+
+		parse_str( $code_state, $parsed_code_state );
+		$parsed_code_state = array_values( $parsed_code_state );
+
+		if ( empty( $parsed_code_state[0] ) || empty( $parsed_code_state[1] ) ) {
+			$this->status_code = 0;
+			$this->last_error  = 'Invalid state or auth code!';
+			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
+
+			return false;
+		} else {
+			$code  = $parsed_code_state[0];
+			$state = $parsed_code_state[1];
+		}
+
+		$expected_state = get_option( 'CtctConstantContactState' );
+
+		if ( ( $state ?? 'undefined' ) != $expected_state ) {
+			$this->status_code = 0;
+			$this->last_error  = 'state is not correct';
+			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
+
+			return false;
+		}
+		// Create full request URL
+		$body = [
+			'client_id'    => $this->client_api_key,
+			'code'         => $code,
+			'redirect_uri' => $this->redirect_URI,
+			'grant_type'   => 'authorization_code',
+		];
+
+		$body['code_verifier'] = get_option( 'CtctConstantContactcode_verifier' );
+
+		$headers = $this->set_authorization();
+
+		$url = $this->oauth2_url;
+
+		$options = [
+			'body'    => $body,
+			'headers' => $headers,
+		];
+
+		// This will be either true or false.
+		$result = $this->exec( $url, $options );
+
+		if ( false === $result ) {
+			constant_contact_set_needs_manual_reconnect( 'true' );
+		} else {
+
+			/**
+			 * Fires after successful access token acquisition.
+			 * @since 2.3.0
+			 */
+			do_action( 'ctct_access_token_acquired' );
+
+			constant_contact_set_needs_manual_reconnect( 'false' );
+		}
+
+
+		return $result;
+	}
+
+	/**
+	 * Refresh the access token.
+	 * @return array
+	 * @throws Exception
+	 * @since 2.0.0
+	 */
+	public function refresh_token() {
+
+		$status = [];
+		// Force prevent any further attempts until humans interject.
+		if ( constant_contact_get_needs_manual_reconnect() ) {
+			$status['success'] = false;
+			$status['reason']  = 'manual_reconnect';
+
+			return $status;
+		}
+
+		$token = constant_contact()->get_connect()->e_get( '_ctct_refresh_token' );
+		if ( empty( $token ) ) {
+			$status['success'] = false;
+			$status['reason']  = 'no available token';
+
+			return $status;
+		}
+
+		constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token triggered' );
+
+		// Create full request URL
+		$body = [
+			'client_id'     => $this->client_api_key,
+			'refresh_token' => constant_contact()->get_connect()->e_get( '_ctct_refresh_token' ),
+			'redirect_uri'  => $this->redirect_URI,
+			'grant_type'    => 'refresh_token',
+		];
+
+		$url     = $this->oauth2_url;
+		$headers = $this->set_authorization();
+
+		$options = [
+			'body'    => $body,
+			'headers' => $headers,
+		];
+
+		$result = $this->exec( $url, $options );
+
+		if ( false === $result ) {
+			constant_contact_maybe_log_it( 'Refresh Token:', 'Expired. Refresh attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
+			constant_contact_set_needs_manual_reconnect( 'true' );
+			$status['success'] = false;
+			$status['reason']  = 'expired';
+		} else {
+			delete_transient( 'ctct_lists' );
+			update_option( 'ctct_access_token_timestamp', time() );
+			constant_contact_set_needs_manual_reconnect( 'false' );
+
+			$status['success'] = true;
+			$status['reason']  = 'refreshed';
+		}
+
+		return $status;
+	}
+
+	/**
+	 * Check if our current access token is expired.
+	 * Based on access token issued timestamp + expires in timestamp and current time.
+	 * @return bool
+	 * @since 2.2.0
+	 */
+	private function access_token_maybe_expired() {
+
+		$issued_time = get_option( 'ctct_access_token_timestamp', '' );
+		if ( empty( $issued_time ) ) {
+			// It's not expired because it doesn't exist.
+			// This should be filled in by now though.
+			return false;
+		}
+
+		$current_time    = time();
+		$expiration_time = (int) $issued_time + (int) $this->expires_in;
+
+		// If we're currently above the expiration time, we're expired.
+		return $current_time >= $expiration_time;
+	}
+
+	/**
+	 * Generate the URL an account owner would use to allow your app
+	 * to access their account.
+	 * After visiting the URL, the account owner is prompted to log in and allow your app to access their account.
+	 * They are then redirected to your redirect URL with the authorization code appended as a query parameter. e.g.:
+	 * http://localhost:8888/?code={authorization_code}
+	 */
+	public function get_authorization_url(): string {
+
+		$auth_url = get_option( 'ctct_auth_url' );
+
+		if ( $auth_url ) {
+			return $auth_url;
+		}
+
+		$scopes = implode( '+', array_keys( $this->scopes ) );
+		[ $code_verifier, $code_challenge ] = $this->code_challenge();
+
+		$state = bin2hex( random_bytes( 8 ) );
+
+		update_option( 'CtctConstantContactState', $state );
+
+		$params = [
+			'client_id'             => $this->client_api_key,
+			'redirect_uri'          => $this->redirect_URI,
+			'response_type'         => 'code',
+			'code_challenge'        => $code_challenge,
+			'code_challenge_method' => 'S256',
+			'state'                 => $state,
+			'scope'                 => $scopes,
+		];
+
+		// Store generated random state and code challenge based on RFC 7636
+		// https://datatracker.ietf.org/doc/html/rfc7636#section-6.1
+		update_option( 'CtctConstantContactcode_verifier', $code_verifier );
+
+		$url = add_query_arg( $params, $this->authorize_url );
+
+		update_option( 'ctct_auth_url', $url );
+
+		return $url;
+	}
+
+	/**
+	 * Set our authorization headers.
+	 * @return string[]
+	 * @since 2.0.0
+	 */
+	private function set_authorization(): array {
+
+		// Set authorization header
+		// Make string of "API_KEY:SECRET"
+		$auth = $this->client_api_key;
+		// Base64 encode it
+		$credentials = base64_encode( $auth );
+		// Create and set the Authorization header to use the encoded credentials
+		$headers = [ 'Authorization: Basic ' . $credentials, 'cache-control: no-cache' ];
+
+		return $headers;
+	}
+
+	/**
+	 * Make sure we don't over-do API requests, helper method to check if we're connected.
+	 * @return boolean If connected.
+	 * @since 1.0.0
+	 */
+	public function is_connected() {
+		static $token = null;
+
+		if ( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) {
+			$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ? true : false;
+		}
+
+		return $token;
+	}
+
+	/**
+	 * Execute our API request for token acquisition.
+	 *
+	 * @param string $url     URL to make request to.
+	 * @param array  $options Request options.
+	 *
+	 * @return bool
+	 * @throws Exception
+	 * @since 2.0.0
+	 */
+	private function exec( $url, $options ): bool {
+		$response = wp_safe_remote_post( $url, $options );
+
+		$this->last_error  = '';
+		$this->status_code = 0;
+
+		if ( ! is_wp_error( $response ) ) {
+
+			$data            = json_decode( $response['body'], true );
+			$json_last_error = $this->get_json_error_message( json_last_error() );
+			if ( ! empty( $json_last_error ) ) {
+				constant_contact_maybe_log_it( 'JSON Error: ', $json_last_error );
+			}
+
+			// check if the body contains error
+			if ( isset( $data['error'] ) ) {
+				if ( 'invalid_grant' === $data['error'] ) {
+					$this->api_errors_admin_email();
+				}
+				$this->last_error = $data['error'] . ': ' . ( $data['error_description'] ?? 'Undefined' );
+				constant_contact_maybe_log_it( 'Error: ', $this->last_error );
+
+				return false;
+			}
+
+			if ( ! empty( $data['access_token'] ) ) {
+
+				constant_contact_maybe_log_it( 'Refresh Token: ', 'Old Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
+				constant_contact_maybe_log_it( 'Access Token: ', 'Old Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
+
+				constant_contact()->get_connect()->e_set( '_ctct_access_token', $data['access_token'] );
+				constant_contact()->get_connect()->e_set( '_ctct_refresh_token', $data['refresh_token'] );
+				constant_contact()->get_connect()->e_set( '_ctct_expires_in', (string) $data['expires_in'] );
+
+				$this->access_token  = $data['access_token'] ?? '';
+				$this->refresh_token = $data['refresh_token'] ?? '';
+				$this->expires_in    = $data['expires_in'] ?? '';
+
+				delete_option( 'ctct_auth_url' );
+				$dateObj    = current_datetime();
+				$expDateObj = $dateObj->modify( '+' . $data['expires_in'] . ' seconds' );
+
+				constant_contact_maybe_log_it( 'Refresh Token: ', 'Refresh token successfully received' );
+				constant_contact_maybe_log_it( 'Refresh Token: ', 'New Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
+				constant_contact_maybe_log_it( 'Access Token: ', 'New Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
+				constant_contact_maybe_log_it(
+					'Expiration time:',
+					'Current time: ' . $dateObj->format( 'Y-n-d, H:i' ) . ' Estimated expiration time: ' . $expDateObj->format( 'Y-n-d, H:i' )
+				);
+
+				return isset( $data['access_token'], $data['refresh_token'] );
+			}
+		} else {
+			$this->status_code = 0;
+			$this->last_error  = $response->get_error_message();
+			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
+		}
+
+		return false;
 	}
 
 	/**
@@ -405,6 +704,332 @@ class ConstantContact_API {
 		}
 
 		return $contacts;
+	}
+
+	/**
+	 * Create a new contact or update an existing contact.
+	 * This method uses the email_address string value you include in the
+	 * request body to determine if it should create an new contact or update
+	 * an existing contact.
+	 *
+	 * @param array $new_contact New contact data.
+	 * @param int   $form_id     ID of the form being processed.
+	 *
+	 * @return array Current connect contact.
+	 * @since 1.3.0 Added $form_id parameter.
+	 * @since 1.0.0
+	 */
+	public function add_contact( $new_contact = [], $form_id = 0 ) {
+
+		if ( ! isset( $new_contact['email'] ) ) {
+			return [];
+		}
+
+		$email = sanitize_email( $new_contact['email'] );
+		// Set our list data. If we didn't get passed a list and got this far, just generate a random ID.
+		$list = $new_contact['list'] ?? 'cc_' . wp_generate_password( 15, false );
+
+		$return_contact = false;
+
+		try {
+
+			// Remove ctct-instance if present to avoid errors.
+			if ( array_key_exists( 'ctct-instance', $new_contact ) ) {
+				unset( $new_contact['ctct-instance'] );
+			}
+
+			$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
+			if ( array_key_exists( 'error_key', $return_contact ) && 'unauthorized' === $return_contact['error_key'] ) {
+				$this->refresh_token();
+
+				$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
+				if ( array_key_exists( 'error_key', $return_contact ) ) {
+					// At this point, something is likely going on,
+					// so after the 2nd attempt, we will log the attempt for later.
+					$this->log_missed_api_request(
+						'contact_add_update',
+						[
+							'list'    => $list,
+							'email'   => $email,
+							'contact' => $new_contact,
+							'form_id' => $form_id
+						]
+					);
+					constant_contact_maybe_log_it( 'API', 'A failed API attempt was caught and will be retried after reconnection.' );
+				}
+			}
+
+		} catch ( CtctException $ex ) {
+			add_filter( 'constant_contact_force_logging', '__return_true' );
+			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+			$errors       = $ex->getErrors();
+			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
+			$this->log_errors( $our_errors );
+			constant_contact_forms_maybe_set_exception_notice( $ex );
+		} catch ( Exception $ex ) {
+			$error                = new stdClass();
+			$error->error_key     = get_class( $ex );
+			$error->error_message = $ex->getMessage();
+
+			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_forms_maybe_set_exception_notice( $ex );
+
+			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
+			$this->log_errors( $our_errors );
+		}
+
+		if (
+			is_array( $return_contact ) &&
+			array_key_exists( 'action', $return_contact ) &&
+			in_array(
+				$return_contact['action'],
+				[
+					'created',
+					'updated'
+				],
+				true
+			)
+		) {
+			$new_contact = $this->clear_email( $new_contact );
+			$new_contact = $this->clear_phone( $new_contact );
+			$new_contact = $this->clear_hcaptcha( $new_contact );
+			constant_contact_maybe_log_it( 'API', 'Submitted contact data', $new_contact );
+		}
+
+		return $return_contact;
+	}
+
+	/**
+	 * Helper method to update contact.
+	 *
+	 * @param string|array $list      List name(s).
+	 * @param array        $user_data User data.
+	 * @param string       $email     email to be updated.
+	 * @param string       $form_id   Form ID being processed.
+	 *
+	 * @return mixed                  Response from API.
+	 * @throws CtctException API exception?
+	 * @since 1.0.0
+	 * @since 1.3.0 Added $form_id parameter.
+	 */
+	public function create_update_contact( $list, $email, $user_data, $form_id ) {
+
+		$contact = new Contact();
+
+		$contact->email_address = sanitize_text_field( $email );
+		unset( $contact->{"source"} );
+		if ( ! property_exists( $contact, 'list_memberships' ) ) {
+			$contact->list_memberships = [];
+		}
+		if ( property_exists( $contact, 'list_memberships' ) && ! is_array( $contact->list_memberships ) ) {
+			$contact->list_memberships = (array) $contact->list_memberships;
+		}
+		$this->add_to_list( $contact, $list );
+
+		try {
+			$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
+		} catch ( CtctException $ex ) {
+			add_filter( 'constant_contact_force_logging', '__return_true' );
+			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+			$errors       = $ex->getErrors();
+			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
+			$this->log_errors( $our_errors );
+			constant_contact_forms_maybe_set_exception_notice( $ex );
+		} catch ( Exception $ex ) {
+			$error                = new stdClass();
+			$error->error_key     = get_class( $ex );
+			$error->error_message = $ex->getMessage();
+
+			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_forms_maybe_set_exception_notice( $ex );
+
+			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
+			$this->log_errors( $our_errors );
+		}
+
+		$new_contact = $this->cc()->create_update_contact(
+			(array) $contact
+		);
+
+		if ( $this->has_note( $user_data ) ) {
+			$fetched_contact                  = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
+			$note_content                     = $this->get_note_content( $user_data );
+			$fetched_contact['notes'][]       = [ 'content' => $note_content ];
+			$fetched_contact['update_source'] = 'Contact';
+			$this->cc()->add_note( $fetched_contact );
+		}
+
+		return $new_contact;
+	}
+
+	/**
+	 * Helper method to push as much data from a form as we can into the
+	 * Constant Contact contact thats in a list.
+	 *
+	 * @param object $contact   Contact object.
+	 * @param array  $user_data Bunch of user data.
+	 * @param string $form_id   Form ID being processed.
+	 * @param bool   $updated   Whether or not we are updating a contact. Default false.
+	 *
+	 * @return object Contact object, with new properties.
+	 * @throws CtctException $error An exception error.
+	 * @since 1.0.0
+	 * @since 1.3.0 Added $form_id parameter.
+	 * @since 1.4.5 Added $updated paramater.
+	 */
+	public function set_contact_properties( $contact, $user_data, $form_id, $updated = false ) {
+		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
+			$error = new CtctException();
+			$error->setErrors( [
+				'type',
+				esc_html__( 'Not a valid contact to set properties to.', 'constant-contact-forms' )
+			] );
+			throw $error;
+		}
+
+		unset( $user_data['list'] );
+
+		$address = [];
+		$count   = 1;
+		$streets = [];
+		if ( ! $updated ) {
+			$contact->notes = [];
+		}
+
+		$address_type = get_post_meta( $form_id, '_ctct_address_type', true );
+		if ( empty( $address_type ) ) {
+			$address_type = 'home';
+		}
+		foreach ( $user_data as $original => $value ) {
+			$key   = sanitize_text_field( $value['key'] ?? false );
+			$value = sanitize_text_field( $value['val'] ?? false );
+
+			if ( ! $key || ! $value ) {
+				continue;
+			}
+
+			switch ( $key ) {
+				case 'email':
+				case 'custom_text_area':
+				case 'lists':
+				case 'h-captcha-response':
+				case 'g-captcha-response':
+				case 'day_anniversary': // Anniversary is already pieced together.
+				case 'nonth_anniversary':
+				case 'year_anniversary':
+					// Do nothing, as we already captured or handled elsewhere.
+					break;
+				case 'phone_number':
+					$contact->phone_number = $value;
+					break;
+				case 'company':
+					$contact->company_name = $value;
+					break;
+				case 'street_address':
+				case 'line_2_address':
+				case 'city_address':
+				case 'state_address':
+				case 'zip_address':
+				case 'country_address':
+					$address['kind'] = $address_type;
+
+					switch ( $key ) {
+						case 'street_address':
+						case 'line_2_address':
+							$streets[] = $value;
+							break;
+						case 'city_address':
+							$address['city'] = $value;
+							break;
+						case 'state_address':
+							$address['state'] = $value;
+							if ( empty( $address['country'] ) ) {
+								$address['country'] = 'United States';
+							}
+							break;
+						case 'zip_address':
+							$address['postal_code'] = $value;
+							break;
+						case 'country_address':
+							$address['country'] = $value;
+					}
+					break;
+				case 'month_birthday':
+					$contact->birthday_month = absint( $value );
+					break;
+				case 'day_birthday':
+					$contact->birthday_day = absint( $value );
+					break;
+				case 'anniversary':
+					$contact->anniversary = date( 'Y/m/d', strtotime( $value ) );
+					break;
+				case 'website':
+				case 'custom':
+					// Dont overload custom fields.
+					if ( $count > 25 ) {
+						break;
+					}
+
+					// Retrieve our original label to send with API request.
+					$original_field_data = $this->plugin->get_process_form()->get_original_fields( $form_id );
+					$custom_field_name   = '';
+					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
+					$custom_field        = ( $original_field_data[ $original ] );
+					$new_custom_field    = '';
+					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
+						$custom_field_name .= $custom_field['name'] . ': ';
+					}
+
+					if ( ! $this->cc()->custom_field_exists( $custom_field['name'] ) ) {
+						$new_custom_field = $this->cc()->add_custom_field( [
+							'label' => $custom_field['name'],
+							'type'  => 'string',
+						] );
+					}
+
+					if ( ! empty( $new_custom_field ) ) {
+						$contact->custom_fields[] = [
+							'custom_field_id' => $new_custom_field['custom_field_id'],
+							'value'           => $value
+						];
+					} else {
+						$custom_field = $this->cc()->get_custom_field_by_name( $custom_field['name'] );
+
+						$contact->custom_fields[] = [
+							'custom_field_id' => $custom_field['custom_field_id'],
+							'value'           => $value,
+						];
+					}
+
+					$count ++;
+					break;
+				default:
+					try {
+						$contact->$key = $value;
+					} catch ( Exception $e ) {
+						$errors   = [];
+						$extra    = constant_contact_location_and_line( __METHOD__, __LINE__ );
+						$errors[] = $extra . $e->getErrors();
+						$this->log_errors( $errors );
+						constant_contact_forms_maybe_set_exception_notice( $e );
+						break;
+					}
+
+					break;
+			} // End switch.
+		} // End foreach.
+
+		if ( ! empty( $streets ) ) {
+			$address['street'] = implode( ', ', $streets );
+		}
+
+		if ( null !== $address ) {
+			$contact->street_address = (object) $address;
+		}
+
+		return $contact;
 	}
 
 	/**
@@ -583,7 +1208,6 @@ class ConstantContact_API {
 
 		return $list;
 	}
-
 
 	/**
 	 * Add List to the connected CTCT account.
@@ -778,97 +1402,26 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Create a new contact or update an existing contact.
-	 * This method uses the email_address string value you include in the
-	 * request body to determine if it should create an new contact or update
-	 * an existing contact.
+	 * Add contact to one or more lists.
 	 *
-	 * @since 1.0.0
-	 * @since 1.3.0 Added $form_id parameter.
+	 * @param Contact      $contact Contact object.
+	 * @param string|array $list    Single list ID or array of lists.
 	 *
-	 * @param array $new_contact New contact data.
-	 * @param int   $form_id     ID of the form being processed.
-	 * @return array Current connect contact.
+	 * @return void
+	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
+	 * @since  1.9.0
+	 * @todo   Update addList to use v3
 	 */
-	public function add_contact( $new_contact = [], $form_id = 0 ) {
-
-		if ( ! isset( $new_contact['email'] ) ) {
-			return [];
+	private function add_to_list( $contact, $list ) {
+		if ( empty( $list ) ) {
+			return;
 		}
 
-		$email = sanitize_email( $new_contact['email'] );
-		// Set our list data. If we didn't get passed a list and got this far, just generate a random ID.
-		$list = $new_contact['list'] ?? 'cc_' . wp_generate_password( 15, false );
+		$list = is_array( $list ) ? $list : [ $list ];
 
-		$return_contact = false;
-
-		try {
-
-			// Remove ctct-instance if present to avoid errors.
-			if ( array_key_exists( 'ctct-instance', $new_contact ) ) {
-				unset( $new_contact['ctct-instance'] );
-			}
-
-			$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
-			if ( array_key_exists( 'error_key', $return_contact ) && 'unauthorized' === $return_contact['error_key'] ) {
-				$this->refresh_token();
-
-				$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
-				if ( array_key_exists( 'error_key', $return_contact ) ) {
-					// At this point, something is likely going on,
-					// so after the 2nd attempt, we will log the attempt for later.
-					$this->log_missed_api_request(
-						'contact_add_update',
-						[
-							'list'    => $list,
-							'email'   => $email,
-							'contact' => $new_contact,
-							'form_id' => $form_id
-						]
-					);
-					constant_contact_maybe_log_it( 'API', 'A failed API attempt was caught and will be retried after reconnection.' );
-				}
-			}
-
-		} catch ( CtctException $ex ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors       = $ex->getErrors();
-			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			$this->log_errors( $our_errors );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-		} catch ( Exception $ex ) {
-			$error                = new stdClass();
-			$error->error_key     = get_class( $ex );
-			$error->error_message = $ex->getMessage();
-
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			$this->log_errors( $our_errors );
+		foreach ( $list as $list_id ) {
+			$contact->list_memberships[] = esc_attr( $list_id );
 		}
-
-		if (
-			is_array( $return_contact ) &&
-			array_key_exists( 'action', $return_contact ) &&
-			in_array(
-				$return_contact['action'],
-				[
-					'created',
-					'updated'
-				],
-				true
-			)
-		) {
-			$new_contact = $this->clear_email( $new_contact );
-			$new_contact = $this->clear_phone( $new_contact );
-			$new_contact = $this->clear_hcaptcha( $new_contact );
-			constant_contact_maybe_log_it( 'API', 'Submitted contact data', $new_contact );
-		}
-
-		return $return_contact;
 	}
 
 	/**
@@ -931,236 +1484,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Helper method to update contact.
-	 *
-	 * @since 1.0.0
-	 * @since 1.3.0 Added $form_id parameter.
-	 *
-	 * @throws CtctException API exception?
-	 *
-	 * @param string|array $list      List name(s).
-	 * @param array        $user_data User data.
-	 * @param string       $email   email to be updated.
-	 * @param string       $form_id   Form ID being processed.
-	 * @return mixed                  Response from API.
-	 */
-	public function create_update_contact( $list, $email, $user_data, $form_id ) {
-
-		$contact = new Contact();
-
-		$contact->email_address = sanitize_text_field( $email );
-		unset( $contact->{"source"} );
-		if ( ! property_exists( $contact, 'list_memberships' ) ) {
-			$contact->list_memberships = [];
-		}
-		if ( property_exists( $contact, 'list_memberships' ) && ! is_array( $contact->list_memberships ) ) {
-			$contact->list_memberships = (array) $contact->list_memberships;
-		}
-		$this->add_to_list( $contact, $list );
-
-		try {
-			$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
-		} catch ( CtctException $ex ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors       = $ex->getErrors();
-			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			$this->log_errors( $our_errors );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-		} catch ( Exception $ex ) {
-			$error                = new stdClass();
-			$error->error_key     = get_class( $ex );
-			$error->error_message = $ex->getMessage();
-
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			$this->log_errors( $our_errors );
-		}
-
-		$new_contact = $this->cc()->create_update_contact(
-			(array) $contact
-		);
-
-		if ( $this->has_note( $user_data ) ) {
-			$fetched_contact                  = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
-			$note_content                     = $this->get_note_content( $user_data );
-			$fetched_contact['notes'][]       = [ 'content' => $note_content ];
-			$fetched_contact['update_source'] = 'Contact';
-			$this->cc()->add_note( $fetched_contact );
-		}
-
-		return $new_contact;
-	}
-
-	/**
-	 * Helper method to push as much data from a form as we can into the
-	 * Constant Contact contact thats in a list.
-	 *
-	 * @since 1.0.0
-	 * @since 1.3.0 Added $form_id parameter.
-	 * @since 1.4.5 Added $updated paramater.
-	 *
-	 * @param object $contact   Contact object.
-	 * @param array  $user_data Bunch of user data.
-	 * @param string $form_id   Form ID being processed.
-	 * @param bool   $updated   Whether or not we are updating a contact. Default false.
-	 * @throws CtctException $error An exception error.
-	 * @return object Contact object, with new properties.
-	 */
-	public function set_contact_properties( $contact, $user_data, $form_id, $updated = false ) {
-		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
-			$error = new CtctException();
-			$error->setErrors( [ 'type', esc_html__( 'Not a valid contact to set properties to.', 'constant-contact-forms' ) ] );
-			throw $error;
-		}
-
-		unset( $user_data['list'] );
-
-		$address   = [];
-		$count     = 1;
-		$streets   = [];
-		if ( ! $updated ) {
-			$contact->notes = [];
-		}
-
-		$address_type = get_post_meta( $form_id, '_ctct_address_type', true );
-		if ( empty( $address_type ) ) {
-			$address_type = 'home';
-		}
-		foreach ( $user_data as $original => $value ) {
-			$key   = sanitize_text_field( $value['key'] ?? false );
-			$value = sanitize_text_field( $value['val'] ?? false );
-
-			if ( ! $key || ! $value ) {
-				continue;
-			}
-
-			switch ( $key ) {
-				case 'email':
-				case 'custom_text_area':
-				case 'lists':
-				case 'h-captcha-response':
-				case 'g-captcha-response':
-				case 'day_anniversary': // Anniversary is already pieced together.
-				case 'nonth_anniversary':
-				case 'year_anniversary':
-					// Do nothing, as we already captured or handled elsewhere.
-					break;
-				case 'phone_number':
-					$contact->phone_number = $value;
-					break;
-				case 'company':
-					$contact->company_name = $value;
-					break;
-				case 'street_address':
-				case 'line_2_address':
-				case 'city_address':
-				case 'state_address':
-				case 'zip_address':
-				case 'country_address':
-					$address['kind'] = $address_type;
-
-					switch ( $key ) {
-						case 'street_address':
-						case 'line_2_address':
-							$streets[] = $value;
-							break;
-						case 'city_address':
-							$address['city'] = $value;
-							break;
-						case 'state_address':
-							$address['state']   = $value;
-							if ( empty( $address['country'] ) ) {
-								$address['country'] = 'United States';
-							}
-							break;
-						case 'zip_address':
-							$address['postal_code'] = $value;
-							break;
-						case 'country_address':
-							$address['country'] = $value;
-					}
-					break;
-				case 'month_birthday':
-					$contact->birthday_month = absint( $value );
-					break;
-				case 'day_birthday':
-					$contact->birthday_day = absint( $value );
-					break;
-				case 'anniversary':
-					$contact->anniversary = date( 'Y/m/d', strtotime( $value ) );
-					break;
-				case 'website':
-				case 'custom':
-					// Dont overload custom fields.
-					if ( $count > 25 ) {
-						break;
-					}
-
-					// Retrieve our original label to send with API request.
-					$original_field_data = $this->plugin->get_process_form()->get_original_fields( $form_id );
-					$custom_field_name   = '';
-					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
-					$custom_field        = ( $original_field_data[ $original ] );
-					$new_custom_field    = '';
-					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
-						$custom_field_name .= $custom_field['name'] . ': ';
-					}
-
-					if ( ! $this->cc()->custom_field_exists( $custom_field['name'] ) ) {
-						$new_custom_field = $this->cc()->add_custom_field( [
-							'label' => $custom_field['name'],
-							'type'  => 'string',
-						] );
-					}
-
-					if ( ! empty( $new_custom_field ) ) {
-						$contact->custom_fields[] = [
-							'custom_field_id' => $new_custom_field['custom_field_id'],
-							'value'           => $value
-						];
-					} else {
-						$custom_field = $this->cc()->get_custom_field_by_name( $custom_field['name'] );
-
-						$contact->custom_fields[] = [
-							'custom_field_id' => $custom_field['custom_field_id'],
-							'value'           => $value,
-						];
-					}
-
-					$count++;
-					break;
-				default:
-					try {
-						$contact->$key = $value;
-					} catch ( Exception $e ) {
-						$errors   = [];
-						$extra    = constant_contact_location_and_line( __METHOD__, __LINE__ );
-						$errors[] = $extra . $e->getErrors();
-						$this->log_errors( $errors );
-						constant_contact_forms_maybe_set_exception_notice( $e );
-						break;
-					}
-
-					break;
-			} // End switch.
-		} // End foreach.
-
-		if ( ! empty( $streets ) ) {
-			$address['street'] = implode( ', ', $streets );
-		}
-
-		if ( null !== $address ) {
-			$contact->street_address = (object) $address;
-		}
-
-		return $contact;
-	}
-
-	/**
 	 * Pushes all error to api_error_message.
 	 *
 	 * @since 1.0.0
@@ -1178,23 +1501,6 @@ class ConstantContact_API {
 				);
 			}
 		}
-	}
-
-	/**
-	 * Make sure we don't over-do API requests, helper method to check if we're connected.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return boolean If connected.
-	 */
-	public function is_connected() {
-		static $token = null;
-
-		if ( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) {
-			$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ? true : false;
-		}
-
-		return $token;
 	}
 
 	/**
@@ -1354,307 +1660,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Generate the URL an account owner would use to allow your app
-	 * to access their account.
-	 *
-	 * After visiting the URL, the account owner is prompted to log in and allow your app to access their account.
-	 * They are then redirected to your redirect URL with the authorization code appended as a query parameter. e.g.:
-	 * http://localhost:8888/?code={authorization_code}
-	 */
-	public function get_authorization_url(): string {
-
-		$auth_url = get_option( 'ctct_auth_url' );
-
-		if ( $auth_url  ) {
-			return $auth_url;
-		}
-
-		$scopes                           = implode( '+', array_keys( $this->scopes ) );
-		[$code_verifier, $code_challenge] = $this->code_challenge();
-
-		$state = bin2hex( random_bytes( 8 ) );
-
-		update_option( 'CtctConstantContactState', $state );
-
-		$params = [
-			'client_id'             => $this->client_api_key,
-			'redirect_uri'          => $this->redirect_URI,
-			'response_type'         => 'code',
-			'code_challenge'        => $code_challenge,
-			'code_challenge_method' => 'S256',
-			'state'                 => $state,
-			'scope'                 => $scopes,
-		];
-
-		// Store generated random state and code challenge based on RFC 7636
-		// https://datatracker.ietf.org/doc/html/rfc7636#section-6.1
-		update_option( 'CtctConstantContactcode_verifier', $code_verifier );
-
-		$url = add_query_arg( $params, $this->authorize_url );
-
-		update_option( 'ctct_auth_url', $url );
-
-		return $url;
-	}
-
-	/**
-	 * Add contact to one or more lists.
-	 *
-	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  1.9.0
-	 * @todo Update addList to use v3
-	 *
-	 * @param  Contact      $contact Contact object.
-	 * @param  string|array $list    Single list ID or array of lists.
-	 * @return void
-	 */
-	private function add_to_list( $contact, $list ) {
-		if ( empty( $list ) ) {
-			return;
-		}
-
-		$list = is_array( $list ) ? $list : [ $list ];
-
-		foreach ( $list as $list_id ) {
-			$contact->list_memberships[] = esc_attr( $list_id );
-		}
-	}
-
-	/**
-	 * Exchange an authorization code for an access token.
-	 *
-	 * Make this call by passing in the code present when the account owner is redirected back to you.
-	 * The response will contain an 'access_token' and 'refresh_token'
-	 *
-	 * @param array of get parameters passed to redirect URL
-	 */
-	public function acquire_access_token(): bool {
-
-		if ( ! empty( $_POST['action'] ) && 'heartbeat' === sanitize_text_field( $_POST['action'] ) ) {
-			return false;
-		}
-
-		if ( ! empty( $_POST['ctct-disconnect'] ) && 'true' === sanitize_text_field( $_POST['ctct-disconnect'] ) ) {
-			return false;
-		}
-		$options = get_option('ctct_options_settings');
-		$code_state = $options['_ctct_form_state_authcode'];
-
-		parse_str( $code_state, $parsed_code_state );
-		$parsed_code_state = array_values( $parsed_code_state );
-
-		if ( empty( $parsed_code_state[0] ) || empty( $parsed_code_state[1] ) ) {
-			$this->status_code = 0;
-			$this->last_error  = 'Invalid state or auth code!';
-			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
-			return false;
-		} else {
-			$code  = $parsed_code_state[0];
-			$state = $parsed_code_state[1];
-		}
-
-		$expected_state = get_option( 'CtctConstantContactState' );
-
-		if ( ( $state ?? 'undefined' ) != $expected_state ) {
-			$this->status_code = 0;
-			$this->last_error  = 'state is not correct';
-			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
-			return false;
-		}
-		// Create full request URL
-		$body = [
-			'client_id'    => $this->client_api_key,
-			'code'         => $code,
-			'redirect_uri' => $this->redirect_URI,
-			'grant_type'   => 'authorization_code',
-		];
-
-		$body['code_verifier'] = get_option( 'CtctConstantContactcode_verifier' );
-
-		$headers = $this->set_authorization();
-
-		$url = $this->oauth2_url;
-
-		$options = [
-			'body'    => $body,
-			'headers' => $headers,
-		];
-
-		// This will be either true or false.
-		$result = $this->exec( $url, $options );
-
-		if ( false === $result ) {
-			constant_contact_set_needs_manual_reconnect( 'true' );
-		} else {
-
-			/**
-			 * Fires after successful access token acquisition.
-			 *
-			 * @since 2.3.0
-			 */
-			do_action( 'ctct_access_token_acquired' );
-
-			constant_contact_set_needs_manual_reconnect( 'false' );
-		}
-
-
-		return $result;
-	}
-
-	/**
-	 * Refresh the access token.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @return array
-	 * @throws Exception
-	 */
-	public function refresh_token() {
-
-		$status = [];
-		// Force prevent any further attempts until humans interject.
-		if ( constant_contact_get_needs_manual_reconnect() ) {
-			$status['success'] = false;
-			$status['reason']  = 'manual_reconnect';
-
-			return $status;
-		}
-
-		$token = constant_contact()->get_connect()->e_get( '_ctct_refresh_token' );
-		if ( empty( $token ) ) {
-			$status['success'] = false;
-			$status['reason']  = 'no available token';
-			return $status;
-		}
-
-		constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token triggered' );
-
-		// Create full request URL
-		$body = [
-			'client_id'     => $this->client_api_key,
-			'refresh_token' => constant_contact()->get_connect()->e_get( '_ctct_refresh_token' ),
-			'redirect_uri'  => $this->redirect_URI,
-			'grant_type'    => 'refresh_token',
-		];
-
-		$url     = $this->oauth2_url;
-		$headers = $this->set_authorization();
-
-		$options = [
-			'body'    => $body,
-			'headers' => $headers,
-		];
-
-		$result = $this->exec( $url, $options );
-
-		if ( false === $result ) {
-			constant_contact_maybe_log_it( 'Refresh Token:', 'Expired. Refresh attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
-			constant_contact_set_needs_manual_reconnect( 'true' );
-			$status['success'] = false;
-			$status['reason']  = 'expired';
-		} else {
-			delete_transient( 'ctct_lists' );
-			update_option( 'ctct_access_token_timestamp', time() );
-			constant_contact_set_needs_manual_reconnect( 'false' );
-
-			$status['success'] = true;
-			$status['reason']  = 'refreshed';
-		}
-
-		return $status;
-	}
-
-	/**
-	 * Set our authorization headers.
-	 *
-	 * @since 2.0.0
-	 * @return string[]
-	 */
-	private function set_authorization(): array {
-
-		// Set authorization header
-		// Make string of "API_KEY:SECRET"
-		$auth = $this->client_api_key;
-		// Base64 encode it
-		$credentials = base64_encode( $auth );
-		// Create and set the Authorization header to use the encoded credentials
-		$headers = [ 'Authorization: Basic ' . $credentials, 'cache-control: no-cache' ];
-
-		return $headers;
-	}
-
-	/**
-	 * Execute our API request for token acquisition.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param string $url     URL to make request to.
-	 * @param array  $options Request options.
-	 *
-	 * @return bool
-	 * @throws Exception
-	 */
-	private function exec( $url, $options ): bool {
-		$response = wp_safe_remote_post( $url, $options );
-
-		$this->last_error  = '';
-		$this->status_code = 0;
-
-		if ( ! is_wp_error( $response ) ) {
-
-			$data            = json_decode( $response['body'], true );
-			$json_last_error = $this->get_json_error_message( json_last_error() );
-			if ( ! empty( $json_last_error ) ) {
-				constant_contact_maybe_log_it( 'JSON Error: ', $json_last_error );
-			}
-
-			// check if the body contains error
-			if ( isset( $data['error'] ) ) {
-				if ( 'invalid_grant' === $data['error'] ) {
-					$this->api_errors_admin_email();
-				}
-				$this->last_error = $data['error'] . ': ' . ( $data['error_description'] ?? 'Undefined' );
-				constant_contact_maybe_log_it( 'Error: ', $this->last_error );
-				return false;
-			}
-
-			if ( ! empty( $data['access_token'] ) ) {
-
-				constant_contact_maybe_log_it( 'Refresh Token: ', 'Old Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
-				constant_contact_maybe_log_it( 'Access Token: ', 'Old Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
-
-				constant_contact()->get_connect()->e_set( '_ctct_access_token', $data['access_token'] );
-				constant_contact()->get_connect()->e_set( '_ctct_refresh_token', $data['refresh_token'] );
-				constant_contact()->get_connect()->e_set( '_ctct_expires_in', (string) $data['expires_in'] );
-
-				$this->access_token  = $data['access_token'] ?? '';
-				$this->refresh_token = $data['refresh_token'] ?? '';
-				$this->expires_in    = $data['expires_in'] ?? '';
-
-				delete_option( 'ctct_auth_url' );
-				$dateObj    = current_datetime();
-				$expDateObj = $dateObj->modify( '+' . $data['expires_in'] . ' seconds' );
-
-				constant_contact_maybe_log_it( 'Refresh Token: ', 'Refresh token successfully received' );
-				constant_contact_maybe_log_it( 'Refresh Token: ', 'New Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
-				constant_contact_maybe_log_it( 'Access Token: ', 'New Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
-				constant_contact_maybe_log_it(
-					'Expiration time:',
-					'Current time: ' . $dateObj->format( 'Y-n-d, H:i' ) . ' Estimated expiration time: ' . $expDateObj->format( 'Y-n-d, H:i' )
-				);
-
-				return isset( $data['access_token'], $data['refresh_token'] );
-			}
-		} else {
-			$this->status_code = 0;
-			$this->last_error  = $response->get_error_message();
-			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
-		}
-
-		return false;
-	}
-
-	/**
 	 * Obfuscate a value in our debug logs.
 	 *
 	 * Helps keep things private and not put into a potentially publicly accessed file.
@@ -1714,31 +1719,6 @@ class ConstantContact_API {
 			}
 		}
 		return $note;
-	}
-
-	/**
-	 * Check if our current access token is expired.
-	 *
-	 * Based on access token issued timestamp + expires in timestamp and current time.
-	 *
-	 * @since 2.2.0
-	 *
-	 * @return bool
-	 */
-	private function access_token_maybe_expired() {
-
-		$issued_time = get_option( 'ctct_access_token_timestamp', '' );
-		if ( empty( $issued_time ) ) {
-			// It's not expired because it doesn't exist.
-			// This should be filled in by now though.
-			return false;
-		}
-
-		$current_time = time();
-		$expiration_time = (int) $issued_time + (int) $this->expires_in;
-
-		// If we're currently above the expiration time, we're expired.
-		return $current_time >= $expiration_time;
 	}
 
 	/**
