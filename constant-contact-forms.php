@@ -312,6 +312,14 @@ class Constant_Contact {
 	private ConstantContact_Health $health;
 
 	/**
+	 * An instance of the ConstantContact_API_Utility class.
+	 *
+	 * @since NEXT
+	 * @var ConstantContact_API_Utility
+	 */
+	private ConstantContact_API_Utility $utility;
+
+	/**
 	 * Option name for where we store the timestamp of when the plugin was activated.
 	 *
 	 * @since 1.6.0
@@ -397,7 +405,8 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 */
 	public function plugin_classes(): void {
-		$this->api = new ConstantContact_API( $this );
+		$this->utility = new ConstantContact_API_Utility( $this );
+		$this->api     = new ConstantContact_API( $this );
 		if ( class_exists( 'FLBuilder' ) ) {
 			// Load if Beaver Builder is active.
 			$this->beaver_builder = new ConstantContact_Beaver_Builder( $this );
@@ -844,6 +853,16 @@ class Constant_Contact {
 	 */
 	public function get_updates(): ConstantContact_Updates {
 		return $this->updates;
+	}
+
+	/**
+	 * API Utility getter.
+	 *
+	 * @since NEXT
+	 * @return ConstantContact_API_Utility
+	 */
+	public function get_api_utility(): ConstantContact_API_Utility {
+		return $this->utility;
 	}
 
 	/**
