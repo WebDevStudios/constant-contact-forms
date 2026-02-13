@@ -609,19 +609,15 @@ class Constant_Contact {
 	 * @throws Exception Throws an exception if the field is invalid.
 	 *
 	 * @param string $field Field to get.
+	 *
 	 * @return mixed
 	 */
-	public function __get( $field ) {
-		switch ( $field ) {
-			case 'version':
-				return self::VERSION;
-			case 'basename':
-			case 'path':
-			case 'url':
-				return $this->$field;
-			default:
-				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
-		}
+	public function __get( string $field ) {
+		return match ( $field ) {
+			'version' => self::VERSION,
+			'basename', 'path', 'url' => $this->$field,
+			default => throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field ),
+		};
 	}
 
 	/**
