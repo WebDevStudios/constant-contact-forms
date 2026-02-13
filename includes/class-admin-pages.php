@@ -66,7 +66,7 @@ class ConstantContact_Admin_Pages {
 		$new_link  = '';
 
 		if ( ! constant_contact()->get_api()->is_connected() ) {
-			$new_link  = constant_contact()->get_api()->get_signup_link();
+			$new_link  = constant_contact()->get_api_utility()->get_signup_link();
 			$auth_link = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' );
 		}
 		?>

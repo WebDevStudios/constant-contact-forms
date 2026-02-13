@@ -562,8 +562,8 @@ class ConstantContact_API {
 
 			if ( ! empty( $data['access_token'] ) ) {
 
-				constant_contact_maybe_log_it( 'Refresh Token: ', 'Old Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
-				constant_contact_maybe_log_it( 'Access Token: ', 'Old Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
+				constant_contact_maybe_log_it( 'Refresh Token: ', 'Old Refresh Token: ' . constant_contact()->get_api_utility()->obfuscate_api_data_item( $this->refresh_token ) );
+				constant_contact_maybe_log_it( 'Access Token: ', 'Old Access Token: ' . constant_contact()->get_api_utility()->obfuscate_api_data_item( $this->access_token ) );
 
 				constant_contact()->get_connect()->e_set( '_ctct_access_token', $data['access_token'] );
 				constant_contact()->get_connect()->e_set( '_ctct_refresh_token', $data['refresh_token'] );
@@ -578,8 +578,8 @@ class ConstantContact_API {
 				$expDateObj = $dateObj->modify( '+' . $data['expires_in'] . ' seconds' );
 
 				constant_contact_maybe_log_it( 'Refresh Token: ', 'Refresh token successfully received' );
-				constant_contact_maybe_log_it( 'Refresh Token: ', 'New Refresh Token: ' . $this->obfuscate_api_data_item( $this->refresh_token ) );
-				constant_contact_maybe_log_it( 'Access Token: ', 'New Access Token: ' . $this->obfuscate_api_data_item( $this->access_token ) );
+				constant_contact_maybe_log_it( 'Refresh Token: ', 'New Refresh Token: ' . constant_contact()->get_api_utility()->obfuscate_api_data_item( $this->refresh_token ) );
+				constant_contact_maybe_log_it( 'Access Token: ', 'New Access Token: ' . constant_contact()->get_api_utility()->obfuscate_api_data_item( $this->access_token ) );
 				constant_contact_maybe_log_it(
 					'Expiration time:',
 					'Current time: ' . $dateObj->format( 'Y-n-d, H:i' ) . ' Estimated expiration time: ' . $expDateObj->format( 'Y-n-d, H:i' )
@@ -638,7 +638,7 @@ class ConstantContact_API {
 				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 				$errors       = $ex->getErrors();
 				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-				$this->log_errors( $our_errors );
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 				constant_contact_forms_maybe_set_exception_notice( $ex );
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
@@ -650,7 +650,7 @@ class ConstantContact_API {
 
 				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 				$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-				$this->log_errors( $our_errors );
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 			}
 		}
 
@@ -687,7 +687,7 @@ class ConstantContact_API {
 				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 				$errors       = $ex->getErrors();
 				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-				$this->log_errors( $our_errors );
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 				constant_contact_forms_maybe_set_exception_notice( $ex );
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
@@ -699,7 +699,7 @@ class ConstantContact_API {
 
 				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 				$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-				$this->log_errors( $our_errors );
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 			}
 		}
 
@@ -764,7 +764,7 @@ class ConstantContact_API {
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 			constant_contact_forms_maybe_set_exception_notice( $ex );
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
@@ -776,7 +776,7 @@ class ConstantContact_API {
 
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 		}
 
 		if (
@@ -791,9 +791,9 @@ class ConstantContact_API {
 				true
 			)
 		) {
-			$new_contact = $this->clear_email( $new_contact );
-			$new_contact = $this->clear_phone( $new_contact );
-			$new_contact = $this->clear_hcaptcha( $new_contact );
+			$new_contact = constant_contact()->get_api_utility()->clear_email( $new_contact );
+			$new_contact = constant_contact()->get_api_utility()->clear_phone( $new_contact );
+			$new_contact = constant_contact()->get_api_utility()->clear_hcaptcha( $new_contact );
 			constant_contact_maybe_log_it( 'API', 'Submitted contact data', $new_contact );
 		}
 
@@ -834,7 +834,7 @@ class ConstantContact_API {
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 			constant_contact_forms_maybe_set_exception_notice( $ex );
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
@@ -846,7 +846,7 @@ class ConstantContact_API {
 
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 		}
 
 		$new_contact = $this->cc()->create_update_contact(
@@ -1012,7 +1012,7 @@ class ConstantContact_API {
 						$errors   = [];
 						$extra    = constant_contact_location_and_line( __METHOD__, __LINE__ );
 						$errors[] = $extra . $e->getErrors();
-						$this->log_errors( $errors );
+						constant_contact()->get_api_utility()->log_errors( $errors );
 						constant_contact_forms_maybe_set_exception_notice( $e );
 						break;
 					}
@@ -1073,7 +1073,7 @@ class ConstantContact_API {
 					add_filter( 'constant_contact_force_logging', '__return_true' );
 					$extra = constant_contact_location_and_line( __METHOD__, __LINE__ );
 					$our_errors[] = $extra . $results['error_key'] . ': ' . $results['error_message'];
-					$this->log_errors($our_errors);
+					constant_contact()->get_api_utility()->log_errors($our_errors);
 					constant_contact_forms_maybe_set_exception_notice();
 				}
 			} catch ( CtctException $ex ) {
@@ -1081,7 +1081,7 @@ class ConstantContact_API {
 				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 				$errors       = $ex->getErrors();
 				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-				$this->log_errors( $our_errors );
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 				constant_contact_forms_maybe_set_exception_notice( $ex );
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
@@ -1093,7 +1093,7 @@ class ConstantContact_API {
 
 				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 				$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-				$this->log_errors( $our_errors );
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 			}
 		}
 
@@ -1135,7 +1135,7 @@ class ConstantContact_API {
 				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 				$errors       = $ex->getErrors();
 				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-				$this->log_errors( $our_errors );
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 				constant_contact_forms_maybe_set_exception_notice( $ex );
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
@@ -1147,7 +1147,7 @@ class ConstantContact_API {
 
 				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 				$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-				$this->log_errors( $our_errors );
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 			}
 		}
 
@@ -1190,7 +1190,7 @@ class ConstantContact_API {
 				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 				$errors       = $ex->getErrors();
 				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-				$this->log_errors( $our_errors );
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 				constant_contact_forms_maybe_set_exception_notice( $ex );
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
@@ -1202,7 +1202,7 @@ class ConstantContact_API {
 
 				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 				$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-				$this->log_errors( $our_errors );
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 			}
 		}
 
@@ -1237,7 +1237,7 @@ class ConstantContact_API {
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 			constant_contact_forms_maybe_set_exception_notice( $ex );
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
@@ -1249,7 +1249,7 @@ class ConstantContact_API {
 
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 		}
 
 		if ( ! isset( $list[0]['error_key'] ) ) {
@@ -1281,7 +1281,7 @@ class ConstantContact_API {
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 			constant_contact_forms_maybe_set_exception_notice( $ex );
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
@@ -1293,7 +1293,7 @@ class ConstantContact_API {
 
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 		}
 
 		return $return_list;
@@ -1338,7 +1338,7 @@ class ConstantContact_API {
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 			constant_contact_forms_maybe_set_exception_notice( $ex );
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
@@ -1350,7 +1350,7 @@ class ConstantContact_API {
 
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 		}
 
 		return $return_list;
@@ -1383,7 +1383,7 @@ class ConstantContact_API {
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$errors       = $ex->getErrors();
 			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 			constant_contact_forms_maybe_set_exception_notice( $ex );
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
@@ -1395,7 +1395,7 @@ class ConstantContact_API {
 
 			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
 			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			$this->log_errors( $our_errors );
+			constant_contact()->get_api_utility()->log_errors( $our_errors );
 		}
 
 		return $list;
@@ -1425,85 +1425,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Obfuscate the left side of email addresses at the `@`.
-	 *
-	 * @since 1.7.0
-	 *
-	 * @param array $contact Contact data.
-	 * @return array
-	 */
-	private function clear_email( array $contact ) {
-		$clean = [];
-		foreach ( $contact as $contact_key => $contact_value ) {
-			if ( is_array( $contact_value ) ) {
-				$clean[ $contact_key ] = $this->clear_email( $contact_value );
-			} elseif ( is_email( $contact_value ) ) {
-				$email_parts           = explode( '@', $contact_value );
-				$clean[ $contact_key ] = implode( '@', [ '***', $email_parts[1] ] );
-			} else {
-				$clean[ $contact_key ] = $contact_value;
-			}
-		}
-		return $clean;
-	}
-
-	/**
-	 * Obfuscate phone numbers.
-	 *
-	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
-	 * @since 1.13.0
-	 *
-	 * @param array $contact Contact data.
-	 * @return array
-	 */
-	private function clear_phone( array $contact ) {
-		$clean = $contact;
-		foreach ( $contact as $contact_key => $contact_value ) {
-			if ( is_array( $contact_value ) && ! empty( $contact_value['key'] ) && $contact_value['key'] === 'phone_number' ) {
-				$clean[ $contact_key ]['val'] = '***-***-****';
-			}
-		}
-
-		return $clean;
-	}
-
-	/**
-	 * Remove hCaptcha data from logged data.
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param array $contact Contact data.
-	 * @return array
-	 */
-	private function clear_hcaptcha( array $contact ) {
-		if ( array_key_exists( 'h-captcha-response', $contact ) ) {
-			unset( $contact['h-captcha-response'] );
-		}
-
-		return $contact;
-	}
-
-	/**
-	 * Pushes all error to api_error_message.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @throws Exception Throws Exception if encountered while attempting to log errors.
-	 *
-	 * @param array $errors Errors from API.
-	 */
-	public function log_errors( $errors ) {
-		if ( is_array( $errors ) ) {
-			foreach ( $errors as $error ) {
-				constant_contact_maybe_log_it(
-					'API',
-					$error
-				);
-			}
-		}
-	}
-
-	/**
 	 * Helper method to output a link for our settings page tabs.
 	 *
 	 * @since 2022-10-24
@@ -1518,17 +1439,6 @@ class ConstantContact_API {
 			],
 			admin_url( 'edit.php' )
 		);
-	}
-
-	/**
-	 * Helper method to output a link for our connect modal.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Signup URL.
-	 */
-	public function get_signup_link() {
-		return 'https://www.constantcontact.com/signup';
 	}
 
 	/**
@@ -1615,20 +1525,7 @@ class ConstantContact_API {
 			return [ '', '' ];
 		}
 
-		return [ $code, $this->base64url_encode( pack( 'H*', hash( 'sha256', $code ) ) ) ];
-	}
-
-	/**
-	 * Base64 encode URL.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param string $data
-	 *
-	 * @return string
-	 */
-	private function base64url_encode( string $data ): string {
-		return rtrim( strtr( base64_encode( $data ), '+/', '-_' ), '=' );
+		return [ $code, constant_contact()->get_api_utility()->base64url_encode( pack( 'H*', hash( 'sha256', $code ) ) ) ];
 	}
 
 	/**
@@ -1657,22 +1554,6 @@ class ConstantContact_API {
 		update_user_meta( $this->this_user_id, $key, $value );
 
 		return $value;
-	}
-
-	/**
-	 * Obfuscate a value in our debug logs.
-	 *
-	 * Helps keep things private and not put into a potentially publicly accessed file.
-	 *
-	 * @since 2.1.0
-	 *
-	 * @param string $data_item Item to obfuscate.
-	 *
-	 * @return string
-	 */
-	private function obfuscate_api_data_item( string $data_item ): string {
-		$start = substr( $data_item, 0, 8 );
-		return $start . '***';
 	}
 
 	/**
