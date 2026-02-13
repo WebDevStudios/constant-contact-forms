@@ -881,7 +881,7 @@ class Constant_Contact {
 	 */
 	public static function dir( string $path = '' ) : string {
 		static $dir;
-		$dir = $dir ? $dir : trailingslashit( __DIR__ );
+		$dir = $dir ?: trailingslashit( __DIR__ );
 		return $dir . $path;
 	}
 
@@ -895,7 +895,7 @@ class Constant_Contact {
 	 */
 	public static function url( string $path = '' ) : string {
 		static $url;
-		$url = $url ? $url : trailingslashit( plugin_dir_url( __FILE__ ) );
+		$url = $url ?: trailingslashit( plugin_dir_url( __FILE__ ) );
 		return $url . $path;
 	}
 
