@@ -243,6 +243,7 @@ function constant_contact_clean_url( $url = '' ): string {
 	if ( is_ssl() && 'http' === wp_parse_url( $clean_url, PHP_URL_SCHEME ) ) {
 		$clean_url = str_replace( 'http', 'https', $clean_url );
 	}
+
 	return $clean_url;
 }
 
@@ -331,13 +332,13 @@ function constant_contact_akismet( bool $is_spam, array $data ): bool {
 	$lname = '';
 	$name  = '';
 	foreach ( $data as $key => $value ) {
-		if ( 'email' === substr( $key, 0, 5 ) ) {
+		if ( str_starts_with( $key, 'email' ) ) {
 			$email = $value;
 		}
-		if ( 'first_name' === substr( $key, 0, 10 ) ) {
+		if ( str_starts_with( $key, 'first_name' ) ) {
 			$fname = $value;
 		}
-		if ( 'last_name' === substr( $key, 0, 9 ) ) {
+		if ( str_starts_with( $key, 'last_name' ) ) {
 			$lname = $value;
 		}
 	}
@@ -641,10 +642,13 @@ function constant_contact_get_widgets_by_form( $form_id ): array {
 				if ( 'ctct_form' === $data['type'] ) {
 					return absint( $value['ctct_form_id'] ) === $data['form_id'];
 				} elseif ( 'text' === $data['type'] ) {
-					if ( ! isset( $value['text'] ) || false === strpos( $value['text'], '[ctct' ) ) {
+					if ( ! isset( $value['text'] ) || ! str_contains( $value['text'], '[ctct' ) ) {
 						return false;
 					}
-					return ( false !== strpos( $value['text'], "form=\"{$data['form_id']}\"" ) || false !== strpos( $value['text'], "form='{$data['form_id']}'" ) );
+					return (
+						str_contains( $value['text'], "form=\"{$data['form_id']}\"" ) ||
+						str_contains( $value['text'], "form='{$data['form_id']}'" )
+					);
 				}
 				return false;
 			}
