@@ -605,6 +605,10 @@ function constant_contact_get_posts_by_form( $form_id ): array {
 		ARRAY_A
 	);
 
+	if ( empty( $posts ) ) {
+		return [];
+	}
+
 	array_walk(
 		$posts,
 		function( &$value, $key ) {
