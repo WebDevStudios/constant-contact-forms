@@ -185,7 +185,10 @@ function constant_contact_has_forms(): bool {
  * @param int $form_id Form ID to check.
  * @return bool
  */
-function constant_contact_has_redirect_uri( $form_id = 0 ) {
+function constant_contact_has_redirect_uri( $form_id = 0 ): bool {
+	if ( is_string( $form_id ) ) {
+		$form_id = absint( $form_id );
+	}
 	$maybe_redirect_uri = get_post_meta( $form_id, '_ctct_redirect_uri', true );
 
 	return constant_contact_is_valid_url( $maybe_redirect_uri );
@@ -435,7 +438,10 @@ function constant_contact_akismet_spam_check( array $args ): bool {
  *
  * @return bool
  */
-function constant_contact_emails_disabled( $form_id = 0 ) {
+function constant_contact_emails_disabled( $form_id = 0 ): bool {
+	if ( is_string( $form_id ) ) {
+		$form_id = absint( $form_id );
+	}
 
 	$disabled = false;
 
@@ -457,7 +463,7 @@ function constant_contact_emails_disabled( $form_id = 0 ) {
 	 * @param bool $disabled Whether or not emails are disabled.
 	 * @param int  $form_id  Form ID being submitted to.
 	 */
-	return apply_filters( 'constant_contact_emails_disabled', $disabled, $form_id );
+	return (bool) apply_filters( 'constant_contact_emails_disabled', $disabled, $form_id );
 }
 
 /**
