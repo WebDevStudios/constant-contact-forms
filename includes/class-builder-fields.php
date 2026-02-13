@@ -789,12 +789,6 @@ class ConstantContact_Builder_Fields {
 		$fields_metabox->add_field(
 			[
 				'name'        => esc_html__( 'Add fields', 'constant-contact-forms' ),
-				/**
-				 * No birthdays or anniversarys in CC API V2, keeping this for later.
-				 * "You can also collect birthday and anniversary dates to use with Constant Contact autoresponders! "
-				 *
-				 * @since 1.0.2
-				 */
 				'description' => esc_html__( 'Create a field for each piece of information you want to collect. Good basics include email address, first name, and last name.', 'constant-contact-forms' ),
 				'id'          => $this->prefix . 'title',
 				'type'        => 'title',
@@ -935,15 +929,9 @@ class ConstantContact_Builder_Fields {
 
 		$generated->add_field(
 			[
-				'name'       => esc_html__( 'Shortcode to use', 'constant-contact-forms' ),
+				'name'       => esc_html__( 'Copy and paste wherever shortcodes are supported.', 'constant-contact-forms' ),
 				'id'         => $this->prefix . 'generated_shortcode',
 				'type'       => 'text_medium',
-				'desc'       => sprintf(
-					/* Translators: Placeholders here represent `<em>` and `<strong>` HTML tags. */
-					esc_html__( '%1$sCopy and paste wherever shortcodes are supported.%2$s', 'constant-contact-forms' ),
-					'<small><em>',
-					'</em></small>',
-				),
 				'default'    => ( $generated->object_id > 0 ) ? '[ctct form="' . $generated->object_id . '" show_title="false"]' : '',
 				'attributes' => [
 					'readonly' => 'readonly',
@@ -1101,7 +1089,7 @@ class ConstantContact_Builder_Fields {
 				'type'        => 'reset_css_button',
 				'title'       => esc_html__( 'Reset', 'constant-contact-forms' ),
 				'description' => esc_html__(
-					'Reset the styles for this Form.',
+					'Reset the styles for this form.',
 					'constant-contact-forms'
 				),
 			]

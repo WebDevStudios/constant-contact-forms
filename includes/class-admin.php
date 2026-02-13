@@ -531,7 +531,7 @@ class ConstantContact_Admin {
 	 */
 	public function get_admin_link( string $text, string $link_slug ) : string {
 
-		static $link_template = '<a title="%1$s" href="%2$s" target="_blank" rel="noopener noreferrer">%1$s</a>';
+		static $link_template = '<a title="%1$s" href="%2$s">%1$s</a>';
 		static $link_args     = [
 			'post_type' => 'ctct_forms',
 		];
