@@ -44,7 +44,7 @@ function constant_contact_is_not_connected() {
  * @param bool $show_title If true, show the title.
  * @return string HTML markup
  */
-function constant_contact_get_form( $form_id, $show_title = false ) {
+function constant_contact_get_form( int $form_id, bool $show_title = false ): string {
 	return constant_contact()->get_display_shortcode()->get_form( $form_id, $show_title );
 }
 
@@ -56,7 +56,7 @@ function constant_contact_get_form( $form_id, $show_title = false ) {
  * @param int  $form_id Form post ID to grab.
  * @param bool $show_title If true, show the title.
  */
-function constant_contact_display_form( int $form_id, bool $show_title = false ) {
+function constant_contact_display_form( int $form_id, bool $show_title = false ): void {
 	constant_contact()->get_display_shortcode()->display_form( $form_id, $show_title );
 }
 
@@ -67,7 +67,7 @@ function constant_contact_display_form( int $form_id, bool $show_title = false )
  *
  * @return array WP_Query results of forms.
  */
-function constant_contact_get_forms() {
+function constant_contact_get_forms(): array {
 	return constant_contact()->get_cpts()->get_forms( false, true );
 }
 
@@ -79,7 +79,7 @@ function constant_contact_get_forms() {
  * @param string $form_id Form ID to provide in the output.
  * @return string Non-parsed shortcode.
  */
-function constant_contact_display_shortcode( $form_id ) {
+function constant_contact_display_shortcode( $form_id ): string {
 	return sprintf( '[ctct form="%s"]', $form_id );
 }
 
@@ -166,7 +166,7 @@ add_action( 'wp_head', 'constant_contact_process_form_custom' );
  *
  * @return bool Whether published forms exist.
  */
-function constant_contact_has_forms() {
+function constant_contact_has_forms(): bool {
 	$args  = [
 		'post_type'      => 'ctct_forms',
 		'post_status'    => 'publish',
@@ -199,7 +199,7 @@ function constant_contact_has_redirect_uri( $form_id = 0 ) {
  * @param string $url The string URL to validate.
  * @return bool Whether or not the provided value is a valid URL.
  */
-function constant_contact_is_valid_url( $url = '' ) {
+function constant_contact_is_valid_url( string $url = '' ): bool {
 	return ( ! empty( $url ) && filter_var( $url, FILTER_VALIDATE_URL ) );
 }
 
@@ -212,7 +212,7 @@ function constant_contact_is_valid_url( $url = '' ) {
  * @param array $data       Submitted form data.
  * @return bool
  */
-function constant_contact_check_timestamps( $maybe_spam, $data ) {
+function constant_contact_check_timestamps( bool $maybe_spam, array $data ): bool {
 	$current    = current_time( 'timestamp' ); // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 	$difference = $current - $data['ctct_time'];
 	if ( $difference <= 5 ) {
@@ -230,7 +230,7 @@ add_filter( 'constant_contact_maybe_spam', 'constant_contact_check_timestamps', 
  * @param string $url URL to tidy.
  * @return string
  */
-function constant_contact_clean_url( $url = '' ) {
+function constant_contact_clean_url( $url = '' ): string {
 	if ( ! is_string( $url ) ) {
 		return $url;
 	}
@@ -250,7 +250,7 @@ function constant_contact_clean_url( $url = '' ) {
  *
  * @return bool
  */
-function constant_contact_debugging_enabled() {
+function constant_contact_debugging_enabled(): bool {
 	$debugging_enabled = constant_contact_get_option( '_ctct_logging', '' );
 
 	if ( apply_filters( 'constant_contact_force_logging', false ) ) {
@@ -317,7 +317,7 @@ function constant_contact_maybe_log_it( $log_name, $error, $extra_data = '' ) {
  * @param array $data    Array of submission data.
  * @return bool
  */
-function constant_contact_akismet( $is_spam, $data ) {
+function constant_contact_akismet( bool $is_spam, array $data ): bool {
 
 	if ( $is_spam ) {
 		return $is_spam;
@@ -381,7 +381,7 @@ add_filter( 'constant_contact_maybe_spam', 'constant_contact_akismet', 10, 2 );
  *
  * @return bool
  */
-function constant_contact_check_akismet_key() {
+function constant_contact_check_akismet_key(): bool {
 	if ( is_callable( [ 'Akismet', 'get_api_key' ] ) ) { // Akismet v3.0.
 		return (bool) Akismet::get_api_key();
 	}
@@ -399,9 +399,9 @@ function constant_contact_check_akismet_key() {
  * @since 1.4.0
  *
  * @param array $args Array of arguments.
- * @return bool|mixed
+ * @return bool
  */
-function constant_contact_akismet_spam_check( $args ) {
+function constant_contact_akismet_spam_check( array $args ): bool {
 	global $akismet_api_host, $akismet_api_port;
 
 	$spam         = false;
@@ -433,7 +433,7 @@ function constant_contact_akismet_spam_check( $args ) {
  *
  * @param int $form_id Current form ID being submitted to.
  *
- * @return mixed
+ * @return bool
  */
 function constant_contact_emails_disabled( $form_id = 0 ) {
 
@@ -467,7 +467,7 @@ function constant_contact_emails_disabled( $form_id = 0 ) {
  *
  * @return array The font sizes to use in a dropdown.
  */
-function constant_contact_get_font_dropdown_sizes() {
+function constant_contact_get_font_dropdown_sizes(): array {
 	return [
 		'12px' => '12 pixels',
 		'13px' => '13 pixels',
@@ -492,7 +492,7 @@ function constant_contact_get_font_dropdown_sizes() {
  * @param string $customization_key Key to fetch value for.
  * @return string.
  */
-function constant_contact_get_css_customization( $form_id, $customization_key = '' ) {
+function constant_contact_get_css_customization( $form_id, $customization_key = '' ): string {
 
 	$form_css = get_post_meta( absint( $form_id ) );
 
@@ -514,7 +514,7 @@ function constant_contact_get_css_customization( $form_id, $customization_key = 
  *
  * @param string $status Status value to set.
  */
-function constant_contact_set_has_exceptions( $status = 'true' ) {
+function constant_contact_set_has_exceptions( $status = 'true' ): void {
 	update_option( 'ctct_exceptions_exist', $status );
 }
 
@@ -538,7 +538,7 @@ function constant_contact_get_has_exceptions(): bool {
  *
  * @since 2.10.0
  */
-function constant_contact_set_needs_manual_reconnect( $status = 'true' ) {
+function constant_contact_set_needs_manual_reconnect( $status = 'true' ): void {
 	update_option( 'ctct_maybe_needs_reconnected', $status );
 }
 
@@ -566,7 +566,7 @@ function constant_contact_get_needs_manual_reconnect(): bool {
  * @param string $line     Line approximation of where the error originates.
  * @return string
  */
-function constant_contact_location_and_line( $location = '', $line = '' ) {
+function constant_contact_location_and_line( $location = '', $line = '' ): string {
 	return sprintf(
 		'%s:%s ',
 		$location,
@@ -582,7 +582,7 @@ function constant_contact_location_and_line( $location = '', $line = '' ) {
  * @param  int $form_id Form ID.
  * @return array        Array of posts containing the form ID.
  */
-function constant_contact_get_posts_by_form( $form_id ) {
+function constant_contact_get_posts_by_form( $form_id ): array {
 	global $wpdb;
 
 	$shortcode_like      = $wpdb->esc_like( '[ctct' );
@@ -621,7 +621,7 @@ function constant_contact_get_posts_by_form( $form_id ) {
  * @param  int $form_id Form ID.
  * @return array        Array of widgets containing the form ID.
  */
-function constant_contact_get_widgets_by_form( $form_id ) {
+function constant_contact_get_widgets_by_form( $form_id ): array {
 	$return = [];
 
 	foreach ( [ 'ctct_form', 'text' ] as $widget_type ) {
@@ -690,7 +690,7 @@ function constant_contact_walk_widget_references( array &$value, $key, $type ) {
  * @param int $form_id Form ID being trashed.
  * @return void
  */
-function constant_contact_check_for_affected_forms_on_trash( $form_id ) {
+function constant_contact_check_for_affected_forms_on_trash( $form_id ): void {
 	$option             = get_option( ConstantContact_Notifications::$deleted_forms, [] );
 	$option[ $form_id ] = array_filter(
 		array_merge(
@@ -715,7 +715,7 @@ add_action( 'trash_ctct_forms', 'constant_contact_check_for_affected_forms_on_tr
  * @param  int $post_id Post ID being restored.
  * @return void
  */
-function constant_contact_remove_form_references_on_restore( $post_id ) {
+function constant_contact_remove_form_references_on_restore( $post_id ): void {
 	if ( 'ctct_forms' !== get_post_type( $post_id ) ) {
 		return;
 	}
@@ -735,9 +735,9 @@ add_action( 'untrashed_post', 'constant_contact_remove_form_references_on_restor
  *
  * @since 2.3.0
  *
- * @return string[]
+ * @return array
  */
-function constant_contact_countries_array() {
+function constant_contact_countries_array(): array {
 	return [
 		esc_html__( 'United States', 'constant-contact-forms' ), esc_html__( 'Canada', 'constant-contact-forms' ), esc_html__( 'Afghanistan', 'constant-contact-forms' ), esc_html__( 'Albania', 'constant-contact-forms' ), esc_html__( 'Algeria', 'constant-contact-forms' ), esc_html__( 'Andorra', 'constant-contact-forms' ), esc_html__( 'Angola', 'constant-contact-forms' ), esc_html__( 'Antigua and Barbuda', 'constant-contact-forms' ), esc_html__( 'Argentina', 'constant-contact-forms' ), esc_html__( 'Armenia', 'constant-contact-forms' ), esc_html__( 'Australia', 'constant-contact-forms' ), esc_html__( 'Austria', 'constant-contact-forms' ), esc_html__( 'Azerbaijan', 'constant-contact-forms' ), esc_html__( 'The Bahamas', 'constant-contact-forms' ), esc_html__( 'Bahrain', 'constant-contact-forms' ), esc_html__( 'Bangladesh', 'constant-contact-forms' ), esc_html__( 'Barbados', 'constant-contact-forms' ), esc_html__( 'Belarus', 'constant-contact-forms' ), esc_html__( 'Belgium', 'constant-contact-forms' ), esc_html__( 'Belize', 'constant-contact-forms' ), esc_html__( 'Benin', 'constant-contact-forms' ), esc_html__( 'Bhutan', 'constant-contact-forms' ), esc_html__( 'Bolivia', 'constant-contact-forms' ), esc_html__( 'Bosnia and Herzegovina', 'constant-contact-forms' ), esc_html__( 'Botswana', 'constant-contact-forms' ), esc_html__( 'Brazil', 'constant-contact-forms' ), esc_html__( 'Brunei', 'constant-contact-forms' ), esc_html__( 'Bulgaria', 'constant-contact-forms' ), esc_html__( 'Burkina Faso', 'constant-contact-forms' ), esc_html__( 'Burundi', 'constant-contact-forms' ), esc_html__( 'Cabo Verde', 'constant-contact-forms' ), esc_html__( 'Cambodia', 'constant-contact-forms' ), esc_html__( 'Cameroon', 'constant-contact-forms' ), esc_html__( 'Central African Republic', 'constant-contact-forms' ), esc_html__( 'Chad', 'constant-contact-forms' ), esc_html__( 'Chile', 'constant-contact-forms' ), esc_html__( 'China', 'constant-contact-forms' ), esc_html__( 'Colombia', 'constant-contact-forms' ), esc_html__( 'Comoros', 'constant-contact-forms' ), esc_html__( 'Congo, Democratic Republic of the', 'constant-contact-forms' ), esc_html__( 'Congo, Republic of the', 'constant-contact-forms' ), esc_html__( 'Costa Rica', 'constant-contact-forms' ), esc_html__( 'Côte d’Ivoire', 'constant-contact-forms' ), esc_html__( 'Croatia', 'constant-contact-forms' ), esc_html__( 'Cuba', 'constant-contact-forms' ), esc_html__( 'Cyprus', 'constant-contact-forms' ), esc_html__( 'Czech Republic', 'constant-contact-forms' ), esc_html__( 'Denmark', 'constant-contact-forms' ), esc_html__( 'Djibouti', 'constant-contact-forms' ), esc_html__( 'Dominica', 'constant-contact-forms' ), esc_html__( 'Dominican Republic', 'constant-contact-forms' ), esc_html__( 'East Timor (Timor-Leste)', 'constant-contact-forms' ), esc_html__( 'Ecuador', 'constant-contact-forms' ), esc_html__( 'Egypt', 'constant-contact-forms' ), esc_html__( 'El Salvador', 'constant-contact-forms' ), esc_html__( 'Equatorial Guinea', 'constant-contact-forms' ), esc_html__( 'Eritrea', 'constant-contact-forms' ), esc_html__( 'Estonia', 'constant-contact-forms' ), esc_html__( 'Eswatini', 'constant-contact-forms' ), esc_html__( 'Ethiopia', 'constant-contact-forms' ), esc_html__( 'Fiji', 'constant-contact-forms' ), esc_html__( 'Finland', 'constant-contact-forms' ), esc_html__( 'France', 'constant-contact-forms' ), esc_html__( 'Gabon', 'constant-contact-forms' ), esc_html__( 'The Gambia', 'constant-contact-forms' ), esc_html__( 'Georgia', 'constant-contact-forms' ), esc_html__( 'Germany', 'constant-contact-forms' ), esc_html__( 'Ghana', 'constant-contact-forms' ), esc_html__( 'Greece', 'constant-contact-forms' ), esc_html__( 'Grenada', 'constant-contact-forms' ), esc_html__( 'Guatemala', 'constant-contact-forms' ), esc_html__( 'Guinea', 'constant-contact-forms' ), esc_html__( 'Guinea-Bissau', 'constant-contact-forms' ), esc_html__( 'Guyana', 'constant-contact-forms' ), esc_html__( 'Haiti', 'constant-contact-forms' ), esc_html__( 'Honduras', 'constant-contact-forms' ), esc_html__( 'Hungary', 'constant-contact-forms' ), esc_html__( 'Iceland', 'constant-contact-forms' ), esc_html__( 'India', 'constant-contact-forms' ), esc_html__( 'Indonesia', 'constant-contact-forms' ), esc_html__( 'Iran', 'constant-contact-forms' ), esc_html__( 'Iraq', 'constant-contact-forms' ), esc_html__( 'Ireland', 'constant-contact-forms' ), esc_html__( 'Israel', 'constant-contact-forms' ), esc_html__( 'Italy', 'constant-contact-forms' ), esc_html__( 'Jamaica', 'constant-contact-forms' ), esc_html__( 'Japan', 'constant-contact-forms' ), esc_html__( 'Jordan', 'constant-contact-forms' ), esc_html__( 'Kazakhstan', 'constant-contact-forms' ), esc_html__( 'Kenya', 'constant-contact-forms' ), esc_html__( 'Kiribati', 'constant-contact-forms' ), esc_html__( 'Korea, North', 'constant-contact-forms' ), esc_html__( 'Korea, South', 'constant-contact-forms' ), esc_html__( 'Kosovo', 'constant-contact-forms' ), esc_html__( 'Kuwait', 'constant-contact-forms' ), esc_html__( 'Kyrgyzstan', 'constant-contact-forms' ), esc_html__( 'Laos', 'constant-contact-forms' ), esc_html__( 'Latvia', 'constant-contact-forms' ), esc_html__( 'Lebanon', 'constant-contact-forms' ), esc_html__( 'Lesotho', 'constant-contact-forms' ), esc_html__( 'Liberia', 'constant-contact-forms' ), esc_html__( 'Libya', 'constant-contact-forms' ), esc_html__( 'Liechtenstein', 'constant-contact-forms' ), esc_html__( 'Lithuania', 'constant-contact-forms' ), esc_html__( 'Luxembourg', 'constant-contact-forms' ), esc_html__( 'Madagascar', 'constant-contact-forms' ), esc_html__( 'Malawi', 'constant-contact-forms' ), esc_html__( 'Malaysia', 'constant-contact-forms' ), esc_html__( 'Maldives', 'constant-contact-forms' ), esc_html__( 'Mali', 'constant-contact-forms' ), esc_html__( 'Malta', 'constant-contact-forms' ), esc_html__( 'Marshall Islands', 'constant-contact-forms' ), esc_html__( 'Mauritania', 'constant-contact-forms' ), esc_html__( 'Mauritius', 'constant-contact-forms' ), esc_html__( 'Mexico', 'constant-contact-forms' ), esc_html__( 'Micronesia, Federated States of', 'constant-contact-forms' ), esc_html__( 'Moldova', 'constant-contact-forms' ), esc_html__( 'Monaco', 'constant-contact-forms' ), esc_html__( 'Mongolia', 'constant-contact-forms' ), esc_html__( 'Montenegro', 'constant-contact-forms' ), esc_html__( 'Morocco', 'constant-contact-forms' ), esc_html__( 'Mozambique', 'constant-contact-forms' ), esc_html__( 'Myanmar (Burma)', 'constant-contact-forms' ), esc_html__( 'Namibia', 'constant-contact-forms' ), esc_html__( 'Nauru', 'constant-contact-forms' ), esc_html__( 'Nepal', 'constant-contact-forms' ), esc_html__( 'Netherlands', 'constant-contact-forms' ), esc_html__( 'New Zealand', 'constant-contact-forms' ), esc_html__( 'Nicaragua', 'constant-contact-forms' ), esc_html__( 'Niger', 'constant-contact-forms' ), esc_html__( 'Nigeria', 'constant-contact-forms' ), esc_html__( 'North Macedonia', 'constant-contact-forms' ), esc_html__( 'Norway', 'constant-contact-forms' ), esc_html__( 'Oman', 'constant-contact-forms' ), esc_html__( 'Pakistan', 'constant-contact-forms' ), esc_html__( 'Palau', 'constant-contact-forms' ), esc_html__( 'Panama', 'constant-contact-forms' ), esc_html__( 'Papua New Guinea', 'constant-contact-forms' ), esc_html__( 'Paraguay', 'constant-contact-forms' ), esc_html__( 'Peru', 'constant-contact-forms' ), esc_html__( 'Philippines', 'constant-contact-forms' ), esc_html__( 'Poland', 'constant-contact-forms' ), esc_html__( 'Portugal', 'constant-contact-forms' ), esc_html__( 'Qatar', 'constant-contact-forms' ), esc_html__( 'Romania', 'constant-contact-forms' ), esc_html__( 'Russia', 'constant-contact-forms' ), esc_html__( 'Rwanda', 'constant-contact-forms' ), esc_html__( 'Saint Kitts and Nevis', 'constant-contact-forms' ), esc_html__( 'Saint Lucia', 'constant-contact-forms' ), esc_html__( 'Saint Vincent and the Grenadines', 'constant-contact-forms' ), esc_html__( 'Samoa', 'constant-contact-forms' ), esc_html__( 'San Marino', 'constant-contact-forms' ), esc_html__( 'Sao Tome and Principe', 'constant-contact-forms' ), esc_html__( 'Saudi Arabia', 'constant-contact-forms' ), esc_html__( 'Senegal', 'constant-contact-forms' ), esc_html__( 'Serbia', 'constant-contact-forms' ), esc_html__( 'Seychelles', 'constant-contact-forms' ), esc_html__( 'Sierra Leone', 'constant-contact-forms' ), esc_html__( 'Singapore', 'constant-contact-forms' ), esc_html__( 'Slovakia', 'constant-contact-forms' ), esc_html__( 'Slovenia', 'constant-contact-forms' ), esc_html__( 'Solomon Islands', 'constant-contact-forms' ), esc_html__( 'Somalia', 'constant-contact-forms' ), esc_html__( 'South Africa', 'constant-contact-forms' ), esc_html__( 'Spain', 'constant-contact-forms' ), esc_html__( 'Sri Lanka', 'constant-contact-forms' ), esc_html__( 'Sudan', 'constant-contact-forms' ), esc_html__( 'Sudan, South', 'constant-contact-forms' ), esc_html__( 'Suriname', 'constant-contact-forms' ), esc_html__( 'Sweden', 'constant-contact-forms' ), esc_html__( 'Switzerland', 'constant-contact-forms' ), esc_html__( 'Syria', 'constant-contact-forms' ), esc_html__( 'Taiwan', 'constant-contact-forms' ), esc_html__( 'Tajikistan', 'constant-contact-forms' ), esc_html__( 'Tanzania', 'constant-contact-forms' ), esc_html__( 'Thailand', 'constant-contact-forms' ), esc_html__( 'Togo', 'constant-contact-forms' ), esc_html__( 'Tonga', 'constant-contact-forms' ), esc_html__( 'Trinidad and Tobago', 'constant-contact-forms' ), esc_html__( 'Tunisia', 'constant-contact-forms' ), esc_html__( 'Turkey', 'constant-contact-forms' ), esc_html__( 'Turkmenistan', 'constant-contact-forms' ), esc_html__( 'Tuvalu', 'constant-contact-forms' ), esc_html__( 'Uganda', 'constant-contact-forms' ), esc_html__( 'Ukraine', 'constant-contact-forms' ), esc_html__( 'United Arab Emirates', 'constant-contact-forms' ), esc_html__( 'United Kingdom', 'constant-contact-forms' ), esc_html__( 'Uruguay', 'constant-contact-forms' ), esc_html__( 'Uzbekistan', 'constant-contact-forms' ), esc_html__( 'Vanuatu', 'constant-contact-forms' ), esc_html__( 'Vatican City', 'constant-contact-forms' ), esc_html__( 'Venezuela', 'constant-contact-forms' ), esc_html__( 'Vietnam', 'constant-contact-forms' ), esc_html__( 'Yemen', 'constant-contact-forms' ), esc_html__( 'Zambia', 'constant-contact-forms' ), esc_html__( 'Zimbabwe', 'constant-contact-forms' ), // phpcs:ignore WordPress.Arrays.ArrayDeclarationSpacing.ArrayItemNoNewLine -- This is REALLY long list. Keeping it condensed.
 	];
@@ -750,7 +750,7 @@ function constant_contact_countries_array() {
  *
  * @return bool
  */
-function constant_contact_should_hide_disable_admin_email() : bool {
+function constant_contact_should_hide_disable_admin_email(): bool {
 	$show = true;
 
 	/**
@@ -775,7 +775,7 @@ function constant_contact_should_hide_disable_admin_email() : bool {
  *
  * @since 2.14.0
  */
-function constant_contact_global_admin_css() {
+function constant_contact_global_admin_css(): void {
 	if ( ! constant_contact_get_needs_manual_reconnect() ) {
 		return;
 	}
@@ -800,7 +800,7 @@ add_action( 'admin_head', 'constant_contact_global_admin_css' );
  *
  * @return array
  */
-function constant_contact_get_date_field_order( $format = '' ) {
+function constant_contact_get_date_field_order( string $format = '' ): array {
 	if ( empty( $format ) ) {
 		$format = get_option( 'date_format' );
 	}
