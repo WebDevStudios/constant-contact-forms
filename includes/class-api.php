@@ -1459,14 +1459,7 @@ class ConstantContact_API {
 	 * @param bool $as_parts If true return an array.
 	 * @return mixed
 	 */
-	public function get_disclosure_info( $as_parts = false ) {
-		/*
-		 * [
-		 *     [name] => Business Name
-		 *     [address] => 555 Business Place Ln., Beverly Hills, CA, 90210
-		 * ]
-		 */
-
+	public function get_disclosure_info( bool $as_parts = false ) {
 		static $address_fields = [ 'address_line1', 'address_line2', 'address_line3', 'city', 'state_code', 'postal_code' ];
 
 		// Grab disclosure info from the API.
@@ -1516,6 +1509,8 @@ class ConstantContact_API {
 	/**
 	 * Generate code_verifier and code_challenge for rfc7636 PKCE.
 	 * https://datatracker.ietf.org/doc/html/rfc7636#appendix-B
+	 *
+	 * @throws Exception
 	 *
 	 * @return array [code_verifier, code_challenge].
 	 */
