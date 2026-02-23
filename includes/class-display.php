@@ -113,7 +113,7 @@ class ConstantContact_Display {
 				$hcaptcha->set_language( apply_filters( 'constant_contact_hcaptcha_lang', '' ) );
 				$hcaptcha->enqueue_scripts();
 			} elseif ( 'turnstile' === $captcha_service->get_selected_captcha_service() ) {
-				$turnstile = new ConstantContact_turnstile();
+				$turnstile = new ConstantContact_Turnstile();
 
 				/**
 				 * Filters the language code to be used with Turnstile.
