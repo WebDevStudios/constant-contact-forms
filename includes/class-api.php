@@ -379,7 +379,7 @@ class ConstantContact_API {
 	 * @throws Exception
 	 * @since 2.0.0
 	 */
-	public function refresh_token() {
+	public function refresh_token(): array {
 
 		$status = [];
 		// Force prevent any further attempts until humans interject.
@@ -541,7 +541,7 @@ class ConstantContact_API {
 	 * @throws Exception
 	 * @since 2.0.0
 	 */
-	private function exec( $url, $options ): bool {
+	private function exec( string $url, array $options ): bool {
 		$response = wp_safe_remote_post( $url, $options );
 
 		$this->last_error  = '';
@@ -1436,7 +1436,7 @@ class ConstantContact_API {
 	 * @since 2022-10-24
 	 * @return string Settings tab URL.
 	 */
-	public function get_settings_link( $settings_tab = 'ctct_options_settings_general' ) {
+	public function get_settings_link( $settings_tab = 'ctct_options_settings_general' ): string {
 
 		return add_query_arg(
 			[
@@ -1570,8 +1570,8 @@ class ConstantContact_API {
 	 * @param array $submission_data Array of form data.
 	 * @return bool
 	 */
-	private function has_note( $submission_data ) {
-		if ( ! is_array( $submission_data ) ) {
+	private function has_note( array $submission_data ): bool {
+		if ( empty( $submission_data ) ) {
 			return false;
 		}
 
@@ -1597,7 +1597,7 @@ class ConstantContact_API {
 	 * @param $submission_data
 	 * @return string
 	 */
-	private function get_note_content( $submission_data ) {
+	private function get_note_content( $submission_data ): string {
 		$note = '';
 		foreach ( $submission_data as $key => $data ) {
 			if ( str_contains( $key, 'custom_text_area' ) ) {
@@ -1616,7 +1616,7 @@ class ConstantContact_API {
 	 * @param string $type    API request type.
 	 * @param array  $request The request.
 	 */
-	public function log_missed_api_request( string $type, array $request ) {
+	public function log_missed_api_request( string $type, array $request ): void {
 		$missed_api_requests            = get_option( 'ctct_missed_api_requests', [] );
 		$missed_api_requests[][ $type ] = $request;
 		update_option( 'ctct_missed_api_requests', $missed_api_requests );
@@ -1629,7 +1629,7 @@ class ConstantContact_API {
 	 *
 	 * @since 2.3.0
 	 */
-	public function clear_missed_api_requests() {
+	public function clear_missed_api_requests(): void {
 		// @TODO Make this compatible with other interactions besides just contact adds.
 		// For now we can focus on just contact.
 
@@ -1685,7 +1685,7 @@ class ConstantContact_API {
 	 *
 	 * @param int $form_id Form ID to use.
 	 */
-	protected function api_errors_admin_email( int $form_id = 0 ) {
+	protected function api_errors_admin_email( int $form_id = 0 ): void {
 		$send_to_addresses[] = get_option( 'admin_email' );
 		if ( $form_id ) {
 			$custom = get_post_meta( $form_id, '_ctct_email_settings', true );
@@ -1734,7 +1734,7 @@ class ConstantContact_API {
 	 *
 	 * @return string
 	 */
-	public function set_email_type() {
+	public function set_email_type(): string {
 		return 'text/html';
 	}
 
