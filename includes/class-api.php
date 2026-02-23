@@ -518,17 +518,21 @@ class ConstantContact_API {
 
 	/**
 	 * Make sure we don't over-do API requests, helper method to check if we're connected.
-	 * @return boolean If connected.
+	 *
 	 * @since 1.0.0
+	 *
+	 * @throws Exception
+	 *
+	 * @return boolean If connected.
 	 */
 	public function is_connected() {
-		static $token = null;
+		$has_token = false;
 
 		if ( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) {
-			$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ? true : false;
+			$has_token = (bool) constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 		}
 
-		return $token;
+		return $has_token;
 	}
 
 	/**
