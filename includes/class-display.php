@@ -100,9 +100,31 @@ class ConstantContact_Display {
 				$recaptcha->enqueue_scripts();
 			} elseif ( 'hcaptcha' === $captcha_service->get_selected_captcha_service() ) {
 				$hcaptcha = new ConstantContact_hCaptcha();
+
+				/**
+				 * Filters the language code to be used with hCaptcha.
+				 *
+				 * See https://docs.hcaptcha.com/languages/ for available values.
+				 *
+				 * @param string $value Language code to use. Default '' (makes hCaptcha autodetect).
+				 *
+				 * @since 2.16.2
+				 */
+				$hcaptcha->set_language( apply_filters( 'constant_contact_hcaptcha_lang', '' ) );
 				$hcaptcha->enqueue_scripts();
 			} elseif ( 'turnstile' === $captcha_service->get_selected_captcha_service() ) {
-				$turnstile = new ConstantContact_turnstile();
+				$turnstile = new ConstantContact_Turnstile();
+
+				/**
+				 * Filters the language code to be used with Turnstile.
+				 *
+				 * See https://developers.cloudflare.com/turnstile/reference/supported-languages/ for available values.
+				 *
+				 * @param string $value Language code to use. Default '' (makes Turnstile autodetect).
+				 *
+				 * @since 2.16.2
+				 */
+				$turnstile->set_language( apply_filters( 'constant_contact_turnstile_lang', '' ) );
 				$turnstile->enqueue_scripts();
 			}
 		}
@@ -732,7 +754,7 @@ class ConstantContact_Display {
 	 * @return string
 	 */
 	public function build_turnstile( int $form_id ) : string {
-		$turnstile = new ConstantContact_turnstile();
+		$turnstile = new ConstantContact_Turnstile();
 
 		$turnstile->set_turnstile_keys();
 
