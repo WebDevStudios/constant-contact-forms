@@ -309,7 +309,7 @@ class ConstantContact_API {
 			return false;
 		}
 
-		$code_state = $options['_ctct_form_state_authcode'] ?: '';
+		$code_state = $options['_ctct_form_state_authcode'];
 
 		parse_str( $code_state, $parsed_code_state );
 		$parsed_code_state = array_values( $parsed_code_state );
@@ -513,9 +513,7 @@ class ConstantContact_API {
 		// Base64 encode it
 		$credentials = base64_encode( $auth );
 		// Create and set the Authorization header to use the encoded credentials
-		$headers = [ 'Authorization: Basic ' . $credentials, 'cache-control: no-cache' ];
-
-		return $headers;
+		return [ 'Authorization: Basic ' . $credentials, 'cache-control: no-cache' ];
 	}
 
 	/**
@@ -1581,7 +1579,7 @@ class ConstantContact_API {
 		$has_text_area = false;
 		foreach( $keys as $key ) {
 			if (
-				false !== strpos( $key, 'custom_text_area' ) &&
+				str_contains( $key, 'custom_text_area' ) &&
 				! empty( $submission_data[ $key ]['val'] )
 			) {
 				$has_text_area = true;
@@ -1602,7 +1600,7 @@ class ConstantContact_API {
 	private function get_note_content( $submission_data ) {
 		$note = '';
 		foreach ( $submission_data as $key => $data ) {
-			if ( false !== strpos( $key, 'custom_text_area' ) ) {
+			if ( str_contains( $key, 'custom_text_area' ) ) {
 				$note .= $data['val'];
 				break;
 			}
