@@ -60,7 +60,7 @@ class ConstantContact_hCaptcha {
 	 * @var string
 	 * @since 2.9.0
 	 */
-	protected string $language;
+	protected string $language = '';
 
 	/**
 	 * Mode to use.

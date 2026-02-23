@@ -83,7 +83,7 @@ class ConstantContact_CaptchaService {
 				return ConstantContact_hCaptcha::has_hcaptcha_keys();
 
 			case 'turnstile' :
-				return ConstantContact_turnstile::has_turnstile_keys();
+				return ConstantContact_Turnstile::has_turnstile_keys();
 
 			default:
 				return false;
@@ -117,7 +117,7 @@ class ConstantContact_CaptchaService {
 
 		$has_recaptcha_keys = ConstantContact_reCAPTCHA::has_recaptcha_keys();
 		$has_hcaptcha_keys  = ConstantContact_hCaptcha::has_hcaptcha_keys();
-		$has_turnstile_keys = ConstantContact_turnstile::has_turnstile_keys();
+		$has_turnstile_keys = ConstantContact_Turnstile::has_turnstile_keys();
 
 		// If the Google reCAPTCHA Site Key and Secret Key are set, set the Captcha Service to Google reCAPTCHA.
 		if ( ! empty( $has_recaptcha_keys ) ) {

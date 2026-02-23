@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
 Tested up to:      6.9
-Stable tag:        2.16.1
+Stable tag:        2.16.2
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      8.1
@@ -48,6 +48,10 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.16.2 =
+* Fixed: Errors regarding Captcha services
+* Fixed: Warnings about array offsets.
 
 = 2.16.1 =
 * Updated: Amended some approaches in authentication process after previous release caused issues.
@@ -146,7 +150,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Updated: Notice regarding list management details.
 
 == Upgrade Notice ==
-* Authentication process edits after 2.16.0 release.
+* Errors and warnings for Captcha and general code.
 
 == Frequently Asked Questions ==
 
