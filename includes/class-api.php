@@ -1438,6 +1438,14 @@ class ConstantContact_API {
 			return false;
 		}
 		$options = get_option('ctct_options_settings');
+		if ( empty( $options ) ) {
+			return false;
+		}
+
+		if ( empty( $options['_ctct_form_state_authcode'] ) ) {
+			return false;
+		}
+
 		$code_state = $options['_ctct_form_state_authcode'];
 
 		parse_str( $code_state, $parsed_code_state );
