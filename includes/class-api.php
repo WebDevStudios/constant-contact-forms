@@ -289,7 +289,9 @@ class ConstantContact_API {
 	 * Make this call by passing in the code present when the account owner is redirected back to you.
 	 * The response will contain an 'access_token' and 'refresh_token'
 	 *
-	 * @param array of get parameters passed to redirect URL
+	 * @throws Exception
+	 *
+	 * @return bool
 	 */
 	public function acquire_access_token(): bool {
 
@@ -375,9 +377,11 @@ class ConstantContact_API {
 
 	/**
 	 * Refresh the access token.
-	 * @return array
+	 *
 	 * @throws Exception
 	 * @since 2.0.0
+	 *
+	 * @return array
 	 */
 	public function refresh_token(): array {
 
@@ -400,7 +404,6 @@ class ConstantContact_API {
 
 		constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token triggered' );
 
-		// Create full request URL
 		$body = [
 			'client_id'     => $this->client_api_key,
 			'refresh_token' => constant_contact()->get_connect()->e_get( '_ctct_refresh_token' ),
@@ -438,10 +441,12 @@ class ConstantContact_API {
 	/**
 	 * Check if our current access token is expired.
 	 * Based on access token issued timestamp + expires in timestamp and current time.
-	 * @return bool
+	 *
 	 * @since 2.2.0
+	 *
+	 * @return bool
 	 */
-	private function access_token_maybe_expired() {
+	private function access_token_maybe_expired(): bool {
 
 		$issued_time = get_option( 'ctct_access_token_timestamp', '' );
 		if ( empty( $issued_time ) ) {
@@ -611,6 +616,8 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @return array Current connected ctct account info.
 	 */
 	public function get_account_info() {
@@ -672,9 +679,11 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @return array Current connect ctct account contacts.
 	 */
-	public function get_contacts() {
+	public function get_contacts(): array {
 		if ( ! $this->is_connected() ) {
 			return [];
 		}
@@ -725,9 +734,12 @@ class ConstantContact_API {
 	 * @param array $new_contact New contact data.
 	 * @param int   $form_id     ID of the form being processed.
 	 *
-	 * @return array Current connect contact.
+	 * @throws Exception.
+	 *
 	 * @since 1.3.0 Added $form_id parameter.
 	 * @since 1.0.0
+	 *
+	 * @return array Current connect contact.
 	 */
 	public function add_contact( $new_contact = [], $form_id = 0 ) {
 
@@ -1047,6 +1059,8 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param bool $force_skip_cache Whether or not to skip cache.
 	 * @return array Current connect ctct lists.
 	 */
@@ -1117,6 +1131,8 @@ class ConstantContact_API {
 	 *
 	 * @param string $old_ids_string   Comma separated list of old (v2 API) list ids.
 	 * @param bool   $force_skip_cache Whether or not to skip cache.
+	 *
+	 * @throws Exception
 	 *
 	 * @return array API v2 to v3 List ID cross references.
 	 */
@@ -1314,6 +1330,8 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array $updated_list api data for list.
 	 * @return array current connect ctct list
 	 */
@@ -1370,6 +1388,8 @@ class ConstantContact_API {
 	 * Delete List from the connected CTCT account.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @throws Exception
 	 *
 	 * @param array $updated_list API data for list.
 	 * @return mixed Current connect ctct list.
