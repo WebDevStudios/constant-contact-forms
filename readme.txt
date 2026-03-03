@@ -12,9 +12,7 @@ The official Constant Contact plugin adds a contact form to your WordPress site 
 
 == Description ==
 
-Please note: Version 2.0.0 of this plugin is a significant release, including both security and feature updates. After updating to version 2.0.0, you will be required to reconnect the plugin to your Constant Contact account & reselect the lists associated with your forms.
-
-##Work smarter, not harder. The Constant Contact Way
+## Work smarter, not harder. The Constant Contact Way
 Create branded emails, build a website, sell online, and make it easy for people to find you—all from one place.
 
 https://www.youtube.com/watch?v=Qqb0_zcRKnM
@@ -118,42 +116,6 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: Dedicated color picker for form title display.
 * Added: Ability to display form horizontally when using just the email field.
 
-= 2.12.0 =
-* Fixed: Fatal errors around list creation within WordPress dashboard.
-* Fixed: Touchups and style bugs around Forms block.
-* Fixed: Require list selection if site has a connected account but no list is chosen for form.
-* Added: Ability to select the heading level when showing form title.
-* Updated: Touched up styles and wording in form editor.
-* Updated: Adjusted Google reCAPTCHA version 3 token timing. Assigned upon submit instead of pageload, to help avoid 2 minute expiration issues.
-
-= 2.11.3 =
-* Fixed: Email notifications being sent even when toggled off.
-* Updated: Wording in various metaboxes and some fuzzy/blurry icons.
-
-= 2.11.2 =
-* Fixed: PHP errors regarding passed variable types expecting array but getting string
-* Fixed: Checkbox widths with TwentyTwentyOne theme.
-
-= 2.11.1 =
-* Updated: restored missed php file that was causing fatal errors.
-
-= 2.11.0 =
-* Added: hCaptcha data to Site Health Panel
-* Updated: Lots of internal code cleanup
-* Updated: Removed old Constant Contact SDK code.
-* Updated: Hide disclosure text below form if not connected to Constant Contact.
-* Updated: Internal, switch to wp_admin_notice() usage.
-
-= 2.10.0 =
-* Added: Use current displayed language with Google reCAPTCHA when using WPML or PolyLang.
-* Fixed: Issues around language specifications for Google reCAPTCHA.
-* Fixed: WordPress notices around textdomain loading.
-* Fixed: Added aria-label to disclosure external links for better ADA compliance
-* Updated: Amended processes regarding failing API communications when human intervention needed. Includes preventing excessive attempts to refresh tokens in states where the attempt will fail.
-* Updated: Increased notification chances if human intervention needed.
-* Updated: Register list post type for Constant Contact Lists even if not yet connected.
-* Updated: Notice regarding list management details.
-
 == Upgrade Notice ==
 *
 
@@ -183,5 +145,8 @@ You can add this to your active theme or custom plugin: `add_filter( 'constant_c
 #### Which account level access is needed to connect my WordPress account to Constant Contact?
 You will need to make the connection to Constant Contact using the credentials of the account owner. Campaign manager credentials will not have enough access.
 
-### Error: Please select at least one list to subscribe to.
+#### Error: Please select at least one list to subscribe to.
 Some users are experiencing errors when upgrading from an older version of the plugin. If you are receiving an error "Please select at least one list to subscribe to" on your form submissions we recommend "Sync Lists with Constant Contact", this can be found in your admin dashboard Contact Form > Lists. If problem still persists we recommend recreating the form from scratch.
+
+#### Version 2.0.x
+Version 2.0.0 of this plugin is a significant release, including both security and feature updates. After updating to version 2.0.0, you will be required to reconnect the plugin to your Constant Contact account & reselect the lists associated with your forms.
