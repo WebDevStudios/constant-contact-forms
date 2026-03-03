@@ -382,16 +382,16 @@ class ConstantContact_Admin {
 		$table_list_ids = is_array( $table_list_ids ) ? $table_list_ids : [ $table_list_ids ];
 
 		$disabled_for_form = false;
-		$locations = [];
-		$form_status = get_post_meta( $post_id, '_ctct_disable_emails_for_form', true );
+		$locations         = [];
+		$form_status       = get_post_meta( $post_id, '_ctct_disable_emails_for_form', true );
 		if ( 'on' === $form_status ) {
 			$disabled_for_form = true;
-			$locations[] = esc_html__( 'Form settings', 'constant-contact-forms' );
+			$locations[]       = esc_html__( 'Form settings', 'constant-contact-forms' );
 		}
 		$settings_status = constant_contact_get_option( '_ctct_disable_email_notifications' );
 		if ( 'on' === $settings_status ) {
 			$disabled_for_form = true;
-			$locations[] = esc_html__( 'Plugin settings', 'constant-contact-forms' );
+			$locations[]       = esc_html__( 'Plugin settings', 'constant-contact-forms' );
 		}
 
 		$emailedto = '';
