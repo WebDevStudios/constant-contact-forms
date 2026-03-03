@@ -461,7 +461,7 @@ class ConstantContact_Admin {
 
 				if ( ! empty( $emailedto ) ) {
 					printf(
-						esc_html__( 'Emails sent to %1$s', 'constant-contact-forms' ),
+						esc_html__( 'Sends to %1$s', 'constant-contact-forms' ),
 						$emailedto
 					);
 				} else {
