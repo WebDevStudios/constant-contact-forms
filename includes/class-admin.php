@@ -351,9 +351,10 @@ class ConstantContact_Admin {
 	 */
 	public function set_custom_columns( array $columns ) : array {
 
-		$columns['description'] = esc_html__( 'Description', 'constant-contact-forms' );
-		$columns['shortcodes']  = esc_html__( 'Shortcode', 'constant-contact-forms' );
-		$columns['ctct_list']   = esc_html__( 'Associated list', 'constant-contact-forms' );
+		$columns['description']  = esc_html__( 'Description', 'constant-contact-forms' );
+		$columns['shortcodes']   = esc_html__( 'Shortcode', 'constant-contact-forms' );
+		$columns['ctct_list']    = esc_html__( 'Associated list', 'constant-contact-forms' );
+		$columns['email_status'] = esc_html__( 'Email status', 'constant-contact-forms' );
 
 		return $columns;
 	}
@@ -379,6 +380,24 @@ class ConstantContact_Admin {
 
 		$table_list_ids = get_post_meta( $post_id, '_ctct_list', true );
 		$table_list_ids = is_array( $table_list_ids ) ? $table_list_ids : [ $table_list_ids ];
+
+		$disabled_for_form = false;
+		$locations = [];
+		$form_status = get_post_meta( $post_id, '_ctct_disable_emails_for_form', true );
+		if ( 'on' === $form_status ) {
+			$disabled_for_form = true;
+			$locations[] = esc_html__( 'Form settings', 'constant-contact-forms' );
+		}
+		$settings_status = constant_contact_get_option( '_ctct_disable_email_notifications' );
+		if ( 'on' === $settings_status ) {
+			$disabled_for_form = true;
+			$locations[] = esc_html__( 'Plugin settings', 'constant-contact-forms' );
+		}
+
+		$emailedto = '';
+		if ( empty( $form_status ) && empty( $settings_status ) ) {
+			$emailedto = constant_contact()->get_mail()->get_email( $post_id );
+		}
 
 		switch ( $column ) {
 			case 'shortcodes':
@@ -423,6 +442,31 @@ class ConstantContact_Admin {
 				}
 
 				echo wp_kses_post( implode( ', ', $list_html ) );
+				break;
+			case 'email_status':
+
+				if ( $disabled_for_form ) {
+					esc_html_e( 'Disabled', 'constant-contact-forms' );
+					echo '<br/>';
+					echo esc_html(
+						sprintf(
+							'Locations: %1$s',
+							implode( ', ', $locations )
+						)
+					);
+				}
+
+				if ( ! empty( $emailedto ) ) {
+					printf(
+						esc_html__( 'Emails sent to %1$s', 'constant-contact-forms' ),
+						$emailedto
+					);
+				} else {
+					if ( ! $disabled_for_form ) {
+						esc_html_e( 'Sends to site admin email.', 'constant-contact-forms' );
+					}
+				}
+
 				break;
 		}
 	}
