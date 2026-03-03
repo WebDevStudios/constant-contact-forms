@@ -49,6 +49,11 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= 2.17.0 =
+* Added: Hide UI of non-selected Captcha services until selected for usage.
+* Added: Details regarding list status in Constant Contact account, to our forms list.
+* Updated: Minor UI details around accessibility, wording, capitalization, visual spacing.
+
 = 2.16.2 =
 * Fixed: Errors regarding Captcha services
 * Fixed: Warnings about array offsets.
@@ -150,7 +155,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Updated: Notice regarding list management details.
 
 == Upgrade Notice ==
-* Errors and warnings for Captcha and general code.
+*
 
 == Frequently Asked Questions ==
 
