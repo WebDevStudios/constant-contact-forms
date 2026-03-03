@@ -401,13 +401,16 @@ class ConstantContact_Admin {
 
 		switch ( $column ) {
 			case 'shortcodes':
-				echo '<div class="ctct-shortcode-wrap"><input class="ctct-shortcode" type="text" value="';
-				echo esc_html( '[ctct form="' . $post_id . '" show_title="false"]' );
-				echo '" readonly="readonly">';
-				echo '<button type="button" class="button" data-copied="' . esc_html__( 'Copied!', 'constant-contact-forms' ) . '">';
-				echo esc_html__( 'Copy', 'constant-contact-forms' );
-				echo '</button>';
-				echo '</div>';
+				$tmpl = '<div class="ctct-shortcode-wrap">
+					<button type="button" class="button" data-copied="%1$s">%2$s</button>
+					<input class="ctct-shortcode" type="text" value="%3$s" readonly>
+					</div>';
+				printf(
+					$tmpl,
+					esc_attr__( 'Copied!', 'constant-contact-forms' ),
+					esc_html__( 'Copy', 'constant-contact-forms' ),
+					esc_attr( '[ctct form="' . $post_id . '" show_title="false"]' )
+				);
 				break;
 			case 'description':
 				echo wp_kses_post( wpautop( get_post_meta( $post_id, '_ctct_description', true ) ) );
