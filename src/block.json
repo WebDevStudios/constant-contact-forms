@@ -7,6 +7,9 @@
   "category": "widgets",
   "icon": "index-card",
   "description": "Display a single Constant Contact form.",
+  "keywords": [
+    "form"
+  ],
   "example": {},
   "supports": {
     "html": false
