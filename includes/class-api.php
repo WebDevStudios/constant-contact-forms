@@ -1611,9 +1611,9 @@ class ConstantContact_API {
 		if ( ! is_wp_error( $response ) ) {
 
 			$data            = json_decode( $response['body'], true );
-			$json_last_error = $this->get_json_error_message( json_last_error() );
-			if ( ! empty( $json_last_error ) ) {
-				constant_contact_maybe_log_it( 'JSON Error: ', $json_last_error );
+			$json_last_error = json_last_error();
+			if ( JSON_ERROR_NONE !== $json_last_error ) {
+				constant_contact_maybe_log_it( 'JSON Error: ', json_last_error_msg() );
 			}
 
 			// check if the body contains error
@@ -1877,36 +1877,6 @@ class ConstantContact_API {
 	 */
 	public function set_email_type() {
 		return 'text/html';
-	}
-
-	/**
-	 * Set a message for potential JSON errors with our API request.
-	 *
-	 * @since 2.16.0
-	 *
-	 * @param $error_code JSON Error
-	 *
-	 * @return string
-	 */
-	private function get_json_error_message( $error_code ) {
-		$msg = '';
-		switch ( json_last_error() ) {
-			case JSON_ERROR_NONE:
-				break;
-			case JSON_ERROR_CTRL_CHAR:
-				$msg .= 'Unexpected control character found';
-				break;
-			case JSON_ERROR_SYNTAX:
-				$msg .= 'Syntax error, malformed JSON';
-				break;
-			case JSON_ERROR_UTF8:
-				$msg .= 'Malformed UTF-8 characters, possibly incorrectly encoded';
-				break;
-			default:
-				break;
-		}
-
-		return $msg;
 	}
 }
 
