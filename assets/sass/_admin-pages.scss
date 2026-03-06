@@ -135,6 +135,8 @@
 
   .ctct-shortcode-wrap{
     display: flex;
+    flex-direction: column;
+    gap: 8px;
     width: 100%;
     background-color: variables.$color-white;
     border: 1px solid variables.$color-silver;
@@ -170,7 +172,6 @@
     }
 
     button{
-      border-radius: variables.$radius;
       z-index: 1;
     }
   }
