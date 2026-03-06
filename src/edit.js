@@ -67,10 +67,17 @@ export default function Edit(props) {
 					</div>
 					<div className="ctct-block-container--selection">
 						<div className="ctct-block-container--component">
-							<SelectControl label={__('Display Form Title', 'constant-contact-forms')} value={displayTitle} options={[
-								{label: __('Display Title', 'constant-contact-forms'), value: 'true'},
-								{label: __('Hide Title', 'constant-contact-forms'), value: 'false'},
-							]} onChange={(displayTitle) => setAttributes({displayTitle})} />
+							<SelectControl
+								label={__('Display Form Title', 'constant-contact-forms')}
+								value={displayTitle}
+								options={[
+									{label: __('Display Title', 'constant-contact-forms'), value: 'true'},
+									{label: __('Hide Title', 'constant-contact-forms'), value: 'false'},
+								]}
+								onChange={(displayTitle) => setAttributes({displayTitle})}
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
+							/>
 						</div>
 					</div>
 					<div className="ctct-block-container--selection">
@@ -81,6 +88,8 @@ export default function Edit(props) {
 								value={selectedForm ?? ''}
 								options={formEntryObjs}
 								onChange={(selectedForm) => setAttributes({selectedForm})}
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
 							/>
 						</div>
 					</div>
