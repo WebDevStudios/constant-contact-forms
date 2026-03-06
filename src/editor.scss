@@ -12,7 +12,6 @@
   flex-direction: column;
   text-align: center;
   align-items: center;
-  border-radius: 5px;
   overflow: hidden;
   background-color: #1756ec;
   padding: 40px;
@@ -24,7 +23,6 @@
 }
 
 .ctct-block-container {
-
   &--component {
 	max-width: 400px;
 	width: 100%;
@@ -38,10 +36,10 @@
   }
 
   &--header {
-	margin: 0 0 10px;
+	margin: 0;
 	width: 100%;
 	img {
-	  max-width: 280px;
+	  max-width: 320px;
 	  display: block;
 	}
   }
@@ -50,11 +48,9 @@
 	width: 75%;
 	padding: 20px;
 	background-color: rgba(255, 255, 255, 0.1);
-	border-radius: 4px;
 	margin: 20px 0 0;
 
 	small {
-	  opacity: 0.8;
 	  font-size: 14px;
 	  font-weight: 600;
 	  margin: 0 0 10px;
