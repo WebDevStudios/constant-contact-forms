@@ -251,12 +251,27 @@ class ConstantContact_Connect {
 				<?php
 			endif;
 			// phpcs:enable WordPress.Security.NonceVerification
+
+			$env_types                      = [ 'local', 'development', 'staging' ];
+			$duplicate_account_notification = '';
+			if ( in_array( wp_get_environment_type(), $env_types, true ) ) {
+				$duplicate_account_notification = esc_html__(
+					'Connecting a matching Constant Contact user already used on a different install will invalidate existing authentications and API tokens. Please consider connecting a second account if you need to do testing.', 'constant-contact-forms'
+				);
+			}
 			?>
 
 			<h2><?php esc_html_e( 'Connect Now', 'constant-contact-forms' ); ?></h2>
 			<p class="ctct-description">
 				<?php esc_html_e( "Get the most out of this plugin &mdash; use it with an active Constant Contact account. By connecting to an account, you'll be able to engage visitors through email marketing and turn more of them into customers.", 'constant-contact-forms' ); ?>
 			</p>
+			<?php if ( $duplicate_account_notification ) : ?>
+				<p class="ctct-connection-notice">
+					<strong>
+					<?php echo $duplicate_account_notification; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped. ?>
+					</strong>
+				</p>
+			<?php endif; ?>
 			<div class="ctct-call-to-actions">
 				<div class="ctct-call-to-actions--item connect-account">
 					<div>
