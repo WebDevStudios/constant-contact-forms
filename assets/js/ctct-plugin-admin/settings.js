@@ -6,7 +6,7 @@ window.ctctsettings = {};
 	 * @constructor
 	 *
 	 * @author Constant Contact
-	 * @since 1.0.0
+	 * @since 2.17.0
 	 */
 	that.init = () => {
 		that.cache();
@@ -17,7 +17,7 @@ window.ctctsettings = {};
 	 * Cache DOM elements.
 	 *
 	 * @author Constant Contact
-	 * @since 1.0.0
+	 * @since 2.17.0
 	 */
 	that.cache = () => {
 		that.cache = {
@@ -33,7 +33,7 @@ window.ctctsettings = {};
 	 * Attach callbacks to events.
 	 *
 	 * @author Constant Contact
-	 * @since 1.0.0
+	 * @since 2.17.0
 	 */
 	that.bindEvents = () => {
 		const service = document.querySelector(that.cache.service);
