@@ -52,6 +52,8 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: Details regarding list status in Constant Contact account, to our forms list.
 * Added: Email status or address destination column to Forms list table.
 * Added: Messaging regarding user accounts on connect screen if a non-production install.
+* Fixed: Issues around website field type not saving to custom field
+* Updated: Moved custom field cap to 50 to match allowed contact field limit.
 * Updated: Minor UI details around accessibility, wording, capitalization, visual spacing.
 
 = 2.16.2 =
@@ -119,7 +121,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: Ability to display form horizontally when using just the email field.
 
 == Upgrade Notice ==
-*
+* Various UI enhancements in builder and settings, bug fixes, list/email statuses for forms, messaging regarding non-production URLs with connections.
 
 == Frequently Asked Questions ==
 
