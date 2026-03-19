@@ -16,7 +16,7 @@
  * @return bool
  * @since 1.2.2
  */
-function constant_contact_maybe_display_review_notification() : bool {
+function constant_contact_maybe_display_review_notification(): bool {
 
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;
@@ -95,7 +95,7 @@ function constant_contact_maybe_display_review_notification() : bool {
  * @return bool
  * @since 1.6.0
  */
-function constant_contact_maybe_display_exceptions_notice() : bool {
+function constant_contact_maybe_display_exceptions_notice(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;
 	}
@@ -110,7 +110,7 @@ function constant_contact_maybe_display_exceptions_notice() : bool {
  * @return bool Whether to display the deleted forms notice.
  * @since  1.8.0
  */
-function constant_contact_maybe_display_deleted_forms_notice() : bool {
+function constant_contact_maybe_display_deleted_forms_notice(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;
 	}
@@ -153,7 +153,7 @@ function constant_contact_forms_maybe_set_exception_notice( $e = '' ) {
  * @return bool
  * @since 1.14.0
  */
-function constant_contact_maybe_display_api3_upgrade_notice() : bool {
+function constant_contact_maybe_display_api3_upgrade_notice(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;
 	}
@@ -168,7 +168,7 @@ function constant_contact_maybe_display_api3_upgrade_notice() : bool {
  * @return bool|int
  * @since 2.0.0
  */
-function constant_contact_maybe_display_api3_upgraded_notice() : bool {
+function constant_contact_maybe_display_api3_upgraded_notice(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;
 	}
@@ -190,7 +190,7 @@ function constant_contact_maybe_display_api3_upgraded_notice() : bool {
  * @return bool
  * @since 2.2.0
  */
-function constant_contact_maybe_display_disconnect_reconnect_notice() : bool {
+function constant_contact_maybe_display_disconnect_reconnect_notice(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;
 	}
@@ -203,7 +203,7 @@ function constant_contact_maybe_display_disconnect_reconnect_notice() : bool {
  * @return bool
  * @since 2.2.0
  */
-function constant_contact_maybe_show_cron_notification() : bool {
+function constant_contact_maybe_show_cron_notification(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;
 	}
@@ -219,7 +219,7 @@ function constant_contact_maybe_show_cron_notification() : bool {
 	return false;
 }
 
-function constant_contact_maybe_show_update_available_notification() : bool {
+function constant_contact_maybe_show_update_available_notification(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;
 	}
