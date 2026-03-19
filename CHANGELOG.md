@@ -1,3 +1,45 @@
+= 2.16.0 =
+
+* Added: Cloudflare Turnstile support
+* Fixed: PHP warnings about name values from connected Constant Contact account.
+* Updated: Revised API refresh token process to try and take a more active approach instead of just WP Cron based.
+* Updated: Logging messages and data for troubleshooting API issues.
+* Updated: Default language values for CAPTCHA services. Let the service autodetect instead of force English.
+* Updated: Moved messaging about DISABLE_WP_CRON out of a notification and into Constant Contact Forms area top bar.
+
+= 2.15.2 =
+
+* Fixed: Fatal errors regarding strings and addition vs concatenation.
+
+= 2.15.1 =
+
+* Fixed: Compatibility issues around Monolog logger and other plugins using different versions.
+* Fixed: PHP notice around custom fields if not managing to connect.
+* Fixed: CMB2 Attached Post potential conflict with other plugins.
+* Updated: aria-label wording for better compliance.
+
+= 2.15.0 =
+
+* Added: Moves PHP minimum requirement to version 8.1 or higher.
+* Added: Anniversary and birthday form fields.
+* Added: Max length limit to Form builder and our custom field inputs.
+* Added: List display of existing custom fields from your Constant Contact Accout at bottom of form builder.
+* Added: Reminder to set a list for a form, when connected.
+* Fixed: Label style application for some positions.
+* Updated: Adjusted logic regarding version 2.0.0 "major upgrade" admin notification.
+* Updated: Show messaging in "Opt in" setting tab when not connected.
+* Updated: Log library version.
+* Updated: Improved log timestamp formats to make more visual sense.
+* Updated: Removed internationalization files to rely on wordpress.org translations.
+
+= 2.14.2 =
+
+* Fixed: errors regarding Google reCAPTCHA v3 javascript variables.
+
+= 2.14.1 =
+
+* Fixed: Dashicon getting escaped instead of displaying, in custom menu spot.
+
 = 2.14.0 =
 
 * Fixed: Issues with Google reCAPTCHA version 3 and forms submitted without page refresh.

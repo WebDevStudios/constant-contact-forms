@@ -1,6 +1,6 @@
 {
   "name": "constant-contact-forms",
-  "version": "2.16.0",
+  "version": "2.17.0",
   "description": "",
   "main": "build/index.js",
   "engines": {
@@ -46,14 +46,17 @@
   ],
   "homepage": "https://github.com/WebDevStudios/constant-contact-forms#readme",
   "devDependencies": {
-    "@wordpress/prettier-config": "^4.37.0",
-    "@wordpress/scripts": "^31.2.0",
-    "autoprefixer": "^10.4.23",
+    "@wordpress/prettier-config": "^4.41.0",
+    "@wordpress/scripts": "^31.6.0",
+    "autoprefixer": "^10.4.27",
     "browser-sync": "^3.0.4",
     "browserslist": "^4.28.1",
     "npm-run-all": "^4.1.5",
-    "sass": "^1.97.1",
+    "sass": "^1.97.3",
     "stylelint-config-prettier": "^9.0.5",
     "wp-pot-cli": "^1.5.0"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.28.6"
   }
 }

@@ -358,7 +358,7 @@ class ConstantContact_Settings {
 					'name'       => esc_html__( 'Disable e-mail notifications', 'constant-contact-forms' ),
 					'desc'       => sprintf(
 					/* Translators: Placeholder is for a <br /> HTML tag. */
-						esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under Wordpress "General Settings".', 'constant-contact-forms' ),
+						esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under WordPress "General Settings".', 'constant-contact-forms' ),
 						'<br/>'
 					),
 					'id'         => '_ctct_disable_email_notifications',
@@ -576,7 +576,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_recaptcha = sprintf(
-			'<h2>%s</h2>',
+			'<div id="ctct-recaptcha"><h2>%s</h2>',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' )
 		);
 
@@ -633,11 +633,12 @@ class ConstantContact_Settings {
 				'attributes'      => [
 					'maxlength' => 50,
 				],
+				'after_row'       => '</div>',
 			]
 		);
 
 		$before_hcaptcha = sprintf(
-			'<h2>%s</h2>',
+			'<div id="ctct-hcaptcha"><h2>%s</h2>',
 			esc_html__( 'hCaptcha', 'constant-contact-forms' )
 		);
 
@@ -681,11 +682,12 @@ class ConstantContact_Settings {
 				'attributes'      => [
 					'maxlength' => 50,
 				],
+				'after_row'       => '</div>',
 			]
 		);
 
 		$before_cf_turnstile = sprintf(
-			'<h2>%s</h2>',
+			'<div id="ctct-turnstile"><h2>%s</h2>',
 			esc_html__( 'Cloudflare Turnstile', 'constant-contact-forms' )
 		);
 
@@ -729,6 +731,7 @@ class ConstantContact_Settings {
 				'attributes'      => [
 					'maxlength' => 50,
 				],
+				'after_row'       => '</div>',
 			]
 		);
 

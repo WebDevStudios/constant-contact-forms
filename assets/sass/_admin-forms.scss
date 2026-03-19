@@ -149,12 +149,6 @@ body.post-type-ctct_forms #titlediv #title {
 
 	button {
 
-		&.cmb-add-group-row {
-			background: variables.$color-cmb-button-light-blue !important;
-			border-color: variables.$color-cmb-button-blue !important;
-			color: variables.$color-white !important;
-		}
-
 		&.cmb-remove-group-row {
 			background: variables.$color-cmb-button-pale-yellow !important;
 			display: none;
@@ -266,12 +260,19 @@ body.post-type-ctct_forms #titlediv #title {
 				padding-bottom: 0;
 			}
 		}
+		.cmb2-id--ctct-form-padding-top,
+		.cmb2-id--ctct-form-padding-left,
+		.cmb2-id--ctct-form-padding-bottom,
+		.cmb2-id--ctct-form-padding-right {
+			padding-top: 0;
+		}
 	}
 
 	.cmb2-id--ctct-generated-shortcode {
 
-		> .cmb-th {
-			display: none;
+		> .cmb-th label {
+			font-weight: normal;
+			font-style: italic;
 		}
 	}
 }

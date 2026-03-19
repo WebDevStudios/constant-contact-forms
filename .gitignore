@@ -12,6 +12,7 @@ plugin-config.js
 /logs
 *.log
 /node_modules/
+/build/
 
 # PHPStorm
 .idea
@@ -31,3 +32,10 @@ plugin-config.js
 !*.xcworkspace/contents.xcworkspacedata
 /*.gcno
 **/xcshareddata/WorkspaceSettings.xcsettings
+
+## Build copies
+assets/js/ctct-plugin*.js
+assets/js/ctct-plugin*.min.js
+assets/js/ctct-plugin*.min.js.map
+
+assets/css/*

@@ -1096,7 +1096,7 @@ class ConstantContact_API {
 				case 'website':
 				case 'custom':
 					// Dont overload custom fields.
-					if ( $count > 25 ) {
+					if ( $count > 50 ) {
 						break;
 					}
 
@@ -1106,8 +1106,13 @@ class ConstantContact_API {
 					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 					$custom_field        = ( $original_field_data[ $original ] );
 					$new_custom_field    = '';
+					// @todo Fix me.
 					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
 						$custom_field_name .= $custom_field['name'] . ': ';
+					}
+
+					if ( 'website' === $key ) {
+						$custom_field['name'] = 'User ' . $custom_field['name'];
 					}
 
 					if ( ! $this->cc()->custom_field_exists( $custom_field['name'] ) ) {
@@ -1453,7 +1458,7 @@ class ConstantContact_API {
 
 		if ( empty( $parsed_code_state[0] ) || empty( $parsed_code_state[1] ) ) {
 			$this->status_code = 0;
-			$this->last_error  = 'Invalid state or auth code!';
+			$this->last_error  = 'Invalid state or auth code';
 			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
 			return false;
 		} else {
@@ -1611,9 +1616,9 @@ class ConstantContact_API {
 		if ( ! is_wp_error( $response ) ) {
 
 			$data            = json_decode( $response['body'], true );
-			$json_last_error = $this->get_json_error_message( json_last_error() );
-			if ( ! empty( $json_last_error ) ) {
-				constant_contact_maybe_log_it( 'JSON Error: ', $json_last_error );
+			$json_last_error = json_last_error();
+			if ( JSON_ERROR_NONE !== $json_last_error ) {
+				constant_contact_maybe_log_it( 'JSON Error: ', json_last_error_msg() );
 			}
 
 			// check if the body contains error
@@ -1877,36 +1882,6 @@ class ConstantContact_API {
 	 */
 	public function set_email_type() {
 		return 'text/html';
-	}
-
-	/**
-	 * Set a message for potential JSON errors with our API request.
-	 *
-	 * @since 2.16.0
-	 *
-	 * @param $error_code JSON Error
-	 *
-	 * @return string
-	 */
-	private function get_json_error_message( $error_code ) {
-		$msg = '';
-		switch ( json_last_error() ) {
-			case JSON_ERROR_NONE:
-				break;
-			case JSON_ERROR_CTRL_CHAR:
-				$msg .= 'Unexpected control character found';
-				break;
-			case JSON_ERROR_SYNTAX:
-				$msg .= 'Syntax error, malformed JSON';
-				break;
-			case JSON_ERROR_UTF8:
-				$msg .= 'Malformed UTF-8 characters, possibly incorrectly encoded';
-				break;
-			default:
-				break;
-		}
-
-		return $msg;
 	}
 }
 

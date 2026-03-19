@@ -351,9 +351,10 @@ class ConstantContact_Admin {
 	 */
 	public function set_custom_columns( array $columns ) : array {
 
-		$columns['description'] = esc_html__( 'Description', 'constant-contact-forms' );
-		$columns['shortcodes']  = esc_html__( 'Shortcode', 'constant-contact-forms' );
-		$columns['ctct_list']   = esc_html__( 'Associated list', 'constant-contact-forms' );
+		$columns['description']  = esc_html__( 'Description', 'constant-contact-forms' );
+		$columns['shortcodes']   = esc_html__( 'Shortcode', 'constant-contact-forms' );
+		$columns['ctct_list']    = esc_html__( 'Associated list', 'constant-contact-forms' );
+		$columns['email_status'] = esc_html__( 'Email status', 'constant-contact-forms' );
 
 		return $columns;
 	}
@@ -380,15 +381,36 @@ class ConstantContact_Admin {
 		$table_list_ids = get_post_meta( $post_id, '_ctct_list', true );
 		$table_list_ids = is_array( $table_list_ids ) ? $table_list_ids : [ $table_list_ids ];
 
+		$disabled_for_form = false;
+		$locations         = [];
+		$form_status       = get_post_meta( $post_id, '_ctct_disable_emails_for_form', true );
+		if ( 'on' === $form_status ) {
+			$disabled_for_form = true;
+			$locations[]       = esc_html__( 'Form settings', 'constant-contact-forms' );
+		}
+		$settings_status = constant_contact_get_option( '_ctct_disable_email_notifications' );
+		if ( 'on' === $settings_status ) {
+			$disabled_for_form = true;
+			$locations[]       = esc_html__( 'Plugin settings', 'constant-contact-forms' );
+		}
+
+		$emailedto = '';
+		if ( empty( $form_status ) && empty( $settings_status ) ) {
+			$emailedto = constant_contact()->get_mail()->get_email( $post_id );
+		}
+
 		switch ( $column ) {
 			case 'shortcodes':
-				echo '<div class="ctct-shortcode-wrap"><input class="ctct-shortcode" type="text" value="';
-				echo esc_html( '[ctct form="' . $post_id . '" show_title="false"]' );
-				echo '" readonly="readonly">';
-				echo '<button type="button" class="button" data-copied="' . esc_html__( 'Copied!', 'constant-contact-forms' ) . '">';
-				echo esc_html__( 'Copy', 'constant-contact-forms' );
-				echo '</button>';
-				echo '</div>';
+				$tmpl = '<div class="ctct-shortcode-wrap">
+					<button type="button" class="button" data-copied="%1$s">%2$s</button>
+					<input class="ctct-shortcode" type="text" value="%3$s" readonly>
+					</div>';
+				printf(
+					$tmpl,
+					esc_attr__( 'Copied!', 'constant-contact-forms' ),
+					esc_html__( 'Copy', 'constant-contact-forms' ),
+					esc_attr( '[ctct form="' . $post_id . '" show_title="false"]' )
+				);
 				break;
 			case 'description':
 				echo wp_kses_post( wpautop( get_post_meta( $post_id, '_ctct_description', true ) ) );
@@ -397,16 +419,22 @@ class ConstantContact_Admin {
 				$list_html = [];
 
 				foreach ( $table_list_ids as $list_id ) {
+					$remote_list = constant_contact()->get_api()->get_list( $list_id );
 					$list = $this->get_associated_list_by_id( $list_id );
+					$message = '';
+					if ( ! array_key_exists( 'name', $remote_list ) || array_key_exists( 'deleted_at', $remote_list ) ) {
+						$message = esc_html__( '(Not found in account)', 'constant-contact-forms' );
+					}
 					if ( ! empty( $list ) ) {
 						$edit_url    = ( null !== get_edit_post_link( $list->ID ) ) ?
 							get_edit_post_link( $list->ID ) :
 							'';
 						$title       = get_the_title( $list->ID );
 						$list_html[] = sprintf(
-							'<a href="%s">%s</a>',
+							'<a href="%1$s">%2$s</a> %3$s',
 							esc_url( $edit_url ),
-							esc_html( $title )
+							esc_html( $title ),
+							esc_html( $message )
 						);
 					}
 				}
@@ -417,6 +445,31 @@ class ConstantContact_Admin {
 				}
 
 				echo wp_kses_post( implode( ', ', $list_html ) );
+				break;
+			case 'email_status':
+
+				if ( $disabled_for_form ) {
+					esc_html_e( 'Disabled', 'constant-contact-forms' );
+					echo '<br/>';
+					echo esc_html(
+						sprintf(
+							'Locations: %1$s',
+							implode( ', ', $locations )
+						)
+					);
+				}
+
+				if ( ! empty( $emailedto ) ) {
+					printf(
+						esc_html__( 'Sends to %1$s', 'constant-contact-forms' ),
+						$emailedto
+					);
+				} else {
+					if ( ! $disabled_for_form ) {
+						esc_html_e( 'Sends to site admin email.', 'constant-contact-forms' );
+					}
+				}
+
 				break;
 		}
 	}
@@ -531,7 +584,7 @@ class ConstantContact_Admin {
 	 */
 	public function get_admin_link( string $text, string $link_slug ) : string {
 
-		static $link_template = '<a title="%1$s" href="%2$s" target="_blank" rel="noopener noreferrer">%1$s</a>';
+		static $link_template = '<a title="%1$s" href="%2$s">%1$s</a>';
 		static $link_args     = [
 			'post_type' => 'ctct_forms',
 		];
