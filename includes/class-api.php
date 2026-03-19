@@ -1524,8 +1524,12 @@ class ConstantContact_API {
 	 */
 	public function refresh_token() {
 
-		$status = [];
-		// Force prevent any further attempts until humans interject.
+		$status   = [];
+		$failures = (int) get_option( 'ctct_refresh_failures', 0 );
+
+		// Only require manual reconnect after multiple consecutive failures.
+		// This prevents a single transient error (network blip, brief API outage,
+		// container restart) from permanently breaking the connection.
 		if ( constant_contact_get_needs_manual_reconnect() ) {
 			$status['success'] = false;
 			$status['reason']  = 'manual_reconnect';
@@ -1561,13 +1565,30 @@ class ConstantContact_API {
 		$result = $this->exec( $url, $options );
 
 		if ( false === $result ) {
-			constant_contact_maybe_log_it( 'Refresh Token:', 'Expired. Refresh attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
-			constant_contact_set_needs_manual_reconnect( 'true' );
+			$failures++;
+			update_option( 'ctct_refresh_failures', $failures );
+
+			// Distinguish between a definitive auth failure and a transient error.
+			// Only require manual reconnect for invalid_grant (revoked/expired refresh
+			// token) or after 5 consecutive failures of any kind.
+			if ( false !== strpos( $this->last_error, 'invalid_grant' ) ) {
+				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token revoked (invalid_grant). Manual reconnect required.' );
+				constant_contact_set_needs_manual_reconnect( 'true' );
+				$status['reason'] = 'expired';
+			} elseif ( $failures >= 5 ) {
+				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed ' . $failures . ' consecutive times. Manual reconnect required.' );
+				constant_contact_set_needs_manual_reconnect( 'true' );
+				$status['reason'] = 'max_retries_exceeded';
+			} else {
+				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed (attempt ' . $failures . '/5). Will retry. Attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
+				$status['reason'] = 'transient_failure';
+			}
+
 			$status['success'] = false;
-			$status['reason']  = 'expired';
 		} else {
 			delete_transient( 'ctct_lists' );
 			update_option( 'ctct_access_token_timestamp', time() );
+			delete_option( 'ctct_refresh_failures' );
 			constant_contact_set_needs_manual_reconnect( 'false' );
 
 			$status['success'] = true;
