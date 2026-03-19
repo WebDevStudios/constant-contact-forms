@@ -53,7 +53,7 @@ class ConstantContact_Notification_Content {
 			admin_url( 'edit.php' )
 		);
 		$auth_url = wp_nonce_url( $auth_url, 'ctct-user-is-dismissing', 'ctct-dismiss' );
-		$try_url  = constant_contact()->get_api()->get_signup_link();
+		$try_url  = constant_contact()->get_api_utility()->get_signup_link();
 
 		if ( ! empty( $_GET['page'] ) && 'ctct_options_connect' === sanitize_text_field( $_GET['page'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return '';

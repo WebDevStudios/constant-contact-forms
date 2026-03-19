@@ -872,65 +872,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Obfuscate the left side of email addresses at the `@`.
-	 *
-	 * @since 1.7.0
-	 *
-	 * @param array $contact Contact data.
-	 * @return array
-	 */
-	private function clear_email( array $contact ) {
-		$clean = [];
-		foreach ( $contact as $contact_key => $contact_value ) {
-			if ( is_array( $contact_value ) ) {
-				$clean[ $contact_key ] = $this->clear_email( $contact_value );
-			} elseif ( is_email( $contact_value ) ) {
-				$email_parts           = explode( '@', $contact_value );
-				$clean[ $contact_key ] = implode( '@', [ '***', $email_parts[1] ] );
-			} else {
-				$clean[ $contact_key ] = $contact_value;
-			}
-		}
-		return $clean;
-	}
-
-	/**
-	 * Obfuscate phone numbers.
-	 *
-	 * @author Scott Anderson <scott.anderson@webdevstudios.com>
-	 * @since 1.13.0
-	 *
-	 * @param array $contact Contact data.
-	 * @return array
-	 */
-	private function clear_phone( array $contact ) {
-		$clean = $contact;
-		foreach ( $contact as $contact_key => $contact_value ) {
-			if ( is_array( $contact_value ) && ! empty( $contact_value['key'] ) && $contact_value['key'] === 'phone_number' ) {
-				$clean[ $contact_key ]['val'] = '***-***-****';
-			}
-		}
-
-		return $clean;
-	}
-
-	/**
-	 * Remove hCaptcha data from logged data.
-	 *
-	 * @since 2.9.0
-	 *
-	 * @param array $contact Contact data.
-	 * @return array
-	 */
-	private function clear_hcaptcha( array $contact ) {
-		if ( array_key_exists( 'h-captcha-response', $contact ) ) {
-			unset( $contact['h-captcha-response'] );
-		}
-
-		return $contact;
-	}
-
-	/**
 	 * Helper method to update contact.
 	 *
 	 * @since 1.0.0
@@ -1166,26 +1107,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Pushes all error to api_error_message.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @throws Exception Throws Exception if encountered while attempting to log errors.
-	 *
-	 * @param array $errors Errors from API.
-	 */
-	public function log_errors( $errors ) {
-		if ( is_array( $errors ) ) {
-			foreach ( $errors as $error ) {
-				constant_contact_maybe_log_it(
-					'API',
-					$error
-				);
-			}
-		}
-	}
-
-	/**
 	 * Make sure we don't over-do API requests, helper method to check if we're connected.
 	 *
 	 * @since 1.0.0
@@ -1217,17 +1138,6 @@ class ConstantContact_API {
 			],
 			admin_url( 'edit.php' )
 		);
-	}
-
-	/**
-	 * Helper method to output a link for our connect modal.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string Signup URL.
-	 */
-	public function get_signup_link() {
-		return 'https://www.constantcontact.com/signup';
 	}
 
 	/**
@@ -1315,19 +1225,6 @@ class ConstantContact_API {
 		}
 
 		return [ $code, $this->base64url_encode( pack( 'H*', hash( 'sha256', $code ) ) ) ];
-	}
-
-	/**
-	 * Base64 encode URL.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param string $data
-	 *
-	 * @return string
-	 */
-	private function base64url_encode( string $data ): string {
-		return rtrim( strtr( base64_encode( $data ), '+/', '-_' ), '=' );
 	}
 
 	/**
@@ -1665,22 +1562,6 @@ class ConstantContact_API {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Obfuscate a value in our debug logs.
-	 *
-	 * Helps keep things private and not put into a potentially publicly accessed file.
-	 *
-	 * @since 2.1.0
-	 *
-	 * @param string $data_item Item to obfuscate.
-	 *
-	 * @return string
-	 */
-	private function obfuscate_api_data_item( string $data_item ): string {
-		$start = substr( $data_item, 0, 8 );
-		return $start . '***';
 	}
 
 	/**
