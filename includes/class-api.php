@@ -1614,7 +1614,12 @@ class ConstantContact_API {
 		$this->status_code = 0;
 
 		if ( ! is_wp_error( $response ) ) {
-
+			if ( empty( $response['body'] ) ) {
+				constant_contact_maybe_log_it(
+					'Response error: ', implode( ":", $response['response'] )
+				);
+				return false;
+			}
 			$data            = json_decode( $response['body'], true );
 			$json_last_error = json_last_error();
 			if ( JSON_ERROR_NONE !== $json_last_error ) {
