@@ -1623,7 +1623,7 @@ class ConstantContact_API {
 			$data            = json_decode( $response['body'], true );
 			$json_last_error = json_last_error();
 			if ( JSON_ERROR_NONE !== $json_last_error ) {
-				constant_contact_maybe_log_it( 'JSON Error: ', json_last_error_msg() );
+				constant_contact_maybe_log_it( 'JSON error: ', json_last_error_msg() );
 			}
 
 			// check if the body contains error
