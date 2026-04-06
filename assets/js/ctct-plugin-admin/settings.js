@@ -37,6 +37,9 @@ window.ctctsettings = {};
 	 */
 	that.bindEvents = () => {
 		const service = document.querySelector(that.cache.service);
+		if (null === service) {
+			return;
+		}
 		const recaptcha = document.querySelector(that.cache.recaptcha);
 		const hcaptcha = document.querySelector(that.cache.hcaptcha);
 		const turnstile = document.querySelector(that.cache.turnstile);
