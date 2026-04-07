@@ -254,8 +254,24 @@ class ConstantContact_Connect {
 				],
 				admin_url( 'edit.php' )
 			);
+
+			$env_types                      = [ 'local', 'development', 'staging' ];
+			$duplicate_account_notification = '';
+			if ( in_array( wp_get_environment_type(), $env_types, true ) ) {
+				$duplicate_account_notification = esc_html__(
+					'Connecting a matching Constant Contact user already used on a different install will invalidate existing authentications and API tokens. Please consider connecting a second account if you need to do testing.', 'constant-contact-forms'
+				);
+			}
 			?>
-			<div class="ctct-wrap not-connected <?php echo esc_attr( $this->key ); ?>">
+			<div class="ctct-wrap">
+			<?php if ( $duplicate_account_notification ) : ?>
+					<p class="ctct-connection-notice">
+						<strong>
+						<?php echo $duplicate_account_notification; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped. ?>
+						</strong>
+					</p>
+				<?php endif; ?>
+			<div class="not-connected <?php echo esc_attr( $this->key ); ?>">
 				<div class="ctct-cta-left">
 					<?php
 					// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
@@ -317,6 +333,7 @@ class ConstantContact_Connect {
 					?>
 					</p>
 				</div>
+			</div>
 			</div>
 			<?php
 		endif;
