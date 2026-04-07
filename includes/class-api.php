@@ -1656,6 +1656,10 @@ class ConstantContact_API {
 					'Current time: ' . $dateObj->format( 'Y-n-d, H:i' ) . ' Estimated expiration time: ' . $expDateObj->format( 'Y-n-d, H:i' )
 				);
 
+				$account_domain      = $this->parse_access_token_data( $data['access_token'] );
+				$account_domain_hash = hash( 'sha256', implode( '|', $account_domain ) );
+				update_option( 'ctct_account_domain_hash', $account_domain_hash );
+
 				return isset( $data['access_token'], $data['refresh_token'] );
 			}
 		} else {
@@ -1882,6 +1886,40 @@ class ConstantContact_API {
 	 */
 	public function set_email_type() {
 		return 'text/html';
+	}
+
+	/**
+	 * Parse and extract access token data for authenticated account email and current website.
+	 *
+	 * @since NEXT
+	 * @param string $access_token
+	 *
+	 * @return array
+	 */
+	private function parse_access_token_data( string $access_token ) {
+		if ( empty( $access_token ) ) {
+			return [];
+		}
+		$connecting_account = [];
+
+		// Not a PHP error, just assigning only 1 variable of 3 available.
+		list(,$payload) = explode( '.', $access_token );
+
+		$payload_data = '';
+		if ( ! empty( $payload ) && is_string( $payload ) ) {
+			$payload_data = base64_decode( $payload );
+		}
+
+		if ( ! empty( $payload_data ) ) {
+			$parsed_payload_data = json_decode( $payload_data, true );
+			if ( JSON_ERROR_NONE !== json_last_error() ) {
+				return [];
+			}
+			$connecting_account['account'] = $parsed_payload_data['sub'];
+			$connecting_account['site']    = get_site_url();
+		}
+
+		return $connecting_account;
 	}
 }
 
