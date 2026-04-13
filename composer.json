@@ -74,9 +74,9 @@
          "@composer install --no-dev -a",
          "@composer run prefix-namespaces",
          "rm -rf ./bin",
+         "@composer archive --format=zip --file constant-contact-forms",
          "rm -rf ./composer.json",
          "rm -rf ./composer.lock",
-         "@composer archive --format=zip --file constant-contact-forms",
          "mv constant-contact-forms.zip $HOME/Desktop"
       ],
       "install-codestandards":"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
