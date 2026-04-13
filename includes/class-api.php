@@ -186,6 +186,32 @@ class ConstantContact_API {
 		$this->refresh_token = constant_contact()->get_connect()->e_get( '_ctct_refresh_token' );
 		$this->access_token  = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 
+		if ( ! empty( $this->access_token ) ) {
+			$account_domain = constant_contact()->get_api_utility()->parse_access_token_data( $this->access_token );
+			if ( ! empty( $account_domain ) ) {
+				$current_hash = hash( 'sha256', implode( '|', $account_domain ) );
+				$saved_hash   = get_option( 'ctct_account_domain_hash', '' );
+			}
+
+			if ( is_admin() ) {
+				if ( ! empty( $saved_hash ) && ! empty( $current_hash ) ) {
+					if ( ! hash_equals( $saved_hash, $current_hash ) ) {
+						add_action( 'admin_notices', function () use ( $account_domain ) {
+							wp_admin_notice(
+								sprintf(
+									esc_html__( 'Constant Contact Forms has detected a different domain from the one originally connected to. We have force disconnected this install to preserve that original connection. Original connecting account is %s', 'constant-contact-forms' ),
+									$account_domain['account']
+								),
+								[ 'dismissible' => true ]
+							);
+						} );
+						constant_contact()->get_connect()->force_disconnect();
+						return false;
+					}
+				}
+			}
+		}
+
 		// Attempt to acquire access token if we don't have it already.
 		// This fixes an issue where authorization does not work sometimes when switching between different accounts.
 		if (
