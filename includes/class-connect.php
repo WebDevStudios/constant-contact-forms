@@ -371,7 +371,7 @@ class ConstantContact_Connect {
 	}
 
 	/**
-	 *  Force disconnect from Constant Contact.
+	 * Force disconnect from Constant Contact.
 	 *
 	 * @since NEXT
 	 *
