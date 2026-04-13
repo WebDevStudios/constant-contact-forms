@@ -363,32 +363,45 @@ class ConstantContact_Connect {
 		}
 
 		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ctct-admin-disconnect'] ) ), 'ctct-admin-disconnect' ) ) {
-
-			delete_option( 'ctct_access_token' );
-			delete_option( '_ctct_access_token' );
-			delete_option( 'ctct_refresh_token' );
-			delete_option( '_ctct_refresh_token' );
-			delete_option( '_ctct_expires_in' );
-			delete_option( 'ctct_maybe_needs_reconnected' );
-
-			delete_option( 'CtctConstantContactcode_verifier' );
-			delete_option( 'CtctConstantContactState' );
-			delete_option( 'ctct_auth_url' );
-			delete_option( 'ctct_key' );
-
-			constant_contact_delete_option( '_ctct_form_state_authcode' );
-
-			wp_clear_scheduled_hook( 'refresh_token_job' );
-			wp_unschedule_hook( 'refresh_token_job' );
-
-			$saved_options = get_option( 'ctct_options_settings' );
-			if ( isset( $saved_options['_ctct_disable_email_notifications'] ) ) {
-				unset( $saved_options['_ctct_disable_email_notifications'] );
-				update_option( 'ctct_options_settings', $saved_options );
-			}
+			$this->force_disconnect();
 		} else {
 			constant_contact_maybe_log_it( 'Nonces', 'Account disconnection nonce failed to verify.' );
 		}
+		return true;
+	}
+
+	/**
+	 *  Force disconnect from Constant Contact.
+	 *
+	 * @since NEXT
+	 *
+	 * @return bool
+	 */
+	public function force_disconnect() : bool {
+		delete_option( 'ctct_access_token' );
+		delete_option( '_ctct_access_token' );
+		delete_option( 'ctct_refresh_token' );
+		delete_option( '_ctct_refresh_token' );
+		delete_option( '_ctct_expires_in' );
+		delete_option( 'ctct_maybe_needs_reconnected' );
+		delete_option( 'ctct_account_domain_hash' );
+
+		delete_option( 'CtctConstantContactcode_verifier' );
+		delete_option( 'CtctConstantContactState' );
+		delete_option( 'ctct_auth_url' );
+		delete_option( 'ctct_key' );
+
+		constant_contact_delete_option( '_ctct_form_state_authcode' );
+
+		wp_clear_scheduled_hook( 'refresh_token_job' );
+		wp_unschedule_hook( 'refresh_token_job' );
+
+		$saved_options = get_option( 'ctct_options_settings' );
+		if ( isset( $saved_options['_ctct_disable_email_notifications'] ) ) {
+			unset( $saved_options['_ctct_disable_email_notifications'] );
+			update_option( 'ctct_options_settings', $saved_options );
+		}
+
 		return true;
 	}
 
