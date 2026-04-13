@@ -620,6 +620,10 @@ class ConstantContact_API {
 					'Current time: ' . $dateObj->format( 'Y-n-d, H:i' ) . ' Estimated expiration time: ' . $expDateObj->format( 'Y-n-d, H:i' )
 				);
 
+				$account_domain      = constant_contact()->get_api_utility()->parse_access_token_data( $data['access_token'] );
+				$account_domain_hash = hash( 'sha256', implode( '|', $account_domain ) );
+				update_option( 'ctct_account_domain_hash', $account_domain_hash );
+
 				return isset( $data['access_token'], $data['refresh_token'] );
 			}
 		} else {
