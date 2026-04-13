@@ -48,6 +48,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 == Changelog ==
 
 = 2.18.0 =
+* Added: Revised refresh process to be more permissible of failures that are not expired refresh token related. Thanks JoeyYax.
 * Updated: "Connect now" screen UI.
 * Updated: details and visuals for the embed block.
 * Updated: small visuals for WP 7.0.

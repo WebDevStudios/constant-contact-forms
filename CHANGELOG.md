@@ -1,5 +1,6 @@
 = 2.18.0 =
 
+* Added: Revised refresh process to be more permissible of failures that are not expired refresh token related.
 * Updated: "Connect now" screen UI.
 * Updated: details and visuals for the embed block.
 * Updated: small visuals for WP 7.0.
