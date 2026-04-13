@@ -1,3 +1,23 @@
+= 2.18.0 =
+
+* Updated: "Connect now" screen UI.
+* Updated: details and visuals for the embed block.
+* Updated: small visuals for WP 7.0.
+* Updated: Extra error handling from empty API responses.
+* Updated: internal code organization.
+* Fixed: errors when deleting a form.
+* Fixed: JS errors from CAPTCHA settings UI hiding, elsewhere in admin.
+
+= 2.17.0 =
+
+* Added: Hide UI of non-selected Captcha services until selected for usage.
+* Added: Details regarding list status in Constant Contact account, to our forms list.
+* Added: Email status or address destination column to Forms list table.
+* Added: Messaging regarding user accounts on connect screen if a non-production install.
+* Fixed: Issues around website field type not saving to custom field
+* Updated: Moved custom field cap to 50 to match allowed contact field limit.
+* Updated: Minor UI details around accessibility, wording, capitalization, visual spacing.
+
 = 2.16.0 =
 
 * Added: Cloudflare Turnstile support
