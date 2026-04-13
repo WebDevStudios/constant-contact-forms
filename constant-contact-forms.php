@@ -45,9 +45,9 @@
  * @param string $class_name Name of the class being requested.
  * @return null
  */
-function constant_contact_autoload_classes( $class_name ) {
+function constant_contact_autoload_classes( string $class_name ) {
 	if ( ! str_starts_with( $class_name, 'ConstantContact_' ) ) {
-		return;
+		return null;
 	}
 
 	$filename = strtolower(
@@ -59,6 +59,8 @@ function constant_contact_autoload_classes( $class_name ) {
 	);
 
 	Constant_Contact::include_file( $filename );
+
+	return null;
 }
 spl_autoload_register( 'constant_contact_autoload_classes' );
 
@@ -310,6 +312,13 @@ class Constant_Contact {
 	private ConstantContact_Health $health;
 
 	/**
+	 * An instance of the ConstantContact_API_Utility class.
+	 * @since NEXT
+	 * @var ConstantContact_API_Utility
+	 */
+	private ConstantContact_API_Utility $utility;
+
+	/**
 	 * Option name for where we store the timestamp of when the plugin was activated.
 	 *
 	 * @since 1.6.0
@@ -333,7 +342,7 @@ class Constant_Contact {
 	 *
 	 * @return Constant_Contact A single instance of this class.
 	 */
-	public static function get_instance() {
+	public static function get_instance(): Constant_Contact {
 		if ( null === self::$single_instance ) {
 			self::$single_instance = new self();
 		}
@@ -385,7 +394,7 @@ class Constant_Contact {
 	 *
 	 * @since 1.0.1
 	 */
-	public function minimum_version() {
+	public function minimum_version(): void {
 		echo '<div id="message" class="notice is-dismissible error"><p>' . esc_html__( 'Constant Contact Forms requires PHP 7.4 or higher. Your hosting provider or website administrator should be able to assist in updating your PHP version.', 'constant-contact-forms' ) . '</p></div>';
 	}
 
@@ -395,7 +404,8 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 */
 	public function plugin_classes() {
-		$this->api = new ConstantContact_API( $this );
+		$this->utility = new ConstantContact_API_Utility( $this );
+		$this->api     = new ConstantContact_API( $this );
 		if ( class_exists( 'FLBuilder' ) ) {
 			// Load if Beaver Builder is active.
 			$this->beaver_builder = new ConstantContact_Beaver_Builder( $this );
@@ -429,7 +439,7 @@ class Constant_Contact {
 	 *
 	 * @since 1.0.0
 	 */
-	public function admin_plugin_classes() {
+	public function admin_plugin_classes(): void {
 		$this->admin       = new ConstantContact_Admin( $this, $this->basename );
 		$this->admin_pages = new ConstantContact_Admin_Pages( $this );
 		$this->block       = new ConstantContact_Block( $this );
@@ -442,7 +452,7 @@ class Constant_Contact {
 	 *
 	 * @return void
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		if ( ! $this->meets_php_requirements() ) {
 			add_action( 'admin_notices', [ $this, 'minimum_version' ] );
 			return;
@@ -471,7 +481,7 @@ class Constant_Contact {
 	 *
 	 * @since 1.0.0
 	 */
-	public function activate() {
+	public function activate(): void {
 		update_option( self::$activated_date_option, time() );
 	}
 
@@ -482,7 +492,7 @@ class Constant_Contact {
 	 *
 	 * @return void
 	 */
-	public function deactivate() {
+	public function deactivate(): void {
 
 		if ( ! $this->meets_php_requirements() ) {
 			return;
@@ -511,7 +521,7 @@ class Constant_Contact {
 	 *
 	 * @since 1.6.0
 	 */
-	public function uninstall() {
+	public function uninstall(): void {
 		$uninstaller = new ConstantContact_Uninstall();
 		$uninstaller->run();
 	}
@@ -532,7 +542,7 @@ class Constant_Contact {
 	 *
 	 * @since 1.0.0
 	 */
-	public function init() {
+	public function init(): void {
 		$this->init_debug_log();
 	}
 
@@ -543,7 +553,7 @@ class Constant_Contact {
 	 *
 	 * @return void
 	 */
-	protected function init_debug_log() {
+	protected function init_debug_log(): void {
 
 		if ( ! constant_contact_debugging_enabled() ) {
 			return;
@@ -558,7 +568,7 @@ class Constant_Contact {
 	 *
 	 * @since 1.0.0
 	 */
-	public function load_libs() {
+	public function load_libs(): void {
 
 		// Load what we can, automagically.
 		require_once $this->dir( 'vendor_prefixed/autoload.php' );
@@ -610,16 +620,11 @@ class Constant_Contact {
 	 * @return mixed
 	 */
 	public function __get( $field ) {
-		switch ( $field ) {
-			case 'version':
-				return self::VERSION;
-			case 'basename':
-			case 'path':
-			case 'url':
-				return $this->$field;
-			default:
-				throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field );
-		}
+		return match ( $field ) {
+			'version' => self::VERSION,
+			'basename', 'path', 'url' => $this->$field,
+			default => throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field ),
+		};
 	}
 
 	/**
@@ -849,6 +854,15 @@ class Constant_Contact {
 	}
 
 	/**
+	 * API Utility getter.
+	 * @return ConstantContact_API_Utility
+	 * @since NEXT
+	 */
+	public function get_api_utility(): ConstantContact_API_Utility {
+		return $this->utility;
+	}
+
+	/**
 	 * Include a file from the classes directory.
 	 *
 	 * @since 1.0.0
@@ -857,7 +871,7 @@ class Constant_Contact {
 	 * @param bool   $include_class Whether or ot to include the class.
 	 * @return bool Result of include call.
 	 */
-	public static function include_file( string $filename, bool $include_class = true ) {
+	public static function include_file( string $filename, bool $include_class = true ): bool {
 
 		// By default, all files are named 'class-something.php'.
 		if ( $include_class ) {
@@ -883,7 +897,7 @@ class Constant_Contact {
 	 */
 	public static function dir( string $path = '' ) : string {
 		static $dir;
-		$dir = $dir ? $dir : trailingslashit( __DIR__ );
+		$dir = $dir ?: trailingslashit( __DIR__ );
 		return $dir . $path;
 	}
 
@@ -897,7 +911,7 @@ class Constant_Contact {
 	 */
 	public static function url( string $path = '' ) : string {
 		static $url;
-		$url = $url ? $url : trailingslashit( plugin_dir_url( __FILE__ ) );
+		$url = $url ?: trailingslashit( plugin_dir_url( __FILE__ ) );
 		return $url . $path;
 	}
 
@@ -908,7 +922,7 @@ class Constant_Contact {
 	 *
 	 * @return string License text.
 	 */
-	public function get_license_text() {
+	public function get_license_text(): string {
 		$license         = self::url( self::LICENSE_FILE );
 		$license_content = wp_remote_get( $license );
 
@@ -927,7 +941,7 @@ class Constant_Contact {
 	 * @param array $classes Existing body classes.
 	 * @return array Amended body classes.
 	 */
-	public function body_classes( $classes = [] ) : array {
+	public function body_classes( array $classes = [] ) : array {
 		$theme     = wp_get_theme()->get_template();
 		$classes[] = "ctct-{$theme}"; // Prefixing for user knowledge of source.
 
@@ -939,7 +953,7 @@ class Constant_Contact {
 	 *
 	 * @since 1.4.0
 	 */
-	public function register_admin_assets() {
+	public function register_admin_assets(): void {
 
 		wp_register_style(
 			'constant-contact-forms-admin',
@@ -954,7 +968,7 @@ class Constant_Contact {
 	 *
 	 * @since 1.4.0
 	 */
-	public function register_front_assets() {
+	public function register_front_assets(): void {
 
 		if ( constant_contact_disable_frontend_css() ) {
 			return;
@@ -1013,7 +1027,7 @@ register_uninstall_hook( __FILE__, 'constant_contact_uninstall' );
  *
  * @return Constant_Contact Singleton instance of plugin class.
  */
-function constant_contact() {
+function constant_contact(): Constant_Contact {
 	return Constant_Contact::get_instance();
 }
 
@@ -1022,7 +1036,7 @@ function constant_contact() {
  *
  * @since 1.6.0
  */
-function constant_contact_uninstall() {
+function constant_contact_uninstall(): void {
 	$instance = Constant_Contact::get_instance();
 	$instance->uninstall();
 }
