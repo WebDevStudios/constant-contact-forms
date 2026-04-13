@@ -313,7 +313,7 @@ class Constant_Contact {
 
 	/**
 	 * An instance of the ConstantContact_API_Utility class.
-	 * @since NEXT
+	 * @since 2.18.0
 	 * @var ConstantContact_API_Utility
 	 */
 	private ConstantContact_API_Utility $utility;
@@ -856,7 +856,7 @@ class Constant_Contact {
 	/**
 	 * API Utility getter.
 	 * @return ConstantContact_API_Utility
-	 * @since NEXT
+	 * @since 2.18.0
 	 */
 	public function get_api_utility(): ConstantContact_API_Utility {
 		return $this->utility;

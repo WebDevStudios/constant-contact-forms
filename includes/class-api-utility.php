@@ -5,7 +5,7 @@
  * @package ConstantContact
  * @subpackage API Utility
  * @author Constant Contact
- * @since NEXT
+ * @since 2.18.0
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
@@ -13,14 +13,14 @@
 /**
  * API Utility class.
  *
- * @since NEXT
+ * @since 2.18.0
  */
 class ConstantContact_API_Utility {
 
 	/**
 	 * Parent plugin class.
 	 *
-	 * @since NEXT
+	 * @since 2.18.0
 	 *
 	 * @var object
 	 */
@@ -29,7 +29,7 @@ class ConstantContact_API_Utility {
 	/**
 	 * Constructor.
 	 *
-	 * @since NEXT
+	 * @since 2.18.0
 	 *
 	 * @param object $plugin Parent plugin class.
 	 */
@@ -41,7 +41,7 @@ class ConstantContact_API_Utility {
 	 * Obfuscate the left side of email addresses at the `@`.
 	 *
 	 * @since 1.7.0
-	 * @since NEXT Moved to utility class.
+	 * @since 2.18.0 Moved to utility class.
 	 *
 	 * @param array $contact Contact data.
 	 * @return array
@@ -65,7 +65,7 @@ class ConstantContact_API_Utility {
 	 * Obfuscate phone numbers.
 	 *
 	 * @since 1.13.0
-	 * @since NEXT Moved to utility class.
+	 * @since 2.18.0 Moved to utility class.
 	 *
 	 * @param array $contact Contact data.
 	 * @return array
@@ -85,7 +85,7 @@ class ConstantContact_API_Utility {
 	 * Remove hCaptcha data from logged data.
 	 *
 	 * @since 2.9.0
-	 * @since NEXT Moved to utility class.
+	 * @since 2.18.0 Moved to utility class.
 	 *
 	 * @param array $contact Contact data.
 	 * @return array
@@ -102,7 +102,7 @@ class ConstantContact_API_Utility {
 	 * Pushes all error to api_error_message.
 	 *
 	 * @since 1.0.0
-	 * @since NEXT Moved to utility class.
+	 * @since 2.18.0 Moved to utility class.
 	 *
 	 * @throws Exception Throws Exception if encountered while attempting to log errors.
 	 *
@@ -123,7 +123,7 @@ class ConstantContact_API_Utility {
 	 * Helper method to output a link for our connect modal.
 	 *
 	 * @since 1.0.0
-	 * @since NEXT Moved to utility class.
+	 * @since 2.18.0 Moved to utility class.
 	 *
 	 * @return string Signup URL.
 	 */
@@ -136,7 +136,7 @@ class ConstantContact_API_Utility {
 	 * Base64 encode URL.
 	 *
 	 * @since 2.0.0
-	 * @since NEXT Moved to utility class.
+	 * @since 2.18.0 Moved to utility class.
 	 *
 	 * @param string $data
 	 *
@@ -153,7 +153,7 @@ class ConstantContact_API_Utility {
 	 * Helps keep things private and not put into a potentially publicly accessed file.
 	 *
 	 * @since 2.1.0
-	 * @since NEXT Moved to utility class.
+	 * @since 2.18.0 Moved to utility class.
 	 *
 	 * @param string $data_item Item to obfuscate.
 	 *
