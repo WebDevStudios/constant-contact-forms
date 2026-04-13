@@ -300,3 +300,11 @@ body.post-type-ctct_forms #titlediv #title {
 		}
 	}
 }
+
+
+[class*="version-7"] {
+  .cmb-repeatable-group .cmb-shift-rows .dashicons-arrow-down-alt2,
+  .cmb-repeatable-group .cmb-shift-rows .dashicons-arrow-up-alt2 {
+	margin-top: .4em;
+  }
+}

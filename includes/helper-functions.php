@@ -633,7 +633,10 @@ function constant_contact_get_widgets_by_form( $form_id ) {
 			get_option( "widget_{$widget_type}", [] ),
 			function( $value ) use ( $data ) {
 				if ( 'ctct_form' === $data['type'] ) {
-					return absint( $value['ctct_form_id'] ) === $data['form_id'];
+					// We get this primarily from classic widgets as opposed to widget blocks.
+					if ( is_array( $value ) && array_key_exists( 'ctct_form_id', $value ) ) {
+						return absint( $value['ctct_form_id'] ) === $data['form_id'];
+					}
 				} elseif ( 'text' === $data['type'] ) {
 					if ( ! isset( $value['text'] ) || false === strpos( $value['text'], '[ctct' ) ) {
 						return false;
