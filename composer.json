@@ -73,8 +73,8 @@
          "rm -rf ./tests",
          "@composer install --no-dev -a",
          "@composer run prefix-namespaces",
-         "rm -rf ./bin",
          "@composer archive --format=zip --file constant-contact-forms",
+         "rm -rf ./bin",
          "rm -rf ./composer.json",
          "rm -rf ./composer.lock",
          "mv constant-contact-forms.zip $HOME/Desktop"
