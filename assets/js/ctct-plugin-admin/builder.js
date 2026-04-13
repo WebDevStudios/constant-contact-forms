@@ -96,7 +96,7 @@ window.CTCTBuilder = {};
 	 * Handles the beforeunload callback and display.
 	 *
 	 * @param e beforeunload event.
-	 * @since NEXT
+	 * @since 2.8.0
 	 */
 	that.bindMessage = (e) => {
 		e.preventDefault();

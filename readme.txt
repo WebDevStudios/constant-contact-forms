@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
 Tested up to:      6.9
-Stable tag:        2.17.0
+Stable tag:        2.18.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      8.1
@@ -46,6 +46,16 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.18.0 =
+* Added: Revised refresh process to be more permissible of failures that are not expired refresh token related. Thanks JoeyYax.
+* Updated: "Connect now" screen UI.
+* Updated: details and visuals for the embed block.
+* Updated: small visuals for WP 7.0.
+* Updated: Extra error handling from empty API responses.
+* Updated: internal code organization.
+* Fixed: errors when deleting a form.
+* Fixed: JS errors from CAPTCHA settings UI hiding, elsewhere in admin.
 
 = 2.17.0 =
 * Added: Hide UI of non-selected Captcha services until selected for usage.

@@ -4,6 +4,7 @@ import {useBlockProps, InspectorControls} from '@wordpress/block-editor';
 import {SelectControl, Spinner, PanelBody, ExternalLink} from '@wordpress/components';
 import ServerSideRender from '@wordpress/server-side-render';
 import {addQueryArgs} from '@wordpress/url';
+import logo from './logo/ctct-logo-horizontal-color-reversed.svg';
 
 import './editor.scss';
 
@@ -40,7 +41,7 @@ export default function Edit(props) {
 			}
 		)
 	}
-	let smMsg = (formEntryObjs && formEntryObjs.length > 1 ) ? __('Choose the form to display with the dropdown below.', 'constant-contact-forms' ) : __('Please create a Constant Contact Form.', 'constant-contact-forms');
+	const smMsg = (formEntryObjs && formEntryObjs.length > 1 ) ? __('Choose the form to display with the dropdown below.', 'constant-contact-forms' ) : __('Please create a Constant Contact Form.', 'constant-contact-forms');
 
 	const getURL = (form) => {
 		const adminRoot = ajaxurl.replace(/\/admin-ajax\.php$/, '/post.php');
@@ -61,15 +62,22 @@ export default function Edit(props) {
 					<div className="ctct-block-container--header">
 						<img
 							alt={__('Constant Contact Forms', 'constant-contact-forms')}
-							src="https://images.ctfassets.net/t21gix3kzulv/78gf1S3CjPrnl9rURf6Q8w/3c20fb510dd4d4653feddf86ece35e1a/ctct_ripple_logo_horizontal_white_orange.svg"
+							src={logo}
 						/>
 					</div>
 					<div className="ctct-block-container--selection">
 						<div className="ctct-block-container--component">
-							<SelectControl label={__('Display Form Title', 'constant-contact-forms')} value={displayTitle} options={[
-								{label: __('Display Title', 'constant-contact-forms'), value: 'true'},
-								{label: __('Hide Title', 'constant-contact-forms'), value: 'false'},
-							]} onChange={(displayTitle) => setAttributes({displayTitle})} />
+							<SelectControl
+								label={__('Display Form Title', 'constant-contact-forms')}
+								value={displayTitle}
+								options={[
+									{label: __('Display Title', 'constant-contact-forms'), value: 'true'},
+									{label: __('Hide Title', 'constant-contact-forms'), value: 'false'},
+								]}
+								onChange={(displayTitle) => setAttributes({displayTitle})}
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
+							/>
 						</div>
 					</div>
 					<div className="ctct-block-container--selection">
@@ -80,6 +88,8 @@ export default function Edit(props) {
 								value={selectedForm ?? ''}
 								options={formEntryObjs}
 								onChange={(selectedForm) => setAttributes({selectedForm})}
+								__next40pxDefaultSize
+								__nextHasNoMarginBottom
 							/>
 						</div>
 					</div>
