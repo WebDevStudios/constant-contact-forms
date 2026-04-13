@@ -47,6 +47,15 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= 2.18.0 =
+* Updated: "Connect now" screen UI.
+* Updated: details and visuals for the embed block.
+* Updated: small visuals for WP 7.0.
+* Updated: Extra error handling from empty API responses.
+* Updated: internal code organization.
+* Fixed: errors when deleting a form.
+* Fixed: JS errors from CAPTCHA settings UI hiding, elsewhere in admin.
+
 = 2.17.0 =
 * Added: Hide UI of non-selected Captcha services until selected for usage.
 * Added: Details regarding list status in Constant Contact account, to our forms list.
