@@ -156,7 +156,7 @@ class ConstantContact_Connect {
 			$btn_value   = esc_attr__( 'Disconnect', 'constant-contact-forms' );
 			if ( constant_contact_get_needs_manual_reconnect() ) {
 				$heading     = esc_html__( 'Manual reconnection required', 'constant-contact-forms' );
-				$description = esc_html__( 'Issues with reauthentication for tokens occurred and a manual disconnect and reconnect is needed.', 'constant-contact-forms' );
+				$description = esc_html__( 'Issues with reauthentication for tokens occurred and a manual disconnect and reconnect is needed. Use the status button to start the re-authentication process.', 'constant-contact-forms' );
 				$btn_value   = esc_attr__( 'Disconnected', 'constant-contact-forms' );
 			}
 			?>
