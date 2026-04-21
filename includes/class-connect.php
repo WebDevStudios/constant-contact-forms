@@ -373,7 +373,7 @@ class ConstantContact_Connect {
 	/**
 	 * Force disconnect from Constant Contact.
 	 *
-	 * @since NEXT
+	 * @since 2.19.0
 	 *
 	 * @return bool
 	 */

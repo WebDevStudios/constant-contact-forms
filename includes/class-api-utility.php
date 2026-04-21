@@ -167,7 +167,7 @@ class ConstantContact_API_Utility {
 	/**
 	 * Parse and extract access token data for authenticated account email and current website.
 	 *
-	 * @since NEXT
+	 * @since 2.19.0
 	 *
 	 * @param string $access_token
 	 * @return array
