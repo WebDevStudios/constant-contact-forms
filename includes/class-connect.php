@@ -153,9 +153,11 @@ class ConstantContact_Connect {
 
 			$heading     = esc_html__( 'Account connected!', 'constant-contact-forms' );
 			$description = esc_html__( 'You are connected to the Constant Contact account shown below.', 'constant-contact-forms' );
+			$btn_value   = esc_attr__( 'Disconnect', 'constant-contact-forms' );
 			if ( constant_contact_get_needs_manual_reconnect() ) {
 				$heading     = esc_html__( 'Manual reconnection required', 'constant-contact-forms' );
 				$description = esc_html__( 'Issues with reauthentication for tokens occurred and a manual disconnect and reconnect is needed.', 'constant-contact-forms' );
+				$btn_value   = esc_attr__( 'Disconnected', 'constant-contact-forms' );
 			}
 			?>
 			<div class="wrap connected <?php echo esc_attr( $this->key ); ?>">
@@ -210,7 +212,7 @@ class ConstantContact_Connect {
 							<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
 								<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
 								<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
-								<input type="submit" class="button button-primary ctct-disconnect" value="<?php esc_html_e( 'Disconnect', 'constant-contact-forms' ); ?>">
+								<input type="submit" class="button button-primary ctct-disconnect" value="<?php echo esc_attr( $btn_value ); ?>">
 							</form>
 						</div>
 					</div>
