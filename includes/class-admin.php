@@ -543,23 +543,15 @@ class ConstantContact_Admin {
 			return $links;
 		}
 
-		$x_cta = esc_html__( 'Check out the official WordPress plugin from @constantcontact:', 'constant-contact-forms' );
+		$add_links[] = $this->get_admin_link( esc_html__( 'Settings', 'constant-contact-forms' ), 'settings_general' );
 
-		$add_links[] = $this->get_admin_link( esc_html__( 'About', 'constant-contact-forms' ), 'about' );
-		$add_links[] = $this->get_admin_link( esc_html__( 'License', 'constant-contact-forms' ), 'license' );
+		if ( 0 === wp_count_posts( 'ctct_forms' )->publish ) {
+			$add_links[] = $this->get_admin_link( esc_html__( 'Add form', 'constant-contact-forms' ), '', true );
+		}
 
-		/**
-		 * Filters the Constant Contact base url used for social links.
-		 *
-		 * @since 1.0.0
-		 *
-		 * @param string $value Social URL base.
-		 */
-		$site_link = esc_url( apply_filters( 'constant_contact_social_base_url', 'https://constantcontact.com/' ) );
-
-		$social_share = esc_html__( 'Spread the word!', 'constant-contact-forms' );
-		$add_links[]  = '<a title="' . $social_share . '" href="https://www.facebook.com/sharer/sharer.php?u=' . rawurlencode( $site_link ) . '" target="_blank" rel="noopener noreferrer" class="dashicons-before dashicons-facebook"></a>';
-		$add_links[]  = '<a title="' . $social_share . '" href="https://x.com/intent/post?text=' . $x_cta . ' ' . $site_link . '" target="_blank" rel="noopener noreferrer"><img src="' . esc_url( constant_contact()->url ) . '/assets/images/logo-black.png" alt="' . esc_attr__( 'X logo', 'constant-contact-forms' ) . '" style="height:16px;width:16px;float:none;"></a>';
+		if ( ! constant_contact()->get_api()->is_connected() ) {
+			$add_links[] = $this->get_admin_link( esc_html__( 'Connect', 'constant-contact-forms' ), 'connect' );
+		}
 
 		/**
 		 * Filters the final custom social links.
@@ -582,15 +574,21 @@ class ConstantContact_Admin {
 	 * @param string $link_slug The slug of the admin page.
 	 * @return string
 	 */
-	public function get_admin_link( string $text, string $link_slug ) : string {
+	public function get_admin_link( string $text, string $link_slug = '', $add_form = false ) : string {
 
-		static $link_template = '<a title="%1$s" href="%2$s">%1$s</a>';
-		static $link_args     = [
+		$link_template = '<a title="%1$s" href="%2$s">%1$s</a>';
+		$link_args     = [
 			'post_type' => 'ctct_forms',
 		];
 
-		$link_args['page'] = 'ctct_options_' . $link_slug;
-		$link              = add_query_arg( $link_args, admin_url( 'edit.php' ) );
+		if ( ! empty( $link_slug ) ) {
+			$link_args['page'] = 'ctct_options_' . $link_slug;
+		}
+
+		$link = add_query_arg( $link_args, admin_url( 'edit.php' ) );
+		if ( $add_form ) {
+			$link = add_query_arg( $link_args, admin_url( 'post-new.php' ) );
+		}
 
 		return sprintf( $link_template, $text, $link );
 	}
