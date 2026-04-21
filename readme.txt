@@ -2,8 +2,8 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
-Tested up to:      6.9
-Stable tag:        2.18.0
+Tested up to:      7.0
+Stable tag:        2.19.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      8.1
@@ -46,6 +46,9 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.19.0 =
+* Added: Domain comparison for current site and stored token's original site. Will disconnect the current viewed install if mismatched, in order to preserve original connection pairing.
 
 = 2.18.0 =
 * Added: Revised refresh process to be more permissible of failures that are not expired refresh token related. Thanks JoeyYax.
