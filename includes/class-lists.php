@@ -137,7 +137,17 @@ class ConstantContact_Lists {
 
 		echo '<ul>';
 
-		unset( $list_info['id'], $list_info['status'] );
+		echo wp_kses_post(
+			sprintf(
+				'<li>%s</li>',
+				sprintf(
+					esc_html__( '%1$s View in Constant Contact %2$s', 'constant-contact-forms' ),
+					'<a href="https://app.constantcontact.com/contacts/lists/' . esc_attr( $list_info['list_id'] ) . '">',
+					'</a>'
+				)
+
+			)
+		);
 
 		if ( isset( $list_info['created_at'] ) && $list_info['created_at'] ) {
 			$list_info['created_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['created_at'] ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
@@ -146,6 +156,9 @@ class ConstantContact_Lists {
 		if ( isset( $list_info['updated_at'] ) && $list_info['updated_at'] ) {
 			$list_info['updated_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['updated_at'] ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		}
+
+		// Already linked, don't display.
+		unset( $list_info['list_id'] );
 
 		foreach ( $list_info as $key => $value ) {
 			$key = sanitize_text_field( $key );
