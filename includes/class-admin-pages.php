@@ -75,7 +75,7 @@ class ConstantContact_Admin_Pages {
 		<div class="constant-contact-about">
 			<div class="ctct-section section-about">
 				<p>
-					<?php echo wp_kses_post( esc_html__( "This plugin makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account.", 'constant-contact-forms' ) ); ?>
+					<?php echo wp_kses_post( esc_html__( "Constant Contact Forms makes it fast and easy to capture all kinds of visitor information right from your WordPress site—even if you don't have a Constant Contact account.", 'constant-contact-forms' ) ); ?>
 				</p>
 			</div>
 			<div class="ctct-section ctct-features">
