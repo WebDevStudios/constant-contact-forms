@@ -161,11 +161,14 @@ class ConstantContact_Lists {
 		unset( $list_info['list_id'] );
 
 		foreach ( $list_info as $key => $value ) {
+			if ( 'favorite' === $key ) {
+				$value = ( empty( $value ) ? 'no' : 'yes' );
+			}
 			$key = sanitize_text_field( $key );
 			$key = str_replace( '_', ' ', $key );
 			$key = ucwords( $key );
 
-			echo wp_kses_post( '<li><b>' . $key . '</b> : ' . sanitize_text_field( $value ) . '</li>' );
+			echo wp_kses_post( '<li><strong>' . $key . '</strong>: ' . sanitize_text_field( $value ) . '</li>' );
 		}
 
 		echo '</ul>';
