@@ -180,6 +180,10 @@ class ConstantContact_API {
 			return false;
 		}
 
+		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+			return false;
+		}
+
 		$this->this_user_id = get_current_user_id();
 
 		$this->expires_in    = constant_contact()->get_connect()->e_get( '_ctct_expires_in' );
