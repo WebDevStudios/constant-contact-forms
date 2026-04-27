@@ -466,55 +466,6 @@ class ConstantContact_Connect {
 	}
 
 	/**
-	 * Secure API access token.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @TODO Remove. Unused.
-	 *
-	 * @throws Exception Exception.
-	 *
-	 * @param string $access_token API access token.
-	 */
-	public function update_token( string $access_token, string $refresh_token ) {
-		$this->e_set( 'ctct_access_token', $access_token, true );
-		$this->e_set( 'ctct_refresh_token', $refresh_token, true );
-	}
-
-	/**
-	 * Get saved API token.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @TODO Remove. Unused.
-	 *
-	 * @throws Exception Throws Exception if encountered while attempting to save API token.
-	 *
-	 * @return string Token.
-	 */
-	public function get_api_token() {
-		$this->check_deleted_legacy_token();
-
-		return $this->e_get( 'ctct_access_token' );
-	}
-
-	/**
-	 * If we have a legacy token, let's re-save it.
-	 *
-	 * @TODO Remove. Unused.
-	 *
-	 * @since 1.0.0
-	 */
-	public function check_deleted_legacy_token() {
-		$legacy = get_option( '_ctct_access_token' );
-
-		if ( $legacy ) {
-			$this->update_token( $legacy, null );
-			delete_option( '_ctct_access_token' );
-		}
-	}
-
-	/**
 	 * Get our encrypt key.
 	 *
 	 * @since 1.0.0

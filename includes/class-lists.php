@@ -7,8 +7,6 @@
  * @author Constant Contact
  * @since 1.0.0
  *
- * todo: when user is disconnected then the lists should be removed
- *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
