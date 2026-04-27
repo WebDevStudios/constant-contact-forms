@@ -130,9 +130,7 @@ class ConstantContact_Lists {
 
 		$list_info = constant_contact()->get_api()->get_list( esc_attr( $list_id ) );
 
-		// Comes in as an array.
-		$list_info_obj = (object) $list_info;
-		if ( ! isset( $list_info_obj->list_id ) ) {
+		if ( ! isset( $list_info['list_id'] ) ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
