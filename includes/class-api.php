@@ -884,17 +884,14 @@ class ConstantContact_API {
 	 */
 	public function create_update_contact( $list, $email, $user_data, $form_id ) {
 
-		$contact = new Contact();
+		$contact                     = [];
+		$contact['email_address']    = sanitize_text_field( $email );
+		$contact['list_memberships'] = [];
 
-		$contact->email_address = sanitize_text_field( $email );
-		unset( $contact->{"source"} );
-		if ( ! property_exists( $contact, 'list_memberships' ) ) {
-			$contact->list_memberships = [];
+		$list = is_array( $list ) ? $list : [ $list ];
+		foreach ( $list as $list_id ) {
+			$contact['list_memberships'][] = esc_attr( $list_id );
 		}
-		if ( property_exists( $contact, 'list_memberships' ) && ! is_array( $contact->list_memberships ) ) {
-			$contact->list_memberships = (array) $contact->list_memberships;
-		}
-		$this->add_to_list( $contact, $list );
 
 		try {
 			$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
@@ -919,7 +916,7 @@ class ConstantContact_API {
 		}
 
 		$new_contact = $this->cc()->create_update_contact(
-			(array) $contact
+			$contact
 		);
 
 		if ( $this->has_note( $user_data ) ) {
@@ -937,25 +934,24 @@ class ConstantContact_API {
 	 * Helper method to push as much data from a form as we can into the
 	 * Constant Contact contact thats in a list.
 	 *
-	 * @param object $contact   Contact object.
+	 * @since 1.0.0
+	 * @since 1.3.0 Added $form_id parameter
+	 * @since 1.4.5 Added $updated parameter
+	 *
+	 * @param array  $contact   Contact object.
 	 * @param array  $user_data Bunch of user data.
 	 * @param string $form_id   Form ID being processed.
 	 * @param bool   $updated   Whether or not we are updating a contact. Default false.
 	 *
-	 * @return object Contact object, with new properties.
-	 * @throws CtctException $error An exception error.
-	 * @since 1.0.0
-	 * @since 1.3.0 Added $form_id parameter.
-	 * @since 1.4.5 Added $updated paramater.
+	 * @return array|WP_Error Contact with new properties, or WP_Error
+	 * @throws Exception
 	 */
 	public function set_contact_properties( $contact, $user_data, $form_id, $updated = false ) {
-		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
-			$error = new CtctException();
-			$error->setErrors( [
+		if ( empty( $contact ) || ! is_array( $user_data ) ) {
+			return new WP_Error(
 				'type',
 				esc_html__( 'Not a valid contact to set properties to.', 'constant-contact-forms' )
-			] );
-			throw $error;
+			);
 		}
 
 		unset( $user_data['list'] );
@@ -964,7 +960,7 @@ class ConstantContact_API {
 		$count   = 1;
 		$streets = [];
 		if ( ! $updated ) {
-			$contact->notes = [];
+			$contact['notes'] = [];
 		}
 
 		$address_type = get_post_meta( $form_id, '_ctct_address_type', true );
@@ -991,10 +987,10 @@ class ConstantContact_API {
 					// Do nothing, as we already captured or handled elsewhere.
 					break;
 				case 'phone_number':
-					$contact->phone_number = $value;
+					$contact['phone_number'] = $value;
 					break;
 				case 'company':
-					$contact->company_name = $value;
+					$contact['company_name'] = $value;
 					break;
 				case 'street_address':
 				case 'line_2_address':
@@ -1026,13 +1022,13 @@ class ConstantContact_API {
 					}
 					break;
 				case 'month_birthday':
-					$contact->birthday_month = absint( $value );
+					$contact['birthday_month'] = absint( $value );
 					break;
 				case 'day_birthday':
-					$contact->birthday_day = absint( $value );
+					$contact['birthday_day'] = absint( $value );
 					break;
 				case 'anniversary':
-					$contact->anniversary = date( 'Y/m/d', strtotime( $value ) );
+					$contact['anniversary'] = date( 'Y/m/d', strtotime( $value ) );
 					break;
 				case 'website':
 				case 'custom':
@@ -1047,6 +1043,7 @@ class ConstantContact_API {
 					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 					$custom_field        = ( $original_field_data[ $original ] );
 					$new_custom_field    = '';
+					$contact['custom_fields'] = [];
 					// @todo Fix me.
 					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
 						$custom_field_name .= $custom_field['name'] . ': ';
@@ -1064,14 +1061,14 @@ class ConstantContact_API {
 					}
 
 					if ( ! empty( $new_custom_field ) ) {
-						$contact->custom_fields[] = [
+						$contact['custom_fields'][] = [
 							'custom_field_id' => $new_custom_field['custom_field_id'],
 							'value'           => $value
 						];
 					} else {
 						$custom_field = $this->cc()->get_custom_field_by_name( $custom_field['name'] );
 
-						$contact->custom_fields[] = [
+						$contact['custom_fields'][] = [
 							'custom_field_id' => $custom_field['custom_field_id'],
 							'value'           => $value,
 						];
@@ -1081,7 +1078,7 @@ class ConstantContact_API {
 					break;
 				default:
 					try {
-						$contact->$key = $value;
+						$contact[ $key ] = $value;
 					} catch ( Exception $e ) {
 						$errors   = [];
 						$extra    = constant_contact_location_and_line( __METHOD__, __LINE__ );
@@ -1099,8 +1096,8 @@ class ConstantContact_API {
 			$address['street'] = implode( ', ', $streets );
 		}
 
-		if ( null !== $address ) {
-			$contact->street_address = (object) $address;
+		if ( ! empty( $address ) ) {
+			$contact['street_address'] = $address;
 		}
 
 		return $contact;
@@ -1479,24 +1476,25 @@ class ConstantContact_API {
 	/**
 	 * Add contact to one or more lists.
 	 *
-	 * @param Contact      $contact Contact object.
+	 * @param array        $contact Contact object.
 	 * @param string|array $list    Single list ID or array of lists.
 	 *
-	 * @return void
+	 * @return array
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.9.0
 	 * @todo   Update addList to use v3
 	 */
 	private function add_to_list( $contact, $list ) {
 		if ( empty( $list ) ) {
-			return;
+			return [];
 		}
 
 		$list = is_array( $list ) ? $list : [ $list ];
 
 		foreach ( $list as $list_id ) {
-			$contact->list_memberships[] = esc_attr( $list_id );
+			$contact['list_memberships'][] = esc_attr( $list_id );
 		}
+		return $contact;
 	}
 
 	/**
