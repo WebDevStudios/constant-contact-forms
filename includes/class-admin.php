@@ -715,15 +715,3 @@ class ConstantContact_Admin {
 		return [];
 	}
 }
-
-/**
- * Wrapper function around cmb2_get_option.
- *
- * @since 1.0.0
- *
- * @param string $key Options array key.
- * @return mixed Option value.
- */
-function constantcontact_get_option( string $key = '' ): mixed {
-	return cmb2_get_option( constant_contact()->get_admin()->key, $key );
-}
