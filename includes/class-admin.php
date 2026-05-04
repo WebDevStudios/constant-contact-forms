@@ -216,7 +216,7 @@ class ConstantContact_Admin {
 				<?php
 				}
 				?>
-				<a href="edit.php?post_type=ctct_forms&page=ctct_options_connect" class="ctct-status ctct-<?php echo esc_attr( $api_status ); ?>" title="<?php echo esc_attr( $connect_alt ); ?>">
+				<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' ) ); ?>" class="ctct-status ctct-<?php echo esc_attr( $api_status ); ?>" title="<?php echo esc_attr( $connect_alt ); ?>">
 					<?php echo esc_html( $connect_title ); ?>
 				</a>
 			</div>
