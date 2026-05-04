@@ -837,3 +837,44 @@ function constant_contact_get_date_field_order( $format = '' ) {
 
 	return $order;
 }
+
+function ctct_modal_feedback() {
+	$current_screen = get_current_screen();
+
+	if ( 'plugins' !== $current_screen->base ) {
+		return;
+	}
+
+	ob_start();
+	?>
+	<div id="ctct-feedback-modal" class="ctct-feedback-modal">
+		<div class="ctct-feedback-modal-content">
+			<div class="ctct-feedback-modal-title">
+				<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct_logo_h_fc_rgb.svg" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
+				<a id="ctct-feedback-close-btn" href="#" class="ctct-feedback-close">&times;</a>
+			</div>
+			<p>
+				<?php esc_html_e( "We noticed you're thinking about deactivating the Constant Contact Forms plugin. Please consider offering your feedback using the link below. Understanding your experience helps us improve our services for you and others. We appreciate your input!", 'constant-contact-forms' ); ?>
+			</p>
+
+			<p>
+				<a href="#" target="_blank"><?php esc_html_e( 'INSERT LINK HERE.', 'constant-contact-forms' ); ?></a>
+			</p>
+
+			<div class="ctct-feedback-modal-footer">
+				<div class="ctct-privacy">
+					<a href="https://www.constantcontact.com/legal/privacy-center" target="_blank"><?php esc_html_e( 'Privacy Center', 'constant-contact-forms' ); ?></a>
+				</div>
+				<div class="ctct-cancel-skip">
+					<a id="ctct-feedback-cancel" href="#"><?php esc_html_e( 'Cancel', 'constant-contact-forms' ); ?></a>
+					<a id="ctct-feedback-modal-skip-deactivate" href="#">
+						<?php esc_html_e( 'Skip and deactivate', 'constant-contact-forms' ); ?>
+					</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+	<?php
+}
+add_action( 'admin_footer', 'ctct_modal_feedback' );
