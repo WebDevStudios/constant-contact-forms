@@ -51,6 +51,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: Domain comparison for current site and stored token's original site. Will disconnect the current viewed install if mismatched, in order to preserve original connection pairing.
 * Fixed: Invalid nested paragraph markup in settings pages.
 * Fixed: adjust shortcode "copy" button if not on HTTPS, handles compatibility with browser clipboard API.
+* Updated: Wording regarding connection status for connect/disconnect buttons.
 
 = 2.18.0 =
 * Added: Revised refresh process to be more permissible of failures that are not expired refresh token related. Thanks JoeyYax.
