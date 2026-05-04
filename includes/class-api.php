@@ -10,13 +10,8 @@
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
-require_once 'Ctct/Components/Component.php';
-require_once 'Ctct/Components/Contacts/Contact.php';
-require_once 'Ctct/Components/Contacts/ContactList.php';
 require_once 'Ctct/Exceptions/CtctException.php';
 
-use Ctct\Components\Contacts\Contact;
-use Ctct\Components\Contacts\ContactList;
 use Ctct\Exceptions\CtctException;
 
 /**
@@ -1286,53 +1281,20 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $new_list API data for new list.
+	 * @param  array $new_list API data for new list.
 	 * @return array Current connect ctct lists.
 	 */
 	public function add_list( $new_list = [] ) {
 
-		if ( empty( $new_list ) || ! isset( $new_list['id'] ) ) {
+		if ( empty( $new_list ) ) {
 			return [];
 		}
 
+		$list        = [];
 		$return_list = [];
 
 		try {
-			$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
-			if ( array_key_exists( 'error_key', $list ) && 'unauthorized' === $list['error_key'] ) {
-				$this->refresh_token();
-
-				$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
-			}
-		} catch ( CtctException $ex ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors       = $ex->getErrors();
-			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-		} catch ( Exception $ex ) {
-			$error                = new stdClass();
-			$error->error_key     = get_class( $ex );
-			$error->error_message = $ex->getMessage();
-
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-		}
-
-		if ( ! isset( $list[0]['error_key'] ) ) {
-			return $list;
-		}
-
-		try {
-
-			$list = new ContactList();
-
-			$list->name = isset( $new_list['name'] ) ? esc_attr( $new_list['name'] ) : '';
+			$list['name'] = isset( $new_list['name'] ) ? esc_attr( $new_list['name'] ) : '';
 
 			/**
 			 * Filters the list status to use when adding a list.
@@ -1341,9 +1303,9 @@ class ConstantContact_API {
 			 *
 			 * @param string $value List status to use.
 			 */
-			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
+			$list['status'] = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
-			$return_list = $this->cc()->add_list( (array) $list );
+			$return_list = $this->cc()->add_list( $list );
 			if ( isset( $return_list[0]['error_message'] ) ) {
 				// TODO: check why it's not going to catch
 				throw new Exception( $return_list[0]['error_message'] );
@@ -1385,11 +1347,10 @@ class ConstantContact_API {
 
 		try {
 
-			$list = new ContactList();
-
-			$list->id       = isset( $updated_list['id'] ) ? esc_attr( $updated_list['id'] ) : '';
-			$list->name     = isset( $updated_list['name'] ) ? esc_attr( $updated_list['name'] ) : '';
-			$list->favorite = isset( $updated_list['favorite'] ) ? esc_attr( $updated_list['favorite'] ) : false;
+			$list             = [];
+			$list['id']       = isset( $updated_list['id'] ) ? esc_attr( $updated_list['id'] ) : '';
+			$list['name']     = isset( $updated_list['name'] ) ? esc_attr( $updated_list['name'] ) : '';
+			$list['favorite'] = isset( $updated_list['favorite'] ) ? esc_attr( $updated_list['favorite'] ) : false;
 
 			/**
 			 * Filters the list status to use when updating a list.
@@ -1398,9 +1359,9 @@ class ConstantContact_API {
 			 *
 			 * @param string $value List status to use.
 			 */
-			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
+			$list['status'] = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
-			$return_list = $this->cc()->update_list( (array) $list );
+			$return_list = $this->cc()->update_list( $list );
 			if ( array_key_exists( 'error_key', $return_list ) && 'unauthorized' === $return_list['error_key'] ) {
 				$this->refresh_token();
 				$return_list = $this->cc()->update_list( $list );
