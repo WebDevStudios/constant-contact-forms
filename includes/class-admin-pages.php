@@ -21,9 +21,10 @@ class ConstantContact_Admin_Pages {
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
-	 * @var object
+	 *
+	 * @var Constant_Contact
 	 */
-	protected $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Constructor.
@@ -31,7 +32,7 @@ class ConstantContact_Admin_Pages {
 	 * @since 1.0.0
 	 * @param object $plugin Plugin parent.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
@@ -41,7 +42,7 @@ class ConstantContact_Admin_Pages {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		add_action( 'admin_enqueue_scripts', [ $this, 'styles' ] );
 	}
 
@@ -50,7 +51,7 @@ class ConstantContact_Admin_Pages {
 	 *
 	 * @since 1.0.0
 	 */
-	public function styles() {
+	public function styles(): void {
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 		wp_enqueue_script( 'ctct_form' );
 	}
@@ -60,7 +61,7 @@ class ConstantContact_Admin_Pages {
 	 *
 	 * @since 1.0.0
 	 */
-	public function about_page() {
+	public function about_page(): void {
 
 		$auth_link = '';
 		$new_link  = '';
