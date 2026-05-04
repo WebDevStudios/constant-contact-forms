@@ -319,7 +319,7 @@ class ConstantContact_CPTS {
 				}
 			}
 
-			set_transient( ConstantContact_Shortcode::FORMS_LIST_TRANSIENT, $forms, 1 * HOUR_IN_SECONDS );
+			set_transient( ConstantContact_Shortcode::FORMS_LIST_TRANSIENT, $forms, HOUR_IN_SECONDS );
 		}
 
 		return $forms;
