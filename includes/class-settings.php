@@ -363,7 +363,6 @@ class ConstantContact_Settings {
 					),
 					'id'         => '_ctct_disable_email_notifications',
 					'type'       => 'checkbox',
-					'before_row' => '<hr/>',
 				]
 			);
 		}
@@ -388,7 +387,7 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'styles' ) );
 
 		$before_global_css = sprintf(
-			'<hr><h2>%s</h2>',
+			'<h2>%s</h2>',
 			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
 		);
 
@@ -463,7 +462,7 @@ class ConstantContact_Settings {
 			if ( $lists && is_array( $lists ) ) {
 
 				$before_optin = sprintf(
-					'<hr><h2>%s</h2>',
+					'<h2>%s</h2>',
 					esc_html__( 'Advanced opt-in', 'constant-contact-forms' )
 				);
 
@@ -736,7 +735,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_message = sprintf(
-			'<hr/><h2>%s</h2><div class="description">%s</div>',
+			'<h2>%s</h2><div class="description">%s</div>',
 			esc_html__( 'Suspected bot error message', 'constant-contact-forms' ),
 			esc_html__( 'This message displays when the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' )
 		);
