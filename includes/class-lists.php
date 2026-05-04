@@ -12,9 +12,6 @@
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
-use Ctct\ConstantContact;
-use Ctct\Exceptions\CtctException;
-
 /**
  * Powers Lists functionality, creation, deletion, syncing, and more.
  *
