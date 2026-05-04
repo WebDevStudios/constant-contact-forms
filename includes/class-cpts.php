@@ -23,17 +23,17 @@ class ConstantContact_CPTS {
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
-	 * @var object
+	 * @var Constant_Contact
 	 */
-	protected object $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @param object $plugin Parent class.
+	 * @param Constant_Contact $plugin Parent class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
@@ -43,7 +43,7 @@ class ConstantContact_CPTS {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		add_action( 'init', [ $this, 'forms_post_type' ] );
 		add_action( 'init', [ $this, 'lists_post_type' ] );
 
@@ -60,7 +60,7 @@ class ConstantContact_CPTS {
 	 *
 	 * @since 1.0.0
 	 */
-	public function forms_post_type() {
+	public function forms_post_type(): void {
 
 		$labels = [
 			'name'                     => esc_html_x( 'Forms', 'Post type general name', 'constant-contact-forms' ),
@@ -121,7 +121,7 @@ class ConstantContact_CPTS {
 	 *
 	 * @since 1.0.0
 	 */
-	public function lists_post_type() {
+	public function lists_post_type(): void {
 
 		$labels = [
 			'name'                  => esc_html_x( 'Lists', 'Post type general name', 'constant-contact-forms' ),
@@ -177,7 +177,7 @@ class ConstantContact_CPTS {
 	 * @param array $messages Default update messages.
 	 * @return array appended update messages with custom post types.
 	 */
-	public function post_updated_messages( $messages ) : array {
+	public function post_updated_messages( array $messages ): array {
 		global $post;
 
 		$revision = filter_input( INPUT_GET, 'revision', FILTER_SANITIZE_NUMBER_INT );
@@ -236,7 +236,7 @@ class ConstantContact_CPTS {
 	 * @param WP_Post $post Post object.
 	 * @return string $title output string
 	 */
-	public function change_default_title( string $title, WP_Post $post ) : string {
+	public function change_default_title( string $title, WP_Post $post ): string {
 
 		if ( 'ctct_forms' === $post->post_type ) {
 			$title = sprintf(
@@ -261,7 +261,7 @@ class ConstantContact_CPTS {
 	 * @param bool $bust_cache    Set `true` to bust the cached forms.
 	 * @return array
 	 */
-	public function get_forms( $expanded_data = false, $bust_cache = false ) {
+	public function get_forms( $expanded_data = false, $bust_cache = false ): array {
 
 		$forms = get_transient( ConstantContact_Shortcode::FORMS_LIST_TRANSIENT );
 
@@ -335,7 +335,7 @@ class ConstantContact_CPTS {
 	 *
 	 * @return array
 	 */
-	public function duplicate_form_link( $actions, $post ) : array {
+	public function duplicate_form_link( array $actions, WP_Post $post ): array {
 		if ( 'ctct_forms' !== $post->post_type ) {
 			return $actions;
 		}
@@ -364,7 +364,7 @@ class ConstantContact_CPTS {
 	 *
 	 * @since 2.8.0
 	 */
-	public function maybe_duplicate_form() {
+	public function maybe_duplicate_form(): void {
 		if ( empty( $_GET ) ) {
 			return;
 		}
@@ -402,9 +402,10 @@ class ConstantContact_CPTS {
 	 * @since 2.8.0
 	 *
 	 * @param int $post_id Form ID to duplicate.
-	 * @return false|int|WP_Error
+	 *
+	 * @return int|false|WP_Error
 	 */
-	protected function duplicate_form( int $post_id ) {
+	protected function duplicate_form( int $post_id ): int|false|WP_Error {
 		$to_copy_post = get_post( $post_id );
 		$curr_user    = wp_get_current_user();
 		$to_be_author = $curr_user->ID;
@@ -449,7 +450,7 @@ class ConstantContact_CPTS {
 	 *
 	 * @since 2.8.0
 	 */
-	public function admin_notices() {
+	public function admin_notices(): void {
 		if ( empty( $_GET ) ) {
 			return;
 		}
