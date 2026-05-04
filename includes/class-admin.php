@@ -605,7 +605,7 @@ class ConstantContact_Admin {
 	 * @param array $extra_localizations Optional. An array of arrays of `[ $handle, $name, $data ]` passed to wp_localize_script.
 	 * @return void
 	 */
-	public function scripts( $extra_localizations = [] ) {
+	public function scripts( $extra_localizations = [] ): void {
 
 		global $pagenow;
 
