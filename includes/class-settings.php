@@ -365,12 +365,11 @@ class ConstantContact_Settings {
 					'name'       => esc_html__( 'Disable e-mail notifications', 'constant-contact-forms' ),
 					'desc'       => sprintf(
 					/* Translators: Placeholder is for a <br /> HTML tag. */
-						esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under WordPress "General Settings".', 'constant-contact-forms' ),
+						esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under WordPress "General Settings" or selected addresses for each form.', 'constant-contact-forms' ),
 						'<br/>'
 					),
 					'id'         => '_ctct_disable_email_notifications',
 					'type'       => 'checkbox',
-					'before_row' => '<hr/>',
 				]
 			);
 		}
@@ -395,7 +394,7 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'styles' ) );
 
 		$before_global_css = sprintf(
-			'<hr><h2>%s</h2>',
+			'<h2>%s</h2>',
 			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
 		);
 
@@ -470,7 +469,7 @@ class ConstantContact_Settings {
 			if ( $lists && is_array( $lists ) ) {
 
 				$before_optin = sprintf(
-					'<hr><h2>%s</h2>',
+					'<h2>%s</h2>',
 					esc_html__( 'Advanced opt-in', 'constant-contact-forms' )
 				);
 
@@ -743,7 +742,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_message = sprintf(
-			'<hr/><h2>%s</h2><div class="description">%s</div>',
+			'<h2>%s</h2><div class="description">%s</div>',
 			esc_html__( 'Suspected bot error message', 'constant-contact-forms' ),
 			esc_html__( 'This message displays when the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' )
 		);

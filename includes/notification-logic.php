@@ -293,6 +293,12 @@ function constant_contact_maybe_show_lists_selection_notification(): bool {
 	}
 
 	if ( isset( $_GET['post'] ) && is_numeric( $_GET['post'] ) ) {
+		$type = get_post_type( $_GET['post'] );
+
+		if ( 'ctct_forms' !== $type ) {
+			return false;
+		}
+
 		$thepostmeta = get_post_meta( absint( $_GET['post'] ) );
 
 		return empty( $thepostmeta['_ctct_list'] );

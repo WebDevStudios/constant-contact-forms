@@ -1,0 +1,14 @@
+.ctct-page-wrap,
+.cmb2-postbox {
+	.cmb2-wrap {
+		input:focus,
+		textarea:focus {
+			background: inherit;
+		}
+
+		input:checked,
+		textarea:checked {
+			background: var(--wp-admin-theme-color);
+		}
+	}
+}
