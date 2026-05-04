@@ -55,7 +55,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Parent plugin class.
@@ -63,7 +63,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $basename;
+	protected string $basename;
 
 	/**
 	 * The parent menu page slug.
@@ -92,7 +92,7 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 
 		add_action( 'current_screen', [ $this, 'current_screen' ] );
 		add_action( 'admin_init', [ $this, 'init' ] );
@@ -117,7 +117,7 @@ class ConstantContact_Admin {
 	 * @since 1.11.0
 	 * @author Darren Cooney <darren.cooney@webdevstudios.com>
 	 */
-	public function current_screen( WP_Screen $screen ) {
+	public function current_screen( WP_Screen $screen ): void {
 		if ( constant_contact()->is_constant_contact() ) {
 			add_action( 'in_admin_header', [ $this, 'admin_page_toolbar' ] );
 		}
@@ -131,7 +131,7 @@ class ConstantContact_Admin {
 	 * @since 1.11.0
 	 * @author Darren Cooney <darren.cooney@webdevstudios.com>
 	 */
-	public function admin_page_toolbar() {
+	public function admin_page_toolbar(): void {
 
 		global $submenu, $submenu_file, $plugin_page;
 
