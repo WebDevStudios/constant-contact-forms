@@ -17,6 +17,13 @@
 	}
 }
 
+#poststuff {
+  p.cmb2-metabox-description,
+  span.cmb2-metabox-description {
+	color: inherit;
+  }
+}
+
 body.post-type-ctct_lists .misc-pub-post-status {
 	display: none;
 }
