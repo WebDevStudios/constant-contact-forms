@@ -41,7 +41,7 @@ class ConstantContactWidget extends WP_Widget {
 	 *
 	 * @param array $instance Widget instance.
 	 */
-	public function form( $instance ) {
+	public function form( $instance ): void {
 		$defaults = [
 			'ctct_title'      => '',
 			'ctct_form_id'    => 0,
@@ -114,7 +114,7 @@ class ConstantContactWidget extends WP_Widget {
 	 * @param array $args     Widget args.
 	 * @param array $instance Widget instance.
 	 */
-	public function widget( $args, $instance ) {
+	public function widget( $args, $instance ): void {
 		$title           = trim( wp_strip_all_tags( $instance['ctct_title'] ) );
 		$form_id         = absint( $instance['ctct_form_id'] );
 		$show_form_title = ( ! empty( $instance['ctct_form_title'] ) ) ? 'true' : 'false';
@@ -138,7 +138,7 @@ class ConstantContactWidget extends WP_Widget {
 	 *
 	 * @return array
 	 */
-	public function get_forms() : array {
+	public function get_forms(): array {
 
 		$args = [
 			'post_type'      => 'ctct_forms',
@@ -163,7 +163,7 @@ class ConstantContactWidget extends WP_Widget {
 	 * @param WP_Post $post Post object.
 	 * @return array
 	 */
-	public function get_form_fields( WP_Post $post ) :array {
+	public function get_form_fields( WP_Post $post ): array {
 		return [ $post->ID => $post->post_title ];
 	}
 
@@ -174,7 +174,7 @@ class ConstantContactWidget extends WP_Widget {
 	 *
 	 * @param array $args Arguments for checkbox.
 	 */
-	public function form_input_checkbox( array $args = [] ) {
+	public function form_input_checkbox( array $args = [] ): void {
 
 		if ( ! empty( $args ) ) {
 			$label_text = esc_attr( $args['label_text'] );
@@ -200,7 +200,7 @@ class ConstantContactWidget extends WP_Widget {
 	 *
 	 * @param array $args Arguments for text input.
 	 */
-	public function form_input_text( array $args = [] ) {
+	public function form_input_text( array $args = [] ): void {
 
 		if ( ! empty( $args ) ) {
 			$label_text = esc_attr( $args['label_text'] );
@@ -226,7 +226,7 @@ class ConstantContactWidget extends WP_Widget {
 	 *
 	 * @param array $args Arguments for select input.
 	 */
-	public function form_input_select( array $args = [] ) {
+	public function form_input_select( array $args = [] ): void {
 		if ( ! empty( $args ) ) {
 			$label_text = esc_attr( $args['label_text'] );
 			$name       = esc_attr( $args['name'] );
