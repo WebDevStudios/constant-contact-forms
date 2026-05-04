@@ -659,9 +659,6 @@ class ConstantContact_Admin {
 			wp_enqueue_script( 'ctct_form' );
 		}
 
-		$current_screen = get_current_screen();
-		$is_block       = is_object( $current_screen ) ? $current_screen->is_block_editor : true;
-
 		/**
 		 * Filters the allowed pages to enqueue the ctct_form script on.
 		 *
