@@ -227,7 +227,7 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function init() {
+	public function init(): void {
 		register_setting( $this->key, $this->key );
 	}
 
@@ -236,7 +236,7 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_options_page() {
+	public function add_options_page(): void {
 
 		add_submenu_page(
 			$this->parent_menu_slug,
@@ -270,7 +270,7 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function admin_page_display() {
+	public function admin_page_display(): void {
 
 		/**
 		 * Fires before the Constant Contact admin page display.
@@ -321,12 +321,12 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @throws Exception Throws an exception if the field is invalid.
-	 *
 	 * @param string $field Field to retrieve.
-	 * @return mixed Field value or exception is thrown.
+	 *
+	 * @return mixed     Field value or exception is thrown.
+	 * @throws Exception Throws an exception if the field is invalid.
 	 */
-	public function __get( $field ) {
+	public function __get( string $field ) {
 
 		$field = esc_attr( $field );
 
@@ -370,7 +370,7 @@ class ConstantContact_Admin {
 	 *
 	 * @return void
 	 */
-	public function custom_columns( string $column, int $post_id ) {
+	public function custom_columns( string $column, int $post_id ): void {
 		$post_id = absint( $post_id );
 
 		if ( ! $post_id ) {
@@ -511,7 +511,7 @@ class ConstantContact_Admin {
 	 *
 	 * @return void
 	 */
-	public function custom_lists_columns( string $column, int $post_id ) {
+	public function custom_lists_columns( string $column, int $post_id ): void {
 
 		$post_id = absint( $post_id );
 
