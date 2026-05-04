@@ -30,7 +30,8 @@ class ConstantContact_Admin_Pages {
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @param object $plugin Plugin parent.
+	 *
+	 * @param Constant_Contact $plugin Plugin parent.
 	 */
 	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
@@ -171,7 +172,7 @@ class ConstantContact_Admin_Pages {
 	 *
 	 * @since 1.0.1
 	 */
-	public function license_page() {
+	public function license_page(): void {
 		$license_text = $this->plugin->get_license_text();
 		?>
 		<h2><?php esc_attr_e( 'Constant Contact Forms - License', 'constant-contact-forms' ); ?></h2>
