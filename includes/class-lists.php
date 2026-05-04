@@ -487,25 +487,13 @@ class ConstantContact_Lists {
 	 */
 	public function add_list( $ctct_list ) {
 
-		if ( ! isset( $ctct_list ) || empty( $ctct_list ) ) {
-			return false;
-		}
-
-		if ( ! isset( $ctct_list->ID ) || 0 >= $ctct_list->ID ) {
-			return false;
-		}
-
-		if ( ! isset( $ctct_list->post_title ) || empty( $ctct_list->post_title ) ) {
+		if ( empty( $ctct_list ) ) {
 			return false;
 		}
 
 		$name = $this->set_unique_list_name( $ctct_list->ID, $ctct_list->post_title );
-
-		// Push our list into the API. For the list ID, we append a string of random numbers
-		// to make sure its unique.
 		$list = constant_contact()->get_api()->add_list(
 			[
-				'id'   => absint( $ctct_list->ID ) . wp_rand( 0, 1000 ),
 				'name' => esc_attr( $name ),
 			]
 		);
