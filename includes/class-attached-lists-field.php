@@ -8,7 +8,7 @@ class ConstantContact_Attached_Lists_Field {
 	/**
 	 * Current version number
 	 */
-	const VERSION = '1.0.0';
+	const string VERSION = '1.0.0';
 
 	/**
 	 * CMB2_Field object
@@ -39,7 +39,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * Add a CMB custom field to allow for the selection of multiple posts
 	 * attached to a single page.
 	 */
-	public function render( $field, $escaped_value, $object_id, $object_type, $field_type ) {
+	public function render( $field, $escaped_value, $object_id, $object_type, $field_type ): void {
 		self::setup_scripts();
 		$this->field         = $field;
 		$this->do_type_label = false;
@@ -189,7 +189,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @return void
 	 * @since  2.6.0
 	 */
-	protected function display_retrieved( $objects, $attached ) {
+	protected function display_retrieved( $objects, $attached ): void {
 		$count = 0;
 
 		// Loop through our posts as list items
@@ -213,7 +213,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @return array
 	 * @since  2.6.0
 	 */
-	protected function display_attached( $attached_lists ) {
+	protected function display_attached( $attached_lists ): array {
 		$ids = [];
 
 		// Remove any empty values
@@ -243,7 +243,7 @@ class ConstantContact_Attached_Lists_Field {
 		return $ids;
 	}
 
-	protected function get_object_by_list_id( $list_id ) {
+	protected function get_object_by_list_id( $list_id ): WP_Post|null|false {
 		if ( $this->doing_search() ) {
 			return false;
 		}
@@ -272,7 +272,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @return void
 	 * @since  2.6.0
 	 */
-	public function list_item( $object, $li_class, $icon_class = 'dashicons-plus' ) {
+	public function list_item( $object, $li_class, $icon_class = 'dashicons-plus' ): void {
 		// Build our list item
 		printf(
 			'<li data-id="%1$s" class="%2$s" target="_blank"><span class="dashicons dashicons-sort sort"></span> %3$s <span class="dashicons %4$s add-remove"></span></li>',
@@ -286,12 +286,13 @@ class ConstantContact_Attached_Lists_Field {
 	/**
 	 * Get ID for the object.
 	 *
+	 * @since 2.6.0
+	 *
 	 * @param mixed $object Post or User
 	 *
-	 * @return int            The object ID.
-	 * @since  2.6.0
+	 * @return int The object ID.
 	 */
-	public function get_id( $object ) {
+	public function get_id( $object ): int {
 		return $object->ID;
 	}
 
@@ -307,7 +308,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @return mixed     Post or User if found.
 	 * @since  2.6.0
 	 */
-	public function get_object( $id ) {
+	public function get_object( $id ): WP_Post|false {
 		return get_post( absint( $id ) );
 	}
 
@@ -320,7 +321,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @return array            Array of attached object ids.
 	 * @since  2.6.0
 	 */
-	public function get_all_objects( $args, $attached = [] ) {
+	public function get_all_objects( $args, $attached = [] ): array {
 		$objects = $this->get_objects( $args );
 
 		$attached_objects = [];
@@ -352,14 +353,14 @@ class ConstantContact_Attached_Lists_Field {
 	 * @return array        Array of results.
 	 * @since  2.6.0
 	 */
-	public function get_objects( $args ) {
+	public function get_objects( $args ): array {
 		return call_user_func( 'get_posts', $args );
 	}
 
 	/**
 	 * Enqueue admin scripts for our attached posts field
 	 */
-	protected static function setup_scripts() {
+	protected static function setup_scripts(): void {
 		static $once = false;
 
 		$url = constant_contact::url() . 'assets/js/';
@@ -393,7 +394,7 @@ class ConstantContact_Attached_Lists_Field {
 	/**
 	 * Add the find posts div via a hook so we can relocate it manually
 	 */
-	public function add_find_posts_div() {
+	public function add_find_posts_div(): void {
 		// `find_posts_div` -> Outputs the modal window used for attaching media to posts or pages in the media-listing screen.
 		add_action( 'wp_footer', 'find_posts_div' );
 	}
@@ -421,7 +422,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @return void
 	 * @since  2.6.0
 	 */
-	public function ajax_find_posts() {
+	public function ajax_find_posts(): void {
 		if ( $this->doing_search() ) {
 			add_action( 'pre_get_posts', [ $this, 'modify_query' ] );
 		}
@@ -435,7 +436,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @return void
 	 * @since  2.6.0
 	 */
-	public function modify_query( $query ) {
+	public function modify_query( $query ): void {
 		$types = $_POST['search_types'];
 		$types = is_array( $types ) ? array_map( 'esc_attr', $types ) : esc_attr( $types );
 		$query->set( 'post_type', $types );
@@ -464,7 +465,7 @@ class ConstantContact_Attached_Lists_Field {
 	 * @since 2.6.0
 	 * @return bool
 	 */
-	protected function doing_search() {
+	protected function doing_search(): bool {
 		if (
 			defined( 'DOING_AJAX' )
 			&& DOING_AJAX
