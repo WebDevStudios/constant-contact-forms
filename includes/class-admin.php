@@ -104,7 +104,7 @@ class ConstantContact_Admin {
 		add_filter( 'manage_ctct_lists_posts_columns', [ $this, 'set_custom_lists_columns' ] );
 		add_action( 'manage_ctct_lists_posts_custom_column', [ $this, 'custom_lists_columns' ], 10, 2 );
 
-		add_filter( 'plugin_action_links_' . $this->basename, [ $this, 'add_social_links' ] );
+		add_filter( 'plugin_action_links_' . $this->basename, [ $this, 'add_custom_links' ] );
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
 	}
@@ -545,11 +545,7 @@ class ConstantContact_Admin {
 	 *
 	 * @return array
 	 */
-	public function add_social_links( $links ): array {
-
-		if ( ! is_array( $links ) ) {
-			return $links;
-		}
+	public function add_custom_links( array $links ): array {
 
 		$add_links[] = $this->get_admin_link( esc_html__( 'Settings', 'constant-contact-forms' ), 'settings_general' );
 
