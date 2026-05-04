@@ -78,41 +78,6 @@ class ConstantContact_API {
 	private string $last_error = '';
 
 	/**
-	 * Body value.
-	 * @since 2.0.0
-	 * @var string
-	 */
-	private string $body = '';
-
-	/**
-	 * Host value.
-	 * @since 2.0.0
-	 * @var string
-	 */
-	private string $host = '';
-
-	/**
-	 * Status code for a request
-	 * @since 2.0.0
-	 * @var int
-	 */
-	private int $status_code = 200;
-
-	/**
-	 * Session callback value.
-	 * @since 2.0.0
-	 * @var null
-	 */
-	private $session_callback = null;
-
-	/**
-	 * PKCE
-	 * @since 2.0.0
-	 * @var bool
-	 */
-	public bool $PKCE = true;
-
-	/**
 	 * Scopes for authorization usage.
 	 * @since 2.0.0
 	 * @var array|int[]|string[]
@@ -170,10 +135,9 @@ class ConstantContact_API {
 	}
 
 	/**
-	 *
 	 * @since 1.0.0
 	 */
-	public function ctct_init() {
+	public function ctct_init(): bool {
 
 		// Early exit for heartbeat API.
 		if ( ! empty( $_POST['action'] ) && 'heartbeat' === sanitize_text_field( $_POST['action'] ) ) {
@@ -260,6 +224,7 @@ class ConstantContact_API {
 				$this->refresh_token();
 			}
 		}
+		return true;
 	}
 
 	/**
@@ -269,7 +234,7 @@ class ConstantContact_API {
 	 *
 	 * @return object ConstantContact_API.
 	 */
-	public function cc() {
+	public function cc(): ConstantContact_Client {
 		return new ConstantContact_Client( $this->get_api_token() );
 	}
 
@@ -280,7 +245,7 @@ class ConstantContact_API {
 	 *
 	 * @return string Access API token.
 	 */
-	public function get_api_token() {
+	public function get_api_token(): string {
 		$token = '';
 
 		// Fetch current access token, expired or not.
@@ -346,7 +311,6 @@ class ConstantContact_API {
 		$parsed_code_state = array_values( $parsed_code_state );
 
 		if ( empty( $parsed_code_state[0] ) || empty( $parsed_code_state[1] ) ) {
-			$this->status_code = 0;
 			$this->last_error  = 'Invalid state or auth code';
 			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
 
@@ -359,7 +323,6 @@ class ConstantContact_API {
 		$expected_state = get_option( 'CtctConstantContactState' );
 
 		if ( ( $state ?? 'undefined' ) != $expected_state ) {
-			$this->status_code = 0;
 			$this->last_error  = 'state is not correct';
 			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
 
@@ -406,11 +369,12 @@ class ConstantContact_API {
 
 	/**
 	 * Refresh the access token.
+	 *
+	 * @since 2.0.0
 	 * @return array
 	 * @throws Exception
-	 * @since 2.0.0
 	 */
-	public function refresh_token() {
+	public function refresh_token(): array {
 
 		$status   = [];
 		$failures = (int) get_option( 'ctct_refresh_failures', 0 );
@@ -493,7 +457,7 @@ class ConstantContact_API {
 	 * @return bool
 	 * @since 2.2.0
 	 */
-	private function access_token_maybe_expired() {
+	private function access_token_maybe_expired(): bool {
 
 		$issued_time = get_option( 'ctct_access_token_timestamp', '' );
 		if ( empty( $issued_time ) ) {
@@ -575,7 +539,7 @@ class ConstantContact_API {
 	 * @return boolean If connected.
 	 * @since 1.0.0
 	 */
-	public function is_connected() {
+	public function is_connected(): bool {
 		static $token = null;
 
 		if ( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) {
@@ -588,18 +552,18 @@ class ConstantContact_API {
 	/**
 	 * Execute our API request for token acquisition.
 	 *
+	 * @since 2.0.0
+	 *
 	 * @param string $url     URL to make request to.
 	 * @param array  $options Request options.
 	 *
 	 * @return bool
 	 * @throws Exception
-	 * @since 2.0.0
 	 */
-	private function exec( $url, $options ): bool {
+	private function exec( string $url, array $options ): bool {
 		$response = wp_safe_remote_post( $url, $options );
 
 		$this->last_error  = '';
-		$this->status_code = 0;
 
 		if ( ! is_wp_error( $response ) ) {
 			if ( empty( $response['body'] ) ) {
@@ -657,7 +621,6 @@ class ConstantContact_API {
 				return isset( $data['access_token'], $data['refresh_token'] );
 			}
 		} else {
-			$this->status_code = 0;
 			$this->last_error  = $response->get_error_message();
 			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
 		}
@@ -671,8 +634,9 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 *
 	 * @return array Current connected ctct account info.
+	 * @throws Exception
 	 */
-	public function get_account_info() {
+	public function get_account_info(): array {
 
 		if ( ! $this->is_connected() ) {
 			return [];
@@ -732,8 +696,9 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 *
 	 * @return array Current connect ctct account contacts.
+	 * @throws Exception
 	 */
-	public function get_contacts() {
+	public function get_contacts(): array {
 		if ( ! $this->is_connected() ) {
 			return [];
 		}
@@ -781,14 +746,16 @@ class ConstantContact_API {
 	 * request body to determine if it should create an new contact or update
 	 * an existing contact.
 	 *
+	 * @since 1.0.0
+	 * @since 1.3.0 Added $form_id parameter
+	 *
 	 * @param array $new_contact New contact data.
 	 * @param int   $form_id     ID of the form being processed.
 	 *
 	 * @return array Current connect contact.
-	 * @since 1.3.0 Added $form_id parameter.
-	 * @since 1.0.0
+	 * @throws Exception
 	 */
-	public function add_contact( $new_contact = [], $form_id = 0 ) {
+	public function add_contact( array $new_contact = [], int $form_id = 0 ): array {
 
 		if ( ! isset( $new_contact['email'] ) ) {
 			return [];
@@ -1601,34 +1568,6 @@ class ConstantContact_API {
 		}
 
 		return [ $code, constant_contact()->get_api_utility()->base64url_encode( pack( 'H*', hash( 'sha256', $code ) ) ) ];
-	}
-
-	/**
-	 * Handle user session details.
-	 *
-	 * Not used.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param string      $key
-	 * @param string|null $value
-	 *
-	 * @return mixed|string
-	 */
-	public function session( string $key, ?string $value ) {
-		if ( $this->session_callback ) {
-			return call_user_func( $this->session_callback, $key, $value );
-		}
-		if ( null === $value ) {
-			$value = get_user_meta( $this->this_user_id, $key, true );
-			delete_user_meta( $this->this_user_id, $key, $value );
-
-			return $value;
-		}
-
-		update_user_meta( $this->this_user_id, $key, $value );
-
-		return $value;
 	}
 
 	/**
