@@ -1474,30 +1474,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Add contact to one or more lists.
-	 *
-	 * @param array        $contact Contact object.
-	 * @param string|array $list    Single list ID or array of lists.
-	 *
-	 * @return array
-	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  1.9.0
-	 * @todo   Update addList to use v3
-	 */
-	private function add_to_list( $contact, $list ) {
-		if ( empty( $list ) ) {
-			return [];
-		}
-
-		$list = is_array( $list ) ? $list : [ $list ];
-
-		foreach ( $list as $list_id ) {
-			$contact['list_memberships'][] = esc_attr( $list_id );
-		}
-		return $contact;
-	}
-
-	/**
 	 * Helper method to output a link for our settings page tabs.
 	 *
 	 * @since 2022-10-24
