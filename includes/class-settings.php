@@ -140,8 +140,15 @@ class ConstantContact_Settings {
 	public function optin_form_field_login_css() {
 		?>
 		<style>
-		.login .ctct-disclosure {
-			margin: 0 0 15px;
+		#login {
+			.ctct-disclosure {
+				margin: 0 0 15px;
+			}
+			.ctct-optin-wrapper {
+				p {
+					margin-bottom: 1em;
+				}
+			}
 		}
 		</style>
 		<?php
@@ -904,7 +911,7 @@ class ConstantContact_Settings {
 		$saved_label = constant_contact_get_option( '_ctct_optin_label', '' );
 		$label       = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 		?>
-		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
+		<div class="ctct-optin-wrapper" style="padding: 1em 0 1em 0;">
 			<p><?php echo esc_attr( $label ); ?></p>
 			<?php foreach ( $lists as $key => $list ) { ?>
 				<label for="ctct_optin_<?php echo esc_attr( $key ); ?>">
@@ -913,7 +920,7 @@ class ConstantContact_Settings {
 				<br/>
 			<?php } ?>
 			<?php echo wp_kses_post( constant_contact()->get_display()->get_disclose_text() ); ?>
-		</p>
+		</div>
 		<?php
 
 	}
