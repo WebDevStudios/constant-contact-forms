@@ -6,3 +6,4 @@ import './optins';
 import './clipboard';
 import './required-lists';
 import './settings';
+import './feedback';
