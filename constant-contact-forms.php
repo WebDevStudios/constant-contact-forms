@@ -45,7 +45,7 @@
  * @param string $class_name Name of the class being requested.
  * @return null
  */
-function constant_contact_autoload_classes( string $class_name ) {
+function constant_contact_autoload_classes( string $class_name ): null {
 	if ( ! str_starts_with( $class_name, 'ConstantContact_' ) ) {
 		return null;
 	}
@@ -117,7 +117,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var Constant_Contact
 	 */
-	protected static $single_instance;
+	protected static Constant_Contact $single_instance;
 
 	/**
 	 * An instance of the ConstantContact_API Class.
