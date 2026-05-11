@@ -638,10 +638,10 @@ function constant_contact_get_widgets_by_form( $form_id ) {
 						return absint( $value['ctct_form_id'] ) === $data['form_id'];
 					}
 				} elseif ( 'text' === $data['type'] ) {
-					if ( ! isset( $value['text'] ) || false === strpos( $value['text'], '[ctct' ) ) {
+					if ( ! isset( $value['text'] ) || ! str_contains( $value['text'], '[ctct' ) ) {
 						return false;
 					}
-					return ( false !== strpos( $value['text'], "form=\"{$data['form_id']}\"" ) || false !== strpos( $value['text'], "form='{$data['form_id']}'" ) );
+					return ( str_contains( $value['text'], "form=\"{$data['form_id']}\"" ) || str_contains( $value['text'], "form='{$data['form_id']}'" ) );
 				}
 				return false;
 			}

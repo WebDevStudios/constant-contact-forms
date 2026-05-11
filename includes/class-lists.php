@@ -574,7 +574,7 @@ class ConstantContact_Lists {
 
 			// If our string contains what we tacked on previously,
 			// just remove it.
-			if ( strpos( $title, ' (' . $increment . ')' ) !== false ) {
+			if ( str_contains( $title, ' (' . $increment . ')' ) ) {
 				$title = str_replace( ' (' . $increment . ')', '', $title );
 			}
 

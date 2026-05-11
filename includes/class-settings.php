@@ -231,7 +231,7 @@ class ConstantContact_Settings {
 			return $file;
 		}
 
-		$plugin_page = false !== strpos( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- OK overriding of WP global.
+		$plugin_page = str_contains( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- OK overriding of WP global.
 
 		return $file;
 	}
@@ -1230,7 +1230,7 @@ class ConstantContact_Settings {
 		$value = trim( $value );
 
 		// Keys need to be under 50 chars long and have no spaces inside them.
-		if ( false !== strpos( $value, ' ' ) || 50 <= strlen( $value ) ) {
+		if ( str_contains( $value, ' ' ) || 50 <= strlen( $value ) ) {
 			return '';
 		}
 
@@ -1251,7 +1251,7 @@ class ConstantContact_Settings {
 		$value = trim( $value );
 
 		// Keys need to be under 50 chars long and have no spaces inside them.
-		if ( false !== strpos( $value, ' ' ) || 50 <= strlen( $value ) ) {
+		if ( str_contains( $value, ' ' ) || 50 <= strlen( $value ) ) {
 			return '';
 		}
 

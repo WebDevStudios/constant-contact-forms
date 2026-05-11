@@ -103,7 +103,7 @@ class ConstantContact_User_Customizations {
 		}
 
 		// @todo Potentially using this type of code in many places in 1.4.0. Worthy of a helper function.
-		if ( false !== strpos( $custom_email, ',' ) ) {
+		if ( str_contains( $custom_email, ',' ) ) {
 			// Use trim to handle cases of ", ".
 			$partials     = array_map( 'trim', explode( ',', $custom_email ) );
 			$partials     = array_map( 'sanitize_email', $partials );
