@@ -49,6 +49,8 @@ class ConstantContact_Mail {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array $values        Submitted form values.
 	 * @param bool  $add_to_opt_in Whether or not to add to opt in.
 	 * @return bool
