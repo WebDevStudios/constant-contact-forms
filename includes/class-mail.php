@@ -114,10 +114,12 @@ class ConstantContact_Mail {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param  array $values Submitted values.
-	 * @return array|void    Response from API.
+	 * @return array Response from API.
 	 */
-	public function opt_in_user( array $values ) {
+	public function opt_in_user( array $values ): array {
 
 		$args = [];
 		$date_parts = [];
@@ -167,7 +169,7 @@ class ConstantContact_Mail {
 	 *
 	 * @return string
 	 */
-	private function format_anniversary_date( array $date_parts ) {
+	private function format_anniversary_date( array $date_parts ): string {
 		$date = '';
 		if ( ! empty( $date_parts['year'] ) ) {
 			$date .= $date_parts['year'] . '/';
@@ -469,14 +471,12 @@ class ConstantContact_Mail {
 	 * @param string $dest_email Destination email.
 	 * @param string $content    Content of email.
 	 */
-	public function maybe_log_mail_status( string $status, string $dest_email, string $content ) {
-
+	public function maybe_log_mail_status( string $status, string $dest_email, string $content ): void {
 		constant_contact_maybe_log_it(
 			'Mail',
 			'mail attempted for ' . $dest_email . ': ' . $status,
 			$content
 		);
-
 	}
 
 	/**
@@ -487,7 +487,7 @@ class ConstantContact_Mail {
 	 * @param array $values Values submitted to form.
 	 * @return mixed
 	 */
-	public function get_user_email_from_submission( array $values = [] ) {
+	public function get_user_email_from_submission( array $values = [] ): string {
 		foreach ( $values as $key => $value ) {
 			if ( false === strpos( $key, 'email___' ) ) {
 				continue;
