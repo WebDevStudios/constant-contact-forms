@@ -17,6 +17,13 @@
 	}
 }
 
+#poststuff {
+  p.cmb2-metabox-description,
+  span.cmb2-metabox-description {
+	color: inherit;
+  }
+}
+
 body.post-type-ctct_lists .misc-pub-post-status {
 	display: none;
 }
@@ -150,7 +157,6 @@ body.post-type-ctct_forms #titlediv #title {
 	button {
 
 		&.cmb-remove-group-row {
-			background: variables.$color-cmb-button-pale-yellow !important;
 			display: none;
 		}
 	}
