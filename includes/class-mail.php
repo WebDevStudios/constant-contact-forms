@@ -23,16 +23,16 @@ class ConstantContact_Mail {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected object $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $plugin Parent plugin class.
+	 * @param Constant_Contact $plugin Parent plugin class.
 	 */
-	public function __construct( object $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
