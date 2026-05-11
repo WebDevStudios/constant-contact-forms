@@ -1315,7 +1315,7 @@ class ConstantContact_API {
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
-			$error->error_message = $ex->xdebug_message;
+			$error->error_message = $ex->getMessage();
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			constant_contact_forms_maybe_set_exception_notice( $ex );
@@ -1670,7 +1670,7 @@ class ConstantContact_API {
 		$content = sprintf(
 			$content,
 			sprintf(
-				'<a href="%s">',
+				'<a href="%1$s">',
 				get_bloginfo( 'url' )
 			),
 			$title,
