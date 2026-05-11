@@ -1293,35 +1293,37 @@ class ConstantContact_API {
 		$list        = [];
 		$return_list = [];
 
-		try {
-			$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
-			if ( array_key_exists( 'error_key', $list ) && 'unauthorized' === $list['error_key'] ) {
-				$this->refresh_token();
-
+		if ( ! empty( $new_list['id'] ) ) {
+			try {
 				$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
+				if ( array_key_exists( 'error_key', $list ) && 'unauthorized' === $list['error_key'] ) {
+					$this->refresh_token();
+
+					$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
+				}
+			} catch ( CtctException $ex ) {
+				add_filter( 'constant_contact_force_logging', '__return_true' );
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$errors       = $ex->getErrors();
+				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
+				constant_contact_forms_maybe_set_exception_notice( $ex );
+			} catch ( Exception $ex ) {
+				$error                = new stdClass();
+				$error->error_key     = get_class( $ex );
+				$error->error_message = $ex->getMessage();
+
+				add_filter( 'constant_contact_force_logging', '__return_true' );
+				constant_contact_forms_maybe_set_exception_notice( $ex );
+
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 			}
-		} catch ( CtctException $ex ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors       = $ex->getErrors();
-			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-		} catch ( Exception $ex ) {
-			$error                = new stdClass();
-			$error->error_key     = get_class( $ex );
-			$error->error_message = $ex->getMessage();
 
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-		}
-
-		if ( ! isset( $list[0]['error_key'] ) ) {
-			return $list;
+			if ( ! isset( $list[0]['error_key'] ) ) {
+				return $list;
+			}
 		}
 
 		try {
