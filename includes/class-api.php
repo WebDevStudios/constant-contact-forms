@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Constant Contact API class.
  *
@@ -10,14 +9,6 @@
  *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
-require_once 'Ctct/Components/Component.php';
-require_once 'Ctct/Components/Contacts/Contact.php';
-require_once 'Ctct/Components/Contacts/ContactList.php';
-require_once 'Ctct/Exceptions/CtctException.php';
-
-use Ctct\Components\Contacts\Contact;
-use Ctct\Components\Contacts\ContactList;
-use Ctct\Exceptions\CtctException;
 
 /**
  * Powers connection between site and Constant Contact API.
@@ -702,13 +693,6 @@ class ConstantContact_API {
 				if ( $acct_data && ! array_key_exists( 'error_key', $acct_data ) ) {
 					set_transient( 'constant_contact_acct_info', $acct_data, 12 * HOUR_IN_SECONDS );
 				}
-			} catch ( CtctException $ex ) {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$errors       = $ex->getErrors();
-				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-				constant_contact()->get_api_utility()->log_errors( $our_errors );
-				constant_contact_forms_maybe_set_exception_notice( $ex );
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
 				$error->error_key     = get_class( $ex );
@@ -751,13 +735,6 @@ class ConstantContact_API {
 
 				set_transient( 'ctct_contact', $contacts, 1 * DAY_IN_SECONDS );
 				return $contacts;
-			} catch ( CtctException $ex ) {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$errors       = $ex->getErrors();
-				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-				constant_contact()->get_api_utility()->log_errors( $our_errors );
-				constant_contact_forms_maybe_set_exception_notice( $ex );
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
 				$error->error_key     = get_class( $ex );
@@ -828,13 +805,6 @@ class ConstantContact_API {
 				}
 			}
 
-		} catch ( CtctException $ex ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors       = $ex->getErrors();
-			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
@@ -872,54 +842,31 @@ class ConstantContact_API {
 	/**
 	 * Helper method to update contact.
 	 *
+	 * @since 1.0.0
+	 * @since 1.3.0 Added $form_id parameter.
+	 *
 	 * @param string|array $list      List name(s).
 	 * @param array        $user_data User data.
 	 * @param string       $email     email to be updated.
 	 * @param string       $form_id   Form ID being processed.
 	 *
 	 * @return mixed                  Response from API.
-	 * @throws CtctException API exception?
-	 * @since 1.0.0
-	 * @since 1.3.0 Added $form_id parameter.
 	 */
 	public function create_update_contact( $list, $email, $user_data, $form_id ) {
 
-		$contact = new Contact();
+		$contact                     = [];
+		$contact['email_address']    = sanitize_text_field( $email );
+		$contact['list_memberships'] = [];
 
-		$contact->email_address = sanitize_text_field( $email );
-		unset( $contact->{"source"} );
-		if ( ! property_exists( $contact, 'list_memberships' ) ) {
-			$contact->list_memberships = [];
+		$list = is_array( $list ) ? $list : [ $list ];
+		foreach ( $list as $list_id ) {
+			$contact['list_memberships'][] = esc_attr( $list_id );
 		}
-		if ( property_exists( $contact, 'list_memberships' ) && ! is_array( $contact->list_memberships ) ) {
-			$contact->list_memberships = (array) $contact->list_memberships;
-		}
-		$this->add_to_list( $contact, $list );
 
-		try {
-			$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
-		} catch ( CtctException $ex ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors       = $ex->getErrors();
-			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-		} catch ( Exception $ex ) {
-			$error                = new stdClass();
-			$error->error_key     = get_class( $ex );
-			$error->error_message = $ex->getMessage();
-
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-		}
+		$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
 
 		$new_contact = $this->cc()->create_update_contact(
-			(array) $contact
+			$contact
 		);
 
 		if ( $this->has_note( $user_data ) ) {
@@ -937,25 +884,21 @@ class ConstantContact_API {
 	 * Helper method to push as much data from a form as we can into the
 	 * Constant Contact contact thats in a list.
 	 *
-	 * @param object $contact   Contact object.
+	 * @since 1.0.0
+	 * @since 1.3.0 Added $form_id parameter
+	 * @since 1.4.5 Added $updated parameter
+	 *
+	 * @param array  $contact   Contact object.
 	 * @param array  $user_data Bunch of user data.
 	 * @param string $form_id   Form ID being processed.
 	 * @param bool   $updated   Whether or not we are updating a contact. Default false.
 	 *
-	 * @return object Contact object, with new properties.
-	 * @throws CtctException $error An exception error.
-	 * @since 1.0.0
-	 * @since 1.3.0 Added $form_id parameter.
-	 * @since 1.4.5 Added $updated paramater.
+	 * @return array|WP_Error Contact with new properties, or WP_Error
+	 * @throws Exception
 	 */
-	public function set_contact_properties( $contact, $user_data, $form_id, $updated = false ) {
-		if ( ! is_object( $contact ) || ! is_array( $user_data ) ) {
-			$error = new CtctException();
-			$error->setErrors( [
-				'type',
-				esc_html__( 'Not a valid contact to set properties to.', 'constant-contact-forms' )
-			] );
-			throw $error;
+	public function set_contact_properties( $contact, $user_data, $form_id, $updated = false ): array {
+		if ( empty( $user_data ) || ! is_array( $user_data ) ) {
+			return $contact;
 		}
 
 		unset( $user_data['list'] );
@@ -964,7 +907,7 @@ class ConstantContact_API {
 		$count   = 1;
 		$streets = [];
 		if ( ! $updated ) {
-			$contact->notes = [];
+			$contact['notes'] = [];
 		}
 
 		$address_type = get_post_meta( $form_id, '_ctct_address_type', true );
@@ -991,10 +934,10 @@ class ConstantContact_API {
 					// Do nothing, as we already captured or handled elsewhere.
 					break;
 				case 'phone_number':
-					$contact->phone_number = $value;
+					$contact['phone_number'] = $value;
 					break;
 				case 'company':
-					$contact->company_name = $value;
+					$contact['company_name'] = $value;
 					break;
 				case 'street_address':
 				case 'line_2_address':
@@ -1026,13 +969,13 @@ class ConstantContact_API {
 					}
 					break;
 				case 'month_birthday':
-					$contact->birthday_month = absint( $value );
+					$contact['birthday_month'] = absint( $value );
 					break;
 				case 'day_birthday':
-					$contact->birthday_day = absint( $value );
+					$contact['birthday_day'] = absint( $value );
 					break;
 				case 'anniversary':
-					$contact->anniversary = date( 'Y/m/d', strtotime( $value ) );
+					$contact['anniversary'] = date( 'Y/m/d', strtotime( $value ) );
 					break;
 				case 'website':
 				case 'custom':
@@ -1047,6 +990,7 @@ class ConstantContact_API {
 					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 					$custom_field        = ( $original_field_data[ $original ] );
 					$new_custom_field    = '';
+					$contact['custom_fields'] = [];
 					// @todo Fix me.
 					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
 						$custom_field_name .= $custom_field['name'] . ': ';
@@ -1064,14 +1008,14 @@ class ConstantContact_API {
 					}
 
 					if ( ! empty( $new_custom_field ) ) {
-						$contact->custom_fields[] = [
+						$contact['custom_fields'][] = [
 							'custom_field_id' => $new_custom_field['custom_field_id'],
 							'value'           => $value
 						];
 					} else {
 						$custom_field = $this->cc()->get_custom_field_by_name( $custom_field['name'] );
 
-						$contact->custom_fields[] = [
+						$contact['custom_fields'][] = [
 							'custom_field_id' => $custom_field['custom_field_id'],
 							'value'           => $value,
 						];
@@ -1080,17 +1024,7 @@ class ConstantContact_API {
 					$count ++;
 					break;
 				default:
-					try {
-						$contact->$key = $value;
-					} catch ( Exception $e ) {
-						$errors   = [];
-						$extra    = constant_contact_location_and_line( __METHOD__, __LINE__ );
-						$errors[] = $extra . $e->getErrors();
-						constant_contact()->get_api_utility()->log_errors( $errors );
-						constant_contact_forms_maybe_set_exception_notice( $e );
-						break;
-					}
-
+					$contact[ $key ] = $value;
 					break;
 			} // End switch.
 		} // End foreach.
@@ -1099,8 +1033,8 @@ class ConstantContact_API {
 			$address['street'] = implode( ', ', $streets );
 		}
 
-		if ( null !== $address ) {
-			$contact->street_address = (object) $address;
+		if ( ! empty( $address ) ) {
+			$contact['street_address'] = $address;
 		}
 
 		return $contact;
@@ -1150,13 +1084,6 @@ class ConstantContact_API {
 					constant_contact()->get_api_utility()->log_errors($our_errors);
 					constant_contact_forms_maybe_set_exception_notice();
 				}
-			} catch ( CtctException $ex ) {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$errors       = $ex->getErrors();
-				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-				constant_contact()->get_api_utility()->log_errors( $our_errors );
-				constant_contact_forms_maybe_set_exception_notice( $ex );
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
 				$error->error_key     = get_class( $ex );
@@ -1204,13 +1131,6 @@ class ConstantContact_API {
 					set_transient('ctct_list_xrefs', $list_x_refs, HOUR_IN_SECONDS );
 					return $list_x_refs;
 				}
-			} catch ( CtctException $ex ) {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$errors       = $ex->getErrors();
-				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-				constant_contact()->get_api_utility()->log_errors( $our_errors );
-				constant_contact_forms_maybe_set_exception_notice( $ex );
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
 				$error->error_key     = get_class( $ex );
@@ -1259,13 +1179,6 @@ class ConstantContact_API {
 
 				set_transient( 'ctct_lists_' . $id, $list, 1 * DAY_IN_SECONDS );
 				return $list;
-			} catch ( CtctException $ex ) {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-				$errors       = $ex->getErrors();
-				$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-				constant_contact()->get_api_utility()->log_errors( $our_errors );
-				constant_contact_forms_maybe_set_exception_notice( $ex );
 			} catch ( Exception $ex ) {
 				$error                = new stdClass();
 				$error->error_key     = get_class( $ex );
@@ -1289,53 +1202,46 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param array $new_list API data for new list.
+	 * @param  array $new_list API data for new list.
 	 * @return array Current connect ctct lists.
 	 */
 	public function add_list( $new_list = [] ) {
 
-		if ( empty( $new_list ) || ! isset( $new_list['id'] ) ) {
+		if ( empty( $new_list ) ) {
 			return [];
 		}
 
+		$list        = [];
 		$return_list = [];
 
-		try {
-			$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
-			if ( array_key_exists( 'error_key', $list ) && 'unauthorized' === $list['error_key'] ) {
-				$this->refresh_token();
-
+		if ( ! empty( $new_list['id'] ) ) {
+			try {
 				$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
+				if ( array_key_exists( 'error_key', $list ) && 'unauthorized' === $list['error_key'] ) {
+					$this->refresh_token();
+
+					$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
+				}
+			} catch ( Exception $ex ) {
+				$error                = new stdClass();
+				$error->error_key     = get_class( $ex );
+				$error->error_message = $ex->getMessage();
+
+				add_filter( 'constant_contact_force_logging', '__return_true' );
+				constant_contact_forms_maybe_set_exception_notice( $ex );
+
+				$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
+				$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
+				constant_contact()->get_api_utility()->log_errors( $our_errors );
 			}
-		} catch ( CtctException $ex ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors       = $ex->getErrors();
-			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-		} catch ( Exception $ex ) {
-			$error                = new stdClass();
-			$error->error_key     = get_class( $ex );
-			$error->error_message = $ex->getMessage();
 
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-		}
-
-		if ( ! isset( $list[0]['error_key'] ) ) {
-			return $list;
+			if ( ! isset( $list[0]['error_key'] ) ) {
+				return $list;
+			}
 		}
 
 		try {
-
-			$list = new ContactList();
-
-			$list->name = isset( $new_list['name'] ) ? esc_attr( $new_list['name'] ) : '';
+			$list['name'] = isset( $new_list['name'] ) ? esc_attr( $new_list['name'] ) : '';
 
 			/**
 			 * Filters the list status to use when adding a list.
@@ -1344,20 +1250,13 @@ class ConstantContact_API {
 			 *
 			 * @param string $value List status to use.
 			 */
-			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
+			$list['status'] = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
-			$return_list = $this->cc()->add_list( (array) $list );
+			$return_list = $this->cc()->add_list( $list );
 			if ( isset( $return_list[0]['error_message'] ) ) {
 				// TODO: check why it's not going to catch
 				throw new Exception( $return_list[0]['error_message'] );
 			}
-		} catch ( CtctException $ex ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors       = $ex->getErrors();
-			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
@@ -1388,11 +1287,10 @@ class ConstantContact_API {
 
 		try {
 
-			$list = new ContactList();
-
-			$list->id       = isset( $updated_list['id'] ) ? esc_attr( $updated_list['id'] ) : '';
-			$list->name     = isset( $updated_list['name'] ) ? esc_attr( $updated_list['name'] ) : '';
-			$list->favorite = isset( $updated_list['favorite'] ) ? esc_attr( $updated_list['favorite'] ) : false;
+			$list             = [];
+			$list['id']       = isset( $updated_list['id'] ) ? esc_attr( $updated_list['id'] ) : '';
+			$list['name']     = isset( $updated_list['name'] ) ? esc_attr( $updated_list['name'] ) : '';
+			$list['favorite'] = isset( $updated_list['favorite'] ) ? esc_attr( $updated_list['favorite'] ) : false;
 
 			/**
 			 * Filters the list status to use when updating a list.
@@ -1401,20 +1299,13 @@ class ConstantContact_API {
 			 *
 			 * @param string $value List status to use.
 			 */
-			$list->status = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
+			$list['status'] = apply_filters( 'constant_contact_list_status', 'HIDDEN' );
 
-			$return_list = $this->cc()->update_list( (array) $list );
+			$return_list = $this->cc()->update_list( $list );
 			if ( array_key_exists( 'error_key', $return_list ) && 'unauthorized' === $return_list['error_key'] ) {
 				$this->refresh_token();
 				$return_list = $this->cc()->update_list( $list );
 			}
-		} catch ( CtctException $ex ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors       = $ex->getErrors();
-			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
@@ -1453,13 +1344,6 @@ class ConstantContact_API {
 				$this->refresh_token();
 				$list = $this->cc()->delete_list( $updated_list['id'] );
 			}
-		} catch ( CtctException $ex ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$errors       = $ex->getErrors();
-			$our_errors[] = $extra . ' - ' . $errors[0]->error_key . ' - ' . $errors[0]->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
@@ -1474,29 +1358,6 @@ class ConstantContact_API {
 		}
 
 		return $list;
-	}
-
-	/**
-	 * Add contact to one or more lists.
-	 *
-	 * @param Contact      $contact Contact object.
-	 * @param string|array $list    Single list ID or array of lists.
-	 *
-	 * @return void
-	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
-	 * @since  1.9.0
-	 * @todo   Update addList to use v3
-	 */
-	private function add_to_list( $contact, $list ) {
-		if ( empty( $list ) ) {
-			return;
-		}
-
-		$list = is_array( $list ) ? $list : [ $list ];
-
-		foreach ( $list as $list_id ) {
-			$contact->list_memberships[] = esc_attr( $list_id );
-		}
 	}
 
 	/**
