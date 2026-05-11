@@ -114,10 +114,12 @@ class Constant_Contact {
 	/**
 	 * Singleton instance of plugin.
 	 *
+	 * @todo Leave off the class delcaration. It's causing fatal errors.
+	 *
 	 * @since 1.0.0
 	 * @var Constant_Contact
 	 */
-	protected static Constant_Contact $single_instance;
+	protected static $single_instance;
 
 	/**
 	 * An instance of the ConstantContact_API Class.
