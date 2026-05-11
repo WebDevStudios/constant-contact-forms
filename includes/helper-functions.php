@@ -465,7 +465,7 @@ function constant_contact_emails_disabled( $form_id = 0 ): bool {
 	 * @param bool $disabled Whether or not emails are disabled.
 	 * @param int  $form_id  Form ID being submitted to.
 	 */
-	return apply_filters( 'constant_contact_emails_disabled', $disabled, $form_id );
+	return (bool) apply_filters( 'constant_contact_emails_disabled', $disabled, $form_id );
 }
 
 /**
