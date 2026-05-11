@@ -148,10 +148,10 @@ class ConstantContact_Mail {
 		}
 
 		if ( ! isset( $values['ctct-opt-in'] ) || empty( $values['ctct-lists'] ) ) {
-			return;
+			return [];
 		}
 
-		$lists        = $values['ctct-lists'] ?? [];
+		$lists        = $values['ctct-lists'];
 		$lists        = $lists['value'] ?? [];
 		$args['list'] = is_array( $lists ) ? array_map( 'sanitize_text_field', $lists ) : sanitize_text_field( $lists );
 		$args['anniversary'] = [
