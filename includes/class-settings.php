@@ -140,8 +140,15 @@ class ConstantContact_Settings {
 	public function optin_form_field_login_css() {
 		?>
 		<style>
-		.login .ctct-disclosure {
-			margin: 0 0 15px;
+		#login {
+			.ctct-disclosure {
+				margin: 0 0 15px;
+			}
+			.ctct-optin-wrapper {
+				p {
+					margin-bottom: 1em;
+				}
+			}
 		}
 		</style>
 		<?php
@@ -358,12 +365,11 @@ class ConstantContact_Settings {
 					'name'       => esc_html__( 'Disable e-mail notifications', 'constant-contact-forms' ),
 					'desc'       => sprintf(
 					/* Translators: Placeholder is for a <br /> HTML tag. */
-						esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under WordPress "General Settings".', 'constant-contact-forms' ),
+						esc_html__( 'This option will disable e-mail notifications for forms with a selected list and successfully submit to Constant Contact.%s Notifications are sent to the email address listed under WordPress "General Settings" or selected addresses for each form.', 'constant-contact-forms' ),
 						'<br/>'
 					),
 					'id'         => '_ctct_disable_email_notifications',
 					'type'       => 'checkbox',
-					'before_row' => '<hr/>',
 				]
 			);
 		}
@@ -388,7 +394,7 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'styles' ) );
 
 		$before_global_css = sprintf(
-			'<hr><h2>%s</h2>',
+			'<h2>%s</h2>',
 			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
 		);
 
@@ -463,7 +469,7 @@ class ConstantContact_Settings {
 			if ( $lists && is_array( $lists ) ) {
 
 				$before_optin = sprintf(
-					'<hr><h2>%s</h2>',
+					'<h2>%s</h2>',
 					esc_html__( 'Advanced opt-in', 'constant-contact-forms' )
 				);
 
@@ -736,7 +742,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_message = sprintf(
-			'<hr/><h2>%s</h2><div class="description">%s</div>',
+			'<h2>%s</h2><div class="description">%s</div>',
 			esc_html__( 'Suspected bot error message', 'constant-contact-forms' ),
 			esc_html__( 'This message displays when the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' )
 		);
@@ -904,7 +910,7 @@ class ConstantContact_Settings {
 		$saved_label = constant_contact_get_option( '_ctct_optin_label', '' );
 		$label       = $saved_label ?: esc_html__( 'Sign up to our newsletter.', 'constant-contact-forms' );
 		?>
-		<p class="ctct-optin-wrapper" style="padding: 0 0 1em 0;">
+		<div class="ctct-optin-wrapper" style="padding: 1em 0 1em 0;">
 			<p><?php echo esc_attr( $label ); ?></p>
 			<?php foreach ( $lists as $key => $list ) { ?>
 				<label for="ctct_optin_<?php echo esc_attr( $key ); ?>">
@@ -913,7 +919,7 @@ class ConstantContact_Settings {
 				<br/>
 			<?php } ?>
 			<?php echo wp_kses_post( constant_contact()->get_display()->get_disclose_text() ); ?>
-		</p>
+		</div>
 		<?php
 
 	}

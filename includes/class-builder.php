@@ -410,7 +410,7 @@ class ConstantContact_Builder {
 
 							<div class="ctct-modal-right">
 								<?php // Empty alt tag OK; decorative image. ?>
-								<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/fields-image.png' ); ?>" alt="" />
+								<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/fields-image.jpg' ); ?>" alt="" />
 							</div>
 
 						</div><!-- modal body -->

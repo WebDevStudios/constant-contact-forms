@@ -63,6 +63,7 @@ class ConstantContact_Uninstall {
 			'ctct_missed_api_requests',
 			'ctct_log_suffix',
 			'ctct_refresh_failures',
+			'ctct_account_domain_hash',
 			Constant_Contact::$activated_date_option,
 			ConstantContact_Notifications::$dismissed_notices_option,
 			ConstantContact_Notifications::$review_dismissed_option,

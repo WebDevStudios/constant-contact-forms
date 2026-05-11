@@ -130,16 +130,24 @@ class ConstantContact_Lists {
 
 		$list_info = constant_contact()->get_api()->get_list( esc_attr( $list_id ) );
 
-		// Comes in as an array.
-		$list_info_obj = (object) $list_info;
-		if ( ! isset( $list_info_obj->list_id ) ) {
+		if ( ! isset( $list_info['list_id'] ) ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
 			return;
 		}
 
 		echo '<ul>';
 
-		unset( $list_info['id'], $list_info['status'] );
+		echo wp_kses_post(
+			sprintf(
+				'<li>%s</li>',
+				sprintf(
+					esc_html__( '%1$s View in Constant Contact %2$s', 'constant-contact-forms' ),
+					'<a href="https://app.constantcontact.com/contacts/lists/' . esc_attr( $list_info['list_id'] ) . '">',
+					'</a>'
+				)
+
+			)
+		);
 
 		if ( isset( $list_info['created_at'] ) && $list_info['created_at'] ) {
 			$list_info['created_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['created_at'] ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
@@ -149,12 +157,18 @@ class ConstantContact_Lists {
 			$list_info['updated_at'] = date( 'l, F jS, Y g:i A', strtotime( $list_info['updated_at'] ) ); // phpcs:ignore WordPress.DateTime.RestrictedFunctions.date_date
 		}
 
+		// Already linked, don't display.
+		unset( $list_info['list_id'] );
+
 		foreach ( $list_info as $key => $value ) {
+			if ( 'favorite' === $key ) {
+				$value = ( empty( $value ) ? 'no' : 'yes' );
+			}
 			$key = sanitize_text_field( $key );
 			$key = str_replace( '_', ' ', $key );
 			$key = ucwords( $key );
 
-			echo wp_kses_post( '<li><b>' . $key . '</b> : ' . sanitize_text_field( $value ) . '</li>' );
+			echo wp_kses_post( '<li><strong>' . $key . '</strong>: ' . sanitize_text_field( $value ) . '</li>' );
 		}
 
 		echo '</ul>';
