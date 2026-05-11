@@ -546,9 +546,7 @@ class ConstantContact_API {
 		// Base64 encode it
 		$credentials = base64_encode( $auth );
 		// Create and set the Authorization header to use the encoded credentials
-		$headers = [ 'Authorization: Basic ' . $credentials, 'cache-control: no-cache' ];
-
-		return $headers;
+		return [ 'Authorization: Basic ' . $credentials, 'cache-control: no-cache' ];
 	}
 
 	/**
