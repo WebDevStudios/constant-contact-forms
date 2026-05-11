@@ -57,10 +57,6 @@ class ConstantContact_Mail {
 	 */
 	public function submit_form_values( array $values = [], bool $add_to_opt_in = false ) : bool {
 
-		if ( ! is_array( $values ) ) {
-			return false;
-		}
-
 		$values         = constant_contact()->get_process_form()->clean_values( $values );
 		$opt_in_details = ( isset( $values['ctct-opt-in'] ) ) ? $values['ctct-opt-in'] : [];
 
