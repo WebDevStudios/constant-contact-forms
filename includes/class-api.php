@@ -434,7 +434,7 @@ class ConstantContact_API {
 			// Distinguish between a definitive auth failure and a transient error.
 			// Only require manual reconnect for invalid_grant (revoked/expired refresh
 			// token) or after 5 consecutive failures of any kind.
-			if ( false !== strpos( $this->last_error, 'invalid_grant' ) ) {
+			if ( str_contains( $this->last_error, 'invalid_grant' ) ) {
 				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token revoked (invalid_grant). Manual reconnect required.' );
 				constant_contact_set_needs_manual_reconnect( 'true' );
 				$status['reason'] = 'expired';
@@ -1037,7 +1037,7 @@ class ConstantContact_API {
 					$custom_field        = ( $original_field_data[ $original ] );
 					$new_custom_field    = '';
 					// @todo Fix me.
-					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
+					if ( str_contains( $original, 'custom___' ) && $should_include ) {
 						$custom_field_name .= $custom_field['name'] . ': ';
 					}
 
@@ -1609,7 +1609,7 @@ class ConstantContact_API {
 		$has_text_area = false;
 		foreach( $keys as $key ) {
 			if (
-				false !== strpos( $key, 'custom_text_area' ) &&
+				str_contains( $key, 'custom_text_area' ) &&
 				! empty( $submission_data[ $key ]['val'] )
 			) {
 				$has_text_area = true;
@@ -1630,7 +1630,7 @@ class ConstantContact_API {
 	private function get_note_content( $submission_data ): string {
 		$note = '';
 		foreach ( $submission_data as $key => $data ) {
-			if ( false !== strpos( $key, 'custom_text_area' ) ) {
+			if ( str_contains( $key, 'custom_text_area' ) ) {
 				$note .= $data['val'];
 				break;
 			}
