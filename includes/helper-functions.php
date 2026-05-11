@@ -336,13 +336,13 @@ function constant_contact_akismet( bool $is_spam, array $data ): bool {
 	$lname = '';
 	$name  = '';
 	foreach ( $data as $key => $value ) {
-		if ( 'email' === substr( $key, 0, 5 ) ) {
+		if ( str_starts_with( $key, 'email' ) ) {
 			$email = $value;
 		}
-		if ( 'first_name' === substr( $key, 0, 10 ) ) {
+		if ( str_starts_with( $key, 'first_name' ) ) {
 			$fname = $value;
 		}
-		if ( 'last_name' === substr( $key, 0, 9 ) ) {
+		if ( str_starts_with( $key, 'last_name' ) ) {
 			$lname = $value;
 		}
 	}
