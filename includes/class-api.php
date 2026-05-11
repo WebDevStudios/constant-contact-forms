@@ -562,7 +562,7 @@ class ConstantContact_API {
 		static $token = null;
 
 		if ( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) {
-			$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ? true : false;
+			$token = (bool) constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 		}
 
 		return $token;
@@ -617,7 +617,7 @@ class ConstantContact_API {
 				constant_contact()->get_connect()->e_set( '_ctct_refresh_token', $data['refresh_token'] );
 				constant_contact()->get_connect()->e_set( '_ctct_expires_in', (string) $data['expires_in'] );
 
-				$this->access_token  = $data['access_token'] ?? '';
+				$this->access_token  = $data['access_token'];
 				$this->refresh_token = $data['refresh_token'] ?? '';
 				$this->expires_in    = $data['expires_in'] ?? '';
 
