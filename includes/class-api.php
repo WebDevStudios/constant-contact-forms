@@ -1280,15 +1280,18 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array $new_list API data for new list.
 	 * @return array Current connect ctct lists.
 	 */
-	public function add_list( $new_list = [] ) {
+	public function add_list( array $new_list = [] ): array {
 
 		if ( empty( $new_list ) || ! isset( $new_list['id'] ) ) {
 			return [];
 		}
 
+		$list        = [];
 		$return_list = [];
 
 		try {
@@ -1600,6 +1603,7 @@ class ConstantContact_API {
 	 * @since 2.0.0
 	 *
 	 * @param array $submission_data Array of form data.
+	 *
 	 * @return bool
 	 */
 	private function has_note( array $submission_data ): bool {
