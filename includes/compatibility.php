@@ -107,7 +107,7 @@ function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_
 	$new_ignore_keys = array_filter(
 		$new_ignore_keys,
 		function ( $item ) {
-			return false === strpos( $item, 'lists___' );
+			return ! str_contains( $item, 'lists___' );
 		}
 	);
 
