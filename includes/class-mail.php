@@ -204,21 +204,21 @@ class ConstantContact_Mail {
 			$label = $val['orig_key'] ?? false;
 
 			$custom_field_name = '';
-			if ( false !== strpos( $label, 'custom___' ) ) {
+			if ( str_contains( $label, 'custom___' ) ) {
 				$custom_field       = ( $original_field_data[ $val['orig_key'] ] );
 				$custom_field_name .= $custom_field['name'];
 			}
 
 			if ( $label && empty( $custom_field_name ) ) {
 				$label = explode( '___', $label );
-				if ( false === strpos( $label[0], 'anniversary' ) && false === strpos( $label[0], 'birthday' ) ) {
+				if ( ! str_contains( $label[0], 'anniversary' ) && ! str_contains( $label[0], 'birthday' ) ) {
 					$label = ucwords( str_replace( '_', ' ', $label[0] ) );
 				} else {
-					if ( false !== strpos( $label[0], 'anniversary' ) ) {
+					if ( str_contains( $label[0], 'anniversary' ) ) {
 						$date_anniversary[] = $val['post'];
 					}
 
-					if ( false !== strpos( $label[0], 'birthday' ) ) {
+					if ( str_contains( $label[0], 'birthday' ) ) {
 						$date_birthday[] = $val['post'];
 					}
 
@@ -310,7 +310,7 @@ class ConstantContact_Mail {
 			$partial_email = array_map( [ $this, 'get_email_part' ], $destination_email );
 			$partial_email = implode( ',', $partial_email );
 		} else {
-			if ( false !== strpos( $destination_email, ',' ) ) {
+			if ( str_contains( $destination_email, ',' ) ) {
 				// Use trim to handle cases of ", ".
 				$partials      = array_map( 'trim', explode( ',', $destination_email ) );
 				$partial_email = array_map( [ $this, 'get_email_part' ], $partials );
@@ -340,7 +340,7 @@ class ConstantContact_Mail {
 			$destination_email = array_map( 'sanitize_email', $destination_email );
 			$destination_email = implode( ',', $destination_email );
 		} else {
-			if ( false !== strpos( $destination_email, ',' ) ) {
+			if ( str_contains( $destination_email, ',' ) ) {
 				// Use trim to handle cases of ", ".
 				$partials          = array_map( 'trim', explode( ',', $destination_email ) );
 				$partials          = array_map( 'sanitize_email', $partials );
@@ -364,7 +364,7 @@ class ConstantContact_Mail {
 		$list_ids = [];
 		if ( ! empty( $_POST ) && is_array( $_POST ) ) { //phpcs:ignore
 			foreach( $_POST as $key => $value ) { //phpcs:ignore
-				if ( false !== strpos( $key, 'lists' ) ) {
+				if ( str_contains( $key, 'lists' ) ) {
 					$list_ids = array_map( 'sanitize_text_field', array_values( $value ) );
 					break;
 				}
@@ -489,7 +489,7 @@ class ConstantContact_Mail {
 	 */
 	public function get_user_email_from_submission( array $values = [] ): string {
 		foreach ( $values as $key => $value ) {
-			if ( false === strpos( $key, 'email___' ) ) {
+			if ( ! str_contains( $key, 'email___' ) ) {
 				continue;
 			}
 			return $value['value'];
