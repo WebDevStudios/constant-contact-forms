@@ -863,20 +863,7 @@ class ConstantContact_API {
 			$contact['list_memberships'][] = esc_attr( $list_id );
 		}
 
-		try {
-			$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
-		} catch ( Exception $ex ) {
-			$error                = new stdClass();
-			$error->error_key     = get_class( $ex );
-			$error->error_message = $ex->getMessage();
-
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_forms_maybe_set_exception_notice( $ex );
-
-			$extra        = constant_contact_location_and_line( __METHOD__, __LINE__ );
-			$our_errors[] = $extra . ' - ' . $error->error_key . ' - ' . $error->error_message;
-			constant_contact()->get_api_utility()->log_errors( $our_errors );
-		}
+		$contact = $this->set_contact_properties( $contact, $user_data, $form_id, true );
 
 		$new_contact = $this->cc()->create_update_contact(
 			$contact
@@ -909,12 +896,9 @@ class ConstantContact_API {
 	 * @return array|WP_Error Contact with new properties, or WP_Error
 	 * @throws Exception
 	 */
-	public function set_contact_properties( $contact, $user_data, $form_id, $updated = false ) {
-		if ( empty( $contact ) || ! is_array( $user_data ) ) {
-			return new WP_Error(
-				'type',
-				esc_html__( 'Not a valid contact to set properties to.', 'constant-contact-forms' )
-			);
+	public function set_contact_properties( $contact, $user_data, $form_id, $updated = false ): array {
+		if ( empty( $user_data ) || ! is_array( $user_data ) ) {
+			return $contact;
 		}
 
 		unset( $user_data['list'] );
@@ -1040,17 +1024,7 @@ class ConstantContact_API {
 					$count ++;
 					break;
 				default:
-					try {
-						$contact[ $key ] = $value;
-					} catch ( Exception $e ) {
-						$errors   = [];
-						$extra    = constant_contact_location_and_line( __METHOD__, __LINE__ );
-						$errors[] = $extra . $e->getErrors();
-						constant_contact()->get_api_utility()->log_errors( $errors );
-						constant_contact_forms_maybe_set_exception_notice( $e );
-						break;
-					}
-
+					$contact[ $key ] = $value;
 					break;
 			} // End switch.
 		} // End foreach.
