@@ -401,16 +401,24 @@ class ConstantContact_Admin {
 
 		switch ( $column ) {
 			case 'shortcodes':
-				$tmpl = '<div class="ctct-shortcode-wrap">
+				if ( is_ssl() ) {
+					$tmpl = '<div class="ctct-shortcode-wrap ssl">
 					<button type="button" class="button" data-copied="%1$s">%2$s</button>
 					<input class="ctct-shortcode" type="text" value="%3$s" readonly>
 					</div>';
-				printf(
-					$tmpl,
-					esc_attr__( 'Copied!', 'constant-contact-forms' ),
-					esc_html__( 'Copy', 'constant-contact-forms' ),
-					esc_attr( '[ctct form="' . $post_id . '" show_title="false"]' )
-				);
+					printf(
+						$tmpl,
+						esc_attr__( 'Copied!', 'constant-contact-forms' ),
+						esc_html__( 'Copy', 'constant-contact-forms' ),
+						esc_attr( '[ctct form="' . $post_id . '" show_title="false"]' )
+					);
+				} else {
+					$tmpl = '<div class="ctct-shortcode-wrap no-ssl"><p>%1$s</p></div>';
+					printf(
+						$tmpl,
+						esc_html( '[ctct form="' . $post_id . '" show_title="false"]' )
+					);
+				}
 				break;
 			case 'description':
 				echo wp_kses_post( wpautop( get_post_meta( $post_id, '_ctct_description', true ) ) );
