@@ -21,7 +21,7 @@ class ConstantContact_Mail {
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
-	 * @var object
+	 * @var Constant_Contact
 	 */
 	protected Constant_Contact $plugin;
 
