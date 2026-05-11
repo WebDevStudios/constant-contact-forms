@@ -1003,7 +1003,7 @@ class ConstantContact_Display {
 
 				if ( 'address' === $field['name'] ) {
 
-					if ( strpos( $post['key'], '_address___' ) !== false ) {
+					if ( str_contains( $post['key'], '_address___' ) ) {
 
 						$addr_key = explode( '___', $post['key'] );
 
@@ -1286,9 +1286,9 @@ class ConstantContact_Display {
 		 */
 		$truncate_max_length = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 		$max_length          = '';
-		if ( false !== strpos( $id, 'custom___' ) ) {
+		if ( str_contains( $id, 'custom___' ) ) {
 			$max_length = $truncate_max_length ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
-		} elseif ( false !== strpos( $id, 'first_name___' ) || false !== strpos( $id, 'last_name___' ) ) {
+		} elseif ( str_contains( $id, 'first_name___' ) || str_contains( $id, 'last_name___' ) ) {
 			$max_length = 'maxlength="255"';
 		}
 
