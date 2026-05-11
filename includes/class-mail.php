@@ -55,7 +55,7 @@ class ConstantContact_Mail {
 	 * @param bool  $add_to_opt_in Whether or not to add to opt in.
 	 * @return bool
 	 */
-	public function submit_form_values( array $values = [], bool $add_to_opt_in = false ) : bool {
+	public function submit_form_values( array $values = [], bool $add_to_opt_in = false ): bool {
 
 		$values         = constant_contact()->get_process_form()->clean_values( $values );
 		$opt_in_details = ( isset( $values['ctct-opt-in'] ) ) ? $values['ctct-opt-in'] : [];
@@ -191,7 +191,7 @@ class ConstantContact_Mail {
 	 * @param string $form_id Form ID being submitted to.
 	 * @return string HTML content for email.
 	 */
-	public function format_values_for_email( array $pretty_vals, string $form_id ) : string {
+	public function format_values_for_email( array $pretty_vals, string $form_id ): string {
 
 		$return              = '';
 		$date_birthday       = [];
@@ -258,7 +258,7 @@ class ConstantContact_Mail {
 	 *
 	 * @return string Email address to send to.
 	 */
-	public function get_email( string $form_id ) : string {
+	public function get_email( string $form_id ): string {
 
 		$email = get_option( 'admin_email' );
 
@@ -288,7 +288,7 @@ class ConstantContact_Mail {
 	 * @param bool   $was_forced         Whether or not we are force sending. Default false.
 	 * @return bool Whether or not sent.
 	 */
-	public function mail( $destination_email, string $content, array $submission_details, bool $was_forced = false ) : bool {
+	public function mail( $destination_email, string $content, array $submission_details, bool $was_forced = false ): bool {
 
 		static $last_sent = false;
 		$screen           = '';
@@ -454,7 +454,7 @@ class ConstantContact_Mail {
 	 *
 	 * @return string
 	 */
-	public function set_email_type() : string {
+	public function set_email_type(): string {
 		return 'text/html';
 	}
 
@@ -505,7 +505,7 @@ class ConstantContact_Mail {
 	 * @param  bool $was_forced Whether or not we have to force send an email.
 	 * @return string $value      Message to explain why an email was received.
 	 */
-	public function maybe_append_forced_email_notice_note( bool $was_forced = false ) : string {
+	public function maybe_append_forced_email_notice_note( bool $was_forced = false ): string {
 
 		if ( ! $was_forced ) {
 			return '';
@@ -529,7 +529,7 @@ class ConstantContact_Mail {
 	 * @param array $submission_details Array of submission details that we tack reasons to send email in.
 	 * @return string
 	 */
-	public function maybe_append_forced_email_notice_reasons( bool $was_forced = false, array $submission_details = [] ) : string {
+	public function maybe_append_forced_email_notice_reasons( bool $was_forced = false, array $submission_details = [] ): string {
 
 		if ( ! $was_forced ) {
 			return '';
@@ -572,7 +572,7 @@ class ConstantContact_Mail {
 	 * @param string $email Email address to parse.
 	 * @return string Part of a provided email.
 	 */
-	public function get_email_part( string $email ) : string {
+	public function get_email_part( string $email ): string {
 		if ( ! is_email( $email ) ) {
 			return $email;
 		}
