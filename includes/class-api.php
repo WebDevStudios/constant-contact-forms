@@ -124,7 +124,11 @@ class ConstantContact_API {
 	}
 
 	/**
+	 * Init
+	 *
 	 * @since 1.0.0
+	 *
+	 * @throws Exception
 	 */
 	public function ctct_init(): bool {
 
@@ -189,7 +193,9 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return object ConstantContact_API.
+	 * @throws Exception
+	 *
+	 * @return object ConstantContact_Client.
 	 */
 	public function cc(): ConstantContact_Client {
 		return new ConstantContact_Client( $this->get_api_token() );
@@ -199,6 +205,8 @@ class ConstantContact_API {
 	 * Returns API token string to access API.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @throws Exception
 	 *
 	 * @return string Access API token.
 	 */
@@ -243,10 +251,11 @@ class ConstantContact_API {
 
 	/**
 	 * Exchange an authorization code for an access token.
-	 * Make this call by passing in the code present when the account owner is redirected back to you.
-	 * The response will contain an 'access_token' and 'refresh_token'
 	 *
-	 * @param array of get parameters passed to redirect URL
+	 * The API response will contain an 'access_token' and 'refresh_token'
+	 *
+	 * @throws Exception
+	 * @return bool
 	 */
 	public function acquire_access_token(): bool {
 
@@ -354,6 +363,7 @@ class ConstantContact_API {
 	 * Refresh the access token.
 	 *
 	 * @since 2.0.0
+	 *
 	 * @return array
 	 * @throws Exception
 	 */
@@ -457,8 +467,11 @@ class ConstantContact_API {
 	 * Generate the URL an account owner would use to allow your app
 	 * to access their account.
 	 * After visiting the URL, the account owner is prompted to log in and allow your app to access their account.
-	 * They are then redirected to your redirect URL with the authorization code appended as a query parameter. e.g.:
-	 * http://localhost:8888/?code={authorization_code}
+	 *
+	 * They are then redirected to your redirect URL with the authorization code appended as a query parameter. e.g.: http://localhost:8888/?code={authorization_code}
+	 *
+	 * @throws Exception
+	 * @return string
 	 */
 	public function get_authorization_url(): string {
 
@@ -498,8 +511,10 @@ class ConstantContact_API {
 
 	/**
 	 * Set our authorization headers.
-	 * @return string[]
+	 *
 	 * @since 2.0.0
+	 *
+	 * @return array
 	 */
 	private function set_authorization(): array {
 
@@ -519,7 +534,9 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return boolean If connected.
+	 * @throws Exception
+	 *
+	 * @return bool If connected.
 	 */
 	public function is_connected(): bool {
 		static $token = null;
@@ -828,13 +845,13 @@ class ConstantContact_API {
 	 * @since 1.3.0 Added $form_id parameter.
 	 *
 	 * @param string|array $list      List name(s).
+	 * @param string       $email     Email to be used.
 	 * @param array        $user_data User data.
-	 * @param string       $email     email to be updated.
 	 * @param string       $form_id   Form ID being processed.
 	 *
 	 * @return mixed                  Response from API.
 	 */
-	public function create_update_contact( $list, $email, $user_data, $form_id ) {
+	public function create_update_contact( $list, $email, $user_data, $form_id ): mixed {
 
 		$contact                     = [];
 		$contact['email_address']    = sanitize_text_field( $email );
@@ -1027,10 +1044,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param bool $force_skip_cache Whether or not to skip cache.
 	 * @return array Current connect ctct lists.
 	 */
-	public function get_lists( bool $force_skip_cache = false ) {
+	public function get_lists( bool $force_skip_cache = false ): array {
 
 		if ( ! $this->is_connected() ) {
 			return [];
@@ -1096,9 +1115,9 @@ class ConstantContact_API {
 	 * @param string $old_ids_string   Comma separated list of old (v2 API) list ids.
 	 * @param bool   $force_skip_cache Whether or not to skip cache.
 	 *
-	 * @return array API v2 to v3 List ID cross references.
+	 * @return false|array API v2 to v3 List ID cross references.
 	 */
-	public function get_v2_list_id_x_refs( string $old_ids_string, bool $force_skip_cache = false ) {
+	public function get_v2_list_id_x_refs( string $old_ids_string, bool $force_skip_cache = false ): false|array {
 
 		if ( ! $this->is_connected() ) {
 			return [];
@@ -1140,10 +1159,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param string $id List ID.
-	 * @return mixed
+	 * @return array|false
 	 */
-	public function get_list( string $id ) {
+	public function get_list( string $id ): array|false {
 
 		if ( ! esc_attr( $id ) ) {
 			return [];
@@ -1275,10 +1296,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array $updated_list api data for list.
 	 * @return array current connect ctct list
 	 */
-	public function update_list( array $updated_list = [] ) {
+	public function update_list( array $updated_list = [] ): array {
 
 		$return_list = false;
 
@@ -1329,10 +1352,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array $updated_list API data for list.
 	 * @return mixed Current connect ctct list.
 	 */
-	public function delete_list( array $updated_list = [] ) {
+	public function delete_list( array $updated_list = [] ): mixed {
 
 		if ( ! isset( $updated_list['id'] ) ) {
 			return false;
@@ -1373,7 +1398,7 @@ class ConstantContact_API {
 	 * @since 2022-10-24
 	 * @return string Settings tab URL.
 	 */
-	public function get_settings_link( $settings_tab = 'ctct_options_settings_general' ) {
+	public function get_settings_link( $settings_tab = 'ctct_options_settings_general' ): string {
 
 		return add_query_arg(
 			[
@@ -1389,17 +1414,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param bool $as_parts If true return an array.
-	 * @return mixed
+	 * @return string|array
 	 */
-	public function get_disclosure_info( $as_parts = false ) {
-		/*
-		 * [
-		 *     [name] => Business Name
-		 *     [address] => 555 Business Place Ln., Beverly Hills, CA, 90210
-		 * ]
-		 */
-
+	public function get_disclosure_info( bool $as_parts = false ): string|array {
 		static $address_fields = [ 'address_line1', 'address_line2', 'address_line3', 'city', 'state_code', 'postal_code' ];
 
 		// Grab disclosure info from the API.
@@ -1450,6 +1470,7 @@ class ConstantContact_API {
 	 * Generate code_verifier and code_challenge for rfc7636 PKCE.
 	 * https://datatracker.ietf.org/doc/html/rfc7636#appendix-B
 	 *
+	 * @throws Exception
 	 * @return array [code_verifier, code_challenge].
 	 */
 	private function code_challenge( ?string $code_verifier = null ): array {
@@ -1479,11 +1500,7 @@ class ConstantContact_API {
 	 * @param array $submission_data Array of form data.
 	 * @return bool
 	 */
-	private function has_note( $submission_data ) {
-		if ( ! is_array( $submission_data ) ) {
-			return false;
-		}
-
+	private function has_note( array $submission_data ): bool {
 		$keys = array_keys( $submission_data );
 		$has_text_area = false;
 		foreach( $keys as $key ) {
@@ -1506,7 +1523,7 @@ class ConstantContact_API {
 	 * @param $submission_data
 	 * @return string
 	 */
-	private function get_note_content( $submission_data ) {
+	private function get_note_content( $submission_data ): string {
 		$note = '';
 		foreach ( $submission_data as $key => $data ) {
 			if ( false !== strpos( $key, 'custom_text_area' ) ) {
@@ -1525,7 +1542,7 @@ class ConstantContact_API {
 	 * @param string $type    API request type.
 	 * @param array  $request The request.
 	 */
-	public function log_missed_api_request( string $type, array $request ) {
+	public function log_missed_api_request( string $type, array $request ): void {
 		$missed_api_requests            = get_option( 'ctct_missed_api_requests', [] );
 		$missed_api_requests[][ $type ] = $request;
 		update_option( 'ctct_missed_api_requests', $missed_api_requests );
@@ -1538,7 +1555,7 @@ class ConstantContact_API {
 	 *
 	 * @since 2.3.0
 	 */
-	public function clear_missed_api_requests() {
+	public function clear_missed_api_requests(): void {
 		// @TODO Make this compatible with other interactions besides just contact adds.
 		// For now we can focus on just contact.
 
@@ -1594,7 +1611,7 @@ class ConstantContact_API {
 	 *
 	 * @param int $form_id Form ID to use.
 	 */
-	protected function api_errors_admin_email( int $form_id = 0 ) {
+	protected function api_errors_admin_email( int $form_id = 0 ): void {
 		$send_to_addresses[] = get_option( 'admin_email' );
 		if ( $form_id ) {
 			$custom = get_post_meta( $form_id, '_ctct_email_settings', true );
@@ -1643,7 +1660,7 @@ class ConstantContact_API {
 	 *
 	 * @return string
 	 */
-	public function set_email_type() {
+	public function set_email_type(): string {
 		return 'text/html';
 	}
 }
