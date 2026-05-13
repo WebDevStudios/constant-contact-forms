@@ -559,13 +559,7 @@ class ConstantContact_API {
 	 * @return bool If connected.
 	 */
 	public function is_connected(): bool {
-		static $token = null;
-
-		if ( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) {
-			$token = (bool) constant_contact()->get_connect()->e_get( '_ctct_access_token' );
-		}
-
-		return $token;
+		return (bool) constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 	}
 
 	/**
