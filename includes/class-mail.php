@@ -21,18 +21,18 @@ class ConstantContact_Mail {
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
-	 * @var object
+	 * @var Constant_Contact
 	 */
-	protected object $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $plugin Parent plugin class.
+	 * @param Constant_Contact $plugin Parent plugin class.
 	 */
-	public function __construct( object $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
@@ -49,15 +49,13 @@ class ConstantContact_Mail {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array $values        Submitted form values.
 	 * @param bool  $add_to_opt_in Whether or not to add to opt in.
 	 * @return bool
 	 */
-	public function submit_form_values( array $values = [], bool $add_to_opt_in = false ) : bool {
-
-		if ( ! is_array( $values ) ) {
-			return false;
-		}
+	public function submit_form_values( array $values = [], bool $add_to_opt_in = false ): bool {
 
 		$values         = constant_contact()->get_process_form()->clean_values( $values );
 		$opt_in_details = ( isset( $values['ctct-opt-in'] ) ) ? $values['ctct-opt-in'] : [];
@@ -116,10 +114,12 @@ class ConstantContact_Mail {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param  array $values Submitted values.
-	 * @return array|void    Response from API.
+	 * @return array Response from API.
 	 */
-	public function opt_in_user( array $values ) {
+	public function opt_in_user( array $values ): array {
 
 		$args = [];
 		$date_parts = [];
@@ -148,10 +148,10 @@ class ConstantContact_Mail {
 		}
 
 		if ( ! isset( $values['ctct-opt-in'] ) || empty( $values['ctct-lists'] ) ) {
-			return;
+			return [];
 		}
 
-		$lists        = $values['ctct-lists'] ?? [];
+		$lists        = $values['ctct-lists'];
 		$lists        = $lists['value'] ?? [];
 		$args['list'] = is_array( $lists ) ? array_map( 'sanitize_text_field', $lists ) : sanitize_text_field( $lists );
 		$args['anniversary'] = [
@@ -169,7 +169,7 @@ class ConstantContact_Mail {
 	 *
 	 * @return string
 	 */
-	private function format_anniversary_date( array $date_parts ) {
+	private function format_anniversary_date( array $date_parts ): string {
 		$date = '';
 		if ( ! empty( $date_parts['year'] ) ) {
 			$date .= $date_parts['year'] . '/';
@@ -193,7 +193,7 @@ class ConstantContact_Mail {
 	 * @param string $form_id Form ID being submitted to.
 	 * @return string HTML content for email.
 	 */
-	public function format_values_for_email( array $pretty_vals, string $form_id ) : string {
+	public function format_values_for_email( array $pretty_vals, string $form_id ): string {
 
 		$return              = '';
 		$date_birthday       = [];
@@ -204,21 +204,21 @@ class ConstantContact_Mail {
 			$label = $val['orig_key'] ?? false;
 
 			$custom_field_name = '';
-			if ( false !== strpos( $label, 'custom___' ) ) {
+			if ( str_contains( $label, 'custom___' ) ) {
 				$custom_field       = ( $original_field_data[ $val['orig_key'] ] );
 				$custom_field_name .= $custom_field['name'];
 			}
 
 			if ( $label && empty( $custom_field_name ) ) {
 				$label = explode( '___', $label );
-				if ( false === strpos( $label[0], 'anniversary' ) && false === strpos( $label[0], 'birthday' ) ) {
+				if ( ! str_contains( $label[0], 'anniversary' ) && ! str_contains( $label[0], 'birthday' ) ) {
 					$label = ucwords( str_replace( '_', ' ', $label[0] ) );
 				} else {
-					if ( false !== strpos( $label[0], 'anniversary' ) ) {
+					if ( str_contains( $label[0], 'anniversary' ) ) {
 						$date_anniversary[] = $val['post'];
 					}
 
-					if ( false !== strpos( $label[0], 'birthday' ) ) {
+					if ( str_contains( $label[0], 'birthday' ) ) {
 						$date_birthday[] = $val['post'];
 					}
 
@@ -260,7 +260,7 @@ class ConstantContact_Mail {
 	 *
 	 * @return string Email address to send to.
 	 */
-	public function get_email( string $form_id ) : string {
+	public function get_email( string $form_id ): string {
 
 		$email = get_option( 'admin_email' );
 
@@ -290,7 +290,7 @@ class ConstantContact_Mail {
 	 * @param bool   $was_forced         Whether or not we are force sending. Default false.
 	 * @return bool Whether or not sent.
 	 */
-	public function mail( $destination_email, string $content, array $submission_details, bool $was_forced = false ) : bool {
+	public function mail( $destination_email, string $content, array $submission_details, bool $was_forced = false ): bool {
 
 		static $last_sent = false;
 		$screen           = '';
@@ -310,7 +310,7 @@ class ConstantContact_Mail {
 			$partial_email = array_map( [ $this, 'get_email_part' ], $destination_email );
 			$partial_email = implode( ',', $partial_email );
 		} else {
-			if ( false !== strpos( $destination_email, ',' ) ) {
+			if ( str_contains( $destination_email, ',' ) ) {
 				// Use trim to handle cases of ", ".
 				$partials      = array_map( 'trim', explode( ',', $destination_email ) );
 				$partial_email = array_map( [ $this, 'get_email_part' ], $partials );
@@ -340,7 +340,7 @@ class ConstantContact_Mail {
 			$destination_email = array_map( 'sanitize_email', $destination_email );
 			$destination_email = implode( ',', $destination_email );
 		} else {
-			if ( false !== strpos( $destination_email, ',' ) ) {
+			if ( str_contains( $destination_email, ',' ) ) {
 				// Use trim to handle cases of ", ".
 				$partials          = array_map( 'trim', explode( ',', $destination_email ) );
 				$partials          = array_map( 'sanitize_email', $partials );
@@ -364,7 +364,7 @@ class ConstantContact_Mail {
 		$list_ids = [];
 		if ( ! empty( $_POST ) && is_array( $_POST ) ) { //phpcs:ignore
 			foreach( $_POST as $key => $value ) { //phpcs:ignore
-				if ( false !== strpos( $key, 'lists' ) ) {
+				if ( str_contains( $key, 'lists' ) ) {
 					$list_ids = array_map( 'sanitize_text_field', array_values( $value ) );
 					break;
 				}
@@ -456,7 +456,7 @@ class ConstantContact_Mail {
 	 *
 	 * @return string
 	 */
-	public function set_email_type() : string {
+	public function set_email_type(): string {
 		return 'text/html';
 	}
 
@@ -471,14 +471,12 @@ class ConstantContact_Mail {
 	 * @param string $dest_email Destination email.
 	 * @param string $content    Content of email.
 	 */
-	public function maybe_log_mail_status( string $status, string $dest_email, string $content ) {
-
+	public function maybe_log_mail_status( string $status, string $dest_email, string $content ): void {
 		constant_contact_maybe_log_it(
 			'Mail',
 			'mail attempted for ' . $dest_email . ': ' . $status,
 			$content
 		);
-
 	}
 
 	/**
@@ -489,9 +487,9 @@ class ConstantContact_Mail {
 	 * @param array $values Values submitted to form.
 	 * @return mixed
 	 */
-	public function get_user_email_from_submission( array $values = [] ) {
+	public function get_user_email_from_submission( array $values = [] ): string {
 		foreach ( $values as $key => $value ) {
-			if ( false === strpos( $key, 'email___' ) ) {
+			if ( ! str_contains( $key, 'email___' ) ) {
 				continue;
 			}
 			return $value['value'];
@@ -507,7 +505,7 @@ class ConstantContact_Mail {
 	 * @param  bool $was_forced Whether or not we have to force send an email.
 	 * @return string $value      Message to explain why an email was received.
 	 */
-	public function maybe_append_forced_email_notice_note( bool $was_forced = false ) : string {
+	public function maybe_append_forced_email_notice_note( bool $was_forced = false ): string {
 
 		if ( ! $was_forced ) {
 			return '';
@@ -531,7 +529,7 @@ class ConstantContact_Mail {
 	 * @param array $submission_details Array of submission details that we tack reasons to send email in.
 	 * @return string
 	 */
-	public function maybe_append_forced_email_notice_reasons( bool $was_forced = false, array $submission_details = [] ) : string {
+	public function maybe_append_forced_email_notice_reasons( bool $was_forced = false, array $submission_details = [] ): string {
 
 		if ( ! $was_forced ) {
 			return '';
@@ -574,7 +572,7 @@ class ConstantContact_Mail {
 	 * @param string $email Email address to parse.
 	 * @return string Part of a provided email.
 	 */
-	public function get_email_part( string $email ) : string {
+	public function get_email_part( string $email ): string {
 		if ( ! is_email( $email ) ) {
 			return $email;
 		}

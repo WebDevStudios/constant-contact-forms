@@ -59,7 +59,7 @@ class ConstantContact_Block {
 	 * @author Eric Fuller
 	 * @since 1.5.0
 	 */
-	public function register_blocks() {
+	public function register_blocks(): void {
 		register_block_type(
 			plugin_dir_path( dirname( __FILE__ ) ) . 'build',
 			[ 'render_callback' => [ $this, 'display_single_contact_form' ] ]

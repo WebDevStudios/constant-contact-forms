@@ -534,7 +534,7 @@ class ConstantContact_Logging {
 			return $message;
 		}
 
-		if ( false === strpos( $message, 'api_key' ) ) {
+		if ( ! str_contains( $message, 'api_key' ) ) {
 			return $message;
 		}
 

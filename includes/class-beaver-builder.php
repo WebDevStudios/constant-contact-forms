@@ -21,18 +21,18 @@ class ConstantContact_Beaver_Builder {
 	 * Parent plugin class.
 	 *
 	 * @since 1.11.0
-	 * @var object
+	 * @var Constant_Contact
 	 */
-	protected $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.11.0
 	 *
-	 * @param object $plugin Parent plugin.
+	 * @param Constant_Contact $plugin Parent plugin.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 		if ( class_exists( 'FLBuilder' ) ) {
 			add_action( 'init', [ $this, 'register_bb_modules' ] );
@@ -44,7 +44,7 @@ class ConstantContact_Beaver_Builder {
 	 *
 	 * @since 1.10.0
 	 */
-	public function register_bb_modules() {
+	public function register_bb_modules(): void {
 		FLBuilder::register_module(
 			'CCForm',
 			[

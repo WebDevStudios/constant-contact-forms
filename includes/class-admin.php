@@ -55,7 +55,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Parent plugin class.
@@ -63,7 +63,7 @@ class ConstantContact_Admin {
 	 * @since 1.0.0
 	 * @var object
 	 */
-	protected $basename;
+	protected string $basename;
 
 	/**
 	 * The parent menu page slug.
@@ -92,7 +92,7 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 
 		add_action( 'current_screen', [ $this, 'current_screen' ] );
 		add_action( 'admin_init', [ $this, 'init' ] );
@@ -104,7 +104,7 @@ class ConstantContact_Admin {
 		add_filter( 'manage_ctct_lists_posts_columns', [ $this, 'set_custom_lists_columns' ] );
 		add_action( 'manage_ctct_lists_posts_custom_column', [ $this, 'custom_lists_columns' ], 10, 2 );
 
-		add_filter( 'plugin_action_links_' . $this->basename, [ $this, 'add_social_links' ] );
+		add_filter( 'plugin_action_links_' . $this->basename, [ $this, 'add_custom_links' ] );
 
 		add_action( 'admin_enqueue_scripts', [ $this, 'scripts' ] );
 	}
@@ -117,7 +117,7 @@ class ConstantContact_Admin {
 	 * @since 1.11.0
 	 * @author Darren Cooney <darren.cooney@webdevstudios.com>
 	 */
-	public function current_screen( WP_Screen $screen ) {
+	public function current_screen( WP_Screen $screen ): void {
 		if ( constant_contact()->is_constant_contact() ) {
 			add_action( 'in_admin_header', [ $this, 'admin_page_toolbar' ] );
 		}
@@ -131,7 +131,7 @@ class ConstantContact_Admin {
 	 * @since 1.11.0
 	 * @author Darren Cooney <darren.cooney@webdevstudios.com>
 	 */
-	public function admin_page_toolbar() {
+	public function admin_page_toolbar(): void {
 
 		global $submenu, $submenu_file, $plugin_page;
 
@@ -216,7 +216,7 @@ class ConstantContact_Admin {
 				<?php
 				}
 				?>
-				<a href="edit.php?post_type=ctct_forms&page=ctct_options_connect" class="ctct-status ctct-<?php echo esc_attr( $api_status ); ?>" title="<?php echo esc_attr( $connect_alt ); ?>">
+				<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' ) ); ?>" class="ctct-status ctct-<?php echo esc_attr( $api_status ); ?>" title="<?php echo esc_attr( $connect_alt ); ?>">
 					<?php echo esc_html( $connect_title ); ?>
 				</a>
 			</div>
@@ -228,7 +228,7 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function init() {
+	public function init(): void {
 		register_setting( $this->key, $this->key );
 	}
 
@@ -237,7 +237,7 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_options_page() {
+	public function add_options_page(): void {
 
 		add_submenu_page(
 			$this->parent_menu_slug,
@@ -271,7 +271,7 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 */
-	public function admin_page_display() {
+	public function admin_page_display(): void {
 
 		/**
 		 * Fires before the Constant Contact admin page display.
@@ -322,12 +322,12 @@ class ConstantContact_Admin {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @throws Exception Throws an exception if the field is invalid.
-	 *
 	 * @param string $field Field to retrieve.
-	 * @return mixed Field value or exception is thrown.
+	 *
+	 * @return mixed     Field value or exception is thrown.
+	 * @throws Exception Throws an exception if the field is invalid.
 	 */
-	public function __get( $field ) {
+	public function __get( string $field ) {
 
 		$field = esc_attr( $field );
 
@@ -371,7 +371,7 @@ class ConstantContact_Admin {
 	 *
 	 * @return void
 	 */
-	public function custom_columns( string $column, int $post_id ) {
+	public function custom_columns( string $column, int $post_id ): void {
 		$post_id = absint( $post_id );
 
 		if ( ! $post_id ) {
@@ -512,7 +512,7 @@ class ConstantContact_Admin {
 	 *
 	 * @return void
 	 */
-	public function custom_lists_columns( string $column, int $post_id ) {
+	public function custom_lists_columns( string $column, int $post_id ): void {
 
 		$post_id = absint( $post_id );
 
@@ -545,11 +545,7 @@ class ConstantContact_Admin {
 	 *
 	 * @return array
 	 */
-	public function add_social_links( $links ): array {
-
-		if ( ! is_array( $links ) ) {
-			return $links;
-		}
+	public function add_custom_links( array $links ): array {
 
 		$add_links[] = $this->get_admin_link( esc_html__( 'Settings', 'constant-contact-forms' ), 'settings_general' );
 
@@ -609,7 +605,7 @@ class ConstantContact_Admin {
 	 * @param array $extra_localizations Optional. An array of arrays of `[ $handle, $name, $data ]` passed to wp_localize_script.
 	 * @return void
 	 */
-	public function scripts( $extra_localizations = [] ) {
+	public function scripts( $extra_localizations = [] ): void {
 
 		global $pagenow;
 
@@ -662,9 +658,6 @@ class ConstantContact_Admin {
 		) {
 			wp_enqueue_script( 'ctct_form' );
 		}
-
-		$current_screen = get_current_screen();
-		$is_block       = is_object( $current_screen ) ? $current_screen->is_block_editor : true;
 
 		/**
 		 * Filters the allowed pages to enqueue the ctct_form script on.
@@ -721,16 +714,4 @@ class ConstantContact_Admin {
 
 		return [];
 	}
-}
-
-/**
- * Wrapper function around cmb2_get_option.
- *
- * @since 1.0.0
- *
- * @param string $key Options array key.
- * @return mixed Option value.
- */
-function constantcontact_get_option( $key = '' ) {
-	return cmb2_get_option( constant_contact()->get_admin()->key, $key );
 }
