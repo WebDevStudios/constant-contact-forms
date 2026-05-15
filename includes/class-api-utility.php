@@ -178,8 +178,12 @@ class ConstantContact_API_Utility {
 		}
 		$connecting_account = [];
 
-		// Not a PHP error, just assigning only 1 variable of 3 available.
-		list( , $payload ) = explode( '.', $access_token );
+		$token_parts = explode( '.', $access_token );
+		if ( count( $token_parts ) < 2 ) {
+			return [];
+		}
+
+		$payload = $token_parts[1];
 
 		$payload_data = '';
 		if ( ! empty( $payload ) && is_string( $payload ) ) {
