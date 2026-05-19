@@ -245,7 +245,7 @@ class ConstantContact_Logging {
 			}
 
 			if ( is_file( $this->log_location_file ) && is_readable( $this->log_location_file ) ) {
-				$contents = file_get_contents( $this->log_location_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not reading over network, it's on the filesystem.
+				$contents = $this->file_system->get_contents( $this->log_location_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not reading over network, it's on the filesystem.
 			}
 
 			?>
@@ -320,37 +320,6 @@ class ConstantContact_Logging {
 
 		wp_safe_redirect( $this->options_url );
 		exit();
-	}
-
-	/**
-	 * Get our log content.
-	 *
-	 * @since 1.4.5
-	 *
-	 * @return string
-	 */
-	protected function get_log_contents() {
-		$log_content_url = wp_remote_get( $this->log_location_url );
-		if ( is_wp_error( $log_content_url ) ) {
-			return sprintf(
-			// translators: placeholder wil have error message.
-				esc_html__(
-					'Log display error: %s',
-					'constant-contact-forms'
-				),
-				$log_content_url->get_error_message()
-			);
-		}
-
-		if ( 200 === wp_remote_retrieve_response_code( $log_content_url ) ) {
-			return wp_remote_retrieve_body( $log_content_url );
-		}
-
-		$log_content_dir = $this->file_system->get_contents( $this->log_location_file );
-		if ( ! empty( $log_content_dir ) && is_string( $log_content_dir ) ) {
-			return $log_content_dir;
-		}
-		return '';
 	}
 
 	/**
