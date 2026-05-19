@@ -21,18 +21,18 @@ class ConstantContact_Block {
 	 * Parent plugin class.
 	 *
 	 * @since 1.5.0
-	 * @var object
+	 * @var Constant_Contact
 	 */
-	protected object $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.5.0
 	 *
-	 * @param object $plugin Parent plugin.
+	 * @param Constant_Contact $plugin Parent plugin.
 	 */
-	public function __construct( object $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 
 		add_action( 'init', [ $this, 'register_blocks' ] );
@@ -60,7 +60,7 @@ class ConstantContact_Block {
 	 * @param array $attributes The block attributes.
 	 * @return string
 	 */
-	public function display_single_contact_form( array $attributes ) : string {
+	public function display_single_contact_form( array $attributes ): string {
 		if ( empty( $attributes['selectedForm'] ) ) {
 			return wpautop( esc_html__( 'Select a form to see a preview', 'constant-contact-forms' ) );
 		}
