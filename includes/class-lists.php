@@ -593,13 +593,7 @@ class ConstantContact_Lists {
 			$lists = $this->get_lists();
 		}
 
-		foreach ( $lists as $list ) {
-			if ( $title === $list ) {
-				return true;
-			}
-		}
-
-		return false;
+		return in_array( $title, $lists, true );
 	}
 
 	/**
