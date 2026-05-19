@@ -298,7 +298,7 @@ class ConstantContact_Lists {
 
 		$lists_to_insert = constant_contact()->get_api()->get_lists( true );
 
-		if ( $lists_to_insert && is_array( $lists_to_insert ) ) {
+		if ( $lists_to_insert ) {
 
 			if ( count( $lists_to_insert ) >= 1001 ) {
 				$this->plugin->get_updates()->add_notification( 'too_many_lists' );
