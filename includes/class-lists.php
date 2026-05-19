@@ -479,15 +479,12 @@ class ConstantContact_Lists {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $ctct_list WP Post object.
+	 * @throws Exception
+	 *
+	 * @param WP_Post $ctct_list WP Post object.
 	 * @return bool
 	 */
-	public function add_list( $ctct_list ) {
-
-		if ( empty( $ctct_list ) ) {
-			return false;
-		}
-
+	public function add_list( WP_Post $ctct_list ): bool {
 		$name = $this->set_unique_list_name( $ctct_list->ID, $ctct_list->post_title );
 		$list = constant_contact()->get_api()->add_list(
 			[
