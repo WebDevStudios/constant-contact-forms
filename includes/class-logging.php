@@ -29,9 +29,9 @@ class ConstantContact_Logging {
 	 * Parent plugin class.
 	 *
 	 * @since 1.3.7
-	 * @var object
+	 * @var Constant_Contact
 	 */
-	protected object $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Logging admin page URL.
@@ -112,9 +112,11 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 *
-	 * @param object $plugin Parent class.
+	 * @throws Exception
+	 *
+	 * @param Constant_Contact $plugin Parent class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin      = $plugin;
 		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
 		$uploads_dir       = wp_upload_dir();
@@ -139,7 +141,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		add_action( 'admin_menu', [ $this, 'add_options_page' ] );
 		add_action( 'admin_init', [ $this, 'delete_log_file' ] );
 		add_action( 'admin_init', [ $this, 'maybe_delete_old_log_dir' ] );
@@ -153,7 +155,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 */
-	public function scripts() {
+	public function scripts(): void {
 		$screen = get_current_screen();
 		if ( 'ctct_forms_page_ctct_options_logging' !== $screen->base ) {
 			return;
@@ -168,7 +170,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 */
-	public function dialog() {
+	public function dialog(): void {
 		?>
 		<div id="confirmdelete" style="display:none;">
 			<?php esc_html_e( 'Are you sure you want to delete current logs?', 'constant-contact-forms' ); ?>
@@ -181,7 +183,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 */
-	public function add_options_page() {
+	public function add_options_page(): void {
 
 		$debugging_enabled = constant_contact_get_option( '_ctct_logging', '' );
 
@@ -206,7 +208,7 @@ class ConstantContact_Logging {
 	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since  1.4.5
 	 */
-	public function set_file_system() {
+	public function set_file_system(): void {
 		global $wp_filesystem;
 		WP_Filesystem();
 		$this->file_system = $wp_filesystem;
@@ -217,7 +219,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 */
-	public function admin_page_display() {
+	public function admin_page_display(): void {
 
 		// We will be nice and remove the exception/error status once they visit the logging page.
 		constant_contact_set_has_exceptions( 'false' );
@@ -294,7 +296,7 @@ class ConstantContact_Logging {
 	 *
 	 * @return null
 	 */
-	public function delete_log_file() {
+	public function delete_log_file(): void {
 		if ( ! constant_contact()->is_constant_contact() ) {
 			return;
 		}
@@ -328,7 +330,7 @@ class ConstantContact_Logging {
 	 * @since 1.5.0
 	 * @return void
 	 */
-	public function delete_log_index_file() {
+	public function delete_log_index_file(): void {
 		if ( constant_contact_debugging_enabled() ) {
 			return;
 		}
@@ -344,7 +346,7 @@ class ConstantContact_Logging {
 	 * @since 2.4.3
 	 * @return void
 	 */
-	public function delete_log_htaccess_file() {
+	public function delete_log_htaccess_file(): void {
 		if ( constant_contact_debugging_enabled() ) {
 			return;
 		}
