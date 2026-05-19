@@ -12,7 +12,7 @@
 
 use ConstantContact\ConstantContactForms\ReCaptcha\ReCaptcha;
 use ConstantContact\ConstantContactForms\ReCaptcha\RequestMethod\CurlPost;
-use Ctct\Exceptions\CtctException;
+
 /**
  * Powers our form processing, validation, and value cleanup.
  *
@@ -592,7 +592,7 @@ class ConstantContact_Process_Form {
 					constant_contact()->get_mail()->submit_form_values( $return['values'], true );
 				}
 			}
-		} catch ( CtctException $exception ) {
+		} catch ( Exception $exception ) {
 			return [
 				'status'  => 'api_error',
 				'values'  => $return['values'],
