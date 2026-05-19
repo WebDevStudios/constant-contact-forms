@@ -58,7 +58,7 @@ class ConstantContact_User_Customizations {
 	 *
 	 * @return mixed
 	 */
-	public function process_form_success( string $content = '', int $form_id = 0 ) {
+	public function process_form_success( string $content = '', int $form_id = 0 ): string {
 		$custom = get_post_meta( $form_id, '_ctct_form_submission_success', true );
 		if ( empty( $custom ) ) {
 			return $content;
@@ -77,7 +77,7 @@ class ConstantContact_User_Customizations {
 	 *
 	 * @return string
 	 */
-	public function custom_redirect( string $url, int $form_id ) {
+	public function custom_redirect( string $url, int $form_id ): string {
 		$custom = get_post_meta( $form_id, '_ctct_redirect_uri', true );
 		if ( ! constant_contact_is_valid_url( $custom ) ) {
 			return $url;
@@ -92,10 +92,10 @@ class ConstantContact_User_Customizations {
 	 * @since 1.4.0
 	 *
 	 * @param string $destination_email Current set destination email.
-	 * @param string $form_id           ID of the form we're checking.
+	 * @param int    $form_id           ID of the form we're checking.
 	 * @return string
 	 */
-	public function custom_email( string $destination_email, string $form_id ): string {
+	public function custom_email( string $destination_email, int $form_id ): string {
 		$custom_email = get_post_meta( $form_id, '_ctct_email_settings', true );
 
 		if ( empty( $custom_email ) ) {
