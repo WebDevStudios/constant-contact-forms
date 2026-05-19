@@ -267,7 +267,7 @@ class ConstantContact_Logging {
 				<div class="ctct-button-actions">
 					<?php
 						printf(
-							'<a class="button button-primary" href="%s" download>%s</a> <a class="button" href="%s" id="deletelog">%s</a>',
+							'<a class="button button-primary" href="%1$s" download>%2$s</a> <a class="button" href="%3$s" id="deletelog">%4$s</a>',
 							esc_attr( $this->log_location_url ),
 							esc_html__( 'Download logs', 'constant-contact-forms' ),
 							esc_attr(
