@@ -262,16 +262,16 @@ class ConstantContact_Mail {
 	 */
 	public function get_email( string $form_id ): string {
 
-		$email = get_option( 'admin_email' );
-
+		$email   = get_option( 'admin_email' );
+		$form_id = absint( $form_id );
 		/**
 		 * Filters the email to send Constant Contact Forms admin emails to.
 		 *
 		 * @since 1.3.0
 		 * @since 1.4.0 Added form ID parameter.
 		 *
-		 * @param string $email Email address to send to. Default admin_email option.
-		 * @param string $form_id Current form ID being submitted to.
+		 * @param string $email   Email address to send to. Default admin_email option.
+		 * @param int    $form_id Current form ID being submitted to.
 		 */
 		return apply_filters( 'constant_contact_destination_email', $email, $form_id );
 	}
