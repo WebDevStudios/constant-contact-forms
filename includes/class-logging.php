@@ -293,8 +293,6 @@ class ConstantContact_Logging {
 	 * Delete existing log files.
 	 *
 	 * @since 1.3.7
-	 *
-	 * @return null
 	 */
 	public function delete_log_file(): void {
 		if ( ! constant_contact()->is_constant_contact() ) {
@@ -361,7 +359,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.5.0
 	 */
-	public function create_log_folder() {
+	public function create_log_folder(): void {
 		wp_mkdir_p( $this->log_location_dir );
 	}
 
@@ -369,9 +367,10 @@ class ConstantContact_Logging {
 	 * Create the log folder with an `index.php` file.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @return void
 	 */
-	public function create_log_index_file() {
+	public function create_log_index_file(): void {
 		if ( ! is_writable( $this->log_location_dir ) ) {
 			return;
 		}
@@ -389,7 +388,7 @@ class ConstantContact_Logging {
 	 * @since 2.4.3
 	 * @return void
 	 */
-	public function create_log_htaccess_file() {
+	public function create_log_htaccess_file(): void {
 		if ( ! is_writable( $this->log_location_dir ) ) {
 			return;
 		}
@@ -414,7 +413,7 @@ class ConstantContact_Logging {
 	 * @since 1.5.0
 	 * @return void
 	 */
-	public function create_log_file() {
+	public function create_log_file(): void {
 		if ( ! is_writable( $this->log_location_dir ) ) {
 			return;
 		}
@@ -434,7 +433,7 @@ class ConstantContact_Logging {
 	 *
 	 * @return string Logging file location.
 	 */
-	public function get_logging_location() {
+	public function get_logging_location(): string {
 		return $this->log_location_file;
 	}
 
@@ -446,7 +445,7 @@ class ConstantContact_Logging {
 	 *
 	 * @return void
 	 */
-	public function maybe_delete_old_log_dir() {
+	public function maybe_delete_old_log_dir(): void {
 		if ( Constant_Contact::VERSION <= '1.8.1' ) {
 			return;
 		}
@@ -460,7 +459,7 @@ class ConstantContact_Logging {
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.2
 	 */
-	public function delete_current_log_dir() {
+	public function delete_current_log_dir(): void {
 		$this->delete_log_dir( $this->log_location_dir );
 	}
 
@@ -473,7 +472,7 @@ class ConstantContact_Logging {
 	 * @param  string $dir Directory path.
 	 * @return void
 	 */
-	protected function delete_log_dir( string $dir = '' ) {
+	protected function delete_log_dir( string $dir = '' ): void {
 		if ( empty( $dir ) || ! is_dir( $dir ) ) {
 			return;
 		}
@@ -500,7 +499,7 @@ class ConstantContact_Logging {
 	 *
 	 * @return string $message with masked api_key value.
 	 */
-	public function mask_api_key( string $message ) {
+	public function mask_api_key( string $message ): string {
 		if ( empty( $message ) ) {
 			return $message;
 		}
@@ -534,7 +533,7 @@ class ConstantContact_Logging {
 	 * @author Richard Aber <richard.aber@webdevstudios.com>
 	 * @since  1.8.5
 	 */
-	public function initialize_logging() {
+	public function initialize_logging(): void {
 		$this->create_log_folder();
 		$this->create_log_index_file();
 		$this->create_log_htaccess_file();
@@ -548,7 +547,7 @@ class ConstantContact_Logging {
 	 *
 	 * @return array
 	 */
-	public function get_log_locations() {
+	public function get_log_locations(): array {
 		return [
 			'directory' => $this->log_location_dir,
 			'file'      => $this->log_location_file,
@@ -565,7 +564,7 @@ class ConstantContact_Logging {
 	 * @return string Generated string of characters.
 	 * @throws \Random\RandomException
 	 */
-	public function generate_random_string( int $length = 10 ) {
+	public function generate_random_string( int $length = 10 ): string {
 		$characters        = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$characters_length = strlen( $characters );
 		$random_string     = '';
