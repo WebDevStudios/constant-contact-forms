@@ -21,18 +21,18 @@ class ConstantContact_User_Customizations {
 	 * Parent plugin class.
 	 *
 	 * @since 1.3.0
-	 * @var object
+	 * @var Constant_Contact
 	 */
-	protected object $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.3.0
 	 *
-	 * @param object $plugin Parent plugin object.
+	 * @param Constant_Contact $plugin Parent plugin object.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
@@ -42,7 +42,7 @@ class ConstantContact_User_Customizations {
 	 *
 	 * @since 1.3.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		add_filter( 'constant_contact_process_form_success', [ $this, 'process_form_success' ], 10, 2 );
 		add_filter( 'constant_contact_front_form_action', [ $this, 'custom_redirect' ], 10, 2 );
 		add_filter( 'constant_contact_destination_email', [ $this, 'custom_email' ], 10, 2 );
@@ -91,11 +91,11 @@ class ConstantContact_User_Customizations {
 	 *
 	 * @since 1.4.0
 	 *
-	 * @param string     $destination_email Current set destination email.
-	 * @param string|int $form_id           ID of the form we're checking.
+	 * @param string $destination_email Current set destination email.
+	 * @param string $form_id           ID of the form we're checking.
 	 * @return string
 	 */
-	public function custom_email( string $destination_email, int $form_id ) {
+	public function custom_email( string $destination_email, string $form_id ): string {
 		$custom_email = get_post_meta( $form_id, '_ctct_email_settings', true );
 
 		if ( empty( $custom_email ) ) {
