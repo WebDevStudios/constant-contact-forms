@@ -209,6 +209,7 @@ class ConstantContact_API {
 								[ 'dismissible' => true ]
 							);
 						} );
+						constant_contact_maybe_log_it( 'API', 'Hashed domain mismatch. The following domain does not match the original connecting domain value: ' . esc_html( $account_domain['site'] ) );
 						constant_contact()->get_connect()->force_disconnect();
 						return false;
 					}
@@ -652,6 +653,7 @@ class ConstantContact_API {
 
 				$account_domain      = constant_contact()->get_api_utility()->parse_access_token_data( $data['access_token'] );
 				$account_domain_hash = hash( 'sha256', implode( '|', $account_domain ) );
+				constant_contact_maybe_log_it( 'API', 'Hash-stored domain: ' . $account_domain['site'] );
 				update_option( 'ctct_account_domain_hash', $account_domain_hash );
 
 				return isset( $data['access_token'], $data['refresh_token'] );
