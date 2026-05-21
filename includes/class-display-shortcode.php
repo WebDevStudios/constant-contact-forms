@@ -203,7 +203,7 @@ class ConstantContact_Display_Shortcode {
 		$fields = [];
 
 		foreach ( $custom_fields as $key => $value ) {
-			if ( ! isset( $custom_fields[ $key ] ) ) {
+			if ( ! isset( $value ) ) {
 				continue;
 			}
 
@@ -215,8 +215,8 @@ class ConstantContact_Display_Shortcode {
 			$fields = $this->set_field( '_ctct_field_desc', 'description', $key, $fields, $custom_fields );
 
 			$fields['fields'][ $key ]['required'] = (
-				isset( $custom_fields[ $key ]['_ctct_required_field'] ) &&
-				'on' === $custom_fields[ $key ]['_ctct_required_field']
+				isset( $value['_ctct_required_field'] ) &&
+				'on' === $value['_ctct_required_field']
 			);
 		}
 
