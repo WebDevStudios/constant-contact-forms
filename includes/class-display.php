@@ -566,7 +566,7 @@ class ConstantContact_Display {
 		}
 
 		if ( isset( $form_data['fields'] ) && is_array( $form_data['fields'] ) ) {
-			foreach ( $form_data['fields'] as $key => $value ) {
+			foreach ( $form_data['fields'] as $value ) {
 				$return .= $this->field( $value, $old_values, $req_errors, $form_id, $label_placement, $instance );
 			}
 		}
