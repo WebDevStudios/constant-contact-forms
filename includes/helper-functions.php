@@ -500,9 +500,9 @@ function constant_contact_get_font_dropdown_sizes(): array {
  * @param string $customization_key Key to fetch value for.
  * @return string.
  */
-function constant_contact_get_css_customization( $form_id, string $customization_key = '' ): string {
+function constant_contact_get_css_customization( int $form_id, string $customization_key = '' ): string {
 
-	$form_css = get_post_meta( absint( $form_id ) );
+	$form_css = get_post_meta( $form_id );
 
 	if ( is_array( $form_css ) && array_key_exists( $customization_key, $form_css ) ) {
 		if ( ! empty( $form_css[ $customization_key ][0] ) ) {
