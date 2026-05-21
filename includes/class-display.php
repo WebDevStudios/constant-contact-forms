@@ -999,7 +999,7 @@ class ConstantContact_Display {
 	 */
 	public function message( string $type, string $message, string $role = 'log' ): string {
 		return sprintf(
-			'<p class="ctct-message %s ctct-%s" role="%s">%s</p>',
+			'<p class="ctct-message %1$s ctct-%2$s" role="%3$s">%4$s</p>',
 			esc_attr( $type ),
 			esc_attr( $type ),
 			esc_attr( $role ),
