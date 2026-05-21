@@ -58,11 +58,8 @@ class ConstantContact_Display {
 	 * Scripts.
 	 *
 	 * @since 1.0.0
-	 * @since 1.4.0 Deprecated parameter.
-	 *
-	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
-	public function scripts( bool $enqueue = false ) {
+	public function scripts(): void {
 		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 		$suffix = ( true === $debug ) ? '' : '.min';
 
@@ -136,11 +133,8 @@ class ConstantContact_Display {
 	 * Enqueue styles.
 	 *
 	 * @since 1.0.0
-	 * @since 1.4.0 Deprecated parameter.
-	 *
-	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
-	public function styles( bool $enqueue = false ) {
+	public function styles(): void {
 		wp_enqueue_style( 'ctct_form_styles' );
 	}
 
