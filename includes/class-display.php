@@ -516,9 +516,9 @@ class ConstantContact_Display {
 	 * @since 1.0.0
 	 *
 	 * @param array $form_data Form data for the current form.
-	 * @return string|bool.
+	 * @return string
 	 */
-	public function add_verify_fields( array $form_data ) {
+	public function add_verify_fields( array $form_data ): string {
 		if (
 			isset( $form_data['options']['form_id'] )
 		) {
@@ -526,7 +526,7 @@ class ConstantContact_Display {
 			$form_id = absint( $form_data['options']['form_id'] );
 
 			if ( ! $form_id ) {
-				return false;
+				return '';
 			}
 
 			$return = $this->input_hidden( 'ctct-id', $form_id );
@@ -542,7 +542,7 @@ class ConstantContact_Display {
 			return $return;
 		}
 
-		return false;
+		return '';
 	}
 
 	/**
