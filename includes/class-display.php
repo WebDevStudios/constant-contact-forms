@@ -436,7 +436,7 @@ class ConstantContact_Display {
 				'on' !== $form_data['options']['description_visibility']
 			)
 		) {
-			$return .= $this->description( $form_data['options']['description'], $form_id );
+			$return .= $this->description( $form_data['options']['description'] );
 		}
 
 		$return .= '<form class="' . esc_attr( implode( ' ', $form_classes ) ) . '" id="' . $rf_id . '" ';
@@ -1040,11 +1040,10 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string      $desc    Description to output.
-	 * @param int|boolean $form_id Form ID.
+	 * @param string $desc    Description to output.
 	 * @return string Form description markup.
 	 */
-	public function description( string $desc = '', $form_id = false ) : string {
+	public function description( string $desc = '' ): string {
 
 		$display      = '';
 		$inline_style = $this->get_description_inline_styles();
