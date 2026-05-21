@@ -21,9 +21,9 @@ class ConstantContact_Display {
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
-	 * @var object
+	 * @var Constant_Contact
 	 */
-	protected object $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * The global custom styles.
@@ -46,9 +46,9 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $plugin Parent plugin.
+	 * @param Constant_Contact $plugin Parent plugin.
 	 */
-	public function __construct( object $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 		add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'styles' ] );
