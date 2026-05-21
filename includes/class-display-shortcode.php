@@ -238,8 +238,6 @@ class ConstantContact_Display_Shortcode {
 	public function set_field( string $from_key, string $to_key, string $key, array $fields, array $custom_fields ): array {
 
 		if (
-			is_array( $custom_fields ) &&
-			isset( $custom_fields[ $key ] ) &&
 			$custom_fields[ $key ] &&
 			isset( $custom_fields[ $key ][ $from_key ] ) &&
 			$custom_fields[ $key ][ $from_key ]
