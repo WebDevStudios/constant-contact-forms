@@ -151,7 +151,7 @@ class ConstantContact_Display_Shortcode {
 	public function get_field_meta( array $form_meta, int $form_id ): array {
 
 		if ( empty( $form_meta ) ) {
-			return '';
+			return [];
 		}
 
 		if (
@@ -160,7 +160,7 @@ class ConstantContact_Display_Shortcode {
 			return $this->get_field_values( $form_meta['custom_fields_group'][0], $form_meta, $form_id );
 		}
 
-		return '';
+		return [];
 	}
 
 	/**
@@ -173,7 +173,7 @@ class ConstantContact_Display_Shortcode {
 	 * @param int    $form_id       Form ID.
 	 * @return array Form field markup.
 	 */
-	public function get_field_values( string $custom_fields, $full_data, $form_id ): array {
+	public function get_field_values( string $custom_fields, array $full_data, int $form_id ): array {
 
 		$fields = $this->generate_field_values_for_fields( maybe_unserialize( $custom_fields ) );
 
@@ -198,7 +198,7 @@ class ConstantContact_Display_Shortcode {
 	 * @param array $custom_fields All custom fields data.
 	 * @return array Fields array of converted data.
 	 */
-	public function generate_field_values_for_fields( $custom_fields ): array {
+	public function generate_field_values_for_fields( array $custom_fields ): array {
 
 		$fields = [];
 
@@ -239,7 +239,7 @@ class ConstantContact_Display_Shortcode {
 	 * @param array  $custom_fields All $custom_fields.
 	 * @return array
 	 */
-	public function set_field( $from_key, $to_key, $key, $fields, $custom_fields ): array {
+	public function set_field( string $from_key, string $to_key, string $key, array $fields, array $custom_fields ): array {
 
 		if (
 			is_array( $custom_fields ) &&
@@ -281,8 +281,6 @@ class ConstantContact_Display_Shortcode {
 	 */
 	public function get_nested_value_from_data( string $key, array $form_data ): string {
 		if (
-			isset( $form_data[ $key ] ) &&
-			$form_data[ $key ] &&
 			isset( $form_data[ $key ][0] ) &&
 			$form_data[ $key ][0]
 		) {
