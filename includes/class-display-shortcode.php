@@ -202,10 +202,6 @@ class ConstantContact_Display_Shortcode {
 
 		$fields = [];
 
-		if ( ! is_array( $custom_fields ) ) {
-			return $fields;
-		}
-
 		foreach ( $custom_fields as $key => $value ) {
 			if ( ! isset( $custom_fields[ $key ] ) ) {
 				continue;
