@@ -382,6 +382,17 @@ class ConstantContact_API {
 		$options = [
 			'body'    => $body,
 			'headers' => $headers,
+			/**
+			 * Sets the HTTP timeout, in seconds, for the request.
+			 *
+			 * @since NEXT
+			 *
+			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param string $request_url The request URL.
+			 *
+			 * @return int
+			 */
+			'timeout' => apply_filters( 'http_request_timeout', 30, $url )
 		];
 
 		// This will be either true or false.
@@ -449,6 +460,17 @@ class ConstantContact_API {
 		$options = [
 			'body'    => $body,
 			'headers' => $headers,
+			/**
+			 * Sets the HTTP timeout, in seconds, for the request.
+			 *
+			 * @since NEXT
+			 *
+			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param string $request_url The request URL.
+			 *
+			 * @return int
+			 */
+			'timeout' => apply_filters( 'http_request_timeout', 30, $url )
 		];
 
 		$result = $this->exec( $url, $options );
