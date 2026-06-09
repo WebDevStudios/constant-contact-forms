@@ -121,7 +121,7 @@ class ConstantContact_Health {
 				],
 				[
 					'label' => esc_html__( 'Token refresh cron scheduled?', 'constant-contact-forms' ),
-					'value' => ( wp_next_scheduled( 'refresh_token_job' ) ) ? $yes : $no,
+					'value' => ( wp_next_scheduled( 'ctct_refresh_token_job' ) ) ? $yes : $no,
 				],
 				[
 					'label' => esc_html__( 'Cron check', 'constant-contact-forms' ),
