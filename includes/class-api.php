@@ -473,28 +473,6 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Check if our current access token is expired.
-	 * Based on access token issued timestamp + expires in timestamp and current time.
-	 * @return bool
-	 * @since 2.2.0
-	 */
-	private function access_token_maybe_expired() {
-
-		$issued_time = get_option( 'ctct_access_token_timestamp', '' );
-		if ( empty( $issued_time ) ) {
-			// It's not expired because it doesn't exist.
-			// This should be filled in by now though.
-			return false;
-		}
-
-		$current_time    = time();
-		$expiration_time = (int) $issued_time + (int) $this->expires_in;
-
-		// If we're currently above the expiration time, we're expired.
-		return $current_time >= $expiration_time;
-	}
-
-	/**
 	 * Generate the URL an account owner would use to allow your app
 	 * to access their account.
 	 * After visiting the URL, the account owner is prompted to log in and allow your app to access their account.
