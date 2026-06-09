@@ -140,6 +140,7 @@ class ConstantContact_Uninstall {
 	private function get_cron_hook_names() {
 		$default_cron_hooks = [
 			'ctct_schedule_form_opt_in',
+			'ctct_refresh_token_job',
 		];
 
 		/**

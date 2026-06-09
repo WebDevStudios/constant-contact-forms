@@ -539,7 +539,7 @@ class ConstantContact_Process_Form {
 						}
 					} else {
 						// Only email if we have a successful API request.
-						constant_contact()->get_mail()->submit_form_values( $return['values'] ); // Emails but doesn't schedule cron.
+						constant_contact()->get_mail()->submit_form_values( $return['values'] );
 					}
 				} else {
 					// We have at least one list, but are not considered connected.

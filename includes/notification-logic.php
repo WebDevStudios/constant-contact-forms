@@ -198,27 +198,6 @@ function constant_contact_maybe_display_disconnect_reconnect_notice(): bool {
 	return constant_contact_get_needs_manual_reconnect();
 }
 
-/**
- * Maybe show notification regarding `DISABLE_WP_CRON`.
- * @return bool
- * @since 2.2.0
- */
-function constant_contact_maybe_show_cron_notification(): bool {
-	if ( ! current_user_can( 'manage_options' ) ) {
-		return false;
-	}
-
-	if ( ! constant_contact()->is_constant_contact() ) {
-		return false;
-	}
-
-	if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
-		return true;
-	}
-
-	return false;
-}
-
 function constant_contact_maybe_show_update_available_notification(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
 		return false;

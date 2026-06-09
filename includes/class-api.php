@@ -13,7 +13,6 @@
 /**
  * Powers connection between site and Constant Contact API.
  *
- * @todo Test RefreshToken Cron Job
  * @since 1.0.0
  */
 class ConstantContact_API {
@@ -217,39 +216,6 @@ class ConstantContact_API {
 			$success = $this->acquire_access_token();
 			if ( $success ) {
 				update_option( 'ctct_access_token_timestamp', time() );
-			}
-		}
-
-		// Future API work. Perhaps a `$this->access_token_maybe_expired()` check here.
-		// Keep frequency of `init` hook in mind.
-		// Would also remove need to check for DISABLE_WP_CRON later.
-
-		// custom scheduling based on the expiry time returned with access token.
-		add_filter(
-			'cron_schedules',
-			function ( $schedules ) {
-				$schedules['pkce_expiry'] = [
-					'interval' => 82800, // refreshing token before 1 hour of expiry.
-					'display'  => esc_html__( 'Constant Contact token expiry', 'constant-contact-forms' ),
-				];
-
-				return $schedules;
-			}
-		);
-
-		if ( ! empty( $this->expires_in ) ) {
-			if ( ! wp_next_scheduled( 'ctct_refresh_token_job' ) ) { // if it hasn't been scheduled
-				$result = wp_schedule_event( time(), 'pkce_expiry', 'ctct_refresh_token_job' ); // schedule it
-				$success = ( false === $result ) ? 'no' : 'yes';
-				constant_contact_maybe_log_it( 'Cron scheduled: ', $success );
-			}
-		} else {
-			wp_unschedule_hook( 'ctct_refresh_token_job' );
-		}
-
-		if ( defined( 'DISABLE_WP_CRON' ) && DISABLE_WP_CRON ) {
-			if ( $this->access_token_maybe_expired() ) {
-				$this->refresh_token();
 			}
 		}
 	}
