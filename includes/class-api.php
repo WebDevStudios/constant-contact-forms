@@ -252,20 +252,23 @@ class ConstantContact_API {
 		$threshold   = $current - $issued_time;
 		// Check if we should attempt a refresh, beyond just cron checks.
 		if ( $issued_time > 0 && $threshold >= 82800 ) {
-			// This should not be reached constantly. Once we have a new token,
-			// the threshold won't be within time.
-			// This method is more readily called than potential cron requests, so
-			// hopefully we're more actively refreshed.
-			$result = $this->refresh_token();
 
-			if ( ! $result['success'] && $result['reason'] === 'expired' ) {
-				constant_contact_maybe_log_it( 'API', 'Refresh token attempt failed in get_api_token.' );
-				$token = ''; // Reset to default from this method.
-			}
+			if ( false === get_option( 'ctct_refreshing_token' ) ) {
+				// This should not be reached constantly. Once we have a new token,
+				// the threshold won't be within time.
+				// This method is more readily called than potential cron requests, so
+				// hopefully we're more actively refreshed.
+				$result = $this->refresh_token();
 
-			if ( $result['success'] ) {
-				// Should be new access token.
-				$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
+				if ( ! $result['success'] && $result['reason'] === 'expired' ) {
+					constant_contact_maybe_log_it( 'API', 'Refresh token attempt failed in get_api_token.' );
+					$token = ''; // Reset to default from this method.
+				}
+
+				if ( $result['success'] ) {
+					// Should be new access token.
+					$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
+				}
 			}
 		}
 
@@ -402,6 +405,7 @@ class ConstantContact_API {
 		}
 
 		constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token triggered' );
+		update_option( 'ctct_refreshing_token', true, false );
 
 		// Create full request URL
 		$body = [
@@ -464,6 +468,7 @@ class ConstantContact_API {
 			$status['reason']  = 'refreshed';
 		}
 
+		update_option( 'ctct_refreshing_token', false, false );
 		return $status;
 	}
 
