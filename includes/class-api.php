@@ -493,6 +493,7 @@ class ConstantContact_API {
 			} else {
 				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed (attempt ' . $failures . '/5). Will retry. Attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
 				$status['reason'] = 'transient_failure';
+				$this->refresh_token();
 			}
 
 			$status['success'] = false;
