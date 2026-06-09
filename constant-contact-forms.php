@@ -510,8 +510,8 @@ class Constant_Contact {
 		delete_option( 'ctct_key' );
 		delete_option( 'ctct_maybe_needs_reconnected' );
 		constant_contact_delete_option( '_ctct_form_state_authcode' );
-		wp_clear_scheduled_hook( 'refresh_token_job' );
-		wp_unschedule_hook( 'refresh_token_job' );
+		wp_clear_scheduled_hook( 'ctct_refresh_token_job' );
+		wp_unschedule_hook( 'ctct_refresh_token_job' );
 
 		$this->notifications->delete_dismissed_notification( 'activation' );
 	}
