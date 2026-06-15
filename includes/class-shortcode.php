@@ -31,7 +31,7 @@ class ConstantContact_Shortcode {
 	 * @since 1.6.0
 	 * @var string
 	 */
-	public $tag = 'ctct';
+	public string $tag = 'ctct';
 
 	/**
 	 * Plugin object.
@@ -39,7 +39,7 @@ class ConstantContact_Shortcode {
 	 * @since 1.6.0
 	 * @var Constant_Contact
 	 */
-	public $plugin;
+	public Constant_Contact $plugin;
 
 	/**
 	 * Constructor.
@@ -48,7 +48,7 @@ class ConstantContact_Shortcode {
 	 *
 	 * @param Constant_Contact $plugin Parent plugin class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 	}
 
@@ -60,7 +60,7 @@ class ConstantContact_Shortcode {
 	 * @see shortcode_atts()
 	 * @return array
 	 */
-	public function get_atts() {
+	public function get_atts(): array {
 		return [
 			'form'       => '0',
 			'show_title' => 'false',
@@ -72,7 +72,7 @@ class ConstantContact_Shortcode {
 	 *
 	 * @since 1.6.0
 	 */
-	public function register_shortcode() {
+	public function register_shortcode(): void {
 		add_shortcode( $this->tag, [ $this->plugin->get_display_shortcode(), 'render_shortcode' ] );
 	}
 
@@ -85,7 +85,7 @@ class ConstantContact_Shortcode {
 	 * @param int     $post_id Post ID.
 	 * @param WP_Post $post    Post object.
 	 */
-	public function clear_forms_list_transient( int $post_id, WP_Post $post ) {
+	public function clear_forms_list_transient( int $post_id, WP_Post $post ): void {
 		if ( ! in_array( $post->post_type, [ 'ctct_forms', 'ctct_lists' ], true ) ) {
 			return;
 		}
