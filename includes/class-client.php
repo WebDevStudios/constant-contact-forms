@@ -285,11 +285,23 @@ class ConstantContact_Client {
 	 */
 	private function get( string $endpoint, array $args = [] ) : array {
 
+		$url = $this->base_url . $endpoint;
+
 		$options = [
+			/**
+			 * Sets the HTTP timeout, in seconds, for the request.
+			 *
+			 * @since 2.20.0
+			 *
+			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param string $request_url The request URL.
+			 *
+			 * @return int
+			 */
+			'timeout' => apply_filters( 'http_request_timeout', 30, $url ),
 			'headers' => $args,
 		];
 
-		$url = $this->base_url . $endpoint;
 
 		$response = wp_safe_remote_get( $url, $options );
 		if ( is_wp_error( $response ) ) {
@@ -313,15 +325,23 @@ class ConstantContact_Client {
 	 */
 	private function post( string $endpoint, array $args = [], array $body = [] ) : array {
 
-		$options = [
-			'headers' => $args,
-		];
-
-		if ( isset( $body ) ) {
-			$options['body'] = wp_json_encode( $body );
-		}
-
 		$url = $this->base_url . $endpoint;
+
+		$options = [
+			/**
+			 * Sets the HTTP timeout, in seconds, for the request.
+			 *
+			 * @since 2.20.0
+			 *
+			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param string $request_url The request URL.
+			 *
+			 * @return int
+			 */
+			'timeout' => apply_filters( 'http_request_timeout', 30, $url ),
+			'headers' => $args,
+			'body'    => isset( $body ) ? wp_json_encode( $body ) : null,
+		];
 
 		$response = wp_safe_remote_post( $url, $options );
 
@@ -346,17 +366,24 @@ class ConstantContact_Client {
 	 */
 	private function put( string $endpoint, array $args = [], array $body = [] ) : array {
 
-		$options = [
-			'headers' => $args,
-		];
-
-		if ( isset( $body ) ) {
-			$options['body'] = wp_json_encode( $body );
-		}
-
 		$url = $this->base_url . $endpoint;
 
-		$options['method'] = 'PUT';
+		$options = [
+			/**
+			 * Sets the HTTP timeout, in seconds, for the request.
+			 *
+			 * @since 2.20.0
+			 *
+			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param string $request_url The request URL.
+			 *
+			 * @return int
+			 */
+			'timeout' => apply_filters( 'http_request_timeout', 30, $url ),
+			'headers' => $args,
+			'method'  => 'PUT',
+			'body'    => isset( $body ) ? wp_json_encode( $body ) : null,
+		];
 
 		$response = wp_safe_remote_request( $url, $options );
 
@@ -379,13 +406,24 @@ class ConstantContact_Client {
 	 * @return array
 	 */
 	private function delete( string $endpoint, array $args = [] ) : array {
-		$options = [
-			'headers' => $args,
-		];
 
 		$url = $this->base_url . $endpoint;
 
-		$options['method'] = 'DELETE';
+		$options = [
+			/**
+			 * Sets the HTTP timeout, in seconds, for the request.
+			 *
+			 * @since 2.20.0
+			 *
+			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param string $request_url The request URL.
+			 *
+			 * @return int
+			 */
+			'timeout' => apply_filters( 'http_request_timeout', 30, $url ),
+			'headers' => $args,
+			'method'  => 'DELETE',
+		];
 
 		$response = wp_safe_remote_request( $url, $options );
 

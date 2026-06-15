@@ -374,6 +374,17 @@ class ConstantContact_API {
 		$options = [
 			'body'    => $body,
 			'headers' => $headers,
+			/**
+			 * Sets the HTTP timeout, in seconds, for the request.
+			 *
+			 * @since 2.20.0
+			 *
+			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param string $request_url The request URL.
+			 *
+			 * @return int
+			 */
+			'timeout' => apply_filters( 'http_request_timeout', 30, $url )
 		];
 
 		// This will be either true or false.
@@ -441,6 +452,17 @@ class ConstantContact_API {
 		$options = [
 			'body'    => $body,
 			'headers' => $headers,
+			/**
+			 * Sets the HTTP timeout, in seconds, for the request.
+			 *
+			 * @since 2.20.0
+			 *
+			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param string $request_url The request URL.
+			 *
+			 * @return int
+			 */
+			'timeout' => apply_filters( 'http_request_timeout', 30, $url )
 		];
 
 		$result = $this->exec( $url, $options );
@@ -463,6 +485,7 @@ class ConstantContact_API {
 			} else {
 				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed (attempt ' . $failures . '/5). Will retry. Attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
 				$status['reason'] = 'transient_failure';
+				$this->refresh_token();
 			}
 
 			$status['success'] = false;
