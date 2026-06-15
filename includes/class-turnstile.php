@@ -78,7 +78,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @return array
 	 */
-	public function get_turnstile_keys() : array {
+	public function get_turnstile_keys(): array {
 		$keys               = [];
 		$keys['site_key']   = constant_contact_get_option( '_ctct_turnstile_site_key', '' );
 		$keys['secret_key'] = constant_contact_get_option( '_ctct_turnstile_secret_key', '' );
@@ -91,7 +91,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @since 2.16.0
 	 */
-	public function set_turnstile_keys() {
+	public function set_turnstile_keys(): void {
 		$keys = $this->get_turnstile_keys();
 
 		$this->site_key   = $keys['site_key'];
@@ -105,7 +105,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @return bool
 	 */
-	public static function has_turnstile_keys() : bool {
+	public static function has_turnstile_keys(): bool {
 		$site_key   = constant_contact_get_option( '_ctct_turnstile_site_key', '' );
 		$secret_key = constant_contact_get_option( '_ctct_turnstile_secret_key', '' );
 
@@ -119,7 +119,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @return string $theme Theme for the Turnstile object.
 	 */
-	public function get_theme() : string {
+	public function get_theme(): string {
 		return $this->theme;
 	}
 
@@ -130,7 +130,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @param string $theme Turnstile theme to use.
 	 */
-	public function set_theme( string $theme ) {
+	public function set_theme( string $theme ): void {
 		$this->theme = $theme;
 	}
 
@@ -141,7 +141,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @return string $size Size for the Turnstile object.
 	 */
-	public function get_size() : string {
+	public function get_size(): string {
 		return $this->size;
 	}
 
@@ -152,7 +152,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @param string $size Turnstile size to specify.
 	 */
-	public function set_size( string $size ) {
+	public function set_size( string $size ): void {
 		$this->size = $size;
 	}
 
@@ -163,7 +163,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @return string $language Language for the Turnstile object.
 	 */
-	public function get_language() : string {
+	public function get_language(): string {
 		return $this->language;
 	}
 
@@ -174,7 +174,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @param string $language Language code for the Turnstile object.
 	 */
-	public function set_language( string $language ) {
+	public function set_language( string $language ): void {
 		$this->language = $language;
 	}
 
@@ -185,7 +185,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @return string $mode The mode for the Turnstile object.
 	 */
-	public function get_mode() : string {
+	public function get_mode(): string {
 		return $this->mode;
 	}
 
@@ -196,7 +196,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @param string $mode Turnstile mode to use.
 	 */
-	public function set_mode( string $mode ) {
+	public function set_mode( string $mode ): void {
 		$this->mode = $mode;
 	}
 
@@ -205,7 +205,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @since 2.16.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts(): void {
 		$this->set_turnstile_keys();
 
 		if ( ! self::has_turnstile_keys() ) {
@@ -246,7 +246,7 @@ class ConstantContact_Turnstile {
 	 *
 	 * @return string
 	 */
-	public function get_inline_markup() : string {
+	public function get_inline_markup(): string {
 		return sprintf(
 			'<div class="turnstile"
 				data-sitekey="%1$s"
@@ -272,7 +272,7 @@ class ConstantContact_Turnstile {
 	 * @param  string $handle Script handle.
 	 * @return string         Script tag.
 	 */
-	public function add_script_attributes( string $tag, string $handle ) : string {
+	public function add_script_attributes( string $tag, string $handle ): string {
 		if ( 'turnstile-api' !== $handle ) {
 			return $tag;
 		}
