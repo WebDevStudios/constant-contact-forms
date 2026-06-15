@@ -291,7 +291,7 @@ class ConstantContact_Client {
 			/**
 			 * Sets the HTTP timeout, in seconds, for the request.
 			 *
-			 * @since NEXT
+			 * @since 2.20.0
 			 *
 			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
 			 * @param string $request_url The request URL.
@@ -331,7 +331,7 @@ class ConstantContact_Client {
 			/**
 			 * Sets the HTTP timeout, in seconds, for the request.
 			 *
-			 * @since NEXT
+			 * @since 2.20.0
 			 *
 			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
 			 * @param string $request_url The request URL.
@@ -372,7 +372,7 @@ class ConstantContact_Client {
 			/**
 			 * Sets the HTTP timeout, in seconds, for the request.
 			 *
-			 * @since NEXT
+			 * @since 2.20.0
 			 *
 			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
 			 * @param string $request_url The request URL.
@@ -413,7 +413,7 @@ class ConstantContact_Client {
 			/**
 			 * Sets the HTTP timeout, in seconds, for the request.
 			 *
-			 * @since NEXT
+			 * @since 2.20.0
 			 *
 			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
 			 * @param string $request_url The request URL.
