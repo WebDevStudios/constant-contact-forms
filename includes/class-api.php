@@ -362,6 +362,10 @@ class ConstantContact_API {
 		$result = $this->exec( $url, $options, 'access' );
 
 		if ( false === $result ) {
+			constant_contact_maybe_log_it( 'Access Token:', 'Authentication to get access token error occurred' );
+			if ( ! empty( $this->last_error ) ) {
+				constant_contact_maybe_log_it( 'Access Token:', 'Error: ' . $this->last_error );
+			}
 			constant_contact_set_needs_manual_reconnect( 'true' );
 		} else {
 
