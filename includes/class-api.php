@@ -325,6 +325,8 @@ class ConstantContact_API {
 
 			return false;
 		}
+
+		constant_contact_maybe_log_it( 'API', 'Access token triggered' );
 		// Create full request URL
 		$body = [
 			'client_id'    => $this->client_api_key,
