@@ -446,7 +446,7 @@ class ConstantContact_API {
 		if ( false === $result ) {
 			constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh error occurred' );
 			if ( ! empty( $this->last_error ) ) {
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Error: ' . $this->last_error );
+				constant_contact_maybe_log_it( 'Refresh Token:', 'Overall error: ' . $this->last_error );
 			}
 
 			$failures ++;
