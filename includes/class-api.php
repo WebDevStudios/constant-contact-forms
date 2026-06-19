@@ -547,8 +547,10 @@ class ConstantContact_API {
 
 	/**
 	 * Make sure we don't over-do API requests, helper method to check if we're connected.
-	 * @return boolean If connected.
+	 *
 	 * @since 1.0.0
+	 *
+	 * @return boolean If connected.
 	 */
 	public function is_connected() {
 		static $token = null;
