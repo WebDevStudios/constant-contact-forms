@@ -583,6 +583,7 @@ class ConstantContact_API {
 
 		if ( ! is_wp_error( $response ) ) {
 			if ( empty( $response['body'] ) ) {
+				$this->last_error = implode( ":", $response['response'] );
 				constant_contact_maybe_log_it(
 					'Response error: ', implode( ":", $response['response'] )
 				);
@@ -591,6 +592,7 @@ class ConstantContact_API {
 			$data            = json_decode( $response['body'], true );
 			$json_last_error = json_last_error();
 			if ( JSON_ERROR_NONE !== $json_last_error ) {
+				$this->last_error = json_last_error_msg();
 				constant_contact_maybe_log_it( 'JSON error: ', json_last_error_msg() );
 			}
 
