@@ -579,7 +579,7 @@ class ConstantContact_API {
 		$this->last_error  = '';
 		$this->status_code = 0;
 
-		constant_contact_maybe_log_it( 'Exec: acquire ', $request_type );
+		constant_contact_maybe_log_it( 'Exec: Acquiring ', $request_type );
 
 		if ( ! is_wp_error( $response ) ) {
 			if ( empty( $response['body'] ) ) {
