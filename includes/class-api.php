@@ -214,6 +214,7 @@ class ConstantContact_API {
 		) {
 			$success = $this->acquire_access_token();
 			if ( $success ) {
+				// @todo maybe offset by 1min earlier?
 				update_option( 'ctct_access_token_timestamp', time() );
 			}
 		}
