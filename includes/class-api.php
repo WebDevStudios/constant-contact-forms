@@ -789,7 +789,6 @@ class ConstantContact_API {
 				unset( $new_contact['ctct-instance'] );
 			}
 
-			constant_contact_maybe_log_it( 'API', 'Attempting contact request.' );
 			$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
 			if ( array_key_exists( 'error_key', $return_contact ) && 'unauthorized' === $return_contact['error_key'] ) {
 				constant_contact_maybe_log_it( 'API', 'Re-attempting contact request.' );
