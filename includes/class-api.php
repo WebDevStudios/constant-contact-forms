@@ -677,7 +677,12 @@ class ConstantContact_API {
 			try {
 				$acct_data = $this->cc()->get_account_info();
 				if ( array_key_exists( 'error_key', $acct_data ) && 'unauthorized' === $acct_data['error_key'] ) {
-					$this->refresh_token();
+					constant_contact_maybe_log_it( 'API', 'Re-attempting account info request.' );
+					$status = $this->refresh_token();
+
+					if ( ! $status['success'] ) {
+						constant_contact_maybe_log_it( 'API', 'Account info refresh request failed. Reason: ' . $status['reason'] );
+					}
 
 					$acct_data = $this->cc()->get_account_info();
 				}
@@ -720,7 +725,12 @@ class ConstantContact_API {
 			try {
 				$contacts = $this->cc()->get_contacts();
 				if ( array_key_exists( 'error_key', $contacts ) && 'unauthorized' === $contacts['error_key'] ) {
-					$this->refresh_token();
+					constant_contact_maybe_log_it( 'API', 'Re-attempting get contacts request.' );
+					$status = $this->refresh_token();
+
+					if ( ! $status['success'] ) {
+						constant_contact_maybe_log_it( 'API', 'Get contacts refresh request failed. Reason: ' . $status['reason'] );
+					}
 
 					$contacts = $this->cc()->get_contacts();
 				}
@@ -776,9 +786,15 @@ class ConstantContact_API {
 				unset( $new_contact['ctct-instance'] );
 			}
 
+			constant_contact_maybe_log_it( 'API', 'Attempting contact request.' );
 			$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
 			if ( array_key_exists( 'error_key', $return_contact ) && 'unauthorized' === $return_contact['error_key'] ) {
-				$this->refresh_token();
+				constant_contact_maybe_log_it( 'API', 'Re-attempting contact request.' );
+				$status = $this->refresh_token();
+
+				if ( ! $status['success'] ) {
+					constant_contact_maybe_log_it( 'API', 'Add contact refresh request failed. Reason: ' . $status['reason'] );
+				}
 
 				$return_contact = $this->create_update_contact( $list, $email, $new_contact, $form_id );
 				if ( array_key_exists( 'error_key', $return_contact ) ) {
@@ -1059,7 +1075,12 @@ class ConstantContact_API {
 				$lists = $results['lists'] ?? [];
 
 				if ( array_key_exists( 'error_key', $results ) && 'unauthorized' === $results['error_key'] ) {
-					$this->refresh_token();
+					constant_contact_maybe_log_it( 'API', 'Re-attempting get lists request.' );
+					$status = $this->refresh_token();
+
+					if ( ! $status['success'] ) {
+						constant_contact_maybe_log_it( 'API', 'Get list refresh request failed. Reason: ' . $status['reason'] );
+					}
 
 					$results = $this->cc()->get_lists();
 					$lists   = $results['lists'] ?? [];
@@ -1164,7 +1185,12 @@ class ConstantContact_API {
 			try {
 				$list = $this->cc()->get_list( $id );
 				if ( array_key_exists( 'error_key', $list ) && 'unauthorized' === $list['error_key'] ) {
-					$this->refresh_token();
+					constant_contact_maybe_log_it( 'API', 'Re-attempting get single list request.' );
+					$status = $this->refresh_token();
+
+					if ( ! $status['success'] ) {
+						constant_contact_maybe_log_it( 'API', 'Get single list refresh request failed. Reason: ' . $status['reason'] );
+					}
 
 					$list = $this->cc()->get_list( $id );
 				}
@@ -1210,7 +1236,12 @@ class ConstantContact_API {
 			try {
 				$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
 				if ( array_key_exists( 'error_key', $list ) && 'unauthorized' === $list['error_key'] ) {
-					$this->refresh_token();
+					constant_contact_maybe_log_it( 'API', 'Re-attempting add list request.' );
+					$status = $this->refresh_token();
+
+					if ( ! $status['success'] ) {
+						constant_contact_maybe_log_it( 'API', 'Add list refresh request failed. Reason: ' . $status['reason'] );
+					}
 
 					$list = $this->cc()->get_list( esc_attr( $new_list['id'] ) );
 				}
@@ -1295,7 +1326,12 @@ class ConstantContact_API {
 
 			$return_list = $this->cc()->update_list( $list );
 			if ( array_key_exists( 'error_key', $return_list ) && 'unauthorized' === $return_list['error_key'] ) {
-				$this->refresh_token();
+				constant_contact_maybe_log_it( 'API', 'Re-attempting update list request.' );
+				$status = $this->refresh_token();
+
+				if ( ! $status['success'] ) {
+					constant_contact_maybe_log_it( 'API', 'Update list refresh request failed. Reason: ' . $status['reason'] );
+				}
 				$return_list = $this->cc()->update_list( $list );
 			}
 		} catch ( Exception $ex ) {
@@ -1333,7 +1369,12 @@ class ConstantContact_API {
 		try {
 			$list = $this->cc()->delete_list( $updated_list['id'] );
 			if ( array_key_exists( 'error_key', $list ) && 'unauthorized' === $list['error_key'] ) {
-				$this->refresh_token();
+				constant_contact_maybe_log_it( 'API', 'Re-attempting delete list request.' );
+				$status = $this->refresh_token();
+
+				if ( ! $status['success'] ) {
+					constant_contact_maybe_log_it( 'API', 'Delete list refresh request failed. Reason: ' . $status['reason'] );
+				}
 				$list = $this->cc()->delete_list( $updated_list['id'] );
 			}
 		} catch ( Exception $ex ) {
