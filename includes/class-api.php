@@ -359,7 +359,7 @@ class ConstantContact_API {
 		];
 
 		// This will be either true or false.
-		$result = $this->exec( $url, $options );
+		$result = $this->exec( $url, $options, 'access' );
 
 		if ( false === $result ) {
 			constant_contact_set_needs_manual_reconnect( 'true' );
@@ -437,7 +437,7 @@ class ConstantContact_API {
 			'timeout' => apply_filters( 'http_request_timeout', 30, $url )
 		];
 
-		$result = $this->exec( $url, $options );
+		$result = $this->exec( $url, $options, 'refresh' );
 
 		if ( false === $result ) {
 			$failures ++;
@@ -554,18 +554,23 @@ class ConstantContact_API {
 	/**
 	 * Execute our API request for token acquisition.
 	 *
-	 * @param string $url     URL to make request to.
-	 * @param array  $options Request options.
+	 * @since 2.0.0
+	 * @since NEXT Added request type parameter.
+	 *
+	 * @param string $url          URL to make request to.
+	 * @param array  $options      Request options.
+	 * @param string $request_type Whether it's initial access or refresh request.
 	 *
 	 * @return bool
 	 * @throws Exception
-	 * @since 2.0.0
 	 */
-	private function exec( $url, $options ): bool {
+	private function exec( $url, $options, $request_type = '' ): bool {
 		$response = wp_safe_remote_post( $url, $options );
 
 		$this->last_error  = '';
 		$this->status_code = 0;
+
+		constant_contact_maybe_log_it( 'Exec: acquire ', $request_type );
 
 		if ( ! is_wp_error( $response ) ) {
 			if ( empty( $response['body'] ) ) {
