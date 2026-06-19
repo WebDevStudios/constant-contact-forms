@@ -261,8 +261,8 @@ class ConstantContact_API {
 				// hopefully we're more actively refreshed.
 				$result = $this->refresh_token();
 
-				if ( ! $result['success'] && $result['reason'] === 'expired' ) {
-					constant_contact_maybe_log_it( 'API', 'Refresh token attempt failed in get_api_token.' );
+				if ( ! $result['success'] && $result['reason'] ) {
+					constant_contact_maybe_log_it( 'API', 'Refresh token attempt failed in get_api_token. ' . $result['reason'] );
 					$token = ''; // Reset to default from this method.
 				}
 
