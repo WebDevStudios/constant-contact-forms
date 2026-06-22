@@ -159,6 +159,7 @@ class ConstantContact_Connect {
 				$description = esc_html__( 'Issues with reauthentication for tokens occurred and a manual disconnect and reconnect is needed. Use the status button to start the re-authentication process.', 'constant-contact-forms' );
 				$btn_value   = esc_attr__( 'Disconnected', 'constant-contact-forms' );
 			}
+			$times = constant_contact_get_issued_expired_access_token_times();
 			?>
 			<div class="wrap connected <?php echo esc_attr( $this->key ); ?>">
 				<div class="ctct-connected">
@@ -205,6 +206,26 @@ class ConstantContact_Connect {
 								?>
 							</p>
 						</div>
+						<?php if ( $times ) : ?>
+						<div class="ctct-connection-details">
+							<p class="ctct-label">
+								<strong><?php esc_html_e( 'Issued time:', 'constant-contact-forms' ); ?></strong>
+							</p>
+							<p><?php echo esc_html( $times['issued'] ); ?></p>
+						</div>
+						<div class="ctct-connection-details">
+							<p class="ctct-label">
+								<strong><?php esc_html_e( 'Current time:', 'constant-contact-forms' ); ?></strong>
+							</p>
+							<p><?php echo esc_html( $times['current'] ); ?></p>
+						</div>
+						<div class="ctct-connection-details">
+							<p class="ctct-label">
+								<strong><?php esc_html_e( 'Estimated expiration time:', 'constant-contact-forms' ); ?></strong>
+							</p>
+							<p><?php echo esc_html( $times['expires'] ); ?></p>
+						</div>
+						<?php endif; ?>
 						<div class="ctct-connection-details">
 							<p class="ctct-label">
 								<strong><?php esc_html_e( 'Status:', 'constant-contact-forms' ); ?></strong>
