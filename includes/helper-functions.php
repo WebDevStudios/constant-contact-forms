@@ -838,6 +838,14 @@ function constant_contact_get_date_field_order( $format = '' ) {
 	return $order;
 }
 
+/**
+ * Return an array of timestamps for issued, current, and expected expiration time for current access token.
+ *
+ * @since NEXT
+ *
+ * @return array|null
+ * @throws Exception
+ */
 function constant_contact_get_issued_expired_access_token_times() {
 	$token_timestamp = get_option( 'ctct_access_token_timestamp', '' );
 	if ( empty( $token_timestamp ) ) {
