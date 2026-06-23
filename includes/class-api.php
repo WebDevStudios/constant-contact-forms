@@ -567,7 +567,7 @@ class ConstantContact_API {
 	 * Execute our API request for token acquisition.
 	 *
 	 * @since 2.0.0
-	 * @since NEXT Added request type parameter.
+	 * @since 2.20.0 Added request type parameter.
 	 *
 	 * @param string $url          URL to make request to.
 	 * @param array  $options      Request options.
