@@ -286,18 +286,23 @@ class ConstantContact_API {
 	 */
 	public function acquire_access_token(): bool {
 
+		// Don't try anything on Heartbeat API
 		if ( ! empty( $_POST['action'] ) && 'heartbeat' === sanitize_text_field( $_POST['action'] ) ) {
 			return false;
 		}
 
+		// Don't try anything if intentionally disconnecting.
 		if ( ! empty( $_POST['ctct-disconnect'] ) && 'true' === sanitize_text_field( $_POST['ctct-disconnect'] ) ) {
 			return false;
 		}
+
+		// Don't try anything if we don't have options as a whole.
 		$options = get_option( 'ctct_options_settings' );
 		if ( empty( $options ) ) {
 			return false;
 		}
 
+		// Don't try anything if we don't have the state/authcode value.
 		if ( empty( $options['_ctct_form_state_authcode'] ) ) {
 			return false;
 		}
