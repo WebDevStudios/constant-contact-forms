@@ -64,6 +64,7 @@ class ConstantContact_Uninstall {
 			'ctct_log_suffix',
 			'ctct_refresh_failures',
 			'ctct_account_domain_hash',
+			'ctct_refreshing_token',
 			Constant_Contact::$activated_date_option,
 			ConstantContact_Notifications::$dismissed_notices_option,
 			ConstantContact_Notifications::$review_dismissed_option,
@@ -140,6 +141,7 @@ class ConstantContact_Uninstall {
 	private function get_cron_hook_names() {
 		$default_cron_hooks = [
 			'ctct_schedule_form_opt_in',
+			'ctct_refresh_token_job',
 		];
 
 		/**

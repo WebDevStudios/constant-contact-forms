@@ -450,6 +450,10 @@ class ConstantContact_Settings {
 	protected function register_fields_optin() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'optin' ) );
 
+		if ( empty( $_GET['page'] ) || 'ctct_options_settings_optin' !== $_GET['page'] ) {
+			return;
+		}
+
 		if ( constant_contact()->get_api()->is_connected() ) {
 			$lists     = constant_contact()->get_builder()->get_lists();
 			$woo_lists = [

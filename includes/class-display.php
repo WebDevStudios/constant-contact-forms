@@ -1232,7 +1232,7 @@ class ConstantContact_Display {
 		}
 
 		if ( 'tel' === $type ) {
-			$tel_regex_pattern = '^[0-9\-\+\.()]*';
+			$tel_regex_pattern = '^[0-9\-\+\.\(\)]*';
 		}
 
 		$type     = sanitize_text_field( $type );

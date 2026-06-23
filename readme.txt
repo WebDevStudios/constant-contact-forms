@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
 Tested up to:      7.0
-Stable tag:        2.19.0
+Stable tag:        2.20.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      8.1
@@ -46,6 +46,14 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.20.0 =
+* Updated: Reduced race conditions that were potentially contributing to connection stability.
+* Updated: Increased logging of various requests for better troubleshooting support.
+* Updated: Removed WP Cron integration in favor of real-time "need to refresh" checking.
+* Updated: Removed legacy code used with previous API version.
+* Updated: CMB2 bundled library.
+* Fixed: potential errors with hash comparisons from 2.19.0 changes.
 
 = 2.19.0 =
 * Added: Domain comparison for current site and stored token's original site. Will disconnect the current viewed install if mismatched, in order to preserve original connection pairing.
@@ -139,7 +147,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Added: Ability to display form horizontally when using just the email field.
 
 == Upgrade Notice ==
-* Various UI enhancements in builder and settings, bug fixes, list/email statuses for forms, messaging regarding non-production URLs with connections.
+* Multiple changes and logging around connectivity for better stability and also trail leaving for troubleshooting.
 
 == Frequently Asked Questions ==
 
