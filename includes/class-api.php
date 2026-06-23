@@ -587,6 +587,8 @@ class ConstantContact_API {
 		$this->last_error  = '';
 		$this->status_code = 0;
 
+		add_filter( 'constant_contact_force_logging', '__return_true' );
+
 		constant_contact_maybe_log_it( 'Exec: Acquiring ', $request_type );
 
 		if ( ! is_wp_error( $response ) ) {
