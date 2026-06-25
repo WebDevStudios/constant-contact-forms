@@ -283,8 +283,8 @@ class ConstantContact_Notifications {
 	 *
 	 * @return array States of dismissial notices.
 	 */
-	public function get_dismissed_options() {
-		return get_option( self::$dismissed_notices_option );
+	public function get_dismissed_options(): array {
+		return get_option( self::$dismissed_notices_option, [] );
 	}
 
 	/**
@@ -310,10 +310,6 @@ class ConstantContact_Notifications {
 	 */
 	public function save_dismissed_option( string $key, string $value ): bool {
 		$options = $this->get_dismissed_options();
-
-		if ( ! is_array( $options ) ) {
-			$options = [];
-		}
 
 		$options[ esc_attr( $key ) ] = esc_attr( $value );
 
