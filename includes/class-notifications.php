@@ -357,8 +357,10 @@ class ConstantContact_Notifications {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $key     Notification key.
-	 * @param string $content Admin notice content.
+	 * @param string $key          Notification key.
+	 * @param string $content      Admin notice content.
+	 * @param bool   $show_dismiss Show dismiss UI.
+	 *
 	 * @return void
 	 */
 	public function show_notice( string $key, string $content = '', bool $show_dismiss = true ): void {
