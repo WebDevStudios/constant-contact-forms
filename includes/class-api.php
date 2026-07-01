@@ -186,6 +186,8 @@ class ConstantContact_API {
 				update_option( 'ctct_access_token_timestamp', time() );
 			}
 		}
+
+		return true;
 	}
 
 	/**
