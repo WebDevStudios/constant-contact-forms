@@ -186,7 +186,12 @@ class ConstantContact_Admin {
 		$connect_title = esc_html__( 'Connected', 'constant-contact-forms' );
 		$connect_alt   = esc_html__( 'Your Constant Contact account is connected!', 'constant-contact-forms' );
 		$api_status    = esc_html( 'connected' );
-		if ( ! constant_contact()->get_api()->is_connected() || constant_contact_get_needs_manual_reconnect() ) {
+		if ( ! constant_contact()->get_api()->is_connected() ) {
+			$connect_title = esc_html__( 'Not connected', 'constant-contact-forms' );
+			$connect_alt   = esc_html__( 'Connect your account to start contact growth.', 'constant-contact-forms' );
+			$api_status    = esc_attr( 'not-connected' );
+		}
+		if ( constant_contact_get_needs_manual_reconnect() ) {
 			$connect_title = esc_html__( 'Disconnected', 'constant-contact-forms' );
 			$connect_alt   = esc_html__( 'Your Constant Contact account is not connected.', 'constant-contact-forms' );
 			$api_status    = esc_attr( 'disconnected' );
