@@ -200,7 +200,8 @@ class ConstantContact_API {
 						} );
 						add_filter( 'constant_contact_force_logging', '__return_true' );
 						constant_contact_maybe_log_it( 'API', 'Hashed domain mismatch. The following domain does not match the original connecting domain value: ' . esc_html( $account_domain['site'] ) );
-						constant_contact()->get_connect()->force_disconnect();
+						// Temporarily skip actually disconnecting from this point in code.
+						constant_contact()->get_connect()->force_disconnect( true );
 						return false;
 					}
 				}
