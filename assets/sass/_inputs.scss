@@ -44,7 +44,6 @@
 				padding-left: 40px;
 			}
 		}
-
 	}
 
 	select {
@@ -58,15 +57,6 @@
 		color: variables.$color-red;
 		font-size: 0.85rem;
 		font-style: italic;
-	}
-
-	input.ctct-invalid {
-		background: variables.$color-white url( ../images/error.svg ) no-repeat;
-		background-color: color.adjust(variables.$color-error, $alpha: -0.98);
-		background-position: 8px 50%;
-		background-size: 24px;
-		border-color: variables.$color-error;
-		padding-left: 40px;
 	}
 
 	input.ctct-label-left,
