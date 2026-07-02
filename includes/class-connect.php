@@ -364,9 +364,15 @@ class ConstantContact_Connect {
 			return false;
 		}
 
+		// Cases where we may not have vendor loaded yet?
+		constant_contact()->load_libs();
+
 		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ctct-admin-disconnect'] ) ), 'ctct-admin-disconnect' ) ) {
+			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_maybe_log_it( 'API', 'Manual disconnect' );
 			$this->force_disconnect();
 		} else {
+			add_filter( 'constant_contact_force_logging', '__return_true' );
 			constant_contact_maybe_log_it( 'Nonces', 'Account disconnection nonce failed to verify.' );
 		}
 		return true;
