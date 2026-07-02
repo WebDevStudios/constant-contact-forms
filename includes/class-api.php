@@ -290,6 +290,10 @@ class ConstantContact_API {
 	 */
 	public function acquire_access_token(): bool {
 
+		if ( 'false' !== get_option( 'ctct_acquiring_token' ) ) {
+			return false;
+		}
+
 		// Don't try anything on Heartbeat API
 		if ( ! empty( $_POST['action'] ) && 'heartbeat' === sanitize_text_field( $_POST['action'] ) ) {
 			return false;
