@@ -377,9 +377,17 @@ class ConstantContact_Connect {
 	 *
 	 * @since 2.19.0
 	 *
+	 * @param bool $skip_disconnect Whether or not to actually disconnect
 	 * @return bool
 	 */
-	public function force_disconnect() : bool {
+	public function force_disconnect( $skip_disconnect = false ) : bool {
+		add_filter( 'constant_contact_force_logging', '__return_true' );
+		constant_contact_maybe_log_it( 'API', 'Force disconnect reached' );
+
+		if ( $skip_disconnect ) {
+			return false;
+		}
+
 		delete_option( 'ctct_access_token' );
 		delete_option( '_ctct_access_token' );
 		delete_option( 'ctct_refresh_token' );
