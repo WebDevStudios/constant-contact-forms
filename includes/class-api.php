@@ -315,6 +315,8 @@ class ConstantContact_API {
 			return false;
 		}
 
+		update_option( 'ctct_acquiring_token', 'true', false );
+
 		$code_state = $options['_ctct_form_state_authcode'];
 
 		parse_str( $code_state, $parsed_code_state );
@@ -397,7 +399,7 @@ class ConstantContact_API {
 			constant_contact_set_needs_manual_reconnect( 'false' );
 		}
 
-
+		update_option( 'ctct_acquiring_token', 'false', false );
 		return $result;
 	}
 
