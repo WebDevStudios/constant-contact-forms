@@ -290,7 +290,7 @@ class ConstantContact_API {
 	 */
 	public function acquire_access_token(): bool {
 
-		if ( 'false' !== get_option( 'ctct_acquiring_token' ) ) {
+		if ( 'false' !== get_option( 'ctct_acquiring_token', 'false' ) ) {
 			return false;
 		}
 
