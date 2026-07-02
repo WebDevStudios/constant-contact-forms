@@ -154,10 +154,13 @@ class ConstantContact_Mail {
 		$lists        = $values['ctct-lists'] ?? [];
 		$lists        = $lists['value'] ?? [];
 		$args['list'] = is_array( $lists ) ? array_map( 'sanitize_text_field', $lists ) : sanitize_text_field( $lists );
-		$args['anniversary'] = [
-			'key' => 'anniversary',
-			'val' => $this->format_anniversary_date( $date_parts ),
-		];
+
+		if ( ! empty( $date_parts ) ) {
+			$args['anniversary'] = [
+				'key' => 'anniversary',
+				'val' => $this->format_anniversary_date( $date_parts ),
+			];
+		}
 		return constant_contact()->get_api()->add_contact( $args, $values['ctct-id']['value'] );
 	}
 
