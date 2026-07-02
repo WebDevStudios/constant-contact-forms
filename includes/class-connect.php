@@ -395,6 +395,7 @@ class ConstantContact_Connect {
 		delete_option( '_ctct_expires_in' );
 		delete_option( 'ctct_maybe_needs_reconnected' );
 		delete_option( 'ctct_account_domain_hash' );
+		delete_option( 'ctct_acquiring_token' );
 		delete_option( 'ctct_refreshing_token' );
 
 		delete_option( 'CtctConstantContactcode_verifier' );
