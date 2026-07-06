@@ -236,6 +236,15 @@ class ConstantContact_Connect {
 								<input type="submit" class="button button-primary ctct-disconnect" value="<?php echo esc_attr( $btn_value ); ?>">
 							</form>
 						</div>
+
+						<div class="ctct-connection-details">
+							<p class="ctct-label">
+								<strong><?php esc_html_e( 'Test status:', 'constant-contact-forms' ); ?></strong>
+							</p>
+							<p><a id="ctct-test-api" href="<?php echo esc_url( wp_nonce_url(admin_url('edit.php?post_type=ctct_forms&page=ctct_options_connect'), 'ctct-test-connection', 'ctct-test-connection' ) ); ?>"><?php esc_html_e('Test current API key', 'constant-contact-forms' ); ?></a>
+							 <span id="ctct-test-api-result" style="display:block; margin-left: 5px;"></span>
+							</p>
+						</div>
 					</div>
 
 					<hr />
