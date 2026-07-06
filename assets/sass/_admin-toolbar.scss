@@ -164,9 +164,13 @@
 		}
 
 		&.ctct-connected{
-
 			&::before{
 				background-color: variables.$color-green;
+			}
+		}
+		&.ctct-not-connected {
+			&::before {
+				background-color: variables.$color-chrome-yellow;
 			}
 		}
 	}
