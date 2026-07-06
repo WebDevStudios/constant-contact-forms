@@ -385,9 +385,15 @@ class ConstantContact_Connect {
 			return false;
 		}
 
+		// Cases where we may not have vendor loaded yet?
+		constant_contact()->load_libs();
+
 		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ctct-admin-disconnect'] ) ), 'ctct-admin-disconnect' ) ) {
+			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_maybe_log_it( 'API', 'Manual disconnect' );
 			$this->force_disconnect();
 		} else {
+			add_filter( 'constant_contact_force_logging', '__return_true' );
 			constant_contact_maybe_log_it( 'Nonces', 'Account disconnection nonce failed to verify.' );
 		}
 		return true;
@@ -398,9 +404,17 @@ class ConstantContact_Connect {
 	 *
 	 * @since 2.19.0
 	 *
+	 * @param bool $skip_disconnect Whether or not to actually disconnect
 	 * @return bool
 	 */
-	public function force_disconnect() : bool {
+	public function force_disconnect( $skip_disconnect = false ) : bool {
+		add_filter( 'constant_contact_force_logging', '__return_true' );
+		constant_contact_maybe_log_it( 'API', 'Force disconnect reached' );
+
+		if ( $skip_disconnect ) {
+			return false;
+		}
+
 		delete_option( 'ctct_access_token' );
 		delete_option( '_ctct_access_token' );
 		delete_option( 'ctct_refresh_token' );
@@ -408,6 +422,7 @@ class ConstantContact_Connect {
 		delete_option( '_ctct_expires_in' );
 		delete_option( 'ctct_maybe_needs_reconnected' );
 		delete_option( 'ctct_account_domain_hash' );
+		delete_option( 'ctct_acquiring_token' );
 		delete_option( 'ctct_refreshing_token' );
 
 		delete_option( 'CtctConstantContactcode_verifier' );

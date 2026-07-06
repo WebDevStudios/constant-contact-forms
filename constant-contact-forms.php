@@ -486,6 +486,8 @@ class Constant_Contact {
 		delete_option( 'ctct_auth_url' );
 		delete_option( 'ctct_key' );
 		delete_option( 'ctct_maybe_needs_reconnected' );
+		delete_option( 'ctct_acquiring_token' );
+		delete_option( 'ctct_refreshing_token' );
 		constant_contact_delete_option( '_ctct_form_state_authcode' );
 		wp_clear_scheduled_hook( 'ctct_refresh_token_job' );
 		wp_unschedule_hook( 'ctct_refresh_token_job' );
