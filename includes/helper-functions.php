@@ -861,3 +861,16 @@ function constant_contact_get_issued_expired_access_token_times() {
 		'expires' => $obj->format( 'Y-m-d, H:i' ),
 	];
 };
+
+function constant_contact_test_api_ajax_handler(): bool {
+	if ( ! wp_verify_nonce( $_REQUEST['ctct-test-connection-nonce'], 'ctct-test-connection' ) ) {
+		wp_send_json_error( [ 'nonce-result' => 'failed' ] );
+		exit();
+	}
+	$is_connected = constant_contact()->get_api()->cc()->test_connection();
+	$is_connected ?
+		wp_send_json_success( [ 'is_connected' => 'did connect' ], 200 ) :
+		wp_send_json_success( [ 'is_connected' => 'did not connect' ], 200 );
+	exit();
+}
+add_action( 'wp_ajax_constant_contact_test_api_ajax_handler', 'constant_contact_test_api_ajax_handler' );
