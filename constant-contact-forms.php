@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     2.20.0
+ * Version:     2.21.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * Requires PHP: 8.1
@@ -77,7 +77,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '2.20.0';
+	const VERSION = '2.21.0';
 
 	/**
 	 * URL of plugin directory.
@@ -364,11 +364,6 @@ class Constant_Contact {
 		$this->url      = plugin_dir_url( __FILE__ );
 		$this->path     = plugin_dir_path( __FILE__ );
 
-		if ( ! $this->meets_php_requirements() ) {
-			add_action( 'admin_notices', [ $this, 'minimum_version' ] );
-			return;
-		}
-
 		// Load our plugin and our libraries.
 		$this->plugin_classes();
 		$this->admin_plugin_classes();
@@ -387,15 +382,6 @@ class Constant_Contact {
 
 		// Include deprecated functions.
 		self::include_file( 'deprecated', false );
-	}
-
-	/**
-	 * Display an admin notice for users on less than PHP 5.4.x.
-	 *
-	 * @since 1.0.1
-	 */
-	public function minimum_version(): void {
-		echo '<div id="message" class="notice is-dismissible error"><p>' . esc_html__( 'Constant Contact Forms requires PHP 7.4 or higher. Your hosting provider or website administrator should be able to assist in updating your PHP version.', 'constant-contact-forms' ) . '</p></div>';
 	}
 
 	/**
@@ -453,11 +439,6 @@ class Constant_Contact {
 	 * @return void
 	 */
 	public function hooks(): void {
-		if ( ! $this->meets_php_requirements() ) {
-			add_action( 'admin_notices', [ $this, 'minimum_version' ] );
-			return;
-		}
-
 		add_action( 'init', [ $this, 'init' ] );
 		add_action( 'widgets_init', [ $this, 'widgets' ] );
 		add_filter( 'body_class', [ $this, 'body_classes' ] );
@@ -494,10 +475,6 @@ class Constant_Contact {
 	 */
 	public function deactivate(): void {
 
-		if ( ! $this->meets_php_requirements() ) {
-			return;
-		}
-
 		// Clear out connection data when deactivating plugin.
 		delete_option( 'ctct_access_token' );
 		delete_option( '_ctct_access_token' );
@@ -509,6 +486,8 @@ class Constant_Contact {
 		delete_option( 'ctct_auth_url' );
 		delete_option( 'ctct_key' );
 		delete_option( 'ctct_maybe_needs_reconnected' );
+		delete_option( 'ctct_acquiring_token' );
+		delete_option( 'ctct_refreshing_token' );
 		constant_contact_delete_option( '_ctct_form_state_authcode' );
 		wp_clear_scheduled_hook( 'ctct_refresh_token_job' );
 		wp_unschedule_hook( 'ctct_refresh_token_job' );
@@ -524,17 +503,6 @@ class Constant_Contact {
 	public function uninstall(): void {
 		$uninstaller = new ConstantContact_Uninstall();
 		$uninstaller->run();
-	}
-
-	/**
-	 * Whether or not we meet our minimal PHP requirements.
-	 *
-	 * @since 1.2.0
-	 *
-	 * @return bool
-	 */
-	public function meets_php_requirements() : bool {
-		return version_compare( PHP_VERSION, '7.4.0', '>=' );
 	}
 
 	/**

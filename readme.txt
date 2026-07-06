@@ -3,7 +3,7 @@ Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ra
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
 Tested up to:      7.0
-Stable tag:        2.20.0
+Stable tag:        2.21.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      8.1
@@ -46,6 +46,15 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= 2.21.0 =
+* Updated: Temporarily removing the forced disconnection and API key removal, when domain differences are suspected. Added logging indicating we got to that point.
+* Updated: Force logging before various logging lines to help ensure we're going to log troubleshooting data.
+* Updated: Wording of connection status in upper right corner for better clarity.
+* Updated: Removed PHP version requirement checks that are now handled by WordPress
+* Added: Reduced potential race conditions with initial authentication process.
+* Added: Token issued, current, and estimated expiration times to status page.
+* Fixed: Conditionally add anniversary details in successful signup log, if anniversary field used.
 
 = 2.20.0 =
 * Updated: Reduced race conditions that were potentially contributing to connection stability.

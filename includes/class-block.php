@@ -35,22 +35,7 @@ class ConstantContact_Block {
 	public function __construct( object $plugin ) {
 		$this->plugin = $plugin;
 
-		if ( $this->meets_requirements() ) {
-			add_action( 'init', [ $this, 'register_blocks' ] );
-		}
-	}
-
-	/**
-	 * Check requirements.
-	 *
-	 * @author Eric Fuller
-	 * @since  1.5.0
-	 * @return bool
-	 */
-	private function meets_requirements() : bool {
-		global $wp_version;
-
-		return version_compare( $wp_version, '5.0.0' ) >= 0;
+		add_action( 'init', [ $this, 'register_blocks' ] );
 	}
 
 	/**

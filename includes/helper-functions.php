@@ -837,3 +837,27 @@ function constant_contact_get_date_field_order( $format = '' ) {
 
 	return $order;
 }
+
+/**
+ * Return an array of timestamps for issued, current, and expected expiration time for current access token.
+ *
+ * @since NEXT
+ *
+ * @return array|null
+ * @throws Exception
+ */
+function constant_contact_get_issued_expired_access_token_times() {
+	$token_timestamp = get_option( 'ctct_access_token_timestamp', '' );
+	if ( empty( $token_timestamp ) ) {
+		return null;
+	}
+	$date = date( 'Y-m-d, H:i', $token_timestamp );
+	$obj  = new DateTime( $date );
+	$obj->modify( '+1 day' );
+
+	return [
+		'issued'  => $date,
+		'current' => date( 'Y-m-d, H:i', time() ),
+		'expires' => $obj->format( 'Y-m-d, H:i' ),
+	];
+};

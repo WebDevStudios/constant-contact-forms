@@ -159,6 +159,7 @@ class ConstantContact_Connect {
 				$description = esc_html__( 'Issues with reauthentication for tokens occurred and a manual disconnect and reconnect is needed. Use the status button to start the re-authentication process.', 'constant-contact-forms' );
 				$btn_value   = esc_attr__( 'Disconnected', 'constant-contact-forms' );
 			}
+			$times = constant_contact_get_issued_expired_access_token_times();
 			?>
 			<div class="wrap connected <?php echo esc_attr( $this->key ); ?>">
 				<div class="ctct-connected">
@@ -205,6 +206,26 @@ class ConstantContact_Connect {
 								?>
 							</p>
 						</div>
+						<?php if ( $times ) : ?>
+						<div class="ctct-connection-details">
+							<p class="ctct-label">
+								<strong><?php esc_html_e( 'Issued time:', 'constant-contact-forms' ); ?></strong>
+							</p>
+							<p><?php echo esc_html( $times['issued'] ); ?></p>
+						</div>
+						<div class="ctct-connection-details">
+							<p class="ctct-label">
+								<strong><?php esc_html_e( 'Current time:', 'constant-contact-forms' ); ?></strong>
+							</p>
+							<p><?php echo esc_html( $times['current'] ); ?></p>
+						</div>
+						<div class="ctct-connection-details">
+							<p class="ctct-label">
+								<strong><?php esc_html_e( 'Estimated expiration time:', 'constant-contact-forms' ); ?></strong>
+							</p>
+							<p><?php echo esc_html( $times['expires'] ); ?></p>
+						</div>
+						<?php endif; ?>
 						<div class="ctct-connection-details">
 							<p class="ctct-label">
 								<strong><?php esc_html_e( 'Status:', 'constant-contact-forms' ); ?></strong>
@@ -364,9 +385,15 @@ class ConstantContact_Connect {
 			return false;
 		}
 
+		// Cases where we may not have vendor loaded yet?
+		constant_contact()->load_libs();
+
 		if ( wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['ctct-admin-disconnect'] ) ), 'ctct-admin-disconnect' ) ) {
+			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_maybe_log_it( 'API', 'Manual disconnect' );
 			$this->force_disconnect();
 		} else {
+			add_filter( 'constant_contact_force_logging', '__return_true' );
 			constant_contact_maybe_log_it( 'Nonces', 'Account disconnection nonce failed to verify.' );
 		}
 		return true;
@@ -377,9 +404,17 @@ class ConstantContact_Connect {
 	 *
 	 * @since 2.19.0
 	 *
+	 * @param bool $skip_disconnect Whether or not to actually disconnect
 	 * @return bool
 	 */
-	public function force_disconnect() : bool {
+	public function force_disconnect( $skip_disconnect = false ) : bool {
+		add_filter( 'constant_contact_force_logging', '__return_true' );
+		constant_contact_maybe_log_it( 'API', 'Force disconnect reached' );
+
+		if ( $skip_disconnect ) {
+			return false;
+		}
+
 		delete_option( 'ctct_access_token' );
 		delete_option( '_ctct_access_token' );
 		delete_option( 'ctct_refresh_token' );
@@ -387,6 +422,7 @@ class ConstantContact_Connect {
 		delete_option( '_ctct_expires_in' );
 		delete_option( 'ctct_maybe_needs_reconnected' );
 		delete_option( 'ctct_account_domain_hash' );
+		delete_option( 'ctct_acquiring_token' );
 		delete_option( 'ctct_refreshing_token' );
 
 		delete_option( 'CtctConstantContactcode_verifier' );
