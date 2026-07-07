@@ -242,7 +242,7 @@ class ConstantContact_Connect {
 								<strong><?php esc_html_e( 'Test status:', 'constant-contact-forms' ); ?></strong>
 							</p>
 							<p><a id="ctct-test-api" href="<?php echo esc_url( wp_nonce_url(admin_url('edit.php?post_type=ctct_forms&page=ctct_options_connect'), 'ctct-test-connection', 'ctct-test-connection' ) ); ?>"><?php esc_html_e('Test current API key', 'constant-contact-forms' ); ?></a>
-							 <span id="ctct-test-api-result" style="display:block; margin-left: 5px;"></span>
+							 <span id="ctct-test-api-result"></span>
 							</p>
 						</div>
 					</div>
