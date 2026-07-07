@@ -52,7 +52,7 @@ class ConstantContact_Builder {
 	 *
 	 * @since 1.0.0
 	 */
-	public function init() {
+	public function init(): void {
 		add_action( 'init', [ $this, 'hooks' ] );
 	}
 
@@ -61,7 +61,7 @@ class ConstantContact_Builder {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		global $pagenow;
 
 		if ( empty( $pagenow ) ) {
@@ -87,7 +87,7 @@ class ConstantContact_Builder {
 	 *
 	 * @return array array of lists
 	 */
-	public function get_lists() : array {
+	public function get_lists(): array {
 
 		$lists     = constant_contact()->get_lists()->get_lists();
 		$get_lists = [];
@@ -110,7 +110,7 @@ class ConstantContact_Builder {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_form_css() {
+	public function add_form_css(): void {
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 	}
 
@@ -125,7 +125,7 @@ class ConstantContact_Builder {
 	 * @param object $cmbobj CMB2 field object.
 	 * @return void
 	 */
-	public function override_save( string $field_id, $updated, string $action, object $cmbobj ) {
+	public function override_save( string $field_id, $updated, string $action, object $cmbobj ): void {
 
 		global $post;
 
@@ -165,7 +165,7 @@ class ConstantContact_Builder {
 	 *
 	 * @since 1.0.0
 	 */
-	public function admin_notice() {
+	public function admin_notice(): void {
 
 		global $post;
 
@@ -234,10 +234,12 @@ class ConstantContact_Builder {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param int     $post_id Post id.
 	 * @param WP_Post $post    Post object.
 	 */
-	public function save_post( int $post_id, WP_Post $post ) {
+	public function save_post( int $post_id, WP_Post $post ): void {
 
 		// Sanity checks to make sure it only applies to
 		// what we want to deal with, which is saving a form
@@ -259,7 +261,7 @@ class ConstantContact_Builder {
 	 * @param string $location URL to add query args to.
 	 * @return string
 	 */
-	public function add_not_conn_query_arg( string $location ) : string {
+	public function add_not_conn_query_arg( string $location ): string {
 		remove_filter( 'redirect_post_location', [ $this, 'add_notice_query_var' ], 99 );
 		return add_query_arg( [ 'ctct_not_connected' => 'true' ], $location );
 	}
@@ -272,7 +274,7 @@ class ConstantContact_Builder {
 	 *
 	 * @param int $post_id Post ID.
 	 */
-	public function output_not_connected_modal( int $post_id = 0 ) {
+	public function output_not_connected_modal( int $post_id = 0 ): void {
 		$auth_link = add_query_arg(
 			[
 				'post_type' => 'ctct_forms',
@@ -358,7 +360,7 @@ class ConstantContact_Builder {
 	 *
 	 * @since 1.2.2
 	 */
-	public function output_custom_textarea_modal() {
+	public function output_custom_textarea_modal(): void {
 		?>
 			<div id="ctct-custom-textarea-modal" class="ctct-modal ctct-custom-textarea-modal">
 				<div class="ctct-modal-dialog" role="document">
