@@ -592,9 +592,17 @@ class Constant_Contact {
 	public function __get( $field ) {
 		return match ( $field ) {
 			'version' => self::VERSION,
-			'basename', 'path', 'url' => $this->$field,
 			default => throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field ),
 		};
+	}
+
+	/**
+	 * Basename getter
+	 * @since NEXT
+	 * @return string
+	 */
+	public function get_basename(): string {
+		return $this->basename;
 	}
 
 	/**
