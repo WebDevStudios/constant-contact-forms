@@ -192,7 +192,7 @@ class ConstantContact_Notification_Content {
 	 * @param  int   $form_id    Current form ID.
 	 * @param  array $references Current form references.
 	 */
-	protected static function display_deleted_form_reference_markup( int $form_id, array $references ) {
+	protected static function display_deleted_form_reference_markup( int $form_id, array $references ): void {
 		printf(
 			'%1$s #%2$d: ',
 			esc_html__( 'Form', 'constant-contact-forms' ),
@@ -237,7 +237,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @since 1.14.0
 	 *
-	 * @return false|string
+	 * @return string
 	 */
 	public static function api3_upgrade_notice(): string {
 		ob_start();
@@ -256,7 +256,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return false|string
+	 * @return string
 	 */
 	public static function api3_upgraded_notice(): string {
 		ob_start();
@@ -323,7 +323,9 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @since 2.10.0
 	 *
-	 * @return false|string
+	 * @throws Exception
+	 *
+	 * @return string
 	 */
 	public static function lists_notes_notice(): string {
 		if ( constant_contact_get_needs_manual_reconnect() ) {
@@ -353,7 +355,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @since 2.15.0
 	 *
-	 * @return false|string
+	 * @return string
 	 */
 	public static function list_selection_notice(): string {
 		ob_start();
