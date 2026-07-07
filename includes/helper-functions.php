@@ -870,7 +870,7 @@ function constant_contact_test_api_ajax_handler(): bool {
 	$is_connected = constant_contact()->get_api()->cc()->test_connection();
 	$is_connected ?
 		wp_send_json_success( [ 'is_connected' => 'did connect' ], 200 ) :
-		wp_send_json_success( [ 'is_connected' => 'did not connect' ], 200 );
+		wp_send_json_error( [ 'is_connected' => 'did not connect' ], 200 );
 	exit();
 }
 add_action( 'wp_ajax_constant_contact_test_api_ajax_handler', 'constant_contact_test_api_ajax_handler' );
