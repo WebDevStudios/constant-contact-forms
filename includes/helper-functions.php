@@ -862,6 +862,15 @@ function constant_contact_get_issued_expired_access_token_times() {
 	];
 };
 
+/**
+ * Make a test API request to a general endpoint.
+ *
+ * Meant to just verify access tokens are still valid.
+ *
+ * @since 2.22.0
+ *
+ * @return bool
+ */
 function constant_contact_test_api_ajax_handler(): bool {
 
 	if ( ! current_user_can( 'manage_options' ) ) {
