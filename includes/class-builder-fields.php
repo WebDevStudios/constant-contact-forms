@@ -872,6 +872,8 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 2.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array      $field_args
 	 * @param CMB2_Field $field
 	 */
