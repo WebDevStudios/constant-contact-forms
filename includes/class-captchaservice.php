@@ -93,7 +93,7 @@ class ConstantContact_CaptchaService {
 	 * @since 2.9.0
 	 * @since 2.16.0 Added Cloudflare Turnstile support
 	 */
-	private function maybe_initialize_captcha_service_option() {
+	private function maybe_initialize_captcha_service_option(): void {
 		$plugin_settings = get_option( $this->plugin_settings_key );
 
 		// Bail if no options have been saved yet. We'll let the user set the options manually since nothing needs to be migrated.
