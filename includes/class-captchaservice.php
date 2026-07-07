@@ -75,19 +75,12 @@ class ConstantContact_CaptchaService {
 			return false;
 		}
 
-		switch ( $captcha_service ) {
-			case 'recaptcha' :
-				return ConstantContact_reCAPTCHA::has_recaptcha_keys();
-
-			case 'hcaptcha' :
-				return ConstantContact_hCaptcha::has_hcaptcha_keys();
-
-			case 'turnstile' :
-				return ConstantContact_Turnstile::has_turnstile_keys();
-
-			default:
-				return false;
-		}
+		return match ( $captcha_service ) {
+			'recaptcha' => ConstantContact_reCAPTCHA::has_recaptcha_keys(),
+			'hcaptcha' => ConstantContact_hCaptcha::has_hcaptcha_keys(),
+			'turnstile' => ConstantContact_Turnstile::has_turnstile_keys(),
+			default => false,
+		};
 	}
 
 	/**
