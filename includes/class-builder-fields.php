@@ -239,7 +239,7 @@ class ConstantContact_Builder_Fields {
 					[
 						'name' => esc_html__( 'No Lists Found', 'constant-contact-forms' ),
 						'desc' => sprintf(
-							'<a href="%s">%s</a>',
+							'<a href="%1$s">%2$s</a>',
 							esc_url( admin_url( 'edit.php?post_type=ctct_lists' ) ),
 							esc_html__( 'Create a List', 'constant-contact-forms' )
 						),
@@ -697,13 +697,13 @@ class ConstantContact_Builder_Fields {
 	public function show_optin_connected_fields( object $options_metabox ): void {
 
 		$overall_description = sprintf(
-			'<hr/><p>%s %s</p>',
+			'<hr/><p>%1$s %2$s</p>',
 			esc_html__(
 				'Enabling this option will require users to check a box to be added to your list.',
 				'constant-contact-forms'
 			),
 			sprintf(
-				'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+				'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
 				'https://knowledgebase.constantcontact.com/email-digital-marketing/articles/KnowledgeBase/18260-Add-email-opt-in-to-a-WordPress-Form-created-with-the-Constant-Contact-plugin',
 				esc_html__( 'Learn more', 'constant-contact-forms' )
 			)
@@ -877,11 +877,11 @@ class ConstantContact_Builder_Fields {
 	 */
 	public function unique_label_messaging( array $field_args, CMB2_Field $field ): void {
 		printf(
-			'<p>%s</p>',
+			'<p>%1$s</p>',
 			esc_html__( '"Custom Text Field" labels are used for custom fields and need to be unique.', 'constant-contact-forms' )
 		);
 		printf(
-			'<p>%s</p>',
+			'<p>%1$s</p>',
 			sprintf(
 				// translators: Placeholders are for html link markup.
 				esc_html__( 'Custom fields created within Constant Contact with field type "%1$sdate field%2$s" are not supported.', 'constant-contact-forms' ),
