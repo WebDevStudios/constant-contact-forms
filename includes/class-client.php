@@ -442,7 +442,7 @@ class ConstantContact_Client {
 	/**
 	 * Method to do a basic API request test, to check on current credentials.
 	 *
-	 * @since NEXT
+	 * @since 2.22.0
 	 *
 	 * @param array $args
 	 * @return bool
@@ -455,7 +455,7 @@ class ConstantContact_Client {
 			/**
 			 * Sets the HTTP timeout, in seconds, for the request.
 			 *
-			 * @since NEXT
+			 * @since 2.22.0
 			 *
 			 * @param int    $value       The timeout limit, in seconds. Defaults to 30.
 			 * @param string $request_url The request URL.
