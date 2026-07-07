@@ -403,11 +403,14 @@ class ConstantContact_Connect {
 	 * Force disconnect from Constant Contact.
 	 *
 	 * @since 2.19.0
+	 * @since 2.21.0 Added $skip_disconnect
+	 *
+	 * @throws Exception
 	 *
 	 * @param bool $skip_disconnect Whether or not to actually disconnect
 	 * @return bool
 	 */
-	public function force_disconnect( $skip_disconnect = false ) : bool {
+	public function force_disconnect( bool $skip_disconnect = false ): bool {
 		add_filter( 'constant_contact_force_logging', '__return_true' );
 		constant_contact_maybe_log_it( 'API', 'Force disconnect reached' );
 
