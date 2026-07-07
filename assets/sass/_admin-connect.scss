@@ -347,6 +347,18 @@
 			}
 		}
 	}
+
+	#ctct-test-api-result {
+		font-weight: bold;
+		margin-left: 10px;
+		&.success {
+			color: variables.$color-success-dark;
+		}
+
+		&.no-success {
+			color: variables.$color-error-dark;
+		}
+	}
 }
 
 // Getting Started/ Next Steps
