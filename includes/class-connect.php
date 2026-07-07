@@ -157,7 +157,7 @@ class ConstantContact_Connect {
 			if ( constant_contact_get_needs_manual_reconnect() ) {
 				$heading     = esc_html__( 'Manual reconnection required', 'constant-contact-forms' );
 				$description = esc_html__( 'Issues with reauthentication for tokens occurred and a manual disconnect and reconnect is needed. Use the status button to start the re-authentication process.', 'constant-contact-forms' );
-				$btn_value   = esc_attr__( 'Disconnected', 'constant-contact-forms' );
+				$btn_value   = esc_attr__( 'Force disconnect', 'constant-contact-forms' );
 			}
 			$times = constant_contact_get_issued_expired_access_token_times();
 			?>
@@ -228,22 +228,21 @@ class ConstantContact_Connect {
 						<?php endif; ?>
 						<div class="ctct-connection-details">
 							<p class="ctct-label">
-								<strong><?php esc_html_e( 'Status:', 'constant-contact-forms' ); ?></strong>
+								<strong><?php esc_html_e( 'Test status:', 'constant-contact-forms' ); ?></strong>
+							</p>
+							<p><a id="ctct-test-api" href="<?php echo esc_url( wp_nonce_url(admin_url('edit.php?post_type=ctct_forms&page=ctct_options_connect'), 'ctct-test-connection', 'ctct-test-connection' ) ); ?>"><?php esc_html_e('Test current API key', 'constant-contact-forms' ); ?></a>
+							 <span id="ctct-test-api-result"></span>
+							</p>
+						</div>
+						<div class="ctct-connection-details">
+							<p class="ctct-label">
+								<strong><?php esc_html_e( 'Action:', 'constant-contact-forms' ); ?></strong>
 							</p>
 							<form method="post" action="<?php echo esc_url( $this->redirect_url ); ?>">
 								<?php wp_nonce_field( 'ctct-admin-disconnect', 'ctct-admin-disconnect' ); ?>
 								<input type="hidden" id="ctct-disconnect" name="ctct-disconnect" value="true">
 								<input type="submit" class="button button-primary ctct-disconnect" value="<?php echo esc_attr( $btn_value ); ?>">
 							</form>
-						</div>
-
-						<div class="ctct-connection-details">
-							<p class="ctct-label">
-								<strong><?php esc_html_e( 'Test status:', 'constant-contact-forms' ); ?></strong>
-							</p>
-							<p><a id="ctct-test-api" href="<?php echo esc_url( wp_nonce_url(admin_url('edit.php?post_type=ctct_forms&page=ctct_options_connect'), 'ctct-test-connection', 'ctct-test-connection' ) ); ?>"><?php esc_html_e('Test current API key', 'constant-contact-forms' ); ?></a>
-							 <span id="ctct-test-api-result"></span>
-							</p>
 						</div>
 					</div>
 
