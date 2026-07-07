@@ -88,7 +88,7 @@ class ConstantContact_Client {
 	 */
 	public function get_contact( string $contact_id, array $args = [] ): array {
 		$args = http_build_query( $args );
-		return $this->get( "contacts/{$contact_id}?$args", $this->base_args );
+		return $this->get( "contacts/$contact_id?$args", $this->base_args );
 	}
 
 	/**
@@ -136,7 +136,7 @@ class ConstantContact_Client {
 	 * @return array
 	 */
 	public function get_custom_field( string $field_id ): array {
-		return $this->get( "contact_custom_fields/{$field_id}", $this->base_args );
+		return $this->get( "contact_custom_fields/$field_id", $this->base_args );
 	}
 
 	/**
@@ -198,7 +198,7 @@ class ConstantContact_Client {
 	 */
 	public function add_note( array $updated_contact_data ): array {
 		$contact_id = $updated_contact_data['contact_id'];
-		return $this->put( "contacts/{$contact_id}", $this->base_args, $updated_contact_data );
+		return $this->put( "contacts/$contact_id", $this->base_args, $updated_contact_data );
 	}
 
 	/**
@@ -270,7 +270,7 @@ class ConstantContact_Client {
 	 * @return array Version3 list IDs for provided lists.
 	 */
 	public function get_updated_lists_ids( string $old_ids_string ): array {
-		return $this->get( "contact_lists/list_id_xrefs?sequence_ids={$old_ids_string}", $this->base_args );
+		return $this->get( "contact_lists/list_id_xrefs?sequence_ids=$old_ids_string", $this->base_args );
 	}
 
 	/**
