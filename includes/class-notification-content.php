@@ -287,7 +287,7 @@ class ConstantContact_Notification_Content {
 			// translators: placeholders hold link HTML tags.
 				esc_html__( 'Constant Contact Forms has detected errors that indicate a need to manually disconnect and reconnect your Constant Contact account. Visit the %1$sConnection Settings%2$s to manage.', 'constant-contact-forms' ),
 				sprintf(
-					'<a href="%s">',
+					'<a href="%1$s">',
 					esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' ) )
 				),
 				'</a>'
@@ -309,7 +309,7 @@ class ConstantContact_Notification_Content {
 			printf(
 				/* Translators: placeholders will be html `<a>` links. */
 				esc_html__( 'We wanted to inform you that there is a pending update available for the Constant Contact Forms plugin. To ensure optimal performance and security, please visit the %1$sWordPress updates%2$s area and update the plugin at your earliest convenience.', 'constant-contact-forms' ),
-				sprintf( '<a href="%s">', esc_url( admin_url( $url ) ) ),
+				sprintf( '<a href="%1$s">', esc_url( admin_url( $url ) ) ),
 				'</a>',
 			); ?>
 			</p>
