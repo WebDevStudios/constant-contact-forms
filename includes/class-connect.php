@@ -341,7 +341,7 @@ class ConstantContact_Connect {
 					</p>
 				</div>
 				<div class="ctct-cta-right">
-					<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/form-example-connect.png" alt="<?php esc_attr_e( 'Picture of a a signup form builder from Constant Contact', 'constant-contact-forms' ); ?>') ?>">
+					<img src="<?php echo esc_url( constant_contact()->url() ); ?>assets/images/form-example-connect.png" alt="<?php esc_attr_e( 'Picture of a a signup form builder from Constant Contact', 'constant-contact-forms' ); ?>') ?>">
 					<p>
 					<?php
 						printf(

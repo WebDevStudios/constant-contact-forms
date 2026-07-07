@@ -102,7 +102,7 @@ class ConstantContact_CPTS {
 			'show_ui'             => true,
 			'show_in_menu'        => true,
 			'menu_position'       => 20,
-			'menu_icon'           => constant_contact()->url . 'assets/images/ctct-icon.png',
+			'menu_icon'           => constant_contact()->url() . 'assets/images/ctct-icon.png',
 			'show_in_admin_bar'   => true,
 			'show_in_nav_menus'   => false,
 			'can_export'          => true,
