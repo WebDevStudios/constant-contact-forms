@@ -70,7 +70,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.0.0
 	 */
-	public function init() {
+	public function init(): void {
 		add_action( 'init', [ $this, 'hooks' ] );
 		add_action( 'init', [ $this, 'init_field_defaults' ] );
 	}
@@ -80,7 +80,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		global $pagenow;
 
 		if ( ! $pagenow ) {
@@ -122,7 +122,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.6.0
 	 */
-	public function init_field_defaults() {
+	public function init_field_defaults():void {
 
 		$this->defaults['fields'] = [
 			'email'            => [
@@ -208,7 +208,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.6.0
 	 */
-	public function add_placeholders_to_js() {
+	public function add_placeholders_to_js(): void {
 		wp_add_inline_script( 'ctct_form', 'const ctct_admin_placeholders = ' . json_encode( $this->filtered['placeholders'] ), 'before' );
 	}
 
@@ -217,7 +217,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.0.0
 	 */
-	public function constant_contact_list_metabox() {
+	public function constant_contact_list_metabox(): void {
 
 		$list_metabox = new_cmb2_box(
 			[
@@ -284,7 +284,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.0.0
 	 */
-	public function description_metabox() {
+	public function description_metabox(): void {
 
 		$description_metabox = new_cmb2_box(
 			[
@@ -325,7 +325,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.0.0
 	 */
-	public function opt_ins_metabox() {
+	public function opt_ins_metabox(): void {
 
 		$options_metabox = new_cmb2_box(
 			[
@@ -429,7 +429,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.4.0
 	 */
-	public function custom_form_css_metabox() {
+	public function custom_form_css_metabox(): void {
 		$custom_css_metabox = new_cmb2_box(
 			[
 				'id'           => 'ctct_1_custom_form_css_metabox',
@@ -562,7 +562,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.4.0
 	 */
-	public function custom_input_css_metabox() {
+	public function custom_input_css_metabox(): void {
 		$custom_css_metabox = new_cmb2_box(
 			[
 				'id'           => 'ctct_1_custom_input_css_metabox',
@@ -694,7 +694,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @param object $options_metabox CMB2 options metabox object.
 	 */
-	public function show_optin_connected_fields( object $options_metabox ) {
+	public function show_optin_connected_fields( object $options_metabox ): void {
 
 		$overall_description = sprintf(
 			'<hr/><p>%s %s</p>',
@@ -729,7 +729,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @param object $options_metabox CMB2 options metabox object.
 	 */
-	public function show_enable_show_checkbox_field( object $options_metabox ) {
+	public function show_enable_show_checkbox_field( object $options_metabox ): void {
 
 		$description  = esc_html__( 'Add a checkbox so subscribers can opt-in to your email list.', 'constant-contact-forms' );
 		$description .= '<br>';
@@ -752,7 +752,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @param object $options_metabox CMB2 options metabox object.
 	 */
-	public function show_affirmation_field( object $options_metabox ) {
+	public function show_affirmation_field( object $options_metabox ): void {
 
 		$business_name = get_bloginfo( 'name' );
 		$business_name = ( $business_name ) ?: esc_html__( 'Your Business Name', 'constant-contact-forms' );
@@ -773,7 +773,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.0.0
 	 */
-	public function fields_metabox() {
+	public function fields_metabox(): void {
 
 		$fields_metabox = new_cmb2_box(
 			[
@@ -875,7 +875,7 @@ class ConstantContact_Builder_Fields {
 	 * @param array      $field_args
 	 * @param CMB2_Field $field
 	 */
-	public function unique_label_messaging( array $field_args, CMB2_Field $field ) {
+	public function unique_label_messaging( array $field_args, CMB2_Field $field ): void {
 		printf(
 			'<p>%s</p>',
 			esc_html__( '"Custom Text Field" labels are used for custom fields and need to be unique.', 'constant-contact-forms' )
@@ -915,7 +915,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.1.0
 	 */
-	public function generated_shortcode() {
+	public function generated_shortcode(): void {
 		$generated = new_cmb2_box(
 			[
 				'id'           => 'ctct_2_generated_metabox',
@@ -945,7 +945,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.4.0
 	 */
-	public function email_settings() {
+	public function email_settings(): void {
 
 		$email_settings = new_cmb2_box(
 			[
@@ -982,7 +982,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 2.3.0
 	 */
-	public function address_settings() {
+	public function address_settings(): void {
 
 		$address_settings = new_cmb2_box(
 			[
@@ -1038,7 +1038,7 @@ class ConstantContact_Builder_Fields {
 	 * @param CMB2 $cmb
 	 * @return bool
 	 */
-	public function show_address_metabox( CMB2 $cmb ) : bool {
+	public function show_address_metabox( CMB2 $cmb ): bool {
 		$data = get_post_meta( $cmb->object_id(), 'custom_fields_group', true );
 		if ( empty( $data ) ) {
 			return false;
@@ -1056,7 +1056,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @return array
 	 */
-	public function get_individual_address_fields() : array {
+	public function get_individual_address_fields(): array {
 		return [
 			'country' => esc_html__( 'Country', 'constant-contact-forms' ),
 			'street'  => esc_html__( 'Street', 'constant-contact-forms' ),
@@ -1071,7 +1071,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @since 1.5.0
 	 */
-	public function add_css_reset_metabox() {
+	public function add_css_reset_metabox(): void {
 
 		$reset_css_metabox = new_cmb2_box(
 			[
@@ -1103,7 +1103,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @param object $field The CMB2 field object.
 	 */
-	public function render_reset_css_button( object $field ) {
+	public function render_reset_css_button( object $field ): void {
 		?>
 			<button type="button" id="ctct-reset-css" class="button">
 				<?php esc_html_e( 'Reset', 'constant-contact-forms' ); ?>
@@ -1123,7 +1123,7 @@ class ConstantContact_Builder_Fields {
 	 *
 	 * @return array
 	 */
-	private function get_local_lists() : array {
+	private function get_local_lists(): array {
 
 		$args = [
 			'post_type'              => 'ctct_lists',
