@@ -71,8 +71,13 @@ window.CTCTAJAX = {};
 				})
 					.then((response) => response.json())
 					.then((response) => {
+						const successDOM = document.querySelector('#ctct-test-api-result');
+						successDOM.innerHTML = response.data.is_connected;
+						successDOM.setAttribute('class', '');
 						if (response.success) {
-							document.querySelector('#ctct-test-api-result').innerHTML = response.data.is_connected;
+							successDOM.classList.add('success');
+						} else {
+							successDOM.classList.add('no-success');
 						}
 					}).catch((error) => {
 					console.log(error);
