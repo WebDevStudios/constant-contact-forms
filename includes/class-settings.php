@@ -1096,9 +1096,9 @@ class ConstantContact_Settings {
 	 *
 	 * @param mixed  $user     WP user object.
 	 * @param string $username Username.
-	 * @return object Passed in $user object.
+	 * @return mixed Passed in $user object.
 	 */
-	public function process_user_data_for_optin( object $user, string $username ) : object {
+	public function process_user_data_for_optin( $user, string $username ): mixed {
 		$this->add_user_to_list( get_user_by( 'login', $username ) );
 		return $user;
 	}
