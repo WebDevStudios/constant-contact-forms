@@ -230,7 +230,7 @@ class ConstantContact_Client {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param object $list List data.
+	 * @param array $list List data.
 	 * @return array
 	 */
 	public function add_list( array $list ): array {
@@ -242,7 +242,7 @@ class ConstantContact_Client {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param object $list List data.
+	 * @param array $list List data.
 	 * @return array
 	 */
 	public function update_list( array $list ): array {
@@ -293,7 +293,7 @@ class ConstantContact_Client {
 			 *
 			 * @since 2.20.0
 			 *
-			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param int    $value       The timeout limit, in seconds. Defaults to 30.
 			 * @param string $request_url The request URL.
 			 *
 			 * @return int
@@ -333,7 +333,7 @@ class ConstantContact_Client {
 			 *
 			 * @since 2.20.0
 			 *
-			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param int    $value       The timeout limit, in seconds. Defaults to 30.
 			 * @param string $request_url The request URL.
 			 *
 			 * @return int
@@ -374,7 +374,7 @@ class ConstantContact_Client {
 			 *
 			 * @since 2.20.0
 			 *
-			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param int    $value       The timeout limit, in seconds. Defaults to 30.
 			 * @param string $request_url The request URL.
 			 *
 			 * @return int
@@ -415,7 +415,7 @@ class ConstantContact_Client {
 			 *
 			 * @since 2.20.0
 			 *
-			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+			 * @param int    $value       The timeout limit, in seconds. Defaults to 30.
 			 * @param string $request_url The request URL.
 			 *
 			 * @return int
