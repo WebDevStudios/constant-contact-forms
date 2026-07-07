@@ -841,7 +841,7 @@ function constant_contact_get_date_field_order( $format = '' ) {
 /**
  * Return an array of timestamps for issued, current, and expected expiration time for current access token.
  *
- * @since NEXT
+ * @since 2.21.0
  *
  * @return array|null
  * @throws Exception
