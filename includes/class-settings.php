@@ -394,7 +394,7 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'styles' ) );
 
 		$before_global_css = sprintf(
-			'<h2>%s</h2>',
+			'<h2>%1$s</h2>',
 			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
 		);
 
@@ -473,7 +473,7 @@ class ConstantContact_Settings {
 			if ( $lists && is_array( $lists ) ) {
 
 				$before_optin = sprintf(
-					'<h2>%s</h2>',
+					'<h2>%1$s</h2>',
 					esc_html__( 'Advanced opt-in', 'constant-contact-forms' )
 				);
 
@@ -560,7 +560,7 @@ class ConstantContact_Settings {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'spam' ) );
 
 		$before_captcha_service = sprintf(
-			'<h2>%s</h2>',
+			'<h2>%1$s</h2>',
 			esc_html__( 'Captcha service', 'constant-contact-forms' )
 		);
 
@@ -586,7 +586,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_recaptcha = sprintf(
-			'<div id="ctct-recaptcha"><h2>%s</h2>',
+			'<div id="ctct-recaptcha"><h2>%1$s</h2>',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' )
 		);
 
@@ -595,7 +595,7 @@ class ConstantContact_Settings {
 		$before_recaptcha .= sprintf(
 			wp_kses(
 				/* translators: %s: recaptcha documentation URL */
-				__( 'Learn more and get an <a href="%s" target="_blank">API site key</a>.', 'constant-contact-forms' ),
+				__( 'Learn more and get an <a href="%1$s" target="_blank">API site key</a>.', 'constant-contact-forms' ),
 				[
 					'a' => [
 						'href'   => [],
@@ -648,7 +648,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_hcaptcha = sprintf(
-			'<div id="ctct-hcaptcha"><h2>%s</h2>',
+			'<div id="ctct-hcaptcha"><h2>%1$s</h2>',
 			esc_html__( 'hCaptcha', 'constant-contact-forms' )
 		);
 
@@ -657,7 +657,7 @@ class ConstantContact_Settings {
 		$before_hcaptcha .= sprintf(
 			wp_kses(
 			/* translators: %s: hcaptcha signup URL */
-				__( 'Sign up and get your <a href="%s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
+				__( 'Sign up and get your <a href="%1$s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
 				[
 					'a' => [
 						'href'   => [],
@@ -697,7 +697,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_cf_turnstile = sprintf(
-			'<div id="ctct-turnstile"><h2>%s</h2>',
+			'<div id="ctct-turnstile"><h2>%1$s</h2>',
 			esc_html__( 'Cloudflare Turnstile', 'constant-contact-forms' )
 		);
 
@@ -706,7 +706,7 @@ class ConstantContact_Settings {
 		$before_cf_turnstile .= sprintf(
 			wp_kses(
 			/* translators: %s: turnstile signup URL */
-				__( 'Sign up and get your <a href="%s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
+				__( 'Sign up and get your <a href="%1$s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
 				[
 					'a' => [
 						'href'   => [],
@@ -746,7 +746,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_message = sprintf(
-			'<h2>%s</h2><div class="description">%s</div>',
+			'<h2>%1$s</h2><div class="description">%2$s</div>',
 			esc_html__( 'Suspected bot error message', 'constant-contact-forms' ),
 			esc_html__( 'This message displays when the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' )
 		);
