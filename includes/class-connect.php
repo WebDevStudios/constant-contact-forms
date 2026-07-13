@@ -468,25 +468,24 @@ class ConstantContact_Connect {
 		if ( $fallback_to_ctct_opt ) {
 			$options = get_option( 'ctct_options_settings', false );
 			if ( $options && isset( $options[ $check_key ] ) ) {
-				$encrypted_token = $options[ $check_key ];
+				$maybe_encrypted_token = $options[ $check_key ];
 			} else {
 				return false;
 			}
 		} else {
-			$encrypted_token = get_option( $check_key );
-			if ( ! $encrypted_token ) {
+			$maybe_encrypted_token = get_option( $check_key );
+			if ( ! $maybe_encrypted_token ) {
 				return false;
 			}
 		}
 
 		try {
-			$return = Crypto::decrypt( $encrypted_token, $key );
+			$return = Crypto::decrypt( $maybe_encrypted_token, $key );
 		} catch ( Exception $e ) {
-			$return = '';
+			$return = $maybe_encrypted_token;
 		}
 
 		return $return;
-
 	}
 
 	/**
