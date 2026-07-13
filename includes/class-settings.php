@@ -499,27 +499,25 @@ class ConstantContact_Settings {
 					]
 				);
 
-				if ( empty( $disclosure_info ) ) {
-					$cmb->add_field(
-						[
-							'name'       => esc_html__( 'Disclosure Name', 'constant-contact-forms' ),
-							'id'         => '_ctct_disclose_name',
-							'type'       => 'text',
-							'default'    => $business_name,
-							'attributes' => ! empty( $business_name ) ? [ 'readonly' => 'readonly' ] : [],
-						]
-					);
+				$cmb->add_field(
+					[
+						'name'       => esc_html__( 'Disclosure Name', 'constant-contact-forms' ),
+						'id'         => '_ctct_disclose_name',
+						'type'       => 'text',
+						'default'    => $business_name,
+						'attributes' => ! empty( $business_name ) ? [ 'readonly' => 'readonly' ] : [],
+					]
+				);
 
-					$cmb->add_field(
-						[
-							'name'       => esc_html__( 'Disclosure Address', 'constant-contact-forms' ),
-							'id'         => '_ctct_disclose_address',
-							'type'       => 'text',
-							'default'    => $business_addr,
-							'attributes' => ! empty( $business_addr ) ? [ 'readonly' => 'readonly' ] : [],
-						]
-					);
-				}
+				$cmb->add_field(
+					[
+						'name'       => esc_html__( 'Disclosure Address', 'constant-contact-forms' ),
+						'id'         => '_ctct_disclose_address',
+						'type'       => 'text',
+						'default'    => $business_addr,
+						'attributes' => ! empty( $business_addr ) ? [ 'readonly' => 'readonly' ] : [],
+					]
+				);
 
 				$cmb->add_field(
 					[
