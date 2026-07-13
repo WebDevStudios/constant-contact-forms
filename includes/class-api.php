@@ -1486,7 +1486,7 @@ class ConstantContact_API {
 		}
 
 		$disclosure = [
-			'name'    => empty( $account_info->organization_name ) ? constant_contact_get_option( '_ctct_disclose_name', '' ) : $account_info->organization_name,
+			'name'    => empty( $account_info['organization_name'] ) ? constant_contact_get_option( '_ctct_disclose_name', '' ) : $account_info['organization_name'],
 			'address' => constant_contact_get_option( '_ctct_disclose_address', '' ),
 		];
 
