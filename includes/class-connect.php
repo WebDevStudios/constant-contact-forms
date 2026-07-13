@@ -76,7 +76,7 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		add_action( 'init', [ $this, 'maybe_connect' ] );
 		add_action( 'plugins_loaded', [ $this, 'maybe_disconnect' ] );
 		add_action( 'admin_menu', [ $this, 'add_options_page' ] );
@@ -88,7 +88,7 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 */
-	public function maybe_connect() {
+	public function maybe_connect(): void {
 
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
 		if ( isset( $_GET['code'] ) && isset( $_GET['state'] ) && is_user_logged_in() ) {
@@ -116,7 +116,7 @@ class ConstantContact_Connect {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_options_page() {
+	public function add_options_page(): void {
 
 		$connect_title = esc_html__( 'Disconnect', 'constant-contact-forms' );
 		if ( ! constant_contact()->get_api()->is_connected() ) {
@@ -341,7 +341,7 @@ class ConstantContact_Connect {
 					</p>
 				</div>
 				<div class="ctct-cta-right">
-					<img src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/form-example-connect.png" alt="<?php esc_attr_e( 'Picture of a a signup form builder from Constant Contact', 'constant-contact-forms' ); ?>') ?>">
+					<img src="<?php echo esc_url( constant_contact()->url() ); ?>assets/images/form-example-connect.png" alt="<?php esc_attr_e( 'Picture of a a signup form builder from Constant Contact', 'constant-contact-forms' ); ?>') ?>">
 					<p>
 					<?php
 						printf(
@@ -371,7 +371,7 @@ class ConstantContact_Connect {
 	 *
 	 * @return boolean
 	 */
-	public function maybe_disconnect() : bool {
+	public function maybe_disconnect(): bool {
 
 		if ( ! isset( $_POST['ctct-admin-disconnect'] ) ) {
 			return false;
@@ -403,11 +403,14 @@ class ConstantContact_Connect {
 	 * Force disconnect from Constant Contact.
 	 *
 	 * @since 2.19.0
+	 * @since 2.21.0 Added $skip_disconnect
+	 *
+	 * @throws Exception
 	 *
 	 * @param bool $skip_disconnect Whether or not to actually disconnect
 	 * @return bool
 	 */
-	public function force_disconnect( $skip_disconnect = false ) : bool {
+	public function force_disconnect( bool $skip_disconnect = false ): bool {
 		add_filter( 'constant_contact_force_logging', '__return_true' );
 		constant_contact_maybe_log_it( 'API', 'Force disconnect reached' );
 
@@ -455,7 +458,7 @@ class ConstantContact_Connect {
 	 * @param boolean $fallback_to_ctct_opt Fall back maybe.
 	 * @return boolean|string
 	 */
-	public function e_get( string $check_key, bool $fallback_to_ctct_opt = false ) {
+	public function e_get( string $check_key, bool $fallback_to_ctct_opt = false ): bool|string {
 
 		if ( ! $this->is_encryption_ready() ) {
 			return get_option( $check_key, '' );
@@ -501,7 +504,7 @@ class ConstantContact_Connect {
 	 * @param boolean $autoload  Autoload it.
 	 * @return string
 	 */
-	public function e_set( string $check_key, string $data, bool $autoload = false ) : string {
+	public function e_set( string $check_key, string $data, bool $autoload = false ): string {
 
 		if ( ! $this->is_encryption_ready() ) {
 			update_option( $check_key, $data );
@@ -518,55 +521,6 @@ class ConstantContact_Connect {
 	}
 
 	/**
-	 * Secure API access token.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @TODO Remove. Unused.
-	 *
-	 * @throws Exception Exception.
-	 *
-	 * @param string $access_token API access token.
-	 */
-	public function update_token( string $access_token, string $refresh_token ) {
-		$this->e_set( 'ctct_access_token', $access_token, true );
-		$this->e_set( 'ctct_refresh_token', $refresh_token, true );
-	}
-
-	/**
-	 * Get saved API token.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @TODO Remove. Unused.
-	 *
-	 * @throws Exception Throws Exception if encountered while attempting to save API token.
-	 *
-	 * @return string Token.
-	 */
-	public function get_api_token() {
-		$this->check_deleted_legacy_token();
-
-		return $this->e_get( 'ctct_access_token' );
-	}
-
-	/**
-	 * If we have a legacy token, let's re-save it.
-	 *
-	 * @TODO Remove. Unused.
-	 *
-	 * @since 1.0.0
-	 */
-	public function check_deleted_legacy_token() {
-		$legacy = get_option( '_ctct_access_token' );
-
-		if ( $legacy ) {
-			$this->update_token( $legacy, null );
-			delete_option( '_ctct_access_token' );
-		}
-	}
-
-	/**
 	 * Get our encrypt key.
 	 *
 	 * @since 1.0.0
@@ -575,7 +529,7 @@ class ConstantContact_Connect {
 	 *
 	 * @return false|Defuse\Crypto\Key Key to use for encrypt.
 	 */
-	public function get_encrpyt_key() {
+	public function get_encrpyt_key(): bool|Key {
 
 		if ( ! $this->is_encryption_ready() ) {
 			return false;
@@ -600,7 +554,7 @@ class ConstantContact_Connect {
 	 * @param boolean $first_try If first try or not.
 	 * @return string|object Key.
 	 */
-	public function generate_and_save_key( $first_try = true ) {
+	public function generate_and_save_key( bool $first_try = true ): string|object {
 
 		if ( ! $this->is_encryption_ready() ) {
 			return 'ctct_key';
@@ -624,7 +578,7 @@ class ConstantContact_Connect {
 	 *
 	 * @return boolean If we should load/use the encryption libraries.
 	 */
-	public function is_encryption_ready() {
+	public function is_encryption_ready(): bool {
 
 		if ( ! function_exists( 'openssl_encrypt' ) || ! function_exists( 'openssl_decrypt' ) ) {
 			return false;
@@ -643,7 +597,7 @@ class ConstantContact_Connect {
 	 *
 	 * @return boolean If we can encrpyt or not.
 	 */
-	public function check_crypto_class() : bool {
+	public function check_crypto_class(): bool {
 
 		try {
 			$return = false;

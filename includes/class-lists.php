@@ -7,8 +7,6 @@
  * @author Constant Contact
  * @since 1.0.0
  *
- * todo: when user is disconnected then the lists should be removed
- *
  * phpcs:disable WebDevStudios.All.RequireAuthor -- Don't require author tag in docblocks.
  */
 
@@ -23,18 +21,18 @@ class ConstantContact_Lists {
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
-	 * @var object
+	 * @var Constant_Contact
 	 */
-	protected $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $plugin Plugin base class.
+	 * @param Constant_Contact $plugin Plugin base class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
@@ -44,7 +42,7 @@ class ConstantContact_Lists {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 
 		add_action( 'cmb2_admin_init', [ $this, 'sync_lists' ] );
 		add_action( 'cmb2_admin_init', [ $this, 'add_lists_metabox' ] );
@@ -76,7 +74,7 @@ class ConstantContact_Lists {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_lists_metabox() {
+	public function add_lists_metabox(): void {
 
 		$cmb = new_cmb2_box(
 			[
@@ -111,7 +109,7 @@ class ConstantContact_Lists {
 	 * @param string $field_type_object Field type object.
 	 * @return void
 	 */
-	public function list_info_metabox( $field, $escaped_value, $object_id, $object_type, $field_type_object ) {
+	public function list_info_metabox( $field, $escaped_value, $object_id, $object_type, $field_type_object ): void {
 
 		if ( ! $object_id ) {
 			echo wp_kses_post( $this->get_list_info_no_data() );
@@ -178,7 +176,7 @@ class ConstantContact_Lists {
 	 *
 	 * @return string
 	 */
-	public function get_list_info_no_data() {
+	public function get_list_info_no_data(): string {
 		return '<em>' . esc_html__( 'List information will populate upon saving.', 'constant-contact-forms' ) . '</em>';
 	}
 
@@ -187,7 +185,7 @@ class ConstantContact_Lists {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_form_css() {
+	public function add_form_css(): void {
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 	}
 
@@ -196,10 +194,12 @@ class ConstantContact_Lists {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param bool $force Whether or not to force syncing.
 	 * @return void
 	 */
-	public function sync_lists( $force = false ) {
+	public function sync_lists( bool $force = false ): void {
 		global $pagenow;
 		if ( ! $pagenow || ( ! in_array( $pagenow, [ 'edit.php' ], true ) ) ) {
 			return;
@@ -298,7 +298,7 @@ class ConstantContact_Lists {
 
 		$lists_to_insert = constant_contact()->get_api()->get_lists( true );
 
-		if ( $lists_to_insert && is_array( $lists_to_insert ) ) {
+		if ( $lists_to_insert ) {
 
 			if ( count( $lists_to_insert ) >= 1001 ) {
 				$this->plugin->get_updates()->add_notification( 'too_many_lists' );
@@ -411,10 +411,12 @@ class ConstantContact_Lists {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param int $post_id wp post id.
 	 * @return bool Whether or not it worked.
 	 */
-	public function save_or_update_list( $post_id ) {
+	public function save_or_update_list( int $post_id ): bool {
 
 		global $pagenow;
 
@@ -479,15 +481,12 @@ class ConstantContact_Lists {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $ctct_list WP Post object.
+	 * @throws Exception
+	 *
+	 * @param WP_Post $ctct_list WP Post object.
 	 * @return bool
 	 */
-	public function add_list( $ctct_list ) {
-
-		if ( empty( $ctct_list ) ) {
-			return false;
-		}
-
+	public function add_list( WP_Post $ctct_list ): bool {
 		$name = $this->set_unique_list_name( $ctct_list->ID, $ctct_list->post_title );
 		$list = constant_contact()->get_api()->add_list(
 			[
@@ -496,11 +495,9 @@ class ConstantContact_Lists {
 		);
 
 		$list_id = false;
-		$list    = (object) $list; // Comes in as array.
-
-		if ( ! empty( $list->list_id ) ) {
-			add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list->list_id ) );
-			$list_id = $list->list_id;
+		if ( ! empty( $list['list_id'] ) ) {
+			add_post_meta( $ctct_list->ID, '_ctct_list_id', esc_attr( $list['list_id'] ) );
+			$list_id = $list['list_id'];
 		}
 
 		/**
@@ -528,7 +525,7 @@ class ConstantContact_Lists {
 		 */
 		do_action( 'constant_contact_update_list', $ctct_list->ID, $list_id, $list );
 
-		return is_object( $list ) && isset( $list->list_id );
+		return true;
 	}
 
 	/**
@@ -540,7 +537,7 @@ class ConstantContact_Lists {
 	 * @param string $title Post title.
 	 * @return string
 	 */
-	public function set_unique_list_name( $id, $title = '' ) {
+	public function set_unique_list_name( int $id, string $title = '' ): string  {
 
 		$original_title    = $title;
 		$lists             = $this->get_lists( true );
@@ -559,7 +556,7 @@ class ConstantContact_Lists {
 
 			// If our string contains what we tacked on previously,
 			// just remove it.
-			if ( strpos( $title, ' (' . $increment . ')' ) !== false ) {
+			if ( str_contains( $title, ' (' . $increment . ')' ) ) {
 				$title = str_replace( ' (' . $increment . ')', '', $title );
 			}
 
@@ -590,19 +587,13 @@ class ConstantContact_Lists {
 	 * @param array  $lists Lists to search in.
 	 * @return bool If exists.
 	 */
-	public function check_if_list_exists_by_title( $title, $lists = [] ) {
+	public function check_if_list_exists_by_title( string $title, array $lists = [] ): bool {
 
 		if ( empty( $lists ) ) {
 			$lists = $this->get_lists();
 		}
 
-		foreach ( $lists as $list ) {
-			if ( $title === $list ) {
-				return true;
-			}
-		}
-
-		return false;
+		return in_array( $title, $lists, true );
 	}
 
 	/**

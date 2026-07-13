@@ -45,7 +45,7 @@
  * @param string $class_name Name of the class being requested.
  * @return null
  */
-function constant_contact_autoload_classes( string $class_name ) {
+function constant_contact_autoload_classes( string $class_name ): null {
 	if ( ! str_starts_with( $class_name, 'ConstantContact_' ) ) {
 		return null;
 	}
@@ -113,6 +113,8 @@ class Constant_Contact {
 
 	/**
 	 * Singleton instance of plugin.
+	 *
+	 * @todo Leave off the class delcaration. It's causing fatal errors.
 	 *
 	 * @since 1.0.0
 	 * @var Constant_Contact
@@ -590,9 +592,17 @@ class Constant_Contact {
 	public function __get( $field ) {
 		return match ( $field ) {
 			'version' => self::VERSION,
-			'basename', 'path', 'url' => $this->$field,
 			default => throw new Exception( 'Invalid ' . __CLASS__ . ' property: ' . $field ),
 		};
+	}
+
+	/**
+	 * Basename getter
+	 * @since NEXT
+	 * @return string
+	 */
+	public function get_basename(): string {
+		return $this->basename;
 	}
 
 	/**

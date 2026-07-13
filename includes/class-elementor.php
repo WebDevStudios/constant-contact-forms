@@ -44,7 +44,7 @@ class ConstantContact_Elementor {
 	 *
 	 * @since 1.10.0
 	 */
-	private function hooks() {
+	private function hooks(): void {
 		add_action( 'elementor/widgets/widgets_registered', [ $this, 'register_widget' ] );
 	}
 
@@ -53,7 +53,7 @@ class ConstantContact_Elementor {
 	 *
 	 * @since 1.10.0
 	 */
-	public function register_widget() {
+	public function register_widget(): void {
 		require_once __DIR__ . '/widgets/elementor-widget.php';
 		Plugin::instance()->widgets_manager->register( new ConstantContact_Elementor_Widget() );
 	}

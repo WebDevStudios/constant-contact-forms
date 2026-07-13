@@ -21,9 +21,9 @@ class ConstantContact_Display {
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
-	 * @var object
+	 * @var Constant_Contact
 	 */
-	protected object $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * The global custom styles.
@@ -46,9 +46,9 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $plugin Parent plugin.
+	 * @param Constant_Contact $plugin Parent plugin.
 	 */
-	public function __construct( object $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 		add_action( 'wp_enqueue_scripts', [ $this, 'scripts' ] );
 		add_action( 'wp_enqueue_scripts', [ $this, 'styles' ] );
@@ -58,11 +58,8 @@ class ConstantContact_Display {
 	 * Scripts.
 	 *
 	 * @since 1.0.0
-	 * @since 1.4.0 Deprecated parameter.
-	 *
-	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
-	public function scripts( bool $enqueue = false ) {
+	public function scripts(): void {
 		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 		$suffix = ( true === $debug ) ? '' : '.min';
 
@@ -136,11 +133,8 @@ class ConstantContact_Display {
 	 * Enqueue styles.
 	 *
 	 * @since 1.0.0
-	 * @since 1.4.0 Deprecated parameter.
-	 *
-	 * @param bool $enqueue Set true to enqueue the scripts after registering.
 	 */
-	public function styles( bool $enqueue = false ) {
+	public function styles(): void {
 		wp_enqueue_style( 'ctct_form_styles' );
 	}
 
@@ -149,7 +143,7 @@ class ConstantContact_Display {
 	 *
 	 * @since  1.4.0
 	 */
-	public function set_global_form_css() {
+	public function set_global_form_css(): void {
 		$defaults = [
 			'global_form_classes'    => '',
 			'global_label_placement' => '',
@@ -178,7 +172,7 @@ class ConstantContact_Display {
 	 *
 	 * @since  1.4.0
 	 */
-	public function set_specific_form_css( int $form_id ) {
+	public function set_specific_form_css( int $form_id ): void {
 		$defaults = [
 			'form_background_color'               => '',
 			'form_description_font_size'          => '',
@@ -277,7 +271,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string $title_styles The title styles.
 	 */
-	private function set_title_styles() : string {
+	private function set_title_styles(): string {
 		$title_styles = '';
 
 		if ( ! empty( $this->specific_form_styles['form_title_font_color'] ) ) {
@@ -296,7 +290,7 @@ class ConstantContact_Display {
 	 * @param int  $form_id The form id.
 	 * @return string The form title.
 	 */
-	private function set_form_title( bool $show_title, int $form_id ) : string {
+	private function set_form_title( bool $show_title, int $form_id ): string {
 		if ( ! $show_title ) {
 			return '';
 		}
@@ -327,7 +321,7 @@ class ConstantContact_Display {
 	 * @param  int    $instance   Current form instance.
 	 * @return string Form markup.
 	 */
-	public function form( array $form_data, string $form_id = '', bool $show_title = false, int $instance = 0 ) : string {
+	public function form( array $form_data, string $form_id = '', bool $show_title = false, int $instance = 0 ): string {
 		if ( 'publish' !== get_post_status( $form_id ) ) {
 			return '';
 		}
@@ -385,19 +379,17 @@ class ConstantContact_Display {
 		 * @param string $value   Value to put in the form action attribute. Default empty string.
 		 * @param int    $form_id ID of the Constant Contact form being rendered.
 		 */
-		$form_action              = apply_filters( 'constant_contact_front_form_action', '', $form_id );
-		$inline_form              = get_post_meta( $form_id, '_ctct_inline_display', true );
-		$should_do_ajax           = get_post_meta( $form_id, '_ctct_do_ajax', true );
-		$do_ajax                  = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
-		$should_disable_captcha   = get_post_meta( $form_id, '_ctct_disable_recaptcha', true ); // Note: Despite option name, this applies to whatever the enabled captcha service is.
-		$disable_captcha          = 'on' === $should_disable_captcha;
+		$form_action            = apply_filters( 'constant_contact_front_form_action', '', $form_id );
+		$inline_form            = get_post_meta( $form_id, '_ctct_inline_display', true );
+		$should_do_ajax         = get_post_meta( $form_id, '_ctct_do_ajax', true );
+		$do_ajax                = ( 'on' === $should_do_ajax ) ? $should_do_ajax : 'off';
+		$should_disable_captcha = get_post_meta( $form_id, '_ctct_disable_recaptcha', true ); // Note: Despite option name, this applies to whatever the enabled captcha service is.
+		$disable_captcha        = 'on' === $should_disable_captcha;
+		$form_classes           = [ 'ctct-form ctct-form-' . $form_id, 'comment-form' ];
 
-		$form_classes             = [ 'ctct-form ctct-form-' . $form_id, 'comment-form' ];
-
-		// TODO?: Rename this to has-captcha/no-captcha?
 		$form_classes[] = $captcha_service->is_captcha_enabled() && ! $disable_captcha ? ' has-recaptcha' : ' no-recaptcha';
 		$form_classes[] = 'on' === $inline_form ? 'ctct-inline' : 'ctct-default';
-		$form_classes = array_merge( $form_classes, $this->build_custom_form_classes() );
+		$form_classes   = array_merge( $form_classes, $this->build_custom_form_classes() );
 
 		$form_styles = '';
 		if ( ! empty( $this->specific_form_styles['form_background_color'] ) ) {
@@ -444,7 +436,7 @@ class ConstantContact_Display {
 				'on' !== $form_data['options']['description_visibility']
 			)
 		) {
-			$return .= $this->description( $form_data['options']['description'], $form_id );
+			$return .= $this->description( $form_data['options']['description'] );
 		}
 
 		$return .= '<form class="' . esc_attr( implode( ' ', $form_classes ) ) . '" id="' . $rf_id . '" ';
@@ -519,42 +511,14 @@ class ConstantContact_Display {
 	}
 
 	/**
-	 * Get our current URL in a somewhat robust way.
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return string URL of current page.
-	 */
-	public function get_current_page() : string {
-		global $wp;
-
-		$request = ( isset( $wp->request ) && $wp->request ) ? $wp->request : null;
-
-		if ( $request ) {
-
-			$curr_url = untrailingslashit( add_query_arg( '', '', home_url( $request ) ) );
-
-			// If we're not using a custom permalink structure, theres a chance the above
-			// will return the home_url. so we do another check to makesure we're going
-			// to use the right thing. This check doesn't work on the homepage, but
-			// that will just get caught with our fallback check correctly anyway.
-			if ( ! is_home() && ( home_url() !== $curr_url ) ) {
-				return $curr_url;
-			}
-		}
-
-		return untrailingslashit( home_url( add_query_arg( [ '' => '' ] ) ) );
-	}
-
-	/**
 	 * Adds hidden input fields to our form for form id and verify id.
 	 *
 	 * @since 1.0.0
 	 *
 	 * @param array $form_data Form data for the current form.
-	 * @return string|bool.
+	 * @return string
 	 */
-	public function add_verify_fields( array $form_data ) {
+	public function add_verify_fields( array $form_data ): string {
 		if (
 			isset( $form_data['options']['form_id'] )
 		) {
@@ -562,7 +526,7 @@ class ConstantContact_Display {
 			$form_id = absint( $form_data['options']['form_id'] );
 
 			if ( ! $form_id ) {
-				return false;
+				return '';
 			}
 
 			$return = $this->input_hidden( 'ctct-id', $form_id );
@@ -578,7 +542,7 @@ class ConstantContact_Display {
 			return $return;
 		}
 
-		return false;
+		return '';
 	}
 
 	/**
@@ -592,7 +556,7 @@ class ConstantContact_Display {
 	 * @param  int   $instance   Current form instance.
 	 * @return string
 	 */
-	public function build_form_fields( array $form_data, array $old_values, array $req_errors, int $instance ) : string {
+	public function build_form_fields( array $form_data, array $old_values, array $req_errors, int $instance ): string {
 		$return  = '';
 		$form_id = absint( $form_data['options']['form_id'] );
 
@@ -602,7 +566,7 @@ class ConstantContact_Display {
 		}
 
 		if ( isset( $form_data['fields'] ) && is_array( $form_data['fields'] ) ) {
-			foreach ( $form_data['fields'] as $key => $value ) {
+			foreach ( $form_data['fields'] as $value ) {
 				$return .= $this->field( $value, $old_values, $req_errors, $form_id, $label_placement, $instance );
 			}
 		}
@@ -639,7 +603,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string
 	 */
-	public function build_honeypot_field() : string {
+	public function build_honeypot_field(): string {
 		return sprintf(
 			'<div ' .
 				'class="ctct_usage" ' .
@@ -659,7 +623,7 @@ class ConstantContact_Display {
 	 * @param int $form_id ID of form being rendered.
 	 * @return string
 	 */
-	public function build_recaptcha( int $form_id ) : string {
+	public function build_recaptcha( int $form_id ): string {
 		$recaptcha = new ConstantContact_reCAPTCHA_v2();
 
 		$recaptcha->set_recaptcha_keys();
@@ -686,7 +650,7 @@ class ConstantContact_Display {
 	 * @param int $form_id ID of form being rendered.
 	 * @return string
 	 */
-	public function build_hcaptcha( int $form_id ) : string {
+	public function build_hcaptcha( int $form_id ): string {
 		$hcaptcha = new ConstantContact_hCaptcha();
 
 		$hcaptcha->set_hcaptcha_keys();
@@ -753,7 +717,7 @@ class ConstantContact_Display {
 	 * @param int $form_id ID of form being rendered.
 	 * @return string
 	 */
-	public function build_turnstile( int $form_id ) : string {
+	public function build_turnstile( int $form_id ): string {
 		$turnstile = new ConstantContact_Turnstile();
 
 		$turnstile->set_turnstile_keys();
@@ -819,7 +783,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string
 	 */
-	public function build_timestamp() : string {
+	public function build_timestamp(): string {
 		return '<input type="hidden" name="ctct_time" value="' . current_time( 'timestamp' ) . '" />'; // phpcs:ignore WordPress.DateTime.CurrentTimeTimestamp.Requested
 	}
 
@@ -830,7 +794,7 @@ class ConstantContact_Display {
 	 *
 	 * @return array
 	 */
-	public function build_custom_form_classes() : array {
+	public function build_custom_form_classes(): array {
 		$custom   = [];
 		$global   = [];
 		$per_form = [];
@@ -859,7 +823,7 @@ class ConstantContact_Display {
 	 * @param array $form_data Options for the form.
 	 * @return string
 	 */
-	public function must_opt_in( array $form_data ) : string {
+	public function must_opt_in( array $form_data ): string {
 		if ( empty( $form_data['options']['optin']['show'] ) ) {
 			return '';
 		}
@@ -881,7 +845,7 @@ class ConstantContact_Display {
 	 * @param  int    $instance        Current form instance.
 	 * @return string                  HTML markup
 	 */
-	public function field( array $field, array $old_values = [], array $req_errors = [], int $form_id = 0, string $label_placement = 'top', int $instance = 0 ) : string {
+	public function field( array $field, array $old_values = [], array $req_errors = [], int $form_id = 0, string $label_placement = 'top', int $instance = 0 ): string {
 		if ( ! isset( $field['name'] ) || ! isset( $field['map_to'] ) ) {
 			return '';
 		}
@@ -985,7 +949,7 @@ class ConstantContact_Display {
 	 * @param array        $submitted_vals Array of submitted values.
 	 * @return array|string Submitted value.
 	 */
-	public function get_submitted_value( $value = '', string $map = '', array $field = [], array $submitted_vals = [] ) {
+	public function get_submitted_value( array|string $value = '', string $map = '', array $field = [], array $submitted_vals = [] ): array|string {
 		if ( $value ) {
 			return $value;
 		}
@@ -1003,7 +967,7 @@ class ConstantContact_Display {
 
 				if ( 'address' === $field['name'] ) {
 
-					if ( strpos( $post['key'], '_address___' ) !== false ) {
+					if ( str_contains( $post['key'], '_address___' ) ) {
 
 						$addr_key = explode( '___', $post['key'] );
 
@@ -1033,9 +997,9 @@ class ConstantContact_Display {
 	 * @param  string $role    Message role.
 	 * @return string          HTML markup.
 	 */
-	public function message( string $type, string $message, string $role = 'log' ) : string {
+	public function message( string $type, string $message, string $role = 'log' ): string {
 		return sprintf(
-			'<p class="ctct-message %s ctct-%s" role="%s">%s</p>',
+			'<p class="ctct-message %1$s ctct-%2$s" role="%3$s">%4$s</p>',
 			esc_attr( $type ),
 			esc_attr( $type ),
 			esc_attr( $role ),
@@ -1050,7 +1014,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string The inline style tag for the form's description.
 	 */
-	public function get_description_inline_styles() : string {
+	public function get_description_inline_styles(): string {
 		$inline_style = '';
 		$styles       = [];
 
@@ -1076,11 +1040,10 @@ class ConstantContact_Display {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string      $desc    Description to output.
-	 * @param int|boolean $form_id Form ID.
+	 * @param string $desc    Description to output.
 	 * @return string Form description markup.
 	 */
-	public function description( string $desc = '', $form_id = false ) : string {
+	public function description( string $desc = '' ): string {
 
 		$display      = '';
 		$inline_style = $this->get_description_inline_styles();
@@ -1103,7 +1066,7 @@ class ConstantContact_Display {
 	 * @param  string  $tag            HTML tag for field.
 	 * @return string HTML markup.
 	 */
-	public function field_top( string $type = '', string $name = '', string $f_id = '', string $label = '', bool $req = false, bool $use_label = true, string $tag = 'p' ) : string {
+	public function field_top( string $type = '', string $name = '', string $f_id = '', string $label = '', bool $req = false, bool $use_label = true, string $tag = 'p' ): string {
 
 		$classes = [
 			'ctct-form-field',
@@ -1139,7 +1102,7 @@ class ConstantContact_Display {
 	 * @param  string $tag         HTML tag for field.
 	 * @return string HTML markup
 	 */
-	public function field_bottom( string $name = '', string $field_label = '', bool $use_label = true, string $tag = 'p' ) : string {
+	public function field_bottom( string $name = '', string $field_label = '', bool $use_label = true, string $tag = 'p' ): string {
 
 		$markup = '';
 		if ( ! empty( $name ) && ! empty( $field_label ) ) {
@@ -1160,7 +1123,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string
 	 */
-	public function get_submit_inline_styles() : string {
+	public function get_submit_inline_styles(): string {
 		$inline_style = '';
 		$styles       = [];
 
@@ -1194,7 +1157,7 @@ class ConstantContact_Display {
 	 * @param string $field_label Text to display as label.
 	 * @return string HTML markup
 	 */
-	public function get_label( string $f_id, string $field_label ) : string {
+	public function get_label( string $f_id, string $field_label ): string {
 		return '<label for="' . $f_id . '">' . $field_label . '</label>';
 	}
 
@@ -1216,7 +1179,7 @@ class ConstantContact_Display {
 	 * @param  int     $instance        Current form instance.
 	 * @return string                   HTML markup for field.
 	 */
-	public function input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0, bool $show_label = true, string $date_part = '' ) : string {
+	public function input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0, bool $show_label = true, string $date_part = '' ): string {
 		$id_salt               = wp_rand();
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
@@ -1286,9 +1249,9 @@ class ConstantContact_Display {
 		 */
 		$truncate_max_length = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
 		$max_length          = '';
-		if ( false !== strpos( $id, 'custom___' ) ) {
+		if ( str_contains( $id, 'custom___' ) ) {
 			$max_length = $truncate_max_length ? $this->get_max_length_attr( $name ) : $this->get_max_length_attr();
-		} elseif ( false !== strpos( $id, 'first_name___' ) || false !== strpos( $id, 'last_name___' ) ) {
+		} elseif ( str_contains( $id, 'first_name___' ) || str_contains( $id, 'last_name___' ) ) {
 			$max_length = 'maxlength="255"';
 		}
 
@@ -1381,7 +1344,7 @@ class ConstantContact_Display {
 	 * @param  string $value Field value.
 	 * @return string        HTML markup for field.
 	 */
-	public function input_hidden( string $name = '', string $value = '' ) : string {
+	public function input_hidden( string $name = '', string $value = '' ): string {
 		return sprintf(
 			'<input type="hidden" name="%1$s" value="%2$s" />',
 			sanitize_text_field( $name ),
@@ -1406,7 +1369,7 @@ class ConstantContact_Display {
 	 * @param  int          $instance        Current form instance.
 	 * @return string                        HTML markup for checkbox.
 	 */
-	public function checkbox( string $name = '', string $id = '', $value = [], string $label = '', bool $req = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ) : string {
+	public function checkbox( string $name = '', string $id = '', $value = [], string $label = '', bool $req = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ): string {
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
 		$field_id              = "{$field_key}_$instance";
@@ -1511,7 +1474,7 @@ class ConstantContact_Display {
 	 * @param int $form_id Rendered form ID.
 	 * @return string HTML markup.
 	 */
-	public function submit( int $form_id = 0 ) : string {
+	public function submit( int $form_id = 0 ): string {
 		$button_text = get_post_meta( $form_id, '_ctct_button_text', true );
 		$button_text =
 		! empty( $button_text ) ?
@@ -1547,7 +1510,7 @@ class ConstantContact_Display {
 	 * @param  int   $instance  Current form instance.
 	 * @return string           Markup of optin form.
 	 */
-	public function opt_in( array $form_data, int $instance = 0 ) : string {
+	public function opt_in( array $form_data, int $instance = 0 ): string {
 
 		if ( ! isset( $form_data['optin'] ) ) {
 			return '';
@@ -1578,7 +1541,7 @@ class ConstantContact_Display {
 	 * @param  int   $instance Current form instance.
 	 * @return string          HTML markup.
 	 */
-	private function optin_display( array $optin, int $instance = 0 ) : string {
+	private function optin_display( array $optin, int $instance = 0 ): string {
 
 		$label = sanitize_text_field( $optin['instructions'] ?? '' );
 
@@ -1613,7 +1576,7 @@ class ConstantContact_Display {
 	 * @param  int    $instance Current form instance.
 	 * @return string           HTML markup
 	 */
-	public function get_optin_markup( string $label, string $value, string $show, int $instance = 0 ) : string {
+	public function get_optin_markup( string $label, string $value, string $show, int $instance = 0 ): string {
 		$checked   = $show ? '' : 'checked';
 		$field_key = 'ctct-opt-in';
 		$field_id  = "{$field_key}_$instance";
@@ -1640,7 +1603,7 @@ class ConstantContact_Display {
 	 * @param  int     $instance        Current form instance.
 	 * @return string                   HTML markup.
 	 */
-	public function address( string $name = '', string $field_key = '', array $value = [], string $desc = '', bool $req = false, string $field_error = '', int $form_id = 0, string $label_placement = 'top', int $instance = 0 ) : string {
+	public function address( string $name = '', string $field_key = '', array $value = [], string $desc = '', bool $req = false, string $field_error = '', int $form_id = 0, string $label_placement = 'top', int $instance = 0 ): string {
 		$field_id = "{$field_key}_$instance";
 		$street   = esc_html__( 'Street Address', 'constant-contact-forms' );
 		$line_2   = esc_html__( 'Address Line 2', 'constant-contact-forms' );
@@ -1983,7 +1946,7 @@ class ConstantContact_Display {
 	 * @param  int     $instance        Current form instance.
 	 * @return string                   HTML markup.
 	 */
-	public function textarea( string $name = '', string $map = '', string $value = '', string $desc = '', bool $req = false, string $field_error = '', string $extra_attrs = '', string $label_placement = 'top', int $instance = 0 ) : string {
+	public function textarea( string $name = '', string $map = '', string $value = '', string $desc = '', bool $req = false, string $field_error = '', string $extra_attrs = '', string $label_placement = 'top', int $instance = 0 ): string {
 
 		$classes          = [ 'ctct-form-field', 'comment-form-comment' ];
 		$textarea_classes = [ 'ctct-textarea' ];
@@ -2035,7 +1998,7 @@ class ConstantContact_Display {
 	 * @param array $form_data Form data.
 	 * @return string HTML markup
 	 */
-	public function maybe_add_disclose_note( array $form_data ) : string {
+	public function maybe_add_disclose_note( array $form_data ): string {
 
 		$opts = $form_data['options'] ?? false;
 
@@ -2069,7 +2032,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string HTML markup.
 	 */
-	public function get_disclose_text() : string {
+	public function get_disclose_text(): string {
 
 		/**
 		 * Filters the content used to display the disclose text.
@@ -2095,7 +2058,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string
 	 */
-	public function get_inner_disclose_text() : string {
+	public function get_inner_disclose_text(): string {
 
 		$alternative_legal_text = constant_contact_get_option( '_ctct_alternative_legal_text' );
 
@@ -2127,7 +2090,7 @@ class ConstantContact_Display {
 	 * @param string $optional_label Optional label.
 	 * @return string
 	 */
-	public function get_max_length_attr( string $optional_label = '' ) : string {
+	public function get_max_length_attr( string $optional_label = '' ): string {
 		$length       = 253; // Two less than 255char custom field limit for ": ".
 		$label_length = 0;
 
@@ -2150,7 +2113,7 @@ class ConstantContact_Display {
 	 * @since 2.15.0
 	 * @return string
 	 */
-	public function get_form_date_separator() : string {
+	public function get_form_date_separator(): string {
 		// https://en.wikipedia.org/wiki/List_of_date_formats_by_country
 		/**
 		 * Filters the character to use to separate out the date fields visually.
@@ -2170,7 +2133,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string
 	 */
-	private function get_inline_font_color() : string {
+	private function get_inline_font_color(): string {
 		$inline_font_styles = '';
 		if ( ! empty( $this->specific_form_styles['form_description_color'] ) ) {
 			$inline_font_styles = $this->specific_form_styles['form_description_color'];
@@ -2186,7 +2149,7 @@ class ConstantContact_Display {
 	 *
 	 * @return string The required indicator markup.
 	 */
-	public function display_required_indicator() : string {
+	public function display_required_indicator(): string {
 
 		$title_attr = esc_attr__( 'This is a required field', 'constant-contact-forms' );
 		/**
@@ -2207,7 +2170,7 @@ class ConstantContact_Display {
 	 * @param  int $instance Current instance of form.
 	 * @return string HTML markup for instance field.
 	 */
-	protected function create_instance_field( int $instance ) : string {
+	protected function create_instance_field( int $instance ): string {
 		return $this->input_hidden( 'ctct-instance', absint( $instance ) );
 	}
 }

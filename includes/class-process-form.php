@@ -88,7 +88,7 @@ class ConstantContact_Process_Form {
 					$exp_fields = explode( '=', $field, 2 );
 
 					if ( isset( $exp_fields[0] ) && $exp_fields[0] ) {
-						if ( false !== strpos( $exp_fields[0], 'email__' ) ) {
+						if ( str_contains( $exp_fields[0], 'email__' ) ) {
 							$value = ( is_email( $exp_fields[1] ) ) ? $exp_fields[1] : '';
 						} else {
 							$value = isset( $exp_fields[1] ) ? urldecode( $exp_fields[1] ) : '';
@@ -549,7 +549,7 @@ class ConstantContact_Process_Form {
 					) {
 						$email = '';
 						foreach ( $cleaned_values as $index => $string ) {
-							if ( false !== strpos( $index, 'email' ) ) {
+							if ( str_contains( $index, 'email' ) ) {
 								$email = $string['value'];
 							}
 						}

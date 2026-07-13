@@ -91,7 +91,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @since 2.9.0
 	 */
-	public function set_hcaptcha_keys() {
+	public function set_hcaptcha_keys(): void {
 		$keys = $this->get_hcaptcha_keys();
 
 		$this->site_key   = $keys['site_key'];
@@ -130,7 +130,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @param string $theme hCaptcha theme to use.
 	 */
-	public function set_theme( string $theme ) {
+	public function set_theme( string $theme ): void {
 		$this->theme = $theme;
 	}
 
@@ -152,7 +152,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @param string $size hCaptcha size to specify.
 	 */
-	public function set_size( string $size ) {
+	public function set_size( string $size ): void {
 		$this->size = $size;
 	}
 
@@ -174,7 +174,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @param string $language Language code for the hCaptcha object.
 	 */
-	public function set_language( string $language ) {
+	public function set_language( string $language ): void {
 		$this->language = $language;
 	}
 
@@ -196,7 +196,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @param string $mode hCaptcha mode to use.
 	 */
-	public function set_mode( string $mode ) {
+	public function set_mode( string $mode ): void {
 		$this->mode = $mode;
 	}
 
@@ -205,7 +205,7 @@ class ConstantContact_hCaptcha {
 	 *
 	 * @since 2.9.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts(): void {
 		$this->set_hcaptcha_keys();
 
 		if ( ! self::has_hcaptcha_keys() ) {

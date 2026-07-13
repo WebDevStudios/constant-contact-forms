@@ -37,9 +37,9 @@ class ConstantContact_Settings {
 	 * Settings page metabox titles by id.
 	 *
 	 * @since 1.8.0
-	 * @var   array|null
+	 * @var   ?array|null
 	 */
-	private array $metabox_titles;
+	private ?array $metabox_titles;
 
 	/**
 	 * Parent plugin class.
@@ -67,7 +67,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	public function register_hooks() {
+	public function register_hooks(): void {
 		add_action( 'cmb2_admin_init', [ $this, 'set_metabox_titles' ] );
 		add_action( 'cmb2_admin_init', [ $this, 'add_options_page_metaboxes' ] );
 		add_action( 'cmb2_admin_init', [ $this, 'register_metabox_override_hooks' ] );
@@ -89,7 +89,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 2.10.0
 	 */
-	public function set_metabox_titles() {
+	public function set_metabox_titles(): void {
 		// Init CMB2 metabox titles, used as tab titles on settings page.
 		$this->metabox_titles = [
 			'general' => esc_html__( 'General', 'constant-contact-forms' ),
@@ -109,7 +109,7 @@ class ConstantContact_Settings {
 	 *
 	 * @return void
 	 */
-	public function register_metabox_override_hooks() {
+	public function register_metabox_override_hooks(): void {
 		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
 			add_filter( "cmb2_override_option_get_{$this->key}_$cmb_key", [ $this, 'get_override' ], 10, 2 );
 			add_filter( "cmb2_override_option_save_{$this->key}_$cmb_key", [ $this, 'update_override' ], 10, 2 );
@@ -122,7 +122,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	public function inject_optin_form_hooks() {
+	public function inject_optin_form_hooks(): void {
 		add_action( 'login_form', [ $this, 'optin_form_field_login' ] );
 		add_action( 'comment_form', [ $this, 'optin_form_field_comment' ] );
 
@@ -137,7 +137,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.2.0
 	 */
-	public function optin_form_field_login_css() {
+	public function optin_form_field_login_css(): void {
 		?>
 		<style>
 		#login {
@@ -159,7 +159,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	public function scripts() {
+	public function scripts(): void {
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 	}
 
@@ -170,7 +170,7 @@ class ConstantContact_Settings {
 	 *
 	 * @return boolean If we are on the settings page or not.
 	 */
-	public function on_settings_page() : bool {
+	public function on_settings_page(): bool {
 		global $pagenow;
 
 		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS );
@@ -185,7 +185,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	public function add_options_page_metaboxes() {
+	public function add_options_page_metaboxes(): void {
 		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
 			$method = "register_fields_$cmb_key";
 
@@ -203,7 +203,7 @@ class ConstantContact_Settings {
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.0
 	 */
-	public function remove_extra_menu_items() {
+	public function remove_extra_menu_items(): void {
 		foreach ( array_keys( $this->metabox_titles ) as $cmb_key ) {
 			if ( 'general' === $cmb_key ) {
 				continue;
@@ -224,14 +224,14 @@ class ConstantContact_Settings {
 	 * @param  string $file The parent file.
 	 * @return string       The parent file.
 	 */
-	public function select_primary_menu_item( string $file ) : string {
+	public function select_primary_menu_item( string $file ): string {
 		global $plugin_page;
 
 		if ( null === $plugin_page ) {
 			return $file;
 		}
 
-		$plugin_page = false !== strpos( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- OK overriding of WP global.
+		$plugin_page = str_contains( $plugin_page, $this->key ) ? "{$this->key}_general" : $plugin_page; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited -- OK overriding of WP global.
 
 		return $file;
 	}
@@ -244,7 +244,7 @@ class ConstantContact_Settings {
 	 *
 	 * @param  CMB2_Options_Hookup $cmb_options The CMB2_Options_Hookup object.
 	 */
-	public function display_tabs( CMB2_Options_Hookup $cmb_options ) {
+	public function display_tabs( CMB2_Options_Hookup $cmb_options ): void {
 		$tabs    = $this->get_option_tabs( $cmb_options );
 		$current = $this->get_current_tab();
 		?>
@@ -278,7 +278,7 @@ class ConstantContact_Settings {
 	 * @param  CMB2_Options_Hookup $cmb_options The CMB2_Options_Hookup object.
 	 * @return array                            Array of option tabs.
 	 */
-	protected function get_option_tabs( CMB2_Options_Hookup $cmb_options ) : array {
+	protected function get_option_tabs( CMB2_Options_Hookup $cmb_options ): array {
 		$tab_group = $cmb_options->cmb->prop( 'tab_group' );
 		$tabs      = [];
 
@@ -308,7 +308,7 @@ class ConstantContact_Settings {
 	 *
 	 * @return string Current tab.
 	 */
-	protected function get_current_tab() : string {
+	protected function get_current_tab(): string {
 		$page = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS );
 
 		return ( empty( $page ) ? "{$this->key}_general" : $page );
@@ -323,7 +323,7 @@ class ConstantContact_Settings {
 	 * @param  string $option_key CMB tab key.
 	 * @return string             URL to CMB tab.
 	 */
-	protected function get_tab_link( string $option_key ) : string {
+	protected function get_tab_link( string $option_key ): string {
 		return wp_specialchars_decode( menu_page_url( $option_key, false ) );
 	}
 
@@ -336,7 +336,7 @@ class ConstantContact_Settings {
 	 * @param  string $cmb_id Current CMB ID.
 	 * @return array          CMB args.
 	 */
-	protected function get_cmb_args( string $cmb_id ) : array {
+	protected function get_cmb_args( string $cmb_id ): array {
 		return [
 			'id'           => "{$this->metabox_id}_$cmb_id",
 			'title'        => esc_html__( 'Settings', 'constant-contact-forms' ),
@@ -356,7 +356,7 @@ class ConstantContact_Settings {
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.0
 	 */
-	protected function register_fields_general() {
+	protected function register_fields_general(): void {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'general' ) );
 
 		if ( constant_contact()->get_api()->is_connected() ) {
@@ -390,11 +390,11 @@ class ConstantContact_Settings {
 	 *
 	 * @since 2.9.0
 	 */
-	protected function register_fields_styles() {
+	protected function register_fields_styles(): void {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'styles' ) );
 
 		$before_global_css = sprintf(
-			'<h2>%s</h2>',
+			'<h2>%1$s</h2>',
 			esc_html__( 'Global Form CSS Settings', 'constant-contact-forms' )
 		);
 
@@ -447,7 +447,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 2.9.0
 	 */
-	protected function register_fields_optin() {
+	protected function register_fields_optin(): void {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'optin' ) );
 
 		if ( empty( $_GET['page'] ) || 'ctct_options_settings_optin' !== $_GET['page'] ) {
@@ -473,7 +473,7 @@ class ConstantContact_Settings {
 			if ( $lists && is_array( $lists ) ) {
 
 				$before_optin = sprintf(
-					'<h2>%s</h2>',
+					'<h2>%1$s</h2>',
 					esc_html__( 'Advanced opt-in', 'constant-contact-forms' )
 				);
 
@@ -556,11 +556,11 @@ class ConstantContact_Settings {
 	 * @since  1.8.0
 	 * @since  2.16.0 Added Cloudflare Turnstile support
 	 */
-	protected function register_fields_spam() {
+	protected function register_fields_spam(): void {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'spam' ) );
 
 		$before_captcha_service = sprintf(
-			'<h2>%s</h2>',
+			'<h2>%1$s</h2>',
 			esc_html__( 'Captcha service', 'constant-contact-forms' )
 		);
 
@@ -586,7 +586,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_recaptcha = sprintf(
-			'<div id="ctct-recaptcha"><h2>%s</h2>',
+			'<div id="ctct-recaptcha"><h2>%1$s</h2>',
 			esc_html__( 'Google reCAPTCHA', 'constant-contact-forms' )
 		);
 
@@ -595,7 +595,7 @@ class ConstantContact_Settings {
 		$before_recaptcha .= sprintf(
 			wp_kses(
 				/* translators: %s: recaptcha documentation URL */
-				__( 'Learn more and get an <a href="%s" target="_blank">API site key</a>.', 'constant-contact-forms' ),
+				__( 'Learn more and get an <a href="%1$s" target="_blank">API site key</a>.', 'constant-contact-forms' ),
 				[
 					'a' => [
 						'href'   => [],
@@ -648,7 +648,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_hcaptcha = sprintf(
-			'<div id="ctct-hcaptcha"><h2>%s</h2>',
+			'<div id="ctct-hcaptcha"><h2>%1$s</h2>',
 			esc_html__( 'hCaptcha', 'constant-contact-forms' )
 		);
 
@@ -657,7 +657,7 @@ class ConstantContact_Settings {
 		$before_hcaptcha .= sprintf(
 			wp_kses(
 			/* translators: %s: hcaptcha signup URL */
-				__( 'Sign up and get your <a href="%s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
+				__( 'Sign up and get your <a href="%1$s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
 				[
 					'a' => [
 						'href'   => [],
@@ -697,7 +697,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_cf_turnstile = sprintf(
-			'<div id="ctct-turnstile"><h2>%s</h2>',
+			'<div id="ctct-turnstile"><h2>%1$s</h2>',
 			esc_html__( 'Cloudflare Turnstile', 'constant-contact-forms' )
 		);
 
@@ -706,7 +706,7 @@ class ConstantContact_Settings {
 		$before_cf_turnstile .= sprintf(
 			wp_kses(
 			/* translators: %s: turnstile signup URL */
-				__( 'Sign up and get your <a href="%s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
+				__( 'Sign up and get your <a href="%1$s" target="_blank">free API key here</a>.', 'constant-contact-forms' ),
 				[
 					'a' => [
 						'href'   => [],
@@ -746,7 +746,7 @@ class ConstantContact_Settings {
 		);
 
 		$before_message = sprintf(
-			'<h2>%s</h2><div class="description">%s</div>',
+			'<h2>%1$s</h2><div class="description">%2$s</div>',
 			esc_html__( 'Suspected bot error message', 'constant-contact-forms' ),
 			esc_html__( 'This message displays when the plugin detects spam data. Note that this message may be overriden on a per-post basis.', 'constant-contact-forms' )
 		);
@@ -768,7 +768,7 @@ class ConstantContact_Settings {
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.0
 	 */
-	protected function register_fields_support() {
+	protected function register_fields_support(): void {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'support' ) );
 
 		$before_debugging = sprintf(
@@ -792,7 +792,7 @@ class ConstantContact_Settings {
 	 * @author Rebekah Van Epps <faisal@zao.is>
 	 * @since  1.8.0
 	 */
-	protected function register_fields_auth() {
+	protected function register_fields_auth(): void {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'auth' ) );
 
 		$before_api_key = sprintf(
@@ -824,7 +824,7 @@ class ConstantContact_Settings {
 	 *
 	 * @return array Array of options.
 	 */
-	public function get_optin_show_options() : array {
+	public function get_optin_show_options(): array {
 
 		$optin_options = [
 			'comment_form' => esc_html__( 'Add a checkbox to the comment field in your posts', 'constant-contact-forms' ),
@@ -867,7 +867,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	public function optin_form_field_login() {
+	public function optin_form_field_login(): void {
 		if ( $this->check_if_optin_should_show( 'login_form' ) ) {
 			$this->optin_form_field();
 		}
@@ -878,7 +878,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	public function optin_form_field_comment() {
+	public function optin_form_field_comment(): void {
 		if ( $this->check_if_optin_should_show( 'comment_form' ) ) {
 			$this->optin_form_field();
 		}
@@ -889,7 +889,7 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 */
-	public function optin_form_field_registration() {
+	public function optin_form_field_registration(): void {
 		if ( $this->check_if_optin_should_show( 'reg_form' ) ) {
 			$this->optin_form_field();
 		}
@@ -899,9 +899,12 @@ class ConstantContact_Settings {
 	 * Opt in field checkbox.
 	 *
 	 * @since 1.0.0
+	 *
+	 * @throws Exception
+	 *
 	 * @return void
 	 */
-	public function optin_form_field() {
+	public function optin_form_field(): void {
 		if ( ! constant_contact()->get_api()->is_connected() ) {
 			return;
 		}
@@ -936,7 +939,7 @@ class ConstantContact_Settings {
 	 * @param array $comment_data Comment form data.
 	 * @return array Comment form data.
 	 */
-	public function process_optin_comment_form( array $comment_data ) : array {
+	public function process_optin_comment_form( array $comment_data ): array {
 		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
 
 		if ( empty( $ctct_optin_lists ) ) {
@@ -951,10 +954,12 @@ class ConstantContact_Settings {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array $comment_data Array of comment data.
 	 * @return array Passed in comment data
 	 */
-	public function process_comment_data_for_optin( array $comment_data ) : array {
+	public function process_comment_data_for_optin( array $comment_data ): array {
 
 		if ( isset( $comment_data['comment_author_email'] ) && $comment_data['comment_author_email'] ) {
 
@@ -1096,9 +1101,9 @@ class ConstantContact_Settings {
 	 *
 	 * @param mixed  $user     WP user object.
 	 * @param string $username Username.
-	 * @return object Passed in $user object.
+	 * @return mixed Passed in $user object.
 	 */
-	public function process_user_data_for_optin( object $user, string $username ) : object {
+	public function process_user_data_for_optin( $user, string $username ): mixed {
 		$this->add_user_to_list( get_user_by( 'login', $username ) );
 		return $user;
 	}
@@ -1234,7 +1239,7 @@ class ConstantContact_Settings {
 		$value = trim( $value );
 
 		// Keys need to be under 50 chars long and have no spaces inside them.
-		if ( false !== strpos( $value, ' ' ) || 50 <= strlen( $value ) ) {
+		if ( str_contains( $value, ' ' ) || 50 <= strlen( $value ) ) {
 			return '';
 		}
 
@@ -1255,7 +1260,7 @@ class ConstantContact_Settings {
 		$value = trim( $value );
 
 		// Keys need to be under 50 chars long and have no spaces inside them.
-		if ( false !== strpos( $value, ' ' ) || 50 <= strlen( $value ) ) {
+		if ( str_contains( $value, ' ' ) || 50 <= strlen( $value ) ) {
 			return '';
 		}
 

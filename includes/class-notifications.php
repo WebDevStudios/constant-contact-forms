@@ -78,7 +78,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		add_action( 'admin_notices', [ $this, 'main' ] );
 	}
 
@@ -89,7 +89,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @return array
 	 */
-	public function get_notifications() : array {
+	public function get_notifications(): array {
 
 		/**
 		 * Filters our notifications.
@@ -123,7 +123,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @return array Update notifications we should surface.
 	 */
-	public function get_update_notifications() : array {
+	public function get_update_notifications(): array {
 		return get_option( 'ctct_update_notifications', [] );
 	}
 
@@ -132,7 +132,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @since 1.0.0
 	 */
-	public function main() {
+	public function main(): void {
 
 		// If we have our query args where we're attempting to dismiss the notice
 		// Get our potentically dismissed notif ID.
@@ -163,7 +163,7 @@ class ConstantContact_Notifications {
 	 * @param array $notif Array of notification data.
 	 * @return mixed False if not shown, nothing if shown.
 	 */
-	public function maybe_show_notification( array $notif ) {
+	public function maybe_show_notification( array $notif ): bool {
 
 		if ( empty( $notif ) ) {
 			return false;
@@ -216,7 +216,7 @@ class ConstantContact_Notifications {
 	 * @param mixed $require_cb Valid callback.
 	 * @return bool Results of callback.
 	 */
-	public function check_requirements_callback_for_notif( $require_cb ) {
+	public function check_requirements_callback_for_notif( $require_cb ): bool {
 
 		if ( is_callable( $require_cb ) ) {
 			return call_user_func( $require_cb );
@@ -232,7 +232,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @return mixed False on failure, string of ID on success.
 	 */
-	public function get_dismissal_id() {
+	public function get_dismissal_id(): string {
 
 		// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
 		if ( ! isset( $_GET['ctct-dismiss'] ) || ! isset( $_GET['ctct-dismiss-action'] ) ) {
@@ -257,7 +257,7 @@ class ConstantContact_Notifications {
 	 * @param string $key ID of notification.
 	 * @return bool If we updated correctly.
 	 */
-	public function save_dismissed_notification( string $key ) {
+	public function save_dismissed_notification( string $key ): bool {
 		if ( 'deleted_forms' === $key ) {
 			$this->delete_dismissed_option( $key );
 		}
@@ -272,7 +272,7 @@ class ConstantContact_Notifications {
 	 * @param string $key ID of notificaion.
 	 * @return bool Update succeeded?
 	 */
-	public function delete_dismissed_notification( string $key ) {
+	public function delete_dismissed_notification( string $key ): bool {
 		return $this->save_dismissed_option( $key, false );
 	}
 
@@ -283,8 +283,8 @@ class ConstantContact_Notifications {
 	 *
 	 * @return array States of dismissial notices.
 	 */
-	public function get_dismissed_options() {
-		return get_option( self::$dismissed_notices_option );
+	public function get_dismissed_options(): array {
+		return get_option( self::$dismissed_notices_option, [] );
 	}
 
 	/**
@@ -295,7 +295,7 @@ class ConstantContact_Notifications {
 	 * @param array $options Array of dismissial states.
 	 * @return bool If updated.
 	 */
-	public function save_dismissed_options( array $options ) {
+	public function save_dismissed_options( array $options ): bool {
 		return update_option( self::$dismissed_notices_option, $options, true );
 	}
 
@@ -308,12 +308,8 @@ class ConstantContact_Notifications {
 	 * @param string $value Value to be saved to DB.
 	 * @return bool If saved or not.
 	 */
-	public function save_dismissed_option( string $key, string $value ) {
+	public function save_dismissed_option( string $key, string $value ): bool {
 		$options = $this->get_dismissed_options();
-
-		if ( ! is_array( $options ) ) {
-			$options = [];
-		}
 
 		$options[ esc_attr( $key ) ] = esc_attr( $value );
 
@@ -328,7 +324,7 @@ class ConstantContact_Notifications {
 	 * @param string $key Notification ID.
 	 * @return bool If dismissed.
 	 */
-	public function was_notification_dismissed( string $key = '' ) {
+	public function was_notification_dismissed( string $key = '' ): bool {
 
 		$option = $this->get_dismissed_option( $key );
 
@@ -345,7 +341,7 @@ class ConstantContact_Notifications {
 	 * @param string $key ID of notification state to get.
 	 * @return string Value in DB.
 	 */
-	public function get_dismissed_option( string $key = '' ) {
+	public function get_dismissed_option( string $key = '' ): string {
 
 		$options = $this->get_dismissed_options();
 
@@ -361,11 +357,13 @@ class ConstantContact_Notifications {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $key     Notification key.
-	 * @param string $content Admin notice content.
+	 * @param string $key          Notification key.
+	 * @param string $content      Admin notice content.
+	 * @param bool   $show_dismiss Show dismiss UI.
+	 *
 	 * @return void
 	 */
-	public function show_notice( string $key, string $content = '', bool $show_dismiss = true ) {
+	public function show_notice( string $key, string $content = '', bool $show_dismiss = true ): void {
 
 		if ( ! $content ) {
 			return;
@@ -394,7 +392,7 @@ class ConstantContact_Notifications {
 	 *
 	 * @since 1.0.0
 	 */
-	public function do_styles() {
+	public function do_styles(): void {
 
 		static $have_styles = false;
 
@@ -412,8 +410,10 @@ class ConstantContact_Notifications {
 	 * @since  1.8.0
 	 *
 	 * @param  string $key Notice option key.
+	 *
+	 * @return void
 	 */
-	protected function delete_dismissed_option( string $key ) {
+	protected function delete_dismissed_option( string $key ): void {
 		delete_option( "ctct_$key" );
 		wp_safe_redirect( remove_query_arg( [ 'ctct-dismiss-action', 'ctct-dismiss' ] ) );
 		exit;
