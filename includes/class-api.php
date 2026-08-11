@@ -288,9 +288,34 @@ class ConstantContact_API {
 		$issued_time = (int) get_option( 'ctct_access_token_timestamp', 0 );
 		$current     = time();
 		$threshold   = $current - $issued_time;
+
+		/*
+		 * Finding #3: base the refresh threshold on the token's actual reported
+		 * lifetime (`_ctct_expires_in`, in seconds) instead of a hardcoded
+		 * 23-hour (82800s) guess. If Constant Contact issues shorter-lived
+		 * tokens than that, the hardcoded value let an already-dead token sit
+		 * unrefreshed for hours, relying entirely on the reactive 401-retry
+		 * path in the meantime. Refresh a few minutes early, and fall back to
+		 * the old 23-hour value only when we have no expires_in on record
+		 * (e.g. a token acquired before this fix was deployed).
+		 */
+		$expires_in     = (int) constant_contact()->get_connect()->e_get( '_ctct_expires_in' );
+		$refresh_buffer = 5 * MINUTE_IN_SECONDS;
+		$refresh_after  = $expires_in > $refresh_buffer ? ( $expires_in - $refresh_buffer ) : 82800;
+
 		// Check if we should attempt a refresh, beyond just cron checks.
-		if ( $issued_time > 0 && $threshold >= 82800 ) {
-			if ( 'false' === get_option( 'ctct_refreshing_token' ) ) {
+		if ( $issued_time > 0 && $threshold >= $refresh_after ) {
+			/*
+			 * Finding #2: get_option() returns boolean `false` (not the
+			 * string 'false') when this option doesn't exist yet -- which is
+			 * exactly the case right after a fresh connection. The previous
+			 * strict `'false' === get_option( 'ctct_refreshing_token' )`
+			 * check (no default) evaluated to false in that scenario,
+			 * silently skipping this entire proactive-refresh block the
+			 * first time the threshold was crossed on a newly-connected
+			 * site. Passing an explicit 'false' default fixes the comparison.
+			 */
+			if ( 'false' === get_option( 'ctct_refreshing_token', 'false' ) ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
 				constant_contact_maybe_log_it( 'API', 'Attempting refresh in get_api_token.' );
 
