@@ -492,9 +492,34 @@ class ConstantContact_API {
 			return $status;
 		}
 
+		/*
+		 * Finding #6: guard against two near-simultaneous requests (e.g. two
+		 * form submissions racing) both refreshing at once. This check
+		 * previously only existed on the caller side in get_api_token(), so
+		 * the reactive 401-retry callers throughout this class never checked
+		 * it at all and could race each other directly. Constant Contact
+		 * refresh tokens are single-use/rotating, so the loser of such a
+		 * race would fail with invalid_grant and could wrongly trip a
+		 * "manual reconnect required" state even though the connection was
+		 * actually fine. The lock is timestamped so a process that dies
+		 * mid-refresh (e.g. a killed container) can't leave it stuck
+		 * forever -- a lock older than 60 seconds is treated as stale and
+		 * reclaimed. WordPress options don't offer a true atomic
+		 * compare-and-swap, so a small race window remains, but a losing
+		 * request now backs off instead of hitting the API concurrently.
+		 */
+		$lock_age = time() - (int) get_option( 'ctct_refreshing_token_time', 0 );
+		if ( 'true' === get_option( 'ctct_refreshing_token', 'false' ) && $lock_age < 60 ) {
+			$status['success'] = false;
+			$status['reason']  = 'already_refreshing';
+
+			return $status;
+		}
+
 		add_filter( 'constant_contact_force_logging', '__return_true' );
 		constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token triggered' );
 		update_option( 'ctct_refreshing_token', 'true', false );
+		update_option( 'ctct_refreshing_token_time', time(), false );
 
 		// Create full request URL
 		$body = [
@@ -553,7 +578,16 @@ class ConstantContact_API {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
 				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed (attempt ' . $failures . '/5). Will retry. Attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
 				$status['reason'] = 'transient_failure';
-				$this->refresh_token();
+				/*
+				 * Finding #6: this used to recurse into another synchronous
+				 * refresh_token() call immediately, with no delay. Under a
+				 * genuine outage that compounds the problem -- every request
+				 * hits the failing endpoint again right away, plus unbounded
+				 * call-stack recursion if the outage persists -- instead of
+				 * backing off. Leave it to the next natural trigger (the next
+				 * request's get_api_token() threshold check, or the next
+				 * reactive 401) to retry instead.
+				 */
 			}
 
 			$status['success'] = false;
