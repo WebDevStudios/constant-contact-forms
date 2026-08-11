@@ -156,6 +156,41 @@ class ConstantContact_API {
 
 		add_action( 'init', [ $this, 'ctct_init' ] );
 		add_action( 'ctct_access_token_acquired', [ $this, 'clear_missed_api_requests' ] );
+
+		/*
+		 * Finding #1: the plugin removed its WP-Cron based refresh in favor of
+		 * refreshing "live" (only when a real request happens to call
+		 * get_api_token()). That leaves no background safety net -- a
+		 * low-traffic site can sit with a dead token for a long stretch until
+		 * a visitor happens to trigger an API call. The 'ctct_refresh_token_job'
+		 * hook already existed in the codebase (referenced only by cleanup
+		 * code on disconnect/deactivate/uninstall) but was never actually
+		 * scheduled or hooked to a callback. Wire it up here so it does what
+		 * its name always implied.
+		 */
+		add_action( 'ctct_refresh_token_job', [ $this, 'maybe_refresh_token_via_cron' ] );
+	}
+
+	/**
+	 * Cron callback: periodically checks whether the access token is due for
+	 * a refresh, independent of live site traffic.
+	 *
+	 * @since NEXT
+	 *
+	 * @return void
+	 */
+	public function maybe_refresh_token_via_cron(): void {
+		if ( ! $this->is_connected() ) {
+			return;
+		}
+
+		add_filter( 'constant_contact_force_logging', '__return_true' );
+		constant_contact_maybe_log_it( 'API', 'Cron-based token health check running.' );
+
+		// get_api_token() already contains the "is this token due for a
+		// refresh" threshold check (see Finding #3); running it here gives
+		// that check a chance to fire even when no live request does.
+		$this->get_api_token();
 	}
 
 	/**
