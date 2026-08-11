@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     2.21.0
+ * Version:     2.21.1
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * Requires PHP: 8.1
@@ -505,19 +505,27 @@ class Constant_Contact {
 	 */
 	public function deactivate(): void {
 
-		// Clear out connection data when deactivating plugin.
-		delete_option( 'ctct_access_token' );
-		delete_option( '_ctct_access_token' );
-		delete_option( 'ctct_refresh_token' );
-		delete_option( '_ctct_refresh_token' );
-		delete_option( '_ctct_expires_in' );
+		/*
+		 * Finding #5: this used to also delete the actual access/refresh
+		 * tokens, expires_in, and encryption key ('ctct_access_token',
+		 * '_ctct_access_token', 'ctct_refresh_token', '_ctct_refresh_token',
+		 * '_ctct_expires_in', 'ctct_key'), which are still perfectly valid at
+		 * deactivation time. That forced a full manual reconnect on every
+		 * deactivate/reactivate cycle -- host migrations, staging syncs, a
+		 * security plugin auto-disabling it, or a plain reinstall -- which
+		 * looks identical to "the connection just dropped" to a site owner.
+		 * Only clear short-lived, in-flight OAuth/lock state here; leave the
+		 * actual connection intact so reactivating doesn't require
+		 * reconnecting. (Deliberate, explicit disconnects still go through
+		 * ConstantContact_Connect::force_disconnect(), which is unaffected.)
+		 */
 		delete_option( 'CtctConstantContactcode_verifier' );
 		delete_option( 'CtctConstantContactState' );
 		delete_option( 'ctct_auth_url' );
-		delete_option( 'ctct_key' );
 		delete_option( 'ctct_maybe_needs_reconnected' );
 		delete_option( 'ctct_acquiring_token' );
 		delete_option( 'ctct_refreshing_token' );
+		delete_option( 'ctct_refreshing_token_time' );
 		constant_contact_delete_option( '_ctct_form_state_authcode' );
 		wp_clear_scheduled_hook( 'ctct_refresh_token_job' );
 		wp_unschedule_hook( 'ctct_refresh_token_job' );
