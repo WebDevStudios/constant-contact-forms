@@ -76,8 +76,7 @@
          "@composer archive --format=zip --file constant-contact-forms",
          "rm -rf ./bin",
          "rm -rf ./composer.json",
-         "rm -rf ./composer.lock",
-         "mv constant-contact-forms.zip $HOME/Desktop"
+         "rm -rf ./composer.lock"
       ],
       "install-codestandards":"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
       "fix":"@php ./vendor/bin/phpcbf --standard=phpcs.xml.dist",
