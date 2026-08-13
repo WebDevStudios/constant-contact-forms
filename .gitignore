@@ -36,5 +36,6 @@ plugin-config.js
 assets/js/ctct-plugin*.js
 assets/js/ctct-plugin*.min.js
 assets/js/ctct-plugin*.min.js.map
+assets/js/ctct-plugin*.txt
 
 assets/css/*
