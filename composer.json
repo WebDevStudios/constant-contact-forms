@@ -3,6 +3,7 @@
    "description":"Official WordPress plugin for Constant Contact Forms.",
    "license":"GPL-3.0-or-later",
    "homepage":"https://www.constantcontact.com",
+   "version": "2.21.1",
    "require":{
       "monolog/monolog":"3.9.0",
       "cmb2/cmb2":"2.12.0",
@@ -74,9 +75,7 @@
          "@composer install --no-dev -a",
          "@composer run prefix-namespaces",
          "rm -rf ./bin",
-         "rm -rf ./composer.json",
-         "rm -rf ./composer.lock",
-         "@composer archive --format=zip --file constant-contact-forms"
+         "@composer archive --dir=constant-contact-forms --format=zip --file=constant-contact-forms"
       ],
       "install-codestandards":"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
       "fix":"@php ./vendor/bin/phpcbf --standard=phpcs.xml.dist",
@@ -84,10 +83,9 @@
       "lint":"@php ./vendor/squizlabs/php_codesniffer/bin/phpcs --standard=phpcs.xml.dist",
       "post-install-cmd":[
         "@prefix-namespaces",
-         "@install-codestandards"
+        "@install-codestandards"
       ],
       "post-update-cmd":[
-        "@prefix-namespaces",
         "@install-codestandards"
       ],
       "pre-update-cmd": [
@@ -98,6 +96,12 @@
         "@php bin/strauss.phar",
         "@composer dump-autoload"
       ]
+   },
+   "archive": {
+    "exclude": [
+      "/composer.json",
+      "/composer.lock"
+    ]
    },
    "config": {
       "allow-plugins": {
