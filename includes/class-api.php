@@ -1739,6 +1739,7 @@ class ConstantContact_API {
 	 * @since 2026-08-18
 	 *
 	 * @param array $submission_data Array of form data.
+	 *
 	 * @return array List of note content strings, one per submitted text area.
 	 */
 	private function get_note_contents( $submission_data ) {
