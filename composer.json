@@ -75,7 +75,7 @@
          "@composer install --no-dev -a",
          "@composer run prefix-namespaces",
          "rm -rf ./bin",
-         "@composer archive --dir=constant-contact-forms --format=zip --file=constant-contact-forms"
+         "@composer archive --format=zip --file=constant-contact-forms"
       ],
       "install-codestandards":"Dealerdirect\\Composer\\Plugin\\Installers\\PHPCodeSniffer\\Plugin::run",
       "fix":"@php ./vendor/bin/phpcbf --standard=phpcs.xml.dist",
