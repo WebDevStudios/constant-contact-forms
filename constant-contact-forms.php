@@ -505,23 +505,16 @@ class Constant_Contact {
 	 */
 	public function deactivate(): void {
 
-		/*
-		 * Finding #5: this used to also delete the actual access/refresh
-		 * tokens, expires_in, and encryption key ('ctct_access_token',
-		 * '_ctct_access_token', 'ctct_refresh_token', '_ctct_refresh_token',
-		 * '_ctct_expires_in', 'ctct_key'), which are still perfectly valid at
-		 * deactivation time. That forced a full manual reconnect on every
-		 * deactivate/reactivate cycle -- host migrations, staging syncs, a
-		 * security plugin auto-disabling it, or a plain reinstall -- which
-		 * looks identical to "the connection just dropped" to a site owner.
-		 * Only clear short-lived, in-flight OAuth/lock state here; leave the
-		 * actual connection intact so reactivating doesn't require
-		 * reconnecting. (Deliberate, explicit disconnects still go through
-		 * ConstantContact_Connect::force_disconnect(), which is unaffected.)
-		 */
+		// Clear out connection data when deactivating plugin.
+		delete_option( 'ctct_access_token' );
+		delete_option( '_ctct_access_token' );
+		delete_option( 'ctct_refresh_token' );
+		delete_option( '_ctct_refresh_token' );
+		delete_option( '_ctct_expires_in' );
 		delete_option( 'CtctConstantContactcode_verifier' );
 		delete_option( 'CtctConstantContactState' );
 		delete_option( 'ctct_auth_url' );
+		delete_option( 'ctct_key' );
 		delete_option( 'ctct_maybe_needs_reconnected' );
 		delete_option( 'ctct_acquiring_token' );
 		delete_option( 'ctct_refreshing_token' );
