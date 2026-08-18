@@ -1012,9 +1012,19 @@ class ConstantContact_API {
 		);
 
 		if ( $new_contact && $this->has_note( $user_data ) ) {
-			$fetched_contact                  = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
-			$note_content                     = $this->get_note_content( $user_data );
-			$fetched_contact['notes'][]       = [ 'content' => $note_content ];
+			$fetched_contact = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
+
+			if ( ! isset( $fetched_contact['notes'] ) || ! is_array( $fetched_contact['notes'] ) ) {
+				$fetched_contact['notes'] = [];
+			}
+
+			foreach ( $this->get_note_contents( $user_data ) as $note_content ) {
+				if ( '' === $note_content ) {
+					continue;
+				}
+				$fetched_contact['notes'][] = [ 'content' => $note_content ];
+			}
+
 			$fetched_contact['update_source'] = 'Contact';
 			$this->cc()->add_note( $fetched_contact );
 		}
@@ -1721,6 +1731,37 @@ class ConstantContact_API {
 			}
 		}
 		return $note;
+	}
+
+	/**
+	 * Get the content of every text area (note) submitted to a form.
+	 *
+	 * @since 2026-08-18
+	 *
+	 * @param array $submission_data Array of form data.
+	 * @return array List of note content strings, one per submitted text area.
+	 */
+	private function get_note_contents( $submission_data ) {
+		$notes = [];
+
+		if ( ! is_array( $submission_data ) ) {
+			return $notes;
+		}
+
+		foreach ( $submission_data as $key => $data ) {
+			if ( false === strpos( $key, 'custom_text_area' ) ) {
+				continue;
+			}
+
+			$content = is_array( $data ) ? ( $data['val'] ?? '' ) : '';
+			if ( '' === $content ) {
+				continue;
+			}
+
+			$notes[] = $content;
+		}
+
+		return $notes;
 	}
 
 	/**
