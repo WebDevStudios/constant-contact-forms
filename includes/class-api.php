@@ -1141,7 +1141,6 @@ class ConstantContact_API {
 					}
 
 					$new_custom_field    = '';
-					$contact['custom_fields'] = [];
 					// @todo Fix me.
 					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
 						$custom_field_name .= $custom_field['name'] . ': ';
