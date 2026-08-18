@@ -1052,6 +1052,10 @@ class ConstantContact_API {
 			$contact['notes'] = [];
 		}
 
+		if ( ! isset( $contact['custom_fields'] ) || ! is_array( $contact['custom_fields'] ) ) {
+			$contact['custom_fields'] = [];
+		}
+
 		$address_type = get_post_meta( $form_id, '_ctct_address_type', true );
 		if ( empty( $address_type ) ) {
 			$address_type = 'home';
