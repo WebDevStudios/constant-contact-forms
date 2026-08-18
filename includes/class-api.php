@@ -1130,7 +1130,12 @@ class ConstantContact_API {
 					$original_field_data = $this->plugin->get_process_form()->get_original_fields( $form_id );
 					$custom_field_name   = '';
 					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
-					$custom_field        = ( $original_field_data[ $original ] );
+					$custom_field        = $original_field_data[ $original ] ?? null; // See: https://wordpress.org/support/topic/fatal-typeerror-replaying-missed-api-requests-after-a-forms-fields-were-edited/
+
+					if ( ! is_array( $custom_field ) || empty( $custom_field['name'] ) ) {
+						break; // Queued request references a form field that no longer exists on the form.
+					}
+
 					$new_custom_field    = '';
 					$contact['custom_fields'] = [];
 					// @todo Fix me.
