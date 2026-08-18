@@ -47,6 +47,14 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= 2.22.0 =
+* Updated: Implement a real cron-based token health-check safety net.
+* Fixed: Correct get_option default bug in proactive refresh check.
+* Fixed: Base refresh threshold on real _ctct_expires_in instead of hardcoded 82800.
+* Fixed: Detect array-shaped errors and HTTP 401 in class-client.php.
+* Fixed: Reduce refresh_token race condition and remove unbounded recursion.
+* Fixed:  Fatal TypeError when replaying missed API requests referencing removed form fields. Props https://github.com/rodrigo-arias
+
 = 2.21.0 =
 * Updated: Temporarily removing the forced disconnection and API key removal, when domain differences are suspected. Added logging indicating we got to that point.
 * Updated: Force logging before various logging lines to help ensure we're going to log troubleshooting data.

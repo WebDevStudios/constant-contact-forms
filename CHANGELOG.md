@@ -1,11 +1,11 @@
-= 2.21.1 =
+= 2.22.0 =
 
 * Updated: Implement a real cron-based token health-check safety net.
 * Fixed: Correct get_option default bug in proactive refresh check.
 * Fixed: Base refresh threshold on real _ctct_expires_in instead of hardcoded 82800.
 * Fixed: Detect array-shaped errors and HTTP 401 in class-client.php.
-* Fixed: Stop wiping tokens on plugin deactivate().
 * Fixed: Reduce refresh_token race condition and remove unbounded recursion.
+* Fixed:  Fatal TypeError when replaying missed API requests referencing removed form fields. Props https://github.com/rodrigo-arias
 
 = 2.18.0 =
 
