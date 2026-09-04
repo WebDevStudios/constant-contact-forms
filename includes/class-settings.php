@@ -450,7 +450,12 @@ class ConstantContact_Settings {
 	protected function register_fields_optin() {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'optin' ) );
 
-		if ( empty( $_GET['page'] ) || 'ctct_options_settings_optin' !== $_GET['page'] ) {
+		$page   = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS );
+		$action = filter_input( INPUT_POST, 'action', FILTER_SANITIZE_SPECIAL_CHARS );
+
+		// Register fields when viewing the opt-in tab (GET) or saving it (POST via admin-post.php,
+		// which has no 'page' query var but carries the option key in the 'action' field).
+		if ( 'ctct_options_settings_optin' !== $page && 'ctct_options_settings_optin' !== $action ) {
 			return;
 		}
 
