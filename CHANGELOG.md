@@ -5,7 +5,8 @@
 * Fixed: Base refresh threshold on real _ctct_expires_in instead of hardcoded 82800.
 * Fixed: Detect array-shaped errors and HTTP 401 in class-client.php.
 * Fixed: Reduce refresh_token race condition and remove unbounded recursion.
-* Fixed:  Fatal TypeError when replaying missed API requests referencing removed form fields. Props https://github.com/rodrigo-arias
+* Fixed: Fatal TypeError when replaying missed API requests referencing removed form fields. Props https://github.com/rodrigo-arias
+* Fixed: Opt-in settings were not being saved.
 
 = 2.18.0 =
 
