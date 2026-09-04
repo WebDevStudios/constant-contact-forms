@@ -35,6 +35,7 @@ plugin-config.js
 ## Build copies
 assets/js/ctct-plugin*.js
 assets/js/ctct-plugin*.min.js
+assets/js/ctct-plugin*.js.map
 assets/js/ctct-plugin*.min.js.map
 assets/js/ctct-plugin*.txt
 
