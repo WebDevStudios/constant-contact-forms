@@ -308,12 +308,8 @@ class ConstantContact_Client {
 
 
 		$response = wp_safe_remote_get( $url, $options );
-		if ( is_wp_error( $response ) ) {
-			// todo: handle exception
-			return (array) $response;
-		}
 
-		return json_decode( $response['body'], true );
+		return $this->handle_response( $response );
 	}
 
 	/**
@@ -349,12 +345,7 @@ class ConstantContact_Client {
 
 		$response = wp_safe_remote_post( $url, $options );
 
-		if ( is_wp_error( $response ) ) {
-			// todo: handle exception
-			return (array) $response;
-		}
-
-		return json_decode( $response['body'], true );
+		return $this->handle_response( $response );
 	}
 
 	/**
@@ -391,12 +382,7 @@ class ConstantContact_Client {
 
 		$response = wp_safe_remote_request( $url, $options );
 
-		if ( is_wp_error( $response ) ) {
-			// todo: handle exception
-			return (array) $response;
-		}
-
-		return json_decode( $response['body'], true );
+		return $this->handle_response( $response );
 	}
 
 	/**
@@ -431,12 +417,58 @@ class ConstantContact_Client {
 
 		$response = wp_safe_remote_request( $url, $options );
 
+		return $this->handle_response( $response );
+	}
+
+	/**
+	 * Normalize an HTTP API response into a decoded array, flagging
+	 * unauthorized/expired-token responses consistently regardless of how
+	 * Constant Contact shaped the error.
+	 *
+	 * Finding #4: the reactive refresh-and-retry logic in class-api.php looks
+	 * for `array_key_exists( 'error_key', $data ) && 'unauthorized' === $data['error_key']`
+	 * on the *top level* of the decoded body. But Constant Contact can return
+	 * errors as a JSON array of error objects (e.g. `[{"error_key":"unauthorized",...}]`)
+	 * rather than a flat object -- other error handling in class-api.php (see
+	 * add_list()) already has to account for that shape. When that happened
+	 * for an unauthorized/expired-token response, none of the top-level
+	 * checks would ever match, so refresh_token() would never get triggered
+	 * for that call. This also never checked the actual HTTP status code, so
+	 * a 401 with an unexpected/empty body would be missed entirely. Hoist the
+	 * error onto the top level in both cases so the existing callers work
+	 * unchanged.
+	 *
+	 * @since NEXT
+	 *
+	 * @param array|WP_Error $response Response from a wp_safe_remote_* call.
+	 * @return array
+	 */
+	private function handle_response( $response ): array {
 		if ( is_wp_error( $response ) ) {
 			// todo: handle exception
 			return (array) $response;
 		}
 
-		return json_decode( $response['body'], true );
+		$status_code = wp_remote_retrieve_response_code( $response );
+		$data        = json_decode( $response['body'], true );
+
+		if ( ! is_array( $data ) ) {
+			$data = [];
+		}
+
+		// Error returned as an array of error objects -- hoist the first one to the top level.
+		if ( ! isset( $data['error_key'] ) && isset( $data[0]['error_key'] ) ) {
+			$data['error_key']     = $data[0]['error_key'];
+			$data['error_message'] = $data[0]['error_message'] ?? '';
+		}
+
+		// A 401 with no (or an unrecognized) error body should still be treated as unauthorized.
+		if ( ! isset( $data['error_key'] ) && 401 === (int) $status_code ) {
+			$data['error_key']     = 'unauthorized';
+			$data['error_message'] = $data['error_message'] ?? 'Unauthorized (HTTP 401)';
+		}
+
+		return $data;
 	}
 
 	/**

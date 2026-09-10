@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     2.21.0
+ * Version:     2.22.0
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * Requires PHP: 8.1
@@ -440,6 +440,10 @@ class Constant_Contact {
 	 */
 	public function hooks(): void {
 		add_action( 'init', [ $this, 'init' ] );
+		// Finding #1: belt-and-suspenders re-schedule in case the activation
+		// hook never fired for this install (e.g. the plugin was already
+		// active across an update) or something else cleared the event.
+		add_action( 'init', [ $this, 'maybe_schedule_token_refresh_cron' ] );
 		add_action( 'widgets_init', [ $this, 'widgets' ] );
 		add_filter( 'body_class', [ $this, 'body_classes' ] );
 
@@ -464,6 +468,32 @@ class Constant_Contact {
 	 */
 	public function activate(): void {
 		update_option( self::$activated_date_option, time() );
+
+		/*
+		 * Finding #1: the plugin's WP-Cron based refresh was removed in
+		 * favor of refreshing only when a live request happens to call
+		 * get_api_token(), leaving no background safety net for low-traffic
+		 * sites. The 'ctct_refresh_token_job' hook already existed in the
+		 * codebase (referenced only by cleanup code), but nothing ever
+		 * scheduled it. Schedule it here; the actual callback is wired up in
+		 * ConstantContact_API::__construct().
+		 */
+		if ( ! wp_next_scheduled( 'ctct_refresh_token_job' ) ) {
+			wp_schedule_event( time(), 'hourly', 'ctct_refresh_token_job' );
+		}
+	}
+
+	/**
+	 * Re-schedule the token refresh cron job if it isn't currently scheduled.
+	 *
+	 * @since NEXT
+	 *
+	 * @return void
+	 */
+	public function maybe_schedule_token_refresh_cron(): void {
+		if ( ! wp_next_scheduled( 'ctct_refresh_token_job' ) ) {
+			wp_schedule_event( time(), 'hourly', 'ctct_refresh_token_job' );
+		}
 	}
 
 	/**
@@ -488,6 +518,7 @@ class Constant_Contact {
 		delete_option( 'ctct_maybe_needs_reconnected' );
 		delete_option( 'ctct_acquiring_token' );
 		delete_option( 'ctct_refreshing_token' );
+		delete_option( 'ctct_refreshing_token_time' );
 		constant_contact_delete_option( '_ctct_form_state_authcode' );
 		wp_clear_scheduled_hook( 'ctct_refresh_token_job' );
 		wp_unschedule_hook( 'ctct_refresh_token_job' );

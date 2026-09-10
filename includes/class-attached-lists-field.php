@@ -374,7 +374,10 @@ class ConstantContact_Attached_Lists_Field {
 			'wp-backbone',
 		];
 
-		wp_enqueue_script( 'cmb2-attached-lists-field', $url . 'ctct-plugin-attached-lists.js', $requirements, self::VERSION, true );
+		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
+		$suffix = ( true === $debug ) ? '' : '.min';
+
+		wp_enqueue_script( 'cmb2-attached-lists-field', $url . 'ctct-plugin-attached-lists' . $suffix . '.js', $requirements, self::VERSION, true );
 
 		if ( ! $once ) {
 			wp_localize_script(
