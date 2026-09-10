@@ -194,26 +194,6 @@ class ConstantContact_Builder {
 						$custom_textareas_count++;
 					}
 				}
-
-				if ( $custom_textareas_count > 1 && constant_contact()->get_api()->is_connected() ) :
-					?>
-						<div id="ctct-too-many-textareas" class="notice notice-warning">
-							<p>
-								<?php
-									printf(
-										/* Translators: Placeholders here are for `<strong>` and `<a>` HTML tags. */
-										esc_html__( 'You have multiple %1$sCustom Text Area%2$s fields in this form. %1$sOnly the first field%2$s will be sent to Constant Contact. %3$sLearn More%4$s', 'constant-contact-forms' ),
-										'<strong>',
-										'</strong>',
-										'<a id="ctct-open-textarea-info" href="#">',
-										'</a>'
-									);
-								?>
-							</p>
-						</div>
-					<?php
-						$this->output_custom_textarea_modal();
-				endif;
 			}
 
 			// phpcs:disable WordPress.Security.NonceVerification -- OK direct-accessing of $_GET.
@@ -347,73 +327,6 @@ class ConstantContact_Builder {
 							</p>
 						</div>
 
-					</div><!-- .modal-content -->
-				</div><!-- .modal-dialog -->
-			</div>
-		<?php
-	}
-
-	/**
-	 * Outputs our modal for too many custom textareas information.
-	 *
-	 * @since 1.2.2
-	 */
-	public function output_custom_textarea_modal() {
-		?>
-			<div id="ctct-custom-textarea-modal" class="ctct-modal ctct-custom-textarea-modal">
-				<div class="ctct-modal-dialog" role="document">
-					<div class="ctct-modal-content">
-
-						<div class="ctct-modal-header">
-							<a href="#" class="ctct-modal-close" aria-hidden="true">&times;</a>
-							<h2><?php esc_html_e( 'Custom Text Area limitations.', 'constant-contact-forms' ); ?></h2>
-						</div>
-
-						<div class="ctct-modal-body ctct-custom-textarea-modal-body ctct-custom-textarea">
-
-							<div class="ctct-modal-left">
-								<p>
-									<?php
-										printf(
-											/* Translators: Placeholders here are for `<strong>` and `<em>` HTML tags. */
-											esc_html__( 'Apologies&mdash;at this time, we can only upload %1$sone %2$sCustom Text Area%3$s field%4$s to your Constant Contact account per form submission. The uploaded field is placed into your contact\'s %1$sNotes%4$s field.', 'constant-contact-forms' ),
-											'<strong>',
-											'<em>',
-											'</em>',
-											'</strong>'
-										);
-									?>
-								</p>
-
-								<p>
-									<?php
-										printf(
-											/* Translators: Placeholders here are for `<strong>` HTML tags. */
-											esc_html__( 'The first listed %1$sCustom Text Area%2$s field is sent to Constant Contact.', 'constant-contact-forms' ),
-											'<strong>',
-											'</strong>'
-										);
-									?>
-								</p>
-
-								<p>
-									<?php
-										printf(
-											/* Translators: Placeholders here are for `<strong>` HTML tags. */
-											esc_html__( 'Subsequent %1$sCustom Text Area%2$s fields are only sent with the admin email when the form is submitted, and not to your Constant Contact account.', 'constant-contact-forms' ),
-											'<strong>',
-											'</strong>'
-										);
-									?>
-								</p>
-							</div>
-
-							<div class="ctct-modal-right">
-								<?php // Empty alt tag OK; decorative image. ?>
-								<img src="<?php echo esc_url_raw( $this->plugin->url . 'assets/images/fields-image.jpg' ); ?>" alt="" />
-							</div>
-
-						</div><!-- modal body -->
 					</div><!-- .modal-content -->
 				</div><!-- .modal-dialog -->
 			</div>
