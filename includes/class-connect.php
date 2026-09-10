@@ -179,14 +179,15 @@ class ConstantContact_Connect {
 							try {
 								$account = constant_contact()->get_api()->get_account_info();
 								if ( $account ) {
-									$name = '';
+									$first_name = '';
+									$last_name  = '';
 									if ( ! empty( $account['first_name'] ) ) {
-										$name .= $account['first_name'];
+										$first_name .= $account['first_name'];
 									}
 									if ( ! empty( $account['last_name'] ) ) {
-										$name .= $account['last_name'];
+										$last_name .= $account['last_name'];
 									}
-									echo esc_html( $name );
+									echo esc_html( sprintf( '%1$s %2$s', $first_name, $last_name ) );
 								}
 							} catch ( Exception $ex ) {
 								esc_html_e( 'There was an issue with retrieving connected account information. Please try again.', 'constant-contact-forms' );
