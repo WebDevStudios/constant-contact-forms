@@ -156,6 +156,41 @@ class ConstantContact_API {
 
 		add_action( 'init', [ $this, 'ctct_init' ] );
 		add_action( 'ctct_access_token_acquired', [ $this, 'clear_missed_api_requests' ] );
+
+		/*
+		 * Finding #1: the plugin removed its WP-Cron based refresh in favor of
+		 * refreshing "live" (only when a real request happens to call
+		 * get_api_token()). That leaves no background safety net -- a
+		 * low-traffic site can sit with a dead token for a long stretch until
+		 * a visitor happens to trigger an API call. The 'ctct_refresh_token_job'
+		 * hook already existed in the codebase (referenced only by cleanup
+		 * code on disconnect/deactivate/uninstall) but was never actually
+		 * scheduled or hooked to a callback. Wire it up here so it does what
+		 * its name always implied.
+		 */
+		add_action( 'ctct_refresh_token_job', [ $this, 'maybe_refresh_token_via_cron' ] );
+	}
+
+	/**
+	 * Cron callback: periodically checks whether the access token is due for
+	 * a refresh, independent of live site traffic.
+	 *
+	 * @since NEXT
+	 *
+	 * @return void
+	 */
+	public function maybe_refresh_token_via_cron(): void {
+		if ( ! $this->is_connected() ) {
+			return;
+		}
+
+		add_filter( 'constant_contact_force_logging', '__return_true' );
+		constant_contact_maybe_log_it( 'API', 'Cron-based token health check running.' );
+
+		// get_api_token() already contains the "is this token due for a
+		// refresh" threshold check (see Finding #3); running it here gives
+		// that check a chance to fire even when no live request does.
+		$this->get_api_token();
 	}
 
 	/**
@@ -253,9 +288,34 @@ class ConstantContact_API {
 		$issued_time = (int) get_option( 'ctct_access_token_timestamp', 0 );
 		$current     = time();
 		$threshold   = $current - $issued_time;
+
+		/*
+		 * Finding #3: base the refresh threshold on the token's actual reported
+		 * lifetime (`_ctct_expires_in`, in seconds) instead of a hardcoded
+		 * 23-hour (82800s) guess. If Constant Contact issues shorter-lived
+		 * tokens than that, the hardcoded value let an already-dead token sit
+		 * unrefreshed for hours, relying entirely on the reactive 401-retry
+		 * path in the meantime. Refresh a few minutes early, and fall back to
+		 * the old 23-hour value only when we have no expires_in on record
+		 * (e.g. a token acquired before this fix was deployed).
+		 */
+		$expires_in     = (int) constant_contact()->get_connect()->e_get( '_ctct_expires_in' );
+		$refresh_buffer = 5 * MINUTE_IN_SECONDS;
+		$refresh_after  = $expires_in > $refresh_buffer ? ( $expires_in - $refresh_buffer ) : 82800;
+
 		// Check if we should attempt a refresh, beyond just cron checks.
-		if ( $issued_time > 0 && $threshold >= 82800 ) {
-			if ( 'false' === get_option( 'ctct_refreshing_token' ) ) {
+		if ( $issued_time > 0 && $threshold >= $refresh_after ) {
+			/*
+			 * Finding #2: get_option() returns boolean `false` (not the
+			 * string 'false') when this option doesn't exist yet -- which is
+			 * exactly the case right after a fresh connection. The previous
+			 * strict `'false' === get_option( 'ctct_refreshing_token' )`
+			 * check (no default) evaluated to false in that scenario,
+			 * silently skipping this entire proactive-refresh block the
+			 * first time the threshold was crossed on a newly-connected
+			 * site. Passing an explicit 'false' default fixes the comparison.
+			 */
+			if ( 'false' === get_option( 'ctct_refreshing_token', 'false' ) ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
 				constant_contact_maybe_log_it( 'API', 'Attempting refresh in get_api_token.' );
 
@@ -432,9 +492,34 @@ class ConstantContact_API {
 			return $status;
 		}
 
+		/*
+		 * Finding #6: guard against two near-simultaneous requests (e.g. two
+		 * form submissions racing) both refreshing at once. This check
+		 * previously only existed on the caller side in get_api_token(), so
+		 * the reactive 401-retry callers throughout this class never checked
+		 * it at all and could race each other directly. Constant Contact
+		 * refresh tokens are single-use/rotating, so the loser of such a
+		 * race would fail with invalid_grant and could wrongly trip a
+		 * "manual reconnect required" state even though the connection was
+		 * actually fine. The lock is timestamped so a process that dies
+		 * mid-refresh (e.g. a killed container) can't leave it stuck
+		 * forever -- a lock older than 60 seconds is treated as stale and
+		 * reclaimed. WordPress options don't offer a true atomic
+		 * compare-and-swap, so a small race window remains, but a losing
+		 * request now backs off instead of hitting the API concurrently.
+		 */
+		$lock_age = time() - (int) get_option( 'ctct_refreshing_token_time', 0 );
+		if ( 'true' === get_option( 'ctct_refreshing_token', 'false' ) && $lock_age < 60 ) {
+			$status['success'] = false;
+			$status['reason']  = 'already_refreshing';
+
+			return $status;
+		}
+
 		add_filter( 'constant_contact_force_logging', '__return_true' );
 		constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token triggered' );
 		update_option( 'ctct_refreshing_token', 'true', false );
+		update_option( 'ctct_refreshing_token_time', time(), false );
 
 		// Create full request URL
 		$body = [
@@ -493,7 +578,16 @@ class ConstantContact_API {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
 				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed (attempt ' . $failures . '/5). Will retry. Attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
 				$status['reason'] = 'transient_failure';
-				$this->refresh_token();
+				/*
+				 * Finding #6: this used to recurse into another synchronous
+				 * refresh_token() call immediately, with no delay. Under a
+				 * genuine outage that compounds the problem -- every request
+				 * hits the failing endpoint again right away, plus unbounded
+				 * call-stack recursion if the outage persists -- instead of
+				 * backing off. Leave it to the next natural trigger (the next
+				 * request's get_api_token() threshold check, or the next
+				 * reactive 401) to retry instead.
+				 */
 			}
 
 			$status['success'] = false;
@@ -918,9 +1012,19 @@ class ConstantContact_API {
 		);
 
 		if ( $new_contact && $this->has_note( $user_data ) ) {
-			$fetched_contact                  = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
-			$note_content                     = $this->get_note_content( $user_data );
-			$fetched_contact['notes'][]       = [ 'content' => $note_content ];
+			$fetched_contact = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
+
+			if ( ! isset( $fetched_contact['notes'] ) || ! is_array( $fetched_contact['notes'] ) ) {
+				$fetched_contact['notes'] = [];
+			}
+
+			foreach ( $this->get_note_contents( $user_data ) as $note_content ) {
+				if ( '' === $note_content ) {
+					continue;
+				}
+				$fetched_contact['notes'][] = [ 'content' => $note_content ];
+			}
+
 			$fetched_contact['update_source'] = 'Contact';
 			$this->cc()->add_note( $fetched_contact );
 		}
@@ -956,6 +1060,10 @@ class ConstantContact_API {
 		$streets = [];
 		if ( ! $updated ) {
 			$contact['notes'] = [];
+		}
+
+		if ( ! isset( $contact['custom_fields'] ) || ! is_array( $contact['custom_fields'] ) ) {
+			$contact['custom_fields'] = [];
 		}
 
 		$address_type = get_post_meta( $form_id, '_ctct_address_type', true );
@@ -1036,9 +1144,13 @@ class ConstantContact_API {
 					$original_field_data = $this->plugin->get_process_form()->get_original_fields( $form_id );
 					$custom_field_name   = '';
 					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
-					$custom_field        = ( $original_field_data[ $original ] );
+					$custom_field        = $original_field_data[ $original ] ?? null; // See: https://wordpress.org/support/topic/fatal-typeerror-replaying-missed-api-requests-after-a-forms-fields-were-edited/
+
+					if ( ! is_array( $custom_field ) || empty( $custom_field['name'] ) ) {
+						break; // Queued request references a form field that no longer exists on the form.
+					}
+
 					$new_custom_field    = '';
-					$contact['custom_fields'] = [];
 					// @todo Fix me.
 					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
 						$custom_field_name .= $custom_field['name'] . ': ';
@@ -1619,6 +1731,38 @@ class ConstantContact_API {
 			}
 		}
 		return $note;
+	}
+
+	/**
+	 * Get the content of every text area (note) submitted to a form.
+	 *
+	 * @since 2026-08-18
+	 *
+	 * @param array $submission_data Array of form data.
+	 *
+	 * @return array List of note content strings, one per submitted text area.
+	 */
+	private function get_note_contents( $submission_data ) {
+		$notes = [];
+
+		if ( ! is_array( $submission_data ) ) {
+			return $notes;
+		}
+
+		foreach ( $submission_data as $key => $data ) {
+			if ( false === strpos( $key, 'custom_text_area' ) ) {
+				continue;
+			}
+
+			$content = is_array( $data ) ? ( $data['val'] ?? '' ) : '';
+			if ( '' === $content ) {
+				continue;
+			}
+
+			$notes[] = $content;
+		}
+
+		return $notes;
 	}
 
 	/**
