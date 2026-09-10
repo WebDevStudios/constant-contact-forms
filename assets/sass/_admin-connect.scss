@@ -316,8 +316,7 @@
 }
 
 // Connection Details
-.ctct-connected-wrap{
-
+.ctct-connected-wrap {
 	.ctct-connection-details{
 		display: flex;
 		text-align: left;
@@ -343,13 +342,21 @@
 		}
 
 		p{
-			overflow: hidden;
-			white-space: nowrap;
-			text-overflow: ellipsis;
-
 			&.ctct-label{
 				justify-content: flex-end;
 			}
+		}
+	}
+
+	#ctct-test-api-result {
+		font-weight: bold;
+		margin-left: 10px;
+		&.success {
+			color: variables.$color-success-dark;
+		}
+
+		&.no-success {
+			color: variables.$color-error-dark;
 		}
 	}
 }
