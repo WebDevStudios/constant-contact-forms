@@ -42,7 +42,7 @@ class ConstantContact_Updates {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		if ( is_admin() ) {
 			add_action( 'plugins_loaded', [ $this, 'check_for_update_needed' ] );
 		}
@@ -54,12 +54,12 @@ class ConstantContact_Updates {
 	 *
 	 * @since 1.0.0
 	 */
-	public function check_for_update_needed() {
+	public function check_for_update_needed(): void {
 
 		$installed = get_option( 'ctct_plugin_version', '0.0.0' );
 		$current   = esc_attr( $this->plugin->version );
 
-		if ( ! version_compare( $current, $installed, '<' ) ) {
+		if ( ! version_compare( $current, $installed, '<' ) && $current !== $installed ) {
 
 			update_option( 'ctct_plugin_version', $current, true );
 
@@ -88,7 +88,7 @@ class ConstantContact_Updates {
 	 *
 	 * @param string $update_id Update key to use for version.
 	 */
-	public function add_notification( string $update_id ) {
+	public function add_notification( string $update_id ): void {
 
 		$current_notifs = get_option( 'ctct_update_notifications', [] );
 		$compare_notifs = $current_notifs;
@@ -111,4 +111,36 @@ class ConstantContact_Updates {
 		}
 	}
 
+	/**
+	 * Version 2.19.0 to 2.22.0.
+	 *
+	 * Force delete this option value due to changing how much gets hashed.
+	 *
+	 * @since 2.22.0
+	 */
+	public function run_update_v2_19_0_to_v2_22_0(): void {
+		update_option( 'ctct_account_domain_hash', '' );
+	}
+
+	/**
+	 * Version 2.20.0 to 2.22.0
+	 *
+	 * Force delete this option value due to changing how much gets hashed.
+	 *
+	 * @since 2.22.0
+	 */
+	public function run_update_v2_20_0_to_v2_22_0(): void {
+		update_option( 'ctct_account_domain_hash', '' );
+	}
+
+	/**
+	 * Version 2.21.0 to 2.22.0
+	 *
+	 * Force delete this option value due to changing how much gets hashed.
+	 *
+	 * @since 2.22.0
+	 */
+	public function run_update_v2_21_0_to_v2_22_0(): void {
+		update_option( 'ctct_account_domain_hash', '' );
+	}
 }
