@@ -440,6 +440,9 @@ class ConstantContact_Connect {
 		delete_option( 'ctct_auth_url' );
 		delete_option( 'ctct_key' );
 
+		delete_transient( 'constant_contact_acct_info' );
+		delete_transient( 'timeout_constant_contact_acct_info' );
+
 		constant_contact_delete_option( '_ctct_form_state_authcode' );
 
 		wp_clear_scheduled_hook( 'ctct_refresh_token_job' );
