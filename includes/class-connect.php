@@ -177,14 +177,14 @@ class ConstantContact_Connect {
 								$account = false;
 
 							try {
-								$account = (object) constant_contact()->get_api()->get_account_info();
+								$account = constant_contact()->get_api()->get_account_info();
 								if ( $account ) {
 									$name = '';
-									if ( ! empty( $account->first_name ) ) {
-										$name .= $account->first_name;
+									if ( ! empty( $account['first_name'] ) ) {
+										$name .= $account['first_name'];
 									}
-									if ( ! empty( $account->last_name ) ) {
-										$name .= $account->last_name;
+									if ( ! empty( $account['last_name'] ) ) {
+										$name .= $account['last_name'];
 									}
 									echo esc_html( $name );
 								}
@@ -201,7 +201,7 @@ class ConstantContact_Connect {
 							<p>
 								<?php
 								if ( $account ) {
-									echo '<a href="mailto:' . esc_html( $account->contact_email ) . '">' . esc_html( $account->contact_email ) . '</a>';
+									echo '<a href="mailto:' . esc_html( $account['contact_email'] ) . '">' . esc_html( $account['contact_email'] ) . '</a>';
 								}
 								?>
 							</p>
