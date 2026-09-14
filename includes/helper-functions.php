@@ -841,7 +841,7 @@ function constant_contact_get_date_field_order( $format = '' ) {
 /**
  * Return an array of timestamps for issued, current, and expected expiration time for current access token.
  *
- * @since NEXT
+ * @since 2.21.0
  *
  * @return array|null
  * @throws Exception
@@ -861,3 +861,31 @@ function constant_contact_get_issued_expired_access_token_times() {
 		'expires' => $obj->format( 'Y-m-d, H:i' ),
 	];
 };
+
+/**
+ * Make a test API request to a general endpoint.
+ *
+ * Meant to just verify access tokens are still valid.
+ *
+ * @since 2.22.0
+ *
+ * @return bool
+ */
+function constant_contact_test_api_ajax_handler(): bool {
+
+	if ( ! current_user_can( 'manage_options' ) ) {
+		exit();
+	}
+
+	if ( ! wp_verify_nonce( $_REQUEST['ctct-test-connection-nonce'], 'ctct-test-connection' ) ) {
+		wp_send_json_error( [ 'nonce-result' => 'failed' ] );
+		exit();
+	}
+
+	$is_connected = constant_contact()->get_api()->cc()->test_connection();
+	$is_connected ?
+		wp_send_json_success( [ 'is_connected' => 'Connection successful' ], 200 ) :
+		wp_send_json_error( [ 'is_connected' => 'Connection failed' ], 200 );
+	exit();
+}
+add_action( 'wp_ajax_constant_contact_test_api_ajax_handler', 'constant_contact_test_api_ajax_handler' );

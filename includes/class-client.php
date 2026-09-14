@@ -273,6 +273,10 @@ class ConstantContact_Client {
 		return $this->get( "contact_lists/list_id_xrefs?sequence_ids={$old_ids_string}", $this->base_args );
 	}
 
+	public function test_connection() {
+		return $this->test( $this->base_args );
+	}
+
 	/**
 	 * GET method for API requests.
 	 *
@@ -433,5 +437,42 @@ class ConstantContact_Client {
 		}
 
 		return json_decode( $response['body'], true );
+	}
+
+	/**
+	 * Method to do a basic API request test, to check on current credentials.
+	 *
+	 * @since 2.22.0
+	 *
+	 * @param array $args
+	 * @return bool
+	 */
+	private function test( array $args = [] ): bool {
+
+		$url = $this->base_url . '/account/user/privileges';
+
+		$options = [
+			/**
+			 * Sets the HTTP timeout, in seconds, for the request.
+			 *
+			 * @since 2.22.0
+			 *
+			 * @param int    $value       The timeout limit, in seconds. Defaults to 30.
+			 * @param string $request_url The request URL.
+			 *
+			 * @return int
+			 */
+			'timeout' => apply_filters( 'http_request_timeout', 30, $url ),
+			'headers' => $args,
+		];
+
+		$response = wp_safe_remote_get( $url, $options );
+		if ( is_wp_error( $response ) ) {
+			return false;
+		}
+
+		$code = wp_remote_retrieve_response_code( $response );
+
+		return 200 === $code;
 	}
 }
