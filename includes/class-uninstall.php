@@ -65,6 +65,8 @@ class ConstantContact_Uninstall {
 			'ctct_refresh_failures',
 			'ctct_account_domain_hash',
 			'ctct_refreshing_token',
+			'ctct_refreshing_token_time', // Lock timestamp added alongside the Finding #6 fix.
+			'ctct_maybe_needs_reconnected',
 			Constant_Contact::$activated_date_option,
 			ConstantContact_Notifications::$dismissed_notices_option,
 			ConstantContact_Notifications::$review_dismissed_option,

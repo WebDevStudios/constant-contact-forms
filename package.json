@@ -11,7 +11,7 @@
     "build": "wp-scripts build",
     "build:release": "run-s styles build scripts:build",
     "format": "wp-scripts format",
-    "dev": "wp-scripts start --output-path 'assets/js'",
+    "dev": "run-p start scripts:watch",
     "lint": "run-p lint:*",
     "lint:css": "wp-scripts lint-style '**/*.scss'",
     "lint:js": "wp-scripts lint-js",
