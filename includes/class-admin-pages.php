@@ -21,17 +21,19 @@ class ConstantContact_Admin_Pages {
 	 * Parent plugin class.
 	 *
 	 * @since 1.0.0
-	 * @var object
+	 *
+	 * @var Constant_Contact
 	 */
-	protected $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @param object $plugin Plugin parent.
+	 *
+	 * @param Constant_Contact $plugin Plugin parent.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
@@ -41,7 +43,7 @@ class ConstantContact_Admin_Pages {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		add_action( 'admin_enqueue_scripts', [ $this, 'styles' ] );
 	}
 
@@ -50,7 +52,7 @@ class ConstantContact_Admin_Pages {
 	 *
 	 * @since 1.0.0
 	 */
-	public function styles() {
+	public function styles(): void {
 		wp_enqueue_style( 'constant-contact-forms-admin' );
 		wp_enqueue_script( 'ctct_form' );
 	}
@@ -60,7 +62,7 @@ class ConstantContact_Admin_Pages {
 	 *
 	 * @since 1.0.0
 	 */
-	public function about_page() {
+	public function about_page(): void {
 
 		$auth_link = '';
 		$new_link  = '';
@@ -139,8 +141,8 @@ class ConstantContact_Admin_Pages {
 
 				<div class="ctct-section">
 					<div class="ctct-button-actions">
-						<a href="post-new.php?post_type=ctct_forms" class="button button-primary"><?php esc_html_e( 'Add contact form', 'constant-contact-forms' ); ?></a>
-						<a href="edit.php?post_type=ctct_lists" class="button"><?php esc_html_e( 'View lists', 'constant-contact-forms' ); ?></a>
+						<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=ctct_forms' ) ); ?>" class="button button-primary"><?php esc_html_e( 'Add contact form', 'constant-contact-forms' ); ?></a>
+						<a href="<?php echo esc_url( admin_url( 'edit.php?post_type=ctct_lists' ) ); ?>" class="button"><?php esc_html_e( 'View lists', 'constant-contact-forms' ); ?></a>
 					</div>
 				</div>
 
@@ -170,7 +172,7 @@ class ConstantContact_Admin_Pages {
 	 *
 	 * @since 1.0.1
 	 */
-	public function license_page() {
+	public function license_page(): void {
 		$license_text = $this->plugin->get_license_text();
 		?>
 		<h2><?php esc_attr_e( 'Constant Contact Forms - License', 'constant-contact-forms' ); ?></h2>

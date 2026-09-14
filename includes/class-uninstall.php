@@ -22,7 +22,7 @@ class ConstantContact_Uninstall {
 	 *
 	 * @since 1.6.0
 	 */
-	public function run() {
+	public function run(): void {
 		$this->delete_options();
 		$this->delete_transients();
 		$this->delete_cron_hooks();
@@ -36,7 +36,7 @@ class ConstantContact_Uninstall {
 	 *
 	 * @return array
 	 */
-	private function get_option_names() {
+	private function get_option_names(): array {
 		$default_options = [
 			'ctct_first_form_modal_dismissed',
 			'ctct_options_settings',
@@ -101,7 +101,7 @@ class ConstantContact_Uninstall {
 	 *
 	 * @return array
 	 */
-	private function get_transient_names() {
+	private function get_transient_names(): array {
 		$default_transients = [
 			'constant_contact_acct_info',
 			'ctct_contact',
@@ -138,7 +138,7 @@ class ConstantContact_Uninstall {
 	 *
 	 * @return array
 	 */
-	private function get_cron_hook_names() {
+	private function get_cron_hook_names(): array {
 		$default_cron_hooks = [
 			'ctct_schedule_form_opt_in',
 			'ctct_refresh_token_job',
@@ -171,7 +171,7 @@ class ConstantContact_Uninstall {
 	 *
 	 * @since 1.6.0
 	 */
-	private function delete_options() {
+	private function delete_options(): void {
 		foreach ( $this->get_option_names() as $option_name ) {
 			delete_option( $option_name );
 		}
@@ -182,7 +182,7 @@ class ConstantContact_Uninstall {
 	 *
 	 * @since 1.6.0
 	 */
-	private function delete_transients() {
+	private function delete_transients(): void {
 		foreach ( $this->get_transient_names() as $transient_name ) {
 			delete_transient( $transient_name );
 		}
@@ -193,7 +193,7 @@ class ConstantContact_Uninstall {
 	 *
 	 * @since 1.6.0
 	 */
-	private function delete_cron_hooks() {
+	private function delete_cron_hooks(): void {
 		foreach ( $this->get_cron_hook_names() as $cron_hook_name ) {
 			wp_clear_scheduled_hook( $cron_hook_name );
 		}
@@ -205,7 +205,7 @@ class ConstantContact_Uninstall {
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.2
 	 */
-	private function delete_log_dir() {
+	private function delete_log_dir(): void {
 		constant_contact()->get_logging()->delete_current_log_dir();
 	}
 }
