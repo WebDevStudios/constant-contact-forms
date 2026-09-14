@@ -49,7 +49,7 @@ class ConstantContact_reCAPTCHA {
 	 * @var string
 	 * @since 1.7.0
 	 */
-	protected $lang_code;
+	protected string $lang_code;
 
 	/**
 	 * Google reCAPTCHA instance.
@@ -66,7 +66,7 @@ class ConstantContact_reCAPTCHA {
 	 *
 	 * @param ReCaptcha $recaptcha Google reCAPTCHA instance.
 	 */
-	public function set_recaptcha_class( ReCaptcha $recaptcha ) {
+	public function set_recaptcha_class( ReCaptcha $recaptcha ): void {
 		$this->recaptcha = $recaptcha;
 	}
 
@@ -76,7 +76,7 @@ class ConstantContact_reCAPTCHA {
 	 * @since 1.7.0
 	 * @param string $lang_code Language code for the reCAPTCHA object.
 	 */
-	public function set_language( string $lang_code ) {
+	public function set_language( string $lang_code ): void {
 		$this->lang_code = $lang_code;
 	}
 
@@ -86,7 +86,7 @@ class ConstantContact_reCAPTCHA {
 	 * @since 1.7.0
 	 * @return string $lang_code Language code for the reCAPTCHA object.
 	 */
-	public function get_language() {
+	public function get_language(): string {
 		return $this->lang_code;
 	}
 
@@ -97,7 +97,7 @@ class ConstantContact_reCAPTCHA {
 	 *
 	 * @return bool
 	 */
-	public static function has_recaptcha_keys() {
+	public static function has_recaptcha_keys(): bool {
 		$site_key   = constant_contact_get_option( '_ctct_recaptcha_site_key', '' );
 		$secret_key = constant_contact_get_option( '_ctct_recaptcha_secret_key', '' );
 
@@ -111,7 +111,7 @@ class ConstantContact_reCAPTCHA {
 	 *
 	 * @return array
 	 */
-	public function get_recaptcha_keys() {
+	public function get_recaptcha_keys(): array {
 		$keys               = [];
 		$keys['site_key']   = constant_contact_get_option( '_ctct_recaptcha_site_key', '' );
 		$keys['secret_key'] = constant_contact_get_option( '_ctct_recaptcha_secret_key', '' );
@@ -124,7 +124,7 @@ class ConstantContact_reCAPTCHA {
 	 *
 	 * @since 1.7.0
 	 */
-	public function set_recaptcha_keys() {
+	public function set_recaptcha_keys(): void {
 		$keys = $this->get_recaptcha_keys();
 
 		$this->site_key   = $keys['site_key'];
@@ -138,7 +138,7 @@ class ConstantContact_reCAPTCHA {
 	 *
 	 * @return mixed
 	 */
-	public function get_recaptcha_version() {
+	public function get_recaptcha_version(): string {
 		if ( ! isset( $this->version ) ) {
 			$this->set_recaptcha_version();
 		}
@@ -151,7 +151,7 @@ class ConstantContact_reCAPTCHA {
 	 *
 	 * @since 1.7.0
 	 */
-	public function set_recaptcha_version() {
+	public function set_recaptcha_version(): void {
 		$this->version = constant_contact_get_option( '_ctct_recaptcha_version', '' );
 	}
 }

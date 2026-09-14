@@ -92,8 +92,10 @@ function constant_contact_maybe_display_review_notification(): bool {
 
 /**
  * Handles the notice of if we have exceptions existing.
- * @return bool
+ *
  * @since 1.6.0
+ *
+ * @return bool
  */
 function constant_contact_maybe_display_exceptions_notice(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
@@ -107,8 +109,10 @@ function constant_contact_maybe_display_exceptions_notice(): bool {
 
 /**
  * Determine whether to display the deleted forms notice in admin.
+ *
+ * @since 1.8.0
+ *
  * @return bool Whether to display the deleted forms notice.
- * @since  1.8.0
  */
 function constant_contact_maybe_display_deleted_forms_notice(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
@@ -150,8 +154,10 @@ function constant_contact_forms_maybe_set_exception_notice( $e = '' ) {
 
 /**
  * Maybe show notification about API v3 changes.
- * @return bool
+ *
  * @since 1.14.0
+ *
+ * @return bool
  */
 function constant_contact_maybe_display_api3_upgrade_notice(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
@@ -165,8 +171,10 @@ function constant_contact_maybe_display_api3_upgrade_notice(): bool {
 
 /**
  * Maybe show notification about newly implemented API v3 changes.
- * @return bool|int
+ *
  * @since 2.0.0
+ *
+ * @return bool
  */
 function constant_contact_maybe_display_api3_upgraded_notice(): bool {
 	if ( ! current_user_can( 'manage_options' ) ) {
@@ -251,6 +259,8 @@ function constant_contact_maybe_show_list_notes_notification(): bool {
  * Maybe display our list selection reminder.
  *
  * @since 2.15.0
+ *
+ * @throws Exception
  *
  * @return bool
  */

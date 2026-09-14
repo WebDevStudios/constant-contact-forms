@@ -21,7 +21,7 @@
  * @param  string $default Default value if no option exists.
  * @return mixed           Option value.
  */
-function ctct_get_settings_option( $key = '', $default = null ) {
+function ctct_get_settings_option( $key = '', $default = null ): mixed {
 	_deprecated_function( __FUNCTION__, '1.9.0', 'constant_contact_get_option' );
 
 	return constant_contact_get_option( $key, $default );
@@ -38,7 +38,7 @@ function ctct_get_settings_option( $key = '', $default = null ) {
  *
  * @return bool|array
  */
-function ctct_custom_form_action_processing() {
+function ctct_custom_form_action_processing(): mixed {
 	_deprecated_function( __FUNCTION__, '1.9.0', 'constant_contact_process_form_custom' );
 
 	return constant_contact_process_form_custom();
@@ -53,7 +53,7 @@ function ctct_custom_form_action_processing() {
  *
  * @return bool
  */
-function ctct_has_forms() {
+function ctct_has_forms(): bool {
 	_deprecated_function( __FUNCTION__, '1.9.0', 'constant_contact_has_forms' );
 
 	return constant_contact_has_forms();
@@ -65,7 +65,7 @@ function ctct_has_forms() {
  * @since      1.0.0
  * @deprecated 2.11.0
  */
-function constantcontact_api() {
+function constantcontact_api(): ConstantContact_API {
 	_deprecated_function( __FUNCTION__, '2.11.0', 'constant_contact()->get_api()' );
 
 	return constant_contact()->get_api();
