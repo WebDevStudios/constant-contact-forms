@@ -493,6 +493,9 @@ class ConstantContact_API {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
 				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed (attempt ' . $failures . '/5). Will retry. Attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
 				$status['reason'] = 'transient_failure';
+
+				sleep( 2 );
+
 				$this->refresh_token();
 			}
 
