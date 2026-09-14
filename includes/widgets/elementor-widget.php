@@ -25,7 +25,7 @@ class ConstantContact_Elementor_Widget extends Widget_Base {
 	 *
 	 * @since 1.10.0
 	 */
-	public function get_name() : string{
+	public function get_name(): string {
 		return 'constant-contact';
 	}
 
@@ -34,7 +34,7 @@ class ConstantContact_Elementor_Widget extends Widget_Base {
 	 *
 	 * @since 1.10.0
 	 */
-	public function get_title() {
+	public function get_title(): string {
 		return esc_html__( 'Constant Contact Form', 'constant-contact-forms' );
 	}
 
@@ -43,7 +43,7 @@ class ConstantContact_Elementor_Widget extends Widget_Base {
 	 *
 	 * @since 1.10.0
 	 */
-	public function get_icon() : string {
+	public function get_icon(): string {
 		return 'eicon-form-horizontal';
 	}
 
@@ -52,7 +52,7 @@ class ConstantContact_Elementor_Widget extends Widget_Base {
 	 *
 	 * @since 1.10.0
 	 */
-	public function get_categories() : array {
+	public function get_categories(): array {
 		return [ 'basic' ];
 	}
 
@@ -63,7 +63,7 @@ class ConstantContact_Elementor_Widget extends Widget_Base {
 	 *
 	 * @return string[]
 	 */
-	public function get_keywords() : array {
+	public function get_keywords(): array {
 		return [ 'contact', 'form', 'constant' ];
 	}
 
@@ -72,7 +72,7 @@ class ConstantContact_Elementor_Widget extends Widget_Base {
 	 *
 	 * @since 1.10.0
 	 */
-	protected function register_controls() {
+	protected function register_controls(): void {
 
 		$this->start_controls_section(
 			'section_title',
@@ -110,7 +110,7 @@ class ConstantContact_Elementor_Widget extends Widget_Base {
 	 *
 	 * @since 1.10.0
 	 */
-	private function get_form_options() : array {
+	private function get_form_options(): array {
 
 		$options = [];
 
@@ -138,7 +138,7 @@ class ConstantContact_Elementor_Widget extends Widget_Base {
 	 *
 	 * @since 1.10.0
 	 */
-	protected function render() {
+	protected function render(): void {
 		$settings = $this->get_settings_for_display();
 
 		if ( empty( $settings['form_id'] ) ) {

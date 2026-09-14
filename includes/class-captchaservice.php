@@ -53,7 +53,7 @@ class ConstantContact_CaptchaService {
 	 *
 	 * @return string The captcha service in use.
 	 */
-	public function get_selected_captcha_service() : string {
+	public function get_selected_captcha_service(): string {
 		$settings_values = get_option( $this->plugin_settings_key );
 
 		return $settings_values[ $this->captcha_service_option_key ] ?? '';
@@ -67,7 +67,7 @@ class ConstantContact_CaptchaService {
 	 *
 	 * @return bool True if a captcha service is selected and keys are present, or false otherwise.
 	 */
-	public function is_captcha_enabled() : bool {
+	public function is_captcha_enabled(): bool {
 		$captcha_service = $this->get_selected_captcha_service();
 
 		// Bail early if the settings aren't available.
@@ -75,19 +75,12 @@ class ConstantContact_CaptchaService {
 			return false;
 		}
 
-		switch ( $captcha_service ) {
-			case 'recaptcha' :
-				return ConstantContact_reCAPTCHA::has_recaptcha_keys();
-
-			case 'hcaptcha' :
-				return ConstantContact_hCaptcha::has_hcaptcha_keys();
-
-			case 'turnstile' :
-				return ConstantContact_Turnstile::has_turnstile_keys();
-
-			default:
-				return false;
-		}
+		return match ( $captcha_service ) {
+			'recaptcha' => ConstantContact_reCAPTCHA::has_recaptcha_keys(),
+			'hcaptcha' => ConstantContact_hCaptcha::has_hcaptcha_keys(),
+			'turnstile' => ConstantContact_Turnstile::has_turnstile_keys(),
+			default => false,
+		};
 	}
 
 	/**
@@ -100,7 +93,7 @@ class ConstantContact_CaptchaService {
 	 * @since 2.9.0
 	 * @since 2.16.0 Added Cloudflare Turnstile support
 	 */
-	private function maybe_initialize_captcha_service_option() {
+	private function maybe_initialize_captcha_service_option(): void {
 		$plugin_settings = get_option( $this->plugin_settings_key );
 
 		// Bail if no options have been saved yet. We'll let the user set the options manually since nothing needs to be migrated.

@@ -172,7 +172,7 @@ class ConstantContact_API_Utility {
 	 * @param string $access_token
 	 * @return array
 	 */
-	public function parse_access_token_data( string $access_token ) {
+	public function parse_access_token_data( string $access_token ): array {
 		if ( empty( $access_token ) ) {
 			return [];
 		}
