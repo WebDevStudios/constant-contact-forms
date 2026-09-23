@@ -8,7 +8,7 @@ class ConstantContact_Attached_Lists_Field {
 	/**
 	 * Current version number
 	 */
-	const string VERSION = '1.0.0';
+	const VERSION = '1.0.0';
 
 	/**
 	 * CMB2_Field object
