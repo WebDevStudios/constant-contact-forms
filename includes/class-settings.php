@@ -809,7 +809,7 @@ class ConstantContact_Settings {
 				'name'       => esc_html__( 'Auth code and state', 'constant-contact-forms' ),
 				'id'         => '_ctct_form_state_authcode',
 				'type'       => 'text',
-				'desc'       => esc_html__( 'Paste the string you copied from the app. These are one time use, so the value entered here will be processed but not retained. If you need to reconnect, you will need to go throught the authorization process again and get a new code and state.', 'constant-contact-forms' ),
+				'desc'       => esc_html__( 'Paste the string you copied from the app. These are one time use, so the value entered here will be processed but not retained. If you need to reconnect, you will need to go through the authorization process again and get a new code and state.', 'constant-contact-forms' ),
 				'before_row' => $before_api_key,
 			]
 		);
