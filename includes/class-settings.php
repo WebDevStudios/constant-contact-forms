@@ -450,10 +450,13 @@ class ConstantContact_Settings {
 	protected function register_fields_optin(): void {
 		$cmb = new_cmb2_box( $this->get_cmb_args( 'optin' ) );
 
-		if ( empty( $_GET['page'] ) || 'ctct_options_settings_optin' !== $_GET['page'] ) {
-			if ( empty( $_POST ) ) {
-				return;
-			}
+		$page   = filter_input( INPUT_GET, 'page', FILTER_SANITIZE_SPECIAL_CHARS );
+		$action = filter_input( INPUT_POST, 'action', FILTER_SANITIZE_SPECIAL_CHARS );
+
+		// Register fields when viewing the opt-in tab (GET) or saving it (POST via admin-post.php,
+		// which has no 'page' query var but carries the option key in the 'action' field).
+		if ( 'ctct_options_settings_optin' !== $page && 'ctct_options_settings_optin' !== $action ) {
+			return;
 		}
 
 		if ( constant_contact()->get_api()->is_connected() ) {
@@ -505,7 +508,6 @@ class ConstantContact_Settings {
 						'id'         => '_ctct_disclose_name',
 						'type'       => 'text',
 						'default'    => $business_name,
-						'attributes' => ! empty( $business_name ) ? [ 'readonly' => 'readonly' ] : [],
 					]
 				);
 
@@ -515,7 +517,6 @@ class ConstantContact_Settings {
 						'id'         => '_ctct_disclose_address',
 						'type'       => 'text',
 						'default'    => $business_addr,
-						'attributes' => ! empty( $business_addr ) ? [ 'readonly' => 'readonly' ] : [],
 					]
 				);
 
@@ -808,7 +809,7 @@ class ConstantContact_Settings {
 				'name'       => esc_html__( 'Auth code and state', 'constant-contact-forms' ),
 				'id'         => '_ctct_form_state_authcode',
 				'type'       => 'text',
-				'desc'       => 'Paste the string you copied from the app',
+				'desc'       => esc_html__( 'Paste the string you copied from the app. These are one time use, so the value entered here will be processed but not retained. If you need to reconnect, you will need to go through the authorization process again and get a new code and state.', 'constant-contact-forms' ),
 				'before_row' => $before_api_key,
 			]
 		);

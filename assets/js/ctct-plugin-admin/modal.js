@@ -24,9 +24,6 @@ window.CTCTModal = {};
 			window                   : window,
 			notConnectedModalSelector: document.querySelector('#ctct-not-connected-modal'),
 			notConnectedModalClose   : document.querySelector('#ctct-not-connected-modal .ctct-modal-close'),
-			textareaModal            : document.querySelector('#ctct-custom-textarea-modal'),
-			textareaLink             : document.querySelector('#ctct-open-textarea-info'),
-			textareaModalClose       : document.querySelector('#ctct-custom-textarea-modal .ctct-modal-close'),
 			deleteLogLink            : document.querySelector('#deletelog')
 		};
 	};
@@ -60,18 +57,6 @@ window.CTCTModal = {};
 						}
 						console.log(response.data.message);
 					});
-			});
-		}
-
-		if (app.cache.textareaModalClose) {
-			app.cache.textareaModalClose.addEventListener('click', (e) => {
-				app.cache.textareaModal.classList.remove('ctct-modal-open');
-			})
-		}
-
-		if (app.cache.textareaLink) {
-			app.cache.textareaLink.addEventListener('click', () => {
-				app.cache.textareaModal.classList.add('ctct-modal-open');
 			});
 		}
 
