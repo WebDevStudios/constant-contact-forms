@@ -279,36 +279,19 @@ class ConstantContact_API {
 
 		// Check if we should attempt a refresh, beyond just cron checks.
 		if ( $issued_time > 0 && $threshold >= $refresh_after ) {
-			/*
-			 * Finding #2: get_option() returns boolean `false` (not the
-			 * string 'false') when this option doesn't exist yet -- which is
-			 * exactly the case right after a fresh connection. The previous
-			 * strict `'false' === get_option( 'ctct_refreshing_token' )`
-			 * check (no default) evaluated to false in that scenario,
-			 * silently skipping this entire proactive-refresh block the
-			 * first time the threshold was crossed on a newly-connected
-			 * site. Passing an explicit 'false' default fixes the comparison.
-			 */
-			if ( 'false' === get_option( 'ctct_refreshing_token', 'false' ) ) {
+			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_maybe_log_it( 'API', 'Attempting refresh in get_api_token.' );
+
+			// Locking, including stale-lock recovery, is handled inside refresh_token().
+			$result = $this->refresh_token();
+
+			if ( $result['success'] ) {
+				$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
+			} elseif ( $result['reason'] ) {
+				// Keep the existing token: refreshes start early, so it is often still valid,
+				// and if it has expired the reactive 401 retry path handles it.
 				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'API', 'Attempting refresh in get_api_token.' );
-
-				// This should not be reached constantly. Once we have a new token,
-				// the threshold won't be within time.
-				// This method is more readily called than potential cron requests, so
-				// hopefully we're more actively refreshed.
-				$result = $this->refresh_token();
-
-				if ( ! $result['success'] && $result['reason'] ) {
-					add_filter( 'constant_contact_force_logging', '__return_true' );
-					constant_contact_maybe_log_it( 'API', 'Refresh token attempt failed in get_api_token. ' . $result['reason'] );
-					$token = ''; // Reset to default from this method.
-				}
-
-				if ( $result['success'] ) {
-					// Should be new access token.
-					$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
-				}
+				constant_contact_maybe_log_it( 'API', 'Refresh token attempt failed in get_api_token. ' . $result['reason'] );
 			}
 		}
 
@@ -325,7 +308,9 @@ class ConstantContact_API {
 	 */
 	public function acquire_access_token(): bool {
 
-		if ( 'false' !== get_option( 'ctct_acquiring_token', 'false' ) ) {
+		// A lock older than 60 seconds is stale (e.g. the holding process died) and is reclaimed.
+		$lock_age = time() - (int) get_option( 'ctct_acquiring_token_time', 0 );
+		if ( 'true' === get_option( 'ctct_acquiring_token', 'false' ) && $lock_age < 60 ) {
 			return false;
 		}
 
@@ -350,9 +335,11 @@ class ConstantContact_API {
 			return false;
 		}
 
-		update_option( 'ctct_acquiring_token', 'true', false );
-
 		$code_state = $options['_ctct_form_state_authcode'];
+
+		// Authorization codes are single-use: clear the pasted value now so no later
+		// request replays it, whether this attempt succeeds, fails or is rejected below.
+		constant_contact_delete_option( '_ctct_form_state_authcode' );
 
 		parse_str( $code_state, $parsed_code_state );
 		$parsed_code_state = array_values( $parsed_code_state );
@@ -377,6 +364,9 @@ class ConstantContact_API {
 
 			return false;
 		}
+
+		update_option( 'ctct_acquiring_token', 'true', false );
+		update_option( 'ctct_acquiring_token_time', time(), false );
 
 		add_filter( 'constant_contact_force_logging', '__return_true' );
 		constant_contact_maybe_log_it( 'API', 'Access token triggered' );
@@ -410,29 +400,35 @@ class ConstantContact_API {
 			'timeout' => apply_filters( 'http_request_timeout', 30, $url )
 		];
 
-		// This will be either true or false.
-		$result = $this->exec( $url, $options, 'access' );
+		try {
+			// This will be either true or false.
+			$result = $this->exec( $url, $options, 'access' );
 
-		if ( false === $result ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_maybe_log_it( 'Access Token:', 'Authentication to get access token error occurred' );
-			if ( ! empty( $this->last_error ) ) {
+			if ( false === $result ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'Access Token:', 'Error: ' . $this->last_error );
+				constant_contact_maybe_log_it( 'Access Token:', 'Authentication to get access token error occurred' );
+				if ( ! empty( $this->last_error ) ) {
+					add_filter( 'constant_contact_force_logging', '__return_true' );
+					constant_contact_maybe_log_it( 'Access Token:', 'Error: ' . $this->last_error );
+				}
+				constant_contact_set_needs_manual_reconnect( 'true' );
+			} else {
+				// This state/verifier pair has been used; the next Connect link generates a new one.
+				delete_option( 'CtctConstantContactState' );
+				delete_option( 'CtctConstantContactcode_verifier' );
+
+				/**
+				 * Fires after successful access token acquisition.
+				 * @since 2.3.0
+				 */
+				do_action( 'ctct_access_token_acquired' );
+
+				constant_contact_set_needs_manual_reconnect( 'false' );
 			}
-			constant_contact_set_needs_manual_reconnect( 'true' );
-		} else {
-
-			/**
-			 * Fires after successful access token acquisition.
-			 * @since 2.3.0
-			 */
-			do_action( 'ctct_access_token_acquired' );
-
-			constant_contact_set_needs_manual_reconnect( 'false' );
+		} finally {
+			update_option( 'ctct_acquiring_token', 'false', false );
 		}
 
-		update_option( 'ctct_acquiring_token', 'false', false );
 		return $result;
 	}
 
@@ -485,8 +481,8 @@ class ConstantContact_API {
 		 */
 		$lock_age = time() - (int) get_option( 'ctct_refreshing_token_time', 0 );
 		if ( 'true' === get_option( 'ctct_refreshing_token', 'false' ) && $lock_age < 60 ) {
-			$status['success'] = false;
-			$status['reason']  = 'already_refreshing';
+			$status['success'] = $this->wait_for_concurrent_refresh( $token );
+			$status['reason']  = $status['success'] ? 'refreshed_by_concurrent_request' : 'already_refreshing';
 
 			return $status;
 		}
@@ -496,88 +492,119 @@ class ConstantContact_API {
 		update_option( 'ctct_refreshing_token', 'true', false );
 		update_option( 'ctct_refreshing_token_time', time(), false );
 
-		// Create full request URL
-		$body = [
-			'client_id'     => $this->client_api_key,
-			'refresh_token' => constant_contact()->get_connect()->e_get( '_ctct_refresh_token' ),
-			'redirect_uri'  => $this->redirect_URI,
-			'grant_type'    => 'refresh_token',
-		];
+		try {
+			// Create full request URL
+			$body = [
+				'client_id'     => $this->client_api_key,
+				'refresh_token' => constant_contact()->get_connect()->e_get( '_ctct_refresh_token' ),
+				'redirect_uri'  => $this->redirect_URI,
+				'grant_type'    => 'refresh_token',
+			];
 
-		$url     = $this->oauth2_url;
-		$headers = $this->set_authorization();
+			$url     = $this->oauth2_url;
+			$headers = $this->set_authorization();
 
-		$options = [
-			'body'    => $body,
-			'headers' => $headers,
-			/**
-			 * Sets the HTTP timeout, in seconds, for the request.
-			 *
-			 * @since 2.20.0
-			 *
-			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
-			 * @param string $request_url The request URL.
-			 *
-			 * @return int
-			 */
-			'timeout' => apply_filters( 'http_request_timeout', 30, $url )
-		];
-
-		$result = $this->exec( $url, $options, 'refresh' );
-
-		if ( false === $result ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh error occurred' );
-			if ( ! empty( $this->last_error ) ) {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Overall error: ' . $this->last_error );
-			}
-
-			$failures ++;
-			update_option( 'ctct_refresh_failures', $failures );
-
-			// Distinguish between a definitive auth failure and a transient error.
-			// Only require manual reconnect for invalid_grant (revoked/expired refresh
-			// token) or after 5 consecutive failures of any kind.
-			if ( str_contains( $this->last_error, 'invalid_grant' ) ) {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token revoked (invalid_grant). Manual reconnect required.' );
-				constant_contact_set_needs_manual_reconnect( 'true' );
-				$status['reason'] = 'expired';
-			} elseif ( $failures >= 5 ) {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed ' . $failures . ' consecutive times. Manual reconnect required.' );
-				constant_contact_set_needs_manual_reconnect( 'true' );
-				$status['reason'] = 'max_retries_exceeded';
-			} else {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed (attempt ' . $failures . '/5). Will retry. Attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
-				$status['reason'] = 'transient_failure';
-				/*
-				 * Finding #6: this used to recurse into another synchronous
-				 * refresh_token() call immediately, with no delay. Under a
-				 * genuine outage that compounds the problem -- every request
-				 * hits the failing endpoint again right away, plus unbounded
-				 * call-stack recursion if the outage persists -- instead of
-				 * backing off. Leave it to the next natural trigger (the next
-				 * request's get_api_token() threshold check, or the next
-				 * reactive 401) to retry instead.
+			$options = [
+				'body'    => $body,
+				'headers' => $headers,
+				/**
+				 * Sets the HTTP timeout, in seconds, for the request.
+				 *
+				 * @since 2.20.0
+				 *
+				 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+				 * @param string $request_url The request URL.
+				 *
+				 * @return int
 				 */
+				'timeout' => apply_filters( 'http_request_timeout', 30, $url )
+			];
+
+			$result = $this->exec( $url, $options, 'refresh' );
+
+			if ( false === $result ) {
+				add_filter( 'constant_contact_force_logging', '__return_true' );
+				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh error occurred' );
+				if ( ! empty( $this->last_error ) ) {
+					add_filter( 'constant_contact_force_logging', '__return_true' );
+					constant_contact_maybe_log_it( 'Refresh Token:', 'Overall error: ' . $this->last_error );
+				}
+
+				$failures ++;
+				update_option( 'ctct_refresh_failures', $failures );
+
+				// Distinguish between a definitive auth failure and a transient error.
+				// Only require manual reconnect for invalid_grant (revoked/expired refresh
+				// token) or after 5 consecutive failures of any kind.
+				if ( str_contains( $this->last_error, 'invalid_grant' ) ) {
+					add_filter( 'constant_contact_force_logging', '__return_true' );
+					constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token revoked (invalid_grant). Manual reconnect required.' );
+					constant_contact_set_needs_manual_reconnect( 'true' );
+					$status['reason'] = 'expired';
+				} elseif ( $failures >= 5 ) {
+					add_filter( 'constant_contact_force_logging', '__return_true' );
+					constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed ' . $failures . ' consecutive times. Manual reconnect required.' );
+					constant_contact_set_needs_manual_reconnect( 'true' );
+					$status['reason'] = 'max_retries_exceeded';
+				} else {
+					add_filter( 'constant_contact_force_logging', '__return_true' );
+					constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed (attempt ' . $failures . '/5). Will retry. Attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
+					$status['reason'] = 'transient_failure';
+					/*
+					 * Finding #6: this used to recurse into another synchronous
+					 * refresh_token() call immediately, with no delay. Under a
+					 * genuine outage that compounds the problem -- every request
+					 * hits the failing endpoint again right away, plus unbounded
+					 * call-stack recursion if the outage persists -- instead of
+					 * backing off. Leave it to the next natural trigger (the next
+					 * request's get_api_token() threshold check, or the next
+					 * reactive 401) to retry instead.
+					 */
+				}
+
+				$status['success'] = false;
+			} else {
+				delete_transient( 'ctct_lists' );
+				update_option( 'ctct_access_token_timestamp', time() );
+				update_option( 'ctct_refresh_failures', 0 );
+				constant_contact_set_needs_manual_reconnect( 'false' );
+
+				$status['success'] = true;
+				$status['reason']  = 'refreshed';
 			}
-
-			$status['success'] = false;
-		} else {
-			delete_transient( 'ctct_lists' );
-			update_option( 'ctct_access_token_timestamp', time() );
-			update_option( 'ctct_refresh_failures', 0 );
-			constant_contact_set_needs_manual_reconnect( 'false' );
-
-			$status['success'] = true;
-			$status['reason']  = 'refreshed';
+		} finally {
+			update_option( 'ctct_refreshing_token', 'false', false );
 		}
 
-		update_option( 'ctct_refreshing_token', 'false', false );
 		return $status;
+	}
+
+	/**
+	 * Wait for another request's in-flight refresh to finish.
+	 *
+	 * @since NEXT
+	 *
+	 * @param string $old_refresh_token Refresh token stored before waiting.
+	 * @param int    $max_wait          Maximum seconds to wait.
+	 * @return bool Whether the other request stored a new token.
+	 */
+	private function wait_for_concurrent_refresh( string $old_refresh_token, int $max_wait = 10 ): bool {
+		for ( $i = 0; $i < $max_wait; $i++ ) {
+			sleep( 1 );
+
+			// Bypass the object cache so the other request's writes are visible.
+			wp_cache_delete( 'ctct_refreshing_token', 'options' );
+			wp_cache_delete( '_ctct_refresh_token', 'options' );
+			wp_cache_delete( '_ctct_access_token', 'options' );
+
+			if ( 'true' !== get_option( 'ctct_refreshing_token', 'false' ) ) {
+				$new_refresh_token = constant_contact()->get_connect()->e_get( '_ctct_refresh_token' );
+
+				return ! empty( $new_refresh_token ) && $old_refresh_token !== $new_refresh_token;
+			}
+		}
+
+		return false;
 	}
 
 	/**

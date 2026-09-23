@@ -435,6 +435,7 @@ class ConstantContact_Connect {
 		delete_option( 'ctct_maybe_needs_reconnected' );
 		delete_option( 'ctct_account_domain_hash' );
 		delete_option( 'ctct_acquiring_token' );
+		delete_option( 'ctct_acquiring_token_time' );
 		delete_option( 'ctct_refreshing_token' );
 		delete_option( 'ctct_refreshing_token_time' ); // Lock timestamp added alongside the Finding #6 fix.
 		delete_option( 'ctct_refresh_failures' );

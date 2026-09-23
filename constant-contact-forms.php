@@ -519,6 +519,7 @@ class Constant_Contact {
 		delete_option( 'ctct_key' );
 		delete_option( 'ctct_maybe_needs_reconnected' );
 		delete_option( 'ctct_acquiring_token' );
+		delete_option( 'ctct_acquiring_token_time' );
 		delete_option( 'ctct_refreshing_token' );
 		delete_option( 'ctct_refreshing_token_time' );
 		constant_contact_delete_option( '_ctct_form_state_authcode' );
