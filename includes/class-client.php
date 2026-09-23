@@ -462,8 +462,11 @@ class ConstantContact_Client {
 			$data['error_message'] = $data[0]['error_message'] ?? '';
 		}
 
-		// A 401 with no (or an unrecognized) error body should still be treated as unauthorized.
-		if ( ! isset( $data['error_key'] ) && 401 === (int) $status_code ) {
+		// Any 401 is treated as unauthorized so callers refresh and retry; keep the original key for logging.
+		if ( 401 === (int) $status_code ) {
+			if ( isset( $data['error_key'] ) && 'unauthorized' !== $data['error_key'] ) {
+				$data['original_error_key'] = $data['error_key'];
+			}
 			$data['error_key']     = 'unauthorized';
 			$data['error_message'] = $data['error_message'] ?? 'Unauthorized (HTTP 401)';
 		}
