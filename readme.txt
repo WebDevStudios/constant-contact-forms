@@ -2,7 +2,7 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
-Tested up to:      7.0
+Tested up to:      7.1.2
 Stable tag:        2.22.0
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -48,7 +48,19 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 == Changelog ==
 
 = 2.22.0 =
-* TBD
+* Added: Manual API Test button.
+* Updated: Implement a real cron-based token health-check safety net.
+* Fixed: Connecting from one account then manually disconnecting and trying to connect to another account would still show you logged into the first account.
+* Fixed: Correct get_option default bug in proactive refresh check.
+* Fixed: Base refresh threshold on real _ctct_expires_in instead of hardcoded 82800.
+* Fixed: Detect array-shaped errors and HTTP 401 in class-client.php.
+* Fixed: Reduce refresh_token race condition and remove unbounded recursion.
+* Fixed: Remove http/https protocols from connecting URL hash comparisons to prevent disconnect detection when protocol is changed.
+* Fixed: Fatal TypeError when replaying missed API requests referencing removed form fields. Props https://github.com/rodrigo-arias
+* Fixed: Custom fields being dropped reported by Props rodrigo-arias.
+* Fixed: Only one text area (note) was supported for submission to Constant Contact.
+* Fixed: Encryption Ready checks.
+* Fixed: Opt-in settings page not saving.
 
 = 2.21.0 =
 * Updated: Temporarily removing the forced disconnection and API key removal, when domain differences are suspected. Added logging indicating we got to that point.

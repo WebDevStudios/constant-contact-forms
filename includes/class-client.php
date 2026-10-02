@@ -438,7 +438,7 @@ class ConstantContact_Client {
 	 * error onto the top level in both cases so the existing callers work
 	 * unchanged.
 	 *
-	 * @since NEXT
+	 * @since 2.22.0
 	 *
 	 * @param array|WP_Error $response Response from a wp_safe_remote_* call.
 	 * @return array

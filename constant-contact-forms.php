@@ -488,7 +488,7 @@ class Constant_Contact {
 	/**
 	 * Re-schedule the token refresh cron job if it isn't currently scheduled.
 	 *
-	 * @since NEXT
+	 * @since 2.22.0
 	 *
 	 * @return void
 	 */
@@ -630,7 +630,7 @@ class Constant_Contact {
 
 	/**
 	 * Basename getter
-	 * @since NEXT
+	 * @since 2.22.0
 	 * @return string
 	 */
 	public function get_basename(): string {

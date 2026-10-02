@@ -140,7 +140,7 @@ class ConstantContact_API {
 	 * Cron callback: periodically checks whether the access token is due for
 	 * a refresh, independent of live site traffic.
 	 *
-	 * @since NEXT
+	 * @since 2.22.0
 	 *
 	 * @return void
 	 */
@@ -582,7 +582,7 @@ class ConstantContact_API {
 	/**
 	 * Wait for another request's in-flight refresh to finish.
 	 *
-	 * @since NEXT
+	 * @since 2.22.0
 	 *
 	 * @param string $old_refresh_token Refresh token stored before waiting.
 	 * @param int    $max_wait          Maximum seconds to wait.
