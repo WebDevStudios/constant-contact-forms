@@ -25,7 +25,7 @@ class ConstantContact_reCAPTCHA_v3 extends ConstantContact_reCAPTCHA {
 	 *
 	 * @since 1.7.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts(): void {
 		$this->set_recaptcha_keys();
 
 		if ( ! ConstantContact_reCAPTCHA::has_recaptcha_keys() ) {

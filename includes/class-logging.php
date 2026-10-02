@@ -29,9 +29,9 @@ class ConstantContact_Logging {
 	 * Parent plugin class.
 	 *
 	 * @since 1.3.7
-	 * @var object
+	 * @var Constant_Contact
 	 */
-	protected object $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Logging admin page URL.
@@ -112,9 +112,11 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 *
-	 * @param object $plugin Parent class.
+	 * @throws Exception
+	 *
+	 * @param Constant_Contact $plugin Parent class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin      = $plugin;
 		$this->options_url = admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_logging' );
 		$uploads_dir       = wp_upload_dir();
@@ -139,7 +141,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		add_action( 'admin_menu', [ $this, 'add_options_page' ] );
 		add_action( 'admin_init', [ $this, 'delete_log_file' ] );
 		add_action( 'admin_init', [ $this, 'maybe_delete_old_log_dir' ] );
@@ -153,7 +155,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 */
-	public function scripts() {
+	public function scripts(): void {
 		$screen = get_current_screen();
 		if ( 'ctct_forms_page_ctct_options_logging' !== $screen->base ) {
 			return;
@@ -168,7 +170,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 */
-	public function dialog() {
+	public function dialog(): void {
 		?>
 		<div id="confirmdelete" style="display:none;">
 			<?php esc_html_e( 'Are you sure you want to delete current logs?', 'constant-contact-forms' ); ?>
@@ -181,7 +183,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 */
-	public function add_options_page() {
+	public function add_options_page(): void {
 
 		$debugging_enabled = constant_contact_get_option( '_ctct_logging', '' );
 
@@ -206,7 +208,7 @@ class ConstantContact_Logging {
 	 * @author Michael Beckwith <michael@webdevstudios.com>
 	 * @since  1.4.5
 	 */
-	public function set_file_system() {
+	public function set_file_system(): void {
 		global $wp_filesystem;
 		WP_Filesystem();
 		$this->file_system = $wp_filesystem;
@@ -217,7 +219,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.3.7
 	 */
-	public function admin_page_display() {
+	public function admin_page_display(): void {
 
 		// We will be nice and remove the exception/error status once they visit the logging page.
 		constant_contact_set_has_exceptions( 'false' );
@@ -245,7 +247,7 @@ class ConstantContact_Logging {
 			}
 
 			if ( is_file( $this->log_location_file ) && is_readable( $this->log_location_file ) ) {
-				$contents = file_get_contents( $this->log_location_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not reading over network, it's on the filesystem.
+				$contents = $this->file_system->get_contents( $this->log_location_file ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not reading over network, it's on the filesystem.
 			}
 
 			?>
@@ -265,7 +267,7 @@ class ConstantContact_Logging {
 				<div class="ctct-button-actions">
 					<?php
 						printf(
-							'<a class="button button-primary" href="%s" download>%s</a> <a class="button" href="%s" id="deletelog">%s</a>',
+							'<a class="button button-primary" href="%1$s" download>%2$s</a> <a class="button" href="%3$s" id="deletelog">%4$s</a>',
 							esc_attr( $this->log_location_url ),
 							esc_html__( 'Download logs', 'constant-contact-forms' ),
 							esc_attr(
@@ -291,10 +293,8 @@ class ConstantContact_Logging {
 	 * Delete existing log files.
 	 *
 	 * @since 1.3.7
-	 *
-	 * @return null
 	 */
-	public function delete_log_file() {
+	public function delete_log_file(): void {
 		if ( ! constant_contact()->is_constant_contact() ) {
 			return;
 		}
@@ -323,43 +323,12 @@ class ConstantContact_Logging {
 	}
 
 	/**
-	 * Get our log content.
-	 *
-	 * @since 1.4.5
-	 *
-	 * @return string
-	 */
-	protected function get_log_contents() {
-		$log_content_url = wp_remote_get( $this->log_location_url );
-		if ( is_wp_error( $log_content_url ) ) {
-			return sprintf(
-			// translators: placeholder wil have error message.
-				esc_html__(
-					'Log display error: %s',
-					'constant-contact-forms'
-				),
-				$log_content_url->get_error_message()
-			);
-		}
-
-		if ( 200 === wp_remote_retrieve_response_code( $log_content_url ) ) {
-			return wp_remote_retrieve_body( $log_content_url );
-		}
-
-		$log_content_dir = $this->file_system->get_contents( $this->log_location_file );
-		if ( ! empty( $log_content_dir ) && is_string( $log_content_dir ) ) {
-			return $log_content_dir;
-		}
-		return '';
-	}
-
-	/**
 	 * Delete the log index protection file when logging is disabled.
 	 *
 	 * @since 1.5.0
 	 * @return void
 	 */
-	public function delete_log_index_file() {
+	public function delete_log_index_file(): void {
 		if ( constant_contact_debugging_enabled() ) {
 			return;
 		}
@@ -375,7 +344,7 @@ class ConstantContact_Logging {
 	 * @since 2.4.3
 	 * @return void
 	 */
-	public function delete_log_htaccess_file() {
+	public function delete_log_htaccess_file(): void {
 		if ( constant_contact_debugging_enabled() ) {
 			return;
 		}
@@ -390,7 +359,7 @@ class ConstantContact_Logging {
 	 *
 	 * @since 1.5.0
 	 */
-	public function create_log_folder() {
+	public function create_log_folder(): void {
 		wp_mkdir_p( $this->log_location_dir );
 	}
 
@@ -398,9 +367,10 @@ class ConstantContact_Logging {
 	 * Create the log folder with an `index.php` file.
 	 *
 	 * @since 1.5.0
+	 *
 	 * @return void
 	 */
-	public function create_log_index_file() {
+	public function create_log_index_file(): void {
 		if ( ! is_writable( $this->log_location_dir ) ) {
 			return;
 		}
@@ -418,7 +388,7 @@ class ConstantContact_Logging {
 	 * @since 2.4.3
 	 * @return void
 	 */
-	public function create_log_htaccess_file() {
+	public function create_log_htaccess_file(): void {
 		if ( ! is_writable( $this->log_location_dir ) ) {
 			return;
 		}
@@ -443,7 +413,7 @@ class ConstantContact_Logging {
 	 * @since 1.5.0
 	 * @return void
 	 */
-	public function create_log_file() {
+	public function create_log_file(): void {
 		if ( ! is_writable( $this->log_location_dir ) ) {
 			return;
 		}
@@ -463,7 +433,7 @@ class ConstantContact_Logging {
 	 *
 	 * @return string Logging file location.
 	 */
-	public function get_logging_location() {
+	public function get_logging_location(): string {
 		return $this->log_location_file;
 	}
 
@@ -475,7 +445,7 @@ class ConstantContact_Logging {
 	 *
 	 * @return void
 	 */
-	public function maybe_delete_old_log_dir() {
+	public function maybe_delete_old_log_dir(): void {
 		if ( Constant_Contact::VERSION <= '1.8.1' ) {
 			return;
 		}
@@ -489,7 +459,7 @@ class ConstantContact_Logging {
 	 * @author Rebekah Van Epps <rebekah.vanepps@webdevstudios.com>
 	 * @since  1.8.2
 	 */
-	public function delete_current_log_dir() {
+	public function delete_current_log_dir(): void {
 		$this->delete_log_dir( $this->log_location_dir );
 	}
 
@@ -502,7 +472,7 @@ class ConstantContact_Logging {
 	 * @param  string $dir Directory path.
 	 * @return void
 	 */
-	protected function delete_log_dir( string $dir = '' ) {
+	protected function delete_log_dir( string $dir = '' ): void {
 		if ( empty( $dir ) || ! is_dir( $dir ) ) {
 			return;
 		}
@@ -529,12 +499,12 @@ class ConstantContact_Logging {
 	 *
 	 * @return string $message with masked api_key value.
 	 */
-	public function mask_api_key( string $message ) {
+	public function mask_api_key( string $message ): string {
 		if ( empty( $message ) ) {
 			return $message;
 		}
 
-		if ( false === strpos( $message, 'api_key' ) ) {
+		if ( ! str_contains( $message, 'api_key' ) ) {
 			return $message;
 		}
 
@@ -563,7 +533,7 @@ class ConstantContact_Logging {
 	 * @author Richard Aber <richard.aber@webdevstudios.com>
 	 * @since  1.8.5
 	 */
-	public function initialize_logging() {
+	public function initialize_logging(): void {
 		$this->create_log_folder();
 		$this->create_log_index_file();
 		$this->create_log_htaccess_file();
@@ -577,7 +547,7 @@ class ConstantContact_Logging {
 	 *
 	 * @return array
 	 */
-	public function get_log_locations() {
+	public function get_log_locations(): array {
 		return [
 			'directory' => $this->log_location_dir,
 			'file'      => $this->log_location_file,
@@ -594,7 +564,7 @@ class ConstantContact_Logging {
 	 * @return string Generated string of characters.
 	 * @throws \Random\RandomException
 	 */
-	public function generate_random_string( int $length = 10 ) {
+	public function generate_random_string( int $length = 10 ): string {
 		$characters        = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
 		$characters_length = strlen( $characters );
 		$random_string     = '';

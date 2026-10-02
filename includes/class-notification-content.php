@@ -119,7 +119,7 @@ class ConstantContact_Notification_Content {
 		?>
 
 		<div class="admin-notice-logo">
-			<img class="ctct-review-notice-logo" src="<?php echo esc_url( constant_contact()->url ); ?>/assets/images/ctct_ripple.svg" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
+			<img class="ctct-review-notice-logo" src="<?php echo esc_url( constant_contact()->url() ); ?>assets/images/ctct_ripple.svg" alt="<?php echo esc_attr_x( 'Constant Contact logo', 'img alt text', 'constant-contact-forms' ); ?>" />
 		</div>
 
 		<div class="admin-notice-message">
@@ -192,7 +192,7 @@ class ConstantContact_Notification_Content {
 	 * @param  int   $form_id    Current form ID.
 	 * @param  array $references Current form references.
 	 */
-	protected static function display_deleted_form_reference_markup( int $form_id, array $references ) {
+	protected static function display_deleted_form_reference_markup( int $form_id, array $references ): void {
 		printf(
 			'%1$s #%2$d: ',
 			esc_html__( 'Form', 'constant-contact-forms' ),
@@ -237,7 +237,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @since 1.14.0
 	 *
-	 * @return false|string
+	 * @return string
 	 */
 	public static function api3_upgrade_notice(): string {
 		ob_start();
@@ -256,7 +256,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @return false|string
+	 * @return string
 	 */
 	public static function api3_upgraded_notice(): string {
 		ob_start();
@@ -287,7 +287,7 @@ class ConstantContact_Notification_Content {
 			// translators: placeholders hold link HTML tags.
 				esc_html__( 'Constant Contact Forms has detected errors that indicate a need to manually disconnect and reconnect your Constant Contact account. Visit the %1$sConnection Settings%2$s to manage.', 'constant-contact-forms' ),
 				sprintf(
-					'<a href="%s">',
+					'<a href="%1$s">',
 					esc_url( admin_url( 'edit.php?post_type=ctct_forms&page=ctct_options_connect' ) )
 				),
 				'</a>'
@@ -309,7 +309,7 @@ class ConstantContact_Notification_Content {
 			printf(
 				/* Translators: placeholders will be html `<a>` links. */
 				esc_html__( 'We wanted to inform you that there is a pending update available for the Constant Contact Forms plugin. To ensure optimal performance and security, please visit the %1$sWordPress updates%2$s area and update the plugin at your earliest convenience.', 'constant-contact-forms' ),
-				sprintf( '<a href="%s">', esc_url( admin_url( $url ) ) ),
+				sprintf( '<a href="%1$s">', esc_url( admin_url( $url ) ) ),
 				'</a>',
 			); ?>
 			</p>
@@ -323,7 +323,9 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @since 2.10.0
 	 *
-	 * @return false|string
+	 * @throws Exception
+	 *
+	 * @return string
 	 */
 	public static function lists_notes_notice(): string {
 		if ( constant_contact_get_needs_manual_reconnect() ) {
@@ -353,7 +355,7 @@ class ConstantContact_Notification_Content {
 	 *
 	 * @since 2.15.0
 	 *
-	 * @return false|string
+	 * @return string
 	 */
 	public static function list_selection_notice(): string {
 		ob_start();

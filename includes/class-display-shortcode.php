@@ -23,27 +23,27 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var object
+	 * @var Constant_Contact
 	 */
-	protected $plugin;
+	protected Constant_Contact $plugin;
 
 	/**
 	 * Track form instances on page.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @var array
+	 * @var int
 	 */
-	protected static $form_instance = 0;
+	protected static int $form_instance = 0;
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param object $plugin Parent plugin class.
+	 * @param Constant_Contact $plugin Parent plugin class.
 	 */
-	public function __construct( $plugin ) {
+	public function __construct( Constant_Contact $plugin ) {
 		$this->plugin = $plugin;
 		$this->hooks();
 	}
@@ -53,7 +53,7 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @since 1.0.0
 	 */
-	public function hooks() {
+	public function hooks(): void {
 		add_action( 'wp_enqueue_scripts', [ $this, 'enqueue_display_styles' ] );
 	}
 
@@ -62,10 +62,12 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array $atts Shortcode attributes.
 	 * @return string
 	 */
-	public function render_shortcode( $atts ) {
+	public function render_shortcode( array $atts ): string {
 
 		$atts = shortcode_atts(
 			$this->plugin->get_shortcode()->get_atts(),
@@ -87,11 +89,13 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param int  $form_id Form ID.
 	 * @param bool $show_title If true, show the form title.
 	 * @return string
 	 */
-	public function get_form( int $form_id, bool $show_title = false ) {
+	public function get_form( int $form_id, bool $show_title = false ): string {
 
 		if ( ! $form_id ) {
 			return '';
@@ -125,10 +129,12 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param int  $form_id Form ID to display.
 	 * @param bool $show_title If true, show the title.
 	 */
-	public function display_form( int $form_id, bool $show_title = false ) {
+	public function display_form( int $form_id, bool $show_title = false ): void {
 		echo $this->get_form( $form_id, $show_title ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- XSS OK.
 	}
 
@@ -139,12 +145,13 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @param array $form_meta Post meta.
 	 * @param int   $form_id   Form ID.
-	 * @return array|string Form field data.
+	 *
+	 * @return array Form field data.
 	 */
-	public function get_field_meta( array $form_meta, int $form_id ) {
+	public function get_field_meta( array $form_meta, int $form_id ): array {
 
 		if ( empty( $form_meta ) ) {
-			return '';
+			return [];
 		}
 
 		if (
@@ -153,7 +160,7 @@ class ConstantContact_Display_Shortcode {
 			return $this->get_field_values( $form_meta['custom_fields_group'][0], $form_meta, $form_id );
 		}
 
-		return '';
+		return [];
 	}
 
 	/**
@@ -161,12 +168,12 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param string $custom_fields Custom fields to parse through.
+	 * @param string $custom_fields Serialized custom fields to parse through.
 	 * @param array  $full_data     Array of full data.
 	 * @param int    $form_id       Form ID.
 	 * @return array Form field markup.
 	 */
-	public function get_field_values( $custom_fields, $full_data, $form_id ) {
+	public function get_field_values( string $custom_fields, array $full_data, int $form_id ): array {
 
 		$fields = $this->generate_field_values_for_fields( maybe_unserialize( $custom_fields ) );
 
@@ -191,16 +198,12 @@ class ConstantContact_Display_Shortcode {
 	 * @param array $custom_fields All custom fields data.
 	 * @return array Fields array of converted data.
 	 */
-	public function generate_field_values_for_fields( $custom_fields ) {
+	public function generate_field_values_for_fields( array $custom_fields ): array {
 
 		$fields = [];
 
-		if ( ! is_array( $custom_fields ) ) {
-			return $fields;
-		}
-
 		foreach ( $custom_fields as $key => $value ) {
-			if ( ! isset( $custom_fields[ $key ] ) ) {
+			if ( ! isset( $value ) ) {
 				continue;
 			}
 
@@ -212,8 +215,8 @@ class ConstantContact_Display_Shortcode {
 			$fields = $this->set_field( '_ctct_field_desc', 'description', $key, $fields, $custom_fields );
 
 			$fields['fields'][ $key ]['required'] = (
-				isset( $custom_fields[ $key ]['_ctct_required_field'] ) &&
-				'on' === $custom_fields[ $key ]['_ctct_required_field']
+				isset( $value['_ctct_required_field'] ) &&
+				'on' === $value['_ctct_required_field']
 			);
 		}
 
@@ -232,11 +235,9 @@ class ConstantContact_Display_Shortcode {
 	 * @param array  $custom_fields All $custom_fields.
 	 * @return array
 	 */
-	public function set_field( $from_key, $to_key, $key, $fields, $custom_fields ) {
+	public function set_field( string $from_key, string $to_key, string $key, array $fields, array $custom_fields ): array {
 
 		if (
-			is_array( $custom_fields ) &&
-			isset( $custom_fields[ $key ] ) &&
 			$custom_fields[ $key ] &&
 			isset( $custom_fields[ $key ][ $from_key ] ) &&
 			$custom_fields[ $key ][ $from_key ]
@@ -255,7 +256,7 @@ class ConstantContact_Display_Shortcode {
 	 * @param array $form_data Form data array.
 	 * @return array Array of opt-in data.
 	 */
-	public function generate_optin_data( $form_data ) {
+	public function generate_optin_data( array $form_data ): array {
 		return [
 			'list'         => $this->get_nested_value_from_data( '_ctct_list', $form_data ),
 			'show'         => $this->get_nested_value_from_data( '_ctct_opt_in', $form_data ),
@@ -272,10 +273,8 @@ class ConstantContact_Display_Shortcode {
 	 * @param array  $form_data Form data.
 	 * @return string Instructions.
 	 */
-	public function get_nested_value_from_data( $key, $form_data ) {
+	public function get_nested_value_from_data( string $key, array $form_data ): string {
 		if (
-			isset( $form_data[ $key ] ) &&
-			$form_data[ $key ] &&
 			isset( $form_data[ $key ][0] ) &&
 			$form_data[ $key ][0]
 		) {
@@ -290,7 +289,7 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @since 1.0.0
 	 */
-	public function enqueue_display_styles() {
+	public function enqueue_display_styles(): void {
 		constant_contact()->get_display()->styles( true );
 	}
 
@@ -301,7 +300,7 @@ class ConstantContact_Display_Shortcode {
 	 *
 	 * @return array
 	 */
-	private function wrapper_classes() {
+	private function wrapper_classes(): array {
 		$classes = [];
 
 		// Divi

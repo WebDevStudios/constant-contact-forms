@@ -172,7 +172,7 @@ class ConstantContact_API_Utility {
 	 * @param string $access_token
 	 * @return array
 	 */
-	public function parse_access_token_data( string $access_token ) {
+	public function parse_access_token_data( string $access_token ): array {
 		if ( empty( $access_token ) ) {
 			return [];
 		}
@@ -196,7 +196,7 @@ class ConstantContact_API_Utility {
 				return [];
 			}
 			$connecting_account['account'] = $parsed_payload_data['sub'];
-			$connecting_account['site']    = get_site_url();
+			$connecting_account['site']    = parse_url( get_site_url(), PHP_URL_HOST );
 		}
 
 		return $connecting_account;

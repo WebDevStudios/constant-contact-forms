@@ -19,7 +19,7 @@
  * @param array $excluded The post types to exclude.
  * @return array
  */
-function constant_contact_exclude_ctct_forms( $excluded ) {
+function constant_contact_exclude_ctct_forms( array $excluded ): array {
 	$excluded[] = 'ctct_forms';
 	$excluded[] = 'ctct_lists';
 	return $excluded;
@@ -34,7 +34,7 @@ add_filter( 'cta_excluded_post_types', 'constant_contact_exclude_ctct_forms' );
  * @param array $ignored The array of fields that Constant Contact should ignore.
  * @return array
  */
-function constant_contact_exclude_pum( $ignored ) {
+function constant_contact_exclude_pum( array $ignored ): array {
 	$ignored[] = 'pum_form_popup_id';
 
 	return $ignored;
@@ -49,7 +49,7 @@ add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_exclu
  * @param array $ignored The array of fields that Constant Contact should ignore.
  * @return array
  */
-function constant_contact_support_exclude_akisment( $ignored ) {
+function constant_contact_support_exclude_akisment( array $ignored ): array {
 	$ignored[] = 'ak_bck';
 
 	return $ignored;
@@ -68,7 +68,7 @@ add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_suppo
  *
  * @return array
  */
-function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_id = 0 ) {
+function constant_contact_wpspamshield_compatibility( array $ignored_keys = [], $form_id = 0 ): array {
 	/*
 	 * Standard form name insertion into array will not work with WP-SpamShield because
 	 * those values change periodically, from my experiences and support time. This solution
@@ -107,7 +107,7 @@ function constant_contact_wpspamshield_compatibility( $ignored_keys = [], $form_
 	$new_ignore_keys = array_filter(
 		$new_ignore_keys,
 		function ( $item ) {
-			return false === strpos( $item, 'lists___' );
+			return ! str_contains( $item, 'lists___' );
 		}
 	);
 
@@ -123,7 +123,7 @@ add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_wpspa
  * @param $ignored
  * @return mixed
  */
-function constant_contact_exclude_cleantalk( $ignored ) {
+function constant_contact_exclude_cleantalk( $ignored ): array {
 	$ignored[] = 'apbct_visible_fields';
 
 	return $ignored;
@@ -138,7 +138,7 @@ add_filter( 'constant_contact_ignored_post_form_values', 'constant_contact_exclu
  * @param string $original_language_code Current language code for the page.
  * @return mixed
  */
-function constant_contact_wpml_and_recaptcha( string $original_language_code ) {
+function constant_contact_wpml_and_recaptcha( string $original_language_code ): string {
 	$new_language_code = apply_filters( 'wpml_current_language', null );
 
 	return ! empty( $new_language_code ) ? $new_language_code : $original_language_code;
@@ -153,7 +153,7 @@ add_filter( 'constant_contact_recaptcha_lang', 'constant_contact_wpml_and_recapt
  * @param string $original_language_code Current language code for the page.
  * @return string
  */
-function constant_contact_polylang_and_recaptcha( string $original_language_code ) {
+function constant_contact_polylang_and_recaptcha( string $original_language_code ): string {
 	if ( ! function_exists( 'pll_current_language' ) ) {
 		return $original_language_code;
 	}

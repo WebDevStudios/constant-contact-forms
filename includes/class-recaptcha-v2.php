@@ -33,7 +33,7 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	 *
 	 * @since 1.7.0
 	 */
-	public function enqueue_scripts() {
+	public function enqueue_scripts(): void {
 		$debug  = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG === true );
 		$suffix = ( true === $debug ) ? '' : '.min';
 
@@ -75,7 +75,7 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	 *
 	 * @return string
 	 */
-	public function get_inline_markup() : string {
+	public function get_inline_markup(): string {
 		return sprintf(
 			'<div class="g-recaptcha" data-sitekey="%1$s" data-callback="ctctEnableBtn" data-expired-callback="ctctDisableBtn" data-size="%2$s"></div>',
 			$this->site_key,
@@ -90,7 +90,7 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	 *
 	 * @param string $size reCAPTCHA size to specify.
 	 */
-	public function set_size( string $size ) {
+	public function set_size( string $size ): void {
 		$this->recaptcha_size = $size;
 	}
 
@@ -104,7 +104,7 @@ class ConstantContact_reCAPTCHA_v2 extends ConstantContact_reCAPTCHA {
 	 * @param  string $handle Script handle.
 	 * @return string         Script tag.
 	 */
-	public function add_script_attributes( string $tag, string $handle ) : string {
+	public function add_script_attributes( string $tag, string $handle ): string {
 		if ( 'recaptcha-lib-v2' !== $handle ) {
 			return $tag;
 		}

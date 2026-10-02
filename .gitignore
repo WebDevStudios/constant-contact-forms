@@ -6,10 +6,9 @@
 .gitmodules
 plugin-config.js
 
-/bin
+/bin/strauss.phar
 
 # Logs
-/logs
 *.log
 /node_modules/
 /build/
@@ -36,6 +35,8 @@ plugin-config.js
 ## Build copies
 assets/js/ctct-plugin*.js
 assets/js/ctct-plugin*.min.js
+assets/js/ctct-plugin*.js.map
 assets/js/ctct-plugin*.min.js.map
+assets/js/ctct-plugin*.txt
 
 assets/css/*

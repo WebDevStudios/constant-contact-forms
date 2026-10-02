@@ -12,6 +12,7 @@ window.CTCTAJAX = {};
 
 		// Trigger any field modifications we need to do.
 		that.handleReviewAJAX();
+		that.handleAPITest();
 	};
 
 	// Handle saving the decision regarding the review prompt admin notice.
@@ -42,6 +43,41 @@ window.CTCTAJAX = {};
 					.then((response) => {
 						if (response.success) {
 							reviewRequest.style.display = 'none';
+						}
+					}).catch((error) => {
+					console.log(error);
+				});
+			});
+		}
+	};
+
+	that.handleAPITest = () => {
+		const apitestlink = document.querySelector('#ctct-test-api');
+		if (apitestlink) {
+			apitestlink.addEventListener('click', (e) => {
+				e.preventDefault();
+
+				const data = new FormData();
+				data.append('action', 'constant_contact_test_api_ajax_handler');
+
+				const params = new URLSearchParams(e.target.href);
+
+				if (params.get('ctct-test-connection')) {
+					data.append('ctct-test-connection-nonce', params.get('ctct-test-connection'));
+				}
+
+				fetch(window.ajaxurl, options = {
+					method: 'POST', body: data,
+				})
+					.then((response) => response.json())
+					.then((response) => {
+						const successDOM = document.querySelector('#ctct-test-api-result');
+						successDOM.innerHTML = response.data.is_connected;
+						successDOM.setAttribute('class', '');
+						if (response.success) {
+							successDOM.classList.add('success');
+						} else {
+							successDOM.classList.add('no-success');
 						}
 					}).catch((error) => {
 					console.log(error);

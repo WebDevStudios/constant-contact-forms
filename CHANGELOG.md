@@ -1,3 +1,47 @@
+= 2.22.0 =
+
+* Added: Manual API Test button.
+* Updated: Implement a real cron-based token health-check safety net.
+* Fixed: Connecting from one account then manually disconnecting and trying to connect to another account would still show you logged into the first account.
+* Fixed: Correct get_option default bug in proactive refresh check.
+* Fixed: Base refresh threshold on real _ctct_expires_in instead of hardcoded 82800.
+* Fixed: Detect array-shaped errors and HTTP 401 in class-client.php.
+* Fixed: Reduce refresh_token race condition and remove unbounded recursion.
+* Fixed: Remove http/https protocols from connecting URL hash comparisons to prevent disconnect detection when protocol is changed.
+* Fixed: Fatal TypeError when replaying missed API requests referencing removed form fields. Props https://github.com/rodrigo-arias
+* Fixed: Custom fields being dropped reported by Props rodrigo-arias.
+* Fixed: Only one text area (note) was supported for submission to Constant Contact.
+* Fixed: Encryption Ready checks.
+* Fixed: Opt-in settings page not saving.
+
+= 2.21.0 =
+
+* Updated: Temporarily removing the forced disconnection and API key removal, when domain differences are suspected. Added logging indicating we got to that point.
+* Updated: Force logging before various logging lines to help ensure we're going to log troubleshooting data.
+* Updated: Wording of connection status in upper right corner for better clarity.
+* Updated: Removed PHP version requirement checks that are now handled by WordPress
+* Added: Reduced potential race conditions with initial authentication process.
+* Added: Token issued, current, and estimated expiration times to status page.
+* Fixed: Conditionally add anniversary details in successful signup log, if anniversary field used.
+
+= 2.20.0 =
+
+* Updated: Reduced race conditions that were potentially contributing to connection stability.
+* Updated: Increased logging of various requests for better troubleshooting support.
+* Updated: Removed WP Cron integration in favor of real-time "need to refresh" checking.
+* Updated: Removed legacy code used with previous API version.
+* Updated: CMB2 bundled library.
+* Fixed: potential errors with hash comparisons from 2.19.0 changes.
+
+= 2.19.0 =
+
+* Added: Domain comparison for current site and stored token's original site. Will disconnect the current viewed install if mismatched, in order to preserve original connection pairing.
+* Fixed: Invalid nested paragraph markup in settings pages.
+* Fixed: adjust shortcode "copy" button if not on HTTPS, handles compatibility with browser clipboard API.
+* Updated: Wording regarding connection status for connect/disconnect buttons.
+* Updated: Early return for AJAX requests in spots that check on API token status.
+* Updated: Links in plugin list
+
 = 2.18.0 =
 
 * Added: Revised refresh process to be more permissible of failures that are not expired refresh token related.

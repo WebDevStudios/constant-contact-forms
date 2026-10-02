@@ -68,41 +68,6 @@ class ConstantContact_API {
 	private string $last_error = '';
 
 	/**
-	 * Body value.
-	 * @since 2.0.0
-	 * @var string
-	 */
-	private string $body = '';
-
-	/**
-	 * Host value.
-	 * @since 2.0.0
-	 * @var string
-	 */
-	private string $host = '';
-
-	/**
-	 * Status code for a request
-	 * @since 2.0.0
-	 * @var int
-	 */
-	private int $status_code = 200;
-
-	/**
-	 * Session callback value.
-	 * @since 2.0.0
-	 * @var null
-	 */
-	private $session_callback = null;
-
-	/**
-	 * PKCE
-	 * @since 2.0.0
-	 * @var bool
-	 */
-	public bool $PKCE = true;
-
-	/**
 	 * Scopes for authorization usage.
 	 * @since 2.0.0
 	 * @var array|int[]|string[]
@@ -156,13 +121,51 @@ class ConstantContact_API {
 
 		add_action( 'init', [ $this, 'ctct_init' ] );
 		add_action( 'ctct_access_token_acquired', [ $this, 'clear_missed_api_requests' ] );
+
+		/*
+		 * Finding #1: the plugin removed its WP-Cron based refresh in favor of
+		 * refreshing "live" (only when a real request happens to call
+		 * get_api_token()). That leaves no background safety net -- a
+		 * low-traffic site can sit with a dead token for a long stretch until
+		 * a visitor happens to trigger an API call. The 'ctct_refresh_token_job'
+		 * hook already existed in the codebase (referenced only by cleanup
+		 * code on disconnect/deactivate/uninstall) but was never actually
+		 * scheduled or hooked to a callback. Wire it up here so it does what
+		 * its name always implied.
+		 */
+		add_action( 'ctct_refresh_token_job', [ $this, 'maybe_refresh_token_via_cron' ] );
 	}
 
 	/**
+	 * Cron callback: periodically checks whether the access token is due for
+	 * a refresh, independent of live site traffic.
+	 *
+	 * @since 2.22.0
+	 *
+	 * @return void
+	 */
+	public function maybe_refresh_token_via_cron(): void {
+		if ( ! $this->is_connected() ) {
+			return;
+		}
+
+		add_filter( 'constant_contact_force_logging', '__return_true' );
+		constant_contact_maybe_log_it( 'API', 'Cron-based token health check running.' );
+
+		// get_api_token() already contains the "is this token due for a
+		// refresh" threshold check (see Finding #3); running it here gives
+		// that check a chance to fire even when no live request does.
+		$this->get_api_token();
+	}
+
+	/**
+	 * Init
 	 *
 	 * @since 1.0.0
+	 *
+	 * @throws Exception
 	 */
-	public function ctct_init() {
+	public function ctct_init(): bool {
 
 		// Early exit for heartbeat API.
 		if ( ! empty( $_POST['action'] ) && 'heartbeat' === sanitize_text_field( $_POST['action'] ) ) {
@@ -220,6 +223,8 @@ class ConstantContact_API {
 				update_option( 'ctct_access_token_timestamp', time() );
 			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -227,9 +232,11 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return object ConstantContact_API.
+	 * @throws Exception
+	 *
+	 * @return object ConstantContact_Client.
 	 */
-	public function cc() {
+	public function cc(): ConstantContact_Client {
 		return new ConstantContact_Client( $this->get_api_token() );
 	}
 
@@ -238,9 +245,11 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @return string Access API token.
 	 */
-	public function get_api_token() {
+	public function get_api_token(): string {
 		$token = '';
 
 		// Fetch current access token, expired or not.
@@ -253,28 +262,36 @@ class ConstantContact_API {
 		$issued_time = (int) get_option( 'ctct_access_token_timestamp', 0 );
 		$current     = time();
 		$threshold   = $current - $issued_time;
+
+		/*
+		 * Finding #3: base the refresh threshold on the token's actual reported
+		 * lifetime (`_ctct_expires_in`, in seconds) instead of a hardcoded
+		 * 23-hour (82800s) guess. If Constant Contact issues shorter-lived
+		 * tokens than that, the hardcoded value let an already-dead token sit
+		 * unrefreshed for hours, relying entirely on the reactive 401-retry
+		 * path in the meantime. Refresh a few minutes early, and fall back to
+		 * the old 23-hour value only when we have no expires_in on record
+		 * (e.g. a token acquired before this fix was deployed).
+		 */
+		$expires_in     = (int) constant_contact()->get_connect()->e_get( '_ctct_expires_in' );
+		$refresh_buffer = 5 * MINUTE_IN_SECONDS;
+		$refresh_after  = $expires_in > $refresh_buffer ? ( $expires_in - $refresh_buffer ) : 82800;
+
 		// Check if we should attempt a refresh, beyond just cron checks.
-		if ( $issued_time > 0 && $threshold >= 82800 ) {
-			if ( 'false' === get_option( 'ctct_refreshing_token' ) ) {
+		if ( $issued_time > 0 && $threshold >= $refresh_after ) {
+			add_filter( 'constant_contact_force_logging', '__return_true' );
+			constant_contact_maybe_log_it( 'API', 'Attempting refresh in get_api_token.' );
+
+			// Locking, including stale-lock recovery, is handled inside refresh_token().
+			$result = $this->refresh_token();
+
+			if ( $result['success'] ) {
+				$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
+			} elseif ( $result['reason'] ) {
+				// Keep the existing token: refreshes start early, so it is often still valid,
+				// and if it has expired the reactive 401 retry path handles it.
 				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'API', 'Attempting refresh in get_api_token.' );
-
-				// This should not be reached constantly. Once we have a new token,
-				// the threshold won't be within time.
-				// This method is more readily called than potential cron requests, so
-				// hopefully we're more actively refreshed.
-				$result = $this->refresh_token();
-
-				if ( ! $result['success'] && $result['reason'] ) {
-					add_filter( 'constant_contact_force_logging', '__return_true' );
-					constant_contact_maybe_log_it( 'API', 'Refresh token attempt failed in get_api_token. ' . $result['reason'] );
-					$token = ''; // Reset to default from this method.
-				}
-
-				if ( $result['success'] ) {
-					// Should be new access token.
-					$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' );
-				}
+				constant_contact_maybe_log_it( 'API', 'Refresh token attempt failed in get_api_token. ' . $result['reason'] );
 			}
 		}
 
@@ -283,14 +300,17 @@ class ConstantContact_API {
 
 	/**
 	 * Exchange an authorization code for an access token.
-	 * Make this call by passing in the code present when the account owner is redirected back to you.
-	 * The response will contain an 'access_token' and 'refresh_token'
 	 *
-	 * @param array of get parameters passed to redirect URL
+	 * The API response will contain an 'access_token' and 'refresh_token'
+	 *
+	 * @throws Exception
+	 * @return bool
 	 */
 	public function acquire_access_token(): bool {
 
-		if ( 'false' !== get_option( 'ctct_acquiring_token', 'false' ) ) {
+		// A lock older than 60 seconds is stale (e.g. the holding process died) and is reclaimed.
+		$lock_age = time() - (int) get_option( 'ctct_acquiring_token_time', 0 );
+		if ( 'true' === get_option( 'ctct_acquiring_token', 'false' ) && $lock_age < 60 ) {
 			return false;
 		}
 
@@ -315,15 +335,16 @@ class ConstantContact_API {
 			return false;
 		}
 
-		update_option( 'ctct_acquiring_token', 'true', false );
-
 		$code_state = $options['_ctct_form_state_authcode'];
+
+		// Authorization codes are single-use: clear the pasted value now so no later
+		// request replays it, whether this attempt succeeds, fails or is rejected below.
+		constant_contact_delete_option( '_ctct_form_state_authcode' );
 
 		parse_str( $code_state, $parsed_code_state );
 		$parsed_code_state = array_values( $parsed_code_state );
 
 		if ( empty( $parsed_code_state[0] ) || empty( $parsed_code_state[1] ) ) {
-			$this->status_code = 0;
 			$this->last_error  = 'Invalid state or auth code';
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
@@ -337,13 +358,15 @@ class ConstantContact_API {
 		$expected_state = get_option( 'CtctConstantContactState' );
 
 		if ( ( $state ?? 'undefined' ) != $expected_state ) {
-			$this->status_code = 0;
 			$this->last_error  = 'state is not correct';
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
 
 			return false;
 		}
+
+		update_option( 'ctct_acquiring_token', 'true', false );
+		update_option( 'ctct_acquiring_token_time', time(), false );
 
 		add_filter( 'constant_contact_force_logging', '__return_true' );
 		constant_contact_maybe_log_it( 'API', 'Access token triggered' );
@@ -377,39 +400,47 @@ class ConstantContact_API {
 			'timeout' => apply_filters( 'http_request_timeout', 30, $url )
 		];
 
-		// This will be either true or false.
-		$result = $this->exec( $url, $options, 'access' );
+		try {
+			// This will be either true or false.
+			$result = $this->exec( $url, $options, 'access' );
 
-		if ( false === $result ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_maybe_log_it( 'Access Token:', 'Authentication to get access token error occurred' );
-			if ( ! empty( $this->last_error ) ) {
+			if ( false === $result ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'Access Token:', 'Error: ' . $this->last_error );
+				constant_contact_maybe_log_it( 'Access Token:', 'Authentication to get access token error occurred' );
+				if ( ! empty( $this->last_error ) ) {
+					add_filter( 'constant_contact_force_logging', '__return_true' );
+					constant_contact_maybe_log_it( 'Access Token:', 'Error: ' . $this->last_error );
+				}
+				constant_contact_set_needs_manual_reconnect( 'true' );
+			} else {
+				// This state/verifier pair has been used; the next Connect link generates a new one.
+				delete_option( 'CtctConstantContactState' );
+				delete_option( 'CtctConstantContactcode_verifier' );
+
+				/**
+				 * Fires after successful access token acquisition.
+				 * @since 2.3.0
+				 */
+				do_action( 'ctct_access_token_acquired' );
+
+				constant_contact_set_needs_manual_reconnect( 'false' );
 			}
-			constant_contact_set_needs_manual_reconnect( 'true' );
-		} else {
-
-			/**
-			 * Fires after successful access token acquisition.
-			 * @since 2.3.0
-			 */
-			do_action( 'ctct_access_token_acquired' );
-
-			constant_contact_set_needs_manual_reconnect( 'false' );
+		} finally {
+			update_option( 'ctct_acquiring_token', 'false', false );
 		}
 
-		update_option( 'ctct_acquiring_token', 'false', false );
 		return $result;
 	}
 
 	/**
 	 * Refresh the access token.
+	 *
+	 * @since 2.0.0
+	 *
 	 * @return array
 	 * @throws Exception
-	 * @since 2.0.0
 	 */
-	public function refresh_token() {
+	public function refresh_token(): array {
 
 		$status   = [];
 		$failures = (int) get_option( 'ctct_refresh_failures', 0 );
@@ -432,91 +463,159 @@ class ConstantContact_API {
 			return $status;
 		}
 
+		/*
+		 * Finding #6: guard against two near-simultaneous requests (e.g. two
+		 * form submissions racing) both refreshing at once. This check
+		 * previously only existed on the caller side in get_api_token(), so
+		 * the reactive 401-retry callers throughout this class never checked
+		 * it at all and could race each other directly. Constant Contact
+		 * refresh tokens are single-use/rotating, so the loser of such a
+		 * race would fail with invalid_grant and could wrongly trip a
+		 * "manual reconnect required" state even though the connection was
+		 * actually fine. The lock is timestamped so a process that dies
+		 * mid-refresh (e.g. a killed container) can't leave it stuck
+		 * forever -- a lock older than 60 seconds is treated as stale and
+		 * reclaimed. WordPress options don't offer a true atomic
+		 * compare-and-swap, so a small race window remains, but a losing
+		 * request now backs off instead of hitting the API concurrently.
+		 */
+		$lock_age = time() - (int) get_option( 'ctct_refreshing_token_time', 0 );
+		if ( 'true' === get_option( 'ctct_refreshing_token', 'false' ) && $lock_age < 60 ) {
+			$status['success'] = $this->wait_for_concurrent_refresh( $token );
+			$status['reason']  = $status['success'] ? 'refreshed_by_concurrent_request' : 'already_refreshing';
+
+			return $status;
+		}
+
 		add_filter( 'constant_contact_force_logging', '__return_true' );
 		constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token triggered' );
 		update_option( 'ctct_refreshing_token', 'true', false );
+		update_option( 'ctct_refreshing_token_time', time(), false );
 
-		// Create full request URL
-		$body = [
-			'client_id'     => $this->client_api_key,
-			'refresh_token' => constant_contact()->get_connect()->e_get( '_ctct_refresh_token' ),
-			'redirect_uri'  => $this->redirect_URI,
-			'grant_type'    => 'refresh_token',
-		];
+		try {
+			// Create full request URL
+			$body = [
+				'client_id'     => $this->client_api_key,
+				'refresh_token' => constant_contact()->get_connect()->e_get( '_ctct_refresh_token' ),
+				'redirect_uri'  => $this->redirect_URI,
+				'grant_type'    => 'refresh_token',
+			];
 
-		$url     = $this->oauth2_url;
-		$headers = $this->set_authorization();
+			$url     = $this->oauth2_url;
+			$headers = $this->set_authorization();
 
-		$options = [
-			'body'    => $body,
-			'headers' => $headers,
-			/**
-			 * Sets the HTTP timeout, in seconds, for the request.
-			 *
-			 * @since 2.20.0
-			 *
-			 * @param int    30           The timeout limit, in seconds. Defaults to 30.
-			 * @param string $request_url The request URL.
-			 *
-			 * @return int
-			 */
-			'timeout' => apply_filters( 'http_request_timeout', 30, $url )
-		];
+			$options = [
+				'body'    => $body,
+				'headers' => $headers,
+				/**
+				 * Sets the HTTP timeout, in seconds, for the request.
+				 *
+				 * @since 2.20.0
+				 *
+				 * @param int    30           The timeout limit, in seconds. Defaults to 30.
+				 * @param string $request_url The request URL.
+				 *
+				 * @return int
+				 */
+				'timeout' => apply_filters( 'http_request_timeout', 30, $url )
+			];
 
-		$result = $this->exec( $url, $options, 'refresh' );
+			$result = $this->exec( $url, $options, 'refresh' );
 
-		if ( false === $result ) {
-			add_filter( 'constant_contact_force_logging', '__return_true' );
-			constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh error occurred' );
-			if ( ! empty( $this->last_error ) ) {
+			if ( false === $result ) {
 				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Overall error: ' . $this->last_error );
-			}
+				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh error occurred' );
+				if ( ! empty( $this->last_error ) ) {
+					add_filter( 'constant_contact_force_logging', '__return_true' );
+					constant_contact_maybe_log_it( 'Refresh Token:', 'Overall error: ' . $this->last_error );
+				}
 
-			$failures ++;
-			update_option( 'ctct_refresh_failures', $failures );
+				$failures ++;
+				update_option( 'ctct_refresh_failures', $failures );
 
-			// Distinguish between a definitive auth failure and a transient error.
-			// Only require manual reconnect for invalid_grant (revoked/expired refresh
-			// token) or after 5 consecutive failures of any kind.
-			if ( false !== strpos( $this->last_error, 'invalid_grant' ) ) {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token revoked (invalid_grant). Manual reconnect required.' );
-				constant_contact_set_needs_manual_reconnect( 'true' );
-				$status['reason'] = 'expired';
-			} elseif ( $failures >= 5 ) {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed ' . $failures . ' consecutive times. Manual reconnect required.' );
-				constant_contact_set_needs_manual_reconnect( 'true' );
-				$status['reason'] = 'max_retries_exceeded';
+				// Distinguish between a definitive auth failure and a transient error.
+				// Only require manual reconnect for invalid_grant (revoked/expired refresh
+				// token) or after 5 consecutive failures of any kind.
+				if ( str_contains( $this->last_error, 'invalid_grant' ) ) {
+					add_filter( 'constant_contact_force_logging', '__return_true' );
+					constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh token revoked (invalid_grant). Manual reconnect required.' );
+					constant_contact_set_needs_manual_reconnect( 'true' );
+					$status['reason'] = 'expired';
+				} elseif ( $failures >= 5 ) {
+					add_filter( 'constant_contact_force_logging', '__return_true' );
+					constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed ' . $failures . ' consecutive times. Manual reconnect required.' );
+					constant_contact_set_needs_manual_reconnect( 'true' );
+					$status['reason'] = 'max_retries_exceeded';
+				} else {
+					add_filter( 'constant_contact_force_logging', '__return_true' );
+					constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed (attempt ' . $failures . '/5). Will retry. Attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
+					$status['reason'] = 'transient_failure';
+					/*
+					 * Finding #6: this used to recurse into another synchronous
+					 * refresh_token() call immediately, with no delay. Under a
+					 * genuine outage that compounds the problem -- every request
+					 * hits the failing endpoint again right away, plus unbounded
+					 * call-stack recursion if the outage persists -- instead of
+					 * backing off. Leave it to the next natural trigger (the next
+					 * request's get_api_token() threshold check, or the next
+					 * reactive 401) to retry instead.
+					 */
+				}
+
+				$status['success'] = false;
 			} else {
-				add_filter( 'constant_contact_force_logging', '__return_true' );
-				constant_contact_maybe_log_it( 'Refresh Token:', 'Refresh failed (attempt ' . $failures . '/5). Will retry. Attempted at ' . current_datetime()->format( 'Y-n-d, H:i' ) );
-				$status['reason'] = 'transient_failure';
-				$this->refresh_token();
+				delete_transient( 'ctct_lists' );
+				update_option( 'ctct_access_token_timestamp', time() );
+				update_option( 'ctct_refresh_failures', 0 );
+				constant_contact_set_needs_manual_reconnect( 'false' );
+
+				$status['success'] = true;
+				$status['reason']  = 'refreshed';
 			}
-
-			$status['success'] = false;
-		} else {
-			delete_transient( 'ctct_lists' );
-			update_option( 'ctct_access_token_timestamp', time() );
-			update_option( 'ctct_refresh_failures', 0 );
-			constant_contact_set_needs_manual_reconnect( 'false' );
-
-			$status['success'] = true;
-			$status['reason']  = 'refreshed';
+		} finally {
+			update_option( 'ctct_refreshing_token', 'false', false );
 		}
 
-		update_option( 'ctct_refreshing_token', 'false', false );
 		return $status;
+	}
+
+	/**
+	 * Wait for another request's in-flight refresh to finish.
+	 *
+	 * @since 2.22.0
+	 *
+	 * @param string $old_refresh_token Refresh token stored before waiting.
+	 * @param int    $max_wait          Maximum seconds to wait.
+	 * @return bool Whether the other request stored a new token.
+	 */
+	private function wait_for_concurrent_refresh( string $old_refresh_token, int $max_wait = 10 ): bool {
+		for ( $i = 0; $i < $max_wait; $i++ ) {
+			sleep( 1 );
+
+			// Bypass the object cache so the other request's writes are visible.
+			wp_cache_delete( 'ctct_refreshing_token', 'options' );
+			wp_cache_delete( '_ctct_refresh_token', 'options' );
+			wp_cache_delete( '_ctct_access_token', 'options' );
+
+			if ( 'true' !== get_option( 'ctct_refreshing_token', 'false' ) ) {
+				$new_refresh_token = constant_contact()->get_connect()->e_get( '_ctct_refresh_token' );
+
+				return ! empty( $new_refresh_token ) && $old_refresh_token !== $new_refresh_token;
+			}
+		}
+
+		return false;
 	}
 
 	/**
 	 * Generate the URL an account owner would use to allow your app
 	 * to access their account.
 	 * After visiting the URL, the account owner is prompted to log in and allow your app to access their account.
-	 * They are then redirected to your redirect URL with the authorization code appended as a query parameter. e.g.:
-	 * http://localhost:8888/?code={authorization_code}
+	 *
+	 * They are then redirected to your redirect URL with the authorization code appended as a query parameter. e.g.: http://localhost:8888/?code={authorization_code}
+	 *
+	 * @throws Exception
+	 * @return string
 	 */
 	public function get_authorization_url(): string {
 
@@ -556,8 +655,10 @@ class ConstantContact_API {
 
 	/**
 	 * Set our authorization headers.
-	 * @return string[]
+	 *
 	 * @since 2.0.0
+	 *
+	 * @return array
 	 */
 	private function set_authorization(): array {
 
@@ -567,9 +668,7 @@ class ConstantContact_API {
 		// Base64 encode it
 		$credentials = base64_encode( $auth );
 		// Create and set the Authorization header to use the encoded credentials
-		$headers = [ 'Authorization: Basic ' . $credentials, 'cache-control: no-cache' ];
-
-		return $headers;
+		return [ 'Authorization: Basic ' . $credentials, 'cache-control: no-cache' ];
 	}
 
 	/**
@@ -577,16 +676,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @return boolean If connected.
+	 * @throws Exception
+	 *
+	 * @return bool If connected.
 	 */
-	public function is_connected() {
-		static $token = null;
-
-		if ( constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ) {
-			$token = constant_contact()->get_connect()->e_get( '_ctct_access_token' ) ? true : false;
-		}
-
-		return $token;
+	public function is_connected(): bool {
+		return (bool) constant_contact()->get_connect()->e_get( '_ctct_access_token' );
 	}
 
 	/**
@@ -606,7 +701,6 @@ class ConstantContact_API {
 		$response = wp_safe_remote_post( $url, $options );
 
 		$this->last_error  = '';
-		$this->status_code = 0;
 
 		add_filter( 'constant_contact_force_logging', '__return_true' );
 
@@ -650,7 +744,7 @@ class ConstantContact_API {
 				constant_contact()->get_connect()->e_set( '_ctct_refresh_token', $data['refresh_token'] );
 				constant_contact()->get_connect()->e_set( '_ctct_expires_in', (string) $data['expires_in'] );
 
-				$this->access_token  = $data['access_token'] ?? '';
+				$this->access_token  = $data['access_token'];
 				$this->refresh_token = $data['refresh_token'] ?? '';
 				$this->expires_in    = $data['expires_in'] ?? '';
 
@@ -674,7 +768,6 @@ class ConstantContact_API {
 				return isset( $data['access_token'], $data['refresh_token'] );
 			}
 		} else {
-			$this->status_code = 0;
 			$this->last_error  = $response->get_error_message();
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			constant_contact_maybe_log_it( 'Error: ', $this->last_error );
@@ -689,8 +782,9 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 *
 	 * @return array Current connected ctct account info.
+	 * @throws Exception
 	 */
-	public function get_account_info() {
+	public function get_account_info(): array {
 
 		if ( ! $this->is_connected() ) {
 			return [];
@@ -750,8 +844,9 @@ class ConstantContact_API {
 	 * @since 1.0.0
 	 *
 	 * @return array Current connect ctct account contacts.
+	 * @throws Exception
 	 */
-	public function get_contacts() {
+	public function get_contacts(): array {
 		if ( ! $this->is_connected() ) {
 			return [];
 		}
@@ -799,14 +894,16 @@ class ConstantContact_API {
 	 * request body to determine if it should create an new contact or update
 	 * an existing contact.
 	 *
+	 * @since 1.0.0
+	 * @since 1.3.0 Added $form_id parameter
+	 *
 	 * @param array $new_contact New contact data.
 	 * @param int   $form_id     ID of the form being processed.
 	 *
 	 * @return array Current connect contact.
-	 * @since 1.3.0 Added $form_id parameter.
-	 * @since 1.0.0
+	 * @throws Exception
 	 */
-	public function add_contact( $new_contact = [], $form_id = 0 ) {
+	public function add_contact( array $new_contact = [], int $form_id = 0 ): array {
 
 		if ( ! isset( $new_contact['email'] ) ) {
 			return [];
@@ -894,13 +991,13 @@ class ConstantContact_API {
 	 * @since 1.3.0 Added $form_id parameter.
 	 *
 	 * @param string|array $list      List name(s).
+	 * @param string       $email     Email to be used.
 	 * @param array        $user_data User data.
-	 * @param string       $email     email to be updated.
 	 * @param string       $form_id   Form ID being processed.
 	 *
 	 * @return mixed                  Response from API.
 	 */
-	public function create_update_contact( $list, $email, $user_data, $form_id ) {
+	public function create_update_contact( $list, $email, $user_data, $form_id ): mixed {
 
 		$contact                     = [];
 		$contact['email_address']    = sanitize_text_field( $email );
@@ -918,9 +1015,19 @@ class ConstantContact_API {
 		);
 
 		if ( $new_contact && $this->has_note( $user_data ) ) {
-			$fetched_contact                  = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
-			$note_content                     = $this->get_note_content( $user_data );
-			$fetched_contact['notes'][]       = [ 'content' => $note_content ];
+			$fetched_contact = $this->cc()->get_contact( $new_contact['contact_id'], [ 'include' => 'notes' ] );
+
+			if ( ! isset( $fetched_contact['notes'] ) || ! is_array( $fetched_contact['notes'] ) ) {
+				$fetched_contact['notes'] = [];
+			}
+
+			foreach ( $this->get_note_contents( $user_data ) as $note_content ) {
+				if ( '' === $note_content ) {
+					continue;
+				}
+				$fetched_contact['notes'][] = [ 'content' => $note_content ];
+			}
+
 			$fetched_contact['update_source'] = 'Contact';
 			$this->cc()->add_note( $fetched_contact );
 		}
@@ -956,6 +1063,10 @@ class ConstantContact_API {
 		$streets = [];
 		if ( ! $updated ) {
 			$contact['notes'] = [];
+		}
+
+		if ( ! isset( $contact['custom_fields'] ) || ! is_array( $contact['custom_fields'] ) ) {
+			$contact['custom_fields'] = [];
 		}
 
 		$address_type = get_post_meta( $form_id, '_ctct_address_type', true );
@@ -1036,11 +1147,15 @@ class ConstantContact_API {
 					$original_field_data = $this->plugin->get_process_form()->get_original_fields( $form_id );
 					$custom_field_name   = '';
 					$should_include      = apply_filters( 'constant_contact_include_custom_field_label', false, $form_id );
-					$custom_field        = ( $original_field_data[ $original ] );
+					$custom_field        = $original_field_data[ $original ] ?? null; // See: https://wordpress.org/support/topic/fatal-typeerror-replaying-missed-api-requests-after-a-forms-fields-were-edited/
+
+					if ( ! is_array( $custom_field ) || empty( $custom_field['name'] ) ) {
+						break; // Queued request references a form field that no longer exists on the form.
+					}
+
 					$new_custom_field    = '';
-					$contact['custom_fields'] = [];
 					// @todo Fix me.
-					if ( false !== strpos( $original, 'custom___' ) && $should_include ) {
+					if ( str_contains( $original, 'custom___' ) && $should_include ) {
 						$custom_field_name .= $custom_field['name'] . ': ';
 					}
 
@@ -1093,10 +1208,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param bool $force_skip_cache Whether or not to skip cache.
 	 * @return array Current connect ctct lists.
 	 */
-	public function get_lists( bool $force_skip_cache = false ) {
+	public function get_lists( bool $force_skip_cache = false ): array {
 
 		if ( ! $this->is_connected() ) {
 			return [];
@@ -1164,9 +1281,9 @@ class ConstantContact_API {
 	 * @param string $old_ids_string   Comma separated list of old (v2 API) list ids.
 	 * @param bool   $force_skip_cache Whether or not to skip cache.
 	 *
-	 * @return array API v2 to v3 List ID cross references.
+	 * @return false|array API v2 to v3 List ID cross references.
 	 */
-	public function get_v2_list_id_x_refs( string $old_ids_string, bool $force_skip_cache = false ) {
+	public function get_v2_list_id_x_refs( string $old_ids_string, bool $force_skip_cache = false ): false|array {
 
 		if ( ! $this->is_connected() ) {
 			return [];
@@ -1208,10 +1325,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param string $id List ID.
-	 * @return mixed
+	 * @return array|false
 	 */
-	public function get_list( string $id ) {
+	public function get_list( string $id ): array|false {
 
 		if ( ! esc_attr( $id ) ) {
 			return [];
@@ -1264,10 +1383,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param  array $new_list API data for new list.
+	 * @throws Exception
+	 *
+	 * @param array $new_list API data for new list.
 	 * @return array Current connect ctct lists.
 	 */
-	public function add_list( $new_list = [] ) {
+	public function add_list( array $new_list = [] ): array {
 
 		if ( empty( $new_list ) ) {
 			return [];
@@ -1329,7 +1450,7 @@ class ConstantContact_API {
 		} catch ( Exception $ex ) {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
-			$error->error_message = $ex->xdebug_message;
+			$error->error_message = $ex->getMessage();
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			constant_contact_forms_maybe_set_exception_notice( $ex );
@@ -1347,10 +1468,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array $updated_list api data for list.
 	 * @return array current connect ctct list
 	 */
-	public function update_list( array $updated_list = [] ) {
+	public function update_list( array $updated_list = [] ): array {
 
 		$return_list = false;
 
@@ -1403,10 +1526,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param array $updated_list API data for list.
 	 * @return mixed Current connect ctct list.
 	 */
-	public function delete_list( array $updated_list = [] ) {
+	public function delete_list( array $updated_list = [] ): mixed {
 
 		if ( ! isset( $updated_list['id'] ) ) {
 			return false;
@@ -1449,7 +1574,7 @@ class ConstantContact_API {
 	 * @since 2022-10-24
 	 * @return string Settings tab URL.
 	 */
-	public function get_settings_link( $settings_tab = 'ctct_options_settings_general' ) {
+	public function get_settings_link( $settings_tab = 'ctct_options_settings_general' ): string {
 
 		return add_query_arg(
 			[
@@ -1465,17 +1590,12 @@ class ConstantContact_API {
 	 *
 	 * @since 1.0.0
 	 *
+	 * @throws Exception
+	 *
 	 * @param bool $as_parts If true return an array.
-	 * @return mixed
+	 * @return string|array
 	 */
-	public function get_disclosure_info( $as_parts = false ) {
-		/*
-		 * [
-		 *     [name] => Business Name
-		 *     [address] => 555 Business Place Ln., Beverly Hills, CA, 90210
-		 * ]
-		 */
-
+	public function get_disclosure_info( bool $as_parts = false ): string|array {
 		static $address_fields = [ 'address_line1', 'address_line2', 'address_line3', 'city', 'state_code', 'postal_code' ];
 
 		// Grab disclosure info from the API.
@@ -1486,7 +1606,7 @@ class ConstantContact_API {
 		}
 
 		$disclosure = [
-			'name'    => empty( $account_info->organization_name ) ? constant_contact_get_option( '_ctct_disclose_name', '' ) : $account_info->organization_name,
+			'name'    => empty( $account_info['organization_name'] ) ? constant_contact_get_option( '_ctct_disclose_name', '' ) : $account_info['organization_name'],
 			'address' => constant_contact_get_option( '_ctct_disclose_address', '' ),
 		];
 
@@ -1526,6 +1646,7 @@ class ConstantContact_API {
 	 * Generate code_verifier and code_challenge for rfc7636 PKCE.
 	 * https://datatracker.ietf.org/doc/html/rfc7636#appendix-B
 	 *
+	 * @throws Exception
 	 * @return array [code_verifier, code_challenge].
 	 */
 	private function code_challenge( ?string $code_verifier = null ): array {
@@ -1548,51 +1669,20 @@ class ConstantContact_API {
 	}
 
 	/**
-	 * Handle user session details.
-	 *
-	 * Not used.
-	 *
-	 * @since 2.0.0
-	 *
-	 * @param string      $key
-	 * @param string|null $value
-	 *
-	 * @return mixed|string
-	 */
-	public function session( string $key, ?string $value ) {
-		if ( $this->session_callback ) {
-			return call_user_func( $this->session_callback, $key, $value );
-		}
-		if ( null === $value ) {
-			$value = get_user_meta( $this->this_user_id, $key, true );
-			delete_user_meta( $this->this_user_id, $key, $value );
-
-			return $value;
-		}
-
-		update_user_meta( $this->this_user_id, $key, $value );
-
-		return $value;
-	}
-
-	/**
 	 * Check if a submission has note data in place.
 	 *
 	 * @since 2.0.0
 	 *
 	 * @param array $submission_data Array of form data.
+	 *
 	 * @return bool
 	 */
-	private function has_note( $submission_data ) {
-		if ( ! is_array( $submission_data ) ) {
-			return false;
-		}
-
+	private function has_note( array $submission_data ): bool {
 		$keys = array_keys( $submission_data );
 		$has_text_area = false;
 		foreach( $keys as $key ) {
 			if (
-				false !== strpos( $key, 'custom_text_area' ) &&
+				str_contains( $key, 'custom_text_area' ) &&
 				! empty( $submission_data[ $key ]['val'] )
 			) {
 				$has_text_area = true;
@@ -1610,15 +1700,47 @@ class ConstantContact_API {
 	 * @param $submission_data
 	 * @return string
 	 */
-	private function get_note_content( $submission_data ) {
+	private function get_note_content( $submission_data ): string {
 		$note = '';
 		foreach ( $submission_data as $key => $data ) {
-			if ( false !== strpos( $key, 'custom_text_area' ) ) {
+			if ( str_contains( $key, 'custom_text_area' ) ) {
 				$note .= $data['val'];
 				break;
 			}
 		}
 		return $note;
+	}
+
+	/**
+	 * Get the content of every text area (note) submitted to a form.
+	 *
+	 * @since 2026-08-18
+	 *
+	 * @param array $submission_data Array of form data.
+	 *
+	 * @return array List of note content strings, one per submitted text area.
+	 */
+	private function get_note_contents( $submission_data ) {
+		$notes = [];
+
+		if ( ! is_array( $submission_data ) ) {
+			return $notes;
+		}
+
+		foreach ( $submission_data as $key => $data ) {
+			if ( false === strpos( $key, 'custom_text_area' ) ) {
+				continue;
+			}
+
+			$content = is_array( $data ) ? ( $data['val'] ?? '' ) : '';
+			if ( '' === $content ) {
+				continue;
+			}
+
+			$notes[] = $content;
+		}
+
+		return $notes;
 	}
 
 	/**
@@ -1629,7 +1751,7 @@ class ConstantContact_API {
 	 * @param string $type    API request type.
 	 * @param array  $request The request.
 	 */
-	public function log_missed_api_request( string $type, array $request ) {
+	public function log_missed_api_request( string $type, array $request ): void {
 		$missed_api_requests            = get_option( 'ctct_missed_api_requests', [] );
 		$missed_api_requests[][ $type ] = $request;
 		update_option( 'ctct_missed_api_requests', $missed_api_requests );
@@ -1642,7 +1764,7 @@ class ConstantContact_API {
 	 *
 	 * @since 2.3.0
 	 */
-	public function clear_missed_api_requests() {
+	public function clear_missed_api_requests(): void {
 		// @TODO Make this compatible with other interactions besides just contact adds.
 		// For now we can focus on just contact.
 
@@ -1698,7 +1820,7 @@ class ConstantContact_API {
 	 *
 	 * @param int $form_id Form ID to use.
 	 */
-	protected function api_errors_admin_email( int $form_id = 0 ) {
+	protected function api_errors_admin_email( int $form_id = 0 ): void {
 		$send_to_addresses[] = get_option( 'admin_email' );
 		if ( $form_id ) {
 			$custom = get_post_meta( $form_id, '_ctct_email_settings', true );
@@ -1715,7 +1837,7 @@ class ConstantContact_API {
 		$content = sprintf(
 			$content,
 			sprintf(
-				'<a href="%s">',
+				'<a href="%1$s">',
 				get_bloginfo( 'url' )
 			),
 			$title,
@@ -1747,7 +1869,7 @@ class ConstantContact_API {
 	 *
 	 * @return string
 	 */
-	public function set_email_type() {
+	public function set_email_type(): string {
 		return 'text/html';
 	}
 }
