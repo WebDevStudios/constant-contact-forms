@@ -1,4 +1,4 @@
-= 2.22.0 =
+= 2.22.1 =
 
 * Added: Manual API Test button.
 * Updated: Implement a real cron-based token health-check safety net.
@@ -13,6 +13,7 @@
 * Fixed: Only one text area (note) was supported for submission to Constant Contact.
 * Fixed: Encryption Ready checks.
 * Fixed: Opt-in settings page not saving.
+* Fixed: Exclude dev files that were being included in the release.
 
 = 2.21.0 =
 
