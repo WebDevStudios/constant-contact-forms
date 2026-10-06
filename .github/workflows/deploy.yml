@@ -16,7 +16,7 @@ jobs:
       uses: php-actions/composer@v5
       with:
         php_version: 8
-        version: 1
+        version: 2
         command: install
         args: --no-dev
     - name: Use Node.js
