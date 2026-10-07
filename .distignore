@@ -6,11 +6,17 @@
 /tests
 /bin
 /webpack
+/src
+/docker_tag
+/output.log
 .distignore
+.nvmrc
 .prettierignore
+.prettierrc
 .prettierrc.js
 .stylelintignore
 .stylelintrc.js
+.stylelintrc.json
 .gitignore
 .editorconfig
 CHANGELOG.md
