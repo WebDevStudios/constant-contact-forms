@@ -47,7 +47,7 @@
   "homepage": "https://github.com/WebDevStudios/constant-contact-forms#readme",
   "devDependencies": {
     "@wordpress/prettier-config": "^4.41.0",
-    "@wordpress/scripts": "^31.6.0",
+    "@wordpress/scripts": "^33.0.0",
     "autoprefixer": "^10.4.27",
     "browser-sync": "^3.0.4",
     "browserslist": "^4.28.1",
