@@ -78,7 +78,8 @@ class ConstantContact_Settings {
 		$this->inject_optin_form_hooks();
 
 		add_filter( 'preprocess_comment', [ $this, 'process_optin_comment_form' ] );
-		add_filter( 'authenticate', [ $this, 'process_optin_login_form' ], 10, 3 );
+		// Run after core credential checks (priority 20) so only successfully authenticated users are opted in.
+		add_filter( 'authenticate', [ $this, 'process_optin_login_form' ], 100, 3 );
 		add_action( 'user_register', [ $this, 'process_optin_register_form' ], 10, 2 );
 		add_action( 'cmb2_save_field__ctct_logging', [ $this, 'maybe_init_logs' ], 10, 3 );
 		add_filter( 'constant_contact_custom_spam_message', [ $this, 'get_spam_error_message' ], 10, 2 );
