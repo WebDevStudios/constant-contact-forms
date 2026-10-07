@@ -900,6 +900,7 @@ class ConstantContact_Builder_Fields {
 			) {
 				if ( array_key_exists( 'label', $custom_fields_data['custom_fields'][0] ) ) {
 					$labels = wp_list_pluck( $custom_fields_data['custom_fields'], 'label' );
+					$labels = array_map( 'esc_html', array_map( 'strval', $labels ) );
 					sort( $labels );
 
 					printf(

@@ -1,4 +1,4 @@
-= 2.22.0 =
+= 2.22.1 =
 
 * Added: Manual API Test button.
 * Updated: Implement a real cron-based token health-check safety net.
@@ -13,6 +13,11 @@
 * Fixed: Only one text area (note) was supported for submission to Constant Contact.
 * Fixed: Encryption Ready checks.
 * Fixed: Opt-in settings page not saving.
+* Fixed: Exclude dev files that were being included in the release.
+* Security: Login opt-in now only subscribes users after successful authentication.
+* Security: Login, comment, and registration opt-ins now only accept lists configured in the opt-in settings, and only when that opt-in location is enabled.
+* Security: Akismet spam checks now only send an allowlist of request headers instead of all server variables.
+* Security: Escape Constant Contact custom field labels displayed in the form editor.
 
 = 2.21.0 =
 

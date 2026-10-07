@@ -2,8 +2,8 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
-Tested up to:      7.1.2
-Stable tag:        2.22.0
+Tested up to:      7.1.3
+Stable tag:        2.22.1
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
 Requires PHP:      8.1
@@ -47,7 +47,7 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
-= 2.22.0 =
+= 2.22.1 =
 * Added: Manual API Test button.
 * Updated: Implement a real cron-based token health-check safety net.
 * Fixed: Connecting from one account then manually disconnecting and trying to connect to another account would still show you logged into the first account.
@@ -61,6 +61,11 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 * Fixed: Only one text area (note) was supported for submission to Constant Contact.
 * Fixed: Encryption Ready checks.
 * Fixed: Opt-in settings page not saving.
+* Fixed: Exclude dev files that were being included in the release.
+* Security: Login opt-in now only subscribes users after successful authentication.
+* Security: Login, comment, and registration opt-ins now only accept lists configured in the opt-in settings, and only when that opt-in location is enabled.
+* Security: Akismet spam checks now only send an allowlist of request headers instead of all server variables.
+* Security: Escape Constant Contact custom field labels displayed in the form editor.
 
 = 2.21.0 =
 * Updated: Temporarily removing the forced disconnection and API key removal, when domain differences are suspected. Added logging indicating we got to that point.
