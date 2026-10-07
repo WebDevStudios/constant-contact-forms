@@ -77,7 +77,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '2.22.0';
+	const VERSION = '2.22.1';
 
 	/**
 	 * URL of plugin directory.
