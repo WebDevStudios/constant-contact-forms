@@ -365,16 +365,38 @@ function constant_contact_akismet( bool $is_spam, array $data ): bool {
 	$args['blog']                 = get_option( 'home' );
 	$args['blog_lang']            = get_locale();
 	$args['blog_charset']         = get_option( 'blog_charset' );
-	$args['user_ip']              = $_SERVER['REMOTE_ADDR'];
-	$args['user_agent']           = $_SERVER['HTTP_USER_AGENT'];
-	$args['referrer']             = $_SERVER['HTTP_REFERER'];
+	$args['user_ip']              = $_SERVER['REMOTE_ADDR'] ?? '';
+	$args['user_agent']           = $_SERVER['HTTP_USER_AGENT'] ?? '';
+	$args['referrer']             = $_SERVER['HTTP_REFERER'] ?? '';
 	$args['comment_type']         = 'contact-form';
 
-	$ignore = [ 'HTTP_COOKIE', 'HTTP_COOKIE2', 'PHP_AUTH_PW' ];
+	// Only forward request metadata useful for spam classification. Never forward
+	// credentials, cookies, or other secret-bearing server values.
+	$allowed = [
+		'REMOTE_ADDR',
+		'REQUEST_METHOD',
+		'REQUEST_URI',
+		'SERVER_PROTOCOL',
+		'HTTP_ACCEPT',
+		'HTTP_ACCEPT_CHARSET',
+		'HTTP_ACCEPT_ENCODING',
+		'HTTP_ACCEPT_LANGUAGE',
+		'HTTP_CACHE_CONTROL',
+		'HTTP_CLIENT_IP',
+		'HTTP_CONNECTION',
+		'HTTP_HOST',
+		'HTTP_ORIGIN',
+		'HTTP_PRAGMA',
+		'HTTP_REFERER',
+		'HTTP_USER_AGENT',
+		'HTTP_VIA',
+		'HTTP_X_FORWARDED_FOR',
+		'HTTP_X_REAL_IP',
+	];
 
-	foreach ( $_SERVER as $key => $value ) {
-		if ( ! in_array( $key, (array) $ignore, true ) ) {
-			$args[ "{$key}" ] = $value;
+	foreach ( $allowed as $key ) {
+		if ( isset( $_SERVER[ $key ] ) && is_string( $_SERVER[ $key ] ) ) {
+			$args[ $key ] = $_SERVER[ $key ];
 		}
 	}
 
