@@ -942,7 +942,11 @@ class ConstantContact_Settings {
 	 * @return array Comment form data.
 	 */
 	public function process_optin_comment_form( array $comment_data ): array {
-		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
+		if ( ! $this->check_if_optin_should_show( 'comment_form' ) ) {
+			return $comment_data;
+		}
+
+		$ctct_optin_lists = $this->get_submitted_optin_lists();
 
 		if ( empty( $ctct_optin_lists ) ) {
 			return $comment_data;
@@ -967,11 +971,11 @@ class ConstantContact_Settings {
 
 			$name    = $comment_data['comment_author'] ?? '';
 			$website = $comment_data['comment_author_url'] ?? '';
-			$lists   = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
+			$lists   = $this->get_submitted_optin_lists();
 
 			foreach ( $lists as $list ) {
 				$args = [
-					'list'       => sanitize_text_field( wp_unslash( $list ) ),
+					'list'       => $list,
 					'email'      => sanitize_email( $comment_data['comment_author_email'] ),
 					'first_name' => sanitize_text_field( $name ),
 					'last_name'  => '',
@@ -995,17 +999,22 @@ class ConstantContact_Settings {
 	 * @return object|array CTCT return API for contact or original $user array.
 	 */
 	public function process_optin_login_form( $user, string $username, string $password ) {
-		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
-
-		if ( empty( $ctct_optin_lists ) ) {
+		// Only act once WordPress has successfully authenticated the user.
+		if ( ! $user instanceof WP_User ) {
 			return $user;
 		}
 
-		if ( empty( $username ) ) {
+		if ( ! $this->check_if_optin_should_show( 'login_form' ) ) {
 			return $user;
 		}
 
-		return $this->process_user_data_for_optin( $user, $username );
+		if ( empty( $this->get_submitted_optin_lists() ) ) {
+			return $user;
+		}
+
+		$this->add_user_to_list( $user );
+
+		return $user;
 	}
 
 
@@ -1019,7 +1028,11 @@ class ConstantContact_Settings {
 	 */
 	public function process_optin_register_form( int $user_id ) : int {
 
-		$ctct_optin_lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
+		if ( ! $this->check_if_optin_should_show( 'reg_form' ) ) {
+			return $user_id;
+		}
+
+		$ctct_optin_lists = $this->get_submitted_optin_lists();
 
 		if ( empty( $ctct_optin_lists ) ) {
 			return $user_id;
@@ -1075,17 +1088,13 @@ class ConstantContact_Settings {
 			$name = sanitize_text_field( $user->data->display_name );
 		}
 
-		if ( ! isset( $_POST['ctct_optin_list'] ) ) { // phpcs:ignore -- Okay accessing of $_POST.
-			return;
-		}
-
-		$lists = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
+		$lists = $this->get_submitted_optin_lists();
 
 		if ( $email ) {
 			foreach ( $lists as $list ) {
 				$args = [
 					'email'      => $email,
-					'list'       => sanitize_text_field( wp_unslash( $list ) ),
+					'list'       => $list,
 					'first_name' => $name,
 					'last_name'  => '',
 				];
@@ -1106,7 +1115,10 @@ class ConstantContact_Settings {
 	 * @return mixed Passed in $user object.
 	 */
 	public function process_user_data_for_optin( $user, string $username ): mixed {
-		$this->add_user_to_list( get_user_by( 'login', $username ) );
+		// Only opt in the user that actually authenticated, never an arbitrary username lookup.
+		if ( $user instanceof WP_User && $user->user_login === $username ) {
+			$this->add_user_to_list( $user );
+		}
 		return $user;
 	}
 
@@ -1277,6 +1289,36 @@ class ConstantContact_Settings {
 	 */
 	private function get_default_spam_error() : string {
 		return esc_html__( 'We do not think you are human', 'constant-contact-forms' );
+	}
+
+	/**
+	 * Returns submitted opt-in list IDs, limited to the lists configured for opt-in.
+	 *
+	 * @since 2.22.1
+	 *
+	 * @return array
+	 */
+	private function get_submitted_optin_lists() : array {
+		$submitted = filter_input( INPUT_POST, 'ctct_optin_list', FILTER_SANITIZE_SPECIAL_CHARS, FILTER_REQUIRE_ARRAY );
+
+		if ( empty( $submitted ) || ! is_array( $submitted ) ) {
+			return [];
+		}
+
+		$configured = constant_contact_get_option( '_ctct_optin_list', [] );
+
+		if ( empty( $configured ) || ! is_array( $configured ) ) {
+			return [];
+		}
+
+		$submitted = array_map(
+			static function ( $list ) {
+				return sanitize_text_field( wp_unslash( (string) $list ) );
+			},
+			$submitted
+		);
+
+		return array_values( array_unique( array_intersect( $submitted, array_map( 'strval', $configured ) ) ) );
 	}
 
 	/**
