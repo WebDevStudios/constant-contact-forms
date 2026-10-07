@@ -1,3 +1,7 @@
+= 2.22.2 =
+
+* Fixed: Release package was missing compiled CSS and JavaScript files.
+
 = 2.22.1 =
 
 * Added: Manual API Test button.
