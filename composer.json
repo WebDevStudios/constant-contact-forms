@@ -3,7 +3,7 @@
    "description":"Official WordPress plugin for Constant Contact Forms.",
    "license":"GPL-3.0-or-later",
    "homepage":"https://www.constantcontact.com",
-   "version": "2.22.2",
+   "version": "2.22.3",
    "require":{
       "monolog/monolog":"3.9.0",
       "cmb2/cmb2":"2.12.0",

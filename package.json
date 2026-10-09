@@ -1,6 +1,6 @@
 {
   "name": "constant-contact-forms",
-  "version": "2.22.2",
+  "version": "2.22.3",
   "description": "",
   "main": "build/index.js",
   "engines": {

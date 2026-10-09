@@ -1,3 +1,7 @@
+= 2.22.3 =
+* Fixed: E_COMPILE_ERROR error in PHP version 8.1 due to use of null return type. Props @stevoli for pointing this out.
+
+
 = 2.22.2 =
 
 * Fixed: Release package was missing compiled CSS and JavaScript files.

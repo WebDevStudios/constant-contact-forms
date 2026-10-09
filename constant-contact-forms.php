@@ -12,7 +12,7 @@
  * Plugin Name: Constant Contact Forms for WordPress
  * Plugin URI:  https://www.constantcontact.com
  * Description: Be a better marketer. All it takes is Constant Contact email marketing.
- * Version:     2.22.2
+ * Version:     2.22.3
  * Author:      Constant Contact
  * Author URI:  https://www.constantcontact.com/index?pn=miwordpress
  * Requires PHP: 8.1
@@ -43,11 +43,11 @@
  * @since 1.0.0
  *
  * @param string $class_name Name of the class being requested.
- * @return null
+ * @return void
  */
-function constant_contact_autoload_classes( string $class_name ): null {
+function constant_contact_autoload_classes( string $class_name ) {
 	if ( ! str_starts_with( $class_name, 'ConstantContact_' ) ) {
-		return null;
+		return;
 	}
 
 	$filename = strtolower(
@@ -60,7 +60,7 @@ function constant_contact_autoload_classes( string $class_name ): null {
 
 	Constant_Contact::include_file( $filename );
 
-	return null;
+	return;
 }
 spl_autoload_register( 'constant_contact_autoload_classes' );
 
@@ -77,7 +77,7 @@ class Constant_Contact {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	const VERSION = '2.22.2';
+	const VERSION = '2.22.3';
 
 	/**
 	 * URL of plugin directory.
