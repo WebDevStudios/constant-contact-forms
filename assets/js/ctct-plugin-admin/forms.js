@@ -36,8 +36,10 @@ window.CTCTForms = {};
 		const disconnect = document.querySelectorAll(that.cache.disconnect);
 		if (disconnect) {
 			Array.from(disconnect).forEach((item) => {
-				item.addEventListener('click', () => {
-					return confirm(window.ctctTexts.disconnectconfirm);
+				item.addEventListener('click', (event) => {
+					if (!confirm(window.ctctTexts.disconnectconfirm)) {
+						event.preventDefault();
+					}
 				});
 			});
 		}
