@@ -287,7 +287,16 @@ class ConstantContact_Connect {
 				admin_url( 'edit.php' )
 			);
 
-			$env_types                      = [ 'local', 'development', 'staging' ];
+			// Constant Contact opens in a new tab; send this tab to the auth settings page so the code/state can be pasted.
+			wp_add_inline_script(
+				'ctct_form',
+				sprintf(
+					'document.querySelectorAll( ".not-connected .ctct-connect" ).forEach( function( link ) { link.addEventListener( "click", function() { setTimeout( function() { window.location.href = %s; }, 100 ); } ); } );',
+					wp_json_encode( $code_link )
+				)
+			);
+
+			$env_types                     = [ 'local', 'development', 'staging' ];
 			$duplicate_account_notification = '';
 			if ( in_array( wp_get_environment_type(), $env_types, true ) ) {
 				$duplicate_account_notification = esc_html__(
