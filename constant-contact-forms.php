@@ -43,11 +43,11 @@
  * @since 1.0.0
  *
  * @param string $class_name Name of the class being requested.
- * @return null
+ * @return void
  */
-function constant_contact_autoload_classes( string $class_name ): null {
+function constant_contact_autoload_classes( string $class_name ) {
 	if ( ! str_starts_with( $class_name, 'ConstantContact_' ) ) {
-		return null;
+		return;
 	}
 
 	$filename = strtolower(
@@ -60,7 +60,7 @@ function constant_contact_autoload_classes( string $class_name ): null {
 
 	Constant_Contact::include_file( $filename );
 
-	return null;
+	return;
 }
 spl_autoload_register( 'constant_contact_autoload_classes' );
 
