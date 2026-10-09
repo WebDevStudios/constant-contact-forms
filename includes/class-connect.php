@@ -118,19 +118,17 @@ class ConstantContact_Connect {
 	 */
 	public function add_options_page(): void {
 
-		$connect_title = esc_html__( 'Disconnect', 'constant-contact-forms' );
-		if ( ! constant_contact()->get_api()->is_connected() ) {
-			$connect_title = esc_html__( 'Connect Now', 'constant-contact-forms' );
-		}
+		$connect_title = esc_html__( 'Connection', 'constant-contact-forms' );
+		$menu_title    = $connect_title;
 
 		if ( constant_contact_get_needs_manual_reconnect() ) {
-			$connect_title = esc_html__( 'Disconnected', 'constant-contact-forms' ) . '<span class="dashicons dashicons-warning ctct-menu-icon"></span>';
+			$menu_title .= '<span class="dashicons dashicons-warning ctct-menu-icon"></span>';
 		}
 
 		$this->options_page = add_submenu_page(
 			'edit.php?post_type=ctct_forms',
 			$connect_title,
-			$connect_title,
+			$menu_title,
 			'manage_options',
 			$this->key,
 			[ $this, 'admin_page_display' ]
