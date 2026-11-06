@@ -47,6 +47,19 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 
 == Changelog ==
 
+= NEXT =
+* Added: Front-end validation now flags email addresses with consecutive periods, a period at the start or end of the part before the @, or an incomplete domain before the form is submitted.
+* Added: `constant_contact_is_valid_email()` helper and `constant_contact_is_valid_email` filter for consistent email validation.
+* Updated: Server-side email validation now rejects addresses Constant Contact will not accept (e.g. `test..ing@gmail.com`) and shows a field error instead of sending them to the API.
+* Updated: Form processing responses now always return arrays for submitted values and errors.
+* Fixed: Email addresses rejected by the Constant Contact API showed a success message even though the contact was not created.
+* Fixed: Fatal TypeError when redisplaying a form after a validation error if an optional text field was left blank.
+* Fixed: Fatal TypeError when a Constant Contact API email validation error was returned without the submitted values.
+* Fixed: Fatal TypeError when an exception occurred while adding a contact.
+* Fixed: AJAX form submissions with invalid entries received "0" instead of an error message, and invalid fields were not highlighted.
+* Fixed: A stray "1" label appeared next to fields flagged as invalid.
+* Fixed: Shortcodes referencing a post ID that is not a Constant Contact form now render nothing.
+
 = 2.22.3 =
 * Fixed: E_COMPILE_ERROR error in PHP version 8.1 due to use of null return type. Props @stevoli for pointing this out.
 

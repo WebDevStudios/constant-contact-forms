@@ -921,3 +921,34 @@ function constant_contact_test_api_ajax_handler(): bool {
 	exit();
 }
 add_action( 'wp_ajax_constant_contact_test_api_ajax_handler', 'constant_contact_test_api_ajax_handler' );
+
+/**
+ * Determine whether an email address is valid enough to submit to Constant Contact.
+ *
+ * WordPress' is_email() and sanitize_email() both accept local parts that the
+ * Constant Contact API rejects (consecutive dots, leading/trailing dots), and
+ * the browser's native type="email" validation accepts dotless domains. Pairing
+ * is_email() with PHP's FILTER_VALIDATE_EMAIL covers both gaps.
+ *
+ * @since 2.22.4
+ *
+ * @param mixed $email Email address to check.
+ * @return bool
+ */
+function constant_contact_is_valid_email( $email ): bool {
+	$is_valid = is_string( $email )
+		&& '' !== $email
+		&& sanitize_email( $email ) === $email
+		&& false !== is_email( $email )
+		&& false !== filter_var( $email, FILTER_VALIDATE_EMAIL );
+
+	/**
+	 * Filters whether a submitted email address is considered valid.
+	 *
+	 * @since 2.22.4
+	 *
+	 * @param bool  $is_valid Whether the email address is valid.
+	 * @param mixed $email    Email address being checked.
+	 */
+	return (bool) apply_filters( 'constant_contact_is_valid_email', $is_valid, $email );
+}

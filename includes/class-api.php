@@ -910,10 +910,19 @@ class ConstantContact_API {
 		}
 
 		$email = sanitize_email( $new_contact['email'] );
+
+		// Don't send addresses Constant Contact will reject; mirror the API's error shape for callers.
+		if ( ! constant_contact_is_valid_email( $email ) ) {
+			return [
+				'error_key'     => 'contacts.api.validation.error',
+				'error_message' => 'Email address is invalid',
+			];
+		}
+
 		// Set our list data. If we didn't get passed a list and got this far, just generate a random ID.
 		$list = $new_contact['list'] ?? 'cc_' . wp_generate_password( 15, false );
 
-		$return_contact = false;
+		$return_contact = [];
 
 		try {
 
@@ -954,6 +963,12 @@ class ConstantContact_API {
 			$error                = new stdClass();
 			$error->error_key     = get_class( $ex );
 			$error->error_message = $ex->getMessage();
+
+			// Surface the failure in the same shape as an API error; this method is typed to return an array.
+			$return_contact = [
+				'error_key'     => $error->error_key,
+				'error_message' => $error->error_message,
+			];
 
 			add_filter( 'constant_contact_force_logging', '__return_true' );
 			constant_contact_forms_maybe_set_exception_notice( $ex );

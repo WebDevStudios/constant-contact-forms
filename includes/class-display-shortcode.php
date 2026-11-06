@@ -108,6 +108,12 @@ class ConstantContact_Display_Shortcode {
 		}
 
 		$form_data = $this->get_field_meta( $meta, $form_id );
+
+		// E.g. a shortcode pointing at a post ID that isn't a Constant Contact form.
+		if ( empty( $form_data ) ) {
+			return '';
+		}
+
 		$classes = [ 'ctct-form-wrapper' ];
 		$custom  = $this->wrapper_classes();
 		$all_classes = array_merge( $classes, $custom );

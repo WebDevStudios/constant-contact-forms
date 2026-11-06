@@ -89,7 +89,9 @@ class ConstantContact_Process_Form {
 
 					if ( isset( $exp_fields[0] ) && $exp_fields[0] ) {
 						if ( str_contains( $exp_fields[0], 'email__' ) ) {
-							$value = ( is_email( $exp_fields[1] ) ) ? $exp_fields[1] : '';
+							// Keep the raw value; get_field_errors() flags invalid addresses so the visitor sees a field error
+							// instead of the email being silently blanked.
+							$value = $exp_fields[1] ?? '';
 						} else {
 							$value = isset( $exp_fields[1] ) ? urldecode( $exp_fields[1] ) : '';
 						}
@@ -142,19 +144,28 @@ class ConstantContact_Process_Form {
 					$message = isset( $response['error'] ) ? $response['error'] : $default_error;
 					break;
 
+				// These must be sent as JSON: returning from a wp_ajax_* callback discards the value and
+				// admin-ajax.php responds with "0".
 				case 'req_error':
-					return [
-						'status'  => 'error',
-						'message' => esc_html__( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
-						'errors'  => isset( $response['errors'] ) ? $response['errors'] : '',
-						'values'  => isset( $response['values'] ) ? $response['values'] : '',
-					];
+					wp_send_json(
+						[
+							'status'  => 'error',
+							'message' => esc_html__( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
+							'errors'  => is_array( $response['errors'] ?? null ) ? $response['errors'] : [],
+							// Always empty: submitted values are stripped above and the AJAX form keeps its own entries.
+							'values'  => [],
+						]
+					);
+					break;
 				case 'api_error':
-					return [
-						'status'  => 'error',
-						'message' => $response['message'],
-						'values'  => isset( $response['values'] ) ? $response['values'] : '',
-					];
+					wp_send_json(
+						[
+							'status'  => 'error',
+							'message' => ! empty( $response['message'] ) ? esc_html( $response['message'] ) : $default_error,
+							'values'  => [],
+						]
+					);
+					break;
 
 				default:
 					$message = $default_error;
@@ -496,14 +507,28 @@ class ConstantContact_Process_Form {
 			} else {
 				// No need to check for opt in status because we would have returned early by now if false.
 				if ( constant_contact()->get_api()->is_connected() ) {
-					$api_result = constant_contact()->get_mail()->opt_in_user( $this->clean_values( $return['values'] ) );
-					// Send email if API request fails.
-					if ( false === $api_result ) {
-						$clean_values  = $this->clean_values( $return['values'] );
+					$clean_values = $this->clean_values( $return['values'] );
+					$api_result   = constant_contact()->get_mail()->opt_in_user( $clean_values );
+					$api_error    = $this->get_api_error( $api_result );
+
+					if ( null !== $api_error && $this->is_invalid_email_api_error( $api_error ) ) {
+						// Constant Contact rejected the address. Treat it like our own validation failure so the
+						// visitor gets a field-level error and their entries are preserved.
+						return [
+							'status' => 'req_error',
+							'errors' => $this->get_invalid_email_errors( $clean_values ),
+							'values' => $return['values'],
+						];
+					}
+
+					// An "unauthorized" error that survived the refresh-and-retry in add_contact() has been queued
+					// for replay after reconnection, so the signup is not lost; keep treating it as submitted.
+					if ( null !== $api_error && 'unauthorized' !== $api_error['error_key'] ) {
+						// Send email to the site admin so the submission isn't lost, and tell the visitor.
 						$pretty_values = $this->pretty_values( $clean_values );
 						$email_values  = constant_contact()->get_mail()->format_values_for_email( $pretty_values, $orig_form_id );
 
-						$test = constant_contact()->get_mail()->mail(
+						constant_contact()->get_mail()->mail(
 							constant_contact()->get_mail()->get_email( $orig_form_id ),
 							$email_values,
 							[
@@ -520,27 +545,9 @@ class ConstantContact_Process_Form {
 							'values'  => $return['values'],
 							'message' => esc_html__( 'An error occurred while attempting Constant Contact API request. Please check your details and try again.', 'constant-contact-forms' ),
 						];
-					} elseif ( is_array( $api_result ) && 1 === count( $api_result ) ) {
-						$api_error = $api_result[0];
-
-						if (
-							array_key_exists( 'error_key', $api_error ) &&
-							array_key_exists( 'error_message', $api_error ) &&
-							'contacts.api.validation.error' === $api_error['error_key'] &&
-							(
-								'Email address is invalid' === $api_error['error_message'] ||
-								'Address format' === $api_error['error_message']
-							)
-						) {
-							return [
-								'status'  => 'api_error',
-								'message' => __( 'An error occurred while attempting Constant Contact API request. Please check your details and try again.', 'constant-contact-forms' ),
-							];
-						}
-					} else {
-						// Only email if we have a successful API request.
-						constant_contact()->get_mail()->submit_form_values( $return['values'] );
 					}
+
+					constant_contact()->get_mail()->submit_form_values( $return['values'] );
 				} else {
 					// We have at least one list, but are not considered connected.
 					if (
@@ -806,8 +813,9 @@ class ConstantContact_Process_Form {
 				}
 			}
 
-			if ( 'email' === $value['orig']['map_to'] ) {
-				if ( sanitize_email( $value['post'] ) !== $value['post'] ) {
+			// Empty values are handled by the required check above (or are allowed when optional).
+			if ( 'email' === $value['orig']['map_to'] && '' !== $value['post'] ) {
+				if ( ! constant_contact_is_valid_email( $value['post'] ) ) {
 					$err_returns[] = [
 						'map'   => $value['orig']['map_to'],
 						'id'    => $value['orig_key'] ?? '',
@@ -943,14 +951,14 @@ class ConstantContact_Process_Form {
 				return [
 					'status'  => 'error',
 					'message' => esc_html__( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
-					'errors'  => $processed['errors'] ?? '',
-					'values'  => $processed['values'] ?? '',
+					'errors'  => is_array( $processed['errors'] ?? null ) ? $processed['errors'] : [],
+					'values'  => is_array( $processed['values'] ?? null ) ? $processed['values'] : [],
 				];
 			case 'api_error':
 				return [
 					'status'  => 'error',
-					'message' => $processed['message'] ? esc_html( $processed['message'] ) : esc_html__( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
-					'values'  => $processed['values'] ?? '',
+					'message' => ! empty( $processed['message'] ) ? esc_html( $processed['message'] ) : esc_html__( 'We had trouble processing your submission. Please review your entries and try again.', 'constant-contact-forms' ),
+					'values'  => is_array( $processed['values'] ?? null ) ? $processed['values'] : [],
 				];
 
 			default:
@@ -1005,6 +1013,81 @@ class ConstantContact_Process_Form {
 			}
 		}
 		return $has_all;
+	}
+
+	/**
+	 * Extract the error from a Constant Contact API contact response, if any.
+	 *
+	 * The client normalizes errors so `error_key`/`error_message` are on the top level, but the
+	 * API can also return a list of error objects, so check both shapes.
+	 *
+	 * @since 2.22.4
+	 *
+	 * @param array $api_result Response from ConstantContact_Mail::opt_in_user().
+	 * @return array|null Array with `error_key` and `error_message`, or null if no error.
+	 */
+	private function get_api_error( array $api_result ): ?array {
+		$candidates = [ $api_result ];
+
+		foreach ( $api_result as $item ) {
+			if ( is_array( $item ) ) {
+				$candidates[] = $item;
+			}
+		}
+
+		foreach ( $candidates as $candidate ) {
+			if ( ! empty( $candidate['error_key'] ) && is_string( $candidate['error_key'] ) ) {
+				return [
+					'error_key'     => $candidate['error_key'],
+					'error_message' => is_string( $candidate['error_message'] ?? null ) ? $candidate['error_message'] : '',
+				];
+			}
+		}
+
+		return null;
+	}
+
+	/**
+	 * Whether an API error indicates Constant Contact rejected the submitted email address.
+	 *
+	 * @since 2.22.4
+	 *
+	 * @param array $api_error Error from get_api_error().
+	 * @return bool
+	 */
+	private function is_invalid_email_api_error( array $api_error ): bool {
+		if ( 'contacts.api.validation.error' !== $api_error['error_key'] ) {
+			return false;
+		}
+
+		// Observed messages: "Address format", "Address presence" (empty after sanitizing), "Email address is invalid".
+		$message = strtolower( $api_error['error_message'] );
+
+		return str_contains( $message, 'email' ) || str_starts_with( $message, 'address' );
+	}
+
+	/**
+	 * Build field errors flagging the submitted email field(s) as invalid.
+	 *
+	 * @since 2.22.4
+	 *
+	 * @param array $clean_values Values from clean_values().
+	 * @return array Errors in the same shape as get_field_errors().
+	 */
+	private function get_invalid_email_errors( array $clean_values ): array {
+		$errors = [];
+
+		foreach ( $clean_values as $value ) {
+			if ( 'email' === ( $value['key'] ?? '' ) ) {
+				$errors[] = [
+					'map'   => 'email',
+					'id'    => $value['orig_key'] ?? '',
+					'error' => 'invalid',
+				];
+			}
+		}
+
+		return $errors;
 	}
 
 	/**

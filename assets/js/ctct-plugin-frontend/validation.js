@@ -72,15 +72,91 @@
 	 * @since 1.0.0
 	 *
 	 * @param {object} error AJAX response error object.
+	 * @param {object} form  Form the error belongs to. Defaults to the whole document.
 	 */
-	app.processError = ( error ) => {
+	app.processError = ( error, form = document ) => {
 
 		// If we have an id property set.
-		if ( 'undefined' !== typeof( error.id ) ) {
-			let invalid = document.querySelectorAll('#' + error.id);
+		if ( 'undefined' !== typeof( error.id ) && error.id ) {
+			// The server reports the field's name attribute (e.g. email___<hash>); rendered element IDs
+			// carry an extra instance/random suffix, so match on name, scoped to the submitted form.
+			let invalid = form.querySelectorAll('[name="' + CSS.escape(error.id) + '"]');
 			Array.from(invalid).forEach((theInvalid) => {
 				theInvalid.classList.add('ctct-invalid');
 			});
+		}
+	};
+
+	/**
+	 * Get a validation message for an email value the browser's native type="email" check lets through
+	 * but the server (and Constant Contact) will reject.
+	 *
+	 * @since 2.22.4
+	 *
+	 * Each rule mirrors a case constant_contact_is_valid_email() rejects on the server, so the browser
+	 * never blocks an address the server would accept.
+	 *
+	 * @param {string}  value    Email address entered.
+	 * @param {boolean} complete Whether the value is finished (blur/submit/page load). While the visitor is
+	 *                           still typing, rules that more typing could satisfy (e.g. "name@gmail" before
+	 *                           ".com") are skipped so the field doesn't flash red mid-entry.
+	 * @return {string} Error message, or empty string if no problem was found.
+	 */
+	app.getEmailError = ( value, complete = true ) => {
+		const texts = window.ctctFrontendTexts || {};
+		const at    = value.lastIndexOf( '@' );
+		const local = -1 === at ? value : value.slice( 0, at );
+
+		// e.g. test..ing@gmail.com, test@gmail..com
+		if ( /\.{2,}/.test( value ) ) {
+			return texts.invalidEmailConsecutiveDots || 'Email addresses cannot contain two or more periods in a row.';
+		}
+
+		// e.g. .test@gmail.com, test.@gmail.com (the trailing case only once the "@" has been typed).
+		if ( local.startsWith( '.' ) || ( -1 !== at && local.endsWith( '.' ) ) ) {
+			return texts.invalidEmailLocalDots || 'The part of an email address before the @ cannot start or end with a period.';
+		}
+
+		// Missing/empty parts are left to the browser's native type="email" validation.
+		if ( ! complete || -1 === at ) {
+			return '';
+		}
+
+		const domain = value.slice( at + 1 );
+
+		// e.g. username@domain (no dot), user@123.123.123.123 / user@gmail.123 (all-numeric ending).
+		if ( domain && ( ! domain.includes( '.' ) || /\.\d+$/.test( domain ) ) ) {
+			return texts.invalidEmailDomain || 'Please enter a complete domain after the @, such as example.com.';
+		}
+
+		return '';
+	};
+
+	/**
+	 * Flag an email field as invalid (or clear the flag) based on app.getEmailError().
+	 *
+	 * Uses setCustomValidity() so the browser treats the field as :invalid (no "valid" checkmark) and blocks
+	 * native submission with the message, plus the .ctct-invalid class for the plugin's error styling.
+	 *
+	 * @since 2.22.4
+	 *
+	 * @param {object}  field         Email input element.
+	 * @param {boolean} clearIfValid  Whether to remove an existing .ctct-invalid flag when the value is fine.
+	 *                                False on page load so server-side field errors are left in place.
+	 * @param {boolean} complete      Whether to run the checks that only apply to a finished value.
+	 *                                See app.getEmailError().
+	 */
+	app.validateEmailField = ( field, clearIfValid = true, complete = true ) => {
+		const message = app.getEmailError( field.value.trim(), complete );
+
+		field.setCustomValidity( message );
+
+		if ( message ) {
+			field.classList.add( 'ctct-invalid' );
+			field.setAttribute( 'aria-invalid', 'true' );
+		} else if ( clearIfValid ) {
+			field.classList.remove( 'ctct-invalid' );
+			field.removeAttribute( 'aria-invalid' );
 		}
 	};
 
@@ -203,12 +279,12 @@
 			}
 
 			if ( 'success' !== response.status ) {
-				if ('undefined' !== typeof (response.errors)) {
+				if (Array.isArray(response.errors)) {
 					app.setAllInputsValid();
-					response.errors.forEach(app.processError);
-				} else {
-					app.showMessage(form, response.message, 'ctct-error', 'alert');
+					response.errors.forEach((error) => app.processError(error, form));
 				}
+
+				app.showMessage(form, response.message, 'ctct-error', 'alert');
 
 				return false;
 			}
@@ -240,6 +316,9 @@
 
 		if (form.checkValidity()) {
 			app.timeout = setTimeout(app.submitForm, 500, form);
+		} else {
+			// AJAX submissions call preventDefault(), which skips the browser's validation UI; show it explicitly.
+			form.reportValidity();
 		}
 	};
 
@@ -252,7 +331,26 @@
 	app.bindEvents = () => {
 		app.cache.forms.forEach((form) => {
 			let thesubmit = form.querySelector('[type=submit]');
+			const emailFields = form.querySelectorAll('input[type=email]');
+
+			emailFields.forEach((emailField) => {
+				// Catch values re-populated after a failed submission or by browser autofill.
+				app.validateEmailField(emailField, false, true);
+
+				// While typing, only flag problems more typing can't fix; run the full check when leaving the field.
+				emailField.addEventListener('input', () => {
+					app.validateEmailField(emailField, true, false);
+				});
+				emailField.addEventListener('blur', () => {
+					app.validateEmailField(emailField, true, true);
+				});
+			});
+
 			thesubmit.addEventListener('click', (event) => {
+				// Run the full check before the browser validates the form. Pressing Enter in a field submits
+				// via a synthetic click on this button without blurring the field, so blur alone isn't enough.
+				emailFields.forEach((emailField) => app.validateEmailField(emailField, true, true));
+
 				let doingajax = form.getAttribute( 'data-doajax' );
 				if ( doingajax && 'on' === doingajax ) {
 					event.preventDefault();

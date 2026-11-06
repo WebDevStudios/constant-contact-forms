@@ -71,6 +71,16 @@ class ConstantContact_Display {
 			true
 		);
 
+		wp_localize_script(
+			'ctct_frontend_forms',
+			'ctctFrontendTexts',
+			[
+				'invalidEmailConsecutiveDots' => esc_html__( 'Email addresses cannot contain two or more periods in a row.', 'constant-contact-forms' ),
+				'invalidEmailLocalDots'       => esc_html__( 'The part of an email address before the @ cannot start or end with a period.', 'constant-contact-forms' ),
+				'invalidEmailDomain'          => esc_html__( 'Please enter a complete domain after the @, such as example.com.', 'constant-contact-forms' ),
+			]
+		);
+
 		$captcha_service = new ConstantContact_CaptchaService();
 		if ( $captcha_service->is_captcha_enabled() ) {
 			if  ( 'recaptcha' === $captcha_service->get_selected_captcha_service() ) {
@@ -345,8 +355,9 @@ class ConstantContact_Display {
 		// with our error messages.
 		$response = constant_contact()->get_process_form()->process_wrapper( $form_data, $form_id, $instance );
 
-		$old_values = $response['values'] ?? [];
-		$req_errors = $response['errors'] ?? [];
+		// `??` only replaces null, so also guard against non-array values (e.g. '') reaching the array-typed build_form_fields().
+		$old_values = is_array( $response['values'] ?? null ) ? $response['values'] : [];
+		$req_errors = is_array( $response['errors'] ?? null ) ? $response['errors'] : [];
 
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
@@ -984,7 +995,9 @@ class ConstantContact_Display {
 			}
 		}
 
-		return $return;
+		// Only address fields use the array of sub-values. Every other field renderer expects a string, so a
+		// blank field must come back as '' (an empty array here caused a TypeError when re-rendering the form).
+		return 'address' === ( $field['name'] ?? '' ) ? $return : '';
 	}
 
 	/**
@@ -1321,11 +1334,9 @@ class ConstantContact_Display {
 			$markup .= '</span>';
 		}
 
-		if ( $field_error ) {
-			$markup .= $this->field_bottom( $field_id, $field_error );
-		} else {
-			$markup .= $this->field_bottom();
-		}
+		// $field_error is a bool here (it flags the field via the ctct-invalid class above). Passing it to
+		// field_bottom() as the label text rendered a stray "<label>1</label>" next to invalid fields.
+		$markup .= $this->field_bottom();
 
 		if ( $f_only ) {
 			return $field;
