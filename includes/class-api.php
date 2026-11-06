@@ -411,6 +411,14 @@ class ConstantContact_API {
 					add_filter( 'constant_contact_force_logging', '__return_true' );
 					constant_contact_maybe_log_it( 'Access Token:', 'Error: ' . $this->last_error );
 				}
+
+				// Discard the cached authorization URL and its state/verifier pair so the next
+				// Connect Now builds a fresh, consistent set instead of reusing one that failed
+				// (e.g. "PKCE verification failed" after a stale object cache read).
+				delete_option( 'ctct_auth_url' );
+				delete_option( 'CtctConstantContactState' );
+				delete_option( 'CtctConstantContactcode_verifier' );
+
 				constant_contact_set_needs_manual_reconnect( 'true' );
 			} else {
 				// This state/verifier pair has been used; the next Connect link generates a new one.
@@ -630,7 +638,9 @@ class ConstantContact_API {
 
 		$state = bin2hex( random_bytes( 8 ) );
 
-		update_option( 'CtctConstantContactState', $state );
+		// Not autoloaded: autoloaded options share one 'alloptions' object cache entry,
+		// and concurrent writes to it can leave the state, verifier and URL out of sync.
+		update_option( 'CtctConstantContactState', $state, false );
 
 		$params = [
 			'client_id'             => $this->client_api_key,
@@ -644,11 +654,11 @@ class ConstantContact_API {
 
 		// Store generated random state and code challenge based on RFC 7636
 		// https://datatracker.ietf.org/doc/html/rfc7636#section-6.1
-		update_option( 'CtctConstantContactcode_verifier', $code_verifier );
+		update_option( 'CtctConstantContactcode_verifier', $code_verifier, false );
 
 		$url = add_query_arg( $params, $this->authorize_url );
 
-		update_option( 'ctct_auth_url', $url );
+		update_option( 'ctct_auth_url', $url, false );
 
 		return $url;
 	}

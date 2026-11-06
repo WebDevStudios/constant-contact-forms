@@ -63,6 +63,9 @@ class ConstantContact_Updates {
 
 			update_option( 'ctct_plugin_version', $current, true );
 
+			// Version-agnostic, idempotent routines that run on any version change.
+			$this->disable_auth_options_autoload();
+
 			// Convert our installed / current version to something we can use
 			// in a function name.
 			$installed = sanitize_title( str_replace( '.', '_', $installed ) );
@@ -109,6 +112,35 @@ class ConstantContact_Updates {
 		if ( $compare_notifs !== $current_notifs ) {
 			update_option( 'ctct_update_notifications', $current_notifs );
 		}
+	}
+
+	/**
+	 * Switch the OAuth authorization and token options to non-autoloaded.
+	 *
+	 * New values are already written with autoload disabled, but existing
+	 * installs may still have autoloaded rows. Autoloaded options share the
+	 * 'alloptions' object cache entry, where concurrent writes can lose an
+	 * update: the state, code verifier and authorization URL can fall out of
+	 * sync ("PKCE verification failed" on connect), or a rotated refresh token
+	 * can be dropped (invalid_grant on the next refresh). Safe to run repeatedly.
+	 *
+	 * @since NEXT
+	 */
+	public function disable_auth_options_autoload(): void {
+		if ( ! function_exists( 'wp_set_option_autoload_values' ) ) {
+			return;
+		}
+
+		wp_set_option_autoload_values(
+			[
+				'CtctConstantContactState'         => false,
+				'CtctConstantContactcode_verifier' => false,
+				'ctct_auth_url'                    => false,
+				'_ctct_access_token'               => false,
+				'_ctct_refresh_token'              => false,
+				'_ctct_expires_in'                 => false,
+			]
+		);
 	}
 
 	/**

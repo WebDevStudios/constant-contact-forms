@@ -509,6 +509,7 @@ class Constant_Contact {
 
 		// Clear out connection data when deactivating plugin.
 		delete_option( 'ctct_access_token' );
+		delete_option( 'ctct_access_token_timestamp' );
 		delete_option( '_ctct_access_token' );
 		delete_option( 'ctct_refresh_token' );
 		delete_option( '_ctct_refresh_token' );
