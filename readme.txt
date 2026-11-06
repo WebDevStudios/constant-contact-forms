@@ -2,7 +2,7 @@
 Contributors:      constantcontact, webdevstudios, tw2113, znowebdev, ggwicz, ravedev, oceas, dcooney, newyorkerlaura
 Tags: constant contact, constant contact official, marketing, newsletter, contacts
 Requires at least: 6.4.0
-Tested up to:      7.1.3
+Tested up to:      7.1.4
 Stable tag:        2.22.3
 License:           GPLv3
 License URI:       http://www.gnu.org/licenses/gpl-3.0.html
@@ -46,6 +46,12 @@ Development of Constant Contact Forms plugin occurs on [GitHub](https://github.c
 5. Basic Form
 
 == Changelog ==
+
+= NEXT =
+* Fixed: A failed authorization code exchange (e.g. "PKCE verification failed") left a stale Connect link cached, so every retry failed. The cached link, state and code verifier are now cleared so the next Connect Now starts fresh.
+* Fixed: Misleading "no available token" refresh log entries after disconnecting or deactivating. The access token timestamp is now cleared on disconnect and deactivation.
+* Updated: The authorization state, code verifier and Connect link options are no longer autoloaded, preventing persistent object caches from serving mismatched values during connection. Existing installs are updated automatically on plugin update.
+* Updated: Access and refresh tokens are no longer autoloaded when encryption is unavailable, matching the encrypted storage path and preventing persistent object caches from dropping a rotated refresh token. Existing installs are updated automatically on plugin update.
 
 = 2.22.3 =
 * Fixed: E_COMPILE_ERROR error in PHP version 8.1 due to use of null return type. Props @stevoli for pointing this out.

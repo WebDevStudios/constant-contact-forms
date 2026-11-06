@@ -432,6 +432,7 @@ class ConstantContact_Connect {
 		delete_option( 'ctct_refresh_token' );
 		delete_option( '_ctct_refresh_token' );
 		delete_option( '_ctct_expires_in' );
+		delete_option( 'ctct_access_token_timestamp' );
 		delete_option( 'ctct_maybe_needs_reconnected' );
 		delete_option( 'ctct_account_domain_hash' );
 		delete_option( 'ctct_acquiring_token' );
@@ -521,7 +522,7 @@ class ConstantContact_Connect {
 	public function e_set( string $check_key, string $data, bool $autoload = false ): string {
 
 		if ( ! $this->is_encryption_ready() ) {
-			update_option( $check_key, $data );
+			update_option( $check_key, $data, $autoload );
 			return $data;
 		}
 
