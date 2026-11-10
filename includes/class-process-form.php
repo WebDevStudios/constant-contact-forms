@@ -1040,10 +1040,17 @@ class ConstantContact_Process_Form {
 			return false;
 		}
 
-		// Observed messages: "Address format", "Address presence" (empty after sanitizing), "Email address is invalid".
-		$message = strtolower( $api_error['error_message'] );
+		/*
+		 * The API doesn't say which field failed, and street-address fields share the "Address" wording, so only
+		 * match messages known to refer to the email address. Anything else is treated as a general API error
+		 * (submission accepted, admin notified) rather than wrongly flagging the visitor's email field.
+		 *
+		 * "Address format" / "Address presence" were observed for email_address (malformed / empty after sanitizing).
+		 */
+		$message = rtrim( strtolower( trim( $api_error['error_message'] ) ), '.' );
 
-		return str_contains( $message, 'email' ) || str_starts_with( $message, 'address' );
+		return in_array( $message, [ 'address format', 'address presence', 'email address is invalid' ], true )
+			|| str_contains( $message, 'email address' );
 	}
 
 	/**

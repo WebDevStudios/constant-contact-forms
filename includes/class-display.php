@@ -1113,18 +1113,30 @@ class ConstantContact_Display {
 	 * @return string
 	 */
 	private function get_field_error_markup( string $field_id, bool|string $field_error ): string {
-		if ( ! is_string( $field_error ) ) {
-			return '';
-		}
-
-		// field() passes pre-built markup; keep only its text so it can be escaped here.
-		$message = trim( wp_strip_all_tags( $field_error ) );
+		$message = $this->get_field_error_message( $field_error );
 
 		if ( '' === $message ) {
 			return '';
 		}
 
 		return '<span class="ctct-field-error"><label for="' . esc_attr( $field_id ) . '">' . esc_html( $message ) . '</label></span>';
+	}
+
+	/**
+	 * Get the plain-text per-field error message, if any.
+	 *
+	 * @since 2.22.4
+	 *
+	 * @param bool|string $field_error Error from field(). Only a string carries a message.
+	 * @return string Unescaped message text, or empty string.
+	 */
+	private function get_field_error_message( bool|string $field_error ): string {
+		if ( ! is_string( $field_error ) ) {
+			return '';
+		}
+
+		// field() passes pre-built markup; keep only its text so callers can escape it.
+		return trim( wp_strip_all_tags( $field_error ) );
 	}
 
 	/**
@@ -1436,7 +1448,12 @@ class ConstantContact_Display {
 		$markup     = $this->field_top( $type, $name, $field_key, $label, $req, true, 'div' );
 		$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 
-		$markup .= '<fieldset>';
+		// Associate any error message with the whole group. A <label for> can't be used reliably: list IDs
+		// without a matching ctct_lists post are skipped below, so no particular checkbox index is guaranteed.
+		$error_message = $this->get_field_error_message( $field_error );
+		$error_id      = "{$field_id}_error";
+
+		$markup .= '' !== $error_message ? '<fieldset aria-describedby="' . esc_attr( $error_id ) . '">' : '<fieldset>';
 		$markup .= '<legend class="' . $label_placement_class . '">';
 		$markup .= $name;
 		$markup .= '</legend>';
@@ -1490,7 +1507,9 @@ class ConstantContact_Display {
 		$markup .= '</fieldset>';
 
 		// Don't pass $field_error to field_bottom() as label text; a bool there rendered a stray "<label>1</label>".
-		$markup .= $this->get_field_error_markup( "{$field_id}_0", $field_error ); // Checkbox IDs are suffixed with their index.
+		if ( '' !== $error_message ) {
+			$markup .= '<span class="ctct-field-error" id="' . esc_attr( $error_id ) . '">' . esc_html( $error_message ) . '</span>';
+		}
 		$markup .= $this->field_bottom( '', '', true, 'div' );
 
 		// If only one list displayed, hide input.
