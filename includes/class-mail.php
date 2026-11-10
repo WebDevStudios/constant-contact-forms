@@ -355,7 +355,9 @@ class ConstantContact_Mail {
 
 		add_filter( 'wp_mail_content_type', [ $this, 'set_email_type' ] );
 
-		$content_notice_note    = $this->maybe_append_forced_email_notice_note( $was_forced );
+		// The note says notifications are disabled, so only add it when they are (forced sends, like API error
+		// notices, can also happen while notifications are enabled).
+		$content_notice_note    = $this->maybe_append_forced_email_notice_note( $was_forced && constant_contact_emails_disabled( $submission_details['form_id'] ?? 0 ) );
 		$content_notice_reasons = $this->maybe_append_forced_email_notice_reasons( $was_forced, $submission_details );
 
 		$content_before = esc_html__( 'Your Constant Contact Forms plugin has captured new information.', 'constant-contact-forms' );

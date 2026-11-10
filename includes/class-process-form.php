@@ -521,33 +521,13 @@ class ConstantContact_Process_Form {
 						];
 					}
 
-					// An "unauthorized" error that survived the refresh-and-retry in add_contact() has been queued
-					// for replay after reconnection, so the signup is not lost; keep treating it as submitted.
-					if ( null !== $api_error && 'unauthorized' !== $api_error['error_key'] ) {
-						// Send email to the site admin so the submission isn't lost, and tell the visitor.
-						$pretty_values = $this->pretty_values( $clean_values );
-						$email_values  = constant_contact()->get_mail()->format_values_for_email( $pretty_values, $orig_form_id );
-
-						constant_contact()->get_mail()->mail(
-							constant_contact()->get_mail()->get_email( $orig_form_id ),
-							$email_values,
-							[
-								'form_id'         => $orig_form_id,
-								'submitted_email' => constant_contact()->get_mail()->get_user_email_from_submission( $clean_values ),
-								'custom-reason'   => esc_html__( 'An error occurred while attempting Constant Contact API request.', 'constant-contact-forms' ),
-							],
-							true
-						);
-
-						// Also return API error.
-						return [
-							'status'  => 'api_error',
-							'values'  => $return['values'],
-							'message' => esc_html__( 'An error occurred while attempting Constant Contact API request. Please check your details and try again.', 'constant-contact-forms' ),
-						];
+					if ( null !== $api_error ) {
+						// Any other API failure isn't something the visitor can fix, so accept the submission and
+						// email the site admin the submitted values along with the API error.
+						$this->notify_admin_of_api_error( $orig_form_id, $clean_values, $api_error );
+					} else {
+						constant_contact()->get_mail()->submit_form_values( $return['values'] );
 					}
-
-					constant_contact()->get_mail()->submit_form_values( $return['values'] );
 				} else {
 					// We have at least one list, but are not considered connected.
 					if (
@@ -1064,6 +1044,48 @@ class ConstantContact_Process_Form {
 		$message = strtolower( $api_error['error_message'] );
 
 		return str_contains( $message, 'email' ) || str_starts_with( $message, 'address' );
+	}
+
+	/**
+	 * Email the site admin a submission that could not be added to Constant Contact, including the API error.
+	 *
+	 * Sent even if admin notification emails are disabled, since otherwise the submission could be lost.
+	 *
+	 * @since 2.22.4
+	 *
+	 * @param int   $form_id      Form ID.
+	 * @param array $clean_values Values from clean_values().
+	 * @param array $api_error    Error from get_api_error().
+	 * @return void
+	 */
+	private function notify_admin_of_api_error( int $form_id, array $clean_values, array $api_error ): void {
+		$mail = constant_contact()->get_mail();
+
+		// Keep the processed-submission count in line with submit_form_values(), which this replaces.
+		$this->increment_processed_form_count();
+
+		if ( 'unauthorized' === $api_error['error_key'] ) {
+			// add_contact() has already queued this request to be replayed once the account is reconnected.
+			$reason = __( 'NO (The Constant Contact API rejected the plugin\'s authorization. The contact has been queued and will be added automatically once the account is reconnected.)', 'constant-contact-forms' );
+		} else {
+			$details = trim( $api_error['error_key'] . ( '' !== $api_error['error_message'] ? ' - ' . $api_error['error_message'] : '' ) );
+			$reason  = sprintf(
+				/* translators: %s: error code and message returned by the Constant Contact API. */
+				__( 'NO (An error occurred while attempting Constant Contact API request: %s)', 'constant-contact-forms' ),
+				$details
+			);
+		}
+
+		$mail->mail(
+			$mail->get_email( (string) $form_id ),
+			$mail->format_values_for_email( $this->pretty_values( $clean_values ), (string) $form_id ),
+			[
+				'form_id'         => $form_id,
+				'submitted_email' => $mail->get_user_email_from_submission( $clean_values ),
+				'custom-reason'   => $reason, // Escaped when rendered by ConstantContact_Mail.
+			],
+			true
+		);
 	}
 
 	/**
