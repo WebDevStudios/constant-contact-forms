@@ -71,6 +71,16 @@ class ConstantContact_Display {
 			true
 		);
 
+		wp_localize_script(
+			'ctct_frontend_forms',
+			'ctctFrontendTexts',
+			[
+				'invalidEmailConsecutiveDots' => esc_html__( 'Email addresses cannot contain two or more periods in a row.', 'constant-contact-forms' ),
+				'invalidEmailLocalDots'       => esc_html__( 'The part of an email address before the @ cannot start or end with a period.', 'constant-contact-forms' ),
+				'invalidEmailDomain'          => esc_html__( 'Please enter a complete domain after the @, such as example.com.', 'constant-contact-forms' ),
+			]
+		);
+
 		$captcha_service = new ConstantContact_CaptchaService();
 		if ( $captcha_service->is_captcha_enabled() ) {
 			if  ( 'recaptcha' === $captcha_service->get_selected_captcha_service() ) {
@@ -345,8 +355,9 @@ class ConstantContact_Display {
 		// with our error messages.
 		$response = constant_contact()->get_process_form()->process_wrapper( $form_data, $form_id, $instance );
 
-		$old_values = $response['values'] ?? [];
-		$req_errors = $response['errors'] ?? [];
+		// `??` only replaces null, so also guard against non-array values (e.g. '') reaching the array-typed build_form_fields().
+		$old_values = is_array( $response['values'] ?? null ) ? $response['values'] : [];
+		$req_errors = is_array( $response['errors'] ?? null ) ? $response['errors'] : [];
 
 		if ( $response && isset( $response['message'] ) && isset( $response['status'] ) ) {
 
@@ -984,7 +995,9 @@ class ConstantContact_Display {
 			}
 		}
 
-		return $return;
+		// Only address fields use the array of sub-values. Every other field renderer expects a string, so a
+		// blank field must come back as '' (an empty array here caused a TypeError when re-rendering the form).
+		return 'address' === ( $field['name'] ?? '' ) ? $return : '';
 	}
 
 	/**
@@ -1090,6 +1103,43 @@ class ConstantContact_Display {
 	}
 
 	/**
+	 * Build the per-field error message markup, matching what textarea() renders.
+	 *
+	 * @since 2.22.4
+	 *
+	 * @param string      $field_id    ID of the element the message describes.
+	 * @param bool|string $field_error Error from field(): a string is shown as the message; a bool only flags
+	 *                                 the field as invalid (handled by the caller) and renders nothing here.
+	 * @return string
+	 */
+	private function get_field_error_markup( string $field_id, bool|string $field_error ): string {
+		$message = $this->get_field_error_message( $field_error );
+
+		if ( '' === $message ) {
+			return '';
+		}
+
+		return '<span class="ctct-field-error"><label for="' . esc_attr( $field_id ) . '">' . esc_html( $message ) . '</label></span>';
+	}
+
+	/**
+	 * Get the plain-text per-field error message, if any.
+	 *
+	 * @since 2.22.4
+	 *
+	 * @param bool|string $field_error Error from field(). Only a string carries a message.
+	 * @return string Unescaped message text, or empty string.
+	 */
+	private function get_field_error_message( bool|string $field_error ): string {
+		if ( ! is_string( $field_error ) ) {
+			return '';
+		}
+
+		// field() passes pre-built markup; keep only its text so callers can escape it.
+		return trim( wp_strip_all_tags( $field_error ) );
+	}
+
+	/**
 	 * Bottom of field markup.
 	 *
 	 * @since  1.0.0
@@ -1173,13 +1223,14 @@ class ConstantContact_Display {
 	 * @param  string  $label           label text for input.
 	 * @param  boolean $req             If field required.
 	 * @param  boolean $f_only          If we only return the field itself, with no label.
-	 * @param  boolean $field_error     Field error.
+	 * @param  bool|string $field_error Field error. True flags the field as invalid; a non-empty string
+	 *                                  (as built by field()) also displays it as the error message.
 	 * @param  int     $form_id         Current form ID.
 	 * @param  string  $label_placement Where to place the label.
 	 * @param  int     $instance        Current form instance.
 	 * @return string                   HTML markup for field.
 	 */
-	public function input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0, bool $show_label = true, string $date_part = '' ): string {
+	public function input( string $type = 'text', string $name = '', string $id = '', string $value = '', string $label = '', bool $req = false, bool $f_only = false, bool|string $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0, bool $show_label = true, string $date_part = '' ): string {
 		$id_salt               = wp_rand();
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
@@ -1321,11 +1372,9 @@ class ConstantContact_Display {
 			$markup .= '</span>';
 		}
 
-		if ( $field_error ) {
-			$markup .= $this->field_bottom( $field_id, $field_error );
-		} else {
-			$markup .= $this->field_bottom();
-		}
+		// Don't pass $field_error to field_bottom() as label text; a bool there rendered a stray "<label>1</label>".
+		$markup .= $this->get_field_error_markup( $field_id, $field_error );
+		$markup .= $this->field_bottom();
 
 		if ( $f_only ) {
 			return $field;
@@ -1363,13 +1412,14 @@ class ConstantContact_Display {
 	 * @param  string|array $value           Value of field.
 	 * @param  string       $label           label text for input.
 	 * @param  boolean      $req             If field required.
-	 * @param  boolean      $field_error     Field error.
+	 * @param  bool|string  $field_error     Field error. True flags the field as invalid; a non-empty string
+	 *                                       (as built by field()) also displays it as the error message.
 	 * @param  int          $form_id         Current form ID.
 	 * @param  string       $label_placement Where to place the label.
 	 * @param  int          $instance        Current form instance.
 	 * @return string                        HTML markup for checkbox.
 	 */
-	public function checkbox( string $name = '', string $id = '', $value = [], string $label = '', bool $req = false, bool $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ): string {
+	public function checkbox( string $name = '', string $id = '', $value = [], string $label = '', bool $req = false, bool|string $field_error = false, int $form_id = 0, string $label_placement = '', int $instance = 0 ): string {
 		$name                  = sanitize_text_field( $name );
 		$field_key             = sanitize_title( $id );
 		$field_id              = "{$field_key}_$instance";
@@ -1398,7 +1448,12 @@ class ConstantContact_Display {
 		$markup     = $this->field_top( $type, $name, $field_key, $label, $req, true, 'div' );
 		$class_attr = 'class="' . implode( ' ', $classes ) . '"';
 
-		$markup .= '<fieldset>';
+		// Associate any error message with the whole group. A <label for> can't be used reliably: list IDs
+		// without a matching ctct_lists post are skipped below, so no particular checkbox index is guaranteed.
+		$error_message = $this->get_field_error_message( $field_error );
+		$error_id      = "{$field_id}_error";
+
+		$markup .= '' !== $error_message ? '<fieldset aria-describedby="' . esc_attr( $error_id ) . '">' : '<fieldset>';
 		$markup .= '<legend class="' . $label_placement_class . '">';
 		$markup .= $name;
 		$markup .= '</legend>';
@@ -1451,11 +1506,11 @@ class ConstantContact_Display {
 
 		$markup .= '</fieldset>';
 
-		if ( $field_error ) {
-			$markup .= $this->field_bottom( $field_id, $field_error, true, 'div' );
-		} else {
-			$markup .= $this->field_bottom( '', '', true, 'div' );
+		// Don't pass $field_error to field_bottom() as label text; a bool there rendered a stray "<label>1</label>".
+		if ( '' !== $error_message ) {
+			$markup .= '<span class="ctct-field-error" id="' . esc_attr( $error_id ) . '">' . esc_html( $error_message ) . '</span>';
 		}
+		$markup .= $this->field_bottom( '', '', true, 'div' );
 
 		// If only one list displayed, hide input.
 		if ( 'lists' === $key_pieces[0] && $count <= 1 ) {
@@ -1906,8 +1961,11 @@ class ConstantContact_Display {
 		$return = '';
 
 		$separator = $this->get_form_date_separator();
+		// Flag every part as invalid, but only show the error message once, after the last part.
+		$part_error = (bool) $field_error;
+
 		$return .= '<div class="ctct-form-fields ctct-birthday-fields ctct-birthday-label-' . $label_placement . '">';
-		$return .= $this->input( 'number', $name, $map, $value, 'MM', $req, false, $field_error, $form_id, $label_placement, $instance, true, 'month' );
+		$return .= $this->input( 'number', $name, $map, $value, 'MM', $req, false, $part_error, $form_id, $label_placement, $instance, true, 'month' );
 		$return .= '<span class="ctct-date-field-separator"> ' . esc_html( $separator ) . ' </span>';
 		$return .= $this->input( 'number', $name, $map, $value, 'DD', $req, false, $field_error, $form_id, $label_placement, $instance, false, 'day' );
 		$return .= '</div>';
@@ -1919,10 +1977,13 @@ class ConstantContact_Display {
 		$return = '';
 
 		$separator = $this->get_form_date_separator();
+		// Flag every part as invalid, but only show the error message once, after the last part.
+		$part_error = (bool) $field_error;
+
 		$return    .= '<div class="ctct-form-fields ctct-anniversary-fields ctct-anniversary-label-' . $label_placement . '">';
-		$return    .= $this->input( 'number', $name, $map, $value, 'MM', $req, false, $field_error, $form_id, $label_placement, $instance, true, 'month' );
+		$return    .= $this->input( 'number', $name, $map, $value, 'MM', $req, false, $part_error, $form_id, $label_placement, $instance, true, 'month' );
 		$return    .= '<span class="ctct-date-field-separator"> ' . esc_html( $separator ) . ' </span>';
-		$return    .= $this->input( 'number', $name, $map, $value, 'DD', $req, false, $field_error, $form_id, $label_placement, $instance, false, 'day' );
+		$return    .= $this->input( 'number', $name, $map, $value, 'DD', $req, false, $part_error, $form_id, $label_placement, $instance, false, 'day' );
 		$return .= '<span class="ctct-date-field-separator"> ' . esc_html( $separator ) . ' </span>';
 		$return .= $this->input( 'number', $name, $map, $value, 'YYYY', $req, false, $field_error, $form_id, $label_placement, $instance, false, 'year' );
 		$return    .= '</div>';
