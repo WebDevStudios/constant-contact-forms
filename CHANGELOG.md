@@ -9,7 +9,7 @@
 * Fixed: Fatal TypeError when a Constant Contact API email validation error was returned without the submitted values.
 * Fixed: Fatal TypeError when an exception occurred while adding a contact.
 * Fixed: AJAX form submissions with invalid entries received "0" instead of an error message, and invalid fields were not highlighted.
-* Fixed: A stray "1" label appeared next to fields flagged as invalid.
+* Fixed: A stray "1" label appeared next to text, email and checkbox fields flagged as invalid; these fields now show the per-field error message instead.
 * Fixed: Admin emails sent for API errors or other forced reasons no longer claim notifications are disabled when they are not.
 * Fixed: Shortcodes referencing a post ID that is not a Constant Contact form now render nothing.
 
